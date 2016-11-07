@@ -44,7 +44,7 @@ input {
   //默认不显示叉
    $(function() {
     $("td").each(function() {
-    $(this).parent("tr").find("td").eq(6).find("a").hide();
+    $(this).parent("tr").find("td").eq(7).find("a").hide();
     });
   });
    $(function() {
@@ -56,14 +56,14 @@ input {
 function reason(id){
   var supplierId=$("#supplierId").val();
   /* var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
-  var auditContent="供应商资质证书";
+  var auditContent="服务-资质证书信息";
   var auditType=$("#service").text();//审核类型
   var fail = false;
    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName=服务-资质证书"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
@@ -242,31 +242,31 @@ function nextStep(){
                       <ul class="list-unstyled list-flow">
                         <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input id="orgName" class="span3" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'orgName')"/>
+                            <input id="orgName" class="span3" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'supplierMatSe.orgName')"/>
                             <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
                           <div class="input-append">
-                            <input id="totalPerson" class="span3" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'totalPerson')" />
+                            <input id="totalPerson" class="span3" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'supplierMatSe.totalPerson')" />
                           <div id="totalPerson3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'totalMange')" />
+                            <input id="totalMange" class="span3" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'supplierMatSe.totalMange')" />
                           <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                           <div class="input-append">
-                            <input id="totalTech" class="span3" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'totalTech')" />
+                            <input id="totalTech" class="span3" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'supplierMatSe.totalTech')" />
                           <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                           <div class="input-append">
-                            <input id="totalWorker" class="span3" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'totalWorker')" />
+                            <input id="totalWorker" class="span3" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'supplierMatSe.totalWorker')" />
                             <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>

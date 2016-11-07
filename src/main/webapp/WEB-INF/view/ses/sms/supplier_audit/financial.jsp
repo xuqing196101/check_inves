@@ -7,7 +7,7 @@
 <html>
 <head>
 
-<title>详细信息</title>
+<title>财务信息</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -61,7 +61,7 @@ function reason(id,auditField){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName=财务信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
 	      success:function(result){
 		      result = eval("(" + result + ")");

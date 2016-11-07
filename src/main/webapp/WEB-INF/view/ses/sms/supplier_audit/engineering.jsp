@@ -46,6 +46,7 @@ input {
    $(function() {
     $("td").each(function() {
     $(this).parent("tr").find("td").eq(14).find("a").hide();
+    $(this).parent("tr").find("td").eq(3).find("a").hide();
     });
     
     $(":input").each(function() {
@@ -55,14 +56,14 @@ input {
 
 function reason(id,auditContent){
    var supplierId=$("#supplierId").val();
-   /* var auditContent="工程证书编号为:"+$("#"+id).text()+"的信息"; */ //审批的字段内容 
    var auditType=$("#engineering").text();//审核类型
    var fail = false;
+   var auditFieldName= auditContent.replace("信息","");
    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
@@ -77,17 +78,18 @@ function reason(id,auditContent){
       if(!fail){
         $("#"+id+"_show").show();
         $("#"+id+"_show1").show();
+        $("#"+id+"_show2").show();
         layer.msg("审核不通过的理由是："+text);
        }
     });
 }
 
-function reason1(id,auditField){
+function reason1(id,auditContent){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
   var id3=id+"3";
-  var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字
+   var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字 
   var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#engineering").text();//审核类型
   var fail = false;
@@ -95,7 +97,7 @@ function reason1(id,auditField){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
@@ -183,7 +185,7 @@ function nextStep(url){
               <li class=""><a >申请表</a></li>
               <li class=""><a >审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:800px;">
+              <div class="tab-content padding-top-20" style="height:900px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
@@ -214,24 +216,24 @@ function nextStep(url){
 	                    </thead>
 	                    <c:forEach items="${supplierCertEng}" var="s" >
 	                      <tr>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.certType }</td>
-	                        <td class="tc" id="${s.id }" onclick="reason('${s.id}','供应商资质证书信息');" >${s.certCode }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.certMaxLevel }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.techName }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.techPt }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.techJop }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certType }</td>
+	                        <td class="tc" id="${s.id }" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certCode }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certMaxLevel }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techName }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techPt }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techJop }</td>
 	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.depName }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.depPt }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.depJop }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.licenceAuthorith }</td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.depPt }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.depJop }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.licenceAuthorith }</td>
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
 	                          <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
 	                        </td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.certStatus }
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certStatus }
 	                           <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
 	                           <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
 	                        </td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >
+	                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
 	                          <c:if test="${s.certStatus==0 }">无效</c:if>
 	                          <c:if test="${s.certStatus==1 }">有效</c:if>
 	                        </td>
@@ -272,33 +274,33 @@ function nextStep(url){
                         <th class="info">资质资格状态变更时间</th>
                         <th class="info">资质资格状态变更原因</th>
                         <th class="info">附件</th>
-                       <th class="info w50"></th>
+                        <th class="info w50"></th>
                       </tr>
                     </thead>
                     <c:forEach items="${supplierAptitutes}" var="s" >
                       <tr>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.certType }</td>
-                        <td class="tc" id="${s.id }" onclick="reason('${s.id}','供应商资质资格信息');" >${s.certCode }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteSequence }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.professType }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteLevel }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.certType }</td>
+                        <td class="tc" id="${s.id }" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.certCode }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteSequence }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.professType }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteLevel }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
                           <c:if test="${s.isMajorFund==0 }">否</c:if>
                           <c:if test="${s.isMajorFund==1 }">是</c:if>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteContent }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteCode }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteContent }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteCode }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
                           <fmt:formatDate value="${s.aptituteDate }" pattern='yyyy-MM-dd'/>
                         </td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteWay }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteWay }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
                           <c:if test="${s.aptituteStatus==0 }">无效</c:if>
                           <c:if test="${s.aptituteStatus==1 }">有效</c:if>
                         </td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
                           <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
                         </td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteChangeReason }</td>
+                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteChangeReason }</td>
                         <td class="tc" >
                           <c:if test="${s.attachCert !=null}">
                             <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
@@ -315,38 +317,64 @@ function nextStep(url){
                   </table>
                 </div>
                 
+                 <div class=" margin-bottom-0 fl" >
+                     <h2 class="f16 jbxx  mt40">
+                     <i>03</i>供应商注册人员登记
+                     </h2>
+                   <table class="table table-bordered table-condensed">
+                   <thead>
+                     <tr>
+                       <th class="info w50">序号</th>
+                       <th class="info">注册名称</th>
+                       <th class="info">注册人数</th>
+                       <th class="info w50"></th>
+                     </tr>
+                   </thead>
+                     <c:forEach items="${listRegPerson}" var="regPrson" varStatus="vs">
+                       <tr onclick="reason('${regPrson.id}','工程-注册人员登记信息');">
+                         <td class="tc">${vs.index + 1}</td>
+                         <td class="tc">${regPrson.regType}</td>
+                         <td class="tc">${regPrson.regNumber}</td>
+                         <td class="tc">
+                          <a id="${regPrson.id }_show2" class="b f18 fl ml10 hand red">×</a>
+                        </td>
+                       </tr>
+                     </c:forEach>
+                  </table>
+                </div>
+                
                 <div class=" margin-bottom-0 fl">
                     <h2 class="f16 jbxx">
-                    <i>03</i>供应商组织机构
+                    <i>04</i>供应商组织机构
                     </h2>
                       <ul class="list-unstyled list-flow">
                         <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,orgName)"/>
+                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,supplierMatEng.orgName)"/>
                             <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTech2">技术负责人：</span>
                           <div class="input-append">
-                            <input id="totalTech" class="span3" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'totalTech')"/>
+                            <input id="totalTech" class="span3" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
                           <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
                           <div class="input-append">
-                            <input id="totalGlNormal" class="span3" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'totalGlNormal')"/>
+                            <input id="totalGlNormal" class="span3" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
                           <div id="totalGlNormal3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'totalMange')"/>
+                            <input id="totalMange" class="span3" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
                           <div id="totalMange3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTechWorker2">技术工人：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'totalTechWorker')"/>
+                            <input id="totalMange" class="span3" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
                           <div id="totalTechWorker3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>

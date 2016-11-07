@@ -57,13 +57,13 @@ function reason(id){
   var supplierId=$("#supplierId").val();
   /* var auditContent="生产资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
   var auditType=$("#materialProduction").text();//审核类型
-  var auditContent = "供应商资质证书";
+  var auditContent = "生产-资质证书信息";
   var fail = false;
    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName=生产-资质证书"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
@@ -241,31 +241,31 @@ function tijiao(url){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                         <div class="input-append">
-                          <input id="orgName" class="span3" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'orgName')"/>
+                          <input id="orgName" class="span3" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'supplierMatPro.orgName')"/>
                           <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
                         <div class="input-append">
-                          <input id="totalPerson" class="span3" type="text" value="${supplierMatPros.totalPerson }" onclick="reason1(this.id,'totalPerson')"/>
+                          <input id="totalPerson" class="span3" type="text" value="${supplierMatPros.totalPerson }" onclick="reason1(this.id,'supplierMatPro.totalPerson')"/>
                           <div id="totalPerson3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                         <div class="input-append">
-                          <input id="totalMange" class="span3" type="text"  value="${supplierMatPros.totalMange }" onclick="reason1(this.id,'totalMange')"/>
+                          <input id="totalMange" class="span3" type="text"  value="${supplierMatPros.totalMange }" onclick="reason1(this.id,'supplierMatPro.totalMange')"/>
                           <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                         <div class="input-append">
-                          <input id="totalTech" class="span3" type="text"  value="${supplierMatPros.totalTech }" onclick="reason1(this.id,'totalTech')"/>
+                          <input id="totalTech" class="span3" type="text"  value="${supplierMatPros.totalTech }" onclick="reason1(this.id,'supplierMatPro.totalTech')"/>
                           <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                         <div class="input-append">
-                          <input id="totalWorker" class="span3" type="text" value="${supplierMatPros.totalWorker }" onclick="reason1(this.id,'totalWorker')"/>
+                          <input id="totalWorker" class="span3" type="text" value="${supplierMatPros.totalWorker }" onclick="reason1(this.id,'supplierMatPro.totalWorker')"/>
                           <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
@@ -279,55 +279,55 @@ function tijiao(url){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="scaleTech2">技术人员比例：</span>
                         <div class="input-append">
-                          <input id="scaleTech" class="span3" type="text" value="${supplierMatPros.scaleTech }" onclick="reason1(this.id,'scaleTech')" />
+                          <input id="scaleTech" class="span3" type="text" value="${supplierMatPros.scaleTech }" onclick="reason1(this.id,'supplierMatPro.scaleTech')" />
                           <div id="scaleTech3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="scaleHeightTech2">高级技术人员比例：</span>
                         <div class="input-append">
-                          <input id="scaleHeightTech" class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reason1(this.id,'scaleHeightTech')" />
+                          <input id="scaleHeightTech" class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" onclick="reason1(this.id,'supplierMatPro.scaleHeightTech')" />
                           <div id="scaleHeightTech3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id=researchName2>研发部门名称：</span>
                         <div class="input-append">
-                          <input id="researchName" class="span3" type="text"  value="${supplierMatPros.researchName }" onclick="reason1(this.id,'researchName')" />
+                          <input id="researchName" class="span3" type="text"  value="${supplierMatPros.researchName }" onclick="reason1(this.id,'supplierMatPro.researchName')" />
                           <div id="researchName3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalResearch2">研发部门人数：</span>
                         <div class="input-append">
-                          <input id="totalResearch" class="span3" type="text"  value="${supplierMatPros.totalResearch }" onclick="reason1(this.id,'totalResearch')" />
+                          <input id="totalResearch" class="span3" type="text"  value="${supplierMatPros.totalResearch }" onclick="reason1(this.id,'supplierMatPro.totalResearch')" />
                         <div id="totalResearch3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="researchLead2">研发部门负责人：</span>
                         <div class="input-append">
-                          <input id="researchLead" class="span3" type="text" value="${supplierMatPros.researchLead }" onclick="reason1(this.id,'researchLead')"/>
+                          <input id="researchLead" class="span3" type="text" value="${supplierMatPros.researchLead }" onclick="reason1(this.id,'supplierMatPro.researchLead')"/>
                           <div id="researchLead3"  class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="countryPro2">国家军队科研项目：</span>
                         <div class="input-append">
-                            <input id="countryPro" class="span3" type="text" onclick="reason1(this.id,'countryPro')" value="${supplierMatPros.countryPro }">
+                            <input id="countryPro" class="span3" type="text" onclick="reason1(this.id,'supplierMatPro.countryPro')" value="${supplierMatPros.countryPro }">
                             <div id="countryPro3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="countryReward2">国家军队科技奖项：</span>
                         <div class="input-append">
-                            <input id="countryReward" class="span3" type="text" onclick="reason1(this.id,'countryReward')" value="${supplierMatPros.countryReward }">
+                            <input id="countryReward" class="span3" type="text" onclick="reason1(this.id,'supplierMatPro.countryReward')" value="${supplierMatPros.countryReward }">
                             <div id="countryReward3" onclick="reason1(this.id)" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalBeltline2">生产线名称数量：</span>
                         <div class="input-append">
-                          <input id="totalBeltline" class="span3" type="text" value="${supplierMatPros.totalBeltline }"  onclick="reason1(this.id,'totalBeltline')" />
+                          <input id="totalBeltline" class="span3" type="text" value="${supplierMatPros.totalBeltline }"  onclick="reason1(this.id,'supplierMatPro.totalBeltline')" />
                           <div id="totalBeltline3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalDevice2">生产设备名称数量：</span>
                         <div class="input-append">
-                          <input id="totalDevice" class="span3" type="text" value="${supplierMatPros.totalDevice }"  onclick="reason1(this.id,'totalDevice')"/>
+                          <input id="totalDevice" class="span3" type="text" value="${supplierMatPros.totalDevice }"  onclick="reason1(this.id,'supplierMatPro.totalDevice')"/>
                           <div id="totalDevice3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
@@ -341,25 +341,25 @@ function tijiao(url){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="qcName2">质量检测部门：</span>
                         <div class="input-append">
-                          <input id="qcName" class="span3" type="text" value="${supplierMatPros.qcName }"  onclick="reason1(this.id,'qcName')"/>
+                          <input id="qcName" class="span3" type="text" value="${supplierMatPros.qcName }"  onclick="reason1(this.id,'supplierMatPro.qcName')"/>
                           <div id="qcName3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalQc2">质量检测人数：</span>
                         <div class="input-append">
-                          <input id="totalQc"  class="span3" type="text" value="${supplierMatPros.totalQc }" onclick="reason1(this.id,'totalQc')"/>
+                          <input id="totalQc"  class="span3" type="text" value="${supplierMatPros.totalQc }" onclick="reason1(this.id,'supplierMatPro.totalQc')"/>
                           <div id="totalQc3"  class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="qcLead2">质检部门负责人：</span>
                         <div class="input-append">
-                          <input id="qcLead" class="span3" type="text" value="${supplierMatPros.qcLead }" onclick="reason1(this.id,'qcLead')"/>
+                          <input id="qcLead" class="span3" type="text" value="${supplierMatPros.qcLead }" onclick="reason1(this.id,'supplierMatPro.qcLead')"/>
                         <div id="qcLead3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="fl" id="qcDevice2">质量检测设备名称：</span>
                         <div class="input-append">
-                            <input id="qcDevice" class="span3" type="text" onclick="reason1(this.id,'qcDevice')"value="${supplierMatPros.qcDevice }">
+                            <input id="qcDevice" class="span3" type="text" onclick="reason1(this.id,'supplierMatPro.qcDevice')"value="${supplierMatPros.qcDevice }">
                             <div id="qcDevice3" class="b f18 fl ml10 hand red">×</div>
                         </div>
                       </li>
