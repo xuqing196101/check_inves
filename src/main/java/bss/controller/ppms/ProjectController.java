@@ -126,6 +126,9 @@ public class ProjectController extends BaseController {
     public String list(Integer page, Model model, Project project, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
         List<Project> list = projectService.list(page == null ? 1 : page, project);
+        for (Project project2 : list) {
+            model.addAttribute("IsRehearse", project2.getIsRehearse());
+        }
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
@@ -133,7 +136,17 @@ public class ProjectController extends BaseController {
     }
     
     
-    
+    /**
+     * 
+     *〈预研项目页面〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param page
+     * @param model
+     * @param project
+     * @param request
+     * @return
+     */
     @RequestMapping("/lists")
     public String lists(Integer page, Model model, Project project, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
@@ -173,7 +186,7 @@ public class ProjectController extends BaseController {
                 request.getSession().setAttribute("idr", id);
             }
             String ide = (String) request.getSession().getAttribute("idr");
-            List<PurchaseRequired> lists = new ArrayList<PurchaseRequired>();
+            List<PurchaseRequired> lists = new ArrayList<>();
             String[] ids = ide.split(",");
             for (int i = 0; i < ids.length; i++ ) {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
@@ -191,10 +204,9 @@ public class ProjectController extends BaseController {
     
     
     @RequestMapping("/addDetail")
-    public String addDetail(Model model, String id, PurchaseRequired purchaseRequired,
-                      HttpServletRequest request) {
-        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,null);
-        model.addAttribute("lists", list);
+    public String addDetail(PurchaseRequired purchaseRequired,Model model) {
+        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,0);
+        model.addAttribute("info", list);
         return "bss/ppms/project/addDetail";
     }
     
@@ -214,6 +226,7 @@ public class ProjectController extends BaseController {
                 return "redirect:list.html";
             }
             //新增项目信息
+            if(chkItem != null){
             Project project = new Project();
             if(name != null && projectNumber != null){
                 project.setName(name);
@@ -292,6 +305,7 @@ public class ProjectController extends BaseController {
                 }
                 
             }
+           } 
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -542,184 +556,185 @@ public class ProjectController extends BaseController {
     
     
     /**
-	 * 
-	* @Title: subPackage
-	* @author ZhaoBo
-	* @date 2016-10-8 下午4:08:11  
-	* @Description: 项目分包页面 
-	* @param @param request
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/subPackage")
-	public String subPackage(HttpServletRequest request,Model model){
-		String id = request.getParameter("id");
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("id", id);
-		List<ProjectDetail> detail = detailService.selectById(map);
-		model.addAttribute("lists", detail);
-		HashMap<String,Object> pack = new HashMap<String,Object>();
-		pack.put("projectId", id);
-		List<Packages> packages = packageService.findPackageById(pack);
-		if(packages.size()!=0){
-			for(Packages ps:packages){
-				HashMap<String,Object> packageId = new HashMap<String,Object>();
-				packageId.put("packageId", ps.getId());
-				List<ProjectDetail> detailList = detailService.selectById(packageId);
-				ps.setProjectDetails(detailList);
-			}
-		}
-		model.addAttribute("packageList", packages);
-		Project project = projectService.selectById(id);
-		model.addAttribute("project", project);
-		return "bss/ppms/project/sub_package";
-	}
-	/**
-	 * 
-	* @Title: checkProjectDeail
-	* @author ZhaoBo
-	* @date 2016-10-18 上午10:01:35  
-	* @Description: 递归选中 
-	* @param @param response
-	* @param @param id
-	* @param @param model
-	* @param @throws IOException      
-	* @return void
-	 */
-	@RequestMapping("/checkProjectDeail")
-	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
-		String projectId = request.getParameter("projectId");
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
-		if("1".equals(projectDetail.getParentId())){
-			map.put("projectId", projectId);
-			map.put("id", projectDetail.getRequiredId());
-			List<ProjectDetail> list = detailService.selectByParentId(map);
-			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-			response.setContentType("text/html;charset=utf-8");
-			response.getWriter().write(json);
-			response.getWriter().flush();
-			response.getWriter().close();
-		}
-		map.put("projectId", projectId);
-		map.put("id", projectDetail.getRequiredId());
-		List<ProjectDetail> list = detailService.selectByParent(map);
-		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write(json);
-		response.getWriter().flush();
-		response.getWriter().close();
-	}
-	/**
-	 * 
-	* @Title: addPack
-	* @author ZhaoBo
-	* @date 2016-10-18 下午2:42:15  
-	* @Description: 添加分包 
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/addPack")
-	@ResponseBody
-	public String addPack(HttpServletRequest request){
-		String[] id = request.getParameter("id").split(",");
-		String projectId = request.getParameter("projectId");
-		Project project = projectService.selectById(projectId);
-		HashMap<String,Object> pack = new HashMap<String,Object>();
-		pack.put("projectId",projectId);
-		List<Packages> packList = packageService.findPackageById(pack);
-		Packages pg = new Packages();
-		pg.setName("第"+(packList.size()+1)+"包");
-		pg.setProjectId(projectId);
-		pg.setIsDeleted(0);
-		if(project.getIsImport()==1){
-			pg.setIsImport(1);
-		}else{
-			pg.setIsImport(0);
-		}
-		pg.setPurchaseType(project.getPurchaseType());
-		pg.setCreatedAt(new Date());
-		packageService.insertSelective(pg);
-		List<Packages> wantPackId = packageService.findPackageById(pack);
-		for(int i=0;i<id.length;i++){
-			ProjectDetail projectDetail = new ProjectDetail();
-			projectDetail.setId(id[i]);
-			projectDetail.setPackageId(wantPackId.get(0).getId());
-			detailService.update(projectDetail);
-		}
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("packageId", wantPackId.get(0).getId());
-		List<ProjectDetail> details = detailService.selectById(map);
-		Packages p = new Packages();
-		p.setId(wantPackId.get(0).getId());
-		if(details.get(0).getStatus().equals("1")){
-			p.setStatus(1);
-			packageService.updateByPrimaryKeySelective(p);
-		}else{
-			p.setStatus(0);
-			packageService.updateByPrimaryKeySelective(p);
-		}
-		return "1";
-	}
-	
-	/**
-	 * 
-	* @Title: editPackName
-	* @author ZhaoBo
-	* @date 2016-10-18 下午2:41:47  
-	* @Description: 修改包名 
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/editPackName")
-	@ResponseBody
-	public String editPackName(HttpServletRequest request){
-		String name = request.getParameter("name");
-		String id = request.getParameter("id");
-		Packages pk = new Packages();
-		pk.setId(id);
-		pk.setName(name);
-		packageService.updateByPrimaryKeySelective(pk);
-		return "1";
-	}
-	/**
-	 * 
-	* @Title: deletePackageById
-	* @author ZhaoBo
-	* @date 2016-10-18 下午3:15:18  
-	* @Description: 删除分包 
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/deletePackageById")
-	@ResponseBody
-	public String deletePackageById(HttpServletRequest request){
-		String id = request.getParameter("id");
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("packageId", id);
-		List<ProjectDetail> detail = detailService.selectById(map);
-		for(int i=0;i<detail.size();i++){
-			ProjectDetail projectDetail = new ProjectDetail();
-			projectDetail.setId(detail.get(i).getId());
-			projectDetail.setPackageId("");
-			detailService.update(projectDetail);
-		}
-		Packages pk = new Packages();
-		pk.setId(id);
-		pk.setIsDeleted(1);
-		packageService.updateByPrimaryKeySelective(pk);
-		return "1";
-	}
-	
-	
-	@RequestMapping("/file")
+     * 
+    * @Title: subPackage
+    * @author ZhaoBo
+    * @date 2016-10-8 下午4:08:11  
+    * @Description: 项目分包页面 
+    * @param @param request
+    * @param @param model
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/subPackage")
+    public String subPackage(HttpServletRequest request,Model model){
+        String id = request.getParameter("id");
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("id", id);
+        List<ProjectDetail> detail = detailService.selectById(map);
+        model.addAttribute("lists", detail);
+        HashMap<String,Object> pack = new HashMap<String,Object>();
+        pack.put("projectId", id);
+        List<Packages> packages = packageService.findPackageById(pack);
+        if(packages.size()!=0){
+            for(Packages ps:packages){
+                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                packageId.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = detailService.selectById(packageId);
+                ps.setProjectDetails(detailList);
+            }
+        }
+        model.addAttribute("packageList", packages);
+        Project project = projectService.selectById(id);
+        model.addAttribute("project", project);
+        return "bss/ppms/project/sub_package";
+    }
+    /**
+     * 
+    * @Title: checkProjectDeail
+    * @author ZhaoBo
+    * @date 2016-10-18 上午10:01:35  
+    * @Description: 递归选中 
+    * @param @param response
+    * @param @param id
+    * @param @param model
+    * @param @throws IOException      
+    * @return void
+     */
+    @RequestMapping("/checkProjectDeail")
+    public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
+        String projectId = request.getParameter("projectId");
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
+        if("1".equals(projectDetail.getParentId())){
+            map.put("projectId", projectId);
+            map.put("id", projectDetail.getRequiredId());
+            List<ProjectDetail> list = detailService.selectByParentId(map);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
+        map.put("projectId", projectId);
+        map.put("id", projectDetail.getRequiredId());
+        List<ProjectDetail> list = detailService.selectByParent(map);
+        String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    /**
+     * 
+    * @Title: addPack
+    * @author ZhaoBo
+    * @date 2016-10-18 下午2:42:15  
+    * @Description: 添加分包 
+    * @param @param request
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/addPack")
+    @ResponseBody
+    public String addPack(HttpServletRequest request){
+        String[] id = request.getParameter("id").split(",");
+        String projectId = request.getParameter("projectId");
+        Project project = projectService.selectById(projectId);
+        HashMap<String,Object> pack = new HashMap<String,Object>();
+        pack.put("projectId",projectId);
+        List<Packages> packList = packageService.findPackageById(pack);
+        Packages pg = new Packages();
+        pg.setName("第"+(packList.size()+1)+"包");
+        pg.setProjectId(projectId);
+        pg.setIsDeleted(0);
+        if(project.getIsImport()==1){
+            pg.setIsImport(1);
+        }else{
+            pg.setIsImport(0);
+        }
+        pg.setPurchaseType(project.getPurchaseType());
+        pg.setCreatedAt(new Date());
+        packageService.insertSelective(pg);
+        List<Packages> wantPackId = packageService.findPackageById(pack);
+        for(int i=0;i<id.length;i++){
+            ProjectDetail projectDetail = new ProjectDetail();
+            projectDetail.setId(id[i]);
+            projectDetail.setPackageId(wantPackId.get(0).getId());
+            detailService.update(projectDetail);
+        }
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("packageId", wantPackId.get(0).getId());
+        List<ProjectDetail> details = detailService.selectById(map);
+        Packages p = new Packages();
+        p.setId(wantPackId.get(0).getId());
+        if(details.get(0).getStatus().equals("1")){
+            p.setStatus(1);
+            packageService.updateByPrimaryKeySelective(p);
+        }else{
+            p.setStatus(0);
+            packageService.updateByPrimaryKeySelective(p);
+        }
+        return "1";
+    }
+
+    
+    /**
+     * 
+    * @Title: editPackName
+    * @author ZhaoBo
+    * @date 2016-10-18 下午2:41:47  
+    * @Description: 修改包名 
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/editPackName")
+    @ResponseBody
+    public String editPackName(HttpServletRequest request){
+        String name = request.getParameter("name");
+        String id = request.getParameter("id");
+        Packages pk = new Packages();
+        pk.setId(id);
+        pk.setName(name);
+        packageService.updateByPrimaryKeySelective(pk);
+        return "1";
+    }
+    /**
+     * 
+    * @Title: deletePackageById
+    * @author ZhaoBo
+    * @date 2016-10-18 下午3:15:18  
+    * @Description: 删除分包 
+    * @param @param request
+    * @param @return      
+    * @return String
+     */
+    @RequestMapping("/deletePackageById")
+    @ResponseBody
+    public String deletePackageById(HttpServletRequest request){
+        String id = request.getParameter("id");
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("packageId", id);
+        List<ProjectDetail> detail = detailService.selectById(map);
+        for(int i=0;i<detail.size();i++){
+            ProjectDetail projectDetail = new ProjectDetail();
+            projectDetail.setId(detail.get(i).getId());
+            projectDetail.setPackageId("");
+            detailService.update(projectDetail);
+        }
+        Packages pk = new Packages();
+        pk.setId(id);
+        pk.setIsDeleted(1);
+        packageService.updateByPrimaryKeySelective(pk);
+        return "1";
+    }
+    
+    
+    @RequestMapping("/file")
     @ResponseBody
     public String file(@RequestParam("attach") MultipartFile[] attach, 
                         String id, HttpServletRequest request) {
-	      Project project = projectService.selectById(id);
+          Project project = projectService.selectById(id);
           upfile(attach, request, project);
           String msg = "{\"msg\":\"success\"}";
           return msg;
