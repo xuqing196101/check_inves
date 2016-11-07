@@ -433,6 +433,7 @@ public class ExpertServiceImpl implements ExpertService {
 		}
 		//发送待办
 		Todos todos = new Todos();
+		todos.setId(WfUtil.createUUID());
 		todos.setCreatedAt(new Date());
 		todos.setIsDeleted((short)0);
 		todos.setIsFinish((short)0);

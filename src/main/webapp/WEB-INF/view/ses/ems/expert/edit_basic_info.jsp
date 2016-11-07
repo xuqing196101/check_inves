@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			url : "<%=basePath%>area/listByOne.do",
 			success:function(obj){
 				var data = eval('(' + obj + ')');
-				$.each($.parseJSON(data),function(i,result){
+				$.each(data,function(i,result){
 					if(parentId == result.id){
 						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
@@ -332,57 +332,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}	
 
 
-//地区联动js
-	function loadProvince(regionId){
-		  $("#id_provSelect").html("");
-		  $("#id_provSelect").append("<option value=''>请选择省份</option>");
-		  var jsonStr = getAddress(regionId,0);
-		  for(var k in jsonStr) {
-			$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-		  }
-		  if(regionId.length!=6) {
-			$("#id_citySelect").html("");
-		    $("#id_citySelect").append("<option value=''>请选择城市</option>");
-			$("#id_areaSelect").html("");
-		    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-		  } else {
-			 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
-			 loadCity(regionId);
-		  }
-	}
-	
-	function loadCity(regionId){
-	  $("#id_citySelect").html("");
-	  $("#id_citySelect").append("<option value=''>请选择城市</option>");
-	  if(regionId.length!=6) {
-		$("#id_areaSelect").html("");
-	    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-	  } else {
-		var jsonStr = getAddress(regionId,1);
-	    for(var k in jsonStr) {
-		  $("#id_citySelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-	    }
-		if(regionId.substring(2,6)=="0000") {
-		  $("#id_areaSelect").html("");
-	      $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-		} else {
-		   $("#id_citySelect").val(regionId.substring(0,4)+"00");
-		   loadArea(regionId);
-		}
-	  }
-	}
-	
-	function loadArea(regionId){
-	  $("#id_areaSelect").html("");
-	  $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-	  if(regionId.length==6) {
-	    var jsonStr = getAddress(regionId,2);
-	    for(var k in jsonStr) {
-		  $("#id_areaSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-	    }
-		if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
-	  }
-	}
 	//显示隐藏树
 	function typeShow(){
 		 var expertsTypeId = $("#expertsTypeId").val();
@@ -437,7 +386,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<div style="margin-left: 1000px;">
    		  <img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
         </div>
-   <form action="<%=basePath %>expert/edit.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/edit.html"  method="post" id="form1"  class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>

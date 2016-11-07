@@ -159,10 +159,14 @@ public class test2 {
 		aaa.setCcc("ccc");
 		bbb.setDdd("ddd");
 		BeanUtils.copyProperties(bbb, aaa);*/
-		double first = 3000/2999*100;
+	/*	double first = 3000/2999*100;
 		 BigDecimal b = new BigDecimal(first); 
 		  double a   = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		System.out.println(a);
+		System.out.println(a);*/
+		String str = "http://localhost:8080/member_arab/order_arab.html";
+		String substring = str.substring(0,str.lastIndexOf("/"));
+		String substring2 = substring.substring(0, substring.lastIndexOf("/"));
+		System.out.println(substring2);
 		
 	}
 }

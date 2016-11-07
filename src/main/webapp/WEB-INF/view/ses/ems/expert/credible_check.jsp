@@ -95,7 +95,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>credible/findAll.html"  method="post"  enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>credible/findAll.html"  method="post"   class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">
@@ -113,7 +113,7 @@
                   </form>
                   </div>
                   </div>  
-<form action="<%=basePath %>credible/list.html"  method="post"  enctype="multipart/form-data" class="registerform"> 
+<form action="<%=basePath %>credible/list.html"  method="post"   class="registerform"> 
    <div class="container">
    <div class="col-md-8">
 	<button class="btn btn-windows git" type="button" onclick="submit1();">提交</button>

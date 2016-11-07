@@ -435,7 +435,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	<div style="margin-left: 1000px;">
    		<img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
     </div>
-   <form action="<%=basePath %>expert/shenhe.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/shenhe.html"  method="post" id="form1"  class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>

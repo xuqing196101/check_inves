@@ -76,7 +76,7 @@ function validateForm1(){
 		layer.msg("请选择区域 !",{offset: ['222px', '390px']});
 		return false;
 	}
-	var file1=$("#file1");
+	/*var file1=$("#file1");
     if($.trim(file1.val())==''){
     	layer.msg("请选择身份证附件 !",{offset: ['222px', '390px']});
            return false;
@@ -100,7 +100,7 @@ function validateForm1(){
     if($.trim(file5.val())==''){
     	layer.msg("请选择本人照片附件 !" ,{offset: ['222px', '390px']});
            return false;
-     }
+     }*/
 	return true;
 }
 //判断专家类型
@@ -132,7 +132,7 @@ function validateJiGou(){
 //判断申请表  合同书
 function validateHeTong(){
 	
-	var regIdentity1=$("#regIdentitys1");
+	/*var regIdentity1=$("#regIdentitys1");
     if($.trim(regIdentity1.val())==''){
     	layer.msg("请选择申请表附件 !",{offset: ['222px', '390px']});
            return false;
@@ -141,6 +141,6 @@ function validateHeTong(){
     if($.trim(regIdentity2.val())==''){
     	layer.msg("请选择要合同书附件 !",{offset: ['222px', '390px']});
            return false;
-     }
+     }*/
     return true;
 }

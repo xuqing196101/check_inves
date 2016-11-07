@@ -1,14 +1,11 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +45,6 @@ import common.constant.Constant;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
-import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
@@ -516,8 +511,9 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("sysId")String sysId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response){
+	public String add(String categoryId,String sysId,String zancun,Expert expert,String userId,Model model,HttpSession session,String token2 ,HttpServletRequest request,HttpServletResponse response){
 		try {
+			MultipartFile[] files = new MultipartFile[3];
 			Object tokenValue = session.getAttribute("tokenSession");
 			String expertId = sysId;
 			//获取文件上传路径
@@ -747,7 +743,7 @@ public class ExpertController {
 					String typeId = user.getTypeId();
 					Map<String, Object> map = new HashMap<>();
 					map.put("expertId", typeId);
-					map.put("isAudit", 0);
+					//map.put("isAudit", 0);
 					map.put("isGather", 0);
 					//查询出关联表中的项目id和包id
 					List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
@@ -795,7 +791,18 @@ public class ExpertController {
 	    * @return String
 	   */
 	  @RequestMapping("toFirstAudit")
-	  public String toFirstAudit(String projectId,String packageId,Model model){
+	  public String toFirstAudit(String projectId,String packageId,Model model,HttpSession session){
+		  //是否已评审
+		  User user = (User)session.getAttribute("loginUser");
+		  String expertId = user.getTypeId();
+		  Map<String, Object> map = new HashMap<>();
+			map.put("expertId", expertId);
+			map.put("packageId", packageId);
+			map.put("projectId", projectId);
+			List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
+			if(packageExpertList!=null && packageExpertList.size()>0){
+				model.addAttribute("packageExpert", packageExpertList.get(0));
+			}
 		  //供应商信息
 		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		  model.addAttribute("supplierList", supplierList);
@@ -813,7 +820,7 @@ public class ExpertController {
 	    * @return String
 	   */
 	  @RequestMapping("saveProgress")
-	  public String saveProgress(String projectId,String packageId,HttpSession session){
+	  public String saveProgress(String projectId,String packageId,HttpSession session,RedirectAttributes attr){
 		  User user = (User)session.getAttribute("loginUser");
 		  List<PackageExpert> packageExpertList2 = null;
 			//判断用户的类型为专家类型
@@ -903,9 +910,10 @@ public class ExpertController {
 				 reviewProgressService.updateByMap(reviewProgress2);
 			  }
 		  }
+		  attr.addAttribute("projectId", projectId);
+		  attr.addAttribute("packageId", packageId);
 		  
-		  
-		  return "redirect:toProjectList.html";
+		  return "redirect:toFirstAudit.html";
 	  }
 	 /**
 	  * 

@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			success:function(obj){
 				//alert(JSON.stringify(obj));
 				var data = eval('(' + obj+ ')');
-				$.each( $.parseJSON(data),function(i,result){
+				$.each(data,function(i,result){
 					if(addressId == result.id){
 						parentId = result.areaType;
 					$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
@@ -139,12 +139,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			success:function(obj){
 				var data = eval('(' + obj + ')');
 				//alert(data);
-				$.each( $.parseJSON(data),function(i,result){
-					/* if(parentId == result.id){
-						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{ */
+				$.each( data,function(i,result){
+					 if(parentId == result.id){
+						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{ 
 					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					//}
+					}
 				});
 				
 				//alert(JSON.stringify(obj));
@@ -501,7 +501,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	<div class="wrapper">
 		</div>
-		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post"  enctype="multipart/form-data" >
+		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
 		<input type="hidden" name="userId" value="${user.id }">
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
 		<input type="hidden" name="id" value="${expert.id }">
@@ -722,7 +722,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										  	   </td>
 										  	</tr>
 										  	<tr>
-										  	   <th>学历证书:</th>
+										  	   <%-- <th>学历证书:</th>
 										  	   <td>
 										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
 										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
@@ -740,7 +740,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										  	   <th>学位证书:</th>
 										  	   <td>
 										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
-										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
@@ -748,54 +748,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										  	   <td>
 										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
 										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
-										  	   </td>
-										  	</tr>
+										  	   </td>--%>
+										  	</tr> 
 										  </table>
-										  
-										  
-										  <%--  <ul class="list-unstyled list-flow p0_20">
-										   <li class="col-md-6  p0 ">
-											   <span class="" id="files1"><i class="red">＊</i>身份证：</span>
-											   <div class="input-append mt5" >
-													<i></i>
-													<p:upload businessId="111" sysKey="4" typeId="0" auto="true"/>
-													<p:show businessId="111" sysKey="4" typeId="0"/>
-												</div>
-											 </li>
-											 
-											 <li class="col-md-6  p0 ">
-											   <span class="" id="files2"><i class="red" >＊</i>学历证书：</span>
-											     <div class="input-append mt5">
-													<i></i>
-													<p:upload businessId="222" sysKey="4" typeId="1" auto="true"/>
-													<p:show businessId="222" sysKey="4" typeId="1"/>
-												</div>
-											 </li>
-											 <li class="col-md-6  p0 ">
-											   <span class="" id="files3"><i class="red">＊</i>职称证书：</span>
-											      <div class="input-append mt5">
-													<i></i>
-													<p:upload businessId="333" sysKey="4" typeId="2" auto="true"/>
-													<p:show businessId="333" sysKey="4" typeId="2"/>
-												</div>
-											 </li>
-											  <li class="col-md-6  p0 ">
-											   <span class="" id="files4"><i class="red">＊</i>学位证书：</span>
-											      <div class="input-append mt5">
-													<i></i>
-													<p:upload businessId="444" sysKey="4" typeId="3" auto="true"/>
-													<p:show businessId="444" sysKey="4" typeId="3"/>
-												</div>
-											  </li>
-											  <li class="col-md-6  p0 ">
-											   <span class="" id="files5"><i class="red">＊</i>本人照片：</span>
-											      <div class="input-append mt5">
-													<i></i>
-													<p:upload businessId="555" sysKey="4" typeId="4" auto="true"/>
-													<p:show businessId="555" typeId="4" sysKey="4"/>
-												</div>
-											 </li>
-										   </ul> --%>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
 									        <button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
@@ -1122,7 +1077,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<i>05</i>专家申请表、合同书
 			</h2>
 		
-				   	<div class="input-append mt40" style="margin-left:280px;">
+				   	<%-- <div class="input-append mt40" style="margin-left:280px;">
 						<li class="col-md-6  p0 ">
 								<i class="red">＊</i><span class="" >专家申请表上传：</span>
 									<div class="input-append mt5">
@@ -1137,7 +1092,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										 <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="0"/>
 									</div>
 							</li>
-					</div>
+					</div> --%>
 			<div class="col-md-12 add_regist" style="margin-left:170px;">
 				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_" class="regist_desc"></span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_" class="regist_desc"></span></div>

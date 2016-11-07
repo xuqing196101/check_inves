@@ -89,6 +89,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			window.location.href="<%=basePath%>reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
 	  
   }
+   //项目评分
+  function toGrade(){
+	     var projectId = "${projectId}";
+	     var packageId = "${packageId}";
+  			window.location.href="<%=basePath%>reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
+	  
+  }
   </script>
   </head>
   
@@ -111,7 +118,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> 
    <div class="container clear margin-top-30">
    <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button>
+   	  <c:if test="${packageExpert.isAudit == 1 }">
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">专家评分</button>
+   	  </c:if>
+   	   <c:if test="${packageExpert.isAudit != 1 }">
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button>
+   	  </c:if>
+       <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="">查看供应商报价</button>
       </span>
     <div class="container margin-top-5">
