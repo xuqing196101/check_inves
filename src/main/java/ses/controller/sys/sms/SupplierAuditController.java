@@ -20,6 +20,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.bms.Category;
 import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -38,6 +39,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.bms.TodosService;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -75,6 +77,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@Autowired
 	private TodosService todosService;
+	
+	@Autowired
+	private UserServiceI userServiceI;
 	
 	/**
 	 * @Title: daiBan
@@ -489,6 +494,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit) throws IOException{
 		String supplierId= supplierAudit.getSupplierId();
 		Todos todos = new Todos();
+		User user=(User) request.getSession().getAttribute("loginUser");
 		//更新状态
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
@@ -502,16 +508,24 @@ public class SupplierAuditController extends BaseSupplierController{
 			//待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
 			
-			// 推送代办
-			todos.setSenderId(supplier.getId());
+			/**
+			 * 推送代办
+			 */
+			//推送者id
+			todos.setSenderId(user.getId());
+			//待办名称
 			todos.setName("供应商复审");
+			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
+			//权限id
 			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			//url
 			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
+			//类型
 			todos.setUndoType((short) 1);
 			todosService.insert(todos);
 		}
-		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 4 || supplier.getStatus() == 7){
+		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 4 ){
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
@@ -530,12 +544,44 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplier.getStatus() == 8){
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
-			// 复审退回修改 ，推送代办
-			todos.setSenderId(supplier.getId());
+			/**
+			 *  复审退回修改 ，推送代办
+			 */
+			//推送者id
+			todos.setSenderId(user.getId());
+			//待办名称
 			todos.setName("供应商初审");
+			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
+			//权限id
 			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			//url
 			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
+			//类型
+			todos.setUndoType((short) 1);
+			todosService.insert(todos);
+		}
+		
+		if(supplier.getStatus() == 7){
+			// 待办已完成
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+			/**
+			 * 初审退回修改 ，推送消息
+			 */
+			//推送者id
+			todos.setSenderId(user.getId());
+			//待办名字
+			todos.setName("供应商信息有误,请修改！");
+			
+			List<User> receiverIdList= userServiceI.findByLoginName(user.getLoginName());
+			if(receiverIdList.size()>0){
+				String receiverId=  receiverIdList.get(0).getId();
+				//接收用户id
+				todos.setReceiverId(receiverId);
+			}
+			//url
+			todos.setUrl("");
+			//类型
 			todos.setUndoType((short) 1);
 			todosService.insert(todos);
 		}
