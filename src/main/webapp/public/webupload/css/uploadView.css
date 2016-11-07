@@ -112,3 +112,6 @@
     -ms-transition: 200ms ease-out;
     transition: 200ms ease-out;
 }
+li{
+	list-style-type:none;
+}

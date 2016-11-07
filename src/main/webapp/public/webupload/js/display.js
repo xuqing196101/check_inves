@@ -150,8 +150,7 @@ function packingHtml(url){
            + "         <span class='rotateLeft'>向左旋转</span>"
            + "   </div> "
 		   + " </div> "
-		   + " </div></div>'";
-	
+		   + " </div></div>";
 	layer.open({
 		  type: 1,
 		  title: false,
