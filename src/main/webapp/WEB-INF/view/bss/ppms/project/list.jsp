@@ -288,7 +288,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
       </span>
-    <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新建采购项目</a>
+      <c:if test="${IsRehearse == '1'}">
+    <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/addDetail.html">新建采购项目</a>
+      </c:if>
+      <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新建采购项目</a>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
         <thead>

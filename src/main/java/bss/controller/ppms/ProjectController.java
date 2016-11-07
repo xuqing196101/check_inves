@@ -131,6 +131,21 @@ public class ProjectController extends BaseController {
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
     }
+    
+    
+    
+    @RequestMapping("/lists")
+    public String lists(Integer page, Model model, Project project, HttpServletRequest request) {
+        request.getSession().removeAttribute("idr");
+        List<Project> list = projectService.lists(page == null ? 1 : page, project);
+        for (Project project2 : list) {
+            model.addAttribute("IsRehearse", project2.getIsRehearse());
+        }
+        PageInfo<Project> info = new PageInfo<Project>(list);
+        model.addAttribute("info", info);
+        model.addAttribute("projects", project);
+        return "bss/ppms/project/list";
+    }
 
     /**
      * 〈简述〉 〈详细描述〉
@@ -173,6 +188,17 @@ public class ProjectController extends BaseController {
     }
     
     
+    
+    
+    @RequestMapping("/addDetail")
+    public String addDetail(Model model, String id, PurchaseRequired purchaseRequired,
+                      HttpServletRequest request) {
+        List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,null);
+        model.addAttribute("lists", list);
+        return "bss/ppms/project/addDetail";
+    }
+    
+    
     @RequestMapping("/create")
     public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
@@ -194,6 +220,7 @@ public class ProjectController extends BaseController {
                 project.setProjectNumber(projectNumber);
                 project.setCreateAt(new Date());
                 project.setStatus(3);
+                project.setIsRehearse(0);
                 if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
                     project.setIsImport(1);
                 }else{

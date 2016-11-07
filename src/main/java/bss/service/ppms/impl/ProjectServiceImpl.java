@@ -79,4 +79,13 @@ public class ProjectServiceImpl implements ProjectService {
         return same;
     }
 
+    @Override
+    public List<Project> lists(Integer page, Project project) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        List<Project> lists = projectMapper.selectByList(project);
+        
+        return lists;
+    }
+
 }
