@@ -26,9 +26,6 @@ function sub(){
 	window.location.href = "<%=basePath%>appraisalContract/update.html?id="+id;
 }
 
-$(function(){
-	$("#type").val("${contracts.type }");
-})
 
 
 </script>
@@ -69,10 +66,7 @@ $(function(){
 				  	<tr>
 				 		<td width="25%" class="bggrey tr">合同类型：</td>
 				 		<td width="25%">
-				 			<select class="w230" id="type" name="type" disabled>
-				 				<option value="0">单一来源</option>
-				 				<option value="1">采购合同</option>
-				 			</select>
+				 			${contracts.purchaseType }
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同名称：</td>
 				 		<td width="25%">
@@ -105,7 +99,7 @@ $(function(){
 	 	
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
-			    <button class="btn btn-windows" type="button" onclick="dayin()">打印</button>
+			    <button class="btn" type="button" onclick="dayin()">打印</button>
 			    <button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
 			</div>

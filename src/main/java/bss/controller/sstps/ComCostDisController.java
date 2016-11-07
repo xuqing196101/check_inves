@@ -54,7 +54,6 @@ public class ComCostDisController {
 		List<ComCostDis> list = comCostDisService.selectProduct(comCostDis);
 		
 		if(list.size()>0){
-		//	List<ComCostDis> list1 = comCostDisService.selectProduct(comCostDis);
 			model.addAttribute("list", list);
 		}else{
 			comCostDis.setCreatedAt(new Date());
@@ -124,7 +123,6 @@ public class ComCostDisController {
 	
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,String proId,PlComCostDis plComCostDis){
-	//	ComCostDis ccd = new ComCostDis();
 		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);

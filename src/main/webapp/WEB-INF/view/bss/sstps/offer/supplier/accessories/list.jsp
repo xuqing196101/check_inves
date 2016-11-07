@@ -128,10 +128,10 @@ $(document).ready(function() {
   
   <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>装备（产品）技术资料概述</h2>
+	  		 <h2>原、辅材料工艺定额消耗明细表</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10 pl20">
+	 	<div class="col-md-8 mt10 pl20 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>

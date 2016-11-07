@@ -22,6 +22,8 @@ public interface AppraisalContractMapper {
 
     int update(AppraisalContract record);
     
+    int updateAppeal(String id);
+    
     List<AppraisalContract> select(AppraisalContract record);
     
     List<AppraisalContract> selectByObject(AppraisalContract record);
@@ -34,6 +36,6 @@ public interface AppraisalContractMapper {
     
     List<AppraisalContract> selectStatisical(AppraisalContract record);
     
-    List<Select> selectChose();
+    List<Select> selectChose(String purchaseType);
 
 }

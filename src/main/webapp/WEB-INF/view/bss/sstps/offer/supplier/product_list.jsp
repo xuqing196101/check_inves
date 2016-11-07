@@ -154,11 +154,10 @@ function offer(){
 	  				</c:if>
 	  			</tr>
 	  		</c:forEach>
-	</table>
+		</table>
      </div>
-
-   </div>
-      <div id="pagediv" align="right"></div>
+     
+ 	  <div id="pagediv" align="right"></div>
    </div>
 	
   </body>

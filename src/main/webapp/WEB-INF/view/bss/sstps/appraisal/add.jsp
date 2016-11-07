@@ -22,7 +22,8 @@
 	  $("#purchaseDepName").val("");
 	  $("#contract").empty();
 	  $.ajax({
-		  url:"<%=basePath%>appraisalContract/selectContract.do?contractType="+type,
+		  contentType: "application/json;charset=UTF-8",
+		  url:"<%=basePath%>appraisalContract/selectContract.do?purchaseType="+type,
 	      type:"POST",
 	      dataType: "json",
 	      success:function(contracts){
@@ -94,18 +95,20 @@
 				  	<tr>
 				 		<td width="25%" class="bggrey tr">合同类型：</td>
 				 		<td width="25%">
-				 			<select class="w230" id="type" name="type" onchange="contractType(this.options[this.selectedIndex].value)">
-				 				<option value="0">单一来源</option>
-				 				<option value="1">询价</option>
-				 				<option value="2">邀请招标</option>
-				 				<option value="3">公开招标</option>
-				 				<option value="4">竞价性谈判</option>
+				 			<select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
+				 				<option value=""></option>
+				 				<option value="单一来源">单一来源</option>
+				 				<option value="询价">询价</option>
+				 				<option value="邀请招标">邀请招标</option>
+				 				<option value="公开招标">公开招标</option>
+				 				<option value="竞价性谈判">竞价性谈判</option>
 				 			</select>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同名称：</td>
 				 		<td width="25%">
 				 			<select class="w230" id="contract" name="contractId" onchange="contractInfo()">
 				 			</select>
+				 			<input type="hidden" id="contractName" name="name">
 				 		</td>
 				 	</tr>
 				 	<tr>

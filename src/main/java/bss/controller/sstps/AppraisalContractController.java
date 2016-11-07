@@ -1,9 +1,11 @@
 package bss.controller.sstps;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -68,17 +70,15 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @param @param response
 	* @param @param type      
 	* @return void
+	 * @throws Exception 
 	 */
-	@RequestMapping("/selectContract")
-	public void selectContract(HttpServletResponse response,Integer contractType){
-		if(contractType==0){
-			
-		}else if(contractType==1){
-			List<Select> list = appraisalContractService.selectChose();
-			System.out.println("list:"+list);
-			super.writeJson(response, list);
-		}
-		
+	@RequestMapping(value="/selectContract",produces="application/json;charest=utf-8")
+	public void selectContract(HttpServletResponse response,HttpServletRequest request) throws Exception{
+		String purchaseType = request.getParameter("purchaseType");
+		String reason = new String(purchaseType.getBytes("ISO-8859-1") , "UTF-8");
+		List<Select> list = appraisalContractService.selectChose(reason);
+		System.out.println("list:"+list);
+		super.writeJson(response, list);
 	}
 	
 	
@@ -147,20 +147,17 @@ public class AppraisalContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/save")
 	public String save(AppraisalContract appraisalContract,String contractId){
-		Integer type = appraisalContract.getType();
 		
-		appraisalContract.setCreatedAt(new Date());
-		appraisalContract.setUpdatedAt(new Date());
-		appraisalContract.setAppraisal(0);
-		appraisalContract.setDistribution(0);
+			appraisalContract.setCreatedAt(new Date());
+			appraisalContract.setUpdatedAt(new Date());
+			appraisalContract.setAppraisal(0);
+			appraisalContract.setDistribution(0);
 		
-		if(type==0){
-			appraisalContractService.insert(appraisalContract);
-		}else if(type==1){
 			PurchaseContract purchaseContract = new PurchaseContract();
 			purchaseContract.setId(contractId);
 			appraisalContract.setPurchaseContract(purchaseContract);
 			appraisalContractService.insert(appraisalContract);
+			appraisalContractService.updateAppeal(contractId);
 			
 			//审价产品
 			ContractProduct contractProduct = new ContractProduct();
@@ -183,7 +180,6 @@ public class AppraisalContractController extends BaseSupplierController{
 				contractProduct.setOffer(0);
 				contractProduct.setAuditOffer(0);
 				contractProductService.insert(contractProduct);
-			}
 		}
 		return "redirect:select.html";
 	}

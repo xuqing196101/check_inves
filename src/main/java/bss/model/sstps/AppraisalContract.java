@@ -20,11 +20,6 @@ public class AppraisalContract {
     private String id;
     
     /**
-     * @Fields contractId : 单一采购合同
-     */
-    private Contracts contract;
-
-    /**
      * @Fields purchaseContract : 采购合同
      */
     private PurchaseContract purchaseContract;
@@ -75,9 +70,9 @@ public class AppraisalContract {
     private Date updatedAt;
     
     /**
-     * @Fields type : 合同类型：0：单一合同，1：采购合同
+     * @Fields purchaseType : 合同采购方式
      */
-    private Integer type;
+    private String purchaseType;
     
     /**
      * @Fields purchaseDepName : 采购机构
@@ -135,14 +130,6 @@ public class AppraisalContract {
 		this.user = user;
 	}
 
-	public Contracts getContract() {
-		return contract;
-	}
-
-	public void setContract(Contracts contract) {
-		this.contract = contract;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -183,13 +170,13 @@ public class AppraisalContract {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	public Integer getType() {
-		return type;
+	
+	public String getPurchaseType() {
+		return purchaseType;
 	}
 
-	public void setType(Integer type) {
-		this.type = type;
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType;
 	}
 
 	public String getPurchaseDepName() {

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.AppraisalContract;
-import bss.model.sstps.Contracts;
 import bss.model.sstps.Select;
 
 /**
@@ -37,18 +36,6 @@ public interface AppraisalContractService {
 	 */
 	public List<AppraisalContract> select(AppraisalContract singleBond,Integer page);
 
-	
-	/**
-	* @Title: selectContract
-	* @author Shen Zhenfei 
-	* @date 2016-9-19 上午9:56:25  
-	* @Description: 合同列表
-	* @param @param contract
-	* @param @param page
-	* @param @return      
-	* @return List<Contract>
-	 */
-	List<Contracts> selectContract(Contracts contract, Integer page);
 	
 	/**
 	* @Title: update
@@ -130,6 +117,8 @@ public interface AppraisalContractService {
 	List<AppraisalContract> selectStatisical(AppraisalContract record);
 	
 	
-	List<Select> selectChose();
+	List<Select> selectChose(String purchaseType);
+	
+	public void updateAppeal(String id);
   
 }

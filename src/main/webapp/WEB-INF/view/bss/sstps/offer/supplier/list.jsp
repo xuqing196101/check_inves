@@ -146,7 +146,6 @@ function resetQuery(){
 	  				<th class="info">合同编号</th>
 	  				<th class="info">合同金额(万元)</th>
 	  				<th class="info">供应商名称</th>
-	  				<th class="info">合同状态</th>
 	  				<th class="info">签订状态</th>
 	  			</tr>
 	  		</thead>
@@ -158,11 +157,6 @@ function resetQuery(){
 	  				<td class="tc">${contract.code }</td>
 	  				<td class="tc">${contract.money }</td>
 	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.contract.given=='1' }">
-	  					已签订
-	  				</c:if>
-	  				</td>
 	  				<td class="tc">
 	  				<c:if test="${contract.appraisal=='1' }">
 	  					审价中

@@ -10,7 +10,7 @@
     <result column="CODE" property="code" />
     <result column="MONEY" property="money" />
     <result column="SUPPLIER_NAME" property="supplierName" />
-    <result column="TYPE" property="type" />
+    <result column="PURCHASE_TYPE" property="purchaseType" />
     <result column="PURCHASE_DEP_NAME" property="purchaseDepName" />
     <result column="APPRAISAL_TASK" property="appraisalTask" />
     
@@ -20,14 +20,13 @@
     <result column="AUDIT_MONEY" property="auditMoney" />
     <result column="SUBTRACT" property="subtract" />
     
-    <association property="contract" column="CONTRACT_ID" select="bss.dao.sstps.ContractsMapper.selectById"/>
     <association property="purchaseContract" column="PURCHASE_ID" select="bss.dao.cs.PurchaseContractMapper.selectContractByid"/>
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CONTRACT_ID, APPRAISAL,DISTRIBUTION,USER_ID,PURCHASE_ID,NAME,CODE,MONEY,
-    SUPPLIER_NAME,CREATED_AT,UPDATED_AT,TYPE,PURCHASE_DEP_NAME,APPRAISAL_TASK,AUDIT_MONEY,SUBTRACT
+    ID, APPRAISAL,DISTRIBUTION,USER_ID,PURCHASE_ID,NAME,CODE,MONEY,
+    SUPPLIER_NAME,CREATED_AT,UPDATED_AT,PURCHASE_TYPE,PURCHASE_DEP_NAME,APPRAISAL_TASK,AUDIT_MONEY,SUBTRACT
   </sql>
   
   <!--1 查询全部数据 -->
@@ -90,9 +89,6 @@
   	select ID
   	from T_BSS_SSTPS_APPRAISAL_CONTRACT
   	where
-  	  <if test="contract != null and contract != ''">
-        CONTRACT_ID = #{contract.id} 
-      </if>
       <if test="purchaseContract != null and purchaseContract != ''">
         PURCHASE_ID = #{purchaseContract.id} 
       </if>
@@ -113,9 +109,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
-      </if>
-      <if test="contract != null">
-        CONTRACT_ID,
       </if>
       <if test="appraisal != null">
         APPRAISAL,
@@ -144,8 +137,8 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      <if test="type != null">
-        TYPE,
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
       </if>
       <if test="purchaseDepName != null">
         PURCHASE_DEP_NAME,
@@ -160,9 +153,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id},
-      </if>
-      <if test="contract != null">
-        #{contract.id},
       </if>
       <if test="appraisal != null">
         #{appraisal},
@@ -191,8 +181,8 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
-      <if test="type != null">
-        #{type},
+      <if test="purchaseType != null">
+        #{purchaseType},
       </if>
       <if test="purchaseDepName != null">
         #{purchaseDepName},
@@ -210,9 +200,6 @@
   <update id="update" parameterType="bss.model.sstps.AppraisalContract">
     update T_BSS_SSTPS_APPRAISAL_CONTRACT
     <set>
-      <if test="contract != null">
-        CONTRACT_ID = #{contract.id},
-      </if>
       <if test="appraisal != null">
         APPRAISAL = #{appraisal},
       </if>
@@ -293,13 +280,25 @@
 		PURCHASE_DEP_NAME
   </select>
   
-  
+  <!-- selet2查询合同,根据采购方式 -->
   <select id="selectChose" parameterType="Object" resultType="bss.model.sstps.Select">
   	select 
 	  	ID as id,
 	  	NAME AS text,
 	  	NAME AS name
   	from T_BSS_CS_PURCHASE_CONTRACT
+  	WHERE 
+  		STATUS = 2
+  		AND IS_APPEAL=0
+		AND PURCHASE_TYPE = #{purchaseType}
   </select>
+  
+  <!-- 修改采购合同的审价状态 -->
+  <update id="updateAppeal" parameterType="bss.controller.cs.PurchaseContractController">
+  	update 
+  	    T_BSS_CS_PURCHASE_CONTRACT
+  	 set IS_APPEAL=1
+  	 where ID =#{id}
+  </update>
   
 </mapper>

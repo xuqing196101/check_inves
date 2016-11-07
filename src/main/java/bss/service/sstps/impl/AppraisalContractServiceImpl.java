@@ -11,9 +11,7 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.sstps.AppraisalContractMapper;
-import bss.dao.sstps.ContractsMapper;
 import bss.model.sstps.AppraisalContract;
-import bss.model.sstps.Contracts;
 import bss.model.sstps.Select;
 import bss.service.sstps.AppraisalContractService;
 
@@ -28,10 +26,8 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	
 	@Autowired
 	private AppraisalContractMapper appraisalContractMapper;
-	
-	@Autowired
-	private ContractsMapper contractsMapper;
 
+	
 	/**
 	 * 新增审价合同
 	 */
@@ -59,16 +55,6 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	}
 	
 	
-	/**
-	 * 合同列表
-	 */
-	@Override
-	public List<Contracts> selectContract(Contracts contract, Integer page) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return contractsMapper.select(contract);
-	}
-
 	/**
 	 * 合同明细
 	 */
@@ -121,14 +107,17 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	public List<AppraisalContract> selectStatisical(AppraisalContract record) {
 		return appraisalContractMapper.selectStatisical(record);
 	}
-
 	
 	@Override
-	public List<Select> selectChose() {
-		return appraisalContractMapper.selectChose();
+	public List<Select> selectChose(String purchaseType) {
+		return appraisalContractMapper.selectChose(purchaseType);
+	}
+
+	@Override
+	public void updateAppeal(String id) {
+		appraisalContractMapper.updateAppeal(id);
 	}
 	
 	
-
 	
 }
