@@ -30,8 +30,9 @@ function packParam(id){
 	var typeId = $("#"+id+"_downBstypeId").val();
 	var key = $("#"+id+"_downBsKeyId").val();
 	var del = $("#"+id+"_showdel").val();
+	var param_del = transBoolean(del);
 	var params = {businessId: businessId,typeId: typeId,key: key};
-	display(params,id,del);
+	display(params,id,param_del);
 }
 
 //判断是否为空

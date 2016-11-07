@@ -209,8 +209,7 @@
 			   				if (msg == 'ok') {
 			   					$( '#'+file.id ).find('h4').text("上传成功");
 			   					setTimeout(function(){$list.empty();}, 1000);
-			   					display({businessId: $("#"+$base+"_businessId").val(),
-			   			                typeId: $("#"+$base+"_typeId").val(), key: $("#"+$base+"_sysKeyId").val()});
+			   					showInit();
 			   				}
 			   				
 			   				

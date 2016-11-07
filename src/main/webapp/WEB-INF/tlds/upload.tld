@@ -9,6 +9,18 @@
        <tagclass>common.taglib.UploadTld</tagclass>
        <bodycontent>empty</bodycontent>
        <info>上传标签</info>
+        <attribute>
+	        <name>id</name>
+	        <required>true</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+        <attribute>
+	        <name>groups</name>
+	        <required>false</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
        <attribute>
 	        <name>selectButton</name>
 	        <required>false</required>
@@ -89,6 +101,18 @@
        <bodycontent>empty</bodycontent>
        <info>显示标签</info>
        <attribute>
+	        <name>showId</name>
+	        <required>true</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+      <attribute>
+	        <name>groups</name>
+	        <required>false</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+       <attribute>
 	        <name>businessId</name>
 	        <required>true</required>
 	        <type>java.lang.String</type>
@@ -104,6 +128,12 @@
 	        <name>typeId</name>
 	        <required>false</required>
 	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+        <attribute>
+	        <name>delete</name>
+	        <required>false</required>
+	        <type>java.lang.Boolean</type>
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
  </tag>
