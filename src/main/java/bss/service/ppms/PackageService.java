@@ -75,4 +75,15 @@ public interface PackageService {
 	* @return int
 	 */
 	List<Packages> selectAllByIsWon(Map<String, Object> map);
+	/**
+	 * 
+	 * @Title: findPackageById
+	 * @author: Tian Kunfeng
+	 * @date: 2016-11-1 上午10:59:17
+	 * @Description: TODO
+	 * @param: @param map
+	 * @param: @return
+	 * @return: List<Packages>
+	 */
+	List<Packages> findPackageAndBidMethodById(HashMap<String,Object> map);
 }
