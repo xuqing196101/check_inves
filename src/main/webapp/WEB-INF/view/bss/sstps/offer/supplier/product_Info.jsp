@@ -26,8 +26,7 @@
 	  </div>
    </div>
   
-  <form action="${pageContext.request.contextPath}/offerProduct/save.html" method="post" enctype="multipart/form-data">
-   <input name="aaa" type="text">
+  <form action="${pageContext.request.contextPath}/offerProduct/save.html" method="post">
 	<div class="container">
 	 	<div class="headline-v2">
 	  		 <h2>装备（产品）技术资料概述</h2>

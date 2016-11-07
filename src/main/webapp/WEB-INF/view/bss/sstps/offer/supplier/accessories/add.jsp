@@ -31,7 +31,7 @@ function down(){
    
    
   <div class="container bggrey border1 mt20"> 
-    <form action="<%=basePath %>accessoriesCon/save.html" method="post" enctype="multipart/form-data">
+    <form action="<%=basePath %>accessoriesCon/save.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    
@@ -40,7 +40,7 @@ function down(){
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
 	   <span class="">材料性质：</span>
-	   <div class="select_common">
+	   <div class="">
         <select class="w220" id="productNature" name="productNature">
 			<option value="0">主要材料</option>
 			<option value="1">辅助材料</option>

@@ -68,7 +68,7 @@ function next(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="<%=basePath%>comCostDis/update.html?proId=${proId }" method="post" enctype="multipart/form-data">
+	<form id="formID" name="form1" action="<%=basePath%>comCostDis/update.html?proId=${proId }" method="post">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

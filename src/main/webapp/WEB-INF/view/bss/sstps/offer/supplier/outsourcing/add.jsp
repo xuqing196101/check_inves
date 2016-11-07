@@ -36,7 +36,7 @@ function down(){
    </div>
 
 <div class="container bggrey border1 mt20"> 
-    <form action="<%=basePath %>outsourcingCon/save.html" method="post" enctype="multipart/form-data">
+    <form action="<%=basePath %>outsourcingCon/save.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    

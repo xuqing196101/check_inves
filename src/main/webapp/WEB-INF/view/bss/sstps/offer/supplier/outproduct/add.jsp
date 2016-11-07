@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+ enctype="multipart/form-data"<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../../../common.jsp"%>
@@ -31,7 +31,7 @@ function down(){
    
 
  <div class="container bggrey border1 mt20"> 
-    <form action="<%=basePath %>outproductCon/save.html" method="post" enctype="multipart/form-data">
+    <form action="<%=basePath %>outproductCon/save.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    

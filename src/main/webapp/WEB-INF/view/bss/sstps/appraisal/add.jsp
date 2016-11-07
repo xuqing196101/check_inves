@@ -80,7 +80,7 @@
 	  </div>
    </div>
    
-   <form  action="<%=basePath %>appraisalContract/save.html" method="post" enctype="multipart/form-data">
+   <form  action="<%=basePath %>appraisalContract/save.html" method="post">
    
 	<div class="container">
 	 	<div class="headline-v2">
