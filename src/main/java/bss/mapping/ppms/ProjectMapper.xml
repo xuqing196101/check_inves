@@ -50,6 +50,7 @@
     <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
     <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
     <result column="IS_IMPORT" property="isImport"/>
+    <result column="IS_PROVISIONAL" property="isProvisional"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -61,7 +62,8 @@
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
-    APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT
+    APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
+    IS_PROVISIONAL
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -173,15 +175,15 @@
   </sql>
    <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
    select t1.* from 
- 	(SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
- 	 LEFT JOIN
-  	( select * from T_BSS_PPMS_PROJECTS t ) t1
-  	on  t1.id=t2.project_id
+    (SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
+     LEFT JOIN
+    ( select * from T_BSS_PPMS_PROJECTS t ) t1
+    on  t1.id=t2.project_id
         where 1=1 and t1.id is not null
     <if test="supplierId != null and supplierId !=''">
         AND t2.supplier_id = #{supplierId}
     </if> 
-	<if test="name != null and name !=''">
+    <if test="name != null and name !=''">
         AND name = #{name}
     </if> 
     <if test="projectNumber != null and projectNumber !=''">
@@ -214,7 +216,7 @@
   
   <!-- 查看成功的项目 -->
   <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
-  	select 
+    select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where STATUS = 2
@@ -428,6 +430,9 @@
       <if test="isImport != null">
         IS_IMPORT,
       </if>
+      <if test="isProvisional != null">
+        IS_PROVISIONAL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -580,6 +585,9 @@
       <if test="isImport != null">
         #{isImport},
       </if>
+      <if test="isProvisional != null">
+        #{isProvisional},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -731,6 +739,9 @@
       </if>
       <if test="isImport != null">
         IS_IMPORT = #{isImport},
+      </if>
+       <if test="isProvisional != null">
+        IS_PROVISIONAL = #{isProvisional},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

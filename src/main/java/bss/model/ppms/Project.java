@@ -105,6 +105,8 @@ public class Project {
     private Date maintenanceTime; //售后维护时间
     
     private Integer isImport;
+    
+    private Integer isProvisional;
 
     private List<Packages> packagesList;
     
@@ -536,5 +538,12 @@ public class Project {
         this.isImport = isImport;
     }
 
-	
+    public Integer getIsProvisional() {
+        return isProvisional;
+    }
+
+    public void setIsProvisional(Integer isProvisional) {
+        this.isProvisional = isProvisional;
+    }
+
 }
