@@ -28,14 +28,43 @@ public class Quote {
     
     private BigDecimal total;
     
+    private Timestamp deliveryTime;
+    
+    private String remark;
+    
     private Project project;
     
     private Packages packages;
     
     private ProjectDetail projectDetail;
     
+    private Supplier supplier;
     
-    public ProjectDetail getProjectDetail() {
+    public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Timestamp getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(Timestamp deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public ProjectDetail getProjectDetail() {
 		return projectDetail;
 	}
 

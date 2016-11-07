@@ -70,8 +70,8 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model,String projectId){
 		Quote quote=new Quote();
 		//暂时测试，这样就不用新建一条数据
-		quote.setProjectId("F12FD6D99F02453C83F5A23A0064094D");
-		//quote.setProjectId(projectId);
+		//quote.setProjectId("F12FD6D99F02453C83F5A23A0064094D");
+		quote.setProjectId(projectId);
 	    //quote.setSupplierId(supplierId);
 		List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -135,9 +135,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	 * @param @param model
 	 * @param @return      
 	 * @return String
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value="/save")
-	public String save(HttpServletRequest req,Quote quote,Model model,String priceStr) {
+	public String save(HttpServletRequest req,Quote quote,Model model,String priceStr) throws ParseException {
 		List<String> listBd=Arrays.asList(priceStr.split(","));
 		User user=(User)req.getSession().getAttribute("loginUser");
 		List<Quote> listQuote=new ArrayList<Quote>();
@@ -156,8 +157,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	    		qt.setSupplierId(user.getTypeId());
 	    		qt.setPackageId(pk.getId());
 	    		qt.setProductId(pd.getId());
-	    		qt.setQuotePrice(new BigDecimal(listBd.get(count*2-2)));
-	    		qt.setTotal(new BigDecimal(listBd.get(count*2-1)));
+	    		qt.setQuotePrice(new BigDecimal(listBd.get(count*4-4)));
+	    		qt.setTotal(new BigDecimal(listBd.get(count*4-3)));
+	    		qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count*4-2)).getTime()));
+	    		qt.setRemark(listBd.get(count*4-1));
 	    		qt.setCreatedAt(new Timestamp(new Date().getTime()));
 	    		listQuote.add(qt);
 	    	}

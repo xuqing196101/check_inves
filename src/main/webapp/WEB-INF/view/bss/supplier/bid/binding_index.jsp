@@ -135,7 +135,7 @@
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="#" class="img-v3">填写报价</a>
+			  <a href="<%=basePath%>mulQuo/list.html?projectId=${project.id}" class="img-v3">填写报价</a>
 			  <span class="">→</span>
 			</span>
 		    <span>

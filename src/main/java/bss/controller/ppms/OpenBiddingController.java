@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,8 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
-
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
@@ -118,6 +122,12 @@ public class OpenBiddingController {
      */
     @Autowired
     private ScoreModelService scoreModelService;
+    
+    @Autowired
+    private SupplierService supplierService;
+    
+    @Autowired
+    private SupplierQuoteService supplierQuoteService;
     
     /**
      * @Fields jsonData : ajax返回数据封装类
@@ -460,6 +470,40 @@ public class OpenBiddingController {
             e.printStackTrace();
         }
         return "bss/ppms/open_bidding/bid_file/package_first_audit_view";
+    }
+    
+    /**
+     * @Title: changbiao
+     * @author Song Biaowei
+     * @date 2016-11-7 下午8:38:08  
+     * @Description: 唱标
+     * @param @param projectId
+     * @param @param supplierStr
+     * @param @param model
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping("/changbiao")
+    public String changbiao(String projectId,String supplierStr, Model model ){
+       //项目信息
+    	List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+       //参与项目的所有供应商
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
+        //每个供应商的报价明细产品
+        List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
+        List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
+        for(String str:listsupplierId){
+        	Quote quote=new Quote();
+            quote.setSupplierId(str);
+            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+            listQuoteList.add(listQuote);
+        }
+        model.addAttribute("listSupplier", listSupplier);
+        model.addAttribute("listPd", listPd);
+        model.addAttribute("listQuoteList", listQuoteList);
+        return "bss/ppms/open_bidding/bid_file/changbiao";
     }
 	
     @RequestMapping("/confirmOk")

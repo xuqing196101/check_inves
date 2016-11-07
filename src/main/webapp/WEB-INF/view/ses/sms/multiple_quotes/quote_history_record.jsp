@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	String path = request.getContextPath();
@@ -109,6 +110,8 @@
 							          <th class="info">采购数量</th>
 							          <th class="info">单价（元）</th>
 							          <th class="info">小计</th>
+							          <th class="info">交货时间</th>
+							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
 							          <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
@@ -121,6 +124,8 @@
 							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
 							              <td class="tc">${lq.quotePrice }</td>
 							              <td class="tc">${lq.total }</td>
+							              <td class="tc"><fmt:formatDate value="${lq.delivery }" pattern="YYYY-MM-dd"/></td>
+							              <td class="tc">${lq.remark }</td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>
@@ -143,6 +148,8 @@
 							          <th class="info">采购数量</th>
 							          <th class="info">报价金额</th>
 							          <th class="info">报价小计</th>
+							          <th class="info">交货时间</th>
+							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
 							           <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
@@ -155,6 +162,8 @@
 							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
 							              <td class="tc">${lq.quotePrice }</td>
 							              <td class="tc">${lq.total }</td>
+							              <td class="tc"><fmt:formatDate value="${lq.delivery }" pattern="YYYY-MM-dd"/></td>
+							              <td class="tc">${lq.remark }</td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>

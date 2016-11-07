@@ -1,5 +1,7 @@
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.Supplier;
 /**
  * @Title: SupplierInfoService
@@ -11,6 +13,16 @@ public interface SupplierService {
 	
 	public Supplier get(String id);
 	
+	/**
+	 * @Title: selectSupplierByProjectId
+	 * @author Song Biaowei
+	 * @date 2016-11-7 下午7:51:13  
+	 * @Description: 按照项目id查询供应商
+	 * @param @param projectId
+	 * @param @return      
+	 * @return List<Supplier>
+	 */
+	public List<Supplier> selectSupplierByProjectId(String projectId);
 	
 	/**
 	 * @Title: register

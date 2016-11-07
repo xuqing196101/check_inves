@@ -242,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            id.push($(this).val()); 
 	        }); 
 	        if(id.length==1){
-	           window.location.href = '<%=basePath%>mulQuo/bidDocument.html?projectId='+id;
+	           window.location.href = '<%=basePath%>supplierProject/bidDocument.html?projectId='+id;
 	        }else if(id.length>1){
 	            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	        }else{

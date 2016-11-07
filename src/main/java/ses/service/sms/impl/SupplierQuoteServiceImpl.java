@@ -51,7 +51,7 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
 		 SqlSession batchSqlSession = null;
 	        try{
 	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-	            int batchCount = 500;//每批commit的个数
+	            int batchCount = 50;//每批commit的个数
 	            for(int index = 0; index < listQuote.size();index++){
 	            	Quote quote = listQuote.get(index);
 	                batchSqlSession.getMapper(QuoteMapper.class).insertSelective(quote);

@@ -186,6 +186,8 @@ public interface SupplierMapper {
      */
     List<Supplier> listExtractionExpert(SupplierCondition con);
     
+    List<Supplier> selectByProjectId(String projectId);
+    
     /**
      * @Title: findLoginName
      * @author: Wang Zhaohua

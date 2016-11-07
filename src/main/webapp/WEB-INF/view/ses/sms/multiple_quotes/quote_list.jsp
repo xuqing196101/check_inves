@@ -31,7 +31,8 @@
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
     <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 	function OpenFile() {
 		var obj = document.getElementById("TANGER_OCX");
@@ -105,48 +106,62 @@
 			layer.alert("请选择需要报价的项目",{offset: ['122px', '390px'], shade:0.01});
 		}
     }
-    
+    const ONE="1";
+    const FIVE="5";
+	const SIX="6";
+	const SEVEN="7";
+	const EIGHT="8";
+	const NINE="9";
     function addTotal(){
     	var allTable=document.getElementsByTagName("table");
 		for(var i=0;i<allTable.length;i++){
 		    var totalMoney=0;
 			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
-				  var num= $(allTable[i].rows).eq(j).find("td").eq("5").text();
-		          var price= $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
-		          var total= $(allTable[i].rows).eq(j).find("td").eq("7").text();
+				  var num= $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
+		          var price= $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+		          var total= $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
 		          if(price==""||price.trim()==""){
 		          	continue;
 		          } else{
 		          	 $(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price*num).toFixed(2));
 		          	 totalMoney+=parseFloat(price*num);
-		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
-		          }
-		    } 
-		}
+		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq(ONE).text(parseFloat(totalMoney).toFixed(2));
+		          };
+		    } ;
+		};
     };
-	
 	function eachTable(){
 		var allTable=document.getElementsByTagName("table");
 		var priceStr="";
 		var error=0;
 		for(var i=0;i<allTable.length;i++){
 			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
-				  var num= $(allTable[i].rows).eq(j).find("td").eq("5").text();
-		          var price= $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
-		          var total= $(allTable[i].rows).eq(j).find("td").eq("7").text();
+				  var num= $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
+		          var price= $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+		          var total= $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
+		          var deliveryTime= $(allTable[i].rows).eq(j).find("td").eq(EIGHT).find("input").val();
+		          var remark= $(allTable[i].rows).eq(j).find("td").eq(NINE).find("input").val();
+		          if(remark==""||remark.trim()==""){
+		          		remark=null;
+		          }
+		          if(deliveryTime==""){
+		          		layer.msg("页签"+(i+1)+",表格第"+(j+1)+"行,交货时间未填写");
+		          		return;
+		          }
 		          if(price==""||price.trim()==""){
 		          	layer.msg("页签"+(i+1)+",表格第"+(j+1)+"行,未报价");
 		          	return;
 		          	error++;
 		          } else{
-		          	priceStr+=price+","+total+",";
-		          }
-		    } 
+		          	priceStr+=price+","+total+","+deliveryTime+","+remark+",";
+		          	alert(priceStr);
+		          };
+		    } ;
 		}
 		if(error==0){
 			$("#priceStr").val(priceStr);
 			form.submit();
-		}
+		};
 	}
 	
 	function showQuoteHistory(data){
@@ -174,11 +189,11 @@
 	<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="<%=basePath%>mulQuo/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
+			  <a href="<%=basePath%>supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>mulQuo/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
+			  <a href="<%=basePath%>supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>
@@ -240,6 +255,8 @@
 							          <th class="info">采购数量</th>
 							          <th class="info">单价（元）</th>
 							          <th class="info">小计</th>
+							          <th class="info">交货时间</th>
+							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
 							          <c:forEach items="${listProDel }" var="proDel" varStatus="vs">
@@ -252,6 +269,8 @@
 							              <td class="tc">${proDel.purchaseCount}</td>
 							              <td class="tc"><input maxlength="16" onkeyup="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onblur="addTotal()" /></td>
 							              <td class="tc"></td>
+							              <td class="tc"><input readonly="readonly" onClick="WdatePicker()"  /></td>
+							              <td class="tc"><input /></td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>
@@ -274,6 +293,8 @@
 							          <th class="info">采购数量</th>
 							          <th class="info">单价（元）</th>
 							          <th class="info">小计</th>
+							          <th class="info">交货时间</th>
+							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
 							          <c:forEach items="${listProDel }" var="proDel" varStatus="vs">
@@ -286,6 +307,8 @@
 							              <td class="tc">${proDel.purchaseCount}</td>
 							              <td class="tc"><input maxlength="16"  onkeyup="this.value=this.value.replace(/[^0-9]+\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')"  onblur="addTotal()" /></td>
 							              <td class="tc"></td>
+							              <td class="tc"><input readonly="readonly" onClick="WdatePicker()"  /></td>
+							              <td class="tc"><input /></td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>

@@ -170,4 +170,10 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		return true;
 	}
+
+	@Override
+	public List<Supplier> selectSupplierByProjectId(String projectId) {
+		List<Supplier> list = supplierMapper.selectByProjectId(projectId);
+		return list;
+	}
 }
