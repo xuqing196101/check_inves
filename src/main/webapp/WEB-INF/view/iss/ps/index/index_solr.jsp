@@ -1,10 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -18,23 +14,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 	<!--导航js-->
-	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-	<script src="<%=basePath%>public/layer/layer.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 	<script type="text/javascript">
      $(function(){
 	  laypage({
@@ -53,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var condition = "${oldCondition}";
-		            location.href = "<%=basePath%>index/solrSearch.html?page="+e.curr+"&condition="+condition;
+		            location.href = "${pageContext.request.contextPath}/index/solrSearch.html?page="+e.curr+"&condition="+condition;
 		        }
 		    }
 		});
@@ -87,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <ul class="categories li_square padding-left-15 margin-bottom-0">
                 <c:forEach items="${solrMap['indexList']}" var="i">
                   <li>
-                   <a href="<%=basePath %>index/selectArticleNewsById.html?id=${i.id}" title="" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
+                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" title="" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
                    <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
                   </li> 
                 </c:forEach>             

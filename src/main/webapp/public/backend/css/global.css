@@ -818,4 +818,16 @@ li:first-child {
   background:url(../images/sc.png) no-repeat 0 0;}
 .bdzb{
   background:url(../images/bd.png) no-repeat 0 0;}
- 
+.star_red{
+	width: 10px;
+    height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+}
+.dnone{
+	display: none;
+	z-index: 10;
+}
+.tnone{
+	display: none;
+}

@@ -135,9 +135,29 @@ public class PurchaseContract {
 	
 	/** 是否申报 0待报 1已报 2已批准 */
 	private Integer isDeclare = 0;
+	
+	private String purchaseType;
+
+	public String getPurchaseType() {
+		return purchaseType;
+	}
+
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType;
+	}
 
 	public String getId() {
 		return id;
+	}
+	
+    private String projectId;
+    
+    public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
 	}
 
 	public void setId(String id) {

@@ -2,18 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <base href="<%=basePath%>">
-    
     <title>合同基本信息修改页</title>
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -28,7 +25,7 @@
     	function next(){
     		var id = "${id}";
     		var supid = "${supid}";
-    		window.location.href="<%=basePath%>purchaseContract/createDetailContract.html?id="+id+"&supid="+supid;
+    		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?id="+id+"&supid="+supid;
     	}
     </script>
 <body>
@@ -44,7 +41,7 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<%--<form action="<%=basePath %>pqinfo/save.html" method="post">
+   		<%--<form action="${pageContext.request.contextPath}/pqinfo/save.html" method="post">
    		--%><%--
    		<div class="headline-v2">
    			<h2>基本信息</h2>

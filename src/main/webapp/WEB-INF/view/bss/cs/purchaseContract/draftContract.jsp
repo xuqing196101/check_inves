@@ -2,22 +2,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <base href="<%=basePath%>">
-    
     <title>合同草稿修改</title>
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-    <script language="javascript" type="text/javascript" src="<%=basePath%>/public/layer/layer.js"></script>
-	<script type="text/javascript" src="<%=basePath%>/public/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -40,7 +37,7 @@
    			async:{
    						autoParam:["id","name"],
    						enable:true,
-   						url:"<%=basePath%>category/createtree.do",
+   						url:"${pageContext.request.contextPath}/category/createtree.do",
    						dataType:"json",
    						type:"post",
    					},
@@ -192,7 +189,7 @@
 	}
 	
 	function quxiao(){
-	    window.location.href="<%=basePath%>purchaseContract/selectDraftContract.html"
+	    window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html"
 	}
 	
 	function sum2(){
@@ -291,7 +288,7 @@
 	}
 	
 	function print(){
-		$("#contractForm").attr("action","<%=basePath%>purchaseContract/printContract.html?ids=${ids}");
+		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
 	
@@ -306,7 +303,7 @@
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['70%', '20%'],
           shadeClose: false,
-          content: '<%=basePath%>resultAnnouncement/getAll.html',
+          content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
           success: function(layero, index){
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
           }
@@ -326,7 +323,7 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftContract.html?ids=${ids}" method="post" enctype="multipart/form-data">
+   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html?ids=${ids}" method="post" enctype="multipart/form-data">
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="id" value="${draftCon.id}"/>
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
@@ -556,7 +553,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml5">
+    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml10">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
