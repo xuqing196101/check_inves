@@ -50,8 +50,6 @@ public class OfferProductController {
 	@RequestMapping("/save")
 	public String save(Model model,ProductInfo productInfo,HttpServletRequest request){
 		String id = request.getParameter("id");
-		String a = request.getParameter("name");
-		System.out.println(a);
 		String proId = request.getParameter("contractProduct.id");
 		productInfo.setUpdatedAt(new Date());
 		if(id!=null && !id.equals("")){
@@ -61,7 +59,6 @@ public class OfferProductController {
 			productInfoService.insert(productInfo);
 		}
 		model.addAttribute("proId", proId);
-		
 		AccessoriesCon accessoriesCon = new AccessoriesCon();
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);

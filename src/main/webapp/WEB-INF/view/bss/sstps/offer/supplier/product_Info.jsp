@@ -7,16 +7,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>装备（产品）技术资料概述</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 
+<script type="text/javascript">
+
+</script>
   </head>
   
   <body>
@@ -30,15 +26,15 @@
 	  </div>
    </div>
   
-  <form action="<%=basePath %>offerProduct/save.html" method="post" enctype="multipart/form-data">
-   
+  <form action="${pageContext.request.contextPath}/offerProduct/save.html" method="post" enctype="multipart/form-data">
+   <input name="aaa" type="text">
 	<div class="container">
 	 	<div class="headline-v2">
 	  		 <h2>装备（产品）技术资料概述</h2>
 	 	</div>
 	 	
-	 	<input type="hidden" id="contractProduct.id" name="contractProduct.id" class="w230 mb0" value="${contractProduct.id }" readonly>
-	 	<input type="hidden" id="id" name="id" class="w230 mb0" value="${productInfo.id }" readonly>
+	 	<input type="hidden" id="contractProduct.id" name="contractProduct.id" class="w230 mb0" value="${contractProduct.id }">
+	 	<input type="hidden" id="id" name="id" class="w230 mb0" value="${productInfo.id }">
 	 	
 	 	<div class="container padding-left-25 padding-right-25 mt5">
 			<table class="table table-bordered">
