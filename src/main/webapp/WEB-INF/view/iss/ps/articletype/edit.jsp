@@ -40,7 +40,6 @@
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
     <form action="<%=basePath %>articletype/update.html" method="post">  
-    <input type="hidden" id="oldName" name="oldName" value=""/>
     <div>
 	    <div class="headline-v2">
 	   		<h2>修改栏目</h2>
@@ -56,17 +55,6 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0">
-               <span class="fl">上级栏目：</span>
-               <div class="select_common mb10">
-                 <select id="parent" name ="parent.id" class="w230" >
-                    <option></option>
-                    <c:forEach items="${list}" var="articletype">
-                        <option value="${articletype.id}">${articletype.name}</option>
-                    </c:forEach> 
-                </select>
-             </li>
-			 
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl">栏目介绍：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
@@ -77,7 +65,7 @@
 	</div>  	
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 tc mt20">
-    <button class="btn btn-windows update" type="submit">更新</button>
+    <button class="btn btn-windows save" type="submit">更新</button>
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
      </form>

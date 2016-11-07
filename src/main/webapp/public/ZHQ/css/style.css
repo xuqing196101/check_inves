@@ -2271,3 +2271,105 @@ a.yjfk{
   float:right;
   text-align:right;
 }
+
+/*登录页面样式开始*/
+.sky-form header {
+    color: inherit;
+    display: block;
+    font-size: 20px;
+    background: #fff;
+    font-weight: 400;
+    padding: 8px 30px;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	overflow:hidden;
+}
+.ofh{
+    overflow:hidden;
+}
+.sky-form .label.col {
+    margin: 0;
+    padding-top: 10px;
+	display:block;
+	color:#333;
+	line-height: 19px;
+    font-weight: 400;
+	font-size:14px;
+}
+.sky-form fieldset {
+    display: block;
+    padding: 25px 30px 5px;
+    border: none;
+    background:#ffffff;
+}
+.sky-form .col {
+    float: left;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    -moz-box-sizing: border-box;
+}
+.sky-form .input input {
+    height: 34px;
+    padding: 6px 12px;
+	-moz-box-sizing: border-box;
+    width: 100%;
+	display:block;
+	border-color:#bbb;
+	font-size: 14px;
+    color: #404040;
+}
+.shadow-effect-2{
+    background:#f0efef;
+	opacity:0.8;
+	filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+	position:relative;
+}
+.sign_box {
+   border:1px solid #cccccc;
+}
+.reg-page {
+    color: #555;
+    padding: 30px;
+    background: #f0efef;
+    border: solid 1px #eee;
+    box-shadow: 0 0 3px #eee;
+}
+.login_right{
+    padding-left:5%;
+	border-left:1px solid #cccccc;
+}
+.sign_left{
+   margin-left:8%;
+}
+.sign_bg{
+   background:#e7ebee;
+}
+.sign_kinds{
+   overflow:hidden;
+   margin-bottom:0px;
+}
+.sign_kinds a{
+   display:block;
+   float:left;
+   height:50px;
+   line-height:50px;
+   text-align:center;
+   color:#333333;
+   font-size:18px;
+}
+.sign_kinds .active a{
+   border-bottom:2px solid #2c9fa6;
+} 
+.head_top{
+  background:#f7f7f7;
+  height:34px;
+  line-height:34px;
+  overflow:hidden;
+}
+.head_right{
+  float:right;
+  text-align:right;
+}
+
+/*登录页面样式结束*/

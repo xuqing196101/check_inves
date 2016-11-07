@@ -40,6 +40,12 @@ $(function(){
 	    login();
 	  }
 	});
+	
+	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
+		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
+	},function(){
+		$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
+	});
 })
 
 function login(){
@@ -156,14 +162,14 @@ function kaptcha(){
     <div class="container">
       <ul class="nav navbar-nav">
       <!-- 通知 -->
-        <li class="active dropdown shouye_li mega-menu-fullwidth">
+        <li id="firstPage" class="active dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href=""><i class="shouye nav_icon"></i>首 页</a>
         </li>
       <!-- End 通知 -->
 
       <!-- 公告 -->
-        <li class="dropdown gonggao_li mega-menu-fullwidth">
-          <a data-toggle="dropdown" class="dropdown-toggle " href="javascript:void(0);" ><i class="gonggao nav_icon"></i>信息公告</a>
+        <li class="dropdown other gonggao_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="gonggao nav_icon"></i>信息公告</a>
 	  <!--	信息公告鼠标移动开始   -->
 	  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
@@ -289,8 +295,8 @@ function kaptcha(){
       <!-- End 公告 -->
 
       <!-- 公示 -->
-        <li class="dropdown gongshi_li mega-menu-fullwidth" >
-          <a data-toggle="dropdown" class="dropdown-toggle  " href="javascript:void(0);"><i class="gongshi nav_icon"></i>网上采购</a>
+        <li class="dropdown other gongshi_li mega-menu-fullwidth" >
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="gongshi nav_icon"></i>网上采购</a>
 <!--	网上采购鼠标移动开始   -->
 		  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
@@ -355,8 +361,8 @@ function kaptcha(){
       <!-- End 公示 -->
 
       <!-- 专家 -->
-        <li class="dropdown zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle  " data-toggle="dropdown" href="javascript:void(0);"><i class="zhuanjia nav_icon"></i>供应商</a>
+        <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="zhuanjia nav_icon"></i>供应商</a>
 	<!--供应商鼠标移动开始-->
 		<div class="drop_next dropdown-menu" >
 	     <div class="row magazine-page clear">
@@ -415,8 +421,8 @@ function kaptcha(){
       <!-- End 专家 -->
 
       <!-- 投诉 -->
-        <li class="dropdown tousu_li mega-menu-fullwidth">
-          <a data-toggle="dropdown" class="dropdown-toggle " href="javascript:void(0);" ><i class="tousu nav_icon"></i>评审专家</a>
+        <li class="dropdown other tousu_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
 	<!--评审专家鼠标移动开始-->
 		 <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
@@ -467,8 +473,8 @@ function kaptcha(){
       <!-- End 投诉 -->
 
       <!-- 法规 -->
-        <li class="dropdown  cgfw_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
+        <li class="dropdown other cgfw_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
 	<!--采购服务鼠标移动开始-->
 		  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
@@ -519,8 +525,8 @@ function kaptcha(){
         </li>
       <!-- End 法规 -->
 
-        <li class="dropdown luntan_li mega-menu-fullwidth">
-          <a href="javascript:void(0);" class="dropdown-toggle " data-toggle="dropdown"><i class="luntan nav_icon"></i>投诉处理</a>
+        <li class="dropdown other luntan_li mega-menu-fullwidth">
+          <a href="javascript:void(0);" class="dropdown-toggle " ><i class="luntan nav_icon"></i>投诉处理</a>
 	<!-- 投诉处理鼠标移动开始-->
 	<div class="drop_next dropdown-menu" >
 	 <div class="row magazine-page clear">
@@ -554,8 +560,8 @@ function kaptcha(){
    </div>
    
         </li>
-        <li class="dropdown fagui_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
+        <li class="dropdown other fagui_li mega-menu-fullwidth">
+          <a class="dropdown-toggle " href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
     <!--采购法规鼠标动开始-->
 	<div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">

@@ -110,13 +110,13 @@
 			 <li class="col-md-6 p0">
 			   <span class="">项级预算科目：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${project.budgetSubjectItem}" type="text">
+		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${draftCon.budgetSubjectItem}" type="text">
        			</div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">合同批准文号：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${project.approvalNumber}" type="text">
+		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${draftCon.approvalNumber}" type="text">
        			</div>
 			 </li>
 			 <div class="clear"></div>

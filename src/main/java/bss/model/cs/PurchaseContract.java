@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -123,7 +122,47 @@ public class PurchaseContract {
     
     private Integer contractType;
     
-    public Integer getContractType() {
+    private Date draftGitAt;
+    
+    private Date draftReviewedAt;
+    
+    private Date formalGitAt;
+    
+    private Date formalReviewedAt;
+    
+    public Date getDraftGitAt() {
+		return draftGitAt;
+	}
+
+	public void setDraftGitAt(Date draftGitAt) {
+		this.draftGitAt = draftGitAt;
+	}
+
+	public Date getDraftReviewedAt() {
+		return draftReviewedAt;
+	}
+
+	public void setDraftReviewedAt(Date draftReviewedAt) {
+		this.draftReviewedAt = draftReviewedAt;
+	}
+
+	public Date getFormalGitAt() {
+		return formalGitAt;
+	}
+
+	public void setFormalGitAt(Date formalGitAt) {
+		this.formalGitAt = formalGitAt;
+	}
+
+	public Date getFormalReviewedAt() {
+		return formalReviewedAt;
+	}
+
+	public void setFormalReviewedAt(Date formalReviewedAt) {
+		this.formalReviewedAt = formalReviewedAt;
+	}
+
+	public Integer getContractType() {
 		return contractType;
 	}
 

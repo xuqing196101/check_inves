@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.User;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -228,7 +229,8 @@ public class IndexNewsController extends BaseSupplierController{
 		downloadUser.setArticle(article);
 		downloadUser.setIsDeleted(0);
 		downloadUser.setUpdatedAt(new Date());
-		downloadUser.setUserName("ttt");
+		User creater = (User) request.getSession().getAttribute("loginUser");
+		downloadUser.setUserName(creater.getLoginName());
 //		downloadUser.setUser("1231231");//死数据
 		downloadUserService.addDownloadUser(downloadUser);
 		article.setDownloadCount(article.getDownloadCount()+1);

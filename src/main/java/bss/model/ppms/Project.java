@@ -105,10 +105,19 @@ public class Project {
     private Date maintenanceTime; //售后维护时间
     
     private Integer isImport;
+
+    private List<Packages> packagesList;
     
+    public List<Packages> getPackagesList() {
+		return packagesList;
+	}
+
+	public void setPackagesList(List<Packages> packagesList) {
+		this.packagesList = packagesList;
+	}
+
 	private List<Task> list; 
     
-
 	public Project(String id) {
 		super();
 		this.id = id;

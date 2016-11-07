@@ -156,7 +156,7 @@
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
-  	c
+  	
   	function save(){
   		var ids =[];
   		$('input[name="chkItem"]:checked').each(function(){ 
@@ -205,6 +205,15 @@
 			layer.alert("请选择一条合同填写",{offset: ['222px', '390px'], shade:0.01});
 		}
 	}
+	
+	function out(content){
+		layer.msg(content, {
+			    skin: 'demo-class',
+				shade:false,
+				area: ['600px'],
+				time : 0    //默认消息框不关闭
+		});//去掉msg图标
+  	}
   </script>
   </head>
   
@@ -280,8 +289,22 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${formalCon.id}" /></td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.name}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.code}</td>
+				<c:set value="${formalCon.code}" var="code"></c:set>
+				<c:set value="${fn:length(code)}" var="length"></c:set>
+				<c:if test="${length>7}">
+					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.code}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
+				</c:if>
+				<c:if test="${length<=7}">
+					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.code}')" class="tc pointer ">${code}</td>
+				</c:if>
+				<c:set value="${formalCon.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>9}">
+					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.name}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
+				</c:if>
+				<c:if test="${length<=9}">
+					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.name}')" class="tc pointer ">${name}</td>
+				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>

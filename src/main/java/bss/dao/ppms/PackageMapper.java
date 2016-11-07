@@ -5,6 +5,7 @@ package bss.dao.ppms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.Packages;
 
@@ -77,4 +78,16 @@ public interface PackageMapper {
 	* @return int
 	 */
 	int deleteByPrimaryKey(String id);
+	
+	/**
+	 * 
+	* @Title: selectAllByIsWon
+	* @author ZhaoBo
+	* @date 2016-10-18 下午3:04:26  
+	* @Description: 按项目条件查询 
+	* @param @param id
+	* @param @return      
+	* @return int
+	 */
+	List<Packages> selectAllByIsWon(Map<String, Object> map);
 }

@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
   	<form action="<%=basePath %>performance/updatePerformance.html" method="post" id="form">
   	<input type="hidden" name="contractId" value="${performance.contractId}"/>
-  	<input type="hideen" name="id" value="${performance.id}"/>
+  	<input type="hidden" name="id" value="${performance.id}"/>
   		<ul class="list-unstyled list-flow p0_20">
   	<li class="col-md-6  p0 ">
 	   <span class="">合同草稿签订时间：</span>

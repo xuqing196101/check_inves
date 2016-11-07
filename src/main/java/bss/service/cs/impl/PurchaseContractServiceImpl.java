@@ -12,10 +12,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -98,7 +103,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 
 	@Override
-	public int createWord(PurchaseContract pur,List<ContractRequired> requList) {
+	public int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request) {
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("contractname", pur.getName());
 		dataMap.put("contractCode", pur.getCode());
@@ -126,8 +131,15 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		dataMap.put("approvalNumber", pur.getApprovalNumber());
 		dataMap.put("quaCode", pur.getQuaCode());
 		dataMap.put("sum", pur.getMoney());
+		int firstIndex = pur.getContent().indexOf(">");
+		int lastIndex = pur.getContent().lastIndexOf("<");
+		String content = pur.getContent().substring(firstIndex+1,lastIndex);
+		dataMap.put("content", content);
 		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		for(int i=0;i<requList.size();i++){
+			if(requList.get(i).getGoodsName()==null){
+				break;
+			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("number", i+1);
 			map.put("planNo", requList.get(i).getPlanNo());
@@ -145,14 +157,21 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		dataMap.put("list", list);
 		Configuration configuration = new Configuration();
 		configuration.setDefaultEncoding("UTF-8");
-		configuration.setClassForTemplateLoading(this.getClass(), "ftl");
+		configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
+//		configuration.setClassForTemplateLoading(this.getClass(), "/template");
+//		System.out.println(this.getClass());
 		Template t = null;
 		try {
 			t = configuration.getTemplate("test.ftl");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		File outFile = new File("F:/test"+Math.random()*10000+".doc");
+		String rootpath = (PathUtil.getWebRoot() + "contract/").replace("\\", "/");
+		File rootFile = new File(rootpath);
+		if(!rootFile.exists()){
+			rootFile.mkdirs();
+		}
+		File outFile = new File(rootpath+"/"+UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + pur.getName()+".doc");
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));

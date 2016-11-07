@@ -91,5 +91,17 @@ public interface TempletMapper {
      * @return:
      */
     List<Templet> selectByType(Templet record);
+    
+    /**
+     * 
+    * @Title: searchByTemType
+    * @author Liyi 
+    * @date 2016-10-29 下午12:55:03  
+    * @Description: TODO 
+    * @param @param temType
+    * @param @return      
+    * @return Templet
+     */
+    Templet searchByTemType(String temType);
 
 }

@@ -15,6 +15,17 @@
    	<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   
+  <resultMap type="bss.model.ppms.Packages" id="TwoResultMap">
+  	<id column="ID"  property="id" />
+    <result column="NAME" property="name"/>
+  	<result column="IS_DELETED" property="isDeleted"/>
+   	<result column="CREATED_AT" property="createdAt"/>
+   	<result column="UPDATED_AT" property="updatedAt"/>
+   	<result column="STATUS" property="status"/>
+   	<result column="MARK_TERM_TREE" property="markTermTree"/>
+  	<association property="project" column="PROJECT_ID" select="bss.dao.ppms.projectMapper.selectProjectByPrimaryKey"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS,MARK_TERM_TREE,PURCHASE_TYPE,IS_IMPORT
   </sql>
@@ -176,4 +187,23 @@
 	    delete from T_BSS_PPMS_PACKAGE
 	    where ID = #{id}
   	</delete>
+  	
+  	<select id="selectAllByIsWon" parameterType="Map" resultMap="BaseResultMap">
+  		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME name FROM
+			T_BSS_PPMS_PACKAGE pa,
+			T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
+		where pa.project_id in (
+			select pc.id from T_BSS_PPMS_PROJECTS pc where 1=1
+			<if test="projectName != null and projectName != ''">
+		       and pc.NAME like '%'||#{projectName}||'%'
+		    </if>
+		    <if test="projectCode != null and projectCode != ''">
+		       and pc.PROJECT_NUMBER like '%'||#{projectCode}||'%'
+		    </if>
+		    <if test="purchaseDep != null and purchaseDep != ''">
+		       and pc.PURCHASE_DEP_NAME like '%'||#{purchaseDep}||'%'
+		    </if>
+		) and pa.id = ch.package_id
+			and ch.is_won_bid = 1
+  	</select>
 </mapper>

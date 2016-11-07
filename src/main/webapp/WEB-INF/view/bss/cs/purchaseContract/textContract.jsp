@@ -157,24 +157,38 @@
 	}
 	
 	function bynSub(){
-		var detab = $("#detailtable tr:last td:eq(1)");
-		var vstab = Number(detab.html());
-		var html = "";
-		var tabl = $("#detailtable");
-		html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
-		html += "<td class='tc w50'>"+(vstab+1)+"</td>";
-		html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' value='"+$('#planNo').val()+"' class='w50'/></td>";
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' value='"+$('#citySel4').val()+"'/></td>";
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' value='"+$('#citySel4').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' value='"+$('#model').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' value='"+$('#unit').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' value='"+$('#purNum').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' value='"+$('#univalent').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' value='"+$('#givetime').val()+"' class='w100'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' value='"+$('#remarks').val()+"'/></td>"
-		tabl.append(html);
-		layer.close(index);
+		var sum1 = $("#purBudgetSum").val()-0;
+		var sumbudget = $("#budget").val();
+		var sum2 = null;
+		var tds = $(".ss");
+		for(var i=0;i<tds.length;i++){
+			var num1 = $(tds[i]).val()-0;
+			sum2 = sum2+num1;
+		}
+		var sumAll = sum1+sum2;
+		if(sumAll>sumbudget){
+			layer.close(index);
+			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
+		}else{
+			var detab = $("#detailtable tr:last td:eq(1)");
+			var vstab = Number(detab.html());
+			var html = "";
+			var tabl = $("#detailtable");
+			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+			html += "<td class='tc w50'>"+(vstab+1)+"</td>";
+			html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
+			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
+			tabl.append(html);
+			layer.close(index);
+		}
 	}
 	
 	function quxiao(){
@@ -215,9 +229,50 @@
 		$("#contractForm").submit();
 	}
 	
+	var ind = null;
 	function protocol(){
-		$("#status").val("1");
-		$("#contractForm").submit();
+		ind = layer.open({
+			shift: 1, //0-6的动画形式，-1不开启
+		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
+		    shade:0.01, //遮罩透明度
+			type : 1,
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '40%', '300px' ], //宽高
+			content : $('#numberWin'),
+			offset: ['80%', '25%']
+		});
+		
+	}
+	
+	function save(){
+		var draftGitAt = $("#draftGitAt").val();
+		var draftReviewedAt = $("#draftReviewedAt").val();
+		var flag = false;
+		var news = "";
+		if(draftGitAt!=null && draftGitAt!=''){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请填写上报时间";
+		}
+		if(draftReviewedAt!=null && draftReviewedAt!=''){
+			flag=true;
+		}else{
+			flag=false;			
+			news+="请填写批复时间";
+		}
+		
+		if(flag){
+			$("#status").val("1");
+			$("#contractForm").submit();
+		}else{
+			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
+		}
+	}
+	
+	function cancel(){
+		layer.close(ind);
 	}
 	
 	function imTemplet(){
@@ -225,7 +280,7 @@
         layer.open({
           type: 2, //page层
           area: ['800px', '500px'],
-          title: '配置权限',
+          title: '引用模板',
           closeBtn: 1,
           shade:0.01, //遮罩透明度
           shift: 1, //0-6的动画形式，-1不开启
@@ -260,7 +315,6 @@
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<input type="hidden" name="projectName" value="${project.name}"/>
- 
    		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 
    		<ul class="list-unstyled list-flow ul_list">
@@ -310,7 +364,7 @@
 			 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>预算：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="budget" value="${project.budgetAmount}" type="text">
+		        	<input class="span2 contract_name" id="budget" name="budget" value="${project.budgetAmount}" type="text">
 		        	<div class="validate">${ERR_budget}</div>
        			</div>
 			 </li>
@@ -509,16 +563,16 @@
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}" class="w60"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" value="${reque.budget}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" class="w100"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" value="${reque.memo}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.serialNumber}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.budget}" class="ss w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
 			</tr>
    		</c:forEach>
 	</table>
@@ -533,11 +587,26 @@
 
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
-   			<input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
+   			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
+   			--%><input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
    			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
   		</div>
+  		
+  		<div id="numberWin" class="dnone mt20">
+  		    <div class="col-md-12">
+			   <span class="span3 fl mt5">草稿合同上报时间：</span>
+			   <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			</div>
+			<div class="col-md-12 mt10">
+			   <span class="span3 fl">草稿合同批复时间：</span>
+			   <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+            </div>
+			<div class="tc col-md-12 mt20">
+			 <input type="button" class="btn" onclick="save()" value="生成"/>
+			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+			</div>
+	 	</div>
   	</form>
  </div>
  	<div id="openDiv" class="dnone">

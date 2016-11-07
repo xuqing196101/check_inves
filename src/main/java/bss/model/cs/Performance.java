@@ -19,7 +19,9 @@ public class Performance {
 
     private String contractId;
     
-    private String checkMass;
+    private PurchaseContract contract;
+    
+	private String checkMass;
 
     public String getCheckMass() {
 		return checkMass;
@@ -28,7 +30,14 @@ public class Performance {
 	public void setCheckMass(String checkMass) {
 		this.checkMass = checkMass;
 	}
+	
+	public PurchaseContract getContract() {
+		return contract;
+	}
 
+	public void setContract(PurchaseContract contract) {
+		this.contract = contract;
+	}
 	public String getId() {
         return id;
     }

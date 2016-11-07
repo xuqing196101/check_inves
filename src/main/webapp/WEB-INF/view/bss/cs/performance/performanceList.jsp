@@ -83,7 +83,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>articletype/view.html?id="+id;
+  		window.location.href="<%=basePath%>performance/view.html?id="+id;
   	}
     
   	function del(){
@@ -115,7 +115,17 @@
 		}else{
 			layer.alert("请选择要修改的履约",{offset: ['222px', '390px'], shade:0.01});
 		}
-  	}	
+  	}
+  	
+  //鼠标移动显示全部内容
+	function out(content){
+		layer.msg(content, {
+			    skin: 'demo-class',
+				shade:false,
+				area: ['600px'],
+				time : 0    //默认消息框不关闭
+		});//去掉msg图标
+  	}
   </script>
   </head>
   
@@ -173,6 +183,8 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info w50">序号</th>
+			    <th class="info">合同编号</th>
+			    <th class="info">合同名称</th>
 				<th class="info">交货进度</th>
 				<th class="info">资金支付百分比</th>
 				<th class="info">合同草稿签订时间</th>
@@ -185,19 +197,35 @@
 		<c:forEach items="${performanceList}" var="performance" varStatus="vs">
 			<tr>
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${performance.id}" /></td>
-				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc">${performance.deliverySchedule}</td>
-				<td class="tc">${performance.fundsPaid}</td>
-				<td class="tc"><fmt:formatDate value='${performance.draftSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td class="tc"><fmt:formatDate value='${performance.formalSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td class="tc"><fmt:formatDate value='${performance.delivery}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td class="tc">
+				<td onclick="view('${performance.id}')" class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<c:set value="${performance.contract.code}" var="code"></c:set>
+				<c:set value="${fn:length(code)}" var="length"></c:set>
+				<c:if test="${length>3}">
+					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.code}')" class="tc pointer ">${fn:substring(code,0,3)}...</td>
+				</c:if>
+				<c:if test="${length<=3}">
+					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.code}')" class="tc pointer ">${code}</td>
+				</c:if>
+				<c:set value="${performance.contract.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>4}">
+					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.name}')" class="tc pointer ">${fn:substring(name,0,4)}...</td>
+				</c:if>
+				<c:if test="${length<=4}">
+					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.name}')" class="tc pointer ">${name}</td>
+				</c:if>		
+				<td onclick="view('${performance.id}')" class="tc pointer">${performance.deliverySchedule}</td>
+				<td onclick="view('${performance.id}')" class="tc pointer">${performance.fundsPaid}</td>
+				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.draftSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.formalSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.delivery}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc pointer">
 					<c:if test="${performance.completedStatus=='0'}">合同执行中</c:if>
 					<c:if test="${performance.completedStatus=='1'}">合同终止</c:if>
 					<c:if test="${performance.completedStatus=='2'}">合同变更</c:if>
 					<c:if test="${performance.completedStatus=='3'}">合同完成</c:if>
 				</td>
-				<td class="tc pointer">${performance.checkMass}</td>
+				<td onclick="view('${performance.id}')" class="tc pointer">${performance.checkMass}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -98,39 +98,28 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(@Valid ArticleType articleType,BindingResult result,HttpServletRequest request,Model model,String oldName) {
+	public String update(@Valid ArticleType articleType,BindingResult result,HttpServletRequest request,Model model) {
 		List<ArticleType> articletypes = articleTypeService.getAll();
 		String id = request.getParameter("articletypeId");
 		Boolean flag = true;
 		String url = "";
 		for(ArticleType ar:articletypes){
-			if(ar.getName().equals(articleType.getName()) && !ar.getName().equals(oldName)){
+			if(ar.getName().equals(articleType.getName())){
 				flag = false;
 				model.addAttribute("ERR_name", "栏目名称不能重复");
 			}
 		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+		if(articleType.getName()==null || articleType.getName().equals("")){
 			flag = false;
+			model.addAttribute("ERR_name", "栏目名称不能为空");
 		}
 		if(flag == false){
-			List<ArticleType> children = articleTypeService.selectArticleTypesByParentId(id);
-			for (ArticleType child : children) {
-				articletypes.remove(child);
-			}
-			ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 			model.addAttribute("articletype", articleType);
-			model.addAttribute("list", articletypes);
 			url = "iss/ps/articletype/edit";
 		}else{
 			Timestamp ts = new Timestamp(new Date().getTime());
 			articleType.setUpdatedAt(ts);
 			articleType.setId(id);
-			ArticleType parentArticleType = articleTypeService.selectTypeByPrimaryKey(articleType.getParent().getId()) ;
-			articleType.setParent(parentArticleType);
 			articleTypeService.updateByPrimaryKey(articleType);	
 			url = "redirect:getAll.html";
 		}

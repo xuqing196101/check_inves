@@ -100,5 +100,9 @@ public class TempletServiceImbl implements TempletService{
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return templetMapper.selectByType(t);
 	}
-	
+
+	@Override
+	public Templet searchByTemType(String temType) {
+		return templetMapper.searchByTemType(temType);
+	}
 }

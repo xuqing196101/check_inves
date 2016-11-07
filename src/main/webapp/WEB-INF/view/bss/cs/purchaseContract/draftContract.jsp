@@ -157,22 +157,36 @@
 	}
 	
 	function bynSub(){
+		var sum1 = $("#purBudgetSum").val()-0;
+		var sumbudget = $("#budget").val();
+		var sum2 = null;
+		var tds = $(".ss");
+		for(var i=0;i<tds.length;i++){
+			var num1 = $(tds[i]).val()-0;
+			sum2 = sum2+num1;
+		}
+		var sumAll = sum1+sum2;
+		if(sumAll>sumbudget){
+			layer.close(index);
+			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
+		}else{
 		var detab = $("#detailtable tr:last td:eq(1)");
 		var vstab = Number(detab.html());
 		var html = "";
 		var tabl = $("#detailtable");
 		html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
 		html += "<td class='tc w50'>"+(vstab+1)+"</td>";
-		html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' value='"+$('#planNo').val()+"' class='w50'/></td>";
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' value='"+$('#citySel4').val()+"'/></td>";
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' value='"+$('#citySel4').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' value='"+$('#model').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' value='"+$('#unit').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' value='"+$('#purNum').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' value='"+$('#univalent').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' value='"+$('#givetime').val()+"' class='w100'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' value='"+$('#remarks').val()+"'/></td>"
+		html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
+		html += "<td class='tnone'></td>"
 		tabl.append(html);
 		layer.close(index);
 	}
@@ -236,6 +250,8 @@
 		var picFile = $("#fi").val();
 		var picFiles = picFile.split(".");
 		var pic = picFiles[picFiles.length-1];
+		var formalGitAt = $("#formalGitAt").val();
+		var formalReviewedAt = $("#formalReviewedAt").val();
 		var flag = false;
 		var news = "";
 		if(apN!=null && apN!=''){
@@ -244,8 +260,14 @@
 			flag = false;
 			news+="请先填写合同批准文号,";
 		}
+		if(formalReviewedAt!=null && formalReviewedAt!=""){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请填写报批时间";
+		}
 		if(pic!=null && pic!=''){
-			if(pic=='.bmp' || pic=='.png' || pic=='.gif' && pic=='.jpg' && pic=='.jpeg'){
+			if(pic=='bmp' || pic=='png' || pic=='gif' && pic=='jpg' && pic=='jpeg'){
 				flag=true;
 			}else{
 				flag=false;
@@ -260,7 +282,7 @@
 			$("#appN").val(apN);
 			$("#contractForm").submit();
 		}else{
-			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
+			layer.alert(news,{offset: ['70%', '40%'], shade:0.01});
 		}
 	}
 	
@@ -272,6 +294,24 @@
 		$("#contractForm").attr("action","<%=basePath%>purchaseContract/printContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
+	
+	function imTemplet(){
+		var iframeWin;
+        layer.open({
+          type: 2, //page层
+          area: ['800px', '500px'],
+          title: '引用模板',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['70%', '20%'],
+          shadeClose: false,
+          content: '<%=basePath%>resultAnnouncement/getAll.html',
+          success: function(layero, index){
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+          }
+        });
+    }
     </script>
 <body>
 <!--面包屑导航开始-->
@@ -340,14 +380,14 @@
 			 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>预算：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="budget" value="${draftCon.budget}" type="text">
+		        	<input class="span2 contract_name" id="budget" name="budget" value="${draftCon.budget}" type="text">
 		        	<div class="validate">${ERR_budget}</div>
        			</div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>项级预算科目：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="budget" value="${project.budgetSubjectItem}" type="text">
+		        	<input class="span2 contract_name" name="budgetSubjectItem" value="${draftCon.budgetSubjectItem}" type="text">
 		        	<div class="validate">${ERR_budgetSubjectItem}</div>
        			</div>
 			 </li>
@@ -531,22 +571,24 @@
 				<th class="info">合计金额(元)</th>
 				<th class="info">交付时间</th>
 				<th class="info">备注</th>
+				<th class="tnone"></th>
 			</tr>
 		</thead>
 		<c:forEach items="${draftCon.contractReList}" var="reque" varStatus="vs">
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.planNo}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" value="${reque.amount}"  class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}"   class="w100"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" value="${reque.memo}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.amount}" class="ss w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
+				<td class="tnone"><input type="text" name="proList[${(vs.index)}].id" readonly="readonly" value="${reque.id}"/></td>
 			</tr>
    		</c:forEach>
 	</table>
@@ -563,20 +605,28 @@
    			<input type="button" class="btn" onclick="print()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="quxiao()" value="取消">
   		</div>
-  		<div id="numberWin" class="dnone mt20">
-  		    <div class="col-md-12">
-			   <span class="span3 fl mt5">合同批准文号：</span>
-			   <input type="text" id="apN" value="" class="mb0"/>
-			</div>
-			<div class="col-md-12 mt10">
-			   <span class="span3 fl">上传批准文件：</span>
+  		<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+  		    <li class="col-md-12 ml15">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>合同批准文号：</span>
+			   <input type="text" id="apN" name="approvalNumber" value="" class="mb0 w220"/>
+			</li>
+			<li class="col-md-12">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同上报时间：</span>
+			   <input type="text" name="formalGitAt" id="formalGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			</li>
+			<li class="col-md-12">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同批复时间：</span>
+			   <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			</li>
+			<li class="col-md-12 mt10">
+			   <span class="span3 fl"><div class="red star_red">*</div>上传批准文件：</span>
 			   <input type="file" id="fi" name="agrfile" class="fl"/>
-            </div>
-			<div class="tc col-md-12 mt20">
+            </li>
+			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-			</div>
-		</div>
+			</li>
+	 </ul>
   	</form>
  </div>
  	<div id="openDiv" class="dnone">
@@ -659,6 +709,10 @@
     		//实例化编辑器
     		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     		var ue = UE.getEditor('editor');
+    		var content="${draftCon.content}";
+    		ue.ready(function(){
+    	  		ue.setContent(content);    
+    		});
 		</script>
 </body>
 </html>

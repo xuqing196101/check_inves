@@ -3,6 +3,8 @@ package bss.service.cs;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 
@@ -141,7 +143,7 @@ public interface PurchaseContractService {
      */
     PurchaseContract selectFormalById(String id);
     
-    int createWord(PurchaseContract pur,List<ContractRequired> requList);
+    int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
     
     List<PurchaseContract> selectFormalByContractType(Integer contractType);
 }

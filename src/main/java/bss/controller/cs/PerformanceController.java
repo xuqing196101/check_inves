@@ -1,6 +1,7 @@
 package bss.controller.cs;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,13 +71,21 @@ public class PerformanceController {
 			}
 		}
 		List<Performance> performanceList = null;
+		List<Performance> perList = new ArrayList<Performance>();
 		if(idArray==null){
 			performanceList = performanceService.selectAll(map);
 		}else{
 			map.put("idArray", idArray);
 			performanceList = performanceService.selectAllByidArray(map);
 		}
-		model.addAttribute("performanceList", performanceList);
+		if(!performanceList.isEmpty()){
+			for(Performance per : performanceList){
+				PurchaseContract contract = purchaseContactService.selectById(per.getContractId());
+				per.setContract(contract);
+				perList.add(per);
+			}
+		}
+		model.addAttribute("performanceList", perList);
 		model.addAttribute("list", new PageInfo<Performance>(performanceList));
 		model.addAttribute("contractType", contractType);
 		return "bss/cs/performance/performanceList";
@@ -101,5 +110,13 @@ public class PerformanceController {
 		performance.setFormalSignedAt(formalTime);
 		performanceService.updateSelective(performance);
 		return "redirect:/purchaseContract/selectFormalContract.html";
+	}
+	
+	@RequestMapping("/view")
+	public String view(Model model,HttpServletRequest request){
+		String id = request.getParameter("id");
+		Performance perfor = performanceService.selectByPrimaryKey(id);	
+		model.addAttribute("performance", perfor);
+		return "bss/cs/performance/showPerformance";
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import bss.model.pqims.PqInfo;
@@ -199,5 +200,22 @@ public class TempletController {
 		model.addAttribute("list",new PageInfo<Templet>(templets));
 		model.addAttribute("templet",templet);
 		return "ses/bms/templet/list";
+	}
+	
+	/**
+	 * 
+	 * @Title: search
+	 * @author Liyi 
+	 * @date 2016-10-9 下午5:27:51  
+	 * @Description:根据类型查询
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/searchByTemtype")
+	@ResponseBody
+	public String searchByTemtype(Templet templet) throws Exception{
+		Templet templets = templetService.searchByTemType(templet.getTemType());
+		String content = templets.getContent();
+		return content;
 	}
 }

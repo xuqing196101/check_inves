@@ -20,8 +20,6 @@ public class Packages {
 	
 	private String name;
 	
-	private String projectId;
-	
 	private Integer isDeleted;
 	
 	private Date createdAt;
@@ -42,12 +40,24 @@ public class Packages {
 	
 	private Project project;
 
-	public Project getProject() {
-		return project;
+	private String supplierNames;
+	
+	private String projectId;
+
+	public String getProjectId() {
+		return projectId;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getSupplierNames() {
+		return supplierNames;
+	}
+
+	public void setSupplierNames(String supplierNames) {
+		this.supplierNames = supplierNames;
 	}
 
 	public String getId() {
@@ -65,13 +75,13 @@ public class Packages {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getProjectId() {
-		return projectId;
+	
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public Integer getIsDeleted() {

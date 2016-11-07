@@ -41,7 +41,7 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 
 	@Override
 	public int updateByPrimaryKeySelective(ContractRequired record) {
-		// TODO Auto-generated method stub
+		contractRequiredMapper.updateByPrimaryKeySelective(record);
 		return 0;
 	}
 

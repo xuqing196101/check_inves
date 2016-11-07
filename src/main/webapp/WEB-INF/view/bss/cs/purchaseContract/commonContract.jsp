@@ -26,8 +26,9 @@
   </head>
     <script type="text/javascript">
     	function next(){
-    		var ids = "${ids}";
-    		window.location.href="<%=basePath%>purchaseContract/createDetailContract.html?ids="+ids;
+    		var id = "${id}";
+    		var supid = "${supid}";
+    		window.location.href="<%=basePath%>purchaseContract/createDetailContract.html?id="+id+"&supid="+supid;
     	}
     </script>
 <body>
@@ -54,20 +55,20 @@
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">项目名称：</span>
-			   <div class="input-append">
-		        <input class="span2 contract_code" value="${project.name}" id="contract_code" type="text" readonly="readonly">
+			   <div class="mt5">
+		        ${project.name}
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">项目编号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" value="${project.projectNumber}" type="text" readonly="readonly">
+		        <div class="mt5">
+		        	${project.projectNumber}
        			</div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">项目金额：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" value="${project.amount}" type="text" readonly="readonly">
+		        <div class="mt5">
+		        ${project.amount}
        			</div>
 			 </li>
 			 <div class="clear"></div>
@@ -79,62 +80,62 @@
 		 <ul class="list-unstyled list-flow ul_list">
     		 <li class="col-md-6 p0">
 			   <span class="">甲方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" value="${project.purchaseDep.depName}" type="text" readonly="readonly">
+		        <div class="mt5">
+		        ${project.purchaseDep.depName}
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">甲方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" value="${project.purchaseDep.legal}" type="text" readonly="readonly">
+			   <div class="mt5">
+		        ${project.purchaseDep.legal}
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">甲方委托代理人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" value="${project.purchaseDep.agent}" type="text" readonly="readonly">
+			   <div class="mt5">
+		        ${project.purchaseDep.agent}
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">甲方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.contact}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.contact}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.contactTelephone}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.contactTelephone}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.contactAddress}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.contactAddress}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.unitPostCode}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.unitPostCode}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方付款单位：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.payDep}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.payDep}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.bank}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.bank}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">甲方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.purchaseDep.bankAccount}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.purchaseDep.bankAccount}
 		        </div>
 			 </li>
 			 <div class="clear"></div>
@@ -146,62 +147,62 @@
 		 <ul class="list-unstyled list-flow ul_list">
 			 <li class="col-md-6 p0">
 			   <span class="">乙方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" type="text" value="${project.dealSupplier.supplierName}" readonly="readonly">
+		        <div class="mt5">
+		        ${project.dealSupplier.supplierName}
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">乙方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" type="text" value="${project.dealSupplier.legalName}" readonly="readonly">
+			   <div class="mt5">
+		        ${project.dealSupplier.legalName}
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
+			 <%--<li class="col-md-6  p0 ">
 			   <span class="fl">乙方委托代理人：</span>
-			   <div class="input-append">
+			   <div class="mt5">
 		        <input class="span2 supplier_name" type="text" readonly="readonly">
 		       </div>
 			 </li>
-    		 <li class="col-md-6 p0">
+    		 --%><li class="col-md-6 p0">
 			   <span class="">乙方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.contactName }" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.contactName}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">乙方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.contactTelephone}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.contactTelephone}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">乙方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.address}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.address}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">乙方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.postCode}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.postCode}
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <%--<li class="col-md-6 p0">
 			   <span class="">乙方开户名称：</span>
-		        <div class="input-append">
+		        <div class="mt5">
 		         <input class="span2 supplier_name"  type="text" readonly="readonly">
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 --%><li class="col-md-6 p0">
 			   <span class="">乙方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.bankName}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.bankName}
 		        </div>
 			 </li>
 			 <li class="col-md-6 p0">
 			   <span class="">乙方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" value="${project.dealSupplier.bankAccount}" type="text" readonly="readonly">
+		        <div class="mt5">
+		         ${project.dealSupplier.bankAccount}
 		        </div>
 			 </li>
 			 <div class="clear"></div>

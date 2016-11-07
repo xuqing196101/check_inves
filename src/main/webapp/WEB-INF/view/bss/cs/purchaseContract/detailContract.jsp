@@ -26,8 +26,9 @@
   </head>
     <script type="text/javascript">
     	function next(){
-    		var ids = "${ids}";
-    		window.location.href="<%=basePath%>purchaseContract/createTextContract.html?ids="+ids;
+    		var id = "${id}";
+    		var supid = "${supid}";
+    		window.location.href="<%=basePath%>purchaseContract/createTextContract.html?id="+id+"&supid="+supid;
     	}
     </script>
 <body>

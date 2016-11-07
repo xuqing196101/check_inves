@@ -49,4 +49,16 @@ public interface TempletService {
 	 * 7.条件搜索
 	 */
 	List<Templet> search(Integer pageNum,Templet t);
+	
+	/**
+     * 
+    * @Title: searchByTemType
+    * @author Liyi 
+    * @date 2016-10-29 下午12:55:03  
+    * @Description: TODO 
+    * @param @param temType
+    * @param @return      
+    * @return Templet
+     */
+    Templet searchByTemType(String temType);
 }

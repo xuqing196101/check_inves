@@ -97,7 +97,7 @@
 			 <li class="col-md-6 p0">
 			   <span class="">项级预算科目：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${project.budgetSubjectItem}" type="text">
+		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${draftCon.budgetSubjectItem}" type="text">
        			</div>
 			 </li>
 			 <div class="clear"></div>
@@ -273,6 +273,11 @@
        <script id="editor" name="content" type="text/plain" class= ""></script>
       </div>
     </div>
+    <div class="padding-top-10 clear">
+		<div class="mt20 tc">
+   			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+ 		</div>
+ 	</div>
   	</form>
  </div>
 	<script type="text/javascript">

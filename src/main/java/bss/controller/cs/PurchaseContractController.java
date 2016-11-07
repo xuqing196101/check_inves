@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,21 +25,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierService;
 import ses.util.PathUtil;
 import ses.util.ValidateUtils;
 import com.github.pagehelper.PageInfo;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
-import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 
 /* 
@@ -70,6 +76,15 @@ public class PurchaseContractController {
 	@Autowired
 	private TaskService taskService;
 	
+	@Autowired
+	private PackageService packageService;
+	
+	@Autowired
+	private SupplierCheckPassService supplierCheckPassService;
+	
+	@Autowired
+	private SupplierService supplierService;
+	
 	@RequestMapping("/selectAllPuCon")
 	public String selectAllPurchaseContract(Model model,Integer page,HttpServletRequest request) throws Exception{
 		String projectName = request.getParameter("projectName");
@@ -83,161 +98,51 @@ public class PurchaseContractController {
 		map.put("projectCode", projectCode);
 		map.put("purchaseDep", purchaseDep);
 		map.put("page", page);
-		List<Project> projectList = projectService.selectSuccessProject(map);
-		model.addAttribute("list", new PageInfo<Project>(projectList));
-		model.addAttribute("projectList", projectList);
+		List<Packages> packList = packageService.selectAllByIsWon(map);
+		model.addAttribute("list", new PageInfo<Packages>(packList));
+		List<Packages> pacList = new ArrayList<Packages>();
+		for(Packages pa:packList){
+			Project project = projectService.selectById(pa.getProjectId());
+			pa.setProject(project);
+			SupplierCheckPass sucp = new SupplierCheckPass();
+			sucp.setPackageId(pa.getId());
+			sucp.setIsWonBid((short)1);
+			List<SupplierCheckPass> suList = supplierCheckPassService.listSupplierCheckPass(sucp);
+			String supplierNames = "";
+			for(SupplierCheckPass su:suList){
+				supplierNames+=su.getSupplier().getSupplierName()+",";
+			}
+			pa.setSupplierNames(supplierNames);
+			pacList.add(pa);
+		}
+//		List<Project> projectList = projectService.selectSuccessProject(map);
+//		List<Project> proList = new ArrayList<Project>();
+//		for(Project pro:projectList){
+//			HashMap<String,Object> proMap = new HashMap<String, Object>();
+//			proMap.put("projectId", pro.getId());
+//			List<Packages> packagesList = packageService.findPackageById(proMap);
+//			List<Packages> packList = new ArrayList<Packages>();
+//			for(Packages pack:packagesList){
+//				SupplierCheckPass supch = new SupplierCheckPass();
+//				supch.setPackageId(pack.getId());
+//				supch.setIsWonBid((short)1);
+//				List<SupplierCheckPass> chList = supplierCheckPassService.listSupplierCheckPass(supch);
+//				List<Supplier> suList = new ArrayList<Supplier>();
+//				for(SupplierCheckPass sucp:chList){
+//					suList.add(sucp.getSupplier());
+//				}
+//				pack.setSuppList(suList);
+//				packList.add(pack);
+//			}
+//			pro.setPackagesList(packList);
+//			proList.add(pro);
+//		}
+		model.addAttribute("packageList", pacList);
 		return "bss/cs/purchaseContract/list";
 	}
 	
 	@RequestMapping("/printContract")
 	public String printContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
-		Boolean flag = true;
-		String url = "";
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
-		if(purCon.getContractType()!=null){
-			flag = true;
-		}else{
-			flag = false;
-			model.addAttribute("ERR_contractType", "合同类型不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方银行账号");
-		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
-			flag = false;
-			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_money", "请输入正确金额");
-		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
-			flag = false;
-			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_budget", "请输入正确金额");
-		}
-		if(result.hasErrors()){
-			flag = false;
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-		}
-		if(flag == false){
-			String ids = request.getParameter("ids");
-			Project project = projectService.selectById(ids);
-			HashMap<String, Object> requMap = new HashMap<String, Object>();
-			requMap.put("id", project.getId());
-			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
-			
-//			HashMap<String, Object> requMainMap = new HashMap<String, Object>();
-//			requMainMap.put("id", project.getId());
-//			List<ProjectDetail> requMainList = projectDetailService.selectById(requMainMap);
-			String planNos = "";
-			HashMap<String, Object> taskMap = new HashMap<String, Object>();
-			taskMap.put("projectId",project.getId());
-			List<ProjectTask> taskList = projectTaskService.queryByNo(taskMap);
-			for(ProjectTask pur:taskList){
-				Task task = taskService.selectById(pur.getTaskId());
-				planNos+=task.getDocumentNumber()+",";
-			}
-			model.addAttribute("project", project);
-			model.addAttribute("requList", requList);
-			model.addAttribute("planNos", planNos);
-			model.addAttribute("ids", ids);
-			return "bss/cs/purchaseContract/textContract";
-		}else{
-			List<ContractRequired> requList = proList.getProList();
-			model.addAttribute("requList", requList);
-			model.addAttribute("purCon", purCon);
-			url = "bss/cs/purchaseContract/printModel";
-		}
-		return url;
-	}
-	
-	@RequestMapping("/printFormalContract")
-	public String printFormalContract(Model model,HttpServletRequest request){
-		String ids = request.getParameter("ids");
-		PurchaseContract purCon = purchaseContractService.selectById(ids);
-		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(ids);
-		model.addAttribute("requList", requList);
-		model.addAttribute("purCon", purCon);
-		return "bss/cs/purchaseContract/printModel";
-	}
-	
-	@ResponseBody
-	@RequestMapping("/selectByCode")
-	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
-		String code = request.getParameter("code");
-		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-		return purchaseCon;
-	}
-	
-	@RequestMapping("/createCommonContract")
-	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
-		String ids = request.getParameter("ids");
-		String[] id = ids.split(",");
-		Project project = projectService.selectById(id[0]);
-		model.addAttribute("project", project);
-		model.addAttribute("ids", ids);
-		return "bss/cs/purchaseContract/commonContract";
-	}
-	
-	@RequestMapping("/createDetailContract")
-	public String createDetailContract(HttpServletRequest request,Model model) throws Exception{
-		String ids = request.getParameter("ids");
-		String[] id = ids.split(",");
-		HashMap<String, Object> requMap = new HashMap<String, Object>();
-		requMap.put("idArray", id);
-		List<ProjectDetail> requList = projectDetailService.selectByProjectIds(requMap);
-		model.addAttribute("requList", requList);
-		model.addAttribute("ids", ids);
-		return "bss/cs/purchaseContract/detailContract";
-	}
-	
-	@RequestMapping("/createTextContract")
-	public String createTextContract(HttpServletRequest request,Model model) throws Exception{
-		String ids = request.getParameter("ids");
-		List<Project> projectList = new ArrayList<Project>();
-		String[] id = ids.split(",");
-		for(int i=0;i<id.length;i++){
-			Project project = projectService.selectById(ids);
-			projectList.add(project);
-		}
-		HashMap<String, Object> requMap = new HashMap<String, Object>();
-		requMap.put("idArray", id);
-		List<ProjectDetail> requList = projectDetailService.selectByProjectIds(requMap);
-//		HashMap<String, Object> requMainMap = new HashMap<String, Object>();
-//		requMainMap.put("id", project.getId());
-//		List<ProjectDetail> requMainList = projectDetailService.selectById(requMainMap);
-		String planNos = "";
-		HashMap<String, Object> taskMap = new HashMap<String, Object>();
-		taskMap.put("idArray",id);
-		List<ProjectTask> taskList = projectTaskService.queryByProjectNos(taskMap);
-		for(ProjectTask pur:taskList){
-			Task task = taskService.selectById(pur.getTaskId());
-			planNos+=task.getDocumentNumber()+",";
-		}
-		model.addAttribute("project", projectList.get(0));
-		model.addAttribute("requList", requList);
-		model.addAttribute("planNos", planNos);
-		model.addAttribute("ids", ids);
-		return "bss/cs/purchaseContract/textContract";
-	}
-
-	@RequestMapping("/addPurchaseContract")
-	public String addPurchaseContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
 		Boolean flag = true;
 		String url = "";
 		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
@@ -283,27 +188,319 @@ public class PurchaseContractController {
 		}
 		if(flag == false){
 			String ids = request.getParameter("ids");
-			Project project = projectService.selectById(ids);
-			HashMap<String, Object> requMap = new HashMap<String, Object>();
-			requMap.put("id", project.getId());
-			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
-			
+//			Project project = projectService.selectById(ids);
+//			HashMap<String, Object> requMap = new HashMap<String, Object>();
+//			requMap.put("id", project.getId());
+//			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
+//			
 //			HashMap<String, Object> requMainMap = new HashMap<String, Object>();
 //			requMainMap.put("id", project.getId());
 //			List<ProjectDetail> requMainList = projectDetailService.selectById(requMainMap);
-			String planNos = "";
-			HashMap<String, Object> taskMap = new HashMap<String, Object>();
-			taskMap.put("projectId",project.getId());
-			List<ProjectTask> taskList = projectTaskService.queryByNo(taskMap);
-			for(ProjectTask pur:taskList){
-				Task task = taskService.selectById(pur.getTaskId());
-				planNos+=task.getDocumentNumber()+",";
-			}
-			model.addAttribute("project", project);
+//			String planNos = "";
+//			HashMap<String, Object> taskMap = new HashMap<String, Object>();
+//			taskMap.put("projectId",project.getId());
+//			List<ProjectTask> taskList = projectTaskService.queryByNo(taskMap);
+//			for(ProjectTask pur:taskList){
+//				Task task = taskService.selectById(pur.getTaskId());
+//				planNos+=task.getDocumentNumber()+",";
+//			}
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("purCon", purCon);
 			model.addAttribute("requList", requList);
-			model.addAttribute("planNos", planNos);
+			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("ids", ids);
-			return "bss/cs/purchaseContract/textContract";
+			return "bss/cs/purchaseContract/textErrContract";
+		}else{
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("requList", requList);
+			model.addAttribute("purCon", purCon);
+			url = "bss/cs/purchaseContract/printModel";
+		}
+		return url;
+	}
+	
+	@RequestMapping(value="/createAllCommonContract",produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public String createAllCommonContract(HttpServletRequest request) throws Exception{
+		String id = request.getParameter("ids");
+		String[] ids = id.split(",");
+		String flag = "true";
+		String news = "";
+		List<String> supIdList = new ArrayList<String>();
+		for(int i=0;i<ids.length;i++){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", ids[i]);
+			Packages pack = packageService.findPackageById(map).get(0);
+			SupplierCheckPass suchp = new SupplierCheckPass();
+			suchp.setPackageId(pack.getId());
+			suchp.setIsWonBid((short)1);
+			List<SupplierCheckPass> chList = supplierCheckPassService.listSupplierCheckPass(suchp);
+			if(chList.size()>1){
+				flag="false";
+				news = "";
+				news+="有多个供应商，无法合并";
+				break;
+			}else{
+				supIdList.add(chList.get(0).getSupplier().getId());
+			}
+		}
+		
+		if(!supIdList.isEmpty()){
+			for(int j=0;j<supIdList.size()-1;j++){
+				for(int m=j+1;m<supIdList.size();m++){
+					if(!supIdList.get(j).equals(supIdList.get(m))){
+						flag="false";
+						news = "";
+						news+="供应商不一致";
+					}
+				}
+			}
+		}
+		
+		if(flag.equals("true")){
+			return "true=";
+		}else{
+			return "false="+news;
+		}
+	}
+	
+	@RequestMapping(value="/selectSuppliers",produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public String  selectSuppliers(HttpServletRequest request){
+		String packageId = request.getParameter("packageId");
+		String[] packIds = packageId.split(",");
+		SupplierCheckPass suppliercheckpass = new SupplierCheckPass();
+		suppliercheckpass.setPackageId(packIds[0]);
+		suppliercheckpass.setIsWonBid((short)1);
+		List<SupplierCheckPass> chePList = supplierCheckPassService.listSupplierCheckPass(suppliercheckpass);
+		String options = "";
+		for(SupplierCheckPass su:chePList){
+			String option = "<option value='"+su.getSupplier().getId()+"'>"+su.getSupplier().getSupplierName()+"</option>";
+			options+=option;
+		}
+		return options;
+	}
+	
+	@RequestMapping("/selectSupplierByPId")
+	@ResponseBody
+	public String  selectSupplierByPId(HttpServletRequest request){
+		String packageId = request.getParameter("packageId");
+		String[] packIds = packageId.split(",");
+		SupplierCheckPass suppliercheckpass = new SupplierCheckPass();
+		suppliercheckpass.setPackageId(packIds[0]);
+		suppliercheckpass.setIsWonBid((short)1);
+		List<SupplierCheckPass> chePList = supplierCheckPassService.listSupplierCheckPass(suppliercheckpass);
+		String supid = "";
+		for(SupplierCheckPass su:chePList){
+			supid += su.getSupplier().getId();
+		}
+		return supid;
+	}
+	
+	@RequestMapping("/printDraftContract")
+	public String printDraftContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
+		Boolean flag = true;
+		String url = "";
+		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
+		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
+		}
+		if(purCon.getContractType()!=null){
+			flag = true;
+		}else{
+			flag = false;
+			model.addAttribute("ERR_contractType", "合同类型不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
+		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
+		}
+		if(ValidateUtils.isNull(purCon.getMoney())){
+			flag = false;
+			model.addAttribute("ERR_money", "合同金额不能为空");
+		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_money", "请输入正确金额");
+		}
+		if(ValidateUtils.isNull(purCon.getBudget())){
+			flag = false;
+			model.addAttribute("ERR_budget", "合同预算不能为空");
+		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_budget", "请输入正确金额");
+		}
+		if(result.hasErrors()){
+			flag = false;
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+		}
+		if(flag == false){
+			String ids = request.getParameter("ids");
+			PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
+			List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
+			draftCon.setContractReList(conRequList);
+			model.addAttribute("draftCon", draftCon);
+			model.addAttribute("ids", ids);
+			url = "bss/cs/purchaseContract/draftContract";
+		}else{
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("requList", requList);
+			model.addAttribute("purCon", purCon);
+			url = "bss/cs/purchaseContract/printModel";
+		}
+		return url;
+	}
+	
+	@RequestMapping("/printFormalContract")
+	public String printFormalContract(Model model,HttpServletRequest request){
+		String ids = request.getParameter("ids");
+		PurchaseContract purCon = purchaseContractService.selectById(ids);
+		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(ids);
+		model.addAttribute("requList", requList);
+		model.addAttribute("purCon", purCon);
+		return "bss/cs/purchaseContract/printModel";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/selectByCode")
+	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
+		String code = request.getParameter("code");
+		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
+		return purchaseCon;
+	}
+	
+	@RequestMapping("/createCommonContract")
+	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
+		String id = request.getParameter("id");
+		String[] ids = id.split(",");
+		String supid = request.getParameter("supid");
+		Supplier supplier = supplierService.get(supid);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", ids[0]);
+		Packages pack = packageService.findPackageById(map).get(0);
+		Project project = projectService.selectById(pack.getProjectId());
+		project.setDealSupplier(supplier);
+		model.addAttribute("project", project);
+		model.addAttribute("id", id);
+		model.addAttribute("supid", supid);
+		return "bss/cs/purchaseContract/commonContract";
+	}
+	
+	@RequestMapping("/createDetailContract")
+	public String createDetailContract(HttpServletRequest request,Model model) throws Exception{
+		String id = request.getParameter("id");
+		String[] ids = id.split(",");
+		String supid = request.getParameter("supid");
+		List<ProjectDetail> allList = new ArrayList<ProjectDetail>();
+		for(int i=0;i<ids.length;i++){
+			HashMap<String, Object> requMap = new HashMap<String, Object>();
+			requMap.put("packageId",ids[i]);
+			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
+			allList.addAll(requList);
+		}
+		model.addAttribute("requList", allList);
+		model.addAttribute("id", id);
+		model.addAttribute("supid", supid);
+		return "bss/cs/purchaseContract/detailContract";
+	}
+	
+	@RequestMapping("/createTextContract")
+	public String createTextContract(HttpServletRequest request,Model model) throws Exception{
+		String id = request.getParameter("id");
+		String supid = request.getParameter("supid");
+		Supplier supplier = supplierService.get(supid);
+		String[] ids = id.split(",");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", ids[0]);
+		Packages pack = packageService.findPackageById(map).get(0);
+		Project project = projectService.selectById(pack.getProjectId());
+		project.setDealSupplier(supplier);
+		List<ProjectDetail> allList = new ArrayList<ProjectDetail>();
+		for(int i=0;i<ids.length;i++){
+			HashMap<String, Object> requMap = new HashMap<String, Object>();
+			requMap.put("packageId",ids[i]);
+			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
+			allList.addAll(requList);
+		}
+		model.addAttribute("requList", allList);
+//		HashMap<String, Object> requMainMap = new HashMap<String, Object>();
+//		requMainMap.put("id", project.getId());
+//		List<ProjectDetail> requMainList = projectDetailService.selectById(requMainMap);
+		String planNos = "";
+		HashMap<String, Object> taskMap = new HashMap<String, Object>();
+		taskMap.put("idArray",ids);
+		List<ProjectTask> taskList = projectTaskService.queryByProjectNos(taskMap);
+		for(ProjectTask pur:taskList){
+			Task task = taskService.selectById(pur.getTaskId());
+			planNos+=task.getDocumentNumber()+",";
+		}
+		model.addAttribute("project", project);
+		model.addAttribute("planNos", planNos);
+		model.addAttribute("ids", id);
+		return "bss/cs/purchaseContract/textContract";
+	}
+
+	@RequestMapping("/addPurchaseContract")
+	public String addPurchaseContract(@Valid PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		Boolean flag = true;
+		String url = "";
+		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
+		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
+		}
+		if(purCon.getContractType()!=null){
+			flag = true;
+		}else{
+			flag = false;
+			model.addAttribute("ERR_contractType", "合同类型不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
+		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
+		}
+		if(ValidateUtils.isNull(purCon.getMoney())){
+			flag = false;
+			model.addAttribute("ERR_money", "合同金额不能为空");
+		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_money", "请输入正确金额");
+		}
+		if(ValidateUtils.isNull(purCon.getBudget())){
+			flag = false;
+			model.addAttribute("ERR_budget", "合同预算不能为空");
+		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_budget", "请输入正确金额");
+		}
+		if(result.hasErrors()){
+			flag = false;
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+		}
+		if(flag == false){
+			String ids = request.getParameter("ids");
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("purCon", purCon);
+			model.addAttribute("requList", requList);
+			model.addAttribute("planNos", purCon.getDocumentNumber());
+			model.addAttribute("ids", ids);
+			return "bss/cs/purchaseContract/textErrContract";
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
@@ -413,7 +610,7 @@ public class PurchaseContractController {
 			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
 		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
 			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方银行账号");
+			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
 		}
 		if(ValidateUtils.isNull(purCon.getMoney())){
 			flag = false;
@@ -445,6 +642,10 @@ public class PurchaseContractController {
 			url = "bss/cs/purchaseContract/draftContract";
 		}else{
 			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
+			File rootFile = new File(rootpath);
+			if(!rootFile.exists()){
+				rootFile.mkdirs();
+			}
 			/** 创建文件夹 */
 	        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
 	        String filePath = rootpath+fileName;
@@ -465,19 +666,32 @@ public class PurchaseContractController {
 			contractRequiredService.deleteByContractId(id);
 			List<ContractRequired> requList = proList.getProList();
 			for(ContractRequired conRequ:requList){
-				conRequ.setContractId(id);
-				contractRequiredService.insertSelective(conRequ);
+				if(conRequ.getGoodsName()==null){
+					break;
+				}
+				if(conRequ.getId()==null){
+					conRequ.setContractId(id);
+					contractRequiredService.insertSelective(conRequ);
+				}else{
+					contractRequiredService.updateByPrimaryKeySelective(conRequ);
+				}
 			}
-			purchaseContractService.createWord(purCon, requList);
+			if(purCon.getStatus()==2){
+				purchaseContractService.createWord(purCon, requList,request);
+			}
 			url = "redirect:selectDraftContract.html";
 		}
 		return url;
 	}
 	
 	@RequestMapping("/updateDraftById")
-	public String updateDraftById(@RequestParam("agrfile") MultipartFile agrfile,String ids,String apN,String status,HttpServletRequest request) throws Exception{
+	public String updateDraftById(@RequestParam("agrfile") MultipartFile agrfile,PurchaseContract purCon,HttpServletRequest request) throws Exception{
 		String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
 		/** 创建文件夹 */
+		File rootFile = new File(rootpath);
+		if(!rootFile.exists()){
+			rootFile.mkdirs();
+		}
         String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
         String filePath = rootpath+fileName;
         File file = new File(filePath);
@@ -488,16 +702,12 @@ public class PurchaseContractController {
 			} catch (IOException e) {
 		e.printStackTrace();
 		}
-		PurchaseContract purCon = new PurchaseContract();
-		purCon.setId(ids);
-		purCon.setApprovalNumber(apN);
 		purCon.setApprovePic("picupload/"+fileName);
-		purCon.setStatus(Integer.parseInt(status));
 		purCon.setUpdatedAt(new Date());
 		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 		purchaseContractService.updateByPrimaryKeySelective(purCon);
-		purchaseContractService.createWord(pur, requList);
+		purchaseContractService.createWord(pur, requList,request);
 		return "redirect:selectDraftContract.html";
 	}
 	

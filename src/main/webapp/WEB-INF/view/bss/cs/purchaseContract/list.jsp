@@ -119,36 +119,76 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
+				$.ajax({
+		  			url:"<%=basePath%>purchaseContract/selectSuppliers.html?packageId="+ids,
+		  			dataType:"text",
+		  			type:"POST",
+		  			success:function(data){
+		  				$("#delSele").append(data);
+		  				var ind = layer.open({
+							shift: 1, //0-6的动画形式，-1不开启
+						    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+						    title: ['请选择供应商','border-bottom:1px solid #e5e5e5'],
+						    shade:0.01, //遮罩透明度
+							type : 1,
+							skin : 'layui-layer-rim', //加上边框
+							area : [ '40%', '200px' ], //宽高
+							content : $('#numberWin'),
+							offset: ['10%', '25%']
+						});
+		  			}
+		  		});
+				//window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
   	
+  	function save(){
+  		var supid = $("#delSele").val();
+  		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		});
+  		if(del==null || del==''){
+  			layer.alert("请选择供应商",{offset: ['222px', '390px'], shade:0.01});
+  		}else{
+  			window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
+  		}
+  	}
+  	
   	function someCreateContract(){
   		var ids =[]; 
   		var chekeds=[];
-  		var flag=false;
 		$('input[name="chkItem"]:checked').each(function(){
-			chekeds.push($(this).parents("tr").find("td").eq(6).text());
 			ids.push($(this).val()); 
 		});
-		if(ids.length>1){
-			for(var i=0;i<chekeds.length-1;i++){
-				for(var j=i+1;j<chekeds.length;j++){
-					if(chekeds[i]==chekeds[j]){
-						flag=true;
-					}else{
-						flag=false;
+		if(ids.length>0){
+			if(ids.length>1){
+				$.ajax({
+					url:"<%=basePath%>purchaseContract/createAllCommonContract.html?ids="+ids,
+					type:"POST",
+					dataType:"text",
+					success:function(data){
+						var dd = data.replace("\"","");
+						var ss = dd.split("=");
+						if(ss[0]=="true"){
+							$.ajax({
+					  			url:"<%=basePath%>purchaseContract/selectSupplierByPId.html?packageId="+ids,
+					  			dataType:"json",
+					  			type:"POST",
+					  			success:function(data){
+									window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?id="+ids+"&supid="+data;
+					  			}
+							});
+						}else if(ss[0]=="false"){
+							layer.alert(ss[1],{offset: ['222px', '390px'], shade:0.01});
+						}
 					}
-				}
+				});
 			}
-			if(flag){
-				window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
-			}else{
-				layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
-			}
+			//layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
 		}
@@ -205,28 +245,38 @@
 			    <th class="info w50">序号</th>
 				<th class="info">采购项目名称</th>
 				<th class="info">编号</th>
-				<th class="info">包号</th>
+				<th class="info">包名</th>
 				<th class="info">成交金额</th>
 				<th class="info">成交供应商</th>
 				<th class="info">采购机构</th>
 			</tr>
 		</thead>
-		<c:forEach items="${projectList}" var="contract" varStatus="vs">
+		<c:forEach items="${packageList}" var="pack" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id}" /></td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer">${contract.name}</td>
-				<td class="tc pointer">${contract.projectNumber}</td>
-				<td class="tc pointer">${contract.baleNo}</td>
-				<td class="tc pointer">${contract.amount}</td>
-				<td class="tc pointer">${contract.dealSupplier.supplierName}</td>
-				<td class="tc pointer">${contract.purchaseDep.depName}</td>
+				<td class="tc pointer">${pack.project.name}</td>
+				<td class="tc pointer">${pack.project.projectNumber}</td>
+				<td class="tc pointer">${pack.name}</td>
+				<td class="tc pointer">${pack.project.amount}</td>
+				<td class="tc pointer">${pack.supplierNames}</td>
+				<td class="tc pointer">${pack.project.purchaseDep.depName}</td>
 			</tr>
 		</c:forEach>
 	</table>
      </div>
     </div>
    <div id="pagediv" align="right"></div>
-   </div>
+   <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+  		    <li class="col-md-12 ml15">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>成交供应商：</span>
+			   <select name="delsupplier" id="delSele">
+			   </select>
+			</li>
+			<li class="tc col-md-12 mt20">
+			 <input type="button" class="btn" onclick="save()" value="确定"/>
+			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+			</li>
+	 </ul>
 </body>
 </html>

@@ -993,17 +993,14 @@
 	}
 }
 
-.shouye{
-   background-position: -16px 3px;
+.header-v4 .navbar-default .navbar-nav >.shouye_li.active > a > .shouye,.header-v4 .navbar-default .navbar-nav > .shouye_li.active > a:hover .shouye{
+   background-position: -16px 2px!important;
  }
-.tongzhi {
-    background-position: -16px 3px;
-}
-.header-v4 .navbar-default .navbar-nav > li > a:focus .tongzhi,.navbar-nav .tongzhi_li:hover .tongzhi{
-   background-position:-16px -18px;
+.header-v4 .navbar-default .navbar-nav > .shouye_li> a .shouye{
+   background-position:-16px -121px;
 }
 
-.gonggao{
+.header-v4 .navbar-default .navbar-nav > .gonggao_li.active > a:hover .shouye,.gonggao{
     background-position: -113px -122px;
 }
 .header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao,.navbar-nav .gonggao_li:hover .gonggao{

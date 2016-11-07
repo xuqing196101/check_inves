@@ -168,4 +168,13 @@
     IS_DELETED !=1 
      
   </select>
+  
+  <select id="searchByTemType" parameterType="java.lang.String" resultType="ses.model.bms.Templet">
+  	select
+  	*
+  	from T_SES_BMS_Templet where 1=1
+  	<if test="_parameter != null" >  
+        and TEM_TYPE = #{_parameter}  
+    </if>
+  </select>
 </mapper>

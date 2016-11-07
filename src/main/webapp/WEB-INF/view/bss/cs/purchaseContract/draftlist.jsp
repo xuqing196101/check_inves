@@ -16,8 +16,14 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="<%=basePath%>public/layer/layer.js"></script>
-	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script language="javascript" type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -166,16 +172,30 @@
 		var picFile = $("#fi").val();
 		var picFiles = picFile.split(".");
 		var pic = picFiles[picFiles.length-1];
+		var formalGitAt = $("#formalGitAt").val();
+		var formalReviewedAt = $("#formalReviewedAt").val();
 		var flag = false;
 		var news = "";
+		if(formalGitAt!=null && formalGitAt!=""){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请填写上报时间";
+		}
+		if(formalReviewedAt!=null && formalReviewedAt!=""){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请填写报批时间";
+		}
 		if(apN!=null && apN!=''){
 			flag = true;
 		}else{
 			flag = false;
-			news+="请先填写合同批准文号,";
+			news+="请填写合同批准文号,";
 		}
 		if(pic!=null && pic!=''){
-			if(pic=='.bmp' || pic=='.png' || pic=='.gif' && pic=='.jpg' && pic=='.jpeg'){
+			if(pic=='bmp' || pic=='png' || pic=='gif' && pic=='jpg' && pic=='jpeg'){
 				flag=true;
 			}else{
 				flag=false;
@@ -196,6 +216,42 @@
 	function cancel(){
 		layer.close(ind);
 	}
+	
+	var inds = null;
+	function updateModel(){
+		$.ajax({
+			url:"<%=basePath%>templet/searchByTemtype.html",
+			type:"POST",
+			data:{"temType":"合同模板"},
+			dataType:"text",
+			success:function(data){
+				var ue = UE.getEditor('editor');
+			    var content=data;
+				ue.ready(function(){
+			  		ue.setContent(content);    
+				});
+				inds = layer.open({
+					shift: 1, //0-6的动画形式，-1不开启
+				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				    shade:0.01, //遮罩透明度
+					type : 1,
+					skin : 'layui-layer-rim', //加上边框
+					area : [ '80%', '80%' ], //宽高
+					content : $('#edi'),
+					offset: ['10%', '15%']
+				});
+			}
+		});
+	}
+	
+	function out(content){
+		layer.msg(content, {
+			    skin: 'demo-class',
+				shade:false,
+				area: ['600px'],
+				time : 0    //默认消息框不关闭
+		});//去掉msg图标
+  	}
   </script>
   </head>
   
@@ -249,7 +305,8 @@
    	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
-	     </div>
+	      <%--<button class="btn" onclick="updateModel()">更新合同模板</button>
+	     --%></div>
 	   </div>
    <div class="container clear">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -258,8 +315,8 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info w50">序号</th>
+			    <th class="info">合同编号</th>
 				<th class="info">合同名称</th>
-				<th class="info">合同编号</th>
 				<th class="info">合同金额</th>
 				<th class="info">项目名称</th>
 				<th class="info">供应商名称</th>
@@ -275,8 +332,22 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.name}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.code}</td>
+				<c:set value="${draftCon.code}" var="code"></c:set>
+				<c:set value="${fn:length(code)}" var="length"></c:set>
+				<c:if test="${length>7}">
+					<td onclick="showDraftContract('${draftCon.id}')" onmouseover="out('${draftCon.code}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
+				</c:if>
+				<c:if test="${length<=7}">
+					<td onclick="showDraftContract('${draftCon.id}')" onmouseover="out('${draftCon.code}')" class="tc pointer ">${code}</td>
+				</c:if>
+				<c:set value="${draftCon.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>9}">
+					<td onclick="showDraftContract('${draftCon.id}')" onmouseover="out('${draftCon.name}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
+				</c:if>
+				<c:if test="${length<=9}">
+					<td onclick="showDraftContract('${draftCon.id}')" onmouseover="out('${draftCon.name}')" class="tc pointer ">${name}</td>
+				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
@@ -293,23 +364,36 @@
     </div>
    <div id="pagediv" align="right"></div>
    <form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
-   <input type="hidden" value="" id="ids" name="ids"/>
+   <input type="hidden" value="" id="ids" name="id"/>
    <input type="hidden" value="2" name="status"/>
-   	<div id="numberWin" class="dnone mt20">
-  		    <div class="col-md-12">
-			   <span class="span3 fl mt5">合同批准文号：</span>
-			   <input type="text" id="apN" name="apN" value="" class="mb0"/>
-			</div>
-			<div class="col-md-12 mt10">
-			   <span class="span3 fl">上传批准文件：</span>
+   	<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+  		    <li class="col-md-12 ml15">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>合同批准文号：</span>
+			   <input type="text" id="apN" name="approvalNumber" value="" class="mb0 w220"/>
+			</li>
+			<li class="col-md-12">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同上报时间：</span>
+			   <input type="text" name="formalGitAt" id="formalGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			</li>
+			<li class="col-md-12">
+			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同批复时间：</span>
+			   <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			</li>
+			<li class="col-md-12 mt10">
+			   <span class="span3 fl"><div class="red star_red">*</div>上传批准文件：</span>
 			   <input type="file" id="fi" name="agrfile" class="fl"/>
-            </div>
-			<div class="tc col-md-12 mt20">
+            </li>
+			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-			</div>
-	 </div>
+			</li>
+	 </ul>
 	</form>
+	<div class="col-md-12 tc">
+	<div id="edi" class="w70p mt5 dnone tc" style="margin:0 auto">
+		 <script id="editor" name="content" type="text/plain" class=""></script>
+    </div>
+    </div>
 	<div id="pagediv" align="right"></div>
    </div>
 </body>
