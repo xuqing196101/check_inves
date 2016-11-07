@@ -177,7 +177,7 @@
  	 LEFT JOIN
   	( select * from T_BSS_PPMS_PROJECTS t ) t1
   	on  t1.id=t2.project_id
-        where 1=1 
+        where 1=1 and t1.id is not null
     <if test="supplierId != null and supplierId !=''">
         AND t2.supplier_id = #{supplierId}
     </if> 

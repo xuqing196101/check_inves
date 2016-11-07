@@ -22,6 +22,7 @@ import ses.model.bms.User;
 import ses.model.sms.ImportSupplierWithBLOBs;
 import ses.service.bms.TodosService;
 import ses.service.sms.ImportSupplierService;
+import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageInfo;
@@ -222,7 +223,10 @@ public class ImportSupplierController {
 		//自己的id
 		todo.setSenderId(user1.getId());
 		//代办人id
-		todo.setReceiverId(user1.getOrg().getId());
+		todo.setOrgId(user1.getOrg().getId());
+		//权限Id
+		todo.setPowerId(PropUtil.getProperty("gysdb"));
+		//待办类型 供应商
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题

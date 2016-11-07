@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,5 +81,17 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
 	public List<Packages> selectByPrimaryKey(HashMap<String, Object> map,
 			Integer page) {
 		return packageMapper.selectByPrimaryKey(map);
+	}
+
+	@Override
+	public List<Date> selectQuoteCount(Quote quote) {
+		List<Date> listDate=quoteMapper.selectQuoteCount(quote);
+		return listDate;
+	}
+
+	@Override
+	public List<Quote> selectQuoteHistoryList(Quote quote) {
+		List<Quote> listQuote=quoteMapper.selectQuoteHistory(quote);
+		return listQuote;
 	}
 }

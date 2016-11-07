@@ -186,7 +186,7 @@ function reason(ele){
   <!-- 项目戳开始 -->
   <div class="container clear">
   <!--详情开始-->
-  <form action="<%=basePath %>supplier_edit/save.html" method="post" enctype="multipart/form-data">
+  <form action="<%=basePath %>supplier_edit/save.html" method="post">
   <div class="container content height-350">
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">
@@ -546,6 +546,17 @@ function reason(ele){
 												</c:if>
 												</div>
 											</li>
+											 <li class="col-md-6 p0 "><span class=""><i class="red"></i>营业执照：</span>
+									            <div class="input-append">
+									                <c:if test="${supplier.businessCert ne se.businessCert }">
+				                        			 	<a onmouseover="out('${supplier.businessCert }')" onclick="downloadFile('${se.businessCert}')" >附件下载(已上传的文件)</a>
+				                        			  <div id="businessCert" onclick="reason(this)" class="b f18 fl ml10 hand">×</div>
+									                 </c:if>
+									                  <c:if test="${supplier.businessCert eq se.businessCert }">
+				                        			 	<a onclick="downloadFile('${se.businessCert}')" >附件下载(已上传的文件)</a>
+									                 </c:if>
+									            </div>
+									          </li>
 											<li class="col-md-12 p0 mt10"><span class="fl">经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">

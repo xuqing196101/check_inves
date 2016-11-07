@@ -472,6 +472,11 @@ function fanhui(){
 								</c:choose>
 							</td>
 						</tr>
+						
+						<tr>
+						<td class="bggrey tr">营业执照：</td>
+						<td colspan="5" class="hand" onclick="downloadFile('${suppliers.businessCert}')" >${suppliers.businessCert}</td>
+					   </tr>
 					</tbody>
 				</table>
 </div>

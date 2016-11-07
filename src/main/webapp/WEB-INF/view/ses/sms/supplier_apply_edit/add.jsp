@@ -171,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- 项目戳开始 -->
   <div class="container clear">
   <!--详情开始-->
-  <form action="<%=basePath %>supplier_edit/save.html" method="post" enctype="multipart/form-data">
+  <form action="<%=basePath %>supplier_edit/save.html" method="post">
   <div class="container content height-350">
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">
@@ -378,6 +378,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<input class="span3" type="text" name="businessPostCode" value="${supplier.businessPostCode}" />
 												</div>
 											</li>
+							<li class="col-md-6 p0 "><span class=""><i class="red"></i>营业执照：</span>
+					            <div class="input-append">
+					              <a onclick="downloadFile('${supplier.businessCert}')" >附件下载(已上传的文件)</a>
+					            </div>
+					          </li>
+							  <li class="col-md-6 p0 "><span class=""><i class="red"></i>营业执照：</span>
+					            <div class="input-append mt5">
+					              <a href="#"><i></i><input name="businessCertFile" type="file"  class="fl" /></a>
+					            </div>
+					          </li>	
 											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">

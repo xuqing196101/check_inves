@@ -485,6 +485,11 @@ function fanhui(){
 								</c:choose>
 							</td>
 						</tr>
+						
+						<tr>
+							<td class="bggrey tr">营业执照：</td>
+							<td class="hand" colspan="5">${suppliers.businessCert}</td>
+						</tr>
 					</tbody>
 				</table>
 </div>

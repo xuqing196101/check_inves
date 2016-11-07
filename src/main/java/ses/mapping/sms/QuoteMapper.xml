@@ -39,6 +39,30 @@
     </if>
     ORDER BY CREATED_AT ASC
   </select>
+  <!--查询报价次数  -->
+  <select id="selectQuoteCount" parameterType="ses.model.sms.Quote" resultType="java.util.Date">
+  	SELECT CREATED_AT FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 
+  	
+  	<if test="projectId != null and projectId != '' ">
+	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierId != null and supplierId != '' ">
+	AND  SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+    </if>
+  	 GROUP BY CREATED_AT ORDER BY CREATED_AT
+  </select>
+  <!--查询报价历史 -->
+  <select id="selectQuoteHistory" parameterType="ses.model.sms.Quote" resultMap="BaseResultMap">
+  	SELECT 
+  	 <include refid="Base_Column_List" />
+  	  FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 
+     <if test="packageId != null and packageId != '' ">
+	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+    </if>
+     <if test="createdAt != null and createdAt != '' ">
+	AND  CREATED_AT = #{createdAt,jdbcType=DATE}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_QUOTE
     where ID = #{id,jdbcType=VARCHAR}

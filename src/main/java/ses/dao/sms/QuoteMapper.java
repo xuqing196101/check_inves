@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.util.Date;
 import java.util.List;
 
 import ses.model.sms.Quote;
@@ -16,4 +17,8 @@ public interface QuoteMapper {
     int updateByPrimaryKeySelective(Quote record);
 
     int updateByPrimaryKey(Quote record);
+    
+    List<Date> selectQuoteCount(Quote quote);
+    
+    List<Quote> selectQuoteHistory(Quote quote);
 }

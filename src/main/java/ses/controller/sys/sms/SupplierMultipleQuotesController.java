@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -66,7 +68,13 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model,String projectId){
-			HashMap<String, Object> map = new HashMap<String, Object>();
+		Quote quote=new Quote();
+		//暂时测试，这样就不用新建一条数据
+		quote.setProjectId("F12FD6D99F02453C83F5A23A0064094D");
+		//quote.setProjectId(projectId);
+	    //quote.setSupplierId(supplierId);
+		List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
+		HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("projectId", projectId);
 		    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
 		    //开始循环包
@@ -82,7 +90,39 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		    Project project=new Project();
 		    project.setId(projectId);
 		    model.addAttribute("project",project );
+		    model.addAttribute("listDate",listDate );
 		    return "ses/sms/multiple_quotes/quote_list";
+	}
+	
+	/**
+	 * @Title: quoteHistory
+	 * @author Song Biaowei
+	 * @date 2016-11-7 下午2:41:35  
+	 * @Description: 查询报价历史
+	 * @param @param req
+	 * @param @param timestamp
+	 * @param @param projectId
+	 * @param @param quote
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="/quoteHistory")
+	public String quoteHistory(HttpServletRequest req,String timestamp,String projectId,Quote quote,Model model) throws ParseException{
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("projectId", projectId);
+	    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+	    List<List<Quote>> listQuote=new ArrayList<List<Quote>>();
+	    for(Packages pk:listPackage){
+	    	quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+	    	quote.setPackageId(pk.getId());
+	    	List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+	    	listQuote.add(quoteList);
+	    }
+	    model.addAttribute("listPackage",listPackage );
+	    model.addAttribute("listQuote",listQuote );
+		return "ses/sms/multiple_quotes/quote_history_record";
 	}
 	
 	/**
@@ -139,26 +179,6 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		return "ses/sms/multiple_quotes/finish";
 	}
 	
-	/**
-	 * @Title: quoteHistory
-	 * @author Song Biaowei
-	 * @date 2016-10-28 上午10:22:25  
-	 * @Description: 查看报价历史
-	 * @param @param req
-	 * @param @param quote
-	 * @param @param page
-	 * @param @param packageName
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping(value="/quoteHistory")
-	public String quoteHistory(HttpServletRequest req,Quote quote,Integer page,String packageName,Model model) {
-		User user=(User)req.getSession().getAttribute("loginUser");
-		quote.setSupplierId(user.getTypeId());
-		model.addAttribute("quoteList", new PageInfo<>(supplierQuoteService.getAllQuote(quote,page==null?0:page)));
-		return "ses/sms/multiple_quotes/quote_history_record";
-	}
 	
 	/**
 	 * @Title: listProject

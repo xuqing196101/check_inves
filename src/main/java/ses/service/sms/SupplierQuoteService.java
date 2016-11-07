@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,5 +61,27 @@ public interface SupplierQuoteService {
 	 * @return List<Package>
 	 */
 	List<Packages> selectByPrimaryKey(HashMap<String,Object> map,Integer page);
+	
+	/**
+	 * @Title: selectQuoteCount
+	 * @author Song Biaowei
+	 * @date 2016-11-7 下午1:48:50  
+	 * @Description: 报价的时候显示报价历史次数
+	 * @param @param quote
+	 * @param @return      
+	 * @return List<Date>
+	 */
+	List<Date> selectQuoteCount(Quote quote);
+	
+	/**
+	 * @Title: selectQuoteHistoryList
+	 * @author Song Biaowei
+	 * @date 2016-11-7 下午2:31:20  
+	 * @Description: 查看报价历史
+	 * @param @param quote
+	 * @param @return      
+	 * @return List<Quote>
+	 */
+	List<Quote> selectQuoteHistoryList(Quote quote);
 
 }

@@ -138,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!-- 项目戳开始 -->
   <div class="container clear">
   <!--详情开始-->
-  <form action="<%=basePath %>supplier_edit/save.html" method="post" enctype="multipart/form-data">
+  <form action="<%=basePath %>supplier_edit/save.html" method="post">
   <div class="container content height-350">
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">

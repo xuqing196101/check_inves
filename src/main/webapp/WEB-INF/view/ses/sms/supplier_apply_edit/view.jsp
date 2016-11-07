@@ -351,6 +351,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<input class="span3" type="text" name="businessPostCode" value="${supplier.businessPostCode}" />
 												</div>
 											</li>
+											  <li class="col-md-6 p0 "><span class=""><i class="red"></i>营业执照：</span>
+									            <div class="input-append">
+									              <a onclick="downloadFile('${supplier.businessCert}')" >附件下载</a>
+									            </div>
+									          </li>
 											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">

@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	String path = request.getContextPath();
@@ -147,6 +148,11 @@
 			form.submit();
 		}
 	}
+	
+	function showQuoteHistory(data){
+	    var projectId=$("#projectId").val();
+		location.href="<%=basePath%>mulQuo/quoteHistory.html?timestamp="+data+"&projectId="+projectId;
+	}
 </script>
 
 <!-- 打开文档后只读 -->
@@ -190,7 +196,7 @@
   <!--详情开始-->
   <form id="form" action="<%=basePath %>mulQuo/save.html" method="post">
     <input id="priceStr" name="priceStr" type="hidden" />
-    <input name="projectId" value="${projectId }" type="hidden" />
+    <input id="projectId" name="projectId" value="${projectId }" type="hidden" />
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
@@ -295,6 +301,15 @@
           </div>
              <div class="col-md-12 tc">
 			  	<input class="btn btn-windows save" value="保存" type="button" onclick="eachTable()">
+			  	<span >报价历史查看：</span>
+					  	<select>
+					  	    <c:if test="${empty listDate }">
+					  	    <option value=''>暂无报价历史</option>
+					  	    </c:if>
+					  	    <c:forEach items="${listDate }" var="ld" varStatus="vs">
+					  	    	<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>')" >第${vs.index+1 }次报价</option>
+					  	    </c:forEach>
+					  	</select>
 			 </div>
       </div>
     </div>

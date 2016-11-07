@@ -120,7 +120,9 @@ public class SupplierUpdateController {
 		//自己的id
 		todo.setSenderId(user.getId());
 		//代办人id
-		todo.setReceiverId(user.getOrg().getId());
+		todo.setOrgId(user.getOrg().getId());
+		//权限Id
+		todo.setPowerId(PropUtil.getProperty("gysdb"));
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题

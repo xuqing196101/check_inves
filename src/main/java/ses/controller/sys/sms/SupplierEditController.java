@@ -126,13 +126,18 @@ public class SupplierEditController extends BaseSupplierController{
 		if(se.getBreachCert()==null||se.getBreachCert().equals("")){
 			se.setBreachCert(supplier.getBreachCert());
 		}
+		if(se.getBusinessCert()==null||se.getBusinessCert().equals("")){
+			se.setBusinessCert(supplier.getBusinessCert());
+		}
 		supplierEditService.insertSelective(se);
 		
 		Todos todo=new Todos();
 		//自己的id
 		todo.setSenderId(user1.getId());
-		//代办人id
-		todo.setReceiverId(user1.getOrg().getId());
+		//代办机构id
+		todo.setOrgId(user1.getOrg().getId());
+		//权限Id
+		todo.setPowerId(PropUtil.getProperty("gysdb"));
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题
@@ -325,7 +330,9 @@ public class SupplierEditController extends BaseSupplierController{
 						supplier.setSecurityCert(newfileName);
 					} else if (str.equals("breachCertFile")) {
 						supplier.setBreachCert(newfileName);
-					} 
+					} else if(str.equals("businessCertFile")){
+						supplier.setBusinessCert(newfileName);
+					}
 				}
 			}
 		}
@@ -376,6 +383,7 @@ public class SupplierEditController extends BaseSupplierController{
 		supplier.setBranchName(supplierEdit.getBranchName());
 		supplier.setBranchBusinessScope(supplierEdit.getBranchBusinessScope());
 		supplier.setBillCert(supplierEdit.getBillCert());
+		supplier.setBusinessCert(supplierEdit.getBusinessCert());
 		supplierService.perfectBasic(supplier);
 	}
 }
