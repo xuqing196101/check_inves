@@ -160,6 +160,7 @@ public class RoleManageController {
 				Role role = roleService.get(r.getId());
 				role.setDescription(r.getDescription());
 				role.setName(r.getName());
+				role.setUpdatedAt(new Date());
 				roleService.update(role);
 				String msg = "更新成功";
 				response.setContentType("text/html;charset=utf-8");

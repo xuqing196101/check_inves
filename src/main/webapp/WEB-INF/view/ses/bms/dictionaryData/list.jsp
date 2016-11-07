@@ -56,12 +56,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    endRow: "${list.endRow}",
 			    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
+			        return "${list.pageNum}";
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            window.location.href = '<%=basePath%>dictionaryData/list.html?page='+e.curr;
+			            $("#page").val(e.curr);
+                		$("#form1").submit();
 			        }
 			    }
 			});
@@ -133,14 +133,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
     }
     
-    function add(kind){
+    function add(){
+    	var kind = $("#kind").val();
     	window.location.href="<%=basePath%>dictionaryData/add.html?kind="+kind;
     }
     
-	function query(){
-		$("#form1").submit();
-	}
-	
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
@@ -159,9 +156,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <div class="headline-v2">
 			  <h2>数据字典</h2>
 		  </div>
+		  
 		  <div class="p10_25">
 		     <h2 class="padding-10 border1">
 		       	<form action="<%=basePath %>dictionaryData/list.html" id="form1" method="post" class="mb0">
+			    	<input name="kind" type="hidden" id="kind" value="${dd.kind}">
+			    	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
 				    	<label class="fl">编码：</label><span><input type="text" id="code" value="${dd.code }" name="code" class=""/></span>
@@ -172,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    	  <%-- <li class="fl">
 				    	<label class="fl">描述：</label><span><input type="text" id="description" value="${dd.description }" name="description" class=""/></span>
 				      </li> --%>
-				    	<button type="button" onclick="query()" class="btn">查询</button>
+				    	<button type="submit" class="btn">查询</button>
 				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
 			    	</ul>
 		    	  	<div class="clear"></div>
@@ -183,8 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	  <!-- 表格开始-->
 	  <div class="container">
 		  <div class="col-md-8">
-			    <button class="btn btn-windows add" type="button" onclick="add(${dd.kind})">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			</div>
 	  </div>

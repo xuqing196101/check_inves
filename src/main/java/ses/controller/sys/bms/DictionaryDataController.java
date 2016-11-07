@@ -53,6 +53,7 @@ public class DictionaryDataController extends BaseController{
         List<DictionaryData> dds = dictionaryDataService.find(temp1);
         if(dds.size() > 0){
             model.addAttribute("dd", dd);
+            model.addAttribute("kind", dd.getKind());
             model.addAttribute("exist", "编码已存在");
             return "ses/bms/dictionaryData/add";
         }
@@ -105,10 +106,10 @@ public class DictionaryDataController extends BaseController{
             DictionaryData dd = new DictionaryData();
             dd.setId(id);
             List<DictionaryData> ls = dictionaryDataService.find(dd);
-            if (ls.size() > 0){
-                dd.setIsDeleted(1);
-                dictionaryDataService.update(dd);
-                kind = dd.getKind();
+            if (ls != null && ls.size() > 0){
+                ls.get(0).setIsDeleted(1);
+                dictionaryDataService.update(ls.get(0));
+                kind = ls.get(0).getKind();
             } else {
                 throw new Exception("获取失败");
             }

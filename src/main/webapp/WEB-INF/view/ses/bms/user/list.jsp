@@ -60,10 +60,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	var loginName = $("#loginName").val();
-			        	var relName = $("#relName").val();
-			        	var typeName = $("#typeName").val();
-			            location.href = '<%=basePath%>user/list.html?loginName='+loginName+'&relName='+relName+'&typeName='+typeName+'&page='+e.curr;
+			        	$("#page").val(e.curr);
+                		$("#form1").submit();
 			        }
 			    }
 			});
@@ -181,9 +179,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	}
 	
-	function query(){
-		$("#form1").submit();
-	}
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
@@ -205,6 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <div class="p10_25">
 		     <h2 class="padding-10 border1">
 		       	<form action="<%=basePath %>user/list.html" id="form1" method="post" class="mb0">
+		       		<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
 				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName }" name="loginName" class=""/></span>
@@ -229,7 +225,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        </select>
 				        </div>
 				      </li> 
-				    	<button type="button" onclick="query()" class="btn">查询</button>
+				    	<button type="submit"  class="btn">查询</button>
 				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
 			    	</ul>
 		    	  	<div class="clear"></div>
