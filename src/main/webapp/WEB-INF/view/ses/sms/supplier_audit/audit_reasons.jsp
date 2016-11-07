@@ -226,7 +226,7 @@ alert(supplierInspectListFile);
 	             <input type="hidden" name="status" id="status"/>
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
-	              <c:if test="${status==0 || status==5}">
+	              <c:if test="${status==0 || status==5  || status==8}">
 	                <c:if test="${num==0}">
 	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
 	                </c:if>

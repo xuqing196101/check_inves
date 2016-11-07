@@ -495,24 +495,52 @@ public class SupplierAuditController extends BaseSupplierController{
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
 		if(supplier.getStatus() == 1){
-			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复审");
-			todosService.updateByUrl(todos);
+			todosService.updateByUrl(todos);*/
+			
+			//待办已完成
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId=" + supplierId);
+			
+			// 推送代办
+			todos.setSenderId(supplier.getId());
+			todos.setName("供应商复审");
+			todos.setOrgId(supplier.getProcurementDepId());
+			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
+			todos.setUndoType((short) 1);
+			todosService.insert(todos);
 		}
-		if(supplier.getStatus() == 2){
+		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 4 || supplier.getStatus() == 7){
+			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
-			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商初审");
-			todosService.updateByUrl(todos);
+			todosService.updateByUrl(todos);*/
 		}
-		if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
+		/*if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复审");
 			todosService.updateByUrl(todos);
+		}*/
+		
+		if(supplier.getStatus() == 8){
+			// 待办已完成
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+			// 复审退回修改 ，推送代办
+			todos.setSenderId(supplier.getId());
+			todos.setName("供应商初审");
+			todos.setOrgId(supplier.getProcurementDepId());
+			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
+			todos.setUndoType((short) 1);
+			todosService.insert(todos);
 		}
+		
+		
 		//审核完更新状态
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setId(supplierAudit.getId());
@@ -537,7 +565,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplier = supplierAuditService.supplierById(supplier.getId());
 		Integer status = supplier.getStatus();
 		//暂存初审（5：初审中）
-		if(status == 0 || status == 5 && status != null){
+		if(status == 0 || status == 5 || status == 8 && status != null){
 			supplier.setStatus(5);
 			supplierAuditService.updateStatus(supplier);
 			
