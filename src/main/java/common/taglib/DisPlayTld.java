@@ -23,12 +23,20 @@ public class DisPlayTld extends TagSupport {
      */
     private static final long serialVersionUID = -3670107175836946079L;
     
+    /** 一组显示 **/
+    private String groups;
+    
+    /** 标签id */
+    private String showId;
+    
     /** 业务Id */
     private String businessId;
     /** 业务类型Id */
     private String typeId;
     /** 系统key */
     private Integer sysKey;
+    /** 是否删除 */
+    private boolean delete;
 
     
     
@@ -49,10 +57,13 @@ public class DisPlayTld extends TagSupport {
         JspWriter out = pageContext.getOut();
         
         try {
-             out.println("<input id='downBsId' type=\"hidden\"  value=" + businessId + " />");
-             out.println("<input id='downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
-             out.println("<input id='downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
-             out.println("<div><ul id='disFileId'></ul></div>");
+             out.println("<input id='showId' type=\"hidden\"  value=" + showId + " />");
+             out.println("<input id='show_groupId' type=\"hidden\"  value=" + groups + " />");
+             out.println("<input id='"+showId+"_showdel' type=\"hidden\"  value=" + delete + " />");
+             out.println("<input id='"+showId+"_downBsId' type=\"hidden\"  value=" + businessId + " />");
+             out.println("<input id='"+showId+"_downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
+             out.println("<input id='"+showId+"_downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
+             out.println("<div><ul id='"+showId+"_disFileId'></ul></div>");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,10 +72,24 @@ public class DisPlayTld extends TagSupport {
 
     @Override
     public void release() {
+        showId = null;
         businessId = null;
         typeId = null;
         sysKey = null;
         super.release();
+    }
+
+    
+    
+    
+   
+    
+    public String getShowId() {
+        return showId;
+    }
+
+    public void setShowId(String showId) {
+        this.showId = showId;
     }
 
     public String getBusinessId() {
@@ -89,6 +114,22 @@ public class DisPlayTld extends TagSupport {
 
     public void setSysKey(Integer sysKey) {
         this.sysKey = sysKey;
+    }
+
+    public String getGroups() {
+        return groups;
+    }
+
+    public void setGroups(String groups) {
+        this.groups = groups;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
     
     

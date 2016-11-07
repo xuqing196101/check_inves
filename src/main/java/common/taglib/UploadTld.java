@@ -63,6 +63,10 @@ public class UploadTld extends TagSupport {
     private boolean duplicate = false;
     /** 是否自动上传 */
     private boolean auto = false;
+    /** 唯一的标识 */
+    private String id;
+    /** 一组按钮的标识,必须为多个按钮的id组成,如:one,two */
+    private String groups;
     
     /** 分块文件大小 */
     private long chunSize = Long.parseLong(PropUtil.getProperty("file.upload.chunk.fileSize")) * UNIT;
@@ -80,11 +84,11 @@ public class UploadTld extends TagSupport {
         String path = pageContext.getServletConfig().getServletContext().getContextPath();
        
         try {
-            out.println("<link href='"+ path +"/public/webupload/css/webuploader.css' rel='stylesheet' type='text/css' />");
-            out.println("<link href='"+ path +"/public/webupload/css/uploadView.css' rel='stylesheet' type='text/css' />");
+            out.println("<link href='"+ path +"/public/webupload/css/webuploader.css?v='"+System.currentTimeMillis()+" rel='stylesheet' type='text/css' />");
+            out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
             
-            out.println("<script src='" + path + "/public/webupload/js/webuploader.js'></script>");
-            out.println("<script src='" + path + "/public/webupload/js/upload.js'></script>");
+            out.println("<script src='" + path + "/public/webupload/js/webuploader.js?v='"+System.currentTimeMillis()+"></script>");
+            out.println("<script src='" + path + "/public/webupload/js/upload.js?v='"+System.currentTimeMillis()+"></script>");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -121,28 +125,29 @@ public class UploadTld extends TagSupport {
     @Override
     public int doEndTag() throws JspException {
         JspWriter out = pageContext.getOut();
-       
        try {
-            out.println("<input id='businessId' type=\"hidden\"  value=" + businessId + " />");
-            out.println("<input id='typeId'  type=\"hidden\"  value=" + typeId + " />");
-            out.println("<input id='sysKeyId' type=\"hidden\"  value=" + sysKey + " />");
+            out.println("<input id='id' type=\"hidden\"  value=" + id + " />");
+            out.println("<input id='groupId' type=\"hidden\"  value=" + groups + " />");
+            out.println("<input id='"+id+"_businessId' type=\"hidden\"  value=" + businessId + " />");
+            out.println("<input id='"+id+"_typeId'  type=\"hidden\"  value=" + typeId + " />");
+            out.println("<input id='"+id+"_sysKeyId' type=\"hidden\"  value=" + sysKey + " />");
             out.println("<input id='chunSizeId' type=\"hidden\"  value=" + chunSize + " />");
             out.println("<input id='maxSizeId' type=\"hidden\"  value=" + limitFile + " />");
             out.println("<input id='singlSizeId' type=\"hidden\"  value=" + singLimitFie + " />");
-            out.println("<input id='multipleId' type=\"hidden\"  value=" + multiple + " />");
+            out.println("<input id='"+id+"_multipleId' type=\"hidden\"  value=" + multiple + " />");
             out.println("<input id='extensionId' type=\"hidden\"  value=" + extension + " />");
             out.println("<input id='mimeTypesId' type=\"hidden\"  value=" + mimeTypes + " />");
-            out.println("<input id='duplicateId' type=\"hidden\"  value=" + duplicate + " />");
-            out.println("<input id='autoId' type=\"hidden\"  value=" + auto + " />");
+            out.println("<input id='"+id+"_duplicateId' type=\"hidden\"  value=" + duplicate + " />");
+            out.println("<input id='"+id+"_autoId' type=\"hidden\"  value=" + auto + " />");
             
-            out.println("<div id=\"uploader\" class=\"" + uClass + "\">");
+            out.println("<div id=\""+id+"_uploader\" class=\"" + uClass + "\">");
             out.println("<div class=\"" + btnClass + "\">");
-            out.println("<div id=\"picker\"> " + selectButton + "</div>");
+            out.println("<div id=\""+id+"_picker\"> " + selectButton + "</div>");
             if (!auto){
-                out.println("<button id=\"ctlBtn\" type=\"button\" style='margin-left:10px' class=\"" + upBtnClass + " \">" + uloadButton + "</button>");
+                out.println("<button id=\""+id+"_ctlBtn\" type=\"button\" style='margin-left:10px' class=\"" + upBtnClass + " \">" + uloadButton + "</button>");
             }
             out.println("</div>");
-            out.println("<ul id=\"thelist\" class=\"" + uListClass + "\"></ul>");
+            out.println("<ul id=\""+id+"_thelist\" class=\"" + uListClass + "\"></ul>");
             out.println("</div> ");
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,13 +157,30 @@ public class UploadTld extends TagSupport {
 
     @Override
     public void release() {
+        id = null;
         businessId = null;
         typeId = null;
         sysKey = null;
         super.release();
     }
     
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     
+    public String getGroups() {
+        return groups;
+    }
+
+    public void setGroups(String groups) {
+        this.groups = groups;
+    }
 
     public String getBusinessId() {
         return businessId;

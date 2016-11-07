@@ -2,18 +2,62 @@
  * dom加载...
  */
 $(function(){
-	var businessId = $("#downBsId").val();
-	var typeId = $("#downBstypeId").val();
-	var key = $("#downBsKeyId").val();
-	var params = {businessId: businessId,typeId: typeId,key: key};
-	display(params);
+	showInit();
 });
+
+/**
+ * 初始化
+ */
+function showInit(){
+	var singleId = $("#showId").val();
+	var groups = $("#show_groupId").val();
+	if (!webIsNull(groups)){
+		var arr = groups.split(",");
+		$.each(arr,function(){
+			packParam(this);
+		});
+	} else {
+		packParam(singleId);
+	}
+}
+
+
+/**
+ * 包装参数
+ */
+function packParam(id){
+	var businessId = $('#'+id+'_downBsId').val();
+	var typeId = $("#"+id+"_downBstypeId").val();
+	var key = $("#"+id+"_downBsKeyId").val();
+	var del = $("#"+id+"_showdel").val();
+	var params = {businessId: businessId,typeId: typeId,key: key};
+	display(params,id,del);
+}
+
+//判断是否为空
+webIsNull = function(value){
+	 if (value == null || value == "undefined" || value == "" || value == "null") {
+		 return true;
+	 }
+	 return false;
+}
+
+//boolean类型转换
+transBoolean = function(str){
+		if (str === "true"){
+			return true;
+		}
+		if (str === "false"){
+			return false;
+		}
+	}
+
 
 /**
  * 显示附件
  * @param params
  */
-function display(params){
+function display(params,id,del){
 	var key = params.key;
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
@@ -21,7 +65,7 @@ function display(params){
 		async:true,
 		dataType: 'json',
 		success:function(datas){
-			disFiles(datas,key);
+			disFiles(datas,key,id,del);
 		}
 	});
 }
@@ -31,12 +75,12 @@ function display(params){
  * @param data @link Array
  * @param key 系统对应的key
  */
-function disFiles(data,key){
-	var $ul = $("#disFileId");
+function disFiles(data,key,id,del){
+	var $ul = $("#"+id+"_disFileId");
 	$ul.empty();
 	if (data != null && data.length > 0) {
 		for (var i =0 ;i < data.length; i++){
-			disFile($ul,data[i],key);
+			disFile($ul,data[i],key,del);
 		}
 	}
 }
@@ -47,11 +91,11 @@ function disFiles(data,key){
  * @param obj  传入的对象
  * @param key  对应的系统key
  */
-function disFile(html,obj,key){
-	var li = '<li id='+obj.id+'><a href=\javascript:download("'+obj.id+'","' + key +'");>' 
-				+ obj.name+ '</a><span onclick=\'removeFile("'+ obj.id +'","'+key+'");'
-				+ '\' style=\'color:red;cursor:pointer\'>×</span>';
-	
+function disFile(html,obj,key,del){
+	var li = '<li id='+obj.id+'><a href=\javascript:download("'+obj.id+'","' + key +'");>' + obj.name+ '</a>';
+	if (del){
+		li += '<span onclick=\'removeFile("'+ obj.id +'","'+key+'");\' style=\'color:red;cursor:pointer\'>×</span>';
+	}
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
