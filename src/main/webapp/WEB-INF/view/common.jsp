@@ -8,16 +8,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/select2/css/select2.min.css"  rel="stylesheet">
+
+
 <!-- js -->
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
 <script>
 	var globalPath = "${contextPath}";
 </script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<%-- <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script> --%>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/browser.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.ba-hashchange.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/common.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/masterslider.min.js"></script>
+<!-- 待删除的 -->
+<script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
+
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/select2/js/select2.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/main-menu.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>

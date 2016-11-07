@@ -12,7 +12,8 @@
 <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-  	
+
+<link href="${pageContext.request.contextPath}/public/select2/css/select2.min.css"  rel="stylesheet">	
 <!-- js -->
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
 <script>
@@ -28,6 +29,6 @@
 <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/main-menu.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
+<script src="${pageContext.request.contextPath}/public/select2/js/select2.min.js"></script>
