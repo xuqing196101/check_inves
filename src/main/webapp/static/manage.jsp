@@ -99,7 +99,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade in active" id="dep_tab-0">
-			  <div class="show_obj"><table class="table table-bordered">
+			  <div class="show_obj">
+			  <table class="table table-bordered">
 			    <tbody>
 				  <tr>
 				    <td width="25%" class="bggrey tl">单位名称：</td>

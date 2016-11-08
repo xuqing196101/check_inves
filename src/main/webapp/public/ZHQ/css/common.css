@@ -396,7 +396,12 @@ width: 780px!important; }
   padding: 15px 10px!important; } 
 
 .p30_40 {
-  padding: 30px 40px!important; } 
+  padding: 30px 40px!important; 
+}
+
+.p20_20 {
+  padding: 20px 20px!important; 
+} 
 .m0 {
   margin: 0; }
 

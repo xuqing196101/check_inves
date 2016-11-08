@@ -106,7 +106,7 @@ public class LoginController {
 			}
 
 			// 获取验证码
-			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+			String code = (String) req.getSession().getAttribute("img-identity-code");
 			if (!rqcode.toUpperCase().equals(code)) {
 				logger.info("验证码输入有误");
 				out.print("errorcode");

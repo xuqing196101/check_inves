@@ -14,25 +14,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-	<!--导航js-->
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -71,17 +52,13 @@ $(function(){
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container content height-350 job-content ">
-    <div class="col-md-12  border1">
-        <div class="tab-v1">
-          <h2 class="nav nav-tabs border0 padding-left-15">
-            ${typeName}
-		  </h2>
-        </div>
-          <div class="tab-content margin-bottom-20 margin-top-10">
-            <div class="tab-pane fade active in">
-              <div class="tag-box margin-bottom-0 padding-0">
-                <ul class="categories li_square padding-left-15 margin-bottom-0">
+  <div class="container content job-content ">
+          <div class="col-md-12  border1 p20_20">
+                <ul class="categories li_square p0">
+                <li>
+                   <div class="col-md-6 tc f16 b">标题</div>
+                   <div class="fr b mr25 f16">发布时间</div>
+                  </li>
                 <c:forEach items="${indexList}" var="i">
                   <li>
                    <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
@@ -89,9 +66,6 @@ $(function(){
                   </li> 
                 </c:forEach>             
                 </ul>
-              </div>
-            </div>
-          </div>
 	     <%--<div class="fenye">
            <div class="page_box fr">
 	         <span class="pre_page page">上一页</span><span class="curr_page page">1</span><span class="page">2</span><span class="page">3</span><span class="page">4</span><span class="page">5</span><span class="page">6</span><span class="next_page page">下一页</span><span class="ml15">到</span><input type="text" class="page_input" value="1">页 <input type="submit" class="ml10 search_page" value="确 定">

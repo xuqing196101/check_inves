@@ -993,7 +993,7 @@
 	}
 }
 
-.header-v4 .navbar-default .navbar-nav >.shouye_li.active > a > .shouye,.header-v4 .navbar-default .navbar-nav > .shouye_li.active > a:hover .shouye{
+.header-v4 .navbar-default .navbar-nav >.shouye_li.active > a > .shouye,.header-v4 .navbar-default .navbar-nav > .shouye_li.active > a:hover .shouye,.header-v4 .navbar-default .navbar-nav > .shouye_li > a:hover .shouye{
    background-position: -16px 2px!important;
  }
 .header-v4 .navbar-default .navbar-nav > .shouye_li> a .shouye{
@@ -1074,6 +1074,7 @@
   z-index: 2;
   float: left;
   margin-bottom: 0;
+  padding-left:35px!important;
 }
 .search-group .input-group-btn{
   position: relative;

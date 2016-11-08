@@ -211,28 +211,6 @@
 				time : 0    //默认消息框不关闭
 		});//去掉msg图标
   	}
-	
-	function statements(){
-		var ids =[];
-		var purchaseType = "";
-  		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
-			purchaseType = $(this).prev().text();
-		}); 
-		if(ids.length>0){
-			if(ids.length>1){
-				layer.alert("只可选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-				if(purchaseType=="单一来源"){
-					alert(111);
-				}else{
-					alert(222);
-				}
-			}
-		}else{
-			layer.alert("请选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
-		}
-	}
   </script>
   </head>
   
@@ -276,7 +254,6 @@
    	   <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn" onclick="print()">打印</button>
    	  	  <button class="btn" onclick="execution()">合同执行情况登记</button>
-   	  	  <button class="btn" onclick="statements()">最终结算价格</button>
 	   </div>
    <div class="content table_box">
    	<table class="table table-striped table-bordered table-hover">

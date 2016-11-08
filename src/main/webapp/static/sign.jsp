@@ -17,12 +17,22 @@
     <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
    <!--  <link href="css/header-v4.css" media="screen" rel="stylesheet">
     <link href="css/footer-v2.css" media="screen" rel="stylesheet">
     <link href="css/page_job.css" media="screen" rel="stylesheet">
     <link href="css/shop.style.css" media="screen" rel="stylesheet">
 	<link href="css/page_log_reg_v1.css" media="screen" rel="stylesheet"> -->
 	<script type="text/javascript">
+	$(function(){
+		$(document).keyup(function(event){
+			  if(event.keyCode ==13){
+			    login();
+			  }
+		});
+	});
+	
 	function login(){
 	if($("#inputEmail").val()==""){
 		layer.tips("请输入用户名","#inputEmail",{
@@ -60,7 +70,7 @@
 					layer.msg("账号不存在!");
 					layer.close(index);
 				}
-				kaptcha();
+				getIdentityCode();
 			}
 		});
 	}
@@ -68,6 +78,11 @@
 }
 function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
+}
+
+function getIdentityCode(){
+	var random = Math.random();
+	$("#identity_code_img_id").hide().attr("src","${pageContext.request.contextPath}/supplier/get_identity.html?random"+random).fadeIn();
 }
 </script>
 </head>
@@ -104,19 +119,16 @@ function kaptcha(){
                 <label class="label col col-md-3">用户名</label>
                 <div class="col col-md-8">
                   <label class="input">
-   
                     <input id="inputEmail" name="" placeholder="用户名" type="text">
                   </label>
                 </div>
               </div>
             </section>
-
             <section class="mb5">
               <div class="row">
                 <label class="label col col-md-3">密 码</label>
                 <div class="col col-md-8">
                   <label class="input">
-    
                     <input id="inputPassword" name="" placeholder="密 码" type="password">
                   </label>
                   <div class="note"></div>
@@ -128,15 +140,16 @@ function kaptcha(){
                 <label class="label col col-md-3">验证码</label>
                 <div class="col col-md-8">
                   <label class="input">
-				     <div class="col-md-8 p0"><input id="inputCode" type="password" placeholder="" class="fl col-md-8"></div>
-                     <div class="col-md-4"><img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /></div>
-                  </label>
+				     <div class="col-md-7 p0"><input id="inputCode" type="text" placeholder="" class="fl col-md-12">
+				     </div>
+                     <div class="col-md-5"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
+                   </label>
                   <div class="note"></div>
                 </div>
               </div>
 			</section>
           <div class="content border-top-1 tc">
-            <button type="submit" onclick="login();" class="btn login_btn" id="">登 录</button>
+            <button type="button" onclick="login();" class="btn login_btn" >登 录</button>
           </div>
         </form> 
 	   </div>   
@@ -158,7 +171,6 @@ function kaptcha(){
                 <label class="label col col-md-3">密 码</label>
                 <div class="col col-md-8">
                   <label class="input">
-    
                     <input id="" name="" placeholder="密 码" type="password">
                   </label>
                   <div class="note"></div>
@@ -170,8 +182,8 @@ function kaptcha(){
                 <label class="label col col-md-3">验证码</label>
                 <div class="col col-md-8">
                   <label class="input">
-				     <div class="col-md-8 p0"><input type="password" placeholder="" class="fl col-md-8"></div>
-                     <div class="col-md-4"><img src="${pageContext.request.contextPath}/public/ZHQ/images/yzm.jpg" width="100%" height="34px"/></div>
+				     <div class="col-md-7 p0"><input type="password" placeholder="" class="fl col-md-12"></div>
+                     <div class="col-md-5"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
                   </label>
                   <div class="note"></div>
                 </div>
@@ -179,7 +191,7 @@ function kaptcha(){
 			</section>
    
           <div class="content border-top-1 tc">
-            <button type="submit" class="btn login_btn" id="">登 录</button>
+            <button type="button" class="btn login_btn" onclick="login();">登 录</button>
           </div>
         </form> 
 	   </div>  

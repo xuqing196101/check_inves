@@ -41,8 +41,9 @@
 /*Job-Content
 ------------------------------------*/
 .job-content .categories li {
-	padding: 4px 0;
+	padding: 4px 0 0 0;
 	font-size:14px;
+	overflow: hidden;
 }
 
 .job-content ul.hex li {
@@ -88,8 +89,8 @@
 
 /*li_square*/
 .li_square li{
-  border-bottom:1px solid #e2e2e2!important;
-  font-size:16px!important;
+  border-bottom:1px dashed #e2e2e2!important;
+  font-size:15px!important;
 }
 .li_square{
   list-style-type: none;
@@ -99,4 +100,10 @@
 } 
 .new_content{
  line-height:30px;
+}
+.source{
+	overflow: hidden;
+	border-bottom: 1px dashed #ddd;
+	height: 30px;
+	line-height: 30px;
 }

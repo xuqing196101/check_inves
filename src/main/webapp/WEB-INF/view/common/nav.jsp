@@ -59,6 +59,8 @@
 							<a href="<%=basePath%>static/table_special.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右结构表格页面</a>
 					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
 							<a href="<%=basePath%>static/left.jsp" target="home" class="son-menu"><span class="mr5">◇</span>投标左侧页面</a>
+							<a href="<%=basePath%>static/tab.jsp" target="home" class="son-menu"><span class="mr5">◇</span>切换标签页面</a>
+							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
 							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
 						</li>
 					</ul>

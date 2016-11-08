@@ -14,23 +14,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-	<!--导航js-->
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 	<script type="text/javascript">
      $(function(){
 	  laypage({
