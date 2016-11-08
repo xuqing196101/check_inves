@@ -211,6 +211,28 @@
 				time : 0    //默认消息框不关闭
 		});//去掉msg图标
   	}
+	
+	function statements(){
+		var ids =[];
+		var purchaseType = "";
+  		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+			purchaseType = $(this).prev().text();
+		}); 
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				if(purchaseType=="单一来源"){
+					alert(111);
+				}else{
+					alert(222);
+				}
+			}
+		}else{
+			layer.alert("请选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
+		}
+	}
   </script>
   </head>
   
@@ -225,48 +247,42 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container">
+   <div class="container">
+   <div class="headline-v2 fl">
+        <h2>正式合同列表
+	    </h2>
+     </div>
 <!-- 项目戳开始 -->
-  <div class="container clear">
-  <div class="p10_25">
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectFormalContract.html" method="post">
     <input type="hidden" value="" id="page"/>
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
     	<ul class="demand_list">
-          <li class="fl"><label class="fl mt10">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">需求部门：</label><span><input type="text" value="${purCon.demandSector }" id="demandSector" name="demandSector" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
+          <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">需求部门：</label><span><input type="text" value="${purCon.demandSector }" id="demandSector" name="demandSector" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
     	  <div class="fl col-md-12 tc">
     	    <input type="submit" class="btn" value="查询"/>
     	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
     	  </div>
     	</ul>
     	  <div class="clear"></div>
+    	  </h2>
       </form>
-     </h2>
-   </div>
-   </h2>
-  </div>
-      <div class="headline-v2 fl">
-        <h2>合同草稿列表
-	    </h2>
-      </div> 
-   	   <div class="container clear">
-         <div class="col-md-12 pl20 ml5">
+   	   <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn" onclick="print()">打印</button>
    	  	  <button class="btn" onclick="execution()">合同执行情况登记</button>
-	     </div>
+   	  	  <button class="btn" onclick="statements()">最终结算价格</button>
 	   </div>
-   <div class="container clear">
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
+   <div class="content table_box">
    	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
+				<th class="tnone"></th>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info w50">序号</th>
 				<th class="info">合同名称</th>
@@ -284,6 +300,7 @@
 		</thead>
 		<c:forEach items="${formalConList}" var="formalCon" varStatus="vs">
 			<tr>
+				<td class="tnone">${formalCon.purchaseType}</td>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${formalCon.id}" /></td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${formalCon.code}" var="code"></c:set>
@@ -315,8 +332,8 @@
 		</c:forEach>
 	</table>
      </div>
-    </div>
    <div id="pagediv" align="right"></div>
+   </div>
    	<div id="numberWin" class="dnone mt20">
 	    <div class="col-md-12">
    		 <span class="span3">合同批准文号：</span>
@@ -327,6 +344,5 @@
 		 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 		</div>
 	</div>
-   </div>
 </body>
 </html>

@@ -139,15 +139,14 @@
    </div>
   <div class="container">
    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
+      <h2>履约情况列表
+	  </h2>
+   </div> 
 <!-- 项目戳开始 -->
-  <div class="container clear">
-  <div class="p10_25">
   <form action="${pageContext.request.contextPath}/performance/selectAll.html">
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
     	<ul class="demand_list">
-          <li class="fl ml8"><label class="fl mt10">合同类型：</label><span>
+          <li class="fl"><label class="fl">合同类型：</label><span>
           <select name="contractType" id="contractType">
           	<option></option>
           	<option value="0">正常采购合同</option>
@@ -161,20 +160,11 @@
     	  <div class="clear"></div>
      </h2>
     </form>	
-   </div>
-  </div>
-   <div class="headline-v2">
-      <h2>履约情况列表
-	  </h2>
-   </div> 
-   <div class="container">
-    <div class="col-md-12 pl20">
-		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="updateEcetion()">修改履约情况</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="delEcetion()">删除</button>
+    <div class="col-md-12 pl20 mt10">
+		<button class="btn" onclick="updateEcetion()">修改履约情况</button>
+		<button class="btn btn-windows delete" onclick="delEcetion()">删除</button>
 	</div>
-   </div>
-   <div class="container clear">
-    <div class="p10_25">
+   <div class="content table_box">
    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
@@ -227,7 +217,6 @@
 		</c:forEach>
 	</table>
      </div>
-    </div>
    <div id="pagediv" align="right"></div>
    </div>
 </body>

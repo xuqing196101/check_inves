@@ -294,6 +294,10 @@
 		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
+	
+	function abandoned(){
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+	}
 </script>
 <body>
 <!--面包屑导航开始-->
@@ -312,6 +316,9 @@
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<input type="hidden" name="projectName" value="${project.name}"/>
+   		<input type="hidden" name="projectId" value="${project.id}"/>
+   		<input type="hidden" name="isImport" value="${project.isImport}">
+   		<input type="hidden" name="purchaseType" value="${project.purchaseType}">
    		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 
    		<ul class="list-unstyled list-flow ul_list">
@@ -584,7 +591,7 @@
    			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
    			--%><input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
    			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
+   			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
   		
   		<div id="numberWin" class="dnone mt20">

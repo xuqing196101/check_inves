@@ -199,42 +199,32 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">采购合同列表</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">采购项目列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
   <div class="container">
    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
+      <h2>成交项目列表
+	  </h2>
+   </div> 
 <!-- 项目戳开始 -->
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
     	<ul class="demand_list">
-          <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="" id="projectName" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="" id="projectCode" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
+          <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="" id="projectName" class=""/></span></li>
+	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="" id="projectCode" class=""/></span></li>
+	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="" id="purchaseDep" class=""/></span></li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
      </h2>
-   </div>
-  </div>
-   <div class="headline-v2">
-      <h2>成交项目列表
-	  </h2>
-   </div> 
-   <div class="container">
-    <div class="col-md-12 pl20">
-		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="createContract()">生成合同</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="someCreateContract()">合并生成合同</button>
+    <div class="col-md-12 pl20 mt10">
+		<button class="btn" onclick="createContract()">生成合同</button>
+		<button class="btn" onclick="someCreateContract()">合并生成合同</button>
 	</div>
-   </div>
-   <div class="container clear">
-    <div class="p10_25">
+   <div class="content table_box">
    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
@@ -261,7 +251,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-     </div>
     </div>
    <div id="pagediv" align="right"></div>
    <ul class="list-unstyled list-flow dnone mt10" id="numberWin">

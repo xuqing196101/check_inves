@@ -716,48 +716,39 @@
    background-repeat:no-repeat;
    background-position:8px 6px;
 }
+.add{ 
+    background-position: -35px 6px;
+}
+.withdraw{
+    background-position:-35px -22px;
+}
 .edit{
-   background-image:url(../images/edit.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+    background-position:-35px -50px;
 }
 .git{
-   background-image:url(../images/git.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+    background-position:-35px -76px;
 }
-.reset{
-   background-image:url(../images/reset.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+.delete{
+    background-position:-35px -100px;
 }
-.save{
-   background-image:url(../images/save.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+.back{
+    background-position:-35px -160px;
+}
+.check{
+    background-position:-35px -187px;
 }
 .apply{
-   background-image:url(../images/apply.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
-}
-.add{
-   background-image:url(../images/ht_add.png);
-   background-repeat:no-repeat;
-   background-position:6px 6px;
+    background-position:-35px -212px;
 }
 .input{
-   background-image:url(../images/input.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+    background-position:-35px -239px;
 }
 .output{
-   background-image:url(../images/output.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+    background-position:-35px -263px;
 }
 .cancel{
-   background-image:url(../images/cancel.png);
-   background-repeat:no-repeat;
-   background-position:8px 6px;
+    background-position:-35px -288px;
+}
+.save{
+    background-position:-35px -320px;
 }

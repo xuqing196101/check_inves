@@ -339,6 +339,8 @@
   color: #ffffff; 
   padding:4px 8px 4px 28px;
   font-size:14px;
+  background-image:url(../images/icons.png);
+  background-repeat: no-repeat;
   }
   .btn-windows:hover {
     background-color: #48bbef;
@@ -691,73 +693,50 @@
 .btn-wot {
   background-color: transparent;
   border-color: #ff4005;
-  color: #ff4005; }
-  .btn-wot:hover {
+  color: #ff4005;
+}
+
+.btn-wot:hover {
     background-color: #ff4005;
-    color: white; }
+    color: white; 
+}
 	
 .delete{
-   background-image:url(../images/delete.png);
-   background-repeat:no-repeat;
-   background-position:12px 6px;
+   background-position: -35px -100px;
 }
 .check{
-   background-image:url(../images/check.png);
-   background-repeat:no-repeat;
-   background-position:8px 6px;
+   background-position: -35px -187px;
 }
 .withdraw{
-   background-image:url(../images/withdraw.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -22px;
 }
 .back{
-   background-image:url(../images/back.png);
-   background-repeat:no-repeat;
-   background-position:8px 6px;
+   background-position: -35px -160px;
 }
 .edit{
-   background-image:url(../images/edit.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -50px;
 }
 .git{
-   background-image:url(../images/git.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -76px;
 }
 .reset{
-   background-image:url(../images/reset.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -140px;
 }
 .save{
-   background-image:url(../images/save.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -320px;
 }
 .apply{
-   background-image:url(../images/apply.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -212px;
 }
 .add{
-   background-image:url(../images/ht_add.png);
-   background-repeat:no-repeat;
-   background-position:6px 6px;
+   background-position: -35px 6px;
 }
 .input{
-   background-image:url(../images/input.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -239px;
 }
 .output{
-   background-image:url(../images/output.png);
-   background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position: -35px -263px;
 }
 .cancel{
-   background-image:url(../images/cancel.png);
-   background-repeat:no-repeat;
-   background-position:8px 6px;
+   background-position: -35px -288px;
 }

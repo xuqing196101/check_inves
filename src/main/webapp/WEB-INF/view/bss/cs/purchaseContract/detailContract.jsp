@@ -27,6 +27,10 @@
     		var supid = "${supid}";
     		window.location.href="${pageContext.request.contextPath}/purchaseContract/createTextContract.html?id="+id+"&supid="+supid;
     	}
+    	
+    	function cancel(){
+    		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+    	}
     </script>
 <body>
 <!--面包屑导航开始-->
@@ -83,7 +87,7 @@
     </div>
   		<div  class="col-md-12 tc mt20">
    			<button class="btn" onclick="next()">下一步</button>
-   			<button class="btn btn-windows cancel" onclick="history.go(-1)" type="button">取消</button>
+   			<button class="btn btn-windows cancel" onclick="cancel()" type="button">取消</button>
   		</div>
   	<%--</form>
  --%></div>

@@ -127,10 +127,17 @@
 <!-- 表格开始-->
     <div class="col-md-12 pl20 mt10">
 	 <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+<<<<<<< Updated upstream
 	</div>
  
      <div class="content table_box">
     <table class=" table table-condensed table-bordered table-hover">
+=======
+   </div>
+   
+   <div class="content table_box">
+    	<table class="table table-bordered table-condensed table-hover">
+>>>>>>> Stashed changes
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -165,9 +172,13 @@
 			</tr>
 		</c:forEach>
 	</table>
+<<<<<<< Updated upstream
      </div>
 
   
+=======
+   </div>
+>>>>>>> Stashed changes
       <div id="pagediv" align="right"></div>
   </div>
 	 </body>

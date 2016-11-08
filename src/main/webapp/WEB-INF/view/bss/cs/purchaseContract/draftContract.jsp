@@ -188,8 +188,8 @@
 		layer.close(index);
 	}
 	
-	function quxiao(){
-	    window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html"
+	function abandoned(){
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
 	}
 	
 	function sum2(){
@@ -220,6 +220,10 @@
 		offset: ['600px', '40%']
 	  });
     }
+	
+	function quxiao(){
+	     layer.close(index);
+	}
 	
 	function staging(){
 		$("#status").val("1");
@@ -600,7 +604,7 @@
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
    			<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
    			<input type="button" class="btn" onclick="print()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="quxiao()" value="取消">
+   			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
   		<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
   		    <li class="col-md-12 ml15">

@@ -296,6 +296,10 @@
 		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
+	
+	function abandoned(){
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+	}
 </script>
 <body>
 <!--面包屑导航开始-->
@@ -589,7 +593,7 @@
    			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
    			--%><input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
    			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
+   			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
   		
   		<div id="numberWin" class="dnone mt20">

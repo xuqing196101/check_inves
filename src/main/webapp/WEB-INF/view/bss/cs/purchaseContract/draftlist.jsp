@@ -265,48 +265,37 @@
    </div>
   <div class="container">
    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
+        <h2>合同草稿列表
+	    </h2>
+   </div> 
 <!-- 项目戳开始 -->
-  <div class="container clear">
-  <div class="p10_25">
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html" method="post">
     <input type="hidden" value="" id="page"/>
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
     	<ul class="demand_list">
-          <li class="fl"><label class="fl mt10">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">需求部门：</label><span><input type="text" value="${purCon.demandSector }" id="demandSector" name="demandSector" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
-	      <li class="fl"><label class="fl mt10">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
-	      <li class="fl"><label class="fl mt10">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
+          <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">需求部门：</label><span><input type="text" value="${purCon.demandSector }" id="demandSector" name="demandSector" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
     	  <div class="fl col-md-12 tc">
     	    <input type="submit" class="btn" value="查询"/>
     	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
     	  </div>
     	</ul>
     	  <div class="clear"></div>
+    	  </h2>
       </form>
-     </h2>
-   </div>
-   </h2>
-  </div>
-      <div class="headline-v2 fl">
-        <h2>合同草稿列表
-	    </h2>
-      </div> 
-   	   <div class="container clear">
-         <div class="col-md-12 pl20">
+         <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
 	      <%--<button class="btn" onclick="updateModel()">更新合同模板</button>
 	     --%></div>
-	   </div>
-   <div class="container clear">
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
+   <div class="content table_box">
    	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
@@ -357,7 +346,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-     </div>
     </div>
    <div id="pagediv" align="right"></div>
    <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">

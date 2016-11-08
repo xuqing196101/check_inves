@@ -137,6 +137,8 @@ public class PurchaseContract {
 	private Integer isDeclare = 0;
 	
 	private String purchaseType;
+	
+	private String projectId;
 
 	public String getPurchaseType() {
 		return purchaseType;
@@ -150,8 +152,6 @@ public class PurchaseContract {
 		return id;
 	}
 	
-    private String projectId;
-    
     public String getProjectId() {
 		return projectId;
 	}

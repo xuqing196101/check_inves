@@ -307,30 +307,30 @@ p, li, li a, label {
 .breadcrumbs-v3.breadcrumbs-lg {
 	padding: 200px 0;
 }
-
+/* 流程图图片定位 */
 .breadcrumbs-v3 .img-v1 {
-	background: url(../images/buy_01.png) no-repeat;
-	background-position: 5px center;
+	background-position: -38px -455px;
+	background-image:url("../images/icons.png");
 }
 
 .breadcrumbs-v3 .img-v2 {
-	background: url(../images/buy_02.png) no-repeat;
-	background-position: 5px center;
+	background-position: -42px -558px;
+	background-image:url("../images/icons.png");
 }
 
 .breadcrumbs-v3 .img-v3 {
-	background: url(../images/buy_03.png) no-repeat;
-	background-position: 5px center;
+	background-position: -42px -507px;
+	background-image:url("../images/icons.png");
 }
 
 .breadcrumbs-v3 .img-v4 {
-	background: url(../images/buy_03.png) no-repeat;
-	background-position: 5px center;
+	background-position: -42px -507px;
+	background-image:url("../images/icons.png");
 }
 
 .breadcrumbs-v3 .img-v5 {
-	background: url(../images/buy_04.png) no-repeat;
-	background-position: 5px center;
+	background-position: -44px -600px;
+	background-image:url("../images/icons.png");
 }
 
 .breadcrumbs-v3:after {
@@ -523,7 +523,7 @@ li:first-child {
 .fujian{
   padding-left:45px !important;
   background-image:url(../images/fujian.png)!important;
-  background-position:10px!important;
+  background-position:10px 9px!important;
   background-repeat:no-repeat!important;
 }
 
@@ -547,8 +547,10 @@ li:first-child {
 }
 
 .history_icon{
-  background:url(../images/list_icon.png) no-repeat 5px;
+  background-position: -44px -751px;
+  background-image:url(../images/icons.png);
   padding-left:40px !important;
+  background-repeat: no-repeat;
  }
  
 .cbp_detail span{
@@ -788,7 +790,9 @@ li:first-child {
   height:35px;
   line-height:35px;
   padding-left:30px;
-  background:url(../images/light_icon.png) no-repeat 0px;
+  background-position: -35px -417px;
+  background-repeat:no-repeat;
+  background-image:url(../images/icons.png);
   border-bottom:1px dashed #ddd;
 }
 .light_box{
@@ -812,10 +816,15 @@ li:first-child {
   display:block;
 }
 .dinwei{
-  background:url(../images/dingwei.png) no-repeat 0 0px;
+  background-repeat:no-repeat;
+  background-image:url(../images/icons.png);
+  background-position: -45px -355px;
 }
 .shanchu{
-  background:url(../images/sc.png) no-repeat 0 0;}
+  background-repeat:no-repeat;
+  background-image:url(../images/icons.png);
+  background-position: -153px -119px;
+  }
 .bdzb{
   background:url(../images/bd.png) no-repeat 0 0;}
 .star_red{

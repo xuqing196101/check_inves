@@ -102,12 +102,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	  </select>
 	    	</span>
 	      </li>
+	
+    	</ul>
 
-           <div class="fl">
+           <div class="col-md-12 clear tc mt10">
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button> 
-	    	</div>	
-    	</ul>
+	    	</div>
     	  <div class="clear"></div>
        </form>
      </h2>
