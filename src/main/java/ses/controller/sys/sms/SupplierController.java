@@ -71,7 +71,7 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
-
+	
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua

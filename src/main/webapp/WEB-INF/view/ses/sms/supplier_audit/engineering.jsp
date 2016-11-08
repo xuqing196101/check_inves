@@ -79,7 +79,7 @@ function reason(id,auditContent){
     });
 }
 
-function reason1(id,auditContent){
+function reason1(id,auditField){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
@@ -90,7 +90,7 @@ function reason1(id,auditContent){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");

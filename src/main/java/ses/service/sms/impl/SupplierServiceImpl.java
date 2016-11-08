@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -40,6 +41,8 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private SupplierAuditMapper supplierAuditMapper;
 	
 	@Override
 	public Supplier get(String id) {
@@ -144,13 +147,20 @@ public class SupplierServiceImpl implements SupplierService {
 	 */
 	@Override
 	public void commit(Supplier supplier) {
+		if (supplier.getStatus() == 7) {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("isDeleted", 1);
+			param.put("supplierId", supplier.getId());
+			supplierAuditMapper.updateByMap(param);
+			todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
+		}
 		supplier.setStatus(0);
 		supplierMapper.updateByPrimaryKeySelective(supplier);
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		// 推送代办
 		Todos todos = new Todos();
 		todos.setSenderId(supplier.getId());// 推送者 ID
-		todos.setName("供应商初审");// 待办名称
+		todos.setName("供应商初审 !");// 待办名称
 		todos.setOrgId(supplier.getProcurementDepId());// 机构ID
 		todos.setPowerId(PropUtil.getProperty("gysdb"));// 权限 ID
 		todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());// URL

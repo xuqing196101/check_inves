@@ -43,6 +43,12 @@
 			}
 		});
 		
+		if ("${currSupplier.status}" == 7) {
+			$(":radio").each(function() {
+				$(this).prop("disabled", true);
+			});
+		}
+		
 		loadRootArea();
 	});
 	

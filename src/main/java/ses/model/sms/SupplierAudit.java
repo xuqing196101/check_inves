@@ -25,7 +25,7 @@ public class SupplierAudit {
 
     private String auditFieldName;
     
-    private Integer idDeleted = 0;
+    private Integer isDeleted = 0;
     
     public String getId() {
         return id;
@@ -116,13 +116,11 @@ public class SupplierAudit {
 		this.auditFieldName = auditFieldName;
 	}
 
-	public Integer getIdDeleted() {
-		return idDeleted;
+	public Integer getIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setIdDeleted(Integer idDeleted) {
-		this.idDeleted = idDeleted;
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
-	
-    
 }

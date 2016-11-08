@@ -36,11 +36,11 @@
   <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 
-      CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME ,IS_DELETED
+      CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME ,IS_DELETED,
       AUDIT_CONTENT)
     values (#{id}, #{suggest}, #{auditType}, 
       #{userId}, #{supplierId}, #{status}, 
-      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName} ,#{isDeleted}
+      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName} ,#{isDeleted},
       #{auditContent})
   </insert>
   
@@ -115,6 +115,9 @@
       </if>
       <if test="auditContent != null">
         #{auditContent},
+      </if>
+      <if test="auditFieldName != null">
+        #{auditFieldName},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -193,7 +196,25 @@
   		<if test="supplierId != null">
 			and t1.SUPPLIER_ID = #{supplierId}
   		</if>
+  		<if test="isDeleted != null">
+		 	and t1.IS_DELETED = #{isDeleted}
+	 	</if>
   	</where>
   </select>
-
+	
+	<update id="updateByMap" parameterType="java.util.Map">
+		 update 
+		 	T_SES_SMS_SUPPLIER_AUDIT t1
+		 <set>
+		 	<if test="isDeleted != null">
+		 		t1.IS_DELETED = #{isDeleted}
+		 	</if>
+		 </set>
+		 <where>
+		 	<if test="supplierId != null">
+		 		and t1.SUPPLIER_ID = #{supplierId}
+		 	</if>
+		 </where>
+	</update>
+	
 </mapper>

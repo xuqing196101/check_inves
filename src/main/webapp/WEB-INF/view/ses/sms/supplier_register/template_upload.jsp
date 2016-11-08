@@ -112,6 +112,7 @@
 						<form id="template_upload_form_id" action="${pageContext.request.contextPath}/supplier/perfect_upload.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
+							<input name="status" type="hidden" value="${currSupplier.status}" />
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">

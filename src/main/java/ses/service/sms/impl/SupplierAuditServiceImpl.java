@@ -549,6 +549,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		param.put("list", list);
 		param.put("supplierId", supplierAudit.getSupplierId());
+		param.put("isDeleted", 0);
 		return supplierAuditMapper.findByMap(param);
 	}
 }

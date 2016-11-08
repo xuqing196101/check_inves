@@ -46,4 +46,6 @@ public interface SupplierAuditMapper {
     void updateBySupplierId (SupplierAudit record);
     
     List<SupplierAudit> findByMap(Map<String, Object> param);
+    
+    int updateByMap(Map<String, Object> param);
 } 

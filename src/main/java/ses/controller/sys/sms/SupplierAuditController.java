@@ -551,7 +551,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
-			todos.setName("供应商初审");
+			todos.setName("供应商复审退回, 需初审 !");
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
@@ -574,11 +574,14 @@ public class SupplierAuditController extends BaseSupplierController{
 			//待办名字
 			todos.setName("供应商信息有误,请修改！");
 			
-			// List<User> receiverIdList= userServiceI.findByLoginName(user.getLoginName());
-			//接收用户id
-			todos.setReceiverId(supplierId);
+			List<User> receiverIdList= userServiceI.findByLoginName(supplier.getLoginName());
+			if(receiverIdList.size()>0){
+				String receiverId=  receiverIdList.get(0).getId();
+				//接收用户id
+				todos.setReceiverId(receiverId);
+			}
 			//url
-			todos.setUrl("");
+			todos.setUrl("supplier/return_edit.html?id=" + supplierId);
 			//类型
 			todos.setUndoType((short) 1);
 			todosService.insert(todos);

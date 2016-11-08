@@ -53,6 +53,8 @@
 				showTableReason("cert_eng_list_tbody_id", field, content);
 			} else if(fieldName == "工程-资质资格证书") {
 				showTableReason("aptitute_list_tbody_id", field, content);
+			} else if (fieldName == "工程-注册人员登记") {
+				showTableReason("reg_person_list_tbody_id", field, content);
 			} else {
 				showBasicReason(field, content);
 			}

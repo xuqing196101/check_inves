@@ -76,13 +76,17 @@
     var size = $(":radio:checked").size();
     
     if (!size) {
-      layer.msg("请选择供应商 !");
+      layer.msg("请选择供应商 !", {
+      	offset : '200px',
+      });
       return;
     }
     var id = $(":radio:checked").val();
     var state = $("#"+id).parents("tr").find("td").eq(5).text().trim();
     if (state == "已审核" || state == "初审核未通过" || state == "复审未通过" || state == "初审退回") {
-        layer.msg("请选择待审核项 !");
+        layer.msg("请选择待审核项 !", {
+        	offset : '200px',
+        });
         return;
       } 
     
