@@ -174,7 +174,7 @@ alert(supplierInspectListFile);
 	                     <c:if test="${list.auditType == 'mat_sell_page'}">物资销售专业信息</c:if>
 	                     <c:if test="${list.auditType == 'mat_eng_page'}">工程专业信息</c:if>
 	                     <c:if test="${list.auditType == 'mat_serve_page'}">服务专业信息</c:if>
-	                     
+	                     <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if>
 	                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
 	                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
 	                   </td>
