@@ -34,7 +34,7 @@
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-	    obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
+	    obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.docx");// 异步加载, 服务器文件路径
 		
 		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");
 		
@@ -60,9 +60,11 @@
 	}
 	
 	function saveFile(){
+		var projectId = $("#projectId").val();
 		var obj = document.getElementById("TANGER_OCX");
-		var s = obj.GetBookmarkValue("书签");
-		alert(s);
+		//参数说明
+		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId, "ntko", "", "bid.doc", "MyFile");
 	}
 	
 	function closeFile(){
@@ -103,17 +105,18 @@
 </head>
 
 <body onload="OpenFile()">
-	<form id="MyFile" method="post"  enctype="multipart/form-data">
-		 <!-- 按钮 -->
-        <div class="fr pr15 mt10">
-        	 <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
-        	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
-        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
-        	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input>
-        	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
-	    </div>
+	 <!-- 按钮 -->
+     <div class="fr pr15 mt10">
+      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
+      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
+      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
+      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
+      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
+     	<input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
+    </div>
+	<form id="MyFile" method="post">
+    	<input type="hidden" id="projectId" value="${project.id }">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
 </body>

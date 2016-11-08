@@ -180,7 +180,7 @@ public class UploadServiceImpl implements UploadService {
             return ERROR;
         }
         try {
-            Integer systemKey = Integer.parseInt(request.getParameter("key"));
+            Integer systemKey = Integer.parseInt(sysKey);
             String tableName = Constant.fileSystem.get(systemKey);
             MultipartFileBean param = MultipartFileUploadUtil.parse(request);
             if (param == null || !StringUtils.isNotBlank(param.getFileName())){
@@ -188,13 +188,13 @@ public class UploadServiceImpl implements UploadService {
             }
             String fileName = param.getFileName();
             String finalPath = PropUtil.getProperty("file.base.path");
-            int type = Integer.parseInt(typeId);
+            int type = Integer.parseInt(sysKey);
             String fileSysPath = getFileDir(type);
             if (StringUtils.isNotBlank(fileSysPath)){
                 finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
                 UploadUtil.createDir(finalPath);
                 String targetFileName = System.currentTimeMillis()+ "." + fileName.substring(fileName.lastIndexOf(".")+1) ;
-                File file = new File(finalPath,targetFileName);
+                File file = UploadUtil.getFile(finalPath, targetFileName);
                 RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
                 long length = file.length();
                 accessFile.seek(length);

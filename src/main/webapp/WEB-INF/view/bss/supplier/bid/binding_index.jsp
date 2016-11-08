@@ -127,11 +127,11 @@
     <div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="<%=basePath%>supplierProject/bidDocument.html?projectId=${projectId}" class="img-v1 green_link">编制标书</a>
+			  <a href="<%=basePath%>supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1 green_link">编制标书</a>
 			  <span class="green_link">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>supplierProject/toBindingIndex.html?projectId=1" class="img-v2 orange_link">绑定指标</a>
+			  <a href="<%=basePath%>supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v2 orange_link">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>
@@ -157,19 +157,19 @@
 				  <li>
 				    <span class="light_desc">法人代表</span>
 				    <div class='bdzb light_icon'>
-				    	<a href='javascript:void(0)' onclick="mark(this,'法人代表');">定位</a>
+				    	<a href='javascript:void(0)' onclick="mark(this,'法人代表');">绑定指标</a>
 				    </div>
 				  </li>
 				  <li>
 				    <span class="light_desc">营业执照...</span>
 				    <div class='bdzb light_icon'>
-				    	<a href='javascript:void(0)' onclick="mark(this,'营业执照编号');">定位</a>
+				    	<a href='javascript:void(0)' onclick="mark(this,'营业执照编号');">绑定指标</a>
 				    </div>
 				  </li>
 				  <li>
 				    <span class="light_desc">年利润</span>
 				    <div class='bdzb light_icon'>
-				    	<a href='javascript:void(0)' onclick="mark(this,'年利润');">定位</a>
+				    	<a href='javascript:void(0)' onclick="mark(this,'年利润');">绑定指标</a>
 				    </div>
 				  </li>
 				</ul>
@@ -182,13 +182,13 @@
 				  <li>
 				    <span class="light_desc">企业规模</span>
 					<div class='bdzb light_icon'>
-				    	<a href='javascript:void(0)' onclick="mark(this,'企业规模');">定位</a>
+				    	<a href='javascript:void(0)' onclick="mark(this,'企业规模');">绑定指标</a>
 				    </div>
 				  </li>
 				  <li>
 				    <span class="light_desc">技术人数</span>
 					<div class='bdzb light_icon'>
-				    	<a href='javascript:void(0)' onclick="mark(this,'技术人数');">定位</a>
+				    	<a href='javascript:void(0)' onclick="mark(this,'技术人数');">绑定指标</a>
 				    </div>
 				  </li>
 				</ul>
