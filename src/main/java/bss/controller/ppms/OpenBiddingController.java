@@ -525,16 +525,16 @@ public class OpenBiddingController {
         List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
-        List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
+      /*  List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
         for(String str:listsupplierId){
             Quote quote=new Quote();
             quote.setSupplierId(str);
             List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
             listQuoteList.add(listQuote);
-        }
+        }*/
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("listPd", listPd);
-        model.addAttribute("listQuoteList", listQuoteList);
+        //model.addAttribute("listQuoteList", listQuoteList);
         return "bss/ppms/open_bidding/bid_file/changbiao";
     }
 }

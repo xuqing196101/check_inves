@@ -1,5 +1,6 @@
 package ses.model.sms;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -56,7 +57,7 @@ public class SupplierEdit {
 
     private String registAuthority;
 
-    private Long registFund;
+    private BigDecimal registFund;
 
     private Date businessStartDate;
 
@@ -301,11 +302,11 @@ public class SupplierEdit {
         this.registAuthority = registAuthority == null ? null : registAuthority.trim();
     }
 
-    public Long getRegistFund() {
+    public BigDecimal getRegistFund() {
         return registFund;
     }
 
-    public void setRegistFund(Long registFund) {
+    public void setRegistFund(BigDecimal registFund) {
         this.registFund = registFund;
     }
 

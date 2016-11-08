@@ -58,4 +58,26 @@ public interface SupplierEditService {
 	 * @return void
 	 */
 	void delete(String id);
+	
+	/**
+	 * @Title: getAllbySupplierId
+	 * @author Song Biaowei
+	 * @date 2016-11-8 下午2:11:32  
+	 * @Description: 判断是不是第一次修改
+	 * @param @param se
+	 * @param @return      
+	 * @return List<SupplierEdit>
+	 */
+	List<SupplierEdit> getAllbySupplierId(SupplierEdit se);
+	
+	/**
+	 * @Title: getAllbySupplierId
+	 * @author Song Biaowei
+	 * @date 2016-11-8 下午2:11:32  
+	 * @Description: 获取所有的修改记录
+	 * @param @param se
+	 * @param @return      
+	 * @return List<SupplierEdit>
+	 */
+	List<SupplierEdit> getAllRecord(SupplierEdit se);
 }

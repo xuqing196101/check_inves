@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>工程-专业信息</title>
+<title>基本信息</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,39 +111,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 function reason(id){
-  var supplierId=$("#supplierId").val();
-  var auditField="证书编号是"+$("#"+id).text(); //审批的字段名字
-   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
-        type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
-      });
-        $("#"+id+"_hide").hide();
-        $("#"+id+"_hide1").hide();
-        layer.msg("审核不通过的理由是："+text);
-    });
-}
-
-function reason1(id){
-  var supplierId=$("#supplierId").val();
-  var id2=id+"2";
+  var supplierId=$("#id").val();
   var id1=id+"1";
+  var id2=id+"2";
+  var id3=id+"3";
   var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
+  var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
+  var auditType=$("#essential").text(); //审核类型
   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
-     layer.msg("审核不通过的理由是："+text);
-     $("#"+id1+"").hide();
+  $("#"+id1+"").hide();
+  layer.msg("审核不通过的理由是："+text);    
+/*    $("input[name='auditType']").val(auditType);
+   $("input[name='auditField']").val(auditField);
+   $("input[name='auditContent']").val(auditContent);
+   $("input[name='suggest']").val(text);
+    
+   $("#save_reaeon").submit(); */
     });
 }
-
-
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -176,13 +169,21 @@ function tijiao(str){
   if(str=="product"){
      action = "<%=basePath%>supplierQuery/product.html";
   }
+   if(str=="updateHistory"){
+     action = "<%=basePath%>supplierQuery/showUpdateHistory.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+
+
 </script>
 <style type="text/css">
+
 </style>
 </head>
+  
 <body>
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -194,170 +195,66 @@ function tijiao(str){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-    <!--详情开始-->
-    <div class="container content height-350">
-      <div class="row magazine-page">
-        <div class="col-md-12 tab-v2 job-content">
-          <div class="padding-top-10">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-               <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+   <div class="container">
+   <div class="col-md-12">
+	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</div>
+    </div>
+  <!--详情开始-->
+        <div class="padding-top-10">
+          <ul class="nav nav-tabs bgdd">
+            <li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+           <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
             <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
              <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
-            <li class="active"><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
+            <%--  <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
-            </ul>
-              <div class="tab-content padding-top-20">
-                <div class="tab-pane fade active in height-450" id="tab-1">
+            </c:if> --%>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
+            <li class="active"><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
+          </ul>
+          <div class="padding-top-20"></div>
                   <form id="form_id" action="" method="post">
-                    <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-                  </form>
-                  <div class=" margin-bottom-0 fl">
-                     <h5>
-                  <i>一、</i>供应商资质证书信息
-                  </h5>
-	                  <table class="table table-bordered table-condensed">
-	                    <thead>
-	                      <tr>
-	                        <th class="info">资质资格类型</th>
-	                        <th class="info">证书编号</th>
-	                        <th class="info">资质资格最高等级</th>
-	                        <th class="info">技术负责人姓名</th>
-	                        <th class="info">技术负责人职称</th>
-	                        <th class="info">技术负责人职务</th>
-	                        <th class="info">单位负责人姓名</th>
-	                        <th class="info">单位负责人职称</th>
-	                        <th class="info">单位负责人职务</th>
-	                        <th class="info">发证机关</th>
-	                        <th class="info">发证日期</th>
-	                        <th class="info">证书有效期截止日期</th>
-	                        <th class="info">证书状态</th>
-	                       <!--  <th class="info">附件上传</th> -->
-	                      </tr>
-	                    </thead>
-	                    <c:forEach items="${supplierCertEng}" var="s" >
-	                      <tr>
-	                        <td class="tc">${s.certType }</td>
-	                        <td class="tc" id="${s.id }">${s.certCode }</td>
-	                        <td class="tc">${s.certMaxLevel }</td>
-	                        <td class="tc">${s.techName }</td>
-	                        <td class="tc">${s.techPt }</td>
-	                        <td class="tc">${s.techJop }</td>
-	                        <td class="tc">${s.depName }</td>
-	                        <td class="tc">${s.depPt }</td>
-	                        <td class="tc">${s.depJop }</td>
-	                        <td class="tc">${s.licenceAuthorith }</td>
-	                        <td class="tc">
-	                          <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
-	                        </td>
-	                        <td class="tc">${s.certStatus }
-	                           <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
-	                           <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
-	                        </td>
-	                        <td class="tc">
-	                          <c:if test="${s.certStatus==0 }">无效</c:if>
-	                          <c:if test="${s.certStatus==1 }">有效</c:if>
-	                        </td>
-	                        <%-- <td class="tc">${s.attachCert }</td> --%>
-	                       </tr>
-	                     </c:forEach>
-	                   </table>
-	                 </div>
-	                 
-	                 <div class=" margin-bottom-0 fl" >
-	                       <h5>
-                  			<i>二、</i>供应商资质证书信息
-                 		 </h5>
-                   <table class="table table-bordered table-condensed">
-                    <thead>
-                      <tr>
-                        <th class="info">资质资格类型</th>
-                        <th class="info">证书编号</th>
-                        <th class="info">资质资格序列</th>
-                        <th class="info">专业类别</th>
-                        <th class="info">资质资格等级</th>
-                        <th class="info">是否主项资质</th>
-                        <th class="info">批准资质资格内容</th>
-                        <th class="info">首次批准资质资格文号</th>
-                        <th class="info">首次批准资质资格日期</th>
-                        <th class="info">资质资格取得方式</th>
-                        <th class="info">资质资格状态</th>
-                        <th class="info">资质资格状态变更时间</th>
-                        <th class="info">资质资格状态变更原因</th>
-                       <!--  <th class="info">附件上传</th> -->
-                      </tr>
-                    </thead>
-                    <c:forEach items="${supplierAptitutes}" var="s" >
-                      <tr>
-                        <td class="tc">${s.certType }</td>
-                        <td class="tc" id="${s.id }">${s.certCode }</td>
-                        <td class="tc">${s.aptituteSequence }</td>
-                        <td class="tc">${s.professType }</td>
-                        <td class="tc">${s.aptituteLevel }</td>
-                        <td class="tc">
-                          <c:if test="${s.isMajorFund==0 }">否</c:if>
-                          <c:if test="${s.isMajorFund==1 }">是</c:if>
-                        <td class="tc">${s.aptituteContent }</td>
-                        <td class="tc">${s.aptituteCode }</td>
-                        <td class="tc">
-                          <fmt:formatDate value="${s.aptituteDate }" pattern='yyyy-MM-dd'/>
-                        </td>
-                        <td class="tc">${s.aptituteWay }</td>
-                        <td class="tc">
-                          <c:if test="${s.aptituteStatus==0 }">无效</c:if>
-                          <c:if test="${s.aptituteStatus==1 }">有效</c:if>
-                        </td>
-                        <td class="tc">
-                          <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
-                        </td>
-                        <td class="tc">${s.aptituteChangeReason }</td>
-                        <%-- <td class="tc">${s.attachCert }</td> --%>
-                        <td class="tc">
-                        </td>
-                      </tr>
-                    </c:forEach>
-                  </table>
-                </div>
-                
+                    <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+                  </form> 
+                <c:forEach items="${list }" var="record" varStatus="vs">
                 <div class=" margin-bottom-0">
-                <table class="table table-bordered">
-						<tbody>
-						<tr><td colspan="6" class="bggrey tl">三、供应商组织机构</td></tr>
-	                        <tr>
-								<td class="bggrey tr" style="width:17%">组织机构：</td>
-								<td style="width:16%" onmouseover="out('${supplierMatEngs.orgName}')">${supplierMatEngs.orgName}</td>
-								<td class="bggrey tr" style="width:17%">技术负责人：</td>
-								<td style="width:17%">${supplierMatEngs.totalTech }</td>
-								<td style="width:17%" class="bggrey tr">中级及以上职称人员：</td>
-								<td style="width:17%">${supplierMatEngs.totalGlNormal }</td>
-							</tr>
-							 <tr>
-								<td class="bggrey tr">管理人员：</td>
-								<td onmouseover="out('${supplierMatEngs.totalMange}')">${supplierMatEngs.totalMange}</td>
-								<td class="bggrey tr">技术工人：</td>
-								<td colspan="3">${supplierMatEngs.totalTechWorker }</td>
-							</tr>
-							</tbody>
-							</table>
-                    </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+                <div class="tml_container padding-top-10">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="history_icon">修改记录</h2>
+				        <div class="padding-left-40">
+				 		  <span>${fn:substringBefore(record, "^-^")}    </span>
+						  
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+     </c:forEach>
+</div>
+</div>
 </body>
 </html>

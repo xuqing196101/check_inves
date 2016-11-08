@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -34,11 +36,13 @@ import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -52,6 +56,9 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierService supplierService;
 	@Autowired
 	private SupplierLevelService supplierLevelService;
+	
+	@Autowired
+	private SupplierEditService supplierEditService;
 
 	/**
 	 * @Title: highmaps
@@ -66,7 +73,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	public String highmaps(Supplier sup,Model model,Integer status,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds,HttpServletRequest req){
 		User user=(User)req.getSession().getAttribute("loginUser");
 		model.addAttribute("supplierId", user.getTypeId());
-		StringBuffer sb = new StringBuffer("");
 		//调用供应商查询方法 List<Supplier>
 		if(status!=null){
 			sup.setStatus(status);
@@ -83,27 +89,16 @@ public class SupplierQueryController extends BaseSupplierController{
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
 		map=getMap();
-		List<String> list=getAllProvince();
+		Map<String,Object> mapProvince=getAllProvince();
 		for(Supplier supplier:listSupplier){
-			for(String str:list){
-				int count=1;
-				if(supplier.getAddress()!=null&&supplier.getAddress().indexOf(str)!=-1){
-					if(map.get(str)==null){
-						map.put(str, count);
-					}else{
-						map.put(str,map.get(str)+1);
-					}
+			for(Map.Entry<String, Object> entry:mapProvince.entrySet()){   
+				if(supplier.getAddress()!=null&&supplier.getAddress().indexOf(entry.getKey())!=-1){
+						map.put((String)entry.getValue(),(Integer)map.get(entry.getValue())+1);
 				}
-			}
+			}   
 		}
-		for (Object o : map.keySet()) { 
-			sb.append(o).append(map.get(o));
-		}
-		String highMapStr=null;
-		if(sb.length()>0){
-			highMapStr=sb.toString();
-		}
-		model.addAttribute("data", highMapStr);
+		 String json = JSON.toJSONString(map);
+		model.addAttribute("data", json);
 		model.addAttribute("sup",sup);
 		model.addAttribute("categoryNames", categoryNames);
 		model.addAttribute("supplierType", supplierType);
@@ -132,7 +127,12 @@ public class SupplierQueryController extends BaseSupplierController{
 	public String findSupplierByPriovince(HttpServletRequest req,Supplier sup,Integer page,Model model,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds) throws UnsupportedEncodingException{
 		User user=(User)req.getSession().getAttribute("loginUser");
 		model.addAttribute("supplierId", user.getTypeId());
-		sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8"));
+		String address=this.getProvince(sup.getAddress());
+		if("".equals(address)){
+			sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8"));
+		}else{
+			sup.setAddress(address);
+		}
 		if(categoryIds!=null&&!"".equals(categoryIds)){
 			List<String> listCategoryIds=Arrays.asList(categoryIds.split(","));
 			sup.setItem(listCategoryIds);
@@ -206,6 +206,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			supplierId=supId;
 		}
 		supplier = supplierAuditService.supplierById(supplierId);
+		getSupplierType(supplier);
 		model.addAttribute("suppliers", supplier);
 		if(isRuku!=null&&isRuku==1){
 			model.addAttribute("status", supplier.getStatus());
@@ -233,7 +234,9 @@ public class SupplierQueryController extends BaseSupplierController{
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("financial", list);
-
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/financial";
 	}
 
@@ -253,6 +256,10 @@ public class SupplierQueryController extends BaseSupplierController{
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("shareholder", list);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/shareholder";
 	}
 	
@@ -275,10 +282,13 @@ public class SupplierQueryController extends BaseSupplierController{
 		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
 		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
-		
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/material_production";
 	}
 	
@@ -302,6 +312,10 @@ public class SupplierQueryController extends BaseSupplierController{
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/material_sales";
 	}
 	
@@ -328,6 +342,10 @@ public class SupplierQueryController extends BaseSupplierController{
 		request.setAttribute("supplierAptitutes", supplierAptitute);
 		request.setAttribute("supplierMatEngs",supplierMatEng);
 		request.setAttribute("supplierId", supplierId);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("supplierss", supplier);
 		return "ses/sms/supplier_query/supplierInfo/engineering";
 	}
 	
@@ -351,6 +369,10 @@ public class SupplierQueryController extends BaseSupplierController{
 		request.setAttribute("supplierCertSes", supplierCertSe);
 		request.setAttribute("supplierMatSes", supplierMatSe);
 		request.setAttribute("supplierId", supplierId);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
@@ -375,6 +397,9 @@ public class SupplierQueryController extends BaseSupplierController{
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/product";
 	}
 	
@@ -396,6 +421,9 @@ public class SupplierQueryController extends BaseSupplierController{
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());
 		model.addAttribute("supplierId", supplier.getId());
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		model.addAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/cheng_xin";
 	}
 	
@@ -412,7 +440,317 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("/item")
 	public String item(String supplierId,Model model){
 		model.addAttribute("id", supplierId);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		model.addAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/item";
+	}	
+	
+	/**
+	 * @Title: item
+	 * @author Song Biaowei
+	 * @date 2016-11-8 下午1:05:00  
+	 * @Description: 显示历史纪录 
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/showUpdateHistory")
+	public String showUpdateHistory(String supplierId,Model model){
+		List<String> list=new ArrayList<String>();
+		SupplierEdit se=new SupplierEdit();
+		se.setRecordId(supplierId);
+		List<SupplierEdit> listEdit=supplierEditService.getAllRecord(se);
+		for(int i=0;i<listEdit.size()-1;i++){
+			StringBuffer sb=new StringBuffer("");
+			if((listEdit.get(i).getSupplierName()==null&&listEdit.get(i+1).getSupplierName()!=null)){
+				sb.append(" 供应商姓名:"+listEdit.get(i+1).getSupplierName()+",");
+			}else if((listEdit.get(i).getSupplierName()==null&&listEdit.get(i+1).getSupplierName()==null)){
+				
+			}else if(!listEdit.get(i).getSupplierName().equals(listEdit.get(i+1).getSupplierName())){
+				sb.append(" 供应商姓名:"+listEdit.get(i+1).getSupplierName()+",");
+			}
+			if((listEdit.get(i).getWebsite()==null&&listEdit.get(i+1).getWebsite()!=null)){
+				sb.append(" 公司网址:"+listEdit.get(i+1).getWebsite()+",");
+			}else if((listEdit.get(i).getWebsite()==null&&listEdit.get(i+1).getWebsite()==null)){
+				
+			}else if(!listEdit.get(i).getWebsite().equals(listEdit.get(i+1).getWebsite())){
+				sb.append(" 公司网址:"+listEdit.get(i+1).getWebsite()+",");
+			}
+			if((listEdit.get(i).getFoundDate()==null&&listEdit.get(i+1).getFoundDate()!=null)){
+				sb.append(" 成立日期:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getFoundDate())+",");
+			}else if((listEdit.get(i).getFoundDate()==null&&listEdit.get(i+1).getFoundDate()==null)){
+				
+			}else if(!listEdit.get(i).getFoundDate().equals(listEdit.get(i+1).getFoundDate())){
+				sb.append(" 成立日期:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getFoundDate())+",");
+			}
+			if((listEdit.get(i).getBusinessType()==null&&listEdit.get(i+1).getBusinessType()!=null)){
+				sb.append(" 营业执照类型:"+listEdit.get(i+1).getBusinessType()+",");
+			}else if((listEdit.get(i).getBusinessType()==null&&listEdit.get(i+1).getBusinessType()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessType().equals(listEdit.get(i+1).getBusinessType())){
+				sb.append(" 营业执照类型:"+listEdit.get(i+1).getBusinessType()+",");
+			}
+			if((listEdit.get(i).getAddress()==null&&listEdit.get(i+1).getAddress()!=null)){
+				sb.append(" 企业地址:"+listEdit.get(i+1).getAddress()+",");
+			}else if((listEdit.get(i).getAddress()==null&&listEdit.get(i+1).getAddress()==null)){
+				
+			}else if(!listEdit.get(i).getAddress().equals(listEdit.get(i+1).getAddress())){
+				sb.append(" 企业地址:"+listEdit.get(i+1).getAddress()+",");
+			}
+			
+			if((listEdit.get(i).getBankName()==null&&listEdit.get(i+1).getBankName()!=null)){
+				sb.append(" 开户行名称:"+listEdit.get(i+1).getBankName()+",");
+			}else if((listEdit.get(i).getBankName()==null&&listEdit.get(i+1).getBankName()==null)){
+				
+			}else if(!listEdit.get(i).getBankName().equals(listEdit.get(i+1).getBankName())){
+				sb.append(" 开户行名称:"+listEdit.get(i+1).getBankName()+",");
+			}
+			
+			if((listEdit.get(i).getBankAccount()==null&&listEdit.get(i+1).getBankAccount()!=null)){
+				sb.append(" 开户行账户:"+listEdit.get(i+1).getBankAccount()+",");
+			}else if((listEdit.get(i).getBankAccount()==null&&listEdit.get(i+1).getBankAccount()==null)){
+				
+			}else if(!listEdit.get(i).getBankAccount().equals(listEdit.get(i+1).getBankAccount())){
+				sb.append(" 开户行账户:"+listEdit.get(i+1).getBankAccount()+",");
+			}
+			
+			if((listEdit.get(i).getPostCode()==null&&listEdit.get(i+1).getPostCode()!=null)){
+				sb.append(" 邮编:"+listEdit.get(i+1).getPostCode()+",");
+			}else if((listEdit.get(i).getPostCode()==null&&listEdit.get(i+1).getPostCode()==null)){
+				
+			}else if(!listEdit.get(i).getPostCode().equals(listEdit.get(i+1).getPostCode())){
+				sb.append(" 邮编:"+listEdit.get(i+1).getPostCode()+",");
+			}
+			
+			if((listEdit.get(i).getTaxCert()==null&&listEdit.get(i+1).getTaxCert()!=null)){
+				if(listEdit.get(i+1).getTaxCert().indexOf("_")!=-1){
+					sb.append(" 完税凭证:"+listEdit.get(i+1).getTaxCert().substring(listEdit.get(i+1).getTaxCert().indexOf("_")+1,listEdit.get(i+1).getTaxCert().length())+",");
+				}
+			}else if((listEdit.get(i).getTaxCert()==null&&listEdit.get(i+1).getTaxCert()==null)){
+				
+			}else if(!listEdit.get(i).getTaxCert().equals(listEdit.get(i+1).getTaxCert())){
+				if(listEdit.get(i+1).getTaxCert().indexOf("_")!=-1){
+					sb.append(" 完税凭证:"+listEdit.get(i+1).getTaxCert().substring(listEdit.get(i+1).getTaxCert().indexOf("_")+1,listEdit.get(i+1).getTaxCert().length())+",");
+				}
+			}
+			
+			if((listEdit.get(i).getBillCert()==null&&listEdit.get(i+1).getBillCert()!=null)){
+				if(listEdit.get(i+1).getBillCert().indexOf("_")!=-1){
+					sb.append(" 银行账单:"+listEdit.get(i+1).getBillCert().substring(listEdit.get(i+1).getBillCert().indexOf("_")+1,listEdit.get(i+1).getBillCert().length())+",");
+				}
+			}else if((listEdit.get(i).getBillCert()==null&&listEdit.get(i+1).getBillCert()==null)){
+				
+			}else if(!listEdit.get(i).getBillCert().equals(listEdit.get(i+1).getBillCert())){
+				if(listEdit.get(i+1).getBillCert().indexOf("_")!=-1){
+					sb.append(" 银行账单:"+listEdit.get(i+1).getBillCert().substring(listEdit.get(i+1).getBillCert().indexOf("_")+1,listEdit.get(i+1).getBillCert().length())+",");
+				}
+			}
+			if((listEdit.get(i).getSecurityCert()==null&&listEdit.get(i+1).getSecurityCert()!=null)){
+				if(listEdit.get(i+1).getSecurityCert().indexOf("_")!=-1){
+					sb.append(" 保险凭证:"+listEdit.get(i+1).getSecurityCert().substring(listEdit.get(i+1).getSecurityCert().indexOf("_")+1,listEdit.get(i+1).getSecurityCert().length())+",");
+				}
+			}else if((listEdit.get(i).getSecurityCert()==null&&listEdit.get(i+1).getSecurityCert()==null)){
+				
+			}else if(!listEdit.get(i).getSecurityCert().equals(listEdit.get(i+1).getSecurityCert())){
+				if(listEdit.get(i+1).getSecurityCert().indexOf("_")!=-1){
+					sb.append(" 保险凭证:"+listEdit.get(i+1).getSecurityCert().substring(listEdit.get(i+1).getSecurityCert().indexOf("_")+1,listEdit.get(i+1).getSecurityCert().length())+",");
+				}
+			}
+			
+			if((listEdit.get(i).getBreachCert()==null&&listEdit.get(i+1).getBreachCert()!=null)){
+				if(listEdit.get(i+1).getBreachCert().indexOf("_")!=-1){
+					sb.append(" 违法记录:"+listEdit.get(i+1).getBreachCert().substring(listEdit.get(i+1).getBreachCert().indexOf("_")+1,listEdit.get(i+1).getBreachCert().length())+",");
+				}
+			}else if((listEdit.get(i).getBreachCert()==null&&listEdit.get(i+1).getBreachCert()==null)){
+				
+			}else if(!listEdit.get(i).getBreachCert().equals(listEdit.get(i+1).getBreachCert())){
+				if(listEdit.get(i+1).getBreachCert().indexOf("_")!=-1){
+					sb.append(" 违法记录:"+listEdit.get(i+1).getBreachCert().substring(listEdit.get(i+1).getBreachCert().indexOf("_")+1,listEdit.get(i+1).getBreachCert().length())+",");
+				}
+			}
+			if((listEdit.get(i).getLegalName()==null&&listEdit.get(i+1).getLegalName()!=null)){
+				sb.append(" 法人姓名:"+listEdit.get(i+1).getLegalName()+",");
+			}else if((listEdit.get(i).getLegalName()==null&&listEdit.get(i+1).getLegalName()==null)){
+				
+			}else if(!listEdit.get(i).getLegalName().equals(listEdit.get(i+1).getLegalName())){
+				sb.append(" 法人姓名:"+listEdit.get(i+1).getLegalName()+",");
+			}
+			if((listEdit.get(i).getLegalIdCard()==null&&listEdit.get(i+1).getLegalIdCard()!=null)){
+				sb.append(" 法人身份证:"+listEdit.get(i+1).getLegalIdCard()+",");
+			}else if((listEdit.get(i).getLegalIdCard()==null&&listEdit.get(i+1).getLegalIdCard()==null)){
+				
+			}else if(!listEdit.get(i).getLegalIdCard().equals(listEdit.get(i+1).getLegalIdCard())){
+				sb.append(" 法人身份证:"+listEdit.get(i+1).getLegalIdCard()+",");
+			}
+			
+			if((listEdit.get(i).getLegalMobile()==null&&listEdit.get(i+1).getLegalMobile()!=null)){
+				sb.append(" 法人手机:"+listEdit.get(i+1).getLegalMobile()+",");
+			}else if((listEdit.get(i).getLegalMobile()==null&&listEdit.get(i+1).getLegalMobile()==null)){
+				
+			}else if(!listEdit.get(i).getLegalMobile().equals(listEdit.get(i+1).getLegalMobile())){
+				sb.append(" 法人手机:"+listEdit.get(i+1).getLegalMobile()+",");
+			}
+			if((listEdit.get(i).getLegalTelephone()==null&&listEdit.get(i+1).getLegalTelephone()!=null)){
+				sb.append(" 法人电话:"+listEdit.get(i+1).getLegalTelephone()+",");
+			}else if((listEdit.get(i).getLegalTelephone()==null&&listEdit.get(i+1).getLegalTelephone()==null)){
+				
+			}else if(!listEdit.get(i).getLegalTelephone().equals(listEdit.get(i+1).getLegalTelephone())){
+				sb.append(" 法人电话:"+listEdit.get(i+1).getLegalTelephone()+",");
+			}
+			if((listEdit.get(i).getContactName()==null&&listEdit.get(i+1).getContactName()!=null)){
+				sb.append(" 联系人姓名:"+listEdit.get(i+1).getContactName()+",");
+			}else if((listEdit.get(i).getContactName()==null&&listEdit.get(i+1).getContactName()==null)){
+				
+			}else if(!listEdit.get(i).getContactName().equals(listEdit.get(i+1).getContactName())){
+				sb.append(" 联系人姓名:"+listEdit.get(i+1).getContactName()+",");
+			}
+			if((listEdit.get(i).getContactTelephone()==null&&listEdit.get(i+1).getContactTelephone()!=null)){
+				sb.append(" 联系人手机:"+listEdit.get(i+1).getContactTelephone()+",");
+			}else if((listEdit.get(i).getContactTelephone()==null&&listEdit.get(i+1).getContactTelephone()==null)){
+				
+			}else if(!listEdit.get(i).getContactTelephone().equals(listEdit.get(i+1).getContactTelephone())){
+				sb.append(" 联系人手机:"+listEdit.get(i+1).getContactTelephone()+",");
+			}
+			if((listEdit.get(i).getContactMobile()==null&&listEdit.get(i+1).getContactMobile()!=null)){
+				sb.append(" 联系人电话:"+listEdit.get(i+1).getContactMobile()+",");
+			}else if((listEdit.get(i).getContactMobile()==null&&listEdit.get(i+1).getContactMobile()==null)){
+				
+			}else if(!listEdit.get(i).getContactMobile().equals(listEdit.get(i+1).getContactMobile())){
+				sb.append(" 联系人电话:"+listEdit.get(i+1).getContactMobile()+",");
+			}
+			if((listEdit.get(i).getContactFax()==null&&listEdit.get(i+1).getContactFax()!=null)){
+				sb.append(" 联系人传真:"+listEdit.get(i+1).getContactFax()+",");
+			}else if((listEdit.get(i).getContactFax()==null&&listEdit.get(i+1).getContactFax()==null)){
+				
+			}else if(!listEdit.get(i).getContactFax().equals(listEdit.get(i+1).getContactFax())){
+				sb.append(" 联系人传真:"+listEdit.get(i+1).getContactFax()+",");
+			}
+			if((listEdit.get(i).getContactEmail()==null&&listEdit.get(i+1).getContactEmail()!=null)){
+				sb.append(" 联系人邮箱:"+listEdit.get(i+1).getContactEmail()+",");
+			}else if((listEdit.get(i).getContactEmail()==null&&listEdit.get(i+1).getContactEmail()==null)){
+				
+			}else if(!listEdit.get(i).getContactEmail().equals(listEdit.get(i+1).getContactEmail())){
+				sb.append(" 联系人邮箱:"+listEdit.get(i+1).getContactEmail()+",");
+			}
+			if((listEdit.get(i).getContactAddress()==null&&listEdit.get(i+1).getContactAddress()!=null)){
+				sb.append(" 联系人地址:"+listEdit.get(i+1).getContactAddress()+",");
+			}else if((listEdit.get(i).getContactAddress()==null&&listEdit.get(i+1).getContactAddress()==null)){
+				
+			}else if(!listEdit.get(i).getContactAddress().equals(listEdit.get(i+1).getContactAddress())){
+				sb.append(" 联系人地址:"+listEdit.get(i+1).getContactAddress()+",");
+			}
+			if((listEdit.get(i).getCreditCode()==null&&listEdit.get(i+1).getCreditCode()!=null)){
+				sb.append(" 社会信用码:"+listEdit.get(i+1).getContactAddress()+",");
+			}else if((listEdit.get(i).getCreditCode()==null&&listEdit.get(i+1).getCreditCode()==null)){
+				
+			}else if(!listEdit.get(i).getCreditCode().equals(listEdit.get(i+1).getCreditCode())){
+				sb.append(" 社会信用码:"+listEdit.get(i+1).getContactAddress()+",");
+			}
+			if((listEdit.get(i).getRegistAuthority()==null&&listEdit.get(i+1).getRegistAuthority()!=null)){
+				sb.append(" 注册机关:"+listEdit.get(i+1).getContactAddress()+",");
+			}else if((listEdit.get(i).getRegistAuthority()==null&&listEdit.get(i+1).getRegistAuthority()==null)){
+				
+			}else if(!listEdit.get(i).getRegistAuthority().equals(listEdit.get(i+1).getRegistAuthority())){
+				sb.append(" 注册机关:"+listEdit.get(i+1).getContactAddress()+",");
+			}
+			if((listEdit.get(i).getRegistFund()==null&&listEdit.get(i+1).getRegistFund()!=null)){
+				sb.append(" 注册资本:"+listEdit.get(i+1).getContactAddress()+",");
+			}else if((listEdit.get(i).getRegistFund()==null&&listEdit.get(i+1).getRegistFund()==null)){
+				
+			}else if(!listEdit.get(i).getRegistFund().equals(listEdit.get(i+1).getRegistFund())){
+				sb.append(" 注册资本:"+listEdit.get(i+1).getContactAddress()+",");
+			}
+			if((listEdit.get(i).getBusinessStartDate()==null&&listEdit.get(i+1).getBusinessStartDate()!=null)){
+				sb.append(" 营业期限开始时间:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getBusinessStartDate())+",");
+			}else if((listEdit.get(i).getBusinessStartDate()==null&&listEdit.get(i+1).getBusinessStartDate()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessStartDate().equals(listEdit.get(i+1).getBusinessStartDate())){
+				sb.append(" 营业期限开始时间:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getBusinessStartDate())+",");
+			}
+			if((listEdit.get(i).getBusinessEndDate()==null&&listEdit.get(i+1).getBusinessEndDate()!=null)){
+				sb.append(" 营业期限结束时间:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getBusinessEndDate())+",");
+			}else if((listEdit.get(i).getBusinessEndDate()==null&&listEdit.get(i+1).getBusinessEndDate()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessEndDate().equals(listEdit.get(i+1).getBusinessEndDate())){
+				sb.append(" 营业期限结束时间:"+new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i+1).getBusinessEndDate())+",");
+			}
+			if((listEdit.get(i).getBusinessScope()==null&&listEdit.get(i+1).getBusinessScope()!=null)){
+				sb.append(" 营业范围:"+listEdit.get(i+1).getBusinessScope()+",");
+			}else if((listEdit.get(i).getBusinessScope()==null&&listEdit.get(i+1).getBusinessScope()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessScope().equals(listEdit.get(i+1).getBusinessScope())){
+				sb.append(" 营业范围:"+listEdit.get(i+1).getBusinessScope()+",");
+			}
+			if((listEdit.get(i).getBusinessPostCode()==null&&listEdit.get(i+1).getBusinessPostCode()!=null)){
+				sb.append(" 境外分支邮编:"+listEdit.get(i+1).getBusinessPostCode()+",");
+			}else if((listEdit.get(i).getBusinessPostCode()==null&&listEdit.get(i+1).getBusinessPostCode()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessPostCode().equals(listEdit.get(i+1).getBusinessPostCode())){
+				sb.append(" 境外分支邮编:"+listEdit.get(i+1).getBusinessPostCode()+",");
+			}
+			
+			if((listEdit.get(i).getBusinessAddress()==null&&listEdit.get(i+1).getBusinessAddress()!=null)){
+				sb.append(" 分支地址:"+listEdit.get(i+1).getBusinessAddress()+",");
+			}else if((listEdit.get(i).getBusinessAddress()==null&&listEdit.get(i+1).getBusinessAddress()==null)){
+				
+			}else if(!listEdit.get(i).getBusinessAddress().equals(listEdit.get(i+1).getBusinessAddress())){
+				sb.append(" 分支地址:"+listEdit.get(i+1).getBusinessAddress()+",");
+			}
+			if((listEdit.get(i).getOverseasBranch()==null&&listEdit.get(i+1).getOverseasBranch()!=null)){
+				sb.append(" 是否是境外分支结构:"+listEdit.get(i+1).getOverseasBranch()+",");
+			}else if((listEdit.get(i).getOverseasBranch()==null&&listEdit.get(i+1).getOverseasBranch()==null)){
+				
+			}else if(!listEdit.get(i).getOverseasBranch().equals(listEdit.get(i+1).getOverseasBranch())){
+				sb.append(" 是否是境外分支结构:"+listEdit.get(i+1).getOverseasBranch()+",");
+			}
+			if((listEdit.get(i).getBranchCountry()==null&&listEdit.get(i+1).getBranchCountry()!=null)){
+				sb.append(" 分支所在国家范围:"+listEdit.get(i+1).getBranchCountry()+",");
+			}else if((listEdit.get(i).getBranchCountry()==null&&listEdit.get(i+1).getBranchCountry()==null)){
+				
+			}else if(!listEdit.get(i).getBranchCountry().equals(listEdit.get(i+1).getBranchCountry())){
+				sb.append(" 分支所在国家范围:"+listEdit.get(i+1).getBranchCountry()+",");
+			}
+			if((listEdit.get(i).getBranchAddress()==null&&listEdit.get(i+1).getBranchAddress()!=null)){
+				sb.append(" 详细地址:"+listEdit.get(i+1).getBranchAddress()+",");
+			}else if((listEdit.get(i).getBranchAddress()==null&&listEdit.get(i+1).getBranchAddress()==null)){
+				
+			}else if(!listEdit.get(i).getBranchAddress().equals(listEdit.get(i+1).getBranchAddress())){
+				sb.append(" 详细地址:"+listEdit.get(i+1).getBranchAddress()+",");
+			}
+			if((listEdit.get(i).getBranchBusinessScope()==null&&listEdit.get(i+1).getBranchBusinessScope()!=null)){
+				sb.append(" 生产经营范围:"+listEdit.get(i+1).getBranchBusinessScope()+",");
+			}else if((listEdit.get(i).getBranchBusinessScope()==null&&listEdit.get(i+1).getBranchBusinessScope()==null)){
+				
+			}else if(!listEdit.get(i).getBranchBusinessScope().equals(listEdit.get(i+1).getBranchBusinessScope())){
+				sb.append(" 生产经营范围:"+listEdit.get(i+1).getBranchBusinessScope()+",");
+			}
+			if((listEdit.get(i).getBusinessCert()==null&&listEdit.get(i+1).getBusinessCert()!=null)){
+				sb.append(" 营业执照:"+listEdit.get(i+1).getBusinessCert()+",");
+			}else if((listEdit.get(i).getBusinessCert()==null&&listEdit.get(i+1).getBusinessCert()==null)){
+			}else if(!listEdit.get(i).getBusinessCert().equals(listEdit.get(i+1).getBusinessCert())){
+				sb.append(" 营业执照:"+listEdit.get(i+1).getBusinessCert()+",");
+			}
+			if((listEdit.get(i).getBranchName()==null&&listEdit.get(i+1).getBranchName()!=null)){
+				sb.append(" 分支名称:"+listEdit.get(i+1).getBranchName()+",");
+			}else if((listEdit.get(i).getBranchName()==null&&listEdit.get(i+1).getBranchName()==null)){
+			}else if(!listEdit.get(i).getBranchName().equals(listEdit.get(i+1).getBranchName())){
+				sb.append(" 分支名称:"+listEdit.get(i+1).getBranchName()+",");
+			}
+			String str=sb.toString();
+			//大于5说明有修改否则无修改
+			if(str.length()>5){
+				list.add(str+"^-^"+new SimpleDateFormat("HH:mm:ss YYYY-MM-dd").format(listEdit.get(i+1).getCreateDate()));
+			}
+		}
+		model.addAttribute("list", list);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		getSupplierType(supplier);
+		model.addAttribute("suppliers", supplier);
+		return "ses/sms/supplier_query/supplierInfo/show_update_history";
 	}	
 	
 	/**
@@ -439,88 +777,163 @@ public class SupplierQueryController extends BaseSupplierController{
 			super.removeStash(request, fileName);
 		}
 	  
-	public static List<String> getAllProvince(){
-		List<String> list=new ArrayList<String>();
-		list.add("吉林");
-		list.add("天津");
-		list.add("山东");
-		list.add("山西");
-		list.add("新疆");
-		list.add("河北");
-		list.add("河南");
-		list.add("甘肃");
-		
-		list.add("福建");
-		list.add("贵州");
-		list.add("重庆");
-		list.add("江苏");
-		
-		list.add("内蒙古");
-		list.add("广西");
-		list.add("黑龙江");
-		list.add("云南");
-		list.add("辽宁");
-		
-		list.add("香港");
-		list.add("浙江");
-		list.add("上海");
-		list.add("北京");
-		list.add("广东");
-		list.add("澳门");
-		list.add("西藏");
-		list.add("陕西");
-		list.add("四川");
-		list.add("海南");
-		list.add("台湾");
-		list.add("宁夏");
-		list.add("青海");
-		list.add("江西");
-		list.add("湖北");
-		list.add("湖南");
-		list.add("安徽");
-		return list;
-	}
-	public static Map<String ,Integer> getMap(){
-		Map<String,Integer> map= new HashMap<String,Integer>(40);
-		map.put("安徽", 0);
-		map.put("湖南", 0);
-		map.put("湖北", 0);
-		map.put("江西", 0);
-		map.put("青海", 0);
-		map.put("宁夏", 0);
-		map.put("台湾", 0);
-		map.put("海南", 0);
-		map.put("四川", 0);
-		map.put("陕西", 0);
-		
-		map.put("西藏", 0);
-		map.put("澳门", 0);
-		map.put("广东", 0);
-		map.put("北京", 0);
-		map.put("上海", 0);
-		map.put("浙江", 0);
-		map.put("香港", 0);
-		map.put("辽宁", 0);
-		map.put("云南", 0);
-		map.put("黑龙江", 0);
-		
-		map.put("广西", 0);
-		map.put("内蒙古", 0);
-		map.put("江苏", 0);
-		map.put("重庆", 0);
-		map.put("贵州", 0);
-		map.put("福建", 0);
-		map.put("甘肃", 0);
-		map.put("河南", 0);
-		map.put("河北", 0);
-		map.put("新疆", 0);
-		
-		map.put("山西", 0);
-		map.put("山东", 0);
-		map.put("天津", 0);
-		map.put("吉林", 0);
-		return map;
-	}
+	 public String getProvince(String str){
+		 String province="";
+		 if("Guangxi".equals(str)){
+			 province="广西";
+		 }else if("Inner Mongol".equals(str)){
+			 province="内蒙古";
+		 }else if("Jiangsu".equals(str)){
+			 province="江苏";
+		 }else if("Chongqing".equals(str)){
+			 province="重庆";
+		 }else if("Guizhou".equals(str)){
+			 province="贵州";
+		 }else if("Fujian".equals(str)){
+			 province="福建";
+		 }else if("Gansu".equals(str)){
+			 province="甘肃";
+		 }else if("Henan".equals(str)){
+			 province="河南";
+		 }else if("Hebei".equals(str)){
+			 province="河北";
+		 }else if("Xinjiang".equals(str)){
+			 province="新疆";
+		}else if("Anhui".equals(str)){
+			 province="安徽";
+		 }else if("Hunan".equals(str)){
+			 province="湖南";
+		 }else if("Hubei".equals(str)){
+			 province="湖北";
+		 }else if("Jiangxi".equals(str)){
+			 province="江西";
+		 }else if("Qinghai".equals(str)){
+			 province="青海";
+		 }else if("Ningxia".equals(str)){
+			 province="宁夏";
+		 }else if("Taiwan".equals(str)){
+			 province="台湾";
+		 }else if("Hainan".equals(str)){
+			 province="海南";
+		 }else if("Sichuan".equals(str)){
+			 province="四川";
+		 }else if("Shaanxi".equals(str)){
+			 province="陕西";
+		 }else if("Xizang".equals(str)){
+			 province="西藏";
+		 }else if("Macau".equals(str)){
+			 province="澳门";
+		 }else if("Guangdong".equals(str)){
+			 province="广东";
+		 }else if("Beijing".equals(str)){
+			 province="北京";
+		 }else if("Shanghai".equals(str)){
+			 province="上海";
+		 }else if("Zhejiang".equals(str)){
+			 province="浙江";
+		 }else if("HongKong".equals(str)){
+			 province="香港";
+		 }else if("Liaoning".equals(str)){
+			 province="辽宁";
+		 }else if("Yunnan".equals(str)){
+			 province="云南";
+		 }else if("Heilongjiang".equals(str)){
+			 province="黑龙江";
+		}else if("Shanxi".equals(str)){
+			 province="山西";
+		 }else if("Shandong".equals(str)){
+			 province="山东";
+		 }else if("Tianjin".equals(str)){
+			 province="天津";
+		 }else if("Jilin".equals(str)){
+			 province="吉林";
+		 }
+		return province;
+		 
+	 }
+	 
+	 public Map<String ,Object> getAllProvince(){
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("安徽","an_hui");
+			map.put("湖南","hu_nan");
+			map.put("湖北","hu_bei");
+			map.put("江西","jiang_xi" );
+			map.put("青海","qing_hai" );
+			map.put("宁夏","ning_xia" );
+			map.put("台湾","tai_wan" );
+			map.put("海南","hai_nan" );
+			map.put("四川","si_chuan" );
+			map.put("陕西","shan_xi_1" );//陕西
+			
+			map.put("西藏","xi_zang" );
+			map.put("澳门","ao_men" );
+			map.put("广东","guang_dong" );
+			map.put("北京","bei_jing" );
+			map.put("上海","shang_hai" );
+			map.put("浙江","zhe_jiang" );
+			map.put("香港","xiang_gang" );
+			map.put("辽宁","liao_ning" );
+			map.put("云南","yun_nan" );
+			map.put("黑龙江","hei_long_jiang" );
+			
+			map.put("广西","guang_xi" );
+			map.put("内蒙古","nei_meng_gu" );
+			map.put("江苏","jiang_su" );
+			map.put("重庆","chong_qing" );
+			map.put("贵州","gui_zhou" );
+			map.put("福建","fu_jian" );
+			map.put("甘肃","gan_su" );
+			map.put("河南","he_nan" );
+			map.put("河北","he_bei");
+			map.put("新疆","xin_jiang" );
+			
+			map.put("山西","shan_xi_2" );//山西
+			map.put("山东","shan_dong");
+			map.put("天津","tian_jin" );
+			map.put("吉林","ji_lin" );
+			return map;
+		}
+		public  Map<String ,Integer> getMap(){
+			Map<String,Integer> map= new HashMap<String,Integer>(40);
+			map.put("an_hui", 0);
+			map.put("hu_nan", 0);
+			map.put("hu_bei", 0);
+			map.put("jiang_xi", 0);
+			map.put("qing_hai", 0);
+			map.put("ning_xia", 0);
+			map.put("tai_wan", 0);
+			map.put("hai_nan", 0);
+			map.put("si_chuan", 0);
+			map.put("shan_xi_1", 0);//陕西
+			
+			map.put("xi_zang", 0);
+			map.put("ao_men", 0);
+			map.put("guang_dong", 0);
+			map.put("bei_jing", 0);
+			map.put("shang_hai", 0);
+			map.put("zhe_jiang", 0);
+			map.put("xiang_gang", 0);
+			map.put("liao_ning", 0);
+			map.put("yun_nan", 0);
+			map.put("hei_long_jiang", 0);
+			
+			map.put("guang_xi", 0);
+			map.put("nei_meng_gu", 0);
+			map.put("jiang_su", 0);
+			map.put("chong_qing", 0);
+			map.put("gui_zhou", 0);
+			map.put("fu_jian", 0);
+			map.put("gan_su", 0);
+			map.put("he_nan", 0);
+			map.put("he_bei",0);
+			map.put("xin_jiang", 0);
+			
+			map.put("shan_xi_2", 0);//山西
+			map.put("shan_dong",0);
+			map.put("tian_jin", 0);
+			map.put("ji_lin", 0);
+			return map;
+		}
 	
 	public void getSupplierType(List<Supplier> listSupplier){
 		for(Supplier sup:listSupplier){
@@ -534,4 +947,15 @@ public class SupplierQueryController extends BaseSupplierController{
 			}
 		}
 	}
+	public void getSupplierType(Supplier supplier){
+			List<SupplierTypeRelate> listSupplierTypeRelates = supplierService.get(supplier.getId()).getListSupplierTypeRelates();
+			String supplierType="";
+			if(listSupplierTypeRelates.size()>0){
+				for(SupplierTypeRelate str:listSupplierTypeRelates){
+					supplierType+=str.getSupplierTypeName()+" ";
+				}
+				supplier.setSupplierType(supplierType);
+			}
+	}
+	
 }

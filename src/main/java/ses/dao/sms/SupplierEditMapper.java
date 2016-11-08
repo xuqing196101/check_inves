@@ -17,5 +17,10 @@ public interface SupplierEditMapper {
 
     int updateByPrimaryKey(SupplierEdit record);
     
-    List<SupplierEdit> getAll(SupplierEdit sr);
+    List<SupplierEdit> getAll(SupplierEdit se);
+    
+    List<SupplierEdit> getAllbySupplierId(SupplierEdit se);
+    
+    List<SupplierEdit> getAllRecord(SupplierEdit se);
+    
 }

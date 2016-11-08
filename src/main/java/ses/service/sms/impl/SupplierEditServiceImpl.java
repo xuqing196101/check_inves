@@ -47,4 +47,16 @@ public class SupplierEditServiceImpl implements SupplierEditService {
 		
 	}
 
+	@Override
+	public List<SupplierEdit> getAllbySupplierId(SupplierEdit se) {
+		List<SupplierEdit> seList=supplierEditMapper.getAllbySupplierId(se);
+		return seList;
+	}
+
+	@Override
+	public List<SupplierEdit> getAllRecord(SupplierEdit se) {
+		List<SupplierEdit> seList=supplierEditMapper.getAllbySupplierId(se);
+		return seList;
+	}
+
 }

@@ -63,9 +63,33 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_EDIT
-    where 1=1  ORDER BY CREATE_DATE DESC
+    where 1=1  and status != 4
+    <if test="status != null and status != '' ">
+    	AND STATUS =#{status}
+    </if>
+    ORDER BY CREATE_DATE DESC
     </select>
-  
+    
+    <select id="getAllbySupplierId" parameterType="ses.model.sms.SupplierEdit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_EDIT
+    where 1=1  and status = 1
+    <if test=" recordId != null and recordId != '' ">
+    	AND RECORD_ID =#{recordId}
+    </if>
+    </select>
+    
+     <select id="getAllRecord" parameterType="ses.model.sms.SupplierEdit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_EDIT
+    where 1=1  and status in (1,4)
+    <if test=" recordId != null and recordId != '' ">
+    	AND RECORD_ID =#{recordId}
+    </if>
+     ORDER BY CREATE_DATE 
+    </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_EDIT

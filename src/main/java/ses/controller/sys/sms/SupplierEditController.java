@@ -354,7 +354,6 @@ public class SupplierEditController extends BaseSupplierController{
 		supplier.setPostCode(supplierEdit.getPostCode());
 		supplier.setTaxCert(supplierEdit.getTaxCert());
 		supplier.setBillCert(supplierEdit.getBillCert());
-		
 		supplier.setSecurityCert(supplierEdit.getSecurityCert());
 		supplier.setBreachCert(supplierEdit.getBreachCert());
 		supplier.setLegalName(supplierEdit.getLegalName());
@@ -365,25 +364,68 @@ public class SupplierEditController extends BaseSupplierController{
 		supplier.setContactTelephone(supplierEdit.getContactTelephone());
 		supplier.setContactMobile(supplierEdit.getContactMobile());
 		supplier.setContactFax(supplierEdit.getContactFax());
-		
 		supplier.setContactEmail(supplierEdit.getContactEmail());
 		supplier.setContactAddress(supplierEdit.getContactAddress());
 		supplier.setCreditCode(supplierEdit.getCreditCode());
 		supplier.setRegistAuthority(supplierEdit.getRegistAuthority());
-		supplier.setRegistFund(new BigDecimal(supplierEdit.getRegistFund()));
+		supplier.setRegistFund(supplierEdit.getRegistFund());
 		supplier.setBusinessStartDate(supplierEdit.getBusinessStartDate());
 		supplier.setBusinessEndDate(supplierEdit.getBusinessEndDate());
 		supplier.setBusinessScope(supplierEdit.getBusinessScope());
-		supplier.setBankAccount(supplierEdit.getBankAccount());
+		supplier.setBusinessAddress(supplierEdit.getBusinessAddress());
 		supplier.setBusinessPostCode(supplierEdit.getBusinessPostCode());
-		
 		supplier.setOverseasBranch(Integer.parseInt(supplierEdit.getOverseasBranch()+""));
 		supplier.setBranchAddress(supplierEdit.getBranchAddress());
 		supplier.setBranchCountry(supplierEdit.getBranchCountry());
 		supplier.setBranchName(supplierEdit.getBranchName());
 		supplier.setBranchBusinessScope(supplierEdit.getBranchBusinessScope());
-		supplier.setBillCert(supplierEdit.getBillCert());
 		supplier.setBusinessCert(supplierEdit.getBusinessCert());
+		//第一次保存的时候要给原始数据保存一条，用来后面做对比
+		SupplierEdit supplierEdit1=new SupplierEdit();
+		supplierEdit.setRecordId(supplier.getId());
+	    supplierEdit.setSupplierName(supplier.getSupplierName());
+	    supplierEdit.setWebsite(supplier.getWebsite());
+	    supplierEdit.setFoundDate(supplier.getFoundDate());
+	    supplierEdit.setBusinessType(supplier.getBusinessType());
+	    supplierEdit.setAddress(supplier.getAddress());
+	    supplierEdit.setBankName(supplier.getBankName());
+	    supplierEdit.setBankAccount(supplier.getBankAccount());
+	    supplierEdit.setPostCode(supplier.getPostCode());
+	    supplierEdit.setTaxCert(supplier.getTaxCert());
+	    supplierEdit.setBillCert(supplier.getBillCert());
+	    supplierEdit.setSecurityCert(supplier.getSecurityCert());
+	    supplierEdit.setBreachCert(supplier.getBreachCert());
+	    supplierEdit.setLegalName(supplier.getLegalName());
+	    supplierEdit.setLegalIdCard(supplier.getLegalIdCard());
+	    supplierEdit.setLegalMobile(supplier.getLegalMobile());
+	    supplierEdit.setLegalTelephone(supplier.getLegalTelephone());
+	    supplierEdit.setContactName(supplier.getContactName());
+	    supplierEdit.setContactTelephone(supplier.getContactTelephone());
+	    supplierEdit.setContactMobile(supplier.getContactMobile());
+	    supplierEdit.setContactFax(supplier.getContactFax());
+	    supplierEdit.setContactEmail(supplier.getContactEmail());
+	    supplierEdit.setContactAddress(supplier.getContactAddress());
+	    supplierEdit.setCreditCode(supplier.getCreditCode());
+	    supplierEdit.setRegistAuthority(supplier.getRegistAuthority());
+	    supplierEdit.setRegistFund(supplier.getRegistFund());
+	    supplierEdit.setBusinessStartDate(supplier.getBusinessStartDate());
+	    supplierEdit.setBusinessEndDate(supplier.getBusinessEndDate());
+	    supplierEdit.setBusinessScope(supplier.getBusinessScope());
+	    supplierEdit.setBusinessPostCode(supplier.getBusinessPostCode());
+	    supplierEdit.setBusinessAddress(supplier.getBusinessAddress());
+	    supplierEdit.setOverseasBranch((short)Integer.parseInt(supplier.getOverseasBranch()+""));
+	    supplierEdit.setBranchAddress(supplier.getBranchAddress());
+	    supplierEdit.setBranchCountry(supplier.getBranchCountry());
+	    supplierEdit.setBranchName(supplier.getBranchName());
+	    supplierEdit.setBranchBusinessScope(supplier.getBranchBusinessScope());
+	    supplierEdit.setBusinessCert(supplier.getBusinessCert());
+	    SupplierEdit supplierEdit2=new SupplierEdit();
+	    supplierEdit2.setRecordId(supplier.getId());
+	    supplierEdit2.setStatus((short)4);
+	    //如果是第一次审核通过的时候要给原始数据保存下来（没有保存状态）
+		if(supplierEditService.getAllbySupplierId(supplierEdit2).size()==0){
+			supplierEditService.insertSelective(supplierEdit1);
+		}
 		supplierService.perfectBasic(supplier);
 	}
 }
