@@ -195,6 +195,10 @@ public class TaskAdjustController extends BaseController{
 		if(list!=null&&list.size()>0){
 			model.addAttribute("id", list.get(0).getId());
 		}
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CGJH_AUDIT");
+		String did = dictionaryDataServiceI.find(dd).get(0).getId();
+		model.addAttribute("aid", did);
 		return "bss/pms/taskadjust/edit";
 	}
 	

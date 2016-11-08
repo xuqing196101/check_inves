@@ -458,7 +458,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div class="container clear margin-top-30" id="add_div" >
 
-		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
+		<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 		<!-- 	<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="planType" value="" id="ptype"> -->

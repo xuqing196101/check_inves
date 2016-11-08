@@ -298,10 +298,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
-			  <c:if test="${obj.status=='1' }">
+				 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>
-			   <c:if test="${obj.status=='2' }">
+			  
+			     <c:if test="${obj.status=='2' }">
 			 	已提交
 			  </c:if>
 			  <c:if test="${obj.status=='3' }">
@@ -312,6 +313,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </c:if>
 			   <c:if test="${obj.status=='5' }">
 			 	已经汇总
+			  </c:if>
+			   <c:if test="${obj.status=='6' }">
+			 	审核通过
+			  </c:if>
+			   <c:if test="${obj.status=='7' }">
+			 	审核暂存
 			  </c:if>
 			  
 			  </td>

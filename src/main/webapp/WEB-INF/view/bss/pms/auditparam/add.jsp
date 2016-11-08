@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>dictionaryData/getPTree.do",
+             url: "${pageContext.request.contextPath}/dictionaryData/getPTree.do",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 	function back(){
-		window.location.href = '<%=basePath%>dictionaryData/list.html?page=1';
+		window.location.href = ${pageContext.request.contextPath}/dictionaryData/list.html?page=1';
 	}
 </script>
 <body>

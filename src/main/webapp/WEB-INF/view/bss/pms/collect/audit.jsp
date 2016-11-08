@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/upload" prefix="u"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -53,6 +54,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>
+	var globalPath = "${contextPath}";
+</script>
 
 <script type="text/javascript">
 	/** 全选全不选 */
@@ -317,8 +323,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr> --%>
 				
 				</table>
-				<input type="hidden" id="cid" value="${id}">
-				<div class=""><a class="upload">上传附件</a><input rquired="true" type="file" name="file"> </div>
+				<div style="float: left">
+				<u:upload businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:show businessId="${id }" sysKey="2" typeId="${aid }"/>
+				</div>
 				<input class="btn btn-windows save" type="submit" value="提交">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>

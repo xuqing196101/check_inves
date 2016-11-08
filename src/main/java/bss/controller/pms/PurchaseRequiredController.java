@@ -232,6 +232,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
 					p.setOrganization(user.getOrg().getName());
+					p.setDetailStatus(0);
 //					purchaseRequiredService.add(p);	
 			}else{
 				PurchaseRequired p = list.get(i);
@@ -245,7 +246,7 @@ public class PurchaseRequiredController extends BaseController{
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
 				p.setOrganization(user.getOrg().getName());
-				
+				p.setDetailStatus(0);
 //			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
 //					 p.setId(pid);//注释
 //					 p.setParentId(did);//注释

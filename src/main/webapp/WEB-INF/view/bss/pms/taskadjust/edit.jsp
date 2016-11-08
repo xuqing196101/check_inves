@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+
 <%@ taglib uri="/tld/upload" prefix="u"%>
 <%
 String path = request.getContextPath();
@@ -55,6 +56,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>
+	var globalPath = "${contextPath}";
+</script>
 
 <script type="text/javascript">
 	/** 全选全不选 */
@@ -267,7 +272,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form id="adjust" action="<%=basePath%>adjust/update.html" method="post" enctype="multipart/form-data">
+			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post" enctype="multipart/form-data">
 				<table id="table" class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -446,13 +451,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr> --%>
 				
 				</table>
-				<u:upload businessId="${id }" sysKey="4" typeId=""/>
+				<div style="float: left">
+				<u:upload businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:show businessId="${id }" sysKey="2" typeId="${aid }"/>
+				</div>
 				<!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
-				<input class="btn btn-windows save" type="button" value="提交" onclick="sub()">
+				<div  style="float: left">  
+				<input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+				</div>
+				
 			</form>
 		</div>
+	<!-- 	<input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
+				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"> -->
 	</div>
+	
 	<input type="hidden" id="pNo" name="" value="${planNo }">
 </body>
 </html>

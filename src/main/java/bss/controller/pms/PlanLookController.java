@@ -89,7 +89,7 @@ public class PlanLookController extends BaseController {
 //		DictionaryData p=new DictionaryData();
 //		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 //		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
 		model.addAttribute("dic", dic);
 		return "bss/pms/collect/planlist";
 	}
@@ -207,6 +207,12 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("all", all);
 		
 		model.addAttribute("bean", bean);
+		
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CGJH_ADJUST");
+		String did = dictionaryDataServiceI.find(dd).get(0).getId();
+		model.addAttribute("aid", did);
+		
 		
 		return "bss/pms/collect/audit";
 	}

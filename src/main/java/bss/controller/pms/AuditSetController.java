@@ -184,7 +184,7 @@ public class AuditSetController {
 					u.setCollectId(collectId);
 					u.setFiled(field1[i]);
 					u.setFiledName(str[i]);
-					u.setFiledName("");
+//					u.setFiledName("");
 					u.setIsUpdate(1);
 					updateFiledService.add(u);
 				}

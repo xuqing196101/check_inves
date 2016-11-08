@@ -304,6 +304,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <c:if test="${obj.status=='5' }">
 			 	已经汇总
 			  </c:if>
+			   <c:if test="${obj.status=='6' }">
+			 	审核通过
+			  </c:if>
+			   <c:if test="${obj.status=='7' }">
+			 	暂存
+			  </c:if>
 			  
 			  </td>
 			</tr>

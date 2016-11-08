@@ -164,7 +164,7 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	        SqlSession batchSqlSession = null;
 	        try{
 	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-	            int batchCount = 500;//每批commit的个数
+	            int batchCount = 50;//每批commit的个数
 	            for(int index = 0; index < data.size();index++){
 	            	PurchaseRequired stu = data.get(index);
 	                batchSqlSession.getMapper(PurchaseRequiredMapper.class).insert(stu);

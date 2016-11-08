@@ -59,7 +59,6 @@ public class PurchaseAcceptController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired, Integer page, Model model) {
-		System.out.println("akshdas");
 //		purchaseRequired.setStatus("2");
 		purchaseRequired.setIsMaster("1");
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);

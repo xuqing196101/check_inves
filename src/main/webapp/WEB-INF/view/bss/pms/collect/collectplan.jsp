@@ -292,8 +292,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
-			  <c:if test="${obj.status=='1' }">
+				 <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
+			  </c:if>
+			  
+			     <c:if test="${obj.status=='2' }">
+			 	已提交
+			  </c:if>
+			  <c:if test="${obj.status=='3' }">
+			 	受理退回
+			  </c:if>
+			    <c:if test="${obj.status=='4' }">
+			 	已受理
+			  </c:if>
+			   <c:if test="${obj.status=='5' }">
+			 	已经汇总
+			  </c:if>
+			   <c:if test="${obj.status=='6' }">
+			 	审核通过
+			  </c:if>
+			   <c:if test="${obj.status=='7' }">
+			 	审核暂存
 			  </c:if>
 			  
 			  </td>

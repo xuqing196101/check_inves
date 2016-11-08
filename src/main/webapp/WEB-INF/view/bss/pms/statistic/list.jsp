@@ -387,7 +387,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>statistic/list.html" method="post" >
+    <form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" method="post" >
    
 
 	  物资类别：<select name="planType" >

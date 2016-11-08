@@ -287,8 +287,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
 	   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
 	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
-	   	      <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
-	   	         <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 已经汇总</option>
+	   	    <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
+	   	   <option value="5" <c:if test="${inf.status=='6'}"> selected</c:if> > 审核通过</option>
+	   	    <option value="5" <c:if test="${inf.status=='7'}"> selected</c:if> >审核暂存</option>
+	   	    
  	   	   </select>
 	   	  
 	   
@@ -334,21 +336,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
-			  <c:if test="${obj.status=='1' }">
-			 	 已编制为需求计划
+			 <c:if test="${obj.status=='1' }">
+			 	 已编制为采购计划
 			  </c:if>
 			  
-			   <c:if test="${obj.status=='2'}">
-			 	 已经提交
+			     <c:if test="${obj.status=='2' }">
+			 	已提交
 			  </c:if>
-			  <c:if test="${obj.status=='3'}">
+			  <c:if test="${obj.status=='3' }">
 			 	受理退回
 			  </c:if>
-			    <c:if test="${obj.status=='4'}">
-			 	受理成功
+			    <c:if test="${obj.status=='4' }">
+			 	已受理
 			  </c:if>
-			    <c:if test="${obj.status=='5'}">
-			 已经汇总
+			   <c:if test="${obj.status=='5' }">
+			 	已经汇总
+			  </c:if>
+			   <c:if test="${obj.status=='6' }">
+			 	审核通过
+			  </c:if>
+			   <c:if test="${obj.status=='7' }">
+			 	审核暂存
 			  </c:if>
 			  
 			  </td>

@@ -246,7 +246,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form action="<%=basePath%>purchaser/update.html" method="post">
+			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 				<table id="table" class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
