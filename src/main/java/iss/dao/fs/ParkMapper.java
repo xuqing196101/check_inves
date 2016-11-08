@@ -125,5 +125,4 @@ public interface ParkMapper {
      */
     BigDecimal checkHotPark(String id);
     
-    
 }

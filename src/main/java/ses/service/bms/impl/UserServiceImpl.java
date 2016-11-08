@@ -146,6 +146,12 @@ public class UserServiceImpl implements UserServiceI {
 	public List<User> queryByLogin(User user) {
 		return userMapper.queryByLogin(user);
 	}
+
+
+	@Override
+	public List<User> queryParkManagers() {
+		return userMapper.queryParkManagers();
+	}
 	
 }
 
