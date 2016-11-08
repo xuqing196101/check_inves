@@ -24,6 +24,9 @@ public class SupplierAudit {
     private String auditContent;
 
     private String auditFieldName;
+    
+    private Integer idDeleted = 0;
+    
     public String getId() {
         return id;
     }
@@ -111,6 +114,14 @@ public class SupplierAudit {
 
 	public void setAuditFieldName(String auditFieldName) {
 		this.auditFieldName = auditFieldName;
+	}
+
+	public Integer getIdDeleted() {
+		return idDeleted;
+	}
+
+	public void setIdDeleted(Integer idDeleted) {
+		this.idDeleted = idDeleted;
 	}
 	
     

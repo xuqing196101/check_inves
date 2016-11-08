@@ -13,17 +13,19 @@
     <result column="AUDIT_FIELD" property="auditField" />
     <result column="AUDIT_CONTENT" property="auditContent" />
     <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
+    <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
-    AUDIT_CONTENT, AUDIT_FIELD_NAME
+    AUDIT_CONTENT, AUDIT_FIELD_NAME ,IS_DELETED
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{supplierId}
+    where SUPPLIER_ID = #{supplierId} 
+    and IS_DELETED = 0
     ORDER BY CREATED_AT DESC
   </select>
   
@@ -34,11 +36,11 @@
   <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 
-      CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME
+      CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME ,IS_DELETED
       AUDIT_CONTENT)
     values (#{id}, #{suggest}, #{auditType}, 
       #{userId}, #{supplierId}, #{status}, 
-      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName}
+      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName} ,#{isDeleted}
       #{auditContent})
   </insert>
   
@@ -79,6 +81,9 @@
       <if test="auditFieldName != null">
         AUDIT_FIELD_NAME,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -111,8 +116,8 @@
       <if test="auditContent != null">
         #{auditContent},
       </if>
-      <if test="auditFieldName != null">
-        #{auditFieldName},
+      <if test="isDeleted != null">
+        #{isDeleted},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -152,6 +157,9 @@
       <if test="auditContent != null">
         AUDIT_FIELD_NAME = #{auditFieldName},
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -167,6 +175,7 @@
       AUDIT_FIELD = #{auditField},
       AUDIT_CONTENT = #{auditContent},
       AUDIT_FIELD_NAME = #{auditFieldName},
+      IS_DELETED = # {isDeleted}
     where ID = #{id}
   </update>
   
