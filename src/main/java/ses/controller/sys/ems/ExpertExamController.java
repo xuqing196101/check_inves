@@ -1268,7 +1268,8 @@ public class ExpertExamController extends BaseSupplierController{
 			personal.setIsDo("1");
 			expertService.updateByPrimaryKeySelective(personal);
 		}
-		model.addAttribute("score", score);
+		model.addAttribute("score",score);
+		model.addAttribute("rule",examRule.get(0));
 		return "ses/ems/exam/expert/score";
 	}
 	
@@ -1397,7 +1398,7 @@ public class ExpertExamController extends BaseSupplierController{
 		StringBuffer sb_id = new StringBuffer();
 		for(int i=0;i<nQuestionList.size();i++){
 			sb_answer.append(nQuestionList.get(i).getAnswer()+",");
-			sb_type.append(nQuestionList.get(i).getExamQuestionType().getName());
+			sb_type.append(nQuestionList.get(i).getExamQuestionType().getName()+",");
 			sb_id.append(nQuestionList.get(i).getId()+",");
 		}
 		model.addAttribute("queAnswer", sb_answer.toString());
@@ -1629,12 +1630,13 @@ public class ExpertExamController extends BaseSupplierController{
 			}
 		}
 		String time = request.getParameter("startTime");
+		Date cTime = null;
 		if(time.trim().isEmpty()){
 			error = "time";
 			model.addAttribute("ERR_time", "考试开始时间不能为空");
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date cTime = sdf.parse(time+":00");
+			cTime = sdf.parse(time+":00");
 			if(cTime.getTime()<=new Date().getTime()){
 				error = "time";
 				model.addAttribute("ERR_time", "考试开始时间必须比当前时间晚");
@@ -1651,10 +1653,9 @@ public class ExpertExamController extends BaseSupplierController{
 			return "ses/ems/exam/expert/rule";
 		}
 		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
-		Date now = new Date();
 		Date dNow = new Date();
 		Calendar calendar = Calendar.getInstance(); //得到日历
-		calendar.setTime(now);
+		calendar.setTime(cTime);
 		calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
 		dNow = calendar.getTime();
 		examRule.setPassStandard(passStandard);
@@ -2254,8 +2255,6 @@ public class ExpertExamController extends BaseSupplierController{
 		if(examRule.size()==0){
 			model.addAttribute("message", "暂无考试安排");
 		}else{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			examRule.get(0).setFormatDate(sdf.format(examRule.get(0).getTestLong()));
 			model.addAttribute("rule", examRule.get(0));
 		}
 		return "ses/ems/exam/expert/test_schedule";
@@ -2302,4 +2301,29 @@ public class ExpertExamController extends BaseSupplierController{
 	public String backCom(){
 		return "redirect:searchComExpPool.html";
 	}
+	
+	/**
+	 * 
+	* @Title: judgeReTake
+	* @author ZhaoBo
+	* @date 2016-11-8 上午10:13:37  
+	* @Description: 判断是否可以重考 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/judgeReTake")
+	@ResponseBody
+	public String judgeReTake(){
+		String str = null;
+		List<ExamRule> examRule = examRuleService.select();
+		Date endDate = examRule.get(0).getTestLong();
+		if(new Date().getTime()<=endDate.getTime()){
+			str = "1";//可以重考
+		}else{
+			str = "0";//考试时间已截止
+		}
+		return str;
+	}
+	
+	
 }

@@ -17,21 +17,33 @@
 	<script type="text/javascript">
 		$(function(){
 			var score = ${score};
-			if(score>=60){
+			var passStandard = "${rule.passStandard}";
+			if(score>=passStandard){
 				$("#isPass").html("恭喜您通过了本场考试");
-				$("#isReDo").hide();
 			}else{
 				$("#isPass").html("很遗憾,您未通过本场考试");
-				$("#isReDo").show();
 			}
 		})
 		
 		//重考方法
 		function isReDo(){
-			layer.confirm('您确定现在要重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
-			});
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"${pageContext.request.contextPath }/expertExam/judgeReTake.html",
+				success:function(data){
+	       			if(data==0){
+	       				layer.alert("很抱歉,考试时间已截止",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+	       			}else if(data==1){
+	       				layer.confirm('您确定现在要重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+	       					layer.close(index);
+	       					window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
+	       				});
+	       			}
+	       		}
+	       	});
+			
 		}
 		
 		//退出

@@ -293,7 +293,7 @@
 						<td onclick="view('${l.id }')">${l.items }</td>
 					</c:if>
 					<td class="tc" onclick="view('${l.id }')">${l.answer}</td>
-					<td class="tc" onclick="view('${l.id }')"><fmt:formatDate value="${l.createdAt}" pattern="yyyy/MM/dd"/> </td
+					<td class="tc" onclick="view('${l.id }')"><fmt:formatDate value="${l.createdAt}" pattern="yyyy/MM/dd"/> </td>
 				</tr>
 			</c:forEach>
 		</tbody>

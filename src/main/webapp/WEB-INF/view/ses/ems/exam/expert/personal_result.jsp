@@ -47,9 +47,9 @@
    			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th width="50">序号</th>
-					    <th width="150">专家姓名</th>
-						<th width="100">得分</th>
+						<th class="w50">序号</th>
+					    <th class="w160">专家姓名</th>
+						<th>得分</th>
 						<th>考试状态</th>
 					    <th>考试时间</th>
 					</tr>
