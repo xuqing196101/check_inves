@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
+import ses.service.bms.RoleServiceI;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -64,7 +65,8 @@ public class PostManageController {
 	private TopicService topicService;
 	@Autowired
 	private PostAttachmentsService postAttachmentsService;
-	
+	@Autowired
+	private RoleServiceI roleService;
 	
 	/**   
 	* @Title: getList
@@ -98,20 +100,26 @@ public class PostManageController {
 			String topicName = topicService.selectByPrimaryKey(topicId).getName();
 			model.addAttribute("topicName", topicName);
 		}
-		map.put("userId", userId);
+		//如果是管理员 就获取所有帖子，版主获取自己负责的版块下的帖子
+		BigDecimal i = roleService.checkRolesByUserId(userId);
+		BigDecimal j = new BigDecimal(0);
+		if(i.equals(j)){	
+			map.put("userId", userId);
+		}
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<Post> list = postService.queryByList(map);
-		for (Post post2 : list) {
-			Reply reply = new Reply();
-			reply.setPost(post2);
-			BigDecimal replycount = replyService.queryByCount(reply);
-			post2.setReplycount(replycount);
-		}
 		
-		List<Park> parks = parkService.selectParkListByUser(map);
+		//如果是管理员获取所有版块，版主则获取自己负责的版块
+		List<Park> parks = null;
+		if(i.equals(j)){			
+			parks = parkService.selectParkListByUser(map);
+		}else{
+			parks = parkService.getAll(null);
+		}
 		model.addAttribute("parks", parks);
+		
 		model.addAttribute("list", new PageInfo<Post>(list));
 		model.addAttribute("postName", postName);
 		model.addAttribute("parkId", parkId);

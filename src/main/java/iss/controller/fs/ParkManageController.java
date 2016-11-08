@@ -368,7 +368,7 @@ public class ParkManageController extends BaseSupplierController {
 	 */
 	@RequestMapping( value="/getUserForSelect" )	
 	public void getUserForSelect(HttpServletResponse response) {
-		List<User> users = userService.queryByList(null);
+		List<User> users = userService.queryParkManagers();		
 		super.writeJson(response, users);
 	}
 }

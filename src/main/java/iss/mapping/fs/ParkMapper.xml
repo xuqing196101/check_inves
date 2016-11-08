@@ -159,7 +159,7 @@
             where IS_DELETED = 0
              <trim suffixOverrides=",">
                 <!--如果是管理员就不执行 需要改  -->
-                <if test="userId != null and userId != '2521F623FA2F4399875433678F622F2D' ">
+                <if test="userId != null and userId != '' ">
                     and USER_ID = #{userId}
                 </if>             
             </trim>
@@ -179,6 +179,5 @@
 		  <select id="checkHotPark" parameterType="Object" resultType="Object">
               select count(1) from T_ISS_FS_PARK
               where ID != #{id} AND IS_HOT = 1 AND IS_DELETED = 0
-          </select> 
-		  		   		   
+          </select>  		   		   
 </mapper>

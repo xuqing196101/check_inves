@@ -25,7 +25,7 @@
 	<script type="text/javascript">
 	$(function () {
 			 $.ajax({
-	                url:"<%=basePath %>park/getUserForSelect.do",   
+	                url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
 	                contentType: "application/json;charset=UTF-8", 
 	                dataType:"json",   //返回格式为json
 	                type:"POST",   //请求方式           
@@ -65,7 +65,7 @@
    <!-- 新增页面开始 -->
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>park/save.html" method="post">  
+    <form action="${ pageContext.request.contextPath }/park/save.html" method="post">  
     <div>
 	    <div class="headline-v2">
 	   		<h2>新增版块</h2>

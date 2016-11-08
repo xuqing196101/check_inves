@@ -1,5 +1,6 @@
 package ses.dao.bms;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import ses.model.bms.Role;
@@ -126,5 +127,16 @@ public interface RoleMapper {
 	 * @exception IOException
 	 */
 	void deleteRoelMenu(RolePreMenu rm);
+	/**
+	 * 
+	* @Title: checkRolesByUserId
+	* @author Peng Zhongjun
+	* @date 2016-11-8 下午3:34:58  
+	* @Description: 根据userId查询角色是否为超级管理员 
+	* @param @param userId
+	* @param @return      
+	* @return BigDecimal
+	 */
+	BigDecimal checkRolesByUserId(String userId);
 
 }

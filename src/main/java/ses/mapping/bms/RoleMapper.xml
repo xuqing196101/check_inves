@@ -285,4 +285,15 @@
         </where>  
     </delete>
     
+    <!-- 12.根据userId查询角色是否为超级管理员(彭仲俊)--> 
+    <select id="checkRolesByUserId" parameterType="Object" resultType="Object">
+	    SELECT count(1) FROM T_SES_BMS_ROLE 
+	    WHERE IS_DELETED = 0 
+	    AND ID IN(
+	       SELECT ROLE_ID from T_SES_BMS_USER_ROLE 
+	       WHERE USER_ID = #{userId}
+	    )
+	    AND NAME ='内部超级管理员'
+    </select>
+    
 </mapper>

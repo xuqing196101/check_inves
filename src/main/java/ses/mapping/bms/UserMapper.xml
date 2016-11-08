@@ -486,5 +486,21 @@
 			AND U . PASSWORD = #{password}
 		ORDER BY pm.MENU_LEVEL ,pm.POSITION ASC
   </select>
+           <!-- 15.查询拥有版主权限的角色 （彭仲俊）-->
+     <select id="queryParkManagers" resultMap="UserBaseMap">
+          SELECT   
+          <include refid="Base_Column_List" />
+          FROM T_SES_BMS_USER 
+          WHERE IS_DELETED =0 
+          AND ID IN (
+                    SELECT USER_ID FROM T_SES_BMS_USER_ROLE
+                    WHERE ROLE_ID = (
+                            SELECT ID FROM T_SES_BMS_ROLE
+                            WHERE STATUS = 0 
+                            AND NAME = '版主'
+                            )
+                     )
+           ORDER BY CREATED_AT DESC
+    </select> 
   
 </mapper>

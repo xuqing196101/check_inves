@@ -74,8 +74,7 @@
                   <if test="userId != null ">
                     and PARK_ID IN (
                             SELECT ID FROM T_ISS_FS_PARK 
-                            <!-- 不能是管理员 之后要改！！！！！！！！！！！-->
-                                <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+                                <if test="userId != ''and userId != null">
 	                            WHERE USER_ID = #{userId} 
 	                            </if> 
 	                            

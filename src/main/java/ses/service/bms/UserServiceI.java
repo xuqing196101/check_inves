@@ -153,5 +153,14 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	List<User> queryByLogin(User user);
-
+	/**
+     * 
+    * @Title: queryParkManagers
+    * @author Peng Zhongjun
+    * @date 2016-11-8 上午10:48:21  
+    * @Description: 查询拥有版主权限的用户 
+    * @param @return      
+    * @return List<User>
+     */
+    List<User> queryParkManagers();
 }
