@@ -14,6 +14,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="KIND"  property="kind" />
     <result column="ICON" property="icon" />
+    <result column="PERMISSION_CODE" jdbcType="VARCHAR" property="permissionCode" />
     <!--查询上级菜单   -->
 	<association column="PARENT_ID"  property="parentId" select="selectByPrimaryKey" /> 
   </resultMap>

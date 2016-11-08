@@ -2,7 +2,6 @@ package common.utils;
 
 import java.io.File;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.math.NumberUtils;
 
 import ses.util.PropUtil;
+
 import common.bean.MultipartFileBean;
 
 /**

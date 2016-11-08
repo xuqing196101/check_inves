@@ -48,6 +48,7 @@
 	    <result column="menulevel" jdbcType="VARCHAR" property="menulevel" />
 	    <result column="mkind" property="kind" />
 	    <result column="micon" jdbcType="VARCHAR" property="icon" />
+	    <result column="permissionCode" jdbcType="VARCHAR" property="permissionCode" />
 	    <!--查询上级菜单   -->
 		<association column="mparent"  property="parentId" select="ses.dao.bms.PreMenuMapper.selectByPrimaryKey" /> 
 	</collection>  
@@ -394,7 +395,8 @@
 			pm.MENU_LEVEL AS menulevel,
 			pm.PARENT_ID AS mparent,
 			pm.KIND AS mkind,
-			pm.ICON AS micon
+			pm.ICON AS micon,
+			pm.PERMISSION_CODE AS permissionCode
 		FROM
 			T_SES_BMS_USER U
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
@@ -473,7 +475,8 @@
 			pm.MENU_LEVEL AS menulevel,
 			pm.PARENT_ID AS mparent,
 			pm.KIND AS mkind,
-			pm.ICON AS micon
+			pm.ICON AS micon,
+			pm.PERMISSION_CODE AS permissionCode
 		FROM
 			T_SES_BMS_USER U
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"

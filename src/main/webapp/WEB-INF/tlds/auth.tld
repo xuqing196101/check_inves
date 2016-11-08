@@ -1,0 +1,19 @@
+<taglib>
+ <tlibversion>1.0</tlibversion>
+ <jspversion>1.1</jspversion>
+ <shortname>page JSPTag Library</shortname>
+ <uri>http://www.auth.com</uri>
+ <info>分页标签</info>
+ <tag>
+       <name>auth</name>
+       <tagclass>common.taglib.AuthTld</tagclass>
+       <bodycontent>JSP</bodycontent>
+       <info>按钮权限</info>
+       <attribute>
+	        <name>code</name>
+	        <required>true</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+ </tag>
+</taglib>

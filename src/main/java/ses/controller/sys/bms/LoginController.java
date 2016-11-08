@@ -16,12 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
-
+import common.utils.AuthUtil;
 
 import ses.model.bms.StationMessage;
-import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.service.bms.StationMessageService;
@@ -161,6 +158,8 @@ public class LoginController {
 			logger.error("请输入用户名密码或者验证码");
 			out.print("nullcontext");
 		}
+		//权限解析
+		AuthUtil.setAuth(req);
 	}
 
     /**   

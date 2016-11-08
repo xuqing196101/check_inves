@@ -75,6 +75,9 @@ public class PreMenu implements Serializable{
     
     /** 角色 */
     private List<Role> roles;
+    
+    /** 权限编码 */
+    private String permissionCode;
 
 	public String getId() {
 		return id;
@@ -187,4 +190,14 @@ public class PreMenu implements Serializable{
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
+
+    public String getPermissionCode() {
+        return permissionCode;
+    }
+
+    public void setPermissionCode(String permissionCode) {
+        this.permissionCode = permissionCode;
+    }
+	
+	
 }
