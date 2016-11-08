@@ -41,20 +41,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript">
         
-      function confirmOk(id){
+      function confirmOk(obj,id){
       	   layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
 	 				url:"<%=basePath%>open_bidding/confirmOk.html?projectId="+id,
-	 	       		success:function(){
-	 	       			layer.msg('确认成功',{offset: ['100px']});
-	 		       		window.setTimeout(function(){
-	 		       			window.location.reload();
-	 		       		}, 500);
-	 	       		},
-	 	       		error: function(){
-	 					layer.msg("确认失败",{offset: ['100px']});
-	 				}
+	 				dataType: 'json',  
+	 	       		success:function(result){
+	                   	layer.msg(result.msg,{offset: '222px'});
+	                   	$("#queren").after("<a href='javascript:volid(0);' >05、已确认</a>");
+	                    $("#queren").remove();
+	                },
+	                error: function(result){
+	                    layer.msg("确认失败",{offset: '222px'});
+	                }
 	 	       	});
 	 		});
       }
@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  onclick="confirmOk();" >05、确认</a>
+		   <a  onclick="confirmOk(this,'${projectId}');" id="queren">05、确认</a>
 		 </li>
 	   </ul>
 	 </div>

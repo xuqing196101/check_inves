@@ -1,6 +1,8 @@
 package common.utils;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,8 +76,7 @@ public class MultipartFileUploadUtil {
                         bean.setSize(item.getSize());
                         break;
                     case "ntko" :
-                        bean.setFileName(new String(item.getString().getBytes(
-                                "ISO-8859-1"), "UTF-8"));
+                        bean.setFileName(URLDecoder.decode(item.getName(), "UTF-8"));
                         bean.setFileItem(item);
                         bean.setSize(item.getSize());
                         break;
