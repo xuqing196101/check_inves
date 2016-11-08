@@ -2,6 +2,9 @@ package ses.service.sms;
 
 import java.util.List;
 
+import java.util.Map;
+
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 /**
  * @Title: SupplierInfoService
@@ -86,5 +89,16 @@ public interface SupplierService {
 	 * @return: boolean
 	 */
 	public boolean checkLoginName(String loginName);
+	
+	/**
+	 * @Title: checkLogin
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-7 下午1:37:12
+	 * @Description: 校验是否登录
+	 * @param: @param user
+	 * @param: @return
+	 * @return: Map<String,Integer>
+	 */
+	public Map<String, Object> checkLogin(User user);
 	
 }

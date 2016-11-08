@@ -574,12 +574,9 @@ public class SupplierAuditController extends BaseSupplierController{
 			//待办名字
 			todos.setName("供应商信息有误,请修改！");
 			
-			List<User> receiverIdList= userServiceI.findByLoginName(user.getLoginName());
-			if(receiverIdList.size()>0){
-				String receiverId=  receiverIdList.get(0).getId();
-				//接收用户id
-				todos.setReceiverId(receiverId);
-			}
+			// List<User> receiverIdList= userServiceI.findByLoginName(user.getLoginName());
+			//接收用户id
+			todos.setReceiverId(supplierId);
 			//url
 			todos.setUrl("");
 			//类型

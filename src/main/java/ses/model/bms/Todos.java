@@ -492,7 +492,12 @@ public class Todos {
         this.receiverId = receiverId;
         this.orgId = orgId;
     }
-	
-	
 
+	public Todos(Short isFinish, Short undoType, String receiverId) {
+		super();
+		this.isFinish = isFinish;
+		this.undoType = undoType;
+		this.receiverId = receiverId;
+	}
+	
 }

@@ -85,7 +85,7 @@
 					<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 						<div class="login_main mt20">
 							<div class="login_item">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>用 户 名：</label> 
+								<label class="col-md-3 p0" onclick="show()"><i class="red mr5">*</i>用 户 名：</label> 
 								<input id="login_input_id" type="text" name="loginName" class="fl" placeholder="由6-20位字母、数字和下划线组成" value="${supplier.loginName}"> 
 								<span id="dsds" class="fl mt5 ml10 span-err-msg">${err_msg_loginName}</span>
 								<div class="clear"></div>

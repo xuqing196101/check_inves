@@ -59,6 +59,8 @@ public class ToDoController {
         if (user != null && user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
             //代办事项
             req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId(), user.getOrg().getId())));
+        } else {
+        	 req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId())));
         }
         return "ses/bms/todo/todos";
     }

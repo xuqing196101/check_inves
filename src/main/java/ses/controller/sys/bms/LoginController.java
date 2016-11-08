@@ -29,6 +29,7 @@ import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
+import ses.service.sms.SupplierService;
 
 
 /**
@@ -61,6 +62,9 @@ public class LoginController {
      */
     @Autowired
     private StationMessageService stationMessageService;
+    
+    @Autowired
+    private SupplierService supplierService;
 
     private static Logger logger = Logger.getLogger(LoginController.class); 
 
@@ -133,6 +137,15 @@ public class LoginController {
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+				} else if (u.getTypeName() == 4) { 
+					Map<String, Object> map = supplierService.checkLogin(u);
+					String msg = (String) map.get("status");
+					if ("success".equals(msg)) {
+						req.getSession().setAttribute("loginSupplier", map.get("supplier"));
+						req.getSession().setAttribute("loginUser", u);
+						req.getSession().setAttribute("resource", u.getMenus());
+						out.print("scuesslogin");
 					}
 				} else {
 					req.getSession().setAttribute("loginUser", u);

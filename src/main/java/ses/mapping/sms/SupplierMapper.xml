@@ -944,4 +944,16 @@
     	select t1.LOGIN_NAME from T_SES_SMS_SUPPLIER t1
     </select>
 	
+	<select id="getByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+			<include refid="Base_Column_List"/>
+		from 
+			T_SES_SMS_SUPPLIER t1
+		<where>
+			<if test="loginName != null">
+				and t1.LOGIN_NAME = #{loginName}
+			</if>
+		</where>
+	</select>
+	
 </mapper>

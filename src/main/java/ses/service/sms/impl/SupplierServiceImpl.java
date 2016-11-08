@@ -1,7 +1,9 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,10 +79,13 @@ public class SupplierServiceImpl implements SupplierService {
 		User user = new User();
 		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
         md5.setEncodeHashAsBase64(false);
-        pwd = md5.encodePassword(pwd, RandomStringUtils.randomAlphanumeric(15));
+        String random = RandomStringUtils.randomAlphanumeric(15);
+        pwd = md5.encodePassword(pwd, random);
         user.setLoginName(supplier.getLoginName());
+        user.setRandomCode(random);
         user.setPassword(pwd);
-        user.setTypeName(5);
+        user.setTypeName(4);
+        user.setIsDeleted(0);
         userMapper.insertSelective(user);
         
 		return supplier;
@@ -144,12 +149,12 @@ public class SupplierServiceImpl implements SupplierService {
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		// 推送代办
 		Todos todos = new Todos();
-		todos.setSenderId(supplier.getId());
-		todos.setName("供应商初审");
-		todos.setOrgId(supplier.getProcurementDepId());
-		todos.setPowerId(PropUtil.getProperty("gysdb"));
-		todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());
-		todos.setUndoType((short) 1);
+		todos.setSenderId(supplier.getId());// 推送者 ID
+		todos.setName("供应商初审");// 待办名称
+		todos.setOrgId(supplier.getProcurementDepId());// 机构ID
+		todos.setPowerId(PropUtil.getProperty("gysdb"));// 权限 ID
+		todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());// URL
+		todos.setUndoType((short) 1);// 类型
 		todosMapper.insertSelective(todos);
 	}
 	
@@ -175,5 +180,44 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<Supplier> selectSupplierByProjectId(String projectId) {
 		List<Supplier> list = supplierMapper.selectByProjectId(projectId);
 		return list;
+	}
+	/**
+	 * @Title: checkLogin
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-7 下午1:37:12
+	 * @Description: 校验是否登录
+	 * @param: @param user
+	 * @param: @return
+	 * @return: Map<String,Integer>
+	 */
+	@Override
+	public Map<String, Object> checkLogin(User user) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("loginName", user.getLoginName());
+		Supplier supplier = supplierMapper.getByMap(param);
+		Map<String, Object> map = new HashMap<String, Object>();
+		Integer status = supplier.getStatus();
+		if (status == -1) {
+			map.put("status", "信息未提交, 请提交审核 !");
+		} else if (status == 0 || status == 8) {
+			map.put("status", "信息待初审, 请等待审核 !");
+		} else if (status == 1) {
+			map.put("status", "信息待复审, 请等待审核 !");
+		} else if (status == 2) {
+			map.put("status", "初审未通过 !");
+		} else if (status == 3) {
+			map.put("status", "success");
+			map.put("supplier", supplier);
+		} else if (status == 4) {
+			map.put("status", "复审未通过 !");
+		} else if (status == 5) {
+			map.put("status", "信息初审中, 请等待审核 !");
+		} else if (status == 6) {
+			map.put("status", "信息复审中, 请等待审核 !");
+		} else if (status == 7) {
+			map.put("status", "success");
+			map.put("supplier", supplier);
+		}
+		return map;
 	}
 }

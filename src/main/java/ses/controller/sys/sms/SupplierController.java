@@ -411,6 +411,14 @@ public class SupplierController extends BaseSupplierController {
 		}
 		super.writeJson(response, msg);
 	}
+	
+	@RequestMapping(value = "return_edit")
+	public String returnEdit(HttpServletRequest request, Supplier supplier) {
+		supplier = supplierService.get(supplier.getId());
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.getSession().setAttribute("jump.page", "basic_info");
+		return "redirect:page_jump.html";
+	}
 
 	/**
 	 * @Title: checkReferer

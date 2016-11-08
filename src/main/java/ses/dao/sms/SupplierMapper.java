@@ -1,9 +1,8 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
-import ses.model.ems.ExpExtCondition;
-import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 
@@ -197,4 +196,15 @@ public interface SupplierMapper {
      * @return: List<String>
      */
     List<String> findLoginName();
+    
+    /**
+     * @Title: getByMap
+     * @author: Wang Zhaohua
+     * @date: 2016-11-7 下午1:41:52
+     * @Description: 根据 Map 获取供应商
+     * @param: @param param
+     * @param: @return
+     * @return: Supplier
+     */
+    Supplier getByMap(Map<String, Object> param);
 }

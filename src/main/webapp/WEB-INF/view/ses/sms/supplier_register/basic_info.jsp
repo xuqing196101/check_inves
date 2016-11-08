@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="up" uri="/tld/upload"%>
-<%@ include file="../../../../../index_head.jsp"%>
+<c:if test="${currSupplier.status != 7}"><%@ include file="../../../../../index_head.jsp"%></c:if>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -25,13 +25,20 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+<c:if test="${currSupplier.status == 7}">
+	<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+	<script>var globalPath = "${contextPath}";</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+</c:if>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 
 
-
 <script type="text/javascript">
+	
 	$(function() {
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
@@ -62,7 +69,9 @@
 		autoSelected("business_select_id", "${currSupplier.businessType}");
 		autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
 		
-		showReason();
+		if ("${currSupplier.status}" == 7) {
+			showReason();
+		}
 	});
 	
 	/** 加载地区根节点 */
@@ -288,7 +297,7 @@
 			shade : 0,
 			maxmin : true,
 			shift : 2,
-			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=详细信息,财务信息,股东信息' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
+			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
 		});
 	}
 </script>
@@ -298,22 +307,24 @@
 <body>
 	<div class="wrapper">
 		<!-- 项目戳开始 -->
-		<div class="container clear margin-top-30">
-			<h2 class="padding-20 mt40 ml30">
-				<span class="new_step current fl"><i class="">1</i>
-					<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
-					<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step fl"><i class="">3</i>
-					<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step fl"><i class="">4</i>
-					<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step fl"><i class="">5</i>
-					<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
-					<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
-					<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-					<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
-					<span class="step_desc_01">申请表承诺书上传</span> 
-				</span>
-				<div class="clear"></div>
-			</h2>
-		</div>
+		<c:if test="${currSupplier.status != 7}">
+			<div class="container clear margin-top-30">
+				<h2 class="padding-20 mt40 ml30">
+					<span class="new_step current fl"><i class="">1</i>
+						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step fl"><i class="">2</i>
+						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step fl"><i class="">3</i>
+						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+						<span class="step_desc_01">申请表承诺书上传</span> 
+					</span>
+					<div class="clear"></div>
+				</h2>
+			</div>
+		</c:if>
 
 		<!--基本信息-->
 		<div class="container content height-350">
@@ -419,8 +430,8 @@
 														</div>
 													</div>
 												</c:if>--%>
-												<up:upload businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-												<up:show businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+												<up:upload id="ewq" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+												<up:show showId="qwe" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 											</li>
 											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
 												<%--<c:if test="${currSupplier.billCert != null}">
@@ -438,6 +449,8 @@
 														</div>
 													</div>
 												</c:if>--%>
+												<up:upload id="aa" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+												<up:show showId="bb" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 											</li>
 											<%--<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
 												<c:if test="${currSupplier.securityCert != null}">
@@ -807,6 +820,6 @@
 	</form>
 	
 	<!-- footer -->
-	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
 </body>
 </html>

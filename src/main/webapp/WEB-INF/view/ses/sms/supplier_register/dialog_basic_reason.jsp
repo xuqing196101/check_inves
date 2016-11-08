@@ -33,10 +33,10 @@
 		var content = $(tr).find("td").eq(2).text();
 		content = $.trim(content);
 		
-		if (auditType == "财务信息") {
+		if (auditType == "finance_page") {
 			switchTab(2);
 			showTableReason("finance_list_tbody_id", field, content);
-		}else if (auditType == "股东信息") {
+		}else if (auditType == "stockholder_page") {
 			switchTab(3);
 			showTableReason("stockholder_list_tbody_id", field, content);
 		} else {
@@ -68,6 +68,9 @@
 	
 	function showBasicReason(field, content) {
 		var ele = parent.$("input[name='" + field + "']");
+		if (!ele.size()) {
+			ele = parent.$("textarea[name='" + field + "']");
+		}
 		ele.focus();
 		var id = ele.attr("id");
 		if (id) {
