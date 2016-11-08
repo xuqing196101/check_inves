@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -27,7 +26,7 @@
 
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -43,14 +42,14 @@ textarea {
 }
 </style>
 <script type="text/javascript">
-$(function(){
+/*  $(function(){
   layer.alert('点击需要审核的内容,弹出不通过理由框！', {
       title: '审核操作说明：',
       skin: 'layui-layer-molv', //样式类名
       closeBtn: 0,
       shift: 1 //动画类型
   });
-})
+}) */
 
   //默认不显示勾  
    $(function() {
@@ -64,34 +63,44 @@ $(function(){
   });
   
 function reason(id,auditField){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#id").val();
   var id2=id+"2";
   var id3=id+"3";
   var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id+"").value; //审批的字段内容
-  var auditType=$("#essential").text(); //审核类型
-  var fail = false;
-  layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
-    $.ajax({
-        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-        type:"post",
-        dataType:"json",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
-        success:function(result){
-          result = eval("(" + result + ")");
-          if(result.msg == "fail"){
-          fail = true;
-            layer.msg('该条信息已审核过！', {
-                shift: 6 //动画类型
-            });
-          }
-        }
-      });
-      if(!fail){
+  var index = layer.prompt({
+      title : '请填写不通过的理由：', 
+      formType : 2, 
+      offset : offset,
+   }, 
+      function(text){
+	    $.ajax({
+	        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+	        type:"post",
+	        dataType:"json",
+	        data:"auditType=basic_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+	        success:function(result){
+	          result = eval("(" + result + ")");
+	          if(result.msg == "fail"){
+	            layer.msg('该条信息已审核过！', {
+	                shift: 6 //动画类型
+	            });
+	          }
+	        }
+	      });
         $("#"+id3+"").show();
-        layer.msg("审核不通过的理由是："+text);
-      }
-        
+        layer.close(index);
 /*    $("input[name='auditType']").val(auditType);
    $("input[name='auditField']").val(auditField);
    $("input[name='auditContent']").val(auditContent);
@@ -99,33 +108,29 @@ function reason(id,auditField){
     
    $("#save_reaeon").submit(); */
     });
+    
 }
 
 function reason1(ele,auditField){
   var supplierId=$("#id").val();
-  var auditType=$("#essential").text(); //审核类型
   var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
-  layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
-  var fail = false;
+  var index = layer.prompt({title: '请填写不通过的理由：', formType: 2, offset:'300px'}, function(text){
   $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
       type:"post",
-      data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件"+"&auditField="+auditField,
+      data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType=basic_page"+"&auditContent=附件"+"&auditField="+auditField,
       dataType:"json",
       success:function(result){
 	      result = eval("(" + result + ")");
 	      if(result.msg == "fail"){
-	        fail = true;
 	        layer.msg('该条信息已审核过！', {
                 shift: 6 //动画类型
             });
 	      }
     }
     });
-    if(!fail){
        $(ele).parents("li").find("div").show(); //显示叉
-       layer.msg("审核不通过的理由是："+text);
-    }
+       layer.close(index);
   });
 }
 
@@ -149,7 +154,7 @@ function nextStep(){
   });
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#id").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -165,7 +170,7 @@ function nextStep(){
         layer.msg("暂存失败！",{offset:'200px'});
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -178,7 +183,7 @@ function nextStep(){
       <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
-            <li class="active"><a id="essential">详细信息</a></li>
+            <li class="active"><a >详细信息</a></li>
             <li class=""><a >财务信息</a></li>
             <li class=""><a >股东信息</a></li>
             <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -498,7 +503,7 @@ function nextStep(){
               </div>
             </div>
             <div class="col-md-12 add_regist tc">
-             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+             <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
              <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
             </div>
           </div>

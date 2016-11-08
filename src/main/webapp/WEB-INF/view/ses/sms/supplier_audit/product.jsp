@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -27,6 +26,7 @@
 
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -46,30 +46,39 @@ td {
   });
 
 function reason(id){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
-  var auditFieldName="序号为："+$("#"+id+"_index").text(); //审批的字段名字
-  var auditContent="产品名称为："+$("#"+id+"_name").text()+"的信息"; //审批的字段内容
-  var auditType=$("#product").text();//审核类型
-  var fail = false;
-   layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+  var auditFieldName = $("#"+id+"_name").text()+"的产品"; //审批的字段名字
+  var auditContent=$("#"+id).text()+"产品信息"; //审批的字段内容
+  var index =  layer.prompt({
+	  title: '请填写不通过的理由：', 
+	  formType: 2, 
+	  offset: offset
+  }, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType=products_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
         if(result.msg == "fail"){
-          fail = true;
           layer.msg("该条信息已审核过！");
         }
       }
       });
-      if(!fail){
 		    $("#"+id+"_show").show();
-		    layer.msg("审核不通过的理由是："+text);
-		    }
+		    layer.close(index);
     });
 }
 
@@ -86,7 +95,7 @@ function nextStep(){
   }
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -102,7 +111,7 @@ function nextStep(){
         layer.msg("暂存失败！");
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -131,67 +140,74 @@ function nextStep(){
               <li class=""><a >服务-专业信息</a></li>
               </c:if>
               <li class=""><a>品目信息</a></li>
-              <li class="active"><a id="product">产品信息</a></li>
+              <li class="active"><a >产品信息</a></li>
               <li class=""><a>申请表</a></li>
               <li class=""><a>审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20">
+              <div class="tab-content padding-top-20" style="height:1500px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <table id="share_table_id" class="table table-bordered table-condensed">
-                      <thead>
-                        <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info">所属类别</th>
-                          <th class="info">产品名称</th>
-                          <th class="info">品牌</th>
-                          <th class="info">规格型号</th>
-                          <th class="info">尺寸</th>
-                          <th class="info">生产产地</th>
-                          <th class="info">保质期</th>
-                          <th class="info">生产商</th>
-                          <th class="info">参考价格</th>
-                          <th class="info">产品图片</th>
-                          <th class="info">商品二维码</th>
-                          <th class="info w50"></th>
-                        </tr>
-                      </thead>
-                      <tbody id="products_tbody_id">
-                        <c:forEach items="${productsList}" var="products" varStatus="vs">
+                    <c:forEach items="${listItem}" var="item" varStatus="vs">
+                      <h2 class="f16 jbxx mt40">
+                        <i>${vs.index + 1}</i>${item.categoryName}产品信息表
+                      </h2>
+                      <table class="table table-bordered table-condensed">
+                        <thead>
                           <tr>
-                            <td class="tc" id="${products.id}_index">${vs.index+1 }</td>
-                            <td id="${products.categoryId}" class="tc">${products.categoryName}</td>
-                            <td class="tc" id="${products.id}_name" onclick="reason('${products.id}');">${products.name}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
-                            <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
-                            <td class="tc">
-                              <c:if test="${products.productPic != null}">
-                                <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
-                            </td>
-                            <td class="tc" >
-                              <c:if test="${products.qrCode != null}">
-                                <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
-                            </td>
-                            <td class="tc">
-                              <a  id="${products.id }_show" class="b f18 fl ml10 hand red">×</a>
-                            </td>
+                            <th class="info w50">序号</th>
+                            <th class="info">所属类别</th>
+                            <th class="info">产品名称</th>
+                            <th class="info">品牌</th>
+                            <th class="info">规格型号</th>
+                            <th class="info">尺寸</th>
+                            <th class="info">生产产地</th>
+                            <th class="info">保质期</th>
+                            <th class="info">生产商</th>
+                            <th class="info">参考价格</th>
+                            <th class="info">产品图片</th>
+                            <th class="info">商品二维码</th>
+                            <th class="info w50"></th>
                           </tr>
-                        </c:forEach>
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody >
+                          <c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
+                            <tr>
+                              <td class="tc w50">${vs.index + 1}</td>
+                              <td class="tc" onclick="reason('${products.id}');" id="${products.id}">${item.categoryName}</td>
+                              <td class="tc" onclick="reason('${products.id}');" id="${products.id}_name">${products.name}</td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
+                              <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
+                              <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
+                              <td class="tc">
+                                <c:if test="${products.productPic != null}">
+                                  <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
+                                </c:if>
+                                <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
+                              </td>
+                              <td class="tc" >
+                                <c:if test="${products.qrCode != null}">
+                                  <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
+                                </c:if>
+                                <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
+                              </td>
+                              <td class="tc">
+                                <a  id="${products.id }_show" class="b f18 fl ml10 hand red">×</a>
+                              </td>
+                            </tr>
+                          </c:forEach>
+                        </tbody>
+                      </table>
+                    </c:forEach>
+                    
+                    
                     <div class="col-md-12 add_regist tc">
-                      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+                      <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                       <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
                     </div>
                 </div>

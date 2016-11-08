@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -25,8 +24,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -47,31 +47,42 @@ td {
   });
 
 function reason(id){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
-  /* var auditFieldName=$("#"+id).text()+"股东"; */ //审批的字段名字
   var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
   var auditType=$("#shareholder").text();//审核类型
-  var fail = false;
-   layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+  var index = layer.prompt({
+      title: '请填写不通过的理由：', 
+      formType: 2, 
+      offset: offset,
+    }, 
+    function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName=股东信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=stockholder_page"+"&auditFieldName=股东信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
         if(result.msg == "fail"){
-          fail = true;
           layer.msg('该条信息已审核过！', {
                 shift: 6 //动画类型
             });
         }
       }
       });
-      if(!fail){
 	      $("#"+id+"_show").show();
-	      layer.msg("审核不通过的理由是："+text);
-	      }
+	       layer.close(index);
     });
 }
 
@@ -81,7 +92,7 @@ function nextStep(url){
 }
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -97,7 +108,7 @@ function nextStep(url){
         layer.msg("暂存失败！");
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -112,7 +123,7 @@ function nextStep(url){
             <ul class="nav nav-tabs bgdd">
               <li class=""><a>详细信息</a></li>
               <li class=""><a>财务信息</a></li>
-              <li class="active"><a id="shareholder">股东信息</a></li>
+              <li class="active"><a>股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
               <li class=""><a >物资-生产型专业信息</a></li>
               </c:if>
@@ -163,7 +174,7 @@ function nextStep(url){
                     </c:forEach>
                   </table>
                   <div class="col-md-12 add_regist tc">
-                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+                    <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep('${url}');">下一步</a>
 						      </div>
                 </div>

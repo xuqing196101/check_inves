@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -26,6 +25,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -44,14 +46,28 @@ function nextStep(){
 
 
 //填写原因
-function reason(id){
+function reason(id,auditType){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
   var id1=id+"1";
   var id2=id+"2";
-  var auditType=$("#items").text();//审核类型 
   var auditFieldName = $("#"+id2+"").text().replace("：","");//审批的字段名字
-  var fail = false;
-    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+  var index = layer.prompt({
+	  title: '请填写不通过的理由：', 
+	  formType: 2, 
+	  offset: offset
+  }, 
+  function(text){
       $.ajax({
           url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
           type:"post",
@@ -60,17 +76,14 @@ function reason(id){
 	        success:function(result){
 	        result = eval("(" + result + ")");
 	        if(result.msg == "fail"){
-	          fail = true;
 	          layer.msg('该条信息已审核过！', {
             shift: 6 //动画类型
             });
 	          }
         }
         });
-        if(!fail){
 	        $("#"+id1).show();
-	        layer.msg("审核不通过的理由是："+text);
-	        }
+	        layer.close(index);
       });
 }
 
@@ -232,7 +245,7 @@ function reason(id){
               <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a >服务-专业信息</a></li>
               </c:if>
-              <li class="active"><a id="items">品目信息</a></li>
+              <li class="active"><a>品目信息</a></li>
               <li class=""><a >产品信息</a></li>
               <li class=""><a >申请表</a></li>
               <li class=""><a >审核汇总</a></li>
@@ -261,7 +274,7 @@ function reason(id){
                   <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
                     <!-- 物资生产型 -->
                     <div class="tab-pane fade active in height-300" id="tab-1">
-                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="production">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id,'item_pro_page')" id="production">
                         <ul id="tree_ul_id_1" class="ztree mt30" ></ul>
                         <div id="production1"  class="b f18 fl ml10 hand red"style="display: none">×</div>
                       </div>
@@ -270,7 +283,7 @@ function reason(id){
                   <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
                     <!-- 物资销售型 -->
                     <div class="tab-pane fade height-300" id="tab-2">
-                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="sale">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id,'item_sell_page')" id="sale">
                         <ul id="tree_ul_id_2" class="ztree mt30"></ul>
                         <div id="sale1"  class="b f18 fl ml10 hand red" style="display: none">×</div>
                       </div>
@@ -279,7 +292,7 @@ function reason(id){
                   <c:if test="${fn:contains(supplierTypeNames, '工程')}">
                   <!-- 服务 -->
                     <div class="tab-pane fade height-200" id="tab-3">
-                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="engineering">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id,'item_eng_page')" id="engineering">
                         <ul id="tree_ul_id_3" class="ztree mt30" ></ul>
                         <div id="engineering1"  class="b f18 fl ml10 hand red" style="display: none">×</div>
                       </div>
@@ -288,7 +301,7 @@ function reason(id){
                   <c:if test="${fn:contains(supplierTypeNames, '服务')}">
                     <!-- 生产 -->
                     <div class="tab-pane fade height-200" id="tab-4">
-                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="service">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id,'item_serve_page')" id="service">
                         <ul id="tree_ul_id_4" class="ztree mt30"></ul>
                         <div id="service1" class="b f18 fl ml10 hand red" style="display: none">×</div>
                       </div>
@@ -297,7 +310,7 @@ function reason(id){
               </div>
           </div>
           <div class="col-md-12 add_regist tc">
-            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+            <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
           </div>     
         </div>

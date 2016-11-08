@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -27,6 +26,7 @@
 
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -52,70 +52,91 @@ td {
 
 
 function reason(id,auditField){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
-  /* var auditFieldName=$("#"+id).text()+"年财务";  *///审批的字段名字
-  var auditType=$("#financial").text();//审核类型
   var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
-  var fail = false;
-  layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+  var index = layer.prompt({
+	  title: '请填写不通过的理由：', 
+	  formType: 2, 
+	  offset: offset
+  }, 
+  function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName=财务信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=finance_page"+"&auditFieldName=财务信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
 	      success:function(result){
 		      result = eval("(" + result + ")");
 		      if(result.msg == "fail"){
-		        fail = true;
 		       layer.msg('该条信息已审核过！', {
                 shift: 6 //动画类型
             });
 		      }
 	     }
       });
-      if(!fail){
 	      $("#"+id+"_show").show();
-	      layer.msg("审核不通过的理由是："+text);
-	      }
+	      layer.close(index);
     });
 }
 
 function reason1(year, ele,auditField){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
   var value = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
- /*  var auditFieldName=year+"年"+value;//审批的字段名字 */
   var auditFieldName=year+"年";//审批的字段名字
-  var auditType=$("#financial").text();//审核类型
   var fail = false;
-    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
-      $.ajax({
-          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-          type:"post",
-          /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-          data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
-          dataType:"json",
-	          success:function(result){
-	          result = eval("(" + result + ")");
-	          if(result.msg == "fail"){
-	            fail = true;
-	           layer.msg('该条信息已审核过！', {
-                shift: 6 //动画类型
-            });
-            }
-          }
+  var index = layer.prompt({
+      title: '请填写不通过的理由：', 
+      formType: 2, 
+      offset : offset,
+    }, 
+      function(text){
+		      $.ajax({
+		          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+		          type:"post",
+		          /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
+		          data:"auditType=finance_page"+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+		          dataType:"json",
+			          success:function(result){
+			          result = eval("(" + result + ")");
+			          if(result.msg == "fail"){
+			           layer.msg('该条信息已审核过！', {
+		                shift: 6 //动画类型
+		            });
+		            }
+		          }
+		        });
+			        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
+			        layer.close(index);
         });
-        if(!fail){
-	        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
-	        layer.msg("审核不通过的理由是："+text);
-        }
-      });
-}
+    }
 
-function nextStep(){
-  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
-  $("#form_id").attr("action",action);
-  $("#form_id").submit();
-}
+		function nextStep(){
+		  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
+		  $("#form_id").attr("action",action);
+		  $("#form_id").submit();
+		}
 
 //文件下載
   function downloadFile(fileName) {
@@ -124,7 +145,7 @@ function nextStep(){
   }
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -134,13 +155,13 @@ function nextStep(){
       success:function(result){
         result = eval("(" + result + ")");
         if(result.msg == "success"){
-          layer.msg("暂存成功！");
+          layer.msg("暂存成功！",{offset:'200px'});
         }
       },error:function(){
-        layer.msg("暂存失败！");
+        layer.msg("暂存失败！",{offset:'200px'});
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -214,7 +235,7 @@ function nextStep(){
                   <c:forEach items="${financial}" var="f" varStatus="vs">
                   <div class=" margin-bottom-0 fl">
                     <h2 class="f16 jbxx mt40">
-                    <i>${vs.index + 1}</i>${f.year }年
+                      <i>${vs.index + 1}</i>${f.year }年
                     </h2>
                     <ul class="list-unstyled list-flow hand">
                       <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this,'auditOpinion');">财务审计报告意见表：</span>
@@ -276,7 +297,7 @@ function nextStep(){
                   </div>
                   </c:forEach>
                 <div class="col-md-12 add_regist tc">
-                  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+                  <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
                 </div>
               </div>

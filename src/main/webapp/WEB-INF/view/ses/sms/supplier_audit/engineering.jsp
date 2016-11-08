@@ -56,31 +56,26 @@ input {
 
 function reason(id,auditContent){
    var supplierId=$("#supplierId").val();
-   var auditType=$("#engineering").text();//审核类型
-   var fail = false;
    var auditFieldName= auditContent.replace("信息","");
-   layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+   var index = layer.prompt({title: '请填写不通过的理由：', formType: 2, offset:'300px'}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
         if(result.msg == "fail"){
-          fail = true;
           layer.msg('该条信息已审核过！', {
             shift: 6 //动画类型
             });
         }
       }
       });
-      if(!fail){
         $("#"+id+"_show").show();
         $("#"+id+"_show1").show();
         $("#"+id+"_show2").show();
-        layer.msg("审核不通过的理由是："+text);
-       }
+        layer.close(index);
     });
 }
 
@@ -89,30 +84,25 @@ function reason1(id,auditContent){
   var id2=id+"2";
   var id1=id+"1";
   var id3=id+"3";
-   var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字 
+  var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字 
   var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
-  var auditType=$("#engineering").text();//审核类型
-  var fail = false;
-  layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
+  var index = layer.prompt({title: '请填写不通过的理由：', formType: 2, offset:'300px'}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=mat_eng_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
         if(result.msg == "fail"){
-          fail = true;
           layer.msg('该条信息已审核过！', {
             shift: 6 //动画类型
             });
         }
       }
       });
-      if(!fail){
-     layer.msg("审核不通过的理由是："+text);
      $("#"+id3+"").show();
-     }
+     layer.close(index);
     });
 }
 
@@ -136,7 +126,7 @@ function nextStep(url){
   }
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -152,7 +142,7 @@ function nextStep(url){
         layer.msg("暂存失败！",{offset:'200px'});
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -175,7 +165,7 @@ function nextStep(url){
 	            <li class=""><a >物资-销售型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class="active"><a id="engineering">工程-专业信息</a></li>
+	            <li class="active"><a >工程-专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a >服务-专业信息</a></li>
@@ -350,14 +340,14 @@ function nextStep(url){
                       <ul class="list-unstyled list-flow">
                         <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,supplierMatEng.orgName)"/>
+                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
                             <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTech2">技术负责人：</span>
                           <div class="input-append">
                             <input id="totalTech" class="span3" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
-                          <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
+                            <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
@@ -381,7 +371,7 @@ function nextStep(url){
                       </ul>
                     </div>
                   <div class="col-md-12 add_regist tc">
-                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+                    <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep('${url}');">下一步</a>
                   </div> 
               </div>

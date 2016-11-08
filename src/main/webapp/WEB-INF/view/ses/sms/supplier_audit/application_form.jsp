@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -27,6 +26,7 @@
 
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -42,31 +42,41 @@
 
 
 function reason1(ele,auditField){
+  var offset = "";
+  if (window.event) {
+    e = event || window.event;
+    var x = "";
+    var y = "";
+    x = e.clientX + 20 + "px";
+    y = e.clientY + 20 + "px";
+    offset = [y, x];
+  } else {
+      offset = "200px";
+  }
   var supplierId=$("#supplierId").val();
   var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
-  var auditType=$("#applicationFrom").text();//审核类型 
-  var fail = false;
-    layer.prompt({title: '请填写不通过的理由：', formType: 2},function(text){
+  var index = layer.prompt({
+	    title: '请填写不通过的理由：', 
+	    formType: 2, 
+	    offset: offset
+    },
+    function(text){
       $.ajax({
           url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
           type:"post",
-          data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+          data:"auditType=upload_page"+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
           dataType:"json",
 	        success:function(result){
 	        result = eval("(" + result + ")");
 	        if(result.msg == "fail"){
-	          fail = true;
 	          layer.msg('该条信息已审核过！', {
             shift: 6 //动画类型
             });
         }
       }
         });
-        if(!fail){
 	        $(ele).parent("li").find("div").eq(1).show(); //显示叉
-	          layer.msg("审核不通过的理由是："+text
-          );
-          }
+	         layer.close(index);
       });
 }
 
@@ -84,7 +94,7 @@ function nextStep(){
   }
 </script>
 <script type="text/javascript">
-  function zhancun(){
+/*   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
@@ -100,7 +110,7 @@ function nextStep(){
         layer.msg("暂存失败！");
       }
     });
-  }
+  } */
 </script>
 </head>
   
@@ -130,7 +140,7 @@ function nextStep(){
 	            </c:if>
               <li class=""><a >品目信息</a></li>
               <li class=""><a>产品信息</a></li>
-              <li class="active"><a id="applicationFrom">申请表</a></li>
+              <li class="active"><a >申请表</a></li>
               <li class=""><a >审核汇总</a></li>
             </ul>
               <div class="tab-content padding-top-20">
@@ -221,7 +231,7 @@ function nextStep(){
             </div>
           </div>
           <div class="col-md-12 add_regist tc">
-             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
+             <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
              <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
           </div>
         </div>

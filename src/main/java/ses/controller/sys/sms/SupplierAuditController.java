@@ -29,6 +29,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -768,9 +769,11 @@ public class SupplierAuditController extends BaseSupplierController{
 	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
 		String supplierId = supplierAudit.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
-		//产品
-		List<SupplierProducts> productsList= supplierService.get(supplierId).getListSupplierProducts();
-		request.setAttribute("productsList", productsList);
+		
+		if(supplierId != null){
+			List<SupplierItem> listItem= supplierService.get(supplierId).getListSupplierItems();
+			request.setAttribute("listItem", listItem);
+		}
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
