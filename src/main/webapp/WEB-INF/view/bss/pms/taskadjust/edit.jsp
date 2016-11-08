@@ -452,8 +452,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				</table>
 				<div style="float: left">
-				<u:upload businessId="${id }" sysKey="2" typeId="${aid }"/>
-				<u:show businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:upload id="cgjh" businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:show showId="cgjh"   businessId="${id }" sysKey="2" typeId="${aid }"/>
 				</div>
 				<!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
 				<div  style="float: left">  

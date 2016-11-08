@@ -324,8 +324,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				</table>
 				<div style="float: left">
-				<u:upload businessId="${id }" sysKey="2" typeId="${aid }"/>
-				<u:show businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
+				<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
 				</div>
 				<input class="btn btn-windows save" type="submit" value="提交">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

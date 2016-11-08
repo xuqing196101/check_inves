@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        //	$("#page").val(e.curr);
 		        	// $("#form1").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		         location.href = '${pageContent.request.contextPath}/statistic/list.do?page='+e.curr;
 		        }  
 		    }
 		});

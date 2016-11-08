@@ -61,10 +61,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        //	$("#page").val(e.curr);
-		        	// $("#form1").submit();
+		        	$("#page").val(e.curr);
+		        	 $("#add_form").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		       <%--   location.href = '<%=basePath%>purchaser/list.do?page='+e.curr; --%>
 		        }  
 		    }
 		});
@@ -243,8 +243,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
- 
+    <form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" method="post" >
+ <input type="hidden" name="page" id="page">
 
 	 需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/>
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 

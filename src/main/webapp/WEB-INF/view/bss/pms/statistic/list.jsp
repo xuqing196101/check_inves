@@ -71,10 +71,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        //	$("#page").val(e.curr);
-		        	// $("#form1").submit();
+		        	$("#page").val(e.curr);
+		        	  $("#add_form").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		     
 		        }  
 		    }
 		});
@@ -388,7 +388,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
     <form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" method="post" >
-   
+   <input type="hidden" name="page" id="page">
 
 	  物资类别：<select name="planType" >
 	  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
@@ -398,7 +398,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    年度： <input class="mt10" type="text" name="year" value="${year}" /> 
 	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
 	
-	  采购方式： <input class="mt10" type="text" name="purchaseType" value="${inf.purchaseType }" /> 
+	  采购方式：
+	  	<select  name="purchaseType" style="width:100px" id="select">
+              				    <option value="" >请选择</option>
+	                            <option value="公开招标" <c:if test="${'公开招标'==inf.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="邀请招标" <c:if test="${'邀请招标'==inf.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==inf.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="询价采购" <c:if test="${'询价采购'==inf.purchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="单一来源" <c:if test="${'单一来源'==inf.purchaseType}">selected="selected"</c:if>>单一来源</option>
+			                </select>
+			                
 	   采购机构：  <input class="mt10"  value='${inf.organization }' name="organization" type="text" > 
 	   预算：  <input class="mt10"  value='${inf.budget }' name="budget" type="text" > 
 	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 

@@ -61,7 +61,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            window.location.href = '<%=basePath%>dictionaryData/list.html?page='+e.curr;
+			        	$("#page").val(e.curr);
+			        	  $("#param_form").submit();
+			           <%--  window.location.href = '<%=basePath%>dictionaryData/list.html?page='+e.curr; --%>
 			        }
 			    }
 			});
@@ -138,11 +140,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
 	function query(){
-		$("#form1").submit();
+		$("#param_form").submit();
 	}
 	
 	function resetQuery(){
-		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+		$("#param_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
   </script>
   <body>
@@ -161,7 +163,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  </div>
 		  <div class="p10_25">
 		     <h2 class="padding-10 border1">
-		       	<form action="<%=basePath %>param/list.html" id="form1" method="post" class="mb0">
+		       	<form id="param_form" action="${pageContext.request.contextPath }/param/list.html"  method="post" class="mb0">
+		       	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
 				    	<label class="fl">审核轮次：</label><span>
