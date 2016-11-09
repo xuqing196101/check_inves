@@ -51,6 +51,8 @@ public class PreMenuController {
 
 	@Autowired
 	private RoleServiceI roleService;
+	
+	private final static String NAV_MENU = "0";
 
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 
@@ -167,6 +169,8 @@ public class PreMenuController {
 					pmenu = preMenuService.get(menu.getId());
 					menu.setMenulevel(pmenu.getMenulevel()+1);
 				}else{
+				    pmenu = new PreMenu();
+				    pmenu.setId(NAV_MENU);
 					menu.setMenulevel(1);
 				}
 				menu.setId(null);

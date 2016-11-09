@@ -103,5 +103,15 @@ public interface PreMenuMapper {
 	 * @exception IOException
 	 */
 	List<String> findByUids(String[] userIds);
+	
+	/**
+	 * 
+	 *〈简述〉获取最新的权限编码
+	 *〈详细描述〉
+	 * @author myc
+	 * @param parentId 父级id
+	 * @return
+	 */
+	String getPermisssinCode(String parentId);
 
 }

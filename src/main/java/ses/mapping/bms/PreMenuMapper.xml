@@ -22,7 +22,7 @@
   <!-- 所有列 -->
   <sql id="Base_Column_List">
     ID, NAME, MENU_TYPE, IS_DELETED, STATUS, URL, CREATED_AT, POSITION, MENU_LEVEL, PARENT_ID, 
-    UPDATED_AT, KIND, ICON
+    UPDATED_AT, KIND, ICON, PERMISSION_CODE
   </sql>
   
    <!--  查询条件 -->
@@ -145,6 +145,9 @@
       <if test="icon != null">
         ICON,
       </if>
+      <if test="permissionCode != null">
+        PERMISSION_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -185,6 +188,9 @@
       </if>
       <if test="icon != null">
         #{icon},
+      </if>
+       <if test="permissionCode != null">
+        #{permissionCode,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -285,4 +291,16 @@
 	 	#{item}  
 	</foreach>
   </select>
+  
+  <select id="getPermisssinCode" parameterType="java.lang.String" resultType="java.lang.String">
+  	SELECT 
+  		MAX(PERMISSION_CODE)
+	FROM 
+		T_SES_BMS_PERMISSION
+	WHERE 
+		PARENT_ID = #{parentId,jdbcType=VARCHAR}
+	AND 
+		IS_DELETED = 0	
+  </select>
+  
 </mapper>
