@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -29,6 +30,7 @@
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
 	$(document).keyup(function(event){

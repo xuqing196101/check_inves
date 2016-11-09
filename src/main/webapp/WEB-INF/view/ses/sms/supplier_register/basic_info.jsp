@@ -309,7 +309,7 @@
 		<!-- 项目戳开始 -->
 		<c:if test="${currSupplier.status != 7}">
 			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt40 ml30">
+				<h2 class="padding-20 mt20 ml30">
 					<span class="new_step current fl"><i class="">1</i>
 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step fl"><i class="">3</i>
@@ -331,7 +331,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<ul id="page_ul_id" class="nav nav-tabs bgdd">
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a></li>
 							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
 							<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
@@ -410,7 +410,7 @@
 										</ul>
 
 
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>02</i>资质资信
 										</h2>
 										<ul class="list-unstyled list-flow">
@@ -489,7 +489,7 @@
 											<div class="clear"></div>
 										</ul>
 
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>03</i>法定代表人信息
 										</h2>
 										<ul class="list-unstyled list-flow">
@@ -515,7 +515,7 @@
 											</li>
 											<div class="clear"></div>
 										</ul>
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>04</i>联系人信息
 										</h2>
 										<ul class="list-unstyled list-flow">
@@ -551,7 +551,7 @@
 											</li>
 											<div class="clear"></div>
 										</ul>
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>05</i>营业执照
 										</h2>
 										<ul class="list-unstyled list-flow">
@@ -613,15 +613,15 @@
 												</c:if>
 											</li>--%>
 											<li class="col-md-12 p0 mt10"><span class="fl">经营范围：</span>
-												<div class="col-md-9 mt5">
-													<div class="row _mr20">
+												<div class="col-md-9 mt5 p0">
+													<div class="col-md-12 p0">
 														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
 													</div>
 												</div>
 												<div class="clear"></div></li>
 											<div class="clear"></div>
 										</ul>
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>05</i>境外分支
 										</h2>
 										<ul class="list-unstyled list-flow">
@@ -663,12 +663,14 @@
 								<div class="tab-pane fade height-300" id="tab-2">
 									<div class="margin-bottom-0  categories">
 
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>01</i>财务状况登记表
 										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteFinance()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openFinance()">新增</button>
-										<table id="finance_table_id" class="table table-bordered table-condensed">
+										<div class="overflow_h">
+										  <button type="button" class="btn fr mr0" onclick="deleteFinance()">删除</button>
+										  <button type="button" class="btn fr" onclick="openFinance()">新增</button>
+										</div>
+										<table id="finance_table_id" class="table table-bordered table-condensed mt5">
 											<thead>
 												<tr>
 													<th class="info"><input type="checkbox" onchange="checkAll(this, 'finance_list_tbody_id')" /></th>
@@ -772,12 +774,14 @@
 								<!-- 股东信息 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<div class="margin-bottom-0  categories">
-										<h2 class="f16 jbxx mt40">
+										<h2 class="f16 jbxx mt20">
 											<i>01</i>股东信息表
 										</h2>
-										<input type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteStockholder()" value="删除">
-										<input type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openStockholder()" value="新增">
-										<table id="share_table_id" class="table table-bordered table-condensed">
+										<div class="overflow_h">
+										  <input type="button" class="btn fr mr0" onclick="deleteStockholder()" value="删除">
+										  <input type="button" class="btn fr" onclick="openStockholder()" value="新增">
+										</div>
+										<table id="share_table_id" class="table table-bordered table-condensed mt5">
 											<thead>
 												<tr>
 													<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" /></th>

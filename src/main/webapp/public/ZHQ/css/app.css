@@ -528,6 +528,8 @@ h3.heading-xs {
 /*Basic Tables*/
 .table thead > tr > th {
   border-bottom: none;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
@@ -722,6 +724,7 @@ h3.heading-xs {
   border: solid 1px #eee;
   color:#ffffff;
   border-bottom: none !important;
+  cursor: pointer;
 }
 
 .tab-v2 .tab-content {
@@ -3743,4 +3746,10 @@ img.img-center,
 	background:#ffffff;
 	color:#555;
 	border-top:2px solid #2c9fa6;
+}
+ul.supplier_tab li a:hover{
+	color:#ffffff!important;
+	background-color:#2c9fa6!important;
+	cursor: pointer;
+	
 }

@@ -449,7 +449,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<ul id="page_ul_id" class="nav nav-tabs bgdd">
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型专业信息</a></li>
 							</c:if>
@@ -508,7 +508,7 @@
 											</ul>
 	
 	
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>02</i>产品研发能力
 											</h2>
 											<ul class="list-unstyled list-flow">
@@ -550,7 +550,7 @@
 												<div class="clear"></div>
 											</ul>
 	
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>03</i>供应商生产能力
 											</h2>
 											<ul class="list-unstyled list-flow">
@@ -566,7 +566,7 @@
 												</li>
 												<div class="clear"></div>
 											</ul>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>04</i>物资生产型供应商质量检测能力登记
 											</h2>
 											<ul class="list-unstyled list-flow">
@@ -592,12 +592,14 @@
 												</li>
 												<div class="clear"></div>
 											</ul>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>05</i>供应商资质证书
 											</h2>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertPro()">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertPro()">新增</button>
-											<table class="table table-bordered table-condensed">
+											<div class="overflow_h">
+											  <button type="button" class="btn fr mr0" onclick="deleteCertPro()">删除</button>
+											  <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
+											</div>
+											<table class="table table-bordered table-condensed mt5">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
@@ -673,12 +675,12 @@
 												</li>
 												<div class="clear"></div>
 											</ul>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>02</i>供应商资质证书
 											</h2>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSell()">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSell()">新增</button>
-											<table class="table table-bordered table-condensed">
+											<button type="button" class="btn fr mr0" onclick="deleteCertSell()">删除</button>
+											<button type="button" class="btn fr" onclick="openCertSell()">新增</button>
+											<table class="table table-bordered table-condensed mt5">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_sell_list_tbody_id')" /></th>
@@ -756,7 +758,7 @@
 												</li>
 												<div class="clear"></div>
 											</ul>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>02</i>供应商注册人员登记
 											</h2>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
@@ -779,7 +781,7 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>03</i>供应商资质资格证书信息
 											</h2>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
@@ -833,7 +835,7 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>04</i>供应商资质资格信息
 											</h2>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
@@ -928,7 +930,7 @@
 												</li>
 												<div class="clear"></div>
 											</ul>
-											<h2 class="f16 jbxx mt40">
+											<h2 class="f16 jbxx mt20">
 												<i>02</i>供应商资质证书
 											</h2>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSe()">删除</button>

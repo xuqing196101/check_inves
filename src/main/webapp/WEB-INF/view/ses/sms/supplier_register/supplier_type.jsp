@@ -113,9 +113,9 @@
 									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('basic_info')">上一步</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('supplier_type')">暂存</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('professional_info')">下一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('basic_info')">上一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('supplier_type')">暂存</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('professional_info')">下一步</button>
 								</div>
 							</div>
 						</div>

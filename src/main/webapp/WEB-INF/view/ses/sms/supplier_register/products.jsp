@@ -178,10 +178,12 @@
 											<h2 class="f16 jbxx mt40">
 												<i>${vs.index + 1}</i>${item.categoryName}产品信息表
 											</h2>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg('${item.id}')">添加产品信息</button>
-											<table class="table table-bordered table-condensed">
+											<div class="overflow_h">
+											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr mr0" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
+											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
+											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addProductsMsg('${item.id}')">添加产品信息</button>
+											</div>
+											<table class="table table-bordered table-condensed mt5">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id_${vs.index + 1}')" /></th>

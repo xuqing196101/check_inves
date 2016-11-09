@@ -283,7 +283,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<ul id="page_ul_id" class="nav nav-tabs bgdd">
+						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型品目信息</a></li>
 							</c:if>

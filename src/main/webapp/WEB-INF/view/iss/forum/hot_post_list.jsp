@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -13,24 +12,8 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-		<link href="${ pageContext.request.contextPath }/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
-<script src="${ pageContext.request.contextPath }/public/ZHQ/js/hm.js"></script>
-<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
-<!--导航js-->
-<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery_ujs.js"></script>
-<script src="${ pageContext.request.contextPath }/public/ZHQ/js/bootstrap.min.js"></script>
-<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");
