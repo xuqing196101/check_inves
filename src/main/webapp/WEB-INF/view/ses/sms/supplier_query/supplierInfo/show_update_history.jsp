@@ -175,12 +175,16 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
-
+function yincang(){
+	$("div").removeClass("disNon");
+}
 
 
 </script>
 <style type="text/css">
-
+.disNon{
+	display: none;
+}
 </style>
 </head>
   
@@ -195,11 +199,6 @@ function tijiao(str){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-   <div class="container">
-   <div class="col-md-12">
-	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
-	</div>
-    </div>
   <!--详情开始-->
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
@@ -215,19 +214,20 @@ function tijiao(str){
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             </c:if>
-            <%--  <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            </c:if> --%>
+            </c:if>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
-            <li class="active"><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
           </ul>
           <div class="padding-top-20"></div>
                   <form id="form_id" action="" method="post">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                   </form> 
-                <c:forEach items="${list }" var="record" varStatus="vs">
+           <c:forEach items="${list }" var="record" varStatus="vs">
+                <c:if test="${vs.index<5 }">
                 <div class=" margin-bottom-0">
                 <div class="tml_container padding-top-10">
 				  <div class="dingwei">
@@ -239,7 +239,38 @@ function tijiao(str){
                    <div class=" margin-bottom-0">
                        <h2 class="history_icon">修改记录</h2>
 				        <div class="padding-left-40">
-				 		  <span>${fn:substringBefore(record, "^-^")}    </span>
+				          <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
+				 		  <span> ${fn:replace(records,"null", " ")}  </span>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+			  </c:if>
+			  <c:if test="${vs.index==5}">
+			  		<span class="hand" onclick="yincang()"><b>点击更多...</b></span>
+			  </c:if>
+			  <c:if test="${vs.index>4}">
+			  <div  class="disNon margin-bottom-0" >
+                <div  class="tml_container padding-top-10">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="history_icon">修改记录</h2>
+				        <div class="padding-left-40">
+				 		 <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
+				 		  <span> ${fn:replace(records,"null", " ")}  </span>
 						  
 					    </div>
                      </div>
@@ -253,7 +284,8 @@ function tijiao(str){
                 </div>
                </div>
 			  </div>
-     </c:forEach>
+			  </c:if>
+         </c:forEach>
 </div>
 </div>
 </body>

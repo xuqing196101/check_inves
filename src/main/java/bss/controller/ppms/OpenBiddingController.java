@@ -8,6 +8,7 @@ import iss.service.ps.ArticleTypeService;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,11 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.DownloadService;
-import common.service.UploadService;
-
+import ses.main.CnUpperCaser;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
@@ -42,7 +39,6 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
-
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
@@ -57,6 +53,11 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
+
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.DownloadService;
+import common.service.UploadService;
 
 
 /**
@@ -235,6 +236,21 @@ public class OpenBiddingController {
         model.addAttribute("content", content);
         model.addAttribute("projectId", projectId);
         return "bss/ppms/open_bidding/bid_notice/add";
+    }
+    
+    @RequestMapping("/showTime")
+    @ResponseBody
+    public long showTime(String projectId){
+    	Project project=projectService.selectById(projectId);
+    	//开标时间
+    	long bidDate=0;
+    	if(project.getBidDate()==null){
+    	}else{
+    		bidDate=project.getBidDate().getTime();
+    	}
+    	long nowDate=new Date().getTime();
+    	long date=bidDate-nowDate;
+    	return date;
     }
     
     /**
@@ -578,25 +594,42 @@ public class OpenBiddingController {
      * @return String
      */
     @RequestMapping("/changbiao")
-    public String changbiao(String projectId,String supplierStr, Model model ){
+    public String changbiao(String projectId, Model model ){
        //项目信息
+    	Project project=projectService.selectById(projectId);
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+        String supplierStr="";
+        for(Supplier sup:listSupplier){
+        	supplierStr+=sup.getId()+",";
+        }
        //参与项目的所有供应商
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
+        map.put("purchaseType", "公开招标");
         List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
-      /*  List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
-        for(String str:listsupplierId){
-            Quote quote=new Quote();
-            quote.setSupplierId(str);
-            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-            listQuoteList.add(listQuote);
-        }*/
+        //暂时测试  等到有数据的时候我就删掉
+        //supplierStr="8BE39E5BF23846EC93EED74F57ACF1F4,90F6C6A8544C421EB3DF67ED51185D7C";
+        List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
+        if(listsupplierId.get(0).length()>30){
+	        for(String str:listsupplierId){
+	            Quote quote=new Quote();
+	            quote.setSupplierId(str);
+	            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+	            BigDecimal totalMoney=new BigDecimal(0);
+	            for(Quote q: listQuote){
+	            	totalMoney=totalMoney.add(q.getTotal());
+	            	q.setTotalMoney(totalMoney);
+	            	q.setTotalMoneyNames(new CnUpperCaser(totalMoney.toString()).getCnString());
+	            }
+	            listQuoteList.add(listQuote);
+	        }
+        }
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("listPd", listPd);
-        //model.addAttribute("listQuoteList", listQuoteList);
+        model.addAttribute("listQuoteList", listQuoteList);
+        model.addAttribute("project", project);
         return "bss/ppms/open_bidding/bid_file/changbiao";
     }
 }

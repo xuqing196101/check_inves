@@ -239,9 +239,9 @@ function fanhui(){
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             </c:if>
-             <%-- <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
+            <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            </c:if> --%>
+            </c:if>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>

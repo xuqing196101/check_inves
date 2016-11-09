@@ -78,6 +78,7 @@
     <if test=" recordId != null and recordId != '' ">
     	AND RECORD_ID =#{recordId}
     </if>
+    ORDER BY CREATE_DATE DESC
     </select>
     
      <select id="getAllRecord" parameterType="ses.model.sms.SupplierEdit" resultMap="BaseResultMap">

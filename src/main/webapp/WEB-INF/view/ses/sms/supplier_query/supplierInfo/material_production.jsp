@@ -176,6 +176,9 @@ function tijiao(str){
   if(str=="product"){
      action = "<%=basePath%>supplierQuery/product.html";
   }
+     if(str=="updateHistory"){
+     action = "<%=basePath%>supplierQuery/showUpdateHistory.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
@@ -218,6 +221,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">

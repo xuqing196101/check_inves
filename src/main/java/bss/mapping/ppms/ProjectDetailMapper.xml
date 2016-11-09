@@ -42,13 +42,15 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS_DETAIL t
-    where 1=1 and t.PACKAGE_ID is not null and t.price is not null
-  
-    <if test="id != null and id !=''">
-        AND PROJECT_ID = #{id}
+    where 1=1 and t.PACKAGE_ID is not null and t.price is not null 
+    <if test="projectId != null and projectId !=''">
+        AND PROJECT_ID = #{projectId}
     </if> 
     <if test="packageId != null and packageId !=''">
         AND PACKAGE_ID = #{packageId}
+     </if> 
+    <if test="purchaseType != null and purchaseType !=''">
+        AND PURCHASE_TYPE = #{purchaseType}
      </if> 
      ORDER BY POSITION ASC
   </select>

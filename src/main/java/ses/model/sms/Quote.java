@@ -40,7 +40,27 @@ public class Quote {
     
     private Supplier supplier;
     
-    public Supplier getSupplier() {
+    private BigDecimal totalMoney;
+    
+    private String totalMoneyNames;
+    
+    public String getTotalMoneyNames() {
+		return totalMoneyNames;
+	}
+
+	public void setTotalMoneyNames(String totalMoneyNames) {
+		this.totalMoneyNames = totalMoneyNames;
+	}
+
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+
+	public Supplier getSupplier() {
 		return supplier;
 	}
 
