@@ -1,111 +1,107 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-<script src="<%=basePath%>public/ZHH/js/hm.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script src="<%=basePath%>public/ZHH/js/smoothScroll.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
-<script src="<%=basePath%>public/ZHH/js/app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/common.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dota.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/fancy-box.js"></script>
-<script src="<%=basePath%>public/ZHH/js/style-switcher.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl.carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masking.js"></script>
-<script src="<%=basePath%>public/ZHH/js/datepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/timepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-select.js"></script>
-<script src="<%=basePath%>public/ZHH/js/locale.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.ui.widget.js"></script>
-<script src="<%=basePath%>public/ZHH/js/load-image.js"></script>
-<script src="<%=basePath%>public/ZHH/js/canvas-to-blob.js"></script>
-<script src="<%=basePath%>public/ZHH/js/tmpl.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.iframe-transport.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/form.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script src="<%=basePath%>public/ZHH/js/touch.js"></script>
-<script src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
-<script src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
-<script src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/animate.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/select2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/demo.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/back-to-top.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.query.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-plus-min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fancybox.pack.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/smoothScroll.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.parallax.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/app.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/common.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/dota.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/fancy-box.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/style-switcher.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/owl.carousel.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-carousel.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-recent-works.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.form.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.maskedinput.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/masking.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/datepicker.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/timepicker.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-select.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/locale.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.ui.widget.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/load-image.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/canvas-to-blob.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/tmpl.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.iframe-transport.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-fp.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-ui.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-fileupload.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/form.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/select2.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/select2_locale_zh-CN.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/application.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.counterup.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/modernizr.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/touch.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/product-quantity.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/master-slider.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/shop.app.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/masterslider.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/james.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <title>My JSP 'index.jsp' starting page</title>
 <script type="text/javascript">
 	  	  $(function(){
@@ -124,13 +120,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
+			             location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
 			        }
 			    }
 			});
 	  });
 	    function fanhui(){
-	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html?status=3";
+	  	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?status=3";
 	  }
 function chongzhi(){
 	$("#supplierName").val('');
@@ -144,7 +140,7 @@ function chongzhi(){
 	var address='${address}';
 	address=encodeURI(address);
     address=encodeURI(address);
-     window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
+     window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
 }
 $(function() {
 		var optionNodes = $("option");
@@ -219,7 +215,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>/category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}//category/query_category.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -262,7 +258,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>/supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
+             url: "${pageContext.request.contextPath}//supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -321,7 +317,7 @@ $(function() {
   <body>
   	<div class="container clear margin-top-30">
   			<h2>供应商信息查询</h2>
-  				<form id="form1" action="<%=basePath %>supplierQuery/findSupplierByPriovince.html" method="post">
+  				<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" name="status" value="3">
 		       <input type="hidden" name="address" value="${address }">
@@ -382,7 +378,7 @@ $(function() {
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 						<td>${vs.index+1 }</td>
-						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
+						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName }</td>
 						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td>${list.supplierType }</td>

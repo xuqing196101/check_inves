@@ -9,13 +9,13 @@
 
 <title>My JSP 'category.jsp' starting page</title>
 
- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
+ <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css"> 
+<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/demo.css"> --%>
 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.exedit.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
  $(function() {
     var zTreeObj;
@@ -66,7 +66,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>supplierQuery/selectByCategory.do?page='+e.curr;
+			            location.href = '${pageContext.request.contextPath}/supplierQuery/selectByCategory.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -126,7 +126,7 @@
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 					    <td>${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
+						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.supplierType }</td>
 						<td>

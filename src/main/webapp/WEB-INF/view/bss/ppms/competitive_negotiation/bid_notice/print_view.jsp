@@ -26,7 +26,7 @@
         	var name = $("#name").val();
         	var content = $("#content").val();
         	var projectId =$("#projectId").val();
-        	location.href = '<%=basePath%>open_bidding/printViewBack.html?name='+name+'&content='+content+'&projectId='+projectId;
+        	location.href = '${pageContext.request.contextPath}/open_bidding/printViewBack.html?name='+name+'&content='+content+'&projectId='+projectId;
         }
     </script>
     

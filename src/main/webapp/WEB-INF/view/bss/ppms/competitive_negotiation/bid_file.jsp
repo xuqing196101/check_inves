@@ -2,15 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>My JSP 'bid_file.jsp' starting page</title>
     
@@ -22,23 +18,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript">
 	function submit1(){
 		
@@ -110,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"<%=basePath%>firstAudit/remove.html?id="+id,
+	 				url:"${pageContext.request.contextPath}/firstAudit/remove.html?id="+id,
 	 				//data:{"id":id},
 	 				//type:"post",
 	 	       		success:function(){
@@ -153,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          shift: 1, //0-6的动画形式，-1不开启
 	          offset: ['100px', '100px'],
 	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
+	          content:'${pageContext.request.contextPath}/firstAudit/toEdit.html?id='+id
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
 	   }
@@ -169,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          shift: 1, //0-6的动画形式，-1不开启
 	          offset: ['100px', '90px'],
 	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toTemplatList.html'
+	          content:'${pageContext.request.contextPath}/firstAudit/toTemplatList.html'
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
 		
@@ -197,20 +193,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
 						     <li class="active">
-							   <a  href="<%=basePath%>firstAudit/toAdd_cn.html?projectId=${projectId}" >01、符合性</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd_cn.html?projectId=${projectId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
 							 <li>
-							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit_cn.html?projectId=${projectId}" >02、符合性关联</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit_cn.html?projectId=${projectId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  href="<%=basePath%>intelligentScore/packageList_cn.html?projectId=${projectId}">03、评标细则</a>
+							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList_cn.html?projectId=${projectId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="<%=basePath%>pub_tran/bidFile.html?id=${projectId}">04、竞谈文件</a>
+							   <a  href="${pageContext.request.contextPath}/pub_tran/bidFile.html?id=${projectId}">04、竞谈文件</a>
 							 </li>
 						   </ul>
 						 </div>
@@ -254,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 </div>	
 		 <!--打开的窗口  -->
 			<div id="openWindow"  style="display: none;">
-				<form action="<%=basePath %>firstAudit/add.html" method="post" id="form1">
+				<form action="${pageContext.request.contextPath}/firstAudit/add.html" method="post" id="form1">
 			     <table class="table table-bordered table-condensed">
 			     <thead>
 			      <tr>

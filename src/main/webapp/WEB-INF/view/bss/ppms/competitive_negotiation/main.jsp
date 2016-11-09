@@ -1,8 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -16,23 +13,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 	
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
-    <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
 </head>
 <script type="text/javascript">
 	$(function(){
@@ -76,16 +73,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
-						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-						   <li><a href="<%=basePath%>firstAudit/toAdd_cn.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制竞谈文件</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认竞谈文件</a></li>
-						   <li><a href="<%=basePath%>pub_com/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布竞谈公告</a></li>
-						   <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
-						   <li><a href="<%=basePath%>saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
-						   <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}"" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
-						   <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
-						   <li><a href="<%=basePath%>pub_tran/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布成交公示</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确定中标供应商</a></li>
+						   <li class="active"><a href="${pageContext.request.contextPath}/project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
+						   <li><a href="${pageContext.request.contextPath}/firstAudit/toAdd_cn.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制竞谈文件</a></li>
+						   <li><a href="${pageContext.request.contextPath}/open_bidding/" target="open_bidding_main" class="son-menu">确认竞谈文件</a></li>
+						   <li><a href="${pageContext.request.contextPath}/pub_com/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布竞谈公告</a></li>
+						   <li><a href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
+						   <li><a href="${pageContext.request.contextPath}/saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
+						   <li><a href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?id=${project.id}"" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
+						   <li><a href="${pageContext.request.contextPath}/packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
+						   <li><a href="${pageContext.request.contextPath}/pub_tran/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布成交公示</a></li>
+						   <li><a href="${pageContext.request.contextPath}/open_bidding/" target="open_bidding_main" class="son-menu">确定中标供应商</a></li>
 						 </ul>
 					  </div>
 					  <script type="text/javascript" language="javascript">   
@@ -100,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</script>
 					  <!-- 右侧内容开始-->
 					  <div class="tag-box tag-box-v4 col-md-9">
-						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
+						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/project/mplement.html?id=${project.id}"></iframe>
 					  </div>
 				  </div>
                 </div>

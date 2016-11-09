@@ -2,10 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -15,30 +11,30 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 	function OpenFile() {
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-	   // obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
+	   // obj.BeginOpenFromURL("${pageContext.request.contextPath}/stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
 		
 		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");
 		
@@ -99,7 +95,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-				window.location.href="<%=basePath%>mulQuo/baojia.html?id="+id+"&packageName="+packageName+"&packageId="+packageId;
+				window.location.href="${pageContext.request.contextPath}/mulQuo/baojia.html?id="+id+"&packageName="+packageName+"&packageId="+packageId;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['122px', '390px'], shade:0.01});
 		}else{
@@ -166,7 +162,7 @@
 	
 	function showQuoteHistory(data){
 	    var projectId=$("#projectId").val();
-		location.href="<%=basePath%>mulQuo/quoteHistory.html?timestamp="+data+"&projectId="+projectId;
+		location.href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?timestamp="+data+"&projectId="+projectId;
 	}
 </script>
 
@@ -189,11 +185,11 @@
 	<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="<%=basePath%>supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
+			  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
+			  <a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>
@@ -209,7 +205,7 @@
    <!-- 项目戳开始 -->
   <div class="container clear">
   <!--详情开始-->
-  <form id="form" action="<%=basePath %>mulQuo/save.html" method="post">
+  <form id="form" action="${pageContext.request.contextPath}/mulQuo/save.html" method="post">
     <input id="priceStr" name="priceStr" type="hidden" />
     <input id="projectId" name="projectId" value="${projectId }" type="hidden" />
     <div class="row magazine-page">

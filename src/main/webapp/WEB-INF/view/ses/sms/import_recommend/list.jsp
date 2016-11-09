@@ -1,9 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -17,28 +13,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript"  src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"  src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript">
     $(function(){
 		  laypage({
@@ -56,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>importRecommend/list.do?page='+e.curr;
+			             location.href = '${pageContext.request.contextPath}/importRecommend/list.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -125,11 +120,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   }
 	}
 	function show(id){
-  		window.location.href="<%=basePath%>importRecommend/show.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/importRecommend/show.html?id="+id;
   	}
   	
 	function add(){
-  		window.location.href="<%=basePath%>importRecommend/add.html";
+  		window.location.href="${pageContext.request.contextPath}/importRecommend/add.html";
   	}
   	
   	function edit(){
@@ -138,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>importRecommend/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/importRecommend/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['122px', '390px'], shade:0.01});
 		}else{
@@ -154,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['122px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>importRecommend/delete_soft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/importRecommend/delete_soft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['122px', '390px'], shade:0.01});
@@ -167,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>importRecommend/jihuo_add.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/importRecommend/jihuo_add.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -181,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-				window.location.href="<%=basePath%>importRecommend/zanting.html?id="+id;
+				window.location.href="${pageContext.request.contextPath}/importRecommend/zanting.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -195,7 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-				window.location.href="<%=basePath%>importRecommend/qiyong.html?id="+id;
+				window.location.href="${pageContext.request.contextPath}/importRecommend/qiyong.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -225,7 +220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form id="form1" action="<%=basePath %>importRecommend/list.html" method="post" class="mb0">
+       <form id="form1" action="${pageContext.request.contextPath}/importRecommend/list.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" value="${ir.name }" class=""/></span>
