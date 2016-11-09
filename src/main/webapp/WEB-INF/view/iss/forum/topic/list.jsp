@@ -13,11 +13,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-	<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
+
   <script type="text/javascript">
   $(function(){
 
@@ -206,8 +204,6 @@
 			    <th class="info" >序号</th>
 				<th class="info" >主题名</th>
 				<th class="info">主题介绍</th>
-				<th class="info">创建时间</th>
-				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
 				<th class="info">所属版块</th>
 				<th class="info">帖子数</th>
@@ -229,8 +225,6 @@
 				<c:if test="${length<=10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
-				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.park.name}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.postcount }</td>

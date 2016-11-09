@@ -13,9 +13,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -137,8 +134,6 @@
 			    <th class="info" >序号</th>
 				<th class="info" >栏目名</th>
 				<th class="info">栏目介绍</th>
-				<th class="info">创建时间</th>
-				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
 				<th class="info">栏目编码</th>
 			</tr>
@@ -158,8 +153,6 @@
 				<c:if test="${length<=10}">
 					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${articletype.describe } </td>
 				</c:if>	
-				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.code}</td>
 			</tr>

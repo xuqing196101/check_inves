@@ -10,8 +10,6 @@
     
     <title>信息发布</title>
     
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     
 <script type="text/javascript">
 	$(function(){
@@ -30,7 +28,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>article/getAll.html?page='+e.curr;
+			            location.href = '${ pageContext.request.contextPath }/article/getAll.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -73,11 +71,11 @@
 	}
     
 	function view(id){
-		window.location.href="<%=basePath%>article/view.html?id="+id;
+		window.location.href="${ pageContext.request.contextPath }/article/view.html?id="+id;
 	}
 	
 	function add(){
-		window.location.href="<%=basePath%>article/add.html";
+		window.location.href="${ pageContext.request.contextPath }/article/add.html";
 	}
 	
 	function find(){
@@ -87,7 +85,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>article/view.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/article/view.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -101,7 +99,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>article/edit.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/article/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -117,7 +115,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>article/delete.html?ids="+ids;
+				window.location.href="${ pageContext.request.contextPath }/article/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -126,7 +124,7 @@
     
     
     function audit(){
-    	window.location.href="<%=basePath%>article/auditlist.html?status=1";
+    	window.location.href="${ pageContext.request.contextPath }/article/auditlist.html?status=1";
     }
     
     function sub(){
@@ -137,13 +135,23 @@
 		if(ids.length>0){
 			layer.confirm('您确定要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>article/sumbit.html?ids="+ids;
+				window.location.href="${ pageContext.request.contextPath }/article/sumbit.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
+    function search(){
+	    var kname = $("#kname").val();
+	    var parkId = $("#parkId  option:selected").val();
+	    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname;
+
+	 }
+
+	 function reset(){
+		 $("#kname").val("");
+	 }
 </script>
 
   </head>
@@ -163,44 +171,35 @@
 	   <div class="headline-v2">
 	   		<h2>信息发布</h2>
 	   </div>
-	   <%--<div class="col-md-12 padding-left-20">
-		   <button class="btn " type="button" onclick="sub()">提交信息列表 </button>
-		   <button class="btn " type="button" onclick="audit()">审核信息列表</button>
-	   </div>
-   --%></div>
    
+   <h2 class="search_detail">
+   		<ul class="demand_list">
+    	  <li>
+	    	<label class="fl">信息标题：</label>
+	    	<span>
+	    		<input type="text" id="kname" name="kname" value="${name }"/>
+	    	</span>
+	      </li>
+	    	<button onclick="search()" class="btn">查询</button>
+	    	<button onclick="reset()" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+     </h2>
+  
 	   <input type="hidden" id="depid" name="depid">
 	  	
-		<div class="container">	
-			<div class="col-md-8 mt10 pl20">
-	   			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-				<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-				<button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
-			</div>
-			
-			<div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="<%=basePath%>article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" value="${name }" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>
+		
+		<div class="col-md-12 pl20 mt10">
+	   		<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+			<button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
 		</div>
+
 			
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+
+	<div class="content table_box">
+		  <table class="table table-bordered table-condensed table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -249,12 +248,13 @@
 		  				</c:if>
 		  			</td>
 		  			<td class="tc">${article.showCount }</td>
-		  			<td class="tc"><a href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?articleId=${article.id}">${article.downloadCount }</a></td>
+		  			<td class="tc"><a href="${ pageContext.request.contextPath }/downloadUser/selectDownloadUserByArticleId.html?articleId=${article.id}">${article.downloadCount }</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
-  </div>
+    </div>
+   </div>
   </body>
 </html>

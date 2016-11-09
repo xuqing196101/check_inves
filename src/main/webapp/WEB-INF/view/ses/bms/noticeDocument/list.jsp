@@ -1,12 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${ pageContext.request.contextPath }/">
     
     <title>须知文档管理</title>
     
@@ -21,10 +22,9 @@
 	
 	
   </head>
-  <script src="<%=basePath%>public/layer/layer.js"></script>
-   <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
+	  
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -41,9 +41,9 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	if("${noticeDocument.name}"!=null && "${noticeDocument.name}"!="" || ("${noticeDocument.docType}"!="-请选择-" && "${noticeDocument.docType}"!="")){
-		        		location.href = '<%=basePath%>noticeDocument/search.html?page='+e.curr+'&name='+"${noticeDocument.name}"+'&docType='+ "${noticeDocument.docType}";
+		        		location.href = '${ pageContext.request.contextPath }/noticeDocument/search.html?page='+e.curr+'&name='+"${noticeDocument.name}"+'&docType='+ "${noticeDocument.docType}";
 		        	}else{
-		            	location.href = '<%=basePath%>noticeDocument/getAll.do?page='+e.curr;
+		            	location.href = '${ pageContext.request.contextPath }/noticeDocument/getAll.do?page='+e.curr;
 		        	}
 		        }
 		    }
@@ -85,7 +85,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>noticeDocument/view.do?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/noticeDocument/view.do?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -94,7 +94,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>noticeDocument/edit.do?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/noticeDocument/edit.do?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -109,23 +109,35 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>noticeDocument/delete.do?ids="+ids;
+				window.location.href="${ pageContext.request.contextPath }/noticeDocument/delete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>noticeDocument/add.do";
+    	window.location.href="${ pageContext.request.contextPath }/noticeDocument/add.do";
     }
-    $(function(){
-		if("${noticeDocument.docType}"!=null&&"${noticeDocument.docType}"!=""){
-			$("#searchType").val('${noticeDocument.docType}');			
-		}else{
-			$("#searchType").val('-请选择-');	
-		}
-		$("#tname").val('${noticeDocument.name}');
-	});
+    
+    function search(){
+	    var tname = $("#tname").val();
+	    var docType = $("#searchType  option:selected").val();
+	    location.href = "${ pageContext.request.contextPath }/noticeDocument/search.html?name="+tname+"&docType="+docType;
+
+	 }
+
+	 function reset(){
+		 $("#tname").val("");
+		 $("#searchType option:selected").val("");
+		 $("#searchType option:selected").text("");
+	 }
+	 $(function(){
+		 if(${noticeDocument.docType!=null}&&${noticeDocument.docType!=""}&&${noticeDocument.docType!="-请选择-"}){
+			  $("#searchType").val("${noticeDocument.docType}");  
+		  }else{
+			  $("#searchType").val("-请选择-"); 
+		  }
+	 });
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -144,52 +156,40 @@
 	   </div>
 
     <!-- 查询 -->
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
-   	<form action="<%=basePath %>noticeDocument/search.html" method="post" enctype="multipart/form-data" class="mb0" >
-	 <ul class="demand_list">
-	  
-	   <li class="fl mr15"><label class="fl mt5">须知文档名称：</label><span><input type="text" name="name" id="tname" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">须知文档类型：</label>
-	   		<span>
-	   			<select id="searchType" name =docType class="w150" >
+       <h2 class="search_detail">
+       	<ul class="demand_list">
+    	  <li>
+	    	<label class="fl">须知文档名称：</label>
+	    	<span>
+	    		<input type="text" id="tname" name="name" />
+	    	</span>
+	      </li>
+	      <li>
+	    	<label class="fl">须知文档类型：</label>
+	    	<span>
+	    		<select id="searchType" name =docType class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	 	<option value="供应商须知文档">供应商须知文档</option>
 			  	 	<option value="专家须知文档">专家须知文档</option>
 	  			</select>
 	  		</span>
-	  </li>
-	  
-	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
-	   	 <button type="reset" class="btn ml5 mt1">重置</button> 
-	 </ul>
-
-	 <div class="clear"></div>
-	 </form>
+	      </li>
+	    	<button onclick="search()" class="btn">查询</button>
+	    	<button onclick="reset()" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
      </h2>
-   </div>
-  </div>
- </div> 
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>须知文档管理</h2>
-	   </div>
-   </div>
+    
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12 pl20">
-   <div class="col-md-8">
+   
+  <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-	</div>	
-       </div>
-    </div>
+  </div>	
    
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-0">
-       <div class="col-md-12">
+ 
+       <div class="content table_box">
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>

@@ -11,7 +11,7 @@
     <title>信息发布提交页面</title>
     
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
     
 <script type="text/javascript">
 	$(function(){
@@ -30,7 +30,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>article/sublist.html?status=0&page='+e.curr;
+			            location.href = '${ pageContext.request.contextPath }/article/sublist.html?status=0&page='+e.curr;
 			        }
 			    }
 			});
@@ -74,15 +74,15 @@
 	}
 	
 	function getInfo(){
-		window.location.href="<%=basePath%>article/getAll.html";
+		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
 	}
 	
 	function audit(){
-    	window.location.href="<%=basePath%>article/auditlist.html?status=1";
+    	window.location.href="${ pageContext.request.contextPath }/article/auditlist.html?status=1";
     }
 	
 	function view(id){
-		window.location.href="<%=basePath%>article/view.html?id="+id;
+		window.location.href="${ pageContext.request.contextPath }/article/view.html?id="+id;
 	}
 	
     function sub(){
@@ -93,7 +93,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>article/sumbit.html?ids="+ids;
+				window.location.href="${ pageContext.request.contextPath }/article/sumbit.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -137,7 +137,7 @@
 			<div class="col-md-4 ">
               <div class="search-block-v2">
                 <div class="">
-                  <form accept-charset="UTF-8" action="<%=basePath%>article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                  <form accept-charset="UTF-8" action="${ pageContext.request.contextPath }/article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
                     <input id="t" name="t" value="search_products" type="hidden">
                     <input name="status" value="0" type="hidden">
                     <div class="col-md-12 pull-right">

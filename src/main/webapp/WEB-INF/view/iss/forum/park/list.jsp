@@ -165,8 +165,6 @@
 				<th class="info">版块介绍</th>
 			    <th class="info">版主</th>
 			    <th class="info">热门</th>
-				<th class="info">创建时间</th>
-				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
 				<th class="info">主题数</th>
 				<th class="info">帖子数</th>
@@ -190,8 +188,6 @@
 				</c:if>	
 				<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>
 				<td class="tc pointer" onclick="view('${park.id}')">${park.isHot}</td>
-				<td class="tc pointer" onclick="view('${park.id}')"><fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${park.id}')"><fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${park.id}')">${park.creater.relName}</td>
 				<td class="tc pointer" onclick="view('${park.id}')">${park.topiccount }</td>
 				<td class="tc pointer" onclick="view('${park.id}')">${park.postcount }</td>

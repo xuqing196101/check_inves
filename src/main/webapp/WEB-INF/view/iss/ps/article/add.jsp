@@ -48,7 +48,7 @@
    </div>
    
    <div class="container">
-    <form action="<%=basePath %>article/save.html" method="post" enctype="multipart/form-data">
+    <form action="${ pageContext.request.contextPath }/article/save.html" method="post" enctype="multipart/form-data">
      <div class="headline-v2">
 	   <h2>新增信息</h2>
 	 </div>
@@ -81,7 +81,6 @@
           </ul>
        </div>
        </div> --%>
-       <div class=" mb10">
        <select name="articleType.id" class="w220">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
@@ -89,11 +88,10 @@
 		    </c:forEach>
           </select>
           <div class="validate">${ERR_typeId}</div>
-       </div>
 	 </li> 
-     <li class="col-md-6  p0 ">
+     <li class="col-md-6  p0 h40">
 	   <span class=""><i class="red">＊</i>发布范围：</span>
-	   <div class="input-append">
+	   <div class="input-append mt5">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
         <div class="validate">${ERR_range}</div>

@@ -9,11 +9,11 @@
   <head>
     <title>查看</title>
     
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 <script type="text/javascript">
 
@@ -37,7 +37,7 @@ function sub(){
 	alert(id);
 	layer.confirm('您确定需要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
-		window.location.href="<%=basePath%>article/sumbit.html?id="+id+"&status=1";
+		window.location.href="${ pageContext.request.contextPath }/article/sumbit.html?id="+id+"&status=1";
 	});
 }
 

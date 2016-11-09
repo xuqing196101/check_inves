@@ -82,7 +82,7 @@
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-6  p0 ">
+			 <li class="col-md-6  p0  h35">
 			   <span class="fl">版主：</span>
                  <select id="user"  class="w220" onchange="change(this.options[this.selectedIndex].value)">
                     <input class="span2" id="userId" type="hidden" name="userId" value =""/>

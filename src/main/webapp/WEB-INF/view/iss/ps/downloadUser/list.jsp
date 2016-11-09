@@ -77,7 +77,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>articletype/view.html?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/articletype/view.html?id="+id;
   	}
     
   	function del(){

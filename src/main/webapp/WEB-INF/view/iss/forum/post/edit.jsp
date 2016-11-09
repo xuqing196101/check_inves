@@ -97,7 +97,7 @@
 	   		  <li class="col-md-12  p0 ">
 			   <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
 			   <div class="input-append">
-		        <input class="span2 w775"  type="text" name = "name" value='${post.name }'>
+		        <input class="span2 w750"  type="text" name = "name" value='${post.name }'>
 		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
@@ -158,7 +158,7 @@
 		        <span class="f14 fl">上传附件：</span>
 		        <div class="fl" id="uploadAttach" >
 		          <input id="pic" type="file" class="toinline" name="attaattach"/>
-		          <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+		          <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
 		        </div>
 		     </li>
 		     </ul>   
@@ -182,17 +182,12 @@
 
     var option ={
             toolbars: [[
-                    'fullscreen', 'source', '|', 'undo', 'redo', '|',
-                    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-                    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-                    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-                    'directionalityltr', 'directionalityrtl', 'indent', '|',
-                    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-                    'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-                    'simpleupload', 'insertimage', 'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
-                    'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-                    'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-                    'print', 'preview', 'searchreplace', 'help', 'drafts'
+                        'undo', 'redo', '|',
+                        'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                         'fontfamily', 'fontsize', '|',
+                         'indent', '|',
+                        'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
+                         'insertimage', 
                 ]]
 
         }

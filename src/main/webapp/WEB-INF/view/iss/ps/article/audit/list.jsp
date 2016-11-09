@@ -11,7 +11,7 @@
     <title>信息发布</title>
     
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
     
 <script type="text/javascript">
 	$(function(){
@@ -30,7 +30,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>article/auditlist.html?status=1&page='+e.curr;
+			            location.href = '${ pageContext.request.contextPath }/article/auditlist.html?status=1&page='+e.curr;
 			        }
 			    }
 			});
@@ -73,15 +73,15 @@
 	}
     
 	function getInfo(){
-		window.location.href="<%=basePath%>article/getAll.html";
+		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
 	}
 	
 	function sub(){
-    	window.location.href="<%=basePath%>article/sublist.html?status=0";
+    	window.location.href="${ pageContext.request.contextPath }/article/sublist.html?status=0";
     }
 	
 	function view(id){
-		window.location.href="<%=basePath%>article/auditInfo.html?id="+id;
+		window.location.href="${ pageContext.request.contextPath }/article/auditInfo.html?id="+id;
 	}
 	
 	function audit(){
@@ -90,13 +90,24 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>article/auditInfo.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/article/auditInfo.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择需要审核的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+	
+	 function search(){
+		    var kname = $("#kname").val();
+		    var parkId = $("#parkId  option:selected").val();
+		    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname;
+
+		 }
+	 
+	 function reset(){
+		 $("#kname").val("");
+	 }
 </script>
 
   </head>
@@ -108,7 +119,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="<%=basePath%>article/getAll.html">信息管理</a></li><li><a href="#">审核信息管理</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="${ pageContext.request.contextPath }/article/getAll.html">信息管理</a></li><li><a href="#">审核信息管理</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -117,42 +128,34 @@
 	   <div class="headline-v2">
 	   		<h2>审核信息列表</h2>
 	   </div>
-	   <%--<div class="col-md-12 padding-left-20">
-		   <button class="btn" type="button" onclick="getInfo()">返回信息页面</button>
-	  	   <button class="btn" type="button" onclick="sub()">提交信息页面</button>
-	   </div>
-   --%></div>
+   
+   <h2 class="search_detail">
+   		<ul class="demand_list">
+    	  <li>
+	    	<label class="fl">信息标题：</label>
+	    	<span>
+	    		<input type="text" id="kname" name="kname" value="${name }"/>
+	    	</span>
+	      </li>
+	    	<button onclick="search()" class="btn">查询</button>
+	    	<button onclick="reset()" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+     </h2>
    
 	   <input type="hidden" id="depid" name="depid">
 	  	
-		<div class="container">	
-			<div class="col-md-8 mt10">
+		
+			<div class="col-md-12 pl20 mt10">
 	   			<button class="btn btn-windows check" type="button" onclick="audit()">审核</button>
 			</div>
 			
-			<div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="<%=basePath%>article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <input name="status" value="1" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" value="${name }" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>
-		</div>
 			
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+		
+			
+	
+	<div class="content table_box">
+		  <table class="table table-bordered table-condensed table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -189,6 +192,5 @@
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
   </div>
-  
   </body>
 </html>

@@ -9,11 +9,11 @@
   <head>
     <title>修改</title>
     
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 <script type="text/javascript">
 function cheClick(id,name){
@@ -67,7 +67,7 @@ function deleteAtta(id,obj){
    </div>
    
    <div class="container">
-    <form id="newsForm" action="<%=basePath %>article/update.html" enctype="multipart/form-data" method="post">
+    <form id="newsForm" action="${ pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
     <input type="hidden" id="ids" name="ids"/>
      <div class="headline-v2">
 	   <h2>修改信息</h2>
@@ -123,7 +123,7 @@ function deleteAtta(id,obj){
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	<a href="<%=basePath %>index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
+  	   	<a href="${ pageContext.request.contextPath }/index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
   	   </c:forEach>
 	 </div>
 	 </li>
@@ -131,7 +131,7 @@ function deleteAtta(id,obj){
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
-	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	      <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
 	    </div>
 	 </li>
   	 </ul> 

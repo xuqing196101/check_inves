@@ -63,7 +63,7 @@
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">模板类型：</span>
-		        <div class="select_common mb10">
+			    <div class="select_common mb10">
           			<select id="temType" name =temType class="w220" >
 						<option value="-请选择-">-请选择-</option>
 			  	  	 	<option value="采购公告">采购公告</option>
@@ -73,7 +73,7 @@
 			  	  	 	<option value="合同模板">合同模板</option>
 	  				</select>
 	  				<div id="contractCodeErr" class="validate">${ERR_temType}</div>
-       			</div>
+	  			</div>
 			 </li>
 		     
 			 <li class="col-md-12 p0">
