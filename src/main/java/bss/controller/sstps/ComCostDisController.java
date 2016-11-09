@@ -166,41 +166,41 @@ public class ComCostDisController {
 		
 		comprehensiveCost.setContractProduct(contractProduct);
 		List<ComprehensiveCost> list = comprehensiveCostService.select(comprehensiveCost);
-		if(list.size()>0){
+		//if(list.size()>0){
 			model.addAttribute("list", list);
-		}else{
-			String[] name1={"原辅材料","外购成件","外协部件","燃料动力","直接人工","专用费用","制造费用","合计"};
-			for(int i =0;i<name1.length;i++){
-				comprehensiveCost.setProjectName("专项试验费");
-				comprehensiveCost.setSecondProject(name1[i]);
-				comprehensiveCost.setStatus(0);
-				comprehensiveCostService.insert(comprehensiveCost);
-			}
-			String[] name2={"管理费用","财务费用","销售费用","合计"};
-			for(int i =0;i<name2.length;i++){
-				comprehensiveCost.setProjectName("期间费用");
-				comprehensiveCost.setSecondProject(name2[i]);
-				comprehensiveCost.setStatus(1);
-				comprehensiveCostService.insert(comprehensiveCost);
-			}
-			String[] name3={"成本","利润","税金","价格"};
-			for(int i =0;i<name3.length;i++){
-				comprehensiveCost.setProjectName("价格方案");
-				comprehensiveCost.setSecondProject(name3[i]);
-				comprehensiveCost.setStatus(2);
-				comprehensiveCostService.insert(comprehensiveCost);
-			}
-			String[] name4={"本产品定额工时","工时分配率合计","直接人工","燃料动力","制造费用","期间费用"};
-			for(int i =0;i<name4.length;i++){
-				comprehensiveCost.setProjectName("工时及分配率");
-				comprehensiveCost.setSecondProject(name4[i]);
-				comprehensiveCost.setStatus(3);
-				comprehensiveCostService.insert(comprehensiveCost);
-			}
-			
-			List<ComprehensiveCost> list2 = comprehensiveCostService.select(comprehensiveCost);
-			model.addAttribute("list", list2);
-		}
+//		}else{
+//			String[] name1={"原辅材料","外购成件","外协部件","燃料动力","直接人工","专用费用","制造费用","合计"};
+//			for(int i =0;i<name1.length;i++){
+//				comprehensiveCost.setProjectName("专项试验费");
+//				comprehensiveCost.setSecondProject(name1[i]);
+//				comprehensiveCost.setStatus(0);
+//				comprehensiveCostService.insert(comprehensiveCost);
+//			}
+//			String[] name2={"管理费用","财务费用","销售费用","合计"};
+//			for(int i =0;i<name2.length;i++){
+//				comprehensiveCost.setProjectName("期间费用");
+//				comprehensiveCost.setSecondProject(name2[i]);
+//				comprehensiveCost.setStatus(1);
+//				comprehensiveCostService.insert(comprehensiveCost);
+//			}
+//			String[] name3={"成本","利润","税金","价格"};
+//			for(int i =0;i<name3.length;i++){
+//				comprehensiveCost.setProjectName("价格方案");
+//				comprehensiveCost.setSecondProject(name3[i]);
+//				comprehensiveCost.setStatus(2);
+//				comprehensiveCostService.insert(comprehensiveCost);
+//			}
+//			String[] name4={"本产品定额工时","工时分配率合计","直接人工","燃料动力","制造费用","期间费用"};
+//			for(int i =0;i<name4.length;i++){
+//				comprehensiveCost.setProjectName("工时及分配率");
+//				comprehensiveCost.setSecondProject(name4[i]);
+//				comprehensiveCost.setStatus(3);
+//				comprehensiveCostService.insert(comprehensiveCost);
+//			}
+//			
+//			List<ComprehensiveCost> list2 = comprehensiveCostService.select(comprehensiveCost);
+//			model.addAttribute("list", list2);
+//		}
 		
 		model.addAttribute("ap", ap);
 		model.addAttribute("proId", proId);

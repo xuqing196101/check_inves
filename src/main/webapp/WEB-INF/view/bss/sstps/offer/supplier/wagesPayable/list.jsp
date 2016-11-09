@@ -8,9 +8,6 @@
   <head>
     
     <title>应付工资明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 /** 全选全不选 */
@@ -92,7 +89,8 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>manufacturingCost/select.do?proId="+proId;
+	var total = $("#total3").val();
+	window.location.href="<%=basePath%>manufacturingCost/select.do?proId="+proId+"&total="+total;
 }
 
 $(function(){ 
@@ -112,13 +110,13 @@ $(function(){
 		
 	}); 
 	if(totalRow1!=null){
-		$("#total1").html(totalRow1);
+		$("#total1").val(totalRow1);
 	}
 	if(totalRow2!=null){
-		$("#total2").html(totalRow2);
+		$("#total2").val(totalRow2);
 	}
 	if(totalRow3!=null){
-		$("#total3").html(totalRow3);
+		$("#total3").val(totalRow3);
 	}
 }); 
 </script>
@@ -141,7 +139,7 @@ $(function(){
 	  		 <h2>应付工资明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10 pl20">
+	 	<div class="col-md-8 mt10 pl20 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -192,25 +190,21 @@ $(function(){
 						<td class="tc">${wp.department }</td>
 						<td class="tc">${wp.firsetProduct }</td>
 						<td class="tc">${wp.secondProduct }</td>
-						
 						<td class="tc">${wp.tyaProduceUser }</td>
 						<td class="tc">${wp.tyaWorkshopUser }</td>
 						<td class="tc">${wp.tyaManageUser }</td>
 						<td class="tc">${wp.tyaOtherUser }</td>
 						<td class="tc">${wp.tyaTotal }</td>
-						
 						<td class="tc">${wp.oyaProduceUser }</td>
 						<td class="tc">${wp.oyaWorkshopUser }</td>
 						<td class="tc">${wp.oyaManageUser }</td>
 						<td class="tc">${wp.oyaOtherUser }</td>
 						<td class="tc">${wp.oyaTotal }</td>
-						
 						<td class="tc">${wp.newProduceUser }</td>
 						<td class="tc">${wp.newWorkshopUser }</td>
 						<td class="tc">${wp.newManageUser }</td>
 						<td class="tc">${wp.newOtherUser }</td>
 						<td class="tc">${wp.newTotal }</td>
-						
 						<td class="tc">${wp.remark }</td>
 					</tr>
 				</c:forEach>
@@ -219,11 +213,11 @@ $(function(){
 					<tr>
 					 	<td class="tc" colspan="5">总计：</td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total1"></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total2"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total3"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
 					 	<td></td>
 					 </tr>
 				 </thead>

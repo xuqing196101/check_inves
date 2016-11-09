@@ -8,9 +8,6 @@
   <head>
     
     <title>年度计划任务总工时明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 /** 全选全不选 */
@@ -92,8 +89,31 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>productQuota/select.do?proId="+proId;
+	var total = $("#total3").val();
+	window.location.href="<%=basePath%>productQuota/select.do?proId="+proId+"&total="+total;
 }
+
+
+$(document).ready(function() { 
+	var totalRow = 0 ;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	$('#table1 tr').each(function() { 
+		$(this).find('td:eq(7)').each(function(){ 
+			totalRow += parseFloat($(this).text()); 
+		}); 
+		$(this).find('td:eq(10)').each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find('td:eq(13)').each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+	}); 
+	$('#total1').val(totalRow);
+	$('#total2').val(totalRow2);
+	$('#total3').val(totalRow3);
+	
+}); 
 
 </script>
 
@@ -115,7 +135,7 @@ function nextStep(){
 	  		 <h2>年度计划任务总工时明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10 pl20">
+	 	<div class="col-md-8 mt10 pl20 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -127,7 +147,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th rowspan="2" class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -177,6 +197,18 @@ function nextStep(){
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					 <tr id="totalRow">
+					 	<td colspan="5" class="tc">总计：</td>
+					 	<td colspan="2" ></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
+					 	<td colspan="2" ></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td colspan="2" ></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td ></td>
+					 </tr>
+				 </thead> 
 			</table>
 		</div>
 		

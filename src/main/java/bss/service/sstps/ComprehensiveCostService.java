@@ -11,5 +11,7 @@ public interface ComprehensiveCostService {
 	public void update(ComprehensiveCost comprehensiveCost);
 	
 	public List<ComprehensiveCost> select(ComprehensiveCost comprehensiveCost);
+	
+	public void updateInfo(ComprehensiveCost comprehensiveCost);
 
 }

@@ -18,6 +18,7 @@ import ses.util.ValidateUtils;
 import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ContractProduct;
 import bss.service.sstps.AccessoriesConService;
+import bss.service.sstps.ComprehensiveCostService;
 
 /**
 * @Title:AccessoriesConController 
@@ -32,6 +33,9 @@ public class AccessoriesConController {
 	
 	@Autowired
 	private AccessoriesConService accessoriesConService;
+	
+	
+	
 	
 	/**
 	* @Title: add

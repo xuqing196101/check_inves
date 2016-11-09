@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.YearPlan;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.YearPlanService;
 
 @Controller
@@ -25,6 +27,9 @@ public class YearPlanController {
 	
 	@Autowired
 	private YearPlanService yearPlanService;
+	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
 	
 	/**
 	* @Title: select
@@ -38,15 +43,21 @@ public class YearPlanController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,YearPlan yearPlan){
-		
+	public String select(Model model,String proId,YearPlan yearPlan,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		yearPlan.setContractProduct(contractProduct);
 		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("期间费用");
+			comprehensiveCost.setSecondProject("合计");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/yearPlan/list";
 	}
 	

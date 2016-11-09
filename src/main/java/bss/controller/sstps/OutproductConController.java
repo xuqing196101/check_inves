@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutproductCon;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.OutproductConService;
 
 @Controller
@@ -26,6 +28,10 @@ public class OutproductConController {
 	
 	@Autowired
 	private OutproductConService outproductConService;
+	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
+	
 
 	/**
 	* @Title: select
@@ -39,17 +45,25 @@ public class OutproductConController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,OutproductCon outproductCon){
-		
+	public String select(Model model,String proId,OutproductCon outproductCon,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		outproductCon.setContractProduct(contractProduct);
 		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("原辅材料");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/outproduct/list";
 	}
+	
+	
 	
 	@RequestMapping("/view")
 	public String view(Model model,String proId,OutproductCon outproductCon){
@@ -159,19 +173,14 @@ public class OutproductConController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Model model,String proId,String ids){
-		
 		String[] id=ids.split(",");
-		
 		for(String str : id){
 			outproductConService.delete(str);
 		}
-		
 		OutproductCon outproductCon = new OutproductCon();
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		outproductCon.setContractProduct(contractProduct);
-		
 		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);

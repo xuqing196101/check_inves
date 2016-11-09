@@ -195,4 +195,42 @@
     where ID = #{id}
   </update>
   
+  <update id="updateInfo" parameterType="bss.model.sstps.ComprehensiveCost">
+    update T_BSS_SSTPS_COMPREHENSIVE_COST
+    <set>
+      <if test="singleOffer != null">
+        SINGLE_OFFER = #{singleOffer},
+      </if>
+      <if test="additResult != null">
+        ADDIT_RESULT = #{additResult},
+      </if>
+      <if test="difference != null">
+        DIFFERENCE = #{difference},
+      </if>
+      <if test="reduce != null">
+        REDUCE = #{reduce},
+      </if>
+      <if test="checkResult != null">
+        CHECK_RESULT = #{checkResult},
+      </if>
+      <if test="checkDifference != null">
+        CHECK_DIFFERENCE = #{checkDifference},
+      </if>
+      <if test="checkReduce != null">
+        CHECK_REDUCE = #{checkReduce},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where 
+	    PRODUCT_ID = #{contractProduct.id}
+	    AND PROJECT_NAME = #{projectName}
+	    AND SECOND_PROJECT = #{secondProject}
+  </update>
+  
+  
 </mapper>

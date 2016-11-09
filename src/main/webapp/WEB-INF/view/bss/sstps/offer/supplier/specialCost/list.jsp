@@ -9,9 +9,6 @@
     
     <title>专项费用明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
 <script type="text/javascript">
 /** 全选全不选 */
 function selectAll(){
@@ -92,8 +89,19 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>burningPower/select.do?proId="+proId;
+	var total = $("#total").val();
+	window.location.href="<%=basePath%>burningPower/select.do?proId="+proId+"&total="+total;
 }
+
+$(document).ready(function() { 
+	var totalRow = 0 ;
+	$('#table1 tr').each(function() { 
+		$(this).find('td:eq(9)').each(function(){ 
+			totalRow += parseFloat($(this).text()); 
+		});
+	}); 
+	$('#total').val(totalRow);
+}); 
 
 </script>
 
@@ -115,7 +123,7 @@ function nextStep(){
 	  		 <h2>专项费用明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10">
+	 	<div class="col-md-8 mt10 ml10">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -127,7 +135,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -164,6 +172,15 @@ function nextStep(){
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					 <tr id="totalRow">
+					 	<td class="tc" colspan="7">总计：</td>
+					 	<td colspan="2"></td>
+					 	<td class="tc"><input type="text" id="total" class="border0 tc w50" readonly="readonly"></td>
+					 	<td colspan="2" ></td>
+					 	<td></td>
+					 </tr>
+				 </thead>
 			</table>
 		</div>
 		

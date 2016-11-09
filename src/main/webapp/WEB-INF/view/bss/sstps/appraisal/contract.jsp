@@ -9,7 +9,6 @@
     
     <title>合同信息</title>
     
-    <script src="<%=basePath%>public/layer/layer.js"></script>
     
 <script type="text/javascript">
 function dayin() {

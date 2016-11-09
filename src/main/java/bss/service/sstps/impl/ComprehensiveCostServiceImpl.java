@@ -17,20 +17,22 @@ public class ComprehensiveCostServiceImpl implements ComprehensiveCostService {
 	
 	@Override
 	public void insert(ComprehensiveCost comprehensiveCost) {
-		// TODO Auto-generated method stub
 		comprehensiveCostMapper.insert(comprehensiveCost);
 	}
 
 	@Override
 	public void update(ComprehensiveCost comprehensiveCost) {
-		// TODO Auto-generated method stub
 		comprehensiveCostMapper.update(comprehensiveCost);
 	}
 
 	@Override
 	public List<ComprehensiveCost> select(ComprehensiveCost comprehensiveCost) {
-		// TODO Auto-generated method stub
 		return comprehensiveCostMapper.selectProduct(comprehensiveCost);
+	}
+
+	@Override
+	public void updateInfo(ComprehensiveCost comprehensiveCost) {
+		comprehensiveCostMapper.updateInfo(comprehensiveCost);
 	}
 
 }

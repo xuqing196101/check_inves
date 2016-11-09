@@ -52,7 +52,6 @@ public class AuditSummaryController {
 			comprehensiveCost.setContractProduct(contractProduct);
 			List<ComprehensiveCost> list = comprehensiveCostService.select(comprehensiveCost);
 			model.addAttribute("list", list);
-		
 			
 			model.addAttribute("ap", ap);
 			model.addAttribute("proId", proId);

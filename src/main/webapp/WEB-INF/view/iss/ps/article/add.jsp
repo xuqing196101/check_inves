@@ -81,7 +81,7 @@
           </ul>
        </div>
        </div> --%>
-       <div class="select_common mb10">
+       <div class=" mb10">
        <select name="articleType.id" class="w220">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">

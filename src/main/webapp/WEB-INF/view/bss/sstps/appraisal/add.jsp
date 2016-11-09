@@ -9,9 +9,9 @@
     
     <title>添加采购合同</title>
 
-<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/select2/js/jquery-2.1.0.js"></script>    
-<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/select2/js/select2.min.js"></script>
-<link href="<%=basePath%>/public/select2/css/select2.min.css" rel="stylesheet" />
+<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	
 <script type="text/javascript">
   function contractType(type){ 
@@ -20,6 +20,7 @@
 	  $("#contractCode").val("");
 	  $("#money").val("");
 	  $("#purchaseDepName").val("");
+	  $("#contract").select2("val", "");
 	  $("#contract").empty();
 	  $.ajax({
 		  contentType: "application/json;charset=UTF-8",
@@ -30,7 +31,9 @@
 	    	  if(contracts){
 	    		  $("#contract").append("<option></option>");
 	    		  $.each(contracts,function(i,contract){
-	    			  $("#contract").append("<option value="+contract.id+">"+contract.name+"</option>");
+	    			  if(contract.name != null && contract.name != ''){
+	    				  $("#contract").append("<option value="+contract.id+">"+contract.name+"</option>");
+	    			  }
 	    		  });
 	    	  }
 	       }
@@ -38,8 +41,7 @@
   }
   
   $(function(){
-	  $("#contract").select2({
-	 });
+	  $("#contract").select2();
   })
   
   function contractInfo(){
@@ -63,11 +65,8 @@
 	  });
   }
   
-  
-	</script>
-  
 </script>
-	
+  
   </head>
 
  <body>

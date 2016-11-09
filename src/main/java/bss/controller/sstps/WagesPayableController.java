@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.WagesPayable;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.WagesPayableService;
 
 /**
@@ -32,6 +34,9 @@ public class WagesPayableController {
 	@Autowired
 	private WagesPayableService wagesPayableService;
 	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
+	
 	/**
 	* @Title: select
 	* @author Shen Zhenfei 
@@ -44,15 +49,21 @@ public class WagesPayableController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,WagesPayable wagesPayable){
-		
+	public String select(Model model,String proId,WagesPayable wagesPayable,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		wagesPayable.setContractProduct(contractProduct);
 		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("燃料动力");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/wagesPayable/list";
 	}
 	

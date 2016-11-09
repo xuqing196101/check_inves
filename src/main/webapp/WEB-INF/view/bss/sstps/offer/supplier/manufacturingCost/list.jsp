@@ -8,9 +8,6 @@
   <head>
     
     <title>制造费用明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 /** 全选全不选 */
@@ -92,9 +89,36 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>periodCost/select.do?proId="+proId;
+	var total = $("#total3").val();
+	window.location.href="<%=basePath%>periodCost/select.do?proId="+proId+"&total="+total;
 }
 
+$(function(){ 
+	var totalRow1 = 0;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	$("#table1 tr").each(function() { 
+		$(this).find("td:eq(3)").each(function(){ 
+			totalRow1 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(4)").each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(5)").each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+		
+	}); 
+	if(totalRow1!=null){
+		$("#total1").val(totalRow1);
+	}
+	if(totalRow2!=null){
+		$("#total2").val(totalRow2);
+	}
+	if(totalRow3!=null){
+		$("#total3").val(totalRow3);
+	}
+}); 
 </script>
 
   </head>
@@ -115,7 +139,7 @@ function nextStep(){
 	  		 <h2>制造费用明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10 pl20">
+	 	<div class="col-md-8 mt10 pl20 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -127,7 +151,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -152,6 +176,15 @@ function nextStep(){
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					<tr>
+					 	<td class="tc" colspan="3">总计：</td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td></td>
+					 </tr>
+				 </thead>
 			</table>
 		</div>
 		

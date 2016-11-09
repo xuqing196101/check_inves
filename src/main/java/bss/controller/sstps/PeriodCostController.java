@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.PeriodCost;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.PeriodCostService;
 
 /**
@@ -32,6 +34,9 @@ public class PeriodCostController {
 	@Autowired
 	private PeriodCostService periodCostService;
 	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
+	
 	/**
 	* @Title: select
 	* @author Shen Zhenfei 
@@ -44,15 +49,21 @@ public class PeriodCostController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,PeriodCost periodCost){
-		
+	public String select(Model model,String proId,PeriodCost periodCost,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		periodCost.setContractProduct(contractProduct);
 		List<PeriodCost> list = periodCostService.selectProduct(periodCost);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("制造费用");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/periodCost/list";
 	}
 	

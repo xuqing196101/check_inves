@@ -9,9 +9,6 @@
     
     <title>原、辅材料工艺定额消耗明细表</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
 <script type="text/javascript">
 /** 全选全不选 */
 function selectAll(){
@@ -92,7 +89,8 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>outproductCon/select.do?proId="+proId;
+	var total = $("#total").val();
+	window.location.href="<%=basePath%>outproductCon/select.do?proId="+proId+"&total="+total;
 }
 
 
@@ -107,8 +105,8 @@ $(document).ready(function() {
 			totalRow2 += parseFloat($(this).text()); 
 		});
 	}); 
-	$('#total').html(totalRow);
-	$('#total2').html(totalRow2);
+	$('#total').val(totalRow);
+	$('#total2').val(totalRow2);
 	
 }); 
 </script>
@@ -147,7 +145,7 @@ $(document).ready(function() {
 				<thead>
 					<tr>
 						<th rowspan="2" class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-						<th rowspan="2" class="info">序号</th>
+						<th rowspan="2" class="info w50">序号</th>
 						<th rowspan="2" class="info">材料性质</th>
 						<th rowspan="2" class="info">材料名称</th>
 						<th rowspan="2" class="info">规格型号</th>
@@ -203,11 +201,11 @@ $(document).ready(function() {
 				 </tbody>
 				 <thead>
 					 <tr id="totalRow">
-					 	<td colspan="6" class="tc">总计金额：</td>
+					 	<td colspan="6" class="tc">总计：</td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total"></td>
+					 	<td class="tc"><input type="text" id="total" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total2"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
 					 </tr>
 				 </thead> 

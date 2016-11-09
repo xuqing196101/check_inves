@@ -9,9 +9,6 @@
     
     <title>外购成品件消耗定额明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
 <script type="text/javascript">
 /** 全选全不选 */
 function selectAll(){
@@ -92,7 +89,8 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>outsourcingCon/select.do?proId="+proId;
+	var total = $("#total").val();
+	window.location.href="<%=basePath%>outsourcingCon/select.do?proId="+proId+"&total="+total;
 }
 
 $(document).ready(function() { 
@@ -106,8 +104,8 @@ $(document).ready(function() {
 			totalRow2 += parseFloat($(this).text()); 
 		});
 	}); 
-	$('#total').html(totalRow);
-	$('#total2').html(totalRow2);
+	$('#total').val(totalRow);
+	$('#total2').val(totalRow2);
 }); 
 </script>
 
@@ -129,7 +127,7 @@ $(document).ready(function() {
 	  		 <h2>外购成品件消耗定额明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10">
+	 	<div class="col-md-8 mt10 ml10">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -190,9 +188,9 @@ $(document).ready(function() {
 					 <tr id="totalRow">
 					 	<td class="tc" colspan="5">总计：</td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc" id="total"></td>
+					 	<td class="tc"><input type="text" id="total" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc" id="total2"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
 					 </tr>
 				 </thead> 

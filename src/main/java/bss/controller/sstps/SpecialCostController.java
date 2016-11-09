@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.SpecialCost;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.SpecialCostService;
 
 @Controller
@@ -25,6 +27,9 @@ public class SpecialCostController {
 	
 	@Autowired
 	private SpecialCostService specialCostService;
+	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
 	
 	
 	/**
@@ -39,7 +44,7 @@ public class SpecialCostController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,SpecialCost specialCost){
+	public String select(Model model,String proId,SpecialCost specialCost,Integer total){
 		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
@@ -47,7 +52,14 @@ public class SpecialCostController {
 		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("外协部件");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/specialCost/list";
 	}
 	

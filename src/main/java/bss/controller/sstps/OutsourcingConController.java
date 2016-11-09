@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutsourcingCon;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.OutsourcingConService;
 
 @Controller
@@ -26,6 +28,9 @@ public class OutsourcingConController {
 	
 	@Autowired
 	private OutsourcingConService outsourcingConService;
+	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
 	
 	/**
 	* @Title: select
@@ -39,15 +44,21 @@ public class OutsourcingConController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,OutsourcingCon outsourcingCon){
-		
+	public String select(Model model,String proId,OutsourcingCon outsourcingCon,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		outsourcingCon.setContractProduct(contractProduct);
 		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("外购成件");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/outsourcing/list";
 	}
 	

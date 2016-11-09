@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import bss.model.sstps.AccessoriesCon;
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductInfo;
 import bss.service.sstps.AccessoriesConService;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.ProductInfoService;
 
 
@@ -35,6 +37,9 @@ public class OfferProductController {
 	@Autowired
 	private AccessoriesConService accessoriesConService;
 	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
+	
 	
 	/**
 	* @Title: save
@@ -48,7 +53,7 @@ public class OfferProductController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,ProductInfo productInfo,HttpServletRequest request){
+	public String save(Model model,ProductInfo productInfo,HttpServletRequest request,ComprehensiveCost comprehensiveCost){
 		String id = request.getParameter("id");
 		String proId = request.getParameter("contractProduct.id");
 		productInfo.setUpdatedAt(new Date());
@@ -65,6 +70,40 @@ public class OfferProductController {
 		accessoriesCon.setContractProduct(contractProduct);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
+		
+		comprehensiveCost.setContractProduct(contractProduct);
+		List<ComprehensiveCost> lists = comprehensiveCostService.select(comprehensiveCost);
+		if(lists.size()<1){
+			String[] name1={"原辅材料","外购成件","外协部件","燃料动力","直接人工","专用费用","制造费用","合计"};
+			for(int i =0;i<name1.length;i++){
+				comprehensiveCost.setProjectName("专项试验费");
+				comprehensiveCost.setSecondProject(name1[i]);
+				comprehensiveCost.setStatus(0);
+				comprehensiveCostService.insert(comprehensiveCost);
+			}
+			String[] name2={"管理费用","财务费用","销售费用","合计"};
+			for(int i =0;i<name2.length;i++){
+				comprehensiveCost.setProjectName("期间费用");
+				comprehensiveCost.setSecondProject(name2[i]);
+				comprehensiveCost.setStatus(1);
+				comprehensiveCostService.insert(comprehensiveCost);
+			}
+			String[] name3={"成本","利润","税金","价格"};
+			for(int i =0;i<name3.length;i++){
+				comprehensiveCost.setProjectName("价格方案");
+				comprehensiveCost.setSecondProject(name3[i]);
+				comprehensiveCost.setStatus(2);
+				comprehensiveCostService.insert(comprehensiveCost);
+			}
+			String[] name4={"本产品定额工时","工时分配率合计","直接人工","燃料动力","制造费用","期间费用"};
+			for(int i =0;i<name4.length;i++){
+				comprehensiveCost.setProjectName("工时及分配率");
+				comprehensiveCost.setSecondProject(name4[i]);
+				comprehensiveCost.setStatus(3);
+				comprehensiveCostService.insert(comprehensiveCost);
+			}
+		}
+		
 		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	

@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 
 import ses.util.ValidateUtils;
 
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductQuota;
+import bss.service.sstps.ComprehensiveCostService;
 import bss.service.sstps.ProductQuotaService;
 
 @Controller
@@ -26,6 +28,9 @@ public class ProductQuotaController {
 	@Autowired
 	private ProductQuotaService productQuotaService;
 	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
+	
 	/**
 	* @Title: select
 	* @author Shen Zhenfei 
@@ -33,12 +38,12 @@ public class ProductQuotaController {
 	* @Description: 列表页面
 	* @param @param model
 	* @param @param proId
-	* @param @param periodCost
+	* @param @param ProductQuota
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,ProductQuota productQuota){
+	public String select(Model model,String proId,ProductQuota productQuota,Integer total){
 		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
@@ -46,7 +51,14 @@ public class ProductQuotaController {
 		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+//		if(total!=null){
+//			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+//			comprehensiveCost.setContractProduct(contractProduct);
+//			comprehensiveCost.setSingleOffer(total);
+//			comprehensiveCost.setProjectName("专项试验费");
+//			comprehensiveCost.setSecondProject("制造费用");
+//			comprehensiveCostService.updateInfo(comprehensiveCost);
+//		}
 		return "bss/sstps/offer/supplier/productQuota/list";
 	}
 	

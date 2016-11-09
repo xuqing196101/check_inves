@@ -15,5 +15,7 @@ public interface ComprehensiveCostMapper {
     int update(ComprehensiveCost record);
     
     List<ComprehensiveCost> selectProduct(ComprehensiveCost record);
+    
+    int updateInfo(ComprehensiveCost record);
 
 }

@@ -8,9 +8,6 @@
   <head>
     
     <title>燃料动力费明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 /** 全选全不选 */
@@ -92,7 +89,8 @@ function onStep(){
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>wagesPayable/select.do?proId="+proId;
+	var total = $("#total3").val();
+	window.location.href="<%=basePath%>wagesPayable/select.do?proId="+proId+"&total="+total;
 }
 
 
@@ -101,24 +99,24 @@ $(function(){
 	var totalRow2 = 0;
 	var totalRow3 = 0;
 	$("#table1 tr").each(function() { 
-		$(this).find("td:eq(10)").each(function(){ 
+		$(this).find("td:eq(8)").each(function(){ 
 			totalRow1 += parseFloat($(this).text()); 
 		});
-		$(this).find("td:eq(14)").each(function(){ 
+		$(this).find("td:eq(11)").each(function(){ 
 			totalRow2 += parseFloat($(this).text()); 
 		});
-		$(this).find("td:eq(15)").each(function(){ 
+		$(this).find("td:eq(14)").each(function(){ 
 			totalRow3 += parseFloat($(this).text()); 
 		});
 	}); 
 	if(totalRow1!=null){
-		$("#total1").html(totalRow1);
+		$("#total1").val(totalRow1);
 	}
 	if(totalRow2!=null){
-		$("#total2").html(totalRow2);
+		$("#total2").val(totalRow2);
 	}
 	if(totalRow3!=null){
-		$("#total3").html(totalRow3);
+		$("#total3").val(totalRow3);
 	}
 	
 }); 
@@ -142,7 +140,7 @@ $(function(){
 	  		 <h2>燃料动力费明细</h2>
 	 	</div>
 	 	
-	 	<div class="col-md-8 mt10 pl20">
+	 	<div class="col-md-8 mt10 pl20 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	   		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
@@ -206,11 +204,11 @@ $(function(){
 					<tr>
 					 	<td class="tc" colspan="6">总计：</td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc" id="total1"></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc" id="total2"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc" id="total3"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
 					 	<td class="tc" ></td>
 					 </tr>
 				 </thead> 

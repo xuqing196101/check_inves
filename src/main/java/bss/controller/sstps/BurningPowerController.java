@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.util.ValidateUtils;
 
 import bss.model.sstps.BurningPower;
+import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.service.sstps.BurningPowerService;
+import bss.service.sstps.ComprehensiveCostService;
 
 @Controller
 @Scope
@@ -25,6 +27,9 @@ public class BurningPowerController {
 	
 	@Autowired
 	private BurningPowerService burningPowerService;
+	
+	@Autowired
+	private ComprehensiveCostService comprehensiveCostService;
 	
 	
 	/**
@@ -39,15 +44,21 @@ public class BurningPowerController {
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,String proId,BurningPower burningPower){
-		
+	public String select(Model model,String proId,BurningPower burningPower,Integer total){
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		burningPower.setContractProduct(contractProduct);
 		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
-		
+		if(total!=null){
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			comprehensiveCost.setSingleOffer(total);
+			comprehensiveCost.setProjectName("专项试验费");
+			comprehensiveCost.setSecondProject("专用费用");
+			comprehensiveCostService.updateInfo(comprehensiveCost);
+		}
 		return "bss/sstps/offer/supplier/burningPower/list";
 	}
 	
