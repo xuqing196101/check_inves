@@ -193,6 +193,27 @@
 				window.location.href = "${pageContext.request.contextPath }/expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
 		}	
+		
+		//检查全选
+		function check(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == false){
+					selectAll.checked = false;
+					break;
+				}
+			}
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == info.length){
+				selectAll.checked = true;
+			}
+		}
 	</script>
   </head>
   
@@ -264,7 +285,7 @@
 		<tbody>
 			<c:forEach items="${commerceList.list }" var="c" varStatus="vs">
 				<tr class="pointer">
-					<td class="tc"><input type="checkbox" name="info" value="${c.id }"/></td>
+					<td class="tc"><input type="checkbox" name="info" value="${c.id }" onclick="check()"/></td>
 					<td class="tc" onclick="view('${c.id }')">${(vs.index+1)+(commerceList.pageNum-1)*(commerceList.pageSize)}</td>
 					<td class="tc" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
 					<c:if test="${fn:length(c.topic)>20}">

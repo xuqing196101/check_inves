@@ -362,6 +362,27 @@
 			$("#card").val("");
 			$("#depName").val("");
 		}
+		
+		//检查全选
+		function check(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == false){
+					selectAll.checked = false;
+					break;
+				}
+			}
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == info.length){
+				selectAll.checked = true;
+			}
+		}
 	</script>
 
   </head>
@@ -439,7 +460,7 @@
 				<tbody>
 					<c:forEach items="${paperUserList.list }" var="paper" varStatus="vs">
 						<tr class="tc">
-							<td><input type="checkbox" name="info" value="${paper.id }"/></td>
+							<td><input type="checkbox" name="info" value="${paper.id }" onclick="check()"/></td>
 							<td>${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
 							<td>${paper.userName }</td>
 							<td>${paper.card }</td>

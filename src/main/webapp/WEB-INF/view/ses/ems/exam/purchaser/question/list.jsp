@@ -207,6 +207,27 @@
 		function view(obj){
 			window.location.href = "${pageContext.request.contextPath }/purchaserExam/view.html?id="+obj;
 		}
+		
+		//检查全选
+		function check(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == false){
+					selectAll.checked = false;
+					break;
+				}
+			}
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == info.length){
+				selectAll.checked = true;
+			}
+		}
 	</script>
 
   </head>
@@ -277,7 +298,7 @@
 	    	<tbody>
 	    		<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">
 	    			<tr class="pointer">
-	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }"/></td>
+	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }" onclick="check()"/></td>
 	    				<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
 	    				<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
 	    				<c:if test="${fn:length(purchaser.topic)>26}">

@@ -49,20 +49,25 @@
            // purchaseType = $.trim(purchaseType);
 		    var id = $(ele).val();
 		    var count = 0;
+		    var len = 0;
 			var info = document.getElementsByName("info");
 			var selectAll = document.getElementById("selectAll");
-			for(var i = 0;i<info.length;i++){
+			for(var i=0;i<info.length;i++){
 				if(info[i].checked == false){
 					selectAll.checked = false;
 					break;
 				}
 			}
-			for(var i = 0;i<info.length;i++){
-				if(info[i].checked == true){
-					count++;
+			for(var i=0;i<info.length;i++){
+				var dis = $(info[i]).prop("disabled");
+				if(!dis){
+					if(info[i].checked == true){
+						count++;
+					}
+					len++;
 				}
 			}
-			if(count == info.length){
+			if(count==len){
 				selectAll.checked = true;
 			}
 		    $.ajax({
@@ -161,7 +166,7 @@
 			if($(info[i]).prop("disabled")==false){
 				break;
 			}else if(i==info.length-1){
-				layer.alert("该项目中已经没有明细可以用于分包",{offset: ['222px', '390px']});
+				layer.alert("项目中已经没有明细可以用于分包",{offset: ['222px', '390px']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -205,7 +210,7 @@
     <!-- 按钮开始-->
    	<div class="container">
    		<div class="col-md-12">
-		    <button class="btn btn-windows pl13" type="button" onclick="addPack()">添加分包</button>
+		    <button class="btn btn-windows add" type="button" onclick="addPack()">添加分包</button>
 		    
 		</div>
     </div>
@@ -276,9 +281,9 @@
    <div class="container clear margin-top-30">
 	   <c:forEach items="${packageList }" var="pack" varStatus="p">
 	   		<span>包名:<span>${pack.name }</span>
-	   		<input class="btn btn-windows pl13" type="button" onclick="edit(this)" value="修改包名"/>
-	   		<input class="btn btn-windows pl13" name="sure" type="button" onclick="sure(this)" value="确定"/>
-	   		<input class="btn btn-windows pl13" type="button" onclick="deletePackage(this,event)" value="删除分包"/>
+	   		<input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名"/>
+	   		<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定"/>
+	   		<input class="btn btn-windows delete" type="button" onclick="deletePackage(this,event)" value="删除分包"/>
 	   		<input type="hidden" value="${pack.id }"/>
 	   		</span>
 	   		
