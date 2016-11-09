@@ -6,23 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'addPreMenu.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
-	<script src="<%=basePath%>public/layer/layer.js"></script>
 	<script type="text/javascript">
 		 
 		<!-- ztree -->  
@@ -44,7 +27,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>preMenu/treedata.do?id="+roleId,
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do?id="+roleId,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -64,7 +47,7 @@
 			$.ajax({
              type: "POST",
              async: false, 
-             url: "<%=basePath%>role/saveRoleMenu.do?roleId="+rid+"&ids="+idstr,
+             url: "${pageContext.request.contextPath}/role/saveRoleMenu.do?roleId="+rid+"&ids="+idstr,
              dataType: "text",
              success: function(str){
 		        	 //var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引

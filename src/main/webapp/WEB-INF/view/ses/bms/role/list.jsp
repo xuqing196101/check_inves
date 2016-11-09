@@ -1,51 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>角色管理</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-	
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-  	<script src="<%=basePath%>public/layer/layer.js"></script>
-  	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   </head>
   
   <script type="text/javascript">
@@ -65,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>user/list.html?page='+e.curr;
+			            location.href = '${pageContext.request.contextPath}/user/list.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -124,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  offset: '110px',
 			  shadeClose: false,
 			  //content: menucon,
-			  content: '<%=basePath%>role/openPreMenu.html?id='+ids,
+			  content: '${pageContext.request.contextPath}/role/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
 			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			  },
@@ -145,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
   	function view(id){
-  		wi.htmlw.location.href="<%=basePath%>role/view.html?id="+id;
+  		wi.htmlw.location.href="${pageContext.request.contextPath}/role/view.html?id="+id;
   	}
   	
     function edit(){
@@ -164,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset : '180px',
 			  shadeClose: false,
-			  content: '<%=basePath%>role/edit.html?id='+id
+			  content: '${pageContext.request.contextPath}/role/edit.html?id='+id
 			});
 		}else if(id.length>1){
 			layer.alert("只能选择一个角色",{offset: '222px', shade:0.01});
@@ -185,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                dataType: 'json',  
                success:function(result){
                		window.setTimeout(function(){
-                        window.location.href = "<%=basePath%>role/list.html";
+                        window.location.href = "${pageContext.request.contextPath}/role/list.html";
                     }, 1000);
                     layer.msg(result.msg,{offset: '222px'});
                 },
@@ -208,7 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>role/delete.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
@@ -226,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: '180px',
 			  shadeClose: false,
-			  content: '<%=basePath%>role/add.html'
+			  content: '${pageContext.request.contextPath}/role/add.html'
 			});
     }
     
@@ -252,22 +214,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div class="headline-v2">
 	   		<h2>角色管理</h2>
 	   </div>
-	   <div class="p10_25">
-		    <h2 class="padding-10 border1">
+		    <h2 class="search_detail">
 		       	<form action="<%=basePath %>role/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">名称：</label><span><input type="text" value="${role.name }" id="topic" name="name" class=""/></span>
 				      </li>
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">状态：</label>
-				    	<div class="select_common mb10">
-					        <select class="w180 " name="status">
+                        <span>
+					        <select name="status" class="w178">
 					        	<option value="">请选择</option>
 					        	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>启用</option>
 					        	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 					        </select>
-				        </div>
+				        </span>
 				      </li> 
 				    	<button type="button" onclick="query()" class="btn">查询</button>
 				    	<button type="reset" onclick="resetQuery()" class="btn">重置</button>  	
@@ -275,52 +236,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>
-	   </div>
-   </div>
+  
    <!-- 菜单树-->
    <div id="menu">
 	   <div id="menuTree" class="ztree"></div>
    </div>
 	<!-- 表格开始-->
-   <div class="container">
-	   <div class="col-md-8">
+   <div class="col-md-12 pl20 mt10">
 	    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows reset" type="button" onclick="opera();">激活/禁用</button>
 		<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-	   </div>
    </div>
-   
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-striped table-bordered table-hover">
-			<thead>
-				<tr>
-				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-				  <th class="info w50">序号</th>
-				  <th class="info">名称</th>
-				  <th class="info">状态</th>
-				  <th class="info">描述</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${list.list}" var="role" varStatus="vs">
-				   <tr>
-					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${role.id}" /></td>
-					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tc">${role.name}</td>
-					  <td class="tc">
-					  	<c:if test="${role.status == 0}"><span class="label rounded-2x label-u">启用</span></c:if>
-					  	<c:if test="${role.status == 1}"><span class="label rounded-2x label-dark">暂停</span></c:if>
-					  </td>
-					  <td class="tc">${role.description}</td>
-				   </tr>
-				</c:forEach>
-			</tbody>
-        </table>
-     </div>
-     <div id="pagediv" align="right"></div>
-   </div>
+
+		<div class="content table_box">
+			<table class="table table-bordered table-condensed table-hover">
+				<thead>
+					<tr>
+						<th class="info w30"><input id="checkAll" type="checkbox"
+							onclick="selectAll()" />
+						</th>
+						<th class="info w50">序号</th>
+						<th class="info">名称</th>
+						<th class="info">状态</th>
+						<th class="info">描述</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${list.list}" var="role" varStatus="vs">
+						<tr>
+							<td class="tc"><input onclick="check()" type="checkbox"
+								name="chkItem" value="${role.id}" />
+							</td>
+							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+							<td class="tc">${role.name}</td>
+							<td class="tc"><c:if test="${role.status == 0}">
+									<span class="label rounded-2x label-u">启用</span>
+								</c:if> <c:if test="${role.status == 1}">
+									<span class="label rounded-2x label-dark">暂停</span>
+								</c:if></td>
+							<td class="tc">${role.description}</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<div id="pagediv" align="right"></div>
+		</div>
+	</div>
   </body>
 </html>
