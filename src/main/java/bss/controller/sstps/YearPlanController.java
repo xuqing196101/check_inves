@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -236,5 +237,16 @@ public class YearPlanController {
 		return "bss/sstps/offer/supplier/yearPlan/list";
 	}
 	
-
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		YearPlan yearPlan = new YearPlan();
+		yearPlan.setContractProduct(contractProduct);
+		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/yearPlan_list";
+	}
+	
 }

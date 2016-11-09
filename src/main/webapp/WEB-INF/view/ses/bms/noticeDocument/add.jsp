@@ -26,8 +26,9 @@
 	<script type="text/javascript">
   	/** 全选全不选 */
 	$(function(){
-		if(${noticeDocument.docType}!=null&&${noticeDocument.docType}!=""){
-			$("#docType").val('${noticeDocument.docType}');
+		
+		if(${noticeDocument.docType}!=null&&${noticeDocument.docType}!=""&&${noticeDocument.docType}!="-请选择-"){
+			$("#docType").val(${noticeDocument.docType});
 		}else{
 			$("#docType").val('-请选择-');
 		}

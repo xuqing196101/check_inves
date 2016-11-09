@@ -3,6 +3,8 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -107,6 +109,27 @@ public class AuditSummaryController {
 		return "bss/sstps/offer/supplier/list";
 	}
 	
-	
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+
+			ContractProduct contractProduct = new ContractProduct();
+			contractProduct.setId(productId);
+			
+			AuditOpinion ap = new AuditOpinion();
+			ap.setContractProduct(contractProduct);
+			ap = auditOpinionService.selectProduct(ap);
+			
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			
+			List<ComprehensiveCost> list = comprehensiveCostService.select(comprehensiveCost);
+			model.addAttribute("list", list);
+		
+			
+			model.addAttribute("ap", ap);
+			model.addAttribute("proId", productId);
+			
+			return "bss/sstps/offer/userAppraisal/list/productOffer_list";
+	}
 
 }

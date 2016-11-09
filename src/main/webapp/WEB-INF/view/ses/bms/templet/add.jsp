@@ -26,7 +26,7 @@
 	<script type="text/javascript">
   	/** 全选全不选 */
 	$(function(){
-		if(${templet.temType}!=null&&${templet.temType}!=""){
+		if(${templet.temType}!=null&&${templet.temType}!=""&&${templet.temType}!="-请选择-"){
 			$("#temType").val('${templet.temType}');
 		}else{
 			$("#temType").val('-请选择-');

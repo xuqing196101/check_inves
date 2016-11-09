@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +19,7 @@ import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ManufacturingCost;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.model.sstps.ManufacturingCostList;
 import bss.service.sstps.ManufacturingCostService;
 
 @Controller
@@ -218,6 +220,29 @@ public class ManufacturingCostController {
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
 		return "bss/sstps/offer/supplier/manufacturingCost/list";
+	}
+	
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		ManufacturingCost manufacturingCost = new ManufacturingCost();
+		manufacturingCost.setContractProduct(contractProduct);
+		List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/manufacturingCost_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,ManufacturingCostList ManufacturingCostList,String productId){
+		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
+		for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
+			manufacturingCost.setUpdatedAt(new Date());
+			manufacturingCostService.update(manufacturingCost);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/periodCost/userGetAll.html?productId="+productId;
 	}
 	
 	

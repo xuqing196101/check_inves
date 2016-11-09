@@ -19,6 +19,7 @@ import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutproductCon;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.model.sstps.OutproductConList;
 import bss.service.sstps.OutproductConService;
 
 @Controller
@@ -90,6 +91,31 @@ public class OutproductConController {
 		return "bss/sstps/offer/supplier/outproduct/edit";
 	}
 	
+	
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		OutproductCon outproductCon=new OutproductCon();
+		outproductCon.setContractProduct(contractProduct);
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/userAppraisal/list/outproduct_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,OutproductConList OutproductConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<OutproductCon> outproductCons = OutproductConList.getOutproductCons();
+		for (OutproductCon outproductCon : outproductCons) {
+			outproductCon.setUpdatedAt(new Date());
+			outproductConService.update(outproductCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/outsourcingCon/userGetAll.html?productId="+proID;
+	}
 	
 	@RequestMapping("/save")
 	public String save(Model model,@Valid OutproductCon outproductCon,BindingResult result,HttpServletRequest request){

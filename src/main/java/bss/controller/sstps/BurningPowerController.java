@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +17,7 @@ import ses.util.ValidateUtils;
 
 import bss.model.sstps.BurningPower;
 import bss.model.sstps.ComprehensiveCost;
+import bss.model.sstps.BurningPowerList;
 import bss.model.sstps.ContractProduct;
 import bss.service.sstps.BurningPowerService;
 import bss.service.sstps.ComprehensiveCostService;
@@ -229,4 +231,26 @@ public class BurningPowerController {
 		return "bss/sstps/offer/supplier/burningPower/list";
 	}
 
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		BurningPower burningPower = new BurningPower();
+		burningPower.setContractProduct(contractProduct);
+		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/burningPower_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,BurningPowerList BurningPowerList,String productId){
+		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
+		for (BurningPower burningPower : BurningPowers) {
+			burningPower.setUpdatedAt(new Date());
+			burningPowerService.update(burningPower);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/wagesPayable/userGetAll.html?productId="+productId;
+	}
 }

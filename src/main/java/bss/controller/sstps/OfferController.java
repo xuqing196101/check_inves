@@ -115,18 +115,18 @@ public class OfferController {
 	* @Title: appraisalList
 	* @author Shen Zhenfei 
 	* @date 2016-10-12 下午1:11:36  
-	* @Description: 审价
+	* @Description: 审价人员 
 	* @param @param model
 	* @param @param page
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/appraisalList")
-	public String appraisalList(Model model,Integer page){
+	@RequestMapping("/userAppraisalList")
+	public String userAppraisalList(Model model,Integer page){
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "bss/sstps/offer/supplier/list";
+		return "bss/sstps/offer/userAppraisal/list";
 	}
 	
 	/**
@@ -186,11 +186,62 @@ public class OfferController {
 		return url;
 	}
 	
-	
-	@RequestMapping("/selectList")
-	public String selectList(){
-		return "";
+
+	/**
+	 * 
+	 * @Title: userSelectProduct
+	 * @author Liyi 
+	 * @date 2016-10-24 下午4:18:03  
+	 * @Description:审价人员审价合同产品
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSelectProduct")
+	public String userSelectProduct(Model model,String contractId,ContractProduct contractProduct,Integer page){
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractId);
+		contractProduct.setAppraisalContract(appraisalContract);
+		
+		String name = contractProduct.getName();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		if(name!=null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ContractProduct> list = contractProductService.select(contractProduct); 
+		model.addAttribute("list", new PageInfo<ContractProduct>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("id", contractId);
+		return "bss/sstps/offer/userAppraisal/product_list";
 	}
 	
-
+	/**
+	 * 
+	 * @Title: userSelectProductInfo
+	 * @author Liyi 
+	 * @date 2016-10-24 下午6:10:23  
+	 * @Description:装备技术审价
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSelectProductInfo")
+	public String userSelectProductInfo(Model model,String productId,HttpServletRequest request){
+		ContractProduct contractProduct = contractProductService.selectById(productId);
+		model.addAttribute("contractProduct", contractProduct);
+		
+		String url="bss/sstps/offer/userAppraisal/list/list";
+		
+		ProductInfo ProductI = new ProductInfo();
+		ProductI.setContractProduct(contractProduct);
+	 	ProductInfo productInfo = productInfoService.selectInfo(ProductI);
+		model.addAttribute("productInfo", productInfo);
+		
+		return url;
+	}
 }

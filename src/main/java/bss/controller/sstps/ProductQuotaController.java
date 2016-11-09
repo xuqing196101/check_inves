@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Controller;
 
 import ses.util.ValidateUtils;
 
-import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductQuota;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.model.sstps.ProductQuotaList;
 import bss.service.sstps.ProductQuotaService;
 
 @Controller
@@ -231,4 +232,27 @@ public class ProductQuotaController {
 		return "bss/sstps/offer/supplier/productQuota/list";
 	}
 
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		ProductQuota productQuota = new ProductQuota();
+		productQuota.setContractProduct(contractProduct);
+		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/productQuota_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,ProductQuotaList ProductQuotaList,String productId){
+		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
+		for (ProductQuota productQuota : ProductQuotas) {
+			productQuota.setUpdatedAt(new Date());
+			productQuotaService.update(productQuota);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/comCostDis/userGetAll.html?productId="+productId;
+	}
+	
 }

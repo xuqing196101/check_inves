@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -243,5 +244,17 @@ public class WagesPayableController {
 		return "bss/sstps/offer/supplier/wagesPayable/list";
 	}
 	
-
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		WagesPayable wagesPayable = new WagesPayable();
+		wagesPayable.setContractProduct(contractProduct);
+		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/wagesPayable_list";
+	}
+	
+	
 }

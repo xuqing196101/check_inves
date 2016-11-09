@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.util.ValidateUtils;
 
 import bss.model.sstps.AccessoriesCon;
+import bss.model.sstps.AccessoriesConList;
 import bss.model.sstps.ContractProduct;
 import bss.service.sstps.AccessoriesConService;
 import bss.service.sstps.ComprehensiveCostService;
@@ -184,6 +185,28 @@ public class AccessoriesConController {
 	}
 	
 	/**
+	 * 
+	 * @Title: userUpdate
+	 * @author Liyi 
+	 * @date 2016-10-26 下午3:36:22  
+	 * @Description:审价人员审减金额修改
+	 * @param:     
+	 * @return:
+	 */
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
+		for (AccessoriesCon accessoriesCon : accessoriesCons) {
+			accessoriesCon.setUpdatedAt(new Date());
+			accessoriesConService.update(accessoriesCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/outproductCon/userGetAll.html?productId="+proID;
+	}
+	
+	/**
 	* @Title: delete
 	* @author Shen Zhenfei 
 	* @date 2016-10-14 上午8:35:27  
@@ -212,5 +235,16 @@ public class AccessoriesConController {
 		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
-	
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		AccessoriesCon accessoriesCon = new AccessoriesCon();
+		accessoriesCon.setContractProduct(contractProduct);
+		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/userAppraisal/list/accessories_list";
+	}
 }

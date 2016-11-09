@@ -208,5 +208,26 @@ public class ComCostDisController {
 		return "bss/sstps/offer/supplier/productOffer/list";
 	}
 	
-
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		ComCostDis comCostDis = new ComCostDis();
+		comCostDis.setContractProduct(contractProduct);
+		List<ComCostDis> list = comCostDisService.selectProduct(comCostDis);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/comCostDis_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,PlComCostDis plccd,String productId){
+		List<ComCostDis> ComCostDis = plccd.getPlccd();
+		for (ComCostDis ccd : ComCostDis) {
+			ccd.setUpdatedAt(new Date());
+			comCostDisService.update(ccd);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/auditSummary/userGetAll.html?productId="+productId;
+	}
 }

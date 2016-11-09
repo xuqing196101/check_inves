@@ -27,14 +27,26 @@ public class ProductQuota {
 
     private Integer offer;
 
+    /*
+     * 核定-准结工时
+     */
     private Integer ratify;
 
+    /*
+     * 复核-准结工时
+     */
     private Integer check;
 
     private Integer processingOffer;
 
+    /*
+     * 核定-加工工时
+     */
     private Integer processingRatify;
 
+    /*
+     * 复核-加工工时
+     */
     private Integer processingCheck;
 
     private Integer assemblyOffer;

@@ -19,6 +19,7 @@ import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutsourcingCon;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.model.sstps.OutsourcingConList;
 import bss.service.sstps.OutsourcingConService;
 
 @Controller
@@ -227,5 +228,28 @@ public class OutsourcingConController {
 		return "bss/sstps/offer/supplier/outsourcing/list";
 	}
 	
-
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		OutsourcingCon outsourcingCon = new OutsourcingCon();
+		outsourcingCon.setContractProduct(contractProduct);
+		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/userAppraisal/list/outsourcing_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,OutsourcingConList OutsourcingConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<OutsourcingCon> outsourcingCons = OutsourcingConList.getOutsourcingCons();
+		for (OutsourcingCon outsourcingCon : outsourcingCons) {
+			outsourcingCon.setUpdatedAt(new Date());
+			outsourcingConService.update(outsourcingCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/specialCost/userGetAll.html?productId="+proID;
+	}
 }

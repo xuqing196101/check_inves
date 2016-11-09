@@ -108,6 +108,29 @@ public class OfferProductController {
 	}
 	
 	/**
+	 * 
+	 * @Title: userSave
+	 * @author Liyi 
+	 * @date 2016-10-25 下午2:18:45  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSave")
+	public String userSave(Model model,ProductInfo productInfo,HttpServletRequest request){
+		String id = request.getParameter("id");
+		String proId = request.getParameter("proId");
+		model.addAttribute("proId", proId);
+		AccessoriesCon accessoriesCon = new AccessoriesCon();
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		accessoriesCon.setContractProduct(contractProduct);
+		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list", list);
+		return "bss/sstps/offer/userAppraisal/list/accessories_list";
+	}
+	
+	/**
 	* @Title: view
 	* @author Shen Zhenfei 
 	* @date 2016-10-22 上午9:38:57  

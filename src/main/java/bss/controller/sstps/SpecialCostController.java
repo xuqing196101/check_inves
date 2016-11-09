@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +19,7 @@ import bss.model.sstps.ComprehensiveCost;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.SpecialCost;
 import bss.service.sstps.ComprehensiveCostService;
+import bss.model.sstps.SpecialCostList;
 import bss.service.sstps.SpecialCostService;
 
 @Controller
@@ -241,5 +243,26 @@ public class SpecialCostController {
 		return "bss/sstps/offer/supplier/specialCost/list";
 	}
 	
-
+	@RequestMapping("/userGetAll")
+	public String userGetAll(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		SpecialCost specialCost = new SpecialCost();
+		specialCost.setContractProduct(contractProduct);
+		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/userAppraisal/list/specialCost_list";
+	}
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,SpecialCostList SpecialCostList,String productId){
+		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
+		for (SpecialCost specialCost : SpecialCosts) {
+			specialCost.setUpdatedAt(new Date());
+			specialCostService.update(specialCost);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/burningPower/userGetAll.html?productId="+productId;
+	}
 }
