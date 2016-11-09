@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.FlowExecuteMapper">
+  <resultMap id="FlowExecuteResult" type="bss.model.ppms.FlowExecute">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FLOW_DEFINE_ID" jdbcType="VARCHAR" property="flowDefineId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, FLOW_DEFINE_ID, PROJECT_ID, PACKAGE_ID, STATUS, CREATED_AT, UPDATED_AT, OPERATOR_ID, 
+    OPERATOR_NAME, IS_DELETED
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where fe.IS_DELETED = 0 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and fe.ID = #{id} 
+      </if>
+      <if test=" flowDefineId != null and flowDefineId != ''">
+        and fe.FLOW_DEFINE_ID = #{flowDefineId}
+      </if>
+      <if test=" projectId != null and projectId != ''">
+        and fe.PROJECT_ID = #{projectId}
+      </if>
+      <if test=" packageId != null and packageId != ''">
+        and fe.PACKAGE_ID = #{packageId}
+      </if>
+      <if test="status != null">
+        and fe.STATUS = #{status} 
+      </if>
+      <if test="createdAt != null">
+        and fe.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="updatedAt != null">
+        and fe.UPDATED_AT = #{updatedAt} 
+      </if>
+      <if test="operatorId != null and operatorId !='' ">
+        and fe.OPERATOR_ID = #{operatorId} 
+      </if>
+      <if test="operatorName != null and operatorName !='' ">
+        and fe.OPERATOR_NAME = #{operatorName} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据主键查询 -->
+  <select id="get" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FLOW_EXECUTE
+    where IS_DELETED = 0 
+    and ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据主键删除 -->
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_FLOW_EXECUTE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.ppms.FlowExecute">
+    insert into T_BSS_PPMS_FLOW_EXECUTE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="flowDefineId != null">
+        FLOW_DEFINE_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID,
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDefineId != null">
+        #{flowDefineId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.更新数据 -->
+  <update id="update" parameterType="bss.model.ppms.FlowExecute">
+    update T_BSS_PPMS_FLOW_EXECUTE
+    <set>
+      <if test="flowDefineId != null">
+        FLOW_DEFINE_ID = #{flowDefineId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        OPERATOR_NAME = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 5.根据条件查询 -->
+  <select id="findList" parameterType="java.lang.String" resultMap="FlowExecuteResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FLOW_EXECUTE fe
+    <include refid="Example_Where_Clause"/>
+    ORDER BY fe.CREATED_AT DESC
+  </select>
+</mapper>

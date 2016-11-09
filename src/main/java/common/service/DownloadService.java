@@ -23,4 +23,15 @@ public interface DownloadService {
      * @param response {@link HttpServletResponse}
      */
     public void download(HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     *〈简述〉文件下载
+     *〈详细描述〉直接传参下载
+     * @author Ye MaoLin
+     * @param request
+     * @param response
+     * @param fileId 附件id
+     * @param sysKey 系统key
+     */
+    public void downloadOther(HttpServletRequest request, HttpServletResponse response, String fileId, String sysKey);
 }

@@ -146,4 +146,26 @@ public class DownloadServiceImpl implements DownloadService {
         return flag;
     }
 
+    @Override
+    public void downloadOther(HttpServletRequest request, HttpServletResponse response, String id, String sysKey) {
+        Integer systemKey = Integer.parseInt(sysKey);
+        String tableName = Constant.fileSystem.get(systemKey);
+        if (StringUtils.isNotBlank(id)){
+            if (id.contains(SPLIT_MARK)){
+               List<UploadFile> files =  fileDao.getFilesByIds(id, tableName);
+               if (files != null && files.size() > 0){
+                   String path = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
+                   UploadUtil.createDir(path);
+                   String fileName = PropUtil.getProperty("file.batch.download.name");
+                   File zipFile = new File(path, fileName);
+                   zipFile(zipFile, files);
+                   downloadFile(request, response, zipFile.getPath(), fileName);
+               }
+            } else {
+                UploadFile file = fileDao.getFileById(id, tableName);
+                downloadFile(request, response, file.getPath(), file.getName());
+            }
+        }
+    }
+
 }

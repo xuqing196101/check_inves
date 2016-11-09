@@ -30,11 +30,16 @@
     <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-	function OpenFile() {
+	function OpenFile(fileId) {
+		alert(fileId);
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-	    obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.docx");// 异步加载, 服务器文件路径
+		if(fileId != 0){
+			obj.BeginOpenFromURL("<%=basePath%>open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+		} else {
+	    	obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.docx", true);// 异步加载, 服务器文件路径
+		}
 		
 		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");
 		
@@ -104,7 +109,7 @@
 </script> -->
 </head>
 
-<body onload="OpenFile()">
+<body onload="OpenFile('${fileId}')">
 	 <!-- 按钮 -->
      <div class="fr pr15 mt10">
       	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>

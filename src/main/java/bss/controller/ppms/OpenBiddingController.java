@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
 
 import ses.model.bms.DictionaryData;
@@ -140,24 +142,58 @@ public class OpenBiddingController {
     @Autowired
     private SupplierQuoteService supplierQuoteService;
     
+    @Autowired
+    private DownloadService downloadService;
+    
     /**
      * @Fields jsonData : ajax返回数据封装类
      */
     private AjaxJsonData jsonData = new AjaxJsonData();
     
+    
     /**
-     * Description: 进入招标文件页面
-     * 
+     *〈简述〉 进入招标文件页面
+     *〈详细描述〉
      * @author Ye MaoLin
-     * @version 2016-10-14
-     * @return String
-     * @exception IOException
+     * @param request
+     * @param id 项目id
+     * @param model
+     * @param response
+     * @return
      */
     @RequestMapping("/bidFile")
-    public String bidFile(String id, Model model){
+    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response){
         Project project = projectService.selectById(id);
+        
+        //判断是否上传招标文件
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setCode("zbwj");
+        List<DictionaryData> dds = dataService.find(dictionaryData);
+        String typeId = "";
+        if(dds != null && dds.size() > 0){
+            typeId = dds.get(0).getId();
+        }
+        List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files != null && files.size() > 0){
+            model.addAttribute("fileId", files.get(0).getId());
+        } else {
+            model.addAttribute("fileId", "0");
+        }
         model.addAttribute("project", project);
         return "bss/ppms/open_bidding/bid_file/add_file";
+    }
+    
+    /**
+     *〈简述〉下载附件
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param fileId 附件id
+     * @param response
+     */
+    @RequestMapping("/loadFile")
+    public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
+        downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
     }
     
     /**
@@ -370,14 +406,32 @@ public class OpenBiddingController {
         }
     }
     
+    /**
+     *〈简述〉保存招标文件到服务器
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param req
+     * @param projectId 项目id
+     * @throws IOException
+     */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId) throws IOException{
+    public void saveBidFile(HttpServletRequest req, String projectId, Model model) throws IOException{
         String result = "保存失败";
         DictionaryData dd = new DictionaryData();
         dd.setCode("zbwj");
         List<DictionaryData> dds= dataService.find(dd);
+        //判断该项目是否上传过招标文件
+        String typeId = "";
         if(dds != null && dds.size() > 0){
-            result = uploadService.saveOnlineFile(req, projectId, dds.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+            typeId = dds.get(0).getId();
+            List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+            if (files != null && files.size() > 0){
+                //删除 ,表中数据假删除
+                uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+                result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+            } else {
+                result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+            }
         }
         System.out.println(result);
     }
@@ -457,6 +511,14 @@ public class OpenBiddingController {
         return "bss/ppms/open_bidding/bid_file/package_first_audit_view";
     }
     
+    /**
+     *〈简述〉将初审项、初审项关联、详细评审、招标文件改为确认状态
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param response
+     * @param projectId 项目id
+     * @throws Exception
+     */
     @RequestMapping("/confirmOk")
     @ResponseBody 
     public void confirmOk(HttpServletResponse response, String projectId) throws Exception{

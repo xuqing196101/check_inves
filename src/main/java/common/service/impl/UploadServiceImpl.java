@@ -368,5 +368,31 @@ public class UploadServiceImpl implements UploadService {
         }
         return path;
     }
+
+
+    @Override
+    public List<UploadFile> getFilesOther(String businessId, String typeId, String sysKey) {
+        Integer systemKey = Integer.parseInt(sysKey);
+        String tableName = Constant.fileSystem.get(systemKey);
+        List<UploadFile> list = uploadDao.getFiles(tableName, businessId, typeId);
+        if (list != null && list.size() > 0) {
+            return list;
+        }
+        return new ArrayList<UploadFile>();
+    }
+
+
+    @Override
+    public String updateFileOther(String id, String sysKey) {
+        Integer systemKey = Integer.parseInt(sysKey);
+        String tableName = Constant.fileSystem.get(systemKey);
+        try {
+            uploadDao.updateFile(tableName, id);
+            return OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
     
 }

@@ -82,4 +82,24 @@ public interface UploadService {
      * @return
      */
     public String saveOnlineFile(HttpServletRequest request ,String businessId, String typeId, String sysKey);
+    
+    /**
+     *〈简述〉 获取文件
+     *〈详细描述〉 直接传参方式获取文件
+     * @author Ye MaoLin
+     * @param businessId 业务id
+     * @param typeId 附件类型id
+     * @param sysKey 系统key
+     * @return 成功返回文件对象List,否则为空list
+     */
+    public List<UploadFile> getFilesOther(String businessId, String typeId, String sysKey);
+    
+    /**
+     *〈简述〉文件删除
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id 附件id
+     * @param sysKey 系统key
+     */
+    public String updateFileOther(String id, String sysKey);
 }
