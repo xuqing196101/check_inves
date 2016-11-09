@@ -146,7 +146,7 @@ function kaptcha(){
       <ul class="nav navbar-nav">
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
-          <a class=" dropdown-toggle " href=""><i class="shouye nav_icon"></i>首 页</a>
+          <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/index/selectIndexNews.html"><i class="shouye nav_icon"></i>首 页</a>
         </li>
       <!-- End 通知 -->
 
