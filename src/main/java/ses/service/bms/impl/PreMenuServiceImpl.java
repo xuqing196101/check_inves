@@ -1,6 +1,8 @@
 package ses.service.bms.impl;
 
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,33 +95,41 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	 * @param menu {@link PreMenu}
 	 */
 	private void genPerimissionCode(PreMenu menu){
-	    if (menu != null && menu.getParentId() != null){
-	        if (StringUtils.isNotBlank(menu.getParentId().getId())){
-	            String code = preMenuMapper.getPermisssinCode(menu.getParentId().getId());
-	            if (StringUtils.isNotBlank(code)) {
-	                long codeInteger = Long.parseLong(code);
-	                menu.setPermissionCode(Long.toString(codeInteger + 1));
-	            } else {
-	                PreMenu premenu = preMenuMapper.selectByPrimaryKey(menu.getParentId().getId());
-	                //默认值
-	                if (premenu == null) {
-	                    initPerCode(menu);
-	                }
-	                //获取父级值
-	                if (premenu != null) {
-	                    if (StringUtils.isNotBlank(menu.getType())) {
-	                        if (menu.getType().equals(NAV_TYPE) || menu.getType().equals(ACC_TYPE)
-	                                || menu.getType().equals(MENU_TYPE)) {
-	                            menu.setPermissionCode(premenu.getPermissionCode() + INC_ONE);
-	                        }
-	                        if (menu.getType().equals(BUTTON_TYPE)) {
-	                            menu.setPermissionCode(premenu.getPermissionCode() + INC_THIRTY_ONE);
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	    }
+	    Lock lock = new ReentrantLock();
+	    lock.lock();
+	    try {
+            if (menu != null && menu.getParentId() != null){
+                if (StringUtils.isNotBlank(menu.getParentId().getId())){
+                    String code = preMenuMapper.getPermisssinCode(menu.getParentId().getId());
+                    if (StringUtils.isNotBlank(code)) {
+                        long codeInteger = Long.parseLong(code);
+                        menu.setPermissionCode(Long.toString(codeInteger + 1));
+                    } else {
+                        PreMenu premenu = preMenuMapper.selectByPrimaryKey(menu.getParentId().getId());
+                        //默认值
+                        if (premenu == null) {
+                            initPerCode(menu);
+                        }
+                        //获取父级值
+                        if (premenu != null) {
+                            if (StringUtils.isNotBlank(menu.getType())) {
+                                if (menu.getType().equals(NAV_TYPE) || menu.getType().equals(ACC_TYPE)
+                                        || menu.getType().equals(MENU_TYPE)) {
+                                    menu.setPermissionCode(premenu.getPermissionCode() + INC_ONE);
+                                }
+                                if (menu.getType().equals(BUTTON_TYPE)) {
+                                    menu.setPermissionCode(premenu.getPermissionCode() + INC_THIRTY_ONE);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally{
+            lock.unlock();
+        }
 	}
 	
 	/**
