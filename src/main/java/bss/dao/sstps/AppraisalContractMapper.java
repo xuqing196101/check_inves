@@ -2,6 +2,7 @@ package bss.dao.sstps;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.Select;
@@ -37,5 +38,6 @@ public interface AppraisalContractMapper {
     List<AppraisalContract> selectStatisical(AppraisalContract record);
     
     List<Select> selectChose(String purchaseType);
-
+    
+    List<AppraisalContract> selectAppraisalConByContractId(Map<String, Object> map);
 }

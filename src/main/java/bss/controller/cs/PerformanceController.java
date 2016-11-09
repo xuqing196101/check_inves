@@ -14,14 +14,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
 import bss.model.cs.Performance;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
+import bss.model.sstps.AppraisalContract;
 import bss.service.cs.PerformanceService;
 import bss.service.cs.PurchaseContractService;
+import bss.service.sstps.AppraisalContractService;
 
 @Controller
 @Scope("prototype")
@@ -33,6 +36,9 @@ public class PerformanceController {
 	
 	@Autowired
 	private PurchaseContractService purchaseContactService;
+	
+	@Autowired
+	private AppraisalContractService appraisalContractService;
 	
 	@RequestMapping("/createPerformance")
 	public String createPerformance(HttpServletRequest request,Model model) throws Exception{
@@ -113,10 +119,27 @@ public class PerformanceController {
 	}
 	
 	@RequestMapping("/view")
-	public String view(Model model,HttpServletRequest request){
+	public String view(Model model,HttpServletRequest request) throws Exception{
 		String id = request.getParameter("id");
 		Performance perfor = performanceService.selectByPrimaryKey(id);	
 		model.addAttribute("performance", perfor);
 		return "bss/cs/performance/showPerformance";
+	}
+	
+	@RequestMapping(value="/getFinalClosed",produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public String getFinalClosed(HttpServletRequest request) throws Exception{
+		String id = request.getParameter("id");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id",id);
+		List<AppraisalContract> apCon = appraisalContractService.selectAppraisalContractByContractId(map);
+		String finalClosed = apCon.get(0).getAuditMoney().toString();
+		return finalClosed;
+	}
+	
+	@RequestMapping("/updateFinalClosed")
+	public String updateFinalClosed(HttpServletRequest request,PurchaseContract pur) throws Exception{
+		purchaseContactService.updateByPrimaryKeySelective(pur);
+		return "redirect:/performance/selectAll.html";
 	}
 }

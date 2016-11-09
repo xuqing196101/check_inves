@@ -50,6 +50,7 @@
     <result column="IS_DECLARE" jdbcType="DECIMAL" property="isDeclare"/>
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType"/>
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId"/>
+    <result column="FINALLY_CLOSED" jdbcType="DECIMAL" property="finallyClosed"/>
   </resultMap>
   
   <resultMap extends="purContractMap" id="purContractBlob" type="bss.model.cs.PurchaseContract">
@@ -64,7 +65,7 @@
     SUPPLIER_AGENT, SUPPLIER_CONTACT, SUPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
-    FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID
+    FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -203,7 +204,7 @@
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,
       DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,FORMAL_REVIEWED_AT
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE,
-      PURCHASE_TYPE,PROJECT_ID
+      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -219,7 +220,7 @@
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt},#{updatedAt},#{isDeleted},
       #{contractType},#{draftGitAt},#{draftReviewedAt},#{formalGitAt},#{formalReviewedAt}
-      #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}
+      #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
@@ -370,10 +371,13 @@
         IS_DECLARE,
       </if>
       <if test="purchaseType != null">
-        purchaseType,
+        PURCHASE_TYPE,
       </if>
       <if test="projectId != null">
-        projectId,
+        PROJECT_ID,
+      </if>
+      <if test="finallyClosed != null">
+        FINALLY_CLOSED,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -524,6 +528,9 @@
       <if test="projectId != null">
         #{projectId},
       </if>
+      <if test="finallyClosed != null">
+        #{finallyClosed},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.PurchaseContract">
@@ -670,6 +677,9 @@
       <if test="projectId != null">
         PROJECT_ID = #{projectId},
       </if>
+      <if test="finallyClosed != null">
+        FINALLY_CLOSED = #{finallyClosed},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -722,7 +732,8 @@
       IS_IMPORT = #{isImport},
       IS_DECLARE = ${isDeclare},
       PURCHASE_TYPE = ${purchaseType},
-      PROJECT_ID = ${projectId}
+      PROJECT_ID = ${projectId},
+      FINALLY_CLOSED = ${finallyClosed}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

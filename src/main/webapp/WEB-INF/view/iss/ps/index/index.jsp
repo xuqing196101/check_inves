@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -477,7 +478,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="cglt">
+	     <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
           <span>采购论坛</span> 
 		 </a>
 	   </div>

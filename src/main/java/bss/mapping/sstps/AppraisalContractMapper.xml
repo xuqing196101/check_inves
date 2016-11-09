@@ -301,4 +301,10 @@
   	 where ID =#{id}
   </update>
   
+  <select id="selectAppraisalConByContractId" parameterType="Map" resultMap="AppraisalContractResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from T_BSS_SSTPS_APPRAISAL_CONTRACT
+  	where PURCHASE_ID = #{id}
+  </select>
 </mapper>

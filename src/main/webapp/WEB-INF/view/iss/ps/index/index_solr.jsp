@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -43,6 +44,7 @@
 <body>
   <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
+  </div>
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -76,7 +78,6 @@
           </div>
 	     <div id="pagediv" align="right"></div></div>
         </div>
-	  </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>

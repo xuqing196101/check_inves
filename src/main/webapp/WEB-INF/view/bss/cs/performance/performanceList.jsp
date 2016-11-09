@@ -123,27 +123,52 @@
 				time : 0    //默认消息框不关闭
 		});//去掉msg图标
   	}
-  
+	var ind=null ;
 	function statements(){
 		var ids =[];
 		var purchaseType = "";
   		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
-			purchaseType = $(this).prev().text();
-			alert(purchaseType);
+			ids.push($(this).parent().next().text()); 
+			purchaseType = $(this).parent().prev().text();
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
 			}else{
 				if(purchaseType=="单一来源"){
-					alert(111);
-				}else{
-					alert(222);
+					$.ajax({
+						url:"${pageContext.request.contextPath}/performance/getFinalClosed.html?id="+ids,
+						type:"POST",
+						dataType:"text",
+						success:function(data){
+							$("#finalClosed").val(data);
+							$("#pId").val(ids[0]);
+							ind = layer.open({
+								shift: 1, //0-6的动画形式，-1不开启
+							    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+							    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
+							    shade:0.01, //遮罩透明度
+								type : 1,
+								skin : 'layui-layer-rim', //加上边框
+								area : [ '40%', '300px' ], //宽高
+								content : $('#numberWin'),
+								offset: ['10%', '25%']
+							});
+						}
+					});
 				}
 			}
 		}else{
 			layer.alert("请选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
+		}
+	}
+	
+	function save(){
+		var findClosed = $("#finalClosed").val();
+		if(findClosed==null || findClosed==''){
+			layer.alert("请先填写最终金额",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			$("#finForm").submit();
 		}
 	}
   </script>
@@ -185,14 +210,16 @@
     </form>	
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="updateEcetion()">修改履约情况</button>
-		<button class="btn btn-windows delete" onclick="delEcetion()">删除</button>
 		<button class="btn" onclick="statements()">最终结算价格</button>
+		<button class="btn btn-windows delete" onclick="delEcetion()">删除</button>
 	</div>
    <div class="content table_box">
    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
+				<th class="tnone"></th>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
 			    <th class="info">合同编号</th>
 			    <th class="info">合同名称</th>
@@ -207,7 +234,9 @@
 		</thead>
 		<c:forEach items="${performanceList}" var="performance" varStatus="vs">
 			<tr>
+				<td class="tnone">${performance.contract.purchaseType }</td>
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${performance.id}" /></td>
+				<td class="tnone">${performance.contract.id}</td>
 				<td onclick="view('${performance.id}')" class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${performance.contract.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
@@ -241,6 +270,19 @@
 		</c:forEach>
 	</table>
      </div>
+     <form id="finForm" action="${pageContext.request.contextPath}/performance/updateFinalClosed.html" method="post">
+     	 <input id="pId" type="hidden" name="id" value=""/>
+	     <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+	  		    <li class="col-md-12 ml15">
+				   <span class="span3 fl mt5"><div class="red star_red">*</div>最终结算金额：</span>
+				   <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
+				</li>
+				<li class="tc col-md-12 mt20">
+				 <input type="button" class="btn" onclick="save()" value="确定"/>
+				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+				</li>
+		 </ul>
+	 </form>
    <div id="pagediv" align="right"></div>
    </div>
 </body>

@@ -140,9 +140,9 @@ function getIdentityCode(){
                 <label class="label col col-md-3">验证码</label>
                 <div class="col col-md-8">
                   <label class="input">
-				     <div class="col-md-7 p0"><input id="inputCode" type="text" placeholder="" class="fl col-md-12">
+				     <div class="col-md-6 pl0"><input id="inputCode" type="text" placeholder="" class="fl col-md-12">
 				     </div>
-                     <div class="col-md-5"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
+                     <div class="col-md-6 p0"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
                    </label>
                   <div class="note"></div>
                 </div>
@@ -182,8 +182,8 @@ function getIdentityCode(){
                 <label class="label col col-md-3">验证码</label>
                 <div class="col col-md-8">
                   <label class="input">
-				     <div class="col-md-7 p0"><input type="password" placeholder="" class="fl col-md-12"></div>
-                     <div class="col-md-5"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
+				     <div class="col-md-6 pl0"><input type="password" placeholder="" class="fl col-md-12"></div>
+                     <div class="col-md-6 p0"><img id="identity_code_img_id" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"></div>
                   </label>
                   <div class="note"></div>
                 </div>

@@ -144,7 +144,7 @@ function kaptcha(){
     <div class="container">
       <ul class="nav navbar-nav">
       <!-- 通知 -->
-        <li id="firstPage" class="active dropdown shouye_li mega-menu-fullwidth">
+        <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
           <a class=" dropdown-toggle " href=""><i class="shouye nav_icon"></i>首 页</a>
         </li>
       <!-- End 通知 -->
@@ -476,7 +476,7 @@ function kaptcha(){
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
-	  <a href="">
+	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
 	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/cglt.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>

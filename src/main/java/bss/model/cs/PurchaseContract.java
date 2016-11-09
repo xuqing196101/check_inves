@@ -139,6 +139,16 @@ public class PurchaseContract {
 	private String purchaseType;
 	
 	private String projectId;
+	
+	private BigDecimal finallyClosed;
+	
+	public BigDecimal getFinallyClosed() {
+		return finallyClosed;
+	}
+
+	public void setFinallyClosed(BigDecimal finallyClosed) {
+		this.finallyClosed = finallyClosed;
+	}
 
 	public String getPurchaseType() {
 		return purchaseType;

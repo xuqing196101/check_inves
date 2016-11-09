@@ -2,6 +2,7 @@ package bss.service.sstps;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.Select;
@@ -116,9 +117,10 @@ public interface AppraisalContractService {
 	 */
 	List<AppraisalContract> selectStatisical(AppraisalContract record);
 	
-	
 	List<Select> selectChose(String purchaseType);
 	
 	public void updateAppeal(String id);
+	
+	public List<AppraisalContract> selectAppraisalContractByContractId(Map<String, Object> map);
   
 }
