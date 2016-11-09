@@ -124,13 +124,13 @@
 							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
 							              <td class="tc">${lq.quotePrice }</td>
 							              <td class="tc">${lq.total }</td>
-							              <td class="tc"><fmt:formatDate value="${lq.delivery }" pattern="YYYY-MM-dd"/></td>
+							              <td class="tc"><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd"/></td>
 							              <td class="tc">${lq.remark }</td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>
 							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
-							         	<td class="tl" colspan="7"></td>
+							         	<td class="tl" colspan="8"></td>
 							         </tr>
 							      </table>
 		                    </div>
@@ -162,13 +162,13 @@
 							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
 							              <td class="tc">${lq.quotePrice }</td>
 							              <td class="tc">${lq.total }</td>
-							              <td class="tc"><fmt:formatDate value="${lq.delivery }" pattern="YYYY-MM-dd"/></td>
+							              <td class="tc"><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd"/></td>
 							              <td class="tc">${lq.remark }</td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>
 							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
-							         	<td class="tl" colspan="7"></td>
+							         	<td class="tl" colspan="8"></td>
 							         </tr>
 							      </table>
 	                 	  </div>
