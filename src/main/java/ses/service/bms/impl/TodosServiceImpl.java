@@ -108,12 +108,13 @@ public class TodosServiceImpl implements TodosService {
     @Override
     public  List<String> getPermisssion(String userId) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
-        String gysdb = config.getString("gysdb");
+        String gyscs = config.getString("gyscs");
+        String gysfs = config.getString("gysfs");
         String zjdb = config.getString("zjdb");
         Map<String, Object> pMap = new HashMap<String, Object>();
         List<String> listUserPermission=null;
-        if (gysdb != null && zjdb != null){
-            String[] db = {gysdb, zjdb};
+        if (gyscs != null && zjdb != null && gysfs != null){
+            String[] db = {gyscs, gysfs, zjdb};
             pMap.put("id", userId);
             pMap.put("db", db);
             listUserPermission = mapper.listUserPermission(pMap);

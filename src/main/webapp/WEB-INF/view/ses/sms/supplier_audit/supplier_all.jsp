@@ -124,6 +124,7 @@
       <div class="p10_25">
         <form action="${pageContext.request.contextPath}/supplierAudit/supplierAll.html"  method="post" id="form1" class="padding-10 border1 mb0"> 
         <input type="hidden" name="page" id="page">
+        <input type="hidden" name="sign" value="${sign}">
           <ul class="demand_list">
             <li class="fl">
               <label class="fl mt5">供应商名称：</label> 

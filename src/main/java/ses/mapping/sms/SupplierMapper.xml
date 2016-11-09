@@ -737,6 +737,12 @@
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
+		<if test="sign == 1">
+      and (t1.STATUS = 0 or t1.STATUS = 2 or t1.STATUS = 7 or t1.STATUS = 8)
+    </if>
+    <if test="sign == 2">
+      and (t1.STATUS = 1 or t1.STATUS = 3 or t1.STATUS = 4)
+    </if>
 		<if test="status != null">
 			and STATUS = #{status}
 		</if>

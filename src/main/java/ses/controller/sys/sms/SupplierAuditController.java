@@ -519,7 +519,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
-			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			todos.setPowerId(PropUtil.getProperty("gsyfs"));
 			//url
 			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
 			//类型
@@ -555,7 +555,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
-			todos.setPowerId(PropUtil.getProperty("gysdb"));
+			todos.setPowerId(PropUtil.getProperty("gyscs"));
 			//url
 			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
 			//类型
@@ -816,7 +816,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierAll));
 		request.setAttribute("supplierAll", supplierAll);
-		
+
 		//所有供应商类型
 		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
 		request.setAttribute("supplierType", supplierType);
@@ -826,6 +826,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		Integer status = supplier.getStatus();
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
+		request.setAttribute("sign", supplier.getSign());
 		return "ses/sms/supplier_audit/supplier_all";
 	}	
 }

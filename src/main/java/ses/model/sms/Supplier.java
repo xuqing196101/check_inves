@@ -490,6 +490,8 @@ public class Supplier implements Serializable {
 	private String identifyCode;
 	
 	private List<String> itemType;
+	
+	private Integer sign;
 
 	public List<String> getItemType() {
 		return itemType;
@@ -1122,4 +1124,13 @@ public class Supplier implements Serializable {
 	public void setIdentifyCode(String identifyCode) {
 		this.identifyCode = identifyCode;
 	}
+
+	public Integer getSign() {
+		return sign;
+	}
+
+	public void setSign(Integer sign) {
+		this.sign = sign;
+	}
+	
 }

@@ -148,7 +148,7 @@ alert(supplierInspectListFile);
 	                <input name="supplierId" value="${supplierId}" type="hidden">
 	            </form>
 	            <c:if test="${status==1 }">
-	            <h2 class="f16 jbxx1">
+	            <h2 class="f16 jbxx mt40">
 	              <i>01</i>问题汇总
 	            </h2>
 	            </c:if>
@@ -201,7 +201,7 @@ alert(supplierInspectListFile);
 	          </div>
 	          <c:if test="${status==1 }">
 	          <div class=" margin-bottom-0 fl">
-				       <h2 class="f16 jbxx1">
+				       <h2 class="f16 jbxx mt40">
 				        <i>02</i>供应商考察表
 				       </h2>
 				      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
