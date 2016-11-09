@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseInfo;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.PurchaseServiceI;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -112,6 +114,8 @@ public class ProjectController extends BaseController {
     private CollectPurchaseService conllectPurchaseService;
     @Autowired
     private ProjectTaskService projectTaskService;
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataService;
 
     /**
      * 〈简述〉 〈详细描述〉
@@ -126,9 +130,6 @@ public class ProjectController extends BaseController {
     public String list(Integer page, Model model, Project project, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
         List<Project> list = projectService.list(page == null ? 1 : page, project);
-        for (Project project2 : list) {
-            model.addAttribute("IsRehearse", project2.getIsRehearse());
-        }
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
@@ -202,7 +203,15 @@ public class ProjectController extends BaseController {
     
     
     
-    
+    /**
+     * 
+     *〈预研项目选择采购明细〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param purchaseRequired
+     * @param model
+     * @return
+     */
     @RequestMapping("/addDetail")
     public String addDetail(PurchaseRequired purchaseRequired,Model model) {
         List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,0);
@@ -210,7 +219,93 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/addDetail";
     }
     
+    @RequestMapping("/save")
+    public String save(String id, String name, String projectNumber, Model model){
+        Project project = new Project();
+        if(name != null && projectNumber != null){
+            project.setName(name);
+            project.setProjectNumber(projectNumber);
+            project.setCreateAt(new Date());
+            project.setStatus(3);
+            project.setIsRehearse(1);
+            String[] ids = id.split(",");
+            PurchaseRequired required = purchaseRequiredService.queryById(ids[0]);
+            if(required.getGoodsUse() != null){
+                project.setIsImport(1);
+            }else{
+                project.setIsImport(0);
+            }
+            project.setPurchaseType(required.getPurchaseType());
+            projectService.add(project); 
+            for (int i = 0; i < ids.length; i++ ) {
+                ProjectDetail projectDetail = new ProjectDetail();
+                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+                projectDetail.setRequiredId(purchaseRequired.getId());
+                projectDetail.setSerialNumber(purchaseRequired.getSeq());
+                projectDetail.setDepartment(purchaseRequired.getDepartment());
+                projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+                projectDetail.setStand(purchaseRequired.getStand());
+                projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+                projectDetail.setItem(purchaseRequired.getItem());
+                projectDetail.setCreatedAt(new Date());
+                projectDetail.setProject(new Project(project.getId()));
+                if (purchaseRequired.getPurchaseCount() != null) {
+                    projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+                }
+                if (purchaseRequired.getPrice() != null) {
+                    projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+                }
+                if (purchaseRequired.getBudget() != null) {
+                    projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+                }
+                if (purchaseRequired.getDeliverDate() != null) {
+                    projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+                }
+                if (purchaseRequired.getPurchaseType() != null) {
+                    projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+                }
+                if (purchaseRequired.getSupplier() != null) {
+                    projectDetail.setSupplier(purchaseRequired.getSupplier());
+                }
+                if (purchaseRequired.getIsFreeTax() != null) {
+                    projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+                }
+                if (purchaseRequired.getGoodsUse() != null) {
+                    projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+                }
+                if (purchaseRequired.getUseUnit() != null) {
+                    projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+                }
+                if (purchaseRequired.getParentId() != null) {
+                    projectDetail.setParentId(purchaseRequired.getParentId());
+                }
+                if (purchaseRequired.getDetailStatus() != null) {
+                    projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
+                }
+                projectDetail.setPosition(i);
+                i++;
+                detailService.insert(projectDetail);
+            }
+        }
+        return null;
+    }
     
+    
+    /**
+     * 
+     *〈添加明细〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param chkItem
+     * @param token2
+     * @param list
+     * @param name
+     * @param projectNumber
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/create")
     public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
@@ -226,14 +321,18 @@ public class ProjectController extends BaseController {
                 return "redirect:list.html";
             }
             //新增项目信息
-            if(chkItem != null){
             Project project = new Project();
             if(name != null && projectNumber != null){
                 project.setName(name);
                 project.setProjectNumber(projectNumber);
                 project.setCreateAt(new Date());
                 project.setStatus(3);
-                project.setIsRehearse(0);
+                if(chkItem != null){
+                    project.setIsRehearse(0);
+                }else{
+                    project.setIsRehearse(1);
+                }
+                
                 if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
                     project.setIsImport(1);
                 }else{
@@ -305,7 +404,7 @@ public class ProjectController extends BaseController {
                 }
                 
             }
-           } 
+            
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -417,6 +516,18 @@ public class ProjectController extends BaseController {
         model.addAttribute("project", project);
         return "bss/ppms/project/editDetail";
     }
+    
+    @RequestMapping("/addProject")
+    public String addProject(String id, String bidAddress, Date bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+        Project project = projectService.selectById(id);
+        project.setLinkman(linkman);
+        project.setLinkmanIpone(linkmanIpone);
+        project.setSupplierNumber(supplierNumber);
+        project.setBidAddress(bidAddress);
+        project.setBidDate(bidDate);
+        projectService.update(project);
+        return "redirect:excute.html?id="+id;
+    }
 
     /**
      * 
@@ -433,8 +544,12 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         map.put("purchaseDepName", project.getPurchaseDepName());
         List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
+        DictionaryData dictionaryData=new DictionaryData();
+        dictionaryData.setCode("CGJH_ADJUST");
+        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
         model.addAttribute("purchaseInfo", purchaseInfo);
         model.addAttribute("project", project);
+        model.addAttribute("dataId", dataId);
         return "bss/ppms/project/upload";
     }
 
@@ -450,13 +565,12 @@ public class ProjectController extends BaseController {
      * @return 跳转流程页面
      */
     @RequestMapping("/start")
-    public String start(@RequestParam("attach") MultipartFile[] attach, 
-                        Project project, String principal, HttpServletRequest request) {
+    public String start(String id, String principal, HttpServletRequest request) {
+        Project project = projectService.selectById(id);
         project.setPrincipal(principal);
         project.setStatus(1);
         project.setStartTime(new Date());
         projectService.update(project);
-        upfile(attach, request, project);
         return "redirect:excute.html?id=" + project.getId();
     }
     
@@ -730,7 +844,7 @@ public class ProjectController extends BaseController {
     }
     
     
-    @RequestMapping("/file")
+    /*@RequestMapping("/file")
     @ResponseBody
     public String file(@RequestParam("attach") MultipartFile[] attach, 
                         String id, HttpServletRequest request) {
@@ -738,55 +852,9 @@ public class ProjectController extends BaseController {
           upfile(attach, request, project);
           String msg = "{\"msg\":\"success\"}";
           return msg;
-    }
+    }*/
 
-    /**
-     * @Title: upfile
-     * @author FengTian
-     * @date 2016-10-8 下午2:18:09
-     * @Description: 上传
-     * @param @param attach
-     * @param @param request
-     * @param @param project
-     * @return void
-     */
-    public void upfile(MultipartFile[] attach, HttpServletRequest request, Project project) {
-        if (attach != null) {
-            for (int i = 0; i < attach.length; i++ ) {
-                if (attach[i].getOriginalFilename() != null
-                    && attach[i].getOriginalFilename() != "") {
-                    String rootpath = (request.getSession().getServletContext().getRealPath("/") + "upload/").replace(
-                        "\\", "/");
-                    /** 创建文件夹 */
-                    File rootfile = new File(rootpath);
-                    if (!rootfile.exists()) {
-                        rootfile.mkdirs();
-                    }
-                    String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase()
-                                      + "_" + attach[i].getOriginalFilename();
-                    String filePath = rootpath + fileName;
-                    File file = new File(filePath);
-                    try {
-                        attach[i].transferTo(file);
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    ProjectAttachments attachment = new ProjectAttachments();
-                    attachment.setProject(new Project(project.getId()));
-                    attachment.setFileName(fileName);
-                    attachment.setCreatedAt(new Date());
-                    attachment.setUpdatedAt(new Date());
-                    attachment.setContentType(attach[i].getContentType());
-                    attachment.setFileSize((float)attach[i].getSize());
-                    attachment.setAttachmentPath(filePath);
-                    attachmentsService.save(attachment);
-                }
-            }
-        }
-    }
-
+    
     /**
      * Description: 根据项目的采购方式进入不同的实施页面
      * 

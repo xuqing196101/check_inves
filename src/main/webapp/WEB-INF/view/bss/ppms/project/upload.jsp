@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="/tld/upload" prefix="f"%>
 <%@ include file="../../../common.jsp"%>
 
 
@@ -20,11 +21,7 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript">
-function start(id){
-            var attach = $("input[name='attach']").val();
-            if(!attach){
-                layer.alert("请上传凭证",{offset: ['50px','90px'], shade:0.01});
-            }else{
+function start(){
              layer.confirm('您确认要启动项目吗?',{
                 offset: ['50px','90px'],
                 shade:0.01,
@@ -37,7 +34,6 @@ function start(id){
                 }
                     
             ); 
-            }
                
 }
 function cancel(){
@@ -50,13 +46,11 @@ function cancel(){
 
 <body>
     <form id="att" action="${pageContext.request.contextPath}/project/start.html" id="myForm"
-        method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
+        method="post" name="form1" class="simple" target="_parent">
         <input type="hidden" name="id" value="${project.id}"/>
         <span class="f14 fl">上传项目批文：</span>
-        <div class="fl" id="uploadAttach" >
-          <input id="pic" type="file" class="toinline" name="attach"/>
-        </div>
-        <br/><br/><br/>
+        <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
+        <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
         <span class="f14 fl">项目负责人：</span>
         <div class="fl" id="name" >
           <select name="principal" style="width:100px" id="select">
@@ -67,7 +61,7 @@ function cancel(){
          </select> 
         </div>
         <br/><br/><br/><br/><br/><br/><br/>
-     <a class="btn btn-windows save" onclick="start('${project.id}');">确认</a>
+     <a class="btn btn-windows save" onclick="start();">确认</a>
          <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
     </form>
 </body>

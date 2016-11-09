@@ -40,7 +40,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
     <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
+    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>
+    var globalPath = "${contextPath}";
+</script>
  
   <script type="text/javascript">
   
@@ -112,18 +115,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        $("#ids").val(id);
         if(id.length==1){
            layer.open({
-          type: 1, //page层
-          area: ['500px', '300px'],
-          title: '您是要取消任务吗？',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
-          shadeClose: true,
-          content: $("#delTask")
+                type : 2, //page层
+                area : [ '500px', '300px' ],
+                title : '您是要取消任务吗？',
+                shade : 0.01, //遮罩透明度
+                moveType : 1, //拖拽风格，0是默认，1是传统拖动
+                shift : 1, //0-6的动画形式，-1不开启
+                offset : [ '220px', '630px' ],
+                shadeClose : true,
+                content:'${pageContext.request.contextPath}/task/delTask.html?id='+id,
         });
             
         }else if(id.length>1){
@@ -331,8 +333,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table>
      </div>
         <div id="delTask" style="display: none;">
-	        <input type="hidden" id="ids" name="id"/>
-	        <f:upload businessId="" sysKey="2"/>
+	        <f:upload id="upload_id" businessId="222" sysKey="2"/>
+	        <f:show showId="" businessId="" sysKey=""/>
         </div>
    </div>
       <div id="pagediv" align="right"></div>

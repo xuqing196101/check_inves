@@ -1,41 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	<title>Coloring events</title>
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script src="<%=basePath%>public/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-		 <script src="<%=basePath%>public/codebase/locale/recurring/locale_recurring_cn.js" type="text/javascript" charset="utf-8"></script>
-	
-	 <script src="<%=basePath%>public/codebase/locale/locale_cn.js" type="text/javascript" charset="utf-8"></script>
-	 
-	<link rel="stylesheet" href="<%=basePath%>public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	<link href="<%=basePath%>public/usertask/css/usertask.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
- <script src="<%=basePath%>public/layer/layer.js"></script>
-	 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
-	<style type="text/css" media="screen">
-	
-	</style>
-
+	<script src="${pageContext.request.contextPath}/public/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+     <script src="${pageContext.request.contextPath}/public/codebase/locale/recurring/locale_recurring_cn.js" type="text/javascript" charset="utf-8"></script>
+	 <script src="${pageContext.request.contextPath}/public/codebase/locale/locale_cn.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<link href="${pageContext.request.contextPath}/public/usertask/css/usertask.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 	<script type="text/javascript" charset="utf-8">
 	
 	scheduler.locale = {  
@@ -167,7 +143,7 @@ scheduler.attachEvent("onEventChanged", function(event_id, event_object){
     $("#ulevel").val(sub);
     
     $.ajax({
-    	url:"<%=basePath%>usertask/update.html",
+    	url:"${pageContext.request.contextPath}/usertask/update.html",
     	type:"post",
     	data:$("#usertask_form").serialize(),
     	success:function(data){
@@ -198,7 +174,7 @@ scheduler.attachEvent("onEventAdded", function(event_id, event_object){
     $("#uendDate").val(end_date);
     $("#ulevel").val(sub);
     $.ajax({
-    	url:"<%=basePath%>usertask/add.html",
+    	url:"${pageContext.request.contextPath}/usertask/add.html",
     	type:"post",
     	data:$("#usertask_form").serialize(),
     	success:function(data){
@@ -221,7 +197,7 @@ scheduler.attachEvent("onBeforeEventDelete", function(event_id, event_object){
     var end_date = event_object.end_date;
     var details = event_object.subject;
     $.ajax({
-    	url:"<%=basePath%>usertask/delet.html",
+    	url:"${pageContext.request.contextPath}/usertask/delet.html",
     	type:"post",
     	data:{
     		"id":id
@@ -247,7 +223,7 @@ function dataTstring(date){
 scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date){
     
 	if(old_date!=null){
-		window.location.href='<%=basePath%>usertask/getmonth.do?date='+date;
+		window.location.href='${pageContext.request.contextPath}/usertask/getmonth.do?date='+date;
 	}
  
     return true;
@@ -261,7 +237,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 	if(ev!=null){
 		var id = event_id;
 		 $.ajax({
-		    	url:"<%=basePath%>usertask/detail.html",
+		    	url:"${pageContext.request.contextPath}/usertask/detail.html",
 		    	type:"post",
 		    	data:{
 		    		id:id
@@ -318,7 +294,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 
 
 	
-	<form id="usertask_form" action="<%=basePath%>usertask/add.do" method="post">
+	<form id="usertask_form" action="${pageContext.request.contextPath}/usertask/add.do" method="post">
 	<input type="hidden" name="id" id="uid">
 	<input type="hidden" name="content" id="ucontent">
 	<input type="hidden" name="startDate" id="ustartDate">

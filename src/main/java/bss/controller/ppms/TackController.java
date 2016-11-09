@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
+
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
@@ -68,6 +71,8 @@ public class TackController extends BaseController{
 	private ProjectDetailService detailService;
 	 @Autowired
 	private PackageService packageService;
+	 @Autowired
+	private DictionaryDataServiceI dictionaryDataService;
 	
 	/**
 	 * 
@@ -90,42 +95,6 @@ public class TackController extends BaseController{
 	}
 	
 	
-	public void upfile( MultipartFile[] attach,
-            HttpServletRequest request,Task task){
-		if(attach!=null){
-			for(int i=0;i<attach.length;i++){
-				if(attach[i].getOriginalFilename()!=null && attach[i].getOriginalFilename()!=""){
-			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
-			        /** 创建文件夹 */
-					File rootfile = new File(rootpath);
-					if (!rootfile.exists()) {
-						rootfile.mkdirs();
-					}
-			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attach[i].getOriginalFilename();
-			        String filePath = rootpath+fileName;
-			        File file = new File(filePath);
-			        try {
-			        	attach[i].transferTo(file);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					TaskAttachments attachment=new TaskAttachments();
-					attachment.setTask(new Task(task.getId()));
-					attachment.setFileName(fileName);
-					attachment.setCreatedAt(new Date());
-					attachment.setUpdatedAt(new Date());
-					attachment.setContentType(attach[i].getContentType());
-					attachment.setFileSize((float)attach[i].getSize());
-					attachment.setAttachmentPath(filePath);
-					taskAttachmentsService.save(attachment);
-				}
-			}
-		}
-	
-		
-	}
 	/**
 	 * 
 	* @Title: delTask
@@ -140,13 +109,23 @@ public class TackController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/delTask")
-	public String delTask(@RequestParam("attach") MultipartFile[] attach,Task task,HttpServletRequest request,String id){
-    	task = taskservice.selectById(id);
-    	task.setStatus(2);
-    	taskservice.update(task);
-		upfile(attach, request, task);
-		return "redirect:list.html";
+	public String delTask(Model model,String id){
+    	Task task = taskservice.selectById(id);
+    	DictionaryData dictionaryData=new DictionaryData();
+    	dictionaryData.setCode("CGJH_ADJUST");
+        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
+        model.addAttribute("task", task);
+        model.addAttribute("dataId", dataId);
+		return "bss/ppms/task/upload";
 	}
+	
+	@RequestMapping("/deleteTask")
+    public String deleteTask(Model model,String id){
+        Task task = taskservice.selectById(id);
+        task.setStatus(2);
+        taskservice.update(task);
+        return "redirect:list.html";
+    }
 	
 	
 	/**
@@ -192,6 +171,10 @@ public class TackController extends BaseController{
 	        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
 	        listp.addAll(list2);
 	    }
+	    DictionaryData dictionaryData=new DictionaryData();
+        dictionaryData.setCode("CGJH_ADJUST");
+        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
+        model.addAttribute("dataId", dataId);
 	    model.addAttribute("task", task);
 	    model.addAttribute("lists", listp);
 	    model.addAttribute("queryById", queryById);
@@ -229,9 +212,8 @@ public class TackController extends BaseController{
 	
 	
 	@RequestMapping("/update")
-    public String updateById(@RequestParam("attach") MultipartFile[] attach, String ide, String fileName, String planNo,
+    public String updateById(String ide, String fileName, String planNo,
                              Task task,PurchaseRequiredFormBean list, HttpServletRequest request){
-	    upfile(attach, request, task);
 	    CollectPlan collectPlan = collectPlanService.queryById(ide);
 	    collectPlan.setFileName(fileName);
 	    collectPlan.setPlanNo(planNo);

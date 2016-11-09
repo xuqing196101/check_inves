@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-    <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+<%@ include file="../../../common.jsp"%>
+<%
+String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -20,31 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-    
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lodop/LodopFuncs.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
     <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
   
    /** 全选全不选 */
@@ -73,6 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         if (!goodUse) {
             goodUse = null;
         }
+         if (!purchaseType) {
+            purchaseType = null;
+        }
         var id = $(ele).val();
         $.ajax({
                     url:"${pageContext.request.contextPath}/project/checkDeail.html",
@@ -80,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     type:"post",
                     dataType:"json",
                     success:function(result){
-                        for (var i = 0; i < result.length; i++) {
+                         for (var i = 0; i < result.length; i++) {
                            $("input[name='chkItem']").each(function() {
                                 var v1 = result[i].id;
                                 var v3 = result[i].purchaseType;
@@ -94,6 +74,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                          }
                            });
                         } 
+                         $("input[name='chkItem']:checked").each(function() {
+                            var currpurchaseType = $(this).parents("tr").find("td").eq(10).text();
+                            currpurchaseType = $.trim(currpurchaseType);
+                            if (!currpurchaseType) {
+                                currpurchaseType = null;
+                            }
+                            if (currpurchaseType != purchaseType) {
+                                $(this).prop("checked", false);
+                                layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
+                            }
+                       });
                       $("input[name='chkItem']:checked").each(function() {
                             var currGoodUse = $(this).parents("tr").find("td").eq(13).text();
                             currGoodUse = $.trim(currGoodUse);
@@ -146,7 +137,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="container">
 <!-- 项目戳开始 -->
      <div class="clear"></div>
-
+     <div class="col-md-12 tab-pane active">
+      <h1 class="f16 count_flow">
+      <i>01</i>
+                        请填写信息
+      </h1>
+   </div>
+            <%
+            session.setAttribute("tokenSession", tokenValue);
+         %>
+         <input type="hidden"  name="token2" value="<%=tokenValue%>">
+            <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目名称：</span>
+        <div class="fl" >
+          <input id="pic" type="text" class="toinline" name="name"/>
+          &nbsp;&nbsp;
+        </div>
+        
+         <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目编号：</span>
+        <div class="fl" >
+          <input id="pc" type="text" class="toinline" name="projectNumber"/>
+        </div>
+     
+  
+      <div class="col-md-12 tab-pane active">
+      <h1 class="f16 count_flow">
+      <i>02</i>
+                        选择采购明细
+      </h1>
+   </div>
      
      <div class="container">
           <div class="col-md-8">
@@ -179,7 +197,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </tr>
         </thead>
             <tbody id="tbody_id">
-          <c:forEach items="${lists}" var="obj" varStatus="vs">
+          <c:forEach items="${info}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
@@ -191,7 +209,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.price}</td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc"> ${obj.purchaseType}</td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
@@ -211,9 +229,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <form id="save_form_id" action="${pageContext.request.contextPath}/project/add.html" method="post" target="_parent">
+ <form id="save_form_id" action="${pageContext.request.contextPath}/project/create.html" method="post" target="_parent">
     <input id="detail_id" name="id" type="hidden" />
-    <input  name="checkedIds" value="${checkedIds}" type="hidden" />
  </form> 
      </body>
 </html>

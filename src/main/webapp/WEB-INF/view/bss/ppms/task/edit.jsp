@@ -2,48 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-    <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ taglib uri="/tld/upload" prefix="f"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     
     
     <title>任务管理</title>  
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
-    
-    
-
-
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
   <script type="text/javascript">
   
   
@@ -215,10 +181,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         
         function delTask(id){
-          layer.msg("修改成功",{offset: ['222px', '690px']});
-             window.setTimeout(function(){
                   $("#form1").submit();
-            }, 1000);
 		}
 		function cancel(){
 		     layer.closeAll();
@@ -243,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>采购计划调整</h2>
    </div>
 <!-- 项目戳开始 -->
-<form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
    <div class="container clear">
     <div class="p10_25">
      <h2 class="padding-10">
@@ -375,20 +338,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       </table>
       
-          <div id="file" style="display: none;">
+           <div id="file" style="display: none;">
     
         <input type="hidden" name="id" value="${task.id}"/>
-        <span class="f14 fl">上传附件：</span>
-        <div class="fl" id="uploadAttach" >
-          <input id="pic" type="file" class="toinline" name="attach"/>
-        
-        </div>
+         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
         <br/><br/><br/>
         <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
          <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
    
     
-    </div>
+    </div> 
     
     
       
