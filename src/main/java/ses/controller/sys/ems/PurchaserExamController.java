@@ -1992,13 +1992,17 @@ public class PurchaserExamController extends BaseSupplierController{
 	public String queryReferenceByCondition(HttpServletRequest request){
 		String userName = request.getParameter("userName");
 		String card = request.getParameter("card");
+		String depName = request.getParameter("depName");
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String str = null;
-		if(userName!=null&&userName!=""){
+		if(userName!=null&&!userName.equals("")){
 			map.put("relName", userName);
 		}
-		if(card!=null&&card!=""){
+		if(card!=null&&!card.equals("")){
 			map.put("idCard", card);
+		}
+		if(depName!=null&&!depName.equals("")){
+			map.put("purchaseDepName",depName);
 		}
 		List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
 		if(purchaser.size()==0){
@@ -2009,17 +2013,31 @@ public class PurchaserExamController extends BaseSupplierController{
 		return str;
 	}
 	
+	/**
+	 * 
+	* @Title: getReference
+	* @author ZhaoBo
+	* @date 2016-11-8 下午3:50:05  
+	* @Description: 查找采购人 
+	* @param @param request
+	* @param @return      
+	* @return List<PurchaseInfo>
+	 */
 	@RequestMapping("/getReference")
 	@ResponseBody
 	public List<PurchaseInfo> getReference(HttpServletRequest request){
 		String userName = request.getParameter("userName");
 		String card = request.getParameter("card");
+		String depName = request.getParameter("depName");
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		if(userName!=null&&userName!=""){
+		if(userName!=null&&!userName.equals("")){
 			map.put("relName", userName);
 		}
-		if(card!=null&&card!=""){
+		if(card!=null&&!card.equals("")){
 			map.put("idCard", card);
+		}
+		if(depName!=null&&!depName.equals("")){
+			map.put("purchaseDepName",depName);
 		}
 		List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
 		return purchaser;
@@ -2037,76 +2055,90 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/addReferenceById")
-	@ResponseBody
-	public String addReferenceById(HttpServletRequest request,ExamPaperUser examPaperUser){
+	public void addReferenceById(HttpServletRequest request,ExamPaperUser examPaperUser,HttpServletResponse response){
 		String paperId = request.getParameter("paperId");
-		String relName = request.getParameter("relName");
-		String card = request.getParameter("card");
+		String[] id = request.getParameter("id").split(","); 
 		ExamPaper paperDo = examPaperService.selectByPrimaryKey(paperId);
-		String str = null;
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("relName", relName);
-		map.put("idCard", card);
-		List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
-		ExamPaperUser userId = new ExamPaperUser();
-		userId.setUserId(purchaser.get(0).getUserId());
-		List<ExamPaperUser> userOfPaper = examPaperUserService.getAllPaperByUserId(userId);
-		HashMap<String, Object> p_id = new HashMap<String,Object>();
-		p_id.put("paperId", paperId);
-		List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(p_id);
-		if(paperUserList.size()==0){
-			if(userOfPaper.size()==0){
-				insertReference(purchaser.get(0).getUserId(), paperId, purchaser.get(0).getPurchaseDepName(),purchaser.get(0).getIdCard(),paperDo.getCode());
-				str = "1";
-			}else{
-				for(int i=0;i<userOfPaper.size();i++){
-					ExamPaper paper = examPaperService.selectByPrimaryKey(userOfPaper.get(i).getPaperId());
-					Date startTime = paper.getStartTime();
-				    Date offTime = paper.getOffTime();
-				    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
-					Date newStartTime = selectedPaper.getStartTime();
-					Date newOffTime = selectedPaper.getOffTime();
-				    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newOffTime.getTime())
-				    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=offTime.getTime())){
-				    	str = "3";
-				    	break;
-				    }else if(i==userOfPaper.size()-1){
-				    	insertReference(purchaser.get(0).getUserId(), paperId, purchaser.get(0).getPurchaseDepName(),purchaser.get(0).getIdCard(),paperDo.getCode());
+		String str = "";
+		String errorNews = "";
+		outer:
+		for(int i=0;i<id.length;i++){
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", id[i]);
+			List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
+			HashMap<String, Object> p_id = new HashMap<String,Object>();
+			p_id.put("paperId", paperId);
+			//查询一份考卷所有的参看人员
+			List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(p_id);
+			if(paperUserList.size()!=0){
+				first:
+				for(int j=0;j<paperUserList.size();j++){
+					if(id[i].equals(paperUserList.get(j).getUserId())){
 						str = "1";
-				    }
+						errorNews = errorNews + purchaser.get(0).getRelName().toString()+","+purchaser.get(0).getPurchaseDepName().toString()+","+purchaser.get(0).getIdCard().toString()+";";
+						break first;
+					}
 				}
 			}
-		}else{
-			for(int i=0;i<paperUserList.size();i++){
-				if(paperUserList.get(i).getUserId().equals(purchaser.get(0).getUserId())){
-					str = "2";
-					break;
-				}else if(i==paperUserList.size()-1){
-					if(userOfPaper.size()==0){
-						insertReference(purchaser.get(0).getUserId(), paperId, purchaser.get(0).getPurchaseDepName(),purchaser.get(0).getIdCard(),paperDo.getCode());
-						str = "1";
-					}else{
-						for(int j=0;j<userOfPaper.size();j++){
-							ExamPaper paper = examPaperService.selectByPrimaryKey(userOfPaper.get(i).getPaperId());
-							Date startTime = paper.getStartTime();
-						    Date offTime = paper.getOffTime();
-						    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
-							Date newStartTime = selectedPaper.getStartTime();
-						    Date newOffTime = selectedPaper.getOffTime();
-						    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newOffTime.getTime())
-						    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=offTime.getTime())){
-						    	str = "3";
-							    	break;
-						    }else if(j==userOfPaper.size()-1){
-						    	insertReference(purchaser.get(0).getUserId(), paperId, purchaser.get(0).getPurchaseDepName(),purchaser.get(0).getIdCard(),paperDo.getCode());
-								str = "1";
-						    }
+			if(i==id.length-1){
+				if(str.equals("1")){
+					errorNews = errorNews + "1";
+					break outer;
+				}else{
+					for(int j=0;j<id.length;j++){
+						HashMap<String,Object> mapT = new HashMap<String,Object>();
+						mapT.put("userId", id[j]);
+						List<PurchaseInfo> purchaserT = purchaseService.findPurchaseList(mapT);
+						ExamPaperUser userId = new ExamPaperUser();
+						userId.setUserId(id[j]);
+						//获取用户参与的考卷
+						List<ExamPaperUser> userOfPaper = examPaperUserService.getAllPaperByUserId(userId);
+						if(userOfPaper.size()!=0){
+							second:
+							for(int k=0;k<userOfPaper.size();k++){
+								ExamPaper paper = examPaperService.selectByPrimaryKey(userOfPaper.get(k).getPaperId());
+								Date startTime = paper.getStartTime();
+							    Date offTime = paper.getOffTime();
+							    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
+								Date newStartTime = selectedPaper.getStartTime();
+							    Date newOffTime = selectedPaper.getOffTime();
+							    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newOffTime.getTime())
+							    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=offTime.getTime())){
+							    	str = "2";
+							    	errorNews = errorNews + purchaserT.get(0).getRelName().toString()+","+purchaserT.get(0).getPurchaseDepName().toString()+","+purchaserT.get(0).getIdCard().toString()+";";
+								    break second;
+							    }
+							}
+						}
+						if(j==id.length-1){
+							if(str.equals("2")){
+								errorNews = errorNews+"2";
+								break outer;
+							}
 						}
 					}
 				}
 			}
 		}
-		return str;
+		List<ExamPaperReference> examPaperReference = new ArrayList<ExamPaperReference>();
+		if(str.equals("")){
+			 for(int i=0;i<id.length;i++) {
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("userId", id[i]);
+				List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
+				ExamPaperReference paperReference = new ExamPaperReference();
+				paperReference.setUserId(purchaser.get(0).getUserId());
+				paperReference.setPaperId(paperId);
+				paperReference.setUnitName(purchaser.get(0).getPurchaseDepName());
+				paperReference.setCard(purchaser.get(0).getIdCard());
+				examPaperReference.add(paperReference);
+			}	
+			for(int i=0;i<examPaperReference.size();i++){
+				insertReference(examPaperReference.get(i).getUserId(), paperId, examPaperReference.get(i).getUnitName(),examPaperReference.get(i).getCard(),paperDo.getCode());
+			}
+			errorNews = "0";
+		}
+		super.writeJson(response, errorNews);
 	}
 	
 	/**
@@ -2258,9 +2290,11 @@ public class PurchaserExamController extends BaseSupplierController{
 										    }
 										}
 									}
-									if(str.equals("3")){
-										referenceNews = referenceNews+"3";
-										break outer;
+									if(t==sheet.getPhysicalNumberOfRows()-1){
+										if(str.equals("3")){
+											referenceNews = referenceNews+"3";
+											break outer;
+										}
 									}
 								}
 							}

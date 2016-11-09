@@ -114,7 +114,7 @@ public class ExpertController {
 	public String view(@RequestParam("id")String id,Model model){
 		//查询出专家
 		Expert expert = service.selectByPrimaryKey(id);
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("id", expert.getPurchaseDepId());
 		map.put("typeName", "0");
 		//查询出采购机构
@@ -233,7 +233,7 @@ public class ExpertController {
 		String expertId = WfUtil.createUUID();
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		DictionaryData dd = new  DictionaryData();
-		Map<String,Object> typeMap = new HashMap<>();
+		Map<String,Object> typeMap = new HashMap<String,Object>();
 		for (int i = 0; i < 7; i++) {
 			if(i==0){
 				//身份证
@@ -343,7 +343,7 @@ public class ExpertController {
 	public String toShenHe(@RequestParam("id") String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		//查询出采购机构
-		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("id", expert.getPurchaseDepId());
 		map.put("typeName", "0");
 		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
@@ -412,7 +412,7 @@ public class ExpertController {
 			String typeId = user.getTypeId();
 			if(typeId!=null && StringUtils.isNotEmpty(typeId)){
 			Expert expert = service.selectByPrimaryKey(typeId);
-			HashMap<String, Object> map = new HashMap<>();
+			HashMap<String, Object> map = new HashMap<String,Object>();
 				 if(expert!=null){
 				 String purchaseDepId = expert.getPurchaseDepId();
 				 	if(purchaseDepId!=null && StringUtils.isNotEmpty(purchaseDepId)){
@@ -591,7 +591,7 @@ public class ExpertController {
 	@RequestMapping("/findAllExpert")
 	public String findAllExpert(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?0:page,expert);
-		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/list";
 	}
@@ -607,7 +607,7 @@ public class ExpertController {
 	@RequestMapping("/findAllExpertShenHe")
 	public String findAllExpertShenHe(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit_list";
 	}
@@ -624,7 +624,7 @@ public class ExpertController {
 	public String toShenHeExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("0");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit_list";
 	}
@@ -642,7 +642,7 @@ public class ExpertController {
 	public String toShenHeExpert2( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("1");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit_list";
 	}
@@ -659,7 +659,7 @@ public class ExpertController {
 	public String toShenHeExpert3( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("2");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit_list";
 	}
@@ -741,7 +741,7 @@ public class ExpertController {
 				if(user!=null && user.getTypeName()==5){
 					//获取专家id
 					String typeId = user.getTypeId();
-					Map<String, Object> map = new HashMap<>();
+					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("expertId", typeId);
 					//map.put("isAudit", 0);
 					map.put("isGather", 0);
@@ -749,11 +749,11 @@ public class ExpertController {
 					List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
 						HashMap<String,Object> hashMap ;
 						//该专家的所有包集合
-						List<Packages> packageList = new ArrayList<>();
+						List<Packages> packageList = new ArrayList<Packages>();
 						for (PackageExpert packageExpert :packageExpertList) {
 							//包id
 							String string = packageExpert.getPackageId();
-							hashMap = new HashMap<>();
+							hashMap = new HashMap<String,Object>();
 							hashMap.put("id", string);
 							List<Packages> packages = packageService.findPackageById(hashMap);
 							if(packages!=null && packages.size()>0){
@@ -762,7 +762,7 @@ public class ExpertController {
 						}
 						//循环包集合 根据包中的项目id 查询出项目集合
 						if(packageList!=null && packageList.size()>0){
-							List<ProjectExt> projectExtList = new ArrayList<>();
+							List<ProjectExt> projectExtList = new ArrayList<ProjectExt>();
 							ProjectExt projectExt ;
 							for (Packages packages : packageList) {
 								projectExt = new ProjectExt();
@@ -838,7 +838,7 @@ public class ExpertController {
 					  packageExpert.setIsAudit((short) 1);
 					  packageExpertService.updateByBean(packageExpert);
 				  }
-				  Map<String, Object> map2 = new HashMap<>();
+				  Map<String, Object> map2 = new HashMap<String, Object>();
 					map2.put("expertId", expertId);
 					map2.put("projectId", projectId);
 					map2.put("packageId", packageId);

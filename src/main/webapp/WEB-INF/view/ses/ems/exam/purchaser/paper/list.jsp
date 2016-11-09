@@ -198,8 +198,8 @@
     	<div class="col-md-12 pl20 mt10">
 	    	<input type="button" class="btn btn-windows add" value="新建考卷" onclick="addPaper()"/>
 	    	<input type="button" class="btn btn-windows edit" value="编辑" onclick="editPaper()"/>
-	    	<input type="button" class="btn btn-windows pl13" value="设置参考人员" onclick="setReference()"/>
-    		<input type="button" class="btn btn-windows pl13" value="查看成绩" onclick="viewScore()"/>
+	    	<input type="button" class="btn" value="设置参考人员" onclick="setReference()"/>
+    		<input type="button" class="btn" value="查看成绩" onclick="viewScore()"/>
     	</div>
     
     

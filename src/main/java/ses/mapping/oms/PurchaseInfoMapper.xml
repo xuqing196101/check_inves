@@ -40,25 +40,29 @@
 		  LEFT JOIN	T_SES_BMS_USER u on d.id = u.type_id
 		  LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
 		 where nvl(d.is_deleted,0)=0
-		 <if test="id != null">
+		 <if test="id != null and '' != id">
 			and d.id= #{id}
 		</if>
 		 
 		<!-- 根据采购机构名称id查询 -->
-		<if test="purchaseDepId != null">
+		<if test="purchaseDepId != null and '' != purchaseDepId">
 			and o.ID= #{purchaseDepId}
 		</if>
-		<if test="purchaseDepName != null">
+		<if test="purchaseDepName != null and '' != purchaseDepName">
 			and o.name like '%'||#{purchaseDepName}||'%' 
 		</if>
 		<!-- 根据用户表真实姓名查询 -->
-		<if test="relName != null">
+		<if test="relName != null and '' != relName">
 			and u.REL_NAME like '%'||#{relName}||'%' 
 		</if>
 		<!-- 根据用户身份证号查询 -->
-		<if test="idCard != null">
+		<if test="idCard != null and '' != idCard">
 			and d.ID_CARD= #{idCard}
-		</if>  
+		</if>
+		<!-- 根据用户ID查询 -->
+		<if test="userId != null and '' != userId">
+			and u.ID= #{userId}
+		</if>    
 	</select>
 	<!-- 保存采购机构 -->
 	<insert id="savePurchase" parameterType="ses.model.oms.PurchaseInfo">

@@ -41,8 +41,6 @@
 			});
 		})
 		
-		
-		
 		//Excel导入
 		function poiExcel(){
 			var paperId = $("#paperId").val();
@@ -207,20 +205,16 @@
 		function query(){
 			var userName = $("#userName").val();
 			var card = $("#card").val();
-			if(userName==""||userName==null){
-				layer.alert("请输入采购人姓名",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}
-			if(card==""||card==null){
-				layer.alert("请输入身份证号",{offset: ['222px', '390px']});
+			var depName = $("#depName").val();
+			if((userName==""||userName==null)&&(card==""||card==null)&&(depName==""||depName==null)){
+				layer.alert("请至少输入一个条件",{offset: ['222px', '390px']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"${pageContext.request.contextPath }/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
+				url:"${pageContext.request.contextPath }/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card+"&depName="+depName,
 			    success:function(data){
 			       	if(data==0){
 			       		layer.alert("没有查到符合条件的采购人",{offset: ['222px', '390px']});
@@ -230,13 +224,13 @@
 			       		$.ajax({
 							type:"POST",
 							dataType:"json",
-							url:"${pageContext.request.contextPath }/purchaserExam/getReference.do?userName="+userName+"&card="+card,
+							url:"${pageContext.request.contextPath }/purchaserExam/getReference.do?userName="+userName+"&card="+card+"&depName="+depName,
 						    success:function(data){
 						    	if(data){
 						    		var html = "";
 						    		for(var i=0;i<data.length;i++){
 						            	  html = html + "<tr class='tc'>";
-						            	  html = html + "<td><input type='checkbox' name='purchaserInfo' value='\""+data[i].userId+"\"'/></td>";
+						            	  html = html + "<td><input type='checkbox' name='purchaserInfo' value='"+data[i].userId+"'/></td>";
 						            	  html = html + "<td>"+data[i].relName+"</td>";
 						            	  html = html + "<td>"+data[i].idCard+"</td>";
 						            	  html = html + "<td>"+data[i].purchaseDepName+"</td>";
@@ -266,39 +260,93 @@
 		
 		//添加参考人员
 		function add(){
-			var userName = $("#userName").val();
-			var card = $("#card").val();
 			var paperId = $("#paperId").val();
 			var count = 0;
 			var ids = "";
 			var info = document.getElementsByName("purchaserInfo");
-			for(var i = 0;i<info.length;i++){
+			for(var i=0;i<info.length;i++){
 				if(info[i].checked == true){
 					count++;
 				}
 			}
-			if(count == 0){
+			if(count==0){
 				layer.alert("请选择一项",{offset: ['222px', '390px']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
+			for(var i=0;i<info.length;i++){
+				if(info[i].checked == true){
+					ids += info[i].value + ",";
+				}
+			}
 			$.ajax({
 				type:"POST",
-				dataType:"json",
-				url:"${pageContext.request.contextPath }/purchaserExam/addReferenceById.do?paperId="+paperId+"&relName="+userName+"&card="+card,
+				dataType:"text",
+				url:"${pageContext.request.contextPath }/purchaserExam/addReferenceById.do?paperId="+paperId+"&id="+ids,
 		       	success:function(data){
-			       if(data==2){
-			       		layer.alert("已经添加该采购人,请重新添加",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}else if(data==1){
-			       		layer.msg('添加成功',{offset: ['222px', '390px']});
-				       	window.setTimeout(function(){
+		       		if(data.length<=5){
+			    		layer.msg('添加成功',{offset: ['222px', '390px']});
+			    		window.setTimeout(function(){
 				       		window.location.reload();
 				       	}, 1000);
-			       	}else if(data==3){
-			       		layer.alert("该考生考试时间有冲突,请重新添加",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}
+			    	}else{
+			    		var array = data.split(";");
+			    		if(array[array.length-1].indexOf("1")>-1){
+			    			$("#errorNews").html("以下人员已经被添加到本场考试中");
+			    			var html = "";
+				    		for(var i=0;i<array.length-1;i++){
+				            	  html = html + "<tr class='tc'>";
+				            	  if(i==0){
+				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+				            	  }else{
+				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
+				            	  }
+				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
+				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
+				            	  html = html + "</tr>";
+				            }
+				    		$("#errResult").html(html);
+				    		layer.open({
+							 	type: 1, //page层
+								area: ['430px', '200px'],
+								closeBtn: 1,
+								shade:0.01, //遮罩透明度
+								moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								shift: 1, //0-6的动画形式，-1不开启
+								offset: ['120px', '550px'],
+								shadeClose: false,
+								content : $('#errorPurchaser')
+							});
+							$(".layui-layer-shade").remove();
+			    		}else if(array[array.length-1].indexOf("2")>-1){
+			    			$("#errorNews").html("以下人员考试时间有冲突");
+			    			var html = "";
+				    		for(var i=0;i<array.length-1;i++){
+				            	  html = html + "<tr class='tc'>";
+				            	  if(i==0){
+				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+				            	  }else{
+				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
+				            	  }
+				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
+				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
+				            	  html = html + "</tr>";
+				            }
+				    		$("#errResult").html(html);
+				    		layer.open({
+							 	type: 1, //page层
+								area: ['430px', '200px'],
+								closeBtn: 1,
+								shade:0.01, //遮罩透明度
+								moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								shift: 1, //0-6的动画形式，-1不开启
+								offset: ['120px', '550px'],
+								shadeClose: false,
+								content : $('#errorPurchaser')
+							});
+							$(".layui-layer-shade").remove();
+			    		}
+		       		}
 		       	}
 	       	});
 		}
@@ -308,9 +356,11 @@
         	layer.closeAll();
         }
 		
+		//重置结果
 		function resetResult(){
 			$("#userName").val("");
 			$("#card").val("");
+			$("#depName").val("");
 		}
 	</script>
 
@@ -318,69 +368,82 @@
   
   <body>
 	  	<!--面包屑导航开始-->
-	   <div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
+	   	<div class="margin-top-10 breadcrumbs">
+	      	<div class="container">
 			   <ul class="breadcrumb margin-left-0">
 			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考卷管理</a></li>
 			   </ul>
 			<div class="clear"></div>
-		  </div>
-	   </div>
-	<div class="container">
-		当前考卷编号:${examPaper.code }
-	</div>   
+		  	</div>
+	   	</div>
+		<div class="container">
+			考卷编号:${examPaper.code }
+		</div>   
   
   	<div class="container">
 	   <div class="headline-v2">
 	   		<h2>添加考试人员</h2>
 	   </div>
-   	</div>
-  	
-  	<div class="container">
-    	<div class="col-md-12 padding-left-25">
-	    	姓名:<input type="text" id="userName" name="userName" class="mt10 w80"/>
-	    	身份证号:<input type="text" id="card" name="card" class="mt10 w230"/>
-	    	<button class="btn btn-windows pl13" type="button" onclick="query()">查询</button>
-	    	<button class="btn btn-windows pl13" type="button" onclick="resetResult()">重置</button>
-	    	<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
-    	</div>
-    </div>
+  		
+  		<h2 class="search_detail">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">姓名：</label>
+			    	<span>
+			    		<input type="text" id="userName" name="userName"/>
+			    	</span>
+			    </li>
+			    <li>
+			    	<label class="fl">身份证号：</label>
+			    	<span>
+				    	<input type="text" id="card" name="card"/>
+			   		</span>
+			     </li>
+			     <li>
+			    	<label class="fl">采购机构：</label>
+			    	<span>
+				    	<input type="text" id="depName" name="depName"/>
+			   		</span>
+			     </li>
+			    <button class="btn" type="button" onclick="query()">查询</button>
+	    		<button class="btn" type="button" onclick="resetResult()">重置</button>
+		    </ul>
+		    <div class="clear"></div>
+	 	</h2>
     
-    <div class="container">
-	   <div class="headline-v2">
+	   	<div class="headline-v2">
 	   		<h2>参考人员列表</h2>
-	   </div>
-   	</div>
+	  	</div>
    	
-    <!-- 表格开始 -->
-    <div class="container">
-	    	<div class="fr padding-right-25">
-	    		<button class="btn" type="button" onclick="download()">人员模板下载</button>
-	    		<span class="">
-		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-		    	  	<input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
-	    	  	</span>
-	    	</div>
+		<!-- 按钮开始 -->
+		<div class="col-md-12 pl20 mt10">
+			<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
+		    <button class="btn" type="button" onclick="download()">人员模板下载</button>
+		    <span class="">
+			    <input type="file" name="file" id="excelFile" style="display:inline;"/>
+			    <input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
+		    </span>
+	    </div>
     
-  		<div class="content padding-left-25 padding-right-25">
+  		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
-					<tr>
-						<th class="info w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-						<th class="info w50">序号</th>
-						<th class="info">姓名</th>
-						<th class="info">身份证号</th>
-						<th class="info">所属单位</th>
+					<tr class="info">
+						<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+						<th class="w50">序号</th>
+						<th>姓名</th>
+						<th>身份证号</th>
+						<th>所属单位</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${paperUserList.list }" var="paper" varStatus="vs">
-						<tr>
-							<td class="tc"><input type="checkbox" name="info" value="${paper.id }"/></td>
-							<td class="tc">${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
-							<td class="tc">${paper.userName }</td>
-							<td class="tc">${paper.card }</td>
-							<td class="tc">${paper.unitName }</td>
+						<tr class="tc">
+							<td><input type="checkbox" name="info" value="${paper.id }"/></td>
+							<td>${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
+							<td>${paper.userName }</td>
+							<td>${paper.card }</td>
+							<td>${paper.unitName }</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -391,7 +454,7 @@
   	
   		<!-- 返回按钮 -->
   		<div class="mt20 clear tc">
-	      <input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
+	      <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 	  	</div>
 	  	
 	  	
@@ -409,8 +472,8 @@
 				</tbody>
 			</table>
 			
-			<button class="btn btn-windows" type="button" onclick="add()">添加</button>
-			<button class="btn btn-windows" type="button" onclick="cancel()">取消</button>
+			<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+			<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 		</div>
 	  	
 	  	<div class="content padding-left-25 padding-right-25" id="errorPurchaser">
