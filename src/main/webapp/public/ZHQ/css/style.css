@@ -1659,7 +1659,7 @@ img.img-mouse {
 
 /*��Ӧ����֪��ʼ*/ 
  .download{
-  padding:5px 12px;
+  padding:12px 24px;
   background:url(../images/download.png) no-repeat 0px;
   margin-left:5px;
   }
@@ -1768,8 +1768,6 @@ img.img-mouse {
  width:11%;
 }
 .new_step i{
-/* width:35%;
- padding-bottom:18%;*/
  border-radius:50%!important;
  display:block;
  float:left;
@@ -1920,17 +1918,17 @@ img.img-mouse {
     }
    @media only screen and (min-width: 1024px) and (max-width: 1366px) {
         .new_step i{
-            width: 40px;
-            height: 40px;
-			line-height:40px;
+            width: 30px;
+            height: 30px;
+			line-height:30px;
         }
 		.new_step.current .line{
-            border:4px solid #ff9000;
+            border:1px solid #ff9000;
         }
 		.line{
-            border:4px solid #b2b2b2;
+            border:1px dashed #b2b2b2;
             width:100%;
-            margin-top:17px;
+            margin-top:13px;
             margin-left:5px;
         }
        span.step_desc_01{
