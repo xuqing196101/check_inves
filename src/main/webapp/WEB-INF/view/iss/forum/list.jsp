@@ -62,7 +62,6 @@
   </head>
     
   <body>
-  <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
      <div class="margin-top-10 breadcrumbs ">
       <div class="container">

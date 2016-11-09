@@ -103,9 +103,7 @@
  </script>
   </head>
   <body>
-  <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
-
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -115,9 +113,6 @@
         <div class="clear"></div>
       </div>
    </div>
-   
-
-   
 <div class="container content job-content ">
     <div class="col-md-12 p30_40 border1">
      <h3 class="tc f30">
@@ -197,9 +192,6 @@
          </div>    
      </div>
    </div>
-
- </div>
- 
   <div class="my_post f18">
   <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
   </div>

@@ -42,10 +42,8 @@ $(function(){
 </head>
 
 <body>
-  <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
   <!--面包屑导航开始-->
-  </div>
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">

@@ -81,6 +81,7 @@ function kaptcha(){
 </script>
 </head>
 <body>
+<div class="wrapper">
   <div class="head_top col-md-12">
    <div class="container">
     <div class="row">
@@ -579,7 +580,7 @@ function kaptcha(){
 	  <div class="col-md-12">
 	  <div class="col-md-5">
 	    <div class="col-md-12 fg_rule">
-		 <img src="${pageContext.request.contextPath}/public/ZHQ/images/fg_01.jpg" class="fl" style="width:100%; height:55%;"/>
+		 <img src="${pageContext.request.contextPath}/public/ZHQ/images/fg_01.jpg" class="fl" />
 		</div>
 	  </div>
 	  <div class="col-md-5">

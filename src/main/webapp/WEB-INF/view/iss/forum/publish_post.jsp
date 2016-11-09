@@ -51,7 +51,6 @@
   </head>
   
   <body>
-  <div class="wrapper">
    <jsp:include page="/index_head.jsp"></jsp:include>
         <div class="container content height-350 job-content ">
             <div class="col-md-12 p20 border1 margin-top-20 mb40">
@@ -135,7 +134,6 @@
     var ue = UE.getEditor('editor',option);
         
 	</script>
-	</div>
 	<!-- footer -->
 	  <jsp:include page="/index_bottom.jsp"></jsp:include>
   </body>   

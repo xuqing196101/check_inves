@@ -23,6 +23,8 @@ $(function(){
 	  }
 	});
 	
+	$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
+	
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
 		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
 	});
@@ -78,10 +80,8 @@ function kaptcha(){
 </head>
 
 <body>
-  <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
   <!--/end container-->
-   </div>
   <!-- End Navbar -->
   <div class="container content job-content ">
      <div class="row magazine-page clear">
