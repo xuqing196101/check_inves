@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<%@ include file="../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>  
@@ -12,12 +12,13 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+
     <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");
-      //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${list.pages}", //总页数
@@ -50,7 +51,7 @@
      <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="<%=basePath %>park/getIndex.do"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/getHotlist.do">社区精华帖</a></li>
+           <li><a href="${ pageContext.request.contextPath }/park/getIndex.do"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/getHotlist.do">社区精华帖</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -76,10 +77,10 @@
           <c:set value="${post.name}" var="content"></c:set>
           <c:set value="${fn:length(content)}" var="length"></c:set>
           <c:if test="${length>15}">
-             <a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
+             <a  href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
           </c:if>
           <c:if test="${length<15}">
-             <a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
+             <a href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
           </c:if>
          </div>
          <!-- 帖子关联关系以及其他消息 -->
@@ -105,7 +106,7 @@
     </div>
    </div>
   <div class="my_post f18">
-  <a href='<%=basePath %>post/publish.html'>我要发帖</a>
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
   </div>  
    
 <!--底部代码开始-->

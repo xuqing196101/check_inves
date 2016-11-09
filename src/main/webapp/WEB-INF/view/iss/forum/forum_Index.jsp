@@ -1,7 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="../../../../common.jsp"%>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -12,8 +14,13 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+
     <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+
+  <script type="text/javascript">
+
+ </script>
   </head>
   
   <body> 
@@ -104,10 +111,10 @@
           <c:set value="${post.name}" var="content"></c:set>
           <c:set value="${fn:length(content)}" var="length"></c:set>
           <c:if test="${length>15}">
-             <a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
+             <a  href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
           </c:if>
           <c:if test="${length<15}">
-             <a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
+             <a href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
           </c:if>
          </div>
          <!-- 帖子关联关系以及其他消息 -->
@@ -152,10 +159,10 @@
           <c:set value="${post.name}" var="content"></c:set>
           <c:set value="${fn:length(content)}" var="length"></c:set>
           <c:if test="${length>15}">
-             <a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
+             <a  href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
           </c:if>
           <c:if test="${length<15}">
-             <a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
+             <a href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
           </c:if>
          </div>
          <!-- 帖子关联关系以及其他消息 -->
@@ -181,7 +188,7 @@
   </div>
   </body>
   <div class="my_post f18">
-  <a href='<%=basePath %>post/publish.html'>我要发帖</a>
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
   </div>
    <jsp:include page="/index_bottom.jsp"></jsp:include>
 </html>

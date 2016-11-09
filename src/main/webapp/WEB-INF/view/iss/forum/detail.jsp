@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="../../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -13,10 +14,11 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+
     <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" >
-    <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-        <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+
+     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
@@ -108,7 +110,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="<%=basePath %>park/getIndex.do">论坛首页</a></li><li><a >帖子详情</a></li>
+           <li><a href="${ pageContext.request.contextPath }/park/getIndex.do">论坛首页</a></li><li><a >帖子详情</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -199,7 +201,7 @@
  </div>
  
   <div class="my_post f18">
-  <a href='<%=basePath %>post/publish.html'>我要发帖</a>
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
   </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
