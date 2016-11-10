@@ -114,6 +114,15 @@ public class UploadController {
         return list;
     }
     
+    /**
+     * 
+     *〈简述〉
+     * 图片显示
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     */
     @RequestMapping("/viewFile")
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response){
         uploadService.viewPicture(request, response);

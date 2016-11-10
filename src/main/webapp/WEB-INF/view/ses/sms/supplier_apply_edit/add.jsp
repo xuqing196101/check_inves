@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -111,6 +112,11 @@
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.easing.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+	<script>var globalPath = "${contextPath}";</script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 		/** 下拉框的内容写到 inpput 中 */
 	function checkText(ele, id) {
@@ -223,46 +229,22 @@
 					              <input class="span3" id="postCode3" name="postCode" value="${supplier.postCode }" type="text">
 					            </div>
 					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
-					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.taxCert}')" >附件下载(已上传的文件)</a>
-					            </div>
-					          </li>
-					           <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
-					            <div class="input-append mt5">
-					              <a href="#"><i></i><input name="taxCertFile" type="file" class="fl" /></a>
-					            </div>
-					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
-					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.billCert}')" >附件下载(已上传的文件)</a>
-					            </div>
-					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
-					            <div class="input-append mt5">
-					              <a href="#"><i></i><input name="billCertFile" type="file"  class="fl"/></a>
-					            </div>
-					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
-					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.securityCert}')" >附件下载(已上传的文件)</a>
-					            </div>
-					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
-					           <div class="input-append mt5">
-					              <a href="#"><i></i><input name="securityCertFile" type="file"  class="fl" /></a>
-					            </div>
-					          </li>
-					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>
-					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.breachCert}')" >附件下载(已上传的文件)</a>
-					            </div>
-					          </li>
-							  <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>
-					            <div class="input-append mt5">
-					              <a href="#"><i></i><input name="breachCertFile" type="file"  class="fl" /></a>
-					            </div>
-					          </li>			 
+					         <li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span>
+								<up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
+								<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+							</li>
+							<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
+								<up:upload id="billcert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
+								<up:show showId="billcert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+							</li>
+							<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
+								<up:upload id="curitycert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
+								<up:show showId="curitycert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+							</li>
+							<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
+								<up:upload id="bearchcert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+								<up:show showId="bearchcert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+							</li>	 
 					        </ul>
 					      </div>
 					      

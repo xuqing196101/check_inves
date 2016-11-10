@@ -40,7 +40,7 @@
 				<h2 class="count_flow">
 					<i>1</i>模板详情
 				</h2>
-				<ul class="ul_list">
+				<ul class="ul_list mb20">
 					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">模板名称</span>
 						<div class="input-append">
 							<input class="span5" type="text" value='${templet.name}'

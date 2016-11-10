@@ -20,14 +20,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.ImportRecommend;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /**
  * @Title: ImportRecommendController
@@ -44,6 +47,8 @@ public class ImportRecommendController extends BaseSupplierController{
 	private ImportRecommendService importRecommendService;
 	@Autowired
 	private UserServiceI userService;
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 
 	/**
 	 * @Title: registerStart
@@ -256,8 +261,15 @@ public class ImportRecommendController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/jihuo_add")
-	public String jihuo(String id,Model model) throws IOException{
+	public String jihuo(HttpServletRequest request,String id,Model model) throws IOException{
 		model.addAttribute("id", id);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("IMPORT_RECOMMEND");
+		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		if(list.size()>0){
+			model.addAttribute("typeId", list.get(0).getId());
+		}
 		return "ses/sms/import_recommend/jihuo";
 	}
 	

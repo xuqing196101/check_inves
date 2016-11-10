@@ -72,52 +72,54 @@ function back(){
 	  </div>
    </div>
    
-   <div class="container">
+   <div class="container container_box">
    <form action="${ pageContext.request.contextPath }/article/audit.html?status=2" method="post">
-     <div class="headline-v2">
-	   <h2>审核信息</h2>
-	 </div>
+     <div>
+	   <h2 class="count_flow"><i>1</i>审核信息</h2>
 	  <input type="hidden" name="id" id="id" value="${article.id }" readonly>
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" readonly>
 	 
-	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-12 p0 mb0">
-	   <span class="">信息标题：</span>
-	   <div class="w70p fl">
-        <input class="col-md-12" type="text" name="name" value="${article.name }" readonly>
+	   <ul class="ul_list mb20">
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">信息标题：</span>
+	   <div class="input-append">
+        <input class="span2" type="text" name="name" value="${article.name }" readonly>
+        <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">信息类型：</span>
-      <select id="articleTypeId" name="articleType.id" class="w220" disabled>
+     <li class="col-md-3 margin-0 padding-0  ">
+	   <span class="col-md-12 padding-left-5">信息类型：</span>
+      <select id="articleTypeId" name="articleType.id" class="select w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
          </select>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">发布范围：</span>
+	 <li class="col-md-3 margin-0 padding-0  ">
+	   <span class="col-md-12 padding-left-5">发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">文章来源：</span>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text" readonly>
+       <span class="add-on">i</span>
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>链接来源：</span>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5"><i class="red">＊</i>链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
+        <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-12 p0">
-	   <span class="fl">信息正文：</span>
-	   <div class="col-md-9 fl p0">
+     <li class="col-md-11 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">信息正文：</span>
+	   <div class="mb5">
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li> 
@@ -130,24 +132,21 @@ function back(){
 	 </div>
 	 </li> 
   	 </ul> 
+	 </div>
+	  <div class="padding-top-10 clear">
+	   <h2 class="count_flow"><i>2</i>审核</h2>
+	  <ul class="ul_list mb20">
 	  
-	  <div class="headline-v2 clear">
-	   <h2>审核</h2>
-	  </div>
-	  
-       <div class="padding-top-10 clear">
-		   <ul class="list-unstyled list-flow p0_20 ">
-		     <li class="col-md-12 p0">
-			   <span class="fl">退回理由：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-12 " id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
+       
+		     <li class="col-md-11 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">退回理由：</span>
+			   <div class="mb5">
+		        <textarea class="h130 col-md-12 " id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
 		       </div>
 			 </li> 
 		   </ul>
-	  </div>
 	  
-	 <div  class="col-md-12">
-	   <div class="mt40 tc mb50">
+	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows check" type="button" onclick="sub()">审核</button>
 	    <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
 	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

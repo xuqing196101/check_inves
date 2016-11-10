@@ -9,12 +9,12 @@
 
 <title>My JSP 'category.jsp' starting page</title>
 
- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/demo.css"> --%>
+ <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
+<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/demo.css"> --%>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
  $(function() {

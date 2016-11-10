@@ -63,52 +63,46 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="${ pageContext.request.contextPath }/park/save.html" method="post">  
-    <div>
-	    <div class="headline-v2">
-	   		<h2>新增版块</h2>
-	   </div>
-	   <ul class="list-unstyled list-flow p0_20">
+    <div class="container container_box"> 
+	<form action="${ pageContext.request.contextPath }/park/save.html" method="post">  
+    <div>	    
+	   	<h2 class="count_flow"><i>1</i>新增版块</h2>
+	   
+	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl"><div class="red star_red">*</div> 版块名称：</span>
+	   		 <li class="col-md-3 margin-0 padding-0 ">
+			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div> 版块名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="name" type="text" value = '${park.name}'>
+		        <input class="span5" name="name" type="text" value = '${park.name}'>
+		        <span class="add-on">i</span>
 		        <div class="validate">${ERR_name}</div>
-		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
-			  
-			 <li class="col-md-6  p0 ">
-			   
-			   <span class="fl"> 版主：</span>
-				<select id="user"  class="w230" onchange="change(this.options[this.selectedIndex].value)">
-				</select> 
-				   
-                 </li>
-                 <input  type ="hidden" id="userId" name="userId"></input>
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 版块介绍：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content" >${park.content}</textarea>		
-				</div>			
-	  	 	</li>
-	  	 </ul>
-	</div>  	
+			 <li class="col-md-3 margin-0 padding-0 ">
+			   <span class="col-md-12 padding-left-5 h30"> 版主：</span>
+			    	<select id="user"  class="w230" onchange="change(this.options[this.selectedIndex].value)"></select> 
+			 </li>
+			
+             <input  type ="hidden" id="userId" name="userId"></input>
+             
+             <li class="col-md-11 margin-0 padding-0 ">
+	   			<span class="col-md-12 padding-left-5"> 版块介绍：</span>
+	   			<div class="">
+        			<textarea class="col-md-12 h130" title="不超过800个字" name="content">${park.content}</textarea>
+       			</div>
+	 		</li> 
+	 
+			
+	  	 </ul> 	
 	<!-- 底部按钮 -->
-	<div class="padding-top-10 clear">		          
-	  <div  class="col-md-12 pl185 ">
-	   <div class="mt40 tc mb50">
-	    <button class="btn btn-windows save " type="submit">保存</button>
-	    <button class="btn btn-windows back " onclick="history.go(-1)" type="button">返回</button>
-		</div>
-	  </div>
-    </div>    
-     </form>
-     </div>
+			<div class="col-md-12 tc">		
+	    		<button class="btn btn-windows save " type="submit">保存</button>
+	    		<button class="btn btn-windows back " onclick="history.go(-1)" type="button">返回</button>
+		
+	  		</div>
+    		</div>    
+     	</form>
      </div>
   </body>
 </html>

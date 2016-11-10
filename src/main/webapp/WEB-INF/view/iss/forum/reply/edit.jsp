@@ -32,35 +32,28 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>reply/update.html" method="post">  
+     <div class="container container_box">
+    <form action="${ pageContext.request.contextPath }/reply/update.html" method="post">  
     <div>
-	    <div class="headline-v2">
-	   		<h2>修改回复</h2>
-	   </div>
+	   		<h2 class="count_flow"><i>1</i>修改回复</h2>
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
-	   <ul class="list-unstyled list-flow p0_20">			 
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> <div class="red star_red">*</div>评论内容：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content">${reply.content}</textarea>		
+	   <ul class="ul_list mb20">			 
+			<li class="col-md-11 margin-0 padding-0 ">	  	 			
+				<span class="col-md-12 padding-left-5"> <div class="red fl">*</div>评论内容：</span>
+				<div class="mb5">
+				<textarea  class="h130 col-md-12" name="content">${reply.content}</textarea>		
 				<div class="validate">${ERR_content}</div>
 				</div>			
 	  	 	</li>
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
-    <div class="padding-top-10 clear">                
-      <div  class="col-md-12 pl185 ">
-       <div class="mt40 tc mb50">
-    <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    <div class="col-md-12 tc">     
+    	<button class="btn btn-windows save" type="submit">更新</button>
+    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
-  </div>
      </form>
-     </div>
      </div>
 
   </body>

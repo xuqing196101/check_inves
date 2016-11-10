@@ -842,3 +842,26 @@ li:first-child {
 .tnone{
 	display: none;
 }
+
+/** 地图样式*/
+#mapsId {
+    height: 700px;
+    min-width: 310px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+
+/**增加用户管理增加页面样式*/
+.check{
+	position:absolute;
+	right:0px;top:-20px;
+	display:block;
+	color:#ef0000;
+	font-size:14px;
+}

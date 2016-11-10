@@ -47,27 +47,24 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>topic/update.html" method="post">  
+     <div class="container container_box">
+    <form action="${ pageContext.request.contextPath }/topic/update.html" method="post">  
     <div>
-	    <div class="headline-v2">
-	   		<h2>修改主题</h2>
-	   </div>
+	   		<h2 class="count_flow"><i>1</i>修改主题</h2>
 	    <input  name ="topicId" type="hidden" value = '${topic.id}'>
-	   <ul class="list-unstyled list-flow p0_20">
+	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl"><div class="red star_red">*</div>主题名称：</span>
+	   		   <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div>主题名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${topic.name}'>
+		        <span class="add-on">i</span>
 		        <div class="validate">${ERR_name}</div>
-		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl"> <div class="red star_red">*</div>所属版块：</span>
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5"> <div class="red star_red">*</div>所属版块：</span>
 
 	  			<select  id ="park" name ="parkId" class="w220" >
 					<option></option>
@@ -77,27 +74,21 @@
 	  			</select>
 	  			<div class="validate">${ERR_park}</div>
 			 </li>
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 主题介绍：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content">${topic.content}</textarea>		
+			<li class="col-md-11 margin-0 padding-0 ">	  	 			
+				<span class="col-md-12 padding-left-5"> 主题介绍：</span>
+				<div class="">
+					<textarea  class="h130 col-md-12" name="content">${topic.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
-	</div>  	
 	<!-- 底部按钮 -->			          
-    <div class="padding-top-10 clear">                
-      <div  class="col-md-12 pl185 ">
-       <div class="mt40 tc mb50">
-    <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
-  </div>
-     </form>
-     </div>
-     </div>
-
+    <div class="col-md-12 tc">         
+    	<button class="btn btn-windows save" type="submit">更新</button>
+    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+  	</div>
+  	</div>
+    </form>
+    </div>
   </body>
 </html>
 

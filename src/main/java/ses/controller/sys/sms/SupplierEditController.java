@@ -25,6 +25,7 @@ import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierReason;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAudReasonService;
 import ses.service.sms.SupplierAuditService;
@@ -34,6 +35,7 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 @Controller
 @Scope("prototype")
@@ -52,6 +54,8 @@ public class SupplierEditController extends BaseSupplierController{
 	@Autowired
 	private SupplierAuditService supplierAuditService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	@Autowired
 	private SupplierService supplierService;
@@ -88,8 +92,10 @@ public class SupplierEditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping(value="add")
-	public String register(String id,Model model){
+	public String register(HttpServletRequest request,String id,Model model){
 		Supplier supplier=supplierAuditService.supplierById(id);
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_apply_edit/add";
 	}

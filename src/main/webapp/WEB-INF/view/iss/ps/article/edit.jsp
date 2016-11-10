@@ -66,60 +66,61 @@ function deleteAtta(id,obj){
 	  </div>
    </div>
    
-   <div class="container">
+   <div class="container container_box">
     <form id="newsForm" action="${ pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
     <input type="hidden" id="ids" name="ids"/>
-     <div class="headline-v2">
-	   <h2>修改信息</h2>
-	 </div>
+	   <h2 class="count_flow"><i>1</i>修改信息</h2>
 	  <input type="hidden" name="id" id="id" value="${article.id }">
 	  <input type="hidden" name="status" id="status" value="${article.status }">
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
-	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-12 p0 mb0">
-	   <span class="">信息标题：</span>
-	   <div class="w70p fl">
-        <input class="col-md-12" id="name" name="name" type="text" value="${article.name }">
+	   <ul class="ul_list mb20">
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">信息标题：</span>
+	   <div class="input-append">
+        <input class="span2" id="name" name="name" type="text" value="${article.name }">
        </div>
+       <span class="add-on">i</span>
        <div class="validate">${ERR_name}</div>
 	 </li>
 	 
-	 <li class="col-md-6  p0 ">
-	   <span class="">信息类型：</span>
-   		 <select id="articleTypeId" name="articleType.id" class="w220">
+	 <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">信息类型：</span>
+	   <div class="select_common">
+   		 <select id="articleTypeId" name="articleType.id" class="select w220">
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
          </select>
+         </div>
 	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">发布范围：</span>
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
        </div>
        <div class="validate">${ERR_range}</div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">文章来源：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text">
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>链接来源：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
        </div>
 	 </li>
-     <li class="col-md-12 p0">
-	   <span class="fl">信息正文：</span>
-	   <div class="col-md-9 fl p0">
+     <li class="col-md-11 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">信息正文：</span>
+	   <div class="mb5">
          <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
-	 <li class="col-md-12 p0">
+	 <li class="col-md-12 p0 mt5">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
@@ -127,7 +128,7 @@ function deleteAtta(id,obj){
   	   </c:forEach>
 	 </div>
 	 </li>
-	 <li class="col-md-12 p0">
+	 <li class="col-md-12 p0 mt5">
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
@@ -136,8 +137,7 @@ function deleteAtta(id,obj){
 	 </li>
   	 </ul> 
 	         
-	 <div  class="col-md-12">
-	   <div class="mt40 tc mb50">
+	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows edit" type="submit">修改</button>
 	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>

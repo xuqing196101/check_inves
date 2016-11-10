@@ -47,24 +47,25 @@
 	  </div>
    </div>
    
-   <div class="container">
+   <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/article/save.html" method="post" enctype="multipart/form-data">
-     <div class="headline-v2">
-	   <h2>新增信息</h2>
-	 </div>
-	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-12 p0 mb0">
-	   <span class=""><i class="red">＊</i>信息标题：</span>
-	   <div class="w70p fl">
-        <input class="col-md-12" id="name" name="name" type="text">
-         <div class="validate">${ERR_name}</div>
-         
+     <div class="">
+	   <h2 class="count_flow"><i>1</i>新增信息</h2>
+	 
+	   <ul class="ul_list mb20">
+     	<li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息标题：</span>
+	   <div class="input-append">
+        <input class="span2" id="name" name="name" type="text">
+        <span class="add-on">i</span>
+         <div class="validate">${ERR_name}</div>  
        </div>
 	 </li>
 
 	 
-     <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>信息类型：</span>
+     <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
+	   <div class="select_common">
 	   <%-- <div class="input-append">
          <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
 		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">
@@ -81,44 +82,47 @@
           </ul>
        </div>
        </div> --%>
-       <select name="articleType.id" class="w220">
+       <select name="articleType.id" class="select w220">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
           </select>
+          </div>
           <div class="validate">${ERR_typeId}</div>
 	 </li> 
-     <li class="col-md-6  p0 h40">
-	   <span class=""><i class="red">＊</i>发布范围：</span>
-	   <div class="input-append mt5">
+     <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>发布范围：</span>
+	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
         <div class="validate">${ERR_range}</div>
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>文章来源：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" type="text">
+        <span class="add-on">i</span>
          <div class="validate">${ERR_source}</div>
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>链接来源：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" type="text">
+         <span class="add-on">i</span>
        </div>
 	 </li>
 	 
-     <li class="col-md-12 p0">
-	   <span class="fl"><i class="red">＊</i>信息正文：</span>
-	   <div class="col-md-9 fl p0">
+     <li class="col-md-11 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息正文：</span>
+	   <div class="mb5">
 	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li> 
 	 
-	 <li class="col-md-12 p0">
+	 <li class="col-md-12 p0 mt10">
 	    <span class="fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
@@ -127,8 +131,7 @@
 	 </li>
   	 </ul> 
 	         
-	 <div  class="col-md-12">
-	   <div class="mt40 tc mb50">
+	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows save" type="submit">保存</button>
 	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>

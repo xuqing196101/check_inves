@@ -26,65 +26,61 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <div class="container container_box">
     <div>
-	    <div class="headline-v2">
-	   		<h2>栏目详情</h2>
-	   </div>
-	   <ul class="list-unstyled list-flow p0_20">
+	   <h2 class="count_flow"><i>1</i>栏目详情</h2>
+	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">栏目名称：</span>
+	   		   <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">栏目名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" value = '${articletype.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-               <span class="fl">栏目编码：</span>
+			 <li class="col-md-3 margin-0 padding-0">
+               <span class="col-md-12 padding-left-5">栏目编码：</span>
                <div class="input-append">
                 <input class="span2"  type="text" value = '${articletype.code}' readonly="readonly">
-                <%--<span class="add-on">i</span>--%>
+                <span class="add-on">i</span>
                </div>
              </li>
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">创建人：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">创建人：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${articletype.creater.relName}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">创建时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">创建时间：</span>				 	
 	  			<div class="input-append">
 		         <input class="span2"  type="text" value = "<fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">更新时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">更新时间：</span>				 	
                <div class="input-append">
 		         <input class="span2"  type="text" value = "<fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
 			 
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl">栏目介绍：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" readonly="readonly">${articletype.describe}</textarea>		
+			<li class="col-md-11 margin-0 padding-0 ">	  	 			
+				<span class="col-md-12 padding-left-5">栏目介绍：</span>
+				<div class="mb5">
+				<textarea  class="h130 col-md-12" readonly="readonly">${articletype.describe}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
-	  	 
-	</div>  	
+	  	 	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 tc mt20">
+  <div  class="col-md-12 tc">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
      

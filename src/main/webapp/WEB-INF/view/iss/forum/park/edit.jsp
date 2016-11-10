@@ -61,20 +61,20 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>park/update.html" method="post">  
+     <div class="container container_box">
+      <form action="<%=basePath %>park/update.html" method="post">  
     <div>
-	    <div class="headline-v2">
-	   		<h2>修改版块</h2>
+	    <div class="count_flow">
+	   		<i>1</i><h2>修改版块</h2>
 	   </div>
 	    <input class="span2" name ="parkId" type="hidden" value = '${park.id}'>
 	    <input class="span2" name ="oldUserId" type="hidden" value = '${park.user.id }'>
 	    <input class="span2" name ="oldParkName" type="hidden" value = '${park.name }'>
-	   <ul class="list-unstyled list-flow p0_20">
+	   
+	   <ul class="ul_list">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl"><div class="red star_red">*</div>版块名称：</span>
+	   		   <li class="col-md-3 margin-0 padding-0 ">
+			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div>版块名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${park.name}'>
 		        <div class="validate">${ERR_name}</div>
@@ -82,14 +82,15 @@
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-6  p0  h35">
-			   <span class="fl">版主：</span>
+			 <li class="col-md-3 margin-0 padding-0 ">
+			   <span class="col-md-12 padding-left-5 h30">版主：</span>
                  <select id="user"  class="w220" onchange="change(this.options[this.selectedIndex].value)">
                     <input class="span2" id="userId" type="hidden" name="userId" value =""/>
                 </select>
 			 </li>
-			  <li class="col-md-6  p0 ">
-               <span class="fl">热门：</span>
+			 
+			  <li class="col-md-3 margin-0 padding-0 ">
+               <span class="col-md-12 padding-left-5 h30">热门：</span>
                 <select id="isHoT" name="isHot" class="w220">
                 <option value="0" selected="selected">不是热门</option>
                 <option value="1">热门</option>
@@ -97,10 +98,10 @@
                 <div class="validate">${ERR_isHot}</div>                  
              </li>
              
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 版块介绍：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content">${park.content}</textarea>		
+			<li class="col-md-11 margin-0 padding-0 ">	  	 			
+				<span class="col-md-12 padding-left-5"> 版块介绍：</span>
+				<div class="">
+					<textarea  class="col-md-12 h130" title="不超过800个字" name="content">${park.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
