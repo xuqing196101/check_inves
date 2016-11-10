@@ -1,47 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
   <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-	
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-  	<script src="<%=basePath%>public/layer/layer.js"></script>
-  	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   </head>
   <script type="text/javascript">
 	  $(function(){
@@ -198,21 +164,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <div class="headline-v2">
 			  <h2>用户管理</h2>
 		  </div>
-		  <div class="p10_25">
-		     <h2 class="padding-10 border1">
+		     <h2 class="search_detail">
 		       	<form action="<%=basePath %>user/list.html" id="form1" method="post" class="mb0">
 		       		<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName }" name="loginName" class=""/></span>
 				      </li>
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName }" name="relName" class=""/></span>
 				      </li>
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">用户类型：</label>
-				    	<div class="select_common mb10">
-					        <select class="w180 " id="typeName" name="typeName">
+				    	   <span>
+					        <select id="typeName" name="typeName">
 					        	<option value="">请选择</option>
 					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
 					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
@@ -224,7 +189,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
 					        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
 					        </select>
-				        </div>
+					        </span>
 				      </li> 
 				    	<button type="submit"  class="btn">查询</button>
 				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
@@ -232,21 +197,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>
-	   	  </div>
-      </div>
+      
    	  <!-- 表格开始-->
-	  <div class="container">
-		  <div class="col-md-8">
+	  <div class="col-md-12 pl20 mt10">
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 				<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
-			</div>
 	  </div>
    
-	  <div class="container margin-top-5">
-		  <div class="content padding-left-25 padding-right-25 padding-top-5">
-		       <table class="table table-striped table-bordered table-hover">
+	  <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr>
 					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

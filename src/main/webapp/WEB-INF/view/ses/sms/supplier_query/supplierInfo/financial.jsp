@@ -1,111 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="../../../../common.jsp"%>
+
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>财务信息</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/animate.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/select2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/back-to-top.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.query.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-plus-min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/smoothScroll.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.parallax.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/app.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/common.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dota.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/fancy-box.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/style-switcher.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl.carousel.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-carousel.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-recent-works.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/WdatePicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.form.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-ui.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/masking.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/datepicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/timepicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-select.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/locale.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.ui.widget.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/load-image.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/canvas-to-blob.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/tmpl.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.iframe-transport.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-fileupload.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/form.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/select2.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/application.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.counterup.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/modernizr.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/touch.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/product-quantity.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/master-slider.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/shop.app.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/masterslider.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.easing.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/james.js"></script>
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();
@@ -180,70 +81,53 @@ function downloadFile(fileName){
 	  window.location.href="${pageContext.request.contextPath}/supplierQuery/downLoadFile.html?fileName="+fileName;
 }
 </script>
-<style type="text/css">
-.jbxx1{
-  background:url(../images/down_icon.png) no-repeat 5px !important;
-  padding-left:40px !important;
-}
-.jbxx1 i{
-    width: 24px;
-    height: 30px;
-    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
-    color: #ffffff;
-    font-size: 12px;
-    text-align: center;
-    display: block;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    margin-right: 10px;
-}
-</style>
 </head>
-  
 <body>
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商查看</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
+           <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商查看</a></li>
+           </ul>
+        <div class="clear"></div>
+      </div>
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-    <!--详情开始-->
-    <div class="container content height-350">
-      <div class="row magazine-page">
-        <div class="col-md-12 tab-v2 job-content">
-          <div class="padding-top-10">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+   <!-- <div class="container">
+   <div class="col-md-12">
+    <button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+    </div>
+    </div> -->
+  <!--详情开始-->
+   <div class="container content pt0">
+        <div class="tab-v2">
+            <ul class="nav nav-tabs bgwhite">
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('financial');">财务信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
-            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
              <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
-            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
-            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('engineering');">工程-专业信息</a></li>
             </c:if>
              <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
-            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('service');">服务-专业信息</a></li>
             </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('product');" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
-                <div class="tab-pane fade active in height-450" id="tab-1">
+              <div class="tab-content padding-top-20">
+                <h2 class="count_flow jbxx">基本信息</h2>
                   <form id="form_id" action="" method="post">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <table class="table table-bordered table-condensed">
+                    <table class="table table-bordered table-condensed table-hover">
                    <thead>
                      <tr>
                        <th class="info">年份</th>
@@ -271,48 +155,34 @@ function downloadFile(fileName){
                        </tr>
                      </c:forEach>
                   </table>
-                  
-                  <c:forEach items="${financial}" var="f" varStatus="vs">
-                  <div class=" margin-bottom-0 fl">
-	                  <h2 class="f16 jbxx1">
+                  <h2 class="count_flow jbxx">附件下载</h2>
+                   <c:forEach items="${financial}" var="f" varStatus="vs">
+	                  <h2 class="count_flow">
 	                  <i>0${vs.index+1 }</i>${f.year }年
 	                  </h2>
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>财务审计报告意见表：</span>
-                        <div class="input-append">
-                          <a class="span3" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
-                        <div class="input-append">
-                          <a class="span3" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>利润表：</span>
-                        <div class="input-append">
-                          <a class="span3" onclick="downloadFile('${f.profitList}')">附件下载</a>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>现金流量表：</span>
-                        <div class="input-append">
-                          <a class="span3" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>所有者权益变动表：</span>
-                        <div class="input-append">
-                          <a class="span3" onclick="downloadFile('${f.changeList}')">附件下载</a>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  </c:forEach>
+	                  <ul class="ul_list">
+	                   <li class="col-md-3 margin-0 padding-0 ">
+					        <div class="fl">文件下载：<span class="ml10">财务审计报告意见表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
+					   </li>
+					   <li class="col-md-3 margin-0 padding-0 ">
+                            <div class="fl">文件下载：<span class="ml10">资产负债表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
+                       </li>
+                       <li class="col-md-3 margin-0 padding-0 ">
+                            <div class="fl">文件下载：<span class="ml10">利润表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
+                       </li>
+                       <li class="col-md-3 margin-0 padding-0 ">
+                            <div class="fl">文件下载：<span class="ml10">现金流量表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
+                       </li>
+                       <li class="col-md-3 margin-0 padding-0 ">
+                            <br/>
+                            <div class="fl">文件下载：<span class="ml10">所有者权益变动表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
+                       </li>
+					   </ul>
+                  </c:forEach> 
                   
                 </div>
               </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div>
 </body>
 </html>

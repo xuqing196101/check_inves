@@ -1,107 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/animate.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/select2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/demo.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css">
-<script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/back-to-top.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.query.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-plus-min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/smoothScroll.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.parallax.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/app.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/common.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dota.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/fancy-box.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/style-switcher.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl.carousel.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-carousel.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/owl-recent-works.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.form.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-ui.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/masking.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/datepicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/timepicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/dialog-select.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/locale.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.ui.widget.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/load-image.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/canvas-to-blob.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/tmpl.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.iframe-transport.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-fileupload.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/form.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/select2.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/application.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.counterup.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/modernizr.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/touch.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/product-quantity.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/master-slider.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/shop.app.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/masterslider.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.easing.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/james.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+	<script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <title>My JSP 'index.jsp' starting page</title>
 <script type="text/javascript">
 	  	  $(function(){
@@ -320,64 +230,64 @@ $(function() {
 			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	   </div>
   <body>
-  	<div class="container clear margin-top-30">
-  			<h2>供应商信息查询</h2>
-  				<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
-		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="address" value="${address }">
-		       <table class="table table-bordered table-condensed tc">
-		       	<tbody>
-		       		<tr>
-		       			<td style="text-align:right">供应商名称：</td>
-		       			<td style="text-align:right"><input id="supplierName" class="span2" name="supplierName" value="${supplier.supplierName }" type="text"></td>
-		       			<td style="text-align:right">注册时间：</td>
-		       			<td colspan="3">
-		       			<div class="mt5">
-		       			<input id="startDate" name="startDate" class="span2 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
-		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl mt5">至</span>
-		       			<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			</div>
-		       			</td>
-		       		</tr>
-		       		<tr>
-		       			<td style="text-align:right">联系人：</td>
-		       			<td><input class="span2" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型：</td>
-		       			<td> <input id="supplierType" class="span2" readonly type="text" name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
-		       			     <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" />
-		       			</td>
-		       			<td>供应商状态</td>
-		       			<td> <select name="status" class="fl" >
-							   		<option  selected="selected" value=''>-请选择-</option>
-									<option  value="-1">暂存、未提交</option>
-							   		<option  value="0">待初审</option>
-							   		<option  value="1">待复审</option>
-							   		<option  value="2">初审不通过</option>
-							   		<option  value="3">复审通过</option>
-							   		<option  value="4">复审不通过</option>
-							   </select>
-							   </td>
-		       		</tr>
-		       			<tr>
-		       			<td  style="text-align:right">品目：</td>
-		       			<td> 
-		       			   <input id="category" class="span2" readonly type="text" name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
-		       			   <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   />
-		       			</td>
-		       			<td colspan="4">
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
-		       			</td>
-		       		</tr>
-		       	</tbody>
-		       </table>
-		     </form>
-		       <h2>供应商信息</h2>
-		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
+  	<div class="container">
+	   <div class="headline-v2">
+	     <h2>供应商信息</h2>
+	   </div> 
+  				<h2 class="search_detail">
+            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html" method="post" class="mb0">
+               <input type="hidden" name="page" id="page">
+               <ul class="demand_list">
+                  <li>
+                    <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${sup.supplierName }" type="text"></span>
+                  </li>
+                  <li>
+                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="span2 fl" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
+                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+                        <span class="fl mt5">至</span>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+                        </span>
+                  </li>
+                  <li>
+                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
+                  </li> 
+                  <li>
+                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+                              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
+                  </li>
+                  <li>
+                    <label class="fl">供应商状态:</label>
+                    <span>
+                      <select name="status">
+                                    <option  selected="selected" value=''>-请选择-</option>
+                                    <option  value="-1">暂存、未提交</option>
+                                    <option  value="0">待初审</option>
+                                    <option  value="1">待复审</option>
+                                    <option  value="2">初审不通过</option>
+                                    <option  value="3">复审通过</option>
+                                    <option  value="4">复审不通过</option>
+                       </select>
+                    </span>
+                  </li>
+                  <li>
+                    <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
+                           <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
+                  </li>
+                </ul>
+                <div class="col-md-12 clear tc mt10">
+                    <button type="button" onclick="submit()" class="btn">查询</button>
+                    <button type="reset" class="btn">重置</button> 
+                </div>
+                <div class="clear"></div>
+             </form>
+     </h2>
+     <div class="col-md-12 pl20 mt10">
+	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+	 </div>
+     <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>
@@ -423,6 +333,7 @@ $(function() {
 			  </tbody>
 		 </table>
 		 <div id="pagediv" align="right"></div>
+		 </div>
      </div>
   </body>
 </html>
