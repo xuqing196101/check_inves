@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="/tld/upload" prefix="up"%>
+<jsp:include page="/WEB-INF/view/ses/ems/expert/common/expert_common.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,102 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/app.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/common.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dota.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/fancy-box.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/style-switcher.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl.carousel.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/masking.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/datepicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/timepicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-select.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/locale.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/load-image.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/canvas-to-blob.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/tmpl.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/touch.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
- 
+<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript">
      var treeObj;
 	var datas;
@@ -121,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//alert(addressId);
 	//地区回显和数据显示
 	$.ajax({
-		url : "<%=basePath%>area/find_by_id.do",
+		url : "${pageContext.request.contextPath}/area/find_by_id.do",
 		data:{"id":addressId},
 		success:function(obj){
 			//alert(JSON.stringify(obj));
@@ -147,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	$(function(){
 		$.ajax({
-			url : "<%=basePath%>area/listByOne.do",
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
 				var data = eval('(' + obj + ')');
 				$.each(data,function(i,result){
@@ -172,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function fun(){
 		var parentId = $("#hehe").val();
 		$.ajax({
-			url : "<%=basePath%>area/find_area_by_parent_id.do",
+			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
 			data:{"id":parentId},
 			success:function(obj){
 				$("#haha").empty();
@@ -195,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				async:{
 							//autoParam:["id"],
 							enable:true,
-							url:"<%=basePath%>category/createtree.do",
+							url:"${pageContext.request.contextPath}/category/createtree.do",
 							autoParam:["id", "name=n", "level=lv"],  
 				            otherParam:{"otherParam":"zTreeAsyncTest"},  
 				            dataFilter: filter,  
@@ -228,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   $(function(){
 		   var id="${expert.id}";
 			  $.ajax({
-				  url:"<%=basePath%>expert/getCategoryByExpertId.do?expertId="+id,
+				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
 				  success:function(result){
 					  listId=result;
 				  },
@@ -379,14 +288,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<ul class="nav nav-tabs bgdd">
 							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
 							<li class="">	   <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">专家类型</a></li>
-							<!-- <li class="">	   <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18"></a></li> -->
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
-     	<div style="margin-left: 1000px;">
+     	<%-- <div style="margin-left: 1000px;">
    		  <img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
-        </div>
-   <form action="<%=basePath %>expert/edit.html"  method="post" id="form1"  class="registerform"> 
+        </div> --%>
+   <form action="${pageContext.request.contextPath}/expert/edit.html"  method="post" id="form1"  class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -394,155 +302,267 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
-  <div class="tab-content padding-top-20" style="height: 850px;">
-	<div class="tab-pane fade active in height-450" id="tab-1">
-	<div class=" f16 count_flow fl">
-	<i>01</i>评标专家基本信息
+  <div class="tab-content padding-top-20" style="height: 1000px;">
+	<div style="width:1200px;" class="tab-pane fade active in height-450" id="tab-1">
+	<div class="headline-v2 clear">
+   <h2>个人信息</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20">
-   
-	 <li class="col-md-6 p0">
-	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text"/>
-	 </li>
-	 <li class="col-md-6 p0 "><span class="">手机：</span>
-		<div class="input-append">
-			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text"/>
-		</div>
-	</li>
-     <li class="col-md-6  p0 ">
-	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text"/>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text"/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">性别：</span>
-	   <select class="span2" name="gender" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
-	   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
-	   </select>
-	   
-	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="birthday" type="text" onclick='WdatePicker()' />
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">证件类型：</span>
-	   <select class="span2" name="idType" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
-	   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
-	   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
-	   	<option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
-	   	<option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
-	   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">证件号码：</span>
-        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id=" " type="text"/>
-          
-    <font id="nameFont3"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">政治面貌：</span>
-	   <select class="span2" name="politicsStatus" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
-	   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li> 
-     
-     
-	
-     <li class="col-md-6  p0 ">
-	   <span class="">专家来源：</span>
-	   <select class="span2" name="expertsFrom" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
-	   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
-	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li>  
-      <li class="col-md-6 p0 " style="width: 800px;"><span>所在地区：</span>
-	 		<select id="hehe" onchange="fun();">
-					<option>-请选择-</option>
-				</select>
-				<select name="address" id="haha">
-					<option>-请选择-</option>
-				</select>
-	 </li>  
-      
-	  <li class="col-md-6  p0 ">
-	   <span class="">民族：</span>
-        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text"/>
-	 </li>  
-     <li class="col-md-6  p0 ">
-	   <span class="">毕业院校：</span>
-        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text"/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业技术职称：</span>
-        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="professTechTitles" type="text" onclick='WdatePicker()'/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="timeToWork" type="text" onclick='WdatePicker()'/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">最高学历：</span>
-	   <select class="span2" name="hightEducation" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
-	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
-	   </select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业：</span>
-        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text"/>
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">工作单位：</span>
-        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="workUnit" type="text"/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">传真：</span>
-        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="fax" type="text"/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="postCode" type="text"/>
-	 </li> 
-	<li class="col-md-6  p0 ">
-	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
-	 </li>  
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位：</span>
-        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="degree" type="text"/>
-	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text"/>
-	 </li>  
-	 <li class="col-md-6  p0 ">
-	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text"/>
-	 </li>
-   </ul>
-  	<div class="padding-top-10 clear">
+   <ul class="ul_list">
+										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">＊</i> 专家姓名：</span>
+											<div class="input-append">
+												<input class="span5" id="relName" name="relName" value="${expert.relName }"   type="text">
+											    <span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 出生日期：</span>
+											<div class="input-append">
+       											 <input class="span5 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
+      										<span class="add-on">i</span>
+      										</div>
+										</li>
+										
+										
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>证件号码：</span>
+											<div class="input-append">
+												 <input class="span5" maxlength="30" value="${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
+        									<span class="add-on">i</span>
+        									</div>
+										</li>
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>民族：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="10" value="${expert.nation }"  name="nation" id="nation" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i> 性别：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+												 <select class="span5" name="gender" id="gender">
+												    <option selected="selected" value="">-请选择-</option>
+												   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
+												   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
+												  </select>
+												  <!-- <span class="add-on">i</span> -->
+											</div>
+										</li>
+										
+										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">＊</i>专家来源：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+												<select class="span5" name="expertsFrom" id="expertsFrom">
+												<option selected="selected" value="">-请选择-</option>
+											   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
+											   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
+											   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+											   </select>
+											  <!--  <span class="add-on">i</span> -->
+											</div>
+										</li>
+										
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i> 证件类型：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+											<select class="span5" name="idType" id="idType">
+										   	<option selected="selected" value="">-请选择-</option>
+										   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
+										   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
+										   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
+										   	<option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
+										   	<option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
+										   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+										   </select>
+										   <!-- <span class="add-on">i</span> -->
+											</div>
+										</li>
+										
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>所在地区：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+											 <select class="span5" id="hehe" onchange="func();">
+													<option value="">-请选择-</option>
+											 </select>
+											 <select class="span5" name="address" id="haha">
+													<option value="">-请选择-</option>
+											 </select>
+											<!--  <span class="add-on">i</span> -->
+											</div>
+										</li>
+										
+										
+										
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>最高学历：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+											 <select class="span5" name="hightEducation" id="hightEducation" >
+											 	<option selected="selected" value="">-请选择-</option>
+											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
+											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
+											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
+											  </select>
+											  <!-- <span class="add-on">i</span> -->
+											</div>
+										</li>
+										
+										
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">政治面貌：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+												<select class="span5" name="politicsStatus" id="politicsStatus">
+												<option selected="selected" value="">-请选择-</option>
+											   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
+											   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
+											   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
+											   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+											   </select>
+											  <!--  <span class="add-on">i</span> -->
+											   </div>
+										</li>
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>毕业院校：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="40" value="${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 专家技术职称：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="20" value="${expert.professTechTitles }"  name="professTechTitles" id="professTechTitles" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 参加工作时间：</span>
+											<div class="input-append">
+											<input class="span5 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>专业：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="20" value="${expert.major }"  name="major" id="major" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 从事专业起始年度：</span>
+											<div class="input-append">
+											 <input class="span5 Wdate" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">工作单位：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="40" value="${expert.workUnit }"  name="workUnit" id="workUnit" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>单位地址：</span>
+											<div class="input-append">
+											 <input class="span5" maxlength="40" value="${expert.unitAddress }"  name="unitAddress" id="unitAddress" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>联系电话（固话）：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="15" value="${expert.telephone }"  name="telephone" id="telephone" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>手机：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 传真：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="10"  value="${expert.fax }"  name="fax" id="fax" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li> 
+        								<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 邮编：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="6" value="${expert.postCode }"  name="postCode" id="postCode" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 获得技术时间：</span>
+											<div class="input-append">
+											<input class="span5 Wdate" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 学位：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="10" value="${expert.degree }"  name="degree" id="degree" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>健康状态：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="10" value="${expert.healthState }"  name="healthState" id="healthState" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 现任职务：</span>
+											<div class="input-append">
+											<input class="span5" maxlength="10" value="${expert.atDuty }"  name="atDuty" id="appendedInput" type="text">
+											<span class="add-on">i</span>
+											</div>
+										</li>
+									</ul>
+  <!-- 附件信息-->
+  <div class="padding-top-10 clear">
+   <div class="headline-v2 clear">
+   <h2>附件信息</h2>
+   </div>
+    <table class="table table-bordered">
+										  	<tr>
+										  	   <td width="25%" class="info"><i class="red">＊</i>身份证:</td>
+										  	   <td>
+										  	      <up:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"   auto="true"/>
+										          <up:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
+										  	   </td>
+										  	   <td width="25%" class="info"><i class="red">＊</i>学历证书:</td>
+										  	   <td>
+										  	      <up:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
+										          <up:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+										  	   <td width="25%" class="info"><i class="red">＊</i>职称证书:</td>
+										  	   <td>
+										  	      <up:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_TITLE_TYPEID }" auto="true"/>
+										          <up:show  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
+										  	   </td>
+										  	   <td width="25%" class="info"><i class="red">＊</i>学位证书:</td>
+										  	   <td>
+										  	      <up:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
+										          <up:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+										  	   <td width="25%" class="info"><i class="red">＊</i>个人照片:</td>
+										  	   <td>
+										  	      <up:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
+										          <up:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
+										  	   </td>
+										  	   <td width="25%" class="info"><i class="red">＊</i>专家申请表：</td>
+										   	    <td>
+										   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
+												   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
+										   	    </td>
+										  	</tr>
+										  	<tr>
+										   	    <td width="25%" class="info"><i class="red">＊</i>专家合同书：</td>
+										   	    <td>
+										   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }" auto="true"/>
+												   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
+										   	    </td>
+										   	    <td></td><td></td>
+										   	 </tr>
+										  </table>
+  <div class="padding-top-10 clear">
    <div class="headline-v2 clear">
    <h2>采购机构</h2>
    </div>
@@ -555,87 +575,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</tr>
 	</table>
   </div>
-  <!-- 附件信息-->
-  <div class="padding-top-10 clear">
-   <div class="headline-v2 clear">
-   <h2>附件信息</h2>
-   </div>
-  <ul class="list-unstyled list-flow p0_20">
-    <c:forEach items="${attachmentList }" var="att" varStatus="vs">
-       <c:choose>
-       		<c:when test="${att.fileType == 0 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">身份证：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 1 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">学历证书：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 2 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">职称证书：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 3 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">学位证书：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 4}">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">本人照片：</span>
-				   <div>
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 5 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">专家申请表：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       		<c:when test="${att.fileType == 6 }">
-       			<li class="col-md-6  p0 ">
-		   			<span class="">专家合同书：</span>
-				   <div >
-				     <h4>
-			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-			         </h4>
-			       </div>
-				 </li>
-       		</c:when>
-       </c:choose>
-   </c:forEach>
-   </ul>
   </div>
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">
@@ -658,46 +597,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <div id="ztree" class="ztree"></div>
 		</div>
 	</div>
-	
-	<!-- <div class="tab-pane fade height-450" id="tab-3">
-			<div class="margin-bottom-0  categories">
-			</div>
-	</div> -->
-  </div>
- <!--  <div class="padding-left-40 padding-right-20 clear">
-   <ul class="list-unstyled list-flow p0_20">
-   <li class="col-md-6  p0 ">
-	   <span class="">身份证：</span>
-	   <div >
-        <input class="span2" name="file" id=" " type="file" >
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">学历证书：</span>
-	   <div >
-        <input class="span2" name="file" id=" " type="file">
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">职称证书：</span>
-	   <div >
-        <input class="span2" name="file" id=" " type="file">
-       </div>
-	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位证书：</span>
-	   <div >
-        <input class="span2" name="file" id=" " type="file">
-       </div>
-	  </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">本人照片：</span>
-	   <div >
-        <input class="span2" name="file" id=" " type="file">
-       </div>
-	 </li>
-   </ul>
-  </div> -->
+  </div><br/>
   <div  class="col-md-12">
    <div class="fl padding-10">
     <input class="btn btn-windows edit" type="button" onclick="getChildren();" value="修改">

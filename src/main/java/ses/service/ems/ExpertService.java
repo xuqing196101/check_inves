@@ -160,7 +160,7 @@ public interface ExpertService {
 		  * @param @throws Exception      
 		  * @return void
 		 */
-		void zanCunInsert(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception;
+		void zanCunInsert(Expert expert,String expertId,String categoryIds) throws Exception;
 		/**
 		 * 
 		  * @Title: saveOrUpdate
@@ -174,7 +174,7 @@ public interface ExpertService {
 		  * @param @throws Exception      
 		  * @return void
 		 */
-		void saveOrUpdate(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception;
+		void saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception;
 		/**
 		 * 
 		  * @Title: userManager

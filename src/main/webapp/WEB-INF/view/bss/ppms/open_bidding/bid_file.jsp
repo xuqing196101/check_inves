@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>My JSP 'bid_file.jsp' starting page</title>
     
@@ -22,23 +22,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript">
 	function submit1(){
 		
@@ -67,13 +67,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			return ;
 		}
 		
-		var creater = $("#creater").val();
+		/* var creater = $("#creater").val();
 		if(!creater){
 			layer.tips("请填写名称", "#creater");
 			return ;
-		}
+		} */
 		$("#form1").submit();
-		//$("#form1").reset();
 	}
 	 var index;
 	function cancel(){
@@ -110,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"<%=basePath%>firstAudit/remove.html?id="+id,
+	 				url:"${pageContext.request.contextPath}/firstAudit/remove.html?id="+id,
 	 				//data:{"id":id},
 	 				//type:"post",
 	 	       		success:function(){
@@ -153,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          shift: 1, //0-6的动画形式，-1不开启
 	          offset: ['100px', '100px'],
 	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
+	          content:'${pageContext.request.contextPath}/firstAudit/toEdit.html?id='+id
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
 	   }
@@ -169,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          shift: 1, //0-6的动画形式，-1不开启
 	          offset: ['100px', '90px'],
 	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toTemplatList.html'
+	          content:'${pageContext.request.contextPath}/firstAudit/toTemplatList.html'
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
 		
@@ -197,20 +196,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
 						     <li class="active">
-							   <a  href="<%=basePath%>firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
 							 <li>
-							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  href="<%=basePath%>intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
+							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="<%=basePath%>open_bidding/bidFile.html?id=${projectId}" >04、招标文件</a>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}" >04、招标文件</a>
 							 </li>
 						   </ul>
 						 </div>
@@ -256,14 +255,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 </div>	
 		 <!--打开的窗口  -->
 			<div id="openWindow"  style="display: none;">
-				<form action="<%=basePath %>firstAudit/add.html" method="post" id="form1">
+				<form action="${pageContext.request.contextPath}/firstAudit/add.html" method="post" id="form1">
 			     <table class="table table-bordered table-condensed">
 			     <thead>
 			      <tr>
 			        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" id="name"></td>
 			        <th>要求类型:</th><td><input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-			        <th>创建人:</th><td><input name="creater" required="true" maxlength="10" id="creater" type="text" value="${sessionScope.loginUser.relName}"></td>
 			      </tr>
+			      <input name="creater" required="true" maxlength="10" id="creater" type="hidden" value="${sessionScope.loginUser.relName}">
 			      <input type="hidden" name="projectId" id="projectId" value="${projectId }">
 			     </thead>
 			    </table>

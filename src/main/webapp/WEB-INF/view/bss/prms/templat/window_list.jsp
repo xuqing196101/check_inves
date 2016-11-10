@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>模版管理</title>
     
@@ -21,8 +21,8 @@
 	
 	
   </head>
-  <script src="<%=basePath%>public/layer/layer.js"></script>
-   <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+   <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -95,7 +95,7 @@
 			var projectId = parent.$("#projectId").val();
 			 var index=parent.layer.getFrameIndex(window.name);
 				$.ajax({
-					url:'<%=basePath%>firstAudit/relate.html?id='+ids+'&projectId='+projectId,
+					url:'${pageContext.request.contextPath}/firstAudit/relate.html?id='+ids+'&projectId='+projectId,
 					success:function(){
 						parent.location.reload();
 					},
@@ -120,7 +120,7 @@
 	}
     function palte(){
     	$("#a").attr("target","_blank");
-    	parent.location.href="<%=basePath %>auditTemplat/list.html";
+    	parent.location.href="${pageContext.request.contextPath}/auditTemplat/list.html";
     }
   </script>
   <body>
@@ -132,7 +132,7 @@
     <!-- 查询 -->
    <div class="container clear margin-top-0">
    <div class="padding-10 border1 m0_30 tc">
-   	<form action="<%=basePath %>firstAudit/toTemplatList.html" id="form1" method="post" class="mb0" >
+   	<form action="${pageContext.request.contextPath}/firstAudit/toTemplatList.html" id="form1" method="post" class="mb0" >
 	 <ul class="demand_list">
 	  
 	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" id="name" name="name" value="${name }" class="mb0"/></span></li>

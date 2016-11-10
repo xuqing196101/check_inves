@@ -32,7 +32,6 @@ import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertService;
-import ses.util.FtpUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
@@ -153,7 +152,6 @@ public class ExpertServiceImpl implements ExpertService {
 		try {
 			ExpertAttachment attachment;
 			if(files!=null && files.length>0){
-				short fileType=0;
 				 for(MultipartFile myfile : files){  
 			            if(myfile.isEmpty()){  
 			            }else{  
@@ -166,26 +164,9 @@ public class ExpertServiceImpl implements ExpertService {
 			                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
 			                //FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));
 			                /*Ftp文件上传*/
-			                String filepath = FtpUtil.upload2("expertFile",myfile);
-			                //截取文件名
-			                String filename=filepath.substring(filepath.lastIndexOf("/")+1);
-			                //截取文件路径
-			                String path = filepath.substring(0,filepath.lastIndexOf("/")+1);
-			                String path2 = path.replace("\\", "/");
-			                //存附件信息到数据库
 			                attachment = new ExpertAttachment();
-			                attachment.setContentType(myfile.getContentType());
-			                attachment.setCreateAt(new Date());
-			                attachment.setExpertId(expertId);
-			                attachment.setFileName(filename);
-			                attachment.setFilePath(path2);
-			                attachment.setFileSize((double)myfile.getSize());
 			                attachment.setId(WfUtil.createUUID());
-			                attachment.setIsDelete((short)0);
-			                attachment.setIsHistory((short)0);
-			                attachment.setFileType(fileType);
 			                attachmentMapper.insert(attachment);
-			                fileType++;
 			            }  
 			        }
 				
@@ -281,8 +262,7 @@ public class ExpertServiceImpl implements ExpertService {
 			if(expert!=null){
 				if((expert.getIsSubmit().equals("0") || expert.getStatus().equals("3"))&&!expert.getIsBlack().equals("1")){
 						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
-						//放入专家信息   用于前台回显数据
-						map.put("expert", expert);
+						map.put("expert", "4");
 				} else if(expert.getStatus().equals("2") || expert.getIsBlack().equals("1")){
 					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
 					map.put("expert", "1");
@@ -312,7 +292,7 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public void zanCunInsert(Expert expert ,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception{
+	public void zanCunInsert(Expert expert ,String expertId,String categoryIds) throws Exception{
 		if(StringUtils.isEmpty(expert.getId())){//id为空就新增 否则就修改
 			expert.setId(expertId);
 			//已提交
@@ -370,7 +350,7 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public void saveOrUpdate(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception{
+	public void saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception{
 		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
 		if(StringUtils.isNotEmpty(expert.getId())){
 			expert.setIsDo("0");
@@ -438,7 +418,10 @@ public class ExpertServiceImpl implements ExpertService {
 		todos.setIsDeleted((short)0);
 		todos.setIsFinish((short)0);
 		todos.setName("评审专家注册");
-		todos.setReceiverId(expert.getPurchaseDepId());
+		//todos.setReceiverId();
+		todos.setOrgId(expert.getPurchaseDepId());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		todos.setPowerId(config.getString("zjdb"));
 		todos.setSenderId(expert.getId());
 		todos.setUndoType((short)2);
 		todos.setUrl("expert/toShenHe?id="+expert.getId());

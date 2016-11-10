@@ -1,35 +1,25 @@
 package ses.model.ems;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class ExpertAttachment implements Serializable{
-    /**
-	 * @Fields serialVersionUID : 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ExpertAttachment {
+    private String id;
 
-	private String id;
+    private String name;
 
-    private String contentType;
+    private String path;
 
-    private String fileName;
+    private Date createdAt;
 
-    private Double fileSize;
+    private Date updatedAt;
 
-    private Date createAt;
+    private Long fileSize;
 
-    private Date updateAt;
+    private Short isDeleted;
 
-    private String expertId;
+    private String businessId;
 
-    private String filePath;
-
-    private Short isDelete;
-
-    private Short isHistory;
-
-    private Short fileType;
+    private String typeId;
 
     public String getId() {
         return id;
@@ -39,83 +29,67 @@ public class ExpertAttachment implements Serializable{
         this.id = id == null ? null : id.trim();
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getName() {
+        return name;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType == null ? null : contentType.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getPath() {
+        return path;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName == null ? null : fileName.trim();
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
     }
 
-    public Double getFileSize() {
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Double fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public Short getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setIsDeleted(Short isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public Date getUpdateAt() {
-        return updateAt;
+    public String getBusinessId() {
+        return businessId;
     }
 
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId == null ? null : businessId.trim();
     }
 
-    public String getExpertId() {
-        return expertId;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setExpertId(String expertId) {
-        this.expertId = expertId == null ? null : expertId.trim();
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath == null ? null : filePath.trim();
-    }
-
-    public Short getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Short isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public Short getIsHistory() {
-        return isHistory;
-    }
-
-    public void setIsHistory(Short isHistory) {
-        this.isHistory = isHistory;
-    }
-
-    public Short getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(Short fileType) {
-        this.fileType = fileType;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId == null ? null : typeId.trim();
     }
 }

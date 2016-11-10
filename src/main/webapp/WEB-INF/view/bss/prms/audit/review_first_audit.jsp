@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>项目评审</title>
     
@@ -19,24 +19,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 	<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript">
@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   //查找该数据的理由
 	   var reason;
 	   $.ajax({
-	    	url:'<%=basePath%>reviewFirstAudit/getReason.do',
+	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/getReason.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':firstAuditId,'supplierId':supplierId},
 	    	type:'post',
 	    	success:function(obj){
@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    var projectId="${extension.projectId }";
 	    var packageId="${extension.packageId }";
 	    $.ajax({
-	    	url:'<%=basePath%>reviewFirstAudit/add.do',
+	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/add.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2],'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    var projectId="${extension.projectId }";
 	    var packageId="${extension.packageId }";
 	    $.ajax({
-	    	url:'<%=basePath%>reviewFirstAudit/add.do',
+	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/add.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2]},
 	    	type:'post',
 	    	success:function(obj){
@@ -121,11 +121,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  var ids = new Array();
 	  var ids= value.split(",");
 	  $.ajax({
-	    	url:'<%=basePath%>reviewFirstAudit/addAll.do',
+	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/addAll.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1]},
 	    	type:'post',
 	    	success:function(obj){
-	    		window.location.href="<%=basePath%>reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
 	    	},
 	    	error:function(){}
 	    	
@@ -141,11 +141,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  var ids= value.split(",");
 	  layer.prompt({title: '请填写理由！', formType: 2,cancel:function(){$(obj).attr("checked",false);}}, function(text){
 	  $.ajax({
-	    	url:'<%=basePath%>reviewFirstAudit/addAll.do',
+	    	url:'${pageContext.request.contextPath}/reviewFirstAudit/addAll.do',
 	    	data:{'projectId':projectId,'packageId':packageId,'supplierId':ids[0],'flag':ids[1],'rejectReason':text},
 	    	type:'post',
 	    	success:function(obj){
-	    		window.location.href="<%=basePath%>reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
+	    		window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toAudit.html?projectId="+projectId+"&packageId="+packageId;
 	    	},
 	    	error:function(){}
 	    	
@@ -187,8 +187,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 layer.msg('还有未审核的数据，请完善！');
 		 return ;
 	 }else{
-		 <%-- window.location.href="<%=basePath%>expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
-		 window.location.href="<%=basePath%>expert/saveProgress.html?projectId="+projectId+"&packageId="+packageId;
+		 <%-- window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
+		 window.location.href="${pageContext.request.contextPath}/expert/saveProgress.html?projectId="+projectId+"&packageId="+packageId;
 	 }
   }
   </script>

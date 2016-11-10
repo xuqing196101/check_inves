@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpertAttachment;
 
@@ -18,13 +19,13 @@ public interface ExpertAttachmentMapper {
     int updateByPrimaryKey(ExpertAttachment record);
     /**
      * 
-      * @Title: selectListByExpertId
+      * @Title: selectListByMap
       * @author ShaoYangYang
-      * @date 2016年9月29日 上午11:06:59  
-      * @Description: TODO 根据专家id查询附件集合
-      * @param @param expertId
+      * @date 2016年11月8日 下午5:22:57  
+      * @Description: TODO 条件查询
+      * @param @param map
       * @param @return      
       * @return List<ExpertAttachment>
      */
-    List<ExpertAttachment> selectListByExpertId(String expertId);
+    List<ExpertAttachment> selectListByMap(Map<String,Object> map);
 }

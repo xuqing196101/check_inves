@@ -166,7 +166,7 @@
 		</div>
 		<!-- 查询 -->
 		<h2 class="search_detail">
-			<form action="<%=basePath%>auditTemplat/list.html" id="form1" method="post" class="mb0">
+			<form action="${pageContext.request.contextPath}/auditTemplat/list.html" id="form1" method="post" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">模板名称：</label><span><input
 							type="text" id="name" name="name" value="${name }" />
@@ -228,7 +228,6 @@
 								<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate
 										value='${templet.createdAt}' pattern="yyyy-MM-dd" />
 								</td>
-
 								<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate
 										value='${templet.updatedAt}' pattern="yyyy-MM-dd " />
 								</td>

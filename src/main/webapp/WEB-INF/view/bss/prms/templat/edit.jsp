@@ -40,11 +40,11 @@ function submit1(){
 		return ;
 	}
 	
-	var creater = $("#creater").val();
+	/* var creater = $("#creater").val();
 	if(!creater){
 		layer.tips("请填写名称", "#creater");
 		return ;
-	}
+	} */
 	var id2=[]; 
 	$('input[name="isOpen"]:checked').each(function(){ 
 		id2.push($(this).val());
@@ -97,19 +97,18 @@ function submit1(){
                     <div class="select_check">
                         <input name="isUse"  maxlength="10" type="radio" <c:if test="${templat.isUse eq '0' }">checked="true"</c:if>  value="0" >可用
                         <input name="isUse" id="isUse"  type="radio" value="1" <c:if test="${templat.isUse eq '1' }">checked="true"</c:if>>不可用
-                        <input type="hidden" name="userId" value="${sessionScope.loginUser.id }">
+                        <input type="hidden" name="userId" value="${templat.userId }">
                         <input type="hidden" name="id" value="${templat.id }">
                     </div>
                     <br/>
             </li>
-            
-            <li class="col-md-3 margin-0 padding-0 ">
+          <%--   <li class="col-md-3 margin-0 padding-0 ">
             <span class="col-md-12 padding-left-5">创建人</span>
                     <div class="input-append">
                         <input readonly="readonly" name="creater" id="creater" maxlength="10" type="text" value="${sessionScope.loginUser.relName}" >
                         <span class="add-on">i</span>
                     </div>
-            </li>
+            </li> --%>
        </ul>
        <div class="col-md-12 tc">
 		    <input type="button"  value="修改" onclick="submit1();" class="btn btn-windows edit"/>

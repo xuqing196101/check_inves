@@ -6,14 +6,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>专家诚信列表</title>
+<title>专家诚信修改</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    
 	function cancel(){
@@ -37,7 +37,7 @@
     		}else if(count<1){
     			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
     		}else if(count==1){
-    			window.location.href="<%=basePath%>expert/toEditBasicInfo.html?id="+value[0];
+    			window.location.href="${pageContext.request.contextPath}/expert/toEditBasicInfo.html?id="+value[0];
        	}
     }
 	function submit1(){
@@ -63,7 +63,7 @@
 		
 		var index=parent.layer.getFrameIndex(window.name);
 		$.ajax({
-			url:"<%=basePath %>credible/update.html",
+			url:"${pageContext.request.contextPath}/credible/update.html",
 			data:$("#form1").serialize(),
 			type:"post",
 			success:function(){
@@ -115,7 +115,7 @@
 </head>
 <body>
  <div id="openWindow">
-	<form action="<%=basePath %>credible/update.html" method="post" id="form1">
+	<form action="${pageContext.request.contextPath}/credible/update.html" method="post" id="form1">
 	<input type="hidden" name="id" value="${expertCredible.id }">
      <table class="table table-bordered table-condensed">
      <thead>

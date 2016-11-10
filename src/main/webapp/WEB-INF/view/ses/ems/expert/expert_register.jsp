@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   flag=1;
 				   return false;
 			   }else{ 
-				   $("#spp").html("通过!").css('color','lime');
+				   $("#spp").html("");
 				   flag=2;
 				   return true;
 			    }
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 修改订列表开始-->
    <div class="container">
    <jsp:include page="/index_head.jsp"></jsp:include>
-   <form action="<%=basePath %>expert/register.html" method="post"  id="form1">
+   <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="form1">
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		 %>
@@ -114,14 +114,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<li class="p0">
 			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onchange="validataLoginName();" value="">
+		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="spp"></font>
 			 </li>
 		      <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onchange="validataPassword();"  type="password" >
+		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
 		        <span class="add-on">i</span>
 		       </div><font  id="pwd1"></font>
 			 </li> 
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>手机号码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onchange="validataPhone();"  value="" type="text">
+		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
 		        <span class="add-on">i</span>
 		       </div>
 		        <input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>

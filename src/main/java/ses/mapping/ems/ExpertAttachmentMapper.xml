@@ -3,47 +3,56 @@
 <mapper namespace="ses.dao.ems.ExpertAttachmentMapper">
   <resultMap id="BaseResultMap" type="ses.model.ems.ExpertAttachment">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="CONTENT_TYPE" jdbcType="VARCHAR" property="contentType" />
-    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
-    <result column="FILE_SIZE" jdbcType="FLOAT" property="fileSize" />
-    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
-    <result column="UPDATE_AT" jdbcType="DATE" property="updateAt" />
-    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
-    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
-    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
-    <result column="IS_HISTORY" jdbcType="DECIMAL" property="isHistory" />
-    <result column="FILE_TYPE" jdbcType="DECIMAL" property="fileType" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CONTENT_TYPE, FILE_NAME, FILE_SIZE, CREATE_AT, UPDATE_AT, EXPERT_ID, FILE_PATH, 
-    IS_DELETE, IS_HISTORY, FILE_TYPE
+    ID, NAME, PATH, CREATED_AT, UPDATED_AT, FILE_SIZE, IS_DELETED, BUSINESS_ID, TYPE_ID
   </sql>
-  <!--根据专家id查询附件集合  -->
-  <select id="selectListByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT_ATTACHMENT
-    where EXPERT_ID = #{expertId,jdbcType=VARCHAR} and IS_DELETE != 1 and IS_HISTORY != 1
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_ATTACHMENT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 条件查询 -->
+  <select id="selectListByMap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_ATTACHMENT
+    where 1 = 1
+    <if test="id != null and id != ''">
+       AND ID  = #{id}
+      </if>
+      <if test="isDeleted != null and isDeleted != ''">
+       AND IS_DELETED = #{isDeleted}
+      </if>
+      <if test="businessId != null and businessId != ''">
+       AND BUSINESS_ID = #{businessId}
+      </if>
+      <if test="typeId != null and typeId != ''">
+       AND TYPE_ID = #{typeId}
+      </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_ATTACHMENT
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.ExpertAttachment">
-    insert into T_SES_EMS_EXPERT_ATTACHMENT (ID, CONTENT_TYPE, FILE_NAME, 
-      FILE_SIZE, CREATE_AT, UPDATE_AT, 
-      EXPERT_ID, FILE_PATH, IS_DELETE, 
-      IS_HISTORY, FILE_TYPE)
-    values (#{id,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{fileSize,jdbcType=FLOAT}, #{createAt,jdbcType=DATE}, #{updateAt,jdbcType=DATE}, 
-      #{expertId,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}, 
-      #{isHistory,jdbcType=DECIMAL}, #{fileType,jdbcType=DECIMAL})
+    insert into T_SES_EMS_EXPERT_ATTACHMENT (ID, NAME, PATH, 
+      CREATED_AT, UPDATED_AT, FILE_SIZE, 
+      IS_DELETED, BUSINESS_ID, TYPE_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{fileSize,jdbcType=DECIMAL}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertAttachment">
     insert into T_SES_EMS_EXPERT_ATTACHMENT
@@ -51,121 +60,101 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="contentType != null">
-        CONTENT_TYPE,
+      <if test="name != null">
+        NAME,
       </if>
-      <if test="fileName != null">
-        FILE_NAME,
+      <if test="path != null">
+        PATH,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
       </if>
       <if test="fileSize != null">
         FILE_SIZE,
       </if>
-      <if test="createAt != null">
-        CREATE_AT,
+      <if test="isDeleted != null">
+        IS_DELETED,
       </if>
-      <if test="updateAt != null">
-        UPDATE_AT,
+      <if test="businessId != null">
+        BUSINESS_ID,
       </if>
-      <if test="expertId != null">
-        EXPERT_ID,
-      </if>
-      <if test="filePath != null">
-        FILE_PATH,
-      </if>
-      <if test="isDelete != null">
-        IS_DELETE,
-      </if>
-      <if test="isHistory != null">
-        IS_HISTORY,
-      </if>
-      <if test="fileType != null">
-        FILE_TYPE,
+      <if test="typeId != null">
+        TYPE_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="contentType != null">
-        #{contentType,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null">
-        #{fileName,jdbcType=VARCHAR},
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
       </if>
       <if test="fileSize != null">
-        #{fileSize,jdbcType=FLOAT},
+        #{fileSize,jdbcType=DECIMAL},
       </if>
-      <if test="createAt != null">
-        #{createAt,jdbcType=DATE},
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="updateAt != null">
-        #{updateAt,jdbcType=DATE},
+      <if test="businessId != null">
+        #{businessId,jdbcType=VARCHAR},
       </if>
-      <if test="expertId != null">
-        #{expertId,jdbcType=VARCHAR},
-      </if>
-      <if test="filePath != null">
-        #{filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=DECIMAL},
-      </if>
-      <if test="isHistory != null">
-        #{isHistory,jdbcType=DECIMAL},
-      </if>
-      <if test="fileType != null">
-        #{fileType,jdbcType=DECIMAL},
+      <if test="typeId != null">
+        #{typeId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertAttachment">
     update T_SES_EMS_EXPERT_ATTACHMENT
     <set>
-      <if test="contentType != null">
-        CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null">
-        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      <if test="path != null">
+        PATH = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
       <if test="fileSize != null">
-        FILE_SIZE = #{fileSize,jdbcType=FLOAT},
+        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
       </if>
-      <if test="createAt != null">
-        CREATE_AT = #{createAt,jdbcType=DATE},
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="updateAt != null">
-        UPDATE_AT = #{updateAt,jdbcType=DATE},
+      <if test="businessId != null">
+        BUSINESS_ID = #{businessId,jdbcType=VARCHAR},
       </if>
-      <if test="expertId != null">
-        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
-      </if>
-      <if test="filePath != null">
-        FILE_PATH = #{filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null">
-        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-      </if>
-      <if test="isHistory != null">
-        IS_HISTORY = #{isHistory,jdbcType=DECIMAL},
-      </if>
-      <if test="fileType != null">
-        FILE_TYPE = #{fileType,jdbcType=DECIMAL},
+      <if test="typeId != null">
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertAttachment">
     update T_SES_EMS_EXPERT_ATTACHMENT
-    set CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
-      FILE_NAME = #{fileName,jdbcType=VARCHAR},
-      FILE_SIZE = #{fileSize,jdbcType=FLOAT},
-      CREATE_AT = #{createAt,jdbcType=DATE},
-      UPDATE_AT = #{updateAt,jdbcType=DATE},
-      EXPERT_ID = #{expertId,jdbcType=VARCHAR},
-      FILE_PATH = #{filePath,jdbcType=VARCHAR},
-      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-      IS_HISTORY = #{isHistory,jdbcType=DECIMAL},
-      FILE_TYPE = #{fileType,jdbcType=DECIMAL}
+    set NAME = #{name,jdbcType=VARCHAR},
+      PATH = #{path,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      BUSINESS_ID = #{businessId,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -121,8 +121,8 @@ public class LoginController {
 								out.print("empty," + u.getId());
 							} else if (object.equals("3")) {
 								// 未审核
-								out.print("audit");
-							} else if (object instanceof Expert) {
+								out.print("audit,"+ u.getId());
+							} else if (object.equals("4")) {
 								// 暂存 或者 退回
 								// Expert expert = (Expert)object;
 								out.print("reset," + u.getId());

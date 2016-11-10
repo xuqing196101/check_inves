@@ -12,8 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    $(function(){
 		  laypage({
@@ -72,7 +72,7 @@
     		}else if(count<1){
     			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
     		}else if(count==1){
-    			window.location.href="<%=basePath%>expert/toEditBasicInfo.html?id="+value[0];
+    			window.location.href="${pageContext.request.contextPath}/expert/toEditBasicInfo.html?id="+value[0];
        	}
     }
    	//删除
@@ -94,7 +94,7 @@
    			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
    	 			layer.close(index);
    	 			$.ajax({
-   	 				url:"<%=basePath%>expert/deleteAll.html",
+   	 				url:"${pageContext.request.contextPath}/expert/deleteAll.html",
    	 				data:{"ids":id},
    	 				type:"post",
    	 	       		success:function(){
@@ -125,7 +125,7 @@
    	}
    	//查看信息
    	function view(id){
-   		window.location.href="<%=basePath%>expert/view.html?id="+id;
+   		window.location.href="${pageContext.request.contextPath}/expert/view.html?id="+id;
    	}
    	function shenhe(){
     	  var count = 0;
@@ -144,7 +144,7 @@
       			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
       		}else if(count==1){
       			if(value[1]==0){
-      			window.location.href="<%=basePath%>expert/toShenHe.do?id="+value[0];
+      			window.location.href="${pageContext.request.contextPath}/expert/toShenHe.do?id="+value[0];
       			}else{
       				layer.alert("请选择未审核的",{offset: ['222px', '390px'],shade:0.01});
       			}
@@ -178,7 +178,7 @@
  			          shift: 1, //0-6的动画形式，-1不开启
  			          offset: ['100px', '250px'],
  			          shadeClose: true,
- 			          content:"<%=basePath%>credible/findAll.html?id="+value[0]
+ 			          content:"${pageContext.request.contextPath}/credible/findAll.html?id="+value[0]
  			          //数组第二项即吸附元素选择器或者DOM $('#openWindow')
  				 });
  			}else{
@@ -208,7 +208,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>expert/findAllExpert.html"  method="post" id="formSearch"  class="registerform"> 
+   <form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">

@@ -21,7 +21,7 @@
 		   flag2=1;
 		   return false;
 	   }else{
-	   $("#pwd1").html("通过!").css('color','lime');
+	   $("#pwd1").html("");
 	   flag2=2;		   
 	   }
    }
@@ -38,7 +38,7 @@
 		   flag3=1;
 		   return false;
 	   }else{
-		   $("#pwd2").html("通过!").css('color','lime');
+		   $("#pwd2").html("");
 		   flag3=2;
 		   return true;
 	   }

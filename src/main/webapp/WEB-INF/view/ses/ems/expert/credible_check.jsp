@@ -13,8 +13,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    /** 全选全不选 */
 	function selectAll(){
@@ -58,7 +58,7 @@
   			layer.confirm('您确定要登记吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
   	 			layer.close(index);
   	 			$.ajax({
-  	 				url:"<%=basePath%>credible/git.html",
+  	 				url:"${pageContext.request.contextPath}/credible/git.html",
   	 				data:{"ids":id,"expertId":expertId},
   	 				type:"post",
   	 	       		success:function(){
@@ -95,7 +95,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>credible/findAll.html"  method="post"   class="registerform"> 
+   <form action="${pageContext.request.contextPath}/credible/findAll.html"  method="post"   class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">
@@ -113,7 +113,7 @@
                   </form>
                   </div>
                   </div>  
-<form action="<%=basePath %>credible/list.html"  method="post"   class="registerform"> 
+<form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 
    <div class="container">
    <div class="col-md-8">
 	<button class="btn btn-windows git" type="button" onclick="submit1();">提交</button>

@@ -13,8 +13,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    $(function(){
 		  laypage({
@@ -102,7 +102,7 @@
     		          shift: 1, //0-6的动画形式，-1不开启
     		          offset: ['120px', '250px'],
     		          shadeClose: true,
-    		          content:"<%=basePath%>credible/toUpdate.html?id="+id
+    		          content:"${pageContext.request.contextPath}/credible/toUpdate.html?id="+id
     		        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
     			 });
        	}
@@ -126,7 +126,7 @@
    			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
    	 			layer.close(index);
    	 			$.ajax({
-   	 				url:"<%=basePath%>credible/deleteAll.html",
+   	 				url:"${pageContext.request.contextPath}/credible/deleteAll.html",
    	 				data:{"ids":id},
    	 				type:"post",
    	 	       		success:function(){
@@ -192,7 +192,7 @@
 			return ;
 		}
 		$.ajax({
-			url:"<%=basePath %>credible/save.html",
+			url:"${pageContext.request.contextPath}/credible/save.html",
 			data:$("#form2").serialize(),
 			type:"post",
 			success:function(){
@@ -260,7 +260,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>credible/list.html"  id="form1"  method="post"   class="registerform"> 
+   <form action="${pageContext.request.contextPath}/credible/list.html"  id="form1"  method="post"   class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">
@@ -338,7 +338,7 @@
     
  </div>
  <div id="openWindow"  style="display: none;">
-	<form action="<%=basePath %>credible/save.html" method="post" id="form2">
+	<form action="${pageContext.request.contextPath}/credible/save.html" method="post" id="form2">
      <table class="table table-bordered table-condensed">
      <thead>
       <tr>
