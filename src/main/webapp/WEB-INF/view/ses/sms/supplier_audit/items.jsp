@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -10,19 +11,9 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
@@ -30,8 +21,6 @@
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
 function tijiao(status){
   $("#status").val(status);
@@ -220,56 +209,59 @@ function reason(id,auditType){
   }
 </script>
 </head>
-  
-<body>
-  <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-    <!--详情开始-->
-    <div class="container content height-350">
-      <div class="row magazine-page">
-        <div class="col-md-12 tab-v2 job-content">
-          <div class="padding-top-10">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a>详细信息</a></li>
-              <li class=""><a >财务信息</a></li>
-              <li class=""><a>股东信息</a></li>
-              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-              <li class=""><a >物资-生产型专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-              <li class=""><a >物资-销售型专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-              <li class=""><a >工程-专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-              <li class=""><a >服务-专业信息</a></li>
-              </c:if>
-              <li class="active"><a>品目信息</a></li>
-              <li class=""><a >产品信息</a></li>
-              <li class=""><a >申请表</a></li>
-              <li class=""><a >审核汇总</a></li>
-            </ul>
-            <div class="padding-top-10">
-              <ul id="page_ul_id" class="nav nav-tabs bgdd">
-                <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-                  <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="production2">物资-生产型品目信息</a></li>
-                </c:if>
-                <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-                  <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" id="sale2">物资-销售型品目信息</a></li>
-                </c:if>
-                <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-                  <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" id="engineering2">工程品目信息</a></li>
-                </c:if>
-                <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-                  <li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" id="service2">服务品目信息</a></li>
-                </c:if>
-               </ul>
+    <body>
+        <!--面包屑导航开始-->
+        <div class="margin-top-10 breadcrumbs ">
+            <div class="container">
+                <ul class="breadcrumb margin-left-0">
+                    <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li>
+                </ul>
             </div>
+        </div> 
+        <div class="container container_box">
+        <div class="content ">
+            <div class="col-md-12 tab-v2 job-content">
+	            <ul class="nav nav-tabs bgdd">
+		          <li class=""><a>详细信息</a></li>
+		          <li class=""><a >财务信息</a></li>
+		          <li class=""><a>股东信息</a></li>
+		          <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+		              <li class=""><a >物资-生产型专业信息</a></li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+		              <li class=""><a >物资-销售型专业信息</a></li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+		              <li class=""><a >工程-专业信息</a></li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+		              <li class=""><a >服务-专业信息</a></li>
+		          </c:if>
+		          <li class="active"><a>品目信息</a></li>
+		          <li class=""><a >产品信息</a></li>
+		          <li class=""><a >申请表</a></li>
+		          <li class=""><a >审核汇总</a></li>
+	            </ul>
+                <ul class="count_flow ul_list">
+                    <div class="tab-v2">
+	              <ul id="page_ul_id" class="nav nav-tabs bgwhite">
+	                <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+	                  <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="production2">物资-生产型品目信息</a></li>
+	                </c:if>
+	                <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	                  <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" id="sale2">物资-销售型品目信息</a></li>
+	                </c:if>
+	                <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	                  <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" id="engineering2">工程品目信息</a></li>
+	                </c:if>
+	                <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+	                  <li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" id="service2">服务品目信息</a></li>
+	                </c:if>
+	               </ul>
+	            </div>
                   <form id="form_id" action="" method="post" >
-                      <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+                    <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  
                   <div class="tab-content padding-top-20" id="tab_content_div_id">
                   <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
                     <!-- 物资生产型 -->
@@ -308,14 +300,13 @@ function reason(id,auditType){
                     </div>
                   </c:if>
               </div>
-          </div>
-          <div class="col-md-12 add_regist tc">
-            <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
-          </div>     
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-</body>
+        <div class="col-md-12 add_regist tc">
+	        <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
+	        <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
+         </div>     
+        </div>
+        </div>
+    </body>
 </html>

@@ -10,11 +10,9 @@
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-     $(function(){
-      laypage({
+    $(function(){
+        laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${result.pages}", //总页数
           skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
@@ -77,7 +75,7 @@
     
     if (!size) {
       layer.msg("请选择供应商 !", {
-      	offset : '200px',
+      	offset : '300px',
       });
       return;
     }
@@ -85,7 +83,7 @@
     var state = $("#"+id).parents("tr").find("td").eq(5).text().trim();
     if (state == "已审核" || state == "初审核未通过" || state == "复审未通过" || state == "初审退回") {
         layer.msg("请选择待审核项 !", {
-        	offset : '200px',
+        	offset : '300px',
         });
         return;
       } 
@@ -105,114 +103,109 @@
     }
 </script>
 </head>
-<body>
-  <!--面包屑导航开始-->
-  <div class="margin-top-10 breadcrumbs ">
-    <div class="container">
-      <ul class="breadcrumb margin-left-0">
-        <li><a href="#"> 首页</a></li><li><a href="#">供应商注册管理</a></li><li><a href="#">供应商审核</a></li><li class="active"><a href="#">供应商列表</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="container">
-    <div class="headline-v2">
-      <h2>供应商列表</h2>
-    </div>
-  </div>  
-<!-- 搜索 -->
-  <div class="container">
-      <div class="p10_25">
-        <form action="${pageContext.request.contextPath}/supplierAudit/supplierAll.html"  method="post" id="form1" class="padding-10 border1 mb0"> 
-        <input type="hidden" name="page" id="page">
-        <input type="hidden" name="sign" value="${sign}">
-          <ul class="demand_list">
-            <li class="fl">
-              <label class="fl mt5">供应商名称：</label> 
-                <input class="mb0 mt5" name="supplierName" type="text" value="${supplierName }">
-            </li>
-            <li class="fl">
-              <label class="fl mt5">审核状态：</label> 
-                <select name="status" class="mb0 mt5" id="status">
-                  <option value="">全部</option>
-                  <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
-                  <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
-                  <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>
-                  <option <c:if test="${state == 6 }">selected</c:if> value="6">复审中</option> --%>
-                  <option <c:if test="${state == 7 }">selected</c:if> value="7">初审退回</option>
-                  <option <c:if test="${state == 8 }">selected</c:if> value="8">复审退回</option>
-                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
-                  <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
-                  <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
-               </select> 
-	           </li>
-	           <%-- <li class="fl">
-	              <label class="fl mt5">企业类型：</label> 
-	                <select name="supplierType" class="mb0 mt5">
-	                  <option value="">全部</option>
-	                  <c:forEach var="type" varStatus="vs" items="${supplierType}">
-	                    <option value="${type.name}">${type.name}</option>
-	                  </c:forEach>
-	               </select> 
-	            </li> --%>
-           <li>
-            <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-            <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
-           </li>
-      </ul>
-      <div class="clear"></div>
-    </form>
-  </div>
-  </div>
-  <div class="container">
-    <div class="col-md-8">
-        <button class="btn btn-windows git" type="button" onclick="shenhe();" style="margin-left: 10px;">审核</button>
-    </div>
-  </div>
-  <div class="container margin-top-5">
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
-      <table class="table table-bordered table-condensed">
-        <thead>
-          <tr>
-            <th class="info w50">选择</th>
-            <th class="info w50">序号</th>
-            <th class="info">供应商名称</th>
-            <th class="info">企业类型</th>
-            <th class="info">企业性质</th>
-            <!-- <th class="info">企业状态</th> -->
-            <th class="info">审核状态</th>
-          </tr>
-        </thead>
-        <c:forEach items="${supplierAll }" var="list" varStatus="page">
-          <tr>
-            <td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
-            <td class="tc w50">${page.count}</td>
-            <td class="tc">${list.supplierName }</td>
-            <td class="tc">
-              <c:forEach items="${list.listSupplierTypeRelates}" var="str">
-                ${str.supplierTypeName}
-              </c:forEach>
-            </td>
-            <td class="tc">${list.businessType }</td>
-            <!-- <td class="tc"></td> -->
-            <td class="tc" id="${list.id}">
-               <c:if test="${list.status==0 }">待初审</c:if>
-               <c:if test="${list.status==1 }">待复审</c:if>
-               <%-- <c:if test="${list.status==5 }">初审中</c:if> 
-               <c:if test="${list.status==6 }">复审中</c:if> --%>
-               <c:if test="${list.status==7 }">初审退回</c:if>
-               <c:if test="${list.status==8 }">复审退回</c:if>
-               <c:if test="${list.status==3 }">已审核</c:if>
-               <c:if test="${list.status==2 }">初审核未通过</c:if> 
-               <c:if test="${list.status==4 }">复审未通过</c:if>
-            </td>
-          </tr>
-        </c:forEach>
-        </table>
-        <div id="pagediv" align="right"></div>
-     </div>
-   </div>
-  <form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
-    <input name="supplierId" type="hidden" />
-  </form>
-</body>
+	<body>
+	    <!--面包屑导航开始-->
+	    <div class="margin-top-10 breadcrumbs ">
+	        <div class="container">
+	            <ul class="breadcrumb margin-left-0">
+	                <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li><li class="active"><a href="#">供应商列表</a></li>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="container">
+	        <div class="headline-v2">
+	            <h2>供应商列表</h2>
+	        </div>
+	        <!-- 搜索 -->
+	         <h2 class="search_detail">
+	            <form action="${pageContext.request.contextPath}/supplierAudit/supplierAll.html"  method="post" id="form1" class="mb0"> 
+	            <input type="hidden" name="page" id="page">
+	            <input type="hidden" name="sign" value="${sign}">
+		            <ul class="demand_list">
+		                <li class="fl">
+		                    <label class="fl">供应商名称：</label> 
+		                    <input class="" name="supplierName" type="text" value="${supplierName }">
+		                </li>
+		                <li class="fl">
+		                    <label class="fl">审核状态：</label> 
+		                    <select name="status" class="w178" id="status">
+		                       <option value="">全部</option>
+			                   <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
+			                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
+			                   <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>
+			                   <option <c:if test="${state == 6 }">selected</c:if> value="6">复审中</option> --%>
+			                   <option <c:if test="${state == 7 }">selected</c:if> value="7">初审退回</option>
+			                   <option <c:if test="${state == 8 }">selected</c:if> value="8">复审退回</option>
+			                   <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
+			                   <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
+			                   <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
+		                    </select> 
+		               </li>
+			           <%-- <li class="fl">
+			              <label class="fl">企业类型：</label> 
+			                <select name="supplierType" class="mb0 mt5">
+			                  <option value="">全部</option>
+			                  <c:forEach var="type" varStatus="vs" items="${supplierType}">
+			                    <option value="${type.name}">${type.name}</option>
+			                  </c:forEach>
+			               </select> 
+			            </li> --%>
+			           <li>
+			            <input type="submit" class="btn" value="查询" />
+			            <button onclick="resetForm();" class="btn" type="button">重置</button>
+			           </li>
+		           </ul>
+	               <div class="clear"></div>
+	           </form>
+	        </h2>
+		    <!-- 表格开始-->
+		    <div class="col-md-12 pl20 mt10">
+		        <button class="btn btn-windows check" type="button" onclick="shenhe();" >审核</button>
+		    </div>
+		    <div class="content table_box">
+		        <table class="table table-bordered table-condensed table-hover">
+		            <thead>
+		                <tr>
+				            <th class="info w50">选择</th>
+				            <th class="info w50">序号</th>
+				            <th class="info">供应商名称</th>
+				            <th class="info">企业类型</th>
+				            <th class="info">企业性质</th>
+				            <!-- <th class="info">企业状态</th> -->
+				            <th class="info">审核状态</th>
+		                </tr>
+		            </thead>
+		            <c:forEach items="${supplierAll }" var="list" varStatus="page">
+		                <tr>
+				            <td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
+				            <td class="tc w50">${page.count}</td>
+				            <td class="tc">${list.supplierName }</td>
+				            <td class="tc">
+				              <c:forEach items="${list.listSupplierTypeRelates}" var="str">
+				                ${str.supplierTypeName}
+				              </c:forEach>
+				            </td>
+				            <td class="tc">${list.businessType }</td>
+				            <!-- <td class="tc"></td> -->
+				            <td class="tc" id="${list.id}">
+				               <c:if test="${list.status==0 }">待初审</c:if>
+				               <c:if test="${list.status==1 }">待复审</c:if>
+				               <%-- <c:if test="${list.status==5 }">初审中</c:if> 
+				               <c:if test="${list.status==6 }">复审中</c:if> --%>
+				               <c:if test="${list.status==7 }">初审退回</c:if>
+				               <c:if test="${list.status==8 }">复审退回</c:if>
+				               <c:if test="${list.status==3 }">已审核</c:if>
+				               <c:if test="${list.status==2 }">初审核未通过</c:if> 
+				               <c:if test="${list.status==4 }">复审未通过</c:if>
+				            </td>
+		                </tr>
+		            </c:forEach>
+		        </table>
+		        <div id="pagediv" align="right"></div>
+		    </div>
+        </div>
+	    <form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
+	        <input name="supplierId" type="hidden" />
+	    </form>
+	</body>
 </html>

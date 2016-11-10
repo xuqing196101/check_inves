@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -10,28 +11,9 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
 function tijiao(status){
   $("#status").val(status);
@@ -114,15 +96,17 @@ alert(supplierInspectListFile);
 } --%>
 </script>
 </head>
-  
-<body>
-  <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-    <!--详情开始-->
-    <div class="container content height-350">
-      <div class="row magazine-page">
+    <body>
+        <!--面包屑导航开始-->
+        <div class="margin-top-10 breadcrumbs ">
+            <div class="container">
+                <ul class="breadcrumb margin-left-0">
+                    <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li>
+                </ul>
+            </div>
+        </div> 
+        <div class="container container_box">
         <div class="col-md-12 tab-v2 job-content">
-          <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
               <li class=""><a >详细信息</a></li>
               <li class=""><a >财务信息</a></li>
@@ -148,42 +132,42 @@ alert(supplierInspectListFile);
 	                <input name="supplierId" value="${supplierId}" type="hidden">
 	            </form>
 	            <c:if test="${status==1 }">
-	            <h2 class="f16 jbxx mt40">
-	              <i>01</i>问题汇总
-	            </h2>
+	               <h2 class="count_flow"><i>1</i>问题汇总</h2>
 	            </c:if>
-	            <table class="table table-bordered table-condensed">
-	             <thead>
-	               <tr>
-	                 <th class="info w50">序号</th>
-	                 <th class="info">审批类型</th>
-	                 <th class="info">审批字段名字</th>
-	                 <th class="info">审批内容</th>
-	                 <th class="info">不通过理由</th>
-	               </tr>
-	             </thead>
-	               <c:forEach items="${reasonsList }" var="list" varStatus="vs">
-	                <input id="auditId" value="${list.id}" type="hidden">
-	                 <tr>
-	                   <td class="tc">${vs.index + 1}</td>
-	                   <td class="tc">
-	                     <c:if test="${list.auditType == 'basic_page'}">详细信息</c:if>
-	                     <c:if test="${list.auditType == 'finance_page'}">财务信息</c:if>
-	                     <c:if test="${list.auditType == 'stockholder_page'}">股东信息</c:if>
-	                     <c:if test="${list.auditType == 'mat_pro_page'}">物资生产专业信息</c:if>
-	                     <c:if test="${list.auditType == 'mat_sell_page'}">物资销售专业信息</c:if>
-	                     <c:if test="${list.auditType == 'mat_eng_page'}">工程专业信息</c:if>
-	                     <c:if test="${list.auditType == 'mat_serve_page'}">服务专业信息</c:if>
-	                     <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if>
-	                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
-	                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
-	                   </td>
-	                   <td class="tc">${list.auditFieldName }</td>
-	                   <td class="tc">${list.auditContent}</td>
-	                   <td class="tc">${list.suggest}</td>
-	                 </tr>
-	               </c:forEach>
-	            </table>
+	            <ul class="ul_list count_flow">
+		            <table class="table table-bordered table-condensed table-hover">
+		             <thead>
+		               <tr>
+		                 <th class="info w50">序号</th>
+		                 <th class="info">审批类型</th>
+		                 <th class="info">审批字段名字</th>
+		                 <th class="info">审批内容</th>
+		                 <th class="info">不通过理由</th>
+		               </tr>
+		             </thead>
+		               <c:forEach items="${reasonsList }" var="list" varStatus="vs">
+		                <input id="auditId" value="${list.id}" type="hidden">
+		                 <tr>
+		                   <td class="tc">${vs.index + 1}</td>
+		                   <td class="tc">
+		                     <c:if test="${list.auditType == 'basic_page'}">详细信息</c:if>
+		                     <c:if test="${list.auditType == 'finance_page'}">财务信息</c:if>
+		                     <c:if test="${list.auditType == 'stockholder_page'}">股东信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_pro_page'}">物资生产专业信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_sell_page'}">物资销售专业信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_eng_page'}">工程专业信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务专业信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if>
+		                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
+		                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
+		                   </td>
+		                   <td class="tc">${list.auditFieldName }</td>
+		                   <td class="tc">${list.auditContent}</td>
+		                   <td class="tc">${list.suggest}</td>
+		                 </tr>
+		               </c:forEach>
+		            </table>
+	            </ul>
 	            <%-- <h2 class="f16 jbxx1">
 	              <i>01</i>问题汇总
 	            </h2>
@@ -200,36 +184,21 @@ alert(supplierInspectListFile);
 	          </div> --%>
 	          </div>
 	          <c:if test="${status==1 }">
-	          <div class=" margin-bottom-0 fl">
-				       <h2 class="f16 jbxx mt40">
-				        <i>02</i>供应商考察表
-				       </h2>
+				       <h2 class="count_flow"><i>2</i>供应商考察表</h2>
+				       <ul class="ul_list">
 				      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
-	              <ul class="list-unstyled list-flow p0_20">
-	                <li >
+	              
+	                <li>
 	                <span class="" ><i class="red">＊</i>上传考察表:</span>
 	                <input name="supplierId" value="${supplierId}" type="hidden">
 	                <input class="span3" type="file" name="supplierInspectListFile"/>
 	                <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button>
 	                <!-- <a onclick="file();" class="btn padding-left-20 padding-right-20 btn_back">上传</a> -->
 	              </li>
-	             </ul>
+	             
 	           </form>
-				    </div>
+                </ul>
 	          </c:if>
-	          <!-- <div class="col-md-12 add_regist tc">
-	          <ul class="list-unstyled list-flow">
-	            <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>
-	              <div class="input-append">
-	                <div class="uploader orange m0">
-	                  <input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-	                  <input type="button" class="button" value="选择文件..." /> 
-	                  <input name="taxCertFile" type="file" size="30" accept="image/*" />
-	                </div>
-	              </div>
-	             </li>
-	           </ul>
-	          </div> -->
 	          <div class="col-md-12 add_regist tc">
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
