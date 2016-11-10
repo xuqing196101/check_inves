@@ -122,7 +122,8 @@
 	            <label class="ml30 fl"><input type="checkbox" name="ranges" value="1" >外网</label>
 	         </div><br>
         	 <i class="red">*</i>公告内容：
-             <script id="editor" name="content" type="text/plain" class="ml125 w900"></script> 
+             <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
+             <i class="red">*</i>上传附件： 
              <p:upload id="a" businessId="${projectId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
              <p:show  showId="b"  businessId="${projectId }" sysKey="${sysKey }" typeId="${typeId }"/>
         </div>

@@ -207,11 +207,16 @@ public class OpenBiddingController {
      */
     @RequestMapping("/bidNotice")
     public String bidNotice(String projectId, Model model){
+        //栏目
         Article article = new Article();
         article.setProjectId(projectId);
         ArticleType at = articelTypeService.selectTypeByPrimaryKey("7");
         article.setArticleType(at);
         List<Article> articles = articelService.selectArticleByProjectId(article);
+        //附件类型
+        DictionaryData dd = new DictionaryData();
+        dd.setCode("GGWJ");
+        List<DictionaryData> dds= dataService.find(dd);
         if (articles != null && articles.size() > 0){
             if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
                 model.addAttribute("article", articles.get(0));
@@ -223,9 +228,13 @@ public class OpenBiddingController {
                 model.addAttribute("articleId", articles.get(0).getId());
                 model.addAttribute("range", articles.get(0).getRange());
                 model.addAttribute("projectId", projectId);
+                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                model.addAttribute("typeId", dds.get(0).getId());
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
+            model.addAttribute("typeId", dds.get(0).getId());
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             return "bss/ppms/open_bidding/bid_notice/add";
         }
@@ -286,7 +295,7 @@ public class OpenBiddingController {
                       article.setRange(Integer.valueOf(ranges[i]));
                   }
               }
-           }
+            }
             if (article.getId() != null && !"".equals(article.getId())){
                 articelService.update(article);
             } else {
