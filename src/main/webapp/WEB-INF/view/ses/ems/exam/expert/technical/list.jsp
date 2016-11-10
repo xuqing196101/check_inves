@@ -255,7 +255,7 @@
 			    <li>
 			    	<label class="fl">题型：</label>
 			    	<span>
-				    	<select id="questionTypeId">
+				    	<select id="questionTypeId" class="w178">
 						    <option value="">请选择</option>
 						    <option value="1">单选题</option>
 						    <option value="2">多选题</option>

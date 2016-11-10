@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import common.constant.Constant;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -33,9 +37,15 @@ public class SupplierFinanceController extends BaseSupplierController {
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
 	@RequestMapping(value = "add_finance")
-	public String addCertEng(Model model, String supplierId) {
-		model.addAttribute("supplierId", supplierId);
+	public String addCertEng(Model model, SupplierFinance supplierFinance) {
+		model.addAttribute("supplierFinance", supplierFinance);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
 		return "ses/sms/supplier_register/add_finance";
 	}
 	

@@ -338,6 +338,7 @@ public class ProjectController extends BaseController {
                 }else{
                     project.setIsImport(0);
                 }
+                project.setPlanType(Integer.valueOf(list.getList().get(0).getPlanType()));
                 project.setPurchaseType(list.getList().get(0).getPurchaseType());
                 projectService.add(project);    
             }

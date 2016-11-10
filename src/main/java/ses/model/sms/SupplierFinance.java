@@ -2,7 +2,11 @@ package ses.model.sms;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import common.model.UploadFile;
 
 public class SupplierFinance implements Serializable {
 	private static final long serialVersionUID = -8432362368196241325L;
@@ -150,6 +154,10 @@ public class SupplierFinance implements Serializable {
 	 */
 	private Date updatedAt;
 
+	private Integer sign;
+
+	private List<UploadFile> listUploadFiles = new ArrayList<UploadFile>();
+
 	public String getId() {
 		return id;
 	}
@@ -293,4 +301,21 @@ public class SupplierFinance implements Serializable {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public Integer getSign() {
+		return sign;
+	}
+
+	public void setSign(Integer sign) {
+		this.sign = sign;
+	}
+
+	public List<UploadFile> getListUploadFiles() {
+		return listUploadFiles;
+	}
+
+	public void setListUploadFiles(List<UploadFile> listUploadFiles) {
+		this.listUploadFiles = listUploadFiles;
+	}
+
 }

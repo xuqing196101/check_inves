@@ -128,8 +128,8 @@
 
 	 function reset(){
 		 $("#tname").val("");
-		 $("#searchType option:selected").val("");
-		 $("#searchType option:selected").text("");
+		 $("#searchType option:selected").val("-请选择-");
+		 $("#searchType option:selected").text("-请选择-");
 	 }
 	 $(function(){
 		 if(${noticeDocument.docType!=null}&&${noticeDocument.docType!=""}&&${noticeDocument.docType!="-请选择-"}){
@@ -161,7 +161,7 @@
     	  <li>
 	    	<label class="fl">须知文档名称：</label>
 	    	<span>
-	    		<input type="text" id="tname" name="name" />
+	    		<input type="text" id="tname" name="name" value="${noticeDocument.name}"/>
 	    	</span>
 	      </li>
 	      <li>

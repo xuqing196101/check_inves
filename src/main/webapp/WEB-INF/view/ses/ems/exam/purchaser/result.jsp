@@ -102,7 +102,7 @@
 			    <li>
 			    	<label class="fl">考试状态：</label>
 			    	<span>
-				    	<select name="status" id="status">
+				    	<select name="status" id="status" class="w178">
 				    		<option value="">请选择</option>
 				    		<option value="及格">及格</option>
 				    		<option value="不及格">不及格</option>

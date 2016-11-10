@@ -91,7 +91,7 @@
 
 <!-- 精华帖 -->
 <div class="home_suggest_topics panel panel-default">
-  <div class="panel-heading panel-title">社区精华帖<span class="fr"><a href="${ pageContext.request.contextPath }/post/getHotlist.do" class="f14 b">更多>></a></span></div>
+  <div class="panel-heading panel-title">社区精华帖<span class="fr"><a href="${ pageContext.request.contextPath }/post/getHotlist.html" class="f14 b">更多>></a></span></div>
   <div class="panel-body topics row">
   
   <!-- 帖子div -->
@@ -113,7 +113,7 @@
           <c:if test="${length>15}">
              <a  href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
           </c:if>
-          <c:if test="${length<15}">
+          <c:if test="${length<=15}">
              <a href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
           </c:if>
          </div>

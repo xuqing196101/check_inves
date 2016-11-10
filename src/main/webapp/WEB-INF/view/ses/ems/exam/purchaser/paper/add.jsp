@@ -166,14 +166,11 @@
 	<input type="hidden" value="${errorData['judge'] }" id="errorJudge"/>
 	<input type="hidden" value="${errorData['isAllow'] }" id="errorIsAllow"/>
 	
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-     	<div>
-		   <div class="headline-v2">
-		   		<h2>新增考卷</h2>
-		   </div>
-    <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
-    	<ul class="list-unstyled list-flow p0_20">
+     <div class="container container_box">
+     <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
+		   <h2 class="count_flow"><i>1</i>新增考卷</h2>
+       <ul class="ul_list">
+    	 <ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>试卷名称：</span>
 		  		<div class="fl mt5"><input type="text" name="name" value="${errorData['name'] }"/></div>
@@ -270,7 +267,7 @@
 	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
 	  		</li>
     	--%></ul>
-   
+        </ul>
    
   		<!-- 按钮 -->
   		<div class="padding-top-10 clear">
@@ -280,11 +277,8 @@
 	    			<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 				</div>
 	  		</div>
-	  	</div>
-    
-    			</form>
-    		</div>
-    	</div>
+	  	  </div>
+      </form>
     </div>
   </body>
 </html>

@@ -574,19 +574,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<th>联系电话：</th><td>${purchase.mobile }</td>
 	</tr>
 	</table>
+	</ul>
   </div>
   </div>
   </div> 
-   <div class="tab-pane fade height-450" id="tab-2">
-   <div class=" f16 count_flow fl">
-	<i>02</i>评标专家类型
-   </div>
+   <div class="tab-pane fade height-450" id="tab-2">      
+    <h2 class="count_flow"><i>1</i>评标专家类型</h2>
+    <ul class="ul_list">
 		<div class="margin-bottom-0  categories">
 		 <ul class="list-unstyled list-flow" style="margin-left: 250px;">
      		<li class="p0">
 			   <span class="">专家类型：</span>
 			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
-			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
+			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();" class="w178">
 			   		<option value="">-请选择-</option>
 			   		<option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
 			   		<option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
@@ -595,22 +595,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </li>
         </ul>
          <div id="ztree" class="ztree"></div>
+       </ul>
 		</div>
 	</div>
   </div><br/>
   <div  class="col-md-12">
    <div class="fl padding-10">
-    <input class="btn btn-windows edit" type="button" onclick="getChildren();" value="修改">
+    <input class="btn btn-windows save" type="button" onclick="getChildren();" value="修改">
 	<a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
-  </form>
+
                 </div>
  	          </div>
 		   </div>
 		 </div>
 	  </div>
 	</div>
-</div>
 </body>
 </html>

@@ -36,7 +36,7 @@
                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                     //var postName = "${postName}";
                     var parkId = "${parkId}";
-                    location.href = "${ pageContext.request.contextPath }/post/getHotlist.do?parkId="+parkId+"&page="+e.curr;
+                    location.href = "${ pageContext.request.contextPath }/post/getHotlist.html?parkId="+parkId+"&page="+e.curr;
                 }
             }
         });
@@ -47,10 +47,11 @@
     
   <body>
   <jsp:include page="/index_head.jsp"></jsp:include>
+  </div>
      <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="${ pageContext.request.contextPath }/park/getIndex.do"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/getHotlist.do">社区精华帖</a></li>
+           <li><a href="${ pageContext.request.contextPath }/park/getIndex.html"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/getHotlist.html">社区精华帖</a></li>
            </ul>
         <div class="clear"></div>
       </div>

@@ -42,7 +42,7 @@
             jump: function(e, first){ //触发分页后的回调
                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                     var postId = "${post.id}";
-                    location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId+"&page="+e.curr;
+                    location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId+"&page="+e.curr;
                 }
             }
         });
@@ -65,7 +65,7 @@
 	          contentType: "application/json;charset=UTF-8", 
 	          type:"POST",   //请求方式           
 	          success : function() {     
-	              location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId;
+	              location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
 	          }
 	      });
 	  }	  
@@ -96,7 +96,7 @@
 	       type:"POST",   //请求方式           
 	       success : function() {   
 	           var postId = "${post.id}";
-	           location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId;
+	           location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
 	           }
 	     });      
   }
@@ -108,7 +108,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="${ pageContext.request.contextPath }/park/getIndex.do">论坛首页</a></li><li><a >帖子详情</a></li>
+           <li><a href="${ pageContext.request.contextPath }/park/getIndex.html">论坛首页</a></li><li><a >帖子详情</a></li>
            </ul>
         <div class="clear"></div>
       </div>

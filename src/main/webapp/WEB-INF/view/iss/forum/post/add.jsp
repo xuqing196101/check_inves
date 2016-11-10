@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -175,22 +176,19 @@
        			<div class="validate">${ERR_content}</div>
 			 </li>  
 	   		  <li class="col-md-12 p0">
+<<<<<<< Updated upstream
 		        <span class="fl">上传附件：</span>
 		        <div class="fl" id="uploadAttach" >
 		          <input id="atta" type="file" class="toinline" name="attaattach"/>
 		          <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
 		        </div>
+=======
+		        <li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 上传附件：</span>
+		        <up:upload id="aa" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                 <up:show showId="bb" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+                 </li>
+>>>>>>> Stashed changes
 		     </li>
-		     <%--  
-		       <li class="col-md-12 p0">
-                <span class="fl">上传图片：</span>
-                <div class="fl" id="uploadPic" >
-                  <input id="pic" type="file" class="toinline" name="picattach"/>
-                  <input class="toinline" type="button" value="添加" onclick="addPic()"/><br/>
-                  <div class="validate">${ERR_pic}</div>
-                </div>
-             </li> 
-	  	    --%>
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          

@@ -18,6 +18,17 @@
 	<meta name="author" content="">
 
 
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+	<script>var globalPath = "${contextPath}";</script>
 <!--导航js-->
 <script type="text/javascript">
 $(function(){
@@ -85,7 +96,7 @@ function kaptcha(){
   <div class="head_top col-md-12">
    <div class="container">
     <div class="row">
-     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/static/sign.jsp" class="red">【请登录】</a></div>
+     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div>
 	   <div class="col-md-3 head_right"> 
          <a href=" ">我的信息</a> |
          <a href=" ">意见反馈</a> |
