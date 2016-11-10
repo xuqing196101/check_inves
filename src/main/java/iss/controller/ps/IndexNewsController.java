@@ -62,7 +62,19 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private DownloadUserService downloadUserService;
-	
+	/**
+	 * 
+	* @Title: sign
+	* @author Peng Zhongjun
+	* @date 2016-11-10 上午8:50:09  
+	* @Description: 跳转登录页面 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/sign")
+	public String sign(){
+		return "iss/ps/index/sign";
+	}
 	/**
 	 * 
 	* @Title: selectIndexNews

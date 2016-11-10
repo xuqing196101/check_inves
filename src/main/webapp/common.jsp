@@ -23,4 +23,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>

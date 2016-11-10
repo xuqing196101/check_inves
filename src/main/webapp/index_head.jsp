@@ -96,7 +96,7 @@ function kaptcha(){
   <div class="head_top col-md-12">
    <div class="container">
     <div class="row">
-     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/static/sign.jsp" class="red">【请登录】</a></div>
+     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div>
 	   <div class="col-md-3 head_right"> 
          <a href=" ">我的信息</a> |
          <a href=" ">意见反馈</a> |
