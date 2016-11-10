@@ -619,7 +619,7 @@
 		</if>
 		</where>
 		
-		ORDER BY IS_MASTER ASC
+		ORDER BY PLAN_NO, IS_MASTER ASC
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">

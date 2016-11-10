@@ -227,7 +227,7 @@
 			checkFileType = function (fileName){
 				var fileType = $("#extensionId").val();
 				if (fileName) {
-					var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
+					var fileExt = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
 					if (fileType.indexOf(fileExt) != -1){
 						return true;
 					}

@@ -20,50 +20,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css"
-	media="screen" rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+ <jsp:include page="/WEB-INF/view/common.jsp"/> 
+<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css">
+ 
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
 
 <script type="text/javascript">
  	//跳转到增加页面
@@ -419,40 +386,80 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 	<div class="container clear margin-top-30">
-	<span><span style="color: red;">*</span> 计划名称<input type="text" name="name" id="jhmc" ></span>
+		 <ul class="ul_list padding-left-20">
+     <li class="col-md-4 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 计划名称</span>
+	   <div class="input-append col-md-12 padding-0 ">
+        <input type="text"  class="span5 col-md-8 padding-0 " name="name" id="jhmc" >
+        <span class="add-on col-md-4">i</span>
+       </div>
+	 </li> 
+     <li class="col-md-4 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 计划编号</span>
+	   <div class="input-append col-md-12 padding-0 ">
+        <input type="text"  class="span5 col-md-8 padding-0 " name="no" id="jhbh" >
+        <span class="add-on col-md-4">i</span>
+       </div>
+	 </li> 
+     <li class="col-md-4 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">物资类别</span>
+		  <div style="width: 200px;">
+		      <select style="width: 200px;" name="planType" id="wtype">
+				<option value="1">货物</option>
+				<option value="2">工程</option>
+				<option value="3">服务</option>
+			</select> 
+	     </div>
+	 </li> 
+	 
+	<!--  <li class="col-md-4 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 需求计划导入（Excel表格）：</span>
+	   <div class="input-append col-md-12 padding-0 ">
+        <input  class="span5 col-md-8 padding-0 " type="file" id="fileName" name="file" />  
+        <span class="add-on col-md-4"><button class="btn padding-right-10 btn_back" onclick="upload()">导入</button></span>
+       </div>
+	 </li>  -->
+	 
+	 
+	   <div style="float: left; margin-top: 15px;">
+			<label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
+			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
+		</div>  
+   </ul>
+   
+	<!-- <span><span style="color: red;">*</span> 计划名称<input type="text" name="name" id="jhmc" ></span>
 		<span><span style="color: red;">*</span> 计划编号<input type="text" name="no" id="jhbh" ></span>
 		<span>物资类别
 		<select name="planType" id="wtype">
 		<option value="1">货物</option>
 		<option value="2">工程</option>
 		<option value="3">服务</option>
-		</select>
+		</select> </span> -->
 		
 	<%-- 	<c:if test="${type=='1' }"> <input  type="text" name="" id="hw" value="货物" readonly="readonly" > </c:if> 
 		<c:if test="${type=='2' }"><input type="text" name="" id="fw" value="工程" readonly="readonly"  ></c:if>
 		 <c:if test="${type=='3' }"><input type="text" name="" id="gc" value="服务" readonly="readonly" ></c:if> --%>
-		 </span>
+		 
 		
-		<div class="padding-10 border1">
-		 
+<!-- 		<div class="padding-10 border1">
 			 <label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
-			 
-		 
 			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
-				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载Excel模板</button>
-				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
-				<button class="btn padding-left-10 padding-right-10 btn_back"
-					onclick="chakan()">查看编制说明</button> <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
+			 -->
+				 <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
  -->
 			<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="adds()">录入明细</button> -->
 			 
 			
-		</div>
+	<!-- 	</div> -->
 	</div>
 
 	<button style="margin-left: 106px;margin-top: 20px;"  class="btn padding-right-10 btn_back" onclick="aadd()">添加子节点</button>
 	<button style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="same()">添加同级节点</button>
+	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载Excel模板</button>
+	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
+	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
+				
 <!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
 
 
@@ -488,19 +495,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td class="tc w50">
 					<input style="border: 0px;" type="hidden" name="list[0].id" id="purid" value="">
-					<input style="border: 0px;" type="text" name="list[0].seq" value="">
+					<input style="border: 0px;width: 60px;" type="text" name="list[0].seq" value="">
 					</td>
-					<td><input style="border: 0px;" type="text" name="list[0].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].deliverDate" value=""></td>
+					<td><input style="border: 0px;width: 130px;" type="text" name="list[0].department" value=""></td>
+					<td><input style="border: 0px;width: 100px;"  type="text" name="list[0].goodsName" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 70px;"  type="text" name="list[0].stand" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].qualitStand" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 55px;"  type="text" name="list[0].item" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].purchaseCount" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].price" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 80px;"  type="text" name="list[0].budget" value=""></td>
+					<td><input style="border: 0px;width: 90px;"  type="text" name="list[0].deliverDate" value=""></td>
 					<td>
-					 <select name="list[0].purchaseType" style="width:100px" id="select">
+					 <select name="list[0].purchaseType" style="width:90px" id="select">
               				    <option value="" >请选择</option>
 	                            <option value="公开招标" >公开招标</option>
 	                            <option value="邀请招标" >邀请招标</option>
@@ -510,8 +517,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			           </select>
 			                
 					</td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].isFreeTax" value=""></td>
+					<td class="tc"><input style="border: 0px;width:50px;"  type="text" name="list[0].supplier" value=""></td>
+					<td class="tc"><input style="border: 0px;width:50px;"  type="text" name="list[0].isFreeTax" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>

@@ -137,6 +137,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <input type="submit" value="添加"/>
 </sf:form>
 
- 
+ 	<u:upload id="cs"   businessId="1231" sysKey="2" typeId="12314141"/>
+				<u:show showId="cs"   sysKey="2" typeId="12124124"/>
+				
+				
 </body>
 </html>

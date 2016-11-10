@@ -6,6 +6,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -19,29 +20,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
 	
-
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+ 
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+ 
 
  
   <script type="text/javascript">
@@ -228,6 +209,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 	}
+	
+	function resetQuery(){
+		$("#param_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+	
   </script>
   </head>
   
@@ -243,37 +229,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
-   
-	<input type="hidden" name="page" id="page">
-	  
-	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
-	   需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/> 
-	   需求计划编号： <input class="mt10" type="text" name="planNo" value="${inf.planNo }" /> 
-	    需求填报日期：  <input class="mt10" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
-	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
-	 
 
-	
- 
-   </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>需求计划列表
-	  </h2>
-   </div> 
-   	  <span class="fr option_btn margin-top-10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button>
-	  </span>
+   
+		  <div class="headline-v2">
+			  <h2>需求计划列表</h2>
+		  </div>
+
+		     <h2 class="search_detail">
+		       	<form id="param_form" action="${pageContext.request.contextPath }/purchaser/list.html"  method="post" class="mb0">
+		       	<input type="hidden" name="page" id="page">
+			    	<ul class="demand_list">
+			    	  <li>
+				    	<label class="fl">需求部门：</label><span>
+				  	   <input  type="text" name="department" value="${inf.department }" /> 
+				    	
+				    	</span>
+				      </li>
+				   <li>
+				    	<label class="fl">需求计划名称：</label><span>
+				  	   <input type="text" name="planName" value="${inf.planName }" /> 
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">需求计划编号：</label><span>
+				  	   <input  type="text" name="planNo" value="${inf.planNo }" /> 
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">需求填报日期：</label><span>
+				  	  <input style="width: 120px;" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
+
+				    	
+				    	</span>
+				      </li>
+				    	  
+			    	</ul>
+			    	<div class="col-md-12 clear tc mt10">
+			    	<input class="btn"   type="submit" name="" value="查询" /> 
+				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	
+			    	</div>
+		    	  	<div class="clear"></div>
+		        </form>
+		     </h2>
+	   	  
+   	  <div class="col-md-12 pl20 mt10">
+	    <button class="btn btn-windows add" onclick="add()">需求计划录入</button>
+	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
+		<button class="btn btn-windows output" onclick="exports()">下载</button>
+	    <button class="btn btn-windows delete" onclick="del()">删除</button>
+		<button class="btn btn-windows git" onclick="sub()">提交</button>
+	  </div>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
 		<thead>
@@ -334,7 +341,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
+<!--  <div id="content" class="div_show">
 	 <p align="center" class="type">
 	         请选择类别
 	<br>
@@ -345,7 +352,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </p>
 	     <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
 	    
- </div>
+ </div> -->
  
 	 </body>
 </html>

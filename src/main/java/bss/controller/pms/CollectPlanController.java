@@ -76,12 +76,13 @@ public class CollectPlanController extends BaseController {
 		* @throws
 		 */
 		@RequestMapping("/collectlist")
-		public String queryCollect(CollectPlan collectPlan,Integer page,Model model){
+		public String queryCollect(CollectPlan collectPlan,Integer page,Model model,String type){
 			List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 			PageInfo<CollectPlan> info = new PageInfo<>(list);
  
 			model.addAttribute("info", info);
 			model.addAttribute("inf", collectPlan);
+			model.addAttribute("type", type);
 			return "bss/pms/collect/contentlist";
 		}
 		 /**
@@ -95,7 +96,7 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
 		@RequestMapping("/add")
-		public String queryCollect(CollectPlan collectPlan,String cno){
+		public String queryCollect(CollectPlan collectPlan,String cno,String goodsType){
 			PurchaseRequired p=new PurchaseRequired();
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 			Set<String> set=new HashSet<String>();
@@ -146,6 +147,7 @@ public class CollectPlanController extends BaseController {
 						collectPurchaseService.add(c);
 					}
 					collectPlan.setPlanNo(cno);
+					collectPlan.setGoodsType(goodsType);
 					collectPlanService.add(collectPlan);
 				}
 			}

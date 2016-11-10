@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -10,28 +11,9 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 <style type="text/css">
 td {
   cursor:pointer;
@@ -175,46 +157,47 @@ function nextStep(){
   } */
 </script>
 </head>
-  
-<body>
-  <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-    <!--详情开始-->
-    <div class="container content height-350">
-      <div class="row magazine-page">
-        <div class="col-md-12 tab-v2 job-content">
-          <div class="padding-top-10">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a >详细信息</a></li>
-              <li class=""><a >财务信息</a></li>
-              <li class=""><a >股东信息</a></li>
-              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class=""><a >物资-生产型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	            <li class=""><a >物资-销售型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a >工程-专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class="active"><a id="service">服务-专业信息</a></li>
-	            </c:if>
-              <li class=""><a >品目信息</a></li>
-              <li class=""><a >产品信息</a></li>
-              <li class=""><a >申请表</a></li>
-              <li class=""><a >审核汇总</a></li>
-            </ul>
-              <div class="tab-content padding-top-20" style="height:800px;">
-                <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post" >
-                    <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-                  </form>
-                  <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx">
-                    <i>01</i>供应商资质证书
-                    </h2>
-                    <table class="table table-bordered table-condensed">
+    <body>
+        <!--面包屑导航开始-->
+        <div class="margin-top-10 breadcrumbs ">
+            <div class="container">
+                <ul class="breadcrumb margin-left-0">
+                    <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li>
+                </ul>
+            </div>
+        </div> 
+        <div class="container container_box">
+            <div class="content height-350">
+                <div class="col-md-12 tab-v2 job-content">
+                    <ul class="nav nav-tabs bgdd">
+		              <li class=""><a >详细信息</a></li>
+		              <li class=""><a >财务信息</a></li>
+		              <li class=""><a >股东信息</a></li>
+		              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+			            <li class=""><a >物资-生产型专业信息</a></li>
+			          </c:if>
+			          <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+			            <li class=""><a >物资-销售型专业信息</a></li>
+			          </c:if>
+			          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+			            <li class=""><a >工程-专业信息</a></li>
+			          </c:if>
+			          <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+			            <li class="active"><a id="service">服务-专业信息</a></li>
+			          </c:if>
+		              <li class=""><a >品目信息</a></li>
+		              <li class=""><a >产品信息</a></li>
+		              <li class=""><a >申请表</a></li>
+		              <li class=""><a >审核汇总</a></li>
+                    </ul>
+
+                    <form id="form_id" action="" method="post" >
+                        <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+                    </form>
+
+                    <h2 class="count_flow"><i>1</i>供应商资质证书</h2>
+                    <ul class="ul_list count_flow">
+                        <table class="table table-bordered table-condensed table-hover">
                       <thead>
                         <tr>
                           <th class="info w50">序号</th>
@@ -254,40 +237,37 @@ function nextStep(){
                         </tr>
                       </c:forEach>
                     </table>
-                  </div>
-                  
-                  <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx">
-                    <i>02</i>供应商组织结构和人员
-                    </h2>
-                      <ul class="list-unstyled list-flow">
-                        <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
+                  </ul>
+
+                  <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
+                    <ul class="ul_list">
+                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input id="orgName" class="span3" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'supplierMatSe.orgName')"/>
+                            <input id="orgName" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'supplierMatSe.orgName')"/>
                             <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
+                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalPerson2">人员总数：</span>
                           <div class="input-append">
-                            <input id="totalPerson" class="span3" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'supplierMatSe.totalPerson')" />
+                            <input id="totalPerson" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'supplierMatSe.totalPerson')" />
                           <div id="totalPerson3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
+                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'supplierMatSe.totalMange')" />
+                            <input id="totalMange" class="span5" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'supplierMatSe.totalMange')" />
                           <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
+                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTech2">技术人员：</span>
                           <div class="input-append">
-                            <input id="totalTech" class="span3" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'supplierMatSe.totalTech')" />
+                            <input id="totalTech" class="span5" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'supplierMatSe.totalTech')" />
                           <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
+                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalWorker2">工人(职员)：</span>
                           <div class="input-append">
-                            <input id="totalWorker" class="span3" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'supplierMatSe.totalWorker')" />
+                            <input id="totalWorker" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'supplierMatSe.totalWorker')" />
                             <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
@@ -295,17 +275,12 @@ function nextStep(){
                     </div>
                 <div class="col-md-12 add_regist tc">
                   <!--  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                   <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
+                   <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
                 </div>
               </div>
             </div>   
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
-   <input type="hidden" name="fileName" />
-  </form>
-</body>
+        <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+            <input type="hidden" name="fileName" />
+        </form>
+    </body>
 </html>

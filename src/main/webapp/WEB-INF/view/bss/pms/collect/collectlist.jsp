@@ -20,28 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
+<link href="${pageContext.request.contextPath }/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
 
  
   <script type="text/javascript">
@@ -211,13 +191,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 
 		 var id =[]; 
 		 var de=[];
+		 var type="";
+	 
 		$('input[name="chkItem"]:checked').each(function(){ 
+		    type=$(this).prev().val();
 			var dep=$(this).next().val();
 			de.push(dep);
 		
 			id.push($(this).val()); 
 		}); 
-	 
+	    $("#goodsType").val(type);
 	  	$("#plannos").val(id);
 	  	$("#dep").val(de);
 	    $("#collect_form").submit();
@@ -231,21 +214,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	var ids=[]; 
 	function collected(){
-	
+		var flag=true;
+		var ceck=$('input[name="chkItem"]:checked:first').prev().val();
+		var goodsType="";
 		$('input[name="chkItem"]:checked').each(function(){ 
+		    goodsType=$(this).prev().val();
+			if(ceck!=goodsType){
+				flag=false;
+			}
 			ids.push($(this).val());
 		}); 
-		 if(ids.length>=1){
+		
+		if(flag==false){
+			layer.alert("物资类别需要一样",{offset: ['222px', '390px'], shade:0.01});
+		}
+		
+		else  if(ids.length>=1){
 			  layer.open({
 				  type: 2, //page层
 				  area: ['600px', '500px'],
-				  title: '',
+				  title: '汇入采购计划',
 				  closeBtn: 1,
 				  shade:0.01, //遮罩透明度
-				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  moveType: 0, //拖拽风格，0是默认，1是传统拖动
 				  shift: 1, //0-6的动画形式，-1不开启
 				  offset: ['80px', '100px'],
-				  content:  '<%=basePath%>collect/collectlist.html',
+				  content:  '<%=basePath%>collect/collectlist.html?type='+goodsType,
 				});
 			 
 			 
@@ -269,55 +263,69 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
- <!--   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="${pageContext.request.contextPath }/collect/list.html" method="post" >
-  
-	<input type="hidden" name="page" id="page">
-	  
- 		 需求计划名称：<input class="mt10"  type="text" name="planName" value="${inf.planName }"/>
-		 需求计划编号：<input class="mt10"  type="text" name="planNo" value="${inf.planNo }"/>
-	   
-	   状态 :
-	   	   <select name="status"  >
-			<option value=""> 请选项状态</option>
-	   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
-	   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
-	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
-	   	    <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
-	   	   <option value="5" <c:if test="${inf.status=='6'}"> selected</c:if> > 审核通过</option>
-	   	    <option value="5" <c:if test="${inf.status=='7'}"> selected</c:if> >审核暂存</option>
-	   	    
- 	   	   </select>
-	   	  
-	   
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- 
-
-	
-   
-   </form>
-  </div>
-   <div class="headline-v2 fl">
+ <div class="headline-v2 fl">
       <h2>需求计划列表
 	  </h2>
    </div> 
-    <span class="fr option_btn margin-top-10">
+   
+   <h2 class="search_detail">
+    <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/collect/list.html" method="post" >
+  
+	
+	  
+	   <ul class="demand_list">
+			    	  <li>
+				    	<label class="fl">  需求计划名称：</label><span>
+				    	<input type="hidden" name="page" id="page">
+				  	 <input   type="text" name="planName" value="${inf.planName }"/>
+				    	
+				    	</span>
+				      </li>
+				   <li>
+				    	<label class="fl">  需求计划编号：</label><span>
+				  	  <input   type="text" name="planNo" value="${inf.planNo }"/>
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">    	   状态 :</label><span>
+				    	 <select name="status"  >
+								<option value=""> 请选项状态</option>
+						   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
+						   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
+						   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
+						   	    <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
+						   	   <option value="5" <c:if test="${inf.status=='6'}"> selected</c:if> > 审核通过</option>
+						   	    <option value="5" <c:if test="${inf.status=='7'}"> selected</c:if> >审核暂存</option>
+				   	    
+			 	   	   </select>
+				    	
+				    	</span>
+				      </li>
+			    	</ul>
+			    	
+	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
+ 
+
+	 <input type="button" onclick="resetQuery()" class="btn" value="重置"/>
+   
+   </form>
+  	</h2>
+   
+   <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
-	  </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+	 </div>
+   <div class="container  table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">需求部门</th>
 		  <th class="info">需求计划名称</th>
-		  <th class="info">编报人</th>
+		  <!-- <th class="info">编报人</th> -->
+		  <th class="info">物资类别</th> 
 		  <th class="info">提交日期</th>
 		  <th class="info">预算总金额</th>
 		  <th class="info">状态</th>
@@ -332,7 +340,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    
 			  <td class="tc"  >${obj.planName }</td>
 			
-			  <td class="tc"  ></td>
+			  <td class="tc"  >
+			   <c:if test="${obj.planType==1}">
+			 	 货物
+			  </c:if>
+			   <c:if test="${obj.planType=='2' }">
+		     	工程
+			  </c:if>
+			   <c:if test="${obj.planType=='3' }">
+			 	 服务
+			  </c:if>
+			  
+			  </td>
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
@@ -384,6 +403,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 密码:<input type="password" name="password" value=""><br> -->
 		 <input type="hidden" name="planNo" id="plannos" value="">
 		  <input type="hidden" name="department" id="dep" value="">
+		  <input type="hidden" name="goodsType" id="goodsType" value="">
 	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >生成采购计划</button>
 	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
 	   

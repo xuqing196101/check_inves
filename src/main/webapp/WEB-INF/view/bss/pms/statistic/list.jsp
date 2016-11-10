@@ -6,6 +6,8 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -18,27 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
-	
 
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
@@ -367,6 +349,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#container").show();
 		
 	}
+	
+	function resetQuery(){
+		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
   </script>
   </head>
   
@@ -382,15 +368,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" method="post" >
+ <div class="headline-v2 fl">
+      <h2>需求计划列表
+	  </h2>
+   </div> 
+   
+   
+  <h2 class="search_detail">
+    <form id="add_form" action="${pageContext.request.contextPath}/statistic/list.html" class="mb0" method="post" >
    <input type="hidden" name="page" id="page">
 
-	  物资类别：<select name="planType" >
+	 <%--  物资类别：<select name="planType" >
 	  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
 		<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
 		<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
@@ -414,13 +402,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
 	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
 	   	 <input class="btn-u"   type="button" name="" value="按月统计" onclick="line(1)" /> 
-	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" />  --%>
+	   	 
+	   	    	<ul class="demand_list">
+			    	  <li>
+				    	<label class="fl"> 物资类别：</label><span>
+				  	   <select name="planType" style="width: 152px;" >
+				  	     <option value="" >请选择</option>
+						  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
+							<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
+							<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
+					   </select>
+				    	</span>
+				      </li>
+				   <li>
+				    	<label class="fl">年度：</label><span>
+				  	    <input   type="text" name="year" value="${year}" /> 
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">   需求部门：</label><span>
+				  	   		<input  type="text" name="department" value="${inf.department }" /> 
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">  采购方式：</label><span>
+							<select  name="purchaseType" style="width:100px" id="select">
+	              				    <option value="" >请选择</option>
+		                            <option value="公开招标" <c:if test="${'公开招标'==inf.purchaseType}">selected="selected"</c:if>>公开招标</option>
+		                            <option value="邀请招标" <c:if test="${'邀请招标'==inf.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+		                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==inf.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+		                            <option value="询价采购" <c:if test="${'询价采购'==inf.purchaseType}">selected="selected"</c:if>>询价采购</option>
+		                            <option value="单一来源" <c:if test="${'单一来源'==inf.purchaseType}">selected="selected"</c:if>>单一来源</option>
+				              </select>
+				    	
+				    	</span>
+				      </li>
+				    	  
+				    	  
+				    	   <li>
+				    	<label class="fl">采购机构：</label><span>
+				  	       <select name="organization" style="width: 152px;" >
+				  	        <option value="" >请选择</option>
+				  	       <c:forEach items="${org }" var="obj">
+				  	      
+						  	<option value="${obj.name }" <c:if test="${obj.name==inf.organization }"> selected</c:if> >${obj.name }</option>
+						  </c:forEach>
+					  	 </select>
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl"> 预算：</label><span>
+				  	   		<input  type="text" name="budget" value="${inf.budget }" /> 
+				    	
+				    	</span>
+				      </li>
+				      
+				      
+			    	</ul>
+			    	<div class="col-md-12 clear tc mt10">
+			    	<input class="btn"   type="submit" name="" value="查询" /> 
+				      <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	 	
+			    	</div>
+		    	  	<div class="clear"></div>
    </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>需求计划列表
-	  </h2>
-   </div> 
+  </h2>
+   <div class="col-md-12 pl20 mt10">
+	     	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按月统计" onclick="line(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" />
+	  </div>
+	  
+	  
    <div id="div_table" class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
 		<thead>

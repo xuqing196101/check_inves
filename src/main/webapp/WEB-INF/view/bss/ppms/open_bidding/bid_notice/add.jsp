@@ -2,48 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="/tld/upload" prefix="p" %>
-<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title></title>
-
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-	
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-   <link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-
-    <!--导航js-->
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}//public/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}//public/ueditor/ueditor.all.min.js"> </script>
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}//public/ueditor/lang/zh-cn/zh-cn.js"></script>
-     <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
+<head>
+	<%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-       var globalPath = "${contextPath}";
        
-  //导入模板
+  	//导入模板
     function inputTemplete(){
         var iframeWin;
         layer.open({
@@ -122,10 +89,12 @@
        
        $(function(){
 			var range="${range}";
-			if(range==2){
-				$("input[name='ranges']").attr("checked",true); 
-			}else{
-				$("input[name='ranges'][value="+range+"]").attr("checked",true); 
+			if(range !=null && range != ""){
+				if(range==2){
+					$("input[name='ranges']").attr("checked",true); 
+				}else{
+					$("input[name='ranges'][value="+range+"]").attr("checked",true); 
+				}
 			}
 		});
         
@@ -154,12 +123,13 @@
 	         </div><br>
         	 <i class="red">*</i>公告内容：
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-             <p:upload businessId="111" selectButton="sssss" typeId="1" sysKey="1"/>
-             <p:show businessId="111" sysKey="1"/>
+             <i class="red">*</i>上传附件： 
+             <p:upload id="a" businessId="${projectId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             <p:show  showId="b"  businessId="${projectId }" sysKey="${sysKey }" typeId="${typeId }"/>
         </div>
       </form>
 				     
-    <script type="text/javascript">
+   <script type="text/javascript">
     var option ={
             toolbars: [[
                     'fullscreen', 'source', '|', 'undo', 'redo', '|',

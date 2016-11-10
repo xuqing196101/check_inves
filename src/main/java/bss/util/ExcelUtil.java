@@ -76,7 +76,7 @@ public class ExcelUtil {
 	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
 	        					 Double value = cell.getNumericCellValue();
 	 	        				if(value!=null){ 
-	 		        				 rq.setPurchaseCount(value.longValue()); 
+	 		        				 rq.setPurchaseCount(new BigDecimal(cell.getNumericCellValue())); 
 	 	        				 }
 	        					
 	        				 }

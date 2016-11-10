@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
 import bss.controller.base.BaseController;
 import bss.formbean.Chart;
 import bss.formbean.Data;
@@ -37,6 +39,8 @@ public class PlanStatisticsController extends BaseController {
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -62,6 +66,12 @@ public class PlanStatisticsController extends BaseController {
 		 String json = map(purchaseRequired,year);
 //		String json= JSON.toJSONString(getMap());
 		 model.addAttribute("data", json);
+		 
+		 
+			HashMap<String,Object> map=new HashMap<String,Object>();
+			map.put("typeName", 1);
+			List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+			model.addAttribute("org", org);
 		return "bss/pms/statistic/list";
 	}
 

@@ -52,6 +52,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
 		    skip: true, //是否开启跳页
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
@@ -223,6 +226,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 	}
+	 function resetQuery(){
+			$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+		}
+	 
   </script>
   </head>
   
@@ -231,38 +238,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">需求计划受理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" method="post" >
- <input type="hidden" name="page" id="page">
-
-	 需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/>
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- 
-
+	<div class="headline-v2 fl">
+	      <h2>需求计划列表
+		  </h2>
+	  </div> 
+  <h2 class="search_detail">
+    <form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" class="mb0" method="post" >
 	
- 
+	 <ul class="demand_list">
+			    	  <li>
+				    	<label class="fl">  需求计划名称：</label><span>
+				  	  <input type="text"   name="planName" value="${inf.planName }"/> 
+				    	 <input type="hidden" name="page" id="page">
+				    	</span>
+				      </li>
+				   <li>
+				     
+		  </ul>
+ <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
+ <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	
    </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>需求计划列表
-	  </h2>
-   </div> 
-    <span class="fr option_btn margin-top-10">
+ </h2>
+   
+     <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">受理</button>
-	  </span>
+	 </div>
    <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
