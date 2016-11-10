@@ -5,6 +5,17 @@
  */
 var homeUrl = globalPath + "/login/home.html";
 function loadHtml(url){
+	/*if (history && history.pushState) {
+		history.replaceState(url,"",location.href);
+		$("#homeDivId").load(url+"#body");
+		history.pushState(null, "",url);
+	} else {
+		noPopstate(url);
+	}*/
+	noPopstate(url);
+}
+
+function noPopstate(url){
 	  var hash=location.hash; 
 	  if(!isNull(hash)){  
 	      loadActivePageByHash(url); //调用load方法，执行前进 后退  
@@ -12,6 +23,7 @@ function loadHtml(url){
 		  initPage(url);
 	  }
 }
+
 /**
  * 保存历史记录
  */
@@ -27,6 +39,7 @@ function loadHistory(){
     })
     $(window).hashchange();
 }
+
 /**
  * 动态的加载按钮
  * @param url 菜单的URL

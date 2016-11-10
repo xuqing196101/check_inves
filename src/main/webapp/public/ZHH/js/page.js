@@ -2,7 +2,7 @@
 /**
  * 翻页公共组件
  */
-$(document).ready(function() { 
+$(function() { 
 	 laypage({
          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
          pages: $("#pageNum").val(), //总页数
