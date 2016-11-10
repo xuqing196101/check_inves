@@ -48,8 +48,8 @@
 			url : "${pageContext.request.contextPath}/area/find_by_id.do",
 			data:{"id":addressId},
 			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
+				//var data = eval('(' + obj + ')');
+				$.each(obj,function(i,result){
 					if(addressId == result.id){
 						parentId = result.areaType;
 					$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
@@ -61,6 +61,10 @@
 			error:function(obj){
 			}
 		}); 
+			 if (location.href.indexOf("?xyz=")<0)
+			 {
+			 location.href=location.href+"&?xyz="+Math.random();
+			 }
 		}
 		function func(){
 			var parentId = $("#addr").val();
@@ -69,9 +73,9 @@
 				data:{"id":parentId},
 				success:function(obj){
 					$("#haha").empty();
-					var data = eval('(' + obj + ')');
+					//var data = eval('(' + obj + ')');
 					$("#haha").append("<option  value=''>-请选择-</option>");
-					$.each(data,function(i,result){
+					$.each(obj,function(i,result){
 						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
 				},
@@ -225,7 +229,7 @@
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
      var nodes = treeNode.children;
      for(var i=0;i<nodes.length;i++){
-         treeObj.expandNode(nodes[i],true,false,true,true);
+         treeObj.expandNode(nodes[i],true,true,true);
      }
  }
 	var treeid=null;
@@ -244,6 +248,21 @@
 			success:function(result){
 				$("#id").val(result.id);
 				  layer.msg("已暂存");
+			  },
+			  error:function(result){
+				  alert("出错啦！");
+			  }
+		});
+	}
+	function submitForm2(){
+		getChildren();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
 			  },
 			  error:function(result){
 				  alert("出错啦！");
@@ -297,8 +316,8 @@
 			t = name + "_" + i;
 			l = name + "_" + (i + 1);
 		}
-		//暂存
-		submitForm1();
+		//暂存无提示
+		submitForm2();
 		$("#" + t).hide();
 		$("#" + l).show();
 		
@@ -430,6 +449,7 @@
 					tab5();
 					return;
 				}
+				getChildren();
 		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add.html");
 		$("#form1").submit();
 	}
@@ -1126,6 +1146,7 @@
    		<td align="center">政治面貌</td>
    		<td align="center" width="150px" id="tFace" colspan="2"></td>
    </tr>
+   
    <tr>
    		<td align="center">所在地区</td>
    		<td align="center" width="150px"></td>

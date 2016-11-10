@@ -53,6 +53,7 @@
 			type:"post",
 			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
 			success:function(data){
+				var flag = data.split(",");
 				if(data=="errorcode"){
 					layer.tips("验证码不正确","#inputCode",{
 						tips : 1
@@ -66,6 +67,25 @@
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
 					window.location.href="${pageContext.request.contextPath}/login/index.html";
+				}else if(data=="black"){
+					layer.msg("对不起，你已被限制登录!");
+					layer.close(index);
+				}else if(flag[0]=="audit"){
+					 //layer.msg("你的信息还未审核，请耐心等待!");
+					 window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId="+flag[1];
+					//layer.close(index);
+				}else if(flag[0]=="empty"){
+					//询问框
+					layer.confirm('你还未注册个人信息，是否前去完善？', {
+					 	btn: ['是','否'] //按钮
+					}, function(){
+					  window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId="+flag[1];
+					 	}, function(){
+					 		layer.close(index);
+					 		window.location.href="${pageContext.request.contextPath}/";
+					 	    });
+					}else if(flag[0]=="reset"){
+					 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId="+flag[1];
 				}else if(data="deleteLogin"){
 					layer.msg("账号不存在!");
 					layer.close(index);

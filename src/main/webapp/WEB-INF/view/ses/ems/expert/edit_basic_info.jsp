@@ -34,8 +34,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		data:{"id":addressId},
 		success:function(obj){
 			//alert(JSON.stringify(obj));
-			var data = eval('(' + obj+ ')');
-			$.each(data,function(i,result){
+			//var data = eval('(' + obj+ ')');
+			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
 				$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
@@ -85,9 +85,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			data:{"id":parentId},
 			success:function(obj){
 				$("#haha").empty();
-				var data = eval('(' + obj + ')');
+				//var data = eval('(' + obj + ')');
 				$("#haha").append("<option value=''>-请选择-</option>");
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					
 					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
@@ -265,6 +265,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     $("#categoryId").val(ids);
 		$("#form1").submit();
 	}
+	
 </script>
 </head>
 <body>
@@ -379,7 +380,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>所在地区：</span>
 											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											 <select class="span5" id="hehe" onchange="func();">
+											 <select class="span5" id="hehe" onchange="fun();">
 													<option value="">-请选择-</option>
 											 </select>
 											 <select class="span5" name="address" id="haha">

@@ -567,9 +567,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   		   <table class="table table-bordered table-condensed mt5">
 											    <thead>
 											    <tr align="right">
-									   		   		<td align="right" colspan="${3+supplierList.size() }">
+									   		   		<td align="right" colspan="${2+supplierList.size() }">
 									   		   		<button class="btn btn-windows back" type="button">评分汇总</button>
-								   	                <button class="btn btn-windows input" onclick="window.print();" type="button">打印评分信息</button>
+								   	                <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 								   	                </td>
 									   		   </tr>
 											      <tr>
@@ -588,14 +588,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											         <c:if test="${ext.packageId eq pack.id }">
 												       <tr>
 												        <td align="center">${ext.expert.relName } </td>
-												        <td align="center"> </td>
-												        <td align="center"></td>
-												        <td align="center"></td>
-												        <td align="center"></td>
+												        <td align="center">未完成 </td>
+												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+											               <td align="center"></td>
+											            </c:forEach>
 												      </tr>
 												     </c:if>
 										      	  </c:forEach>
-												       <tr>
+												      <%--  <tr>
 												        <td align="center" colspan="2">评分结果 </td>
 												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 												        <td align="center">aa</td>
@@ -606,7 +606,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 												        <td align="center">aa</td>
 												        </c:forEach>
-												      </tr>
+												      </tr> --%>
 												      </thead>
 								   		  </table>
 									</c:forEach>

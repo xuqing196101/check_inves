@@ -35,8 +35,8 @@ $.ajax({
 	data:{"id":addressId},
 	success:function(obj){
 		//alert(JSON.stringify(obj));
-		var data = eval('(' + obj+ ')');
-		$.each(data,function(i,result){
+		//var data = eval('(' + obj+ ')');
+		$.each(obj,function(i,result){
 			if(addressId == result.id){
 				parentId = result.areaType;
 			$("#haha").append(result.name);

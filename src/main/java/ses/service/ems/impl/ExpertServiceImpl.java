@@ -385,7 +385,7 @@ public class ExpertServiceImpl implements ExpertService {
 			}
 			//附件上传
 			//uploadFile(files, realPath,expert.getId());
-			if(expert.getPurchaseDepId()=="1"){
+			if(expert.getExpertsTypeId().equals("1")){
 			//保存品目
 				saveCategory(expert, categoryIds);
 			}else{
@@ -424,7 +424,7 @@ public class ExpertServiceImpl implements ExpertService {
 		todos.setPowerId(config.getString("zjdb"));
 		todos.setSenderId(expert.getId());
 		todos.setUndoType((short)2);
-		todos.setUrl("expert/toShenHe?id="+expert.getId());
+		todos.setUrl("expert/toShenHe.html?id="+expert.getId());
 		todosMapper.insert(todos );
 	}
 	
@@ -477,6 +477,7 @@ public class ExpertServiceImpl implements ExpertService {
 		if(ids!=null && StringUtils.isNotEmpty(ids)){
 			String[] idArray = ids.split(",");
 			ExpertCategory expertCategory = new ExpertCategory();
+			categoryMapper.deleteByExpertId(expert.getId());
 			//循环品目id集合
 			for (String string : idArray) {
 				expertCategory.setCategoryId(string);

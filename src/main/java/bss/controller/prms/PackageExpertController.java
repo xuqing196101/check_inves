@@ -77,13 +77,13 @@ public class PackageExpertController {
 		//项目分包信息
 		HashMap<String,Object> pack = new HashMap<String,Object>();
 		pack.put("projectId", projectId);
-		List<Packages> packList = packageService.findPackageById(pack);
+		/*List<Packages> packList = packageService.findPackageById(pack);
 		if(packList.size()==0){
 			Packages pg = new Packages();
 			pg.setName("第一包");
 			pg.setProjectId(projectId);
 			packageService.insertSelective(pg);
-		}
+		}*/
 		List<Packages> packages = packageService.findPackageById(pack);
 		Map<String,Object> list = new HashMap<String,Object>();
 		//关联表集合

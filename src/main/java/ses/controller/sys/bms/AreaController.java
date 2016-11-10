@@ -198,19 +198,20 @@ public class AreaController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-	
+	@ResponseBody
 	@RequestMapping(value = "find_area_by_parent_id")
-	public void findAreaByParentId(HttpServletResponse response, String id) throws IOException {
+	public List<Area> findAreaByParentId(HttpServletResponse response, String id) throws IOException {
 		List<Area> list = areaService.findAreaByParentId(id);
-		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		return list;
+		/*String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(json);
 		response.getWriter().flush();
-		response.getWriter().close();
+		response.getWriter().close();*/
 	}
 	@ResponseBody
 	@RequestMapping(value = "find_by_id")
-	public void find_by_id(HttpServletResponse response, String id) throws IOException {
+	public List<Area> find_by_id(HttpServletResponse response, String id) throws IOException {
 		if(StringUtils.isNotEmpty(id)){
 		Area area = areaService.listById(id);
 		Area area2 = new Area();
@@ -220,11 +221,13 @@ public class AreaController {
 		/*Map<String,Object> map =new HashMap<>();
 		map.put("area", area);
 		map.put("listByArea", listByArea);*/
-		String json = JSON.toJSONStringWithDateFormat(listByArea, "yyyy-MM-dd HH:mm:ss");
+		/*String json = JSON.toJSONStringWithDateFormat(listByArea, "yyyy-MM-dd HH:mm:ss");
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(json);
 		response.getWriter().flush();
-		response.getWriter().close();
+		response.getWriter().close();*/
+		return listByArea;
 		}
+		return new ArrayList<>();
 	}
 }

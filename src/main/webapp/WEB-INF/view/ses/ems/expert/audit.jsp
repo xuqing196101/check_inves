@@ -35,8 +35,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		data:{"id":addressId},
 		success:function(obj){
 			//alert(JSON.stringify(obj));
-			var data = eval('(' + obj+ ')');
-			$.each(data,function(i,result){
+			//var data = eval('(' + obj+ ')');
+			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
 				$("#haha").append(result.name);
@@ -82,9 +82,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			data:{"id":parentId},
 			success:function(obj){
 				$("#haha").empty();
-				var data = eval('(' + obj + ')');
+				//var data = eval('(' + obj + ')');
 				$("#haha").append("<option value=''>-请选择-</option>");
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					
 					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});

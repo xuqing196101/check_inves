@@ -65,18 +65,24 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/view/" p:suffix=".jsp" />
 
-	<!-- <bean id="multipartResolver"
+<!-- 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding">
 			<value>UTF-8</value>
 		</property>
 		<property name="maxUploadSize">
-			<value>32505856</value>上传文件大小限制为31M，31*1024*1024
+			<value>32505856</value> 
 		</property>
 		<property name="maxInMemorySize">
 			<value>4096</value>
 		</property>
 	</bean> -->
+	<bean id="multipartResolver" class="bss.util.MyMultipartResolver">
+     <property name="excludeUrls" value="file/upload"/>
+		<!-- url中带有example的http请求就不会被multipartResolver先解析-->
+	</bean>
+
+
 
 	<!-- 自定义异常 -->
 	<bean id="exceptionHandler" class="ses.util.MyException"/>

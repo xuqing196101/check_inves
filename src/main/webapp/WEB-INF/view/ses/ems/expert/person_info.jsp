@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="/tld/upload" prefix="up"%>
+<jsp:include page="/WEB-INF/view/ses/ems/expert/common/expert_common.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -21,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<jsp:include page="/WEB-INF/view/ses/ems/expert/common/expert_common.jsp"></jsp:include>
+
 <script type="text/javascript">
 var treeObj;
 var datas;
@@ -35,8 +37,8 @@ $.ajax({
 	data:{"id":addressId},
 	success:function(obj){
 		//alert(JSON.stringify(obj));
-		var data = eval('(' + obj+ ')');
-		$.each(data,function(i,result){
+		//var data = eval('(' + obj+ ')');
+		$.each(obj,function(i,result){
 			if(addressId == result.id){
 				parentId = result.areaType;
 				$("#haha").append(result.name);
@@ -80,9 +82,9 @@ function fun(){
 		data:{"id":parentId},
 		success:function(obj){
 			$("#haha").empty();
-			var data = eval('(' + obj + ')');
+			//var data = eval('(' + obj + ')');
 			$("#haha").append("<option value=''>-请选择-</option>");
-			$.each(data,function(i,result){
+			$.each(obj,function(i,result){
 				
 				$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 			});
