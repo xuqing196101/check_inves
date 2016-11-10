@@ -1,12 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 	<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 	<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -20,31 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-	
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
+	<%@ include file="/WEB-INF/view/common.jsp"%>
 	<script type="text/javascript">
 		/* 机构树 */
 		
@@ -209,7 +180,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </div>
    </div>
    <!-- 修改订列表开始-->
-   <div class="container bggrey border1 mt20">
+   <div class="container container_box">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeOrg" class="ztree"  ></ul>
 	   </div>
@@ -221,10 +192,125 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <div class="headline-v2 bggrey">
 			   		<h2>新增用户</h2>
 			   </div>
-			   <ul class="list-unstyled list-flow ul_list">
-			   	 	<li class="col-md-6 p0">
+			   <ul class="ul_list">
+			     <li class="col-md-3 margin-0 padding-0 ">
+				   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名<span class="red"><sf:errors path="loginName"/></span></span>
+				   <div class="input-append">
+			        <input class="span5" name="loginName" value="${user.loginName }" maxlength="30" type="text">
+			        <span class="add-on">i</span>
+			       </div>
+				 </li>
+				 <li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>真实姓名</span>
+				    <div class="input-append">
+				        <input class="span5" name="relName" value="${user.relName }" maxlength="10" type="text">
+				        <span class="add-on">i</span>
+				        <div class="b f14 red tip pa l260"><sf:errors path="relName"/></div>
+			       	</div>
+			 	 </li>
+			 	 <li class="col-md-3 margin-0 padding-0 ">
+			   		<span class="col-md-12 padding-left-5"><span class="red">*</span>密码</span>
+				    <div class="input-append">
+				        <input class="span5" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
+				        <span class="add-on">i</span>
+				        <div class="b f14 red tip pa l260"><sf:errors path="password"/></div>
+			        </div>
+			 	</li> 
+		     	<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
+				    <div class="input-append">
+				        <input class="span2" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
+				        <span class="add-on">i</span>
+				        <div class="b f14 red tip pa l260"><sf:errors path="password2"/></div>
+				        <div class="b f18 ml10 red hand">${password2_msg}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
+			        <select class="w250 " id="gender" name="gender">
+			        	<option value="">-请选择-</option>
+			        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
+			        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+			        </select>
+			        <div class="b f14 red tip pa l462 t0"><sf:errors path="gender"/></div>
+			 	</li>
+		     	<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>手机</span>
+				    <div class="input-append">
+				        <input class="span2" name="mobile" value="${user.mobile }" maxlength="40" type="text">
+				        <span class="add-on">i</span>
+				        <div class="b f14 red tip pa l260"><sf:errors path="mobile"/></div>
+			        </div>
+			 	</li>
+		        <li class="col-md-3 margin-0 padding-0 ">
+				   	<span class="col-md-12 padding-left-5">邮箱</span>
+				   	<div class="input-append">
+				        <input class="span2" name="email" value="${user.email }" maxlength="100" type="text">
+				        <span class="add-on">i</span>
+				        <div class="b f14 red tip pa l260"><sf:errors path="email"/></div>
+			       	</div>
+			 	</li>
+		     	<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5">职务</span>
+				    <div class="input-append">
+			        	<input class="span2" name="duties" value="${user.duties }"  maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+				 </li>
+				<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>类型</span>
+			        <select class="w250 " name="typeName">
+			        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
+			        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
+			        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
+			        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
+			        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
+			        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
+			        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
+			        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
+			        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
+			        </select>
+				 </li>
+			 	<li class="col-md-3 margin-0 padding-0 ">
+				   	<span class="col-md-12 padding-left-5"><span class="red">*</span>所属机构</span>
+				   	<div class="select_common pr">
+					   	<input id="oId" name="orgId" value="${user.orgId }" type="hidden">
+				        <input id="orgSel" class="w250" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+				        <i class="input_icon " onclick="showOrg();">
+							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+				        </i>
+			       	</div>
+			       	<div class="b f14 red tip pa l462"><sf:errors path="orgId"/></div>
+			 	</li>
+		     	<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5">座机电话</span>
+				    <div class="input-append">
+			        	<input class="span2" name="telephone" value="${user.telephone }" maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+			    </li> 
+				<li class="col-md-3 margin-0 padding-0 ">
+				    <span class="col-md-12 padding-left-5"><span class="red">*</span>角色</span>
+				    <div class="select_common pr">
+					   	<input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
+				        <input id="roleSel" class="w250" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
+				        <i class="input_icon " onclick="showRole();">
+							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+				        </i>
+			        </div>
+			        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
+			 	</li>
+			 	<li class="col-md-11 margin-0 padding-0">
+			 	   <span class="col-md-12 padding-left-5">详细地址</span>
+				   <div class="">
+			        	<textarea class="col-md-12" style="height:130px" name="address" title="不超过100个字"></textarea>
+			       </div>
+			 	</li>
+			   </ul>
+			   <%-- <ul class="list-unstyled list-flow ul_list">
+			   	 	<li class="col-md-3 margin-0 padding-0 ">
 			   	 		
-					   	<span class="span2"><div class="fr">用户名：</div><div class="red">*</div></span>
+					   	<span class="span2"><div class="fr">用户名</div><div class="red">*</div></span>
 					   	<div class="input-append pr">
 					        <input class="span2" name="loginName" value="${user.loginName }" maxlength="30" type="text">
 					        <span class="add-on">i</span>
@@ -232,119 +318,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <div class="b f14 ml10 red hand">${exist}</div>
 				       	</div>
 				 	</li>
-			     	<li class="col-md-6  p0 ">
-					    <span class="span2"><div class="fr">真实姓名：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" name="relName" value="${user.relName }" maxlength="10" type="text">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="relName"/></div>
-				       	</div>
-				 	</li>
-				 	<li class="col-md-6  p0 ">
-				   		<span class=""><div class="fr">密码：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="password"/></div>
-				        </div>
-				 	</li> 
-			     	<li class="col-md-6  p0 ">
-					    <span class=""><div class="fr">确认密码：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="password2"/></div>
-					        <div class="b f18 ml10 red hand">${password2_msg}</div>
-				        </div>
-				 	</li>
-				 	<li class="col-md-6 p0">
-					    <span class=""><div class="fr">性别：</div><div class="red">*</div></span>
-					    <div class="select_common mb10 pr">
-					        <select class="w250 " id="gender" name="gender">
-					        	<option value="">-请选择-</option>
-					        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
-					        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
-					        </select>
-					        <div class="b f14 red tip pa l260 t0"><sf:errors path="gender"/></div>
-				        </div>
-				 	</li>
-			     	<li class="col-md-6  p0 ">
-					    <span class=""><div class="fr">手机：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" name="mobile" value="${user.mobile }" maxlength="40" type="text">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="mobile"/></div>
-				        </div>
-				 	</li>
-			        <li class="col-md-6 p0">
-					   	<span class="">邮箱：</span>
-					   	<div class="input-append pr">
-					        <input class="span2" name="email" value="${user.email }" maxlength="100" type="text">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="email"/></div>
-				       	</div>
-				 	</li>
-			     	<li class="col-md-6  p0 ">
-					    <span class="">职务：</span>
-					    <div class="input-append">
-				        	<input class="span2" name="duties" value="${user.duties }"  maxlength="40" type="text">
-				        	<span class="add-on">i</span>
-				        </div>
-					 </li>
-					<li class="col-md-6 p0">
-					    <span class=""><div class="fr">类型：</div><div class="red">*</div></span>
-					    <div class="select_common mb10 pr" >
-					        <select class="w250 " name="typeName">
-					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
-					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
-					        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
-					        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
-					        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
-					        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
-					        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
-					        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
-					        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
-					        </select>
-				        </div>
-					 </li>
-				 	<li class="col-md-6  p0 ">
-					   	<span class=""><div class="fr">所属机构：</div><div class="red">*</div></span>
-					   	<div class="select_common pr">
-						   	<input id="oId" name="orgId" value="${user.orgId }" type="hidden">
-					        <input id="orgSel" class="w250" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
-					        <i class="input_icon " onclick="showOrg();">
-								<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
-					        </i>
-				       	</div>
-				       	<div class="b f14 red tip pa l462"><sf:errors path="orgId"/></div>
-				 	</li>
-			     	<li class="col-md-6  p0 ">
-					    <span class="">座机电话：</span>
-					    <div class="input-append">
-				        	<input class="span2" name="telephone" value="${user.telephone }" maxlength="40" type="text">
-				        	<span class="add-on">i</span>
-				        </div>
-				        
-				    </li> 
-					<li class="col-md-6 p0">
-					    <span class=""><div class="fr">角色：</div><div class="red">*</div></span>
-					    <div class="select_common pr">
-						   	<input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
-					        <input id="roleSel" class="w250" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
-					        <i class="input_icon " onclick="showRole();">
-								<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
-					        </i>
-					        
-				        </div>
-				        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
-				 	</li>
-				 	<li class="col-md-12 p0">
-					   	<span class="fl">详细地址：</span>
-					   	<div class="col-md-12 pl200 fn mt5 pwr9">
-				        	<textarea class="text_area col-md-12 " name="address" maxlength="400" title="" placeholder=""></textarea>
-				       	</div>
-				 	</li>
-			   	</ul>
+			     	
+			   	</ul> --%>
 		   </div> 
 	       <div class="col-md-12 tc mt20" >
 			   <button class="btn btn-windows save"  type="submit">保存</button>
