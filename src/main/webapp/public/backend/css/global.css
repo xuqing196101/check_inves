@@ -437,7 +437,9 @@ p, li, li a, label {
     display: block;
     margin-left: 5px;
 }
-
+.input-append label{
+	font-size: 14px;
+}
 a.upload {
     padding-left: 30px;
     background: url(../images/upload.png) no-repeat 0px;
