@@ -152,17 +152,14 @@
 	   		<input type="hidden" name="errorOption" value="${opt }"/>
 	   </c:forEach>
 	   <input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
-	 <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-     <div>
-		   <div class="headline-v2">
-		   		<h2>新增题目</h2>
-		   </div>
-  	<form action="${pageContext.request.contextPath }/purchaserExam/saveToPurPool.html" method="post" id="form">
+	<div class="container container_box">
+   <form action="${pageContext.request.contextPath }/purchaserExam/saveToPurPool.html" method="post" id="form">
+    <h2 class="count_flow"><i>1</i>新增题目</h2>
+   <ul class="ul_list">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()" class="fl">
+		  		<select id="queType" name="queType" onchange="changeType()" class="w178">
 		  			<c:if test="${errData['type']==null }">
 		  				<option value="" selected>请选择</option>
 		  			</c:if>
@@ -205,7 +202,7 @@
   			<li class="col-md-12 p0" id="items">
 				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
 				<div class="fl col-md-9 p0">
-					<select id="options" name="options" onchange="changeOpt()" class="fl">
+					<select id="options" name="options" onchange="changeOpt()" class="w178 fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${errData['options']=='three' }">
 			  				<option value="three" selected>3</option>
@@ -268,7 +265,7 @@
 				</li>
   		
   			</ul>
-  			
+  			</ul>
   		
   		<!-- 按钮 -->
   		<div class="padding-top-10 clear">
@@ -281,7 +278,5 @@
 	  	</div>
   	</form>
   			</div>
-  		</div>
-  	</div>
   </body>
 </html>

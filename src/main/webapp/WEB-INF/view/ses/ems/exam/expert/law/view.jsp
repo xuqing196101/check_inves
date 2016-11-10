@@ -58,16 +58,14 @@
    </div>
    	<input type="hidden" value="${optContent }" id="optContent"/>
    	<input type="hidden" value="${lawAnswer }" id="queAnswer"/>
-   <div class="container margin-top-5">
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <div>
-		<div class="headline-v2">
-		   	<h2>查看法律类题目</h2>
-		</div>
+   <div class="container container_box">
+     <div>
+       <h2 class="count_flow"><i>1</i>查看法律类题目</h2>
+     <ul class="ul_list">
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl">请选择题型：</span>
-		  		<select id="queType" name="queType" disabled="disabled">
+		  		<select id="queType" name="queType" disabled="disabled" class="w178">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
 		  				<c:choose>
@@ -93,7 +91,7 @@
 	  		<li class="col-md-12 p0">
 				<span class="fl">请选择选项数量：</span>
 				<div class="fl col-md-9 p0">
-					<select id="options" name="options" disabled="disabled" class="fl">
+					<select id="options" name="options" disabled="disabled" class="w178 fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${optNum==3 }">
 			  				<option value="three" selected>3</option>
@@ -154,7 +152,7 @@
 				</li>
 				
   			</ul>
-  		
+  		</ul>
   		<!-- 底部按钮 -->
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
@@ -167,6 +165,5 @@
   		
 	  		</div>
 		</div>
-	</div>
   </body>
 </html>
