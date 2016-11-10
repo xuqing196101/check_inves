@@ -43,38 +43,36 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <div>
-	    <div class="headline-v2">
-	   		<h2>帖子详情</h2>
-	   </div>
-	   <ul class="list-unstyled list-flow p0_20">
+     <div class="container container_box">
+    	<div>
+	   		<h2 class="count_flow"><i>1</i>帖子详情</h2>
+	   
+	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-12  p0 ">
-			   <span class="fl">帖子名称：</span>
+	   		   <li class="col-md-3 margin-0 padding-0 ">
+			   <span class="col-md-12 padding-left-5">帖子名称：</span>
 			   <div class="input-append">
-		        <input class="span2 w745"  type="text" value = '${post.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <input class="span2"  type="text" value = '${post.name}' readonly="readonly">
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属版块：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">所属版块：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${post.park.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属主题：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">所属主题：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${post.topic.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">置顶：</span>
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">置顶：</span>
 				<div class="input-append">	
 				 <c:choose>
 				 <c:when test="${post.isTop == 0}"> 			
@@ -84,11 +82,12 @@
 					<input class="span2"  type="text" value = '置顶' readonly="readonly"  >
 				 </c:otherwise>
 				 </c:choose>
+				 <span class="add-on">i</span>
             	</div>
 			 </li>
 			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">锁定：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">锁定：</span>				 	
 	  			<div class="input-append">
 				 <c:choose>
 				 <c:when test="${post.isLocking == 0}"> 			
@@ -98,53 +97,54 @@
 					<input class="span2"  type="text" value = '锁定' readonly="readonly"  >
 				 </c:otherwise>
 				 </c:choose>
+				 <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
 			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">发表人：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">发表人：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${post.user.relName}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			<li class="col-md-6  p0 ">
-			   <span class="fl">最后回复人：</span>				 	
+			<li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">最后回复人：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${post.lastReplyer.relName}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">创建时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">创建时间：</span>				 	
 	  			<div class="input-append">
 		       <input class="span2"  type="text" value = "<fmt:formatDate value='${post.publishedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">最后回复时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">最后回复时间：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = "<fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-             <li class="col-md-6  p0 ">
-               <span class="fl">回复数：</span>                  
+             <li class="col-md-3 margin-0 padding-0">
+               <span class="col-md-12 padding-left-5">回复数：</span>                  
                 <div class="input-append">
                 <input class="span2"  type="text" value = '${post.replycount}' readonly="readonly">
-                <%--<span class="add-on">i</span>--%>
+                <span class="add-on">i</span>
                </div>
              </li>
 			 
-			<li class="col-md-12 p0">
-	   			<span class="fl">帖子内容：</span>
-	  			<div class="col-md-12 pl200 fn mt5 pwr9">
+			<li class="col-md-11 margin-0 padding-0 ">
+	   			<span class="col-md-12 padding-left-5">帖子内容：</span>
+	  			<div class="">
 	  				 <%--<script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>--%>
 	  				${post.content}
-	  				 </div>
+	  			</div>
 			 </li> 
 			 <li class="col-md-12 p0" id="file">
 		     <span class="fl">已上传的附件：</span>
@@ -155,15 +155,10 @@
 		     </div>
 		     </li>
 	  	 </ul>
-	  	 
-	</div>  	
+	  	 	
 	<!-- 底部按钮 -->			          
-    <div class="padding-top-10 clear">                
-      <div  class="col-md-12 pl185 ">
-       <div class="mt40 tc mb50">
+    <div class="col-md-12 tc">    
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
    </div>  
      </div>
      </div>

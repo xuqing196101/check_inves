@@ -56,50 +56,55 @@ function sub(){
 	  </div>
    </div>
    
-   <div class="container">
-     <div class="headline-v2">
-	   <h2>查看信息</h2>
-	 </div>
+   <div class="container container_box">
+     <div>
+	   <h2 class="count_flow"><i>1</i>查看信息</h2>
 	  <input type="hidden" name="id" id="id" value="${article.id }" disabled>
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" disabled>
-	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-12 p0 mb0">
-	   <span class="">信息标题：</span>
-	   <div class="w70p fl">
-        <input class="col-md-12" type="text" value="${article.name }" disabled>
+	   <ul class="ul_list mb20">
+	   
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">信息标题：</span>
+	   <div class="input-append">
+        <input class="span2" type="text" value="${article.name }" disabled>
+        <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">信息类型：</span>
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">信息类型：</span>
+	   <div class="select-common">
        <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
          </select>
+         </div>
 	 </li>
-	 <li class="col-md-6 p0 ">
-	   <span class="">发布范围：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled class="">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled class="">外网</label>
        </div>
 	 </li>  
-	  <li class="col-md-6  p0 ">
-	   <span class="">文章来源：</span>
+	  <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text" disabled>
+        <span class="add-on">i</span>
        </div>
 	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>链接来源：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red">＊</i>链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text" disabled>
+        <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-12 p0">
-	   <span class="fl">信息正文：</span>
-	   <div class="col-md-9 fl p0">
+     <li class="col-md-11 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">信息正文：</span>
+	   <div class="mb5">
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
@@ -112,40 +117,38 @@ function sub(){
 	 </div>
 	 </li>
   	 </ul>
-	  
+	 </div>
+	 
+	   <div class="padding-top-10 clear">
+	  <h2 class="count_flow"><i>2</i>审核结果</h2>>
+	   <ul class="ul_list mb20">
+	   
 	  <c:if test="${article.status==2 }">
-		 <div class="headline-v2 clear">
-		   <h2>审核 <span class="blue ml40">审核通过 </span>
-		   </h2>
-		  </div>
+	  	<li class="col-md-3 margin-0 padding-0 ">
+	   		<span class="col-md-12 padding-left-5">审核结果</span>
+	   		<div class="input-append">
+			<span class="blue ml40">审核通过 </span>
+       		</div>
+	 	</li>  
+
 	  </c:if>
 	  
 	  <c:if test="${article.status==3 }">
-		 <div class="headline-v2 clear">
-		   <h2>审核</h2>
-		  </div>
-		  
-	       <div class="padding-top-10 clear">
-			   <ul class="list-unstyled list-flow p0_20 ">
-			     <li class="col-md-12 p0">
-				   <span class="fl">退回理由：</span>
-				   <div class="col-md-12 pl200 fn mt5 pwr9">
-			        <textarea class="text_area col-md-12 " id="reason" name="reason"  disabled>${article.reason }</textarea>
-			       </div>
-				 </li> 
-			   </ul>
-		  </div>
+	  	<li class="col-md-11 margin-0 padding-0">
+	   		<span class="col-md-12 padding-left-5">退回理由</span>
+	   		<div class="mb5">
+				<textarea class="h130 col-md-12 " id="reason" name="reason"  disabled>${article.reason }</textarea>
+       		</div>
+	 	</li> 
+		
 	  </c:if>
+	  </ul>
 	  
-	  
-	 <div  class="col-md-12">
-	   <div class="mt40 tc mb50">
-	    <%--<button class="btn btn-windows add" type="button" onclick="sub()">提交</button>
-	    --%><input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-	</div>
-  </div>
-     
-    </div>
+	 <div  class="col-md-12 tc">
+	  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+     </div>
+    </div> 
+</div>
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例

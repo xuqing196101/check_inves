@@ -35,39 +35,35 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <div class="container container_box">
     <form action="${pageContext.request.contextPath}/articletype/update.html" method="post">  
     <div>
-	    <div class="headline-v2">
-	   		<h2>修改栏目</h2>
-	   </div>
+	   		<h2 class="count_flow"><i>1</i>修改栏目</h2>
 	    <input class="span2" name ="articletypeId" type="hidden" value = '${articletype.id}'>
-	   <ul class="list-unstyled list-flow p0_20">
+	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl"><div class="red star_red">*</div>栏目名称：</span>
+	   		   <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>栏目名称：</span>
 			   <div class="input-append">
 		        <input class="span2" id="typeName" type="text" name="name" value = '${articletype.name}'>
 		        <div class="validate">${ERR_name}</div>
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl">栏目介绍：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="describe">${articletype.describe}</textarea>		
+			<li class="col-md-11 margin-0 padding-0">	  	 			
+				<span class="col-md-12 padding-left-5">栏目介绍：</span>
+				<div class="mb5">
+				<textarea  class="h130 col-md-12" name="describe">${articletype.describe}</textarea>		
 				</div>			
 	  	 	</li>
-	  	 </ul>
-	</div>  	
+	  	 </ul> 	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 tc mt20">
+  <div  class="col-md-12 tc ">
     <button class="btn btn-windows save" type="submit">更新</button>
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
-     </form>
      </div>
+     </form>
      </div>
   </body>
 </html>

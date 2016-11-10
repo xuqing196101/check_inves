@@ -12,9 +12,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 
   </head>
   
@@ -29,59 +26,51 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <div class="container container_box">
     <div>
-	    <div class="headline-v2">
-	   		<h2>回复详情</h2>
-	   </div>
-	   <ul class="list-unstyled list-flow p0_20">
+	   	<h2 class="count_flow"><i>1</i>回复详情</h2>
+	   <ul class="ul_list mb20">
 	   		  
 
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">发布人：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">发布人：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${reply.user.relName}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 
 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">发布时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">发布时间：</span>				 	
 	  			<div class="input-append">
 		       <input class="span2"  type="text" value = "<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">更新时间：</span>				 	
+			 <li class="col-md-3 margin-0 padding-0">
+			   <span class="col-md-12 padding-left-5">更新时间：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = "<fmt:formatDate value='${reply.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
 			 
 			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 回复内容：</span>
-				<div class="col-md-12 mt5 fn pl200 pwr9">
+				<span class="col-md-12 padding-left-5"> 回复内容：</span>
+				<div class="col-md-9 mt5 p0">
 				${reply.content}
 				</div>			
 	  	 	</li>
 	  	 </ul>
-	  	 
-	</div>  	
+	  	 	
 	<!-- 底部按钮 -->			          
-    <div class="padding-top-10 clear">                
-      <div  class="col-md-12 pl185 ">
-       <div class="mt40 tc mb50">
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    <div class="col-md-12 tc">    
+    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
-     </div>
-     </div>
      </div>
 
   </body>
