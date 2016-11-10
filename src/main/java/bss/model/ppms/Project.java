@@ -107,6 +107,8 @@ public class Project {
     private Integer isImport;
     
     private Integer isProvisional;
+    
+    private Integer planType; //（1是货物，2是工程，3是服务）
 
     private List<Packages> packagesList;
     
@@ -546,4 +548,11 @@ public class Project {
         this.isProvisional = isProvisional;
     }
 
+    public Integer getPlanType() {
+        return planType;
+    }
+
+    public void setPlanType(Integer planType) {
+        this.planType = planType;
+    }
 }

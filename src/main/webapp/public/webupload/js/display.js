@@ -95,12 +95,12 @@ function disFiles(data,key,id,del){
 function disFile(html,obj,key,del){
 	var li = '<li id='+obj.id+'><a href=\javascript:download("'+obj.id+'","' + key +'");>' + obj.name+ '</a>';
 	if (del){
-		li += '<span onclick=\'removeFile("'+ obj.id +'","'+key+'");\' style=\'color:red;cursor:pointer\'>×</span>';
+		li += '<span onclick=\'removeFile("'+ obj.id +'","'+key+'");\' style=\'color:red;cursor:pointer;width:20px;\'>×</span>';
 	}
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		li += '<span onclick=\'view("' + obj.path + '");\' style=\'color:red;cursor:pointer\'>view</span>';
+		li += '<span onclick=\'view("' + obj.path + '");\' style=\'color:red;cursor:pointer;width:30px;\'>view</span>';
 	}
 	li += '</li>';
 	html.append(li);

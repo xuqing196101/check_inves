@@ -7,24 +7,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
-
-<title>站内消息</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-
+<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   $(function(){
 	  
@@ -91,7 +77,7 @@
 	}
   	function view(url){
   		if(url != null && url != ''){
-  		   window.location.href="<%=basePath%>"+url;
+  		   window.location.href="${pageContext.request.contextPath}/"+url;
   		}
   	}
  
@@ -103,7 +89,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -132,15 +118,14 @@
 		<div class="headline-v2">
 			<h2>通知管理</h2>
 		</div>
-		  <div class="p10_25">
-             <h2 class="padding-10 border1">
+             <h2 class="search_detail">
                 <form action="<%=basePath %>StationMessage/listStationMessage.html" id="form1" method="post" class="mb0">
                 <input  id="pages" name="page" type="hidden"/>
                     <ul class="demand_list">
-                      <li class="fl">
+                      <li>
                         <label class="fl">标题：</label><span><input type="text" id="name" value="${stationMessage.name }" name="name" class=""/></span>
                       </li>
-                      <li class="fl">
+                      <li>
                         <label class="fl">操作类型：</label>
                         <div class="select_common ">
                             <select class="w180 " id="isFinish" name="isFinish">
@@ -156,12 +141,9 @@
                     <div class="clear"></div>
                 </form>
              </h2>
-          </div>
-	</div>
-	<div class="container margin-top-5">
-		<div class="content padding-left-25 padding-right-25 padding-top-5">
-		
-				<table class="table table-striped table-bordered table-hover">
+	
+	 <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>

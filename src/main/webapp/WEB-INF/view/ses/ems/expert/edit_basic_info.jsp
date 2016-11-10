@@ -396,156 +396,205 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="hidden" name="isPass" id="isPass"/>
   <div class="tab-content padding-top-20" style="height: 850px;">
 	<div class="tab-pane fade active in height-450" id="tab-1">
-	<div class=" f16 count_flow fl">
-	<i>01</i>评标专家基本信息
-   </div>
-   <ul class="list-unstyled list-flow p0_20">
-   
-	 <li class="col-md-6 p0">
-	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text"/>
-	 </li>
-	 <li class="col-md-6 p0 "><span class="">手机：</span>
-		<div class="input-append">
-			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text"/>
-		</div>
-	</li>
-     <li class="col-md-6  p0 ">
-	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text"/>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text"/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">性别：</span>
-	   <select class="span2" name="gender" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
-	   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
-	   </select>
+	 <h2 class="count_flow"><i>1</i>评标专家基本信息</h2>
+   <ul class="ul_list">
+		 <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">姓名</span>
+		   <div class="input-append">
+			   <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text"/>
+			   <span class="add-on">i</span>
+		   </div>
+		 </li>
+		 <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">手机</span>
+			 <div class="input-append">
+				<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text"/>
+				<span class="add-on">i</span>
+			</div>
+		 </li>
+     <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">联系电话（固话）</span>
+		   <div class="input-append">
+	        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text"/>
+	        <span class="add-on">i</span>
+	     </div>
+	   </li>
+		 <li class="col-md-3 margin-0 padding-0">
+		      <span class="col-md-12 padding-left-5">单位地址</span>
+		      <div class="input-append">
+	        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text"/>
+	        <span class="add-on">i</span>
+	     </div>
+		 </li> 
+     <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">性别</span>
+			    <select class="span2" name="gender" >
+			    <option selected="selected" value="">-请选择-</option>
+			   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
+			   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
+			   </select>
+	   </li>
+     <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">出生日期</span>
+	     <div class="input-append">
+         <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="birthday" type="text" onclick='WdatePicker()' />
+	       <span class="add-on">i</span>
+	     </div>
+	   </li> 
+		 <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">证件类型</span>
+		   <select class="span2" name="idType" >
+		    <option selected="selected" value="">-请选择-</option>
+		   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
+		   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
+		   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
+		   	<option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
+		   	<option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
+		   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+		   </select>
+		 </li> 
+		 <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">证件号码</span>
+		   <div class="input-append">
+	        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id=" " type="text"/>
+	        <span class="add-on">i</span>
+	     </div>
+	    <font id="nameFont3"></font>
+		 </li>
+     <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">政治面貌</span>
+		   <select class="span2" name="politicsStatus" >
+			    <option selected="selected" value="">-请选择-</option>
+			   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
+			   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
+			   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
+			   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+		   </select>
+	   </li>
+     <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">专家来源</span>
+		   <select class="span2" name="expertsFrom" >
+		    <option selected="selected" value="">-请选择-</option>
+		   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
+		   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
+		   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+		   </select>
+	   </li>  
+  <!--    <li class="col-md-3 margin-0 padding-0" style="width: 800px;">
+       <span class="col-md-12 padding-left-5">所在地区</span>
+	 	   <select id="hehe" onchange="fun();">
+			   <option>-请选择-</option>
+			 </select>
+			 <select name="address" id="haha">
+					<option>-请选择-</option>
+				</select>
+	   </li>   -->
+     
+	   <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">民族：</span>
+	     <div class="input-append">
+          <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text"/>
+          <span class="add-on">i</span>
+        </div>
+	   </li>  
 	   
-	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="birthday" type="text" onclick='WdatePicker()' />
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">证件类型：</span>
-	   <select class="span2" name="idType" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
-	   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
-	   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
-	   	<option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
-	   	<option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
-	   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">证件号码：</span>
-        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id=" " type="text"/>
-          
-    <font id="nameFont3"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">政治面貌：</span>
-	   <select class="span2" name="politicsStatus" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
-	   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li> 
-     
-     
-	
-     <li class="col-md-6  p0 ">
-	   <span class="">专家来源：</span>
-	   <select class="span2" name="expertsFrom" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
-	   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
-	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li>  
-      <li class="col-md-6 p0 " style="width: 800px;"><span>所在地区：</span>
-	 		<select id="hehe" onchange="fun();">
-					<option>-请选择-</option>
-				</select>
-				<select name="address" id="haha">
-					<option>-请选择-</option>
-				</select>
-	 </li>  
-      
-	  <li class="col-md-6  p0 ">
-	   <span class="">民族：</span>
-        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text"/>
-	 </li>  
-     <li class="col-md-6  p0 ">
-	   <span class="">毕业院校：</span>
-        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text"/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业技术职称：</span>
+     <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">毕业院校：</span>
+	     <div class="input-append">
+	        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text"/>
+	        <span class="add-on">i</span>
+        </div>
+	   </li> 
+     <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">专业技术职称：</span>
+	     <div class="input-append">
         <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="professTechTitles" type="text" onclick='WdatePicker()'/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">参加工作时间：</span>
+	      <span class="add-on">i</span>
+	     </div>
+	   </li> 
+     <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">参加工作时间：</span>
+	     <div class="input-append">
         <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="timeToWork" type="text" onclick='WdatePicker()'/>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">最高学历：</span>
-	   <select class="span2" name="hightEducation" >
-	    <option selected="selected" value="">-请选择-</option>
-	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
-	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
-	   </select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业：</span>
-        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text"/>
-	 </li> 
-	 <li class="col-md-6  p0 ">
-	   <span class="">从事专业起始年度：</span>
+	      <span class="add-on">i</span>
+	     </div>
+	   </li> 
+     <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">最高学历：</span>
+		   <select class="span2" name="hightEducation" >
+			    <option selected="selected" value="">-请选择-</option>
+			   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
+			   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
+			   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
+		   </select>
+	   </li> 
+     <li class="col-md-3 margin-0 padding-0">
+		   <span class="col-md-12 padding-left-5">专业：</span>
+		   <div class="input-append">
+	        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text"/>
+	        <span class="add-on">i</span>
+	     </div>
+	   </li> 
+		 <li class="col-md-3 margin-0 padding-0">
+	     <span class="">从事专业起始年度：</span>
+	     <div class="input-append">
         <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">工作单位：</span>
+	      <span class="add-on">i</span>
+	     </div>
+	   </li> 
+	   <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">工作单位：</span>
+	     <div class="input-append">
         <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="workUnit" type="text"/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">传真：</span>
+        <span class="add-on">i</span>
+       </div>
+	   </li> 
+
+	   <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">传真：</span>
+	     <div class="input-append">
         <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="fax" type="text"/>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">邮政编码：</span>
+        <span class="add-on">i</span>
+        </div>
+	   </li> 
+	   <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">邮政编码：</span>
+	     <div class="input-append">
         <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="postCode" type="text"/>
-	 </li> 
-	<li class="col-md-6  p0 ">
-	   <span class="">取得技术职称时间：</span>
+        <span class="add-on">i</span>
+       </div>
+	   </li> 
+	   <li class="col-md-3 margin-0 padding-0">
+	     <span class="col-md-12 padding-left-5">取得技术职称时间：</span>
+	     <div class="input-append">
         <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
-	 </li>  
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位：</span>
+	      <span class="add-on">i</span>
+	     </div>
+	   </li> 
+	  <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">学位：</span>
+	    <div class="input-append">
         <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="degree" type="text"/>
+        <span class="add-on">i</span>
+      </div>
 	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text"/>
+	  <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">健康状态：</span>
+	   <div class="input-append">
+       <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text"/>
+       <span class="add-on">i</span>
+     </div>
 	 </li>  
-	 <li class="col-md-6  p0 ">
-	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text"/>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">现任职务：</span>
+	   <div class="input-append">
+       <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text"/>
+       <span class="add-on">i</span>
+     </div>
 	 </li>
-   </ul>
+	 </ul>
   	<div class="padding-top-10 clear">
-   <div class="headline-v2 clear">
-   <h2>采购机构</h2>
-   </div>
+    <h2 class="count_flow"><i>2</i>采购机构</h2>
    <table class="table table-condensed" >
   	<tr>
 		<th>采购机构名称：</th><td>${purchase.name }</td>

@@ -173,4 +173,24 @@
     from T_SES_BMS_DICTIONARY_DATA 
    where  kind='4' order by code
   </select>
+  
+  <select id="findByMap" parameterType="java.util.Map" resultMap="DictionaryDataMap">
+  	select
+  		<include refid="Base_Column_List" />
+  	from
+  		T_SES_BMS_DICTIONARY_DATA t1
+  	<where>
+  		<if test="strs != null">
+  			<foreach collection="strs" item="str" open="and t1.CODE in(" close=")" separator=",">
+  				#{str}
+  			</foreach>
+  		</if>
+  		<if test="isDeleted != null">
+  			and t1.IS_DELETED = #{isDeleted}
+  		</if>
+  		<if test="kind != null">
+  			and t1.KIND = #{kind}
+  		</if>
+  	</where>
+  </select>
 </mapper>

@@ -158,7 +158,7 @@
 				area : [ '700px', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId, //url
+				content : '${pageContext.request.contextPath}/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
 				closeBtn : 1, //不显示关闭按钮
 			});
 		}
@@ -203,10 +203,10 @@
 				type : 2,
 				title : '添加供应商财务信息',
 				// skin : 'layui-layer-rim', //加上边框
-				area : [ '700px', '420px' ], //宽高
+				area : [ '650px', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_finance/add_finance.html?&supplierId=' + supplierId, //url
+				content : '${pageContext.request.contextPath}/supplier_finance/add_finance.html?&supplierId=' + supplierId + '&sign=1', //url
 				closeBtn : 1, //不显示关闭按钮
 			});
 		}
@@ -415,77 +415,21 @@
 										</h2>
 										<ul class="list-unstyled list-flow">
 											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span>
-												<%--<c:if test="${currSupplier.taxCert != null}">
-													<div class="audit_msg_sign_div_class">
-														<a name="taxCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.taxCert}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('tax_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.taxCert == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="taxCertFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>--%>
-												<up:upload id="ewq" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-												<up:show showId="qwe" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+												<up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
+												<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
 											</li>
 											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
-												<%--<c:if test="${currSupplier.billCert != null}">
-													<div class="audit_msg_sign_div_class">
-														<a name="billCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.billCert}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('bill_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.billCert == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="billCertFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>--%>
-												<up:upload id="aa" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-												<up:show showId="bb" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+												<up:upload id="billcert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
+												<up:show showId="billcert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
 											</li>
-											<%--<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
-												<c:if test="${currSupplier.securityCert != null}">
-													<div>
-														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.securityCert}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('security_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.securityCert == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="securityCertFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
+											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
+												<up:upload id="curitycert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
+												<up:show showId="curitycert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
 											</li>
 											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
-												<c:if test="${currSupplier.breachCert != null}">
-													<div>
-														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.breachCert}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('breach_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.breachCert == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="breachCertFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>--%>
+												<up:upload id="bearchcert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+												<up:show showId="bearchcert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+											</li>
 											<div class="clear"></div>
 										</ul>
 
@@ -707,14 +651,7 @@
 												<h5>${finance.year}年</h5>
 												<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
 													<li class="col-md-6 p0"><span class="zzzx">财务审计报告的审计意见：</span>
-														 <div class="input-append">
-														 	<c:if test="${finance.auditOpinion != null}">
-														 		<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.auditOpinion}')">下载附件</a></span>
-														 	</c:if>
-													 		<c:if test="${finance.auditOpinion == null}">
-														 	 	<span class="w70 fz11">无附件下载</span>
-														 	</c:if>
-														 </div>
+														 <up:show showId="auditopinion_show" groups="auditopinion_show" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
 													</li>
 													<li class="col-md-6 p0"><span class="zzzx">资产负债表：</span>
 														<div class="input-append">

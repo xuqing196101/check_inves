@@ -80,13 +80,9 @@
 	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
-	   
-     <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-     	<div>
-		   <div class="headline-v2">
-		   		<h2>查看考卷</h2>
-		   </div>
+	   <div class="container container_box">
+       <h2 class="count_flow"><i>1</i>查看考卷</h2>
+       <ul class="ul_list">
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl">试卷名称：</span>
@@ -166,7 +162,7 @@
 	  		</li>
 	  		
 	  		</ul>
-   
+        </ul>
    
 	  		<!-- 按钮 -->
 	  		<div class="padding-top-10 clear">
@@ -179,8 +175,5 @@
     
     			
     		</div>
-    	</div>
-    </div>
-    
   </body>
 </html>

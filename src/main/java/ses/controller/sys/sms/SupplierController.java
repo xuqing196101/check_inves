@@ -92,17 +92,8 @@ public class SupplierController extends BaseSupplierController {
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
-		Integer sysKey = Constant.SUPPLIER_SYS_KEY;
-		String typeId = "";
-		DictionaryData dictionaryData = new DictionaryData();
-		dictionaryData.setCode("SUPPLIER_TAXCERT");
-		List<DictionaryData> list = dictionaryDataServiceI.find(dictionaryData);
-		for (DictionaryData dd : list) {
-			typeId = dd.getId();
-		}
-		
-		request.getSession().setAttribute("sysKey", sysKey);
-		request.getSession().setAttribute("typeId", typeId);
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("supplierId", supplier.getId());
 		return "ses/sms/supplier_register/basic_info";
 	}
@@ -153,18 +144,8 @@ public class SupplierController extends BaseSupplierController {
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
 		if (this.validateRegister(request, model, supplier)) {
 			supplier = supplierService.register(supplier);
-			
-			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
-			String typeId = "";
-			DictionaryData dictionaryData = new DictionaryData();
-			dictionaryData.setCode("SUPPLIER_TAXCERT");
-			List<DictionaryData> list = dictionaryDataServiceI.find(dictionaryData);
-			for (DictionaryData dd : list) {
-				typeId = dd.getId();
-			}
-			
-			request.getSession().setAttribute("sysKey", sysKey);
-			request.getSession().setAttribute("typeId", typeId);
+			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			request.getSession().setAttribute("jump.page", "basic_info");
 			request.getSession().setAttribute("currSupplier", supplier);
 			return "redirect:page_jump.html";
@@ -377,6 +358,8 @@ public class SupplierController extends BaseSupplierController {
 		supplierService.commit(supplier);
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("jump.page");
+		request.getSession().removeAttribute("sysKey");
+		request.getSession().removeAttribute("supplierDictionaryData");
 		request.getSession().removeAttribute("listOrgnizations1");
 		request.getSession().removeAttribute("listOrgnizations2");
 		return "redirect:../index/selectIndexNews.html";
@@ -415,6 +398,8 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "return_edit")
 	public String returnEdit(HttpServletRequest request, Supplier supplier) {
 		supplier = supplierService.get(supplier.getId());
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "basic_info");
 		return "redirect:page_jump.html";
@@ -441,6 +426,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		return false;
 	}
+	
 
 	/**
 	 * @Title: setSupplierUpload
