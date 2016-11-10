@@ -21,10 +21,10 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 
 	@Override
 	public void saveOrUpdateFinance(SupplierFinance supplierFinance) {
-		String id = supplierFinance.getId();
-		if (id != null && !"".equals(id)) {
+		Integer sign = supplierFinance.getSign();
+		if (sign == 2) {
 			supplierFinanceMapper.updateByPrimaryKeySelective(supplierFinance);
-		} else {
+		} else if (sign == 1) {
 			supplierFinanceMapper.insertSelective(supplierFinance);
 		}
 		

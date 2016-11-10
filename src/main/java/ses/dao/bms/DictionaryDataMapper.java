@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.DictionaryData;
 
@@ -35,4 +36,15 @@ public interface DictionaryDataMapper {
     * @throws
      */
     List<DictionaryData> queryAudit(DictionaryData dd);
+    
+    /**
+     * @Title: findByMap
+     * @author: Wang Zhaohua
+     * @date: 2016-11-9 上午11:33:31
+     * @Description: 根据 map 查询集合
+     * @param: @param param
+     * @param: @return
+     * @return: List<DictionaryData>
+     */
+    List<DictionaryData> findByMap(Map<String, Object> param);
 }

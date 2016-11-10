@@ -166,9 +166,6 @@
 				#{updatedAt},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierFinance">
 		update T_SES_SMS_SUPPLIER_FINANCE
@@ -249,9 +246,34 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findFinanceBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_FINANCE where SUPPLIER_ID = #{SUPPLIER_ID}
+	<select id="findFinanceBySupplierId" parameterType="java.lang.String" resultMap="findFinanceBySupplierId">
+		select 
+			t1.*,
+			t2.ID as ID_,
+			t2.NAME as FILE_NAME,
+			t2.FILE_SIZE,
+			t3.NAME as NAME_
+		from 
+			T_SES_SMS_SUPPLIER_FINANCE t1
+		left join
+			T_SES_SMS_SUPPLIER_ATTACHMENT t2
+		on
+			t1.ID = t2.BUSINESS_ID
+		left join 
+			T_SES_BMS_DICTIONARY_DATA t3
+		on
+			t2.TYPE_ID = t3.ID
+		where SUPPLIER_ID = #{SUPPLIER_ID}
 	</select>
+	
+	<resultMap type="ses.model.sms.SupplierFinance" id="findFinanceBySupplierId" extends="BaseResultMap">
+		<collection property="listUploadFiles" ofType="common.model.UploadFile">
+			<id column="ID_" property="id"/>
+			<result column="FILE_NAME" property="name"/>
+			<result column="FILE_SIZE" property="size"/>
+			<result column="NAME_" property="businessId"/>
+		</collection>
+	</resultMap>
 	
 	<delete id="deleteFinanceBySupplierId" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_FINANCE where SUPPLIER_ID = #{SUPPLIER_ID}
