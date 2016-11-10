@@ -98,15 +98,12 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>专家考试规则设置</h2>
-	   </div>
-   </div>
-  	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
-  	<input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-  	<form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
-  	  <div class="container mt20">
+   <div class="container container_box">
+   <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
+   <input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
+    <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
+   <h2 class="count_flow"><i>1</i>专家考试规则设置</h2>
+   <ul class="ul_list">
 	  	<ul class="list-unstyled list-flow p0_20">
 	    	<li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
@@ -159,7 +156,7 @@
 	  			<div class="fl mt10 ml5 red">${ERR_testCycle }</div>
 	    	</li>
 	    </ul>
-	    
+	    </ul>
 	    <div class="padding-top-10 clear">
 			<div class="col-md-12 tc">
 				<div class="mt40 tc mb50">
@@ -167,7 +164,7 @@
 				</div>
 	  		</div>
 	  	</div>
+	  	 </form>
 	 </div>
-    </form>
   </body>
 </html>

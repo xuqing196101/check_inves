@@ -219,7 +219,7 @@
                     </td>
                     <td>
 						 <span>来源：</span>
-						   <select  name="expertsFrom" id="expertsFrom">
+						   <select  name="expertsFrom" id="expertsFrom" class="w178">
 						    <option selected="selected" value=''>-请选择-</option>
 						   	<option <c:if test="${expert.expertsFrom =='军队' }">selected</c:if> value="军队">军队</option>
 						   	<option <c:if test="${expert.expertsFrom =='地方' }">selected</c:if> value="地方">地方</option>
