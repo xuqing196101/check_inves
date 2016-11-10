@@ -856,3 +856,12 @@ li:first-child {
     text-align: center;
     color: gray;
 }
+
+/**增加用户管理增加页面样式*/
+.check{
+	position:absolute;
+	right:0px;top:-20px;
+	display:block;
+	color:#ef0000;
+	font-size:14px;
+}

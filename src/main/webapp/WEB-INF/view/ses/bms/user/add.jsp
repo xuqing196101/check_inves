@@ -193,61 +193,63 @@
 			   		<h2>新增用户</h2>
 			   </div>
 			   <ul class="ul_list">
-			     <li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名<span class="red"><sf:errors path="loginName"/></span></span>
-				   <div class="input-append">
-			        <input class="span5" name="loginName" value="${user.loginName }" maxlength="30" type="text">
+			      <li class="col-md-3 margin-0 padding-0 ">
+				   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名</span>
+				   <div class="input-append pr">
+			        <input class="span2" name="loginName" value="${user.loginName }" maxlength="30" type="text">
 			        <span class="add-on">i</span>
+			        <span class="check"><sf:errors path="loginName"/></span>
+			       	<span class="check">${exist }</span>
 			       </div>
 				 </li>
 				 <li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>真实姓名</span>
-				    <div class="input-append">
-				        <input class="span5" name="relName" value="${user.relName }" maxlength="10" type="text">
+				    <div class="input-append pr">
+				        <input class="span2" name="relName" value="${user.relName }" maxlength="10" type="text">
 				        <span class="add-on">i</span>
-				        <div class="b f14 red tip pa l260"><sf:errors path="relName"/></div>
+				        <span class="check"><sf:errors path="relName"/></span>
 			       	</div>
 			 	 </li>
 			 	 <li class="col-md-3 margin-0 padding-0 ">
 			   		<span class="col-md-12 padding-left-5"><span class="red">*</span>密码</span>
-				    <div class="input-append">
-				        <input class="span5" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
+				    <div class="input-append pr">
+				        <input class="span2" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
 				        <span class="add-on">i</span>
-				        <div class="b f14 red tip pa l260"><sf:errors path="password"/></div>
+				        <span class="check"><sf:errors path="password"/></span>
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
-				    <div class="input-append">
+				    <div class="input-append pr">
 				        <input class="span2" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
-				        <div class="b f14 red tip pa l260"><sf:errors path="password2"/></div>
+				        <span class="check"><sf:errors path="password2"/></span>
 				        <div class="b f18 ml10 red hand">${password2_msg}</div>
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
+			        <div class="clear pr">
 			        <select class="w250 " id="gender" name="gender">
-			        	<option value="">-请选择-</option>
 			        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
 			        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
 			        </select>
-			        <div class="b f14 red tip pa l462 t0"><sf:errors path="gender"/></div>
+			        </div>
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>手机</span>
-				    <div class="input-append">
+				    <div class="input-append pr" >
 				        <input class="span2" name="mobile" value="${user.mobile }" maxlength="40" type="text">
 				        <span class="add-on">i</span>
-				        <div class="b f14 red tip pa l260"><sf:errors path="mobile"/></div>
+				        <span class="check"><sf:errors path="mobile"/></span>
 			        </div>
 			 	</li>
-		        <li class="col-md-3 margin-0 padding-0 ">
+		        <li class="col-md-3 margin-0 padding-0" >
 				   	<span class="col-md-12 padding-left-5">邮箱</span>
 				   	<div class="input-append">
 				        <input class="span2" name="email" value="${user.email }" maxlength="100" type="text">
 				        <span class="add-on">i</span>
-				        <div class="b f14 red tip pa l260"><sf:errors path="email"/></div>
+				        <span class="check"><sf:errors path="email"/></span>
 			       	</div>
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
@@ -279,8 +281,9 @@
 				        <i class="input_icon " onclick="showOrg();">
 							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
+			       	 <span class="check"><sf:errors path="orgId"/></span>
 			       	</div>
-			       	<div class="b f14 red tip pa l462"><sf:errors path="orgId"/></div>
+			       	
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5">座机电话</span>
@@ -291,35 +294,23 @@
 			    </li> 
 				<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>角色</span>
-				    <div class="select_common pr">
+				     <div class="input-append pr" >
 					   	<input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
 				        <input id="roleSel" class="w250" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
 				        <i class="input_icon " onclick="showRole();">
 							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
+				        <span class="check"><sf:errors path="roleId"/></span>
 			        </div>
-			        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
+			        
 			 	</li>
 			 	<li class="col-md-11 margin-0 padding-0">
 			 	   <span class="col-md-12 padding-left-5">详细地址</span>
 				   <div class="">
-			        	<textarea class="col-md-12" style="height:130px" name="address" title="不超过100个字"></textarea>
+			        	<textarea class="col-md-12" name="address" title="不超过100个字"></textarea>
 			       </div>
 			 	</li>
 			   </ul>
-			   <%-- <ul class="list-unstyled list-flow ul_list">
-			   	 	<li class="col-md-3 margin-0 padding-0 ">
-			   	 		
-					   	<span class="span2"><div class="fr">用户名</div><div class="red">*</div></span>
-					   	<div class="input-append pr">
-					        <input class="span2" name="loginName" value="${user.loginName }" maxlength="30" type="text">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="loginName"/></div>
-					        <div class="b f14 ml10 red hand">${exist}</div>
-				       	</div>
-				 	</li>
-			     	
-			   	</ul> --%>
 		   </div> 
 	       <div class="col-md-12 tc mt20" >
 			   <button class="btn btn-windows save"  type="submit">保存</button>

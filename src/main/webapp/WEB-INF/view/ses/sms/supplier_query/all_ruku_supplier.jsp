@@ -335,7 +335,7 @@ function chongzhi(){
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
-	window.location.href="${pageContext.request.contextPath}//supplierQuery/highmaps.html?status=3";
+	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?status=3";
 }
 $(function() {
 		var optionNodes = $("option");
@@ -410,7 +410,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}//category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}/category/query_category.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -453,7 +453,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}//supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
+             url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
