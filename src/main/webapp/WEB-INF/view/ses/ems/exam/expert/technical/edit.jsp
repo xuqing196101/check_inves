@@ -231,16 +231,16 @@
 				</li>
   			</ul>
   			</ul>
+  			<!-- 底部按钮 -->
+      <div class="padding-top-10 clear">
+      <div class="col-md-12 pl200 ">
+        <div class="mt40 tc mb50">
+          <button class="btn btn-windows save" onclick="save()">保存</button>
+            <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+          </div>
+        </div>
+        </div>
   		</form>
   		</div>
-  		<!-- 底部按钮 -->
-	  	<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-					<button class="btn btn-windows save" onclick="save()">保存</button>
-		  			<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-	  			</div>
-	  		</div>
-	  	  </div>
   </body>
 </html>

@@ -227,9 +227,7 @@
 				</li>
   			</ul>
   			</ul>
-  			</form>
-  		</div>
-  		<!-- 底部按钮 -->
+  			     <!-- 底部按钮 -->
       <div class="padding-top-10 clear">
       <div class="col-md-12 pl200 ">
         <div class="mt40 tc mb50">
@@ -238,5 +236,7 @@
           </div>
         </div>
       </div>
+  			</form>
+  		</div>
   </body>
 </html>
