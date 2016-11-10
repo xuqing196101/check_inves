@@ -18,32 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
-	
-
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
+  <jsp:include page="/WEB-INF/view/common.jsp"/> 
+ <link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
   
   /*分页  */
@@ -117,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){   
 			
-			window.location.href="<%=basePath%>set/excel.html?id="+id;
+			window.location.href="${pageContext.request.contextPath }/set/excel.html?id="+id;
  	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -131,7 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){   
-		  window.location.href="<%=basePath%>look/print.html?id="+id;
+		  window.location.href="${pageContext.request.contextPath }/look/print.html?id="+id;
 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -171,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				id.push($(this).val());
 			}); 
 			if(id.length==1){   
-				window.location.href="<%=basePath%>look/auditlook.html?id="+id;
+				window.location.href="${pageContext.request.contextPath }/look/auditlook.html?id="+id;
 		  	}else if(id.length>1){
 				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 			}else{
@@ -188,9 +164,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
 		 if(type==4){
-			 window.location.href="<%=basePath%>taskassgin/list.html?cid="+id;
+			 window.location.href="${pageContext.request.contextPath }/taskassgin/list.html?cid="+id;
 		 }else{
-			 window.location.href="<%=basePath%>set/list.html?id="+id; 
+			 window.location.href="${pageContext.request.contextPath }/set/list.html?id="+id; 
 		 }
 		 
 	 }
@@ -198,6 +174,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 function cant(){
 			layer.close(index);	
 	 }
+	 
+	 function resetQuery(){
+			$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+		}
+	 
   </script>
   </head>
   
@@ -213,34 +194,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="${pageContext.request.contextPath }/look/list.html" method="post" >
-  
-	<input type="hidden" name="page" id="page">
-	 
-	    采购计划名称： <input type="text" class="mt10" name="fileName" value="${inf.fileName }"/> 
-	   采购方式： <input type="text" class="mt10"name="" value=""/>
-	   采购金额： <input type="text" class="mt10" name="budget" value="${inf.budget }"/> 
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 
-   </form>
-  </div>
    <div class="headline-v2 fl">
-      <h2>需求计划列表
+      <h2>采购计划列表
 	  </h2>
    </div> 
-    <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
-	  </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+   
+   <h2 class="search_detail">
+    <form id="add_form" action="${pageContext.request.contextPath }/look/list.html" class="mb0" method="post" >
+	<input type="hidden" name="page" id="page">
+	   <ul class="demand_list">
+			    	  <li>
+				    	<label class="fl">   采购计划名称：</label><span>
+				  	  <input type="text"   name="fileName" value="${inf.fileName }"/> 
+				    	
+				    	</span>
+				      </li>
+				   <li>
+				    	<label class="fl"> 采购方式：</label><span>
+				  	   <input type="text"  name="" value=""/>
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">  采购金额：</label><span>
+				  	    <input type="text" name="budget" value="${inf.budget }"/> 
+				    	
+				    	</span>
+				      </li>
+			    </ul>
+			    	
+	  
+	 
+	  
+	   	 <input class="btn"   type="submit" name="" value="查询" /> 
+	 <input type="button" onclick="resetQuery()" class="btn" value="重置"/>	
+   </form>
+ </h2>
+ 
+ 
+   <div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows check" onclick="sets()">审核设置</button>
+		<button class="btn btn-windows check" onclick="audit()">审核</button>
+		<button class="btn btn-windows input" onclick="down()">下载</button>
+		<button class="btn btn-windows output" onclick="print()">打印</button>
+	 </div>
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -265,13 +264,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <c:if test="${obj.status=='1' }">
 			   未下达
 			  </c:if>
-			    <c:if test="${obj.status=='2' }">
-			   已下达
-			  </c:if>
-			   <c:if test="${obj.status=='3' }">
+			 
+			   <c:if test="${obj.status=='2' }">
 			   已审核
 			  </c:if>
-			  
+			     <c:if test="${obj.status=='3' }">
+			   已下达
+			  </c:if>
 			  </td>
 			</tr>
 	 

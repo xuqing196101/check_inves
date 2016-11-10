@@ -21,38 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen"
-	rel="stylesheet" type="text/css">
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+  <jsp:include page="/WEB-INF/view/common.jsp"/> 
 
 <script type="text/javascript">
 	/** 全选全不选 */
@@ -118,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form id="acc_form" action="<%=basePath%>accept/update.html" method="post">
+			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 					<tr>
@@ -126,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 
 							<c:forEach items="${bean }" var="obj">
 								<th class="info" colspan="${obj.size}q">${obj.name }</th>
-							</c:forEach>>
+							</c:forEach>
 						</tr>
 					
 						<tr>

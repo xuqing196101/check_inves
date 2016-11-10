@@ -30,7 +30,7 @@ public class PurchaseRequired {
 
     private String item;
 
-    private Long purchaseCount;
+    private BigDecimal purchaseCount;
 
     private BigDecimal price;
 
@@ -174,11 +174,11 @@ public class PurchaseRequired {
         this.item = item == null ? null : item.trim();
     }
 
-    public Long getPurchaseCount() {
+    public BigDecimal getPurchaseCount() {
         return purchaseCount;
     }
 
-    public void setPurchaseCount(Long purchaseCount) {
+    public void setPurchaseCount(BigDecimal purchaseCount) {
         this.purchaseCount = purchaseCount;
     }
 

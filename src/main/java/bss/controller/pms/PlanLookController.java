@@ -250,7 +250,7 @@ public class PlanLookController extends BaseController {
 				}
 			}
 		}
-		collectPlan.setStatus(3);
+		collectPlan.setStatus(2);
 		collectPlanService.update(collectPlan);
 		return "redirect:list.html";
 	}

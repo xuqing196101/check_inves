@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -20,29 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-	
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-  	<script src="<%=basePath%>public/layer/layer.js"></script>
-  	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   </head>
   <script type="text/javascript">
 	  $(function(){
@@ -63,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	$("#page").val(e.curr);
 			        	  $("#param_form").submit();
-			           <%--  window.location.href = '<%=basePath%>dictionaryData/list.html?page='+e.curr; --%>
+			           <%--  window.location.href = '${pageContext.request.contextPath}/dictionaryData/list.html?page='+e.curr; --%>
 			        }
 			    }
 			});
@@ -112,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			var currPage = ${info.pageNum};
-			window.location.href="<%=basePath%>param/edit.html?id="+id+"&page="+currPage;
+			window.location.href="${pageContext.request.contextPath}/param/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
 		}else{
@@ -128,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>param/deletes.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/param/deletes.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -136,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function add(){
-    	window.location.href="<%=basePath%>param/add.html";
+    	window.location.href="${pageContext.request.contextPath}/param/add.html";
     }
     
 	function query(){
@@ -161,12 +139,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <div class="headline-v2">
 			  <h2>数据字典</h2>
 		  </div>
-		  <div class="p10_25">
-		     <h2 class="padding-10 border1">
+
+		     <h2 class="search_detail">
 		       	<form id="param_form" action="${pageContext.request.contextPath }/param/list.html"  method="post" class="mb0">
 		       	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
-			    	  <li class="fl">
+			    	  <li>
 				    	<label class="fl">审核轮次：</label><span>
 				    	<select name="dictioanryId" >
 				    		<option value="">请选择</option>
@@ -186,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        </form>
 		     </h2>
 	   	  </div>
-      </div>
+  
    	  <!-- 表格开始-->
 	  <div class="container">
 		  <div class="col-md-8">

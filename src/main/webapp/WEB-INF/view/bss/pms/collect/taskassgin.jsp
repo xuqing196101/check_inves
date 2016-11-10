@@ -19,30 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
 	
-
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
+<link href="${pageContext.request.contextPath }/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
  
   <script type="text/javascript">
   
@@ -147,6 +125,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    $("#collect_form").submit();
 		  layer.close(index);	
 	}
+	function resetQuery(){
+		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+	
   </script>
   </head>
   
@@ -162,33 +144,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-  <!--  <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
+  <div class="headline-v2 fl">
+      <h2>采购计划列表
+	  </h2>
+   </div> 
+   
+   <h2 class="search_detail">
     <form id="add_form" action="${pageContext.request.contextPath }/taskassgin/list.html" method="post" >
   
 	<input type="hidden" name="page" id="page">
 		 
-		  计划名称： <input type="text" class="mt10" name="fileName" value="${inf.fileName }"/> 
-		   计划编号： <input type="text" class="mt10"name="" value="${inf.planNo }"/>
-		   计划类型： <input type="text" class="mt10" name="planNo" value="${inf.goodsType }"/> 
+		  <ul class="demand_list">
+			    	  <li>
+				    	<label class="fl"> 计划名称：</label><span>
+				  	 <input type="text"   name="fileName" value="${inf.fileName }"/>  
+				    	
+				    	</span>
+				      </li>
+				   <li>
+				    	<label class="fl"> 计划编号：</label><span>
+				  	   <input type="text"  name="" value="${inf.planNo }"/>
+				    	
+				    	</span>
+				      </li>
+				      <li>
+				    	<label class="fl">    计划类型：</label><span>
+				    	<select name="goodsType">
+				  	      <option value="" >请选择</option>
+						  	<option value="1" <c:if test="${inf.goodsType=='1'}"> selected</c:if> >货物</option>
+							<option value="2" <c:if test="${inf.goodsType=='2'}"> selected</c:if> >工程</option>
+							<option value="3" <c:if test="${inf.goodsType=='3'}"> selected</c:if> >服务</option>
+					   </select>
+				    	
+				    	</span>
+				      </li>
+			    	</ul>
+		 
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" />
-	 
+	  <input type="button" onclick="resetQuery()" class="btn" value="重置"/>
    </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>采购计划列表
-	  </h2>
-   </div> 
-    <span class="fr option_btn margin-top-10">
+  </h2>
+ 
+     <div class="col-md-12 pl20 mt10">
 		 
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">下达</button>
  
-	  </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+	  </div>
+	  
+	  
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -220,7 +225,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <c:if test="${obj.status=='1' }">
 			   初始化
 			  </c:if>
-			    <c:if test="${obj.status=='2' }">
+			  <c:if test="${obj.status=='2' }">
+			   已审核
+			  </c:if>
+			     <c:if test="${obj.status=='3' }">
 			   已下达
 			  </c:if>
 			  </td>
