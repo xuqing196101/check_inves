@@ -261,7 +261,7 @@
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
-	<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+	<button class="btn btn-windows edit" type="button" onclick="shenhe();">审核</button>
 	<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
 	</div>
     </div>
