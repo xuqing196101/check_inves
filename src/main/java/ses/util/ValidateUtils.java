@@ -125,7 +125,10 @@ public class ValidateUtils {
     private static final String V_TWO＿POINT = "^[0-9]+(.[0-9]{2})?$";  
   
     /**验证一个月的31天*/  
-    private static final String V_31DAYS = "^((0?[1-9])|((1|2)[0-9])|30|31)$";  
+    private static final String V_31DAYS = "^((0?[1-9])|((1|2)[0-9])|30|31)$";
+    
+    /**电话和手机*/
+    private static final String V_PHONE = "^((0\\d{2,3}-\\d{7,8})|(1[3584]\\d{9}))$";
       
     private ValidateUtils(){}  
     
@@ -530,6 +533,14 @@ public class ValidateUtils {
     	return match(V_BANKACCOUNT,value);
     }
     
+    /** 
+     * 验证电话和手机
+     * @param value 要验证的字符串 
+     * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */
+    public static boolean Tele(String value){
+    	return match(V_PHONE,value);
+    }
     /**
      * Description: 是否包含中英文特殊字符，除英文"-_"字符外
      * 
