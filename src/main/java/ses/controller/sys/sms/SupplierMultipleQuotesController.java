@@ -160,13 +160,13 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	    		qt.setQuotePrice(new BigDecimal(listBd.get(count*4-4)));
 	    		qt.setTotal(new BigDecimal(listBd.get(count*4-3)));
 	    		qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count*4-2)).getTime()));
-	    		qt.setRemark(listBd.get(count*4-1));
+	    		qt.setRemark(listBd.get(count*4-1).equals("null")?"":listBd.get(count*4-1));
 	    		qt.setCreatedAt(new Timestamp(new Date().getTime()));
 	    		listQuote.add(qt);
 	    	}
 	    }
 		supplierQuoteService.insert(listQuote);
-		return "redirect:finish.html";
+		return "redirect:finish.html?projectId="+quote.getProjectId();
 	}
 	
 	/**
@@ -178,7 +178,8 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value="/finish")
-	public String finish() {
+	public String finish(String projectId,Model model) {
+		model.addAttribute("projectId", projectId);
 		return "ses/sms/multiple_quotes/finish";
 	}
 	

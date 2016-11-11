@@ -150,7 +150,6 @@
 		          	error++;
 		          } else{
 		          	priceStr+=price+","+total+","+deliveryTime+","+remark+",";
-		          	alert(priceStr);
 		          };
 		    } ;
 		}

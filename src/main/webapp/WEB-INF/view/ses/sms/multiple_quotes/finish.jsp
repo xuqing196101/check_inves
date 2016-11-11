@@ -109,7 +109,7 @@
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${project.id}" class="img-v1">填写报价</a>
+			  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${projectId}" class="img-v1">填写报价</a>
 			  <span class="">→</span>
 			</span>
 		    <span>
