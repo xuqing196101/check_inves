@@ -6,15 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    <title>审价结果统计</title>
-    
-    <script src="<%=basePath%>public/echarts/echarts.minZ.js"></script>
-    <script src="<%=basePath%>public/echarts/theme/vintage.js"></script>
-    <script src="<%=basePath%>public/echarts/theme/macarons.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-   
 <script type="text/javascript">
 $(function(){
 	  laypage({
