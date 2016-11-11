@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
-import ses.model.bms.DictionaryData;
 import ses.util.PropUtil;
 
 import bss.dao.ppms.FlowDefineMapper;

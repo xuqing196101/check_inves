@@ -48,7 +48,7 @@
             	<input type="hidden" name="id"  value="${fd.id }">
             	<input type="hidden" name="currpage" id="currpage"  value="${currpage }">
 				<ul class="list-unstyled mt10">
-				    <li class="col-md-12 ml30">
+				    <li class="col-md-12 ml20">
 				     	<span class="fl mt5 red">*</span>
 					   	<span class="fl mt5">流程环节名称：</span>
 					   	<div class="input-append">
@@ -56,11 +56,19 @@
 					        <span class="add-on">i</span>
 				       	</div>
 					</li>
-					<li class="col-md-12 ml15">
+					<li class="col-md-12 ml5">
 				     	<span class="fl mt5 red">*</span>
 					   	<span class="fl mt5">流程环节步骤：</span>
 					   	<div class="input-append">
 					        <input class="w140" name="step" value="${fd.step }" maxlength="10" type="text">
+					        <span class="add-on">i</span>
+				       	</div>
+					</li>
+					<li class="col-md-12 ml5">
+				     	<span class="fl mt5 red">*</span>
+					   	<span class="fl mt5">流程跳转路径：</span>
+					   	<div class="input-append">
+					        <input class="w140" name="url" value="${fd.url }" maxlength="200" type="text">
 					        <span class="add-on">i</span>
 				       	</div>
 					</li>

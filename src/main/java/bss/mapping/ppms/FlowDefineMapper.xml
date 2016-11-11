@@ -9,10 +9,11 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED"  property="isDeleted" />
     <result column="PURCHASE_TYPE_ID" jdbcType="VARCHAR" property="purchaseTypeId" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME, STEP, CREATED_AT, UPDATED_AT, IS_DELETED, PURCHASE_TYPE_ID
+    ID, NAME, STEP, CREATED_AT, UPDATED_AT, IS_DELETED, PURCHASE_TYPE_ID, URL
   </sql>
   
   <!-- 查询条件 -->
@@ -36,6 +37,9 @@
       </if>
       <if test="purchaseTypeId != null and purchaseTypeId !='' ">
         and fd.PURCHASE_TYPE_ID = #{purchaseTypeId} 
+      </if>
+      <if test="url != null and url !='' ">
+        and fd.URL = #{url} 
       </if>
     </trim>
   </sql>
@@ -92,6 +96,9 @@
       <if test="purchaseTypeId != null">
         PURCHASE_TYPE_ID,
       </if>
+      <if test="url != null">
+        URL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -114,6 +121,9 @@
       </if>
       <if test="purchaseTypeId != null">
         #{purchaseTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -139,6 +149,9 @@
       </if>
       <if test="purchaseTypeId != null">
         PURCHASE_TYPE_ID = #{purchaseTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

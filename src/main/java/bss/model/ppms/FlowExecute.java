@@ -25,6 +25,9 @@ public class FlowExecute implements Serializable{
 
     private String operatorName;
 
+    /**
+     * @Fields isDeleted : 是否删除 0：未删除， 1：删除
+     */
     private Integer isDeleted;
 
     public String getId() {
