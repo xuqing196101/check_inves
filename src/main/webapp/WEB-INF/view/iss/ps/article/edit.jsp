@@ -78,8 +78,8 @@ function deleteAtta(id,obj){
 	   <span class="col-md-12 padding-left-5">信息标题：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text" value="${article.name }">
+       	<span class="add-on">i</span>
        </div>
-       <span class="add-on">i</span>
        <div class="validate">${ERR_name}</div>
 	 </li>
 	 
@@ -106,12 +106,14 @@ function deleteAtta(id,obj){
 	   <span class="col-md-12 padding-left-5">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text">
+        <span class="add-on">i</span>
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
+        <span class="add-on">i</span>
        </div>
 	 </li>
      <li class="col-md-11 margin-0 padding-0">

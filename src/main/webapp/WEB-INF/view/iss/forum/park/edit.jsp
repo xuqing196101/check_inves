@@ -78,7 +78,7 @@
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${park.name}'>
 		        <div class="validate">${ERR_name}</div>
-		        <%--<span class="add-on">i</span>--%>
+		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 

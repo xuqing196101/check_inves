@@ -118,32 +118,33 @@ function sub(){
 	 </li>
   	 </ul>
 	 </div>
-	 
-	   <div class="padding-top-10 clear">
-	  <h2 class="count_flow"><i>2</i>审核结果</h2>>
-	   <ul class="ul_list mb20">
-	   
-	  <c:if test="${article.status==2 }">
-	  	<li class="col-md-3 margin-0 padding-0 ">
-	   		<span class="col-md-12 padding-left-5">审核结果</span>
-	   		<div class="input-append">
-			<span class="blue ml40">审核通过 </span>
-       		</div>
-	 	</li>  
 
+	  <c:if test="${article.status==2 }">
+	   <div class="padding-top-10 clear">
+	  <h2 class="count_flow"><i>2</i>审核结果</h2>
+	   <ul class="ul_list mb20">
+	  	<li class="col-md-3 margin-0 padding-0 ">  	
+	  	<span class="col-md-12 padding-left-5">审核结果：</span>
+	   <div class="input-append">
+        <input class="span2" type="text" value="审核通过" disabled>
+        <span class="add-on">i</span>
+       </div>
+	 	</li>  
+		</ul>
 	  </c:if>
 	  
 	  <c:if test="${article.status==3 }">
+	   <div class="padding-top-10 clear">
+	  <h2 class="count_flow"><i>2</i>审核结果</h2>
+	   <ul class="ul_list mb20">
 	  	<li class="col-md-11 margin-0 padding-0">
 	   		<span class="col-md-12 padding-left-5">退回理由</span>
 	   		<div class="mb5">
 				<textarea class="h130 col-md-12 " id="reason" name="reason"  disabled>${article.reason }</textarea>
        		</div>
 	 	</li> 
-		
-	  </c:if>
-	  </ul>
-	  
+		</ul>
+</c:if>
 	 <div  class="col-md-12 tc">
 	  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
      </div>
