@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -156,40 +157,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<!-- 录入采购计划开始-->
-	<div class="container">
-		<div class="headline-v2">
-			<h2>查询条件</h2>
-		</div>
-		<!-- 项目戳开始 -->
-
-
-		<form id="add_form" action="<%=basePath%>ExpExtract/projectlist.html"
-			method="post">
-			<label class="fl">项目名称：<input type="text" name="name" /></label> <label
-				class="fl">项目编号：<input type="text" name="projectNumber" />
+   <div class="container">
+   <div class="headline-v2">
+     <h2>立项列表</h2>
+   </div>   
+     <h2 class="search_detail">
+		<form id="add_form" action="<%=basePath%>ExpExtract/projectlist.html" method="post" class="mb0">
+			<label class="fl">项目名称：<input type="text" name="name" /></label> <label class="fl">项目编号：<input type="text" name="projectNumber" />
 			</label>
-
-			<button
-				class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5"
-				type="submit">查询</button>
-
+			<button class="btn" type="submit">查询</button>
 		</form>
+		</h2>
 		<div class="clear"></div>
 
 
-		<div class="headline-v2 fl">
-			<h2>立项列表</h2>
-		</div>
-		<span class="fr option_btn margin-top-10">
+		 <div class="col-md-12 pl20 mt10">
 
 			<button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
 			<button class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="opens();">人工抽取</button>
 			<button class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="record();">抽取记录</button>
-		</span>
-		<div class="container clear margin-top-30">
-			<table class="table table-bordered table-condensed mt5">
+		</div>
+		<div class="content table_box">
+			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr>
 						<th class="info w30"><input type="checkbox" id="checkAll"
@@ -228,9 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input type="radio" name="goods" value="2">:工程<br> <input
 				type="radio" name="goods" value="3">:服务<br>
 		</p>
-		<button class="btn padding-left-10 padding-right-10 btn_back goods"
-			onclick="closeLayer()">确定</button>
-
+		<button class="btn padding-left-10 padding-right-10 btn_back goods" onclick="closeLayer()">确定</button>
 	</div>
 
 </body>

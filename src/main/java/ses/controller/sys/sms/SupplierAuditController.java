@@ -179,12 +179,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("essential")
-	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
+	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId,Integer sign) {
 		supplier = supplierAuditService.supplierById(supplierId);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("suppliers", supplier);
+		//初审、复审的标识
+		request.getSession().setAttribute("signs", sign);
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -400,12 +402,15 @@ public class SupplierAuditController extends BaseSupplierController{
 
 	@RequestMapping("auditReasons")
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
+		User user=(User) request.getSession().getAttribute("loginUser");
+		
 		String id=supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
 
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId(supplier.getProcurementDepId());
+		supplierAudit.setUserId(user.getId());
 		
 		//审核时只要填写理由，就不通过
 /*		supplier.setId(id);
@@ -813,6 +818,11 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value = "supplierAll")
 	public String supplierAll(HttpServletRequest request,Supplier supplier,Integer page) {
+		if(supplier.getSign() == null){
+			Integer  sign = (Integer) request.getSession().getAttribute("signs");
+			supplier.setSign(sign);
+			request.getSession().removeAttribute("signs");
+		}
 		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierAll));
 		request.setAttribute("supplierAll", supplierAll);
@@ -826,7 +836,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		Integer status = supplier.getStatus();
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
-		request.setAttribute("sign", supplier.getSign());
+		
+		//初审、复审标识
+		request.setAttribute("sign",supplier.getSign());
+		request.getSession().getAttribute("sign");
 		return "ses/sms/supplier_audit/supplier_all";
 	}	
 }

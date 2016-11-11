@@ -15,10 +15,27 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 <script type="text/javascript">
-function tijiao(status){
-  $("#status").val(status);
-  form1.submit();
-}
+    //只读
+    $(function() {
+        $(":input").each(function() {
+          $(this).attr("readonly", "readonly");
+        });
+        
+        //审核按钮
+        var num = ${num};
+        if(num == 0){
+            $("#tuihui").attr("disabled", true);
+        }
+        if(num != 0){
+            $("#tonguo").attr("disabled", true);
+        }
+      });
+
+
+	function tijiao(status){
+	  $("#status").val(status);
+	  form1.submit();
+	}
 
 /* //导航
 function tijiao(str){
@@ -61,21 +78,19 @@ function tijiao(str){
 }
 
  */
-//审核
-function shenhe(status){
-  var auditId = $("#auditId").val();
-  $("input[name='id']").val(auditId);
+	//审核
+	function shenhe(status){
+	  var auditId = $("#auditId").val();
+	  $("input[name='id']").val(auditId);
+	
+	  $("#status").val(status);
+	  $("#form_shen").submit();
+	}
 
-  $("#status").val(status);
-  $("#form_shen").submit();
-}
 
-//只读
-$(function() {
-    $(":input").each(function() {
-      $(this).attr("readonly", "readonly");
-    });
-  });
+
+
+
 
 <%-- function file(){
 var supplierInspectListFile = $("#supplierInspectListFile").val();
@@ -204,26 +219,18 @@ alert(supplierInspectListFile);
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
 	            <input name="id" type="hidden">
-	             <input type="hidden" name="status" id="status"/>
+	            <input type="hidden" name="status" id="status"/>
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
 	              <c:if test="${status==0 || status==5  || status==8}">
-	                <c:if test="${num==0}">
-	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
-	                </c:if>
-	                <c:if test="${num!=0}">
-	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
-	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改">
-	                </c:if>
+	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tonguo">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过" id="butonguo">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
 	              </c:if>
 	              <c:if test="${status==1 || status==6}">
-	                <c:if test="${num==0}">
-	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
-	                </c:if>
-	                <c:if test="${num!=0}">
-	                  <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
-	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改">
-	                </c:if>
+	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tonguo">
+	                  <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过" id="butogguo">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
 	              </c:if>
 	              <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>
 	              </div>
@@ -232,7 +239,5 @@ alert(supplierInspectListFile);
           </div>     
         </div>
       </div>
-    </div>
-  </div>
-</body>
+  </body>
 </html>

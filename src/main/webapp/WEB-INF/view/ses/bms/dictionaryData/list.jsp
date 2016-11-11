@@ -2,10 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -20,29 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-	
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-  	<script src="<%=basePath%>public/layer/layer.js"></script>
-  	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   </head>
   <script type="text/javascript">
 	  $(function(){
@@ -110,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			var currPage = ${list.pageNum};
-			window.location.href="<%=basePath%>dictionaryData/edit.html?id="+id+"&page="+currPage;
+			window.location.href="${pageContext.request.contextPath}/dictionaryData/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
 		}else{
@@ -126,7 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>dictionaryData/deleteSoft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/dictionaryData/deleteSoft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -135,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     function add(){
     	var kind = $("#kind").val();
-    	window.location.href="<%=basePath%>dictionaryData/add.html?kind="+kind;
+    	window.location.href="${pageContext.request.contextPath}/dictionaryData/add.html?kind="+kind;
     }
     
 	function resetQuery(){
@@ -154,12 +129,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </div>
       <div class="container">
 		  <div class="headline-v2">
-			  <h2>数据字典</h2>
-		  </div>
+            <h2>数据字典</h2>
+          </div> 
 		  
-		  <div class="p10_25">
-		     <h2 class="padding-10 border1">
-		       	<form action="<%=basePath %>dictionaryData/list.html" id="form1" method="post" class="mb0">
+		  <h2 class="search_detail">
+		       	<form action="${pageContext.request.contextPath}/dictionaryData/list.html" id="form1" method="post" class="mb0">
 			    	<input name="kind" type="hidden" id="kind" value="${dd.kind}">
 			    	<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
@@ -178,19 +152,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	  	<div class="clear"></div>
 		        </form>
 		     </h2>
-	   	  </div>
-      </div>
+
    	  <!-- 表格开始-->
-	  <div class="container">
-		  <div class="col-md-8">
+	  <div class="col-md-12 pl20 mt10">
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-			</div>
 	  </div>
    
-	  <div class="container margin-top-5">
-		  <div class="content padding-left-25 padding-right-25 padding-top-5">
-		       <table class="table table-striped table-bordered table-hover">
+	  <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr>
 					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -210,6 +180,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       </table>
 		    </div>
 		  <div id="pagediv" align="right"></div>
-	  </div>
+	 </div>
   </body>
 </html>

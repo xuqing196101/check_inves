@@ -160,7 +160,7 @@
 	        </h2>
 		    <!-- 表格开始-->
 		    <div class="col-md-12 pl20 mt10">
-		        <button class="btn btn-windows check" type="button" onclick="shenhe();" >审核</button>
+		        <button class="btn" type="button" onclick="shenhe();" >审核</button>
 		    </div>
 		    <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover">
@@ -206,6 +206,7 @@
         </div>
 	    <form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
 	        <input name="supplierId" type="hidden" />
+	        <input type="hidden" name="sign" value="${sign}">
 	    </form>
 	</body>
 </html>

@@ -254,24 +254,24 @@
 	  </div>
    </div>
 <!-- 我的订单页面开始-->
-   <div class="container">
-   <div class="headline-v2">
-   <h2>专家诚信列表</h2>
-   </div>
-   </div>
   
-   <form action="${pageContext.request.contextPath}/credible/list.html"  id="form1"  method="post"   class="registerform"> 
+    <div class="container">
+   <div class="headline-v2">
+     <h2>专家诚信列表</h2>
+   </div>   
+     <h2 class="search_detail">
+  
+   <form action="${pageContext.request.contextPath}/credible/list.html"  id="form1"  method="post"   class="mb0"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
-   <div align="center">
                     <table>
                     <tr>
                     <td>
-                    <span>关键字：</span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }">
+                    <span >关键字：</span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }">
                     </td>
                     <td>
 						 <span>状态：</span>
-						   <select  name="isStatus" id="expertsFrom">
+						   <select  name="isStatus" id="expertsFrom" class="w178">
 						    <option selected="selected" value=''>-请选择-</option>
 						   	<option <c:if test="${expertCredible.isStatus ==1}">selected</c:if> value="1">启用</option>
 						   	<option <c:if test="${expertCredible.isStatus ==2 }">selected</c:if> value="2">停用</option>
@@ -279,16 +279,17 @@
 					</td>
 					<td>
                           <input class="btn btn-windows "  value="搜索" type="submit">
-                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
+                          <input class="btn btn-windows" id="button" onclick="clearSearch();" value="重置" type="reset">
                      </td>
                         </tr>
                         </table>
                   </form>
+                  </h2>
                   </div>
                   </div>  
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-8">
+   <div class="col-md-12 pl20 mt10">
     <!-- <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
@@ -296,11 +297,9 @@
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 	</div>
-    </div>
    
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>

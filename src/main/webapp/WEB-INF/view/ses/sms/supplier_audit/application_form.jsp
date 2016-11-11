@@ -52,7 +52,8 @@ function reason1(ele,auditField){
 	        result = eval("(" + result + ")");
 	        if(result.msg == "fail"){
 	          layer.msg('该条信息已审核过！', {
-            shift: 6 //动画类型
+            shift: 6, //动画类型
+            offset:'300px'
             });
         }
       }
