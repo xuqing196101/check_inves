@@ -65,7 +65,7 @@
 	 
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
-	   <div class="select_common">
+	   <div class="mb5">
 	   <%-- <div class="input-append">
          <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
 		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">

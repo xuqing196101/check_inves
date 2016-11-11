@@ -72,7 +72,7 @@ function sub(){
 	 </li>
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">信息类型：</span>
-	   <div class="select-common">
+	   <div class="mb5">
        <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">

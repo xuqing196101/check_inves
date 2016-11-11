@@ -104,7 +104,7 @@
 			 
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
-			   <div class="select_common">
+			   <div class="mb5">
 			    <select id ="parks"name ="parkId" class="w220" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
@@ -116,7 +116,7 @@
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
-			   	<div class="select_common">				 	
+			   	<div class="mb5">				 	
 	        	<select id="topics" name="topicId" class="w220 ">
 	        	<option></option>
 	        		<c:forEach items="${topics}" var="topic">
@@ -129,7 +129,7 @@
 			 
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5">置顶：</span>
-			    <div class="select_common">	
+			    <div class="mb5">	
 			   	<select id="isTop" name="isTop" class="w220 ">
 	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
@@ -138,7 +138,7 @@
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5 ">锁定：</span>
-			    <div class="select_common">	
+			    <div class="mb5">	
 			   	<select id="isLocking" name="isLocking" class="w220 ">
 	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
