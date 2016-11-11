@@ -106,6 +106,7 @@ alert(supplierInspectListFile);
             </div>
         </div> 
         <div class="container container_box">
+        <div class="content">
         <div class="col-md-12 tab-v2 job-content">
             <ul class="nav nav-tabs bgdd">
               <li class=""><a >详细信息</a></li>

@@ -129,7 +129,7 @@
 		                <li class="fl">
 		                    <label class="fl">审核状态：</label> 
 		                    <select name="status" class="w178" id="status">
-		                       <option value="">全部</option>
+			                   <option value="">全部</option>
 			                   <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
 			                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
 			                   <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>

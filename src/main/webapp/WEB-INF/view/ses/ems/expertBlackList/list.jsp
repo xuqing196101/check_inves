@@ -5,15 +5,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
 <title>专家黑名单</title>
-
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
     $(function(){
       laypage({
@@ -153,117 +148,109 @@
     }
 </script>
 </head>
-<body>
-
-<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-	  <div class="container">
-	    <ul class="breadcrumb margin-left-0">
-	      <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">专家黑名单</a></li>
-	    </ul>
-	  </div>
-	</div>
-	
-  <div class="container">
-    <div class="headline-v2">
-      <h2>专家黑名单列表</h2>
-    </div>
-  </div>
-    
-  <div class="container">
-    <div class="col-md-8">
-      <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
-      <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
-      <button class="btn btn-windows delete" type="button" onclick="updateStatus();">移除</button>
-      <button class="btn btn-windows" type="button" onclick="log();">历史记录</button>
-    </div>
-  </div>
-	<!-- 搜索 -->
-	<div class="container">
-    <div class="p10_25">
-	    <form action="<%=basePath %>expertBlacklist/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
-	      <input type="hidden" name="page" id="page">
-	          <ul class="demand_list">
-	            <li class="fl">
-                <label class="fl mt5">专家姓名：</label>
-                <input type="text" id="relName" name="relName" value="${relName }" class="mb0 mt5">
-                  <%-- <select name="relName" class="mb0 mt5" >
-			              <option value="">请选择</option>
-			              <c:forEach var="expert"  items="${expertName}">
-			              <option value="${expert.relName}">${expert.relName}</option>
-			              </c:forEach>
-                  </select>  --%>
-	            </li>
-		          <li class="fl">
-	               <label class="fl mt5">处罚时限：</label>
-		               <select name="punishDate"  id="punishDate" class="mb0 mt5">
-				            <option value="">-请选择-</option>
-											<option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
-											<option <c:if test="${punishDate =='6个月' }">selected</c:if> value="6个月">6个月</option>
-											<option <c:if test="${punishDate =='一年' }">selected</c:if> value="一年">一年</option>
-											<option <c:if test="${punishDate =='两年' }">selected</c:if> value="两年">两年</option>
-											<option <c:if test="${punishDate =='三年' }">selected</c:if> value="三年">三年</option>
-									</select>
-		          </li>
-		          <li class="fl">
-	              <label class="fl mt5">处罚类型：</label>
-							    <select name="punishType" id="punishType" class="mb0 mt5">
-			            <option value=''>-请选择-</option>
-								  <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
-								  <option <c:if test="${punisType =='2' }">selected</c:if> value="2">严重警告</option>
-								  <option <c:if test="${punisType =='3' }">selected</c:if> value="3">取消资格</option>
-								</select>
-					   </li>
-	           <li>
-	             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-	             <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
-	           </li>
-	      </ul>
-	    <div class="clear"></div>
-	</form>
-	</div>
-	</div>
-	<!-- 表格开始-->
-  <div class="container margin-top-5">
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
-      <table class="table table-bordered table-condensed">
-        <thead>
-          <tr>
-						<th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
-					  <th class="info w50">序号</th>
-					  <th class="info">姓名</th>
-					  <th class="info">入库时间</th>
-					  <th class="info">处罚日期</th>
-					  <th class="info">处罚时限</th>
-					  <th class="info">处罚方式</th>
-					  <th class="info">状态</th>
-					  <th class="info">处罚理由</th>
-          </tr>
-        </thead>
-         <c:forEach items="${expertList }" var="e" varStatus="vs">
-	        <tr>
-	          <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()" id="${e.id}"></td>
-							<td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tc">${e.relName }</td>
-							<td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-							<td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-							<td class="tc">${e.punishDate }</td>
-							<td class="tc">
-								<c:if test="${e.punishType == 1}">警告</c:if>
-								<c:if test="${e.punishType == 2}">严重警告</c:if>
-								<c:if test="${e.punishType == 3}">取消资格</c:if>
-							</td>
-							<td class="tc">
-                <c:if test="${e.status == 0}">处罚中</c:if>
-                <c:if test="${e.status == 1}">过期</c:if>
-                <c:if test="${e.status == 2}">手动移除</c:if>
-              </td>
-	          <td class="tc">${e.reason }</td>
-	        </tr>
-        </c:forEach>
-      </table>
-      <div id="pagediv" align="right"></div>
-    </div>
-  </div>
-</body>
+    <body>
+        <!--面包屑导航开始-->
+        <div class="margin-top-10 breadcrumbs ">
+            <div class="container">
+	           <ul class="breadcrumb margin-left-0">
+	               <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">专家黑名单</a></li>
+	           </ul>
+	       </div>
+	   </div>
+	   <!-- 搜索 -->
+       <div class="container">
+          <div class="headline-v2">
+             <h2>专家黑名单列表</h2>
+          </div>
+	      <h2 class="search_detail">
+	          <form action="<%=basePath %>expertBlacklist/blacklist.html"  method="post" id="form1" class="mb0"> 
+	               <input type="hidden" name="page" id="page">
+	               <ul class="demand_list">
+	                   <li>
+                           <label class="fl">专家姓名：</label>
+                               <input type="text" id="relName" name="relName" value="${relName }" class="">
+			                  <%-- <select name="relName" class="mb0 mt5" >
+						              <option value="">请选择</option>
+						              <c:forEach var="expert"  items="${expertName}">
+						              <option value="${expert.relName}">${expert.relName}</option>
+						              </c:forEach>
+			                  </select>  --%>
+	                   </li>
+		               <li>
+	                       <label class="fl">处罚时限：</label>
+		                   <select name="punishDate"  id="punishDate" class="W178">
+				              <option value="">-请选择-</option>
+						      <option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
+							  <option <c:if test="${punishDate =='6个月' }">selected</c:if> value="6个月">6个月</option>
+							  <option <c:if test="${punishDate =='一年' }">selected</c:if> value="一年">一年</option>
+							  <option <c:if test="${punishDate =='两年' }">selected</c:if> value="两年">两年</option>
+							  <option <c:if test="${punishDate =='三年' }">selected</c:if> value="三年">三年</option>
+						  </select>
+		              </li>
+		              <li >
+	                      <label class="fl mt5">处罚类型：</label>
+					      <select name="punishType" id="punishType" class="W178">
+		                     <option value=''>-请选择-</option>
+							 <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
+							 <option <c:if test="${punisType =='2' }">selected</c:if> value="2">严重警告</option>
+							 <option <c:if test="${punisType =='3' }">selected</c:if> value="3">取消资格</option>
+						  </select>
+					 </li>
+	                 <li>
+	                 <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+	                 <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
+	                 </li>
+	             </ul>
+	             <div class="clear"></div>
+              </form>
+	       </h2>
+	    
+        <div class="col-md-12 pl20 mt10">
+            <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
+            <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
+            <button class="btn btn-windows delete" type="button" onclick="updateStatus();">移除</button>
+            <button class="btn" type="button" onclick="log();">历史记录</button>
+        </div>
+	    <!-- 表格开始-->
+        <div class="content table_box">
+            <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                    <tr>
+					   <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
+					   <th class="info w50">序号</th>
+					   <th class="info">姓名</th>
+					   <th class="info">入库时间</th>
+					   <th class="info">处罚日期</th>
+					   <th class="info">处罚时限</th>
+					   <th class="info">处罚方式</th>
+					   <th class="info">状态</th>
+					   <th class="info">处罚理由</th>
+                     </tr>
+                </thead>
+                <c:forEach items="${expertList }" var="e" varStatus="vs">
+	               <tr>
+	                   <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()" id="${e.id}"></td>
+					   <td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+					   <td class="tc">${e.relName }</td>
+					   <td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+					   <td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+					   <td class="tc">${e.punishDate }</td>
+					   <td class="tc">
+					       <c:if test="${e.punishType == 1}">警告</c:if>
+						   <c:if test="${e.punishType == 2}">严重警告</c:if>
+						   <c:if test="${e.punishType == 3}">取消资格</c:if>
+					   </td>
+					   <td class="tc">
+			               <c:if test="${e.status == 0}">处罚中</c:if>
+			               <c:if test="${e.status == 1}">过期</c:if>
+			               <c:if test="${e.status == 2}">手动移除</c:if>
+                       </td>
+	                   <td class="tc">${e.reason }</td>
+	               </tr>
+                </c:forEach>
+                </table>
+            </div>
+            <div id="pagediv" align="right"></div>
+        </div> 
+    </body>
 </html>

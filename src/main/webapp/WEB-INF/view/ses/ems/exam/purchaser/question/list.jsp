@@ -273,13 +273,9 @@
 	    	<input type="button" class="btn btn-windows add" value="新增" onclick="add()"/>
 	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
 	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
-	    	<div class="fr">
-	    		<button class="btn" type="button" onclick="download()">题目模板下载</button>
-	    		<span class="">
-		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-		    	  	<input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
-	    	  	</span>
-	    	</div>
+	        <button class="btn" type="button" onclick="download()">题目模板下载</button>
+		    <input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
+		    <input type="file" name="file" id="excelFile" style="display:inline;"/>
     	</div>
     
     
