@@ -67,6 +67,7 @@
   }
   /*树点击事件*/
   var check;
+  var sccuess=''; //品目父节点
   function zTreeOnCheck(event,treeId,treeNode){
       treeid=treeNode.id;
       var pNode = treeNode.getParentNode();
@@ -83,17 +84,23 @@
       }else{
     	  name=treeNode;
       }
-      if(name.name=="货物"){  
+      alert(name.kind);
+      if(name.kind==0){  
     	 var boo= name.checked;
     	 if(boo==false){
     		  $("#ultype").css("display","none");
     		  document.getElementById("xschecked").checked=false;
+    		  sccuess='';
     	 }else{
     		  $("#ultype").css("display","block");
     		  document.getElementById("xschecked").checked=true;
+    		  sccuess='sccuess';
     	 }
       }else{
-    	   document.getElementById("xschecked").checked=false;
+    	  if(sccuess!='sccuess'){
+    		  document.getElementById("xschecked").checked=false;  
+    		  sccuess='';
+    	  }
       }
       
   }
@@ -103,13 +110,16 @@
        var nodes=Obj.getCheckedNodes(true);  
        var ids = new Array();
        var names=new Array();
+       var copynames=new Array();
        for(var i=0;i<nodes.length;i++){ 
            if(!nodes[i].isParent){
           //获取选中节点的值  
            ids+=nodes[i].id+"^"; 
            names+=nodes[i].name+"^";
+           copynames+=nodes[i].name+",";
            }
        } 
+       
        //专家数量
 //         parent.$("#extcount").val($("#extcount").val());
 //        //专家类型
@@ -126,38 +136,46 @@
           $('input[name="expertstypeid"]:checked').each(function(){ 
         	  expertstypeid+=$(this).val()+"^";
           }); 
+          var html='';
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
-          if($('#extcount').val()==""){
-        	  
-          }else{
-          var html='';
+          if($('#extcount').val()==''){
+        	  layer.msg('请输入抽取数量');
+          }else if(ids==''){
+        	  layer.msg('请选择品目');
+          }else if(sccuess=='sccuess' && expertstypeid==''){
+        	  layer.msg('请选择类型');
+          }else {
+          
           html+="<tr>"+
              "<input class='hide' name='extCategoryId'  type='hidden' value='"+ids+"'>"+
              "<input class='hide' name='isSatisfy'  type='hidden' value='"+issatisfy+"'>"+
+             "<input class='hide' name='extCategoryName' readonly='readonly' type='hidden' value='"+names+"'>"+
              "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+expertstypeid+"'>"+
 	              "<td class='tc w30'><input type='checkbox' value=''"+
 	                  "name='chkItem' onclick='check()'></td>"+
 	              "<td class='tc'>";
-	              if(expertstypeid=='18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^'){
+	              if(expertstypeid=='1^2^'){
 	            	   html+="<input class='hide' readonly='readonly' type='text' value='生产型,销售型'>";
-	              }else if(expertstypeid=='E73923CC68A44E2981D5EA6077580372^'){
+	              }else if(expertstypeid=='1^'){
 	            	    html+="<input class='hide' readonly='readonly' type='text' value='生产型'>";
-	              }else if(expertstypeid=='18A966C6FF17462AA0C015549F9EAD79^'){
+	              }else if(expertstypeid=='2^'){
 	            	    html+="<input class='hide' readonly='readonly' type='text' value='销售型'>";
 	              }
                   html+="</td>"+
 	              "<td class='tc'><input class='hide' name='extCount' readonly='readonly' type='text' value='"+$('#extcount').val()+"'></td>"+
 	             
-	              "<td class='tc'><input class='hide' name='extCategoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
+	              "<td class='tc'><input class='hide' name='' readonly='readonly' title='"+copynames.substring(0,copynames.length-1)+"' type='text' value='"+copynames.substring(0,copynames.length-1)+"'></td>"+
 	             "</tr>";
+	             
 	             parent.$("#tbody").append(html);
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	             parent.layer.close(index);
           }
   }     
   function resetQuery(){
-      $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
+	  alert("sds");
+//       $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
   }
   
 </script>
@@ -170,10 +188,11 @@
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
 					<input class="span2" name="id" type="hidden">
-					<li class="col-md-6 p0 ">供应商数量：
+					<li class="col-md-6 p0 ">
+				    	<span class="red textspan">*</span>供应商抽取数量：
 						<div class="input-append">
-							<input class="span2 w200" id="extcount" value="10" name="title" type="text">
-							        <div class="b f18 ml10 red hand">sdf</div>
+							<input class="span2 w200" id="extcount" value="10" name="title" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                onafterpaste="this.value=this.value.replace(/\D/g,'')">
 						</div>
 					</li>
 					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
@@ -195,6 +214,7 @@
 				</ul>
 				<br />
 			</div>
+			 <span class="red textspan margin-left-13">*</span>
 			<div id="ztree" class="ztree margin-left-13"></div>
 			<br />
 			<ul id="ultype" class="list-unstyled list-flow p0_20 none">
@@ -202,11 +222,11 @@
 				<div  class="ml5 fl">供应商类型:</div>
 					<div class="fl mr10">
 					  <input name="expertstypeid" class="fl"  id="xschecked"  type="checkbox"
-                            value="18A966C6FF17462AA0C015549F9EAD79">
+                            value="1">
 						<div class="ml5 fl">销售型</div>
 					</div>
 					<div class="fl mr10">
-						<input name="expertstypeid" class="fl" type="checkbox" value="E73923CC68A44E2981D5EA6077580372">
+						<input name="expertstypeid" class="fl" type="checkbox" value="2">
 						<div class="ml5 fl">生产型</div>
 					</div>
 				</li>

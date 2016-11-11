@@ -58,21 +58,21 @@
 				<table style="width: 70%"
 					class="table table-bordered table-condensed">
 					<tr>
-						<td align="center" width="100px">项目名称</td>
+						<td  class="bggrey" width="100px">项目名称:</td>
 						<td colspan="7" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
-						<td align="center">抽取时间</td>
+						<td  class="bggrey">抽取时间:</td>
 						<td colspan="3" align="center"><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
-						<td align="center">抽取地点</td>
+						<td class="bggrey" >抽取地点:</td>
 						<td colspan="3" align="center">${ExpExtractRecord.extractionSites}</td>
 					</tr>
 					<tr>
-						<td align="center" height="300px;">抽取条件<br>抽取数量
+						<td align="center" class="bggrey" height="300px;">抽取条件<br>抽取数量
 						</td>
-						<td colspan="7" height="300px;">
+						<td colspan="7"  height="300px;">
 							<div class="margin-left-100">
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
 									<span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
@@ -102,7 +102,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="7" align="center">抽取记录</td>
+						<td colspan="8" align="center" class="bggrey">抽取记录</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>
@@ -137,7 +137,7 @@
 						</c:forEach>
 					</c:forEach>
 					<tr>
-						<td colspan="7" align="center">抽取人员</td>
+						<td colspan="7" align="center" class="bggrey">抽取人员</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>
@@ -156,7 +156,7 @@
 						<td colspan="2" align="center">签232证</td>
 					</tr>
 					<tr>
-						<td colspan="7" align="center">监督人员</td>
+						<td colspan="7" align="center" class="bggrey">监督人员</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>

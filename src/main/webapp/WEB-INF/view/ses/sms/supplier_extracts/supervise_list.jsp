@@ -80,6 +80,7 @@
 				  if(nams!=null && "" != nams){
 					  parent.$('#sids').val(id.substring(0,id.length-1));
 	                  parent.$('#supervises').val(nams.substring(0,nams.length-1));
+	                  parent.$('#supervises').attr("title",nams.substring(0,nams.length-1));
 				  }
 			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 				  parent.layer.close(index);

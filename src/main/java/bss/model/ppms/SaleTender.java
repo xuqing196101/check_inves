@@ -30,9 +30,16 @@ public class SaleTender {
 		this.statusBond = statusBond;
 		this.userId = userId;
 	}
+	
+
+	public SaleTender(String projectId, String supplierId) {
+        super();
+        this.projectId = projectId;
+        this.supplierId = supplierId;
+    }
 
 
-	/**
+    /**
      * <pre>
      * 表字段 : T_BSS_PPMS_SALE_TENDER.ID
      * </pre>

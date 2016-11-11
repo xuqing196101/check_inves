@@ -19,8 +19,10 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
+    media="screen" rel="stylesheet">
+ <script type="text/javascript"
+    src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 $(function(){
     laypage({
@@ -85,7 +87,7 @@ $(function(){
 	}
 	
   	function show(id){
-  		window.location.href="<%=basePath%>ExpExtract/showRecord.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/ExpExtract/showRecord.do?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -116,9 +118,7 @@ $(function(){
 		}
     }
     
-    function add(){
-    	window.location.href="<%=basePath%>user/add.html";
-    }
+ 
     
     function openPreMenu(){
 		var ids =[]; 
@@ -137,25 +137,35 @@ $(function(){
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: ['180px', '550px'],
 			  shadeClose: false,
-			  content: '<%=basePath%>user/openPreMenu.html?id='+ids,
-			  success: function(layero, index){
-			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-			  },
-			  btn: ['保存', '关闭'] 
-			  ,yes: function(){
-			    iframeWin.onCheck(ids);
-			  }
-			  ,btn2: function(){
-			    layer.closeAll();
-			  }
+			  content: '${pageContext.request.contextPath}/user/openPreMenu.html?id=' + ids,
+				success : function(layero, index) {
+					iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+				},
+				btn : [ '保存', '关闭' ],
+				yes : function() {
+					iframeWin.onCheck(ids);
+				},
+				btn2 : function() {
+					layer.closeAll();
+				}
 			});
-		}else if(ids.length>1){
-			layer.alert("只能同时选择一个用户",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择一个用户",{offset: ['222px', '390px'], shade:0.01});
+		} else if (ids.length > 1) {
+			layer.alert("只能同时选择一个用户", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01
+			});
+		} else {
+			layer.alert("请选择一个用户", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01
+			});
 		}
 	}
-  </script>
+    
+    function resetQuery(){
+        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    }
+</script>
 <body>
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
@@ -174,29 +184,35 @@ $(function(){
 			<h2>抽取专家记录</h2>
 		</div>
 	</div>
-	
-	  <!-- 查询 -->
-   
-   <div class="container clear margin-top-0">
-   <div class="padding-10 border1 m0_30 tc">
-   <form action="" method="post">
-   <input type="hidden" id="page" name="page">
-	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input name="projectName" value="${expExtractRecord.projectName }" type="text" class="mb0"/></span></li>
-	  <li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input
-                            onclick='WdatePicker()' value="<fmt:formatDate value='${expExtractRecord.extractionTime}'
-                                pattern='yyyy-MM-dd' />" name="extractionTime" type="text"
-                            class="mb0" /></span></li>
-	   	 <button class="btn fl ml20 mt1">查询</button>
-	 </ul>
-   </form>
-	 <div class="clear"></div>
-   </div>
-  </div>
+
+	<!-- 查询 -->
+
+	<div class="container clear margin-top-0">
+		<div class="padding-10 border1 m0_30 tc">
+			<form action="${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do" method="post" id="form1" >
+				<input type="hidden" id="page" name="page">
+				<ul class="demand_list">
+					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
+							name="projectName" value="${expExtractRecord.projectName }"
+							type="text" class="mb0" /></span>
+					</li>
+					<li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input
+							onclick='WdatePicker()'
+							value="<fmt:formatDate value='${expExtractRecord.extractionTime}'
+                                pattern='yyyy-MM-dd' />"
+							name="extractionTime" type="text" class="mb0" /></span>
+					</li>
+				        <input class="btn" type="submit" value="查询"/>
+                        <button type="button" class="btn" onclick="resetQuery();">重置</button> 
+				</ul>
+			</form>
+			<div class="clear"></div>
+		</div>
+	</div>
 	<!-- 表格开始-->
 	<div class="container margin-top-5">
 		<div class="content padding-left-25 padding-right-25 padding-top-5">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -206,22 +222,19 @@ $(function(){
 						<th class="info">抽取方式</th>
 					</tr>
 				</thead>
-				<c:forEach items="${listExtractRecord.list}" var="extract" varStatus="vs">
-					<tr  onclick="show('${extract.id}');">
+				<c:forEach items="${listExtractRecord.list}" var="extract"
+					varStatus="vs">
+					<tr class="cursor" onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(listExtractRecord.pageNum-1)*(listExtractRecord.pageSize)}</td>
 						<td class="tc">${extract.projectName}</td>
- 						<td class="tc"><fmt:formatDate 
- 								value="${extract.extractionTime}" 
- 								pattern="yyyy年MM月dd日   " /></td> 
-						<td class="tc">${extract.extractionSites }</td> 
-						<td class="tc">
-							<c:if test="${extract.extractTheWay==1}">
+						<td class="tc"><fmt:formatDate
+								value="${extract.extractionTime}" pattern="yyyy年MM月dd日   " /></td>
+						<td class="tc">${extract.extractionSites }</td>
+						<td class="tc"><c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
-					        </c:if> 
-					        <c:if test="${extract.extractTheWay==2}">
+					        </c:if> <c:if test="${extract.extractTheWay==2}">
 	                                  		    语音抽取                                          			   
-	           		             </c:if>  
-                         </td>
+	           		             </c:if></td>
 					</tr>
 				</c:forEach>
 			</table>

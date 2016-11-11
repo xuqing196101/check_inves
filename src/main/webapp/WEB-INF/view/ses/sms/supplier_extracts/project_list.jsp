@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 
 
-<title>任务管理</title>
+<title>项目管理</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -127,16 +127,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val());
         }); 
-        if(id.length==1){
-            window.location.href="<%=basePath%>SupplierExtracts/Extraction.html?id="+id;
-        }else if(id.length>1){
+        if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-            layer.alert("请选择需要抽取的项目",{offset: ['222px', '390px'], shade:0.01});
+        	window.location.href="<%=basePath%>SupplierExtracts/Extraction.html?id="+id;
         }
     }
     function record(){
     	   location.href = '<%=basePath%>SupplierExtracts/resuleRecordlist.do';
+    }
+    function resetQuery(){
+        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
     }
   </script>
 </head>
@@ -159,24 +160,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="headline-v2">
 			<h2>查询条件</h2>
 		</div>
-		<!-- 项目戳开始 -->
-		<div class="container">
-			<div class="p10_25">
-				<h2 class="padding-10 border1">
-					<form id="add_form"
-						action="<%=basePath%>SupplierExtracts/projectlist.html"
-						method="post">
-						<label class="fl">项目名称：<input type="text" name="name" /></label>
-						<label class="fl">项目编号：<input type="text"
-							name="projectNumber" />
-						</label>
-						<button
-							class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5"
-							type="submit">查询</button>
-					</form>
-				</h2>
-			</div>
-		</div>
+<!-- 项目戳开始 -->
+    <div class="p10_25">
+     <h2 class="padding-10 border1">
+     <form  action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
+     <ul class="demand_list">
+    
+     <li class="fl">
+       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
+       </li>
+       <li class="fl">
+      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
+       </li>
+         <button class="btn" type="submit">查询</button>
+         <button type="reset" class="btn" onclick="resetQuery();">重置</button> 
+     </ul>
+     <div class="clear"></div>
+    </form>
+    </h2>
+    </div>
+     <div class="clear"></div>
+
+
+
 
 
 
@@ -185,56 +191,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<span class="fr option_btn margin-top-10">
 
-			<button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
+			
 			<button class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="opens();">人工抽取</button>
 			<button class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="record();">抽取记录</button>
 		</span>
-		<div class="container clear margin-top-30">
-			<table class="table table-bordered table-condensed mt5">
-				<thead>
-					<tr>
-						<th class="info w30"><input type="checkbox" id="checkAll"
-							onclick="selectAll()" alt=""></th>
-						<th class="info w50">序号</th>
-						<th class="info">项目名称</th>
-						<th class="info">项目编号</th>
-						<th class="info">项目状态</th>
-					</tr>
-				</thead>
-				<c:forEach items="${info.list}" var="obj" varStatus="vs">
-					<tr style="cursor: pointer;">
-						<td class="tc w30"><input type="checkbox" value="${obj.id }"
-							name="chkItem" onclick="check()" alt=""></td>
-						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td class="tc" onclick="see(${obj.id});">${obj.name}</td>
-						<td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
-						<td class="tc" onclick="see(${obj.id});"><c:if
-								test="${'1'==obj.status}">已启动</c:if> <c:if
-								test="${'2'==obj.status}">已成交</c:if> <c:if
-								test="${'3'==obj.status}">新建报批</c:if></td>
-					</tr>
+		<div class="container margin-top-5">
+               <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+          <th class="info w50">序号</th>
+          <th class="info">项目名称</th>
+          <th class="info">项目编号</th>
+          <th class="info">采购方式</th>
+          <th class="info">项目状态</th>
+        </tr>
+        </thead>
+        <tbody id="tbody_id">
+        
+        <c:forEach items="${info.list}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseType }</a></td>
+              <td class="tc">
+              <c:if test="${'1'==obj.status}">实施中</c:if>
+              <c:if test="${'2'==obj.status}">已成交</c:if>
+              <c:if test="${'3'==obj.status}">已立项</c:if>
+              </td>
+            </tr>
+     
+         </c:forEach> 
+        </tbody>
+         
+         
 
-				</c:forEach>
-
-			</table>
-
-			<div id="pagediv" align="right"></div>
-		</div>
+      </table>
+      </div>
+           <div id="pagediv" align="right"></div>
 	</div>
 
 
-	<div id="content" class="div_show">
-		<p align="center" class="type">
-			请选择类别 <br> <input type="radio" name="goods" value="1">:物资<br>
-			<input type="radio" name="goods" value="2">:工程<br> <input
-				type="radio" name="goods" value="3">:服务<br>
-		</p>
-		<button class="btn padding-left-10 padding-right-10 btn_back goods"
-			onclick="closeLayer()">确定</button>
-
-	</div>
 
 </body>
 </html>

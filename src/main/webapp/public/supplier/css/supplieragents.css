@@ -8,6 +8,13 @@
 	height: 500px;
 }
 
+.w120{
+	width: 119px;
+}
+.w96{
+	width: 96px;
+}
+
 .h100 {
 	height: 100px !important;
 }
@@ -17,6 +24,9 @@
 }
 .w150 {
     width: 150px !important;
+}
+.w147 {
+    width: 147px !important;
 }
 
 .hide {
@@ -48,4 +58,10 @@
 }
 .w75{
 	width: 75px!important;
+}
+.textspan{
+    float: none!important;
+    height: 0px!important;
+    line-height: 0px!important;
+    width: 0px!important;
 }

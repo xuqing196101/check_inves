@@ -60,8 +60,6 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
             //给供应商set查询条件
             Supplier supplier=new Supplier();
             supplier.setAddress(show.getAddress());
-            //		expert.setBirthday(birthday);
-            //			supplier.setExpertsFrom();
             //复制对象
             List<SupplierConType> conTypeCopy=new ArrayList<SupplierConType>();
             for(SupplierConType ct : show.getConTypes()) {
@@ -69,29 +67,44 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 BeanUtils.copyProperties(ct, dw, new String[] {"serialVersionUID"});
                 conTypeCopy.add(dw);
             }
-        
+
             for (SupplierConType contype : conTypeCopy) {
+                List<SupplierExtRelate> listRelate=new ArrayList<SupplierExtRelate>();
                 show.getConTypes().clear();
                 show.getConTypes().add(contype);
                 //查询供应商集合
+                if(contype.getSupplieTypeId() != null &&  !"".equals(contype.getSupplieTypeId())){
+                    contype.setSupplierTypeId(contype.getSupplieTypeId().split("\\^"));
+                }
                 List<Supplier> selectAllExpert = supplierMapper.getAllSupplier(null);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
                 SupplierExtRelate supplierExtRelate=null;
                 for (Supplier supplier2 : selectAllExpert) {
-                    supplierExtRelate = new SupplierExtRelate();
-                    //供应商id
-                    supplierExtRelate.setSupplierId(supplier2.getId());
-                    //项目id
-                    supplierExtRelate.setProjectId(show.getProjectId());
-                    //条件表id
-                    supplierExtRelate.setSupplierConditionId(show.getId());
-                    supplierExtRelate.setIsDeleted((short)0);
-                    supplierExtRelate.setOperatingType((short)0);
-                    supplierExtRelate.setConTypeId(contype.getId());
-                    //插入supplierExtRelate
-                    supplierExtRelateMapper.insertSelective(supplierExtRelate);
+                    Map<String, String> map=new HashMap<String, String>();
+                    map.put("supplierId", supplier2.getId());
+                    map.put("projectId",show.getProjectId());
+                    if(supplierExtRelateMapper.getSupplierId(map)==0){
+                        supplierExtRelate = new SupplierExtRelate();
+                        //供应商id
+                        supplierExtRelate.setSupplierId(supplier2.getId());
+                        //项目id
+                        supplierExtRelate.setProjectId(show.getProjectId());
+                        //条件表id
+                        supplierExtRelate.setSupplierConditionId(show.getId());
+                        supplierExtRelate.setIsDeleted((short)0);
+                        supplierExtRelate.setOperatingType((short)0);
+                        supplierExtRelate.setConTypeId(contype.getId());
+                        //添加到集合
+                        listRelate.add(supplierExtRelate);
+                    }
                 }
+                //插入表中
+                if(listRelate.size()!=0){
+                    supplierExtRelateMapper.insertList(listRelate);
+                }
+
             }
+
         }
         return "";
     }

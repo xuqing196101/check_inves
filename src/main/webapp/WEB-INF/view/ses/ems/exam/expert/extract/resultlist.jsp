@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../../../common.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -167,7 +168,9 @@
                                     	   html+="商务,";
                                       }
                         			   if(list[0].conType[l].categoryName != null && list[0].conType[l].categoryName != ''){
-                        				   html+="品目:"+list[0].conType[l].categoryName+",";
+                        				   var cName=list[0].conType[l].categoryName.replace("^",",");
+                                           cName=cName.substring(0,cName.length-1);
+                                           html+="抽取品目:"+cName+",";
                         			   }
                         			   
                         			   if(list[0].conType[l].isMulticondition!=null && list[0].conType[l].isMulticondition != ''){
@@ -186,10 +189,9 @@
                            tex+="<tr class='cursor'>"+
                                "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.mobile+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.workUnit+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.professTechTitles+"</td>"+
                            " <td class='tc' >"+
                              "<select id='select' onchange='operation(this);'>";
                              
@@ -240,7 +242,7 @@
 						商务,
 					</c:if>
 						<c:if test="${con.categoryName != null && con.categoryName != ''}">
-				        	品目:${con.categoryName},
+				                  抽取品目 :${fn:replace(con.categoryName, "^", ",")}
 					</c:if>
 						<c:if
 							test="${con.isMulticondition!=null && con.isMulticondition!= '' }">
@@ -263,10 +265,9 @@
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
-							<th class="info">类型，级别</th>
-							<th class="info">联系人</th>
-							<th class="info">座机</th>
-							<th class="info">手机</th>
+							<th class="info">联系电话</th>
+							<th class="info">工作单位名称</th>
+							<th class="info">专家技术职称</th>
 							<th class="info">操作</th>
 						</tr>
 					</thead>
@@ -276,10 +277,9 @@
 							<tr class='cursor '>
 								<td class='tc' onclick='show();'>${vs.index+1}</td>
 								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.mobile}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.workUnit}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.professTechTitles}</td>
 								<td class='tc'><select id='select'
 									onchange='operation(this);'>
 										<c:choose>
@@ -310,7 +310,6 @@
 						<c:forEach items="${extRelateListNo }" var="listno" varStatus="vs">
 							<tr class='cursor'>
 								<td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
-								<td class='tc' onclick='show();'>*****</td>
 								<td class='tc' onclick='show();'>*****</td>
 								<td class='tc' onclick='show();'>*****</td>
 								<td class='tc' onclick='show();'>*****</td>

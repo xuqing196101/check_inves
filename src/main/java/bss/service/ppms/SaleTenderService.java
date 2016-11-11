@@ -26,7 +26,7 @@ public interface SaleTenderService   {
 	 * @param @param saleTender      
 	 * @return void
 	 */
-	public void insert(SaleTender saleTender);
+	public String insert(SaleTender saleTender);
 	
 
 	/**   

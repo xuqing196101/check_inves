@@ -18,11 +18,11 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+<link rel="stylesheet"
+    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    type="text/css">
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -35,8 +35,8 @@
 		    endRow:"${list.endRow}",
 		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
+		        
+		        return "${list.pageNum}";
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
@@ -67,21 +67,19 @@
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val());
         }); 
-        
         if(id.length==1){
-<%--         	window.location.href='<%=basePath%>saleTender/save.do?ids='+id+'&&projectId=${projectId}'; --%>
-//             parent.location.reload();
-//         	var index = parent.layer.getFrameIndex(window.name);
-//         	  parent.layer.close(index);
             $.post("<%=basePath%>saleTender/save.do",{ids:id.toString(),projectId:"${projectId}"},
                     function(data){
-            	    parent.location.reload();
-                    });
-
+            	if(data=="error"){
+            		layer.alert("供应商已存在，无需添加",{offset: ['100px', '200px'], shade:0.01});
+            	}else{
+            		 parent.location.reload();
+            	}
+                    },"json");
         }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['100px', '390px'], shade:0.01});
+            layer.alert("只能选择一个",{offset: ['100px', '200px'], shade:0.01});
         }else{
-            layer.alert("请选择一个供应商",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("请选择一个供应商",{offset: ['100px', '200px'], shade:0.01});
         }
 	}
 	/** 单选 */

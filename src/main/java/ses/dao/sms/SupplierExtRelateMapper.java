@@ -78,4 +78,23 @@ public interface SupplierExtRelateMapper {
      * @return List<ProjectExtract>
      */
     void updateStatusCount(Map map);
+    
+    /**
+     * 
+     *〈简述〉查询是否已经存在表中
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param map
+     * @return
+     */
+    Integer getSupplierId(Map map);
+    
+    /**
+     * 
+     *〈简述〉 插入集合
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param list
+     */
+    void insertList(List<SupplierExtRelate> list);
 }

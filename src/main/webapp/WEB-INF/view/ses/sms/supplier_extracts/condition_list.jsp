@@ -66,28 +66,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
   
   /*分页  */
-  $(function(){
-      laypage({
-            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-            pages: "${info.pages}", //总页数
-            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            skip: true, //是否开启跳页
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
-            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
-                return "${info.pageNum}";
-            }(), 
-            jump: function(e, first){ //触发分页后的回调
+	  $(function(){
+          laypage({
+                cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+                pages: "${list.pages}", //总页数
+                skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+                skip: true, //是否开启跳页
+                total: "${list.total}",
+                startRow: "${list.startRow}",
+                endRow: "${list.endRow}",
+                groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
+                curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+                   
+                    return "${list.pageNum}";
+                }(), 
+                jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
-                    
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
-                }  
-            }
-        });
-  });
+                        var loginName = $("#loginName").val();
+                        var relName = $("#relName").val();
+                        var typeName = $("#typeName").val();
+                        
+                    }
+                }
+            });
+      });
   
   
     /** 全选全不选 */
@@ -107,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
         }
     
-    /** 单选 */
+    /** 单选 */projectName
     function check(){
          var count=0;
          var checklist = document.getElementsByName ("chkItem");
@@ -127,7 +129,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function add(){
-    	 location.href = '<%=basePath%>SupplierExtracts/addExtraction.html?projectId=${projectId}';
+    	var projectName = $("#projectName").val();
+    	var projectNumber = $("#projectNumber").val();
+    	
+    	 location.href = '<%=basePath%>SupplierExtracts/addExtraction.html?projectId=${projectId}&&projectName='+projectName+'&&projectNumber='+projectNumber+'&&typeclassId=${typeclassId}';
     }
     
     function extract(id,btn){
@@ -143,40 +148,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               content: '<%=basePath%>SupplierExtracts/extractCondition.html?cId='+id
             });
     	  $(btn).next().remove();
-    	  $(btn).parent("#status").text("as");
+    	 $(btn).parent().parent().find("td:eq(2)").html("已抽取");
     	  
     }
     function update(id){
-    	  location.href = '<%=basePath%>SupplierCondition/showSupplierCondition.html?Id='+id;
+    	  location.href = '<%=basePath%>SupplierCondition/showSupplierCondition.html?Id='+id+'&&typeclassId=${typeclassId}';
   }
   </script>
 </head>
 
 <body>
 	<!--面包屑导航开始-->
+	<c:if test="${typeclassId==null || typeclassId==0}">
 	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">支撑环境系统</a></li>
-				<li><a href="#">供应商管理</a></li>
-				       <li><a href="#">供应商抽取</a></li>
-				<li class="active"><a href="#">供应商抽取列表</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="#"> 首页</a></li>
+                <li><a href="#">支撑环境系统</a></li>
+                <li><a href="#">供应商管理</a></li>
+                       <li><a href="#">供应商抽取</a></li>
+                <li class="active"><a href="#">供应商抽取列表</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+	</c:if>
 	<!-- 录入采购计划开始-->
 	<div class="container">
 		<!-- 项目戳开始 -->
 		<form id="add_form" action="<%=basePath%>project/list.html"
 			method="post">
-
 		</form>
 		<div class="container clear margin-top-30">
 		  <div class="clear"></div>
           <span class="fl mt5  margin-top-10">
-                        项目名称  <input type="text" disabled="disabled" value="${projectName}" />
+                 <span class="fl margin-top-6">
+                 <c:if test="${projectId == null || projectId == ''}">
+                 <span class="red">*</span>
+                 </c:if>项目名称 ：</span>
+                 <c:if test="${projectId!=null&&projectId!=''}">
+	                 <span class=" fl" title="${projectName}">
+                    <c:choose>
+                        <c:when test="${fn:length(projectName) > 50}">
+                          ${fn:substring(projectName, 0, 50)}......
+                        </c:when>
+                        <c:otherwise>
+                        ${projectName}
+                        </c:otherwise>
+                    </c:choose>
+                    </span>
+                    <input type="hidden" class="fl" value="${projectName}" />
+                 </c:if>
+                 <c:if test="${projectId == null || projectId == ''}">
+                   <input type="text" id="projectName"  class="fl" value="${projectName}" />
+                   
+                 </c:if>
+                <div class="b f14 red tip fl w150" id="projectName">${projectNameError}</div> 
+        </span>
+         <span class="fl mt5 ml20 margin-top-10">
+                 <span class="fl margin-top-6">
+                   <c:if test="${projectId == null || projectId == ''}">
+                 <span class="red">*</span>
+                 </c:if>
+                                               项目编号：</span>
+                   <c:if test="${projectId!=null&&projectId!=''}">
+                    <span class=" fl" title="${projectNumber}">
+                    <c:choose>
+                        <c:when test="${fn:length(projectNumber) > 50}">
+                          ${fn:substring(projectNumber, 0, 50)}......
+                        </c:when>
+                        <c:otherwise>
+                        ${projectNumber}
+                        </c:otherwise>
+                    </c:choose>
+                    </span>
+                    <input type="hidden" class="fl"  value="${projectNumber}" />
+                 </c:if>
+                 <c:if test="${projectId == null || projectId == ''}">
+                    <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" />
+                    
+                 </c:if>
+                  <div class="b f14 red tip fl w150" id="projectNumber">${projectNumberError}</div> 
+               
         </span>
         <span class="fr option_btn margin-top-10">
             <button class="btn padding-left-10 padding-right-10 btn_back"
@@ -191,27 +244,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th class="info">操作</th>
 					</tr>
 				</thead>
-				<c:forEach items="${list}" var="obj" varStatus="vs">
+				<c:forEach items="${list.list}" var="obj" varStatus="vs">
 					<tr >
 						<td class="tc w50">${vs.index+1}</td>
-						<td class="w800">第【${vs.index+1}】次抽取，， 供应商所在地区【${ obj.address}】
+						<td class="w800">第【${vs.index+1}】次抽取，供应商所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
 					
 						 <c:choose>
-						  <c:when test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
+						  <c:when test="${'1^2^' == contypes.supplieTypeId  }">
 						                   ，  供应商类型【 生产型,销售型 】
 						  </c:when>
-						  <c:when test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
+						  <c:when test='${contypes.supplieTypeId == "1^"}'>
 						                                 ，  供应商类型【生产型】
 						  </c:when>
-						  <c:when test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
+						  <c:when test='${contypes.supplieTypeId == "2^" }'>
 						    ， 供应商类型【销售型】
 						  </c:when>
 						 </c:choose>
-                                                                          
-					                ， 采购类别【 ${contypes.categoryName} 】，供应商数量【${contypes.supplieCount }】
+                          <c:if test="${contypes.categoryName!=null}">
+                          <c:set var="re" value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}"/>
+                                                                               ， 采购类别【${fn:replace(re,'^',',')}】
+                          </c:if>   
+                          <c:if test="${contypes.supplieCount!=null }">
+                                                                         ，供应商数量【${contypes.supplieCount }】
+                        </c:if>  
 						</c:forEach>
-					
 						</td>
 						<td class="tc w75" id="status"><c:if test="${obj.status==1}">
                                                                            待抽取

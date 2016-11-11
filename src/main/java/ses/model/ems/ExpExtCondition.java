@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @Description:抽取条件
  *	 
@@ -39,6 +41,9 @@ public class ExpExtCondition implements Cloneable {
 		super();
 		this.projectId = projectId;
 	}
+	
+
+	
     
     private List<ExtConType> conTypes;
   
@@ -87,6 +92,7 @@ public class ExpExtCondition implements Cloneable {
      * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.TENDER_TIME
      * </pre>
      */
+    @NotNull(message = "开标时间不能为空")  
     private Date tenderTime;
 
     /**
@@ -603,6 +609,8 @@ public class ExpExtCondition implements Cloneable {
   
          return condition;
     }
+
+
 
 
 }

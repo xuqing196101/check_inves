@@ -3,7 +3,9 @@
  */
 package ses.controller.sys.sms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierExtRelateMapper;
@@ -69,8 +73,25 @@ public class SupplierConditionController {
      * @param @return      
      * @return String 
      */
+    @ResponseBody
     @RequestMapping("/saveSupplierCondition")
-    public String saveSupplierCondition(SupplierCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq){
+    public String saveSupplierCondition(SupplierCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,String typeclassId ){
+        List<Area> listArea = areaService.findTreeByPid("1",null);
+        sq.setAttribute("listArea", listArea);
+        sq.setAttribute("typeclassId", typeclassId);
+        Map<String, String> map=new HashMap<String, String>();
+        Integer count=0;
+        if(sids==null || sids.length==0 || "".equals(sids)){
+            map.put("supervise", "请选择监督人员");
+            count=1;
+        }
+        if(extConTypeArray == null || extConTypeArray.getExtCount() == null || extConTypeArray.getExtCategoryId()==null){
+            map.put("array", "请添加供应商抽取数量，产品类型等条件");
+            count=1;
+        }
+        if(count==1){
+            return JSON.toJSONString(map);
+        }
         if(condition.getId()!=null&&!"".equals(condition.getId())){
             conditionService.update(condition);	
             //删除关联数据重新添加
@@ -132,7 +153,8 @@ public class SupplierConditionController {
                 }
             }
         }
-        return "redirect:/SupplierExtracts/Extraction.do?id="+condition.getProjectId();
+        map.put("sccuess", "sccuess");
+        return JSON.toJSONString(map);
     }
 
     /**
@@ -144,11 +166,11 @@ public class SupplierConditionController {
      * @return String
      */
     @RequestMapping("/showSupplierCondition")
-    public String showSupplierCondition(SupplierCondition condition,Model model,String cId){
+    public String showSupplierCondition(SupplierCondition condition,Model model,String cId,String typeclassId){
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
-
-        List<SupplierCondition> list = conditionService.list(condition);
+        model.addAttribute("typeclassId",typeclassId);
+        List<SupplierCondition> list = conditionService.list(condition,0);
         if(list!=null&&list.size()!=0){
             model.addAttribute("ExpExtCondition", list.get(0));
             model.addAttribute("projectId", list.get(0).getProjectId());

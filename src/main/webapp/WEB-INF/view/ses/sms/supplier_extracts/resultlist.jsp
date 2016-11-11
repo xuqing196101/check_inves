@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -160,7 +161,9 @@
                                    for(var l=0;l<list[0].conType.length;l++){
                                 	   
                                 	   if(list[0].conType[l].categoryName!=null){
-                                		   html+="抽取品目:"+list[0].conType[l].categoryName+",";
+                                		   var cName=list[0].conType[l].categoryName.replace("^",",");
+                                		   cName=cName.substring(0,cName.length-1);
+                                		   html+="抽取品目:"+cName+",";
                                 	   }
                                 	   if(list[0].conType[l].isMulticondition==1){
                                 		  html+="满足一个条件,"; 
@@ -177,9 +180,9 @@
                                "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
                                "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
-                               "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactTelephone+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].supplier.contactMobile+"</td>"+
                            " <td class='tc' >"+
                              "<select id='select' onchange='operation(this);'>";
                              
@@ -219,7 +222,7 @@
 				<div id="extcontype">
 					<c:forEach var="con" items="${extConType}">
 						<c:if test="${con.categoryName != null && con.categoryName != ''}">
-                                                                 抽取品目${con.categoryName},
+                                                                 抽取品目 :${fn:replace(con.categoryName, "^", ",")}
                     </c:if>
 						<c:if test="${con.isMulticondition != null && isMulticondition != ''}">
 
@@ -242,11 +245,11 @@
 						<thead>
 							<tr>
 								<th class="info w50">序号</th>
-								<th class="info">专家姓名</th>
+								<th class="info">供应商名称</th>
 								<th class="info">类型，级别</th>
-								<th class="info">联系人</th>
-								<th class="info">座机</th>
-								<th class="info">手机</th>
+								<th class="info">联系人名称</th>
+								<th class="info">联系人电话</th>
+								<th class="info">联系人手机</th>
 								<th class="info">操作</th>
 							</tr>
 						</thead>
@@ -257,9 +260,9 @@
 									<td class='tc' onclick='show();'>${vs.index+1}</td>
 									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
 									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
-									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
+									<td class='tc' onclick='show();'>${listyes.supplier.contactName}</td>
+									<td class='tc' onclick='show();'>${listyes.supplier.contactTelephone}</td>
+									<td class='tc' onclick='show();'>${listyes.supplier.contactMobile}</td>
 									<td class='tc'><select id='select'
 										onchange='operation(this);'>
 											<c:choose>

@@ -28,6 +28,8 @@ public class SupplierCondition {
 		super();
 		this.projectId = projectId;
 	}
+	
+	
 
     
 	/**
@@ -352,6 +354,7 @@ public class SupplierCondition {
 	public void setExtractAddress(String extractAddress) {
 		this.extractAddress = extractAddress;
 	}
-	
+
+
     
 }

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.SaleTender;
@@ -53,10 +55,16 @@ public class SaleTenderController {
      * @return void
      */
     @RequestMapping("/list")
-    public String  list(Model model,String projectId,String page){
-        List<SaleTender> list = saleTenderService.list(new SaleTender(projectId),page==null?1:Integer.valueOf(page));
+    public String  list(Model model,String projectId, String page, SaleTender saleTender,String supplierName){
+        saleTender.setProjectId(projectId);
+        Supplier supplier=new Supplier();
+        supplier.setSupplierName(supplierName);
+        saleTender.setSuppliers(supplier);
+        List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
         model.addAttribute("list", new PageInfo<>(list));
         model.addAttribute("projectId", projectId);
+        model.addAttribute("saleTender",saleTender);
+        model.addAttribute("supplierName",supplierName);
         return "bss/ppms/sall_tender/list";
     }
 
@@ -71,7 +79,7 @@ public class SaleTenderController {
      */
     @RequestMapping("/showSupplier")
     public  String showSupplier(Model model, String projectId,String page,Supplier supplier){
-        List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page==null||page.equals("")?1:Integer.valueOf(page));
+        List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         model.addAttribute("list", new PageInfo<>(allSupplier));
         model.addAttribute("projectId", projectId);
         model.addAttribute("supplierName", supplier.getSupplierName());
@@ -114,8 +122,8 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/upload")
-    public String paymentUpload(@RequestParam(value = "bill", required = false) MultipartFile bill,@RequestParam(value = "voucher", required = false) MultipartFile voucher,String projectId,String saleId,String statusBid){
-        saleTenderService.upload(bill,voucher,projectId,saleId,statusBid);
+    public String paymentUpload(String projectId,String saleId,String statusBid){
+        saleTenderService.upload(null,null,projectId,saleId,statusBid);
         return "redirect:list.html?projectId="+projectId;
     }
     /**
@@ -126,13 +134,15 @@ public class SaleTenderController {
      * @param @return      
      * @return String
      */
+    @ResponseBody
     @RequestMapping("/save")
-    public String save(String ids,String status,HttpServletRequest sq,String projectId){
+    public Object save(String ids,String status,HttpServletRequest sq,String projectId){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
-        if(attribute!=null){
-            saleTenderService.insert(new SaleTender(projectId, (short)0, ids, (short)0, attribute.getId()));
+        String info = "";
+        if (attribute != null){
+            info = saleTenderService.insert(new SaleTender(projectId, (short)1, ids, (short)1, attribute.getId()));
         }
-        return "redirect:list.html?projectId="+projectId;
+        return JSON.toJSONString(info);
     }
 
     /**

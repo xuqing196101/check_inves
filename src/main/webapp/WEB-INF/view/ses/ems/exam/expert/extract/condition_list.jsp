@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               return page ? page[1] : 1;
           }(), 
           jump: function(e, first){ //触发分页后的回调
-              if(!first){ //一定要加此判断，否则初始时会无限刷新
+              if(!first){ //一定要加此判断，否则初始时会无限刷新projectNumber
                   location.href = '<%=basePath%>ExpExtract/Extraction.html?id=${projectId}&page='+e.curr;
               }
           }
@@ -124,7 +124,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function add(){
-    	 location.href = '<%=basePath%>ExpExtract/addExtraction.html?projectId=${projectId}';
+    	   var projectName = $("#projectName").val();
+           var projectNumber = $("#projectNumber").val();
+           location.href = '<%=basePath%>ExpExtract/addExtraction.html?projectId=${projectId}&&projectName='+projectName+'&&projectNumber='+projectNumber+'&&typeclassId=${typeclassId}';
     }
     function extract(id,btn){
     	  layer.open({
@@ -139,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               content: '<%=basePath%>ExpExtract/extractCondition.html?cId='+id
             });
     	  $(btn).next().remove();
-    	  $(btn).parent("#status").text("as");
+          $(btn).parent().parent().find("td:eq(2)").html("已抽取");
     	  
     }
     function update(id){
@@ -150,6 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
 	<!--面包屑导航开始-->
+	<c:if test="${typeclassId==null || typeclassId==0}">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -162,6 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="clear"></div>
 		</div>
 	</div>
+	</c:if>
 	<!-- 录入采购计划开始-->
 	<div class="container">
 		<!-- 项目戳开始 -->
@@ -171,8 +175,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 		<div class="container clear margin-top-30">
 		  <div class="clear"></div>
-          <span class="fl mt5  margin-top-10">
-                        项目名称  <input type="text" value="${projectName}" />
+       <span class="fl mt5  margin-top-10">
+                 <span class="fl margin-top-6">
+                 <c:if test="${projectId == null || projectId == ''}">
+                 <span class="red">*</span>
+                 </c:if>项目名称 ：</span>
+                 <c:if test="${projectId!=null&&projectId!=''}">
+                     <span class=" fl" title="${projectName}">
+                    <c:choose>
+                        <c:when test="${fn:length(projectName) > 50}">
+                          ${fn:substring(projectName, 0, 50)}......
+                        </c:when>
+                        <c:otherwise>
+                        ${projectName}
+                        </c:otherwise>
+                    </c:choose>
+                    </span>
+                    <input type="hidden" class="fl" value="${projectName}" />
+                 </c:if>
+                 <c:if test="${projectId == null || projectId == ''}">
+                   <input type="text" id="projectName"  class="fl" value="${projectName}" />
+                   
+                 </c:if>
+                <div class="b f14 red tip fl w150" id="projectName">${projectNameError}</div> 
+        </span>
+         <span class="fl mt5 ml20 margin-top-10">
+                 <span class="fl margin-top-6">
+                   <c:if test="${projectId == null || projectId == ''}">
+                 <span class="red">*</span>
+                 </c:if>
+                                               项目编号：</span>
+                   <c:if test="${projectId!=null&&projectId!=''}">
+                    <span class=" fl" title="${projectNumber}">
+                    <c:choose>
+                        <c:when test="${fn:length(projectNumber) > 50}">
+                          ${fn:substring(projectNumber, 0, 50)}......
+                        </c:when>
+                        <c:otherwise>
+                        ${projectNumber}
+                        </c:otherwise>
+                    </c:choose>
+                    </span>
+                    <input type="hidden" class="fl"  value="${projectNumber}" />
+                 </c:if>
+                 <c:if test="${projectId == null || projectId == ''}">
+                    <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" />
+                    
+                 </c:if>
+                  <div class="b f14 red tip fl w150" id="projectNumber">${projectNumberError}</div> 
+               
         </span>
         <span class="fr option_btn margin-top-10">
             <button class="btn padding-left-10 padding-right-10 btn_back"
@@ -204,7 +255,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						                       【法律】
 						      </c:when>
 						  </c:choose>
-					                ， 采购类别【 ${contypes.categoryName} 】，专家数量【${contypes.expertsCount }】
+						   <c:if test="${contypes.categoryName!=null}">
+                          <c:set var="re" value="${fn:replace(contypes.categoryName,'^',',')}"/>
+                                                                               ， 采购类别【 ${fn:substring(re, 0,re.length()-1)}】
+                          </c:if>
+                            ,专家数量【${contypes.expertsCount }】
 						</c:forEach>
 					
 						</td>

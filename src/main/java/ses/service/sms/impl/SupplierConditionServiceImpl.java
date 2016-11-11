@@ -8,9 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.sms.SupplierConditionMapper;
 import ses.model.sms.SupplierCondition;
 import ses.service.sms.SupplierConditionService;
+import ses.util.PropUtil;
 
 /**
  * @Description:
@@ -59,8 +62,10 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
 	 * @param @return      
 	 * @return List<ExpExtCondition>
 	 */
-	public List<SupplierCondition> list(SupplierCondition condition){
-		
+	public List<SupplierCondition> list(SupplierCondition condition,Integer pageNum){
+	    if(pageNum!=0){
+	        PageHelper.startPage(pageNum,PropUtil.getIntegerProperty("pageSize"));
+	    }
 		return conditionMapper.list(condition);
 	}
 

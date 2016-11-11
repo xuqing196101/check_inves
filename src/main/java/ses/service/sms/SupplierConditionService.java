@@ -45,7 +45,7 @@ public interface SupplierConditionService {
 	 * @param @return      
 	 * @return List<ExpExtCondition>
 	 */
-	List<SupplierCondition> list(SupplierCondition condition);
+	List<SupplierCondition> list(SupplierCondition condition,Integer pageNum);
 	
 	/**
 	 * @Description:获取单个

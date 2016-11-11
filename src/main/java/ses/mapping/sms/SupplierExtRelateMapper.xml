@@ -251,8 +251,29 @@
 		CON_TYPE_ID =
 		#{conTypeId}
 		AND OPERATING_TYPE != 1
-		AND OPERATING_TYPE != 2
+		AND OPERATING_TYPE !=
+		2
 		AND
 		OPERATING_TYPE != 3
 	</update>
+	<select id="getSupplierId" parameterType="Map" resultType="java.lang.Integer">
+		SELECT "COUNT"(SUPPLIER_ID) as count FROM
+		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		SUPPLIER_ID=#{supplierId}
+		AND
+		PROJECT_ID=#{projectId}
+	</select>
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO T_SES_SMS_SUPPLIER_EXT_RELATE
+		(SUPPLIER_ID,SUPPLIER_CONDITION_ID,PROJECT_ID,CON_TYPE_ID)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.supplierId,jdbcType=VARCHAR},
+			#{item.supplierConditionId,jdbcType=VARCHAR},
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.conTypeId,jdbcType=VARCHAR}
+			from dual
+		</foreach>
+	</insert>
 </mapper>

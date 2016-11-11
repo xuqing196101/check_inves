@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="up" uri="/tld/upload" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -32,21 +33,20 @@
 	<!-- 表格开始-->
 	<div class="content padding-left-25 padding-right-25 padding-top-0">
 		<form action="<%=basePath%>saleTender/upload.do"
-			enctype="multipart/form-data" method="post">
+			 method="post">
+			 
+			<up:upload id="bid" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="fase" />
+            <up:show showId="bid" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+            
+			<up:upload id="bond" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="fase" />
+            <up:show showId="bond" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+			
 			<input name="projectId" type="hidden" value="${projectId}" />
 			<input name="saleId" type="hidden" value="${saleId}" />
-			发票上传：<input name="bill" type="file"> 打印凭证： <input
-				name="voucher" type="file">
 				是否缴纳标书费： <input
                 name="statusBid" value="2" type="radio">是
                 <input
                 name="statusBid" value="1" type="radio">否
-<!-- 		<div class="container padding-left-50 "> -->
-<!-- 			<div class="col-md-12 pl20"> -->
-<!-- 				<input class="btn btn-windows withdraw" type="submit" value="提交"/> -->
-<!-- 				<input class="btn btn-windows add" type="submit" value="关闭"/> -->
-<!-- 			</div> -->
-<!-- 	</div> -->
 	</form>
 	</div>
 </body>

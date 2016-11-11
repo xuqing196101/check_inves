@@ -16,11 +16,11 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-	<link href="<%=basePath%>public/supplier/css/supplieragents.css"
+	<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     media="screen" rel="stylesheet">
+    <script type="text/javascript"
+    src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 			   $(function(){
@@ -155,6 +155,9 @@
 			layer.alert("请选择一个用户",{offset: ['222px', '390px'], shade:0.01});
 		}
 	}
+    function resetQuery(){
+        $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    }
   </script>
 <body>
 	<!--面包屑导航开始-->
@@ -179,19 +182,19 @@
 
 	<div class="container clear margin-top-0">
 		<div class="padding-10 border1 m0_30 tc">
-			<form action="<%=basePath%>SupplierExtracts/listSupplierExtracts.do"
-				method="post">
+			<form action="<%=basePath%>SupplierExtracts/resuleRecordlist.do"
+				method="post" id="form1">
 				<input type="hidden" id="page" name="page">
 				<ul class="demand_list">
-				
 					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
-							name="projectName" value="${extracts.projectName }" type="text" class="mb0" /></span></li>
+							name="projectName" value="${se.projectName }" type="text" class="mb0" /></span></li>
 					<!-- 	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li> -->
 					<li class="fl mr15"><label class="fl mt5" >抽取时间：</label><span><input
-							onclick='WdatePicker()' value="<fmt:formatDate value='${extracts.extractionTime}'
+							onclick='WdatePicker()' value="<fmt:formatDate value='${se.extractionTime}'
                                 pattern='yyyy-MM-dd' />" name="extractionTime" type="text"
 							class="mb0" /></span></li>
-					<button class="btn fl ml20 mt1">查询</button>
+					<input class="btn" type="submit" value="查询"/>
+					    <button type="button" class="btn" onclick="resetQuery();">重置</button> 
 				</ul>
 			</form>
 			<div class="clear"></div>
@@ -200,7 +203,7 @@
 	<!-- 表格开始-->
 	<div class="container margin-top-5">
 		<div class="content padding-left-25 padding-right-25 padding-top-5">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -214,14 +217,14 @@
 				<c:forEach items="${extractslist.list}" var="extract" varStatus="vs">
 					<tr class="cursor" onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(extractslist.pageNum-1)*(extractslist.pageSize)}</td>
-						<td class="tc">${extract.projectName}sdds</td>
+						<td class="tc">${extract.projectName}</td>
 						<td class="tc">${extract.procurementDepId}</td>
 						<td class="tc">
 						<fmt:formatDate
 								value="${extract.extractionTime}"
 								pattern="yyyy年MM月dd日  " />
 								</td>
-						<td class="tc">${extract.extractionSites }</td>
+						<td class="tc">${extract.extractionSites}</td>
 						<td class="tc"><c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
 					        </c:if> <c:if test="${extract.extractTheWay==2}">

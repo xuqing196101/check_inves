@@ -1,13 +1,34 @@
 package ses.model.sms;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class SupplierConType {
     
+    /**
+     * 供应商类型
+     */
+    private String[]  supplierTypeId;
+    
+    /**
+     * 品目集合
+     */
+    private String[] categorySplit;
     
     
-    
+    /**
+     * @return Returns the categorySplit.
+     */
+    public String[] getCategorySplit() {
+        return categorySplit;
+    }
+
+    /**
+     * @param categorySplit The categorySplit to set.
+     */
+    public void setCategorySplit(String[] categorySplit) {
+        this.categorySplit = categorySplit;
+    }
+
     private Integer alreadyCount;
     /**
      * <pre>
@@ -210,6 +231,10 @@ public class SupplierConType {
      *            T_SES_SMS_SUPPLIE_CON_TYPE.CATEGORY_ID：品目id
      */
     public void setCategoryId(String categoryId) {
+        if(categoryId!=null){
+            String[] split = categoryId.split("\\^");
+            this.categorySplit =split ;
+        }
         this.categoryId = categoryId == null ? null : categoryId.trim();
     }
 
@@ -351,6 +376,20 @@ public class SupplierConType {
      */
     public Integer getAlreadyCount() {
         return alreadyCount;
+    }
+
+    /**
+     * @return Returns the supplierTypeId.
+     */
+    public String[] getSupplierTypeId() {
+        return supplierTypeId;
+    }
+
+    /**
+     * @param supplierTypeId The supplierTypeId to set.
+     */
+    public void setSupplierTypeId(String[] supplierTypeId) {
+        this.supplierTypeId = supplierTypeId;
     }
 
     /**

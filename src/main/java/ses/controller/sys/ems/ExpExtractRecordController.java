@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -118,12 +119,17 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")	
-    public String listExtraction(Model model,String id,String page){
-        List<ExpExtCondition> list = conditionService.list(new ExpExtCondition(id), page == null || "".equals(page)  ? 1 : Integer.valueOf(page));
-        model.addAttribute("list", new PageInfo<>(list));
-        Project selectById = projectService.selectById(id); 
-        model.addAttribute("projectId", id);
-        model.addAttribute("projectName", selectById.getName());
+    public String listExtraction(Model model,String id,String page,String typeclassId){
+        model.addAttribute("typeclassId", typeclassId);
+        if (id != null && !"".equals(id)){
+            List<ExpExtCondition> list = conditionService.list(new ExpExtCondition(id), page == null || "".equals(page)  ? 1 : Integer.valueOf(page));
+            model.addAttribute("list", new PageInfo<>(list));
+            Project selectById = projectService.selectById(id); 
+            model.addAttribute("projectId", id);
+            model.addAttribute("projectName", selectById.getName());
+            model.addAttribute("projectNumber", selectById.getProjectNumber());
+            model.addAttribute("expExtCondition", new ExpExtCondition());
+        }
         return "ses/ems/exam/expert/extract/condition_list";
     }
     /**
@@ -136,21 +142,55 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */
     @RequestMapping("/addExtraction")
-    public String addExtraction(Model model,String projectId){
+    public String addExtraction(Model model,String projectId,String projectName, String projectNumber,String typeclassId){
+        model.addAttribute("typeclassId", typeclassId);
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("projectId",projectId);
+        if(projectId != null && !"".equals(projectId)){
         //获取监督人员
-        List<User>  listUser=projectSupervisorServicel.list(new ProExtSupervise(projectId));
+        List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
         model.addAttribute("listUser", listUser);
         String userName="";
         String userId="";
-        for (User user : listUser) {
-            userName += user.getLoginName()+",";
-            userId += user.getId()+",";
+        if(listUser!=null &&listUser.size()!=0){
+            for (User user : listUser) {
+                if(user!=null&&user.getId()!=null){
+                    userName += user.getLoginName()+",";
+                    userId += user.getId()+",";
+                }
+            }
         }
         model.addAttribute("userName", userName);
         model.addAttribute("userId", userId);
+        }else{
+            //后台数据校验
+            int count=0;
+            if(projectName == null || "".equals(projectName)){
+                model.addAttribute("projectNameError", "项目名称不能为空");
+                count=1;
+            }else{
+                model.addAttribute("projectName", projectName);
+                model.addAttribute("projectNameError", "");
+            }
+            if(projectNumber == null || "".equals(projectNumber)){
+                model.addAttribute("projectNumberError", "项目编号不能为空");
+                count=1;
+            }else{
+                model.addAttribute("projectNumber", projectNumber);
+                model.addAttribute("projectNameError", "");
+            }
+            if(count==1){
+                return "ses/ems/exam/expert/extract/condition_list";
+            }else{
+                //创建一个临时项目
+//                Project project=new Project();
+//                project.setProjectNumber(projectNumber);
+//                project.setName(name);
+//                projectService.add(project);
+            }
+        
+        }
         return "ses/ems/exam/expert/extract/add_condition";
     }
     /**
@@ -377,13 +417,13 @@ public class ExpExtractRecordController extends BaseController {
         List<List<ProjectExtract>> listEp=new ArrayList<List<ProjectExtract>>();
         //获取专家人数
         for (ExpExtCondition expExtCondition : conditionList) {
-            ProjectExtract pExtract= new ProjectExtract();
+            ProjectExtract pExtract = new ProjectExtract();
             pExtract.setProjectId(showExpExtractRecord.getProjectId());
             pExtract.setExpertConditionId(expExtCondition.getId());
             //占用字段保存状态类型
             pExtract.setReason("1,2,3");
-            List<ProjectExtract> ProjectExtract = extractService.list(pExtract); 
-            listEp.add(ProjectExtract);
+            List<ProjectExtract> projectExtract = extractService.list(pExtract); 
+            listEp.add(projectExtract);
         }
         model.addAttribute("ProjectExtract", listEp);
         //获取监督人员
@@ -411,7 +451,7 @@ public class ExpExtractRecordController extends BaseController {
         List<User> queryByList = userServiceI.queryByList(user);
         if (queryByList != null && queryByList.size() != 0){
             user = queryByList.get(0);
-          //根据随机码+密码加密
+            //根据随机码+密码加密
             Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
             // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
             md5.setEncodeHashAsBase64(false);     
@@ -439,7 +479,7 @@ public class ExpExtractRecordController extends BaseController {
         model.addAttribute("projectId", projectId);
         return "bss/prms/temporary_expert_add";
     }
-    
+
     /**
      * @Description:添加临时专家
      *
@@ -449,7 +489,7 @@ public class ExpExtractRecordController extends BaseController {
      * @param  id 专家id
      */
     @RequestMapping("/AddtemporaryExpert")
-    public  Object addTemporaryExpert(Model model, Expert expert,String projectId,String loginName,String loginPwd){
+    public  Object addTemporaryExpert(Model model, Expert expert, String projectId, String loginName, String loginPwd){
         expExtractRecordService.addTemporaryExpert(expert, projectId, loginName, loginPwd);
         return "redirect:/packageExpert/toPackageExpert.html?projectId=" + projectId;
     }

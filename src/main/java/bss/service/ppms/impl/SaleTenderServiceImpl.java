@@ -46,8 +46,14 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      * @return void
      */
     @Override
-    public void insert(SaleTender saleTender) {
-        saleTenderMapper.insertSelective(saleTender);
+    public String insert(SaleTender saleTender) {
+        List<SaleTender> list = saleTenderMapper.list(new SaleTender(saleTender.getProjectId(), saleTender.getSupplierId()));
+        if(list!=null&&list.size()!=0){
+            return "error";
+        }else{
+            saleTenderMapper.insertSelective(saleTender);
+        }
+       return "sccuess";
     }
 
     /**
@@ -61,8 +67,8 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     @Override
     public void upload(MultipartFile bill,MultipartFile voucher,String projectId,String saleId,String statusBid) {
         Project selectProjectByPrimaryKey = promapper.selectProjectByPrimaryKey(projectId);
-        uploadFile(bill, selectProjectByPrimaryKey);
-        uploadFile(voucher, selectProjectByPrimaryKey);
+//        uploadFile(bill, selectProjectByPrimaryKey);
+//        uploadFile(voucher, selectProjectByPrimaryKey);
         SaleTender saleTender = new SaleTender();
         saleTender.setId(saleId);
         saleTender.setStatusBond((short)2);//保证金缴纳 1缴纳。2 未缴纳

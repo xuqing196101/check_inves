@@ -176,7 +176,7 @@ public interface SupplierMapper {
     void updateSupplierInspectListById(Supplier record);
 
     /**
-     * @Description: 抽取专家
+     * @Description: 抽取供应商
      *
      * @author Wang Wenshuai
      * @version 2016年10月14日 下午2:55:31  

@@ -70,9 +70,22 @@ public class ExpExtConditionController {
      * @return String 
      */
     @RequestMapping("/saveExtCondition")
-    public String saveExtCondition(ExpExtCondition condition,String hour,String minute,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq){
+    public String saveExtCondition(@Valid ExpExtCondition condition,BindingResult result,String hour,String minute,
+                                   ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,Model model,String areaId,String userName,String typehtml,String typeclassId) throws NoSuchFieldException, SecurityException{
+        List<Area> listArea = areaService.findTreeByPid("1",null);
+        model.addAttribute("listArea", listArea);
+        model.addAttribute("typeclassId", typeclassId);
+        //校验字段
+        if (result.hasErrors()){
+            verification(condition, hour, minute, sids, model,extConTypeArray,areaId,userName,typehtml);
+            return "ses/ems/exam/expert/extract/add_condition";
+
+        }
+        if (verification(condition, hour, minute, sids, model,extConTypeArray,areaId,userName,typehtml)==1){
+            return "ses/ems/exam/expert/extract/add_condition";
+        }
         condition.setResponseTime(hour+","+minute);
-        if(condition.getId()!=null&&!"".equals(condition.getId())){
+        if (condition.getId() != null && !"".equals(condition.getId())){
             conditionService.update(condition);	
             //删除关联数据重新添加
             conTypeService.delete(condition.getId());
@@ -82,6 +95,7 @@ public class ExpExtConditionController {
             //给专家记录表set信息并且插入到记录表
             ExpExtractRecord record=new ExpExtractRecord();
             record.setProjectId(condition.getProjectId());
+            //查询是否已有记录
             PageHelper.startPage(1, 1);
             List<ExpExtractRecord> list = expExtractRecordMapper.list(record);
             if(list==null||list.size()==0){
@@ -98,13 +112,14 @@ public class ExpExtConditionController {
                 expExtractRecordMapper.insertSelective(expExtractRecord);
             }
         }
+        //插入条件表
         ExtConType conType=null;
         if(extConTypeArray!=null&&extConTypeArray.getExpertsTypeId()!=null){
             for (int i = 0; i < extConTypeArray.getExpertsTypeId().length; i++) {
                 conType=new ExtConType();
-            
+
                 conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
-              
+
                 conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
                 if (extConTypeArray.getExtCategoryId().length != 0){
                     conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
@@ -120,7 +135,7 @@ public class ExpExtConditionController {
             }
         }
         //监督人员
-        if(sids!=null&&sids.length!=0){
+        if(sids != null && sids.length != 0){
             ProExtSupervise record=null;
             extSuperviseMapper.deleteProjectId(condition.getProjectId());
             for (String id : sids) {
@@ -135,6 +150,56 @@ public class ExpExtConditionController {
         return "redirect:/ExpExtract/Extraction.do?id="+condition.getProjectId();
     }
     /**
+     * 
+     *〈简述〉 验证消息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param condition
+     * @param hour
+     * @param minute
+     * @param sids
+     * @param model
+     * @return
+     */
+    private int verification(ExpExtCondition condition, String hour, String minute,
+                             String[] sids, Model model,ExtConTypeArray extConTypeArray,String areaId,String userName,String typehtml) {
+        model.addAttribute("ExpExtCondition", condition);
+        Integer count=0;
+        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
+            model.addAttribute("responseTime", "响应时限不能为空");
+            count = 1;
+        }
+        if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
+            model.addAttribute("age", "年龄不能为空");
+            count = 1;
+        }   
+        if (sids == null || sids.length == 0){
+            model.addAttribute("supervise", "监督人员不能为空");
+            count = 1;
+        }
+        if (extConTypeArray == null || extConTypeArray.getExtCount() == null){
+            model.addAttribute("typeArray", "请添加专家数量等条件");
+            count = 1;
+        }else{
+            String replace = typehtml.replace("\"", "\'");
+            model.addAttribute("typehtml", replace);
+        }
+        if (condition != null && condition.getAddress() != null){
+            String[] str = condition.getAddress().split(",");
+            if (str.length==2){
+                model.addAttribute("areas", str[0]);
+                model.addAttribute("citys", str[1]);
+            }
+            model.addAttribute("areaId", areaId);
+        }
+        model.addAttribute("userId", sids);
+        model.addAttribute("minute", minute);
+        model.addAttribute("hour", hour);
+        model.addAttribute("userName", userName);
+        model.addAttribute("projectId",condition.getProjectId());
+        return count;
+    }
+    /**
      * @Description:查询单个
      *
      * @author Wang Wenshuai
@@ -143,10 +208,10 @@ public class ExpExtConditionController {
      * @return String
      */
     @RequestMapping("/showExtCondition")
-    public String showExtCondition(ExpExtCondition condition,Model model,String cId){
+    public String showExtCondition(ExpExtCondition condition,Model model,String cId,String typeclassId){
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
-
+        model.addAttribute("typeclassId", typeclassId);
         List<ExpExtCondition> list = conditionService.list(condition,null);
         if(list!=null&&list.size()!=0){
             String[] atime=list.get(0).getResponseTime()!=null?list.get(0).getResponseTime().split(","):null;
@@ -161,10 +226,14 @@ public class ExpExtConditionController {
             model.addAttribute("listUser", listUser);
             String userName="";
             String userId="";
-            for (User user : listUser) {
-                userName+=user.getLoginName()+",";
-                userId+=user.getId()+",";
-            }
+            if(listUser != null && listUser.size() != 0)
+                for (User user : listUser) {
+                    if(user != null && user.getId() != null){
+                        userName+=user.getLoginName()+",";
+                        userId+=user.getId()+",";
+                    }
+
+                }
             model.addAttribute("userName", userName);
             model.addAttribute("userId", userId);
         }

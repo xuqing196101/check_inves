@@ -10,14 +10,17 @@
 		<result column="STATUS_BOND" jdbcType="DECIMAL" property="statusBond" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-		<association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
-		<association property="suppliers" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
-		<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
+		<association property="user" column="USER_ID"
+			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
+		<association property="suppliers" column="SUPPLIER_ID"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+		<association property="project" column="PROJECT_ID"
+			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		ID, PROJECT_ID, STATUS_BID, SUPPLIER_ID, STATUS_BOND, CREATED_AT,
-		UPDATED_AT, USER_ID
+		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND, st.CREATED_AT,
+		st.UPDATED_AT, st.USER_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -149,20 +152,28 @@
 	<select id="list" parameterType="bss.model.ppms.SaleTender"
 		resultMap="BaseResultMap">
 		SELECT
-		ST.*
-		FROM T_BSS_PPMS_SALE_TENDER st WHERE
-		1=1 
+		<include refid="Base_Column_List"/>
+		, ss.SUPPLIER_NAME
+		FROM
+		T_BSS_PPMS_SALE_TENDER st
+		INNER JOIN
+		T_SES_SMS_SUPPLIER ss ON st.SUPPLIER_ID = ss."ID"
+		WHERE
+		1=1
+	   <if test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
+	         AND ss.SUPPLIER_NAME LIKE  '%${suppliers.supplierName}%'
+	   </if>
 		<if test="projectId != null and projectId != ''">
-		and st.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+			and st.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		</if>
 		<if test="supplierId != null  and supplierId != '' ">
-		and st.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+			and st.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
 		</if>
 		<if test="statusBid != null  and statusBid != '' ">
-		and st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
+			and st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
 		</if>
 		<if test="statusBond != null  and statusBond != '' ">
-		and st.STATUS_BOND=#{statusBond,jdbcType=DECIMAL}
+			and st.STATUS_BOND=#{statusBond,jdbcType=DECIMAL}
 		</if>
 	</select>
 </mapper>

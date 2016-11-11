@@ -18,37 +18,43 @@
 <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
-<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css"
-	type="text/css">
+
 <link rel="stylesheet"
 	href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
 
 <link rel="stylesheet"
 	href="<%=basePath%>public/supplier/css/supplieragents.css"
 	type="text/css">
-
+<script type="text/javascript"
+	src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
-<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+
+
 <script type="text/javascript">
     $(function (){
         var areas="${listArea[0].id}";
+        var areaId="${areaId}";
+        if(areaId!=""){
+        	areas=areaId;
+        }
+        
+        var citys="${citys}";
          $.ajax({
               type:"POST",
               url:"<%=basePath%>SupplierExtracts/city.do",
-              data:{area:areas},
+              data:{area:areas,},
               dataType:"json",
               success: function(data){
                    var list = data;
                    $("#city").empty();
                    for(var i=0;i<list.length;i++){
-                        $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+                	   if(list[i].name == citys){
+                		   $("#city").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");   
+                	   }
+                	   $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");   
                    }
               }
           });
@@ -64,6 +70,11 @@
         	    
         	   
         	});
+//          alert("${typehtml}");
+//          if(typehtml != null && typehtml != ""){
+//         	 alert(typehtml); 
+//         	 $("#tbody").append(typehtml);	 
+//          }
          
     });
     function areas(){
@@ -77,7 +88,11 @@
                var list = data;
                $("#city").empty();
                for(var i=0;i<list.length;i++){
-                    $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+            	   if(i==0){
+                       $("#city").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
+            	   }
+
+                   $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
                }
           }
       });
@@ -220,10 +235,13 @@
         }
     }
     function cityt(){
-        $("#address").val($("#id_provSelect option:selected").text()+$("#id_citySelect option:selected").text());
+        $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
+        $("#addressId").val($("#city option:selected").val());
+        $("#areaId").val($("#area option:selected").val());
         $("#expertId").val($("#city option:selected").val());
+        $("#typehtml").val($("#tbody").html());
+       
 
- 
 return true;
 }
     
@@ -253,6 +271,7 @@ return true;
     }
 	    function opens(){
 	    //  iframe层
+	       var iframeWin;
 	        layer.open({
 	          type: 2,
 	          title:"选择条件",
@@ -261,8 +280,18 @@ return true;
 	          area: ['430px', '400px'],
 	          offset: '20px',
 	          content: '<%=basePath%>ExpExtract/addHeading.do', //iframe的url
-	      
-	        });
+	          success: function(layero, index){
+                  iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                },
+              btn: ['保存', '重置'] 
+                  ,yes: function(){
+                      iframeWin.getChildren();
+                  
+                  }
+                  ,btn2: function(){
+                	  opens();
+                  }
+            });
 	    }
     
     </script>
@@ -348,7 +377,10 @@ return true;
 	
 </script>
 <body>
+   
 	<!--面包屑导航开始-->
+	
+	<c:if test="${typeclassId==null || typeclassId=='' || typeclassId==0 }">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -361,6 +393,7 @@ return true;
 			<div class="clear"></div>
 		</div>
 	</div>
+	</c:if>
 	<div class="container">
 		<div class="headline-v2">
 			<h2>抽取条件</h2>
@@ -371,103 +404,109 @@ return true;
 			style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
 			<ul id="treeDemo" class="ztree" style="width: 220px"></ul>
 		</div>
-		<form action="<%=basePath%>ExtCondition/saveExtCondition.html"
-			id="form1" method="post">
-			<div>
-				<!--         专家所在地区 -->
-				<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
-				<!--         专家所在地区 -->
-				<input type="hidden" name="address" id="address" value="">
-				<!--         专家所在地区id-->
-				<input type="hidden" name="expertId" id="expertId" value="">
-
-				<input type="hidden" name="projectId" id="pid" value="${projectId}">
-				<!-- 				监督人员 -->
-				<input type="hidden" name="sids" id="sids" value="${userId}" />
-				<ul class="list-unstyled mt10 p0_20">
-					<li class="col-md-6 p0"><span class="fl mt5">专家所在地区：</span>
-<!-- 						<div class="input-append"> -->
-<!-- 														<select class="form-control input-lg mr15 w150" id="area" -->
-<!-- 															onchange="areas();"> -->
-<%-- 															<c:forEach items="${listArea }" var="area" varStatus="index"> --%>
-<%-- 																<option value="${area.id }">${area.name }</option> --%>
-<%-- 															</c:forEach> --%>
-<!-- 														</select> <select name="extractionSites" class="form-control input-lg w100" -->
-<!-- 															id="city"></select> -->
-<!-- 						</div> -->
-					                   	<div class="">
-                                                <select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);">
-                                                <option value="">请选择省份</option></select>&nbsp;
-                                                <select id="id_citySelect"  name="addressId"><option value="">请选择城市</option></select>&nbsp;
-                                                <SCRIPT LANGUAGE="JavaScript">loadProvince('${ExpExtCondition.addressId}');</SCRIPT>
-                                                <div class="validate">${ERR_address}</div>
-                                            </div>
-						
-						</li>
-					<li class="col-md-6 p0"><span class="fl mt5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;专家来源：</span>
-						<div class="select_common mb10">
-							<select class="w250" name="expertsFrom">
-								<c:choose>
-									<c:when test="${ExpExtCondition.expertsFrom eq '军队'}">
-										<option selected="selected" value="军队">军内</option>
-										<option value="地方">地方</option>
-										<option value="其他">不限</option>
-									</c:when>
-									<c:when test="${ExpExtCondition.expertsFrom eq '地方'}">
-										<option value="军队">军内</option>
-										<option selected="selected" value="地方">地方</option>
-										<option value="其他">不限</option>
-									</c:when>
-									<c:when test="${ExpExtCondition.expertsFrom eq '其他'}">
-										<option value="军队">军内</option>
-										<option value="地方">地方</option>
-										<option selected="selected" value="其他">不限</option>
-									</c:when>
-									<c:otherwise>
-										<option value="军队">军内</option>
-										<option value="地方">地方</option>
-										<option value="其他">不限</option>
-									</c:otherwise>
-								</c:choose>
-							</select>
-						</div></li>
-					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开标时间：</span>
-						<div class="input-append">
-							<input class="span2  Wdate w250" readonly="readonly"
-								name="tenderTime"
-								value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
+		<sf:form
+			action="${pageContext.request.contextPath}/ExtCondition/saveExtCondition.html"
+			d="form1" method="post" modelAttribute="expExtCondition">
+			<!--         专家所在地区 -->
+			<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
+			<!--         专家所在地区 -->
+			<input type="hidden" name="address" id="address" value="">
+			<!--         专家id-->
+			<input type="hidden" name="expertId" id="expertId" value="">
+			<!--         项目id -->
+			<input type="hidden" name="projectId" id="pid" value="${projectId}">
+			<!-- 				监督人员 -->
+			<input type="hidden" name="sids" id="sids" value="${userId}" />
+			<!--       省id -->
+			<input type="hidden" name="areaId" id="areaId" value="" />
+			<!-- 		       市id -->
+			<input type="hidden" name="addressId" id="cityId" value="${addressId}" />
+			<!-- 类型  html -->
+			<input type="hidden" name="typehtml" id="typehtml" value="" />
+			<!-- 类型   -->
+            <input type="hidden" name="typeclassId"  value="${typeclassId}"  />
+			<ul class="demand_list">
+				<li><label class="fl"><span class="red">*</span>专家所在地区：</label>
+					<span> <select class=" w150"
+						id="area" onchange="areas();">
+							<c:forEach items="${listArea }" var="area" varStatus="index">
+								<c:if test="${area.name eq areas}">
+									<option selected="selected" value="${area.id }">${area.name }</option>
+								</c:if>
+								<option value="${area.id }">${area.name }</option>
+							</c:forEach>
+					</select> <select name="extractionSites" class="w96"
+						id="city"></select>
+						<div class="fr b f14 red tip w200">
+							<sf:errors path="address" />
+						</div>
+				</span></li>
+				<li><label class="fl"><span class="red">*</span>专家来源：</label> <span>
+						<select class="w250" name="expertsFrom">
+							<c:choose>
+								<c:when test="${ExpExtCondition.expertsFrom eq '军队'}">
+									<option selected="selected" value="军队">军内</option>
+									<option value="地方">地方</option>
+									<option value="其他">不限</option>
+								</c:when>
+								<c:when test="${ExpExtCondition.expertsFrom eq '地方'}">
+									<option value="军队">军内</option>
+									<option selected="selected" value="地方">地方</option>
+									<option value="其他">不限</option>
+								</c:when>
+								<c:when test="${ExpExtCondition.expertsFrom eq '其他'}">
+									<option value="军队">军内</option>
+									<option value="地方">地方</option>
+									<option selected="selected" value="其他">不限</option>
+								</c:when>
+								<c:otherwise>
+									<option value="军队">军内</option>
+									<option value="地方">地方</option>
+									<option value="其他">不限</option>
+								</c:otherwise>
+							</c:choose>
+					</select>
+						<div class="fr b f14 red tip">
+							<sf:errors path="expertsFrom" />
+						</div>
+				</span></li>
+				<li><label class="fl"><span class="red">*</span>开标时间：</label> <span>
+						<input class="span2  Wdate w250" readonly="readonly"
+						name="tenderTime"
+						value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
                                 pattern='yyyy-MM-dd' />"
-								maxlength="30" onclick="WdatePicker();" type="text">
-						</div></li>
-					<li class="col-md-6 p0 "><span class="">专家响应时限:</span>
-						<div class="input-append">
-							<input class="span2 w75" name="hour" value="${hour}"
-								maxlength="3" type="text"> <input class="span2 w50"
-								readonly="readonly" value="时" maxlength="5" type="text">
-
-							<input class="span2 w75" value="${minute}" id="minute"
-								name="minute" maxlength="3" type="text"
-								onkeyup="this.value=this.value.replace(/\D/g,'')"
-								onafterpaste="this.value=this.value.replace(/\D/g,'')">
-							<input class="span2 w50" readonly="readonly" value="分"
-								maxlength="30" type="text">
-						</div></li>
-					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：</span>
-						<div class="input-append">
-							<input class="w100" maxlength="2" value="${ExpExtCondition.ageMin}"
-								name="ageMin" type="text"> <input class="w50" name=""
-								maxlength="2" value=" — " type="text"> <input
-								class="w100" name="ageMax" value="${ExpExtCondition.ageMax}" maxlength="2"
-								type="text">
-								 <div class="b f14 red tip pa l260"><sf:errors path="loginName"/></div>
-						</div></li>
-					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员:</span>
-						<div class="input-append">
-							<input class="span2 w250" readonly id="supervises"
-								value="${userName}" onclick="supervise();" type="text">
-						</div></li>
-			</div>
-			<div align="right" class="col-md-12">
+						maxlength="30" onclick="WdatePicker();" type="text">
+						<div class="fr b f14 red tip w200">
+							<sf:errors path="tenderTime" />
+						</div>
+				</span></li>
+				<li><label class="fl"><span class="red">*</span>专家响应时限：</label>
+					<span> <input class="span2 w75" name="hour" value="${hour}"
+						maxlength="3" type="text"> <input class="span2 w50"
+						readonly="readonly" value="时" maxlength="5" type="text"> <input
+						class="span2 w75" value="${minute}" id="minute" name="minute"
+						maxlength="3" type="text"
+						onkeyup="this.value=this.value.replace(/\D/g,'')"
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"> <input
+						class="span2 w50" readonly="readonly" value="分" maxlength="30"
+						type="text">
+						<div class="fr b f14 red tip w200">${responseTime }</div>
+				</span></li>
+				<li><label class="fl"><span class="red">*</span>年龄：</label> <span>
+						<input class="w120" maxlength="2"
+						value="${ExpExtCondition.ageMin}" name="ageMin" type="text">
+						-
+						<input class="w120" name="ageMax"
+						value="${ExpExtCondition.ageMax}" maxlength="2" type="text">
+						<div class="fr b f14 red tip w200">${age}</div>
+				</span></li>
+				<li><label class="fl"><span class="red">*</span>监督人员：</label> <span>
+						<input class="span2 w250" readonly id="supervises" name="userName"
+						value="${userName}" onclick="supervise();" type="text">
+						<div class="fr b f14 red tip w200">${supervise}</div>
+				</span></li>
+			</ul>
+			<div align="right" >
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					id="save" onclick="opens();" type="button">添加</button>
 				<!-- 				<button class="btn padding-left-10 padding-right-10 btn_back" -->
@@ -506,7 +545,6 @@ return true;
 									</c:if> <c:if test="${conTypes.expertsTypeId==3 }">
 										<input readonly="readonly" class="hide" type="text"
 											value="商务 ">
-
 									</c:if></td>
 								<td class="tc"><input class="hide" readonly="readonly"
 									name="extCount" type="text" value="${conTypes.expertsCount }"></td>
@@ -521,11 +559,13 @@ return true;
 					</tbody>
 				</table>
 			</div>
+
 			<div align="right" class=" padding-10">
+				<div class=" b f14 red tip">${typeArray}</div>
 				<button class="btn btn-windows save" id="save" onclick="cityt();"
 					type="submit">保存抽取条件</button>
 			</div>
-		</form>
+		</sf:form>
 	</div>
 </body>
 </html>
