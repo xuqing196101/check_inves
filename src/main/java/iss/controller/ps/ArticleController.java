@@ -107,6 +107,16 @@ public class ArticleController extends BaseSupplierController{
 		if(lists.size()>0){
 			model.addAttribute("attachTypeId", lists.get(0).getId());
 		}
+		
+		String articleuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("articleId", articleuuid);
+		DictionaryData da=new DictionaryData();
+		da.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+		request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+		if(dlists.size()>0){
+			model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+		}
 		return "iss/ps/article/add";
 	}
 	

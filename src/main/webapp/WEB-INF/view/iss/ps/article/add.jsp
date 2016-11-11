@@ -148,20 +148,20 @@
        </div>
 	 </li> 
 
-	  <li class="col-md-12 p0 mt10" id="picNone" >
+	 <li class="col-md-12 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+	        <up:upload id="artice_up" groups="article_up,article_file_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" groups="article_show,article_file_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 		</div>
 	 </li>
 	 
 	 <li class="col-md-12 p0 mt10">
-	    <span class="fl">上传附件：</span>
-	    <div class="fl" id="uploadAttach" >
-	      <input id="pic" type="file" class="toinline" name="attaattach"/>
-	      <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
-	    </div>
+	    <span class="fl">附件上传：</span>
+	    <div class="fl">
+	        <up:upload id="artice_file_up" groups="article_up,article_file_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" auto="true" />
+			<up:show showId="artice_file_show" groups="article_show,article_file_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
+		</div>
 	 </li>
   	 </ul> 
 	         
