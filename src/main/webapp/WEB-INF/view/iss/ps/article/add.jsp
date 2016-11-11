@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -8,12 +9,6 @@
   <head>
   
     <title>新增</title>
-    
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 <script type="text/javascript">
 	function cheClick(id,name){
@@ -32,6 +27,22 @@
 		$(obj).remove();
 	}
 
+	function typeInfo(){
+		var typeId = $("#typeId").val();
+		alert(typeId);
+		if(typeId==27){
+			document.getElementById("picNone").style.display=""; 
+			document.getElementById("picshow").style.display=""; 
+		}
+	}
+	
+	$(function(){
+		alert("${uuid}");
+		alert("${sysKey}");
+		alert("${attachTypeId}");
+		//document.getElementById("picNone").style.display="none"; 
+	})
+
 </script>    
   </head>
   
@@ -48,7 +59,7 @@
    </div>
    
    <div class="container container_box">
-    <form action="${ pageContext.request.contextPath }/article/save.html" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath }/article/save.html" method="post" enctype="multipart/form-data">
      <div class="">
 	   <h2 class="count_flow"><i>1</i>新增信息</h2>
 	 
@@ -66,23 +77,7 @@
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
 	   <div class="mb5">
-	   <%-- <div class="input-append">
-         <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
-		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">
-		 <div class="btn-group ">
-          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		  <img src="<%=basePath%>public/ZHH/images/down.png" />
-          </button>
-          <ul class="dropdown-menu list-unstyled">
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-          		<li class="select_opt">
-          			<input type="radio" name="chkItem" value="${list.id }" onclick="cheClick(${list.id },'${list.name }');" class="select_input">${list.name }
-          		</li>
-		    </c:forEach>
-          </ul>
-       </div>
-       </div> --%>
-       <select name="articleType.id" class="select w220">
+       <select id="typeId" name="articleType.id" class="select w220" onchange="typeInfo()">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
@@ -114,6 +109,13 @@
          <span class="add-on">i</span>
        </div>
 	 </li>
+
+	 <li class="col-md-3 margin-0 padding-0" id="picshow" style="display:none">
+	   <span class="">图片展示：</span>
+	   <div class="input-append">
+        <input class="span2" id="isPicShow" name="isPicShow" type="text">
+       </div>
+	 </li> 
 	 
      <li class="col-md-11 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息正文：</span>
@@ -121,6 +123,14 @@
 	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li> 
+
+	  <li class="col-md-12 p0 mt10" id="picNone" >
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+	        <up:upload id="artice_up" businessId="${uuid }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" businessId="${uuid }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
+	 </li>
 	 
 	 <li class="col-md-12 p0 mt10">
 	    <span class="fl">上传附件：</span>
@@ -145,5 +155,5 @@
     var ue = UE.getEditor('editor');
 </script>
      
-  </body>
+</body>
 </html>
