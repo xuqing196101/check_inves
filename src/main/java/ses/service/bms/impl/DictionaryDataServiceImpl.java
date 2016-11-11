@@ -13,6 +13,7 @@ import ses.dao.bms.DictionaryDataMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 @Service("dictionaryDataService")
@@ -44,8 +45,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 
     @Override
     public List<DictionaryData> listByPage(DictionaryData dd, int page) {
-        PropertiesUtil config = new PropertiesUtil("config.properties");
-        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSize")));
         List<DictionaryData> dds = dictionaryDataMapper.findList(dd);
         return dds;
     }

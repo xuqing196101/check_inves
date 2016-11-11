@@ -55,7 +55,7 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_DEFINE fd
     <include refid="Example_Where_Clause"/>
-    ORDER BY fd.CREATED_AT DESC
+    ORDER BY fd.STEP ASC
   </select>
   
   <!-- 3.根据主键id删除 -->
@@ -65,7 +65,7 @@
   </delete>
   
   <!-- 4.插入数据 -->
-  <insert id="insertSelective" parameterType="bss.model.ppms.FlowDefine">
+  <insert id="insert" parameterType="bss.model.ppms.FlowDefine">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
