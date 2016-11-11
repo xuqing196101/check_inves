@@ -21,9 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
 
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+ 
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
@@ -347,6 +345,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function maps(){
 		$("#funsionCharts_div_id").hide();
 		$("#container").show();
+		 $("#div_table").hide();
 		
 	}
 	

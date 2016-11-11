@@ -33,6 +33,8 @@ import ses.service.bms.UserTaksService;
 
 
 
+import bss.controller.base.BaseController;
+
 import com.alibaba.fastjson.JSON;
 /**
  * 
@@ -44,7 +46,7 @@ import com.alibaba.fastjson.JSON;
  */
 @Controller
 @RequestMapping("/usertask")
-public class UserMaskController {
+public class UserMaskController extends BaseController{
 	
 	@Autowired
 	private UserTaksService userTaksService;
@@ -109,11 +111,12 @@ public class UserMaskController {
 	 */
 	@RequestMapping("/add")
 	@ResponseBody
-	public String addTask(UserTask userTask,String startDate,String endDate,HttpServletRequest request) throws ParseException{
+	public String addTask(UserTask userTask,String sDate,String eDate,HttpServletRequest request) throws ParseException{
+		System.out.println("asdaskj");
 		User user = (User) request.getSession().getAttribute("loginUser");
 
-		Date date = stingToDate(startDate);
-		Date date2 = stingToDate(endDate);
+		Date date = stingToDate(sDate);
+		Date date2 = stingToDate(eDate);
 		userTask.setStartDate(date);
 		userTask.setEndDate(date2);
 		userTask.setStatus("1");
@@ -135,9 +138,9 @@ public class UserMaskController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public String updateTask(UserTask userTask,String startDate,String endDate) throws ParseException{
-		Date date = stingToDate(startDate);
-		Date date2 = stingToDate(endDate);
+	public String updateTask(UserTask userTask,String sDate,String eDate) throws ParseException{
+		Date date = stingToDate(sDate);
+		Date date2 = stingToDate(eDate);
 		userTask.setStartDate(date);
 		userTask.setEndDate(date2);
 		userTaksService.update(userTask);

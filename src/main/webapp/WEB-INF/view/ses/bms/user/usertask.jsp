@@ -9,9 +9,7 @@
 	 <script src="${pageContext.request.contextPath}/public/codebase/locale/locale_cn.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href="${pageContext.request.contextPath}/public/usertask/css/usertask.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+
 	<script type="text/javascript" charset="utf-8">
 	
 	scheduler.locale = {  
@@ -178,8 +176,10 @@ scheduler.attachEvent("onEventAdded", function(event_id, event_object){
     	type:"post",
     	data:$("#usertask_form").serialize(),
     	success:function(data){
+    		 
     	},
     	error:function(data){
+    
     	} 
     });
  	 
@@ -294,11 +294,19 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 
 
 	
-	<form id="usertask_form" action="${pageContext.request.contextPath}/usertask/add.do" method="post">
+	<form id="usertask_form" action="" method="post">
 	<input type="hidden" name="id" id="uid">
 	<input type="hidden" name="content" id="ucontent">
-	<input type="hidden" name="startDate" id="ustartDate">
-	<input type="hidden" name="endDate" id="uendDate">
+	<input type="hidden" name="sDate" id="ustartDate">
+	<input type="hidden" name="eDate" id="uendDate">
+	
+	<input type="hidden" name="startDate" id="sd">
+	<input type="hidden" name="endDate" id="ed">
+	<input type="hidden" name="status" id="ustatus">
+	<input type="hidden" name="createdAt" id="ucreatedAt">
+	<input type="hidden" name="updatedAt" id="uupdatedAt">
+	<input type="hidden" name="memo" id="umemo">
+	<input type="hidden" name="userId" id="uuserId">
 	<input type="hidden" name="level" id="ulevel">
 	<input type="hidden" name="detail" id="udetail">
 	</form>

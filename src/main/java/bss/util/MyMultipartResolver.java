@@ -5,7 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
  
-
+/**
+ * 
+ * @Title: MyMultipartResolver
+ * @Description: 解决Spring MultipartResolver 或者 ServletFileUpload 导致的冲突 
+ * @author Li Xiaoxiao
+ * @date  2016年11月11日,下午5:25:12
+ *
+ */
 public class MyMultipartResolver extends CommonsMultipartResolver   {
 
 	 private String excludeUrls;   

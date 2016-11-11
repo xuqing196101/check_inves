@@ -169,4 +169,18 @@ public class test2 {
 		System.out.println(substring2);
 		
 	}
+	
+	@Test
+	public void test5(){
+		//A D
+
+		
+		int n=10;
+		boolean b=false;
+		if((b==true)&&((n+=10)==20)){
+			System.out.println("hhh");
+		}else{
+			System.out.println("kkk");
+		}
+	}
 }

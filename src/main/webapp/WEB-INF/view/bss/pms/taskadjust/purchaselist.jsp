@@ -268,6 +268,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	  <span class="fr option_btn margin-top-10">
 <!-- 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button> -->
 	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
+	    <input type="button"  class="btn padding-left-20 padding-right-20 btn_back" value="返回"  onclick="location.href='javascript:history.go(-1);'"> 
 	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button> -->
