@@ -52,9 +52,9 @@
 				$.each(obj,function(i,result){
 					if(addressId == result.id){
 						parentId = result.areaType;
-					$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
-						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					}
 				});
 			},
@@ -69,14 +69,14 @@
 		function func(){
 			var parentId = $("#addr").val();
 			$.ajax({
-				url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 				data:{"id":parentId},
 				success:function(obj){
-					$("#haha").empty();
+					$("#add").empty();
 					//var data = eval('(' + obj + ')');
-					$("#haha").append("<option  value=''>-请选择-</option>");
+					$("#add").append("<option  value=''>-请选择-</option>");
 					$.each(obj,function(i,result){
-						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
 				},
 				error:function(obj){
@@ -816,7 +816,7 @@
 											 <select class="span5" id="addr" onchange="func();">
 													<option value="">-请选择-</option>
 											 </select>
-											 <select class="span5" name="address" id="haha">
+											 <select class="span5" name="address" id="add">
 													<option value="">-请选择-</option>
 											 </select>
 											<!--  <span class="add-on">i</span> -->

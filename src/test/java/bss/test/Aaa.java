@@ -1,45 +1,45 @@
 package bss.test;
 
-import java.util.HashMap;
-import java.util.Map;
+class Cbb{
+	public Cbb(){
+		System.out.println("helloA");
+	}
+	{
+		System.out.println("i m A class");
+	}
+	static {
+		System.out.println("static A");
+	}
+}
+public class Aaa extends Cbb{
 
-public class Aaa {
-
+	public Aaa(){
+		System.out.println("HelloB");
+	}	
+	{
+		System.out.println("i m B class");
+	}
+	static {
+		System.out.println("static B");
+	}
 	public static void main(String[] args) {
-		Bbb bbb = new Bbb();
-		Bbb bb2= new Bbb();
-		Map<String,Object> map = new HashMap<>();
-		//map.put("aaa", "1");
-		map.put("aaa",bbb );
-		Object object = map.get("aaa");
+		//new Aaa();
+		String s;
+		//System.out.println(s);
+		int aaa = Aaa(2);
+		System.out.println(aaa);
+	}
+	public static int Aaa(int i){
+		int result = 0;
+		switch (i) {
+		case 1:
+			result=result+i;
+		case 2:
+			result=result+i*2;
+		case 3:
+			result=result+i*3;
 		
-		if(object.equals("1")){
-			System.out.println(111);
-		}else if(object instanceof Bbb){
-			System.out.println(222);
-		}
 	}
-	private String aaa;
-	private String bbb;
-	private String ccc;
-	public String getAaa() {
-		return aaa;
+		return result;
 	}
-	public void setAaa(String aaa) {
-		this.aaa = aaa;
-	}
-	public String getBbb() {
-		return bbb;
-	}
-	public void setBbb(String bbb) {
-		this.bbb = bbb;
-	}
-	public String getCcc() {
-		return ccc;
-	}
-	public void setCcc(String ccc) {
-		this.ccc = ccc;
-	}
-	
-	
 }

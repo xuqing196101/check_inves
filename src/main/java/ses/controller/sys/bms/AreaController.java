@@ -200,7 +200,29 @@ public class AreaController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "find_area_by_parent_id")
-	public List<Area> findAreaByParentId(HttpServletResponse response, String id) throws IOException {
+	public void findAreaByParentId(HttpServletResponse response, String id) throws IOException {
+		List<Area> list = areaService.findAreaByParentId(id);
+		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	/**
+	 * 
+	  * @Title: findAreaByParentId2
+	  * @author ShaoYangYang
+	  * @date 2016年11月11日 下午4:52:50  
+	  * @Description: TODO 根据父id查询子节点
+	  * @param @param response
+	  * @param @param id
+	  * @param @return
+	  * @param @throws IOException      
+	  * @return List<Area>
+	 */
+	@ResponseBody
+	@RequestMapping(value = "find_by_parent_id")
+	public List<Area> findAreaByParentId2(HttpServletResponse response, String id) throws IOException {
 		List<Area> list = areaService.findAreaByParentId(id);
 		return list;
 		/*String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");

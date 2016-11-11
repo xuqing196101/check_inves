@@ -60,8 +60,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$.each(obj,function(i,result){
 								if(addressId == result.id){
 									parentId = result.areaType;
-								$("#hou").append(result.name);
-								$("#haha").append(result.name);
+								$("#addr").append(result.name);
+								$("#add").append(result.name);
 								}
 							});
 						},
@@ -238,14 +238,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function func(){
 		var parentIds = $("#addr").val();
 		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 			data:{"id":parentIds},
 			success:function(obj){
-				$("#haha").empty();
+				$("#add").empty();
 				//var data = eval('(' + obj + ')');
-				$("#haha").append("<option  value=''>-请选择-</option>");
+				$("#add").append("<option  value=''>-请选择-</option>");
 				$.each(obj,function(i,result){
-					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
 			
 				//alert(JSON.stringify(obj));
@@ -493,7 +493,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <tr>
 				    <td width="25%" class="info">所在地区：</td>
 				    <td width="25%">
-				      <font id="addr"></font><font id="haha"></font>
+				      <font id="addr"></font><font id="add"></font>
 				    </td>
 				    <td width="25%" class="info">民族：</td>
 				    <td width="25%">${expert.nation}</td>
@@ -762,7 +762,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <tr>
    		<td align="center">所在地区</td>
    		<td align="center" width="150px" >
-   		 <font id="qian"></font><font id="hou"></font>
+   		 <font id="qian"></font><font id="addr"></font>
    		</td>
    		<td align="center">职称</td>
    		<td align="center" width="150px" id="tHey" colspan="2">${expert.professTechTitles}</td>

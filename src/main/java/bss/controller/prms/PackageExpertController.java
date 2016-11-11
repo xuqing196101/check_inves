@@ -67,7 +67,7 @@ public class PackageExpertController {
 	  * @Title: toPackageExpert
 	  * @author ShaoYangYang
 	  * @date 2016年10月18日 下午3:05:52  
-	  * @Description: TODO 跳转到关联专家页面
+	  * @Description: TODO 跳转到阻止专家评审页面
 	  * @param @param projectId
 	  * @param @return      
 	  * @return String
@@ -307,6 +307,6 @@ public class PackageExpertController {
 		Short flag = 0;
 		record.setIsGather(flag);
 		record.setIsAudit(flag);
-		service.updateByBean(record );
+		service.updateByBean(record);
 	}
 }

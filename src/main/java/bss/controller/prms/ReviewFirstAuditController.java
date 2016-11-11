@@ -122,7 +122,7 @@ public class ReviewFirstAuditController {
 	  * @Title: toGrade
 	  * @author ShaoYangYang
 	  * @date 2016年10月20日 下午7:03:22  
-	  * @Description: TODO 去往评审页面
+	  * @Description: TODO 去往评分页面
 	  * @param @param projectId
 	  * @param @param packageId
 	  * @param @param model
@@ -131,8 +131,6 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("toGrade")
 	public String toGrade(String projectId,String packageId,Model model,HttpSession session){
-		//当前登录用户
-		User user = (User)session.getAttribute("loginUser");
 		//创建封装的实体
 		Extension extension = new Extension();
 		HashMap<String ,Object> map = new HashMap<>();
@@ -176,14 +174,6 @@ public class ReviewFirstAuditController {
 		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		extension.setSupplierList(supplierList);
 		
-		//查询审核过的信息用于回显
-		/*Map<String, Object> reviewFirstAuditMap = new HashMap<>();
-		reviewFirstAuditMap.put("projectId", projectId);
-		reviewFirstAuditMap.put("packageId", packageId);
-		reviewFirstAuditMap.put("expertId", user.getTypeId());
-		List<ReviewFirstAudit> reviewFirstAuditList = service.selectList(reviewFirstAuditMap);*/
-		//回显信息放进去
-		//model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
 		return "bss/prms/audit/review_first_grade";
