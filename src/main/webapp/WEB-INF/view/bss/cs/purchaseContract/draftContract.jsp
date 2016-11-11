@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -618,8 +619,9 @@
 			   <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
 			</li>
 			<li class="col-md-12 mt10">
-			   <span class="span3 fl"><div class="red star_red">*</div>上传批准文件：</span>
-			   <input type="file" id="fi" name="agrfile" class="fl"/>
+			   <span class="span3 fl"><div class="red star_red">*</div>上传附件：</span>
+		  		<up:upload id="post_attach_up"  businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+          		<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
             </li>
 			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>

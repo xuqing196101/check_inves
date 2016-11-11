@@ -60,6 +60,12 @@
 		    		  });
 		    	  }
 		    	  $("#articleTypes").select2();
+		    	  $("#articleTypes").select2("val", "${article.articleType.id }");
+		    	  var typeId = $("#articleTypes").val();
+		    	  alert(typeId)
+			  		if(typeId==27){
+			  			document.getElementById("picshow").style.display="";
+			  		}
 		       }
 		});
 	})
@@ -88,8 +94,8 @@
      	<li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息标题：</span>
 	   <div class="input-append">
-	   	<input class="span2"  name="id" type="hidden" value="${uuid }">
-        <input class="span2" id="name" name="name" type="text">
+	   	<input class="span2"  name="id" type="hidden" value="${article.id }">
+        <input class="span2" id="name" name="name" value="${article.name }" type="text">
         <span class="add-on">i</span>
          <div class="validate">${ERR_name}</div>  
        </div>
@@ -114,7 +120,7 @@
 	 <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>文章来源：</span>
        <div class="input-append">
-        <input class="span2" id="source" name="source" type="text">
+        <input class="span2" id="source" name="source" value="${article.source }" type="text">
         <span class="add-on">i</span>
          <div class="validate">${ERR_source}</div>
        </div>
@@ -122,7 +128,7 @@
 	 <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>链接来源：</span>
        <div class="input-append">
-        <input class="span2" id="sourceLink" name="sourceLink" type="text">
+        <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
          <span class="add-on">i</span>
        </div>
 	 </li>
@@ -130,7 +136,8 @@
 	 <li class="col-md-3 margin-0 padding-0" id="picshow" style="display:none">
 	   <span class="">图片展示：</span>
 	   <div class="input-append">
-        <input class="span2" id="isPicShow" name="isPicShow" type="text">
+        <input class="span2" id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
+      	<div class="validate">${ERR_isPicShow}</div>
        </div>
 	 </li> 
 	 
@@ -144,8 +151,8 @@
 	  <li class="col-md-12 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_up" businessId="${uuid }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-			<up:show showId="artice_show" businessId="${uuid }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+	        <up:upload id="artice_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 		</div>
 	 </li>
 	 

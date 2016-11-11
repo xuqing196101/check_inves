@@ -143,8 +143,32 @@ public interface PurchaseContractService {
      */
     PurchaseContract selectFormalById(String id);
     
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:26:35  
+    * @Description: 生成word 
+    * @param @param pur
+    * @param @param requList
+    * @param @param request
+    * @param @return      
+    * @return int
+     */
     int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
     
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:26:46  
+    * @Description: 根据合同类型查正式合同 
+    * @param @param contractType
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
     List<PurchaseContract> selectFormalByContractType(Integer contractType);
     
     /**

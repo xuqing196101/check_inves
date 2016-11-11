@@ -19,8 +19,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -92,7 +90,21 @@ public class PurchaseContractController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
-
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:48:57  
+	* @Description: 查询已完成的包 
+	* @param @param model
+	* @param @param 分页
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/selectAllPuCon")
 	public String selectAllPurchaseContract(Model model,Integer page,HttpServletRequest request) throws Exception{
 		String projectName = request.getParameter("projectName");
@@ -149,6 +161,22 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/list";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:49:35  
+	* @Description: 打印草稿合同
+	* @param @param purCon 采购合同实体类
+	* @param @param proList 前台穿的list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/printContract")
 	public String printContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
 		Map<String, Object> map = valid(model,purCon);
@@ -188,6 +216,19 @@ public class PurchaseContractController {
 		return url;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:50:43  
+	* @Description: 打印正式合同 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/printFormalContract")
 	public String printFormalContract(HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
@@ -198,6 +239,18 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/printModel";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:51:00  
+	* @Description: 合并生成合同 
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping(value="/createAllCommonContract",produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public String createAllCommonContract(HttpServletRequest request) throws Exception{
@@ -243,6 +296,17 @@ public class PurchaseContractController {
 		}
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:51:25  
+	* @Description: 查询选择的项目的成交供应商 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping(value="/selectSuppliers",produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public String  selectSuppliers(HttpServletRequest request){
@@ -260,6 +324,17 @@ public class PurchaseContractController {
 		return options;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:51:58  
+	* @Description: 通过包id查询成交供应商 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/selectSupplierByPId")
 	@ResponseBody
 	public String  selectSupplierByPId(HttpServletRequest request){
@@ -276,6 +351,22 @@ public class PurchaseContractController {
 		return supid;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:52:32  
+	* @Description: 打印草稿合同 
+	* @param @param purCon 合同实体类
+	* @param @param proList 前台传的list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/printDraftContract")
 	public String printDraftContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
 		Map<String, Object> map = valid(model,purCon);
@@ -298,6 +389,18 @@ public class PurchaseContractController {
 		return url;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:53:44  
+	* @Description: 根据合同编号查合同 
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return PurchaseContract
+	 */
 	@ResponseBody
 	@RequestMapping("/selectByCode")
 	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
@@ -306,6 +409,19 @@ public class PurchaseContractController {
 		return purchaseCon;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:54:10  
+	* @Description: 创建合同基本信息页面 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createCommonContract")
 	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
 		String id = request.getParameter("id");
@@ -323,6 +439,19 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/commonContract";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:55:57  
+	* @Description: 创建合同明细信息 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createDetailContract")
 	public String createDetailContract(HttpServletRequest request,Model model) throws Exception{
 		String id = request.getParameter("id");
@@ -341,6 +470,19 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/detailContract";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:56:21  
+	* @Description: 创建合同文本信息 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createTextContract")
 	public String createTextContract(HttpServletRequest request,Model model) throws Exception{
 		String id = request.getParameter("id");
@@ -376,7 +518,23 @@ public class PurchaseContractController {
 		model.addAttribute("ids", id);
 		return "bss/cs/purchaseContract/textContract";
 	}
-
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:56:42  
+	* @Description: 生成合同草稿 
+	* @param @param purCon 合同实体类
+	* @param @param proList 明细list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/addPurchaseContract")
 	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
 		Map<String, Object> map = valid(model,purCon);
@@ -415,6 +573,18 @@ public class PurchaseContractController {
 		return url;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:57:23  
+	* @Description: 校验公共方法 
+	* @param @param model
+	* @param @param purCon 合同实体类
+	* @param @return      
+	* @return Map
+	 */
 	public Map valid(Model model,PurchaseContract purCon){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean flag = true;
@@ -567,6 +737,21 @@ public class PurchaseContractController {
 		return map;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:58:05  
+	* @Description: 查询草稿合同列表 
+	* @param @param request
+	* @param @param page 分页
+	* @param @param model
+	* @param @param purCon 合同实体类
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/selectDraftContract")
 	public String selectDraftContract(HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
 		if(page==null){
@@ -616,17 +801,54 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/draftlist";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:58:38  
+	* @Description: 创建草稿合同页面 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createDraftContract")
 	public String createDraftContract(HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
 		PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
 		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
 		draftCon.setContractReList(conRequList);
+		
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("attachuuid", uuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		
 		model.addAttribute("draftCon", draftCon);
 		model.addAttribute("ids", ids);
 		return "bss/cs/purchaseContract/draftContract";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:59:07  
+	* @Description: 展示合同草稿 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/showDraftContract")
 	public String showDraftContract(HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
@@ -637,6 +859,19 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/showDraftContract";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:01:37  
+	* @Description: 展示正式合同 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/showFormalContract")
 	public String showFormalContract(HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
@@ -647,6 +882,23 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/showFormalContract";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:02:44  
+	* @Description: 修改合同草稿 
+	* @param @param agrfile
+	* @param @param request
+	* @param @param purCon
+	* @param @param result
+	* @param @param proList
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/updateDraftContract")
 	public String updateDraftContract(@RequestParam("agrfile") MultipartFile agrfile,HttpServletRequest request,@Valid PurchaseContract purCon,BindingResult result,ProList proList,Model model) throws Exception{
 		Map<String, Object> map = valid(model,purCon);
@@ -704,6 +956,20 @@ public class PurchaseContractController {
 		return url;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:03:56  
+	* @Description: 通过id修改草稿合同 
+	* @param @param agrfile
+	* @param @param purCon
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/updateDraftById")
 	public String updateDraftById(@RequestParam("agrfile") MultipartFile agrfile,PurchaseContract purCon,HttpServletRequest request) throws Exception{
 		String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
@@ -731,6 +997,18 @@ public class PurchaseContractController {
 		return "redirect:selectDraftContract.html";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:05:57  
+	* @Description: 删除合同草稿 
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/deleteDraft")
 	public String deleteDraft(HttpServletRequest request) throws Exception{
 		String ids = request.getParameter("ids");
@@ -738,6 +1016,21 @@ public class PurchaseContractController {
 		return "redirect:selectDraftContract.html";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:06:13  
+	* @Description: 查询正式合同 
+	* @param @param request
+	* @param @param page 分页
+	* @param @param model
+	* @param @param purCon 合同实体类
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/selectFormalContract")
 	public String selectFormalContract(HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
 		if(page==null){

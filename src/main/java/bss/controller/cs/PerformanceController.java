@@ -25,7 +25,13 @@ import bss.model.sstps.AppraisalContract;
 import bss.service.cs.PerformanceService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.sstps.AppraisalContractService;
-
+/**
+ * 
+ *@Title:PerformanceController
+ *@Description:履约情况
+ *@author QuJie
+ *@date 2016-11-11下午3:08:24
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping("/performance")
@@ -40,6 +46,19 @@ public class PerformanceController {
 	@Autowired
 	private AppraisalContractService appraisalContractService;
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:08:39  
+	* @Description: 创建履约情况新增页面 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createPerformance")
 	public String createPerformance(HttpServletRequest request,Model model) throws Exception{
 		String id = request.getParameter("contractId");
@@ -47,6 +66,19 @@ public class PerformanceController {
 		return "bss/cs/performance/addPerformance";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:09:08  
+	* @Description: 新增履约情况
+	* @param @param performance
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/addPerformance")
 	public String addPerformance(Performance performance,HttpServletRequest request) throws Exception{
 		String draftAt = request.getParameter("draftSignedAt");
@@ -60,6 +92,20 @@ public class PerformanceController {
 		return "redirect:/purchaseContract/selectFormalContract.html";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:09:52  
+	* @Description: 查询所有 
+	* @param @param model
+	* @param @param page 分页
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/selectAll")
 	public String selectAll(Model model,Integer page,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -97,6 +143,19 @@ public class PerformanceController {
 		return "bss/cs/performance/performanceList";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:10:27  
+	* @Description: 创建修改页面 
+	* @param @param model
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/createUpdateEx")
 	public String createUpdateEx(Model model,HttpServletRequest request) throws Exception{
 		String id = request.getParameter("ids");
@@ -105,6 +164,19 @@ public class PerformanceController {
 		return "bss/cs/performance/updatePerformance";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:10:51  
+	* @Description: 修改履约情况 
+	* @param @param performance
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/updatePerformance")
 	public String updatePerformance(Performance performance,HttpServletRequest request) throws Exception{
 		String draftAt = request.getParameter("draftSignedAt");
@@ -118,6 +190,19 @@ public class PerformanceController {
 		return "redirect:/purchaseContract/selectFormalContract.html";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:11:35  
+	* @Description: 查看一个履约情况
+	* @param @param model
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/view")
 	public String view(Model model,HttpServletRequest request) throws Exception{
 		String id = request.getParameter("id");
@@ -126,6 +211,18 @@ public class PerformanceController {
 		return "bss/cs/performance/showPerformance";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:11:49  
+	* @Description: 获取审价系统中的最终结算金额 
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping(value="/getFinalClosed",produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public String getFinalClosed(HttpServletRequest request) throws Exception{
@@ -137,6 +234,19 @@ public class PerformanceController {
 		return finalClosed;
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:12:19  
+	* @Description: 修改最终结算金额 
+	* @param @param request
+	* @param @param pur
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
 	@RequestMapping("/updateFinalClosed")
 	public String updateFinalClosed(HttpServletRequest request,PurchaseContract pur) throws Exception{
 		purchaseContactService.updateByPrimaryKeySelective(pur);

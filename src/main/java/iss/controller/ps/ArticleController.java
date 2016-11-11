@@ -99,7 +99,7 @@ public class ArticleController extends BaseSupplierController{
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request){
 		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("uuid", uuid);
+		model.addAttribute("article.id", uuid);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
@@ -136,16 +136,15 @@ public class ArticleController extends BaseSupplierController{
 	 */
 	@RequestMapping("/save")
 	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
-            HttpServletRequest request, HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
+            HttpServletRequest request, HttpServletResponse response,Article article,BindingResult result,Model model){
 		
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
 		
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+		
+		if(article.getName()==null){
+			model.addAttribute("ERR_name", "标题名称不能为空");
+			model.addAttribute("article", article);
 			return "iss/ps/article/add";
 		}
 		
@@ -153,6 +152,7 @@ public class ArticleController extends BaseSupplierController{
 		if(art!=null){
 			for(Article ar:art){
 				if(ar.getName().equals(article.getName())){
+					model.addAttribute("article", article);
 					model.addAttribute("ERR_name", "标题名称不能重复");
 					return "iss/ps/article/add";
 				}
@@ -161,9 +161,21 @@ public class ArticleController extends BaseSupplierController{
 		
 		String contype = request.getParameter("articleType.id");
 		if(contype.equals("")){
+			model.addAttribute("article", article);
 			model.addAttribute("ERR_typeId", "信息类型不能为空");
 			return "iss/ps/article/add";
 		}
+		
+		if(art!=null){
+			for(Article ar:art){
+				if(ar.getIsPicShow().equals(article.getIsPicShow())){
+					model.addAttribute("article", article);
+					model.addAttribute("ERR_isPicShow", "序号已经存在");
+					return "iss/ps/article/add";
+				}
+			}
+		}
+		
 		if(ranges!=null&&!ranges.equals("")){
 			if(ranges.length>1){
 				article.setRange(2);
@@ -173,6 +185,7 @@ public class ArticleController extends BaseSupplierController{
 				}
 			}
 		}else{
+			model.addAttribute("article", article);
 			model.addAttribute("ERR_range", "复选框不能为空");
 			return "iss/ps/article/add";
 		}
@@ -339,6 +352,19 @@ public class ArticleController extends BaseSupplierController{
 				model.addAttribute("article",artc);
 				List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 				model.addAttribute("list", list);
+				return "iss/ps/article/edit";
+			}
+		}
+		
+		for(Article ar:check){
+			if(ar.getIsPicShow().equals(article.getIsPicShow())){
+				model.addAttribute("ERR_isPicShow", "图片展示不能重复");
+				model.addAttribute("article",article);
+				model.addAttribute("article.name", name);
+				Article artc = articleService.selectArticleById(article.getId());
+				List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+				artc.setArticleAttachments(articleAttaList);
+				model.addAttribute("article",artc);
 				return "iss/ps/article/edit";
 			}
 		}

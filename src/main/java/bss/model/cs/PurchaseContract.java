@@ -4,103 +4,98 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 public class PurchaseContract {
 	private String id;
+	
+	private String code;//合同编号
 
-	private String code;
+	private String name;//合同名称
 
-	private String name;
+	private BigDecimal money;//合同金额
 
-	private BigDecimal money;
+	private String demandSector;//需求部门
 
-	private String demandSector;
+	private BigDecimal budget;//预算
 
-	private BigDecimal budget;
+	private BigDecimal year;//年度
 
-	private BigDecimal year;
+	private String budgetSubjectItem;//项级预算科目
 
-	private String budgetSubjectItem;
+	private String approvalNumber;//合同批准问号
 
-	private String approvalNumber;
+	private String documentNumber;//计划任务问号
 
-	private String documentNumber;
+	private String quaCode;//采购机构资格证号
+	
+	private Integer status;//状态
 
-	private String quaCode;
+	private String purchaseDepName;//甲方单位
 
-	private Integer status;
+	private String purchaseLegal;//甲方法人
 
-	private String purchaseDepName;
+	private String purchaseAgent;//甲方委托代理人
 
-	private String purchaseLegal;
+	private String purchaseContact;//甲方联系人
 
-	private String purchaseAgent;
+	private String purchaseContactTelephone;//甲方联系电话
 
-	private String purchaseContact;
+	private String purchaseContactAddress;//甲方联系地址
 
-	private String purchaseContactTelephone;
+	private String purchaseUnitpostCode;//甲方邮编
 
-	private String purchaseContactAddress;
+	private String purchasePayDep;//甲方付款单位
 
-	@Pattern(regexp = "[1-9]\\d{5}(?!\\d)", message = "请输入正确的邮编")
-	private String purchaseUnitpostCode;
+	private String purchaseBank;//甲方开户银行
 
-	private String purchasePayDep;
+	private BigDecimal purchaseBankAccount;//甲方银行账号
 
-	private String purchaseBank;
+	private String supplierDepName;//乙方单位
 
-	private BigDecimal purchaseBankAccount;
+	private String supplierLegal;//乙方法人
 
-	private String supplierDepName;
+	private String supplierAgent;//乙方委托代理人
 
-	private String supplierLegal;
+	private String supplierContact;//乙方联系人
 
-	private String supplierAgent;
+	private String supplierContactTelephone;//乙方联系电话
 
-	private String supplierContact;
+	private String supplierContactAddress;//乙方联系地址
 
-	private String supplierContactTelephone;
+	private String supplierUnitpostCode;//乙方邮编
 
-	private String supplierContactAddress;
+	private String supplierBank;//乙方开户银行
 
-	private String supplierUnitpostCode;
+	private BigDecimal supplierBankAccount;//乙方银行账号
 
-	private String supplierBank;
+	private String supplierBankName;//乙方开户名称
 
-	private BigDecimal supplierBankAccount;
+	private List<ContractRequired> contractReList;//合同明细list
 
-	private String supplierBankName;
+	private String supplierPurId;//供应商机构组织代码
 
-	private List<ContractRequired> contractReList;
+	private String content;//合同内容
 
-	private String supplierPurId;
+	private String projectName;//项目名称
 
-	private String content;
+	private Integer isAppeal;//是否审价
 
-	private String projectName;
+	private String approvePic;//文件电子扫描件
 
-	private Integer isAppeal;
+	private Date createdAt;//创建时间
 
-	private String approvePic;
+	private Date updatedAt;//修改时间
 
-	private Date createdAt;
+	private Integer isDeleted;//是否删除
 
-	private Date updatedAt;
+	private Integer contractType;//合同类型
 
-	private Integer isDeleted;
+	private Date draftGitAt;//合同草稿提交时间
 
-	private Integer contractType;
+	private Date draftReviewedAt;//合同草稿报批时间
 
-	private Date draftGitAt;
+	private Date formalGitAt;//正式合同提交时间
 
-	private Date draftReviewedAt;
-
-	private Date formalGitAt;
-
-	private Date formalReviewedAt;
+	private Date formalReviewedAt;//正式合同报批时间
 
 	/** 是否进口 0否 1是 */
 	private Integer isImport;
@@ -108,11 +103,11 @@ public class PurchaseContract {
 	/** 是否申报 0待报 1已报 2已批准 */
 	private Integer isDeclare = 0;
 
-	private String purchaseType;
+	private String purchaseType;//采购类型
 
-	private String projectId;
+	private String projectId;//项目id
 
-	private BigDecimal finallyClosed;
+	private BigDecimal finallyClosed;//最终结算金额
 
 	public BigDecimal getFinallyClosed() {
 		return finallyClosed;

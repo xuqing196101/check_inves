@@ -19,6 +19,17 @@ public interface PurchaseContractMapper {
 	 */
     void deleteDraftByPrimaryKey(String id);
     
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:12:52  
+    * @Description: 通过id修改 
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
     int updateByPrimaryKey(PurchaseContract record);
     
     /**
@@ -137,7 +148,29 @@ public interface PurchaseContractMapper {
      */
     PurchaseContract selectFormalById(String id);
     
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:13:59  
+    * @Description: 通过合同类型查找 
+    * @param @param contractType 合同类型
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
     List<PurchaseContract> selectFormalByContractType(Integer contractType);
     
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:14:25  
+    * @Description: 按条件查询 
+    * @param @param param
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
     List<PurchaseContract> findPurchaseContractByMap(Map<String, Object> param);
 }

@@ -4,24 +4,24 @@ import java.util.Date;
 
 public class Performance {
     private String id;
+    
+    private String deliverySchedule;//交货进度
 
-    private String deliverySchedule;
+    private String fundsPaid;//资金支付百分比
 
-    private String fundsPaid;
+    private Date draftSignedAt;//合同草稿签订时间
 
-    private Date draftSignedAt;
+    private Date formalSignedAt;//正式合同签订时间
 
-    private Date formalSignedAt;
+    private Date delivery;//交付期
 
-    private Date delivery;
+    private Short completedStatus;//合同执行状态
 
-    private Short completedStatus;
-
-    private String contractId;
+    private String contractId;//合同id
     
     private PurchaseContract contract;
     
-	private String checkMass;
+	private String checkMass;//质量检验
 
     public String getCheckMass() {
 		return checkMass;

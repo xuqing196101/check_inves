@@ -4,26 +4,26 @@ import java.math.BigDecimal;
 
 public class ContractRequired {
     private String id;
+    
+    private String planNo;//编号
 
-    private String planNo;
+    private String goodsName;//物资名称
 
-    private String goodsName;
+    private String brand;//品牌商标
 
-    private String brand;
+    private String stand;//规格型号
 
-    private String stand;
+    private String item;//计量单位
 
-    private String item;
+    private Long purchaseCount;//采购数量
 
-    private Long purchaseCount;
+    private BigDecimal price;//单价
 
-    private BigDecimal price;
+    private BigDecimal amount;//合计金额
 
-    private BigDecimal amount;
+    private String deliverDate;//交付时间
 
-    private String deliverDate;
-
-    private String memo;
+    private String memo;//备注
 
     private String contractId;
     
