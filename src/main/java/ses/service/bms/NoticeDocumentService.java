@@ -43,4 +43,14 @@ public interface NoticeDocumentService {
 	 * 6.条件搜索
 	 */
 	List<NoticeDocument> search(Integer pageNum,NoticeDocument noticeDocument);
+	
+	/**
+	 * @Title: findSupplierDoc
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-10 下午3:43:22
+	 * @Description: 查找供应商须知文档
+	 * @param: @return
+	 * @return: List<String>
+	 */
+	String findSupplierDoc();
 }

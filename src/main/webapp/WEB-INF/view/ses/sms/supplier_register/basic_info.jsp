@@ -419,16 +419,16 @@
 												<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
 											</li>
 											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
-												<up:upload id="billcert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
-												<up:show showId="billcert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+												<up:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
+												<up:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
 											</li>
 											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
-												<up:upload id="curitycert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
-												<up:show showId="curitycert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+												<up:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
+												<up:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
 											</li>
 											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
-												<up:upload id="bearchcert_up" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
-												<up:show showId="bearchcert_show" groups="" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+												<up:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+												<up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
 											</li>
 											<div class="clear"></div>
 										</ul>

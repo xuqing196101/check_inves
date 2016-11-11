@@ -12,8 +12,6 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/supplier/js/common.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -50,108 +48,97 @@
 		}
 		$("#search_form_id").submit();
 	}
+	
+	function add() {
+		var result = isEmpty("tbody_contract_id", true, "请至少勾选一条记录 !");
+		if (result.ids) {
+			window.location.href = "${pageContext.request.contextPath}/import_project/add.html?ids=" + result.ids;
+		}
+	}
 </script>
 
 </head>
 
 <body>
-	<div class="wrapper">
-		<!--面包屑导航开始-->
-		<div class="margin-top-10 breadcrumbs ">
-			<div class="container">
-				<ul class="breadcrumb margin-left-0">
-					<li><a href="#"> 首页</a>
+	<!--面包屑导航开始-->
+	<div class="margin-top-10 breadcrumbs ">
+		<div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="#"> 首页</a></li>
+				<li><a href="#">业务管理</a></li>
+				<li><a href="#">进口项目管理</a></li>
+				<li class="active"><a href="#">待报项目列表</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	
+	<div class="container">
+		
+		<div class="headline-v2">
+			<h2>合同列表</h2>
+   		</div> 
+		
+		<!-- 按钮-->
+		<div class="col-md-8">
+			<button class="btn btn-windows add" type="button" onclick="add()">物资申请</button>
+		</div>
+	
+
+		<!-- 搜索条件 -->
+		<h2 class="search_detail">
+			<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/import_project/list.html" method="get">
+				<ul class="demand_list">
+					<li><label class="fl">项目名称：</label><span><input type="text" name="projectName" value="${projectName}"  /> </span></li>
+					<li>
+						<label class="fl">项目状态：</label> 
+						<span class="fl"> 
+							<select id="declare_select_id" name="isDeclare">
+								<option value="0">待报项目</option>
+								<option value="1">已报项目</option>
+								<option value="2">批准项目</option>
+							</select> 
+						</span>
 					</li>
-					<li><a href="#">业务管理</a>
-					</li>
-					<li><a href="#">进口项目管理</a>
-					</li>
-					<li class="active"><a href="#">待报项目列表</a>
-					</li>
+					<button type="button" onclick="search(1)" class="btn">查询</button>
+					<button onclick="resetForm('search_form_id')" class="btn" type="button">重置</button>
 				</ul>
 				<div class="clear"></div>
-			</div>
-		</div>
-
-		<div class="container">
-			<div class="headline-v2">
-				<h2>待报项目列表</h2>
-			</div>
-		</div>
-
-
-		<!-- 表格开始-->
-		<div class="container">
-			<div class="col-md-8">
-				<button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_stars/add.html'">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="editSupplierStars()">修改</button>
-				<button class="btn btn-windows edit" type="button" onclick="changeStatus()">启/停用</button>
-				<button class="btn btn-windows delete" type="button" onclick="deleteStars()">删除</button>
-			</div>
-		</div>
-		
-		<div class="container">
-			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/purchaseContract/list.html" method="get">
-					<input name="page" type="hidden" />
-					<ul class="demand_list">
-						<li class="fl">
-							<label class="fl mt5">项目名称：</label>
-							<span><input name="projectName" type="text" value="${projectName}" /></span>
-						</li>
-						<li class="fl">
-							<label class="fl mt5">项目状态：</label>
-							<span>
-								<select id="declare_select_id" class="w150" name="isDeclare">
-									<option value="0">待报项目</option>
-									<option value="1">已报项目</option>
-									<option value="2">批准项目</option>
-								</select>
-							</span>
-						</li>
-						<li class="fl mt1">
-							<button type="button" onclick="search(1)" class="btn">查询</button>
-							<button onclick="resetForm('search_form_id')" class="btn" type="button">重置</button>
-						</li>
-					</ul>
-					<div class="clear"></div>
-				</form>
-			</div>
-		</div>
-		
-		<div class="container margin-top-5">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
-					<thead>
+			</form>
+		</h2>
+	
+		<!-- 列表 -->
+		<div class="content table_box">
+			<table class="table table-bordered table-condensed table-hover">
+				<thead>
+					<tr>
+						<th class="info w50"><input type="checkbox" onchange="checkAll(this, 'tbody_contract_id')" />
+						</th>
+						<th class="info w50">序号</th>
+						<th class="info">项目名称</th>
+						<th class="info">合同金额</th>
+						<th class="info">甲方信息</th>
+						<th class="info">乙方信息</th>
+						<th class="info">需求部门</th>
+						<th class="info">合同签订时间</th>
+					</tr>
+				</thead>
+				<tbody id="tbody_contract_id">
+					<c:forEach items="${pager.list}" var="pc" varStatus="vs">
 						<tr>
-							<th class="info w50"><input type="checkbox" onchange="checkAll(this)" />
-							</th>
-							<th class="info w50">序号</th>
-							<th class="info">项目名称</th>
-							<th class="info">合同金额</th>
-							<th class="info">甲方信息</th>
-							<th class="info">乙方信息</th>
-							<th class="info">需求部门</th>
-							<th class="info">合同签订时间</th>
+							<td class="tc"><input name="checkbox" type="checkbox" value="${pc.id}">
+							</td>
+							<td class="tc">${vs.index + 1}</td>
+							<td class="tc">${pc.projectName}</td>
+							<td class="tc">${pc.money}</td>
+							<td class="tc">${pc.purchaseDepName}</td>
+							<td class="tc">${pc.supplierDepName}</td>
+							<td class="tc">${pc.demandSector}</td>
+							<td class="tc"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
 						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${pager.list}" var="pc" varStatus="vs">
-							<tr>
-								<td class="tc"><input name="checkbox" type="checkbox" value="${pc.id}">
-								</td>
-								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${pc.projectName}</td>
-								<td class="tc">${pc.money}</td>
-								<td class="tc">${pc.purchaseDepName}</td>
-								<td class="tc">${pc.supplierDepName}</td>
-								<td class="tc">${pc.demandSector}</td>
-								<td class="tc"><fmt:formatDate value="${pc.createdAt}" pattern="yyyy-MM-dd"/></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
+					</c:forEach>
+				</tbody>
+			</table>
 			<div id="pagediv" align="right"></div>
 		</div>
 	</div>

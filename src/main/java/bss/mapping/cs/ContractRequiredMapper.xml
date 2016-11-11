@@ -203,4 +203,18 @@
       IS_DELETED = #{isDeleted}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="ConRequ">
+		select 
+			<include refid="Base_Column_List"/>
+		from 
+			T_BSS_CS_CONTRACT_REQUIRED t1
+		<where>
+			<if test="ids != null">
+				<foreach collection="ids" item="id" open="and t1.CONTRACT_ID in(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -4,18 +4,20 @@
 package ses.service.bms.impl;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
 import ses.dao.bms.NoticeDocumentMapper;
 import ses.model.bms.NoticeDocument;
 import ses.service.bms.NoticeDocumentService;
 import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
 
 /**
  * @Title:NoticeDocumentServiceImpl 
@@ -72,4 +74,23 @@ public class NoticeDocumentServiceImpl implements NoticeDocumentService{
 		return noticeDocumentMapper.selectByType(noticeDocument);
 	}
 
+	
+	/**
+	 * @Title: findSupplierDoc
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-10 下午3:43:22
+	 * @Description: 查找供应商须知文档
+	 * @param: @return
+	 * @return: List<String>
+	 */
+	@Override
+	public String findSupplierDoc() {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("docType", "供应商须知文档");
+		List<String> list = noticeDocumentMapper.findByMap(param);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 }

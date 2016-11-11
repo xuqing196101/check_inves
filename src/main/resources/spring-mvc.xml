@@ -46,6 +46,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<!-- 供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" />    
 			
+			<!-- 后期删除此项 -->
+			<mvc:exclude-mapping path="/my_test/*.*" />
+			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

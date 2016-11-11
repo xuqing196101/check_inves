@@ -776,20 +776,4 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/formallist";
 	}
 	
-	/**
-	 * @Title: list
-	 * @author: Wang Zhaohua
-	 * @date: 2016-11-2 下午8:05:07
-	 * @Description: 合同列表
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping(value = "list")
-	public String list(Model model, PurchaseContract purchaseContract, Integer page) {
-		List<PurchaseContract> list = purchaseContractService.findPurchaseContractByMap(purchaseContract, page == null ? 1 : page);
-		model.addAttribute("pager", new PageInfo<PurchaseContract>(list));
-		model.addAttribute("projectName", purchaseContract.getProjectName());
-		model.addAttribute("isDeclare", purchaseContract.getIsDeclare());
-		return "bss/iacs/import_project/list";
-	}
 }

@@ -98,7 +98,7 @@
 			return;
 		}
 		var id = checkbox.val();
-		var text = checkbox.parents("tr").find("td").eq(5).text();
+		var text = checkbox.parents("tr").find("td").eq(3).text();
 		text = $.trim(text);
 		var status = null;
 		if (text == "已启用") {

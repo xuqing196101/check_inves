@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.NoticeDocument;
 
@@ -70,4 +71,15 @@ public interface NoticeDocumentMapper {
      * @return:
      */
     List<NoticeDocument> selectByType(NoticeDocument noticeDocument);
+    
+    /**
+     * @Title: findByMap
+     * @author: Wang Zhaohua
+     * @date: 2016-11-10 下午3:42:31
+     * @Description: findByMap
+     * @param: @param param
+     * @param: @return
+     * @return: List<String>
+     */
+    List<String> findByMap(Map<String, Object> param);
 }

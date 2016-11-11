@@ -1,6 +1,8 @@
 package bss.service.cs.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +61,21 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 	@Override
 	public void deleteByContractId(String id) {
 		contractRequiredMapper.deleteByContractId(id);
+	}
+	
+	/**
+     * @Title: findContractRequiredByConId
+     * @author: Wang Zhaohua
+     * @date: 2016-11-11 上午9:50:19
+     * @Description: 根据合同 ids 找到合同明细
+     * @param: @param ids
+     * @param: @return
+     * @return: List<ContractRequired>
+     */
+	@Override
+	public List<ContractRequired> findContractRequiredByConId(String ids) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("ids", ids.split(","));
+		return contractRequiredMapper.findByMap(param);
 	}
 }

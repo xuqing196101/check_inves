@@ -27,6 +27,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -72,6 +73,9 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	@Autowired
+	private NoticeDocumentService noticeDocumentService;
+	
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -87,17 +91,7 @@ public class SupplierController extends BaseSupplierController {
 		IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
 		identityCode.write(request, response);
 	}
-
-	@RequestMapping("login")
-	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
-		model.addAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		request.getSession().setAttribute("supplierId", supplier.getId());
-		return "ses/sms/supplier_register/basic_info";
-	}
-
+	
 	/**
 	 * @Title: registrationPage
 	 * @author: Wang Zhaohua
@@ -107,7 +101,8 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping("registration_page")
-	public String registrationPage() {
+	public String registrationPage(Model model) {
+		model.addAttribute("doc", noticeDocumentService.findSupplierDoc());
 		return "ses/sms/supplier_register/registration";
 	}
 
