@@ -6,9 +6,6 @@
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<link
-    href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css"
-    media="screen" rel="stylesheet">
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();

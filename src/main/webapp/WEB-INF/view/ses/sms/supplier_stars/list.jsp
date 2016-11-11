@@ -5,15 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<title>供应商规则列表</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	function editSupplierStars() {
 		var checkbox = $("input[name='checkbox']:checked");
@@ -96,7 +87,6 @@
 </head>
 
 <body>
-	<div class="wrapper">
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -114,22 +104,16 @@
 			<div class="headline-v2">
 				<h2>供应商星级规则列表</h2>
 			</div>
-		</div>
-
-
 		<!-- 表格开始-->
-		<div class="container">
-			<div class="col-md-8">
+			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_stars/add.html'">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="editSupplierStars()">修改</button>
 				<button class="btn btn-windows edit" type="button" onclick="changeStatus()">启/停用</button>
 				<button class="btn btn-windows delete" type="button" onclick="deleteStars()">删除</button>
 			</div>
-		</div>
 
-		<div class="container margin-top-5">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
+		<div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)" /></th>
@@ -163,7 +147,6 @@
 			</div>
 			<div id="pagediv" align="right"></div>
 		</div>
-	</div>
 	
 	<form id="edit_form_id" action="${pageContext.request.contextPath}/supplier_stars/add.html" method="post">
 		<input name="id" type="hidden" />

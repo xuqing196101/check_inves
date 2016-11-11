@@ -6,14 +6,6 @@
 <html>
 <head>
 
-<title>供应商诚信内容列表</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	$(function() {
 		laypage({
@@ -112,20 +104,17 @@
 </head>
 
 <body>
-	<div class="wrapper mt30">
+	<div class="container">
 		<input type="hidden" name="supplierCreditId" value="${supplierCreditId}">
 		<!-- 表格开始-->
-		<div class="container">
-			<div class="col-md-8">
+			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="addCreditCtnt()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="editSupplierCreditCtnt()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="deleteCreditCtnt()">删除</button>
 			</div>
-		</div>
 		
-		<div class="container margin-top-5">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
+		<div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
@@ -147,7 +136,6 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
 			<div id="pagediv" align="right"></div>
 		</div>
 	</div>

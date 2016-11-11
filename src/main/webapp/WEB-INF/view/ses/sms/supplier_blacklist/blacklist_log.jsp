@@ -42,17 +42,14 @@
 </head>
 
 <body>
-	<div class="wrapper">
+	<div class="container">
 		<!-- 我的订单页面开始-->
-		<div class="container mt30">
-			<div class="headline-v2">
+		<div class="headline-v2">
 				<h2>供应商黑名单记录表</h2>
-			</div>
 		</div>
 
-		<div class="container">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
+		<div class="content table_box">
+            <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -117,7 +114,6 @@
 			</div>
 			<div id="pagediv" align="right"></div>
 		</div>
-	</div>
 	
 	<form id="edit_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html" method="post">
 		<input name="supplierBlacklistId" type="hidden" />

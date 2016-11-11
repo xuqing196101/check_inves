@@ -6,14 +6,6 @@
 <html>
 <head>
 
-<title>供应商诚信形式列表</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	$(function() {
 		laypage({
@@ -157,7 +149,6 @@
 </head>
 
 <body>
-	<div class="wrapper">
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -175,41 +166,29 @@
 			<div class="headline-v2">
 				<h2>供应商诚信形式列表</h2>
 			</div>
-		</div>
-
-
 		<!-- 表格开始-->
-		<div class="container">
-			<div class="col-md-8">
-				<button class="btn btn-windows add" type="button" onclick="addCredit()">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="editSupplierCredit()">修改</button>
-				<button class="btn btn-windows apply" type="button" onclick="changeStatus()">启/停用</button>
-				<button class="btn btn-windows delete" type="button" onclick="deleteCredit()">删除</button>
-			</div>
-		</div>
-		
-		<div class="container">
-			<div class="p10_25">
+			 <h2 class="search_detail">
 				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
-						<li class="fl">
-							<label class="fl mt5">形式名称：</label>
+						<li>
+							<label class="fl">形式名称：</label>
 							<span><input name="name" type="text" value="${name}" /></span>
 						</li>
-						<li class="fl mt1">
 							<button type="button" onclick="searchSupplierCredit(1)" class="btn">查询</button>
 							<button onclick="resetForm()" class="btn" type="button">重置</button>
-						</li>
 					</ul>
 					<div class="clear"></div>
 				</form>
-			</div>
-		</div>
-		
-		<div class="container margin-top-5">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
+			</h2>
+		<div class="col-md-12 pl20 mt10">
+                <button class="btn btn-windows add" type="button" onclick="addCredit()">新增</button>
+                <button class="btn btn-windows edit" type="button" onclick="editSupplierCredit()">修改</button>
+                <button class="btn btn-windows apply" type="button" onclick="changeStatus()">启/停用</button>
+                <button class="btn btn-windows delete" type="button" onclick="deleteCredit()">删除</button>
+         </div>
+		<div class="content table_box">
+             <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
@@ -235,6 +214,5 @@
 			</div>
 			<div id="pagediv" align="right"></div>
 		</div>
-	</div>
 </body>
 </html>

@@ -5,22 +5,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>查看须知文档</title>
-    
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
   </head>
   
   <body>
@@ -34,60 +18,46 @@
 	  </div>
    </div>
    
-  <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<div>
-	    	<div class="headline-v2">
-	   			<h2>须知文档详情</h2>
-	   		</div>
-	   		<ul class="list-unstyled list-flow p0_20">
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">须知文档名称：</span>
-			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${noticeDocument.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">须知文档类型：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${noticeDocument.docType}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">创建时间：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text"  value="<fmt:formatDate value='${noticeDocument.createdAt}' pattern='yyyy-MM-dd'/>" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">修改时间：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value="<fmt:formatDate value='${noticeDocument.updatedAt}' pattern='yyyy-MM-dd'/>" readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 
-			<li class="col-md-12 p0">
-	   			<span class="fl">须知文档内容：</span>
-	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-        			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
-       			</div>
-			 </li> 
-	  	 </ul>
+  <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">须知文档详情</a></li>
+            </ul>
+            <div class="tab-content padding-top-20">
+            <div class="tab-pane fade active in" id="tab-1">
+                <h2 class="count_flow jbxx">基本信息</h2>
+                <table class="table table-bordered">
+                 <tbody>
+                     <tr>
+	                  <td class="bggrey ">须知文档名称：</td>
+	                  <td>${noticeDocument.name}</td>
+	                  <td class="bggrey ">须知文档类型：</td>
+	                  <td>${noticeDocument.docType}</td>
+	                 </tr>
+	                 <tr>
+	                  <td class="bggrey ">创建时间：</td>
+	                  <td><fmt:formatDate value='${noticeDocument.createdAt}' pattern='yyyy-MM-dd'/></td>
+	                  <td class="bggrey ">修改时间：</td>
+	                  <td><fmt:formatDate value='${noticeDocument.updatedAt}' pattern='yyyy-MM-dd'/></td>
+	                 </tr> 
+                 </tbody>
+                 </table>
+                 <h2 class="count_flow jbxx">须知文档内容</h2>
+                 <div class="col-md-12 pl200 fn mt5 pwr9">
+                     <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+                    <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
+                </div>
+                 </div>
+                 </div>
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
+  <div class="col-md-12 tc">
     <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
-	</div>
   </div>
 	  	 
 	</div>  	
-     
+     </div>
      </div>
      </div>
      <script type="text/javascript">

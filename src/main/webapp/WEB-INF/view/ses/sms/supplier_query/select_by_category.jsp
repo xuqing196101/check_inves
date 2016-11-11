@@ -6,16 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<title>My JSP 'category.jsp' starting page</title>
-
- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/demo.css"> --%>
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
  $(function() {
     var zTreeObj;
@@ -104,13 +94,15 @@
 			  <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
-			   <span class="">供应商名称：</span>
-			   <div class="input-append">
-		        <input class="span2" name="supplierName" value="${supplier.supplierName }" id="supplierName"  type="text">
-		       </div>
-		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="tijiao()" type="button" value="查询">
+		          <ul class="demand_list">
+	                  <li>
+	                    <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+	                  </li>
+                  </ul>
+		       <input class="btn" onclick="tijiao()" type="button" value="查询">
 		     </form>
-   		<table id="tb1"  class="table table-striped table-bordered table-hover tc">
+		     <div class="content table_box">
+        <table id="tb1"  class="table table-bordered table-condensed table-hover">
 		      <thead>
 				<tr>
 				    <th class="info w50">序号</th>
@@ -155,6 +147,7 @@
 				</c:forEach> 
 			  </tbody>
 		 </table>
+		 </div>
 		 <div id="pagediv" align="right"></div>
 		 </div>
     <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">

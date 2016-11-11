@@ -5,15 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<title>供应商黑名单列表</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	$(function() {
 		laypage({
@@ -155,49 +146,39 @@
 			<div class="headline-v2">
 				<h2>供应商黑名单列表</h2>
 			</div>
-		</div>
-
-
 		<!-- 表格开始-->
-		<div class="container">
-			<div class="col-md-8">
-				<button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html'">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="editSupplierBlacklist()">修改</button>
-				<button class="btn btn-windows delete" type="button" onclick="operatorRemove()">手动移除</button>
-				<button class="btn btn-windows git" type="button" onclick="searchBlacklist()">查看黑名单历史记录</button>
-			</div>
-		</div>
-		<div class="container">
-			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="get">
+			
+			<h2 class="search_detail">
+				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="get">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
-						<li class="fl">
-							<label class="fl mt5">供应商名称：</label>
+						<li>
+							<label class="fl">供应商名称：</label>
 							<span><input name="supplierName" type="text" value="${supplierName}" /></span>
 						</li>
-						<li class="fl">
-							<label class="fl mt5">起始时间：</label>
+						<li>
+							<label class="fl">起始时间：</label>
 							<span><input type="text" name="startTime" readonly="readonly" onClick="WdatePicker()" value="${startTime}" /></span>
 						</li>
-						<li class="fl">
-							<label class="fl mt5">终止时间：</label>
+						<li>
+							<label class="fl">终止时间：</label>
 							<span><input name="endTime" type="text" readonly="readonly" onClick="WdatePicker()" value="${endTime}" /></span>
 						</li>
-						<li class="fl mt1">
 							<button type="button" onclick="searchSupplierBlacklist(1)" class="btn">查询</button>
 							<button onclick="resetForm()" class="btn" type="button">重置</button>
-						</li>
 					</ul>
 					<div class="clear"></div>
 				</form>
-			</div>
-		</div>
-		
+		  </h2>
+		  <div class="col-md-12 pl20 mt10">
+                <button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html'">新增</button>
+                <button class="btn btn-windows edit" type="button" onclick="editSupplierBlacklist()">修改</button>
+                <button class="btn btn-windows delete" type="button" onclick="operatorRemove()">手动移除</button>
+                <button class="btn btn-windows git" type="button" onclick="searchBlacklist()">查看黑名单历史记录</button>
+            </div>
 
-		<div class="container">
-			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-striped table-bordered table-hover">
+		 <div class="content table_box">
+            <table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>

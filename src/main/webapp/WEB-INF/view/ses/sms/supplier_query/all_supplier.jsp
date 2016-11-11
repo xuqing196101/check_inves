@@ -2,18 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common/map.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 	$(function () {
 	var address;

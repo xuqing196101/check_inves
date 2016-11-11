@@ -7,6 +7,14 @@ email:		hunter.z@263.net
 website:	http://code.google.com/p/jquerytree/
 
 -------------------------------------*/
+ul.ztree {
+    margin-top: -4px;
+    border: 1px solid #617775;
+    background: #f0f6e4;
+    width: 220px;
+    height: 300px;
+    overflow-y: scroll;
+}
 
 .ztree * {padding:0; margin:0; font-size:12px; font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
 .ztree {margin:0; padding:5px; color:#333}

@@ -20,6 +20,7 @@
 <script type="text/javascript">
         var datas;
         var setting;
+        var treeObj;
         function loadTree(name) {
             
             var url = "${pageContext.request.contextPath}/area/listByOne.do";
@@ -47,7 +48,7 @@
                    onClick:zTreeOnClick
                 }
             };
-             var treeObj=$.fn.zTree.init($("#tree"),setting,datas);
+            treeObj=$.fn.zTree.init($("#tree"),setting,datas);
         }
         
         function zTreeOnClick(event,treeId,treeNode){
