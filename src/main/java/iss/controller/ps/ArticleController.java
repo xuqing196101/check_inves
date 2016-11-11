@@ -11,6 +11,7 @@ import iss.service.ps.SolrNewsService;
 import java.util.List;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 import java.io.File;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /**
  * @Title:ArticleController
@@ -58,6 +62,9 @@ public class ArticleController {
 	
 	@Autowired
 	private SolrNewsService solrNewsService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
@@ -87,9 +94,19 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Model model){
+	public String add(Model model,HttpServletRequest request){
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
+		
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("uuid", uuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(lists.size()>0){
+			model.addAttribute("attachTypeId", lists.get(0).getId());
+		}
 		return "iss/ps/article/add";
 	}
 
