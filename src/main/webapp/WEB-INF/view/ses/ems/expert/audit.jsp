@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
-				$("#haha").append(result.name);
+				$("#addr").append(result.name);
 				}
 				
 			});
@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var data = eval('(' + obj + ')');
 				$.each(data,function(i,result){
 					if(parentId == result.id){
-						$("#hehe").append(result.name+",");
+						$("#add").append(result.name+",");
 					}
 				});
 				
@@ -76,20 +76,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});	
 
 	function fun(){
-		var parentId = $("#hehe").val();
+		var parentId = $("#add").val();
 		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 			data:{"id":parentId},
 			success:function(obj){
-				$("#haha").empty();
+				$("#addr").empty();
 				//var data = eval('(' + obj + ')');
-				$("#haha").append("<option value=''>-请选择-</option>");
+				$("#addr").append("<option value=''>-请选择-</option>");
 				$.each(obj,function(i,result){
 					
-					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
 				
@@ -386,7 +384,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <tr>
 				    <td width="25%" class="info">所在地区：</td>
 				    <td width="25%">
-				      <font id="hehe"></font><font id="haha"></font>
+				      <font id="add"></font><font id="addr"></font>
 				    </td>
 				    <td width="25%" class="info">民族：</td>
 				    <td width="25%">${expert.nation}</td>

@@ -2,6 +2,7 @@ package ses.controller.sys.ems;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +48,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Quote;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
@@ -54,6 +56,7 @@ import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierQuoteService;
 import ses.util.PropUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
@@ -86,6 +89,8 @@ public class ExpertController {
 	private ReviewProgressService reviewProgressService;//进度
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
+	@Autowired
+	SupplierQuoteService supplierQuoteService;//供应商报价
 	/**
 	 * 
 	  * @Title: toExpert
@@ -971,6 +976,41 @@ public class ExpertController {
 		  
 		  return "redirect:toFirstAudit.html";
 	  }
+	  /**
+	   * 
+	    * @Title: supplierQuote
+	    * @author ShaoYangYang
+	    * @date 2016年11月11日 下午2:46:47  
+	    * @Description: TODO 查看供应商报价
+	    * @param @param packageId
+	    * @param @param supplierId
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("supplierQuote")
+	  public String supplierQuote(String packageId,String supplierId,Model model){
+		  Quote quote = new Quote();
+		  quote.setPackageId(packageId);
+		  quote.setSupplierId(supplierId);
+		List<Quote> historyList = supplierQuoteService.selectQuoteHistoryList(quote);
+		if(historyList!=null && historyList.size()>0){
+		long create = historyList.get(0).getCreatedAt().getTime();
+		for (Quote quote2 : historyList) {
+			if(quote2.getCreatedAt().getTime()>create){
+				create=quote2.getCreatedAt().getTime();
+			}
+		}
+		Date date = new Date(create);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String formatDate = sdf.format(date);
+		Timestamp timestamp = Timestamp.valueOf(formatDate);
+		quote.setCreatedAt(timestamp);
+		List<Quote> historyList2 = supplierQuoteService.selectQuoteHistoryList(quote);
+		model.addAttribute("historyList", historyList2);
+		}
+		return "bss/prms/audit/quote_history_record";
+	  }
+	  
 	 /**
 	  * 
 	   * @Title: download

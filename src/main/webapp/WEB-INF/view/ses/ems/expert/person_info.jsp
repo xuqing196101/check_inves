@@ -41,7 +41,7 @@ $.ajax({
 		$.each(obj,function(i,result){
 			if(addressId == result.id){
 				parentId = result.areaType;
-				$("#haha").append(result.name);
+				$("#add").append(result.name);
 			}
 			
 		});
@@ -62,7 +62,7 @@ $(function(){
 			var data = eval('(' + obj + ')');
 			$.each(data,function(i,result){
 				if(parentId == result.id){
-					$("#hehe").append(result.name+",");
+					$("#addr").append(result.name+",");
 				}
 			});
 		},
@@ -76,17 +76,17 @@ $(function(){
 });	
 
 function fun(){
-	var parentId = $("#hehe").val();
+	var parentId = $("#addr").val();
 	$.ajax({
-		url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+		url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 		data:{"id":parentId},
 		success:function(obj){
-			$("#haha").empty();
+			$("#add").empty();
 			//var data = eval('(' + obj + ')');
-			$("#haha").append("<option value=''>-请选择-</option>");
+			$("#add").append("<option value=''>-请选择-</option>");
 			$.each(obj,function(i,result){
 				
-				$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 			});
 			
 			//alert(JSON.stringify(obj));
@@ -261,9 +261,9 @@ function zTreeOnClick(event,treeId,treeNode){
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
-        <div style="margin-left: 1000px;">
+        <%-- <div style="margin-left: 1000px;">
    		  <img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
-        </div>
+        </div> --%>
    <form action="${pageContext.request.contextPath}/expert/editBasicInfo.html"  method="post" id="form1" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -316,7 +316,7 @@ function zTreeOnClick(event,treeId,treeNode){
 				  <tr>
 				    <td width="25%" class="info">所在地区：</td>
 				    <td width="25%">
-				      <font id="hehe"></font><font id="haha"></font>
+				      <font id="addr"></font><font id="add"></font>
 				    </td>
 				    <td width="25%" class="info">民族：</td>
 				    <td width="25%">${expert.nation}</td>
@@ -372,7 +372,6 @@ function zTreeOnClick(event,treeId,treeNode){
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
-  <ul class="list-unstyled list-flow p0_20">
     <table class="table table-bordered">
 										  	<tr>
 										  	   <td width="25%" class="info"><i class="red">＊</i>身份证:</td>
@@ -413,7 +412,6 @@ function zTreeOnClick(event,treeId,treeNode){
 										   	     <td></td><td></td>
 										   	  </tr>
 										  </table>
-   </ul>
   </div>
   	<div class="padding-top-10 clear">
    <div class="headline-v2 clear">

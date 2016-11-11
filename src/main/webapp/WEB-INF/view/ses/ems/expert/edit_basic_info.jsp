@@ -38,9 +38,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
-				$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 				}else{
-					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				}
 				
 			});
@@ -61,9 +61,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var data = eval('(' + obj + ')');
 				$.each(data,function(i,result){
 					if(parentId == result.id){
-						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
-					$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					}
 				});
 				
@@ -79,17 +79,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});	
 	
 	function fun(){
-		var parentId = $("#hehe").val();
+		var parentId = $("#addr").val();
 		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 			data:{"id":parentId},
 			success:function(obj){
-				$("#haha").empty();
+				$("#add").empty();
 				//var data = eval('(' + obj + ')');
-				$("#haha").append("<option value=''>-请选择-</option>");
+				$("#add").append("<option value=''>-请选择-</option>");
 				$.each(obj,function(i,result){
 					
-					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
 				
 				//alert(JSON.stringify(obj));
@@ -380,10 +380,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>所在地区：</span>
 											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											 <select class="span5" id="hehe" onchange="fun();">
+											 <select class="span5" id="addr" onchange="fun();">
 													<option value="">-请选择-</option>
 											 </select>
-											 <select class="span5" name="address" id="haha">
+											 <select class="span5" name="address" id="add">
 													<option value="">-请选择-</option>
 											 </select>
 											<!--  <span class="add-on">i</span> -->

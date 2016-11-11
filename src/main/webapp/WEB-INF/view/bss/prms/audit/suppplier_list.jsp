@@ -9,17 +9,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
     <title>供应商信息</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
-    
-    
-
 
 <link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
@@ -42,11 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
   <script type="text/javascript">
-  
-  
   /** 全选全不选 */
   function selectAll(){
        var checklist = document.getElementsByName ("chkItem");
@@ -96,6 +87,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toGrade.html?projectId="+projectId+"&packageId="+packageId;
 	  
   }
+   //供应商报价
+   function supplierPrice(){
+	   var packageId = "${packageId}";
+	   var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		if (id.length == 1) {
+			window.location.href = "${pageContext.request.contextPath}/expert/supplierQuote.html?packageId="+packageId+"&supplierId="+id;
+		} else if (id.length > 1) {
+			layer.alert("只能选择一个", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01
+			});
+		} else {
+			layer.alert("请选择要查看的供应商", {
+				offset : [ '222px', '390px' ],
+				shade : 0.01
+			});
+		}
+ }
   </script>
   </head>
   
@@ -125,7 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button>
    	  </c:if>
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="">查看供应商报价</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>
       </span>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
@@ -144,7 +156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <c:forEach items="${supplierList}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem"   alt=""></td>
               <td class="tc w50">${vs.count}</td>
               <td class="tc">${obj.suppliers.supplierName }</td>
               <td class="tc">${obj.suppliers.contactName }</td>
@@ -158,15 +170,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </table>
       </div>
    </div>
-    <div class="headline-v2 fl">
-          <h2>相关文件下载</h2>
-    </div>
     <div class="container clear margin-top-30">
     <div class="container margin-top-5">
-    
-    
-    
-    
     <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
     </div>
     </div>

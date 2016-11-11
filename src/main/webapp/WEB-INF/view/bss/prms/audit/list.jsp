@@ -101,9 +101,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		}else if(count==1){
   			window.location.href="${pageContext.request.contextPath}/expert/toFirstAudit.html?projectId="+value[0]+"&packageId="+value[1];
      	}
-	  
   }
-  </script>
+</script>
   </head>
   
   <body>

@@ -39,7 +39,7 @@ $.ajax({
 		$.each(obj,function(i,result){
 			if(addressId == result.id){
 				parentId = result.areaType;
-			$("#haha").append(result.name);
+			$("#add").append(result.name);
 			}
 			
 		});
@@ -60,7 +60,7 @@ $(function(){
 			var data = eval('(' + obj + ')');
 			$.each(data,function(i,result){
 				if(parentId == result.id){
-					$("#hehe").append(result.name+",");
+					$("#addr").append(result.name+",");
 				}
 			});
 			
@@ -287,7 +287,7 @@ function zTreeOnClick(event,treeId,treeNode){
 				  <tr>
 				    <td width="25%" class="info">所在地区：</td>
 				    <td width="25%">
-				      <font id="hehe"></font><font id="haha"></font>
+				      <font id="addr"></font><font id="add"></font>
 				    </td>
 				    <td width="25%" class="info">民族：</td>
 				    <td width="25%">${expert.nation}</td>

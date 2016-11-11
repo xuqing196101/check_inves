@@ -198,7 +198,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 						 <div class="tab-content clear step_cont">
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
-						 	<h1 class="f16 count_flow">专家评审</h1>
 						 	   <div class="container clear margin-top-30" id="package">
 						 	       <table>
 						 	         <thead>
@@ -229,7 +228,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   		   </tr>
 										   		   <tr>
 										   		     <th>序号</th>
-										   		     <th>初审项</th>
+										   		     <th>评审项目</th>
 										   		     <th>计分模型</th>
 										   		      <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
 										   		        <th>标准分值</th>

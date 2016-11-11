@@ -246,8 +246,8 @@
 							   </select>
 					</td>
 					<td>
-                          <input class="btn btn-windows "  value="搜索" type="submit">
-                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
+                          <input class="btn"  value="搜索" type="submit">
+                          <input class="btn" id="button" onclick="clearSearch();" value="重置" type="reset">
                      </td>
                         </tr>
                         </table>
