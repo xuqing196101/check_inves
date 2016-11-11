@@ -88,8 +88,8 @@ function resetQuery(){
    <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgwhite">
-            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">统计列表</a></li>
-            <li class="" onclick="on()"><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">统计分析图</a></li>
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="total_list f18">统计列表</a></li>
+            <li class="" onclick="on()"><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="anlysis f18">统计分析图</a></li>
           </ul>
           <div class="tab-content padding-top-20">
             <div class="tab-pane fade active in height-450" id="tab-1">
@@ -126,8 +126,8 @@ function resetQuery(){
             
             
             <div class="tab-pane fade height-450" id="tab-2">
-              <div id="dcDataUseStatisticContainer" class="margin-bottom-0 categories">
-					<div id="chart" class="icharts" style="width:800px; height:460px;">
+              <div id="dcDataUseStatisticContainer" class="margin-bottom-0">
+					<div id="chart" class="icharts mt20" style="width:800px; height:460px;">
 					</div>
               </div>
             </div>

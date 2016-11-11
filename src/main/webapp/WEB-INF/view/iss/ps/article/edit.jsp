@@ -140,7 +140,9 @@ $(function(){
 	   <span class="">图片展示：</span>
 	   <div class="input-append">
         <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }">
+       	<span class="add-on">i</span>
        </div>
+       <div class="validate">${ERR_isPicShow}</div>
 	 </li> 
 	 
      <li class="col-md-11 margin-0 padding-0">

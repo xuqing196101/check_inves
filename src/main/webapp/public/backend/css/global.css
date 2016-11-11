@@ -894,3 +894,17 @@ li:first-child {
 	width:auto!important;
 	height:auto!important;
 }
+/* 统计列表、统计分析图图标样式 */
+.total_list{
+  padding-left:45px !important;
+  background-image:url(../images/tjlb.png)!important;
+  background-position:10px!important;
+  background-repeat:no-repeat!important;
+}
+
+.anlysis{
+  padding-left:45px !important;
+  background-image:url(../images/tjfxt.png)!important;
+  background-position:10px 9px!important;
+  background-repeat:no-repeat!important;
+}
