@@ -140,16 +140,56 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 			}
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("number", i+1);
-			map.put("planNo", requList.get(i).getPlanNo());
-			map.put("goodsName", requList.get(i).getGoodsName());
-			map.put("brand", requList.get(i).getBrand());
-			map.put("stand", requList.get(i).getStand());
-			map.put("item", requList.get(i).getItem());
-			map.put("purchaseCount", requList.get(i).getPurchaseCount());
-			map.put("price", requList.get(i).getPrice());
-			map.put("mount", requList.get(i).getAmount());
-			map.put("deliverDate", requList.get(i).getDeliverDate());
-			map.put("mem", requList.get(i).getMemo());
+			if(requList.get(i).getPlanNo()!=null && requList.get(i).getPlanNo()!=""){
+				map.put("planNo", requList.get(i).getPlanNo());
+			}else{
+				map.put("planNo", "");
+			}
+			if(requList.get(i).getGoodsName()!=null && requList.get(i).getGoodsName()!=""){
+				map.put("goodsName", requList.get(i).getGoodsName());
+			}else{
+				map.put("goodsName", "");
+			}
+			if(requList.get(i).getBrand()!=null && requList.get(i).getBrand()!=""){
+				map.put("brand", requList.get(i).getBrand());
+			}else{
+				map.put("brand", "");
+			}
+			if(requList.get(i).getStand()!=null && requList.get(i).getStand()!=""){
+				map.put("stand", requList.get(i).getStand());
+			}else{
+				map.put("stand", "");
+			}
+			if(requList.get(i).getItem()!=null && requList.get(i).getItem()!=""){
+				map.put("item", requList.get(i).getItem());
+			}else{
+				map.put("item", "");
+			}
+			if(requList.get(i).getPurchaseCount()!=null){
+				map.put("purchaseCount", requList.get(i).getPurchaseCount());
+			}else{
+				map.put("purchaseCount", "");
+			}
+			if(requList.get(i).getPrice()!=null){
+				map.put("price", requList.get(i).getPrice());
+			}else{
+				map.put("price", "");
+			}
+			if(requList.get(i).getAmount()!=null){
+				map.put("mount", requList.get(i).getAmount());
+			}else{
+				map.put("mount", "");
+			}
+			if(requList.get(i).getDeliverDate()!=null){
+				map.put("deliverDate", requList.get(i).getDeliverDate());
+			}else{
+				map.put("deliverDate", "");
+			}
+			if(requList.get(i).getMemo()!=null){
+				map.put("mem", requList.get(i).getMemo());
+			}else{
+				map.put("mem", "");
+			}
 			list.add(map);
 		}
 		dataMap.put("list", list);

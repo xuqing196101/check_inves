@@ -7,19 +7,12 @@
 <head>
     <title>合同草稿修改</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
     <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -170,6 +163,9 @@
 		}else{
 		var detab = $("#detailtable tr:last td:eq(1)");
 		var vstab = Number(detab.html());
+		if($("#detailtable tr").length<=1){
+			vstab = 0;
+		}
 		var html = "";
 		var tabl = $("#detailtable");
 		html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
@@ -187,10 +183,11 @@
 		html += "<td class='tnone'></td>"
 		tabl.append(html);
 		layer.close(index);
+		}
 	}
 	
 	function abandoned(){
-		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
+		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
 	}
 	
 	function sum2(){
@@ -292,8 +289,8 @@
 		layer.close(ind);
 	}
 	
-	function print(){
-		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${ids}");
+	function printdra(){
+		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printDraftContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
 	
@@ -604,7 +601,7 @@
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
    			<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
-   			<input type="button" class="btn" onclick="print()" value="打印"/>
+   			<input type="button" class="btn" onclick="printdra()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
   		<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
@@ -633,68 +630,68 @@
  </div>
  	<div id="openDiv" class="dnone">
 	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<ul id="treeDemo" class="ztree"></ul>
+		<ul id="treeDemo" class="ztree slect_option"></ul>
 	</div>
 			<div class="list-unstyled mt20">
 			  <ul class="demand_list">
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>物资名称：</label>
+	    	      <label class="fl">物资名称：</label>
 	    	      <span>
                    <input type="hidden" id="categorieId4" name="categoryId" value="">
 				   <input id="citySel4" type="text"  readonly name="categoryName"  value=""  class="title" onclick=" showMenu(); return false;"/>
 				  </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>编号：</label>
+	    	      <label class="fl">编号：</label>
 	    	      <span>
                    <input maxlength="11" id="planNo" name="planNo" type="text" >
 				  </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>数量：</label>
+	    	      <label class="fl">数量：</label>
 	    	      <span>
                    <input maxlength="11" id="purNum" name="purNum" onblur="sum2()" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>品牌商标：</label>
+	    	      <label class="fl">品牌商标：</label>
 	    	      <span>
                    <input maxlength="11" id="bra" name="bra"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>规格型号：</label>
+	    	      <label class="fl">规格型号：</label>
 	    	      <span>
                    <input maxlength="11" id="model" name="model"  value="" type="text" >
                   </span>
 	            </li> 
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>计量单位：</label>
+	    	      <label class="fl">计量单位：</label>
 	    	      <span>
                    <input maxlength="11" id="unit" name="unit"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>单价：</label>
+	    	      <label class="fl">单价：</label>
 	    	      <span>
                    <input maxlength="11" id="univalent" onblur="sum1()" name="univalent"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>交付时间：</label>
+	    	      <label class="fl">交付时间：</label>
 	    	      <span>
                    <input maxlength="11" id="givetime" name="givetime"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>备注：</label>
+	    	      <label class="fl">备注：</label>
 	    	      <span>
                   <textarea id="remarks" name="remarks" class="textAreaSize" rows="3" cols="1">
                    </textarea>
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>合计：</label>
+	    	      <label class="fl">合计：</label>
 	    	      <span>
                    <input maxlength="11" id="purBudgetSum" name="purBudgetSum"  value="0" readonly="readonly" type="text" >
                   </span>

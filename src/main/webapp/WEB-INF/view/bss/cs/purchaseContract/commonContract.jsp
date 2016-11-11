@@ -208,7 +208,7 @@
 			 </li>
 			 <div class="clear"></div>
 		</ul>
-  		<div  class="col-md-12 tc mt20">
+  		<div  class="col-md-12 tc mt10">
    			<button class="btn" onclick="next()">下一步</button>
    			<button class="btn btn-windows cancel" onclick="cancel()" type="button">取消</button>
   		</div>

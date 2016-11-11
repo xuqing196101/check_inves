@@ -82,58 +82,73 @@
 
 			<div class="col-md-12 margin-top-40">
 				<div class="row">
+				  
+				  <div class="col-md-12 p10">
 					<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
-						<div class="login_main mt20">
-							<div class="login_item">
-								<label class="col-md-3 p0" onclick="show()"><i class="red mr5">*</i>用 户 名：</label> 
-								<input id="login_input_id" type="text" name="loginName" class="fl" placeholder="由6-20位字母、数字和下划线组成" value="${supplier.loginName}"> 
-								<span id="dsds" class="fl mt5 ml10 span-err-msg">${err_msg_loginName}</span>
-								<div class="clear"></div>
-							</div>
-							<div class="login_item margin-top-10">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>登录密码：</label> 
-								<input type="password" name="password" class="fl" value="${supplier.password}" placeholder="由6-20位字母、数字和下划线组成"> 
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_password}</span>
-								<div class="clear"></div>
-							</div>
-							<div class="login_item margin-top-10">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>确认密码：</label> 
-								<input type="password" name="confirmPassword" class="fl" value="${supplier.confirmPassword}">
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_ConfirmPassword}</span>
-								<div class="clear"></div>
-							</div>
-							<div class="login_item margin-top-10">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> 
-								<input type="text" name="mobile" class="fl" value="${supplier.mobile}">
-								<button type="button" class="fl btn padding-left-10 padding-right-10 btn_back ml10">发送验证码</button>
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_mobile}</span>
-								<div class="clear"></div>
-							</div>
-							<div class="login_item margin-top-10">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>手机验证码：</label> 
-								<input type="text" name="mobileCode" class="fl" value="${supplier.mobileCode}">
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_mobileCode}</span>
-								<div class="clear"></div>
-							</div>
-							<div class="login_item margin-top-10">
-								<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> 
-								<input type="text" name="identifyCode" class="fl input-yzm" value="${supplier.identifyCode}">
-								<div class="fl">
-									<div class="yzm fl h28">
-										<img id="identity_code_img_id" class="hand" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"/>
-									</div>
-									<button type="button" class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="getIdentityCode()">换一张</button>
+						<div class="login_main col-md-12 bg7 p15_10">
+							<div class="login_item col-md-4">
+								<label class="col-md-12" onclick="show()"><i class="red mr5">*</i>用 户 名：</label> 
+								<div class="col-md-12">
+								  <input id="login_input_id" type="text" name="loginName" class="fl" placeholder="由6-20位字母、数字和下划线组成" value="${supplier.loginName}"> 
+								  <span id="dsds" class="fl mt5 ml10 span-err-msg">${err_msg_loginName}</span>
+								  <div class="clear"></div>
 								</div>
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_code}</span>
-								<div class="clear"></div>
 							</div>
-							<div class="tc mt20 clear col-md-11">
+							<div class="login_item col-md-4">
+								<label class="col-md-12"><i class="red mr5">*</i>登录密码：</label> 
+								<div class="col-md-12">
+								  <input type="password" name="password" class="fl" value="${supplier.password}" placeholder="由6-20位字母、数字和下划线组成"> 
+								  <span class="fl mt5 ml10 span-err-msg">${err_msg_password}</span>
+								  <div class="clear"></div>
+								</div>
+							</div>
+							<div class="login_item col-md-4">
+								<label class="col-md-12"><i class="red mr5">*</i>确认密码：</label> 
+								<div class="col-md-12">
+								  <input type="password" name="confirmPassword" class="fl" value="${supplier.confirmPassword}">
+								  <span class="fl mt5 ml10 span-err-msg">${err_msg_ConfirmPassword}</span>
+								  <div class="clear"></div>
+								</div>
+							</div>
+							<div class="login_item col-md-4">
+								<label class="col-md-12"><i class="red mr5">*</i>手机号码：</label> 
+								<div class="col-md-12">
+								  <input type="text" name="mobile" class="fl w200 mr10" value="${supplier.mobile}">
+								  <button type="button" class="fl btn">发送验证码</button>
+								  <span class="fl mt5 ml10 span-err-msg">${err_msg_mobile}</span>
+								  <div class="clear"></div>
+								</div>
+							</div>
+							<div class="login_item col-md-4">
+								<label class="col-md-12"><i class="red mr5">*</i>手机验证码：</label> 
+								<div class="col-md-12">
+								  <input type="text" name="mobileCode" class="fl" value="${supplier.mobileCode}">
+								  <span class="fl mt5 ml10 span-err-msg">${err_msg_mobileCode}</span>
+								  <div class="clear"></div>
+							    </div>
+							</div>
+							<div class="login_item col-md-4">
+								<label class="col-md-12"><i class="red mr5">*</i>验证码：</label> 
+								<div class="col-md-12">
+								  <input type="text" name="identifyCode" class="fl input-yzm" value="${supplier.identifyCode}">
+								    <div class="fl">
+									  <div class="yzm fl h28">
+										<img id="identity_code_img_id" class="hand" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"/>
+									  </div>
+									  <button type="button" class="btn ml10 fl" onclick="getIdentityCode()">换一张</button>
+								    </div>
+								    <span class="fl mt5 ml10 span-err-msg">${err_msg_code}</span>
+								    <div class="clear"></div>
+								 </div>
+							</div>
+							<div class="tc mt20 clear col-md-12">
 								<button id="submit_button_id" type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">注册</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</div>
 					</form>
 				</div>
+			 </div>
 			</div>
 		</div>
 		

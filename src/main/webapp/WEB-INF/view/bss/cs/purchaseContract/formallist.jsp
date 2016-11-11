@@ -167,7 +167,7 @@
 		}
 	}
 	
-  	function print(){
+  	function printformal(){
   		var ids =[];
   		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -176,7 +176,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/printFormalContract.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
@@ -243,7 +243,7 @@
 	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
 	      <li class="fl"><label class="fl">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
 	      <li class="fl"><label class="fl">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
-    	  <div class="fl col-md-12 tc">
+    	  <div class="fl col-md-12 tc mt10">
     	    <input type="submit" class="btn" value="查询"/>
     	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
     	  </div>
@@ -252,7 +252,7 @@
     	  </h2>
       </form>
    	   <div class="col-md-12 pl20 mt10">
-   	  	  <button class="btn" onclick="print()">打印</button>
+   	  	  <button class="btn" onclick="printformal()">打印</button>
    	  	  <button class="btn" onclick="execution()">合同执行情况登记</button>
 	   </div>
    <div class="content table_box">

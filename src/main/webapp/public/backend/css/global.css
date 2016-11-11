@@ -499,7 +499,6 @@ a.thumbnail {
 .select_common{
     display: inline-block;
     margin-bottom: 5px;
-    font-size: 0;
     white-space: nowrap;
     vertical-align: middle;
     min-width: 249px;
@@ -864,4 +863,34 @@ li:first-child {
 	display:block;
 	color:#ef0000;
 	font-size:14px;
+}
+.validate{
+	font-size:12px;
+	position:absolute;
+	left:430px;
+	top:5px;
+	color:red;
+}
+
+/*合同明细样式*/
+.dw188 {
+	display:none;
+	position: absolute;
+	z-index: 100;
+	margin:0px;
+	padding:0px;
+	list-style:none; 
+}
+.tree_drop{
+	background:#e5e5e5;
+	min-width:178px;
+	height:auto;
+}
+.textAreaSize{
+	width:400px;
+	height:80px;
+}
+.slect_option{
+	width:auto!important;
+	height:auto!important;
 }

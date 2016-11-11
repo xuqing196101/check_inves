@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -12,15 +13,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -43,6 +35,10 @@
 		        }
 		    }
 		});
+	  
+	  alert("${attachuuid}");
+	  alert("${attachsysKey}");
+	  alert("${attachtypeId}");
   });
 	/** 全选全不选 */
 	function selectAll(){
@@ -143,6 +139,9 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条草稿生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
+				alert("${attachuuid}"+"dasdasd");
+				  alert("${attachsysKey}");
+				  alert("${attachtypeId}");
 				ind = layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -281,7 +280,7 @@
 	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
 	      <li class="fl"><label class="fl">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
 	      <li class="fl"><label class="fl">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
-    	  <div class="fl col-md-12 tc">
+    	  <div class="fl col-md-12 tc mt10">
     	    <input type="submit" class="btn" value="查询"/>
     	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
     	  </div>
@@ -365,8 +364,9 @@
 			   <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
 			</li>
 			<li class="col-md-12 mt10">
-			   <span class="span3 fl"><div class="red star_red">*</div>上传批准文件：</span>
-			   <input type="file" id="fi" name="agrfile" class="fl"/>
+			   <span class="span3 fl"><div class="red star_red">*</div>上传附件：</span>
+		  		<up:upload id="post_attach_up"  businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+          		<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
             </li>
 			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>

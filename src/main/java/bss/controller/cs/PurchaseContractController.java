@@ -20,12 +20,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.PathUtil;
 import ses.util.ValidateUtils;
@@ -47,6 +50,7 @@ import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /* 
  *@Title:PurchaseContractController
@@ -86,6 +90,9 @@ public class PurchaseContractController {
 	@Autowired
 	private SupplierService supplierService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+
 	@RequestMapping("/selectAllPuCon")
 	public String selectAllPurchaseContract(Model model,Integer page,HttpServletRequest request) throws Exception{
 		String projectName = request.getParameter("projectName");
@@ -143,50 +150,11 @@ public class PurchaseContractController {
 	}
 	
 	@RequestMapping("/printContract")
-	public String printContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
-		Boolean flag = true;
+	public String printContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		Map<String, Object> map = valid(model,purCon);
+		model = (Model)map.get("model");
+		Boolean flag = (boolean)map.get("flag");
 		String url = "";
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
-		if(purCon.getContractType()!=null){
-			flag = true;
-		}else{
-			flag = false;
-			model.addAttribute("ERR_contractType", "合同类型不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
-		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
-			flag = false;
-			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_money", "请输入正确金额");
-		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
-			flag = false;
-			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_budget", "请输入正确金额");
-		}
-		if(result.hasErrors()){
-			flag = false;
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-		}
 		if(flag == false){
 			String ids = request.getParameter("ids");
 //			Project project = projectService.selectById(ids);
@@ -218,6 +186,16 @@ public class PurchaseContractController {
 			url = "bss/cs/purchaseContract/printModel";
 		}
 		return url;
+	}
+	
+	@RequestMapping("/printFormalContract")
+	public String printFormalContract(HttpServletRequest request,Model model) throws Exception{
+		String ids = request.getParameter("ids");
+		PurchaseContract purCon = purchaseContractService.selectById(ids);
+		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(ids);
+		model.addAttribute("requList", requList);
+		model.addAttribute("purCon", purCon);
+		return "bss/cs/purchaseContract/printModel";
 	}
 	
 	@RequestMapping(value="/createAllCommonContract",produces = "text/html; charset=utf-8")
@@ -299,58 +277,18 @@ public class PurchaseContractController {
 	}
 	
 	@RequestMapping("/printDraftContract")
-	public String printDraftContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
-		Boolean flag = true;
+	public String printDraftContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		Map<String, Object> map = valid(model,purCon);
+		model = (Model)map.get("model");
+		Boolean flag = (boolean)map.get("flag");
 		String url = "";
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
-		if(purCon.getContractType()!=null){
-			flag = true;
-		}else{
-			flag = false;
-			model.addAttribute("ERR_contractType", "合同类型不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
-		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
-			flag = false;
-			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_money", "请输入正确金额");
-		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
-			flag = false;
-			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_budget", "请输入正确金额");
-		}
-		if(result.hasErrors()){
-			flag = false;
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-		}
 		if(flag == false){
 			String ids = request.getParameter("ids");
-			PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
-			List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
-			draftCon.setContractReList(conRequList);
-			model.addAttribute("draftCon", draftCon);
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("draftCon", purCon);
+			model.addAttribute("requList", requList);
 			model.addAttribute("ids", ids);
-			url = "bss/cs/purchaseContract/draftContract";
+			return "bss/cs/purchaseContract/draftContract";
 		}else{
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("requList", requList);
@@ -358,16 +296,6 @@ public class PurchaseContractController {
 			url = "bss/cs/purchaseContract/printModel";
 		}
 		return url;
-	}
-	
-	@RequestMapping("/printFormalContract")
-	public String printFormalContract(Model model,HttpServletRequest request){
-		String ids = request.getParameter("ids");
-		PurchaseContract purCon = purchaseContractService.selectById(ids);
-		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(ids);
-		model.addAttribute("requList", requList);
-		model.addAttribute("purCon", purCon);
-		return "bss/cs/purchaseContract/printModel";
 	}
 	
 	@ResponseBody
@@ -450,50 +378,18 @@ public class PurchaseContractController {
 	}
 
 	@RequestMapping("/addPurchaseContract")
-	public String addPurchaseContract(@Valid PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
-		Boolean flag = true;
+	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		Map<String, Object> map = valid(model,purCon);
+		model = (Model)map.get("model");
+		Boolean flag = (boolean)map.get("flag");
 		String url = "";
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
-		if(purCon.getContractType()!=null){
-			flag = true;
-		}else{
-			flag = false;
-			model.addAttribute("ERR_contractType", "合同类型不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
-		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
-			flag = false;
-			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_money", "请输入正确金额");
-		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
-			flag = false;
-			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_budget", "请输入正确金额");
-		}
-		if(result.hasErrors()){
-			flag = false;
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-		}
+//		if(result.hasErrors()){
+//			flag = false;
+//			List<FieldError> errors = result.getFieldErrors();
+//			for(FieldError fieldError:errors){
+//				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+//			}
+//		}
 		if(flag == false){
 			String ids = request.getParameter("ids");
 			List<ContractRequired> requList = proList.getProList();
@@ -501,7 +397,7 @@ public class PurchaseContractController {
 			model.addAttribute("requList", requList);
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("ids", ids);
-			return "bss/cs/purchaseContract/textErrContract";
+			url = "bss/cs/purchaseContract/textErrContract";
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
@@ -517,6 +413,158 @@ public class PurchaseContractController {
 			url = "redirect:selectAllPuCon.html";
 		}
 		return url;
+	}
+	
+	public Map valid(Model model,PurchaseContract purCon){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean flag = true;
+		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
+		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
+		}
+		if(ValidateUtils.isNull(purCon.getName())){
+			flag = false;
+			model.addAttribute("ERR_name", "合同名称不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getDemandSector())){
+			flag = false;
+			model.addAttribute("ERR_demandSector", "需求部门不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getCode())){
+			flag = false;
+			model.addAttribute("ERR_code", "合同编号不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getBudgetSubjectItem())){
+			flag = false;
+			model.addAttribute("ERR_budgetSubjectItem", "项级预算科目不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getDocumentNumber())){
+			flag = false;
+			model.addAttribute("ERR_documentNumber", "计划任务文号不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getQuaCode())){
+			flag = false;
+			model.addAttribute("ERR_quaCode", "采购机构文号不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseDepName())){
+			flag = false;
+			model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseLegal())){
+			flag = false;
+			model.addAttribute("ERR_purchaseLegal", "甲方法人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseAgent())){
+			flag = false;
+			model.addAttribute("ERR_purchaseAgent", "甲方委托代理人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseContact())){
+			flag = false;
+			model.addAttribute("ERR_purchaseContact", "甲方联系人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseContactTelephone())){
+			flag = false;
+			model.addAttribute("ERR_purchaseContactTelephone", "甲方联系电话不能为空");
+		}else if(!ValidateUtils.Tele(purCon.getPurchaseContactTelephone())){
+			flag = false;
+			model.addAttribute("ERR_purchaseContactTelephone", "请输入正确的联系电话");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseContactAddress())){
+			flag = false;
+			model.addAttribute("ERR_purchaseContactAddress", "甲方地址不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseUnitpostCode())){
+			flag = false;
+			model.addAttribute("ERR_purchaseUnitpostCode", "甲方邮编不能为空");
+		}else if(!ValidateUtils.Zipcode(purCon.getPurchaseUnitpostCode())){
+			flag = false;
+			model.addAttribute("ERR_purchaseUnitpostCode", "请输入正确的邮编");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchasePayDep())){
+			flag = false;
+			model.addAttribute("ERR_purchasePayDep", "甲方付款单位不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseBank())){
+			flag = false;
+			model.addAttribute("ERR_purchaseBank", "甲方开户银行不能为空");
+		}
+		if(purCon.getContractType()==null){
+			flag = false;
+			model.addAttribute("ERR_contractType", "合同类型不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
+		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString())){
+			flag = false;
+			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
+		}
+		if(ValidateUtils.isNull(purCon.getMoney())){
+			flag = false;
+			model.addAttribute("ERR_money", "合同金额不能为空");
+		}else if(!ValidateUtils.Money(purCon.getMoney().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_money", "请输入正确金额");
+		}
+		if(ValidateUtils.isNull(purCon.getBudget())){
+			flag = false;
+			model.addAttribute("ERR_budget", "合同预算不能为空");
+		}else if(!ValidateUtils.Money(purCon.getBudget().toString()) == false){
+			flag = false;
+			model.addAttribute("ERR_budget", "请输入正确金额");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierDepName())){
+			flag = false;
+			model.addAttribute("ERR_supplierDepName", "乙方单位不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierLegal())){
+			flag = false;
+			model.addAttribute("ERR_supplierLegal", "乙方法人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierAgent())){
+			flag = false;
+			model.addAttribute("ERR_supplierAgent", "乙方委托代理人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierContact())){
+			flag = false;
+			model.addAttribute("ERR_supplierContact", "乙方联系人不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierContactTelephone())){
+			flag = false;
+			model.addAttribute("ERR_supplierContactTelephone", "乙方联系电话不能为空");
+		}else if(!ValidateUtils.Tele(purCon.getSupplierContactTelephone())){
+			flag = false;
+			model.addAttribute("ERR_supplierContactTelephone", "请输入正确的联系电话");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierContactAddress())){
+			flag = false;
+			model.addAttribute("ERR_supplierContactAddress", "乙方地址不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierUnitpostCode())){
+			flag = false;
+			model.addAttribute("ERR_supplierUnitpostCode", "乙方邮编不能为空");
+		}else if(!ValidateUtils.Zipcode(purCon.getPurchaseUnitpostCode())){
+			flag = false;
+			model.addAttribute("ERR_supplierUnitpostCode", "请输入正确的邮编");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierBank())){
+			flag = false;
+			model.addAttribute("ERR_supplierBank", "乙方开户银行不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierBankName())){
+			flag = false;
+			model.addAttribute("ERR_supplierBankName", "乙方开户名称不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getContent())){
+			flag = false;
+			model.addAttribute("ERR_content", "合同正文不能为空");
+		}
+		map.put("flag", flag);
+		map.put("model", model);
+		return map;
 	}
 	
 	@RequestMapping("/selectDraftContract")
@@ -550,6 +598,17 @@ public class PurchaseContractController {
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
+		
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("attachuuid", uuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		
 		List<PurchaseContract> draftConList = purchaseContractService.selectDraftContract(map);
 		model.addAttribute("list", new PageInfo<PurchaseContract>(draftConList));
 		model.addAttribute("draftConList", draftConList);
@@ -590,57 +649,17 @@ public class PurchaseContractController {
 	
 	@RequestMapping("/updateDraftContract")
 	public String updateDraftContract(@RequestParam("agrfile") MultipartFile agrfile,HttpServletRequest request,@Valid PurchaseContract purCon,BindingResult result,ProList proList,Model model) throws Exception{
-		String ids = request.getParameter("ids");
-		Boolean flag = true;
+		Map<String, Object> map = valid(model,purCon);
+		model = (Model)map.get("model");
+		Boolean flag = (boolean)map.get("flag");
 		String url = "";
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
-		}
-		if(purCon.getContractType()!=null){
-			flag = true;
-		}else{
-			flag = false;
-			model.addAttribute("ERR_contractType", "合同类型不能为空");
-		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
-		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
-			flag = false;
-			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(ValidateUtils.Money(purCon.getMoney().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_money", "请输入正确金额");
-		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
-			flag = false;
-			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(ValidateUtils.Money(purCon.getBudget().toString()) == false){
-			flag = false;
-			model.addAttribute("ERR_budget", "请输入正确金额");
-		}
-		if(result.hasErrors()){
-			flag = false;
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-		}
 		if(flag == false){
-			PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
-			List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
-			draftCon.setContractReList(conRequList);
-			model.addAttribute("draftCon", draftCon);
+			String ids = request.getParameter("ids");
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("draftCon", purCon);
+			model.addAttribute("requList", requList);
 			model.addAttribute("ids", ids);
-			url = "bss/cs/purchaseContract/draftContract";
+			return "bss/cs/purchaseContract/draftContract";
 		}else{
 			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
 			File rootFile = new File(rootpath);

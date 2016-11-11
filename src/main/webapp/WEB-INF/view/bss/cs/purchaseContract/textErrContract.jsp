@@ -317,8 +317,11 @@
    <div class="container bggrey border1 mt20">
    		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
    		<input type="hidden" name="status" value="" id="status"/>
-   		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
-   		<input type="hidden" name="projectName" value="${project.name}"/>
+   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
+   		<input type="hidden" name="projectName" value="${purCon.projectName}"/>
+   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
+   		<input type="hidden" name="isImport" value="${purCon.isImport}">
+   		<input type="hidden" name="purchaseType" value="${purCon.purchaseType}">
    		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 
    		<ul class="list-unstyled list-flow ul_list">
@@ -615,68 +618,68 @@
  </div>
  	<div id="openDiv" class="dnone">
 	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<ul id="treeDemo" class="ztree"></ul>
+		<ul id="treeDemo" class="ztree slect_option"></ul>
 	</div>
 			<div class="list-unstyled mt20">
 			  <ul class="demand_list">
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>物资名称：</label>
+	    	      <label class="fl">物资名称：</label>
 	    	      <span>
                    <input type="hidden" id="categorieId4" name="categoryId" value="">
 				   <input id="citySel4" type="text"  readonly name="categoryName"  value=""  class="title" onclick=" showMenu(); return false;"/>
 				  </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>编号:</label>
+	    	      <label class="fl">编号：</label>
 	    	      <span>
                    <input maxlength="11" id="planNo" name="planNo" type="text" >
 				  </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>数量：</label>
+	    	      <label class="fl">数量：</label>
 	    	      <span>
                    <input maxlength="11" id="purNum" name="purNum" onblur="sum2()" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>品牌商标：</label>
+	    	      <label class="fl">品牌商标：</label>
 	    	      <span>
                    <input maxlength="11" id="bra" name="bra"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>规格型号：</label>
+	    	      <label class="fl">规格型号：</label>
 	    	      <span>
                    <input maxlength="11" id="model" name="model"  value="" type="text" >
                   </span>
 	            </li> 
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>计量单位：</label>
+	    	      <label class="fl">计量单位：</label>
 	    	      <span>
                    <input maxlength="11" id="unit" name="unit"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>单价：</label>
+	    	      <label class="fl">单价：</label>
 	    	      <span>
                    <input maxlength="11" id="univalent" onblur="sum1()" name="univalent"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>交付时间：</label>
+	    	      <label class="fl">交付时间：</label>
 	    	      <span>
                    <input maxlength="11" id="givetime" name="givetime"  value="" type="text" >
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>备注：</label>
+	    	      <label class="fl">备注：</label>
 	    	      <span>
                   <textarea id="remarks" name="remarks" class="textAreaSize" rows="3" cols="1">
                    </textarea>
                   </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>合计：</label>
+	    	      <label class="fl">合计：</label>
 	    	      <span>
                    <input maxlength="11" id="purBudgetSum" name="purBudgetSum"  value="0" readonly="readonly" type="text" >
                   </span>

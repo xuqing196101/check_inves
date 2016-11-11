@@ -601,7 +601,9 @@ width: 780px!important; }
   color:#f39800 !important;
 }
 .red {
-  color: red; }
+  color: red;
+  font-style: normal;
+}
 
 .green {
   color: #8fc31f; }
