@@ -9,7 +9,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/select2/css/select2-bootstrap.css"  rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/demo.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
     
@@ -34,14 +33,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/ZHH/js/main-menu.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
 <!-- 时间插件 -->
 <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 
 
-<!-- 文本编辑器 -->
+<!-- 文本编辑器 -->  
 <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
