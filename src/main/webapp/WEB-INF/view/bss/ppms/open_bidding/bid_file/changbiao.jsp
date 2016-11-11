@@ -54,7 +54,6 @@ display: none
 			type:"post",
 			data:{projectId:projectId},
 			success:function(data){
-			        alert(data);
 					var bidTime=data;
 					if(bidTime<0){
 						$("#showTime").text("已开标");

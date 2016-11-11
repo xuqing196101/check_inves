@@ -43,8 +43,7 @@ $.ajax({
 		data:{"id":addressId},
 		success:function(obj){
 			//alert(JSON.stringify(obj));
-			var data = eval('(' + obj+ ')');
-			$.each(data,function(i,result){
+			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
 				$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");

@@ -190,10 +190,8 @@ $.ajax({
 			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
 			data:{"id":parentId},
 			success:function(obj){
-				$("#haha").empty();
-				var data = eval('(' + obj + ')');
 				$("#haha").append("<option value=''>-请选择-</option>");
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					
 					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});

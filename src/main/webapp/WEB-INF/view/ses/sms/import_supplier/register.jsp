@@ -197,9 +197,8 @@ function loadCity(regionId){
 			data:{"id":parentId},
 			success:function(obj){
 				$("#haha").empty();
-				var data = eval('(' + obj + ')');
 				$("#haha").append("<option value=''>-请选择-</option>");
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					
 					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
