@@ -10,6 +10,12 @@
   
     <title>新增</title>
     
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+	<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+    
 <script type="text/javascript">
 	function cheClick(id,name){
 		$("#articleTypeId").val(id);
@@ -28,21 +34,36 @@
 	}
 
 	function typeInfo(){
-		var typeId = $("#typeId").val();
-		alert(typeId);
+		var typeId = $("#articleTypes").val();
 		if(typeId==27){
 			document.getElementById("picNone").style.display=""; 
 			document.getElementById("picshow").style.display=""; 
+		}else{
+			document.getElementById("picshow").style.display="none";
 		}
 	}
 	
 	$(function(){
-		alert("${uuid}");
-		alert("${sysKey}");
-		alert("${attachTypeId}");
-		//document.getElementById("picNone").style.display="none"; 
+		document.getElementById("picshow").style.display="none";
+		$.ajax({
+			 contentType: "application/json;charset=UTF-8",
+			  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
+		      type:"POST",
+		      dataType: "json",
+		      success:function(articleTypes){
+		    	  if(articleTypes){
+		    		  $("#articleTypes").append("<option></option>");
+		    		  $.each(articleTypes,function(i,articleType){
+		    			  if(articleType.name != null && articleType.name != ''){
+		    				  $("#articleTypes").append("<option value="+articleType.id+">"+articleType.name+"</option>");
+		    			  }
+		    		  });
+		    	  }
+		    	  $("#articleTypes").select2();
+		       }
+		});
 	})
-
+	
 </script>    
   </head>
   
@@ -67,21 +88,17 @@
      	<li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息标题：</span>
 	   <div class="input-append">
+	   	<input class="span2"  name="id" type="hidden" value="${uuid }">
         <input class="span2" id="name" name="name" type="text">
         <span class="add-on">i</span>
          <div class="validate">${ERR_name}</div>  
        </div>
 	 </li>
 
-	 
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
 	   <div class="mb5">
-       <select id="typeId" name="articleType.id" class="select w220" onchange="typeInfo()">
-          	<option></option>
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-          		<option value="${list.id }" >${list.name }</option>
-		    </c:forEach>
+       <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
           </div>
           <div class="validate">${ERR_typeId}</div>

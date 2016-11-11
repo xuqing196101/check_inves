@@ -30,11 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+
+import bss.model.sstps.Select;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -49,7 +52,7 @@ import common.constant.Constant;
 @Controller
 @Scope("prototype")
 @RequestMapping("/article")
-public class ArticleController {
+public class ArticleController extends BaseSupplierController{
 	
 	@Autowired
 	private ArticleService articleService;
@@ -95,9 +98,6 @@ public class ArticleController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request){
-		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-		model.addAttribute("list", list);
-		
 		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("uuid", uuid);
 		DictionaryData dd=new DictionaryData();
@@ -108,6 +108,22 @@ public class ArticleController {
 			model.addAttribute("attachTypeId", lists.get(0).getId());
 		}
 		return "iss/ps/article/add";
+	}
+	
+	/**
+	* @Title: selectAritcleType
+	* @author Shen Zhenfei 
+	* @date 2016-11-11 下午2:05:19  
+	* @Description: select2查询栏目
+	* @param @param response
+	* @param @param request
+	* @param @throws Exception      
+	* @return void
+	 */
+	@RequestMapping(value="/selectAritcleType",produces="application/json;charest=utf-8")
+	public void selectAritcleType(HttpServletResponse response,HttpServletRequest request) throws Exception{
+		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+		super.writeJson(response, list);
 	}
 
 	/**
@@ -244,13 +260,18 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model,String id){
+	public String edit(Model model,String id,HttpServletRequest request){
 		Article article = articleService.selectArticleById(id);
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
-		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-		model.addAttribute("list", list);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(lists.size()>0){
+			model.addAttribute("attachTypeId", lists.get(0).getId());
+		}
 		return "iss/ps/article/edit";
 	}
 
@@ -386,13 +407,20 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/view")
-	public String view(Model model,String id){
+	public String view(Model model,String id,HttpServletRequest request){
 		Article article = articleService.selectArticleById(id);
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(lists.size()>0){
+			model.addAttribute("attachTypeId", lists.get(0).getId());
+		}
 		return "iss/ps/article/look";
 	}
 	

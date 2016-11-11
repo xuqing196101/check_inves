@@ -150,9 +150,6 @@
   
   <!-- 新增信息 -->
   <insert id="insertSelective" parameterType="iss.model.ps.Article">
- 	<selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
     insert into T_ISS_PS_ARTICLE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

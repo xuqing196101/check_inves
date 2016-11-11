@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -9,11 +10,11 @@
   <head>
     <title>修改</title>
     
-    <script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+	<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
     
 <script type="text/javascript">
 function cheClick(id,name){
@@ -28,7 +29,6 @@ $(function(){
 	}else{
 		$("input[name='ranges'][value="+range+"]").attr("checked",true); 
 	}
-	$("#articleTypeId").val("${article.articleType.id }");
 });
 
 function addAttach(){
@@ -51,6 +51,27 @@ function deleteAtta(id,obj){
 	$(obj).remove();
 }
 
+$(function(){
+	$.ajax({
+		 contentType: "application/json;charset=UTF-8",
+		  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
+	      type:"POST",
+	      dataType: "json",
+	      success:function(articleTypes){
+	    	  if(articleTypes){
+	    		  $("#articleTypes").append("<option></option>");
+	    		  $.each(articleTypes,function(i,articleType){
+	    			  if(articleType.name != null && articleType.name != ''){
+	    				  $("#articleTypes").append("<option value="+articleType.id+">"+articleType.name+"</option>");
+	    			  }
+	    		  });
+	    	  }
+	    	  $("#articleTypes").select2();
+	    	  $("#articleTypes").select2("val", "${article.articleType.id }");
+	       }
+	});
+})
+
 </script>    
   </head>
   
@@ -67,33 +88,32 @@ function deleteAtta(id,obj){
    </div>
    
    <div class="container container_box">
-    <form id="newsForm" action="${ pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
+    <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
     <input type="hidden" id="ids" name="ids"/>
 	   <h2 class="count_flow"><i>1</i>修改信息</h2>
-	  <input type="hidden" name="id" id="id" value="${article.id }">
-	  <input type="hidden" name="status" id="status" value="${article.status }">
-	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
+	  
 	   <ul class="ul_list mb20">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">信息标题：</span>
 	   <div class="input-append">
+		 <input type="hidden" name="id" value="${article.id }">
+		  <input type="hidden" name="status" id="status" value="${article.status }">
+		  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
         <input class="span2" id="name" name="name" type="text" value="${article.name }">
        	<span class="add-on">i</span>
        </div>
        <div class="validate">${ERR_name}</div>
 	 </li>
 	 
-	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">信息类型：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
 	   <div class="mb5">
-   		 <select id="articleTypeId" name="articleType.id" class="select w220">
-   		 	<option></option>
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-          		<option value="${list.id }" >${list.name }</option>
-		    </c:forEach>
-         </select>
-         </div>
+       <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
+          </select>
+          </div>
+          <div class="validate">${ERR_typeId}</div>
 	 </li> 
+	 
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">发布范围：</span>
 	   <div class="input-append">
@@ -116,12 +136,28 @@ function deleteAtta(id,obj){
         <span class="add-on">i</span>
        </div>
 	 </li>
+	 <li class="col-md-3 margin-0 padding-0" id="picshow">
+	   <span class="">图片展示：</span>
+	   <div class="input-append">
+        <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }">
+       </div>
+	 </li> 
+	 
      <li class="col-md-11 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5">信息正文：</span>
 	   <div class="mb5">
          <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
+	 
+	 <li class="col-md-12 p0 mt10" id="picNone" >
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+	        <up:upload id="artice_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
+	 </li>
+	 
 	 <li class="col-md-12 p0 mt5">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">

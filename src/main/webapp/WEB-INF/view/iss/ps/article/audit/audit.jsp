@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -9,14 +10,9 @@
   <head>
     <title>审核信息</title>
     
-    <script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="${ pageContext.request.contextPath }//public/ueditor/lang/zh-cn/zh-cn.js"></script>
-    
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+   
 <script type="text/javascript">
 
 $(function(){
@@ -31,8 +27,6 @@ $(function(){
 
 function sub(){
 	var id = $("#id").val();
-	//var name = $("#name").val();
-	//var articleTypeId = $("#articleTypeId").val();
 	layer.confirm('您确定需要审核通过吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
 		window.location.href="${ pageContext.request.contextPath }/article/audit.html?id="+id+"&status=2";
@@ -117,13 +111,25 @@ function back(){
         <span class="add-on">i</span>
        </div>
 	 </li>
+	 <li class="col-md-3 margin-0 padding-0" id="picshow">
+	   <span class="">图片展示：</span>
+	   <div class="input-append">
+        <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" readonly>
+       </div>
+	 </li> 
      <li class="col-md-11 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5">信息正文：</span>
 	   <div class="mb5">
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
+	 </li>
+	 <li class="col-md-12 p0 mt10" id="picNone" >
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
 	 </li> 
-	 <li class="col-md-12 p0">
+	 <li class="col-md-12 p0 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
