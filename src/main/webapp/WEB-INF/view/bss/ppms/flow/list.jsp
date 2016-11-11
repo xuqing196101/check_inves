@@ -75,7 +75,7 @@
 			var currPage = ${list.pageNum};
 			layer.open({
 			  type: 2, //page层
-			  area: ['400px', '220px'],
+			  area: ['400px', '250px'],
 			  title: '修改流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -100,7 +100,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>flow/deleteSoft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/flow/deleteSoft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -111,7 +111,7 @@
 		var typeId = $("#typeId").val();
 		layer.open({
 			  type: 2, //page层
-			  area: ['400px', '220px'],
+			  area: ['400px', '250px'],
 			  title: '新增流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -183,6 +183,7 @@
 						<th class="info w50">序号</th>
 						<th class="info">流程名称</th>
 						<th class="info">实施步骤</th>
+						<th class="info">URL</th>
 					</tr>
 				</thead>
 				<c:forEach items="${list.list}" var="fd" varStatus="vs">
@@ -197,6 +198,8 @@
 						<td class="tc opinter" >${fd.name}</td>
 
 						<td class="tc opinter" >${fd.step}</td>
+						
+						<td class="tc opinter" >${fd.url}</td>
 
 					</tr>
 				</c:forEach>
