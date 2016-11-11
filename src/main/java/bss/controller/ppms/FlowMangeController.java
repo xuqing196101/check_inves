@@ -13,8 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
-import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 
@@ -37,9 +36,6 @@ public class FlowMangeController {
     @Autowired
     private FlowMangeService flowMangeService;
     
-    @Autowired
-    private DictionaryDataServiceI dictionaryDataService;
-    
     /**
      *〈简述〉列表查询
      *〈详细描述〉
@@ -52,9 +48,9 @@ public class FlowMangeController {
      * @throws Exception
      */
     @RequestMapping("/list")
-    public String list(Model model, Integer page, FlowDefine fd, String typeCode) throws Exception {
+    public String list(Model model, Integer page, FlowDefine fd, String typeCode) {
         if (typeCode != null && !"".equals(typeCode)) {
-            fd.setPurchaseTypeId(getTypeId(typeCode));
+            fd.setPurchaseTypeId(DictionaryDataUtil.getId(typeCode));
         } 
         List<FlowDefine> ls = flowMangeService.listByPage(fd, page == null ? 1 : page);
         model.addAttribute("list", new PageInfo<FlowDefine>(ls));
@@ -224,22 +220,4 @@ public class FlowMangeController {
         return "redirect:list.html";
     }
     
-    /**
-     *〈简述〉根据采购方式编码获取数据字典中该采购方式的id
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param typeCode 采购方式编码
-     * @return 采购方式的id
-     * @throws Exception
-     */
-    public String getTypeId(String typeCode) throws Exception{
-        DictionaryData dd = new DictionaryData();
-        dd.setCode(typeCode);
-        List<DictionaryData> dds= dictionaryDataService.find(dd);
-        if(dds != null && dds.size() > 0){
-            return dds.get(0).getId();
-        } else {
-            throw new Exception("访问失败");
-        }
-    }
 }

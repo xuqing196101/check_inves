@@ -160,7 +160,7 @@
 						<label class="fl">实施步骤：</label>
 						<span><input type="text" name="step" value="${fd.step }" class="mb0" /></span>
 					</li>
-					<button class="btn fl ml5 mt1" type="submit">查询</button>
+					<button class="btn fl ml5 " type="submit">查询</button>
 					<button type="button" onclick="resetQuery()" class="btn">重置</button>
 				</ul>
 				<div class="clear"></div>

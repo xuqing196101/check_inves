@@ -61,8 +61,7 @@
 					        <span class="add-on">i</span>
 				       	</div>
 					</li>
-					<li class="col-md-12 ml5">
-				     	<span class="fl mt5 red">*</span>
+					<li class="col-md-12 ml10">
 					   	<span class="fl mt5">流程跳转路径：</span>
 					   	<div class="input-append">
 					        <input class="w140" name="url" maxlength="200" type="text">
