@@ -858,7 +858,7 @@ li:first-child {
 }
 
 /**增加用户管理增加页面样式*/
-.check{
+.checkUser{
 	position:absolute;
 	right:0px;top:-20px;
 	display:block;

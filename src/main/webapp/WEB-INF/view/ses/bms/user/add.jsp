@@ -198,8 +198,8 @@
 				   <div class="input-append pr">
 			        <input class="span2" name="loginName" value="${user.loginName }" maxlength="30" type="text">
 			        <span class="add-on">i</span>
-			        <span class="check"><sf:errors path="loginName"/></span>
-			       	<span class="check">${exist }</span>
+			        <span class="checkUser"><sf:errors path="loginName"/></span>
+			       	<span class="checkUser">${exist }</span>
 			       </div>
 				 </li>
 				 <li class="col-md-3 margin-0 padding-0 ">
@@ -207,7 +207,7 @@
 				    <div class="input-append pr">
 				        <input class="span2" name="relName" value="${user.relName }" maxlength="10" type="text">
 				        <span class="add-on">i</span>
-				        <span class="check"><sf:errors path="relName"/></span>
+				        <span class="checkUser"><sf:errors path="relName"/></span>
 			       	</div>
 			 	 </li>
 			 	 <li class="col-md-3 margin-0 padding-0 ">
@@ -215,7 +215,7 @@
 				    <div class="input-append pr">
 				        <input class="span2" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
 				        <span class="add-on">i</span>
-				        <span class="check"><sf:errors path="password"/></span>
+				        <span class="checkUser"><sf:errors path="password"/></span>
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 margin-0 padding-0 ">
@@ -223,7 +223,7 @@
 				    <div class="input-append pr">
 				        <input class="span2" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
-				        <span class="check"><sf:errors path="password2"/></span>
+				        <span class="checkUser"><sf:errors path="password2"/></span>
 				        <div class="b f18 ml10 red hand">${password2_msg}</div>
 			        </div>
 			 	</li>
@@ -241,7 +241,7 @@
 				    <div class="input-append pr" >
 				        <input class="span2" name="mobile" value="${user.mobile }" maxlength="40" type="text">
 				        <span class="add-on">i</span>
-				        <span class="check"><sf:errors path="mobile"/></span>
+				        <span class="checkUser"><sf:errors path="mobile"/></span>
 			        </div>
 			 	</li>
 		        <li class="col-md-3 margin-0 padding-0" >
@@ -249,7 +249,7 @@
 				   	<div class="input-append">
 				        <input class="span2" name="email" value="${user.email }" maxlength="100" type="text">
 				        <span class="add-on">i</span>
-				        <span class="check"><sf:errors path="email"/></span>
+				        <span class="checkUser"><sf:errors path="email"/></span>
 			       	</div>
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
@@ -281,7 +281,7 @@
 				        <i class="input_icon " onclick="showOrg();">
 							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
-			       	 <span class="check"><sf:errors path="orgId"/></span>
+			       	 <span class="checkUser"><sf:errors path="orgId"/></span>
 			       	</div>
 			       	
 			 	</li>
@@ -300,7 +300,7 @@
 				        <i class="input_icon " onclick="showRole();">
 							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
-				        <span class="check"><sf:errors path="roleId"/></span>
+				        <span class="checkUser"><sf:errors path="roleId"/></span>
 			        </div>
 			        
 			 	</li>
