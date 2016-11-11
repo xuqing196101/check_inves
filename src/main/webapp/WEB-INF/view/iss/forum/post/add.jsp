@@ -39,9 +39,9 @@
 
 	    }
 	    var ue = UE.getEditor('editor',option);  
-      var content="${post.content}";
-      ue.ready(function(){
-          ue.setContent(content);    
+        var content="${post.content}";
+        ue.ready(function(){
+        ue.setContent(content);    
       });
 	</script>
 	<script type="text/javascript">
@@ -85,21 +85,6 @@
 		        }
 			});
 	  }
-	  function addAttach(){
-	      html="<input id='atta' type='file' class='toinline' name='attaattach'/><a onclick='deleteattach(this)' class='toinline red redhover pointer'>x</a><br/>";
-	      $("#uploadAttach").append(html);
-	   }
-	  
-	   function addPic(){
-	          html="<input id='pic' type='file' class='toinline' name='picattach'/><a onclick='deleteattach(this)' class='toinline red redhover pointer'>x</a><br/>";
-	          $("#uploadPic").append(html);
-	       }
-	    
-	  function deleteattach(obj){
-	      $(obj).prev().remove();
-	      $(obj).next().remove();
-	      $(obj).remove();
-	   }
 	</script>
   </head>
   
@@ -118,6 +103,7 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/post/save.html" method="post" >  
     <div>
+
 	   		<h2 class="count_flow"><i>1</i>新增帖子</h2>
 	   <ul class="ul_list mb20">
 	   
@@ -126,9 +112,8 @@
 			   <div class="input-append">
 		        <input class="span2 w200"  type="text" name = "name" value='${post.name }'>
 		        <span class="add-on">i</span>
-		        <div class="validate">${ERR_name}</div>
-		       </div>
-			 </li>
+		         <div class="validate">${ERR_name}</div>
+
 			 
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
@@ -170,9 +155,7 @@
 	        	<option value="1">锁定 </option>
 	  			</select>
 	  			</div>	 	
-			 </li>
-
-			 
+			 </li>			 
 			<li class="col-md-11 margin-0 padding-0">
 	   			<span class="col-md-12 padding-left-5"><div class="red fl">*</div> 帖子内容：</span>
 	  			<div class="mb5">
@@ -180,13 +163,13 @@
        			</div>
        			<div class="validate">${ERR_content}</div>
 			 </li>  
+	   		  <li class="col-md-12 p0">
+		       <span class="zzzx w245">上传附件：</span>
+		          <up:upload id="post_attach_up"  businessId="${uuid}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:show showId="post_attach_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${typeId}"/>
+              </li>
 
-		     <li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 上传附件：</span>
-		        <up:upload id="aa" groups="ewq,aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-                 <up:show showId="bb" groups="qwe,bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-                 </li>
 
-		     </li>
 	  	 </ul>
 	<!-- 底部按钮 -->			       
     <div class="col-md-12 tc">

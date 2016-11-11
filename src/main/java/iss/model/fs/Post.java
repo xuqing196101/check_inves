@@ -74,10 +74,7 @@ public class Post {
      * @Fields isDeleted : 是否删除标识
      */
     private Integer isDeleted;
-    /**
-     * @Fields postAttachments : 帖子附件表
-     */
-    private List<PostAttachments> postAttachments;
+
 
 
 	/**
@@ -89,7 +86,7 @@ public class Post {
 	}
 	public Post() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 	public String getId() {
         return id;
@@ -202,13 +199,7 @@ public class Post {
 		this.isDeleted = isDeleted;
 	}
 
-	public List<PostAttachments> getPostAttachments() {
-		return postAttachments;
-	}
 
-	public void setPostAttachments(List<PostAttachments> postAttachments) {
-		this.postAttachments = postAttachments;
-	}
 	
 	@Override
 	public int hashCode() {
@@ -227,8 +218,7 @@ public class Post {
 				+ ((lastReplyer == null) ? 0 : lastReplyer.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((park == null) ? 0 : park.hashCode());
-		result = prime * result
-				+ ((postAttachments == null) ? 0 : postAttachments.hashCode());
+
 		result = prime * result
 				+ ((publishedAt == null) ? 0 : publishedAt.hashCode());
 		result = prime * result + ((replies == null) ? 0 : replies.hashCode());
@@ -284,11 +274,6 @@ public class Post {
 		} else if (!name.equals(other.name))
 			return false;
 
-		if (postAttachments == null) {
-			if (other.postAttachments != null)
-				return false;
-		} else if (!postAttachments.equals(other.postAttachments))
-			return false;
 		if (publishedAt == null) {
 			if (other.publishedAt != null)
 				return false;

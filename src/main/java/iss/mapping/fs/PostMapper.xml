@@ -21,9 +21,6 @@
 			  <collection property="replies" ofType="iss.model.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap"/>
 			  </resultMap>
 			  
-			   <resultMap extends="PostResultMap" type="iss.model.fs.Post" id="PostReplyMapWhitAtta">
-			    <collection property="postAttachments" ofType="iss.model.fs.PostAttachments"/>
-			  </resultMap>
 	  	  
 			  <!-- 表名 -->
 			  	<sql id="Tabel_Name">

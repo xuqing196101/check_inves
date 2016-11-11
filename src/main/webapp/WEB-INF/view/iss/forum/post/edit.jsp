@@ -28,10 +28,7 @@
 		$("#isTop").val("${post.isTop}");
 		$("#isLocking").val("${post.isLocking}");
 		
-	      var file = "${post.postAttachments}";
-	        if(file.length == 2){
-	            $("#file").hide();
-	        }	
+	
 		
 		});
 	//2级联动
@@ -51,24 +48,7 @@
 		        }
 			});
 	  }
-	  function addAttach(){
-		    html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
-		    $("#uploadAttach").append(html);
-		}
 
-		function deleteattach(obj){
-		    $(obj).prev().remove();
-		    $(obj).next().remove();
-		    $(obj).remove();
-		}
-
-		var ids="";
-		function deleteAtta(id,obj){
-		    ids+=id+",";
-		    $("#ids").val(ids);
-		    $(obj).prev().remove();
-		    $(obj).remove();
-		}
 	</script>
   </head>
   <body>
@@ -153,21 +133,6 @@
        			<div class="validate">${ERR_content}</div>
 			 </li>
 			 
-			 <li class="col-md-12 p0" id="file">
-		     <span class="fl">已上传的附件：</span>
-		     <div class="fl mt5">
-		       <c:forEach items="${post.postAttachments}" var="a">
-		        <a class="pointer">${fn:split(a.name, '_')[1]}</a><a onclick="deleteAtta('${a.id}',this)" class="red redhover ml10 pointer">x</a>
-		       </c:forEach>
-		     </div>
-		     </li>
-		     <li class="col-md-12 p0">
-		        <span class="f14 fl">上传附件：</span>
-		        <div class="fl" id="uploadAttach" >
-		          <input id="pic" type="file" class="toinline" name="attaattach"/>
-		          <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
-		        </div>
-		     </li>
 		     </ul>   
 	  	 </ul>
 	</div>  	

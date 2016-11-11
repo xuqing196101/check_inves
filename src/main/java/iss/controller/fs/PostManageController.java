@@ -2,18 +2,14 @@ package iss.controller.fs;
 
 import iss.model.fs.Park;
 import iss.model.fs.Post;
-import iss.model.fs.PostAttachments;
 import iss.model.fs.Reply;
 import iss.model.fs.Topic;
 import iss.service.fs.ParkService;
-import iss.service.fs.PostAttachmentsService;
 import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 import iss.service.fs.TopicService;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -23,10 +19,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -37,12 +31,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 
 /**
@@ -64,9 +61,9 @@ public class PostManageController {
 	@Autowired
 	private TopicService topicService;
 	@Autowired
-	private PostAttachmentsService postAttachmentsService;
-	@Autowired
 	private RoleServiceI roleService;
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**   
 	* @Title: getList
@@ -144,8 +141,7 @@ public class PostManageController {
 		reply.setPost(p);
 		BigDecimal replycount = replyService.queryByCount(reply);
 		p.setReplycount(replycount);
-		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(id);
-		p.setPostAttachments(postAttachments);
+
 		model.addAttribute("post", p);		
 		System.out.println(p.getContent());
 		return "iss/forum/post/view";
@@ -160,7 +156,16 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/add")
-	public String add(Model model,HttpServletRequest request){
+	public String add(Model model,HttpServletRequest request) throws IOException{
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("uuid", uuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(list.size()>0){
+			model.addAttribute("typeId", list.get(0).getId());
+		}
 		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		return "iss/forum/post/add";
@@ -176,7 +181,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile[] attaattach, @Valid Post post,BindingResult result,HttpServletRequest request, Model model)throws IOException{
+	public String save(@Valid Post post,BindingResult result,HttpServletRequest request, Model model)throws IOException{
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
@@ -228,9 +233,9 @@ public class PostManageController {
 					post2.setIsTop(0);
 					postService.updateByPrimaryKeySelective(post2);
 				}
-			}
+			}			
 			postService.insertSelective(post);		
-			uploadFile(post, request, attaattach);
+			
 			url = "redirect:getlist.html";
 		}
 				
@@ -250,8 +255,6 @@ public class PostManageController {
 	@RequestMapping("/edit")
 	public String edit(String id,Model model){
 		Post p = postService.selectByPrimaryKey(id);
-		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(id);
-		p.setPostAttachments(postAttachments);
 		model.addAttribute("post", p);
 		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
@@ -320,14 +323,6 @@ public class PostManageController {
 			post.setPark(park);		
 			post.setTopic(topic);		
 			post.setId(postId);			
-			String ids = request.getParameter("ids");
-			if(ids!=null && ids!=""){
-				String[] attaids = ids.split(",");
-				for(String id : attaids){
-					postAttachmentsService.softDeleteAtta(id);
-				}
-			}
-			uploadFile(post, request, attaattach);
 			//每个版块置顶帖更新
 			if(post.getIsTop() == 1){
 				//该版块下面的帖子状态更新
@@ -480,8 +475,9 @@ public class PostManageController {
 			reply.setReplies(replies);
 		}
 		Post post = postService.selectByPrimaryKey(postId);	
-		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(postId);
-		post.setPostAttachments(postAttachments);
+		//附件信息
+		//List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(postId);
+		//post.setPostAttachments(postAttachments);
 		model.addAttribute("post", post);
 		model.addAttribute("list",  new PageInfo<Reply>(list));
 		return "iss/forum/detail";
@@ -546,83 +542,12 @@ public class PostManageController {
 			post.setPark(park);
 			post.setTopic(topic);
 			postService.insertSelective(post);	
-			uploadFile(post, request, attaattach);
+			//uploadFile(post, request, attaattach);
 			
 			url ="redirect:/park/getIndex.html";
 		}
 		return url;
 	}
-	/**
-	 * 
-	* @Title: uploadFile
-	* @author QuJie 
-	* @date 2016-9-9 下午1:36:34  
-	* @Description: 上传的公共方法 
-	* @param @param article
-	* @param @param request
-	* @param @param attaattach      
-	* @return void
-	 */
-	public void uploadFile(Post post,HttpServletRequest request,MultipartFile[] attaattach){
-		if(attaattach!=null){
-			for(int i=0;i<attaattach.length;i++){
-				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
-			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
-			        /** 创建文件夹 */
-					File rootfile = new File(rootpath);
-					if (!rootfile.exists()) {
-						rootfile.mkdirs();
-					}
-			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
-			        String filePath = rootpath+fileName;
-			        File file = new File(filePath);
-			        try {
-						attaattach[i].transferTo(file);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					PostAttachments attachment=new PostAttachments();
-					attachment.setPost(new Post(post.getId()));
-					attachment.setName(fileName);
-					attachment.setCreatedAt(new Date());
-					attachment.setUpdatedAt(new Date());
-					attachment.setType(attaattach[i].getContentType());
-					attachment.setFileSize((float)attaattach[i].getSize());
-					attachment.setPath(filePath);
-					postAttachmentsService.insertSelective(attachment);
-				}
-			}
-		}
-	}
-	/**
-	 * 
-	* @Title: downloadArticleAtta
-	* @author QuJie 
-	* @date 2016-9-8 上午9:05:53  
-	* @Description: 详情页下载附件 
-	* @param @throws Exception      
-	* @return void
-	 */
-	@RequestMapping("/downloadPostAtta")
-	public void downloadPostAtta(PostAttachments postAttachments,HttpServletResponse response) throws Exception{
-		PostAttachments postAtta = postAttachmentsService.selectPostAttaByPrimaryKey(postAttachments.getId());
-		String filePath = postAtta.getPath();
-		File file = new File(filePath);
-		if(file == null || !file.exists()){
-			return;
-		}
-		String fileName = (postAtta.getName().split("_"))[1];
-		response.reset();
-		response.setContentType(postAtta.getType()+"; charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-		OutputStream out = response.getOutputStream();
-		out.write(FileUtils.readFileToByteArray(file));
-		out.flush();
 
-		if(out !=  null){
-			out.close();
-		}
-	}
+
 }

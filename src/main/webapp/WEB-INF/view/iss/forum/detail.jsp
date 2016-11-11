@@ -48,7 +48,7 @@
         });
       
       var file = "${post.postAttachments}";
-      if(file.length == 2){
+      if(file.length == 2 ||file.length ==0){
           $("#file").hide();
       }
       
@@ -143,26 +143,28 @@
 
      <!-- 回复列表 -->
      <div class="col-md-12 p30_40 border1 margin-top-20">
-     
+        
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
-            <div id="${reply.id}" class="col-md-12 comment_main">
-            <div class="comment_flow">
-            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png"/></div>
-            <div class="clear">
-              <p class="b f18 mb0 tc">${reply.user.relName }</p>
-              <p class="clear mb0 gary">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</p>
-            </div>
-            </div>
+            <div id="${reply.id}" class="col-md-12 comment_main border1">
+            <!--左半部分  -->
+            
+	            <div class="comment_flow ">
+		            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png"/></div>
+		            <div class="clear">
+		              <p class="b f18 mb0 tc">${reply.user.relName }</p>
+		              
+		            </div>
+	            </div>
+			
+            <!-- 右半部分 -->
             <div class="comment_desc col-md-12">
-              <div class="col-md-12 p0">
-                          
-
-                <span class="comment_name fr">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
+              <div class="col-md-12 p0">                      
+                <span class="comment_name fr">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />] | ${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
                 <div class="clear comment_report">${reply.content }</div>
                 
                 <c:forEach items="${reply.replies }" var="replytoreply">
-                    <p class="b blue mb0">@ ${replytoreply.user.relName }</p>
-                    <p class="clear mb0 gary">[<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：${replytoreply.content }</p>                
+                    <p class="b blue mb0">@ ${replytoreply.user.relName }  [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：</p>
+                    <p class="clear mb0 gary">${replytoreply.content }</p>                
                 </c:forEach>
                 
                 <span class="fr blue pointer" onclick="writeHtml('${reply.id}')">回复</span>
