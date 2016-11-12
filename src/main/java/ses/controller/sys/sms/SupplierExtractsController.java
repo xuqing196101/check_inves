@@ -95,6 +95,7 @@ public class SupplierExtractsController extends BaseController {
         List<Project> list = projectService.list(page==null?1:page, project);
         PageInfo<Project> info = new PageInfo<>(list);
         model.addAttribute("info", info);
+        model.addAttribute("projects", project);
         return "ses/sms/supplier_extracts/project_list";
     }
     /**
@@ -426,8 +427,11 @@ public class SupplierExtractsController extends BaseController {
         }
         model.addAttribute("ProjectExtract", listEp);
         //获取监督人员
-        List<User>  listUser = extUserServicl.list(new SupplierExtUser(conditionList.get(0).getProjectId()));
-        model.addAttribute("listUser", listUser);
+        if(conditionList != null && conditionList.size()!=0){
+        	 List<User>  listUser = extUserServicl.list(new SupplierExtUser(conditionList.get(0).getProjectId()));
+             model.addAttribute("listUser", listUser);
+        }
+       
         return "ses/sms/supplier_extracts/show_info";
     }
 

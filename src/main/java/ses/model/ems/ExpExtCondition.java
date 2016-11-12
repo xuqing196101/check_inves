@@ -92,7 +92,7 @@ public class ExpExtCondition implements Cloneable {
      * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.TENDER_TIME
      * </pre>
      */
-    @NotNull(message = "开标时间不能为空")  
+   
     private Date tenderTime;
 
     /**

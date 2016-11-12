@@ -196,7 +196,7 @@
             AND PROJECT_NAME like '%${projectName}%'
         </if>
         <if test="extractionTime!=null and extractionTime!='' ">
-<!--             AND EXTRACTION_TIME LIKE TO_DATE(${extractionTime},'yyyy-mm-dd') -->
+           AND EXTRACTION_TIME = #{extractionTime,jdbcType=DATE}
         </if>
         <if test="projectId != null and projectId !='' ">
             AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}

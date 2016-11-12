@@ -3,6 +3,7 @@
  */
 package ses.controller.sys.sms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,7 @@ public class SupplierConditionController {
             //给专家记录表set信息并且插入到记录表
             SupplierExtracts record=new SupplierExtracts();
             record.setProjectId(condition.getProjectId());
+            record.setExtractionTime(new Date());
             PageHelper.startPage(1, 1);
             List<SupplierExtracts> list = supplierExtractsMapper.list(record);
             if(list==null||list.size()==0){

@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -19,18 +18,10 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
 
-<link rel="stylesheet"
-	href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
 
 <link rel="stylesheet"
 	href="<%=basePath%>public/supplier/css/supplieragents.css"
 	type="text/css">
-<script type="text/javascript"
-	src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 
 
 <script type="text/javascript">
@@ -60,7 +51,6 @@
           });
          $('#minute').bind('input propertychange', function() {
         	 var count=$(this).val();
-        	
         		 if(count>60){
                      $("#minute").val("59");
         		 }
@@ -70,11 +60,7 @@
         	    
         	   
         	});
-//          alert("${typehtml}");
-//          if(typehtml != null && typehtml != ""){
-//         	 alert(typehtml); 
-//         	 $("#tbody").append(typehtml);	 
-//          }
+        
          
     });
     function areas(){
@@ -234,13 +220,37 @@
             layer.alert("请选择查询的条件",{offset: ['222px', '390px'], shade:0.01});
         }
     }
+    //ajax提交表单
     function cityt(){
         $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
         $("#addressId").val($("#city option:selected").val());
         $("#areaId").val($("#area option:selected").val());
         $("#expertId").val($("#city option:selected").val());
         $("#typehtml").val($("#tbody").html());
-       
+        $.ajax({
+            cache: true,
+            type: "POST",
+            dataType : "json",
+            url:'<%=basePath%>ExtCondition/saveExtCondition.html',
+            data:$('#form1').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+            	$("#tenderTime").text("");
+            	$("#responseTime").text("");
+            	$("#agediv").text("");
+            	$("#supervisediv").text("");
+            	$("#typeArray").text("");
+            	var map =data;
+            	$("#tenderTime").text(map.tenderTime);
+            	$("#responseTime").text(map.responseTime);
+            	$("#agediv").text(map.age);
+            	$("#supervisediv").text(map.supervise);
+            	$("#typeArray").text(map.typeArray);
+            	if(map.sccuess=="sccuess"){
+            		  window.location.href = '<%=basePath%>/ExpExtract/Extraction.do?id=${projectId}&&typeclassId=${typeclassId}';
+            	}
+            }
+        });
 
 return true;
 }
@@ -404,9 +414,7 @@ return true;
 			style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
 			<ul id="treeDemo" class="ztree" style="width: 220px"></ul>
 		</div>
-		<sf:form
-			action="${pageContext.request.contextPath}/ExtCondition/saveExtCondition.html"
-			d="form1" method="post" modelAttribute="expExtCondition">
+		<form id="form1" method="post" >
 			<!--         专家所在地区 -->
 			<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
 			<!--         专家所在地区 -->
@@ -438,7 +446,6 @@ return true;
 					</select> <select name="extractionSites" class="w96"
 						id="city"></select>
 						<div class="fr b f14 red tip w200">
-							<sf:errors path="address" />
 						</div>
 				</span></li>
 				<li><label class="fl"><span class="red">*</span>专家来源：</label> <span>
@@ -476,8 +483,7 @@ return true;
 						value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
                                 pattern='yyyy-MM-dd' />"
 						maxlength="30" onclick="WdatePicker();" type="text">
-						<div class="fr b f14 red tip w200">
-							<sf:errors path="tenderTime" />
+						<div class="fr b f14 red tip w200" id="tenderTime">
 						</div>
 				</span></li>
 				<li><label class="fl"><span class="red">*</span>专家响应时限：</label>
@@ -490,7 +496,7 @@ return true;
 						onafterpaste="this.value=this.value.replace(/\D/g,'')"> <input
 						class="span2 w50" readonly="readonly" value="分" maxlength="30"
 						type="text">
-						<div class="fr b f14 red tip w200">${responseTime }</div>
+						<div class="fr b f14 red tip w200" id="responseTime">${responseTime }</div>
 				</span></li>
 				<li><label class="fl"><span class="red">*</span>年龄：</label> <span>
 						<input class="w120" maxlength="2"
@@ -498,12 +504,12 @@ return true;
 						-
 						<input class="w120" name="ageMax"
 						value="${ExpExtCondition.ageMax}" maxlength="2" type="text">
-						<div class="fr b f14 red tip w200">${age}</div>
+						<div class="fr b f14 red tip w200" id="agediv"></div>
 				</span></li>
 				<li><label class="fl"><span class="red">*</span>监督人员：</label> <span>
 						<input class="span2 w250" readonly id="supervises" name="userName"
 						value="${userName}" onclick="supervise();" type="text">
-						<div class="fr b f14 red tip w200">${supervise}</div>
+						<div class="fr b f14 red tip w200" id="supervisediv"></div>
 				</span></li>
 			</ul>
 			<div align="right" >
@@ -561,11 +567,11 @@ return true;
 			</div>
 
 			<div align="right" class=" padding-10">
-				<div class=" b f14 red tip">${typeArray}</div>
+				<div class=" b f14 red tip" id="typeArray"></div>
 				<button class="btn btn-windows save" id="save" onclick="cityt();"
-					type="submit">保存抽取条件</button>
+					type="button">保存抽取条件</button>
 			</div>
-		</sf:form>
+		</form>
 	</div>
 </body>
 </html>

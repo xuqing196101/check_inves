@@ -173,7 +173,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
        </li>
          <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn" onclick="resetQuery();">重置</button> 
+         <button type="button" class="btn" onclick="resetQuery();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>
