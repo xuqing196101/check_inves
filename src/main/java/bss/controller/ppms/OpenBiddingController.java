@@ -35,10 +35,9 @@ import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
-import ses.util.FtpUtil;
+import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
@@ -93,12 +92,6 @@ public class OpenBiddingController {
     private ArticleTypeService articelTypeService;
     
     /**
-     * @Fields attachmentsService : 引用文章附件业务实现接口
-     */
-    @Autowired
-    private ArticleAttachmentsService attachmentsService;
-    
-    /**
      * @Fields detailService : 引用项目详细业务接口
      */
     @Autowired
@@ -112,15 +105,6 @@ public class OpenBiddingController {
     
     @Autowired
     private PackageFirstAuditService packageFirstAuditService;
-    
-    @Autowired 
-    private DictionaryDataServiceI dataService;
-    
-    /**
-     * @Fields projectAttachmentsService : 引用项目附件业务实现接口
-     */
-    @Autowired
-    private ProjectAttachmentsService projectAttachmentsService;
     
     /**
      * @Fields auditService : 引用初审项业务接口
@@ -165,15 +149,8 @@ public class OpenBiddingController {
     @RequestMapping("/bidFile")
     public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response){
         Project project = projectService.selectById(id);
-        
         //判断是否上传招标文件
-        DictionaryData dictionaryData = new DictionaryData();
-        dictionaryData.setCode("zbwj");
-        List<DictionaryData> dds = dataService.find(dictionaryData);
-        String typeId = "";
-        if(dds != null && dds.size() > 0){
-            typeId = dds.get(0).getId();
-        }
+        String typeId = DictionaryDataUtil.getId("zbwj");
         List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
@@ -213,10 +190,6 @@ public class OpenBiddingController {
         ArticleType at = articelTypeService.selectTypeByPrimaryKey("7");
         article.setArticleType(at);
         List<Article> articles = articelService.selectArticleByProjectId(article);
-        //附件类型
-        DictionaryData dd = new DictionaryData();
-        dd.setCode("GGWJ");
-        List<DictionaryData> dds= dataService.find(dd);
         if (articles != null && articles.size() > 0){
             if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
                 model.addAttribute("article", articles.get(0));
@@ -229,11 +202,11 @@ public class OpenBiddingController {
                 model.addAttribute("range", articles.get(0).getRange());
                 model.addAttribute("projectId", projectId);
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-                model.addAttribute("typeId", dds.get(0).getId());
+                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
-            model.addAttribute("typeId", dds.get(0).getId());
+            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
             model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             return "bss/ppms/open_bidding/bid_notice/add";
@@ -386,48 +359,10 @@ public class OpenBiddingController {
             article.setPublishedName(user.getRelName());
             article.setStatus(2);
             articelService.update(article);
-            //上传审批文件
-            uploadFile(article, request, files);
             jsonData.setMessage("发布成功");
             return "redirect:bidNotice.html?projectId=" + article.getProjectId();
         } catch (Exception e) {
             throw new Exception(e);
-        }
-    }
-    
-    /**
-     * 上传附件
-     * 上传项目类型附件
-     * @author yggc
-     * @param article
-     * @param request
-     * @param files
-     */
-    public void uploadFile(Article article, HttpServletRequest request, MultipartFile[] files){
-        if (files != null){
-            for (int i = 0; i < files.length; i++){
-                try {
-                    String url = FtpUtil.upload2("bidNotice", files[i]);
-                    //截取文件名
-                    String filename = url.substring(url.lastIndexOf("/") + 1);
-                    //截取文件路径
-                    String path = url.substring(0, url.lastIndexOf("/") + 1).replace("\\", "/");
-                    ProjectAttachments attachment = new ProjectAttachments();
-                    Project project = projectService.selectById(article.getProjectId());
-                    attachment.setProject(project);
-                    attachment.setFileName(filename);
-                    attachment.setCreatedAt(new Date());
-                    attachment.setUpdatedAt(new Date());
-                    attachment.setContentType(files[i].getContentType());
-                    attachment.setFileSize((float) files[i].getSize());
-                    attachment.setKind(3);
-                    attachment.setAttachmentPath(path);
-                    attachment.setIsDeleted(0);
-                    projectAttachmentsService.save(attachment);
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
     
@@ -442,21 +377,15 @@ public class OpenBiddingController {
     @RequestMapping("/saveBidFile")
     public void saveBidFile(HttpServletRequest req, String projectId, Model model) throws IOException{
         String result = "保存失败";
-        DictionaryData dd = new DictionaryData();
-        dd.setCode("zbwj");
-        List<DictionaryData> dds= dataService.find(dd);
         //判断该项目是否上传过招标文件
-        String typeId = "";
-        if(dds != null && dds.size() > 0){
-            typeId = dds.get(0).getId();
-            List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            if (files != null && files.size() > 0){
-                //删除 ,表中数据假删除
-                uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
-                result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            } else {
-                result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            }
+        String typeId = DictionaryDataUtil.getId("zbwj");
+        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files != null && files.size() > 0){
+            //删除 ,表中数据假删除
+            uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        } else {
+            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
         }
         System.out.println(result);
     }

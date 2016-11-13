@@ -31,10 +31,12 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseInfo;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.PurchaseServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.FlowDefine;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
@@ -44,6 +46,7 @@ import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
@@ -116,6 +119,9 @@ public class ProjectController extends BaseController {
     private ProjectTaskService projectTaskService;
     @Autowired
     private DictionaryDataServiceI dictionaryDataService;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;
 
     /**
      * 〈简述〉 〈详细描述〉
@@ -871,26 +877,44 @@ public class ProjectController extends BaseController {
         if ("公开招标".equals(project.getPurchaseType())) {
             model.addAttribute("project", project);
             model.addAttribute("page", page);
+            model.addAttribute("fds", getFlowDefine("gkzb"));
             return "bss/ppms/open_bidding/main";
         } else if ("邀请招标".equals(project.getPurchaseType())) {
             model.addAttribute("project", project);
             model.addAttribute("page", page);
+            model.addAttribute("fds", getFlowDefine("yqzb"));
             return "bss/ppms/invite_bidding/main";
         } else if ("询价".equals(project.getPurchaseType())) {
             model.addAttribute("project", project);
             model.addAttribute("page", page);
+            model.addAttribute("fds", getFlowDefine("xjcg"));
             return "bss/ppms/enquiry/main";
         } else if ("竞争性谈判".equals(project.getPurchaseType())) {
             model.addAttribute("project", project);
             model.addAttribute("page", page);
+            model.addAttribute("fds", getFlowDefine("jzxtp"));
             return "bss/ppms/competitive_negotiation/main";
         } else if ("单一来源".equals(project.getPurchaseType())) {
             model.addAttribute("project", project);
             model.addAttribute("page", page);
+            model.addAttribute("fds", getFlowDefine("dyly"));
             return "bss/ppms/single_source/main";
         } else {
             return "error";
         }
     }
 
+    /**
+     *〈简述〉根据采购方式获取流程环节list
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param code 采购方式编码
+     * @return 流程环节
+     */
+    public List<FlowDefine> getFlowDefine(String code){
+        FlowDefine fd = new FlowDefine();
+        fd.setPurchaseTypeId(DictionaryDataUtil.getId(code));
+        List<FlowDefine> fds = flowMangeService.find(fd);
+        return fds;
+    }
 }
