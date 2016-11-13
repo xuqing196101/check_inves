@@ -8,16 +8,16 @@
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+<title></title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <script type="text/javascript">
  var parentId ;
  var addressId="${is.address}";
+ 
  $(document).ready(function(){
    for(var i=0;i<document.getElementById("type").options.length;i++)
     {
@@ -27,8 +27,9 @@
             break;
         }
     }
-    });
-    $(function(){
+ });
+ 
+ $(function(){
     	$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
@@ -44,24 +45,25 @@
 			error:function(obj){
 			}
 		});
+ });
+ 
+ function fun(){
+	var parentId = $("#choose1").val();
+	$.ajax({
+		url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+		data:{"id":parentId},
+		success:function(obj){
+		var data = eval('(' + obj + ')');
+			$("#choose2").empty();
+			$("#choose2").append("<option value=''>-请选择-</option>");
+			$.each(data,function(i,result){
+				$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+			});
+		},
+		error:function(obj){
+		}
 	});
-	function fun(){
-		var parentId = $("#choose1").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
-			data:{"id":parentId},
-			success:function(obj){
-				$("#choose2").empty();
-				$("#choose2").append("<option value=''>-请选择-</option>");
-				$.each(obj,function(i,result){
-					
-					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
-				});
-			},
-			error:function(obj){
-			}
-		});
-	}
+ }
 </script>
 </head>
 <body>
@@ -85,71 +87,73 @@
    <h2>进口代理商新增</h2>
    </div>
    <ul class="ul_list">
+    
     <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录名：</span>
 	   <div class="input-append">
-        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
-        <span class="add-on">i</span>
-        <div class="validate">${ERR_loginName}</div>
+	        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+	        <span class="add-on">i</span>
        </div>
-	 </li> 
+       <div class="red">${ERR_loginName}</div>
+	</li> 
 	 
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录密码：</span>
 	   <div class="input-append">
-         <input class="span2" id="password" name="password" value="${ir.password }" type="text">
-        <span class="add-on">i</span>
-        <div class="validate">${ERR_password}</div>
+	        <input class="span2" id="password" name="password" value="${ir.password }" type="text">
+	        <span class="add-on">i</span>
        </div>
-       
+       <div class="red">${ERR_password}</div>
 	 </li> 
 	 
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">企业名称：</span>
 	   <div class="input-append">
-         <input class="span2" id="name" name="name"  value="${ir.name }" type="text"> 
-        <span class="add-on">i</span>
-        <div class="validate">${ERR_name}</div>
+	         <input class="span2" id="name" name="name"  value="${ir.name }" type="text"> 
+	         <span class="add-on">i</span>
        </div>
+       <div class="red">${ERR_name}</div>
 	 </li> 
+	 
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">法定代表人：</span>
 	   <div class="input-append">
-         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
-        <span class="add-on">i</span>
-        <div class="validate">${ERR_legalName}</div>
+	         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
+	         <span class="add-on">i</span>
        </div>
-	 </li> 
+       <div class="red">${ERR_legalName}</div>
+	  </li> 
 	
 	  <li class="col-md-3 margin-0 padding-0 ">
 		   <span class="col-md-12 padding-left-5">企业地址：</span>
-     		   <div class="select_common">
+     	   <div class="select_common">
      		    <select id="choose1" class="w100" onchange="fun();">
 					<option  class="w100" >-请选择-</option>
 				</select>
 				<select name="address" class="w100" id="choose2">
 					<option class="w100">-请选择-</option>
 				</select>
-			    <div class="validate">${ERR_address}</div>
-			    </div>
-	   </li> 
+			</div>
+			<div class="red">${ERR_address}</div>
+	 </li> 
 	 
-	     <li class="col-md-3 margin-0 padding-0 ">
+	 <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">进口代理商类型：</span>
 	   <div class="select_common">
-        <select id="type" class="w220" name="type">
-           <option value="1">正式代理商</option>
-           <option value="2">临时代理商</option>
-        </select>
+	        <select id="type" class="w220" name="type">
+	           <option value="1">正式代理商</option>
+	           <option value="2">临时代理商</option>
+	        </select>
        </div>
 	 </li> 
-	  <li class="col-md-3 margin-0 padding-0 ">
+	 
+	 <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">推荐单位：</span>
 	   <div class="input-append">
-         <input class="span2" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
-        <span class="add-on">i</span>
-        <div class="">${ERR_recommendDep}</div>
+	         <input class="span2" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
+	         <span class="add-on">i</span>
        </div>
+       <div class="red">${ERR_recommendDep}</div>
 	 </li> 
    </ul>
    </div>

@@ -106,6 +106,9 @@ public class ImportRecommendController extends BaseSupplierController{
 			if(users.size() > 0){
 				model.addAttribute("ERR_loginName", "用户名已存在");
 			}
+			if(ir.getAddress().equals("-请选择-")){
+				model.addAttribute("ERR_address", "企业地址不能为空");
+			}
 			model.addAttribute("ir", ir);
 			return "ses/sms/import_recommend/add";
 		}
