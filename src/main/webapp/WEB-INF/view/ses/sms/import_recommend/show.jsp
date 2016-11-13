@@ -120,10 +120,10 @@
 				 <tr>
 				  <td class="bggrey ">企业地址：</td>
 				  <td>
-	     		    <select id="choose1" class="w100" onchange="fun();">
+	     		    <select id="choose1" class="w100" disabled onchange="fun();">
 						<option  class="w100" >-请选择-</option>
 					</select>
-					<select name="address" class="w100" id="choose2">
+					<select name="address" disabled class="w100" id="choose2">
 						<option class="w100">-请选择-</option>
 					</select>
 				  </td>

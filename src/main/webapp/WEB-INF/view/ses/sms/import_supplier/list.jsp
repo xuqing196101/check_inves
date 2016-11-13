@@ -7,16 +7,15 @@
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
+<title></title>
 
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <script type="text/javascript">
-	  	 $(function(){
+   $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${isList.pages}", //总页数
@@ -36,8 +35,9 @@
 			        }
 			    }
 			});
-	  });
-		function check(){
+	});
+	
+	function check(){
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -54,7 +54,8 @@
 				 }
 		   }
 	}
-		function selectAll(){
+	
+	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
 		   if(checkAll.checked){
@@ -68,13 +69,16 @@
 			     checklist[j].checked = false;
 			  }
 		 	}
-		}
+	}
+	
   	function show(id){
   		window.location.href="${pageContext.request.contextPath}/importSupplier/show.html?id="+id;
   	}
+  	
   	function add(){
   		window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
   	}
+  	
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -119,23 +123,12 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-		<div class="container clear margin-top-30">
-		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-	<%-- 	     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post">
-		       <input type="hidden" name="page" id="page">
-			   <span class="">进口供应商名称：</span>
-			   <div class="input-append">
-		        <input class="span2" name="supName" value="${name }" type="text">
-		       </div>
-		        <span class="">供应商类别：</span>
-			   <div class="input-append">
-		        <input class="span2" name="supType"  value="${supplierType }" type="text">
-		       </div>
-		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     </form> --%>
-	<h2 class="padding-10 border1">
+   <!-- 我的页面开始-->
+   <div class="container">
+   <div class="headline-v2">
+     	<h2>进口供应商列表</h2>
+   </div>
+	<h2 class="search_detail ">
       <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post" class="mb0" > 
     	<ul class="demand_list">
     	  <li class="fl">
@@ -150,6 +143,12 @@
     	  <div class="clear"></div>
        </form>
      </h2>
+     <div class="col-md-12 pl20 mt10">
+	     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+		 <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+		 <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	 </div>
+	 <div class="content table_box">
 		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
@@ -178,7 +177,8 @@
 				</c:forEach> 
 			  </tbody>
 		 </table>
-			<div id="pagediv" align="right"></div>
-		 </div>		 
+		 <div id="pagediv" align="right"></div>
+	</div>
+	</div>		
 </body>
 </html>

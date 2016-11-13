@@ -122,7 +122,8 @@
             skin: 'demo-class',
             shade:false,
             area: ['600px'],
-            time : 0    //默认消息框不关闭
+            closeBtn : [0 , true],
+            time : 4000    //默认消息框不关闭
         });//去掉msg图标
 	}else{
 		layer.closeAll();//关闭消息框
