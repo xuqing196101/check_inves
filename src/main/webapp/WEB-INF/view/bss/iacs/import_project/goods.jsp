@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -9,8 +10,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 </head>
 
 <body>
@@ -56,9 +55,10 @@
 					</li>
 					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">金额单位</span>
 						 <div class="select_common">
-        					<select class="fz14">
-				          		<option>选项一</option>
-					          	<option>选项二</option>
+        					<select class="">
+				          		<option value="1" selected="selected">万美元</option>
+					          	<option value="2">美元</option>
+					          	<option value="3">人民币</option>
 					        </select>
        					</div>
 					</li>
@@ -69,35 +69,112 @@
 				<table class="table table-bordered table-condensed table-hover mt10">
 					<thead>
 						<tr>
-							<th class="w30 info"><input type="checkbox" alt=""></th>
 							<th class="w50 info">序号</th>
-							<th class="info">凭证编号</th>
-							<th class="info">名称</th>
-							<th class="info">总金额（元）</th>
-							<th class="info">
-								<div class="">
-									<select class="form-control input-lg">
-										<option value="">全部状态</option>
-									</select>
-								</div>
-							</th>
+							<th class="info">进口单位</th>
+							<th class="info">物资名称</th>
+							<th class="info">规格型号</th>
+							<th class="info">计量单位</th>
+							<th class="info">数量</th>
+							<th class="info">单价</th>
+							<th class="info">金额</th>
+							<th class="info">涉密等级</th>
+							<th class="info">进口类别</th>
+							<th class="info">免税类别</th>
+							<th class="info">目录归类</th>
+							<th class="info">进口海关</th>
+							<th class="info">经费来源</th>
+							<th class="info">使用单位</th>
+							<th class="info">使用用途</th>
+							<th class="info">采购文件名称及文号</th>
+							<th class="info">备注</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="tc w30"><input type="checkbox" alt=""></td>
-							<td class="tc w50">1</td>
-							<td>BG-XY-IT20131120106054</td>
-							<td>2013-11-20 台式机采购项目</td>
-							<td class="tc">¥40,000.00</td>
-							<td class="tc">
-								<div class="">
-									<select class="form-control input-lg">
-										<option value="">全部状态</option>
-									</select>
-								</div>
-							</td>
-						</tr>
+						<c:forEach items="${list}" var="cr" varStatus="vs">
+							<tr>
+ 								<td class="tc w50">${vs.index + 1}</td>
+								<td class="tc"></td>
+								<td class="tc">${cr.goodsName}</td>
+								<td class="tc">${cr.stand}</td>
+								<td class="tc">${cr.item}</td>
+								<td class="tc">${cr.purchaseCount}</td>
+								<td class="tc">${cr.price}</td>
+								<td class="tc">${cr.amount}</td>
+								<td class="tc">
+									<div class="">
+										<select class="form-control input-lg w50">
+											<option value="1">绝密</option>
+											<option value="2">机密</option>
+											<option value="3">秘密</option>
+											<option value="4">公开</option>
+										</select>
+									</div>
+								</td>
+								<td class="tc">
+									<div class="">
+										<select class="form-control input-lg w50">
+											<option value="1">进口许可产品</option>
+											<option value="2">自动进口许可产品</option>
+											<option value="3">放开产品</option>
+										</select>
+									</div>
+								</td>
+								<td class="tc">
+									<div class="">
+										<select class="form-control input-lg w50">
+											<option value="1">军事装备免税</option>
+											<option value="2">军事装备免税审批</option>
+											<option value="3">科研教学免税</option>
+											<option value="4">国家鼓励投资项目免税</option>
+											<option value="5">非免税</option>
+										</select>
+									</div>
+								</td>
+								<td class="tc">
+									
+								</td>
+								<td class="tc">
+									
+								</td>
+								<td class="tc">
+									<div class="">
+										<select class="form-control input-lg w50">
+											<option value="1">事业费</option>
+											<option value="2">装备费</option>
+											<option value="3">基本建设费</option>
+											<option value="4">战备物资储备费</option>
+											<option value="5">教育训练费</option>
+											<option value="6">科研费</option>
+											<option value="7">政府专项经费</option>
+											<option value="8">其他经费</option>
+										</select>
+									</div>
+								</td>
+								<td class="tc">
+									
+								</td>
+								<td class="tc">
+									<div class="">
+										<select class="form-control input-lg w50">
+											<option value="1">战备储备</option>
+											<option value="2">国防工程建设</option>
+											<option value="3">军事行动保障</option>
+											<option value="4">装备配套</option>
+											<option value="5">装备维修</option>
+											<option value="6">军事科研</option>
+											<option value="7">院校教学</option>
+											<option value="8">军品生产</option>
+										</select>
+									</div>
+								</td>
+								<td class="tc">
+									
+								</td>
+								<td class="tc">
+									
+								</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
