@@ -27,8 +27,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import common.constant.Constant;
+
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -62,6 +66,9 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private DownloadUserService downloadUserService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	/**
 	 * 
 	* @Title: sign
@@ -158,13 +165,22 @@ public class IndexNewsController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/selectArticleNewsById")
-	public String selectArticleNewsById(Article article,Model model) throws Exception{
+	public String selectArticleNewsById(Article article,Model model,HttpServletRequest request) throws Exception{
 		Article articleDetail = articleService.selectArticleById(article.getId());
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
-		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
-		articleDetail.setArticleAttachments(articleAttaList);
+		
+		model.addAttribute("articleId", article.getId());
+		DictionaryData da=new DictionaryData();
+		da.setCode("GGWJ");
+		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+		request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+		if(dlists.size()>0){
+			model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+		}
+//		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
+//		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("articleDetail", articleDetail);
 		return "iss/ps/index/index_details";
 	}

@@ -98,8 +98,8 @@ public class ArticleController extends BaseSupplierController{
 	 */
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request){
-		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("article.id", uuid);
+		String articleuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("articleId", articleuuid);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
@@ -108,10 +108,8 @@ public class ArticleController extends BaseSupplierController{
 			model.addAttribute("attachTypeId", lists.get(0).getId());
 		}
 		
-		String articleuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("articleId", articleuuid);
 		DictionaryData da=new DictionaryData();
-		da.setCode("CONTRACT_APPROVE_ATTACH");
+		da.setCode("GGWJ");
 		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
 		request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
 		if(dlists.size()>0){
@@ -145,7 +143,7 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
+	public String save(String[] ranges,
             HttpServletRequest request, HttpServletResponse response,Article article,BindingResult result,Model model){
 		
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
@@ -178,10 +176,12 @@ public class ArticleController extends BaseSupplierController{
 		
 		if(art!=null){
 			for(Article ar:art){
-				if(ar.getIsPicShow().equals(article.getIsPicShow())){
-					model.addAttribute("article", article);
-					model.addAttribute("ERR_isPicShow", "序号已经存在");
-					return "iss/ps/article/add";
+				if(ar.getIsPicShow()!=null){
+					if(ar.getIsPicShow().equals(article.getIsPicShow())){
+						model.addAttribute("article", article);
+						model.addAttribute("ERR_isPicShow", "序号已经存在");
+						return "iss/ps/article/add";
+					}
 				}
 			}
 		}
@@ -209,7 +209,6 @@ public class ArticleController extends BaseSupplierController{
 		article.setShowCount(0);
 		article.setDownloadCount(0);
 		articleService.addArticle(article);
-		uploadFile(article,request,attaattach);
 		return "redirect:getAll.html";
 	}
 	
@@ -295,6 +294,15 @@ public class ArticleController extends BaseSupplierController{
 		if(lists.size()>0){
 			model.addAttribute("attachTypeId", lists.get(0).getId());
 		}
+		
+		model.addAttribute("articleId", article.getId());
+		DictionaryData da=new DictionaryData();
+		da.setCode("GGWJ");
+		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+		request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+		if(dlists.size()>0){
+			model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+		}
 		return "iss/ps/article/edit";
 	}
 
@@ -307,8 +315,8 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
-            HttpServletRequest request, HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
+	public String update(String[] ranges,HttpServletRequest request,
+			HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
 		
 		String name = request.getParameter("name");
 		
@@ -319,7 +327,6 @@ public class ArticleController extends BaseSupplierController{
 				articleAttachmentsService.softDeleteAtta(id);
 			}
 		}
-		uploadFile(article, request, attaattach);
 		
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
@@ -530,13 +537,30 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/auditInfo")
-	public  String auditInfo(Model model,String id){
+	public  String auditInfo(Model model,String id,HttpServletRequest request){
 		Article article = articleService.selectArticleById(id);
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
+		
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(lists.size()>0){
+			model.addAttribute("attachTypeId", lists.get(0).getId());
+		}
+		
+		model.addAttribute("articleId", article.getId());
+		DictionaryData da=new DictionaryData();
+		da.setCode("GGWJ");
+		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+		request.getSession().setAttribute("articleSysKey", Constant.TENDER_SYS_KEY);
+		if(dlists.size()>0){
+			model.addAttribute("artiAttachTypeId", dlists.get(0).getId());
+		}
 		return "iss/ps/article/audit/audit";
 	}
 	
