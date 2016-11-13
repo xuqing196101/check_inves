@@ -140,8 +140,8 @@
 	 }
 	 function reset(){
 		 $("#condition").val("");
-		 $("#parkId  option:selected").val("");
-		 $("#parkId  option:selected").text("");
+		 var parks = document.getElementById("parkId").options;
+         parks[0].selected = true;
 	 }
   </script>
   </head>

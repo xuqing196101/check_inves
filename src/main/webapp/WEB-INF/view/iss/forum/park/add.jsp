@@ -38,10 +38,10 @@
 	                    	  }	                                              
 	                      });  
 	                    }
+	                    $("#user").select2();
+	                    $("#user").select2("val", "${park.user.id}"); 
 	                }
 	            });			 
-		        $("#user").select2(); 
-		        
 
 	});
 	function change(id){

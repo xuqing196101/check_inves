@@ -157,7 +157,11 @@ public class ParkManageController extends BaseSupplierController {
 			flag = false;
 		}
 		if(flag == false){
-
+			String userId = request.getParameter("userId");
+			if(!(userId.equals(null) || userId.equals(""))){
+				 User user = userService.getUserById(userId);			
+				park.setUser(user);
+			}
 			model.addAttribute("park", park);
 			url = "iss/forum/park/add";
 			

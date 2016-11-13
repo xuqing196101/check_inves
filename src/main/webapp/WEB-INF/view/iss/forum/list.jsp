@@ -22,7 +22,6 @@
       $("#parkId").val("${parkId}");
       $("#topicId").val("${topicId}"); 
       var searchType ="${searchType}";
-      //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${list.pages}", //总页数
