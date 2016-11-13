@@ -22,7 +22,7 @@
 <script src="${pageContext.request.contextPath}/public/backend/js/browser.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.ba-hashchange.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/backend/js/select2.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/common.js"></script
 <script src="${pageContext.request.contextPath}/public/backend/js/masterslider.js"></script>
 <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>

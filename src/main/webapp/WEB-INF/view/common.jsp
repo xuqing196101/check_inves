@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">	
+<link href="${pageContext.request.contextPath}/public/backend/css/common.css" media="screen" rel="stylesheet" type="text/css">	
 <link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
 
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="${pageContext.request.contextPath}/public/select2/js/select2.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/main-menu.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
@@ -38,9 +38,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <!-- 文本编辑器 -->  
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+<script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
+<script src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 
 <!-- echars -->
 <script src="${pageContext.request.contextPath}/public/echarts/echarts.js"></script>

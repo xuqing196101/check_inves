@@ -9,7 +9,7 @@
           <div class="row container">
             <div class="col-md-4 padding-bottom-30 mt10">
               <a href="<%=basePath%>">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
+                 <img alt="Logo" src="<%=basePath%>public/backend/images/logo_2.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
