@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="ses.model.bms.User" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
@@ -26,7 +27,7 @@
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
     rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"
-    media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet"> 
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen"
     rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen"
@@ -194,7 +195,19 @@ $(function(){
 </script>
 </head>
 <body>
-
+   
+    <div class="row">
+    <%
+    User user = (User) request.getSession().getAttribute("loginUser");
+    %>
+    <div class="col-md-9"><%=user.getRelName() %>，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/selectIndexNews.html" class="red">【前台首页】</a></div>
+       
+       <div class="col-md-3 head_right"> 
+         <a href=" ">我的信息</a> |
+         <a href=" ">意见反馈</a> |
+         <a href=" ">采购系统首页</a>
+       </div>
+      </div>
     <!--面包屑导航开始-->
     <div class="margin-top-10 breadcrumbs ">
         <div class="container">

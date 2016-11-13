@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../../common.jsp"%>
+<%@ page import="ses.model.bms.User" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -95,14 +96,28 @@ function kaptcha(){
 <div class="wrapper">
   <div class="head_top col-md-12">
    <div class="container">
+   
     <div class="row">
-     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div>
+    <!-- 根据session判断 -->
+    <%
+    User user = (User) request.getSession().getAttribute("loginUser");
+    if(user==null){
+    	%>
+    	<div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div>
+    	<% 
+    }else{
+    	%>
+    	<div class="col-md-9"><%=user.getRelName() %>，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/login/home.html" class="red">【后台首页】</a></div>
+    	<% 
+    }
+    %>    
 	   <div class="col-md-3 head_right"> 
          <a href=" ">我的信息</a> |
          <a href=" ">意见反馈</a> |
          <a href=" ">采购系统首页</a>
 	   </div>
 	  </div>
+	  
     </div>
   </div>
   </div>

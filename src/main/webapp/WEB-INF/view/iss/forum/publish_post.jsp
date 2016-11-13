@@ -91,7 +91,7 @@
              <input type="hidden" name="id" value='${id}'></input>
               <li class="col-md-12 p0">
                <span class="zzzx w245">上传附件：</span>
-                  <up:upload id="post_attach_up"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:upload id="post_attach_up" multiple="true" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>           
          </ul>
