@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows cancel" type="submit">取消</button>
    </div>
    <div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="w30 info"><input type="checkbox" alt=""></th>

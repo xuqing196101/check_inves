@@ -196,7 +196,7 @@
 	</div>
 
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
     
 		<thead>
 			<tr>
