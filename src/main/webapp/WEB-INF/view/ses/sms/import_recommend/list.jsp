@@ -198,8 +198,10 @@
    </div>
 <!-- 我的订单页面开始-->
     <div class="container">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
+     <div class="headline-v2">
+     	<h2>进口代理商列表</h2>
+     </div>
+     <h2 class="search_detail">
        <form id="form1" action="${pageContext.request.contextPath}/importRecommend/list.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -211,29 +213,23 @@
     	  <div class="clear"></div>
        </form>
      </h2>
-   </div>
-</div>
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12">
+   <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="submit" onclick="add()">新增</button>
-     <button class="btn btn-windows edit" type="submit" onclick="edit()">修改</button>
+    <button class="btn btn-windows edit" type="submit" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="submit" onclick="del();">删除</button>
 	<button id="jihuo" class="btn btn-windows git" type="submit" onclick="jihuo();">激活</button>
 	<button id="zanting" class="btn btn-windows git" type="submit" onclick="zanting();">暂停</button>	
 	<button id="qiyong" class="btn btn-windows git" type="submit" onclick="qiyong();">启用</button>	
 	</div>
-    </div>
    
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-striped table-bordered table-hover tc">
+  <div class="content table_box">
+    	<table class="table table-bordered table-condensed table-hover tc">
 		<thead>
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()"></th>
 		  <th class="w50 info">序号</th>
 		  <th class="info">企业名称</th>
-		  <th class="info">企业地址</th>
 		  <th class="info">法定代表人</th>
 		  <th class="info">推荐单位</th>
 		  <th class="info">类别</th>
@@ -246,7 +242,6 @@
 			    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 			    <td>${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
 				<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
-				<td>${list.address }</td>
 				<td>${list.legalName }</td>
 				<td>${list.recommendDep }</td>
 				<td>
@@ -265,7 +260,6 @@
         </table>
         <div id="pagediv" align="right"></div>
      </div>
-   
    </div>
 </body>
 </html>

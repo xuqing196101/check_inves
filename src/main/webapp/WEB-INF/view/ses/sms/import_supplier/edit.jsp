@@ -192,16 +192,11 @@ $.ajax({
 			success:function(obj){
 				$("#haha").append("<option value=''>-请选择-</option>");
 				$.each(obj,function(i,result){
-					
 					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
-				
 			}
-			
 		});
 	}
 </script>

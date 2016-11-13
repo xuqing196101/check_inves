@@ -874,34 +874,10 @@ public class ProjectController extends BaseController {
     @RequestMapping("/excute")
     public String execute(String id, Model model, Integer page) {
         Project project = projectService.selectById(id);
-        if ("公开招标".equals(project.getPurchaseType())) {
-            model.addAttribute("project", project);
-            model.addAttribute("page", page);
-            model.addAttribute("fds", getFlowDefine("gkzb"));
-            return "bss/ppms/open_bidding/main";
-        } else if ("邀请招标".equals(project.getPurchaseType())) {
-            model.addAttribute("project", project);
-            model.addAttribute("page", page);
-            model.addAttribute("fds", getFlowDefine("yqzb"));
-            return "bss/ppms/invite_bidding/main";
-        } else if ("询价".equals(project.getPurchaseType())) {
-            model.addAttribute("project", project);
-            model.addAttribute("page", page);
-            model.addAttribute("fds", getFlowDefine("xjcg"));
-            return "bss/ppms/enquiry/main";
-        } else if ("竞争性谈判".equals(project.getPurchaseType())) {
-            model.addAttribute("project", project);
-            model.addAttribute("page", page);
-            model.addAttribute("fds", getFlowDefine("jzxtp"));
-            return "bss/ppms/competitive_negotiation/main";
-        } else if ("单一来源".equals(project.getPurchaseType())) {
-            model.addAttribute("project", project);
-            model.addAttribute("page", page);
-            model.addAttribute("fds", getFlowDefine("dyly"));
-            return "bss/ppms/single_source/main";
-        } else {
-            return "error";
-        }
+        model.addAttribute("project", project);
+        model.addAttribute("page", page);
+        model.addAttribute("fds", getFlowDefine(project.getPurchaseType()));
+        return "bss/ppms/open_bidding/main";
     }
 
     /**

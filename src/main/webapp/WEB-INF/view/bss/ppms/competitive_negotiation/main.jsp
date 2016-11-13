@@ -73,16 +73,17 @@
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
-						   <li class="active"><a href="${pageContext.request.contextPath}/project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
+						   <li class="active">
+						       <a href="${pageContext.request.contextPath}/project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
 						   <li><a href="${pageContext.request.contextPath}/firstAudit/toAdd_cn.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制竞谈文件</a></li>
-						   <li><a href="${pageContext.request.contextPath}/open_bidding/" target="open_bidding_main" class="son-menu">确认竞谈文件</a></li>
+						   <li><a href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${project.id}"" target="open_bidding_main" class="son-menu">确认竞谈文件</a></li>
 						   <li><a href="${pageContext.request.contextPath}/pub_com/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布竞谈公告</a></li>
 						   <li><a href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
 						   <li><a href="${pageContext.request.contextPath}/saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
 						   <li><a href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?id=${project.id}"" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
 						   <li><a href="${pageContext.request.contextPath}/packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
 						   <li><a href="${pageContext.request.contextPath}/pub_tran/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布成交公示</a></li>
-						   <li><a href="${pageContext.request.contextPath}/open_bidding/" target="open_bidding_main" class="son-menu">确定中标供应商</a></li>
+						   <li><a href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确定中标供应商</a></li>
 						 </ul>
 					  </div>
 					  <script type="text/javascript" language="javascript">   
