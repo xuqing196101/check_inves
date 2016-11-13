@@ -88,7 +88,7 @@
 			    
 	            <div class="clear"></div>
 			  </ul>
-              <div class="tc mt20 col-md-12">
+              <div class="tc mt10 col-md-12">
                 <input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
 				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
               </div>
