@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -144,8 +145,17 @@ function kaptcha(){
 		  </h2>
 		  </div>
           <div class="">
-                <ul class="list-unstyled categories list_common">            
-                   <li></li>
+                <ul class="list-unstyled categories list_common">
+	                <c:forEach items="${indexMapper['select27List']}" var="sl">
+	                	<c:set value="${sl.name}" var="name"></c:set>
+						<c:set value="${fn:length(name)}" var="length"></c:set>
+						<c:if test="${length>16}">
+							<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						</c:if>
+						<c:if test="${length<=16}">
+							<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						</c:if>
+	                </c:forEach>            
                 </ul>
           </div>
        </div>
@@ -244,17 +254,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-3" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select28List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-4" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select29List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-5" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select30List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -274,17 +311,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-6" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select31List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-7" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select32List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-8" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select33List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -303,17 +367,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-9" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select34List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-10" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select35List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-11" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select36List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -345,17 +436,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-12" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select37List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-13" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select38List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-14" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select39List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -375,17 +493,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-15" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select40List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-16" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select41List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-17" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select42List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -404,17 +549,44 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-18" class="tab-pane fade active in">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select43List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-19" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select44List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 		    <div id="tab-20" class="tab-pane fade">
              <ul class="categories">   
-              <li></li>
+              <c:forEach items="${indexMapper['select45List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	   </div>
@@ -538,7 +710,16 @@ function kaptcha(){
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li></li>
+              <c:forEach items="${indexMapper['select46List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	</div>
@@ -550,7 +731,16 @@ function kaptcha(){
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li></li>
+              <c:forEach items="${indexMapper['select47List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	</div>
@@ -562,7 +752,16 @@ function kaptcha(){
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li></li>
+              <c:forEach items="${indexMapper['select48List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	</div>
@@ -574,7 +773,16 @@ function kaptcha(){
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li></li>
+              <c:forEach items="${indexMapper['select49List']}" var="sl">
+                	<c:set value="${sl.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					</c:if>
+					<c:if test="${length<=16}">
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					</c:if>
+	          </c:forEach>
           </ul>
         </div>
 	</div>

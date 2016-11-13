@@ -86,7 +86,7 @@
    </div>
    
    <div class="container container_box">
-    <form action="${pageContext.request.contextPath }/article/save.html" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath }/article/save.html" method="post">
      <div class="">
 	   <h2 class="count_flow"><i>1</i>新增信息</h2>
 	 
@@ -94,7 +94,7 @@
      	<li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息标题：</span>
 	   <div class="input-append">
-	   	<input class="span2"  name="id" type="hidden" value="${article.id }">
+	   	<input class="span2"  name="id" type="hidden" value="${articleId }">
         <input class="span2" id="name" name="name" value="${article.name }" type="text">
         <span class="add-on">i</span>
          <div class="validate">${ERR_name}</div>  
@@ -159,8 +159,8 @@
 	 <li class="col-md-12 p0 mt10">
 	    <span class="fl">附件上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" auto="true" />
-			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
+	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 		</div>
 	 </li>
   	 </ul> 

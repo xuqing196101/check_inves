@@ -155,27 +155,26 @@ $(function(){
 	 <li class="col-md-12 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 		</div>
 	 </li>
 	 
 	 <li class="col-md-12 p0 mt5">
 	 <span class="fl">已上传的附件：</span>
-	 <div class="fl mt5">
-  	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	<a href="${ pageContext.request.contextPath }/index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
-  	   </c:forEach>
+	 <div class="fl">
+	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 </div>
 	 </li>
-	 <li class="col-md-12 p0 mt5">
+	 <%--<li class="col-md-12 p0 mt5">
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
 	      <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
 	    </div>
 	 </li>
-  	 </ul> 
+  	 --%></ul> 
 	         
 	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows edit" type="submit">修改</button>

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -41,11 +42,8 @@
 	    ${articleDetail.content }
 	 </div>
 	 <div class="extra_file">
-	 	<span class="f14 fl">附件：</span>
 	 	<div class="">
-		 	<c:forEach items="${articleDetail.articleAttachments}" var="a">
-		 		<a href="${pageContext.request.contextPath}/index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><br/>
-		 	</c:forEach>
+			<up:show showId="artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 	</div>
 	 </div>
 	 </div>

@@ -126,15 +126,13 @@ function back(){
 	 <li class="col-md-12 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
-			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 		</div>
 	 </li> 
 	 <li class="col-md-12 p0 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
-  	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a>,
-  	   </c:forEach>
+		<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 </div>
 	 </li> 
   	 </ul> 
