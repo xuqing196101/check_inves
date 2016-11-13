@@ -242,7 +242,7 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/user")
 	public String getUser(Integer page,User user,Model model){
-		List<User> list = userServiceI.selectUser(user, page==null?1:page);
+		List<User> list = userServiceI.list(user, page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("user", user);

@@ -21,31 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
 
  
-  <script type="text/javascript">
+<script type="text/javascript">
 
   /*分页  */
   $(function(){
@@ -53,10 +32,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
 		    total: "${info.total}",
 		    startRow: "${info.startRow}",
 		    endRow: "${info.endRow}",
+		    skip: true, //是否开启跳页
+		  
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //			        var page = location.search.match(/page=(\d+)/);
@@ -65,10 +45,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        //	$("#page").val(e.curr);
-		        	// $("#form1").submit();
+		        $("#page").val(e.curr);
+		          $("#add_form").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		         
 		        }  
 		    }
 		});
@@ -135,9 +115,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
-   <form id="add_form" action="<%=basePath%>set/user.html" method="post" >
+   <form id="add_form" action="${pageContext.request.contextPath }/set/user.html" method="post" >
    
-
+    <input type="hidden" name="page" id="page">
 	 用户名称 <input class="mt10"  type="text" name="relName" value="${user.relName}"/> 
 	   		 <input class="btn-u"   type="submit" name="" value="查询" />
  
