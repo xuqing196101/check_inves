@@ -70,9 +70,9 @@
 			data:{"id":parentId},
 			success:function(obj){
 				$("#choose2").empty();
-				//var data = eval('(' + obj + ')');
+				var data = eval('(' + obj + ')');
 				$("#choose2").append("<option value=''>-请选择-</option>");
-				$.each(obj,function(i,result){
+				$.each(data,function(i,result){
 					
 					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
@@ -133,7 +133,17 @@
        </div>
 	 </li> 
 	 
-      <li class="col-md-3 margin-0 padding-0 ">
+     
+  
+  	 <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">法定代表人：</span>
+	   <div class="input-append">
+         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
+        <span class="add-on">i</span>
+        <div class="validate">${ERR_legalName}</div>
+       </div>
+	 </li> 
+	  <li class="col-md-3 margin-0 padding-0 ">
 		   <span class="col-md-12 padding-left-5">企业地址：</span>
      		   <div class="select_common">
      		    <select id="choose1" class="w100" onchange="fun();">
@@ -146,16 +156,15 @@
 			    </div>
 	   </li> 
 	 
-  
-  	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">法定代表人：</span>
-	   <div class="input-append">
-         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
-        <span class="add-on">i</span>
-        <div class="validate">${ERR_legalName}</div>
+	  <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">进口代理商类型：</span>
+	   <div class="select_common">
+        <select id="type" class="w220" name="type">
+           <option value="1">正式代理商</option>
+           <option value="2">临时代理商</option>
+        </select>
        </div>
 	 </li> 
-	 
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">推荐单位：</span>
 	   <div class="input-append">
@@ -165,15 +174,7 @@
        </div>
 	 </li> 
 	 
-	     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">进口代理商类型：</span>
-	   <div class="select_common">
-        <select id="type" class="w220" name="type">
-           <option value="1">正式代理商</option>
-           <option value="2">临时代理商</option>
-        </select>
-       </div>
-	 </li> 
+	    
    </ul>
    </div>
     	  <div class="col-md-12 tc mt20" >

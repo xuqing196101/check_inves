@@ -196,7 +196,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-<!-- 我的订单页面开始-->
+<!-- 我的页面开始-->
     <div class="container">
      <div class="headline-v2">
      	<h2>进口代理商列表</h2>
@@ -248,7 +248,11 @@
 				    <c:if test="${list.type==1 }">正式进口代理商</c:if>
 					<c:if test="${list.type==2 }">临时进口代理商</c:if>
 				</td>
-				<td>${list.useCount }</td>
+				<td>
+					<c:if test="${empty list.useCount }">
+						无限制
+					</c:if>
+				</td>
 				<td>
 					<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">未激活</span></c:if>
 					<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">已激活</span></c:if>
