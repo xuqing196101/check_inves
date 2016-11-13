@@ -20,7 +20,7 @@
 					  title: '新增明细',
 					  skin: 'layui-layer-rim',
 					  shadeClose: true,
-					  area: ['496px'],
+					  area: ['580px','510px'],
 					  content: $("#openDiv")
 					});
 		}
@@ -35,55 +35,55 @@
   
  	  <div id="openDiv" class="dnone layui-layer-wrap" >
 		  <div class="drop_window">
-			  <ul class="demand_list list-unstyled">
+			  <ul class="list-unstyled">
 			    <li class="mt10 col-md-12 p0">
-	    	      <label class="col-md-12 padding-left-15">物资名称：</label>
+	    	      <label class="col-md-12 pl20">物资名称</label>
 				  <span class="col-md-12">
 				   <input id="citySel4" readonly="" name="categoryName" value="" class="title col-md-12" type="text">
 				  </span>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">编号：</label>
+	    	      <label class="col-md-12 padding-left-5">编号</label>
 	    	      <span>
                    <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
 				  </span>
 	            </li>
 			    
 				<li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">交付时间：</label>
+	    	      <label class="col-md-12 padding-left-5">交付时间</label>
 	    	      <span class="col-md-12 p0">
                    <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
                   </span>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">品牌商标：</label>
+	    	      <label class="col-md-12 padding-left-5">品牌商标</label>
 	    	      <span class="col-md-12 p0">
                    <input maxlength="11" id="bra" name="bra" value="" type="text" class="col-md-12 p0">
                   </span>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">规格型号：</label>
+	    	      <label class="col-md-12 padding-left-5">规格型号</label>
                    <input maxlength="11" id="model" name="model" value="" type="text" class="col-md-12 p0">
 	            </li> 
 			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">计量单位：</label>
+	    	      <label class="col-md-12 padding-left-5">计量单位</label>
                    <input maxlength="11" id="unit" name="unit" value="" type="text" class="col-md-12 p0">
 	            </li>
 				<li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">数量：</label>
-                   <input maxlength="11" id="purNum" name="purNum" onblur="sum2()" type="text"class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5">数量</label>
+                   <input maxlength="11" id="purNum" name="purNum"  type="text"class="col-md-12 p0">
 	            </li>
 			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">单价：</label>
-                   <input maxlength="11" id="univalent" onblur="sum1()" name="univalent" value="" type="text" class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5">单价</label>
+                   <input maxlength="11" id="univalent" name="univalent" value="" type="text" class="col-md-12 p0">
 	            </li>
 			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">合计：</label>
+	    	      <label class="col-md-12 padding-left-5">合计</label>
                    <input maxlength="11" id="purBudgetSum" name="purBudgetSum" value="" readonly="readonly" type="text" class="col-md-12 p0">
 	            </li> 
 			    <li class="col-md-12">
-	    	      <label class="col-md-12 padding-left-5">备注：</label>
-                  <textarea id="remarks" name="remarks" class="textAreaSize col-md-12 h80 p0" rows="3" cols="1"></textarea>
+	    	      <label class="col-md-12 padding-left-5">备注</label>
+                  <textarea id="remarks" name="remarks" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
 	            </li>
 			    
 	            <div class="clear"></div>
