@@ -908,3 +908,7 @@ li:first-child {
   background-position:10px 9px!important;
   background-repeat:no-repeat!important;
 }
+
+.drop_window{
+    padding:10px 10%;
+}
