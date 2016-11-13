@@ -155,7 +155,7 @@
    
    <div class="container">
      <div class="content table_box">
-   	<table class=" table table-condensed table-bordered table-hover">
+   	<table class=" table table-condensed table-bordered table-hover table-striped">
     
 		<thead>
 			<tr>
