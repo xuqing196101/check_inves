@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/backend/js/main-menu.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
+<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
 <!-- 时间插件 -->
 <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 
