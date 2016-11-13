@@ -1,7 +1,7 @@
 $(function() {
-  if (!$.browser.msie || $.browser.version > 6){
+  /*if (!$.browser.msie || $.browser.version > 6){
     $(".select2").select2({width: 'resolve', dropdownAutoWidth: 'true'});
-  }
+  }*/
 
   // 判断空 $.isBlank($(this).val())
   $.isBlank = function(obj) {
