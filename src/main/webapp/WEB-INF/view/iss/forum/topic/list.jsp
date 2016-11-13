@@ -140,8 +140,8 @@
 	 }
 	 function reset(){
 		 $("#condition").val("");
-		 $("#parkId  option:selected").val("");
-		 $("#parkId  option:selected").text("");
+		 var parks = document.getElementById("parkId").options;
+         parks[0].selected = true;
 	 }
   </script>
   </head>
@@ -196,7 +196,7 @@
 	</div>
 
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
     
 		<thead>
 			<tr>

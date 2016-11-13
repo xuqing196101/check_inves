@@ -71,7 +71,7 @@
 	})
 	
 </script>    
-  </head>
+ </head>
   
   <body>
   
@@ -139,7 +139,7 @@
         <input class="span2" id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
       	<div class="validate">${ERR_isPicShow}</div>
        </div>
-	 </li> 
+	 </li>
 	 
      <li class="col-md-11 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息正文：</span>
@@ -151,16 +151,16 @@
 	 <li class="col-md-12 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_up" groups="article_up,article_file_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-			<up:show showId="artice_show" groups="article_show,article_file_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
 		</div>
 	 </li>
 	 
 	 <li class="col-md-12 p0 mt10">
 	    <span class="fl">附件上传：</span>
 	    <div class="fl">
-	        <up:upload id="artice_file_up" groups="article_up,article_file_up" businessId="${article.id }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" auto="true" />
-			<up:show showId="artice_file_show" groups="article_show,article_file_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
+	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" auto="true" />
+			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
 		</div>
 	 </li>
   	 </ul> 

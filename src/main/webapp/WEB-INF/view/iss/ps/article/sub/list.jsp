@@ -156,7 +156,7 @@
 			
 	<div class="container margin-top-5">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+		  <table class="table table-bordered table-condensed table-striped">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

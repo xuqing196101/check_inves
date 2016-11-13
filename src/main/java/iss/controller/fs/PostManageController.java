@@ -135,13 +135,20 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/view")
-	public String view(Model model,String id){
+	public String view(Model model,String id,HttpServletRequest request){
 		Post p = postService.selectByPrimaryKey(id);	
 		Reply reply = new Reply();
 		reply.setPost(p);
 		BigDecimal replycount = replyService.queryByCount(reply);
 		p.setReplycount(replycount);
-
+		//附件信息
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("typeId", datas.get(0).getId());
+		}
 		model.addAttribute("post", p);		
 		System.out.println(p.getContent());
 		return "iss/forum/post/view";
@@ -157,8 +164,8 @@ public class PostManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request) throws IOException{
-		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("uuid", uuid);
+		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("uuid", id);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -253,12 +260,20 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/edit")
-	public String edit(String id,Model model){
+	public String edit(String id,Model model,HttpServletRequest request){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
 		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
+		//附件信息
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("typeId", datas.get(0).getId());
+		}
 		model.addAttribute("topics", topics);		
 		return "iss/forum/post/edit";
 	}
@@ -474,10 +489,15 @@ public class PostManageController {
 			List<Reply> replies = replyService.selectByReplyId(map2);
 			reply.setReplies(replies);
 		}
-		Post post = postService.selectByPrimaryKey(postId);	
 		//附件信息
-		//List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(postId);
-		//post.setPostAttachments(postAttachments);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("typeId", datas.get(0).getId());
+		}
+		Post post = postService.selectByPrimaryKey(postId);	
 		model.addAttribute("post", post);
 		model.addAttribute("list",  new PageInfo<Reply>(list));
 		return "iss/forum/detail";
@@ -492,6 +512,15 @@ public class PostManageController {
 	*/
 	@RequestMapping("/publish")
 	public String indexpublish(Model model,HttpServletRequest request){
+		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("id", uuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("POST_ATTACHMENT");
+		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+		if(list.size()>0){
+			model.addAttribute("typeId", list.get(0).getId());
+		}
 		List<Park> parks = parkService.getAll(null);
 
 		model.addAttribute("parks", parks);
@@ -507,12 +536,11 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/indexsave")
-	public String indexsave(@RequestParam("attaattach") MultipartFile[] attaattach,@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+	public String indexsave(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
-
 		if(parkId == null ||parkId=="" ){
 			flag = false;
 			model.addAttribute("ERR_park", "版块不能为空");			
@@ -530,9 +558,7 @@ public class PostManageController {
 		}
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
-
 			model.addAttribute("parks", parks);
-
 			url ="iss/forum/publish_post";
 		}else{
 			Timestamp ts = new Timestamp(new Date().getTime());
@@ -541,8 +567,10 @@ public class PostManageController {
 			Topic topic =topicService.selectByPrimaryKey(topicId);
 			post.setPark(park);
 			post.setTopic(topic);
+			User user = (User)request.getSession().getAttribute("loginUser");
+			post.setUser(user);
+			
 			postService.insertSelective(post);	
-			//uploadFile(post, request, attaattach);
 			
 			url ="redirect:/park/getIndex.html";
 		}

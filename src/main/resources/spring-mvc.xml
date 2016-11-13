@@ -31,20 +31,31 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
 			<!-- 需要排除拦截的地址 -->
+			
 			<!-- 首页浏览信息 -->
 			<mvc:exclude-mapping path="/index/selectIndexNews.*" />
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*" />
+			
 			<!-- 论坛首页浏览 -->
 			<mvc:exclude-mapping path="/park/getIndex.*" />
 			<mvc:exclude-mapping path="/post/getIndexlist.*" />
 			<mvc:exclude-mapping path="/post/getHotlist.*" />
 			<mvc:exclude-mapping path="/post/getIndexDetail.*" />	
+			
 			<!-- 首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			
 			<mvc:exclude-mapping path="/login/login.*" />
+			
 			<!-- 供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" />    
+			
+			<!-- 地区管理 -->
+			<mvc:exclude-mapping path="/area/find_root_area.*" />
+			<mvc:exclude-mapping path="/area/find_area_by_parent_id.*" />
+			
+			<!-- 文件上传和下载 -->
+			<mvc:exclude-mapping path="/file/*.*" />
 			
 			<!-- 后期删除此项 -->
 			<mvc:exclude-mapping path="/my_test/*.*" />

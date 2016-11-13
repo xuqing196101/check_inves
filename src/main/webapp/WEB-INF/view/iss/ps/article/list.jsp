@@ -199,7 +199,7 @@
 			
 
 	<div class="content table_box">
-		  <table class="table table-bordered table-condensed table-hover">
+		  <table class="table table-bordered table-condensed table-hover table-striped">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

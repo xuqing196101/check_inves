@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -46,12 +47,6 @@
                 }
             }
         });
-      
-      var file = "${post.postAttachments}";
-      if(file.length == 2 ||file.length ==0){
-          $("#file").hide();
-      }
-      
   });
   function publishForPost(postId){
 	  var isLocking = "${post.isLocking}";
@@ -132,13 +127,9 @@
         ${post.content }
      </div> 
         <div class="extra_file" id="file">
-        <span class="f14 fl">附件：</span>
-        <div class="">
-            <c:forEach items="${post.postAttachments}" var="a">
-                <a href="${ pageContext.request.contextPath }/post/downloadPostAtta.html?id=${a.id}">${fn:split(a.name, '_')[1]}</a><br/>
-            </c:forEach>
-        </div>
-     </div>  
+            <span class="f14 fl">附件：</span>
+            <up:show showId="post_attach_show"  businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+        </div>  
      </div>
 
      <!-- 回复列表 -->

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -37,16 +38,7 @@
 		        }
 			});
 	  }
-	   function addAttach(){
-	          html="<input id='pic' type='file' class='toinline fl' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
-	          $("#uploadAttach").append(html);
-	       }
-	        
-	   function deleteattach(obj){
-	      $(obj).prev().remove();
-	      $(obj).next().remove();
-	      $(obj).remove();
-	   }
+
  </script>
   </head>
   
@@ -96,13 +88,12 @@
                 </div>
                 <div class="validate">${ERR_content}</div>
              </li>   
-             <li class="col-md-12 p0 mt10">
-                <span class="fl">上传附件：</span>
-                <div class="fl" id="uploadAttach" >
-                  <input id="pic" type="file" class="toinline fl" name="attaattach"/>
-                  <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
-                </div>
-             </li>             
+             <input type="hidden" name="id" value='${id}'></input>
+              <li class="col-md-12 p0">
+               <span class="zzzx w245">上传附件：</span>
+                  <up:upload id="post_attach_up"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:show showId="post_attach_show"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
+              </li>           
          </ul>
          <div class="clear"></div>
     </div>      

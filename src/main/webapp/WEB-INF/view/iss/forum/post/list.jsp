@@ -177,10 +177,10 @@
      }
      function reset(){
          $("#postName").val("");
-         $("#parkId  option:selected").val("");
-         $("#parkId  option:selected").text("");
-         $("#topicId  option:selected").val("");
-         $("#topicId  option:selected").text("");
+         var parks = document.getElementById("parkId").options;
+         parks[0].selected = true;
+         var tipics = document.getElementById("topicId").options;
+         tipics[0].selected = true;
      }
   </script>
   </head>
@@ -245,7 +245,7 @@
    
 
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
     
 		<thead>
 			<tr>

@@ -136,7 +136,7 @@
 	  <button onclick="del()" class="btn btn-windows delete">删除</button>
    </div>  
      <div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
