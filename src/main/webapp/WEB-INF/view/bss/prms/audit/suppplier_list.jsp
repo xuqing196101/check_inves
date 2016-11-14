@@ -104,7 +104,7 @@
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">专家评分</button>
    	  </c:if>
    	   <c:if test="${packageExpert.isAudit != 1 }">
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button>
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
    	  </c:if>
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>

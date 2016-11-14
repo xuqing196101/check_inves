@@ -1,7 +1,11 @@
 package bss.controller.prms;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,8 +41,10 @@ import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.Quote;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
+import ses.service.sms.SupplierQuoteService;
 
 @Controller
 @RequestMapping("packageExpert")
@@ -62,12 +68,16 @@ public class PackageExpertController {
 	private ExpertService expertService;//专家
 	@Autowired
 	private ReviewFirstAuditService reviewFirstAuditService;//初审表
+	@Autowired
+	private PackageExpertService packageExpertService;//专家项目包 关联表
+	@Autowired
+	SupplierQuoteService supplierQuoteService;//供应商报价
 	/**
 	 * 
 	  * @Title: toPackageExpert
 	  * @author ShaoYangYang
 	  * @date 2016年10月18日 下午3:05:52  
-	  * @Description: TODO 跳转到阻止专家评审页面
+	  * @Description: TODO 跳转到组织专家评审页面
 	  * @param @param projectId
 	  * @param @return      
 	  * @return String
@@ -268,9 +278,28 @@ public class PackageExpertController {
 	 */
 	@RequestMapping("gather")
 	@ResponseBody
-	public void getPace(PackageExpert record){
-		record.setIsGather((short) 1);
-		service.updateByBean(record );
+	public void getPace(PackageExpert record,HttpServletResponse response){
+		try {
+		Map<String,Object> map = new HashMap<>();
+		map.put("expertId", record.getExpertId());
+		map.put("projectId", record.getProjectId());
+		map.put("packageId", record.getPackageId());
+		//查询包关联专家实体
+		List<PackageExpert> selectList = packageExpertService.selectList(map);
+		if(selectList!=null && selectList.size()>0){
+			PackageExpert packageExpert = selectList.get(0);
+			//判断为审核过的 和未汇总的 才执行汇总
+			if(packageExpert.getIsAudit()==1 && packageExpert.getIsGather()!=1){
+				record.setIsGather((short) 1);
+				service.updateByBean(record );
+				response.getWriter().print("已汇总！");
+			}else{
+					response.getWriter().print("不能汇总！");
+			}
+		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * 
@@ -286,27 +315,117 @@ public class PackageExpertController {
 	@RequestMapping("isBack")
 	@ResponseBody
 	public void isBack(PackageExpert record,HttpServletResponse response){
-		//查询是否已评审
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("expertId", record.getExpertId());
-		map.put("packageId", record.getPackageId());
-		map.put("projectId", record.getProjectId());
-		List<PackageExpert> selectList = service.selectList(map);
-		if(selectList!= null && selectList.size()>0){
-			
-			PackageExpert packageExpert = selectList.get(0);
-			if(packageExpert.getIsAudit()!=1){
-				try {
-					response.getWriter().print("error");
-					return ;
-				} catch (IOException e) {
-					e.printStackTrace();
+		try {
+			//查询是否已评审
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("expertId", record.getExpertId());
+			map.put("packageId", record.getPackageId());
+			map.put("projectId", record.getProjectId());
+			List<PackageExpert> selectList = service.selectList(map);
+			if(selectList!= null && selectList.size()>0){
+				PackageExpert packageExpert = selectList.get(0);
+				if(packageExpert.getIsAudit()!=1){
+				  response.getWriter().print("0");
+				}else{
+					//查询是否已评审
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					map2.put("packageId", record.getPackageId());
+					map2.put("projectId", record.getProjectId());
+					//该专家下的审核项目关联集合
+					  List<PackageExpert> packageExpertList = packageExpertService.selectList(map2);
+					  //判断是否为全部已评审状态
+					  for (PackageExpert packageExpert2 : packageExpertList) {
+						if(packageExpert2.getIsAudit()==1){
+								//查询改项目的进度信息
+								  List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
+								  //更新项目进度
+								  if(reviewProgressList!=null && reviewProgressList.size()>0){
+									  ReviewProgress progress = reviewProgressList.get(0);
+									  //修改进度
+									  if(packageExpertList!=null&& packageExpertList.size()>0){
+										  //计算当前专家占用的进度比重
+										  double first =  1/(double)packageExpertList.size();
+										  BigDecimal b = new BigDecimal(first); 
+										  double firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+										  //计算退回后的初审进度
+										  Double firstAuditProgress = progress.getFirstAuditProgress();
+										  //最终进度
+										 double endFirst = firstAuditProgress-firstProgress;
+										 //退回后的初审进度
+										 progress.setFirstAuditProgress(endFirst);
+										  //总进度比例
+										  double totalProgress = (firstProgress+progress.getScoreProgress())/2;
+										  //当前总进度
+										  Double totalProgress2 = progress.getTotalProgress();
+										  //计算退回之后的总进度
+										  progress.setTotalProgress(totalProgress2-totalProgress);
+										  //修改
+										  reviewProgressService.updateByPrimaryKeySelective(progress);
+									  }
+								  }
+						}
+					}
+					Short flag = 0;
+					record.setIsGather(flag);
+					record.setIsAudit(flag);
+					service.updateByBean(record);
+					response.getWriter().print("1");
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		Short flag = 0;
-		record.setIsGather(flag);
-		record.setIsAudit(flag);
-		service.updateByBean(record);
+		
 	}
+	
+	 /**
+	   * 
+	    * @Title: supplierQuote
+	    * @author ShaoYangYang
+	    * @date 2016年11月11日 下午2:46:47  
+	    * @Description: TODO 查看供应商报价
+	    * @param @param packageId
+	    * @param @param projectId
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("supplierQuote")
+	  public String supplierQuote(String projectId,String supplierId,Model model,Quote quote,String timestamp){
+		  try { HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("projectId", projectId);
+		    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+		    List<List<Quote>> listQuote=new ArrayList<List<Quote>>();
+		    //查询时间
+		    Quote quote2 = new Quote();
+		    quote2.setSupplierId(supplierId);
+		    quote.setProjectId(projectId);
+		    List<Date> listDate=supplierQuoteService.selectQuoteCount(quote2);
+		    for(Packages pk:listPackage){
+		    	if(StringUtils.isNotEmpty(timestamp)){
+		    		//如果传递时间 就按照时间查询
+		    		quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+		    	}else{
+		    		if(listDate!=null && listDate.size()>0){
+		    		//否则就查询最后一次报价
+		    		Date date = listDate.get(listDate.size()-1);
+		    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		    		String formatDate = sdf.format(date);
+		    		Timestamp timestamp2 = Timestamp.valueOf(formatDate);
+		    		quote.setCreatedAt(timestamp2);
+		    		}
+		    	}
+		    	quote.setPackageId(pk.getId());
+		    	List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+		    	listQuote.add(quoteList);
+		    }
+		    model.addAttribute("listPackage",listPackage);
+		    model.addAttribute("listQuote",listQuote);
+		    model.addAttribute("listDate", listDate);
+		    model.addAttribute("projectId", projectId);
+		    model.addAttribute("supplierId", supplierId);
+		  } catch (Exception e) {
+				e.printStackTrace();
+			}
+		return "bss/prms/view_quote";
+	  }
 }

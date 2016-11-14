@@ -1,15 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
 
 <!-- 前端css样式 -->
-<link href="${pageContext.request.contextPath}/public/front/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/front/css/common.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/front/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/front/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/front/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/front/css/btn.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/front/css/common.css" rel="stylesheet"  type="text/css" />
+<link href="${pageContext.request.contextPath}/public/front/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
+<link href="${pageContext.request.contextPath}/public/front/css/style.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
 

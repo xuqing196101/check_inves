@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -13,32 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <base href="${pageContext.request.contextPath}/">
     
     <title>各包分配专家</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript">
     var result;
     $(function(){
@@ -163,8 +138,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var projectId = "${project.id}";
 				$.ajax({
 					url:"${pageContext.request.contextPath}/packageExpert/gather.html?projectId="+projectId+"&expertId="+value[0]+"&packageId="+value[1],
-					success:function(){
-						layer.msg("已汇总");
+					success:function(data){
+						layer.msg(data);
 					},
 					error:function(){
 						
@@ -198,11 +173,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var projectId = "${project.id}";
 				$.ajax({
 					url:"${pageContext.request.contextPath}/packageExpert/isBack.html?projectId="+projectId+"&expertId="+value[0]+"&packageId="+value[1],
-					success:function(){
-						layer.msg("已退回");
-						setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
-							window.location.reload();//页面刷新
-							},1000);
+					success:function(data){
+						if(data=='0'){
+							layer.msg("不能退回！");
+						}else{
+							layer.msg("已退回！");
+							setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
+								window.location.reload();//页面刷新
+								},1000);
+						}
+						
 					},
 					error:function(){
 						
@@ -291,10 +271,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		           content: '${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?projectId=${project.id}'
 		         });
 		 }
+		 //查看供应商报价
+		 function supplierView(supplierId){
+				    var projectId=$("#projectId").val();
+					location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="+projectId+"&supplierId="+supplierId;
+		 }
 		 </script>
 		 </head>
 		 
 		 <body>
+		 <!-- <input type="button" class="btn" value="查看" onclick="supplierView('417881FADA704F10B2FD697336076D9B')"> -->
 		 	<div class="tab-content clear step_cont">
 		 		<div class=class= "col-md-12 tab-pane active"  id="tab-1"
 		 			style="display: block;">
@@ -405,7 +391,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												        <td align="center">${supplier.suppliers.supplierName } </td>
 												        <td align="center">${supplier.suppliers.contactName }</td>
 												        <td align="center">${supplier.suppliers.contactTelephone }</td>
-												        <td align="center"></td>
+												        <td align="center">
+												          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
+												        </td>
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
@@ -567,15 +555,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   		   <table class="table table-bordered table-condensed mt5">
 											    <thead>
 											    <tr align="right">
-									   		   		<td align="right" colspan="${2+supplierList.size() }">
+									   		   		<td align="right" colspan="${3+supplierList.size() }">
 									   		   		<button class="btn btn-windows back" type="button">评分汇总</button>
 								   	                <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 								   	                </td>
 									   		   </tr>
 											      <tr>
-											      	<th colspan="${supplierList.size()+2 }">${pack.name }评分汇总</th>
+											      	<th colspan="${supplierList.size()+3 }">${pack.name }评分汇总</th>
 											      </tr>
 											      <tr>
+											        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
 											        <th>评委</th>
 											        <th>评分完成</th>
 											        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
@@ -587,6 +576,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
 											         <c:if test="${ext.packageId eq pack.id }">
 												       <tr>
+												       <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
 												        <td align="center">${ext.expert.relName } </td>
 												        <td align="center">未完成 </td>
 												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
