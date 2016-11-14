@@ -12,7 +12,6 @@
 <link href="${pageContext.request.contextPath}/public/front/css/btn.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >   
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application" />
 <script>
@@ -21,7 +20,7 @@
 
 
 <!-- 前端js -->
-<script src="${pageContext.request.contextPath}/public/backend/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/front/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/front/js/common.js"></script>
 <script src="${pageContext.request.contextPath}/public/front/js/main-menu.js"></script>
