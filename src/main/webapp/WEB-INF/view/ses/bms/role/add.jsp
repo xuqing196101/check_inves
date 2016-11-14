@@ -37,7 +37,7 @@
     });
   </script>
  <body>
-   <!-- <div class="dnone layui-layer-wrap" >
+    <div class="layui-layer-wrap" >
         <form action="" id="form1" method="post">
           <div class="drop_window">
               <ul class="list-unstyled">
@@ -46,9 +46,7 @@
                   <span class="col-md-12">
                    <input name="name" maxlength="30" class="title col-md-12" type="text">
                   </span>
-                </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">状态</label>
+                   <label class="col-md-12 pl20"><i class="red">*</i>状态</label>
                   <span class="col-md-12">
                    <select name="status" class="w180 mb10">
                         <option value="0">可用</option>
@@ -57,10 +55,13 @@
                   </span>
                 </li>
                 <li class="mt10 col-md-12 p0">
+                   
+                </li>
+                <li class="mt10 col-md-12 p0">
                   <label class="col-md-12 pl20">描述</label>
-                   <div class="fn mt5 ">
+                   <span class="col-md-12">
                     <textarea class="text_area1 mt6" name="description" maxlength="200" title="" placeholder=""></textarea>
-                   </div>
+                   </span>
                 </li>
                 <div class="clear"></div>
              </ul>
@@ -70,45 +71,6 @@
               </div>
            </div>  
          </form>
-    </div>      -->    
-   <div class="container">
-	   <form action="" id="form1" method="post">
-		   <div>
-		   	
-			   <ul class="list-unstyled mt10">
-			     <li class="col-md-6 p0">
-			     	<span class="fl mt5 red">*</span>
-				   <span class="fl mt5">名称：</span>
-				   <div class="input-append">
-			        <input class="w140" name="name" maxlength="30" type="text">
-			        <span class="add-on">i</span>
-			       </div>
-				 </li>
-				 <li class="col-md-6 p0 ">
-				   <span class="fl red">*</span>
-				   <span class="fl">状态：</span>
-			        <select name="status" class="w180 mb10">
-			        	<option value="0">可用</option>
-			        	<option value="1">禁用</option>
-			        </select>
-				 </li>
-			     <li class="col-md-12 p0 ml6">
-				   <span class="fl mt5">描述：</span>
-				   <div class="fn mt5 ">
-			        <textarea class="text_area1 mt6" name="description" maxlength="200" title="" placeholder=""></textarea>
-			       </div>
-				 </li> 
-			   </ul>
-			   
-		  </div> 
-	   
-		  <div  class="col-md-12">
-		    <div class="fl padding-10">
-			    <button class="btn btn-windows save" id="save" type="button">保存</button>
-			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
-			</div>
-		  </div>
-	  </form>
-  </div>
+    </div>         
  </body>
 </html>
