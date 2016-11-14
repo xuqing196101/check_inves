@@ -358,8 +358,8 @@
 			</li>
 			<li class="col-md-12 mt10">
 			   <span class="span3 fl"><div class="red star_red">*</div>上传附件：</span>
-		  		<up:upload id="post_attach_up"  businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-          		<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			    <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+				<up:show showId="post_attach_show" businessId="${uuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
             </li>
 			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>

@@ -36,7 +36,7 @@
 	 </div>
 	 <div class="extra_file">
 	 	<div class="">
-			<up:show showId="artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+			<up:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 	</div>
 	 </div>
 	 </div>

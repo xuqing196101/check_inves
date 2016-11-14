@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page import="ses.model.bms.User" %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -12,17 +11,24 @@
 <!--导航js-->
 <jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
+var user = "${sessionScope.loginUser.loginName}";
 $(function(){
-	$(document).keyup(function(event){
-	  if(event.keyCode ==13){
-	    login();
-	  }
-	});
+	if(user!=null && user!=''){
+		$("#welcome").html("你好，欢迎来到中国军队采购网！:"+user);
+	}
 	
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
 		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
 	});
 })
+
+function myInfo(){
+	if(user!=null && user!=''){
+		window.location.href="${pageContext.request.contextPath}/login/index.html";
+	}else{
+		window.location.href="${pageContext.request.contextPath}/index/sign.html";
+	}
+}
 
 function login(){
 	if($("#inputEmail").val()==""){
@@ -76,16 +82,13 @@ function kaptcha(){
 <div class="wrapper">
   <div class="head_top col-md-12">
    <div class="container">
-   
     <div class="row">
-    <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
+    <div class="col-md-9" id="welcome">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
        <div class="col-md-3 head_right"> 
     <!-- 根据session判断 -->
-    	 <a href=" ">我的信息</a> |     
-         <a href=" ">采购系统首页</a>
+    	 <a onclick="myInfo()">我的信息</a>     
 	   </div>
 	  </div>
-	  
     </div>
   </div>
   </div>

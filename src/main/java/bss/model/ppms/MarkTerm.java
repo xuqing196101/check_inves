@@ -28,6 +28,7 @@ public class MarkTerm implements Serializable{
 	private Date updatedAt;//
 	private String maxScore;//
 	private String remainScore ;//
+	private String typeName;
 	
 	private String isRoot ;
 	private String bidMethodId;//
@@ -174,6 +175,12 @@ public class MarkTerm implements Serializable{
 	}
 	public void setRemainScore(String remainScore) {
 		this.remainScore = remainScore;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 	
 }

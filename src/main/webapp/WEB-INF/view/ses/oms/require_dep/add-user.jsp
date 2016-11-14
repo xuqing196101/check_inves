@@ -65,7 +65,7 @@
    
    <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>purchaseManage/createUser.html" method="post" id="formID">
+   <form action="${pageContext.request.contextPath}/purchaseManage/createUser.html" method="post" id="formID">
    <div>
 	   <div class="headline-v2">
 	   	 <h2>新增用户</h2>

@@ -498,10 +498,11 @@ a.thumbnail {
 /*下拉框*/
 .select_common{
     display: inline-block;
-    margin-bottom: 5px;
     white-space: nowrap;
     vertical-align: middle;
-    min-width: 249px;
+    min-width:249px;
+    position:relative;
+    margin-bottom:25px;
 }
 
 .select_common select{
@@ -829,10 +830,12 @@ li:first-child {
 .bdzb{
   background:url(../images/bd.png) no-repeat 0 0;}
 .star_red{
-	width: 10px;
-    height: 30px;
+    height: 25px;
+    line-height:25px;
     margin-right: 5px;
     display: inline-block;
+    font-size:small;
+    color:#ef0000;
 }
 .dnone{
 	display: none;
@@ -840,9 +843,17 @@ li:first-child {
 }
 .tnone{
 	display: none;
-<<<<<<< Updated upstream
 }
-
+/* 提示信息样式 */
+.cue{
+	position:absolute;
+	left:0px;
+	top:30px;
+	height:25px;
+	line-height:25px;
+	color:#ef0000;
+	font-size:12px;
+}
 /** 地图样式*/
 #mapsId {
     height: 700px;
@@ -913,8 +924,6 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
-=======
-}
 /* 档案样式添加 */
 .dangan_file{
 	font-size:26px;
@@ -930,4 +939,3 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
->>>>>>> Stashed changes

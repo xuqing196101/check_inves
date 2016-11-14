@@ -23,13 +23,13 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		             location.href = '<%=basePath %>purchaseManage/addPurchaseOrg.html?page='+e.curr+"&address=${address}";
+		             location.href = '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?page='+e.curr+"&address=${address}";
 		        }
 		    }
 		});
   });
   function fanhui(){
-  	window.location.href="<%=basePath%>purchaseManage/add.html"
+  	window.location.href="${pageContext.request.contextPath}/purchaseManage/add.html"
   }
   function submit(){
   	$("#form1").submit();
