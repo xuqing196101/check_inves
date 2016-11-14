@@ -60,17 +60,11 @@ public class TackController extends BaseController{
 	@Autowired
 	private TaskService taskservice;
 	@Autowired
-	private TaskAttachmentsService taskAttachmentsService;
-	@Autowired
 	private CollectPlanService collectPlanService; 
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	@Autowired
 	private CollectPurchaseService conllectPurchaseService;
-	 @Autowired
-	private ProjectDetailService detailService;
-	 @Autowired
-	private PackageService packageService;
 	 @Autowired
 	private DictionaryDataServiceI dictionaryDataService;
 	

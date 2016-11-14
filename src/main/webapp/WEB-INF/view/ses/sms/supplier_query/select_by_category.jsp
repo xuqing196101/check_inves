@@ -86,11 +86,16 @@
 	  </div>
    </div>
 <body>
-   <div class="container">
-   <div class="col-md-3">
-	 <div id="ztree" class="ztree"></div>
-	</div>
-		<div class="mt10 col-md-9">
+   <div class="container content height-350">
+            <div class="row">
+                <!-- Begin Content -->
+                <div class="col-md-12" style="min-height:400px;">
+				<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+				    <div class="tag-box tag-box-v3">
+					<div id="ztree" class="ztree"></div>
+					</div>
+				</div>
+				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 			  <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
@@ -155,6 +160,8 @@
 	    <input type="hidden"  onclick="mysubmit()" value="submit"/>
     <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
     </form>
+	</div>
+	</div>
 	</div>
 </body>
 </html>

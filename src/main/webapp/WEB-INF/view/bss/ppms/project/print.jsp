@@ -88,40 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
         
 
-        <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-        <div class="tag-box tag-box-v4 col-md-9">
-        <input class="btn btn-windows save" type="button" onclick="bag('${project.id}');" value="分包"> 
-            <table class="table table-bordered">
-        <tr>
-            
-          <td class="bggrey tr">项目编号:</td><td>${project.projectNumber}</td>
-          <td class="bggrey tr">项目名称:</td><td>${project.name}</td>
-        </tr>
-        <tr>
-          <td class="bggrey tr">预算金额:</td><td>${project.purchaseDepName}</td>
-          <td class="bggrey tr">经办人:</td><td>${project.ipone}</td>
-        </tr>
-        <tr>
-          <td class="bggrey tr">项目介绍:</td>
-          <td colspan="3">
-          <textarea rows="3" cols="20" name="prIntroduce">
-            ${project.prIntroduce}
-          </textarea>
-          </td>
-        </tr>
-        <tr>
-          <td class="bggrey tr">工作分工:</td>
-          <td colspan="3">
-          <textarea rows="3" cols="20" name="divisionOfWork">
-            ${project.divisionOfWork}
-          </textarea>
-          </td>
-        </tr>
-            </table>
-            <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
-            <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
-            </div>
-        </form>
+        
     </div>
 
  

@@ -2,87 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-    <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>任务管理</title>  
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
-    
-    
-
-
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
   <script type="text/javascript">
-  
-  
-    /** 全选全不选 */
-    function selectAll(){
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-               for(var i=0;i<checklist.length;i++)
-               {
-                  checklist[i].checked = true;
-               } 
-             }else{
-              for(var j=0;j<checklist.length;j++)
-              {
-                 checklist[j].checked = false;
-              }
-            }
-        }
-    
-    /** 单选 */
-    function check(){
-         var count=0;
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         for(var i=0;i<checklist.length;i++){
-               if(checklist[i].checked == false){
-                   checkAll.checked = false;
-                   break;
-               }
-               for(var j=0;j<checklist.length;j++){
-                     if(checklist[j].checked == true){
-                           checkAll.checked = true;
-                           count++;
-                       }
-                 }
-           }
-    }
-    
   </script>
   </head>
   
@@ -95,96 +19,85 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            </ul>
         <div class="clear"></div>
       </div>
-   </div>
+ </div>
 <!-- 录入采购计划开始-->
- <div class="container">
-   <div class="headline-v2">
-      <h2>查看采购计划</h2>
-   </div>
-<!-- 项目戳开始 -->
- 
-   
-    
-                         计划名称：${queryById.fileName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                计划编号： ${queryById.planNo}
-       <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>
-     
-   
-     <div class="clear"></div>
-
- 
-   <div class="headline-v2 fl">
-      <h2>需求明细查看
-      </h2>
-       </div> 
-     <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
-      </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
-        <thead>
-        <tr>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-          <th class="info w50">序号</th>
-          <th class="info">需求部门</th>
-          <th class="info">物资名称</th>
-          <th class="info">规格型号</th>
-          <th class="info">质量技术标准</th>
-          <th class="info">计量单位</th>
-          <th class="info">采购数量</th>
-          <th class="info">单价（元）</th>
-          <th class="info">预算金额（万元）</th>
-          <th class="info">交货期限</th>
-          <th class="info">采购方式建议</th>
-          <th class="info">供应商名称</th>
-          <th class="info">是否申请办理免税</th>
-          <th class="info">物资用途（进口）</th>
-          <th class="info">使用单位（进口）</th>
-          <th class="info">备注</th>
-        </tr>
-        </thead>
-          <c:forEach items="${lists}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${obj.seq}</td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">${obj.price}</td>
-              <td class="tc">${obj.budget}</td>
-              <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
-              <td class="tc">${obj.memo}</td>
-            </tr>
-     
-         </c:forEach>  
-         
-
-      </table>
-      
-      <div id="pagediv" align="right"></div>
-   </div>
+  <div class="container">
+       <div class="tab-content">
+          <div class="tab-v2">
+            <ul class="nav nav-tabs bgwhite">
+              <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="f18">详细信息</a></li>
+             </ul>
+             <div class="tab-content">
+	            <div class="tab-pane fade in active" id="dep_tab-0">
+	                  <h2 class="count_flow jbxx">基本信息</h2>
+	                  <table class="table table-bordered">
+                         <tbody> 
+                            <tr>
+			                  <td class="bggrey">计划名称：</td>
+			                  <td>${queryById.fileName}</td>
+			                  <td class="bggrey">计划编号：</td>
+			                  <td>${queryById.planNo}</td>
+			                </tr> 
+                         </tbody>       
+                      </table>     
+                      <h2 class="count_flow jbxx">需求明细查看</h2>
+                      <div class="content table_box">
+                        <table class="table table-bordered table-condensed table-hover table-striped">  
+                             <thead>
+							        <tr>
+							          <th class="info w50">序号</th>
+							          <th class="info">需求部门</th>
+							          <th class="info">物资名称</th>
+							          <th class="info">规格型号</th>
+							          <th class="info">质量技术标准</th>
+							          <th class="info">计量单位</th>
+							          <th class="info">采购数量</th>
+							          <th class="info">单价（元）</th>
+							          <th class="info">预算金额（万元）</th>
+							          <th class="info">交货期限</th>
+							          <th class="info">采购方式建议</th>
+							          <th class="info">供应商名称</th>
+							          <th class="info">是否申请办理免税</th>
+							          <th class="info">物资用途（进口）</th>
+							          <th class="info">使用单位（进口）</th>
+							          <th class="info">备注</th>
+							        </tr>
+							   </thead>
+							          <c:forEach items="${lists}" var="obj" varStatus="vs">
+							            <tr style="cursor: pointer;">
+							              <td class="tc w50">${obj.seq}</td>
+							              <td class="tc">${obj.department}</td>
+							              <td class="tc">${obj.goodsName}</td>
+							              <td class="tc">${obj.stand}</td>
+							              <td class="tc">${obj.qualitStand}</td>
+							              <td class="tc">${obj.item}</td>
+							              <td class="tc">${obj.purchaseCount}</td>
+							              <td class="tc">${obj.price}</td>
+							              <td class="tc">${obj.budget}</td>
+							              <td class="tc">${obj.deliverDate}</td>
+							              <td class="tc">
+			                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+			                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+			                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+			                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+			                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+			                              </td>
+							              <td class="tc">${obj.supplier}</td>
+							              <td class="tc">${obj.isFreeTax}</td>
+							              <td class="tc">${obj.goodsUse}</td>
+							              <td class="tc">${obj.useUnit}</td>
+							              <td class="tc">${obj.memo}</td>
+							            </tr>
+							         </c:forEach>  
+                        </table>
+                      </div>        
+	            </div>
+            </div>
+            </div>
+    </div>
+     <div class="col-md-12 tc">
+        <button class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+      </div>
  </div>
-
-
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
- 
      </body>
 </html>

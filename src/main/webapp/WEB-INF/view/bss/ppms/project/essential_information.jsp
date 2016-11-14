@@ -2,23 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/upload" prefix="f"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>项目管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-
-
 <script type="text/javascript">
 	$(function() {
 		$("#hide_detail").hide();
@@ -40,21 +28,22 @@
 
 <body>
 	<!--面包屑导航开始-->
-	<div class="container content pt0">
-		<div class="row magazine-page">
-			<div class="col-md-12 tab-v2">
-				<div class="padding-top-10">
-					<ul class="nav nav-tabs bgwhite">
+	<div class="container">
+       <div class="tab-content">
+          <div class="tab-v2">
+            <ul class="nav nav-tabs bgwhite">
 						<li class="active"><a aria-expanded="true" href="#tab-1"
-							data-toggle="tab" class="s_news f18">详细信息</a></li>
+							data-toggle="tab" class="f18">详细信息</a></li>
 						<li class=""><a aria-expanded="false" href="#tab-2"
-							data-toggle="tab" class="s_news f18">项目明细</a></li>
+							data-toggle="tab" class="f18">项目明细</a></li>
 							<li class=""><a aria-expanded="false" href="#tab-3"
-                            data-toggle="tab" class="fujian f18">项目表单</a></li>
+                            data-toggle="tab" class="f18">项目表单</a></li>
 						<li class=""><a aria-expanded="false" href="#tab-4"
-							data-toggle="tab" class="fujian f18">打印报批文件</a></li>
+							data-toggle="tab" class="f18">打印报批文件</a></li>
+						<li class=""><a aria-expanded="false" href="#tab-5"
+                            data-toggle="tab" class="f18">附件上传</a></li>
 					</ul>
-					<div class="tab-content padding-top-20">
+					<div class="tab-content">
 						<div class="tab-pane fade active in" id="tab-1">
 							<h2 class="count_flow jbxx">基本信息</h2>
 							<form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" target="_parent">
@@ -170,7 +159,7 @@
 								</tbody>
 							</table>
 							 <div class="col-md-12 tc mt20" >
-					               <button class="btn btn-windows save"  type="submit">保存</button>
+					               <button class="btn btn-windows git"  type="submit">更新</button>
 					         </div>
 						  </form>
 						</div>
@@ -221,12 +210,53 @@
                             </table>
 						</div>
 
-						<div class="tab-pane fade " id="tab-3" style="position：relative">
+						<div class="tab-pane fade " id="tab-3" >
 				        </div>
+				        <div class="tab-pane fade " id="tab-4" >
+				            <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
+							        <%-- <input class="btn btn-windows save" type="button" onclick="bag('${project.id}');" value="分包"> --%> 
+							            <table class="table table-bordered">
+                                             <tbody>
+                                                <tr>
+								                  <td class="bggrey">项目编号：</td>
+								                  <td>${project.projectNumber}</td>
+								                  <td class="bggrey ">项目名称：</td>
+								                  <td>${project.name}</td>
+								                </tr>
+								                <tr>
+                                                  <td class="bggrey">预算金额:</td>
+                                                  <td>${project.purchaseDepName}</td>
+                                                  <td class="bggrey ">经办人:</td>
+                                                  <td>${project.ipone}</td>
+                                                </tr>
+										        <tr>
+										          <td class="bggrey">项目介绍:</td>
+										          <td colspan="3">
+										            ${project.prIntroduce}
+										          </td>
+										        </tr>
+										        <tr>
+                                                  <td class="bggrey">工作分工:</td>
+                                                  <td colspan="3">
+                                                    ${project.divisionOfWork}
+                                                  </td>
+                                                </tr>
+							            </table>
+							            <div class="col-md-12 tc">
+							            <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
+							            <button class="btn btn-windows back"  onclick="history.go(-1)" type="button">返回</button>
+							            </div>
+                         </form>
+				            
+                        </div>
+                        <div class="tab-pane fade " id="tab-5" >
+                            <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
+                            <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
+                        </div>
 			</div>
 		</div>
 	</div>
 
-
+</div>
 </body>
 </html>

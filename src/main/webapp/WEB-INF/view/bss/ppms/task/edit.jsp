@@ -7,9 +7,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>任务管理</title>  
   <script type="text/javascript">
   
   
@@ -201,159 +198,148 @@
    </div>
   
 <!-- 录入采购计划开始-->
- <div class="container">
-   <div class="headline-v2">
-      <h2>采购计划调整</h2>
-   </div>
-<!-- 项目戳开始 -->
-<form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
-   <div class="container clear">
-    <div class="p10_25">
-     <h2 class="padding-10">
-     <ul class="demand_list">
-      <li class="fl">
+ <div class="container container_box">
+    <form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
         <input type="hidden" id="ide" name="ide" value="${queryById.id}"/>
-        <label class="fl">
-                           计划名称：<input type="text" id="fileName" name="fileName" value="${queryById.fileName}"/>
-        </label>
-      </li>
-      <li class="fl">
-        <label class="fl">
-                                计划编号：<input type="text" id="planNo" name="planNo" value="${queryById.planNo}"/> 
-        </label>
-      </li>
-     </ul> 
-   
-     <div class="clear"></div>
-     </h2>
-   </div>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>需求明细调整
-      </h2>
-       </div> 
-     
-  
-      <span class="fr option_btn margin-top-10">
+        <div>
+            <h2 class="count_flow"><i>1</i>采购计划调整</h2>
+            <ul class="ul_list">
+			     <li class="col-md-3 margin-0 padding-0 ">
+			       <span class="col-md-12 padding-left-5">计划名称</span>
+			       <div class="input-append">
+			        <input type="text" id="fileName" name="fileName" class="span5" value="${queryById.fileName}"/>
+			        <span class="add-on">i</span>
+			       </div>
+			     </li>
+			     <li class="col-md-3 margin-0 padding-0 ">
+                   <span class="col-md-12 padding-left-5">计划编号</span>
+                   <div class="input-append">
+                    <input type="text" id="planNo" name="planNo" class="span5" value="${queryById.planNo}"/> 
+                    <span class="add-on">i</span>
+                   </div>
+                 </li>
+			</ul>
+        </div>
+        <div>
+            <h2 class="count_flow"><i>2</i>需求明细调整</h2>
+            <ul class="ul_list">
+            <div class="content table_box">
+                <table id="table" class="table table-bordered table-condensed table-hover table-striped">
+                <thead>
+			        <tr>
+			          <th class="info w50">序号</th>
+			          <th class="info">需求部门</th>
+			          <th class="info">物资名称</th>
+			          <th class="info">规格型号</th>
+			          <th class="info">质量技术标准</th>
+			          <th class="info">计量单位</th>
+			          <th class="info">采购数量</th>
+			          <th class="info">单价（元）</th>
+			          <th class="info">预算金额（万元）</th>
+			          <th class="info">交货期限</th>
+			          <th class="info">采购方式建议</th>
+			          <th class="info">供应商名称</th>
+			          <th class="info">是否申请办理免税</th>
+			          <th class="info">物资用途（进口）</th>
+			          <th class="info">使用单位（进口）</th>
+			          <th class="info">备注</th>
+			        </tr>
+			        </thead>
+			          <c:forEach items="${lists}" var="obj" varStatus="vs">
+			            <tr style="cursor: pointer;">
+			               
+			              <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+			              <td class="tc">${obj.department}</td>
+			              <td class="tc">${obj.goodsName}</td>
+			              <td class="tc">${obj.stand}</td>
+			              <td class="tc">${obj.qualitStand}</td>
+			              <td class="tc">${obj.item}</td>
+			              <td class="tc">
+			              <c:if test="${obj.purchaseCount!=null}">
+			              <input   type="hidden" name="ss"   value="${obj.id }">
+			              <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
+			              <input type="hidden" name="ss"   value="${obj.parentId }">
+			              </c:if>
+			              <c:if test="${obj.purchaseCount==null }">
+			              <input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+			              </c:if>
+			              </td>
+			              <td class="tc">
+			              <c:if test="${obj.price!=null}">
+			              <input   type="hidden" name="ss"   value="${obj.id }">
+			              <input maxlength="11" id="price"  name="list[${vs.index }].price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
+			              <input type="hidden" name="ss"   value="${obj.parentId }">
+			              </c:if>
+			              <c:if test="${obj.price==null}">
+			              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+			              </c:if>
+			              </td>
+			              <td class="tc">
+			              <input   type="hidden" name="ss"   value="${obj.id }">
+			              <input maxlength="11" id="budget" name="list[${vs.index }].budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
+			              <input type="hidden" name="ss"   value="${obj.parentId }">
+			              </td>
+			             
+			              <td class="tc">${obj.deliverDate}</td>
+			              <td class="tc">
+			                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+			                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+			                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+			                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+			                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+			              </td>
+			              <td class="tc">${obj.supplier}</td>
+			              <td class="tc">${obj.isFreeTax}</td>
+			              <td class="tc">${obj.goodsUse}</td>
+			              <td class="tc">${obj.useUnit}</td>
+			              <td class="tc">${obj.memo }
+			                            <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
+			                            <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
+			                            <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
+			                            <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
+			                            <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
+			                            <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
+			                            <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
+			                            <input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
+			                            <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
+			                            <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
+			                            <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
+			                            <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
+			                            <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
+			                            
+			                            <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
+			                            <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
+			                            <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
+			                            <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+			                            <input type="hidden" name="list[${vs.index }].historyStatus" value="${obj.historyStatus }">
+			                            <input type="hidden" name="list[${vs.index }].goodsType" value="${obj.goodsType }">
+			                            <input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
+			                            <input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
+			                            <input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
+			                            <input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
+			                            <input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
+			              </td>
+			                           
+			            </tr>
+			     
+			         </c:forEach>  
+                
+                </table>
+            </div>   
+            </ul>
+        </div>
+      <div class="col-md-12 tc">
         <button class="btn btn-windows save" type="button" onclick="edit();">变更</button>
         <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
-        <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button> -->
-      </span>
-   <div class="container clear margin-top-30">
-   
-        <table id="table" class="table table-bordered table-condensed mt5">
-        <thead>
-        <tr>
-          <th class="info w50">序号</th>
-          <th class="info">需求部门</th>
-          <th class="info">物资名称</th>
-          <th class="info">规格型号</th>
-          <th class="info">质量技术标准</th>
-          <th class="info">计量单位</th>
-          <th class="info">采购数量</th>
-          <th class="info">单价（元）</th>
-          <th class="info">预算金额（万元）</th>
-          <th class="info">交货期限</th>
-          <th class="info">采购方式建议</th>
-          <th class="info">供应商名称</th>
-          <th class="info">是否申请办理免税</th>
-          <th class="info">物资用途（进口）</th>
-          <th class="info">使用单位（进口）</th>
-          <th class="info">备注</th>
-        </tr>
-        </thead>
-          <c:forEach items="${lists}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-               
-              <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">
-              <c:if test="${obj.purchaseCount!=null}">
-              <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
-              <input type="hidden" name="ss"   value="${obj.parentId }">
-              </c:if>
-              <c:if test="${obj.purchaseCount==null }">
-              <input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
-              </c:if>
-              </td>
-              <td class="tc">
-              <c:if test="${obj.price!=null}">
-              <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="price"  name="list[${vs.index }].price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
-              <input type="hidden" name="ss"   value="${obj.parentId }">
-              </c:if>
-              <c:if test="${obj.price==null}">
-              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
-              </c:if>
-              </td>
-              <td class="tc">
-              <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="budget" name="list[${vs.index }].budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
-              <input type="hidden" name="ss"   value="${obj.parentId }">
-              </td>
-             
-              <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
-              <td class="tc">${obj.memo }
-                            <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
-                            <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
-                            <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
-                            <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
-                            <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
-                            <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
-                            <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
-                            <input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
-                            <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
-                            <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-                            <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
-                            <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
-                            <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
-                            
-                            <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
-                            <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
-                            <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
-                            <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
-                            <input type="hidden" name="list[${vs.index }].historyStatus" value="${obj.historyStatus }">
-                            <input type="hidden" name="list[${vs.index }].goodsType" value="${obj.goodsType }">
-                            <input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
-                            <input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
-                            <input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
-                            <input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
-                            <input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
-              </td>
-                           
-            </tr>
-     
-         </c:forEach>  
-         
-
-      </table>
-      
+      </div>
            <div id="file" style="display: none;">
-    
-        <input type="hidden" name="id" value="${task.id}"/>
-         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
-         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
-        <br/><br/><br/>
-        <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
-         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
-   
-    
-    </div> 
-    
-    
-      
-      <div id="pagediv" align="right"></div>
-   </div>
+		        <input type="hidden" name="id" value="${task.id}"/>
+		         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+		         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+		        <br/><br/><br/>
+		        <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
+		         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+             </div> 
    </form>
  </div>
    

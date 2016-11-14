@@ -344,7 +344,9 @@ public class ProjectController extends BaseController {
                 }else{
                     project.setIsImport(0);
                 }
-                project.setPlanType(Integer.valueOf(list.getList().get(0).getPlanType()));
+                if(list.getList().get(0).getPlanType() != null){
+                    project.setPlanType(Integer.valueOf(list.getList().get(0).getPlanType()));
+                }
                 project.setPurchaseType(list.getList().get(0).getPurchaseType());
                 projectService.add(project);    
             }
@@ -587,6 +589,9 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", id);
         Project project = projectService.selectById(id);
+        DictionaryData dictionaryData=new DictionaryData();
+        dictionaryData.setCode("PROJECT_IMPLEMENT");
+        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
@@ -604,6 +609,7 @@ public class ProjectController extends BaseController {
         List<ProjectDetail> detail = detailService.selectById(map);
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
+        model.addAttribute("dataId", dataId);
         return "bss/ppms/project/essential_information";
     }
     
