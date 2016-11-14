@@ -32,9 +32,9 @@
 			var ahtml = "";
 			for(var i=0;i<array.length;i++){
 				if($(errorOption[i]).val()==""||$(errorOption[i]).val()==null){
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				}else{
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
 				}
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
@@ -102,7 +102,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-11 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -124,25 +124,27 @@
   		<!--面包屑导航开始-->
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
-			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
-			   </ul>
-			<div class="clear"></div>
+			  <ul class="breadcrumb margin-left-0">
+			  <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
+			  </ul>
+			  <div class="clear"></div>
 		  </div>
 	   </div>
 	   
-	    <c:forEach items="${errData['option'] }" var="opt">
+	   	<c:forEach items="${errData['option'] }" var="opt">
 	   		<input type="hidden" name="errorOption" value="${opt }"/>
-	   </c:forEach>
-	   <input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
+	   	</c:forEach>
+	   	<input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
+	   
      <div class="container container_box">
-     <form action="${pageContext.request.contextPath }/expertExam/saveToTec.html" method="post" id="form">
-		   <h2 class="count_flow"><i>1</i>新增技术类题目</h2>
-		   <ul class="ul_list">
-  		<ul class="list-unstyled list-flow p0_20">
+       <form action="${pageContext.request.contextPath }/expertExam/saveToTec.html" method="post" id="form">
+		   <h2 class="count_flow">新增技术类题目</h2>
+	       <div class="ul_list">
+  		     <ul class="list-unstyled col-md-6">
 		     <li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()" class="w178">
+	  			<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
+	  			<div class="col-md-12 mb5 fl">
+		  		  <select id="queType" name="queType" onchange="changeType()" class="w178">
 		  			<c:if test="${errData['type']==null }">
 		  				<option value="" selected>请选择</option>
 		  			</c:if>
@@ -161,23 +163,24 @@
 		  			<c:if test="${errData['type']!=2 }">
 		  				<option value="2">多选题</option>
 		  			</c:if>		  		
-		  		</select>
-		  		<div class="fl red mt5 ml5">${ERR_type}</div>
+		  		  </select>
+		  		  <div class="red">${ERR_type}</div>
+		  	  	</div>
 	  		</li>
-  		
-		    <li class="col-md-12 p0">
-			   <span class="fl"><div class="red star_red">*</div>题干：</span>
-			   <div class="fl mt5 col-md-9 p0">
-		        	<textarea class="text_area col-md-12" name="topic" id="queTopic">${errData["topic"] }</textarea>
-		       		<div class="clear red">${ERR_topic}</div>
-		       </div>
-			</li> 
-		   
-
-		
+	  		
+	  		<li class="col-md-12 p0">
+			     <span class="col-md-12"><div class="red fl">*</div>题干：</span>
+			     <div class="col-md-12">
+		          	<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
+		          	<div class="clear red">${ERR_topic}</div>
+		         </div>
+			 </li>
+			</ul>
+			   
+			<ul class="list-unstyled col-md-6 p0">
 				<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
-					<div class="fl col-md-9 p0">
+					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
+					<div class="fl col-md-12 mb5">
 					  <select id="options" name="options" onchange="changeOpt()" class="w178 fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${errData['options']=='three' }">
@@ -228,29 +231,24 @@
 			  			<c:if test="${errData['options']!='ten' }">
 			  				<option value="ten">10</option>
 			  			</c:if>
-		  			   </select>
+		  			   	</select>
 		  			   	<div class="red fl ml5 mt5">${ERR_option }</div> 
 					    <div class="col-md-9 clear p0" id="items"></div>
 			         </div>
 				 </li>
+				 
 				<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>答案：</span>
-					<div class="fl ml5 mt5" id="answers"></div>
-					<div class="mt5 ml5 red fl">${ERR_answer }</div>
+					<span class="fl ml15"><div class="red fl">*</div>答案：</span>
+					<div class="fl" id="answers" class="select_check"></div>
+					<div class="red fl">${ERR_answer }</div>
 				</li>
   			</ul>
-  	
-  		
-  	</ul>
-  	<!-- 按钮 -->
-      <div class="padding-top-10 clear">
-      <div class="col-md-12 pl200 ">
-        <div class="mt40 tc mb50">
-          <button class="btn btn-windows save" type="button" onclick="save()">保存</button>
-            <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-        </div>
-        </div>
-      </div>
+      	</div>
+  		<!-- 按钮 -->
+      	<div class="col-md-12 mt10 tc ">
+          	<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
+           	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+      	</div>
     </form>
   	</div>
   </body>

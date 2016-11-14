@@ -80,8 +80,9 @@
 	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
+	
 	   <div class="container container_box">
-       <h2 class="count_flow"><i>1</i>查看考卷</h2>
+       <h2 class="count_flow">查看考卷</h2>
        <ul class="ul_list">
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
@@ -165,15 +166,9 @@
         </ul>
    
 	  		<!-- 按钮 -->
-	  		<div class="padding-top-10 clear">
-				<div class="col-md-12 pl200 ">
-					<div class="mt40 tc mb50">
-		    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-					</div>
-		  		</div>
+	  		<div class="col-md-12 mt10 tc ">
+		    	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		  	</div>
-    
-    			
-    		</div>
+    	</div>
   </body>
 </html>

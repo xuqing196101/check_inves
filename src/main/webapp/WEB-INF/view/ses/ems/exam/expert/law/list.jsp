@@ -12,11 +12,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#error").hide();
@@ -52,6 +48,8 @@
 	
 		//删除题库中的题目
 		function deleteById(){
+			var topic = $("#topic").val();
+			var questionTypeId = $("#questionTypeId").val();
 			var count = 0;
 			var ids = "";
 			var info = document.getElementsByName("info");
@@ -79,7 +77,7 @@
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
-				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchLawExpPool.html";
+				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchLawExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
 				       	}, 1000);
 			       	}
 		       	});
@@ -144,8 +142,26 @@
 			window.location.href = "${pageContext.request.contextPath }/expertExam/loadExpertTemplet.html";
 		}
 		
+		//endsWith方法
+		if (typeof String.prototype.endsWith != 'function') {  
+		    String.prototype.endsWith = function (str){  
+		         return this.slice(-str.length) == str;  
+		    };
+		}
+		
 		//导入法律类题目
 		function poiExcel(){
+			var file = $("#excelFile").val();
+			if(file==null||file==""){
+				layer.alert("请选择文件",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
+			if(!file.endsWith(".xls")&&!file.endsWith(".xlsx")){
+				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
 			$.ajaxFileUpload({
 			    url: "${pageContext.request.contextPath }/expertExam/importLaw.do",  
 			    secureuri: false,
@@ -273,7 +289,7 @@
 		    <button class="btn btn-windows add" type="button" onclick="addLaw()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editLaw()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-		    <button class="btn" type="button" onclick="download()">题目模板下载</button>
+		    <button class="btn btn-windows output" type="button" onclick="download()">模板下载</button>
 		    <button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 		    <input type="file" name="file" id="excelFile" style="display:inline"/>
 

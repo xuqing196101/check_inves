@@ -263,21 +263,14 @@
 	  			<div class="fl mt10 ml5 red">${ERR_testTime }</div>
 	  		</li>
 	  		
-	  		<%--<li class="col-md-12 p0 mt10 red">
-	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
-	  		</li>
-    	--%></ul>
+	  		</ul>
         </ul>
    
-  		<!-- 按钮 -->
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-				 	<button class="btn btn-windows save" type="submit">保存</button>
-	    			<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-				</div>
-	  		</div>
-	  	  </div>
+	  		<!-- 按钮 -->
+	  		<div class="col-md-12 mt10 tc ">
+				<button class="btn btn-windows save" type="submit">保存</button>
+		    	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+		  	 </div>
       </form>
     </div>
   </body>

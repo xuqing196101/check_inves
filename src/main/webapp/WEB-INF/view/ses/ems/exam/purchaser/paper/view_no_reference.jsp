@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>查看未考人员</title>
+    <title>查看未考考卷人员</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath }/public/ZHH/js/ajaxfileupload.js" type="text/javascript"></script>
 	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
@@ -41,8 +42,26 @@
 			});
 		})
 		
+		//endsWith方法
+		if (typeof String.prototype.endsWith != 'function') {  
+		    String.prototype.endsWith = function (str){  
+		         return this.slice(-str.length) == str;  
+		    };  
+		}
+		
 		//Excel导入
 		function poiExcel(){
+			var file = $("#excelFile").val();
+			if(file==null||file==""){
+				layer.alert("请选择文件",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
+			if(!file.endsWith(".xls")&&!file.endsWith(".xlsx")){
+				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
 			var paperId = $("#paperId").val();
 			$.ajaxFileUpload({
 			    url: "${pageContext.request.contextPath }/purchaserExam/importReference.do?paperId="+paperId,  
@@ -165,12 +184,12 @@
 		        	ids += info[i].value+',';
 		        }
 			}
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm("您确定要删除吗?", {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				$.ajax({
 					type:"POST",
 					dataType:"json",
-					url:"<%=path%>/purchaserExam/deleteByPaperUserId.do?ids="+ids,
+					url:"${pageContext.request.contextPath }/purchaserExam/deleteByPaperUserId.do?ids="+ids,
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
@@ -439,10 +458,10 @@
 		<!-- 按钮开始 -->
 		<div class="col-md-12 pl20 mt10">
 			<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
-		    <button class="btn" type="button" onclick="download()">人员模板下载</button>
+		    <button class="btn btn-windows output" type="button" onclick="download()">模板下载</button>
 		    <span class="">
-			    <input type="file" name="file" id="excelFile" style="display:inline;"/>
 			    <input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
+		    	<input type="file" name="file" id="excelFile" style="display:inline;"/>
 		    </span>
 	    </div>
     

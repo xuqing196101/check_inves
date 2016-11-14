@@ -150,7 +150,7 @@
 		  <div class="container container_box">
       <form action="${pageContext.request.contextPath }/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
       <input type="hidden" name="content" value="${purchaserQue.topic }"/>
-      <h2 class="count_flow"><i>1</i>新增题目</h2>
+      <h2 class="count_flow">新增题目</h2>
       <ul class="ul_list">
   			<ul class="list-unstyled list-flow p0_20">
 		     	<li class="col-md-12 p0">

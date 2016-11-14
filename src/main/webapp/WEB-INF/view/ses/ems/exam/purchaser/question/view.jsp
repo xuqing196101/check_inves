@@ -11,47 +11,49 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-	var opt = "";
-	var obj = "";
-	$(function(){
-		opt = ${opt};
-		obj = eval(opt);
-		var queType = $("#queType").val();
-		var queAnswer = $("#queAnswer").val();
-		var ohtml="";
-		var ahtml="";
-		if(queType==1||queType==2){
-			var options = $("#options").val();
-			var array = obj[options].split(",");
-			var content = $("#optContent").val();
-			var ct = content.split("&@#$");
-			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8' disabled>"+ct[i]+"</textarea></div>";
-				if(queType==1){
-					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
-					}else{
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
-					}
-				}else if(queType==2){
-					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
-					}else{
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
+		var opt = "";
+		var obj = "";
+		$(function(){
+			opt = ${opt};
+			obj = eval(opt);
+			var queType = $("#queType").val();
+			var queAnswer = $("#queAnswer").val();
+			var ohtml="";
+			var ahtml="";
+			if(queType==1||queType==2){
+				var options = $("#options").val();
+				if(options==""){
+					return;
+				}
+				var array = obj[options].split(",");
+				var errorOption = document.getElementsByName("errorOption");
+				for(var i=0;i<array.length;i++){
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0' disabled>"+$(errorOption[i]).val()+"</textarea></div>";
+					if(queType==1){
+						if(queAnswer.indexOf(array[i])>-1){
+							ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
+						}else{
+							ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
+						}
+					}else if(queType==2){
+						if(queAnswer.indexOf(array[i])>-1){
+							ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
+						}else{
+							ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
+						}
 					}
 				}
+				$("#item").html(ohtml);
+				$("#answers").html(ahtml);
+			}else if(queType==3){
+				$("#items").hide();
+				if(queAnswer=="对"){
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' checked='checked' disabled/>对<input type='radio' name='answer' value='错' class='mt0' disabled/>错 ");
+				}else if(queAnswer=="错"){
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' disabled/>对<input type='radio' name='answer' value='错' class='mt0' checked='checked' disabled/>错 ");
+				}
 			}
-			$("#item").html(ohtml);
-			$("#answers").html(ahtml);
-		}else if(queType==3){
-			$("#items").hide();
-			if(queAnswer=="对"){
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0' checked='checked' disabled/>对<input type='radio' name='judge' value='错' class='mt0' disabled/>错 ");
-			}else if(queAnswer=="错"){
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0' disabled/>对<input type='radio' name='judge' value='错' class='mt0' checked='checked' disabled/>错 ");
-			}
-		}
-	})
+		})
 	</script>
   </head>
   
@@ -65,12 +67,14 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <input type="hidden" value="${optContent }" id="optContent"/>
+   		<c:forEach items="${optContent }" var="opt">
+	   		<input type="hidden" name="errorOption" value="${opt }"/>
+	   	</c:forEach>
    	<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
       <div class="container container_box">
-      <h2 class="count_flow"><i>1</i>查看题目</h2>
+      <h2 class="count_flow">查看题目</h2>
       <ul class="ul_list">		
   			<ul class="list-unstyled list-flow p0_20">
 		     	<li class="col-md-12 p0">

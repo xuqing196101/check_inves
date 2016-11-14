@@ -10,11 +10,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			laypage({
@@ -91,7 +86,7 @@
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-	    			<input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
+	    			<input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 				</div>
 	  		</div>
 	  	</div>

@@ -48,6 +48,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
@@ -139,6 +140,8 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
 		model.addAttribute("topic", topic);
 		model.addAttribute("questionTypeId", questionTypeId);
+		Integer sysKey = Constant.EXPERT_SYS_KEY;
+		model.addAttribute("sysKey", sysKey);
 		return "ses/ems/exam/expert/technical/list";
 	}
 	
@@ -1768,10 +1771,10 @@ public class ExpertExamController extends BaseSupplierController{
 		String userName = request.getParameter("userName");
 		String userType = request.getParameter("userType");
 		String status = request.getParameter("status");
-		if(userName!=null && userName!=""){
+		if(userName!=null && !userName.equals("")){
 			map.put("relName", "%"+userName+"%");
 		}
-		if(userType!=null && userType!=""){
+		if(userType!=null && !userType.equals("")){
 			if(userType.equals("1")){
 				map.put("userDuty", "技术");
 			}else if(userType.equals("2")){
@@ -1780,7 +1783,7 @@ public class ExpertExamController extends BaseSupplierController{
 				map.put("userDuty", "商务");
 			}
 		}
-		if(status!=null && status!=""){
+		if(status!=null && !status.equals("")){
 			map.put("status", status);
 		}
 		if(page==null){
@@ -1938,6 +1941,7 @@ public class ExpertExamController extends BaseSupplierController{
 	@RequestMapping(value="/importTec",method = RequestMethod.POST)
 	public void importTec(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+		
 		String curProjectPath = session.getServletContext().getRealPath("/");  
         String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
         // 判断文件是否存在  

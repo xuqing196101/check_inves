@@ -28,9 +28,9 @@
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
 				if($(errorOption[i]).val()==""||$(errorOption[i]).val()==null){
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				}else{
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
 				}
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
@@ -98,7 +98,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -126,44 +126,51 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <c:forEach items="${optContent }" var="opt">
+   
+   	<c:forEach items="${optContent }" var="opt">
 	   	<input type="hidden" name="errorOption" value="${opt }"/>
 	</c:forEach>
-   <input type="hidden" value="${comAnswer }" id="queAnswer"/>
+   	<input type="hidden" value="${comAnswer }" id="queAnswer"/>
+   	
     <div class="container container_box">
     <form action="${pageContext.request.contextPath }/expertExam/editToCom.html?id=${comQue.id }" method="post" id="form">
     <input type="hidden" name="content" value="${comQue.topic }"/>
-		 <h2 class="count_flow"><i>1</i>修改商务类题目</h2>
-    <ul class="ul_list">
-		<ul class="list-unstyled list-flow p0_20">
+		<h2 class="count_flow">修改商务类题目</h2>
+    	<div class="ul_list">
+		<ul class="list-unstyled col-md-6">
 		     <li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()" class="w178">
-		  			<option value="">请选择</option>
-		  			<c:forEach items="${examPoolType }" var="e">
-		  				<c:choose>
-		  					<c:when test="${e.id==comQue.questionTypeId }">
-		  						<option value="${e.id }" selected="selected">${e.name }</option>
-		  					</c:when>
-		  					<c:otherwise>
-		  						<option value="${e.id }">${e.name }</option>
-		  					</c:otherwise>
-		  				</c:choose>
-		  			</c:forEach>
-		  		</select>
-		  		<div class="fl red mt5 ml5">${ERR_type}</div>
+	  			<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
+	  			<div class="col-md-12 mb5 fl">
+			  		<select id="queType" name="queType" onchange="changeType()" class="w178">
+			  			<option value="">请选择</option>
+			  			<c:forEach items="${examPoolType }" var="e">
+			  				<c:choose>
+			  					<c:when test="${e.id==comQue.questionTypeId }">
+			  						<option value="${e.id }" selected="selected">${e.name }</option>
+			  					</c:when>
+			  					<c:otherwise>
+			  						<option value="${e.id }">${e.name }</option>
+			  					</c:otherwise>
+			  				</c:choose>
+			  			</c:forEach>
+		  			</select>
+		  			<div class="red">${ERR_type}</div>
+		  		</div>
 	  		</li>
 		
 			<li class="col-md-12 p0">
-			 <span class="fl"><div class="red star_red">*</div>题干：</span>
-			   <div class="fl mt5 col-md-9 p0">
-		      <textarea class="text_area col-md-8" name="topic" id="queTopic">${comQue.topic }</textarea>
-		     <div class="clear red">${ERR_topic}</div>
-		     </div>
-			 </li> 
+			 	<span class="col-md-12"><div class="red fl">*</div>题干：</span>
+			   	<div class="col-md-12">
+		      		<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${comQue.topic }</textarea>
+		     		<div class="clear red">${ERR_topic}</div>
+		     	</div>
+			</li> 
+		</ul>
+		
+	  		<ul class="list-unstyled col-md-6 p0">
 	  		<li class="col-md-12 p0">
-				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
-				<div class="fl col-md-9 p0">
+				<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
+				<div class="fl col-md-12 mb5">
 					<select id="options" name="options" onchange="changeOpt()" class="w178 fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${optNum==3 }">
@@ -216,27 +223,24 @@
 			  			</c:if>
 		  			</select>
 		  			<div class="red fl ml5 mt5">${ERR_option }</div>
-					<div class="col-md-9 clear p0" id="items"></div>
+					<div class="col-md-12 clear p0" id="items"></div>
 				</div>
 			 </li> 
 		   
 		  		<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>答案：</span>	
-					<div class="fl ml5 mt5" id="answers"></div>
-			       	<div class="mt5 ml5 red fl">${ERR_answer }</div>
+					<span class="fl ml15"><div class="red fl">*</div>答案：</span>	
+					<div class="fl" id="answers" class="select_check"></div>
+			       	<div class="red fl">${ERR_answer }</div>
 				</li>
   			</ul>
-  			</ul>
-  			     <!-- 底部按钮 -->
-      <div class="padding-top-10 clear">
-      <div class="col-md-12 pl200 ">
-        <div class="mt40 tc mb50">
-          <button class="btn btn-windows save" onclick="save()">保存</button>
-            <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-          </div>
-        </div>
-      </div>
-  			</form>
   		</div>
+  		
+  		<!-- 底部按钮 -->
+      	<div class="col-md-12 mt10 tc ">
+          	<button class="btn btn-windows save" onclick="save()">保存</button>
+            <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+      	</div>
+  	</form>
+  </div>
   </body>
 </html>

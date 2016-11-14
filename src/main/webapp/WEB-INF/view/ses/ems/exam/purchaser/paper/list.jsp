@@ -10,11 +10,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		//新增考卷
 		function addPaper(){
@@ -197,8 +192,8 @@
 	   </div>
    
     	<div class="col-md-12 pl20 mt10">
-	    	<input type="button" class="btn btn-windows add" value="新建考卷" onclick="addPaper()"/>
-	    	<input type="button" class="btn btn-windows edit" value="编辑" onclick="editPaper()"/>
+	    	<input type="button" class="btn btn-windows add" value="新增" onclick="addPaper()"/>
+	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="editPaper()"/>
 	    	<input type="button" class="btn" value="设置参考人员" onclick="setReference()"/>
     		<input type="button" class="btn" value="查看成绩" onclick="viewScore()"/>
     	</div>

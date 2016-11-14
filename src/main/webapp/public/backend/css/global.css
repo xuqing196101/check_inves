@@ -840,6 +840,7 @@ li:first-child {
 }
 .tnone{
 	display: none;
+<<<<<<< Updated upstream
 }
 
 /** 地图样式*/
@@ -912,3 +913,21 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
+=======
+}
+/* 档案样式添加 */
+.dangan_file{
+	font-size:26px;
+	height:50px;
+	line-height:50px;
+	margin-top:10px;
+}
+.dangan_mian{
+	font-size:18px;	
+}
+.dangan_tip{
+	background-color:#f6f6f6;
+	height:40px;
+	line-height: 40px; 
+}
+>>>>>>> Stashed changes

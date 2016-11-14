@@ -10,11 +10,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			laypage({
@@ -49,7 +44,7 @@
   </head>
   
   <body>
-  		<!--面包屑导航开始-->
+  	   <!--面包屑导航开始-->
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
@@ -58,22 +53,18 @@
 			<div class="clear"></div>
 		  </div>
 	   </div>
-  	
+	   
   	<div class="container">
-   		<div class="col-md-10">
-	    	<input type="button" class="btn btn-windows pl13" value="打印预览" onclick="printReView()"/>
-    	</div>
-    </div>
-    
-    <div class="container">
-	   <div class="headline-v2">
+  		<div class="headline-v2">
 	   		<h2>已考人员列表</h2>
-	   </div>
-   </div>
+	  	</div>
+  	
+  		<div class="col-md-12 pl20 mt10">
+		    <input type="button" class="btn" value="打印预览" onclick="printReView()"/>
+    	</div>
     
-    <!-- 表格开始 -->
-    <div class="container">
-  		<div class="content padding-left-25 padding-right-25">
+    	<!-- 表格开始 -->
+  		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<th class="info w50">序号</th>
@@ -101,12 +92,8 @@
   	</div>
   	
   		<!-- 返回按钮 -->
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-	    			<input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
-				</div>
-	  		</div>
+  		<div class="mt20 clear tc">
+	    	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">	
 	  	</div>
 	  	
 	  	<input type="hidden" value="${examPaper.id }" id="paperId"/>

@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/front.jsp"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,11 +11,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			var exam = document.getElementsByName("exam");
@@ -197,7 +192,7 @@
 		    <table class="clear table table-bordered table-condensed">
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
-		       			 <td class="col-md-1 tc">${l.index+1 }</td>
+		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
 				          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
 				    			<c:if test="${que.examQuestionType.name=='单选题' }">

@@ -22,15 +22,6 @@
 			}
 		}
 	</script>
-	
-	<style type="text/css">
-		table thead th{
-			border:1px solid black;
-		}
-		table tbody td{
-			border:1px solid black;
-		}
-	</style>
   </head>
   
   <body>
