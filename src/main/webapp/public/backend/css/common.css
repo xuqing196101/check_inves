@@ -804,3 +804,13 @@ a.redhover:hover{
 	min-width:100px!important;
 	text-align: left!important;
 }
+.head_right{
+  float:right;
+  text-align:right;
+}
+.head_top{
+  background:#f7f7f7;
+  height:34px;
+  line-height:34px;
+  overflow:hidden;
+}

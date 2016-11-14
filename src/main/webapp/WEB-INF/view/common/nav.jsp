@@ -1,6 +1,23 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file="../common.jsp"%>
+<script type="text/javascript">
+	function indexPage(){
+		window.location.href="${pageContext.request.contextPath}/index/selectIndexNews.html";
+	}
+</script>
  <div class="wrapper">
-	<div class="header-v4 header-v5">
+  <div class="head_top col-md-12">
+  <div class="container">
+   <div class="row">
+    <div class="col-md-9" id="welcome">你好，欢迎来到中国军队采购网！：${sessionScope.loginUser.loginName}</div> 
+       <div class="col-md-3 head_right"> 
+    <!-- 根据session判断 -->
+         <a class="pointer" onclick="indexPage()">采购系统首页</a>
+	   </div>
+	  </div>
+	 </div>
+	</div>
+	<div class="header-v4 header-v5 clear">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
       <div class="container">

@@ -66,6 +66,7 @@
   		<include refid="IndexNews_Column_List"/>
   		from T_ISS_PS_ARTICLE
   			where ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2 and rownum &lt;=6
+  			and IS_DELETED = 0
   		order by PUBLISHED_AT desc
   </select>
   

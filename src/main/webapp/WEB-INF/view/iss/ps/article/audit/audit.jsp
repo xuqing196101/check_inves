@@ -132,7 +132,7 @@ function back(){
 	 <li class="col-md-12 p0 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
-		<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+		<up:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 </div>
 	 </li> 
   	 </ul> 
@@ -140,8 +140,6 @@ function back(){
 	  <div class="padding-top-10 clear">
 	   <h2 class="count_flow"><i>2</i>审核</h2>
 	  <ul class="ul_list mb20">
-	  
-       
 		     <li class="col-md-11 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5">退回理由：</span>
 			   <div class="mb5">
@@ -149,7 +147,6 @@ function back(){
 		       </div>
 			 </li> 
 		   </ul>
-	  
 	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows check" type="button" onclick="sub()">审核</button>
 	    <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
