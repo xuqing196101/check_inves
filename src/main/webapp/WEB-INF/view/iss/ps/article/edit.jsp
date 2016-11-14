@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-	<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
     
 <script type="text/javascript">
 function cheClick(id,name){

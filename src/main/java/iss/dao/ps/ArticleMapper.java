@@ -84,6 +84,17 @@ public interface ArticleMapper {
     int update(Article record);
     
     /**
+    * @Title: updateisPicShow
+    * @author Shen Zhenfei 
+    * @date 2016-11-14 上午10:44:24  
+    * @Description: TODO 
+    * @param @param isPicShow
+    * @param @return      
+    * @return int
+     */
+    int updateisPicShow(String isPicShow);
+    
+    /**
     * @Title: Isdelete
     * @author Shen Zhenfei
     * @date 2016-9-7 下午6:01:16  

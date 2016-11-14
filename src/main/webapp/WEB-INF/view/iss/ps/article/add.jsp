@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-	<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
     
 <script type="text/javascript">
 	function cheClick(id,name){
@@ -35,16 +34,20 @@
 
 	function typeInfo(){
 		var typeId = $("#articleTypes").val();
+		$("#picNone").hide();
+		$("#picshow").hide();
 		if(typeId==27){
-			document.getElementById("picNone").style.display=""; 
-			document.getElementById("picshow").style.display=""; 
+			$("#picNone").show();
+			$("#picshow").show();
 		}else{
-			document.getElementById("picshow").style.display="none";
+			$("#picNone").hide();
+			$("#picshow").hide();
 		}
 	}
 	
 	$(function(){
-		document.getElementById("picshow").style.display="none";
+		$("#picNone").hide();
+		$("#picshow").hide();
 		$.ajax({
 			 contentType: "application/json;charset=UTF-8",
 			  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
@@ -62,7 +65,6 @@
 		    	  $("#articleTypes").select2();
 		    	  $("#articleTypes").select2("val", "${article.articleType.id }");
 		    	  var typeId = $("#articleTypes").val();
-		    	  alert(typeId)
 			  		if(typeId==27){
 			  			document.getElementById("picshow").style.display="";
 			  		}
@@ -88,7 +90,7 @@
    <div class="container container_box">
     <form action="${pageContext.request.contextPath }/article/save.html" method="post">
      <div class="">
-	   <h2 class="count_flow"><i>1</i>新增信息</h2>
+	   <h2 class="count_flow">新增信息</h2>
 	 
 	   <ul class="ul_list mb20">
      	<li class="col-md-3 margin-0 padding-0 ">
@@ -97,8 +99,8 @@
 	   	<input class="span2"  name="id" type="hidden" value="${articleId }">
         <input class="span2" id="name" name="name" value="${article.name }" type="text">
         <span class="add-on">i</span>
-         <div class="validate">${ERR_name}</div>  
        </div>
+        <div class="red">${ERR_name}</div>  
 	 </li>
 
      <li class="col-md-3 margin-0 padding-0">
@@ -107,14 +109,14 @@
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
           </div>
-          <div class="validate">${ERR_typeId}</div>
+          <div class="red">${ERR_typeId}</div>
 	 </li> 
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
-        <div class="validate">${ERR_range}</div>
+        <div class="">${ERR_range}</div>
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
@@ -122,7 +124,7 @@
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }" type="text">
         <span class="add-on">i</span>
-         <div class="validate">${ERR_source}</div>
+         <div class="red">${ERR_source}</div>
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
@@ -137,7 +139,7 @@
 	   <span class="">图片展示：</span>
 	   <div class="input-append">
         <input class="span2" id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
-      	<div class="validate">${ERR_isPicShow}</div>
+      	<div class="red">${ERR_isPicShow}</div>
        </div>
 	 </li>
 	 
@@ -148,14 +150,6 @@
        </div>
 	 </li> 
 
-	 <li class="col-md-12 p0 mt10" id="picNone" >
-	    <span class="fl">图片上传：</span>
-	    <div class="fl">
-	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
-		</div>
-	 </li>
-	 
 	 <li class="col-md-12 p0 mt10">
 	    <span class="fl">附件上传：</span>
 	    <div class="fl">
@@ -163,6 +157,15 @@
 			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 		</div>
 	 </li>
+	 
+	 <li class="col-md-12 p0 mt10" id="picNone">
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
+	 </li>
+	 
   	 </ul> 
 	         
 	 <div  class="col-md-12 tc">

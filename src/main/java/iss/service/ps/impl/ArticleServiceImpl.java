@@ -114,4 +114,9 @@ public class ArticleServiceImpl implements ArticleService {
 		List<Article> list = articleMapper.selectArticleByProjectId(article);
 		return list;
 	}
+
+	@Override
+	public void updateisPicShow(String isPicShow) {
+		articleMapper.updateisPicShow(isPicShow);
+	}
 }

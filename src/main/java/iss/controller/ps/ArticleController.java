@@ -16,17 +16,13 @@ import java.io.File;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
@@ -37,7 +33,6 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
-import bss.model.sstps.Select;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -107,7 +102,6 @@ public class ArticleController extends BaseSupplierController{
 		if(lists.size()>0){
 			model.addAttribute("attachTypeId", lists.get(0).getId());
 		}
-		
 		DictionaryData da=new DictionaryData();
 		da.setCode("GGWJ");
 		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
@@ -143,19 +137,15 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(String[] ranges,
-            HttpServletRequest request, HttpServletResponse response,Article article,BindingResult result,Model model){
-		
+	public String save(String[] ranges,HttpServletRequest request, HttpServletResponse response,Article article,Model model){
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
-		
-		
-		if(article.getName()==null){
+		String name = article.getName();
+		if(name.equals("")){
 			model.addAttribute("ERR_name", "标题名称不能为空");
 			model.addAttribute("article", article);
 			return "iss/ps/article/add";
 		}
-		
 		List<Article> art = articleService.selectAllArticle(null,1);
 		if(art!=null){
 			for(Article ar:art){
@@ -166,26 +156,16 @@ public class ArticleController extends BaseSupplierController{
 				}
 			}
 		}
-		
 		String contype = request.getParameter("articleType.id");
 		if(contype.equals("")){
 			model.addAttribute("article", article);
 			model.addAttribute("ERR_typeId", "信息类型不能为空");
 			return "iss/ps/article/add";
 		}
-		
-		if(art!=null){
-			for(Article ar:art){
-				if(ar.getIsPicShow()!=null){
-					if(ar.getIsPicShow().equals(article.getIsPicShow())){
-						model.addAttribute("article", article);
-						model.addAttribute("ERR_isPicShow", "序号已经存在");
-						return "iss/ps/article/add";
-					}
-				}
-			}
+		String isPicShow = request.getParameter("isPicShow");
+		if(isPicShow!=null&&!isPicShow.equals("")){
+			articleService.updateisPicShow(isPicShow);
 		}
-		
 		if(ranges!=null&&!ranges.equals("")){
 			if(ranges.length>1){
 				article.setRange(2);
@@ -316,10 +296,8 @@ public class ArticleController extends BaseSupplierController{
 	 */
 	@RequestMapping("/update")
 	public String update(String[] ranges,HttpServletRequest request,
-			HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
-		
+			HttpServletResponse response,Article article,Model model){
 		String name = request.getParameter("name");
-		
 		String ids = request.getParameter("ids");
 		if(ids!=null && ids!=""){
 			String[] attaids = ids.split(",");
@@ -327,22 +305,6 @@ public class ArticleController extends BaseSupplierController{
 				articleAttachmentsService.softDeleteAtta(id);
 			}
 		}
-		
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			model.addAttribute("article.id", article.getId());
-			Article artc = articleService.selectArticleById(article.getId());
-			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
-			artc.setArticleAttachments(articleAttaList);
-			model.addAttribute("article",artc);
-			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
-			model.addAttribute("list", list);
-			return "iss/ps/article/edit";
-		}
-		
 		if(name.equals("")){
 			model.addAttribute("ERR_name", "标题名称不能为空");
 			model.addAttribute("article.id", article.getId());
@@ -355,8 +317,6 @@ public class ArticleController extends BaseSupplierController{
 			return "iss/ps/article/edit";
 		}
 		
-		List<Article> art = articleService.selectAllArticle(null,1);
-		
 		List<Article> check = articleService.checkName(article);
 		for(Article ar:check){
 			if(ar.getName().equals(name)){
@@ -366,22 +326,9 @@ public class ArticleController extends BaseSupplierController{
 				Article artc = articleService.selectArticleById(article.getId());
 				List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
 				artc.setArticleAttachments(articleAttaList);
-				model.addAttribute("article",artc);
+				model.addAttribute("article",article);
 				List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 				model.addAttribute("list", list);
-				return "iss/ps/article/edit";
-			}
-		}
-		
-		for(Article ar:check){
-			if(ar.getIsPicShow().equals(article.getIsPicShow())){
-				model.addAttribute("ERR_isPicShow", "图片展示不能重复");
-				model.addAttribute("article",article);
-				model.addAttribute("article.name", name);
-				Article artc = articleService.selectArticleById(article.getId());
-				List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
-				artc.setArticleAttachments(articleAttaList);
-				model.addAttribute("article",artc);
 				return "iss/ps/article/edit";
 			}
 		}
@@ -400,7 +347,7 @@ public class ArticleController extends BaseSupplierController{
 			Article artc = articleService.selectArticleById(article.getId());
 			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
 			artc.setArticleAttachments(articleAttaList);
-			model.addAttribute("article",artc);
+			model.addAttribute("article",article);
 			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 			model.addAttribute("list", list);
 			return "iss/ps/article/edit";
@@ -409,7 +356,12 @@ public class ArticleController extends BaseSupplierController{
 			article.setStatus(0);
 			solrNewsService.deleteIndex(article.getId());
 		}
-		article.setProjectId("123131231");//死数据
+		
+		String isPicShow = request.getParameter("isPicShow");
+		if(isPicShow!=null&&!isPicShow.equals("")){
+			articleService.updateisPicShow(isPicShow);
+		}
+		
 		article.setUpdatedAt(new Date());
 		articleService.update(article);
 		return "redirect:getAll.html";

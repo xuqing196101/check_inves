@@ -78,6 +78,15 @@ public interface ArticleService {
 	 */
 	void delete(String id);
 	
+	/**
+	* @Title: updateisPicShow
+	* @author Shen Zhenfei 
+	* @date 2016-11-14 上午10:50:35  
+	* @Description: 图片位置
+	* @param @param isPicShow      
+	* @return void
+	 */
+	void updateisPicShow(String isPicShow);
 	
 	/**
 	* @Title: checkName

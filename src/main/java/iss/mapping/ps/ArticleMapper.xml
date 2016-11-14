@@ -385,4 +385,15 @@
 	  	  AND ARTICLE_TYPE_ID = #{articleType.id}
 	  	</if>
   </select>
+  
+  
+  <!-- 修改 -->
+  <update id="updateisPicShow" parameterType="Object">
+    update T_ISS_PS_ARTICLE
+    set
+        IS_PIC_SHOW = ''
+    where IS_PIC_SHOW = #{isPicShow}
+  </update>
+  
+  
 </mapper>
