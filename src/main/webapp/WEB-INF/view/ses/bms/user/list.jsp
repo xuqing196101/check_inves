@@ -72,7 +72,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>user/show.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/user/show.html?id="+id;
   	}
   	
     function edit(){
@@ -82,7 +82,7 @@
 		}); 
 		if(id.length==1){
 			var currPage = ${list.pageNum};
-			window.location.href="<%=basePath%>user/edit.html?id="+id+"&page="+currPage;
+			window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
 		}else{
@@ -98,7 +98,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>user/delete_soft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/user/delete_soft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: '222px', shade:0.01});
@@ -106,7 +106,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>user/add.html";
+    	window.location.href="${pageContext.request.contextPath}/user/add.html";
     }
     
     function openPreMenu(){
@@ -126,7 +126,7 @@
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: '110px',
 			  shadeClose: false,
-			  content: '<%=basePath%>user/openPreMenu.html?id='+ids,
+			  content: '${pageContext.request.contextPath}/user/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
 			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			  },
@@ -165,7 +165,7 @@
 			  <h2>用户管理</h2>
 		  </div>
 		     <h2 class="search_detail">
-		       	<form action="<%=basePath %>user/list.html" id="form1" method="post" class="mb0">
+		       	<form action="${pageContext.request.contextPath}/user/list.html" id="form1" method="post" class="mb0">
 		       		<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li>

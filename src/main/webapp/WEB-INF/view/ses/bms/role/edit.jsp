@@ -11,7 +11,7 @@
 		$("#update").click(function(){
 			$.ajax({  
 			   type: "POST",  
-			   url: "<%=basePath %>role/update.html",  
+			   url: "${pageContext.request.contextPath}/role/update.html",  
 			   data: $("#form1").serializeArray(),  
 			   dataType: 'json',  
 			   success:function(result){

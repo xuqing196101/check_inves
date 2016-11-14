@@ -37,7 +37,40 @@
     });
   </script>
  <body>
-   
+   <!-- <div class="dnone layui-layer-wrap" >
+        <form action="" id="form1" method="post">
+          <div class="drop_window">
+              <ul class="list-unstyled">
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20"><i class="red">*</i>名称</label>
+                  <span class="col-md-12">
+                   <input name="name" maxlength="30" class="title col-md-12" type="text">
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">状态</label>
+                  <span class="col-md-12">
+                   <select name="status" class="w180 mb10">
+                        <option value="0">可用</option>
+                        <option value="1">禁用</option>
+                    </select>
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">描述</label>
+                   <div class="fn mt5 ">
+                    <textarea class="text_area1 mt6" name="description" maxlength="200" title="" placeholder=""></textarea>
+                   </div>
+                </li>
+                <div class="clear"></div>
+             </ul>
+             <div class="tc mt10 col-md-12">
+                 <button class="btn btn-windows save" id="save" type="button">保存</button>
+                <button class="btn btn-windows back" id="backups" type="button">返回</button>
+              </div>
+           </div>  
+         </form>
+    </div>      -->    
    <div class="container">
 	   <form action="" id="form1" method="post">
 		   <div>
@@ -66,6 +99,7 @@
 			       </div>
 				 </li> 
 			   </ul>
+			   
 		  </div> 
 	   
 		  <div  class="col-md-12">

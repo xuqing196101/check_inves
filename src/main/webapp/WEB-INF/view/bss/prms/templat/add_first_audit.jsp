@@ -2,33 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<html>
+<head>
 <script type="text/javascript">
 var index;
 function cancel(){
@@ -37,12 +14,12 @@ function cancel(){
 function openWindow(){
 	index = layer.open({
           type: 1, //page层
-          area: ['700px', '300px'],
+          area: ['380px','310px'],
           title: '新增初审项',
           shade:0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '250px'],
+          offset: ['220px', '750px'],
           shadeClose: true,
           content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 	 });
@@ -152,82 +129,107 @@ function selectAll(){
         }
     }
 </script>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
-<div class="container">
-	   <div class="headline-v2">
-	   		<h2>模板信息</h2>
-	   </div>
+<div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+           <ul class="breadcrumb margin-left-0">
+           <li><a href="#">首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">订单中心</a></li><li class="active"><a href="#">初审项信息</a></li>
+           </ul>
+        <div class="clear"></div>
+      </div>
    </div>
    <!-- 新增窗口 -->
-<div class="container clear margin-top-30" id="package" >
-	<form action="" method="post" >
-     <table class="table table-bordered table-condensed">
-     <thead>
-      <tr>
-        <th>初审项模板名称:</th><td>${templat.name }</td>
-        <th>初审项模板类型:</th><td>${templat.kind}</td>
-        <th>创建人:</th><td>${templat.creater}</td>
-        <th>创建时间</th><td align="center"><fmt:formatDate type='date' value='${templat.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-      </tr>
-     </thead>
-    </table>
-  </form>
-</div>
-<div class="container">
-	   <div class="headline-v2">
-	   		<h2>初审项信息</h2>
-	   </div>
+   <div class="container">
+       <div class="tab-content">
+          <div class="tab-v2">
+            <ul class="nav nav-tabs bgwhite">
+              <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="f18">模板信息</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="dep_tab-0">
+                    <h2 class="count_flow jbxx">模板信息</h2>
+                    <table class="table table-bordered">
+		                 <tbody>
+		                    <tr>
+			                  <td class="bggrey">初审项模板名称:</td>
+			                  <td>${templat.name }</td>
+			                  <td class="bggrey ">初审项模板类型:</td>
+			                  <td>${templat.kind}</td>
+		                    </tr>
+		                    <tr>
+                              <td class="bggrey">创建人:</td>
+                              <td>${templat.creater}</td>
+                              <td class="bggrey ">创建时间:</td>
+                              <td><fmt:formatDate type='date' value='${templat.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+                            </tr>
+		                 </tbody>
+		            </table>
+		            <h2 class="count_flow jbxx">初审项信息</h2>
+		            <div class="col-md-12 pl20 mt10">
+					      <input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows add"/>
+						  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
+						  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
+				    </div>
+				    <div class="content table_box">
+                        <table class="table table-bordered table-condensed table-hover table-striped">
+                             <thead>
+							      <tr>
+							        <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+							        <th class="info">初审项名称</th>
+							        <th class="info">初审项类型</th>
+							        <th class="info">创建人</th>
+							        <th class="info">创建时间</th>
+							      </tr>
+							 </thead>
+							 <c:forEach items="${list }" var="l" varStatus="vs">
+							      <thead>
+								       <tr>
+								        <td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
+								        <td align="center">${l.name }</td>
+								        <td align="center">${l.kind }</td>
+								        <td align="center">${l.creater }</td>
+								        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+								      </tr>
+							      </thead>
+							</c:forEach>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 tc">
+            <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+            </div>
+          </div>
+       </div>
    </div>
-   <div class="container clear margin-top-30" id="package">
-  <form action="">
-  <input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows ht_add"/>
-  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
-  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
-    <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-        <th class="info">初审项名称</th>
-        <th class="info">初审项类型</th>
-        <th class="info">创建人</th>
-        <th class="info">创建时间</th>
-      </tr>
-     </thead>
-      <c:forEach items="${list }" var="l" varStatus="vs">
-      <thead>
-       <tr>
-        <td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
-        <td align="center">${l.name }</td>
-        <td align="center">${l.kind }</td>
-        <td align="center">${l.creater }</td>
-        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-      </tr>
-      </thead>
-      </c:forEach>
-    </table>
-  </form>
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-</div>
 
-<div id="openWindow"  style="display: none;">
-	<form action="${pageContext.request.contextPath}/auditTemplat/saveFirstAudit.html" method="post" id="form1">
-     <table class="table table-bordered table-condensed">
-     <thead>
-      <tr>
-        <th>初审项名称:</th><td><input type="text" id="name" maxlength="30" name="name" ></td>
-        <th>要求类型:</th><td><input type="radio" name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-        <input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
-      </tr>
-      <input type="hidden" name="templatId" value="${templat.id }">
-     </thead>
-    </table>
-    <input type="button"  value="添加" onclick="submit1();"   class="btn btn-windows add"/>
-    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
-  </form>
+<div id="openWindow" class="dnone layui-layer-wrap"  style="display: none;">
+    <div class="drop_window">
+        <form action="${pageContext.request.contextPath}/auditTemplat/saveFirstAudit.html" method="post" id="form1">
+              <ul class="list-unstyled">
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">初审项名称</label>
+                  <span class="col-md-12">
+                    <input type="text" id="name" maxlength="30" name="name" >
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">要求类型</label>
+                  <span class="col-md-12">
+                    <input type="radio" name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术
+                    <input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
+                    <input type="hidden" name="templatId" value="${templat.id }">
+                  </span>
+                </li>
+                <div class="clear"></div>
+               </ul>
+               <div class="tc mt10 col-md-12">
+                <input type="button"  value="添加" onclick="submit1();"   class="btn btn-windows add"/>
+                <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
+              </div>
+         </form>
+     </div>
 </div>
 </body>
 </html>
