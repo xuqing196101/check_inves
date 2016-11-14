@@ -107,7 +107,7 @@
 		       <input class="btn" onclick="tijiao()" type="button" value="查询">
 		     </form>
 		     <div class="content table_box">
-        <table id="tb1"  class="table table-bordered table-condensed table-hover">
+                <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>
 				<tr>
 				    <th class="info w50">序号</th>

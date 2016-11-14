@@ -279,7 +279,7 @@ $(function() {
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 	 </div>
      <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>

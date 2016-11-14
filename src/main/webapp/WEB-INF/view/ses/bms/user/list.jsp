@@ -205,10 +205,10 @@
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 				<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 	  </div>
-   
-	  <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
-				<thead>
+	  
+	    <div class="content table_box">
+            <table class="table table-bordered table-condensed table-hover table-striped">
+            <thead>
 					<tr>
 					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					  <th class="info w50">序号</th>
@@ -218,7 +218,8 @@
 					  <th class="info">联系电话</th>
 					  <th class="info">类型</th>
 					</tr>
-				</thead>
+		      <thead>
+		      <tbody>
 				<c:forEach items="${list.list}" var="user" varStatus="vs">
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
@@ -258,6 +259,7 @@
 					  </td>
 					</tr>
 				</c:forEach>
+				</tbody>
 		       </table>
 		    </div>
 		  <div id="pagediv" align="right"></div>

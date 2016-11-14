@@ -174,11 +174,11 @@
                 <button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html'">新增</button>
                 <button class="btn btn-windows edit" type="button" onclick="editSupplierBlacklist()">修改</button>
                 <button class="btn btn-windows delete" type="button" onclick="operatorRemove()">手动移除</button>
-                <button class="btn btn-windows git" type="button" onclick="searchBlacklist()">查看黑名单历史记录</button>
+                <button class="btn btn-windows git" type="button" onclick="searchBlacklist()">历史记录</button>
             </div>
 
 		 <div class="content table_box">
-            <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
