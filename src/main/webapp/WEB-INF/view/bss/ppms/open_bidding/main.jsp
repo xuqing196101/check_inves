@@ -27,6 +27,14 @@
 	function back(page){
 		location.href = '${pageContext.request.contextPath}/project/list.html?page='+page;
 	}
+	
+	function jump(url,projectId){
+		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId;
+       	    
+       $("#as").attr("href",urls);
+      var el=document.getElementById('as');
+       el.click();//触发打开事件
+	}
 </script>
 <body>
   
@@ -48,21 +56,10 @@
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 	                       <c:forEach items="${fds}" var="fd">
-	                       		<li <c:if test="${fd.step == 1 }">class="active"</c:if>>
-	                       			<a href="${pageContext.request.contextPath}/${fd.url}?projectId=${project.id}" target="open_bidding_main" class="son-menu">${fd.name }</a>
+	                       		<li  onclick="jump('${fd.url}','${project.id }')" <c:if test="${fd.step == 1 }">class="active"</c:if>>
+	                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
 	                       		</li>
 	                       </c:forEach>
-						   <%-- <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-						   <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
-						   <li><a href="<%=basePath%>open_bidding/firstAduitView.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确认招标文件</a></li>
-						   <li><a href="<%=basePath%>open_bidding/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标公告</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">发售标书</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">投标开标</a></li>
-						   <li><a href="<%=basePath%>open_bidding/changbiao.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">唱标</a></li>
-						   <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
-						   <li><a href="<%=basePath%>open_bidding/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制中标公告</a></li>
-						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认中标供应商</a></li> --%>
 						 </ul>
 					  </div>
 					  <script type="text/javascript" language="javascript">   
@@ -87,5 +84,6 @@
                 <!-- End Content -->
             </div>
         </div><!--/container-->
+        	<a id="as" class="dnone" target="open_bidding_main" class="son-menu"></a>
 </body>
 </html>
