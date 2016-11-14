@@ -130,7 +130,9 @@ public class PurchaseContractController {
 			List<SupplierCheckPass> suList = supplierCheckPassService.listSupplierCheckPass(sucp);
 			String supplierNames = "";
 			for(SupplierCheckPass su:suList){
-				supplierNames+=su.getSupplier().getSupplierName()+",";
+				if(su.getSupplier()!=null){
+					supplierNames+=su.getSupplier().getSupplierName()+",";
+				}
 			}
 			pa.setSupplierNames(supplierNames);
 			pacList.add(pa);

@@ -6,26 +6,7 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title></title>
-
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<!--  <link href="css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="css/page_job.css" media="screen" rel="stylesheet">
-    <link href="css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="css/page_log_reg_v1.css" media="screen" rel="stylesheet"> -->
+<jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
 	$(function() {
 		$(document).keyup(function(event) {
