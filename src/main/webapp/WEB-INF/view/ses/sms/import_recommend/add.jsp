@@ -91,7 +91,7 @@
     <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录名：</span>
 	   <div class="input-append">
-	        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+	        <input class="span5" id="loginName" name="loginName" value="${ir.loginName }" type="text">
 	        <span class="add-on">i</span>
        </div>
        <div class="red">${ERR_loginName}</div>
@@ -100,7 +100,7 @@
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录密码：</span>
 	   <div class="input-append">
-	        <input class="span2" id="password" name="password" value="${ir.password }" type="text">
+	        <input class="span5" id="password" name="password" value="${ir.password }" type="text">
 	        <span class="add-on">i</span>
        </div>
        <div class="red">${ERR_password}</div>
@@ -109,7 +109,7 @@
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">企业名称：</span>
 	   <div class="input-append">
-	         <input class="span2" id="name" name="name"  value="${ir.name }" type="text"> 
+	         <input class="span5" id="name" name="name"  value="${ir.name }" type="text"> 
 	         <span class="add-on">i</span>
        </div>
        <div class="red">${ERR_name}</div>
@@ -118,7 +118,7 @@
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">法定代表人：</span>
 	   <div class="input-append">
-	         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
+	         <input class="span5" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
 	         <span class="add-on">i</span>
        </div>
        <div class="red">${ERR_legalName}</div>
@@ -150,7 +150,7 @@
 	 <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">推荐单位：</span>
 	   <div class="input-append">
-	         <input class="span2" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
+	         <input class="span5" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
 	         <span class="add-on">i</span>
        </div>
        <div class="red">${ERR_recommendDep}</div>

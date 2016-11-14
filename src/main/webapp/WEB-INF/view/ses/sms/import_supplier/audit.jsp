@@ -77,7 +77,7 @@ $.ajax({
 							   <div class="input-append">
 							    <input  id="status" name="status"  type="hidden">
 											<input  value="${is.id }" name="id"  type="hidden">
-						        <input class="span2" id="name" name="name" value="${is.name }"  type="text">
+						        <input class="span5" id="name" name="name" value="${is.name }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_name}</div>
 						       </div>
@@ -86,7 +86,7 @@ $.ajax({
 							 <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">企业类别：</span>
 							   <div class="input-append">
-						        <input class="span2" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
+						        <input class="span5" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_supplierType}</div>
 						       </div>
@@ -95,7 +95,7 @@ $.ajax({
 							  <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">中文译名：</span>
 							   <div class="input-append">
-						        <input class="span2" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
+						        <input class="span5" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_chinesrName}</div>
 						       </div>
@@ -104,7 +104,7 @@ $.ajax({
 				            <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">法定代表人：</span>
 							   <div class="input-append">
-						        <input class="span2" id="legalName" name="legalName" value="${is.legalName }" type="text">
+						        <input class="span5" id="legalName" name="legalName" value="${is.legalName }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_legalName}</div>
 						       </div>
@@ -126,7 +126,7 @@ $.ajax({
 							 <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">邮政编码：</span>
 							   <div class="input-append">
-						        <input class="span2" id="postCode" name="postCode" value="${is.postCode }"  type="text">
+						        <input class="span5" id="postCode" name="postCode" value="${is.postCode }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_postCode}</div>
 						       </div>
@@ -135,7 +135,7 @@ $.ajax({
 							<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">经营产品大类：</span>
 							   <div class="input-append">
-						        <input class="span2" id="productType" name="productType" value="${is.productType }"  type="text">
+						        <input class="span5" id="productType" name="productType" value="${is.productType }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_productType}</div>
 						       </div>
@@ -144,7 +144,7 @@ $.ajax({
 							 <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">主营产品：</span>
 							   <div class="input-append">
-						        <input class="span2" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
+						        <input class="span5" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_majorProduct}</div>
 						       </div>
@@ -153,7 +153,7 @@ $.ajax({
 							  <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">兼营产品：</span>
 							   <div class="input-append">
-						        <input class="span2" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
+						        <input class="span5" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_byproduct}</div>
 						       </div>
@@ -162,7 +162,7 @@ $.ajax({
 							<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">生产商名称：</span>
 							   <div class="input-append">
-						        <input class="span2" id="producerName" name="producerName" value="${is.producerName }"   type="text">
+						        <input class="span5" id="producerName" name="producerName" value="${is.producerName }"   type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_producerName}</div>
 						       </div>
@@ -171,7 +171,7 @@ $.ajax({
 								<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">联系人：</span>
 							   <div class="input-append">
-						        <input class="span2" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
+						        <input class="span5" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_contactPerson}</div>
 						       </div>
@@ -180,7 +180,7 @@ $.ajax({
 								<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">电话：</span>
 							   <div class="input-append">
-						        <input class="span2" id="telephone" name="telephone" value="${is.telephone }"  type="text">
+						        <input class="span5" id="telephone" name="telephone" value="${is.telephone }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_telephone}</div>
 						       </div>
@@ -189,7 +189,7 @@ $.ajax({
 								<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">传真：</span>
 							   <div class="input-append">
-						        <input class="span2" id="fax" name="fax" value="${is.fax }" type="text">
+						        <input class="span5" id="fax" name="fax" value="${is.fax }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_fax}</div>
 						       </div>
@@ -198,7 +198,7 @@ $.ajax({
 								<li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">电子邮件：</span>
 							   <div class="input-append">
-						        <input class="span2" id="email" name="email" value="${is.email }" type="text">
+						        <input class="span5" id="email" name="email" value="${is.email }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_email}</div>
 						       </div>
@@ -207,7 +207,7 @@ $.ajax({
 							 <li class="col-md-3 margin-0 padding-0 ">
 							   <span class="col-md-12 padding-left-5">企业网址：</span>
 							   <div class="input-append">
-						        <input class="span2" id="website" name="website" value="${is.website }"  type="text">
+						        <input class="span5" id="website" name="website" value="${is.website }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="validate">${ERR_website}</div>
 						       </div>
