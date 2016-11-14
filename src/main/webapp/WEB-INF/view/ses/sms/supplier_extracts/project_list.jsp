@@ -2,10 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -18,45 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css"
-	media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen"
-	rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css"
-	media="screen" rel="stylesheet" type="text/css">
-
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 
 <script type="text/javascript">
@@ -79,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 //  $("#page").val(e.curr);
                     // $("#form1").submit();
                     
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
+                 location.href = '${pageContext.request.contextPath}/project/list.do?page='+e.curr;
                 }  
             }
         });
@@ -130,11 +88,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-        	window.location.href="<%=basePath%>SupplierExtracts/Extraction.html?id="+id;
+        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId="+id+"&&typeclassId=1";
         }
     }
     function record(){
-    	   location.href = '<%=basePath%>SupplierExtracts/resuleRecordlist.do';
+    	   location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
     }
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -161,11 +119,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h2>查询条件</h2>
 		</div>
 <!-- 项目戳开始 -->
-    <div class="p10_25">
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
-    
      <li class="fl">
        <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
        </li>
@@ -178,14 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="clear"></div>
     </form>
     </h2>
-    </div>
-     <div class="clear"></div>
-
-
-
-
-
-
+    
 		<div class="headline-v2 fl">
 			<h2>立项列表</h2>
 		</div>

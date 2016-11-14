@@ -9,18 +9,11 @@
 <!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title></title>
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
+
 <link rel="stylesheet"
-    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     type="text/css">
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +27,7 @@
               async:{
                           autoParam:["id"],
                           enable:true,
-                          url:"<%=basePath%>category/createtree.do",
+                          url:"${pageContext.request.contextPath}/category/createtree.do",
                           dataType:"json",
                           type:"post",
                       },
@@ -183,23 +176,18 @@
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container margin-top-30">
-		<form action="<%=basePath%>SupplierExtracts/listSupplier.do"
+		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
 			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6 p0 ">
-				    	<span class="red textspan">*</span>供应商抽取数量：
+				    	<span class="red textspan">*</span>抽取数量：
 						<div class="input-append">
-							<input class="span2 w200" id="extcount" value="10" name="title" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+							<input class="span2 w200" maxlength="3" id="extcount" value="10" name="title" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
                                 onafterpaste="this.value=this.value.replace(/\D/g,'')">
 						</div>
 					</li>
-					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
-					<!-- 						<div class="input-append"> -->
-					<!-- 							<input class="span2 w200" name="title" type="text"> -->
-					<!-- 						</div> -->
-					<!-- 					</li> -->
 					<li class="col-md-6  p0 ">
 						<div class="fl mr10">
 							<input type="radio" name="radio" id="radio" checked="checked"

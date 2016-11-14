@@ -6,9 +6,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
-<title>用户管理</title>
+<title>抽取记录</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -95,7 +95,7 @@ $(function(){
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>user/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -111,7 +111,7 @@ $(function(){
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>user/delete_soft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/user/delete_soft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});

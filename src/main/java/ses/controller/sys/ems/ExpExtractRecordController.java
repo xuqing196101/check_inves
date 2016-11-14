@@ -119,13 +119,13 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")	
-    public String listExtraction(Model model,String id,String page,String typeclassId){
-        model.addAttribute("typeclassId", typeclassId);
-        if (id != null && !"".equals(id)){
-            List<ExpExtCondition> list = conditionService.list(new ExpExtCondition(id), page == null || "".equals(page)  ? 1 : Integer.valueOf(page));
+    public String listExtraction(Model model,String projectId,String page,String typeclassId){
+        model.addAttribute("typeclassId",typeclassId);
+        if (projectId != null && !"".equals(projectId)){
+            List<ExpExtCondition> list = conditionService.list(new ExpExtCondition(projectId), page == null || "".equals(page)  ? 1 : Integer.valueOf(page));
             model.addAttribute("list", new PageInfo<>(list));
-            Project selectById = projectService.selectById(id); 
-            model.addAttribute("projectId", id);
+            Project selectById = projectService.selectById(projectId); 
+            model.addAttribute("projectId", projectId);
             model.addAttribute("projectName", selectById.getName());
             model.addAttribute("projectNumber", selectById.getProjectNumber());
             model.addAttribute("expExtCondition", new ExpExtCondition());
@@ -245,7 +245,7 @@ public class ExpExtractRecordController extends BaseController {
                 } else {
                     mapcount.put(projectExtract.getConTypeId(), 1);
                 }
-            } else if (projectExtract.getOperatingType() == 3){
+            } else if (projectExtract.getOperatingType() != null && projectExtract.getOperatingType() == 3){
                 projectExtractListYes.add(projectExtract);
             } else {
                 projectExtractListNo.add(projectExtract);
@@ -283,9 +283,9 @@ public class ExpExtractRecordController extends BaseController {
         //		修改状态
         String[] ids = id.split(",");
         if (reason != null && !"".equals(reason)){
-            extractService.update(new ProjectExtract(ids[0],new Short(ids[2]),reason));
-        }else{
-            extractService.update(new ProjectExtract(ids[0],new Short(ids[2])));
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason));
+        } else {
+            extractService.update(new ProjectExtract(ids[0], new Short(ids[2])));
         }
 
         List<ProjectExtract> projectExtractListYes = resultProjectExtract(sq, ids);
@@ -365,7 +365,7 @@ public class ExpExtractRecordController extends BaseController {
                         mapcount.put(projectExtract.getConTypeId(), 1);
                     }
                 }
-            } else if (projectExtract.getOperatingType() == 3){
+            } else if (projectExtract != null && projectExtract.getOperatingType() == 3){
                 //不参与
                 projectExtractListYes.add(projectExtract);
                 if (type == 0){

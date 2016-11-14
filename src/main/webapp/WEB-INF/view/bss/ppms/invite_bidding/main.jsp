@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-           <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li><li><a href="">竞争性谈判项目实施</a></li> 
+           <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li><li><a href="">邀请招标项目实施</a></li> 
         </ul>
       </div>
    </div>
@@ -76,17 +76,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
                          <ul class="btn_list" id="menu">
-                           <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-                           <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
-                           <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认招标文件</a></li>
-                           <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">发布招标公告</a></li>
-                           <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}&&typeclassId=1" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
-                           <li><a href="<%=basePath%>saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
-                           <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}&&typeclassId=1" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
-                           <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">开标（唱标）</a></li>
-                           <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
-                           <li><a href="<%=basePath%>pub_tran/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布中标公示</a></li>
-                           <li><a href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确定中标供应商</a></li>
+                           <c:forEach items="${fds}" var="fd">
+                                <li <c:if test="${fd.step == 1 }">class="active"</c:if>>
+                                    <a href="${pageContext.request.contextPath}/${fd.url}?projectId=${project.id}" target="open_bidding_main" class="son-menu">${fd.name }</a>
+                                </li>
+                           </c:forEach>
+<%--                            <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li> --%>
+<%--                            <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标文件</a></li> --%>
+<%--                            <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认招标文件</a></li> --%>
+<%--                            <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">发布招标公告</a></li> --%>
+<%--                            <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li> --%>
+<%--                            <li><a href="<%=basePath%>saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li> --%>
+<%--                            <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取评审专家</a></li> --%>
+<%--                            <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">开标（唱标）</a></li> --%>
+<%--                            <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li> --%>
+<%--                            <li><a href="<%=basePath%>pub_tran/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布中标公示</a></li> --%>
+<%--                            <li><a href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确定中标供应商</a></li> --%>
                          </ul>
                       </div>
                       <script type="text/javascript" language="javascript">   

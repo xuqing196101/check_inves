@@ -19,7 +19,8 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND, st.CREATED_AT,
+		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
+		st.CREATED_AT,
 		st.UPDATED_AT, st.USER_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -152,7 +153,7 @@
 	<select id="list" parameterType="bss.model.ppms.SaleTender"
 		resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List"/>
+		<include refid="Base_Column_List" />
 		, ss.SUPPLIER_NAME
 		FROM
 		T_BSS_PPMS_SALE_TENDER st
@@ -160,9 +161,10 @@
 		T_SES_SMS_SUPPLIER ss ON st.SUPPLIER_ID = ss."ID"
 		WHERE
 		1=1
-	   <if test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
-	         AND ss.SUPPLIER_NAME LIKE  '%${suppliers.supplierName}%'
-	   </if>
+		<if
+			test="suppliers != null and suppliers.supplierName != null and suppliers.supplierName != ''">
+			AND ss.SUPPLIER_NAME LIKE '%${suppliers.supplierName}%'
+		</if>
 		<if test="projectId != null and projectId != ''">
 			and st.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		</if>
@@ -176,4 +178,13 @@
 			and st.STATUS_BOND=#{statusBond,jdbcType=DECIMAL}
 		</if>
 	</select>
+
+	<select id="uploadCount" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT "COUNT"(*) as count FROM
+		T_SES_BMS_ATTACHMENT
+		WHERE
+		BUSINESS_ID=#{businessId} AND IS_DELETED=0
+	</select>
+
 </mapper>

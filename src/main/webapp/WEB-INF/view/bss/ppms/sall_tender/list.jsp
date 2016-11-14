@@ -186,7 +186,7 @@
 <body>
 	<!--面包屑导航开始-->
 	<h2 class="search_detail">
-		<form action="<%=basePath%>saleTender/list.do" method="post" id="form1" >
+		<form action="<%=basePath%>saleTender/list.do" method="post" id="form1" class="mb0"  >
 		<input type="hidden" name="projectId" value="${projectId}">
 			<ul class="demand_list">
 				<li><label class="fl">供应商名称：</label><span><input
@@ -209,8 +209,9 @@
             <input type="submit"  class="btn" value="查询"/>
             <button type="button" onclick="resetQuery();" class="btn">重置</button> 
             </div>
-			<div class="clear"></div>
+             <div class="clear"></div>
 		</form>
+	
 	</h2>
 	<!-- 表格开始-->
 	<div class="container  ">

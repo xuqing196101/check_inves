@@ -5,9 +5,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
-<title>添加菜单</title>
+<title>抽取条件</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -20,7 +20,7 @@
 
 
 <link rel="stylesheet"
-	href="<%=basePath%>public/supplier/css/supplieragents.css"
+	href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
 	type="text/css">
 
 
@@ -35,7 +35,7 @@
         var citys="${citys}";
          $.ajax({
               type:"POST",
-              url:"<%=basePath%>SupplierExtracts/city.do",
+              url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
               data:{area:areas,},
               dataType:"json",
               success: function(data){
@@ -63,26 +63,50 @@
         
          
     });
-    function areas(){
-      var areas=$("#area").find("option:selected").val();
+    //专家地址
+    function areas1(){
+      var areas1=$("#area1").find("option:selected").val();
       $.ajax({
           type:"POST",
-          url:"<%=basePath%>SupplierExtracts/city.do",
-          data:{area:areas},
+          url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
+          data:{area:areas1},
           dataType:"json",
           success: function(data){
                var list = data;
-               $("#city").empty();
+               $("#city1").empty();
                for(var i=0;i<list.length;i++){
             	   if(i==0){
-                       $("#city").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
+                       $("#city1").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
             	   }
 
-                   $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+                   $("#city1").append("<option value="+list[i].id+">"+list[i].name+"</option>");
                }
           }
       });
     }
+    //抽取地址
+    function areas(){
+        var areas=$("#area").find("option:selected").val();
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
+            data:{area:areas},
+            dataType:"json",
+            success: function(data){
+                 var list = data;
+                 $("#city").empty();
+                 for(var i=0;i<list.length;i++){
+                     if(i==0){
+                         $("#city").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
+                     }
+
+                     $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+                 }
+            }
+        });
+      }
+      
+    
     
     //地区联动js
     function loadProvince(regionId){
@@ -186,7 +210,7 @@
               shade: 0.01,
               area: ['430px', '400px'],
               offset: '20px',
-              content: '<%=basePath%>ExpExtract/addHeading.do?id='+id, //iframe的url
+              content: '${pageContext.request.contextPath}/ExpExtract/addHeading.do?id='+id, //iframe的url
             });
         	
         }else if(id.length>1){
@@ -209,7 +233,7 @@
             	
             	$.ajax({
             	          type:"POST",
-            	          url:"<%=basePath%>ExtCondition/dels.do?delids="+ids,
+            	          url:"${pageContext.request.contextPath}/ExtCondition/dels.do?delids="+ids,
             	          data:{delids:ids},
             	          success: function(data){
             	        
@@ -231,7 +255,7 @@
             cache: true,
             type: "POST",
             dataType : "json",
-            url:'<%=basePath%>ExtCondition/saveExtCondition.html',
+            url:'${pageContext.request.contextPath}/ExtCondition/saveExtCondition.html',
             data:$('#form1').serialize(),// 你的formid
             async: false,
             success: function(data) {
@@ -247,7 +271,7 @@
             	$("#supervisediv").text(map.supervise);
             	$("#typeArray").text(map.typeArray);
             	if(map.sccuess=="sccuess"){
-            		  window.location.href = '<%=basePath%>/ExpExtract/Extraction.do?id=${projectId}&&typeclassId=${typeclassId}';
+            		  window.location.href = '${pageContext.request.contextPath}/ExpExtract/Extraction.do?projectId=${projectId}&&typeclassId=${typeclassId}';
             	}
             }
         });
@@ -265,7 +289,7 @@ return true;
           offset: '20px',
           move: false,
           area: ['90%', '50%'],
-          content: '<%=basePath%>SupplierExtracts/showSupervise.do',
+          content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
           success: function(layero, index){
               iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
             },
@@ -289,7 +313,7 @@ return true;
 	          shade: 0.01,
 	          area: ['430px', '400px'],
 	          offset: '20px',
-	          content: '<%=basePath%>ExpExtract/addHeading.do', //iframe的url
+	          content: '${pageContext.request.contextPath}/ExpExtract/addHeading.do', //iframe的url
 	          success: function(layero, index){
                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                 },
@@ -348,7 +372,7 @@ return true;
             $.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>preMenu/treedata.do?",
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do?",
 			dataType : "json",
 			success : function(zNodes) {
 				for (var i = 0; i < zNodes.length; i++) {
@@ -390,7 +414,7 @@ return true;
    
 	<!--面包屑导航开始-->
 	
-	<c:if test="${typeclassId==null || typeclassId=='' || typeclassId==0 }">
+	<c:if test="${typeclassId!=null && typeclassId !=''}">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -414,7 +438,9 @@ return true;
 			style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
 			<ul id="treeDemo" class="ztree" style="width: 220px"></ul>
 		</div>
+		   <h2>
 		<form id="form1" method="post" >
+		 <div class="mlr container search_detail">
 			<!--         专家所在地区 -->
 			<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
 			<!--         专家所在地区 -->
@@ -434,7 +460,23 @@ return true;
 			<!-- 类型   -->
             <input type="hidden" name="typeclassId"  value="${typeclassId}"  />
 			<ul class="demand_list">
-				<li><label class="fl"><span class="red">*</span>专家所在地区：</label>
+<!-- 			     <li> -->
+<!--                 <label class="fl"><span class="red">*</span>抽取地区：</label> -->
+<!--                     <span> <select class=" w150" -->
+<!--                         id="area" onchange="areas();"> -->
+<%--                             <c:forEach items="${listArea }" var="area" varStatus="index"> --%>
+<%--                                 <c:if test="${area.name eq areas}"> --%>
+<%--                                     <option selected="selected" value="${area.id }">${area.name }</option> --%>
+<%--                                 </c:if> --%>
+<%--                                 <option value="${area.id }">${area.name }</option> --%>
+<%--                             </c:forEach> --%>
+<!--                     </select> <select name="extractionSites" class="w93" -->
+<!--                         id="city"></select> -->
+<!--                         <div class="fr b f14 red tip w150"></div> -->
+<!--                   </span> -->
+<!--                 </li> -->
+				<li>
+				<label class="fl"><span class="red">*</span>专家地区：</label>
 					<span> <select class=" w150"
 						id="area" onchange="areas();">
 							<c:forEach items="${listArea }" var="area" varStatus="index">
@@ -443,12 +485,13 @@ return true;
 								</c:if>
 								<option value="${area.id }">${area.name }</option>
 							</c:forEach>
-					</select> <select name="extractionSites" class="w96"
+					</select> <select name="extractionSites" class="w93"
 						id="city"></select>
-						<div class="fr b f14 red tip w200">
-						</div>
-				</span></li>
-				<li><label class="fl"><span class="red">*</span>专家来源：</label> <span>
+						<div class="fr b f14 red tip w150"></div>
+				  </span>
+				</li>
+				<li><label class="fl"><span class="red">*</span>专家来源：</label>
+				    <span>
 						<select class="w250" name="expertsFrom">
 							<c:choose>
 								<c:when test="${ExpExtCondition.expertsFrom eq '军队'}">
@@ -472,46 +515,44 @@ return true;
 									<option value="其他">不限</option>
 								</c:otherwise>
 							</c:choose>
-					</select>
-						<div class="fr b f14 red tip">
-							<sf:errors path="expertsFrom" />
-						</div>
-				</span></li>
+					   </select>
+					   <div class="fr b f14 red tip w150"></div>
+				  </span>
+				</li>
 				<li><label class="fl"><span class="red">*</span>开标时间：</label> <span>
-						<input class="span2  Wdate w250" readonly="readonly"
+						<input class="Wdate w250" readonly="readonly"
 						name="tenderTime"
 						value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
                                 pattern='yyyy-MM-dd' />"
 						maxlength="30" onclick="WdatePicker();" type="text">
-						<div class="fr b f14 red tip w200" id="tenderTime">
+						<div class="fr b f14 red tip w150" id="tenderTime">
 						</div>
-				</span></li>
-				<li><label class="fl"><span class="red">*</span>专家响应时限：</label>
-					<span> <input class="span2 w75" name="hour" value="${hour}"
-						maxlength="3" type="text"> <input class="span2 w50"
-						readonly="readonly" value="时" maxlength="5" type="text"> <input
-						class="span2 w75" value="${minute}" id="minute" name="minute"
+				</span>
+				</li>
+				<li><label class="fl"><span class="red">*</span>年龄：</label> <span>
+                        <input class="w118" maxlength="2"
+                        value="${ExpExtCondition.ageMin}" name="ageMin" type="text"><span class="f14">至</span><input class="w118" name="ageMax"
+                        value="${ExpExtCondition.ageMax}" maxlength="2" type="text">
+                        <div class="fr b f14 red tip w150" id="agediv"></div>
+                </span>
+                </li>
+				<li><label class="fl"><span class="red">*</span>响应时限：</label>
+					<span> <input class="w118" name="hour" value="${hour}"
+						maxlength="3" type="text"><span class="f14">时</span><input
+						class="w118" value="${minute}" id="minute" name="minute"
 						maxlength="3" type="text"
 						onkeyup="this.value=this.value.replace(/\D/g,'')"
-						onafterpaste="this.value=this.value.replace(/\D/g,'')"> <input
-						class="span2 w50" readonly="readonly" value="分" maxlength="30"
-						type="text">
-						<div class="fr b f14 red tip w200" id="responseTime">${responseTime }</div>
+						onafterpaste="this.value=this.value.replace(/\D/g,'')"><span class="f14">分</span>
+						<div class="fr b f14 red tip w150" id="responseTime">${responseTime }</div>
 				</span></li>
-				<li><label class="fl"><span class="red">*</span>年龄：</label> <span>
-						<input class="w120" maxlength="2"
-						value="${ExpExtCondition.ageMin}" name="ageMin" type="text">
-						-
-						<input class="w120" name="ageMax"
-						value="${ExpExtCondition.ageMax}" maxlength="2" type="text">
-						<div class="fr b f14 red tip w200" id="agediv"></div>
-				</span></li>
+				
 				<li><label class="fl"><span class="red">*</span>监督人员：</label> <span>
-						<input class="span2 w250" readonly id="supervises" name="userName"
+						<input class=" w250" readonly id="supervises" name="userName"
 						value="${userName}" onclick="supervise();" type="text">
-						<div class="fr b f14 red tip w200" id="supervisediv"></div>
+						<div class="fr b f14 red tip w150" id="supervisediv"></div>
 				</span></li>
 			</ul>
+			</div>
 			<div align="right" >
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					id="save" onclick="opens();" type="button">添加</button>
@@ -572,6 +613,7 @@ return true;
 					type="button">保存抽取条件</button>
 			</div>
 		</form>
+		   </h2>
 	</div>
 </body>
 </html>

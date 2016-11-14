@@ -136,13 +136,12 @@
 </script>
 <body >
 	<!--面包屑导航开始-->
-	<div class="container"></div>
-	<div class=" padding-left-25 padding-right-25  ">
-		<div class="col-md-12">
-			<h2 class="padding-10 border1">
+	<div class="container">
+	
+			 <h2 class="search_detail">
 				<form action="" method="post" id="form" class="mb0">
 					<ul class="demand_list">
-					<input type="hidden" id="page"  name="page" />
+				    <input type="hidden" id="page"  name="page" />
 						<li class="fl"><label class="fl">供应商名称：</label><span><input
 								type="text" id="supplierName" class="" value="${supplierName}"  name="supplierName"/></span></li>
 						<input type="submit" onclick="query()" class="btn" value="查询"/>
@@ -151,10 +150,7 @@
 					<div class="clear"></div>
 				</form>
 			</h2>
-		</div>
-	</div>
-	<div class="padding-left-25 padding-right-25 ">
-		<div class="col-md-12">
+	
 			<table class="table table-bordered table-condensed" >
 				<thead>
 					<tr>
@@ -183,8 +179,7 @@
 					</tr>
 				</c:forEach>
 			</table>
+			<div id="pagediv" align="right"></div>
 		</div>
-<div id="pagediv" align="right"></div>
-	</div>
 </body>
 </html>

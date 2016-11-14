@@ -3,7 +3,9 @@
  */
 package bss.controller.ppms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,12 +21,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import common.constant.Constant;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.SaleTenderService;
 
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
 
@@ -45,6 +50,8 @@ public class SaleTenderController {
     private SaleTenderService saleTenderService; //关联表
     @Autowired
     private SupplierAuditService auditService;//查询所有供应商
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
 
     /**
      * @Description:展示发售标书列表
@@ -109,8 +116,29 @@ public class SaleTenderController {
      */
     @RequestMapping("/showUpload")
     public String showUpload(String projectId,Model model,String id){
+
+
+        //打印凭证
+        DictionaryData dd = new  DictionaryData();
+        dd.setCode("SALE_TENDER_DYPZ");
+        List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+        if(find != null && find.size() !=0 ){
+            model.addAttribute("saleTenderDypz", find.get(0).getId());
+        }
+        //发票上传
+        dd = new  DictionaryData();
+        dd.setCode("SALE_TENDER_FPSC");
+        find = dictionaryDataServiceI.find(dd);
+        if(find != null && find.size() !=0 ){
+            model.addAttribute("saleTenderFpsc", find.get(0).getId());
+        }
+        //招标系统key
+        Integer tenderKey = Constant.TENDER_SYS_KEY;
         model.addAttribute("projectId", projectId);
         model.addAttribute("saleId", id);
+        model.addAttribute("tenderKey", tenderKey);
+
+
         return "bss/ppms/sall_tender/upload";
     }
     /**
@@ -121,10 +149,12 @@ public class SaleTenderController {
      * @param @return      
      * @return String
      */
+    @ResponseBody
     @RequestMapping("/upload")
     public String paymentUpload(String projectId,String saleId,String statusBid){
-        saleTenderService.upload(null,null,projectId,saleId,statusBid);
-        return "redirect:list.html?projectId="+projectId;
+        String upload = saleTenderService.upload(projectId,saleId,statusBid);
+//        "redirect:list.html?projectId="+projectId
+        return JSON.toJSONString(upload);
     }
     /**
      * @Description:保存供应商信息

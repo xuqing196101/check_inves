@@ -5,9 +5,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
-<title>添加菜单</title>
+<title>添加抽取条件</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -15,28 +15,16 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-<!--
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    -->
-
 <link rel="stylesheet"
-    href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-
-<link rel="stylesheet"
-    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     type="text/css">
-<script type="text/javascript"
-    src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript"
-    src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript"
-    src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
+
 <script type="text/javascript">
     $(function (){
         var areas="${listArea[0].id}";
          $.ajax({
               type:"POST",
-              url:"<%=basePath%>SupplierExtracts/city.do",
+              url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
               data:{area:areas},
               dataType:"json",
               success: function(data){
@@ -52,7 +40,7 @@
       var areas=$("#area").find("option:selected").val();
       $.ajax({
           type:"POST",
-          url:"<%=basePath%>SupplierExtracts/city.do",
+          url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
           data:{area:areas},
           dataType:"json",
           success: function(data){
@@ -115,7 +103,7 @@
               shade: 0.01,
               area: ['430px', '400px'],
               offset: '20px',
-              content: '<%=basePath%>SupplierExtracts/addHeading.do?id='+id, //iframe的url
+              content: '${pageContext.request.contextPath}/SupplierExtracts/addHeading.do?id='+id, //iframe的url
             });
             
         }else if(id.length>1){
@@ -137,7 +125,7 @@
                  layer.close(index); 
                 $.ajax({
                           type:"POST",
-                          url:"<%=basePath%>SupplierExtracts/dels.do?delids="+ids,
+                          url:"${pageContext.request.contextPath}/SupplierExtracts/dels.do?delids="+ids,
                           data:{delids:ids},
                           success: function(data){
                         
@@ -155,7 +143,7 @@
             cache: true,
             type: "POST",
             dataType : "json",
-            url:'<%=basePath%>SupplierCondition/saveSupplierCondition.do',
+            url:'${pageContext.request.contextPath}/SupplierCondition/saveSupplierCondition.do',
             data:$('#form1').serialize(),// 你的formid
             async: false,
             success: function(data) {
@@ -165,7 +153,7 @@
             	$("#supervise").text(map.supervise);
             	$("#array").text(map.array);
             	if(map.sccuess=="sccuess"){
-            		  window.location.href = '<%=basePath%>/SupplierExtracts/Extraction.do?id=${projectId}&&typeclassId=${typeclassId}';
+            		  window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.do?projectId=${projectId}&&typeclassId=${typeclassId}';
             	}
             }
         });
@@ -184,7 +172,7 @@ return false;
           offset: '20px',
           move: false,
           area: ['90%', '50%'],
-          content: '<%=basePath%>SupplierExtracts/showSupervise.do',
+          content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
           success: function(layero, index){
               iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
             },
@@ -208,7 +196,7 @@ return false;
               shade: 0.01,
               area: ['430px', '400px'],
               offset: '20px',
-              content: '<%=basePath%>SupplierExtracts/addHeading.do', //iframe的url
+              content: '${pageContext.request.contextPath}/SupplierExtracts/addHeading.do', //iframe的url
               success: function(layero, index){
                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                 },
@@ -267,7 +255,7 @@ return false;
             $.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>preMenu/treedata.do?",
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do?",
             dataType : "json",
             success : function(zNodes) {
                 for (var i = 0; i < zNodes.length; i++) {
@@ -307,7 +295,7 @@ return false;
 </script>
 <body>
 	<!--面包屑导航开始-->
-	<c:if test="${typeclassId==null  || typeclassId=='' || typeclassId==0}">
+	<c:if test="${typeclassId!=null && typeclassId !=''}">
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
@@ -331,7 +319,9 @@ return false;
             style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
             <ul id="treeDemo" class="ztree" style="width: 220px"></ul>
         </div>
+       <h2>
 		<form id="form1" method="post">
+		  <div class="mlr container search_detail">
 				<!--         条件id-->
 				<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
 				<!--         专家所在地区 -->
@@ -340,35 +330,25 @@ return false;
 				<input type="hidden" name="projectId" id="pid" value="${projectId}">
 				<!--          监督人员 -->
 				<input type="hidden" name="sids" id="sids" value="${userId}" />
-				<ul class="demand_list">
-					<li><label class="fl"><span class="red">*</span>供应商所在地区：</label><span>
-							<select class="w150" id="area" onchange="areas();">
-								<c:forEach items="${listArea }" var="area" varStatus="index">
-									<option value="${area.id }">${area.name }</option>
-								</c:forEach>
-						</select> <select name="extractionSites" class="w96" id="city"></select>
-						  <div class="b f14 red tip w200"></div>
-					</span></li>
-<!-- 					<li><label class="fl"><span class="red">*</span>供应商等级：</label><span> -->
-<!-- 							<select class="w250"> -->
-<!-- 								<option>一级</option> -->
-<!-- 								<option>二级</option> -->
-<!-- 								<option>三级</option> -->
-<!-- 								<option>四级</option> -->
-<!-- 								<option>五级</option> -->
-<!-- 						</select> -->
-<!-- 						  <div class="b f14 red tip w200"></div> -->
-<!-- 					</span></li> -->
-    
-					<li><label class="fl"><span class="red">*</span>监督人员：</label><span>
-							<input class=" w250" readonly id="supervises" title="${userName}"
-							value="${userName}" onclick="supervise();" type="text">
-							<div class="b f14 red tip w200" id="supervise"></div>
-
-					</span></li>
-
-				</ul>
-
+					<ul class="demand_list">
+						<li><label class="fl"><span class="red">*</span>所在地区：</label><span>
+								<select class="w150" id="area" onchange="areas();">
+									<c:forEach items="${listArea }" var="area" varStatus="index">
+										<option value="${area.id }">${area.name }</option>
+									</c:forEach>
+							</select> <select name="extractionSites" class="w93" id="city"></select>
+							  <div class="b f14 red tip w150 fl"></div>
+						 </span>
+					   </li>
+						<li><label class="fl"><span class="red">*</span>监督人员：</label><span>
+								<input class=" w250" readonly id="supervises" title="${userName}"
+								value="${userName}" onclick="supervise();" type="text">
+								<div class="b f14 red tip w150 fl" id="supervise"></div>
+	
+						</span></li>
+	
+					</ul>
+				</div>
 			<div align="right" >
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					id="save" onclick="opens();" type="button">添加</button>
@@ -427,6 +407,7 @@ return false;
 			</div>
 
 		</form>
+		</h2>
 	</div>
 </body>
 </html>

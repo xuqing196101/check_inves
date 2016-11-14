@@ -1015,47 +1015,42 @@
 	<!-- AND IS_BLACK = 0 -->
 	<select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="BaseResultMap">
-		SELECT
-		*
-		FROM
-		T_SES_SMS_SUPPLIER ss
-		LEFT JOIN T_SES_SMS_SUPPLIER_ITEM si
-		ON ss."ID" = SI.SUPPLIER_ID
-		WHERE
-		ss.ADDRESS = '河北省,保定市'
-		<foreach item="item" collection="conTypes">
-
-			<if test="item.supplierTypeId != null and item.supplierTypeId != '' ">
-				AND ( (
-				<foreach collection="item.supplierTypeId" item="typeid" open="(" close=")" separator="AND"  >
-					SI.SUPPLIER_TYPE_RELATE_ID=#{typeid}   
-				</foreach>
-				
-				OR SI.SUPPLIER_TYPE_RELATE_ID =3
-				OR SI.SUPPLIER_TYPE_RELATE_ID =4
-				)
-			</if>
-			<if test="item.isMulticondition != null and item.isMulticondition != 0 ">
-				<if test="item.isMulticondition==2">
-					AND
-					<foreach item="ids" collection="item.categorySplit"
-						separator="AND" open="(" close=")">
-						si.CATEGORY_ID = #{ids}
-					</foreach>
-
-				</if>
-				<if test="item.isMulticondition==1">
-					AND
-					<foreach item="ids" collection="item.categorySplit"
-						separator="OR">
-						si.CATEGORY_ID=#{ids}
-					</foreach>
-				</if>
-			</if>
-			<if test="item.supplierTypeId != null and item.supplierTypeId != '' ">
-				)
-			</if>
-		</foreach>
+		select * from(
+        select t1.typeId,t1.categoryId,t2.* from(
+        select id,
+        wm_concat(DISTINCT(categoryId)) as
+        categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
+        SELECT
+        T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
+        "JDCG"."T_SES_SMS_SUPPLIER" t1
+        left join T_SES_SMS_SUPPLIER_TYPE_RELATE
+        t3 on t1. ID = t3.SUPPLIER_ID
+        LEFT JOIN (
+        SELECT T1. ID, CATEGORY_ID
+        FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
+        RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
+        t2 ON T1. ID = T2.SUPPLIER_ID
+        ) t2 ON t1.id =t2.id
+        ) GROUP BY id )t1
+        left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
+        ) where 1=1
+      
+        <if test="address != null and address !=''">
+            and ADDRESS like '%${address}%'
+        </if>
+        <if test="itemType != null and itemType != ''">
+            <foreach item="itemType" index="index" collection="itemType"
+                open="" separator="" close="">
+                and "INSTR"(typeId, #{itemType})>0
+            </foreach>
+        </if>
+        <if test="item != null and item!= ''">
+            <foreach item="item" index="index" collection="item" open=""
+                separator="" close="">
+                and "INSTR"(categoryId, #{item})>0
+            </foreach>
+        </if>
+        ORDER BY FOUND_DATE DESC
 	</select>
 
 	<select id="findLoginName" resultType="String">

@@ -51,16 +51,16 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     public String insert(String cId,String userid) {
         //获取查询条件
         List<ExpExtCondition> list = conditionMapper.list(new ExpExtCondition(cId, ""));
-        if(list!=null&&list.size()!=0){
-            ExpExtCondition show=list.get(0);
+        if (list != null && list.size() != 0){
+            ExpExtCondition show = list.get(0);
             //给专家set查询条件
-            Expert expert=new Expert();
+            Expert expert = new Expert();
             expert.setAddress(show.getAddress());
             //		expert.setBirthday(birthday);
             expert.setExpertsFrom(show.getExpertsFrom());
             //复制对象
-            List<ExtConType> conTypeCopy=new ArrayList<ExtConType>();
-            for(ExtConType ct : show.getConTypes()) {
+            List<ExtConType> conTypeCopy = new ArrayList<ExtConType>();
+            for (ExtConType ct : show.getConTypes()) {
                 ExtConType dw = new ExtConType();
                 BeanUtils.copyProperties(ct, dw, new String[] {"serialVersionUID"});
                 conTypeCopy.add(dw);
@@ -72,26 +72,32 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
                 //查询专家集合
                 List<Expert> selectAllExpert = expertMapper.listExtractionExpert(show);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
-                ProjectExtract projectExtracts=null;
+                ProjectExtract projectExtracts = null;
+                List<ProjectExtract> projectExtracts2=new ArrayList<ProjectExtract>();
                 for (Expert expert2 : selectAllExpert) {
-                    projectExtracts=new ProjectExtract();
-                    //专家id
-                    projectExtracts.setExpertId(expert2.getId());
-                    //项目id
-                    projectExtracts.setProjectId(show.getProjectId());
-                    //条件表id
-                    projectExtracts.setExpertConditionId(show.getId());
-                    projectExtracts.setIsDeleted((short)0);
-                    projectExtracts.setOperatingType((short)0);
-                    projectExtracts.setConTypeId(extConType.getId());
-                    //插入projectExtracts
-                    extractMapper.insertSelective(projectExtracts);
+                    Map<String, String> map=new HashMap<String, String>();
+                    map.put("expertId", expert2.getId());
+                    map.put("projectId",show.getProjectId());
+                    if(extractMapper.getexpCount(map)==0){
+                        projectExtracts=new ProjectExtract();
+                        //专家id
+                        projectExtracts.setExpertId(expert2.getId());
+                        //项目id
+                        projectExtracts.setProjectId(show.getProjectId());
+                        //条件表id
+                        projectExtracts.setExpertConditionId(show.getId());
+                        projectExtracts.setIsDeleted((short)0);
+                        projectExtracts.setOperatingType((short)0);
+                        projectExtracts.setConTypeId(extConType.getId());
+                        projectExtracts2.add(projectExtracts);
+                    }
+
+                }
+                //插入projectExtracts
+                if(projectExtracts2 != null && projectExtracts2.size() !=0){
+                    extractMapper.insertList(projectExtracts2);
                 }
             }
-            //            Map<String, String> map=new HashMap<String, String>();
-            //            map.put("projectId", show.getProjectId());
-            //            map.put("expertConditionId", show.getId());
-            //            extractMapper.deleteData(map);
         }
         return "";
     }

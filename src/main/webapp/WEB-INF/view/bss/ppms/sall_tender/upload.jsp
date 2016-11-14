@@ -22,27 +22,42 @@
 
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+
 <script type="text/javascript">
 	function upload(){
-		$("form:first").submit();
+	    $.ajax({
+            cache: true,
+            type: "POST",
+            dataType : "json",
+            url:'<%=basePath%>saleTender/upload.do',
+            data:$('#form1').serialize(),// 你的formid
+            async: false,
+            success: function(data) {
+                var map =data;
+                if(map=="sccuess"){
+                      window.location.href = '<%=basePath%>/saleTender/list.html?projectId=${projectId}';
+                }else{
+                	layer.msg("请上传");
+                }
+                
+            }
+        });
+		
 	}
 </script>
 <body>
 	<!-- 表格开始-->
 	<div class="content padding-left-25 padding-right-25 padding-top-0">
-		<form action="<%=basePath%>saleTender/upload.do"
-			 method="post">
-			 
-			<up:upload id="bid" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="fase" />
-            <up:show showId="bid" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-            
-			<up:upload id="bond" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="fase" />
-            <up:show showId="bond" groups="bid,bond" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+		<form  method="post" id="form1">
+		  <input name="saleId" type="hidden" value="${saleId}"  />
+		  <input name="projectId" type="hidden" value="${projectId}" />
+			发票上传:<up:upload id="bid" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}" auto="true" />
+                   <up:show showId="bid" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}"/>           
+		      打印凭证: 	<up:upload id="bond" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}" auto="true" />
+            <up:show showId="bond" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}"/>
 			
-			<input name="projectId" type="hidden" value="${projectId}" />
-			<input name="saleId" type="hidden" value="${saleId}" />
+			
+		
 				是否缴纳标书费： <input
                 name="statusBid" value="2" type="radio">是
                 <input

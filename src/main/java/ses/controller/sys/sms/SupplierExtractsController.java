@@ -107,12 +107,12 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")	
-    public String listExtraction(Model model,String id,String pages,String typeclassId){
+    public String listExtraction(Model model,String projectId,String pages,String typeclassId){
         model.addAttribute("typeclassId",typeclassId);
-        if (id != null && !"".equals(id)){
-            List<SupplierCondition> list= conditionService.list(new SupplierCondition(id),pages==null?1:Integer.valueOf(pages));
+        if (projectId != null && !"".equals(projectId)){
+            List<SupplierCondition> list= conditionService.list(new SupplierCondition(projectId),pages==null?1:Integer.valueOf(pages));
             model.addAttribute("list", new PageInfo<SupplierCondition>(list));
-            Project selectById = projectService.selectById(id);
+            Project selectById = projectService.selectById(projectId);
             if (selectById != null){
                 model.addAttribute("projectId", selectById.getId());
                 model.addAttribute("projectName", selectById.getName());

@@ -39,7 +39,7 @@ public interface SaleTenderService   {
 	 * @param @param project      
 	 * @return void     
 	 */
-	void upload(MultipartFile bill, MultipartFile voucher, String projectid,String saleId,String statusBid);
+	String upload(String projectid,String saleId,String statusBid);
 	
 	/**
 	 * @Description:list

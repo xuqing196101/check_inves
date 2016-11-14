@@ -44,7 +44,24 @@ public interface SaleTenderMapper {
      * @param record
      */
     int updateByPrimaryKey(SaleTender record);
-    
-    
+
+    /**
+     * 
+     *〈简述〉返回集合
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param record
+     * @return
+     */
     List<SaleTender> list(SaleTender record);
+
+    /**
+     *
+     *〈简述〉返回上传的数量
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param businessId
+     * @return
+     */
+    Integer uploadCount(String businessId);
 }

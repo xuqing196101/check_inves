@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>用户管理</title>
     
@@ -19,8 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-  <script src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+
   <script type="text/javascript">
   
   	/** 全选全不选 */
@@ -60,7 +59,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>user/show.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/user/show.html?id="+id;
   	}
   	
     function add(){

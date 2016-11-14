@@ -3,6 +3,7 @@ package ses.dao.ems;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ProjectExtract;
 
 public interface ProjectExtractMapper {
@@ -78,4 +79,23 @@ public interface ProjectExtractMapper {
      * @return List<ProjectExtract>
      */
     void updateStatusCount(Map map);
+    
+    
+    /**
+     * 
+     *〈简述〉查询是否已经存在表中
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param map
+     * @return
+     */
+    Integer getexpCount(Map map);
+    
+    /**
+     * 
+     *〈简述〉批量插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    void insertList(List<ProjectExtract> list);
 }

@@ -10,17 +10,9 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
 	<link rel="stylesheet"
-    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     type="text/css">
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +26,7 @@
               async:{
                           autoParam:["id"],
                           enable:true,
-                          url:"<%=basePath%>category/createtree.do",
+                          url:"${pageContext.request.contextPath}/category/createtree.do",
                           dataType:"json",
                           type:"post",
                       },
@@ -143,7 +135,7 @@
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container padding-top-20   ">
-		<form action="<%=basePath%>SupplierExtracts/listSupplier.do"
+		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
 			method="post">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
@@ -168,13 +160,14 @@
 					</li>
 					<li class="col-md-6 p0 fl"><span class="red textspan">*</span>专家数量：
 						<div class="input-append">
-							<input class="span2 w200" value="10" id="extcount" name="title"
+							<input  maxlength="4"  onkeyup="this.value=this.value.replace(/\D/g,'')"
+                        onafterpaste="this.value=this.value.replace(/\D/g,'')" class="span2 w200" value="10" id="extcount" name="title"
 								type="text">
 						</div>
 					</li>
 					<li class="col-md-6 p0 fl"><span class="red textspan">*</span>执业资格：
 						<div class="input-append">
-							<input class="span2 w200" id="extqualifications" name="title"
+							<input maxlength="30" class="span2 w200" id="extqualifications" name="title"
 								type="text">
 						</div>
 					</li>

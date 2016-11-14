@@ -7,7 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
 <title>站内消息</title>
 
@@ -16,15 +16,8 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<link href="<%=basePath%>public/supplier/css/supplieragents.css"
+<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
 	media="screen" rel="stylesheet">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-</head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -85,7 +78,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='edit'";
+			window.location.href="${pageContext.request.contextPath}/StationMessage/showStationMessage.do?id="+id+"&&type='edit'";
 		}else if(id.length>1){  
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -100,20 +93,18 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>StationMessage/showInsertSM.do";
+    	window.location.href="${pageContext.request.contextPath}/StationMessage/showInsertSM.do";
     }
-    function show(id){
-<%--     	window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type=view"; --%>
-    }
+
     function continues(id){
-    	   window.location.href="<%=basePath%>SupplierExtracts/conditions.do?id="+id;
+    	   window.location.href="${pageContext.request.contextPath}/SupplierExtracts/conditions.do?id="+id;
     }
     function operation(select){
     	layer.confirm('确定本次操作吗？', {
@@ -144,7 +135,7 @@
    function ajaxs(id,v){
 	   $.ajax({
            type: "POST",
-           url: "<%=basePath%>SupplierExtracts/resultextract.do",
+           url: "${pageContext.request.contextPath}/SupplierExtracts/resultextract.do",
            data: {id:id,reason:v},
            dataType: "json",
            success: function(data){

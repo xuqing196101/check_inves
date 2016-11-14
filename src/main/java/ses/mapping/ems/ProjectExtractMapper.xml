@@ -248,6 +248,27 @@
 		AND
 		OPERATING_TYPE != 3
 	</update>
-	
-  
+	   <!-- 获取专家是否存在 -->
+    <select id="getexpCount" parameterType="Map" resultType="java.lang.Integer">
+        SELECT
+        "COUNT"(EXPERT_ID) as count FROM
+        T_SES_EMS_PROJECT_EXTRACT WHERE
+        EXPERT_ID=#{expertId}
+        AND
+        PROJECT_ID=#{projectId}
+    </select>
+    <!-- 批量插入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        INSERT INTO T_SES_EMS_PROJECT_EXTRACT
+        (PROJECT_ID,EXPERT_CONDITION_ID,EXPERT_ID,CON_TYPE_ID)
+        <foreach collection="list" item="item" index="index"
+            separator="union" close=")" open="(">
+            select
+            #{item.projectId,jdbcType=VARCHAR},
+            #{item.expertConditionId,jdbcType=VARCHAR},
+            #{item.expertId,jdbcType=VARCHAR},
+            #{item.conTypeId,jdbcType=VARCHAR}
+            from dual
+        </foreach>
+    </insert>
 </mapper>

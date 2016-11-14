@@ -6,9 +6,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
-<title>用户管理</title>
+<title>抽取供应商记录</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -18,8 +18,6 @@
 
 	<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     media="screen" rel="stylesheet">
-    <script type="text/javascript"
-    src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -85,7 +83,7 @@
 	}
 	
   	function show(id){
-  		window.location.href="<%=basePath%>SupplierExtracts/showRecord.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/SupplierExtracts/showRecord.do?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -93,7 +91,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>user/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -109,7 +107,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>user/delete_soft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/user/delete_soft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -117,7 +115,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>user/add.html";
+    	window.location.href="${pageContext.request.contextPath}/user/add.html";
     }
     
     function openPreMenu(){
@@ -137,7 +135,7 @@
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: ['180px', '550px'],
 			  shadeClose: false,
-			  content: '<%=basePath%>user/openPreMenu.html?id='+ids,
+			  content: '${pageContext.request.contextPath}/user/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
 			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			  },
@@ -182,7 +180,7 @@
 
 	<div class="container clear margin-top-0">
 		<div class="padding-10 border1 m0_30 tc">
-			<form action="<%=basePath%>SupplierExtracts/resuleRecordlist.do"
+			<form action="${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do"
 				method="post" id="form1">
 				<input type="hidden" id="page" name="page">
 				<ul class="demand_list">
