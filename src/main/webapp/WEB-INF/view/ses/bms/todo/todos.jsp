@@ -7,27 +7,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>"  >
 
 <title>待办事项</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/accordion/SpryAccordion.css" media="screen" rel="stylesheet">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-
-</head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/accordion/SpryAccordion.js"
-    type="text/javascript"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -96,7 +77,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -136,7 +117,7 @@
                                                             <c:forEach items="${agentslist }" var="agents"
                                                                 varStatus="s">
                                                                 <tr class="cursor"
-                                                                    onclick="view('<%=basePath%>${ agents.url}');"  >
+                                                                    onclick="view('${pageContext.request.contextPath}/${ agents.url}');"  >
                                                                     <td class="tc">${s.index+1}</td>
                                                                     <td class="tc">${agents.name}</td>
                                                                     <td class="tc">${agents.senderName}</td>
