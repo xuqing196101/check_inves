@@ -47,6 +47,7 @@
                 }
             }
         });
+
   });
   function publishForPost(postId){
 	  var isLocking = "${post.isLocking}";

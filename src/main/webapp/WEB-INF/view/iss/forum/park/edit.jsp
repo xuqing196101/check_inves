@@ -22,7 +22,7 @@
 	$(function(){ 
 		 $("#isHoT").val("${park.isHot}");
          $.ajax({
-             url:"<%=basePath %>park/getUserForSelect.do",   
+             url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
              contentType: "application/json;charset=UTF-8", 
              dataType:"json",   //返回格式为json
              type:"POST",   //请求方式           
@@ -62,7 +62,7 @@
    </div>
    <!-- 新增页面开始 -->
      <div class="container container_box">
-      <form action="<%=basePath %>park/update.html" method="post">  
+      <form action="${ pageContext.request.contextPath }/park/update.html" method="post">  
     <div>
 	    <div class="count_flow">
 	   		<i>1</i><h2>修改版块</h2>

@@ -141,6 +141,7 @@ public class PostManageController {
 		reply.setPost(p);
 		BigDecimal replycount = replyService.queryByCount(reply);
 		p.setReplycount(replycount);
+
 		//附件信息
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
@@ -149,6 +150,7 @@ public class PostManageController {
 		if(datas.size()>0){
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
+
 		model.addAttribute("post", p);		
 		System.out.println(p.getContent());
 		return "iss/forum/post/view";
@@ -164,8 +166,9 @@ public class PostManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request) throws IOException{
+		//附件上传
 		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("uuid", id);
+		model.addAttribute("id", id);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -498,6 +501,7 @@ public class PostManageController {
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
 		Post post = postService.selectByPrimaryKey(postId);	
+
 		model.addAttribute("post", post);
 		model.addAttribute("list",  new PageInfo<Reply>(list));
 		return "iss/forum/detail";
@@ -571,7 +575,7 @@ public class PostManageController {
 			post.setUser(user);
 			
 			postService.insertSelective(post);	
-			
+
 			url ="redirect:/park/getIndex.html";
 		}
 		return url;

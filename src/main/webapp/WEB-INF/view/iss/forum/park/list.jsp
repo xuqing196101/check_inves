@@ -14,9 +14,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${ pageContext.request.contextPath }/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	 <script src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	 <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
+
   <script type="text/javascript">
   $(function(){
 	  laypage({

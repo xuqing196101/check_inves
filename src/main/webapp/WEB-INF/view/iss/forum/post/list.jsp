@@ -13,18 +13,13 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-	<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+
   <script type="text/javascript">
   $(function(){
 	  $("#parkId").val("${parkId}");
 	  var parkId ="${parkId}";
       $.ajax({
-          url:"<%=basePath %>topic/getListForSelect.do?parkId="+parkId,   
+          url:"${ pageContext.request.contextPath }/topic/getListForSelect.html?parkId="+parkId,   
           contentType: "application/json;charset=UTF-8", 
           dataType:"json",   //返回格式为json
           type:"POST",   //请求方式           
@@ -153,7 +148,7 @@
     //2级联动
     function change(id){
           $.ajax({
-              url:"<%=basePath %>topic/getListForSelect.do?parkId="+id,   
+              url:"${ pageContext.request.contextPath }/topic/getListForSelect.html?parkId="+id,   
               contentType: "application/json;charset=UTF-8", 
               dataType:"json",   //返回格式为json
               type:"POST",   //请求方式           
