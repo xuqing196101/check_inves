@@ -283,11 +283,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  --%>							
 					<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
               				    <option value="" >请选择</option>
-	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
-	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-	                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+	                            <option value="gkzb" <c:if test="${'gkzb'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="yqzb" <c:if test="${'yqzb'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="jzxtp" <c:if test="${'jzxtp'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="xjcg" <c:if test="${'xjcg'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
 			                </select>
 			                
 			                		

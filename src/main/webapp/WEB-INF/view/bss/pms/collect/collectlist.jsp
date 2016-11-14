@@ -21,7 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<link href="${pageContext.request.contextPath }/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
 
  
   <script type="text/javascript">
@@ -391,7 +390,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
+ <div id="content" class="dnone">
 	 
 	<form id="collect_form" action="<%=basePath%>collect/add.html" method="post" style="margin-top: 20px;">
 	<div style="text-align: center;"><span>计划编号:</span><input  type="text" name="cno" value=""></div>

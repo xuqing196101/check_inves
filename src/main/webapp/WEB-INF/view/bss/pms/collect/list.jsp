@@ -21,7 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<link href="${pageContext.request.contextPath }/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
  
 
  

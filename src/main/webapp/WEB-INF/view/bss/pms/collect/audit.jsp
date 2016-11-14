@@ -258,11 +258,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									 	<%-- 		</c:if>
 									 		</c:forEach> --%>
 									 		<select onchange="ss(this)" name="audit[${vs.index*5+avs.index}].paramValue">
-												<option value="公开招标">公开招标</option>
-												<option value="邀请招标">邀请招标</option>
-												<option value="单一来源">单一来源</option>
-												<option value="竞争性谈判">竞争性谈判</option>
-												<option value="单一来源">询价</option>
+												<option value="gkzb">公开招标</option>
+												<option value="yqzb">邀请招标</option>
+												<option value="dyly">单一来源</option>
+												<option value="jzxtp">竞争性谈判</option>
+												<option value="xjcg">询价采购</option>
 											</select>
 									 	</c:if>
 									  

@@ -21,7 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
  <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css">
  
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -157,8 +156,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
- 				       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='公开招标' >公开招标</option> "+  
- 				       "<option value='邀请招标' >邀请招标</option> <option value='竞争性谈判' >竞争性谈判</option> <option value='询价采购' >询价采购</option> <option value='单一来源'  >单一来源</option> </select></td>"+
+ 				       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='gkzb' >公开招标</option> "+  
+ 				       "<option value='yqzb' >邀请招标</option> <option value='jzxtp' >竞争性谈判</option> <option value='xjcg' >询价采购</option> <option value='dyly'  >单一来源</option> </select></td>"+
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
@@ -323,8 +322,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-			       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='公开招标' >公开招标</option> "+  
-				       "<option value='邀请招标' >邀请招标</option> <option value='竞争性谈判' >竞争性谈判</option> <option value='询价采购' >询价采购</option> <option value='单一来源'  >单一来源</option> </select></td>"+
+			       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='gkzb' >公开招标</option> "+  
+				       "<option value='yqzb' >邀请招标</option> <option value='jzxtp' >竞争性谈判</option> <option value='xjcg' >询价采购</option> <option value='dyly'  >单一来源</option> </select></td>"+
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
@@ -509,11 +508,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>
 					 <select name="list[0].purchaseType" style="width:90px" id="select">
               				    <option value="" >请选择</option>
-	                            <option value="公开招标" >公开招标</option>
-	                            <option value="邀请招标" >邀请招标</option>
-	                            <option value="竞争性谈判" >竞争性谈判</option>
-	                            <option value="询价采购" >询价采购</option>
-	                            <option value="单一来源"  >单一来源</option>
+	                            <option value="gkzb" >公开招标</option>
+	                            <option value="yqzb" >邀请招标</option>
+	                            <option value="jzxtp" >竞争性谈判</option>
+	                            <option value="xjcg" >询价采购</option>
+	                            <option value="dyly"  >单一来源</option>
 			           </select>
 			                
 					</td>
@@ -636,29 +635,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 
 
-	<div id="content" class="div_show">
+	<div id="content" class="dnone">
 		<p align="center">编制说明
-		<p class="bzsm">1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号</p>
+		<p  style="margin-left: 20px;" >1、请严格按照序号顺序为：一、(一)、1、(1)、a、(a)的顺序填写序号</p>
 
-		<p class="bzsm">2、任务明细最多为六级,请勿多于六级</p>
+		<p style="margin-left: 20px;">2、任务明细最多为六级,请勿多于六级</p>
 
-		<p class="bzsm">3、请勿空行填写</p>
+		<p style="margin-left: 20px;">3、请勿空行填写</p>
 
-		<p class="bzsm">4、需求单位名称不能为空</p>
+		<p style="margin-left: 20px;">4、需求单位名称不能为空</p>
 
-		<p class="bzsm">5、请按表式填写计划明细。用户可以编辑行，但不能增加或删除列。</p>
+		<p style="margin-left: 20px;">5、请按表式填写计划明细。用户可以编辑行，但不能增加或删除列。</p>
 
-		<p class="bzsm">6、最子级请严格按照填写说明填写，父级菜单请将序号与金额填写正确(金额=所有子项金额/10000)
+		<p style="margin-left: 20px;">6、最子级请严格按照填写说明填写，父级菜单请将序号与金额填写正确(金额=所有子项金额/10000)
 		</p>
 
-		<p class="bzsm">7、采购方式填写选项包括：公开招标、邀请招标、竞争性谈判、询价、单一来源。</p>
+		<p style="margin-left: 20px;">7、采购方式填写选项包括：公开招标、邀请招标、竞争性谈判、询价、单一来源。</p>
 
-		<p class="bzsm">8、选择单一来源采购方式的，必须填写供应商名称；选择其他采购方式的不填。</p>
+		<p style="margin-left: 20px;">8、选择单一来源采购方式的，必须填写供应商名称；选择其他采购方式的不填。</p>
 
-		<p class="bzsm">9、规格型号和质量技术标准内容分别不得超过250、1000字。超过此范围的，请以附件形式另报。</p>
+		<p style="margin-left: 20px;">9、规格型号和质量技术标准内容分别不得超过250、1000字。超过此范围的，请以附件形式另报。</p>
 
-		<p class="bzsm">10、采购数量、单价和预算金额必须为数字格式。其中单价单位为“元”，预算金额单位为“万元”。</p>
-		<button class="btn padding-left-10 padding-right-10 btn_back qd"
+		<p style="margin-left: 20px;">10、采购数量、单价和预算金额必须为数字格式。其中单价单位为“元”，预算金额单位为“万元”。</p>
+		<button class="btn padding-left-10 padding-right-10 btn_back" style="margin-left: 230px;"
 			onclick="closeLayer()">确定</button>
 
 	</div>

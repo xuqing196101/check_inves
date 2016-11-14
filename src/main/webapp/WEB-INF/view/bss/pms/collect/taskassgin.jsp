@@ -243,9 +243,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
- <div id="content" class="div_show">
+ <div id="content" class="dnone">
 	 
-	<form id="collect_form" action="http://localhost:6666/zhbj/taskassgin/add.html" method="post" style="margin-top: 20px;">
+	<form id="collect_form" action="${pageContext.request.contextPath }/zhbj/taskassgin/add.html" method="post" style="margin-top: 20px;">
 	
 	  	   <div style="text-align: center;"><span>采购任务名称:</span><input  type="text" name="name" value=""></div>
 	       <div  style="text-align: center;margin-top: 20px;"><span>采购任务编号:</span><input  type="text" name="documentNumber" value=""></div>

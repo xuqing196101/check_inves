@@ -8,7 +8,6 @@
      <script src="${pageContext.request.contextPath}/public/codebase/locale/recurring/locale_recurring_cn.js" type="text/javascript" charset="utf-8"></script>
 	 <script src="${pageContext.request.contextPath}/public/codebase/locale/locale_cn.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	<link href="${pageContext.request.contextPath}/public/usertask/css/usertask.css" media="screen" rel="stylesheet">
 
 	<script type="text/javascript" charset="utf-8">
 	

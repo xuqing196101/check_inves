@@ -19,7 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	
   <jsp:include page="/WEB-INF/view/common.jsp"/> 
- <link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
   
   /*分页  */
@@ -284,7 +283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
-  <div id="content" class="div_show" style="text-align: center;">
+  <div id="content" class="dnone" style="text-align: center;">
   <br>
 	 <span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
 	 

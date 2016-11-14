@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+<jsp:include page="/WEB-INF/view/common.jsp"/> 
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -18,105 +19,166 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 
+ <script type="text/javascript">
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/smoothScroll.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/app.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/common.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dota.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/fancy-box.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/style-switcher.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl.carousel.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
+ 
+ $(function(){
+	 function randomData() {
+		    return Math.round(Math.random()*1000);
+		}
 
-
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/masking.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/datepicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/timepicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-select.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/locale.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/load-image.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/canvas-to-blob.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/tmpl.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.iframe-transport.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/touch.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+		option = {
+		    title: {
+		        text: 'iphone销量',
+		        subtext: '纯属虚构',
+		        left: 'center'
+		    },
+		    tooltip: {
+		        trigger: 'item'
+		    },
+		    legend: {
+		        orient: 'vertical',
+		        left: 'left',
+		        data:['iphone3','iphone4','iphone5']
+		    },
+		    visualMap: {
+		        min: 0,
+		        max: 2500,
+		        left: 'left',
+		        top: 'bottom',
+		        text: ['高','低'],           // 文本，默认为数值文本
+		        calculable: true
+		    },
+		    toolbox: {
+		        show: true,
+		        orient: 'vertical',
+		        left: 'right',
+		        top: 'center',
+		        feature: {
+		            dataView: {readOnly: false},
+		            restore: {},
+		            saveAsImage: {}
+		        }
+		    },
+		    series: [
+		        {
+		            name: 'iphone3',
+		            type: 'map',
+		            mapType: 'china',
+		            roam: false,
+		            label: {
+		                normal: {
+		                    show: true
+		                },
+		                emphasis: {
+		                    show: true
+		                }
+		            },
+		            data:[
+		                {name: '北京',value: randomData() },
+		                {name: '天津',value: randomData() },
+		                {name: '上海',value: randomData() },
+		                {name: '重庆',value: randomData() },
+		                {name: '河北',value: randomData() },
+		                {name: '河南',value: randomData() },
+		                {name: '云南',value: randomData() },
+		                {name: '辽宁',value: randomData() },
+		                {name: '黑龙江',value: randomData() },
+		                {name: '湖南',value: randomData() },
+		                {name: '安徽',value: randomData() },
+		                {name: '山东',value: randomData() },
+		                {name: '新疆',value: randomData() },
+		                {name: '江苏',value: randomData() },
+		                {name: '浙江',value: randomData() },
+		                {name: '江西',value: randomData() },
+		                {name: '湖北',value: randomData() },
+		                {name: '广西',value: randomData() },
+		                {name: '甘肃',value: randomData() },
+		                {name: '山西',value: randomData() },
+		                {name: '内蒙古',value: randomData() },
+		                {name: '陕西',value: randomData() },
+		                {name: '吉林',value: randomData() },
+		                {name: '福建',value: randomData() },
+		                {name: '贵州',value: randomData() },
+		                {name: '广东',value: randomData() },
+		                {name: '青海',value: randomData() },
+		                {name: '西藏',value: randomData() },
+		                {name: '四川',value: randomData() },
+		                {name: '宁夏',value: randomData() },
+		                {name: '海南',value: randomData() },
+		                {name: '台湾',value: randomData() },
+		                {name: '香港',value: randomData() },
+		                {name: '澳门',value: randomData() }
+		            ]
+		        },
+		        {
+		            name: 'iphone4',
+		            type: 'map',
+		            mapType: 'china',
+		            label: {
+		                normal: {
+		                    show: true
+		                },
+		                emphasis: {
+		                    show: true
+		                }
+		            },
+		            data:[
+		                {name: '北京',value: randomData() },
+		                {name: '天津',value: randomData() },
+		                {name: '上海',value: randomData() },
+		                {name: '重庆',value: randomData() },
+		                {name: '河北',value: randomData() },
+		                {name: '安徽',value: randomData() },
+		                {name: '新疆',value: randomData() },
+		                {name: '浙江',value: randomData() },
+		                {name: '江西',value: randomData() },
+		                {name: '山西',value: randomData() },
+		                {name: '内蒙古',value: randomData() },
+		                {name: '吉林',value: randomData() },
+		                {name: '福建',value: randomData() },
+		                {name: '广东',value: randomData() },
+		                {name: '西藏',value: randomData() },
+		                {name: '四川',value: randomData() },
+		                {name: '宁夏',value: randomData() },
+		                {name: '香港',value: randomData() },
+		                {name: '澳门',value: randomData() }
+		            ]
+		        },
+		        {
+		            name: 'iphone5',
+		            type: 'map',
+		            mapType: 'china',
+		            label: {
+		                normal: {
+		                    show: true
+		                },
+		                emphasis: {
+		                    show: true
+		                }
+		            },
+		            data:[
+		                {name: '北京',value: randomData() },
+		                {name: '天津',value: randomData() },
+		                {name: '上海',value: randomData() },
+		                {name: '广东',value: randomData() },
+		                {name: '台湾',value: randomData() },
+		                {name: '香港',value: randomData() },
+		                {name: '澳门',value: randomData() }
+		            ]
+		        }
+		    ]
+		};
+		
+		var myChart = echarts.init(document.getElementById("main"));
+		myChart.setOption(option);
+		myChart.hideLoading();
+ }) ;
+ 
+	
+ </script>
+ 
 <style>   
 .error {   
     color: #ff0000;   
@@ -140,6 +202,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<u:upload id="cs"   businessId="1231" sysKey="2" typeId="12314141"/>
 				<u:show showId="cs"   sysKey="2" typeId="12124124"/>
 				
+			
+			<div id="main"></div>
+			
 				
 </body>
 </html>

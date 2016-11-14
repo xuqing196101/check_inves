@@ -22,8 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-<link href="<%=basePath%>public/purchase/css/set.css" media="screen" rel="stylesheet" type="text/css" >
+ <link href="${pageContext.request.contextPath}/public/codebase/set.css" media="screen" rel="stylesheet" type="text/css" >
  
 
  
@@ -48,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        //	$("#page").val(e.curr);
 		        	// $("#form1").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		         location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr;
 		        }  
 		    }
 		});
@@ -135,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
 		  offset: ['80px', '100px'],
-		  content:  '<%=basePath%>set/expert.html',
+		  content:  '${pageContext.request.contextPath}/set/expert.html',
 		});
     }
     function users(){
@@ -148,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		  shift: 1, //0-6的动画形式，-1不开启
    		  offset: ['80px', '100px'],
-   		  content:  '<%=basePath%>set/user.html',
+   		  content:  '${pageContext.request.contextPath}/set/user.html',
    		});
     }
     var index;
@@ -172,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function qd(){
    	 
 		 $.ajax({
-			 url:"<%=basePath%>set/add.html",
+			 url:"${pageContext.request.contextPath}/set/add.html",
 			 type:"post",
 			 data:$("#collect_form").serialize(),
 			 success:function(){
@@ -309,7 +308,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
 
- <div id="content" class="div_show">
+ <div id="content" class="dnone">
 	 
 	<form id="collect_form" action="" style="margin-top: 20px;">
 	
@@ -331,7 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
-	<form id="set_form" action="<%=basePath%>set/update.html" method="post" style="display: none;">
+	<form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" style="display: none;">
 		 <input type="hidden" name="val1" value="" id="val1" >
 	 	<input type="hidden" name="val2" value="" id="val2" >
 	 	<input type="hidden" name="fname" value="" id="fname" >
