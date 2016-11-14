@@ -110,7 +110,7 @@
 	    <input type="hidden" name="id" value="${ir.id }" />
         <input class="span5" id="loginName" name="loginName" value="${ir.loginName }" type="text">
         <span class="add-on">i</span>
-        <div class="validate">${ERR_loginName}</div>
+        <div class="cue">${ERR_loginName}</div>
        </div>
 	</li> 
 	 
@@ -119,7 +119,7 @@
 	   <div class="input-append">
          <input class="span5" id="password" name="password" value="${ir.password }" type="text">
         <span class="add-on">i</span>
-        <div class="validate">${ERR_password}</div>
+        <div class="cue">${ERR_password}</div>
        </div>
 	 </li> 
 	 
@@ -128,7 +128,7 @@
 	   <div class="input-append">
          <input class="span5" id="name" name="name"  value="${ir.name }" type="text"> 
         <span class="add-on">i</span>
-        <div class="validate">${ERR_name}</div>
+        <div class="cue">${ERR_name}</div>
        </div>
 	 </li> 
   
@@ -137,7 +137,7 @@
 	   <div class="input-append">
          <input class="span5" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
         <span class="add-on">i</span>
-        <div class="validate">${ERR_legalName}</div>
+        <div class="cue">${ERR_legalName}</div>
        </div>
 	 </li> 
 	 
@@ -150,7 +150,7 @@
 				<select name="address" class="w100" id="choose2">
 					<option class="w100">-请选择-</option>
 				</select>
-			    <div class="validate">${ERR_address}</div>
+			    <div class="cue">${ERR_address}</div>
 		    </div>
 	  </li> 
 	 
@@ -169,7 +169,7 @@
 	   <div class="input-append">
          <input class="span5" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
          <span class="add-on">i</span>
-         <div class="validate">${ERR_recommendDep}</div>
+         <div class="cue">${ERR_recommendDep}</div>
        </div>
 	 </li>   
    </ul>

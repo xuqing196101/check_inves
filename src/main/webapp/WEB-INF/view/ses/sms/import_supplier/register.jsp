@@ -4,9 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
 <title>进口供应商注册</title>
-
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -109,15 +107,12 @@
 					$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					}
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
-				
 			}
-			
 		});
 	});
+	
 	function fun(){
 		var parentId = $("#choose1").val();
 		$.ajax({
@@ -131,20 +126,13 @@
 					
 					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
-				
 			}
-			
 		});
 	}
-	
 </script>
-
 </head>
-
 <body>
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -164,7 +152,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="name" name="name" value="${is.name }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_name}</div>
+						        <div class="cue">${ERR_name}</div>
 						       </div>
 							 </li> 
 							 
@@ -173,7 +161,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_supplierType}</div>
+						        <div class="cue">${ERR_supplierType}</div>
 						       </div>
 							 </li> 
 							 
@@ -182,7 +170,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_chinesrName}</div>
+						        <div class="cue">${ERR_chinesrName}</div>
 						       </div>
 							 </li> 
 							 
@@ -191,7 +179,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="legalName" name="legalName" value="${is.legalName }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_legalName}</div>
+						        <div class="cue">${ERR_legalName}</div>
 						       </div>
 							 </li> 
 							 
@@ -213,7 +201,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="postCode" name="postCode" value="${is.postCode }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_postCode}</div>
+						        <div class="cue">${ERR_postCode}</div>
 						       </div>
 							 </li> 
 							 		
@@ -222,7 +210,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="productType" name="productType" value="${is.productType }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_productType}</div>
+						        <div class="cue">${ERR_productType}</div>
 						       </div>
 							 </li> 		
 							 
@@ -231,7 +219,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_majorProduct}</div>
+						        <div class="cue">${ERR_majorProduct}</div>
 						       </div>
 							 </li> 	
 							 
@@ -240,7 +228,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_byproduct}</div>
+						        <div class="cue">${ERR_byproduct}</div>
 						       </div>
 							 </li> 	
 							 	
@@ -249,7 +237,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="producerName" name="producerName" value="${is.producerName }"   type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_producerName}</div>
+						        <div class="cue">${ERR_producerName}</div>
 						       </div>
 							 </li> 	
 							 
@@ -258,7 +246,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_contactPerson}</div>
+						        <div class="cue">${ERR_contactPerson}</div>
 						       </div>
 							 </li> 	
 	
@@ -267,7 +255,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="telephone" name="telephone" value="${is.telephone }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_telephone}</div>
+						        <div class="cue">${ERR_telephone}</div>
 						       </div>
 							 </li> 			
 										
@@ -276,7 +264,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="fax" name="fax" value="${is.fax }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_fax}</div>
+						        <div class="cue">${ERR_fax}</div>
 						       </div>
 							 </li> 	
 							 		
@@ -285,7 +273,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="email" name="email" value="${is.email }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_email}</div>
+						        <div class="cue">${ERR_email}</div>
 						       </div>
 							 </li> 		
 							 
@@ -294,7 +282,7 @@
 							   <div class="input-append">
 						        <input class="span5" id="website" name="website" value="${is.website }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_website}</div>
+						        <div class="cue">${ERR_website}</div>
 						       </div>
 							 </li> 	
 							 	

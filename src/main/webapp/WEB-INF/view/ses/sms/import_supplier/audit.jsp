@@ -9,55 +9,67 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
-		var parentId ;
-var addressId="${is.address}";
-$.ajax({
+ function tijiao(status){
+      $("#status").val(status);
+ 		form1.submit();
+ }
+	var parentId ;
+	var addressId="${is.address}";
+	$.ajax({
 		url : "${pageContext.request.contextPath}/area/find_by_id.do",
 		data:{"id":addressId},
 		success:function(obj){
-			//alert(JSON.stringify(obj));
-			var data = eval('(' + obj+ ')');
-			$.each(data,function(i,result){
+			$.each(obj,function(i,result){
 				if(addressId == result.id){
 					parentId = result.areaType;
-				$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				$("#choose2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 				}else{
-					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				}
-				
 			});
 		},
 		error:function(obj){
 		}
+		
 	});
-	   function tijiao(status){
-	   $("#status").val(status);
-    		form1.submit();
-    	}
-    	$(function(){
-	$.ajax({
+
+	$(function(){
+		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
-				$.each(obj,function(i,result){
+				var data = eval('(' + obj + ')');
+				$.each(data,function(i,result){
 					if(parentId == result.id){
-						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
-					$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					}
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
-				
 			}
-			
 		});
-});
+	});	
+	
+	function fun(){
+		var parentId = $("#choose1").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+			data:{"id":parentId},
+			success:function(obj){
+				$("#choose2").empty();
+				var data = eval('(' + obj + ')');
+				$("#choose2").append("<option value=''>-请选择-</option>");
+				$.each(data,function(i,result){
+					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				});
+			},
+			error:function(obj){
+			}
+		});
+	}
 </script>
-
 </head>
-
 <body>
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -79,7 +91,6 @@ $.ajax({
 											<input  value="${is.id }" name="id"  type="hidden">
 						        <input class="span5" id="name" name="name" value="${is.name }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_name}</div>
 						       </div>
 							 </li> 
 							 
@@ -88,7 +99,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_supplierType}</div>
 						       </div>
 							 </li> 
 							 
@@ -97,7 +107,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_chinesrName}</div>
 						       </div>
 							 </li> 
 							 
@@ -106,7 +115,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="legalName" name="legalName" value="${is.legalName }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_legalName}</div>
 						       </div>
 							 </li> 
 							 
@@ -119,7 +127,6 @@ $.ajax({
 										<select name="address" class="w100" id="choose2">
 											<option class="w100">-请选择-</option>
 										</select>
-										<div class="red">${ERR_address}</div>
 									</div>
 							 </li> 
 									
@@ -128,7 +135,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="postCode" name="postCode" value="${is.postCode }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_postCode}</div>
 						       </div>
 							 </li> 
 							 		
@@ -137,7 +143,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="productType" name="productType" value="${is.productType }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_productType}</div>
 						       </div>
 							 </li> 		
 							 
@@ -146,7 +151,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_majorProduct}</div>
 						       </div>
 							 </li> 	
 							 
@@ -155,7 +159,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_byproduct}</div>
 						       </div>
 							 </li> 	
 							 	
@@ -164,7 +167,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="producerName" name="producerName" value="${is.producerName }"   type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_producerName}</div>
 						       </div>
 							 </li> 	
 							 
@@ -173,7 +175,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_contactPerson}</div>
 						       </div>
 							 </li> 	
 	
@@ -182,7 +183,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="telephone" name="telephone" value="${is.telephone }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_telephone}</div>
 						       </div>
 							 </li> 			
 										
@@ -191,7 +191,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="fax" name="fax" value="${is.fax }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_fax}</div>
 						       </div>
 							 </li> 	
 							 		
@@ -200,7 +199,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="email" name="email" value="${is.email }" type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_email}</div>
 						       </div>
 							 </li> 		
 							 
@@ -209,7 +207,6 @@ $.ajax({
 							   <div class="input-append">
 						        <input class="span5" id="website" name="website" value="${is.website }"  type="text">
 						        <span class="add-on">i</span>
-						        <div class="validate">${ERR_website}</div>
 						       </div>
 							 </li> 	
 							 	

@@ -61,9 +61,8 @@
 				id.push($(this).val());
 		 	 }); 
 		    if(id.length==1){
-		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(6).text();
-		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(8).text();
-		   alert(record+jihuo);
+		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(5).text();
+		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(7).text();
 		     if(record.trim()=="正式进口代理商"){
 		        if(jihuo.trim()=="启用"){
 		    		$("#qiyong").attr("disabled",true);
@@ -251,7 +250,7 @@
 				</td>
 				<td  class="tc">
 					<c:if test="${empty list.useCount }">
-						无限制
+						暂无次数
 					</c:if>
 					<c:if test="${not empty list.useCount }">
 						${list.useCount } 
