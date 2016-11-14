@@ -1,19 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家信息列表</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    $(function(){
 		  laypage({
@@ -215,10 +208,11 @@
                     <table>
                     <tr>
                     <td>
-                    <span>姓名：</span><input type="text" id="relName" name="relName" value="${expert.relName }">
+                    <span>姓名：</span>
+                    <input type="text" id="relName" name="relName" value="${expert.relName }">
                     </td>
                     <td>
-						 <span>来源：</span>
+						 &nbsp;<span>来源：</span>
 						   <select  name="expertsFrom" id="expertsFrom" class="w178">
 						    <option selected="selected" value=''>-请选择-</option>
 						   	<option <c:if test="${expert.expertsFrom =='军队' }">selected</c:if> value="军队">军队</option>
@@ -227,7 +221,7 @@
 						   </select>
 					</td>
 					<td>
-                      	<span>状态：</span>
+                      	&nbsp;<span>状态：</span>
 							   <select name="status" id="status">
 							   		<option selected="selected" value=''>-请选择-</option>
 							   		<option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
@@ -237,7 +231,7 @@
 							   </select>
                      </td>
                      <td> 	
-                         		<span >专家类型：</span>
+                         		&nbsp;<span >专家类型：</span>
 							   <select name="expertsTypeId" id="expertsTypeId">
 							   		<option selected="selected"  value=''>-请选择-</option>
 							   		<option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
@@ -245,9 +239,9 @@
 							   		<option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">商务</option>
 							   </select>
 					</td>
-					<td>
+					<td>&nbsp;
                           <input class="btn"  value="搜索" type="submit">
-                          <input class="btn" id="button" onclick="clearSearch();" value="重置" type="reset">
+                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
                      </td>
                         </tr>
                         </table>

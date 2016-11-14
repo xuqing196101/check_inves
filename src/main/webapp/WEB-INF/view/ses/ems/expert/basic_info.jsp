@@ -10,33 +10,8 @@
 //表单标示
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
+<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
 <title>评审专家基本信息</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-
-<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
 <script type="text/javascript">
 	    var treeObj;
 		var datas;

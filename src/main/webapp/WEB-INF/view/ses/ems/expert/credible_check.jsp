@@ -2,19 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="../../../common.jsp"%>
-
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家诚信列表</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    /** 全选全不选 */
 	function selectAll(){
