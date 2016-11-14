@@ -2,7 +2,6 @@ package bss.controller.ppms;
 
 import iss.model.ps.Article;
 import iss.model.ps.ArticleType;
-import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
@@ -25,12 +24,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.main.CnUpperCaser;
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
@@ -38,15 +34,14 @@ import ses.model.sms.Supplier;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
-import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
@@ -174,43 +169,74 @@ public class OpenBiddingController {
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
     }
     
+    
     /**
-     * Description: 跳转到招标公告页面
-     * 
+     *〈简述〉跳转到招标公告(采购公告)页面
+     *〈详细描述〉
      * @author Ye MaoLin
-     * @version 2016-10-14
-     * @return String
-     * @exception IOException
+     * @param projectId 项目id
+     * @param model
+     * @return
      */
     @RequestMapping("/bidNotice")
     public String bidNotice(String projectId, Model model){
-        //栏目
-        Article article = new Article();
-        article.setProjectId(projectId);
-        ArticleType at = articelTypeService.selectTypeByPrimaryKey("7");
-        article.setArticleType(at);
-        List<Article> articles = articelService.selectArticleByProjectId(article);
-        if (articles != null && articles.size() > 0){
-            if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
-                model.addAttribute("article", articles.get(0));
-                model.addAttribute("projectId", projectId);
-                return "bss/ppms/open_bidding/bid_notice/view";
-            } else {
-                model.addAttribute("content", articles.get(0).getContent());
-                model.addAttribute("name", articles.get(0).getName());
-                model.addAttribute("articleId", articles.get(0).getId());
-                model.addAttribute("range", articles.get(0).getRange());
-                model.addAttribute("projectId", projectId);
-                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
-                return "bss/ppms/open_bidding/bid_notice/add";
-            }
-        } else {
-            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
-            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-            model.addAttribute("projectId", projectId);
-            return "bss/ppms/open_bidding/bid_notice/add";
-        }
+          return makeNotice(projectId, "cggg", model);
+//        Project project = projectService.selectById(projectId);
+//        ArticleType articleType = new ArticleType();
+//        Article article = new Article();
+//        //货物/物资
+//        if (project.getPlanType() == 1) { 
+//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
+//        } else if (project.getPlanType() == 2){
+//            //工程
+//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
+//        } else if (project.getPlanType() == 3){
+//            //服务
+//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
+//        }
+//        article.setProjectId(projectId);
+//        article.setArticleType(articleType);
+//        //查询公告列表中是否有该项目的招标公告
+//        List<Article> articles = articelService.selectArticleByProjectId(article);
+//        //判断该项目是否已经保存招标公告
+//        if (articles != null && articles.size() > 0){
+//            //判断该项目的招标公告是否发布
+//            if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
+//               //已发布招标公告
+//                model.addAttribute("article", articles.get(0));
+//                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+//                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+//                return "bss/ppms/open_bidding/bid_notice/view";
+//            } else {
+//                //未发布
+//                model.addAttribute("article", articles.get(0));
+//                model.addAttribute("articleId", articles.get(0).getId());
+//                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+//                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+//                return "bss/ppms/open_bidding/bid_notice/add";
+//            }
+//        } else {
+//            //新增招标公告
+//            model.addAttribute("articleType", articleType);
+//            model.addAttribute("articleId",WfUtil.createUUID());
+//            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+//            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+//            model.addAttribute("projectId", projectId);
+//            return "bss/ppms/open_bidding/bid_notice/add";
+//        }
+    }
+    
+    /**
+     *〈简述〉拟制中标公告
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId项目id
+     * @param model
+     * @return 
+     */
+    @RequestMapping("/winNotice")
+    public String winNotice(String projectId, Model model){
+          return makeNotice(projectId, "zbgg", model);
     }
     
     public String printViewBack(String projectId, Model model, String name, String content){
@@ -248,37 +274,72 @@ public class OpenBiddingController {
      */
     @RequestMapping("saveBidNotice")
     @ResponseBody 
-    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article) throws Exception{
+    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId) throws Exception{
         try {
-            User currUser = (User) request.getSession().getAttribute("loginUser");
-            article.setUser(currUser);
-            Timestamp ts = new Timestamp(new Date().getTime());
-            article.setCreatedAt(ts);
-            Timestamp ts1 = new Timestamp(new Date().getTime());
-            article.setUpdatedAt(ts1);
-            ArticleType at = articelTypeService.selectTypeByPrimaryKey("7");
-            article.setArticleType(at);
-            article.setStatus(0);
             String[] ranges = request.getParameterValues("ranges");
-            if (ranges != null && ranges.length > 0){
-                if (ranges.length > 1){
-                    article.setRange(2);
-              } else {
-                  for(int i=0;i<ranges.length;i++){
-                      article.setRange(Integer.valueOf(ranges[i]));
-                  }
-              }
+            int count = 0;
+            String msg = "请填写";
+            if (article.getName() == null || "".equals(article.getName())) {
+                msg += "公告名称";
+                count ++;
             }
-            if (article.getId() != null && !"".equals(article.getId())){
-                articelService.update(article);
-            } else {
-                articelService.addArticle(article);
+            if (ranges == null || ranges.length == 0) {
+                if (count > 0) {
+                    msg += "和发布范围";
+                } else {
+                    msg += "发布范围";
+                }
+                count ++;
             }
-            jsonData.setMessage("保存成功");
-            jsonData.setObj(article);
+            if ("".equals(article.getContent()) || article.getContent() == null) {
+                if (count > 0) {
+                    msg += "和公告内容";
+                } else {
+                    msg += "公告内容";
+                }
+                count ++;
+            }
+            if (count > 0) {
+                jsonData.setSuccess(false);
+                jsonData.setMessage(msg);
+                return jsonData;
+            }
+            if (count == 0) {
+                User currUser = (User) request.getSession().getAttribute("loginUser");
+                article.setUser(currUser);
+                Timestamp ts = new Timestamp(new Date().getTime());
+                article.setCreatedAt(ts);
+                Timestamp ts1 = new Timestamp(new Date().getTime());
+                article.setUpdatedAt(ts1);
+                ArticleType at = articelTypeService.selectTypeByPrimaryKey(articleTypeId);
+                article.setArticleType(at);
+                article.setStatus(0);
+                if (ranges != null && ranges.length > 0){
+                    if (ranges.length > 1){
+                        article.setRange(2);
+                    } else {
+                        for(int i=0;i<ranges.length;i++){
+                            article.setRange(Integer.valueOf(ranges[i]));
+                        }
+                    }
+                }
+                //查询公告列表中是否有该项目的招标公告
+                Article art = articelService.selectArticleById(article.getId());
+                if (art != null ){
+                    articelService.update(article);
+                } else {
+                    articelService.addArticle(article);
+                }
+                jsonData.setSuccess(true);
+                jsonData.setMessage("保存成功");
+                jsonData.setObj(article);
+                return jsonData;
+            }
+            jsonData.setSuccess(false);
+            jsonData.setMessage("保存失败");
             return jsonData;
         } catch (Exception e) {
-            throw new Exception("招标文件保存失败！");
+            throw new Exception("保存失败！");
         }
     }
     
@@ -312,7 +373,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("/export")
     public void export(HttpServletRequest request, HttpServletResponse resp) throws IOException{
-        String articleName = "招标公告";
+        String articleName = request.getParameter("name");;
         String name = request.getParameter("name");
         if(name != null && !"".equals(name)){
             articleName = name;
@@ -327,42 +388,64 @@ public class OpenBiddingController {
         os.write(content.getBytes(), 0, content.getBytes().length);  
         os.flush();  
         os.close(); 
-    //      byte[] bs = content.getBytes();
-    //      HttpHeaders headers = new HttpHeaders();
-    //      headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
-    //      headers.setContentDispositionFormData("content", new String(articleName.getBytes("UTF-8"), "iso-8859-1"));  
-    //      return (new ResponseEntity<byte[]>(bs, headers, HttpStatus.CREATED));  
     }
     
+    /**
+     *〈简述〉弹出发布
+     *〈详细描述〉上传招标公告批文
+     * @author Ye MaoLin
+     * @param model
+     * @param id 公告id
+     * @return
+     */
     @RequestMapping("/publishEdit")
     public String publishEdit(Model model, String id){
+        Article article = articelService.selectArticleById(id);
+        if ("".equals(article.getArticleType().getCode())) {
+            model.addAttribute("typeId", DictionaryDataUtil.getId("win_notice_aduit"));
+        }
+        if ("".equals(article.getArticleType().getCode())) {
+            model.addAttribute("typeId", DictionaryDataUtil.getId("zbggbpwj"));
+        }
         model.addAttribute("articleId", id);
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        
         return "bss/ppms/open_bidding/bid_notice/publish_edit";
     }
     
     /**
-     * Description: 发布
-     * 
+     *〈简述〉发布公告
+     *〈详细描述〉
      * @author Ye MaoLin
-     * @version 2016-10-17
+     * @param files
      * @param request
-     * @return String
-     * @throws Exception 
+     * @param response
+     * @param id
+     * @return
+     * @throws Exception
      */
-    @RequestMapping("/publish") 
-    public String publish(@RequestParam("files") MultipartFile[] files, HttpServletRequest request, HttpServletResponse response, String id) throws Exception{
+    @RequestMapping("/publish")
+    @ResponseBody
+    public void publish(HttpServletResponse response, HttpServletRequest request, Article art) throws Exception{
         try {
-            Article article = articelService.selectArticleById(id);
+            Article article = articelService.selectArticleById(art.getId());
             Timestamp ts = new Timestamp(new Date().getTime());
             article.setPublishedAt(ts);
             User user = (User) request.getSession().getAttribute("loginUser");
             article.setPublishedName(user.getRelName());
             article.setStatus(2);
             articelService.update(article);
-            jsonData.setMessage("发布成功");
-            return "redirect:bidNotice.html?projectId=" + article.getProjectId();
+            String msg = "发布成功";
+            String projectId = article.getProjectId();
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ", \"projectId\": \"" + projectId + "\", \"msg\": \"" + msg
+                            + "\"}");
+            response.getWriter().flush();
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
         }
     }
     
@@ -569,5 +652,71 @@ public class OpenBiddingController {
         model.addAttribute("listQuoteList", listQuoteList);
         model.addAttribute("project", project);
         return "bss/ppms/open_bidding/bid_file/changbiao";
+    }
+    
+    public String makeNotice(String projectId, String noticeType, Model model){
+        Project project = projectService.selectById(projectId);
+        ArticleType articleType = new ArticleType();
+        Article article = new Article();
+        //如果是拟制招标公告
+        if (noticeType.equals(noticeType)) {
+            //货物/物资
+            if (project.getPlanType() == 1) { 
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
+            } else if (project.getPlanType() == 2){
+                //工程  
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
+            } else if (project.getPlanType() == 3){
+                //服务 
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
+            }
+        }
+        //如果是拟制中标公告
+        if (noticeType.equals(noticeType)) {
+            //货物/物资
+            if (project.getPlanType() == 1) { 
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
+            } else if (project.getPlanType() == 2){
+                //工程  
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
+            } else if (project.getPlanType() == 3){
+                //服务 
+                articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
+            }
+        }
+        article.setProjectId(projectId);
+        article.setArticleType(articleType);
+        //查询公告列表中是否有该项目的招标公告
+        List<Article> articles = articelService.selectArticleByProjectId(article);
+        //判断该项目是否已经保存招标公告
+        if (articles != null && articles.size() > 0){
+            //判断该项目的招标公告是否发布
+            if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
+               //已发布招标公告
+                model.addAttribute("article", articles.get(0));
+                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                
+                //
+                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                return "bss/ppms/open_bidding/bid_notice/view";
+            } else {
+                //未发布
+                model.addAttribute("article", articles.get(0));
+                model.addAttribute("articleId", articles.get(0).getId());
+                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                return "bss/ppms/open_bidding/bid_notice/add";
+            }
+        } else {
+            //新增招标公告
+            model.addAttribute("articleType", articleType);
+            model.addAttribute("articleId",WfUtil.createUUID());
+            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("noticeType", noticeType);
+            return "bss/ppms/open_bidding/bid_notice/add";
+        }
+        
     }
 }
