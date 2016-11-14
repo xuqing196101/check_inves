@@ -43,7 +43,7 @@
         </div>
 <!-- 表格开始-->
         <div class="container container_box">
-            <form action="<%=basePath %>expertBlacklist/updateBlacklist.html" method="post" id="form1">
+            <form action="${pageContext.request.contextPath}/expertBlacklist/updateBlacklist.html" method="post" id="form1">
             <input type="hidden" name="id" value="${expert.id}">
             <input type="hidden" name="operationType" value="1">
             <h2 class="count_flow"><i>1</i>修改信息</h2>
