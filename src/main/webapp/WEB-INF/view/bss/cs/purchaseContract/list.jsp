@@ -107,6 +107,7 @@
   		$("#purchaseDep").val("");
   	}
   	
+  	var ind = null;
   	function createContract(){
   		var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -122,7 +123,7 @@
 		  			type:"POST",
 		  			success:function(data){
 		  				$("#delSele").append(data);
-		  				var ind = layer.open({
+		  				ind = layer.open({
 							shift: 1, //0-6的动画形式，-1不开启
 						    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 						    title: ['请选择供应商','border-bottom:1px solid #e5e5e5'],
@@ -140,6 +141,10 @@
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
 		}
+  	}
+  	
+  	function cancel(){
+  		layer.close(ind);
   	}
   	
   	function save(){
@@ -255,7 +260,7 @@
    <div id="pagediv" align="right"></div>
    <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
   		    <li class="col-md-12 ml15">
-			   <span class="span3 fl mt5"><div class="red star_red">*</div>成交供应商：</span>
+			   <span class="span3 fl"><div class="red star_red">*</div>成交供应商：</span>
 			   <select name="delsupplier" id="delSele">
 			   </select>
 			</li>

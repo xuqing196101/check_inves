@@ -177,11 +177,12 @@ button, input, select, textarea {
 }
 .input-append, .input-prepend {
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
     font-size: 0;
     white-space: nowrap;
     vertical-align: middle;
 	min-width:249px;
+	position:relative;
 }
 .bround4{
   border-radius:4px!important;}
