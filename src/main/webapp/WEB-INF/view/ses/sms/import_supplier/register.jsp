@@ -313,8 +313,8 @@
 							 </li> 
 							</ul>
 									<div class="tc mt20 clear col-md-11">
-									        <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
 											<button class="btn btn-windows git"   onclick="tijiao()"  >保存</button>
+									        <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
 									</div>
 				</div>
 		</form>
