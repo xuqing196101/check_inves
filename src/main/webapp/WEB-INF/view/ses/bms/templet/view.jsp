@@ -5,12 +5,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" charset="utf-8"
-	src="${pageContext.request.contextPath}//public/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8"
-	src="${pageContext.request.contextPath}//public/ueditor/ueditor.all.min.js">
-	
-</script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script type="text/javascript" charset="utf-8"
@@ -55,9 +49,9 @@
 							<span class="add-on">i</span>
 						</div></li>
 					<li class="col-md-12 p0">
-					<span class="col-md-12 padding-left-5">模板内容</span>
+					<span class="col-md-12 p0">模板内容</span>
 						<div class="col-md-9 mt5 p0">
-							<script id="editor" name="content" type="text/plain"></script>
+							<script id="editor" name="content" type="text/plain" ></script>
 							<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
 						</div></li>
 				</ul>
@@ -76,7 +70,7 @@
 		var content = "${templet.content}";
 		ue.ready(function() {
 			ue.setContent(content);
-			ue.setDisabled([]);
+	  		ue.setDisabled([]);
 		});
 	</script>
 </body>

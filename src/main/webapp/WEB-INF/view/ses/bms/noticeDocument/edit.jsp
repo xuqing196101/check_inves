@@ -37,27 +37,25 @@
          </h2>
    		<ul class="ul_list">
    		<input class="span2" name="id" type="hidden" value="${noticeDocument.id}">
-     		<li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5">须知文档名称：</span>
-			   <div class="input-append">
-		        	<input class="span5" name="name" type="text" value="${noticeDocument.name}">
+     		<li class="col-md-3 margin-0 padding-0 mb5">
+			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档名称：</span>
+			   <div class="input-append mb0">
+		        	<input class="span5 mb0" name="name" type="text" value="${noticeDocument.name}">
 		        	 <span class="add-on">i</span>
-		        	<div id="contractCodeErr" class="validate">${ERR_name}</div>
 		       </div>
+		        	<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 			 </li>
 		     <li class="col-md-3 margin-0 padding-0 ">
-               <span class="col-md-12 padding-left-5">须知文档类型</span>
-                <div class="select_common mb10">
+               <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
                     <select id="docType" name =docType >
                         <option value="-请选择-">-请选择-</option>
                         <option value="供应商须知文档">供应商须知文档</option>
                         <option value="专家须知文档">专家须知文档</option>
                     </select>
-                    <div id="contractCodeErr" class="validate">${ERR_docType}</div>
-                </div>
+                    <div id="contractCodeErr" class="clear red">${ERR_docType}</div>
              </li>
 		     <li class="col-md-12 p0">
-	   			<span class="col-md-12 padding-left-5">须知文档内容：</span>
+	   			<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档内容：</span>
 	  			<div class="col-md-9 p0 mt5">
 	  				 <script id="editor" name="content" type="text/plain" class=""></script>
 	  				 <div id="contractCodeErr" class="clear red">${ERR_content}</div>

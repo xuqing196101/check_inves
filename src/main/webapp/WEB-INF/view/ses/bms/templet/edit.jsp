@@ -44,14 +44,14 @@
 					<i>1</i>修改模板
 				</h2>
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 ">
+					<li class="col-md-3 margin-0 padding-0 mb5">
 					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
 						<div class="input-append mb0">
 							<input class="span5 mb0" name="name" type="text"
 								value="${templet.name}">
 								<span class="add-on">i</span>
 						</div>
-							<div id="contractCodeErr" class="clear red">${ERR_name}</div>
+						<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 					</li>
 					<li class="col-md-3 margin-0 padding-0 ">
 					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
