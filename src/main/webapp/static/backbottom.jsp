@@ -19,11 +19,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<jsp:include page="backend_common.jsp"></jsp:include>	
 	
-	
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <script language="javascript" type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 </head>
   
 <body>

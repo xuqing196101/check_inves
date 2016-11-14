@@ -18,11 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="author" content="">
 	
 	<jsp:include page="backend_common.jsp"></jsp:include>	
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
-<!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script></head>
 </head>
 
 <body>

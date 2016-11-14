@@ -17,10 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<jsp:include page="backend_common.jsp"></jsp:include>	
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <script language="javascript" type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 </head>
 <body>
 
@@ -166,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class="span5" type="text">
 		<div class="input-append">
           <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		    <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
+		    <img src="<%=basePath%>public/backend/images/down.png" class="margin-bottom-5"/>
           </button>
           <ul class="dropdown-menu list-unstyled">
           </ul>
@@ -311,7 +307,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <div class="col-md-9 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
-         <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
+         <img src="<%=basePath%>public/backend/images/suolue.jpg" class="suolue"/>
         </a>
 	   </div>
 	 </div>
@@ -328,7 +324,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <div class="col-md-9 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
-         <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
+         <img src="<%=basePath%>public/backend/images/suolue.jpg" class="suolue"/>
         </a>
 	   </div>
 	 </div>
