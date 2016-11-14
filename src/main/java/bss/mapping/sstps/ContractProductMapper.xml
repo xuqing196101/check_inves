@@ -10,7 +10,7 @@
     <result column="OFFER" property="offer" />
     <result column="AUDIT_OFFER" property="auditOffer" />
     
-    <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
+    <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
     
   </resultMap>
   
@@ -94,11 +94,19 @@
   
   <update id="update" parameterType="bss.model.sstps.ContractProduct">
  	 update T_BSS_SSTPS_CONTRACT_PRODUCT
+ 	<if test="offer != null">
   	<set>
   		OFFER = #{offer}
   	</set>
+    </if>
+    <if test="auditOffer != null">
+  	<set>
+  		AUDIT_OFFER = #{auditOffer}
+  	</set>
+    </if>	
   	where ID = #{id}
   </update>
+  
   
   
   <select id="selectList" parameterType="java.lang.String" resultMap="ContractProductResultMap">

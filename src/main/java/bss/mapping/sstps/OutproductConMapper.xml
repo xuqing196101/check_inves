@@ -40,8 +40,7 @@
   
   <!-- 查询产品对应的列表信息 -->
   <select id="selectProduct" parameterType="Object" resultMap="OutproductConMap">
-    select 
-    <include refid="Base_Column_List" />
+    select *
    from T_BSS_SSTPS_OUTPRODUCT_CON
     where PRODUCT_ID = #{contractProduct.id}
   </select>

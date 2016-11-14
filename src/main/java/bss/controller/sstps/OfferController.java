@@ -108,7 +108,7 @@ public class OfferController {
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "bss/sstps/offer/supplier/list";
+		return "bss/sstps/offer/checkAppraisal/list";
 	}
 	
 	/**

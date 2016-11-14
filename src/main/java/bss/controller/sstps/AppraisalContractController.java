@@ -75,8 +75,8 @@ public class AppraisalContractController extends BaseSupplierController{
 	@RequestMapping(value="/selectContract",produces="application/json;charest=utf-8")
 	public void selectContract(HttpServletResponse response,HttpServletRequest request) throws Exception{
 		String purchaseType = request.getParameter("purchaseType");
-		String reason = new String(purchaseType.getBytes("ISO-8859-1") , "UTF-8");
-		List<Select> list = appraisalContractService.selectChose(reason);
+	//	String reason = new String(purchaseType.getBytes("ISO-8859-1") , "UTF-8");
+		List<Select> list = appraisalContractService.selectChose(purchaseType);
 		System.out.println("list:"+list);
 		super.writeJson(response, list);
 	}

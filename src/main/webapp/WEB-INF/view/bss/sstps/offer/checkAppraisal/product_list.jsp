@@ -8,7 +8,7 @@
   <head>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>审价人员审价</title>
+    <title>产品审价</title>
     
 <script type="text/javascript">
 
@@ -28,11 +28,13 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>offer/appraisalList.html?page='+e.curr;
+		        	var id = "${id}";
+		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});
 });
+
 /** 全选全不选 */
 function selectAll(){
 	 var checklist = document.getElementsByName ("chkItem");
@@ -68,22 +70,24 @@ function check(){
 			 }
 	   }
 }
-function add(){
+
+function offer(){
 	var id=[]; 
 	$('input[name="chkItem"]:checked').each(function(){ 
 		id.push($(this).val());
 	}); 
+	
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/userSelectProduct.html?contractId="+id;
+		window.location.href="<%=basePath%>offer/userSelectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
-		layer.alert("请选择需要报价的合同",{offset: ['222px', '390px'], shade:0.01});
+		layer.alert("请选择需要报价的产品",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
 
 </script>    
-    
+    `
   </head>
   
   <body>
@@ -92,8 +96,7 @@ function add(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li>
-		   </ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">产品审价</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -103,20 +106,14 @@ function add(){
 	   		<h2>查询条件</h2>
 	   </div>
    </div>
-    <div class="container">
+    <div class="container ">
      <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">产品名称：</label><span><input type="text" id="topic" class=""/></span>
 	      </li>
-    	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
-	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
     	</ul>
@@ -126,11 +123,9 @@ function add(){
    </div>
 </div>
 	<div class="container">	
-		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">审价</button>
-	   		<button class="btn btn-windows ht_add" type="button" >导出</button>
+		<div class="col-md-8 mt10 ml10">
+	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
 		</div>
-		
 	</div>
 	
 	<div class="container margin-top-5">
@@ -140,27 +135,19 @@ function add(){
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	  				<th class="info">序号</th>
-	  				<th class="info">合同名称</th>
-	  				<th class="info">合同编号</th>
-	  				<th class="info">合同金额(万元)</th>
-	  				<th class="info">供应商名称</th>
-	  				<th class="info">签订状态</th>
+	  				<th class="info">产品名称</th>
+	  				<th class="info">状态</th>
 	  			</tr>
 	  		</thead>
-	  		<c:forEach items="${list.list}" var="contract" varStatus="vs">
+	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
+	  			<c:if test="${product.offer==1 }"> <!-- 只显示已报价的进行审价 -->
 	  			<tr class="pointer">
-	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
+	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	  				<td class="tc">${contract.name }</td>
-	  				<td class="tc">${contract.code }</td>
-	  				<td class="tc">${contract.money }</td>
-	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.appraisal=='1' }">
-	  					审价中
-	  				</c:if>
-	  				</td>
+	  				<td class="tc">${product.name }</td>
+	  				<td class="tc" name="offer">已报价</td>
 	  			</tr>
+	  			</c:if>
 	  		</c:forEach>
 		  </table>
 	  	</div>  

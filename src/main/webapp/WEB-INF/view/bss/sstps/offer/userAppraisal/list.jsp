@@ -78,7 +78,7 @@ function add(){
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
-		layer.alert("请选择需要报价的合同",{offset: ['222px', '390px'], shade:0.01});
+		layer.alert("请选择需要审核的合同",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
 
@@ -144,11 +144,11 @@ function add(){
 	  				<th class="info">合同编号</th>
 	  				<th class="info">合同金额(万元)</th>
 	  				<th class="info">供应商名称</th>
-	  				<th class="info">合同状态</th>
 	  				<th class="info">签订状态</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="contract" varStatus="vs">
+	  			<c:if test="${contract.appraisal=='1' }">
 	  			<tr class="pointer">
 	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -156,17 +156,9 @@ function add(){
 	  				<td class="tc">${contract.code }</td>
 	  				<td class="tc">${contract.money }</td>
 	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.contract.given=='1' }">
-	  					已签订
-	  				</c:if>
-	  				</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.appraisal=='1' }">
-	  					审价中
-	  				</c:if>
-	  				</td>
+	  				<td class="tc">审价中</td>
 	  			</tr>
+	  			</c:if>
 	  		</c:forEach>
 		  </table>
 	  	</div>  

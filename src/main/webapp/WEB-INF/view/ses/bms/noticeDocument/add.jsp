@@ -10,7 +10,7 @@
   	/** 全选全不选 */
 	$(function(){
 		
-		if(${noticeDocument.docType}!=null&&${noticeDocument.docType}!=""&&${noticeDocument.docType}!="-请选择-"){
+		if(${noticeDocument.docType!=null}&&${noticeDocument.docType!=""}&&${noticeDocument.docType!="-请选择-"}){
 			$("#docType").val(${noticeDocument.docType});
 		}else{
 			$("#docType").val('-请选择-');

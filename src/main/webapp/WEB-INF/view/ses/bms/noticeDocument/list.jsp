@@ -114,8 +114,7 @@
 
 	 function reset(){
 		 $("#tname").val("");
-		 $("#searchType option:selected").val("-请选择-");
-		 $("#searchType option:selected").text("-请选择-");
+		 $("#tname").text("");
 	 }
 	 $(function(){
 		 if(${noticeDocument.docType!=null}&&${noticeDocument.docType!=""}&&${noticeDocument.docType!="-请选择-"}){
@@ -143,6 +142,8 @@
 
     <!-- 查询 -->
        <h2 class="search_detail">
+       	<form action="${ pageContext.request.contextPath }/noticeDocument/search.html"
+				method="post" enctype="multipart/form-data" class="mb0">
        	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">须知文档名称：</label>
@@ -160,9 +161,10 @@
 	  			</select>
 	  		</span>
 	      </li>
-	    	<button onclick="search()" class="btn">查询</button>
-	    	<button onclick="reset()" class="btn">重置</button>  	
+	    	<button type="submit" class="btn">查询</button>
+	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>
+    	</form>
     	  <div class="clear"></div>
      </h2>
     
