@@ -1,11 +1,8 @@
 package ses.controller.sys.bms;
 
 
-
 import java.io.File;
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,33 +10,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAttachment;
 import ses.model.bms.CategoryTree;
-
 import ses.model.sms.SupplierTypeTree;
-
 import ses.service.bms.CategoryAttachmentService;
-
 import ses.service.bms.CategoryService;
 import ses.util.PathUtil;
-
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 
@@ -93,7 +83,8 @@ public class CategoryController extends BaseSupplierController {
 			CategoryTree ct=new CategoryTree();
 			if(!cList.isEmpty()){
 				ct.setIsParent("true");
-				cate.setIsEnd(1);
+			
+				
 			}else{
 				ct.setIsParent("false");
 			}
@@ -102,6 +93,7 @@ public class CategoryController extends BaseSupplierController {
 			ct.setpId(cate.getParentId());
 			ct.setKind(cate.getKind());
 			ct.setIsEnd(cate.getIsEnd());
+			ct.setStatus(cate.getStatus());
 			jList.add(ct);
 			list = gson.toJson(jList);
 		}
@@ -148,8 +140,9 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,Category category, HttpServletRequest request) {
-		category.setName(request.getParameter("name"));
+	public String save(@RequestParam("attaattach") CommonsMultipartFile file,Category category, HttpServletRequest request) {
+		String name = request.getParameter("name");
+		category.setName(name);
 		category.setPosition(Integer.parseInt(request.getParameter("position")));
 		category.setKind(request.getParameter("kind"));
 		category.setStatus(1);
@@ -157,7 +150,7 @@ public class CategoryController extends BaseSupplierController {
 		category.setDescription(request.getParameter("description"));
 		category.setCreatedAt(new Date());
 		categoryService.insertSelective(category);
-		upload(request, attaattach[0], category);
+		upload(request, file, category);
 		return "redirect:get.html";
 	}
 	
@@ -170,16 +163,15 @@ public class CategoryController extends BaseSupplierController {
 	 * @param @return
 	 * @return String
 	 */
-	public String upload(HttpServletRequest request, MultipartFile attaattach, Category category) {
-		if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
-		
+	public String upload(HttpServletRequest request, MultipartFile file, Category category) {
+		if (file.getOriginalFilename() != null && file.getOriginalFilename().equals("")) {
 				String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
 				/** 创建文件夹 */
-		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach.getOriginalFilename();		        
+		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + file.getOriginalFilename();		        
 		        String filePath = rootpath+fileName;
-		        File file = new File(filePath);
+		        File files = new File(filePath);
 		        try {
-					attaattach.transferTo(file);
+					file.transferTo(files);
 				} catch (IllegalStateException e) {
 					e.printStackTrace();				
 					} catch (IOException e) {
@@ -189,8 +181,8 @@ public class CategoryController extends BaseSupplierController {
          		attachment.setCategory(new Category(category.getId()));
 				attachment.setFileName(fileName);
 				attachment.setCreatedAt(new Date());
-				attachment.setContentType(attaattach.getContentType());
-				attachment.setFileSize((float)attaattach.getSize());
+				attachment.setContentType(file.getContentType());
+				attachment.setFileSize((float)file.getSize());
 				//路径==相对路径
 				attachment.setAttchmentPath("picupload/"+fileName);
 				categoryAttachmentService.insertSelective(attachment);
@@ -233,11 +225,71 @@ public class CategoryController extends BaseSupplierController {
   	* @Description:修改目录信息
   	* @param @return 
   	* @return String
-       */  
+     */  
+ 
    @RequestMapping("/edit")
-   public String  edit( Category category, @RequestParam("attaattach") MultipartFile attaattach,
+   public String  edit (@RequestParam("attaattach") MultipartFile attaattach,Category category,
 	          HttpServletRequest request, HttpServletResponse response,Model model){
-	      /*String name = request.getParameter("name");
+	      /*Boolean flag = true;
+	      String url = "";
+	      if(result.hasErrors()){
+				List<FieldError> errors = result.getFieldErrors();
+				for(FieldError fieldError:errors){
+					model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+				}
+				flag = false;
+	      }
+	      String name = request.getParameter("name");
+	      if (name.equals(category.getName())) {
+	    	  flag = false;
+			model.addAttribute("ERR_name","品目名不能重复");
+		}
+	      Integer position = Integer.parseInt(request.getParameter("position"));
+	      if (position.equals(category.getPosition())) {
+			flag = false;
+			model.addAttribute("ERR_position","排序号不能重复");
+		}
+	      String code = request.getParameter("code");
+	      if (code.equals(category.getCode())) {
+			flag = false;
+			model.addAttribute("ERR_code","品目编码不能重复");
+		}
+	      if (flag == false) {
+		     url = "ses/bms/category/list";
+		}else{
+			 category.setName(name);
+			 category.setPosition(position);
+			 category.setCode(code);
+			 category.setDescription(request.getParameter("description"));
+			 categoryService.updateByPrimaryKeySelective(category);
+			 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
+					String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
+					*//** 创建文件夹 *//*
+			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach.getOriginalFilename();		        
+			        String filePath = rootpath+fileName;
+			        File file = new File(filePath);
+			        try {
+						attaattach.transferTo(file);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();				
+						} catch (IOException e) {
+					e.printStackTrace();
+				}
+					 CategoryAttachment attachment=new CategoryAttachment();
+	         		attachment.setCategory(new Category(category.getId()));
+					attachment.setFileName(fileName);
+					attachment.setCreatedAt(new Date());
+					attachment.setContentType(attaattach.getContentType());
+					attachment.setFileSize((float)attaattach.getSize());
+					//路径==相对路径
+					attachment.setAttchmentPath("picupload/"+fileName);
+					categoryAttachmentService.updateByPrimaryKeySelective(attachment);
+					url = "ses/bms/category/list";
+				}
+		
+		}
+				return url;*/
+	     /* String name = request.getParameter("name");
 	      String position = request.getParameter("position");
 	      Integer Position = Integer.parseInt(position);
 	      String code = request.getParameter("code");*/
@@ -245,7 +297,9 @@ public class CategoryController extends BaseSupplierController {
   	      category.setPosition(Integer.parseInt(request.getParameter("position")));
 		  category.setCode(request.getParameter("code"));
 		  category.setDescription(request.getParameter("description"));
+		  
 		  category.setUpdatedAt(new Date());
+		  categoryAttachmentService.deleteByPrimaryKey(category.getId());
 	      categoryService.updateByPrimaryKeySelective(category);
 	      upload(request,attaattach,category);
 		return "redirect:get.html";
@@ -284,18 +338,18 @@ public class CategoryController extends BaseSupplierController {
   	* @return String
        */ 
    @RequestMapping("/ros")
-    public String change(HttpServletRequest request,Category category){
-	   String ids=request.getParameter("ids");
+    public void change(HttpServletRequest request,String ids){
 	   String[] cids=ids.split(",");
 	   for (int i = 0; i < cids.length; i++) {
 		Category cate=categoryService.selectByPrimaryKey(cids[i]);
 		if (cate.getStatus()==0) {
 			cate.setStatus(1);
-		}else{
+		}else if (cate.getStatus()==1) {
 			cate.setStatus(0);
 		}
+		categoryService.updateByPrimaryKeySelective(cate);
 	}
-	   return "ses/bms/category/list";
+	  
    }
 	/**
 	 * @Title: findCategoryByType
