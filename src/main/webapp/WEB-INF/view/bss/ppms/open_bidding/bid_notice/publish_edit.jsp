@@ -18,9 +18,10 @@
     
 	<script type="text/javascript">
    
-	    function cancel(){
+		function cancel(){
 			layer.closeAll();
 		}
+		
 		$(function(){
 		 $("#publish").click(function(){
        		$.ajax({
@@ -54,7 +55,7 @@
 			  <ul class="list-unstyled">
 			    <li class="mt10 col-md-12 p0">
 	    	      <label class="col-md-12 pl20"><span class="red">*</span>上传审批附件:</label>
-				   	<p:upload id="a" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+				   	<p:upload id="a" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId }" auto="true" />
              		<p:show  showId="b"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
 	            </li>
 	            <div class="clear"></div>

@@ -399,12 +399,11 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/publishEdit")
-    public String publishEdit(Model model, String id){
-        Article article = articelService.selectArticleById(id);
-        if ("".equals(article.getArticleType().getCode())) {
+    public String publishEdit(Model model, String id, String noticeType){
+        if ("zbgg".equals(noticeType)) {
             model.addAttribute("typeId", DictionaryDataUtil.getId("win_notice_aduit"));
         }
-        if ("".equals(article.getArticleType().getCode())) {
+        if ("cggg".equals(noticeType)) {
             model.addAttribute("typeId", DictionaryDataUtil.getId("zbggbpwj"));
         }
         model.addAttribute("articleId", id);
@@ -659,7 +658,7 @@ public class OpenBiddingController {
         ArticleType articleType = new ArticleType();
         Article article = new Article();
         //如果是拟制招标公告
-        if (noticeType.equals(noticeType)) {
+        if ("cggg".equals(noticeType)) {
             //货物/物资
             if (project.getPlanType() == 1) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
@@ -672,7 +671,7 @@ public class OpenBiddingController {
             }
         }
         //如果是拟制中标公告
-        if (noticeType.equals(noticeType)) {
+        if ("zbgg".equals(noticeType)) {
             //货物/物资
             if (project.getPlanType() == 1) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
@@ -688,15 +687,13 @@ public class OpenBiddingController {
         article.setArticleType(articleType);
         //查询公告列表中是否有该项目的招标公告
         List<Article> articles = articelService.selectArticleByProjectId(article);
-        //判断该项目是否已经保存招标公告
+        //判断该项目是否已经存在该类型公告
         if (articles != null && articles.size() > 0){
-            //判断该项目的招标公告是否发布
+            //判断该项目的公告是否发布
             if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
-               //已发布招标公告
+                //已发布公告
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-                
-                //
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
@@ -704,6 +701,7 @@ public class OpenBiddingController {
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("articleId", articles.get(0).getId());
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+                model.addAttribute("noticeType", noticeType);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 return "bss/ppms/open_bidding/bid_notice/add";
             }

@@ -24,9 +24,18 @@
             $("#form").submit();
         }
         //预览
-        function preview(){
-             $("#form").attr("action",'${pageContext.request.contextPath}/open_bidding/printView.html');   
-             $("#form").submit();
+        function pre_view(){
+             var ue = UE.getEditor('editor'); 
+    		 var content = ue.getContent();
+             $("#preview").removeClass("dnone");
+             $("#pre_content").append(content);
+             $("#form").addClass("dnone");
+        }
+        
+        //预览返回
+        function pre_back(){
+        	$("#preview").addClass("dnone");
+        	$("#form").removeClass("dnone");
         }
         
         $(function(){
@@ -47,7 +56,7 @@
         <!-- 按钮 -->
         <div class="fr pr15 mt10">
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
-	         <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
+	         <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>  
 	    </div>
 	    <input type="hidden" name="article" id="articleId" value="${article.id }">
 	    <input type="hidden" name="projectId" value="${article.projectId }">
@@ -62,11 +71,29 @@
         	 <span class="red">*</span>公告内容：
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
                            上传附件： 
-             <p:show  showId="b" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+             <p:show  showId="b" groups="b,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
              
         </div>
       </form>
-				     
+	  <div class="dnone" id="preview">
+	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
+	   		<div class="col-md-10 tc">
+            <input type="button" class="btn " value="打印" onclick="window.print();" id="print"/>
+            <input class="btn btn-windows back" onclick="pre_back();" value="返回" type="button">
+        	</div>
+		     <h3 class="tc f22">
+			   <div class="title bbgrey" id="pre_name">${article.name}</div>
+			 </h3>
+			 <div class="source" >
+			 </div>
+			 <div class="clear margin-top-20 new_content" id="pre_content">
+			 </div>
+			 <div class="extra_file">
+			 	<div class="">
+					<p:show  showId="c" groups="b,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>
+			 	</div>
+			 </div>
+		</div>		     
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
     var content='${article.content}';

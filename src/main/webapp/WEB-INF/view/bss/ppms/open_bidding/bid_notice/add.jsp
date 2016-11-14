@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/tld/upload" prefix="p" %>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -7,6 +8,7 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 	<%@ include file="/WEB-INF/view/common.jsp"%>
+	
     <script type="text/javascript">
        
   	//导入模板
@@ -38,13 +40,27 @@
         	}
         }
         //预览
-        function preview(){
-             $("#form").attr("action",'${pageContext.request.contextPath}/open_bidding/printView.html');   
-             $("#form").submit();
+        function pre_view(){
+             //$("#form").attr("action",'${pageContext.request.contextPath}/open_bidding/printView.html');   
+             //$("#form").submit();
+             var ue = UE.getEditor('editor'); 
+    		 var content = ue.getContent();
+             $("#preview").removeClass("dnone");
+             $("#pre_name").append($("#name").val());
+             $("#pre_content").append(content);
+             $("#form").addClass("dnone");
         }
+        
+        //预览返回
+        function pre_back(){
+        	$("#preview").addClass("dnone");
+        	$("#form").removeClass("dnone");
+        }
+        
         //发布
         function publish(){
         	var articleId = $("#articleId").val();
+        	var noticeType = $("#noticeType").val();
         	if(articleId == null || articleId == ""){
         		layer.alert("请先保存公告",{offset: '222px', shade:0.01});
         	}else{
@@ -59,7 +75,7 @@
 	              shift: 1, //0-6的动画形式，-1不开启
 	              offset: '100px',
 	              shadeClose: false,
-	              content: '${pageContext.request.contextPath}/open_bidding/publishEdit.html?id='+articleId,
+	              content: '${pageContext.request.contextPath}/open_bidding/publishEdit.html?id='+articleId+'&noticeType='+noticeType,
 	              success: function(layero, index){
 	                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	              }
@@ -104,10 +120,11 @@
         <div class="fr pr15 mt10">
 		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
-	         <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
+	         <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>  
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
 	    </div>
+	    <input type="hidden" id="noticeType" value="${noticeType }">
 	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id }">
 	    <input type="hidden" name="id" id="articleId" value="${articleId }">
 	    <input type="hidden" name="projectId" value="${projectId }">
@@ -123,10 +140,28 @@
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
                           上传附件： 
              <p:upload id="a" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             <p:show  showId="b"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+             <p:show  showId="b" groups="b,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
         </div>
       </form>
-				     
+	<div class="dnone" id="preview">
+	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
+	   		<div class="col-md-10 tc">
+            <input type="button" class="btn " value="打印" onclick="window.print();" id="print"/>
+            <input class="btn btn-windows back" onclick="pre_back();" value="返回" type="button">
+        	</div>
+		     <h3 class="tc f22">
+			   <div class="title bbgrey" id="pre_name"></div>
+			 </h3>
+			 <div class="source" >
+			 </div>
+			 <div class="clear margin-top-20 new_content" id="pre_content">
+			 </div>
+			 <div class="extra_file">
+			 	<div class="">
+					<p:show  showId="c" groups="b,c" delete="false" businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+			 	</div>
+			 </div>
+	</div>
    <script type="text/javascript">
     var option ={
             toolbars: [[
