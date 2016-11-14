@@ -5,16 +5,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+   
     <title>查看质检信息</title>
-    
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
-	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-    
+      
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -22,8 +15,8 @@
 	<meta http-equiv="description" content="This is my page">
 
   </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-   <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+   <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   function showPic(url,name){
 		layer.open({
@@ -48,7 +41,7 @@
 		$.ajax({
 			type:"POST",
 			dataType:"json",
-			url:"<%=basePath%>purchaseContract/selectByCode.do?code="+code,
+			url:"${pageContext.request.contextPath}/purchaseContract/selectByCode.do?code="+code,
 			success:function(json){
 				if(json.code==("ErrCode")){
 					$(".contract_id").val(json.id);
@@ -83,7 +76,7 @@
    
 <!-- 修改订列表开始-->
    <div class="container">
-   		<form action="<%=basePath%>pqinfo/update.html" method="post"  enctype="multipart/form-data">
+   		<form action="${pageContext.request.contextPath}/pqinfo/update.html" method="post"  enctype="multipart/form-data">
    		<div class="headline-v2">
    			<h2>修改质检报告</h2>
    		</div>
