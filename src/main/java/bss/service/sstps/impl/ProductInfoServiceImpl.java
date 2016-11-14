@@ -32,8 +32,8 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 	 * 根据产品查询信息内容
 	 */
 	@Override
-	public ProductInfo selectInfo(ProductInfo productInfo) {
-		return productInfoMapper.selectByProduct(productInfo);
+	public ProductInfo selectInfo(String proId) {
+		return productInfoMapper.selectByProduct(proId);
 	}
 
 	/**

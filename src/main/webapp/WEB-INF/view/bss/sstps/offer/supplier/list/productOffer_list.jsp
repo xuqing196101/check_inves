@@ -12,11 +12,11 @@
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>comCostDis/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/comCostDis/view.do?proId="+proId;
 }
 
 function cancel(){
-	window.location.href="<%=basePath%>auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}/auditSummary/cancel.html";
 }
 
 </script>

@@ -8,9 +8,6 @@
 <head>
     <title>合同草稿修改</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
     <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>

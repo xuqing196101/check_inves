@@ -21,7 +21,7 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     
-    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
   
@@ -40,8 +40,7 @@
   
   <!-- 查询产品对应的列表信息 -->
   <select id="selectProduct" parameterType="Object" resultMap="OutproductConMap">
-    select 
-    <include refid="Base_Column_List" />
+    select *
    from T_BSS_SSTPS_OUTPRODUCT_CON
     where PRODUCT_ID = #{contractProduct.id}
   </select>

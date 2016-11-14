@@ -108,7 +108,7 @@ public class OfferController {
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "bss/sstps/offer/supplier/list";
+		return "bss/sstps/offer/checkAppraisal/list";
 	}
 	
 	/**
@@ -179,9 +179,9 @@ public class OfferController {
 		}else{
 			url="bss/sstps/offer/supplier/list/list";
 		}
-		ProductInfo ProductI = new ProductInfo();
-		ProductI.setContractProduct(contractProduct);
-		ProductInfo productInfo = productInfoService.selectInfo(ProductI);
+//		ProductInfo ProductI = new ProductInfo();
+//		ProductI.setContractProduct(contractProduct);
+		ProductInfo productInfo = productInfoService.selectInfo(productId);
 		model.addAttribute("productInfo", productInfo);
 		return url;
 	}
@@ -237,9 +237,9 @@ public class OfferController {
 		
 		String url="bss/sstps/offer/userAppraisal/list/list";
 		
-		ProductInfo ProductI = new ProductInfo();
-		ProductI.setContractProduct(contractProduct);
-	 	ProductInfo productInfo = productInfoService.selectInfo(ProductI);
+//		ProductInfo ProductI = new ProductInfo();
+//		ProductI.setContractProduct(contractProduct);
+	 	ProductInfo productInfo = productInfoService.selectInfo(productId);
 		model.addAttribute("productInfo", productInfo);
 		
 		return url;

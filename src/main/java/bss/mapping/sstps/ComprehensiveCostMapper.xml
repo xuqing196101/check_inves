@@ -17,7 +17,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="STATUS" property="status" />
     
-    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
   

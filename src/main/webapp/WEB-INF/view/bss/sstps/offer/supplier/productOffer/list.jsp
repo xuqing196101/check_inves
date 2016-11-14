@@ -12,7 +12,7 @@
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>comCostDis/select.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/comCostDis/select.do?proId="+proId;
 }
 
 </script>
@@ -37,7 +37,7 @@ function onStep(){
 	 	</div>
    </div>
    
-   <form action="<%=basePath%>auditSummary/update.html" method="post">
+   <form action="${pageContext.request.contextPath}/auditSummary/update.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="apid" name="id" value="${ap.id }" />

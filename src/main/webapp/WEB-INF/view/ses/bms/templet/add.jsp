@@ -9,7 +9,7 @@
 <script type="text/javascript">
     /** 全选全不选 */
     $(function(){
-        if(${templet.temType}!=null&&${templet.temType}!="" && ${templet.temType}!="-请选择-"){
+        if(${templet.temType!=null}&&${templet.temType!=""} && ${templet.temType!="-请选择-"}){
             $("#temType").val('${templet.temType}');
         }else{
             $("#temType").val('-请选择-');
@@ -46,17 +46,17 @@
                     <i>1</i>新增模板
                 </h2>
                 <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 ">
-                       <span class="col-md-12 padding-left-5">模板名称</span>
-                        <div class="input-append">
-                            <input class="span5" name="name" type="text"
+                    <li class="col-md-3 margin-0 padding-0 mb5">
+                       <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
+                        <div class="input-append mb0">
+                            <input class="span5 mb0" name="name" type="text"
                                 value="${templet.name}">
                                 <span class="add-on">i</span>
-                            <div id="contractCodeErr" class="validate">${ERR_name}</div>
                         </div>
+                            <div id="contractCodeErr" class="clear red">${ERR_name}</div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 ">
-                       <span class="col-md-12 padding-left-5">模板类型</span>
+                       <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
                             <select id="temType" name=temType class="w220">
                                 <option value="-请选择-">-请选择-</option>
                                 <option value="采购公告">采购公告</option>
@@ -65,11 +65,11 @@
                                 <option value="招标公告">招标公告</option>
                                 <option value="合同模板">合同模板</option>
                             </select>
-                            <div id="contractCodeErr" class="validate">${ERR_temType}</div>
+                            <div id="contractCodeErr" class="clear red">${ERR_temType}</div>
                     </li>
 
                     <li class="col-md-12 p0">
-                       <span class="col-md-12 padding-left-5">模板内容</span>
+                       <span class="col-md-12 padding-left-5 mt10"><i class="red fl">＊</i>模板内容</span>
                         <div class="col-md-9 mt5 p0">
                             <script id="editor" name="content" type="text/plain"></script>
                             <div id="contractCodeErr" class="clear red">${ERR_content}</div>

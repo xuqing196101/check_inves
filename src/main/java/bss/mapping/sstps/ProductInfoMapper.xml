@@ -8,7 +8,7 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     
-     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
   
@@ -35,13 +35,13 @@
     where ID = #{id}
   </select>
   
-  <select id="selectByProduct" parameterType="java.lang.String" resultMap="ProductInfoBLOBs">
+  <select id="selectByProduct" parameterType="java.lang.String" resultType="bss.model.sstps.ProductInfo">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from T_BSS_SSTPS_PRODUCT_INFO
-     where PRODUCT_ID = #{contractProduct.id}
+     where PRODUCT_ID = #{proId}
   </select>
   
   

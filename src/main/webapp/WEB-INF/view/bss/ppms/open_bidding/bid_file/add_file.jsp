@@ -1,8 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -12,23 +9,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	function OpenFile(fileId) {
 		alert(fileId);
@@ -36,9 +16,9 @@
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
 		if(fileId != 0){
-			obj.BeginOpenFromURL("<%=basePath%>open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
 		} else {
-	    	obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.docx", true);// 异步加载, 服务器文件路径
+	    	obj.BeginOpenFromURL("${pageContext.request.contextPath}/stash/bidFileTemp.docx", true);// 异步加载, 服务器文件路径
 		}
 		
 		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");

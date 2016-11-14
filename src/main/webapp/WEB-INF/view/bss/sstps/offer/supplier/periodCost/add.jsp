@@ -12,7 +12,7 @@
 <script type="text/javascript">
 function down(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath %>periodCost/select.html?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/periodCost/select.html?proId="+proId;
 }
 </script>    
 
@@ -31,7 +31,7 @@ function down(){
    
    
   <div class="container bggrey border1 mt20""> 
-    <form action="<%=basePath %>periodCost/save.html" method="post">
+    <form action="${pageContext.request.contextPath}/periodCost/save.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    

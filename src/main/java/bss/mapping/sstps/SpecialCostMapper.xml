@@ -22,7 +22,7 @@
     <result column="APPROVED_MONEY" property="approvedMoney" />
     <result column="CHECK_APPROVED_MONEY" property="checkApprovedMoney" />
     
-    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
   

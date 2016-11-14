@@ -35,10 +35,6 @@
 		        }
 		    }
 		});
-	  
-	  alert("${attachuuid}");
-	  alert("${attachsysKey}");
-	  alert("${attachtypeId}");
   });
 	/** 全选全不选 */
 	function selectAll(){
@@ -139,9 +135,6 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条草稿生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				alert("${attachuuid}"+"dasdasd");
-				  alert("${attachsysKey}");
-				  alert("${attachtypeId}");
 				ind = layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动

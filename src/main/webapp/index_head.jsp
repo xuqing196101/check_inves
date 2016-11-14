@@ -10,6 +10,7 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <!--导航js-->
+<jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
 $(function(){
 	$(document).keyup(function(event){

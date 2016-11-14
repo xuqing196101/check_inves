@@ -8,7 +8,7 @@
   <head>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>申请合同分配</title>
+    <title>审价人员审价</title>
     
 <script type="text/javascript">
 
@@ -28,11 +28,59 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>offer/checkList.html?page='+e.curr;
+		            location.href = '<%=basePath%>offer/appraisalList.html?page='+e.curr;
 		        }
 		    }
 		});
 });
+/** 全选全不选 */
+function selectAll(){
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	   if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 	}
+	}
+
+/** 单选 */
+function check(){
+	 var count=0;
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	 for(var i=0;i<checklist.length;i++){
+		   if(checklist[i].checked == false){
+			   checkAll.checked = false;
+			   break;
+		   }
+		   for(var j=0;j<checklist.length;j++){
+				 if(checklist[j].checked == true){
+					   checkAll.checked = true;
+					   count++;
+				   }
+			 }
+	   }
+}
+function add(){
+	var id=[]; 
+	$('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val());
+	}); 
+	if(id.length==1){
+		window.location.href="<%=basePath%>offer/userSelectProduct.html?contractId="+id;
+	}else if(id.length>1){
+		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	}else{
+		layer.alert("请选择需要报价的合同",{offset: ['222px', '390px'], shade:0.01});
+	}
+}
 
 </script>    
     
@@ -44,7 +92,8 @@ $(function(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">申请合同审价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li>
+		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -78,8 +127,10 @@ $(function(){
 </div>
 	<div class="container">	
 		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">报价</button>
+	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">审价</button>
+	   		<button class="btn btn-windows ht_add" type="button" >导出</button>
 		</div>
+		
 	</div>
 	
 	<div class="container margin-top-5">
@@ -93,7 +144,6 @@ $(function(){
 	  				<th class="info">合同编号</th>
 	  				<th class="info">合同金额(万元)</th>
 	  				<th class="info">供应商名称</th>
-	  				<th class="info">合同状态</th>
 	  				<th class="info">签订状态</th>
 	  			</tr>
 	  		</thead>
@@ -105,11 +155,6 @@ $(function(){
 	  				<td class="tc">${contract.code }</td>
 	  				<td class="tc">${contract.money }</td>
 	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.contract.given=='1' }">
-	  					已签订
-	  				</c:if>
-	  				</td>
 	  				<td class="tc">
 	  				<c:if test="${contract.appraisal=='1' }">
 	  					审价中

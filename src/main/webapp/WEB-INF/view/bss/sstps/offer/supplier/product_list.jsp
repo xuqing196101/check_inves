@@ -27,7 +27,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = "<%=basePath%>offer/selectProduct.html?contractId="+id+"&page="+e.curr;
+		            location.href = "${pageContext.request.contextPath}/offer/selectProduct.html?contractId="+id+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -76,7 +76,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}/offer/selectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{

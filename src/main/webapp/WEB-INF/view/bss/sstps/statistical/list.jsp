@@ -23,7 +23,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>statistical/view.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/statistical/view.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -31,7 +31,7 @@ $(function(){
 
 function showCharts(){
 		var myChart = echarts.init(document.getElementById("chart"));
-		$.getJSON("<%=basePath %>statistical/echarts.do", function(json) {
+		$.getJSON("${pageContext.request.contextPath}/statistical/echarts.do", function(json) {
 			console.log(json);  
 			myChart.setOption(json);
 			myChart.hideLoading();
@@ -63,7 +63,7 @@ function resetQuery(){
    <div class="container mt20">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form id="form1" action="<%=basePath %>statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
+       <form id="form1" action="${pageContext.request.contextPath}/statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">采购机构：</label><span><input type="text" value="${purchaseDepName }" name="purchaseDepName" class=""/></span>
@@ -127,7 +127,7 @@ function resetQuery(){
             
             <div class="tab-pane fade height-450" id="tab-2">
               <div id="dcDataUseStatisticContainer" class="margin-bottom-0">
-					<div id="chart" class="icharts mt20" style="width:800px; height:460px;">
+					<div id="chart" class="icharts" style="width:800px; height:460px; margin:20px auto;">
 					</div>
               </div>
             </div>

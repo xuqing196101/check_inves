@@ -9,8 +9,8 @@
     
     <title>综合费用汇总分配计算明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 function edit(){
@@ -20,7 +20,7 @@ function edit(){
 		id.push($(this).val());
 	}); 
 	if(id.length==1){
-		window.location.href="<%=basePath%>periodCost/edit.do?id="+id+"&proId="+proId;
+		window.location.href="${pageContext.request.contextPath}/periodCost/edit.do?id="+id+"&proId="+proId;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -30,12 +30,12 @@ function edit(){
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>productQuota/select.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/select.do?proId="+proId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>yearPlan/select.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/yearPlan/select.do?proId="+proId;
 }
 
 function next(){
@@ -68,7 +68,7 @@ function next(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="<%=basePath%>comCostDis/update.html?proId=${proId }" method="post">
+	<form id="formID" name="form1" action="${pageContext.request.contextPath}/comCostDis/update.html?proId=${proId }" method="post">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

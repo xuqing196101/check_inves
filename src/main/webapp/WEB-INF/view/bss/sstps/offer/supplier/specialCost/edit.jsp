@@ -6,14 +6,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>修改</title>
     
 <script type="text/javascript">
 function down(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath %>specialCost/select.html?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/specialCost/select.html?proId="+proId;
 }
 </script>
   </head>
@@ -30,7 +29,7 @@ function down(){
    </div>
 
 <div class="container bggrey border1 mt20"> 
-    <form action="<%=basePath %>specialCost/update.html" method="post">
+    <form action="${pageContext.request.contextPath}/specialCost/update.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="id" name="id" class="w230 mb0" value="${sc.id }" readonly>

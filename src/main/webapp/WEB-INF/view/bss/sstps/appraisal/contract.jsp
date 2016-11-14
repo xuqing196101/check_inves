@@ -22,7 +22,7 @@ function dayin() {
 
 function sub(){
 	var id = $("#id").val();
-	window.location.href = "<%=basePath%>appraisalContract/update.html?id="+id;
+	window.location.href = "${pageContext.request.contextPath}/appraisalContract/update.html?id="+id;
 }
 
 

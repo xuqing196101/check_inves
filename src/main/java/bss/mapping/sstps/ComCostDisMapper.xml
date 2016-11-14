@@ -25,7 +25,7 @@
     <result column="CHECK_ACTUAL"  property="checkActual" />
     <result column="STATUS"  property="status" />
     
-    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">

@@ -41,7 +41,7 @@ function cancel(){
 	 	</div>
    </div>
    
-   <form action="<%=basePath%>auditSummary/update.html" method="post" enctype="multipart/form-data">
+   <form action="<%=basePath%>auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="apid" name="id" value="${ap.id }" />
@@ -50,23 +50,34 @@ function cancel(){
 			<table class="table table-bordered table-condensed">
 				<tr>
 					<th class="info">产品名称</th>
-					<td><input type="text" name="contractProduct.name"  class="border0" value="${ap.contractProduct.name }" readonly/></td>
+					<td class="tc"><input type="text" name="contractProduct.name"  class="" value="${ap.contractProduct.name }" readonly/></td>
+					<th class="info" rowspan="5">审核结果</th>
+					<th class="info">企业报价</th>
+					<td class="tc"><input type="text" name="companyPrice"  class="" value="${ap.companyPrice }"/></td>
 				</tr>
 				<tr>
 					<th class="info">生产单位</th>
-					<td><input type="text" name="produceUnit"  class="border0" value="${ap.produceUnit }" readonly></td>
+					<td class="tc"><input type="text" name="produceUnit"  class="" value="${ap.produceUnit }"></td>
+					<th class="info">审核意见</th>
+					<td class="tc"><input type="text" name="auditOpinion"  class="" value="${ap.auditOpinion }"/></td>
 				</tr>
 				<tr>
 					<th class="info">订货数量</th>
-					<td><input type="text" name="orderAcount"  class="border0" value="${ap.orderAcount }" readonly/></td>
+					<td class="tc"><input type="text" name="orderAcount"  class="" value="${ap.orderAcount }"/></td>
+					<th class="info">单位核减</th>
+					<td class="tc"><input type="text" name="unitSubtract"  class="" value="${ap.unitSubtract }"/></td>
 				</tr>
 				<tr>
 					<th class="info">计量单位</th>
-					<td><input type="text" name="measuringUnit"  class="border0" value="${ap.measuringUnit }" readonly/></td>
+					<td class="tc"><input type="text" name="measuringUnit"  class="" value="${ap.measuringUnit }"/></td>
+					<th class="info">总量核减</th>
+					<td class="tc"><input type="text" name="acountSubtract"  class="" value="${ap.acountSubtract}"/></td>
 				</tr>
 				<tr>
 					<th class="info">审核人员</th>
-					<td><input type="text" name="auditUser"  class="border0" value="${ap.auditUser }"/ readonly></td>
+					<td class="tc"><input type="text" name="auditUser"  class="" value="${ap.auditUser }"/></td>
+					<th class="info"></th>
+					<td class="tc"></td>
 				</tr>
 			</table>
 		</div>
@@ -81,6 +92,9 @@ function cancel(){
 						<th class="info">项目类型</th>
 						<th class="info">项目名称</th>
 						<th class="info">单台报价</th>
+						<th class="info">审核结果</th>
+						<th class="info">审核差额</th>
+						<th class="info">审减率</th>
 						<th class="info">备注</th>
 					</tr>
 				</tobdy>
@@ -93,6 +107,9 @@ function cancel(){
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].projectName" value="${cc.projectName }"/ readonly></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].secondProject" value="${cc.secondProject }" readonly/></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].singleOffer" value="${cc.singleOffer }" readonly/></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].additResult" value="${cc.additResult}" /></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].difference" value="${cc.difference }" /></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].reduce" value="${cc.reduce }" /></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" readonly/></td>
 					</tr>
 				</c:forEach>
@@ -104,7 +121,7 @@ function cancel(){
 		<div class="mt40 tc mb50">
 		    <button class="btn" type="button" onclick="onStep()">上一步</button>
 		    <button class="btn" type="button" >打印审价结果确认书</button>
-		    <button class="btn" type="button" >提交</button>
+		    <button class="btn" type="submit" >提交</button>
 		    <button class="btn btn-windows cancel" type="button" onclick="cancel()">关闭</button>
 		 </div>
 	</div>

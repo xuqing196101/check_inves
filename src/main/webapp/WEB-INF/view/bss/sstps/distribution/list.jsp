@@ -6,8 +6,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <title>申请合同分配</title>
     
 <script type="text/javascript">
@@ -28,7 +28,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>appraisalContract/selectDistribution.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/appraisalContract/selectDistribution.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -45,7 +45,7 @@ function distribution(id){
 		  shift: 1, //0-6的动画形式，-1不开启
 		  offset: ['80px', '400px'],
 		  shadeClose: false,
-		  content: "<%=basePath %>appraisalContract/distributionUser.html?sbid="+id,
+		  content: "${pageContext.request.contextPath}/appraisalContract/distributionUser.html?sbid="+id,
 		  end:function(){
 			  location.reload();
 		  }
@@ -78,7 +78,7 @@ function resetQuery(){
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form id="form1" action="<%=basePath %>appraisalContract/serch.html" method="post" class="mb0">
+       <form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>

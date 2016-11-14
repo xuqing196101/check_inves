@@ -26,7 +26,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>offer/list.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath }/offer/list.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -74,7 +74,7 @@ function add(){
 		id.push($(this).val());
 	}); 
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/selectProduct.html?contractId="+id;
+		window.location.href="${pageContext.request.contextPath}/offer/selectProduct.html?contractId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -108,7 +108,7 @@ function resetQuery(){
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="<%=basePath %>offer/search.html" method="post" class="mb0">
+       <form action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>

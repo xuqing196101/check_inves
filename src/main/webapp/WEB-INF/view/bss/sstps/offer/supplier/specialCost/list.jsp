@@ -53,7 +53,7 @@ function edit(){
 		id.push($(this).val());
 	}); 
 	if(id.length==1){
-		window.location.href="<%=basePath%>specialCost/edit.do?id="+id+"&proId="+proId;
+		window.location.href="${pageContext.request.contextPath}/specialCost/edit.do?id="+id+"&proId="+proId;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -63,7 +63,7 @@ function edit(){
 
 function add(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>specialCost/add.html?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/specialCost/add.html?proId="+proId;
 }
 
 function del(){
@@ -75,7 +75,7 @@ function del(){
 	if(ids.length>0){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 			layer.close(index);
-			window.location.href="<%=basePath%>specialCost/delete.html?proId="+proId+"&ids="+ids;
+			window.location.href="${pageContext.request.contextPath}/specialCost/delete.html?proId="+proId+"&ids="+ids;
 		});
 	}else{
 		layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -84,13 +84,13 @@ function del(){
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>outsourcingCon/select.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/outsourcingCon/select.do?proId="+proId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
 	var total = $("#total").val();
-	window.location.href="<%=basePath%>burningPower/select.do?proId="+proId+"&total="+total;
+	window.location.href="${pageContext.request.contextPath}/burningPower/select.do?proId="+proId+"&total="+total;
 }
 
 $(document).ready(function() { 

@@ -132,4 +132,36 @@ public class AuditSummaryController {
 			return "bss/sstps/offer/userAppraisal/list/productOffer_list";
 	}
 
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,String productId,PlComprehensiveCost plcc,AuditOpinion auditOpinion){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		
+		auditOpinion.setUpdatedAt(new Date());
+		auditOpinionService.update(auditOpinion);
+		
+		List<ComprehensiveCost> csc = plcc.getPlcc();
+		for(ComprehensiveCost cd:csc){
+			cd.setUpdatedAt(new Date());
+			cd.setContractProduct(contractProduct);
+			comprehensiveCostService.update(cd);
+		}
+		
+		contractProduct.setAuditOffer(1);
+		contractProductService.update(contractProduct);
+		contractProduct = contractProductService.selectById(productId);
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractProduct.getAppraisalContract().getId());
+		appraisalContract.setAppraisal(2);
+		appraisalContract.setUpdatedAt(new Date());
+		appraisalContractService.update(appraisalContract);
+		
+		Integer page=1;
+		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		
+		String url = "bss/sstps/offer/userAppraisal/list";
+		return url;
+	}
 }

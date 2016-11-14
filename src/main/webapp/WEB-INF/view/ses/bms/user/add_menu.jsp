@@ -6,8 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title></title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -18,11 +16,6 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
-	<script src="<%=basePath%>public/layer/layer.js"></script>
 	<script type="text/javascript">
 		 
 		<!-- ztree -->  
@@ -45,7 +38,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>preMenu/treedata.do?userId="+userId,
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -66,7 +59,7 @@
 			$.ajax({
              type: "POST",
              async: false, 
-             url: "<%=basePath%>user/saveUserMenu.do?userId="+uid+"&ids="+idstr,
+             url: "${pageContext.request.contextPath}/user/saveUserMenu.do?userId="+uid+"&ids="+idstr,
              dataType: "text",
              success: function(str){
 		        	 //var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引

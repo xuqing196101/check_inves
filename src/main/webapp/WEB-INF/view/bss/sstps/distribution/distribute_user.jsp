@@ -9,15 +9,15 @@
   <head>
     
     <title>分配任务人员信息</title>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     
   </head>
 <script type="text/javascript">
   function sure(){
 	  $.ajax({
 		  type: "POST",  
-          url: "<%=basePath %>appraisalContract/updateDistribution.html",  
+          url: "${pageContext.request.contextPath}/appraisalContract/updateDistribution.html",  
           data: $("#form1").serializeArray(),  
           dataType: 'json',  
           success:function(result){
@@ -25,7 +25,7 @@
                   layer.msg(result.msg,{offset: ['150px', '180px']});
               }else{
                   parent.window.setTimeout(function(){
-                	  parent.window.location.href = "<%=basePath%>appraisalContract/selectDistribution.html";
+                	  parent.window.location.href = "${pageContext.request.contextPath}/appraisalContract/selectDistribution.html";
                   }, 1000);
                   layer.msg(result.msg,{offset: ['150px', '180px']});
               }
@@ -43,7 +43,7 @@
   <body>
   
   <div class="container mt20">
-  	<form id="form1" action="<%=basePath %>appraisalContract/updateDistribution.html" method="post">
+  	<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/updateDistribution.html" method="post">
   		<input type="hidden" value="${id }" name="id" id="id">
   		
 	 	<ul class="list-unstyled p0_20 list-flow">
