@@ -7,10 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
 </head>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   $(function(){
 	  
@@ -119,7 +116,7 @@
 			<h2>通知管理</h2>
 		</div>
              <h2 class="search_detail">
-                <form action="<%=basePath %>StationMessage/listStationMessage.html" id="form1" method="post" class="mb0">
+                <form action="${pageContext.request.contextPath}/StationMessage/listStationMessage.html" id="form1" method="post" class="mb0">
                 <input  id="pages" name="page" type="hidden"/>
                     <ul class="demand_list">
                       <li>

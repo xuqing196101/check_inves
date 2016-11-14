@@ -56,7 +56,7 @@
   </div>
     <div class="container">
     <div class="p10_25">
-      <form action="<%=basePath %>expertBlacklist/expertBlackListLog.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
+      <form action="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
         <input type="hidden" name="page" id="page">
             <ul class="demand_list">
               <li class="fl">

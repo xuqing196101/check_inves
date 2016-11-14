@@ -143,7 +143,7 @@
 		if(ids.length == 1){
 			$.ajax({  
                type: "POST",  
-               url: "<%=basePath %>role/opera.html?ids="+ids,  
+               url: "${pageContext.request.contextPath}/role/opera.html?ids="+ids,  
                dataType: 'json',  
                success:function(result){
                		window.setTimeout(function(){
@@ -215,7 +215,7 @@
 	   		<h2>角色管理</h2>
 	   </div>
 		    <h2 class="search_detail">
-		       	<form action="<%=basePath %>role/list.html" id="form1" method="post" class="mb0">
+		       	<form action="${pageContext.request.contextPath}/role/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
 			    	  <li>
 				    	<label class="fl">名称：</label><span><input type="text" value="${role.name }" id="topic" name="name" class=""/></span>

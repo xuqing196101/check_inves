@@ -2,33 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<%@ include file="../../../common.jsp"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -77,25 +52,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
-<div>
-	<form action="${pageContext.request.contextPath}/firstAudit/edit.html" method="post" id="form1">
-     <table class="table table-bordered table-condensed">
-     <thead>
-      <tr>
-        <th>初审项名称:</th><td><input type="text" name="name" id="name" value="${temitem.name }"></td>
-        <th>要求类型:</th><td><input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'技术')}">checked="true"</c:if> value="技术" >技术</td>
-        <%-- <input readonly="readonly" name="creater" id="creater" type="hidden" value="${temitem.creater }"> --%>
-      </tr>
-      <tr>
-      <input type="hidden" name="templatId" value="${temitem.templatId }">
-      <input type="hidden" name="id" value="${temitem.id }">
-      <input type="hidden" name="createdAt" value="<fmt:formatDate value='${temitem.createdAt}' pattern="yyyy-MM-dd" />">
-      </tr>
-     <thead>
-    </table>
-      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows edit"/>
-      <input type="button"  value="取消"  class="btn btn-windows cancel" onclick="cancel();"/>
-  </form>
+<div class="layui-layer-wrap">
+    <div class="drop_window">
+        <form action="${pageContext.request.contextPath}/firstAudit/edit.html" method="post" id="form1">
+              <ul class="list-unstyled">
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">初审项名称</label>
+                  <span class="col-md-12">
+                    <input type="text" id="name"  name="name" value="${temitem.name }">
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">要求类型</label>
+                  <span class="col-md-12">
+                    <input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'技术')}">checked="true"</c:if> value="技术" >技术
+                    <input type="hidden" name="templatId" value="${temitem.templatId }">
+                      <input type="hidden" name="id" value="${temitem.id }">
+                      <input type="hidden" name="createdAt" value="<fmt:formatDate value='${temitem.createdAt}' pattern="yyyy-MM-dd" />">
+                  </span>
+                </li>
+                <div class="clear"></div>
+               </ul>
+               <div class="tc mt10 col-md-12">
+                 <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows edit"/>
+                <input type="button"  value="取消"  class="btn btn-windows cancel" onclick="cancel();"/>
+              </div>
+         </form>
+     </div>
 </div>
 </body>
 </html>

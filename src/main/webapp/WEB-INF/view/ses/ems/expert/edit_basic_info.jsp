@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/tld/upload" prefix="up"%>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/expert_common.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,18 +12,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家个人信息</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-     var treeObj;
+    var treeObj;
 	var datas;
 	var parentId ;
 	var addressId="${expert.address}";

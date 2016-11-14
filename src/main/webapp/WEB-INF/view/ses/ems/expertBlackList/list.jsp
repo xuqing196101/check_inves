@@ -73,7 +73,7 @@
 
 	/**添加页面*/
 	function add(){
-		window.location.href="<%=basePath%>expertBlacklist/addBlacklist.html";
+		window.location.href="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html";
 	}
 	
 	//更新
@@ -83,7 +83,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>expertBlacklist/editBlacklist.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/expertBlacklist/editBlacklist.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset:'200px'});
 		}else{
@@ -117,12 +117,12 @@
 			layer.confirm('您确定要移除黑名单吗?', {title:'提示！',offset: ['200px']}, function(index){
 				layer.close(index);
 				$.ajax({
-		       		url:"<%=basePath%>expertBlacklist/updateStatus.html",
+		       		url:"${pageContext.request.contextPath}/expertBlacklist/updateStatus.html",
 		       		data:"ids="+ids+"&status=2",
 		       		success:function(){
 		       			layer.msg("移除成功",{offset:'200px'});
 			       		window.setTimeout(function(){
-			       			location.href = "<%=basePath%>expertBlacklist/blacklist.html";
+			       			location.href = "${pageContext.request.contextPath}/expertBlacklist/blacklist.html";
 			       		}, 1000);
 		       		},
 		       		error: function(message){
@@ -163,7 +163,7 @@
              <h2>专家黑名单列表</h2>
           </div>
 	      <h2 class="search_detail">
-	          <form action="<%=basePath %>expertBlacklist/blacklist.html"  method="post" id="form1" class="mb0"> 
+	          <form action="${pageContext.request.contextPath}/expertBlacklist/blacklist.html"  method="post" id="form1" class="mb0"> 
 	               <input type="hidden" name="page" id="page">
 	               <ul class="demand_list">
 	                   <li>

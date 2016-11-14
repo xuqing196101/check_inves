@@ -256,7 +256,7 @@ System.out.print(scoreModel);
 		tr += "<td ><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
 		tr += "<td ><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
 		tr += "<td ><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
-		tr += "<td ><a href=\'javascript:void(0);\' onclick=\'delTr(this)\'>删除</a></td>";
+		tr += "<td ><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
 		tr += "</tr>";
 		$("#model73 tbody").append(tr);
 		num2++;
@@ -310,7 +310,7 @@ System.out.print(scoreModel);
 		//var addSubtractTypeName = $("#addSubtractTypeName").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
-		var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
+		var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
 		$("#easyUnderstandContent3").val(str);
 	}
 	function gerneratorFour(){
@@ -319,7 +319,7 @@ System.out.print(scoreModel);
 		var score = $("#score").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
-		var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
+		var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
 		$("#easyUnderstandContent4").val(str);
 	}
 	function gerneratorFive(){
@@ -430,10 +430,30 @@ System.out.print(scoreModel);
 				$("#model73").hide();
 			}
 		}else if(model=="7"){
-			$("#show_table tbody tr").remove();
+			/* $("#show_table tbody tr").remove();
 			$("#model8 tbody tr").clone().appendTo("#show_table tbody");
 			//$("#showbutton").show();
-			$("#showParamButton").show();
+			$("#showParamButton").show(); */
+			$("#show_table tbody tr").remove();
+			var intervalTypeName71 = $("#sm7").val();
+			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
+				$("#showParamButton").show();
+				$("#showbutton").hide();
+				$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73").show();
+			}else if(intervalTypeName71=="0"){
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}else{
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}
 		}
 	}
 </script>  
@@ -590,7 +610,7 @@ System.out.print(scoreModel);
 					<option value="3">模型4:评审数额最低递增</option>
 					<option value="4">模型5:评审数额高计算</option>
 					<option value="5">模型6:评审数额低计算</option>
-					<option value="6">模型7:评审数额地区间递增</option>
+					<option value="6">模型7:评审数额低区间递增</option>
 					<option value="7">模型8:评审数额高区间递减</option>
 				</select>
 			</div>
@@ -623,16 +643,14 @@ System.out.print(scoreModel);
 				
 				<tbody>
 					<c:forEach items="${scoreModel.paramIntervalList }" var="pi" varStatus="vs">
-						<thead>
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center"><input class='w40' type='text' value="${pi.startParam }" id="startParam${vs.index+1 }" name='pi.startParam'></td>
 								<td align="center"><input class='w40' type='text' value="${pi.endParam }" id="endParam${vs.index+1 }" name='pi.endParam'></td>
 								<td align="center"><input class='w40' type='text' value="${pi.score }" id="score${vs.index+1 }" name='pi.score'></td>
 								<td align="center"><textarea class='w40' id="explain${vs.index+1 }" name='pi.explain'>${pi.explain }</textarea></td>
-								<td ><a href=\'javascript:void(0);\' onclick=\'delTr(this)\'>删除</a></td>
+								<td ><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>
 							</tr>
-						</thead>
 					</c:forEach>
 				</tbody>
 			</table>
@@ -767,7 +785,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName3"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName3"><option value="1" selected="selected">减分</option></select></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -803,7 +821,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0" selected="selected">加分</option></select></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -861,10 +879,10 @@ System.out.print(scoreModel);
 				<td style="width: 300px;">单位</td>
 				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位"></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>加减分类型</td>
 				<td><select name="addSubtractTypeName" id="addSubtractTypeName4"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>翻译成白话文内容</td>
 				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent6" >${scoreModel.easyUnderstandContent }</textarea></td>
@@ -898,12 +916,16 @@ System.out.print(scoreModel);
 				<td><input name="intervalNumber" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
 			</tr>
 			<tr>
+				<td>加减分类型</td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName7"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+			</tr>
+			<tr>
 				<td style="width: 300px;">加减分分值</td>
 				<td><input name="score" id="score" value="${scoreModel.score }" title="加减多少分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，低于截止数为0分"></td>
+				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，高于截止数为0分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -963,12 +985,16 @@ System.out.print(scoreModel);
 				<td><input name="intervalNumber" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
 			</tr>
 			<tr>
+				<td>加减分类型</td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName8"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+			</tr>
+			<tr>
 				<td style="width: 300px;">加减分分值</td>
 				<td><input name="score" id="score" value="${scoreModel.score }" title="加减多少分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，低于截止数为0分"></td>
+				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，低于截止数为满分，如果减分，低于截止数为0分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>

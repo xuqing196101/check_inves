@@ -13,36 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
 <title>评审专家基本信息</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-
-<link href="${pageContext.request.contextPath}/public/backend/css/unify.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/global.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/backend/css/btn.css" media="screen" rel="stylesheet" type="text/css">
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-<script>
-	var globalPath = "${contextPath}";
-</script>
+<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
 <script type="text/javascript">
 	    var treeObj;
 		var datas;
@@ -60,7 +31,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$.each(obj,function(i,result){
 								if(addressId == result.id){
 									parentId = result.areaType;
-								$("#addr").append(result.name);
 								$("#add").append(result.name);
 								}
 							});
@@ -124,7 +94,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  listId=result;
 				  },
 				  error:function(result){
-					  alert("出错啦！");
 				  }
 			  }); 
 			  var expertsTypeId = $("#expertsTypeId").val();
@@ -151,7 +120,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							$.each( data,function(i,result){
 								 if(parentId == result.id){
 									$("#addr").append(result.name+",");
-									$("#qian").append(result.name+",");
 								}
 							});
 							//alert(JSON.stringify(obj));
@@ -269,7 +237,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  layer.msg("已暂存");
 			  },
 			  error:function(result){
-				  alert("出错啦！");
 			  }
 		});
 	}
@@ -762,7 +729,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <tr>
    		<td align="center">所在地区</td>
    		<td align="center" width="150px" >
-   		 <font id="qian"></font><font id="addr"></font>
+   		 <font id="add"></font><font id="addr"></font>
    		</td>
    		<td align="center">职称</td>
    		<td align="center" width="150px" id="tHey" colspan="2">${expert.professTechTitles}</td>

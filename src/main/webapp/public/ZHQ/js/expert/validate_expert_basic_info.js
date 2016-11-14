@@ -71,7 +71,7 @@ function validateForm1(){
 		layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
 		return false;
 	}
-	var id_areaSelect = $("#haha").val();
+	var id_areaSelect = $("#add").val();
 	if(!id_areaSelect){
 		layer.msg("请选择区域 !",{offset: ['222px', '390px']});
 		return false;

@@ -2,19 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="../../../common.jsp"%>
-
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家诚信列表</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    $(function(){
 		  laypage({
@@ -206,40 +198,6 @@
 			}
 		});
    	}
-   	/* $(document).ready(function() { 
-		 $("#creater").bind("keypress", function(event) {  
-	    var event= event || window.event;  
-	    var getValue = $(this).val();  
-	    //控制第一个不能输入小数点"."  
-	    if (getValue.length == 0 && event.which == 46) {  
-	        event.preventDefault();  
-	        return;  
-	    }  
-	    //控制只能输入一个小数点"."  
-	    if (getValue.indexOf('.') != -1 && event.which == 46) {  
-	        event.preventDefault();  
-	        return;  
-	    }  
-	    //控制只能输入的值  
-	    if (event.which && (event.which < 48 || event.which > 57) && event.which != 8 && event.which != 46) {  
-	        event.preventDefault();  
-	         return;  
-	        }  
-	    });  
-	    //失去焦点是触发  
-	    $("#creater").bind("blur", function(event) {  
-	    var value = $(this).val(), reg = /\.$/;  
-	    if (reg.test(value)) {  
-	    value = value.replace(reg, "");  
-	    $(this).val(value);  
-	    }  
-	    });  
-	});  */
-	/*  function textre(t) {
-	    t.value = t.value.replace(/[^(\-)0-9]/g,'').replace(/(^|\D)\.+/g,"$1").replace(/^(\-?\d*\.?\d*).*$/,"$1").replace(/^(\-?(\d\.?){1,4}).*$/,"$1");
-	}  */
-	
-	
 </script>
 </head>
 <body>
@@ -269,7 +227,7 @@
                     <td>
                     <span >关键字：</span><input type="text" id="relName" name="badBehavior" value="${expertCredible.badBehavior }">
                     </td>
-                    <td>
+                    <td>&nbsp;
 						 <span>状态：</span>
 						   <select  name="isStatus" id="expertsFrom" class="w178">
 						    <option selected="selected" value=''>-请选择-</option>
@@ -277,9 +235,9 @@
 						   	<option <c:if test="${expertCredible.isStatus ==2 }">selected</c:if> value="2">停用</option>
 						   </select>
 					</td>
-					<td>
-                          <input class="btn btn-windows "  value="搜索" type="submit">
-                          <input class="btn btn-windows" id="button" onclick="clearSearch();" value="重置" type="reset">
+					<td>&nbsp;
+                          <input class="btn"  value="搜索" type="submit">
+                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
                      </td>
                         </tr>
                         </table>

@@ -6,17 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<title>地区管理</title>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css"
-    href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css">
-<script type="text/javascript"
-    src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript"
-    src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript"
-    src="${pageContext.request.contextPath}//public/layer/layer.js"></script>
 <script type="text/javascript">
         var datas;
         var setting;

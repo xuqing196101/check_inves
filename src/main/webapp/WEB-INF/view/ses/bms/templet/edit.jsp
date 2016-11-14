@@ -44,14 +44,14 @@
 					<i>1</i>修改模板
 				</h2>
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 ">
+					<li class="col-md-3 margin-0 padding-0 mb5">
 					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
 						<div class="input-append mb0">
 							<input class="span5 mb0" name="name" type="text"
 								value="${templet.name}">
 								<span class="add-on">i</span>
 						</div>
-							<div id="contractCodeErr" class="clear red">${ERR_name}</div>
+						<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 					</li>
 					<li class="col-md-3 margin-0 padding-0 ">
 					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
@@ -88,7 +88,7 @@
 		//实例化编辑器
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 		var ue = UE.getEditor('editor');
-		var content = "${templet.content}";
+		var content = '${templet.content}';
 		ue.ready(function() {
 			ue.setContent(content);
 		});

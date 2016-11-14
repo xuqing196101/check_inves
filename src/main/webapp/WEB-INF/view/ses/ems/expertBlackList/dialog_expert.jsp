@@ -12,8 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 /*    $(function(){
       laypage({

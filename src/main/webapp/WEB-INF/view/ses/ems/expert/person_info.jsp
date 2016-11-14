@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="/tld/upload" prefix="up"%>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/expert_common.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -11,23 +11,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>专家个人信息</title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
 <script type="text/javascript">
 var treeObj;
 var datas;
-
 var parentId ;
 var addressId="${expert.address}"
 //alert(addressId);

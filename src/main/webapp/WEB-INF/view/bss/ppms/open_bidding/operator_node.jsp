@@ -49,7 +49,14 @@
 			    success: function(data) {
 			    	//$("#total_score").text(data.message);
 			    	//$("#remain_score").text(data.message);
-			    	parent.window.location.reload();
+			    	//parent.window.location.reload();
+			    	/* var zTree = $.fn.parent.zTree.getZTreeObj("treeDemo");  
+			    	var treeNode = [{"id":data.pTreeNode.id,"pid":data.pTreeNode.id,"name",data.pTreeNode.name}]
+			    	 zTree.addNodes(treeNode, { 
+                                    	id:data.treeNode.id, 
+                                        pId : data.treeNode.pid,  
+                                        name : data.treeNode.name 
+                                    }, true);  */
 			    	parent.layer.close(index); //执行关闭
 			    }
 			});

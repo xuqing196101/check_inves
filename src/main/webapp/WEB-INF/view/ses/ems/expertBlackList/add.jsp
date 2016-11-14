@@ -41,7 +41,7 @@
 	</div>
 	<!-- 表格开始-->
     <div class="container container_box">
-        <form action="<%=basePath %>expertBlacklist/saveBlacklist.do" method="post" id="form1"  class="registerform">
+        <form action="${pageContext.request.contextPath}/expertBlacklist/saveBlacklist.do" method="post" id="form1"  class="registerform">
             <input type="hidden" name="operationType" value="0">
             <h2 class="count_flow"><i>1</i>增加信息</h2>
             <ul class="ul_list">

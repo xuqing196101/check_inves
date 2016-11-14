@@ -62,6 +62,15 @@ public class FirstAuditController {
 			List<FirstAudit> list2 = service.getListByProjectId(projectId);
 			model.addAttribute("list", list2);
 			model.addAttribute("projectId", projectId);
+			Project project = projectService.selectById(projectId);
+			if(project!=null && project.getPurchaseType()!=null &&! project.getPurchaseType().equals("") && project.getPurchaseType().equals("询价采购")){
+				model.addAttribute("type", "询价");
+			}else if (project.getPurchaseType().equals("邀请招标")) {
+				model.addAttribute("type", "招标");
+			}else if (project.getPurchaseType().equals("公开招标")) {
+				model.addAttribute("type", "招标");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
