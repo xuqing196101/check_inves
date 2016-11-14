@@ -6,7 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
 
 <title>模版管理</title>
 
@@ -21,8 +20,8 @@
 
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -40,7 +39,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>templet/getAll.do?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/templet/getAll.do?page='+e.curr;
 		        }
 		    }
 		});
@@ -81,7 +80,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/templet/view.do?id="+id;
   	}
     function save(){
     	var id=[]; 
@@ -89,7 +88,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			 $.post("<%=basePath%>resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
+			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
 					  function(data){
 					    var tem=data;
 					    var ue = parent.UE.getEditor('editor'); 

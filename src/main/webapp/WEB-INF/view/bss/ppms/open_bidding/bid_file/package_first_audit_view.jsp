@@ -20,7 +20,7 @@
       		layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"<%=basePath%>open_bidding/confirmOk.html?projectId="+id,
+	 				url:"${pageContext.request.contextPath}/open_bidding/confirmOk.html?projectId="+id,
 	 				dataType: 'json',
 	 	       		success:function(result){
 	                   $("#queren").after("<a href='javascript:volid(0);' >05、已确认</a>");

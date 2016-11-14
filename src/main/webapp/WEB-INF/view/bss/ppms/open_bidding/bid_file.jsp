@@ -197,8 +197,8 @@
 	<div class="col-md-12 tab-pane active"  id="tab-1">
 	 <h1 class="f16 count_flow"><i>01</i>初审项定义</h1>
 	  <form action="">
-	  <input type="button" value="选择初审项模板" onclick="openTemplat();" class="btn btn-windows add"/>
-	  <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows ht_add"/>
+	  <input type="button" value="选择模板" onclick="openTemplat();" class="btn btn-windows add"/>
+	  <input type="button" value="添加" onclick="openWindow();" class="btn btn-windows add"/>
 	  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
 	  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
 	    <table class="table table-bordered table-condensed mt5">
