@@ -45,7 +45,7 @@
                  </tbody>
                  </table>
                  <h2 class="count_flow jbxx">须知文档内容</h2>
-                 <div class="col-md-12 pl200 fn mt5 pwr9">
+                 <div class="col-md-12  fn mt5 pwr9">
                      <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
                     <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
                 </div>
