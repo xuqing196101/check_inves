@@ -62,7 +62,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 	
 	
 	/**
-     * @Title: findSupplierDictionary
+     * @Title: getSupplierDictionary
      * @author: Wang Zhaohua
      * @date: 2016-11-9 上午11:34:27
      * @Description: 查询供应商相关字典集合
@@ -71,7 +71,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
      * @return: SupplierDictionaryData
      */
 	@Override
-	public SupplierDictionaryData findSupplierDictionary() {
+	public SupplierDictionaryData getSupplierDictionary() {
 		Map<String, Object> param = new HashMap<String, Object>();
 		SupplierDictionaryData supplierDictionaryData = new SupplierDictionaryData();
 		String[] strs = {
@@ -92,6 +92,12 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_PROFIT",//
 				"SUPPLIER_CASH_FLOW",//
 				"SUPPLIER_OWNER_CHANGE",//
+				"SUPPLIER_BUSINESS_CERT",//
+				"SUPPLIER_PRO_CERT",//
+				"SUPPLIER_SELL_CERT",//
+				"SUPPLIER_ENG_CERT",//
+				"SUPPLIER_SERVE_CERT",//
+				"SUPPLIER_ENG_CERT_FILE"//
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);
@@ -171,6 +177,30 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			}
 			if ("SUPPLIER_OWNER_CHANGE".equals(dictionaryData.getCode())) {
 				supplierDictionaryData.setSupplierOwnerChange(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_BUSINESS_CERT".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierBusinessCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_PRO_CERT".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierProCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_SELL_CERT".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierSellCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_ENG_CERT".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierEngCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_SERVE_CERT".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierServeCert(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_ENG_CERT_FILE".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierEngCertFile(dictionaryData.getId());
 				continue;
 			}
 		}

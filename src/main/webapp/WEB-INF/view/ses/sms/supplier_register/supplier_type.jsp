@@ -109,7 +109,7 @@
 					<div class="padding-top-10">
 						<div class="padding-top-20">
 							<div class="margin-bottom-0 tc">
-								<div class="w150 lr0_tbauto">
+								<div class="w220 lr0_tbauto">
 									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">

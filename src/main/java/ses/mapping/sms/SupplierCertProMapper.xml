@@ -10,7 +10,8 @@
 		<result column="EXP_START_DATE" property="expStartDate" />
 		<result column="EXP_END_DATE" property="expEndDate" />
 		<result column="MOT" property="mot" />
-		<result column="ATTACH" property="attach" />
+		<result column="FILE_NAME" property="attach" />
+		<result column="ID_" property="attachId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, MAT_PRO_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
@@ -96,9 +97,6 @@
 				#{attach},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertPro">
 		update T_SES_SMS_SUPPLIER_CERT_PRO
@@ -144,8 +142,22 @@
 	</update>
 	
 	<select id="findCertProBySupplierMatProId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_CERT_PRO where MAT_PRO_ID = #{supplierMatProId}
+		select 
+			t1.*,
+			t2.ID as ID_,
+			t2.NAME as FILE_NAME
+		from 
+			T_SES_SMS_SUPPLIER_CERT_PRO t1
+		left join 
+			T_SES_SMS_SUPPLIER_ATTACHMENT t2
+		on
+			t1.ID = t2.BUSINESS_ID
+		where 
+			t1.MAT_PRO_ID = #{supplierMatProId}
+		and
+			(t2.IS_DELETED = 0 or t2.IS_DELETED is null)
 	</select>
+	
 	
 	<!-- 资质证书信息 -->
 	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">

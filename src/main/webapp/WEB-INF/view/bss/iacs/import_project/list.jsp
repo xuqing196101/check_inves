@@ -79,12 +79,6 @@
 			<h2>合同列表</h2>
    		</div> 
 		
-		<!-- 按钮-->
-		<div class="col-md-8">
-			<button class="btn btn-windows add" type="button" onclick="add()">物资申请</button>
-		</div>
-	
-
 		<!-- 搜索条件 -->
 		<h2 class="search_detail">
 			<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/import_project/list.html" method="get">
@@ -106,6 +100,11 @@
 				<div class="clear"></div>
 			</form>
 		</h2>
+		
+		<!-- 按钮-->
+		<div class="col-md-8">
+			<button class="btn btn-windows add" type="button" onclick="add()">物资申请</button>
+		</div>
 	
 		<!-- 列表 -->
 		<div class="content table_box">

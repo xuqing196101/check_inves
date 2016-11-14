@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import common.model.UploadFile;
+
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAuditMapper;
@@ -17,7 +19,10 @@ import ses.dao.sms.SupplierMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
@@ -44,10 +49,14 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private SupplierAuditMapper supplierAuditMapper;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
 		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+		
 		String supplierTypeNames = "";
 		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
 			if (i > 0) {
@@ -56,6 +65,42 @@ public class SupplierServiceImpl implements SupplierService {
 			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
 		}
 		supplier.setSupplierTypeNames(supplierTypeNames);
+		
+		SupplierDictionaryData supplierDictionaryData = dictionaryDataServiceI.getSupplierDictionary();
+		List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
+		for (SupplierFinance sf : listSupplierFinances) {
+			List<UploadFile> listUploadFiles = sf.getListUploadFiles();
+			for (UploadFile uf : listUploadFiles) {
+				if (supplierDictionaryData.getSupplierProfit().equals(uf.getTypeId())) {
+					sf.setProfitListId(uf.getId());
+					sf.setProfitList(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierAuditOpinion().equals(uf.getTypeId())) {
+					sf.setAuditOpinionId(uf.getId());
+					sf.setAuditOpinion(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierLiabilities().equals(uf.getTypeId())) {
+					sf.setLiabilitiesListId(uf.getId());
+					sf.setLiabilitiesList(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierCashFlow().equals(uf.getTypeId())) {
+					sf.setCashFlowStatementId(uf.getId());
+					sf.setCashFlowStatement(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierOwnerChange().equals(uf.getTypeId())) {
+					sf.setChangeListId(uf.getId());
+					sf.setChangeList(uf.getName());
+					continue;
+				}
+			}
+		}
+		
+		
+		
 		return supplier;
 	}
 	

@@ -139,7 +139,7 @@ public class SupplierController extends BaseSupplierController {
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
 		if (this.validateRegister(request, model, supplier)) {
 			supplier = supplierService.register(supplier);
-			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			request.getSession().setAttribute("jump.page", "basic_info");
 			request.getSession().setAttribute("currSupplier", supplier);
@@ -393,7 +393,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "return_edit")
 	public String returnEdit(HttpServletRequest request, Supplier supplier) {
 		supplier = supplierService.get(supplier.getId());
-		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "basic_info");

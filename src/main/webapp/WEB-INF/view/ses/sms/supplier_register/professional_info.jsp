@@ -34,6 +34,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
 <script type="text/javascript">
 	
 	$(function() {
@@ -100,7 +101,7 @@
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId, //url
+				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId + '&sign=1', //url
 				closeBtn : 1, //不显示关闭按钮
 			});
 		}
@@ -609,8 +610,8 @@
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<%--<th class="info">附件</th>
-													--%></tr>
+														<th class="info">附件</th>
+													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
@@ -622,14 +623,7 @@
 															<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certPro.mot}</td>
-															<%--<td class="tc">
-																<c:if test="${certPro.attach != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certPro.attach}')">下载附件</a>
-																</c:if>
-																<c:if test="${certPro.attach == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${certPro.attachId}', '${sysKey}')">${certPro.attach}</a></td>
 														</tr>
 													</c:forEach>
 												</tbody>

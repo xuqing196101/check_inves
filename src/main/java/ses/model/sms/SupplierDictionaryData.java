@@ -40,6 +40,18 @@ public class SupplierDictionaryData implements Serializable {
 
 	private String supplierOwnerChange;
 
+	private String supplierBusinessCert;
+
+	private String supplierProCert;
+
+	private String supplierSellCert;
+
+	private String supplierEngCert;
+
+	private String supplierServeCert;
+
+	private String SupplierEngCertFile;
+
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
 	}
@@ -175,4 +187,53 @@ public class SupplierDictionaryData implements Serializable {
 	public void setSupplierOwnerChange(String supplierOwnerChange) {
 		this.supplierOwnerChange = supplierOwnerChange;
 	}
+
+	public String getSupplierBusinessCert() {
+		return supplierBusinessCert;
+	}
+
+	public void setSupplierBusinessCert(String supplierBusinessCert) {
+		this.supplierBusinessCert = supplierBusinessCert;
+	}
+
+	public String getSupplierProCert() {
+		return supplierProCert;
+	}
+
+	public void setSupplierProCert(String supplierProCert) {
+		this.supplierProCert = supplierProCert;
+	}
+
+	public String getSupplierSellCert() {
+		return supplierSellCert;
+	}
+
+	public void setSupplierSellCert(String supplierSellCert) {
+		this.supplierSellCert = supplierSellCert;
+	}
+
+	public String getSupplierEngCert() {
+		return supplierEngCert;
+	}
+
+	public void setSupplierEngCert(String supplierEngCert) {
+		this.supplierEngCert = supplierEngCert;
+	}
+
+	public String getSupplierServeCert() {
+		return supplierServeCert;
+	}
+
+	public void setSupplierServeCert(String supplierServeCert) {
+		this.supplierServeCert = supplierServeCert;
+	}
+
+	public String getSupplierEngCertFile() {
+		return SupplierEngCertFile;
+	}
+
+	public void setSupplierEngCertFile(String supplierEngCertFile) {
+		SupplierEngCertFile = supplierEngCertFile;
+	}
+
 }

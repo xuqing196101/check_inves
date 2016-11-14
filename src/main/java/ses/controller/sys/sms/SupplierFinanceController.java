@@ -45,7 +45,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 		model.addAttribute("supplierFinance", supplierFinance);
 		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		return "ses/sms/supplier_register/add_finance";
 	}
 	

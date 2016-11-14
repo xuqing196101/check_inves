@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -27,7 +28,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>var globalPath = "${contextPath}";</script>
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
@@ -53,8 +55,10 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<form id="cert_pro_form_id" method="post" target="_parent">
+							<input name="id" value="${uuid}" type="hidden" />
 							<input name="supplierId" value="${supplierId}" type="hidden" />
-							<input name="matProId" value="${matProId}" type="hidden" />
+							<input name="matProId" value="${supplierCertPro.matProId}" type="hidden" />
+							<input name="sign" value="${supplierCertPro.sign}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
@@ -90,15 +94,10 @@
 													<input class="span3" type="text" name="mot" />
 												</div>
 											</li>
-											<%--<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
-												<div class="input-append">
-													<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-														<input type="button" name="file" class="button" value="选择..."/>
-														<input name="attachFile" type="file" size="30"/>
-													</div>
-												</div>
-											</li>--%>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
+												<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
+												<up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}"/>
+											</li>
 											<div class="clear"></div>
 										</ul>
 									</div>

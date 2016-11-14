@@ -251,19 +251,17 @@
 			t1.*,
 			t2.ID as ID_,
 			t2.NAME as FILE_NAME,
-			t2.FILE_SIZE,
-			t3.NAME as NAME_
+			t2.TYPE_ID
 		from 
 			T_SES_SMS_SUPPLIER_FINANCE t1
 		left join
 			T_SES_SMS_SUPPLIER_ATTACHMENT t2
 		on
 			t1.ID = t2.BUSINESS_ID
-		left join 
-			T_SES_BMS_DICTIONARY_DATA t3
-		on
-			t2.TYPE_ID = t3.ID
-		where SUPPLIER_ID = #{SUPPLIER_ID}
+		where 
+			SUPPLIER_ID = #{SUPPLIER_ID}
+		and
+			(t2.IS_DELETED = 0 or t2.IS_DELETED is null)
 	</select>
 	
 	<resultMap type="ses.model.sms.SupplierFinance" id="findFinanceBySupplierId" extends="BaseResultMap">
@@ -271,7 +269,7 @@
 			<id column="ID_" property="id"/>
 			<result column="FILE_NAME" property="name"/>
 			<result column="FILE_SIZE" property="size"/>
-			<result column="NAME_" property="businessId"/>
+			<result column="TYPE_ID" property="typeId"/>
 		</collection>
 	</resultMap>
 	

@@ -15,10 +15,10 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	
 	@Override
 	public void saveOrUpdateCertPro(SupplierCertPro supplierCertPro) {
-		String id = supplierCertPro.getId();
-		if (id != null && !"".equals(id)) {
+		Integer sign = supplierCertPro.getSign();
+		if (sign == 2) {
 			supplierCertProMapper.updateByPrimaryKeySelective(supplierCertPro);
-		} else {
+		} else if (sign == 1) {
 			supplierCertProMapper.insertSelective(supplierCertPro);
 		}
 	}

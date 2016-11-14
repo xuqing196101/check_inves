@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import common.constant.Constant;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertProService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -31,11 +35,17 @@ public class SupplierCertProController extends BaseSupplierController {
 	private SupplierService supplierService;// 供应商基本信息
 	
 	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
 	private SupplierCertProService supplierCertProService;
 	
 	@RequestMapping(value = "add_cert_pro")
-	public String addCertPro(Model model, String matProId, String supplierId) {
-		model.addAttribute("matProId", matProId);
+	public String addCertPro(Model model, SupplierCertPro supplierCertPro, String supplierId) {
+		model.addAttribute("supplierCertPro", supplierCertPro);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_register/add_cert_pro";
 	}

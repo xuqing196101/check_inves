@@ -48,7 +48,20 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/login/login.*" />
 			
 			<!-- 供应商注册 -->
-			<mvc:exclude-mapping path="/supplier/*.*" />    
+			<mvc:exclude-mapping path="/supplier/*.*" /> 
+			<mvc:exclude-mapping path="/supplier_finance/*.*" />
+			<mvc:exclude-mapping path="/supplier_stockholder/*.*" />
+			<mvc:exclude-mapping path="/supplier_aptitute/*.*" />
+			<mvc:exclude-mapping path="/supplier_cert_eng/*.*" />
+			<mvc:exclude-mapping path="/supplier_cert_pro/*.*" />
+			<mvc:exclude-mapping path="/supplier_cert_se/*.*" />
+			<mvc:exclude-mapping path="/supplier_cert_sell/*.*" />
+			<mvc:exclude-mapping path="/supplier_item/*.*" />
+			<mvc:exclude-mapping path="/supplier_products/*.*" />
+			<mvc:exclude-mapping path="/supplier_type/*.*" />
+			<mvc:exclude-mapping path="/supplier_type_relate/*.*" />
+			<mvc:exclude-mapping path="/category/find_category.*" />
+			<mvc:exclude-mapping path="/categoryparam/flist_by_category_id_and_products_id.*" />
 			
 			<!-- 地区管理 -->
 			<mvc:exclude-mapping path="/area/find_root_area.*" />

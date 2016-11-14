@@ -2,7 +2,6 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
@@ -94,7 +93,7 @@ public class SupplierEditController extends BaseSupplierController{
 	@RequestMapping(value="add")
 	public String register(HttpServletRequest request,String id,Model model){
 		Supplier supplier=supplierAuditService.supplierById(id);
-		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.findSupplierDictionary());
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_apply_edit/add";

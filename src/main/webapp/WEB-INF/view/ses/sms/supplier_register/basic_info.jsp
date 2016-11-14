@@ -240,34 +240,6 @@
 		}
 	}
 	
-	function uploadNew(id) {
-		$("#" + id).find("div").remove();
-		var name = "";
-		if (id == "tax_li_id") {
-			name = "taxCertFile";
-		} else if (id == "bill_li_id") {
-			name = "billCertFile";
-		} else if (id == "security_li_id") {
-			name = "securityCertFile";
-		} else if (id == "breach_li_id") {
-			name = "breachCertFile";
-		}
-		var html = "<div class='input-append'>";
-		html += "<div class='uploader orange h32 m0 fz8'>";
-		html += "<input type='text' class='filename fz8 h32' readonly='readonly'/>";
-		html += "<input type='button' name='file' class='button' value='选择...'/>";
-		html += "<input name='"+ name +"' type='file' size='30'/>";
-		html += "</div>";
-		html += "</div>";
-		$("#" + id).append(html);
-		loadFilePlug();
-	}
-	
-	function downloadFile(fileName) {
-		$("input[name='fileName']").val(fileName);
-		$("#download_form_id").submit();
-	}
-	
 	function autoSelected(id, v) {
 		if (v) {
 			$("#" + id).find("option").each(function() {
@@ -279,6 +251,12 @@
 				}
 			});
 		}
+	}
+	
+	function checkAllForFinance(ele) {
+		var flag = $(ele).prop("checked");
+		$("#finance_list_tbody_id").find("input:checkbox").prop("checked", flag);
+		$("#finance_attach_list_tbody_id").find("input:checkbox").prop("checked", flag);
 	}
 </script>
 
@@ -415,20 +393,20 @@
 										</h2>
 										<ul class="list-unstyled list-flow">
 											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span>
-												<up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
-												<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+												<up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
+												<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
 											</li>
 											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
-												<up:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
-												<up:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+												<up:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
+												<up:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
 											</li>
 											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
-												<up:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
-												<up:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+												<up:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
+												<up:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
 											</li>
 											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
-												<up:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
-												<up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+												<up:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+												<up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
 											</li>
 											<div class="clear"></div>
 										</ul>
@@ -539,23 +517,10 @@
 													<input class="span3" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
 												</div>
 											</li>
-											<%--<li id="business_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照：</span>
-												<c:if test="${currSupplier.businessCert != null}">
-													<div>
-														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.businessCert}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('business_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.businessCert == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="businessCertFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>--%>
+											<li id="business_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照：</span>
+												<up:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+												<up:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}"/>
+											</li>
 											<li class="col-md-12 p0 mt10"><span class="fl">经营范围：</span>
 												<div class="col-md-9 mt5 p0">
 													<div class="col-md-12 p0">
@@ -611,14 +576,14 @@
 											<i>01</i>财务状况登记表
 										</h2>
 										<div class="overflow_h">
-										  <button type="button" class="btn fr mr0" onclick="deleteFinance()">删除</button>
-										  <button type="button" class="btn fr" onclick="openFinance()">新增</button>
+											<button type="button" class="btn fr mr0" onclick="deleteFinance()">删除</button>
+										  	<button type="button" class="btn fr" onclick="openFinance()">新增</button>
 										</div>
-										<table id="finance_table_id" class="table table-bordered table-condensed mt5">
+										<table class="table table-bordered table-condensed mt5">
 											<thead>
 												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'finance_list_tbody_id')" /></th>
-													<th class="info">年份</th>
+													<th class="w30"><input type="checkbox" onchange="checkAllForFinance(this)" /></th>
+													<th class="w50">年份</th>
 													<th class="info">会计实务所名称</th>
 													<th class="info">事务所联系电话</th>
 													<th class="info">审计人姓名</th>
@@ -646,65 +611,32 @@
 												</c:forEach>
 											</tbody>
 										</table>
-										<%--<div>
-											<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-												<h5>${finance.year}年</h5>
-												<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
-													<li class="col-md-6 p0"><span class="zzzx">财务审计报告的审计意见：</span>
-														 <up:show showId="auditopinion_show" groups="auditopinion_show" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
-													</li>
-													<li class="col-md-6 p0"><span class="zzzx">资产负债表：</span>
-														<div class="input-append">
-															<div class="input-append">
-														 	 	<c:if test="${finance.liabilitiesList != null}">
-														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.liabilitiesList}')">下载附件</a></span>
-														 		</c:if>
-													 			<c:if test="${finance.liabilitiesList == null}">
-														 	 		<span class="w70 fz11">无附件下载</span>
-														 		</c:if>
-															 </div>
-														</div>
-													</li>
-													<li class="col-md-6 p0"><span class="zzzx">利润表：</span>
-														<div class="input-append">
-															<div class="input-append">
-														 	 	<c:if test="${finance.profitList != null}">
-														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.profitList}')">下载附件</a></span>
-														 		</c:if>
-													 			<c:if test="${finance.profitList == null}">
-														 	 		<span class="w70 fz11">无附件下载</span>
-														 		</c:if>
-															 </div>
-														</div>
-													</li>
-													<li class="col-md-6 p0"><span class="zzzx">现金流量表：</span>
-														<div class="input-append">
-															<div class="input-append">
-														 	 	<c:if test="${finance.cashFlowStatement != null}">
-														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.cashFlowStatement}')">下载附件</a></span>
-														 		</c:if>
-													 			<c:if test="${finance.cashFlowStatement == null}">
-														 	 		<span class="w70 fz11">无附件下载</span>
-														 		</c:if>
-															 </div>
-														</div>
-													</li>
-													<li class="col-md-6 p0"><span class="zzzx">所有者权益变动表：</span>
-														<div class="input-append">
-															<div class="input-append">
-														 	 	<c:if test="${finance.changeList != null}">
-														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.changeList}')">下载附件</a></span>
-														 		</c:if>
-													 			<c:if test="${finance.changeList == null}">
-														 	 		<span class="w70 fz11">无附件下载</span>
-														 		</c:if>
-															 </div>
-														</div>
-													</li>
-													<div class="clear"></div>
-												</ul>
-											</c:forEach>
-										</div>--%>
+										<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
+											<thead>
+												<tr>
+													<th class="w30"><input type="checkbox" onchange="checkAllForFinance(this)" /></th>
+													<th class="w50">年份</th>
+													<th class="info">财务利润表</th>
+													<th class="info">审计报告的审计意见</th>
+													<th class="info">资产负债表</th>
+													<th class="info">现金流量表</th>
+													<th class="info">所有者权益变动表</th>
+												</tr>
+											</thead>
+											<tbody id="finance_attach_list_tbody_id">
+												<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
+													<tr>
+														<td class="tc"><input type="checkbox" value="${finance.id}" /></td>
+														<td class="tc">${finance.year}</td>
+														<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a></td>
+														<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a></td>
+														<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList}</a></td>
+														<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a></td>
+														<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a></td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
 									</div>
 								</div>
 

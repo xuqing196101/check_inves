@@ -78,6 +78,10 @@ public class SupplierCertPro implements Serializable {
 	 */
 	private String attach;
 
+	private String attachId;
+
+	private Integer sign;
+
 	public String getId() {
 		return id;
 	}
@@ -149,4 +153,21 @@ public class SupplierCertPro implements Serializable {
 	public void setAttach(String attach) {
 		this.attach = attach;
 	}
+
+	public String getAttachId() {
+		return attachId;
+	}
+
+	public void setAttachId(String attachId) {
+		this.attachId = attachId;
+	}
+
+	public Integer getSign() {
+		return sign;
+	}
+
+	public void setSign(Integer sign) {
+		this.sign = sign;
+	}
+
 }

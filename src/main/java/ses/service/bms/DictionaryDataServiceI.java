@@ -22,7 +22,7 @@ public interface DictionaryDataServiceI {
     List<DictionaryData> queryAudit(DictionaryData dd);
     
     /**
-     * @Title: findSupplierDictionary
+     * @Title: getSupplierDictionary
      * @author: Wang Zhaohua
      * @date: 2016-11-9 上午11:34:27
      * @Description: 查询供应商相关字典集合
@@ -30,5 +30,5 @@ public interface DictionaryDataServiceI {
      * @param: @return
      * @return: SupplierDictionaryData
      */
-    SupplierDictionaryData findSupplierDictionary();
+    SupplierDictionaryData getSupplierDictionary();
 }

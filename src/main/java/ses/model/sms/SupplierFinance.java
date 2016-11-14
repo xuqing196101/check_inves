@@ -98,6 +98,8 @@ public class SupplierFinance implements Serializable {
 	 */
 	private String auditOpinion;
 
+	private String auditOpinionId;
+
 	/**
 	 * <pre>
 	 * 资产负债表 上传
@@ -105,6 +107,8 @@ public class SupplierFinance implements Serializable {
 	 * </pre>
 	 */
 	private String liabilitiesList;
+
+	private String liabilitiesListId;
 
 	/**
 	 * <pre>
@@ -114,6 +118,8 @@ public class SupplierFinance implements Serializable {
 	 */
 	private String profitList;
 
+	private String profitListId;
+
 	/**
 	 * <pre>
 	 * 近三年现金流量表 上传
@@ -122,6 +128,8 @@ public class SupplierFinance implements Serializable {
 	 */
 	private String cashFlowStatement;
 
+	private String cashFlowStatementId;
+
 	/**
 	 * <pre>
 	 * 所有者权益变动表 上传
@@ -129,6 +137,8 @@ public class SupplierFinance implements Serializable {
 	 * </pre>
 	 */
 	private String changeList;
+
+	private String changeListId;
 
 	/**
 	 * <pre>
@@ -316,6 +326,46 @@ public class SupplierFinance implements Serializable {
 
 	public void setListUploadFiles(List<UploadFile> listUploadFiles) {
 		this.listUploadFiles = listUploadFiles;
+	}
+
+	public String getAuditOpinionId() {
+		return auditOpinionId;
+	}
+
+	public void setAuditOpinionId(String auditOpinionId) {
+		this.auditOpinionId = auditOpinionId;
+	}
+
+	public String getLiabilitiesListId() {
+		return liabilitiesListId;
+	}
+
+	public void setLiabilitiesListId(String liabilitiesListId) {
+		this.liabilitiesListId = liabilitiesListId;
+	}
+
+	public String getProfitListId() {
+		return profitListId;
+	}
+
+	public void setProfitListId(String profitListId) {
+		this.profitListId = profitListId;
+	}
+
+	public String getCashFlowStatementId() {
+		return cashFlowStatementId;
+	}
+
+	public void setCashFlowStatementId(String cashFlowStatementId) {
+		this.cashFlowStatementId = cashFlowStatementId;
+	}
+
+	public String getChangeListId() {
+		return changeListId;
+	}
+
+	public void setChangeListId(String changeListId) {
+		this.changeListId = changeListId;
 	}
 
 }
