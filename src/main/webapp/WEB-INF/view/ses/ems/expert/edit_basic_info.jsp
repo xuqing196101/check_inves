@@ -586,7 +586,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   </select>
 			 </li>
         </ul>
-         <div id="ztree" class="ztree"></div>
+         <div id="ztree" class="ztree" style="margin-left: 260px;"></div>
        </ul>
 		</div>
 	</div>

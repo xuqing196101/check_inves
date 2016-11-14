@@ -41,11 +41,11 @@
 			return;
 		}
 
-		var creater = $("#creater").val();
+		/* var creater = $("#creater").val();
 		if (!creater) {
 			layer.tips("请填写名称", "#creater");
 			return;
-		}
+		} */
 		var id2 = [];
 		$('input[name="isOpen"]:checked').each(function() {
 			id2.push($(this).val());
