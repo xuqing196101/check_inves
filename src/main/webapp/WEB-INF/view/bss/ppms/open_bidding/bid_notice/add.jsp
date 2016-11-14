@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="/tld/upload" prefix="p" %>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -54,6 +53,7 @@
 	              type: 2, //page层
 	              area: ['400px', '200px'],
 	              title: '发布招标公告',
+	             // skin: 'layui-layer-rim',
 	              closeBtn: 1,
 	              shade:0.01, //遮罩透明度
 	              shift: 1, //0-6的动画形式，-1不开启
@@ -66,13 +66,6 @@
 	            });
         	}
         }
-        //保存
-        //function save(){         
-        //    layer.prompt({title: '请输入招标公告名称', formType: 3}, function(text){
-        //    	$("#form").attr("action",'${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?name='+text);   
-        //        $("#form").submit();               
-        //     });
-       // }
        
        function save(){
        		$.ajax({
@@ -81,14 +74,18 @@
 			    dataType:'json',
 			    data : $('#form').serialize(),
 			    success: function(data) {
-			    	$("#articleId").val(data.obj.id);
-			        layer.msg(data.message,{offset: '222px'});
+			    	if(!data.success){
+                        layer.msg(data.message,{offset: ['220px']});
+                    }else{
+				    	$("#articleId").val(data.obj.id);
+				        layer.msg(data.message,{offset: '222px'});
+                    }
 			    }
 			});
        }
        
        $(function(){
-			var range="${range}";
+			var range="${article.range}";
 			if(range !=null && range != ""){
 				if(range==2){
 					$("input[name='ranges']").attr("checked",true); 
@@ -111,21 +108,22 @@
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
 	    </div>
+	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id }">
 	    <input type="hidden" name="id" id="articleId" value="${articleId }">
 	    <input type="hidden" name="projectId" value="${projectId }">
 		<div class="col-md-12 clear">
-			 <i class="red">*</i>公告标题：<br>
-			 <input class="col-md-12 w100p" id="name" name="name" value="${name }" type="text"><br>
-			 <i class="red">*</i>发布范围：<br>
+			 <span class="red">*</span>公告标题：<br>
+			 <input class="col-md-12 w100p" id="name" name="name" value="${article.name }" type="text"><br>
+			 <span class="red">*</span>发布范围：<br>
 			 <div class="input-append">
 	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="checkbox" name="ranges" value="1" >外网</label>
 	         </div><br>
-        	 <i class="red">*</i>公告内容：
+        	 <span class="red">*</span>公告内容：
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-             <i class="red">*</i>上传附件： 
-             <p:upload id="a" businessId="${projectId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             <p:show  showId="b"  businessId="${projectId }" sysKey="${sysKey }" typeId="${typeId }"/>
+                          上传附件： 
+             <p:upload id="a" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+             <p:show  showId="b"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
         </div>
       </form>
 				     
@@ -147,7 +145,7 @@
 
         }
     var ue = UE.getEditor('editor', option); 
-    var content = '${content}';
+    var content = '${article.content}';
 	    ue.ready(function(){
 	        //需要ready后执行，否则可能报错
 	       // ue.setContent("<h1>欢迎使用UEditor！</h1>");

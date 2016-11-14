@@ -61,7 +61,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>user/getOrgTree.do?",
+             url: "${pageContext.request.contextPath}/user/getOrgTree.do?",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -135,7 +135,7 @@
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>role/roletree.do?userId="+userId,
+             url: "${pageContext.request.contextPath}/role/roletree.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -165,7 +165,7 @@
 		}
 		
 		function back(){
-			window.location.href = '<%=basePath%>user/list.html?page=1';
+			window.location.href = '${pageContext.request.contextPath}/user/list.html?page=1';
 		}
 	</script>
 </head>
@@ -279,7 +279,7 @@
 					   	<input id="oId" name="orgId" value="${user.orgId }" type="hidden">
 				        <input id="orgSel" class="w250" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
 				        <i class="input_icon " onclick="showOrg();">
-							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+							<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
 			       	 <span class="checkUser"><sf:errors path="orgId"/></span>
 			       	</div>
@@ -298,7 +298,7 @@
 					   	<input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
 				        <input id="roleSel" class="w250" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
 				        <i class="input_icon " onclick="showRole();">
-							<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+							<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
 				        </i>
 				        <span class="checkUser"><sf:errors path="roleId"/></span>
 			        </div>
