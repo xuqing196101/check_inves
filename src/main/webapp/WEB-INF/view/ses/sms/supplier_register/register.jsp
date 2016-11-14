@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-
+<%--<%@ include file="../../../front.jsp" %>--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -61,8 +61,7 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
+	
 
 
 		<div class="container clear margin-top-30">
@@ -84,7 +83,7 @@
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> <input type="text" name="mobile" value="${supplier.mobile}" class="fl">
-								<button class="btn ml10">发送验证码</button>
+								<button type="button" class="btn ml10">发送验证码</button>
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
@@ -102,7 +101,7 @@
 								<div class="clear"></div>
 							</div>
 							<div class="tc mt10 clear col-md-12">
-								<button id="submit_button_id" type="submit" class="btn margin-5">下一步</button>
+								<button id="submit_button_id" type="submit" class="btn margin-5">注册</button>
 								<button type="button" class="btn margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</form>
@@ -115,10 +114,6 @@
 			</div>
 			
 		</div>
-
-
-		<!-- footer -->
-		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 	</div>
 </body>
 </html>

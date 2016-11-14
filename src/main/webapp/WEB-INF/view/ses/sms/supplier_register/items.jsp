@@ -1,7 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:if test="${currSupplier.status != 7}"><%@ include file="../../../../../index_head.jsp"%></c:if>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -23,16 +22,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-<c:if test="${currSupplier.status == 7}">
-	<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-	<script>var globalPath = "${contextPath}";</script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-</c:if>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
@@ -126,46 +120,8 @@
 					pIdKey : "parentId"
 				}
 			},
-			callback: {
-				onCheck: onCheck
-			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
-	}
-	
-	function onCheck(e, treeId, treeNode) {
-		var ids = "";
-		var flag = treeNode.checked;
-		var result = checkType();
-		var tree = $.fn.zTree.getZTreeObj(result.id);
-		var nodes = tree.getChangeCheckedNodes();
-		for (var i = 0; i < nodes.length; i++) {
-			if (!nodes[i].isParent) {
-				if (ids) {
-					ids += ",";
-				}
-				ids += nodes[i].id;
-			}
-		}
-		
-		if (ids) {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
-				type : "post",
-				data : {
-					ids : ids,
-					flag : flag,
-					type : result.type
-				},
-				dataType : "json",
-				success : function(result) {
-				},
-			});
-		}
-		
-		/**for (var i = 0; i < nodes.length; i++) {
-			nodes[i].checkedOld = nodes[i].checked;
-		}*/
 	}
 	
 
@@ -370,7 +326,5 @@
 		<input type="hidden" name="addServeCategoryIds" />
 		<input type="hidden" name="deleteServeCategoryIds" />
 	</form>
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
 </body>
 </html>
