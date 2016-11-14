@@ -24,7 +24,7 @@
 	  $("#contract").empty();
 	  $.ajax({
 		  contentType: "application/json;charset=UTF-8",
-		  url:"<%=basePath%>appraisalContract/selectContract.do?purchaseType="+type,
+		  url:"${pageContext.request.contextPath}/appraisalContract/selectContract.do?purchaseType="+type,
 	      type:"POST",
 	      dataType: "json",
 	      success:function(contracts){
@@ -52,7 +52,7 @@
 	  $("#purchaseDepName").val("");
 	  var id = $("#contract").val();
 	  $.ajax({
-		  url:"<%=basePath%>appraisalContract/selectContractId.do?id="+id,
+		  url:"${pageContext.request.contextPath}/appraisalContract/selectContractId.do?id="+id,
 	      type:"POST",
 	      success:function(contract){
 	    	  var con = JSON.parse(contract);

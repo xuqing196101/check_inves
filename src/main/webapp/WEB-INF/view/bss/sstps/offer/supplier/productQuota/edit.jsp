@@ -11,7 +11,7 @@
 <script type="text/javascript">
 function down(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath %>productQuota/select.html?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/select.html?proId="+proId;
 }
 </script>     
   </head>

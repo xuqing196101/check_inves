@@ -26,18 +26,18 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>appraisalContract/select.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/appraisalContract/select.html?page='+e.curr;
 		        }
 		    }
 		});
 });
 
 function add(){
-	window.location.href="<%=basePath %>appraisalContract/add.html";
+	window.location.href="${pageContext.request.contextPath}/appraisalContract/add.html";
 }
 
 function appraisal(id){
-	window.location.href="<%=basePath %>appraisalContract/selectContractInfo.html?id="+id;
+	window.location.href="${pageContext.request.contextPath}/appraisalContract/selectContractInfo.html?id="+id;
 }
 
 function resetQuery(){
@@ -66,7 +66,7 @@ function resetQuery(){
   <div class="container clear">
     <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form id="form1" action="<%=basePath %>appraisalContract/serch.html" method="post" class="mb0">
+       <form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>

@@ -39,14 +39,6 @@ public class ProductInfo {
 		this.id = id;
 	}
 
-	public ContractProduct getContractProduct() {
-		return contractProduct;
-	}
-
-	public void setContractProduct(ContractProduct contractProduct) {
-		this.contractProduct = contractProduct;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -110,5 +102,15 @@ public class ProductInfo {
 	public void setConclusion(String conclusion) {
 		this.conclusion = conclusion;
 	}
+
+	public ContractProduct getContractProduct() {
+		return contractProduct;
+	}
+
+	public void setContractProduct(ContractProduct contractProduct) {
+		this.contractProduct = contractProduct;
+	}
+	
+	
 
 }

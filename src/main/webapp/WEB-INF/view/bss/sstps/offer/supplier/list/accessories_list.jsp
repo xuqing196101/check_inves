@@ -9,19 +9,17 @@
     
     <title>原、辅材料工艺定额消耗明细表</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 
 function onStep(){
 	var productId = $("#proId").val();
-	window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+productId;
+	window.location.href="${pageContext.request.contextPath}/offer/selectProductInfo.do?productId="+productId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>outproductCon/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/outproductCon/view.do?proId="+proId;
 }
 
 $(document).ready(function() { 

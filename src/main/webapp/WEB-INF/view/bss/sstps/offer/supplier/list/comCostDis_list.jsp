@@ -9,19 +9,19 @@
     
     <title>综合费用汇总分配计算明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>productQuota/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/view.do?proId="+proId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>auditSummary/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/auditSummary/view.do?proId="+proId;
 }
 
 </script>
@@ -46,7 +46,7 @@ function nextStep(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="<%=basePath%>comCostDis/update.html?proId=${proId }" method="post" enctype="multipart/form-data">
+	<form id="formID" name="form1" action="${pageContext.request.contextPath}/comCostDis/update.html?proId=${proId }" method="post" enctype="multipart/form-data">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

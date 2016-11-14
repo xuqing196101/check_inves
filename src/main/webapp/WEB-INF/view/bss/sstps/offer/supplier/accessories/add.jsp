@@ -6,14 +6,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>添加</title>
 
 <script type="text/javascript">
 function down(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath %>accessoriesCon/select.html?proId="+proId;
+	window.location.href="${pageContext.request.contextPath }/accessoriesCon/select.html?proId="+proId;
 }
 </script>
   </head>
@@ -31,14 +30,14 @@ function down(){
    
    
   <div class="container bggrey border1 mt20"> 
-    <form action="<%=basePath %>accessoriesCon/save.html" method="post">
+    <form action="${pageContext.request.contextPath }/accessoriesCon/save.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    
    <div>
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="list-unstyled list-flow ul_list">
-   <li class="col-md-6 p0">
+   <li class="col-md-3 p0">
 	   <span class="">材料性质：</span>
 	   <div class="">
         <select class="w220" id="productNature" name="productNature">
@@ -48,21 +47,21 @@ function down(){
 		 <div class="validate">${ERR_productNature}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
+	 <li class="col-md-3  p0 ">
 	   <span class=""><i class="red">＊</i>材料名称：</span>
 	   <div class="input-append">
         <input type="text" id="stuffName" name="stuffName" value="${acc.stuffName }" class="w220">
         <div class="validate">${ERR_stuffName}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
+	 <li class="col-md-3  p0 ">
 	   <span class=""><i class="red">＊</i>规格型号：</span>
 	   <div class="input-append">
         <input id="norm" name="norm" type="text" value="${acc.norm }" class="w220">
         <div class="validate">${ERR_norm}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
+	 <li class="col-md-3  p0 ">
 	   <span class=""><i class="red">＊</i>图纸位置号(代号)：</span>
 	   <div class="input-append">
         <input id="paperCode" name="paperCode" type="text" value="${acc.paperCode }" class="w220">

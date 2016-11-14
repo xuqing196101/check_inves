@@ -12,7 +12,7 @@ public interface ProductInfoMapper {
 
     int update(ProductInfo record);
     
-    ProductInfo selectByProduct(ProductInfo record);
+    ProductInfo selectByProduct(String proId);
 
     
 }

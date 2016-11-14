@@ -179,9 +179,9 @@ public class OfferController {
 		}else{
 			url="bss/sstps/offer/supplier/list/list";
 		}
-		ProductInfo ProductI = new ProductInfo();
-		ProductI.setContractProduct(contractProduct);
-		ProductInfo productInfo = productInfoService.selectInfo(ProductI);
+//		ProductInfo ProductI = new ProductInfo();
+//		ProductI.setContractProduct(contractProduct);
+		ProductInfo productInfo = productInfoService.selectInfo(productId);
 		model.addAttribute("productInfo", productInfo);
 		return url;
 	}
@@ -237,9 +237,9 @@ public class OfferController {
 		
 		String url="bss/sstps/offer/userAppraisal/list/list";
 		
-		ProductInfo ProductI = new ProductInfo();
-		ProductI.setContractProduct(contractProduct);
-	 	ProductInfo productInfo = productInfoService.selectInfo(ProductI);
+//		ProductInfo ProductI = new ProductInfo();
+//		ProductI.setContractProduct(contractProduct);
+	 	ProductInfo productInfo = productInfoService.selectInfo(productId);
 		model.addAttribute("productInfo", productInfo);
 		
 		return url;

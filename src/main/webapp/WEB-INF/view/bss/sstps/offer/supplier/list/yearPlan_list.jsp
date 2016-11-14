@@ -9,19 +9,17 @@
     
     <title>年度计划任务总工时明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>periodCost/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/periodCost/view.do?proId="+proId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>productQuota/view.do?proId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/view.do?proId="+proId;
 }
 
 </script>
