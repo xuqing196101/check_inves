@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${currSupplier.status != 7}"><%@ include file="../../../../../index_head.jsp"%></c:if>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,16 +21,10 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-<c:if test="${currSupplier.status == 7}">
-	<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-	<script>var globalPath = "${contextPath}";</script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-</c:if>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 
 	$(function() {
@@ -199,7 +192,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
 </body>
 </html>

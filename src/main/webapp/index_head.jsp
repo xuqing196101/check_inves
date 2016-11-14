@@ -481,7 +481,7 @@ function kaptcha(){
 	     <div class="col-md-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 mt20 supp_login">
-	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html">
+	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html" target="_plant">
 		     供应商注册
 		     <i></i>
 		    </a>	  

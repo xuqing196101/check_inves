@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-
+<%--<%@ include file="../../../front.jsp" %>--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -41,8 +41,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<div class="container content height-350 job-content ">
 
@@ -72,7 +70,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- footer -->
-	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>
