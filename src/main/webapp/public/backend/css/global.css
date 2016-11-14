@@ -834,6 +834,8 @@ li:first-child {
     line-height:25px;
     margin-right: 5px;
     display: inline-block;
+    font-size:small;
+    color:#ef0000;
 }
 .dnone{
 	display: none;
@@ -841,7 +843,6 @@ li:first-child {
 }
 .tnone{
 	display: none;
-<<<<<<< Updated upstream
 }
 /* 提示信息样式 */
 .cue{
@@ -923,8 +924,6 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
-=======
-}
 /* 档案样式添加 */
 .dangan_file{
 	font-size:26px;
@@ -940,4 +939,3 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
->>>>>>> Stashed changes
