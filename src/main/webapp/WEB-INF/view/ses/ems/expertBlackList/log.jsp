@@ -55,32 +55,32 @@
     </div>
   </div>
     <div class="container">
-    <div class="p10_25">
-      <form action="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
-        <input type="hidden" name="page" id="page">
-            <ul class="demand_list">
-              <li class="fl">
-                <label class="fl mt5">专家姓名：</label>
-                <input type="text" id="expertId" name="expertId" class="mb0 mt5" value="${expertName }">
-              </li>
-              <li class="fl">
-                 <label class="fl mt5">操作类型：</label>
-                   <select name="operationType"  id="operationType" class="mb0 mt5">
-                    <option value="">-请选择-</option>
-                      <option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
-                      <option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>
-                      <option <c:if test="${operationType =='2' }">selected</c:if> value="2">移除</option>
-                  </select>
-              </li>
-             <li>
-               <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-               <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
-             </li>
-        </ul>
-      <div class="clear"></div>
-  </form>
-  </div>
-  </div>
+    <h2 class="search_detail">
+	      <form action="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html"  method="post" id="form1" enctype="multipart/form-data" class="mb0"> 
+	        <input type="hidden" name="page" id="page">
+	            <ul class="demand_list">
+	              <li >
+	                <label class="fl">专家姓名：</label>
+	                <input type="text" id="expertId" name="expertId" class="" value="${expertName }">
+	              </li>
+	              <li>
+	                 <label class="fl">操作类型：</label>
+	                   <select name="operationType"  id="operationType" class="w178">
+	                    <option value="">-请选择-</option>
+	                      <option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
+	                      <option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>
+	                      <option <c:if test="${operationType =='2' }">selected</c:if> value="2">移除</option>
+	                  </select>
+	              </li>
+	             <li>
+	               <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+	               <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
+	             </li>
+	        </ul>
+	       <div class="clear"></div>
+	       </form>
+        </h2>
+    </div>
   
   <div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">

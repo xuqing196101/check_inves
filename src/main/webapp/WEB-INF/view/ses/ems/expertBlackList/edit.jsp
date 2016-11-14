@@ -11,8 +11,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+
 <script type="text/javascript">
   /** 初始化下拉框*/
   $(function(id) {
@@ -58,38 +57,40 @@
 		        <li class="col-md-3 margin-0 padding-0 ">
                     <span class="col-md-12 padding-left-5"><i class="red">＊</i>入库时间：</span>
                     <div class="input-append">
-                        <input class="span5"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
+                        <input class="Wdate w230"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <font id="nameFont2"></font>
-                        <span class="add-on">i</span>
                     </div>
                   </li> 
-		        <li class="col-md-3 margin-0 padding-0 ">
+		          <li class="col-md-3 margin-0 padding-0 ">
 			        <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚时限：</span>
-			        <select class="span5" name="punishDate">
-					  		<option value="">请选择</option>
-					  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>3个月</option>
-					  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>6个月</option>
-					  		<option value="一年" <c:if test="${'一年' eq expert.punishDate}">selected</c:if>>一年</option>
-					  		<option value="两年" <c:if test="${'两年' eq expert.punishDate}">selected</c:if>>两年</option>
-					  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>
-				      </select>
+			        <div class="select_common">
+				        <select class="span5" name="punishDate">
+						  		<option value="">请选择</option>
+						  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>3个月</option>
+						  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>6个月</option>
+						  		<option value="一年" <c:if test="${'一年' eq expert.punishDate}">selected</c:if>>一年</option>
+						  		<option value="两年" <c:if test="${'两年' eq expert.punishDate}">selected</c:if>>两年</option>
+						  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>
+					      </select>
+					</div>
 			      </li>
 			      <li class="col-md-3 margin-0 padding-0 ">
                     <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚日期：</span>
                     <div class="input-append">
-                        <input class="span5"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
+                        <input class="Wdate w230"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <font id="nameFont2"></font>
-                        <span class="add-on">i</span>
                     </div>
                 </li>
 		        <li class="col-md-3 margin-0 padding-0 ">
 			        <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚方式：</span>
-			  	    <select class="span5" name="punishType">
-					  	<option value="">请选择</option>
-					  	<option value="1" <c:if test="${'1' eq expert.punishType}">selected</c:if>>警告</option>
-					    <option value="2" <c:if test="${'2' eq expert.punishType}">selected</c:if>>严重警告</option>
-					    <option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
-				    </select>
+			        <div class="select_common">
+				  	    <select class="span5" name="punishType">
+						  	<option value="">请选择</option>
+						  	<option value="1" <c:if test="${'1' eq expert.punishType}">selected</c:if>>警告</option>
+						    <option value="2" <c:if test="${'2' eq expert.punishType}">selected</c:if>>严重警告</option>
+						    <option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
+					    </select>
+				    </div>
 				</li> 
 				<li class="col-md-11 margin-0 padding-0 ">
 					<span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚理由：</span>
