@@ -28,20 +28,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+	
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
     <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
     <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 </head>
-
+<script type="text/javascript">
+	$(function(){
+	    $("#menu a").click(function() {
+		    $('#menu li').each(function(index) {
+			    $(this).removeClass('active');  // 删除其他兄弟元素的样式
+			  });
+	        $(this).parent().addClass('active');                            // 添加当前元素的样式
+	    });
+	}); 
+	
+	function back(page){
+		location.href = '<%=basePath%>project/list.html?page='+page;
+	}
+</script>
 <body>
   
    <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		<ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li> 
+		   <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li><li><a href="">询价采购项目实施</a></li> 
 		</ul>
 	  </div>
    </div>
@@ -49,37 +63,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
    <!--=== Content Part ===-->
    <div class="container content height-350">
-      <div class="row">
-          <!-- Begin Content -->
-          <div class="col-md-12" style="min-height:400px;">
-             <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-			  <div class="tag-box tag-box-v3">
-				<ul id="ztree_show" class="ztree">
-				  <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
-				    <span id="ztree_show_1_switch" title="" class="button level0 switch root_close" treenode_switch=""></span>
-					<a id="ztree_show_1_a" class="level0" treenode_a="" onClick="" target="_blank" style="" title="xxxx有限公司">
-					<span id="ztree_show_1_ico" title="" treenode_ico="" class="button ico_close" style=""></span>
-					<span id="ztree_show_1_span">xxxx有限公司</span></a>
-				  </li>
-				</ul>
-			  </div>
-			 </div>
-			 <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-				<div class="tab-content">
-		  			<div class="tab-pane fade active in" id="show_ztree_content">
-						<div class="panel-heading overflow-h margin-bottom-20 no-padding" id="ztree_title">
-				          <div class="pull-right">
-					        <a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-search-plus"></i> 详细</a> 
-							<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-wrench"></i> 修改</a> 
-							<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i> 增加下属单位</a> 
-							<a class="btn btn-sm btn-default" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
-				          </div>
-						 </div>
-					 </div>
-				</div>
-			 </div>
-		  </div>
-	  </div>
-   </div><!--/container-->
+            <div class="row">
+                <!-- Begin Content -->
+                  <div class="col-md-12" style="min-height:400px;">
+                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+	                     <ul class="btn_list" id="menu">
+						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
+						   <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制询价文件</a></li>
+						   <li><a href="<%=basePath%>open_bidding/firstAduitView.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确认询价文件</a></li>
+						   <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
+						   <li><a href="<%=basePath%>saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
+						   <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
+						   <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
+						   <li><a href="<%=basePath%>open_bidding/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制中标公告</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认成交供应商</a></li>
+						 </ul>
+					  </div>
+					  <script type="text/javascript" language="javascript">   
+						function iFrameHeight() {   
+						var ifm= document.getElementById("open_bidding_iframe");   
+						var subWeb = document.frames ? document.frames["open_bidding_iframe"].document : ifm.contentDocument;   
+						if(ifm != null && subWeb != null) {
+						   ifm.height = subWeb.body.scrollHeight;
+						   /*ifm.width = subWeb.body.scrollWidth;*/
+						}   
+						}   
+						</script>
+					  <!-- 右侧内容开始-->
+					  <div class="tag-box tag-box-v4 col-md-9" >
+						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
+					  </div>
+					  <div class="col-md-12 tc mt20" >
+					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
+       	   			  </div>
+				  </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div><!--/container-->
 </body>
 </html>
