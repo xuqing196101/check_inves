@@ -517,35 +517,9 @@ public class OpenBiddingController {
     @ResponseBody 
     public void confirmOk(HttpServletRequest request, HttpServletResponse response, String projectId, String flowDefineId) throws Exception{
         try {
-            //确认初审项
-            List<FirstAudit> firstAudits = auditService.getListByProjectId(projectId);
-            for (FirstAudit firstAudit : firstAudits) {
-                firstAudit.setIsConfirm((short)1);
-                auditService.update(firstAudit);
-            }
-            //确认初审项关联
-            PackageFirstAudit packageFirstAudit = new PackageFirstAudit();
-            packageFirstAudit.setProjectId(projectId);
-            packageFirstAudit.setIsConfirm((short)1);
-            packageFirstAuditService.update(packageFirstAudit);
-            
-            //确认评分办法
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("projectId", projectId);
-            List<Packages> packagesLsit = packageService.findPackageById(map);
-            if (packagesLsit != null && packagesLsit.size() > 0){
-                for (Packages packages : packagesLsit) {
-                    ScoreModel scoreModel = new ScoreModel();
-                    scoreModel.setPackageId(packages.getId());
-                    List<ScoreModel> scoreModels = scoreModelService.findListByScoreModel(scoreModel);
-                    if(scoreModels.size() > 0){
-                        for (ScoreModel scoreModel2 : scoreModels) {
-                            scoreModel2.setStatus("1");
-                            scoreModelService.updateScoreModel(scoreModel2);
-                        }
-                    }
-                }
-            }
+            Project project = projectService.selectById(projectId);
+            project.setConfirmFile(1);
+            projectService.update(project);
             //该环节设置为执行完状态
             flowExe(request, flowDefineId, projectId, 1);
             String msg = "确认成功";
