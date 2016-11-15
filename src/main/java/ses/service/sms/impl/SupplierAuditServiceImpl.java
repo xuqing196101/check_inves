@@ -176,7 +176,34 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
-		return supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+		List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+		SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
+		for (SupplierStars ss : listSupplierStars) {
+			for (Supplier s : listSupplier) {
+				Integer score = s.getScore();
+				Integer oneStars = ss.getOneStars();
+				Integer twoStars = ss.getTwoStars();
+				Integer threeStars = ss.getThreeStars();
+				Integer fourStars = ss.getFourStars();
+				Integer fiveStars = ss.getFiveStars();
+				if (score < oneStars) {
+					s.setLevel("无级别");
+				} else if (score < twoStars) {
+					s.setLevel("一级");
+				} else if (score < threeStars) {
+					s.setLevel("二级");
+				} else if (score < fourStars) {
+					s.setLevel("三级");
+				} else if (score < fiveStars) {
+					s.setLevel("四级");
+				} else {
+					s.setLevel("五级");
+				}
+			}
+		}
+		return listSupplier;
 	}
 	
 	@Override

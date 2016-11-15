@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE html>
@@ -221,20 +222,24 @@ function fanhui(){
 							<td class="bggrey">邮编：</td>
 							<td>${suppliers.postCode }</td>
 							<td class="bggrey">近三个月完税凭证：</td>
-							<td onmouseover="out('${suppliers.taxCert }')"
-							 onclick="downloadFile('${suppliers.taxCert}')">${fn:substring(suppliers.taxCert,0,10)}...</td>
+							<td>
+								<up:show showId="taxcert_show" delete="flase" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+							</td>
 						</tr> 
 						
 						<tr>
 							<td class="bggrey">近三年银行账单：</td>
-							<td onmouseover="out('${suppliers.billCert }')"
-							 onclick="downloadFile('${suppliers.billCert}')">${fn:substring(suppliers.billCert,0,10)}...</td>
+							<td>
+								<up:show showId="billcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+							 </td>
 							<td class="bggrey">近三个月保险凭证：</td>
-							<td  onmouseover="out('${suppliers.securityCert }')"
-							onclick="downloadFile('${suppliers.securityCert}')">${fn:substring(suppliers.securityCert,0,10)}...</td>
+							<td>
+								<up:show showId="curitycert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+							</td>
 							<td class="bggrey">近三年违法记录：</td>
-							<td onmouseover="out('${suppliers.breachCert }')"
-							onclick="downloadFile('${suppliers.breachCert}')">${fn:substring(suppliers.breachCert,0,10)}...</td>
+							<td>
+								<up:show showId="bearchcert_show" delete="flase" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+							</td>
 						</tr>
 						</tbody>
                 </table>

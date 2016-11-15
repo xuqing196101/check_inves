@@ -127,11 +127,11 @@
 	  <li class="col-md-3 margin-0 padding-0 ">
 		   <span class="col-md-12 padding-left-5">企业地址：</span>
      	   <div class="select_common">
-     		    <select id="choose1" class="w100" onchange="fun();">
-					<option  class="w100" >-请选择-</option>
+     		    <select id="choose1" class="w120" onchange="fun();">
+					<option  class="w120" >-请选择-</option>
 				</select>
-				<select name="address" class="w100" id="choose2">
-					<option class="w100">-请选择-</option>
+				<select name="address" class="w120" id="choose2">
+					<option class="w120">-请选择-</option>
 				</select>
 				<div class="cue">${ERR_address}</div>
 			</div>

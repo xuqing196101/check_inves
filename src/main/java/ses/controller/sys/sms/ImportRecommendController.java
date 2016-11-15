@@ -102,17 +102,21 @@ public class ImportRecommendController extends BaseSupplierController{
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			List<User> users = userService.findByLoginName(ir.getLoginName());
-			if(users.size() > 0){
-				model.addAttribute("ERR_loginName", "用户名已存在");
-			}
+			
 			if(ir.getAddress().equals("-请选择-")){
 				model.addAttribute("ERR_address", "企业地址不能为空");
 			}
 			model.addAttribute("ir", ir);
 			return "ses/sms/import_recommend/add";
 		}
-		
+		if(ir.getLoginName()!=null){
+			List<User> users = userService.findByLoginName(ir.getLoginName());
+			if(users.size() > 0){
+				model.addAttribute("ERR_loginName", "用户名已存在");
+				model.addAttribute("ir", ir);
+				return "ses/sms/import_recommend/add";
+			}
+		}
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
 		ir.setCreator(user1.getRelName());
