@@ -87,7 +87,7 @@
     		}else if(count==1){
     			index = layer.open({
     		          type: 2, //page层
-    		          area: ['700px', '300px'],
+    		          area: ['500px', '300px'],
     		          title: '修改',
     		          shade:0.01, //遮罩透明度
     		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -153,7 +153,7 @@
    	function openWindow(){
 		index = layer.open({
 	          type: 1, //page层
-	          area: ['700px', '300px'],
+	          area: ['500px', '300px'],
 	          title: '新增',
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -257,7 +257,7 @@
 	</div>
    
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
@@ -296,15 +296,27 @@
  </div>
  <div id="openWindow"  style="display: none;">
 	<form action="${pageContext.request.contextPath}/credible/save.html" method="post" id="form2">
-     <table class="table table-bordered table-condensed">
-     <thead>
-      <tr>
-        <th>诚信内容:</th><td><input type="text"  maxlength="255" name="badBehavior" id="name"></td>
-        <th>状态:</th><td><input type="radio"  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" id="kind" value="2" >停用</td>
-        <th>分值:</th><td><input name="score"  maxlength="10" id="creater" type="text"></td>
-      </tr>
-     </thead>
-    </table>
+	 <ul class="list-unstyled">
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">诚信内容</label>
+                  <span class="col-md-12">
+                    <input type="text"  maxlength="255" name="badBehavior" id="name">
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">状态</label>
+                  <span class="col-md-12">
+                   <input type="radio"  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" id="kind" value="2" >停用
+                  </span>
+                </li>
+                <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20">分值</label>
+                  <span class="col-md-12">
+                   <input name="score"  maxlength="10" id="creater" type="text">
+                  </span>
+                </li>
+                <div class="clear"></div>
+               </ul>
     <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
     <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
   </form>

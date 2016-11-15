@@ -64,7 +64,7 @@
 	   </ul>
 	 </div>
 	 <div class="content">
-    	<table class="table table-bordered table-condensed table-hover">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
 				<tr>
 				  <th class="w50 info">序号</th>

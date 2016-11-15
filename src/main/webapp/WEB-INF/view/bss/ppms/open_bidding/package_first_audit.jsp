@@ -97,8 +97,6 @@
 						   </ul>
 						 </div>
 						 <div class="tab-content clear step_cont">
-						 <!--第一个  -->
-						 <!--第二个 -->
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
 						 	<h1 class="f16 count_flow"><i>02</i>关联初审项</h1>
 						 	   <div class="container clear margin-top-30" id="package">
@@ -111,11 +109,16 @@
 								   		<input type="hidden" name="projectId" value="${projectId}">
 								   		<h4><span>包名:<span>${pack.name }</span></h4>
 								   		</span>
-									       <table class="table table-bordered table-condensed mt5">
+									       <table class="table table-bordered table-condensed table-hover table-striped">
 								 	            <h5>项目初审项信息</h5>
 											    <thead>
 											      <tr>
+											      <c:if test="${project.confirmFile != 1}">
 											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll(this)"  alt=""></th>
+											      </c:if>
+											       <c:if test="${project.confirmFile == 1}">
+											      	<th class="info w30"><input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll(this)"  alt=""></th>
+											      </c:if>
 											        <th>初审项名称</th>
 											        <th>要求类型</th>
 											        <th>创建人</th>
@@ -126,11 +129,20 @@
 												      <thead>
 												       <tr>
 												        <td class="tc w30">
+												        <c:if test="${project.confirmFile != 1}">
 													      <input  type="checkbox" value="${l.id }" name="chkItem"
 													         <c:forEach items="${idList }" var="id" varStatus="p">
 														 	      <c:if test="${id.firstAuditId==l.id && id.packageId==pack.id }"> checked</c:if>
 														 	 </c:forEach>
 													      >
+													    </c:if>
+													     <c:if test="${project.confirmFile == 1}">
+													      <input  type="checkbox" value="${l.id }" name="chkItem" disabled="disabled"
+													         <c:forEach items="${idList }" var="id" varStatus="p">
+														 	      <c:if test="${id.firstAuditId==l.id && id.packageId==pack.id }"> checked</c:if>
+														 	 </c:forEach>
+													      >
+													    </c:if>
 												        </td>
 												        <td align="center">${l.name } </td>
 												        <td align="center">${l.kind }</td>
@@ -139,7 +151,9 @@
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
+										      	  <c:if test="${project.confirmFile != 1}">
 										      	  <input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
+								   		  		  </c:if>
 								   		  </table>
 						   		      </form>
 								   </c:forEach>
