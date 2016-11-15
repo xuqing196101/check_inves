@@ -3,13 +3,12 @@
 
 
 <!-- 前端css样式 -->
-<link href="${pageContext.request.contextPath}/public/front/css/common.css" rel="stylesheet"  type="text/css" />
 <link href="${pageContext.request.contextPath}/public/front/css/bootstrap.min.css" rel="stylesheet"  type="text/css" />
+<link href="${pageContext.request.contextPath}/public/front/css/common.css" rel="stylesheet"  type="text/css" />
+<link href="${pageContext.request.contextPath}/public/front/css/global.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/front/css/style.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
-
 <script>
 	var globalPath = "${pageContext.request.contextPath}";
 </script>
