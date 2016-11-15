@@ -24,6 +24,24 @@ public class CategoryTree {
 	
 	private Integer isEnd;
 	
+	private Integer status;
+	
+	private String paramStatus;
+	
+	
+	
+	public String getParamStatus() {
+		return paramStatus;
+	}
+	public void setParamStatus(String paramStatus) {
+		this.paramStatus = paramStatus;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 	public Integer getIsEnd() {
 		return isEnd;
 	}
