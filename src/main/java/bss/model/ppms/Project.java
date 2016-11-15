@@ -109,6 +109,8 @@ public class Project {
     private Integer isProvisional;
     
     private Integer planType; //（1是货物，2是工程，3是服务）
+    
+    private Integer confirmFile; //确认制作招标文件内容。0：未确认  ，1：已确认
 
     private List<Packages> packagesList;
     
@@ -555,4 +557,14 @@ public class Project {
     public void setPlanType(Integer planType) {
         this.planType = planType;
     }
+
+    public Integer getConfirmFile() {
+        return confirmFile;
+    }
+
+    public void setConfirmFile(Integer confirmFile) {
+        this.confirmFile = confirmFile;
+    }
+    
+    
 }
