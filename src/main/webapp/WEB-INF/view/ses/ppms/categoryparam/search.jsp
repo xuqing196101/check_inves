@@ -1,16 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'search.jsp' starting page</title>
-    
+  <head>   
+    <title>My JSP 'search.jsp' starting page</title>   
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -19,14 +16,8 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -44,18 +35,17 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/search_orgnization.html?page="+e.curr;
+		            location.href = "${pageContext.request.contextPath}/categoryparam/search_orgnization.html?page="+e.curr;
 		        }
 		    }
 		});
 });
 function search(name){
 	var name =$("#input_cate").val();
-	alert(name);
-	window.location.href="<%=basePath%>categoryparam/search_categoryname.html?name="+name;
+	window.location.href="${pageContext.request.contextPath}/categoryparam/search_categoryname.html?name="+name;
 }
 function query(){
-	window.location.href="<%=basePath%>categoryparam/check_categoryparam.html";
+	window.location.href="${pageContext.request.contextPath}/categoryparam/check_categoryparam.html";
 }
 
 

@@ -178,5 +178,7 @@ import ses.model.sms.SupplierTypeTree;
    
     public List<Category> findByStatus(Map<String, Object> map);
     
-    List<Category> findByOrgId(Map<String, Object> map);
+    List<Category> findByOrgId(String id);
+    
+    List<Category> listByCateogryName(Map<String, Object> map);
 }

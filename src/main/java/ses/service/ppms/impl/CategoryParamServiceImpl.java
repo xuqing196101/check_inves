@@ -54,14 +54,6 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 		 categoryParamMapper.insertSelective(categoryParam);
 	}
 
-
-	@Override
-	public List<CategoryParam> findListByCategoryId(String id) {
-		// TODO Auto-generated method stub
-		return categoryParamMapper.findListByCategoryId(id);
-	}
-
-
 	@Override
 	public List<CategoryParam> findParamByCategoryIdAndProductsId(String categoryId, String productsId) {
 		Map<String, String> param = new HashMap<String, String>();
@@ -73,5 +65,21 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 		}
 		return list;
 	}
+	
+	@Override
+	public CategoryParam findByCategoryId(String id) {
+	    
+		return 	categoryParamMapper.findByCategoryId(id);
+		
+	}
 
+
+	@Override
+	public List<CategoryParam> findListByCategoryId(String categoryId) {
+		// TODO Auto-generated method stub
+		return categoryParamMapper.findListByCategoryId(categoryId);
+	}
+
+
+	
 }

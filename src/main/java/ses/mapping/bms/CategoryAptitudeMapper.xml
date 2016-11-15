@@ -55,6 +55,14 @@
          from T_SES_BMS_CATEGORY_APTITUDE
          where CATEGORY_ID =#{category.id}
     </select>
+    
+    <!--根据id查询资质文件  -->
+    <select id="findListByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
+    select 
+    <include refid="Base_Column_List" />
+         from T_SES_BMS_CATEGORY_APTITUDE
+         where CATEGORY_ID =#{category.id}
+    </select>
     <!-- 删除 -->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete 

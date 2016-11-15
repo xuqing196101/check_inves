@@ -79,8 +79,9 @@ public interface CategoryParamMapper {
 		* @Description: 根据品目id查询参数信息
 		* @param @param CategoryParam
 		*/
-	List<CategoryParam> findListByCategoryId(String id);
-	
-	
+
+	CategoryParam findByCategoryId(String id);
+	List<CategoryParam> findListByCategoryId(String categoryId);
+
 	List<CategoryParam> findParamByCategoryIdAndProductsId(Map<String, String> param);
 }

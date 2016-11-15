@@ -22,7 +22,7 @@ public interface CategoryParamService {
 	* @Description: 根据品目id查询参数信息
 	* @param @param CategoryParam
 	*/
-	 List<CategoryParam> findListByCategoryId(String id);
+	/*CategoryParam findByCategoryId(String id);*/
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
@@ -84,5 +84,8 @@ public interface CategoryParamService {
 	  * @param: @return
 	  * @return: List<CategoryParam>
 	  */
+
+	CategoryParam findByCategoryId(String id);
+	List<CategoryParam> findListByCategoryId(String categoryId);
 	 List<CategoryParam> findParamByCategoryIdAndProductsId(String categoryId, String productsId);
 }

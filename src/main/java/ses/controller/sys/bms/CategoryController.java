@@ -12,10 +12,14 @@ import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,12 +30,15 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAttachment;
 import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.util.PathUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+import common.constant.Constant;
 
 /**
  * 
@@ -51,6 +58,9 @@ public class CategoryController extends BaseSupplierController {
 
     @Autowired
 	private CategoryAttachmentService categoryAttachmentService;
+    
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
 	
 
 	public Map<String, Object> getListCategory() {
@@ -107,8 +117,9 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/get")
-	public String get(HttpServletRequest request) {
-		return "ses/bms/category/list";
+	public String get(HttpServletRequest request,Model model) {
+		model.addAttribute("cate",new Category());
+		return "ses/bms/category/lista";
 	}
 	
 	/**
@@ -140,9 +151,56 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") CommonsMultipartFile file,Category category, HttpServletRequest request) {
+	public String save(Category category,HttpServletRequest request,Model model) {
+		/*String categoryuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("categoryId", categoryuuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CATEGORY_ATTACHMENT");
+		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("categorySysKey", Constant.TENDER_SYS_KEY);
+		if(lists.size()>0){
+			model.addAttribute("attachTypeId", lists.get(0).getId());
+		}
+		*/
+		Boolean flag = true;
 		String name = request.getParameter("name");
-		category.setName(name);
+		List<Category> cate = categoryService.selectAll();
+		String catename="";
+		String pos = "";
+		String code ="";
+		for(int i=0;i<cate.size();i++){
+		catename+=cate.get(i).getName()+",";
+		pos+= cate.get(i).getPosition()+",";
+		code+= cate.get(i).getCode()+",";
+		}
+		String[] catenames = catename.split(",");
+		for (int i = 0; i < catenames.length; i++) {
+			if (name.equals(catenames[i])) {
+				flag = false;
+				model.addAttribute("name","目录不能重复");
+			}
+		}
+		if (name==null||name.equals("")) {
+			flag= false;
+			model.addAttribute("name", "目录不能为空");
+		}
+		Integer position = Integer.parseInt(request.getParameter("position"));
+		String[] poses = pos.split(",");
+		for (int i = 0; i < poses.length; i++) {
+			if (position.equals(poses[i])) {
+				flag = false;
+				model.addAttribute("position", "排序号不能重复");
+			}
+		}
+		if (position==null || position.equals("")) {
+			flag = false;
+			model.addAttribute("position", "排序号不能为空");
+		}
+		if (flag == false) {
+			model.addAttribute("", attributeValue)
+		}
+		
+		
 		category.setPosition(Integer.parseInt(request.getParameter("position")));
 		category.setKind(request.getParameter("kind"));
 		category.setStatus(1);
@@ -150,9 +208,12 @@ public class CategoryController extends BaseSupplierController {
 		category.setDescription(request.getParameter("description"));
 		category.setCreatedAt(new Date());
 		categoryService.insertSelective(category);
-		upload(request, file, category);
+		
+		
 		return "redirect:get.html";
-	}
+		}
+		
+		
 	
 	
 	/**

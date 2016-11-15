@@ -1,15 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>My JSP 'unrelease.jsp' starting page</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,8 +15,7 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
- <script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -37,13 +33,29 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/publish.html?page="+e.curr;
+		            location.href = "${pageContext.request.contextPath}/categoryparam/publish.html?page="+e.curr;
 		        }
 		    }
 		});
-});
-/** 单选 */
-function check(){
+    });
+    /** 全选全不选 */
+    function selectAll(){
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	 if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	   }
+    }
+    /** 单选 */
+    function check(){
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -60,21 +72,14 @@ function check(){
 				 }
 		   }
 	}
-function publish(){
-	
-	var id=[]; 
-	$('input[name="chkItem"]:checked').each(function(){ 
-		id.push($(this).val());
-	}); 
-	if(id.length==1){
-		
-		window.location.href="<%=basePath%>categoryparam/publish_category.html?id="+id;
-	}else if(id.length>1){
-		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-	}else{
-		layer.alert("请选择需要发布的产品参数",{offset: ['222px', '390px'], shade:0.01});
-	}
-}
+    function publish(){
+	    var ids=[]; 
+	        $('input[name="chkItem"]:checked').each(function(){ 
+		    ids.push($(this).val());
+	         }); 
+		window.location.href="${pageContext.request.contextPath}/categoryparam/publish_category.html?id="+ids;
+    }
+   
 </script>
   </head>
   <body>
@@ -90,16 +95,21 @@ function publish(){
 
    <div class="container">
    <div class="headline-v2">
-     <h2>待发布</h2>
+     <h2>发布</h2>
    </div>
  <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
+    	<form id="form" action="${pageContext.request.contextPath}/categoryparam/findCategory.html" method="post" class="mb0">
     	<ul class="demand_list">
-	    	<button type="button" onclick="publish()" class="btn">发布</button>
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
+    	  <li class="fl">
+	    	<label class="fl">产品名称：</label><span><input type="text" name="name" value="" class=""/></span>
+	      </li>
+        <input type="submit"  value="查询" class="btn"/>
+        <input type="button"  onclick="publish()" value="发布"   class="btn"/>
+        </ul>
+        <div class="clear"></div>
+        </form>
      </h2>
    </div>
   </div>
@@ -110,9 +120,9 @@ function publish(){
 	            <tr><th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	                <th class="info w80">序号</th>
 	                <th class="info">产品名称</th>
+	                <th class="info">产品编码</th>
 	                <th class="info">产品状态</th>
 	                <th class="info">是否公开</th>
-	                <th class="info">创建时间</th>
 	            </tr>
 	        </thead>	
 	        <c:forEach var="cate" items="${cate}" varStatus="vs">
@@ -120,6 +130,7 @@ function publish(){
 	            <td class="tc pointer"><input  onclick="check()" type="checkbox" name="chkItem" value="${cate.id}"/></td>
 	            <td class="w50 tc pointer" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	            <td class="tc pointer" >${cate.name }</td>
+	            <td class="tc pointer">${cate.code}</td>
 	            <td class="tc pointer" ><c:choose>
 						<c:when test="${cate.paramStatus=='3'}">
 							生效
@@ -129,8 +140,11 @@ function publish(){
 						<c:when test="${cate.isPublish=='1'}">
 							是
 						</c:when>
+						<c:when test="${cate.isPublish=='0'}">
+						      否
+						</c:when>
 					</c:choose></td>
-	            <td class="tc pointer">${cate.createdAt }</td>
+				
 	            </tr>
 	        </c:forEach>
 	</table>

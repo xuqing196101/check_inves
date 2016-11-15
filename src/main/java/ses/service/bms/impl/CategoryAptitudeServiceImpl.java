@@ -52,4 +52,10 @@ public class CategoryAptitudeServiceImpl implements CategoryAptitudeService{
 		return categoryAptitudeMapper.findSaleByCategoryId(id);
 	}
 
+	@Override
+	public List<CategoryAptitude> findListByCategoryId(String categoryId) {
+		// TODO Auto-generated method stub
+		return categoryAptitudeMapper.findListByCategoryId(categoryId);
+	}
+
 }

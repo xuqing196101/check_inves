@@ -6,27 +6,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'audit.jsp' starting page</title>
-    
+    <title>产品参数待审</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-
-  
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
+<script src="${pageContext.request.contextPath}public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -44,14 +35,14 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/search_category.html?page="+e.curr;
+		            location.href = "${pageContext.request.contextPath}/categoryparam/search_category.html?page="+e.curr;
 		        }
 		    }
 		});
   });
   function query(){
       var paramstatus =$("#paramstatus").val();
-      window.location.href="<%=basePath%>categoryparam/search_category.html?paramstatus="+paramstatus;
+      window.location.href="${pageContext.request.contextPath}/categoryparam/search_category.html?paramstatus="+paramstatus;
   }
   /** 单选 */
 function check(){
@@ -78,8 +69,7 @@ function check(){
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
-			window.location.href="<%=basePath%>categoryparam/query_category.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/categoryparam/query_category.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -104,7 +94,7 @@ function check(){
 
    <div class="container">
    <div class="headline-v2">
-     <h2>审核</h2>
+     <h2>待审核</h2>
    </div>
  <div class="container clear">
   <div class="p10_25">
@@ -132,7 +122,7 @@ function check(){
 		<thead>
 	            <tr><th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	                <th class="info w80">序号</th>
-	                <th class="info">产品名称</th>
+	                <th class="info">产品参数名称</th>
 	                <th class="info">产品状态</th>
 	                <th class="info">创建时间</th>
 	            </tr>
@@ -150,7 +140,7 @@ function check(){
 							暂存
 						</c:when>
 					</c:choose></td>
-	            <td class="tc pointer">${cate.createdAt }</td>
+	            <td class="tc pointer" ><fmt:formatDate value="${cate.createdAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 	            </tr>
 	        </c:forEach>
 	</table>

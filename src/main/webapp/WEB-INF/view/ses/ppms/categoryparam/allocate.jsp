@@ -5,9 +5,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
+  <head>  
     <title>My JSP 'allocate.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -18,12 +16,14 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
+ <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
+<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
+<script src="${pageContext.request.contextPath}public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 var datas;
 var treeid=null;
@@ -32,15 +32,12 @@ $(document).ready(function(){
 	    async:{
 				autoParam:["id","name"],
 				enable:true,
-				url:"<%=basePath%>category/createtree.do",
+				url:"${pageContext.request.contextPath}/category/createtree.do",
 				dataType:"json",
 				type:"post",
 			},
 			callback:{
 		    	onClick:zTreeOnClick,//点击节点触发的事件
-		    
-  			  /*    onNodeCreated: zTreeOnNodeCreated, */
-  			   
 		    }, 
 			data:{
 				keep:{
@@ -67,25 +64,29 @@ $(document).ready(function(){
 			},
 		   check:{
 			    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-       		    chkStyle:"checkbox",  
+       		    chkStyle:"checkbox",
+       		    nocheckInherit: false,
 				enable: true
 		   },
 		   view:{
 		        selectedMulti: false,
 		        showTitle: false,
 		   },
-};
-$.fn.zTree.init($("#ztree"),setting,datas); 
+     };
+        $.fn.zTree.init($("#ztree"),setting,datas); 
+        var treeObj = $.fn.zTree.getZTreeObj("ztree");
+        var nodes = treeObj.getNodes();
+        if (nodes.paramStatus=="已分配") {
+        	treeObj.updateNode(nodes);
+        }
+      }); 
 
-
-}); 
-
-/**点击事件*/
-function zTreeOnClick(event,treeId,treeNode){
+    /**点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
 	treeid=treeNode.id;
 	$("#cateid").val(treeid);
-}
-$(function(){
+        }
+     $(function(){
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -110,7 +111,6 @@ $(function(){
 		});
   });
 
-   
     /** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -128,8 +128,8 @@ $(function(){
 		 }
 	}
      /** 单选 */
-		
     function check(){
+    	 var sta = $("#status").parent().parent().find("td").slice(5,6).text();
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -151,7 +151,6 @@ $(function(){
 	
 	function allocate(){
 		var status =$("#all").val();
-		alert(status)
 		var ids=[];
 		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
 	     var nodes=treeObj.getCheckedNodes(true);  
@@ -159,38 +158,30 @@ $(function(){
 	        //获取选中节点的值  
 	         ids.push(nodes[i].id); 
 	     } 
-	     alert(ids);
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1&& ids.length!=0){
-			alert(ids);
-			window.location.href="<%=basePath%>categoryparam/edit_allocate.html?id="+id+"&ids="+ids+"&status="+status;
+			window.location.href="${pageContext.request.contextPath}/categoryparam/edit_allocate.html?id="+id+"&ids="+ids+"&status="+status;
 		}else if(id.length>1){
 			layer.alert("只能选择一个部门",{offset: ['222px', '390px'], shade:0.01});
 		}else if(ids.length<1) {
 			layer.alert("请选择需要分配的品目节点",{offset: ['222px', '390px'], shade:0.01});
 		
-		}else{
+		}else if(sta=="已分配"){
+			alert(sta);
 			layer.alert("请选择需要分配的部门",{offset: ['222px', '390px'], shade:0.01});
 		}
 	  }
-	function unall(){
+	function unallocate(){
+		var status =$("#unall").val();
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1&& ids.length!=0){
-			alert(ids);
-			window.location.href="<%=basePath%>categoryparam/abrogate_allocate.html?id="+id+"&status="+status;
-		}else if(id.length>1){
-			layer.alert("只能选择一个部门",{offset: ['222px', '390px'], shade:0.01});
-		
-		}else{
-			layer.alert("请选择需要分配的部门",{offset: ['222px', '390px'], shade:0.01});
-		}
-		
+		window.location.href="${pageContext.request.contextPath}/categoryparam/abrogate_allocate.html?id="+id+"&status="+status;
+			
 	}
 	
 	
@@ -213,11 +204,11 @@ $(function(){
 	 <div><ul id="ztree" class="ztree "></ul></div>
 	 </div>
      </div>
-   <div class=" tag-box tag-box-v4 mt10 col-md-9">
-   <form id="form" action="<%=basePath %>categoryparam/query_orgnization.html" method="post">
+   <div class=" tag-box tag-box-v3 mt10 col-md-9">
+   <form id="form" action="${pageContext.request.contextPath}/categoryparam/query_orgnization.html" method="post">
         <input type="hidden"/>
    		<input type="hidden" name="page" value="" id="page"/>	
-   		<span>事业单位：</span><input type="text" name="name" value="" class="mt10"/>
+   		<span class="ml40">事业单位：</span><input type="text" name="name" value="" class="mt10"/>
         <span>所属领导：</span><input type="text" name="princinpal" value="" class="mt10"/>
         <input type="hidden" value="" name="status" id="status"/>
         <input type="submit"  value="查询" class="btn"/>
@@ -226,7 +217,7 @@ $(function(){
         </form>
       
         <div class="p10_25">
-        <table class="table table-bordered table-condensedb mt15" >
+        <table class="table table-bordered table-condensedb mt15 ml10" >
             <thead>    
                 <tr>
                 <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>

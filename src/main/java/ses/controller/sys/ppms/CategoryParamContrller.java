@@ -1,37 +1,30 @@
 package ses.controller.sys.ppms;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-
-
-
-import net.sf.json.JSON;
-
+import javax.servlet.http.HttpSession;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.solr.common.util.Hash;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
@@ -40,21 +33,15 @@ import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
 import ses.service.bms.CategoryService;
-
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
-
-
-
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
-
-
 
 @Controller
 @Scope("prototype")
 @RequestMapping("/categoryparam")
-public class CategoryParamContrller extends BaseSupplierController{
+public class CategoryParamContrller extends BaseSupplierController {
 	@Autowired
 	private CategoryParamService categoryParamService;//品目参数
 	@Autowired
@@ -85,7 +72,7 @@ public class CategoryParamContrller extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/createtree")
-	public String getAll(Category category){
+	public String getAll(Category category,Orgnization orgnization){
 		if(category.getId()==null){
 				category.setId("0");
 		}	Gson gson = new Gson();
@@ -100,12 +87,13 @@ public class CategoryParamContrller extends BaseSupplierController{
 					cate.setIsEnd(1);
 				}else{
 					ct.setIsParent("false");
-					
 				}
 				ct.setId(cate.getId());
 				ct.setName(cate.getName());
 				ct.setpId(cate.getParentId());
+				ct.setParamStatus(orgnization.getStatus());
 				jList.add(ct);
+				
 				list=gson.toJson(jList);
 		}
 			return list;
@@ -130,17 +118,11 @@ public class CategoryParamContrller extends BaseSupplierController{
 	* @param @return  
 	* @return String
 	 */
+	
 	@RequestMapping("/save")
-	public String save(CategoryParam categoryParam ,
-			CategoryAptitude categoryAptitude,HttpServletRequest request,Model model){
-		/*if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			return "iss/ps/article/add";
-		}*/
-		Category category=categoryService.selectByPrimaryKey(request.getParameter("id"));
+	public String save(CategoryParam categoryParam,CategoryAptitude categoryAptitude,Category category,
+			Model model,HttpServletRequest request,HttpServletResponse response){
+		/*Category category=categoryService.selectByPrimaryKey(request.getParameter("id"));
 		category.setCreatedAt(new Date());
 		categoryParam.setCategory(category);
 		categoryAptitude.setCategory(category);
@@ -155,18 +137,173 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    category.setParamStatus(0);
 	    categoryService.updateByPrimaryKeySelective(category);
-	    categoryParam.setName(request.getParameter("names"));
-	    categoryParam.setValueType(request.getParameter("values"));
-	    categoryParam.setCreatedAt(new Date());
-		categoryParamService.insertSelective(categoryParam);
-		String productNames= request.getParameter("products");
-		categoryAptitude.setProductName(productNames);
-		String saleNames = request.getParameter("sales");
-	   	categoryAptitude.setCreatedAt(new Date());
-	   	categoryAptitude.setSaleName(saleNames);
-	   	categoryAptitudeService.insertSelective(categoryAptitude);
+	    String name = request.getParameter("names");
+	    String[] names = name.split(",");
+	    String value = request.getParameter("values");
+	    String[] values = value.split(",");
+	    for (int i = 0; i < names.length; i++) {
+			categoryParam.setName(names[i]);
+			categoryParam.setValueType(values[i]);
+			categoryParam.setCreatedAt(new Date());
+			categoryParamService.insertSelective(categoryParam);
+		}
+	    String product = request.getParameter("products");
+	    String[] productname = product.split(",");
+	    String sale = request.getParameter("sales");
+	    String[] salename = sale.split(",");
+	    for (int i = 0; i < productname.length; i++) {
+			categoryAptitude.setProductName(productname[i]);
+			categoryAptitude.setCreatedAt(new Date());
+		}
+	    for (int i = 0; i < salename.length; i++) {
+			categoryAptitude.setSaleName(salename[i]);
+			categoryAptitude.setCreatedAt(new Date());
+		}
+	    categoryAptitudeService.insertSelective(categoryAptitude);*/
+		Boolean flag = true;
+		String name = request.getParameter("names");
+		String[] names = name.split(",");
+		for (int i = 0; i < names.length; i++) {
+			if (names[i]==null ||names[i].equals("")) {
+				flag = false;
+				allListNews.put("name", "参数名不能为空");
+			}
+		}
+		for (int i = 0; i < names.length; i++) {
+			for (int j = i+1; j < names.length; j++) {
+				if (names[i].equals(names[j])) {
+					flag = false;
+					allListNews.put("name", "参数名不能重复");
+				}
+			}
+		}
+		List<CategoryParam> cateparam = categoryParamService.findListByCategoryId(request.getParameter("id"));
+		String paramname = "";
+		for (int i = 0; i < cateparam.size(); i++) {
+			paramname+= cateparam.get(i).getName()+",";
+		}
+			String[] paramnames = paramname.split(",");
+		for (int i = 0; i < names.length; i++) {
+			for (int j = 0; j < paramnames.length; j++) {
+				if (names[i].equals(paramnames[j])) {
+					flag = false;
+					allListNews.put("name", "参数名已存在");
+				}
+				}
+			}
+		
+		String value = request.getParameter("values");
+		String[] values = value.split(",");
+		for (int i = 0; i < values.length; i++) {
+			if (values[i]==null|| values[i].equals("")||values[i].equals("--请选择--")) {
+				flag = false;
+				allListNews.put("value", "请选择参数类型");
+			}
+		}
+		Integer ispublish = Integer.parseInt(request.getParameter("ispublish"));
+		if (ispublish==null||ispublish.equals("")) {
+			flag = false;
+			allListNews.put("ispublish","请选择是否公开");
+		}
+		String kind = request.getParameter("kinds");
+		String[] kinds = kind.split(",");
+		for (int i = 0; i < kinds.length; i++) {
+			if (kinds[i]==null || kinds[i].equals("")) {
+				flag = false;
+				allListNews.put("kind", "类型不能为空");
+			}
+		}
+		String acceptrange = request.getParameter("acceptRange");
+		if (acceptrange==null || acceptrange.equals("")) {
+			flag = false;
+			allListNews.put("acceptrange", "验收规范不能为空");
+		}
+		String productname = request.getParameter("products");
+		String[] productnames = productname.split(",");
+		String saname = request.getParameter("sales");
+		String[] sanames = saname.split(",");
+		List<CategoryAptitude> cateAptitude = categoryAptitudeService.findListByCategoryId(request.getParameter("id"));
+		    String proname = "";
+		    String salename = "";
+			for (int i = 0; i < cateAptitude.size(); i++) {
+				proname+= cateAptitude.get(i).getProductName()+",";
+				salename+= cateAptitude.get(i).getSaleName()+",";
+			}	
+			String[] pronames = proname.split(",");
+			String[] salenames = salename.split(",");
+			for (int i = 0; i <salenames.length; i++) {
+				if (salenames[i]==null ||salenames[i].equals("")) {
+					flag = false;
+					allListNews.put("sale", "资质文件不能为空");
+				}
+			}
+		for (int i = 0; i < pronames.length; i++) {
+			for (int j = 0; j < productnames.length; j++) {
+				if (pronames[i].equals(productnames[j])) {
+					flag = false;
+					allListNews.put("product","文件已存在");
+				}
+			}
+		}
+		
+		for (int i = 0; i < productnames.length; i++) {
+			if (productnames[i]==null || productnames[i].equals("")) {
+				flag = false;
+				allListNews.put("product", "资质文件不能为空");
+			}
+		}
+		for (int i = 0; i < sanames.length; i++) {
+			for (int j = 0; j < salenames.length; j++) {
+				if (sanames[i].equals(salenames[j])) {
+					flag = false;
+					allListNews.put("sale", "资质文件已存在");
+				}
+			}
+		}
+		for (int i = 0; i < productnames.length; i++) {
+			for (int j = i+1; j < productnames.length; j++) {
+				if (productnames[i].equals(productnames[j])) {
+					allListNews.put("product", "资质文件不能重复");
+				}
+			}
+		}
+		for (int i = 0; i < sanames.length; i++) {
+			for (int j = i+1; j < sanames.length; j++) {
+				if (sanames[i].equals(sanames[j])) {
+					flag = false;
+					allListNews.put("sale", "资质文件不能重复");
+				}
+			}
+		}
+	
+		if (flag== false) {
+			super.writeJson(response, allListNews);
+		}else{
+			
+			category.setAcceptRange(acceptrange);
+			category.setIsPublish(ispublish);
+			category.setKind(kind);
+			categoryService.updateByPrimaryKeySelective(category);
+			categoryParam.setCategory(category);
+			for (int i = 0; i < names.length; i++) {
+				categoryParam.setName(names[i]);
+				categoryParam.setValueType(values[i]);
+				categoryParam.setCreatedAt(new Date());
+				categoryParamService.insertSelective(categoryParam);
+			}
+			for (int i = 0; i < productnames.length; i++) {
+				categoryAptitude.setProductName(productnames[i]);
+				categoryAptitude.setCreatedAt(new Date());
+			}
+		    for (int i = 0; i < salenames.length; i++) {
+				categoryAptitude.setSaleName(salenames[i]);
+				categoryAptitude.setCreatedAt(new Date());
+			}
+			categoryAptitudeService.insertSelective(categoryAptitude);
+			
+		}
 		return "ses/ppms/categoryparam/add";
-	}
+	    }
 	 /**
  	 * 
  	* @Title: rename
@@ -204,13 +341,27 @@ public class CategoryParamContrller extends BaseSupplierController{
      */ 
     @RequestMapping("/findOne")
     public String findOne(HttpServletResponse response,String id,Model model){
-   CategoryParam cateParam=categoryParamService.selectByPrimaryKey(id);
-   Category category=categoryService.selectByPrimaryKey(id);
-   CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);
-    model.addAttribute("cateParam",cateParam);
-    model.addAttribute("category",category);
-    model.addAttribute("caAptitude",caAptitude);
-    return "ses/ppms/categoryparam/edit";
+    	List<CategoryParam> cateparam = categoryParamService.findListByCategoryId(id);
+    	String name="";
+    	String value ="";
+    	for (int i = 0; i < cateparam.size(); i++) {
+    		name+= cateparam.get(i).getName()+",";
+    		value+= cateparam.get(i).getValueType()+",";
+		}
+    	String productname = "";
+    	String salename = "";
+    	List<CategoryAptitude> cateaptitude = categoryAptitudeService.findListByCategoryId(id);
+    	for (int i = 0; i < cateaptitude.size(); i++) {
+			productname+= cateaptitude.get(i).getProductName()+",";
+			salename+= cateaptitude.get(i).getSaleName()+",";
+		}
+    	Category category= categoryService.selectByPrimaryKey(id);
+    	model.addAttribute("name", name);
+    	model.addAttribute("value", value);
+    	model.addAttribute("productname", productname);
+    	model.addAttribute("salename", salename);
+    	model.addAttribute("category", category);
+        return "ses/ppms/categoryparam/edit";
      }
     /**
    	 * 
@@ -221,12 +372,12 @@ public class CategoryParamContrller extends BaseSupplierController{
    	 * @return void
      */ 
     @RequestMapping("/edit")
-    public String edit(@Valid CategoryAptitude cateAptitude,BindingResult result,
-    		HttpServletRequest request,Model model,String id){
-    /*	Category category = categoryService.selectByPrimaryKey(request.getParameter("categoryId"));
+    public String edit( CategoryAptitude categoryAptitude,CategoryParam categoryParam,Category category,
+    		HttpServletRequest request,Model model,String id,HttpServletResponse response){
+       /* Category category = categoryService.selectByPrimaryKey(request.getParameter("categoryId"));
     	category.setUpdatedAt(new Date());
-    	cateparam.setCategory(category);
-    	cateAptitude.setCategory(category);
+    	categoryParam.setCategory(category);
+    	categoryAptitude.setCategory(category);
     	category.setIsPublish(Integer.parseInt(request.getParameter("ispublish")));
 		if (category.getIsPublish().equals("0")) {
 		category.setIsPublish(0);
@@ -237,80 +388,246 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setKind(kinds);
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    categoryService.updateByPrimaryKeySelective(category);
-	    cateparam.setName(request.getParameter("names"));
-	    cateparam.setValueType(request.getParameter("values"));
-		cateparam.setUpdatedAt(new Date());
-		categoryParamService.updateByPrimaryKeySelective(cateparam);
-	
-		String productNames= request.getParameter("products");
+	    String name = request.getParameter("names");
+	    String[] names = name.split(",");
+	    String value = request.getParameter("values");
+	    String[] values = value.split(",");
+	    for (int i = 0; i < names.length; i++) {
+			categoryParam.setName(names[i]);
+			categoryParam.setValueType(values[i]);
+			categoryParam.setCreatedAt(new Date());
+			categoryParamService.insertSelective(categoryParam);
+		}
+	    String product = request.getParameter("products");
+	    String[] productname = product.split(",");
+	    String sale = request.getParameter("sales");
+	    String[] salename = sale.split(",");
+	    for (int i = 0; i < productname.length; i++) {
+			categoryAptitude.setProductName(productname[i]);
+			categoryAptitude.setCreatedAt(new Date());
+		}
+	    for (int i = 0; i < salename.length; i++) {
+			categoryAptitude.setSaleName(salename[i]);
+			categoryAptitude.setCreatedAt(new Date());
+		}
+	    categoryAptitudeService.updateByPrimaryKeySelective(categoryAptitude);*/
+    	Boolean flag = true;
+		String name = request.getParameter("names");
+		String[] names = name.split(",");
+		for (int i = 0; i < names.length; i++) {
+			if (names[i]==null ||names[i].equals("")) {
+				flag = false;
+				allListNews.put("name", "参数名不能为空");
+			}
+		}
+		for (int i = 0; i < names.length; i++) {
+			for (int j = i+1; j < names.length; j++) {
+				if (names[i].equals(names[j])) {
+					flag = false;
+					allListNews.put("name", "参数名不能重复");
+				}
+			}
+		}
+		List<CategoryParam> cateparam = categoryParamService.findListByCategoryId(request.getParameter("id"));
+		String paramname = "";
+		for (int i = 0; i < cateparam.size(); i++) {
+			paramname+= cateparam.get(i).getName()+",";
+		}
+			String[] paramnames = paramname.split(",");
+		for (int i = 0; i < names.length; i++) {
+			for (int j = 0; j < paramnames.length; j++) {
+				if (names[i].equals(paramnames[j])) {
+					flag = false;
+					allListNews.put("name", "参数名已存在");
+				}
+				}
+			}
 		
-		cateAptitude.setProductName(productNames);
-		String saleNames = request.getParameter("sales");
-
-		cateAptitude.setUpdatedAt(new Date());
-		cateAptitude.setSaleName(saleNames);
-	   	categoryAptitudeService.updateByPrimaryKeySelective(cateAptitude);
-		return "redirect:getAll.html";*/
-    String name = request.getParameter("names");
-    String[] names = name.split(",");
-    Integer ispublish = Integer.parseInt(request.getParameter("isPublish"));
-    String acceptRange = request.getParameter("range");
-    String productName = request.getParameter("products");
-    String[] productNames = productName.split(",");
-    String saleName = request.getParameter("sales");
-    String[] saleNames = saleName.split(",");
-    if(result.hasErrors()){
-		List<FieldError> errors = result.getFieldErrors();
-		for(FieldError fieldError:errors){
-			model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-		}
-    }
-    CategoryParam cateparam = categoryParamService.selectByPrimaryKey(id);
-    String paramname = cateparam.getName();
-    String[] paramnames = paramname.split(",");
-   for (int i = 0; i < names.length; i++) {
-	for (int j = 0; j < paramnames.length; j++) {
-		if (names[i].equals(paramnames[j])) {
-			model.addAttribute("ERR_name","参数名称不能重复");
-		}
-	}
-}
-   
-	CategoryAptitude categoryAptitude = categoryAptitudeService.queryByCategoryId(id);
-	String productname = categoryAptitude.getProductName();
-	String salename = categoryAptitude.getSaleName();
-	String[] productnames = productname.split(",");
-	String[] salenames = salename.split(",");
-	for (int i = 0; i< productnames.length; i++) {
-		for (int j = 0; j < productNames.length; j++) {
-			if (productnames[i].equals(productNames[j])) {
-				model.addAttribute("ERR_productName","资质不能重复");
+		String value = request.getParameter("values");
+		String[] values = value.split(",");
+		for (int i = 0; i < values.length; i++) {
+			if (values[i]==null|| values[i].equals("")||values[i].equals("--请选择--")) {
+				flag = false;
+				allListNews.put("value", "请选择参数类型");
 			}
 		}
-	}
-	for (int m = 0; m < salenames.length; m++) {
-		for (int n = 0; n < saleNames.length; n++) {
-			if (salenames[m].equals(saleNames[n])) {
-				model.addAttribute("ERR_saleName","资质不能重复");
+		Integer ispublish = Integer.parseInt(request.getParameter("ispublish"));
+		if (ispublish==null||ispublish.equals("")) {
+			flag = false;
+			allListNews.put("ispublish","请选择是否公开");
+		}
+		String kind = request.getParameter("kinds");
+		String[] kinds = kind.split(",");
+		for (int i = 0; i < kinds.length; i++) {
+			if (kinds[i]==null || kinds[i].equals("")) {
+				flag = false;
+				allListNews.put("kind", "类型不能为空");
 			}
 		}
-	}
-	Category category = categoryService.selectByPrimaryKey(id);
-	String range = category.getAcceptRange();
-
-	if (acceptRange.equals(range)) {
-		model.addAttribute("ERR_acceptRange","验收规范不能相同");
-	}
-
+		String acceptrange = request.getParameter("acceptRange");
+		if (acceptrange==null || acceptrange.equals("")) {
+			flag = false;
+			allListNews.put("acceptrange", "验收规范不能为空");
+		}
+		String productname = request.getParameter("products");
+		String[] productnames = productname.split(",");
+		String saname = request.getParameter("sales");
+		String[] sanames = saname.split(",");
+		List<CategoryAptitude> cateAptitude = categoryAptitudeService.findListByCategoryId(request.getParameter("id"));
+		    String proname = "";
+		    String salename = "";
+			for (int i = 0; i < cateAptitude.size(); i++) {
+				proname+= cateAptitude.get(i).getProductName()+",";
+				salename+= cateAptitude.get(i).getSaleName()+",";
+			}	
+			String[] pronames = proname.split(",");
+			String[] salenames = salename.split(",");
+			for (int i = 0; i <salenames.length; i++) {
+				if (salenames[i]==null ||salenames[i].equals("")) {
+					flag = false;
+					allListNews.put("sale", "资质文件不能为空");
+				}
+			}
+		for (int i = 0; i < pronames.length; i++) {
+			for (int j = 0; j < productnames.length; j++) {
+				if (pronames[i].equals(productnames[j])) {
+					flag = false;
+					allListNews.put("product","文件已存在");
+				}
+			}
+		}
+		
+		for (int i = 0; i < productnames.length; i++) {
+			if (productnames[i]==null || productnames[i].equals("")) {
+				flag = false;
+				allListNews.put("product", "资质文件不能为空");
+			}
+		}
+		for (int i = 0; i < sanames.length; i++) {
+			for (int j = 0; j < salenames.length; j++) {
+				if (sanames[i].equals(salenames[j])) {
+					flag = false;
+					allListNews.put("sale", "资质文件已存在");
+				}
+			}
+		}
+		for (int i = 0; i < productnames.length; i++) {
+			for (int j = i+1; j < productnames.length; j++) {
+				if (productnames[i].equals(productnames[j])) {
+					allListNews.put("product", "资质文件不能重复");
+				}
+			}
+		}
+		for (int i = 0; i < sanames.length; i++) {
+			for (int j = i+1; j < sanames.length; j++) {
+				if (sanames[i].equals(sanames[j])) {
+					flag = false;
+					allListNews.put("sale", "资质文件不能重复");
+				}
+			}
+		}
+	
+		if (flag== false) {
+			super.writeJson(response, allListNews);
+		}else{
+			
+			category.setAcceptRange(acceptrange);
+			category.setIsPublish(ispublish);
+			category.setKind(kind);
+			categoryService.updateByPrimaryKeySelective(category);
+			categoryParam.setCategory(category);
+			for (int i = 0; i < names.length; i++) {
+				categoryParam.setName(names[i]);
+				categoryParam.setValueType(values[i]);
+				categoryParam.setCreatedAt(new Date());
+				categoryParamService.updateByPrimaryKeySelective(categoryParam);
+			}
+			for (int i = 0; i < productnames.length; i++) {
+				categoryAptitude.setProductName(productnames[i]);
+				categoryAptitude.setCreatedAt(new Date());
+			}
+		    for (int i = 0; i < salenames.length; i++) {
+				categoryAptitude.setSaleName(salenames[i]);
+				categoryAptitude.setCreatedAt(new Date());
+			}
+			categoryAptitudeService.updateByPrimaryKeySelective(categoryAptitude);
+			
+		}
 		return "redirect:getAll.html";
-	}
+  
+
+    }
     
     
     
     @RequestMapping("/import")
-    public void imports() throws FileNotFoundException{
-   	/* Workbook workbook;
-   	 InputStream is = new FileInputStream(new File("D:\\"));*/
+    public String imports(String id) throws IOException{
+	File is = new File("F:/参数模板.xlsx");
+	Workbook wb = null;
+	String name = "";
+	String value = "";
+	//判断Excel是2007以下还是2007以上版本
+	try {
+		wb = new XSSFWorkbook(is);
+	}catch (Exception ex) { 
+		wb = new HSSFWorkbook(new FileInputStream(is));
+	}
+	Sheet sheet = wb.getSheetAt(0);
+	for (int i = 1; i < sheet.getPhysicalNumberOfRows();i++) {
+		Row row = sheet.getRow(i);
+		if (row==null) {
+			continue;
+		}
+		name+= row.getCell(0).getStringCellValue()+",";
+		value+= row.getCell(1).getStringCellValue()+",";
+		}
+	String[] names = name.split(",");
+	String[] values = value.split(",");
+	CategoryParam categoryParam =new CategoryParam();
+	Category ca = new Category();
+	ca.setId(id);
+	categoryParam.setCategory(ca);
+	for (int i = 0; i < names.length; i++) {
+		categoryParam.setName(names[i]);
+		categoryParam.setValueType(values[i]);
+	}
+	
+	categoryParamService.insertSelective(categoryParam);
+	return "redirect:getAll.html";
+	  }
+    
+    
+    @RequestMapping("/exports")
+    public void export(String id,HttpSession session){
+    	HSSFWorkbook wb = new HSSFWorkbook();
+    	HSSFSheet sheet = wb.createSheet("品目参数表");
+    	HSSFRow row = sheet.createRow(0);
+    	HSSFCell cell = row.createCell(0);
+    	cell.setCellValue("参数名");
+    	HSSFCell cell1 = row.createCell(1);
+    	cell1.setCellValue("参数类型");
+    	List<CategoryParam> cateparam = categoryParamService.findListByCategoryId(id);
+    	String name = "";
+    	String value = "";
+    	for (int i = 0; i < cateparam.size(); i++) {
+			name+= cateparam.get(i).getName()+",";
+			value+=cateparam.get(i).getValueType()+",";
+		}
+    	String[] names = name.split(",");
+    	String[] values = value.split(",");
+    	for (int i = 0; i < names.length; i++) {
+			row = sheet.createRow(i+1);
+			row.createCell(0).setCellValue(names[i]);
+			row.createCell(1).setCellValue(values[i]);
+		}   
+				try {
+					FileOutputStream out = new FileOutputStream("E://品目参数表.xls");
+					wb.write(out);
+					out.close();
+				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
     }
     /**********************************参数审核*************************************************************************/
     /**
@@ -347,7 +664,7 @@ public class CategoryParamContrller extends BaseSupplierController{
     	List<Category> cate = categoryService.listByParamstatus(map);
     	model.addAttribute("list",new PageInfo<Category>(cate));
     	model.addAttribute("cate",cate);
-    return "ses/ppms/categoryparam/audit";
+        return "ses/ppms/categoryparam/audit";
      }
     /**
    	 * 
@@ -359,12 +676,26 @@ public class CategoryParamContrller extends BaseSupplierController{
      */
     @RequestMapping("/query_category")
     public String queryCategory(Model model,String id){
-    	CategoryParam cateParam = categoryParamService.selectByPrimaryKey(id);
-    	Category category = categoryService.selectByPrimaryKey(id);
-    	CategoryAptitude caAptitude = categoryAptitudeService.queryByCategoryId(id);
-    	model.addAttribute("cateParam",cateParam);
-    	model.addAttribute("category",category);
-    	model.addAttribute("caAptitude",caAptitude);
+    	List<CategoryParam> cateparam = categoryParamService.findListByCategoryId(id);
+    	String name="";
+    	String value ="";
+    	for (int i = 0; i < cateparam.size(); i++) {
+    		name+= cateparam.get(i).getName()+",";
+    		value+= cateparam.get(i).getValueType()+",";
+		}
+    	String productname = "";
+    	String salename = "";
+    	List<CategoryAptitude> cateaptitude = categoryAptitudeService.findListByCategoryId(id);
+    	for (int i = 0; i < cateaptitude.size(); i++) {
+			productname+= cateaptitude.get(i).getProductName()+",";
+			salename+= cateaptitude.get(i).getSaleName()+",";
+		}
+    	Category category= categoryService.selectByPrimaryKey(id);
+    	model.addAttribute("name", name);
+    	model.addAttribute("value", value);
+    	model.addAttribute("productname", productname);
+    	model.addAttribute("salename", salename);
+    	model.addAttribute("category", category);
 		return "ses/ppms/categoryparam/auditinfo";
     }
    
@@ -379,7 +710,6 @@ public class CategoryParamContrller extends BaseSupplierController{
     public String auditParam(HttpServletRequest request,Category category){
     	String ranges =request.getParameter("ranges");
     	if (ranges==null) {
-			
 		}
     	category.setParamPublishRange(ranges);
     	category.setParamStatus(Integer.parseInt(request.getParameter("storage")));
@@ -408,23 +738,61 @@ public class CategoryParamContrller extends BaseSupplierController{
     	
     }
     /**
+     * @Title: findCategory
+     * @author Zhang XueFeng/	
+     * @Description:根据名称进行模糊查询
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/findCategory")
+    public String findCategory(HttpServletRequest request,Model model,Integer page){
+    	if (page==null) {
+			page = 1;
+		}
+    	String name = request.getParameter("name");
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("name", name);
+    	map.put("page", page);
+    	List<Category>  cate = categoryService.listByCateogryName(map);
+    	model.addAttribute("list",new PageInfo<Category>(cate));
+    	model.addAttribute("page",page);
+    	model.addAttribute("cate",cate);
+    	return "ses/ppms/categoryparam/unrelease";
+    }
+    /**
      * @Title: queryCategory
      * @author Zhang XueFeng/	
-     * @Description:进入发布详情页面
+     * @Description:对参数进行发布 改变状态
      * @param id
      * @return string
      */
     @RequestMapping("/publish_category")
     public String publishCategory(HttpServletRequest request,Model model,String id){
-    	CategoryParam cateParam = categoryParamService.selectByPrimaryKey(id);
-    	Category category = categoryService.selectByPrimaryKey(id);
-    	CategoryAptitude caAptitude = categoryAptitudeService.queryByCategoryId(id);
-    	model.addAttribute("cateParam",cateParam);
-    	model.addAttribute("category",category);
-    	model.addAttribute("caAptitude",caAptitude);
-    	return "ses/ppms/categoryparam/publish";
+        String[] ids = id.split(",");
+        for (String str : ids) {
+			Category category = categoryService.selectByPrimaryKey(str);
+			category.setParamStatus(4);
+			categoryService.updateByPrimaryKeySelective(category);
+		}
+    	return "redirect:publish.html";
     	
     } 
+    
+    /**
+     * @Title: publish_param
+     * @author Zhang XueFeng/	
+     * @Description:发布
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/publish_param")
+    public String publishParam(HttpServletRequest request,Model model,String id){
+    	Category category = categoryService.selectByPrimaryKey(id);
+    	category.setParamStatus(4);
+    	categoryService.updateByPrimaryKeySelective(category);
+    	return "ses/ppms/categoryparam/unrelease";
+    	
+    }
     /***********************************************参数分配*******************************************************************/ 
     
     /**
@@ -466,7 +834,6 @@ public class CategoryParamContrller extends BaseSupplierController{
 		String[] cateid = ids.split(","); 
 		Orgnization org = orgnizationServiceI.findByCategoryId(id);
 		org.setStatus(status);
-		
     	for (int i = 0; i < cateid.length; i++) {
     		Category category=categoryService.selectByPrimaryKey(cateid[i]);
 			category.setOrgnization(org);
@@ -484,16 +851,19 @@ public class CategoryParamContrller extends BaseSupplierController{
      */
 	@RequestMapping("/abrogate_allocate")
 	public String abrogateAllocate(HttpServletRequest request,String id,String status){
-		Orgnization org = orgnizationServiceI.findByCategoryId(id);
-		org.setStatus(status);
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("id", id);
-	    List<Category> cate = categoryService.findByOrgId(map);
-	    for (Category category : cate) {
-			category.setOrgnization(null);
-		    categoryService.updateByPrimaryKey(category);	
+		String[] ids=id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			Orgnization org = orgnizationServiceI.findByCategoryId(ids[i]);
+			org.setStatus(status);
+			orgnizationServiceI.updateByCategoryId(org);
 		}
-	    
+	   for (int i = 0; i < ids.length; i++) {
+		List<Category> cate = categoryService.findByOrgId(ids[i]);
+		for (Category category : cate) {
+			category.setOrgnization(null);
+			categoryService.updateByPrimaryKeySelective(category);
+		}
+	}
 		return "redirect:query_orgnization.html";
 	}
    /**************************************************按产品查询和按目录查询************************************************************************/
@@ -526,7 +896,7 @@ public class CategoryParamContrller extends BaseSupplierController{
 		map.put("name", name);
 		map.put("page", page);
 		List<Category>  list = categoryService.listByKeyword(map);
-		String ids="";
+		String ids=null;
 		for (Category cate : list) {
 			ids+=cate.getOrgnization().getId()+",";
 		}
@@ -566,12 +936,25 @@ public class CategoryParamContrller extends BaseSupplierController{
    
     @RequestMapping("/search_info")
     public void searchInfo(String id,HttpServletResponse response){
-    	
-    	List<CategoryAptitude> categoryAptitudes = categoryAptitudeService.findProductByCategoryId(id);
-    	CategoryParam  categoryParam = categoryParamService.selectByPrimaryKey(id);
+    	List<CategoryAptitude> cateaptitude = categoryAptitudeService.findListByCategoryId(id);
+    	String productname = "";
+    	String salename = "";
+    	for (int i = 0; i < cateaptitude.size(); i++) {
+			productname+= cateaptitude.get(i).getProductName()+",";
+			salename+= cateaptitude.get(i).getSaleName()+",";
+		}
+    	List<CategoryParam> categoryParam = categoryParamService.findListByCategoryId(id);
+    	String name = "";
+    	String value = "";
+    	for (int i = 0; i < categoryParam.size(); i++) {
+			name+= categoryParam.get(i).getName()+",";
+			value+= categoryParam.get(i).getValueType()+",";
+		}
     	Category cate = categoryService.selectByPrimaryKey(id);	
-    	allListNews.put("categoryAptitudes", categoryAptitudes);
-    	allListNews.put("categoryParam", categoryParam);
+    	allListNews.put("productname", productname);
+    	allListNews.put("salename", salename);
+    	allListNews.put("name", name);
+    	allListNews.put("value", value);
     	allListNews.put("cate", cate);
     	super.writeJson(response, allListNews);
     } 
