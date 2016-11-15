@@ -29,7 +29,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
-<link href="<%=basePath%>public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
+
+<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
  
   <script type="text/javascript">
   
@@ -62,42 +64,163 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
    
   function bar(sign) {
-		var swf="Column3D.swf";
 	  
 	  $("#div_table").hide();
 	  $.ajax({
 			 	url : '${pageContext.request.contextPath}/statistic/bar.html',
 				type : "post",
 				data :$("#add_form").serialize(),
-				contentType: "application/x-www-form-urlencoded; charset=utf-8",
-				dataType : "json",
+				dataType:"json",
+			
 				success : function(data) {
-					 var chart = new FusionCharts('${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/swf/' + swf, "funsionCharts_id", "100%", "100%", "0", "1");
-					chart.setJSONData(data);  
-					$("#funsionCharts_div_id").show();
-					$("#divTable").hide();
-		 			chart.render("funsionCharts_div_id");   
-				},
+			 
+					  var dataAxis = data.name;
+					 var data = data.data;
+					 var yMax = data.max;
+					 
+					 var dataShadow = [];
+
+					 for (var i = 0; i < data.length; i++) {
+					     dataShadow.push(yMax);
+					 }
+
+					 option = {
+					     title: {
+					         text: '需求部门统计',
+					         subtext: 'sss',
+					         left: '200px',
+					     },
+					     tooltip : {
+						        trigger: 'item',
+						    },
+						    
+					     xAxis: {
+					         data: dataAxis,
+					         axisLabel: {
+					             inside: true,
+					             textStyle: {
+					                 color: '#fff'
+					             }
+					         },
+					         axisTick: {
+					             show: false
+					         },
+					         axisLine: {
+					             show: false
+					         },
+					         z: 10
+					     },
+					     yAxis: {
+					         axisLine: {
+					             show: false
+					         },
+					         axisTick: {
+					             show: false
+					         },
+					         axisLabel: {
+					             textStyle: {
+					                 color: '#999'
+					             }
+					         }
+					     },
+				
+					     series: [
+					         { // For shadow
+					             type: 'bar',
+					             itemStyle: {
+					                 normal: {color: 'rgba(0,0,0,0.05)'}
+					             },
+					             barGap:'-100%',
+					             barCategoryGap:'40%',
+					             data: dataShadow
+					         },
+					         {
+					             type: 'bar',
+					             itemStyle: {
+					                 normal: {
+					                     color: new echarts.graphic.LinearGradient(
+					                         0, 0, 0, 1,
+					                         [
+					                             {offset: 0, color: '#83bff6'},
+					                             {offset: 0.5, color: '#188df0'},
+					                             {offset: 1, color: '#188df0'}
+					                         ]
+					                     )
+					                 },
+					                 emphasis: {
+					                     color: new echarts.graphic.LinearGradient(
+					                         0, 0, 0, 1,
+					                         [
+					                             {offset: 0, color: '#2378f7'},
+					                             {offset: 0.7, color: '#2378f7'},
+					                             {offset: 1, color: '#83bff6'}
+					                         ]
+					                     )
+					                 }
+					             },
+					             data: data
+					         }
+					     ]
+					 };
+					 
+					 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
+						myChart.setOption(option);
+						myChart.hideLoading(); 
+					  $("#funsionCharts_div_id").show();
+					  $("#container").hide();  
+		 			 
+				}
 				 
 			}); 
 		  
 }
  
   function pipe(sign){
-		var  swf = "Pie3D.swf";
 		  $("#div_table").hide();
 		  $.ajax({
 				 	url : '${pageContext.request.contextPath}/statistic/pipe.html',
 					type : "post",
 					data :$("#add_form").serialize(),
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
-					dataType : "json",
+					dataType:"json",
 					success : function(data) {
-						 var chart = new FusionCharts('${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/swf/' + swf, "funsionCharts_id", "100%", "100%", "0", "1");
-						chart.setJSONData(data);  
+						option = {
+							    title : {
+							        text: '采购方式统计',
+							        x:'center'
+							    },
+							    tooltip : {
+							        trigger: 'item',
+							        formatter: "{a} <br/>{b} : {c} ({d}%)"
+							    },
+							    legend: {
+							        orient: 'vertical',
+							        left: '200px',
+							        data: data.type
+							    },
+							    series : [
+							        {
+							            name: '访问来源',
+							            type: 'pie',
+							            radius : '55%',
+							            center: ['50%', '60%'],
+							            data:data.maps,
+							            itemStyle: {
+							                emphasis: {
+							                    shadowBlur: 10,
+							                    shadowOffsetX: 0,
+							                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+							                }
+							            }
+							        }
+							    ]
+							};
+						var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
+						myChart.setOption(option);
+						myChart.hideLoading();  
 						$("#funsionCharts_div_id").show();
-						$("#divTable").hide();
-			 			chart.render("funsionCharts_div_id");   
+						$("#container").hide();
+					 
 					},
 					 
 				});
@@ -114,232 +237,126 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					contentType: "application/x-www-form-urlencoded; charset=utf-8",
 					dataType : "json",
 					success : function(data) {
-						 var chart = new FusionCharts('${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/swf/' + swf, "funsionCharts_id", "100%", "100%", "0", "1");
-						chart.setJSONData(data);  
-						$("#funsionCharts_div_id").show();
-						$("#divTable").hide();
-			 			chart.render("funsionCharts_div_id");   
+						option = {
+							    title: {
+							        text: '折线图堆叠'
+							    },
+							    tooltip: {
+							        trigger: 'axis'
+							    },
+							    legend: {
+							        data:['采购金额统计']
+							    },
+							    grid: {
+							        left: '3%',
+							        right: '4%',
+							        bottom: '3%',
+							        containLabel: true
+							    },
+							    toolbox: {
+							        feature: {
+							            saveAsImage: {}
+							        }
+							    },
+							    xAxis: {
+							        type: 'category',
+							        boundaryGap: false,
+							        data: data.month
+							    },
+							    yAxis: {
+							        type: 'value'
+							    },
+							    series:data.line
+							};
+					 	 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
+							myChart.setOption(option);
+							myChart.hideLoading();   
 					},
 					 
 				});
 		  
 }
  
-  
-	$(function () {
-		var address;
-	    Highcharts.setOptions({
-	        lang:{
-	            drillUpText:"返回 > {series.name}"
-	        }
-	    });
-
- 		  var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
-	    // 给城市设置随机数据
-	  	var serverData=${data};
-	    $.each(data, function (i) {
-	        this.drilldown = this.properties['drill-key'];
-	        this.value = serverData[this.properties['drill-key']];
-	    });
-			function getPoint(e){
-				console.log(e.point.name);
-			}
-		function getShow(e){
-			alert(1);
-		}
-	    //初始化地图
-	    $('#container').highcharts('Map', {
-
-	        chart : {
-						spacingBottom:30,
-					 
-	            events: {
-	               
-	            }
-	        },
-				/* tooltip: { 
-					formatter:function(){
-						var htm="";
-						if(this.point.drilldown){
-						    htm+=this.point.properties["cn-name"];
-						}else{
-							 htm+=this.point.name;
-						}
-						address=htm;
-						 var data='${data}';
-						
-					    if(data==''){
-					     	htm+=":"+0; 
-					    }else{
-						   var index=data.indexOf(htm);
-						   var indexStart=index+htm.length;
-						   var indexEnd=indexStart+2;
-						   var supplierNum=data.substring(indexStart,indexEnd );
-						   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
-						   		supplierNum=supplierNum.substring(0,1);
-						   }
-						   htm+=":"+supplierNum; 
-						 }
-						return htm;
-					}
-						}, */
-	        credits:{
-						href:"javascript:goHome()",
-	            text:""
-	        },
-	        title : {
-	            text : '采购机构数量统计'
-	        },
-
-	        subtitle: {
-	            text: '中国',
-	            floating: true,
-	            align: 'right',
-	            y: 50,
-	            style: {
-	                fontSize: '16px'
-	            }
-	        },
-
-	        legend: small ? {} : {
-						 // enabled: false,
-	            layout: 'vertical',
-	            align: 'right',
-	            verticalAlign: 'middle'
-	        },
-	        tooltip:{
-	        pointFormat:"{point.properties.cn-name}:{point.value}"
-	       },
-	        colorAxis: {
-	            min: 0,
-	            minColor: '#E6E7E8',
-	            maxColor: '#005645',
-						labels:{
-							style:{
-									"color":"red","fontWeight":"bold"
-							}
-						}
-	        },
-			// 控制放大缩小的
-	        mapNavigation: {
-	            enabled: false,
-	            buttonOptions: {
-	                verticalAlign: 'bottom'
-	            }
-	        },
-
-	        plotOptions: {
-	            map: {
-	                states: {
-	                    hover: {
-	                        color: '#EEDD66'
-	                    }
-	                }
-	            }
-	        },
-
-	        series : [{
-	            data : data,
-	            name: '中国',
-	            dataLabels: {
-	                enabled: true,
-	                format: '{point.properties.cn-name}'
-	            },
-	            point: {
-	             <%--   events: {
-	                   click: function () { 
-	              
-	                       window.location.href="<%=basePath%>statistic/map.html?address="+address+"&status=3";
-	                    }
-	                  } --%>
-	           }
-	        }],
-
-	        drilldown: {
-						
-	            activeDataLabelStyle: {
-	                color: '#FFFFFF',
-	                textDecoration: 'none',
-	                textShadow: '0 0 3px #000000'
-	            },
-	            drillUpButton: {
-	                relativeTo: 'spacingBox',
-	                position: {
-	                    x: 0,
-	                    y: 60
-	                }
-	            }
-	        }
-	    });
-	});
-	
-	
-
-	var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
-	var base64DecodeChars = new Array(  
-	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,  
-	    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,  
-	    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,  
-	    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,  
-	    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,  
-	    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);  
-
-
-	function base64decode(str) {  
-	    var c1, c2, c3, c4;  
-	    var i, len, out;  
-	  
-	    len = str.length;  
-	    i = 0;  
-	    out = "";  
-	    while(i < len) {  
-	    /* c1 */  
-	    do {  
-	        c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-	    } while(i < len && c1 == -1);  
-	    if(c1 == -1)  
-	        break;  
-	  
-	    /* c2 */  
-	    do {  
-	        c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-	    } while(i < len && c2 == -1);  
-	    if(c2 == -1)  
-	        break;  
-	  
-	    out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));  
-	  
-	    /* c3 */  
-	    do {  
-	        c3 = str.charCodeAt(i++) & 0xff;  
-	        if(c3 == 61)  
-	        return out;  
-	        c3 = base64DecodeChars[c3];  
-	    } while(i < len && c3 == -1);  
-	    if(c3 == -1)  
-	        break;  
-	  
-	    out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));  
-	  
-	    /* c4 */  
-	    do {  
-	        c4 = str.charCodeAt(i++) & 0xff;  
-	        if(c4 == 61)  
-	        return out;  
-	        c4 = base64DecodeChars[c4];  
-	    } while(i < len && c4 == -1);  
-	    if(c4 == -1)  
-	        break;  
-	    out += String.fromCharCode(((c3 & 0x03) << 6) | c4);  
-	    }  
-	    return out;  
-	}  
-	function goHome(){
-		window.open("http://www.peng8.net/");
-	}
-	
+  $(function(){
+		 option = {
+				    title : {
+				        text: '省市采购',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item'
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        x:'left',
+				        data:['iphone3']
+				    },
+				    dataRange: {
+				        min: 0,
+				        max: 2500,
+				        x: 'left',
+				        y: 'bottom',
+				        text:['高','低'],           // 文本，默认为数值文本
+				        calculable : true
+				    },
+				    toolbox: {
+				        show: true,
+				        orient : 'vertical',
+				        x: 'right',
+				        y: 'center',
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    roamController: {
+				        show: true,
+				        x: 'right',
+				        mapTypeControl: {
+				            'china': true
+				        }
+				    },
+				    series : [
+				        {
+				            name: '中国',
+				            type: 'map',
+				            mapType: 'china',
+				            roam: false,
+				            itemStyle:{
+				                normal:{label:{show:true}},
+				                emphasis:{label:{show:true}}
+				            },
+				            data:${data}
+				        }
+				         
+				     
+				    ]
+				};
+			
+	 	var myChart = echarts.init(document.getElementById("container"));
+			myChart.setOption(option);
+			myChart.hideLoading(); 
+			
+			/*  var chart = echarts.init(document.getElementById('main'));
+			 chart.setOption({
+			     series: [{
+			         type: 'map',
+			         map: 'china'
+			     }]
+		  $.get('public/echarts/china.json', function (chinaJson) {
+				    echarts.registerMap('china', chinaJson);
+				    var chart = echarts.init(document.getElementById('main'));
+				    chart.setOption({
+				        series: [{
+				            type: 'map',
+				            map: 'china'
+				        }]
+				    });
+				}); */
+	 }) ;
+			 
 	
 	
 	function maps(){
@@ -524,7 +541,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
- 	<div id="funsionCharts_div_id" style="width:91%;height:90%;overflow:atuo; display: none;"></div>
+ 	<div id="funsionCharts_div_id" style="width:100%;height:100%;display: none;margin: 0 auto;"></div>
  
    <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
    

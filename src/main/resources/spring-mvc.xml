@@ -24,30 +24,30 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 	<!-- springMVC拦截器 -->  
- 	 <mvc:interceptors>
+ 	<!--  <mvc:interceptors>
 		<mvc:interceptor>
-			<!-- 需要拦截的地址 -->
+			需要拦截的地址
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
-			<!-- 需要排除拦截的地址 -->
+			需要排除拦截的地址
 			
-			<!-- 首页浏览信息 -->
+			首页浏览信息
 			<mvc:exclude-mapping path="/index/selectIndexNews.*" />
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*" />
 			
-			<!-- 论坛首页浏览 -->
+			论坛首页浏览
 			<mvc:exclude-mapping path="/park/getIndex.*" />
 			<mvc:exclude-mapping path="/post/getIndexlist.*" />
 			<mvc:exclude-mapping path="/post/getHotlist.*" />
 			<mvc:exclude-mapping path="/post/getIndexDetail.*" />	
 			
-			<!-- 首页登录 -->
+			首页登录
 			<mvc:exclude-mapping path="/index/sign.*" />			
 			<mvc:exclude-mapping path="/login/login.*" />
 			
-			<!-- 供应商注册 -->
+			供应商注册
 			<mvc:exclude-mapping path="/supplier/*.*" /> 
 			<mvc:exclude-mapping path="/supplier_finance/*.*" />
 			<mvc:exclude-mapping path="/supplier_stockholder/*.*" />
@@ -63,19 +63,19 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/category/find_category.*" />
 			<mvc:exclude-mapping path="/categoryparam/flist_by_category_id_and_products_id.*" />
 			
-			<!-- 地区管理 -->
+			地区管理
 			<mvc:exclude-mapping path="/area/find_root_area.*" />
 			<mvc:exclude-mapping path="/area/find_area_by_parent_id.*" />
 			
-			<!-- 文件上传和下载 -->
+			文件上传和下载
 			<mvc:exclude-mapping path="/file/*.*" />
 			
-			<!-- 后期删除此项 -->
+			后期删除此项
 			<mvc:exclude-mapping path="/my_test/*.*" />
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
