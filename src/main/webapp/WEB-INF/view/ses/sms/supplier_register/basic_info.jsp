@@ -1,308 +1,255 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
-<%--<%@ include file="../../../front.jsp" %>--%>
+<%@include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@include file="/WEB-INF/view/front.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-<title>供应商完善基本信息</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application" />
-<script>
-	var globalPath = "${contextPath}";
-</script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-
-
 <script type="text/javascript">
-	$(function() {
-		$("#page_ul_id").find("li").click(function() {
-			var id = $(this).attr("id");
-			var page = "tab-" + id.charAt(id.length - 1);
-			$("input[name='defaultPage']").val(page);
-		});
-		var defaultPage = "${defaultPage}";
-		if (defaultPage) {
-			var num = defaultPage.charAt(defaultPage.length - 1);
-			$("#page_ul_id").find("li").each(function(index) {
-				if (index == num - 1) {
-					$(this).attr("class", "active");
-				} else {
-					$(this).removeAttr("class");
-				}
-			});
-			$("#tab_content_div_id").find(".tab-pane").each(function() {
-				var id = $(this).attr("id");
-				if (id == defaultPage) {
-					$(this).attr("class", "tab-pane fade height-200 active in");
-				} else {
-					$(this).attr("class", "tab-pane fade height-200");
-				}
-			});
-		}
-
-		loadRootArea();
-		autoSelected("business_select_id", "${currSupplier.businessType}");
-		autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
-
-		if ("${currSupplier.status}" == 7) {
-			showReason();
-		}
+$(function() {
+	$("#page_ul_id").find("li").click(function() {
+		var id = $(this).attr("id");
+		var page = "tab-" + id.charAt(id.length - 1);
+		$("input[name='defaultPage']").val(page);
 	});
+	var defaultPage = "${defaultPage}";
+	if (defaultPage) {
+		var num = defaultPage.charAt(defaultPage.length - 1);
+		$("#page_ul_id").find("li").each(function(index) {
+			if (index == num - 1) {
+				$(this).attr("class", "active");
+			} else {
+				$(this).removeAttr("class");
+			}
+		});
+		$("#tab_content_div_id").find(".tab-pane").each(function() {
+			var id = $(this).attr("id");
+			if (id == defaultPage) {
+				$(this).attr("class", "tab-pane fade height-200 active in");
+			} else {
+				$(this).attr("class", "tab-pane fade height-200");
+			}
+		});
+	}
 
-	/** 加载地区根节点 */
-	function loadRootArea() {
+	loadRootArea();
+	autoSelected("business_select_id", "${currSupplier.businessType}");
+	autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
+
+	if ("${currSupplier.status}" == 7) {
+		showReason();
+	}
+});
+
+/** 加载地区根节点 */
+function loadRootArea() {
+	$.ajax({
+		url : globalPath + "/area/find_root_area.do",
+		type : "post",
+		dataType : "json",
+		success : function(result) {
+			var html = "";
+			html += "<option value=''>请选择</option>";
+			for ( var i = 0; i < result.length; i++) {
+				html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" + result[i].name + "</option>";
+			}
+			$("#root_area_select_id").append(html);
+
+			// 自动选中
+			var rootArea = "${currSupplier.address}";
+			if (rootArea)
+				rootArea = rootArea.split(",")[0];
+			if (rootArea) {
+				autoSelected("root_area_select_id", rootArea);
+				loadChildren();
+			}
+
+		},
+	});
+}
+
+function loadChildren() {
+	var id = $("#root_area_select_id").find("option:selected").attr("id");
+	if (id) {
 		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_root_area.do",
+			url : globalPath + "/area/find_area_by_parent_id.do",
 			type : "post",
 			dataType : "json",
+			data : {
+				id : id
+			},
 			success : function(result) {
 				var html = "";
-				html += "<option value=''>请选择</option>";
 				for ( var i = 0; i < result.length; i++) {
-					html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" + result[i].name + "</option>";
+					html += "<option value='" + result[i].name + "'>" + result[i].name + "</option>";
 				}
-				$("#root_area_select_id").append(html);
+				$("#children_area_select_id").empty();
+				$("#children_area_select_id").append(html);
 
 				// 自动选中
-				var rootArea = "${currSupplier.address}";
-				if (rootArea)
-					rootArea = rootArea.split(",")[0];
-				if (rootArea) {
-					autoSelected("root_area_select_id", rootArea);
-					loadChildren();
+				var childrenArea = "${currSupplier.address}";
+				if (childrenArea)
+					childrenArea = childrenArea.split(",")[1];
+				if (childrenArea) {
+					autoSelected("children_area_select_id", childrenArea);
 				}
-
 			},
 		});
 	}
+}
 
-	function loadChildren() {
-		var id = $("#root_area_select_id").find("option:selected").attr("id");
-		if (id) {
-			$.ajax({
-				url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
-				type : "post",
-				dataType : "json",
-				data : {
-					id : id
-				},
-				success : function(result) {
-					var html = "";
-					for ( var i = 0; i < result.length; i++) {
-						html += "<option value='" + result[i].name + "'>" + result[i].name + "</option>";
-					}
-					$("#children_area_select_id").empty();
-					$("#children_area_select_id").append(html);
+/** 全选 */
+function checkAll(ele, id) {
+	var checked = $(ele).prop("checked");
+	$("#" + id).find("input:checkbox").each(function(index) {
+		$(this).prop("checked", checked);
+	});
+}
 
-					// 自动选中
-					var childrenArea = "${currSupplier.address}";
-					if (childrenArea)
-						childrenArea = childrenArea.split(",")[1];
-					if (childrenArea) {
-						autoSelected("children_area_select_id", childrenArea);
-					}
-				},
-			});
-		}
-	}
+/** 保存基本信息 */
+function saveBasicInfo(jsp) {
+	$("input[name='jsp']").val(jsp);
+	$("#basic_info_form_id").submit();
 
-	/** 全选 */
-	function checkAll(ele, id) {
-		var checked = $(ele).prop("checked");
-		$("#" + id).find("input:checkbox").each(function(index) {
-			$(this).prop("checked", checked);
+}
+
+function openStockholder() {
+	var supplierId = $("input[name='id']").val();
+	if (!supplierId) {
+		layer.msg("请暂存供应商基本信息 !", {
+			offset : '300px',
 		});
-	}
-
-	/** 保存基本信息 */
-	function saveBasicInfo(jsp) {
-		$("input[name='jsp']").val(jsp);
-		$("#basic_info_form_id").submit();
-
-	}
-
-	function openStockholder() {
-		var supplierId = $("input[name='id']").val();
-		if (!supplierId) {
-			layer.msg("请暂存供应商基本信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加供应商股东信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '700px', '420px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
-	}
-
-	function deleteStockholder() {
-		var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
-		var stockholderIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				stockholderIds += ",";
-			}
-			stockholderIds += $(this).val();
-		});
-		var size = checkboxs.length;
-		if (size > 0) {
-			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
-				offset : '200px',
-				scrollbar : false,
-			}, function(index) {
-				window.location.href = "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds + "&supplierId=" + supplierId;
-				layer.close(index);
-
-			});
-		} else {
-			layer.alert("请至少勾选一条记录 !", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-
-	function openFinance() {
-		var supplierId = $("input[name='id']").val();
-		if (!supplierId) {
-			layer.msg("请暂存供应商基本信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加供应商财务信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '650px', '420px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_finance/add_finance.html?&supplierId=' + supplierId + '&sign=1', //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
-	}
-
-	function deleteFinance() {
-		var checkboxs = $("#finance_list_tbody_id").find(":checkbox:checked");
-		var financeIds = "";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				financeIds += ",";
-			}
-			financeIds += $(this).val();
-		});
-		var size = checkboxs.length;
-		if (size > 0) {
-			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
-				offset : '200px',
-				scrollbar : false,
-			}, function(index) {
-				window.location.href = "${pageContext.request.contextPath}/supplier_finance/delete_finance.html?financeIds=" + financeIds + "&supplierId=" + supplierId;
-				layer.close(index);
-
-			});
-		} else {
-			layer.alert("请至少勾选一条记录 !", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-
-	function autoSelected(id, v) {
-		if (v) {
-			$("#" + id).find("option").each(function() {
-				var value = $(this).val();
-				if (value == v) {
-					$(this).prop("selected", true);
-				} else {
-					$(this).prop("selected", false);
-				}
-			});
-		}
-	}
-
-	function checkAllForFinance(ele) {
-		var flag = $(ele).prop("checked");
-		$("#finance_list_tbody_id").find("input:checkbox").prop("checked", flag);
-		$("#finance_attach_list_tbody_id").find("input:checkbox").prop("checked", flag);
-	}
-</script>
-
-<script type="text/javascript">
-	function showReason() {
-		var supplierId = "${currSupplier.id}";
-		var left = document.body.clientWidth - 500;
-		var top = window.screen.availHeight / 2 - 150;
+	} else {
 		layer.open({
 			type : 2,
-			title : '审核反馈',
-			closeBtn : 0, //不显示关闭按钮
-			skin : 'layui-layer-lan', //加上边框
-			area : [ '500px', '300px' ], //宽高
-			offset : [ top, left ],
-			shade : 0,
-			maxmin : true,
-			shift : 2,
-			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
+			title : '添加供应商股东信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '700px', '420px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : globalPath + '/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
+			closeBtn : 1, //不显示关闭按钮
 		});
 	}
-</script>
+}
 
+function deleteStockholder() {
+	var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
+	var stockholderIds = "";
+	var supplierId = $("input[name='id']").val();
+	$(checkboxs).each(function(index) {
+		if (index > 0) {
+			stockholderIds += ",";
+		}
+		stockholderIds += $(this).val();
+	});
+	var size = checkboxs.length;
+	if (size > 0) {
+		layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
+			offset : '200px',
+			scrollbar : false,
+		}, function(index) {
+			window.location.href = globalPath + "/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds + "&supplierId=" + supplierId;
+			layer.close(index);
+
+		});
+	} else {
+		layer.alert("请至少勾选一条记录 !", {
+			offset : '200px',
+			scrollbar : false,
+		});
+	}
+}
+
+function openFinance() {
+	var supplierId = $("input[name='id']").val();
+	if (!supplierId) {
+		layer.msg("请暂存供应商基本信息 !", {
+			offset : '300px',
+		});
+	} else {
+		layer.open({
+			type : 2,
+			title : '添加供应商财务信息',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '650px', '420px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : globalPath + '/supplier_finance/add_finance.html?&supplierId=' + supplierId + '&sign=1', //url
+			closeBtn : 1, //不显示关闭按钮
+		});
+	}
+}
+
+function deleteFinance() {
+	var checkboxs = $("#finance_list_tbody_id").find(":checkbox:checked");
+	var financeIds = "";
+	var supplierId = $("input[name='id']").val();
+	$(checkboxs).each(function(index) {
+		if (index > 0) {
+			financeIds += ",";
+		}
+		financeIds += $(this).val();
+	});
+	var size = checkboxs.length;
+	if (size > 0) {
+		layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
+			offset : '200px',
+			scrollbar : false,
+		}, function(index) {
+			window.location.href = globalPath + "/supplier_finance/delete_finance.html?financeIds=" + financeIds + "&supplierId=" + supplierId;
+			layer.close(index);
+
+		});
+	} else {
+		layer.alert("请至少勾选一条记录 !", {
+			offset : '200px',
+			scrollbar : false,
+		});
+	}
+}
+
+function autoSelected(id, v) {
+	if (v) {
+		$("#" + id).find("option").each(function() {
+			var value = $(this).val();
+			if (value == v) {
+				$(this).prop("selected", true);
+			} else {
+				$(this).prop("selected", false);
+			}
+		});
+	}
+}
+
+function checkAllForFinance(ele) {
+	var flag = $(ele).prop("checked");
+	$("#finance_list_tbody_id").find("input:checkbox").prop("checked", flag);
+	$("#finance_attach_list_tbody_id").find("input:checkbox").prop("checked", flag);
+}
+
+function showReason() {
+	var supplierId = "${currSupplier.id}";
+	var left = document.body.clientWidth - 500;
+	var top = window.screen.availHeight / 2 - 150;
+	layer.open({
+		type : 2,
+		title : '审核反馈',
+		closeBtn : 0, //不显示关闭按钮
+		skin : 'layui-layer-lan', //加上边框
+		area : [ '500px', '300px' ], //宽高
+		offset : [ top, left ],
+		shade : 0,
+		maxmin : true,
+		shift : 2,
+		content : globalPath + '/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
+	});
+}
+</script>
 </head>
 
 <body>
 	<div class="wrapper">
-		<!-- 项目戳开始 -->
-		<c:if test="${currSupplier.status != 7}">
-			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt20 ml30">
-					<span class="new_step current fl"><i class="">1</i>
-						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step fl"><i class="">2</i>
-						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> <span class="step_desc_01">申请表承诺书上传</span> </span>
-					<div class="clear"></div>
-				</h2>
-			</div>
-		</c:if>
-
+		<%@include file="supplierNav.jsp" %>
 		<!--基本信息-->
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -381,10 +328,10 @@
 											<i>02</i>资质资信
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span> <up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> <up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" /></li>
-											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span> <up:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> <up:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></li>
-											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span> <up:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> <up:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" /></li>
-											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span> <up:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> <up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></li>
+											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span> <u:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" /></li>
+											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span> <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" /></li>
+											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span> <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" /></li>
+											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span> <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" /></li>
 											<div class="clear"></div>
 										</ul>
 
@@ -447,7 +394,8 @@
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 统一信用代码：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="creditCode" value="${currSupplier.creditCode}" />
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 登记机关：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="registAuthority" value="${currSupplier.registAuthority}" />

@@ -10,9 +10,8 @@
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application" />
 <script>
-	var globalPath = "${contextPath}";
+	var globalPath = "${pageContext.request.contextPath}";
 </script>
 
 

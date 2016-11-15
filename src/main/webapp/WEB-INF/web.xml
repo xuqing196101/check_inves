@@ -141,7 +141,7 @@
   	</taglib>
   	<taglib>
   		<taglib-uri>/tld/auth</taglib-uri>
-  		<taglib-location>/WEB-INF/tld/auth</taglib-location>
+  		<taglib-location>/WEB-INF/tlds/auth.tld</taglib-location>
   	</taglib>
   </jsp-config>
   <servlet>
