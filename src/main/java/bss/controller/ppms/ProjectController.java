@@ -883,7 +883,11 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
         model.addAttribute("page", page);
-        model.addAttribute("fds", getFlowDefine(project.getPurchaseType(), id));
+        HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
+        model.addAttribute("fds", map.get("fds"));
+        //默认url
+        model.addAttribute("url", map.get("url"));
+        System.out.println(map.get("url"));
         return "bss/ppms/open_bidding/main";
     }
 
@@ -894,14 +898,15 @@ public class ProjectController extends BaseController {
      * @param code 采购方式编码
      * @return 流程环节
      */
-    public List<FlowDefine> getFlowDefine(String code, String proejctId){
+    public Map<String, Object> getFlowDefine(String code, String projectId){
+        HashMap<String, Object> map = new HashMap<String, Object>();
         FlowDefine fd = new FlowDefine();
         fd.setPurchaseTypeId(DictionaryDataUtil.getId(code));
         //该采购方式定义的流程环节
         List<FlowDefine> fds = flowMangeService.find(fd);
         //该项目已执行的流程环节
         FlowExecute flowExecute = new FlowExecute();
-        flowExecute.setProjectId(proejctId);
+        flowExecute.setProjectId(projectId);
         List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
         //如果项目已开始实施执行
         if (flowExecutes != null && flowExecutes.size() > 0) {
@@ -922,14 +927,21 @@ public class ProjectController extends BaseController {
                     }
                 } else {
                     if (flowDefine.getStep() == willStep) {
+                        //将要执行状态
                         flowDefine.setStatus(4);
+                        map.put("url", flowDefine.getUrl()+"?projectId="+projectId+"&flowDefineId="+flowDefine.getId());
                     } else {
                         //未执行状态
                         flowDefine.setStatus(3);
                     }
                 }
             }
+        } else {
+            //默认第一个为将要执行状态
+            fds.get(0).setStatus(4);
+            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
         }
-        return fds;
+        map.put("fds", fds);
+        return map;
     }
 }

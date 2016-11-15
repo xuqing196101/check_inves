@@ -100,7 +100,7 @@
 						</script>
 					  <!-- 右侧内容开始-->
 					  <div class="tag-box tag-box-v4 col-md-9" >
-						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="${pageContext.request.contextPath}/project/mplement.html?id=${project.id}"></iframe>
+						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="${pageContext.request.contextPath}/${url}"></iframe>
 					  </div>
 					  <div class="col-md-12 tc mt20" >
 					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
