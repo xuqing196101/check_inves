@@ -202,7 +202,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	public String listProject(HttpServletRequest req,HttpServletResponse response,Project project,Integer page,Model model){
 		    HashMap<String, Object> map = new HashMap<String, Object>();
 		    User user=(User)req.getSession().getAttribute("loginUser");
-		    //map.put("supplierId", user.getTypeId());
+		    map.put("supplierId", user.getTypeId());
 		    map.put("name", project.getName());
 		    map.put("projectNumber", project.getProjectNumber());
 		    List<Project> pdList = supplierQuoteService.selectByCondition(map,page==null?0:page);

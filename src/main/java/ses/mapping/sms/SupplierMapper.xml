@@ -858,7 +858,7 @@
 		) t2 ON t1.id =t2.id
 		) GROUP BY id )t1
 		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
-		) where 1=1
+		) where 1=1 and SUPPLIER_NAME is not null
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>

@@ -30,6 +30,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
@@ -38,6 +39,7 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 @Controller
 @Scope("prototype")
@@ -53,6 +55,9 @@ public class SupplierInfoController extends BaseSupplierController{
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	
 	@RequestMapping("/open_password")
@@ -142,6 +147,8 @@ public class SupplierInfoController extends BaseSupplierController{
 			User user=(User)request.getSession().getAttribute("loginUser");
 			supplier = supplierAuditService.supplierById(user.getTypeId());
 			getSupplierType(supplier);
+			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("suppliers", supplier);
 			return "ses/sms/supplier_info/essential";
 		}
