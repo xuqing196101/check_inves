@@ -31,7 +31,7 @@
 		<result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
 		<result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
 		<result column="ORGANIZATION" jdbcType="VARCHAR" property="organization" />
-		<result column="IS_MASTER" jdbcType="VARCHAR" property="isMaster" />
+		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
 		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
 		<result column="CODE" jdbcType="VARCHAR"  property="code"/>
@@ -336,7 +336,7 @@
 				#{organization,jdbcType=VARCHAR},
 			</if>
 			<if test="isMaster != null">
-				#{isMaster,jdbcType=VARCHAR},
+				#{isMaster,jdbcType=DECIMAL},
 			</if>
 			<if test="isDelete != null">
 				#{isDelete,jdbcType=INTEGER},
@@ -474,7 +474,7 @@
 				ORGANIZATION = #{organization,jdbcType=VARCHAR},
 			</if>
 			<if test="isMaster != null">
-				IS_MASTER = #{isMaster,jdbcType=VARCHAR},
+				IS_MASTER = #{isMaster,jdbcType=DECIMAL},
 			</if>
 			<if test="isDelete != null">
 				IS_DELETE = #{isDelete,jdbcType=INTEGER},
@@ -554,7 +554,7 @@
 		GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
 		AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
 		ORGANIZATION = #{organization,jdbcType=VARCHAR},
-		IS_MASTER = #{isMaster,jdbcType=VARCHAR},
+		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},
 		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
 		code = #{code,jdbcType=INTEGER},

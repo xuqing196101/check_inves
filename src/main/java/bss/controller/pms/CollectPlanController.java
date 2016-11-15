@@ -57,7 +57,7 @@ public class CollectPlanController extends BaseController {
 		 */
 		@RequestMapping("/list")
 		public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
-			purchaseRequired.setIsMaster("1");
+			purchaseRequired.setIsMaster(1);
 //			purchaseRequired.setIsCollect(1);
 			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 			PageInfo<PurchaseRequired> info = new PageInfo<>(list);
@@ -104,7 +104,7 @@ public class CollectPlanController extends BaseController {
 				String[] plano = collectPlan.getPlanNo().split(",");
 				for(String no:plano){
 					p.setPlanNo(no);
-					p.setIsMaster("1");
+					p.setIsMaster(1);
 					List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //					p.setIsCollect(2);//修改
 					p.setStatus("5");//修改
@@ -181,7 +181,7 @@ public class CollectPlanController extends BaseController {
 				collectPurchaseService.add(c);
 				
 				p.setPlanNo(no);
-				p.setIsMaster("1");
+				p.setIsMaster(1);
 				List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
 //				p.setIsCollect(2);//修改
 				p.setStatus("5");//修改

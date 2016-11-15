@@ -70,7 +70,7 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
-		purchaseRequired.setIsMaster("1");
+		purchaseRequired.setIsMaster(1);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -227,7 +227,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setPlanType(type);
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
-					p.setIsMaster(String.valueOf(count));
+					p.setIsMaster(count);
 					p.setParentId("1");
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
@@ -242,7 +242,7 @@ public class PurchaseRequiredController extends BaseController{
 				p.setPlanType(type);
 				p.setHistoryStatus("0");
 				p.setIsDelete(0);
-				p.setIsMaster(String.valueOf(count));
+				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
 				p.setOrganization(user.getOrg().getName());
@@ -352,7 +352,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
-							p.setIsMaster(String.valueOf(count));
+							p.setIsMaster(count);
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
@@ -370,7 +370,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
-							p.setIsMaster(String.valueOf(count));
+							p.setIsMaster(count);
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());

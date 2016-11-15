@@ -218,6 +218,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		   }
 	    	   });
 	       } */
+	      
+	       function org(obj){
+	    		 
+	    	   var val=$(obj).val();
+	    
+	    	   $(".org option").each(function(){
+	    	 
+	    		   var opt=$(this).val();
+	    		   if(val==opt){
+	    			   $(this).attr("selected", "selected");  
+	    		   }
+	    	   });
+	       }
+	       
 	       
 </script>
 </head>
@@ -336,14 +350,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 							<td class="tc">
 <%-- 							<input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
- --%>							<select onchange="sel(this)"  name="list[${vs.index }].organization">
+ --%>							<select class="org"  onchange="org(this)"  name="list[${vs.index }].organization">
 	 								<option value="">请选择</option>
 									<c:forEach items="${org }" var="ss">
-									<c:if test="${obj.organization==ss.id }">
-									<option value="${ss.id }" selected="selected">${ss.name}</option>
+									<c:if test="${obj.organization==ss.name }">
+									<option value="${ss.name }" selected="selected">${ss.name}</option>
 									</c:if>
-									<c:if test="${obj.organization!=ss.id }">
-									<option value="${ss.id }">${ss.name}</option>
+									<c:if test="${obj.organization!=ss.name }">
+									<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if>  >${ss.name}</option>
 									</c:if>
 								</c:forEach>
 							</select>
@@ -380,11 +394,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
 									 			<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
 									 			<select onchange="ss(this)" name="audit[${vs.index*5+avs.index}].paramValue">
-												<option value="公开招标" <c:if test="${as.paramValue =='公开招标' }">  selected="selected" </c:if> >公开招标</option>
-												<option value="邀请招标" <c:if test="${as.paramValue =='邀请招标' }">  selected="selected" </c:if> >邀请招标</option>
-												<option value="单一来源" <c:if test="${as.paramValue =='单一来源'  }">  selected="selected" </c:if> >单一来源</option>
-												<option value="竞争性谈判" <c:if test="${as.paramValue =='竞争性谈判' }">  selected="selected" </c:if> >竞争性谈判</option>
-												<option value="询价" <c:if test="${as.paramValue =='询价' }">  selected="selected" </c:if> >询价</option>
+												<option value="gkzb" <c:if test="${as.paramValue =='公开招标' }">  selected="selected" </c:if> >公开招标</option>
+												<option value="yqzb" <c:if test="${as.paramValue =='邀请招标' }">  selected="selected" </c:if> >邀请招标</option>
+												<option value="dyly" <c:if test="${as.paramValue =='单一来源'  }">  selected="selected" </c:if> >单一来源</option>
+												<option value="jzxtp" <c:if test="${as.paramValue =='竞争性谈判' }">  selected="selected" </c:if> >竞争性谈判</option>
+												<option value="xj" <c:if test="${as.paramValue =='询价' }">  selected="selected" </c:if> >询价</option>
 											</select>
 									 	</c:if>
 									  

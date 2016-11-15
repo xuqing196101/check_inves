@@ -122,6 +122,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		   }
    	   });
       } */
+      
+      function org(obj){
+    		 
+    	   var val=$(obj).val();
+    
+    	   $(".org option").each(function(){
+    	 
+    		   var opt=$(this).val();
+    		   if(val==opt){
+    			   $(this).attr("selected", "selected");  
+    		   }
+    	   });
+       } 
+      
+      
 </script>
 </head>
 
@@ -216,17 +231,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td>
 							
 							<select  onchange="sel(this)" name="list[${vs.index }].purchaseType">
-							<option value="公开招标">公开招标</option>
-							<option value="邀请招标">邀请招标</option>
-							<option value="电子反拍">电子反拍</option>
-							<option value="竞争性谈判">竞争性谈判</option>
-							<option value="单一来源">询价</option>
+							<option value="gkzb">公开招标</option>
+							<option value="yqzb">邀请招标</option>
+							<option value="dzjp">电子反拍</option>
+							<option value="jzxtp">竞争性谈判</option>
+							<option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
 							</select>
 							</td>
 							<td class="tc">
-							<select onchange="sel(this)" name="list[${vs.index }].organization">
+							<select class="org"  onchange="org(this)"  name="list[${vs.index }].organization">
 								<c:forEach items="${org }" var="ss">
-								  <option value="${ss.id }" >${ss.name}</option>
+								  <option value="${ss.name }"  <c:if test="${ss.name==obj.organization }">selected="selected" </c:if>  >${ss.name}</option>
 								</c:forEach>
 								
 							</td>

@@ -93,9 +93,9 @@ public class TaskAssignController extends BaseController{
 			if(plan.getDepartment()!=null){
 				task.setPurchaseRequiredId(plan.getDepartment());
 			}
-			if(user.getOrg()!=null){
+			/*if(user.getOrg()!=null){
 				task.setPurchaseId(user.getOrg().getName());
-			}
+			}*/
 //			task.setYear(plan.getCreatedAt());
 			task.setStatus(1);
 			task.setIsDeleted(0);
