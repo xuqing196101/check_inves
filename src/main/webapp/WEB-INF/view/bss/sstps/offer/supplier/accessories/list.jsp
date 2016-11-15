@@ -136,6 +136,7 @@ $(document).ready(function() {
 		</div>
 		
    </div>
+   
 	
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	

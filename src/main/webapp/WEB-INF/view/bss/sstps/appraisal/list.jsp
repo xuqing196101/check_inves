@@ -61,41 +61,36 @@ function resetQuery(){
     
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
+	   		<h2>申请审价合同列表</h2>
 	   </div>
-  <div class="container clear">
-    <div class="p10_25">
-     <h2 class="padding-10 border1">
-       <form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text"  name="code" value="${code }" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
-	      </li> 
-	      	<input type="hidden" name="like" value="0">
+
+
+	<h2 class="search_detail">
+	<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">合同编号：</label>
+				    <span><input type="text"  name="code" value="${code }" class=""/>
+			    </li>
+			    <li>
+			    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
+			    </li>
+			 <input type="hidden" name="like" value="0">
 	    	<button type="submit" class="btn">查询</button>
 	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </h2>
-   </div>
-</div>
+		 </ul>
+		 <div class="clear"></div>
+		</form>
+	 </h2>
 	
-	<div class="container">	
-		<div class="col-md-12 mt10 ml10">
+		<div class="col-md-12 pl20 mt10">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
-	   		<%--<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-		--%></div>
-	</div>
+	    </div>
 	
-	<div class="container">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
+	<div class="content table_box">
 		  <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
@@ -131,9 +126,9 @@ function resetQuery(){
 	  		</c:forEach>
 	</table>
      </div>
-
-   </div>
+     
       <div id="pagediv" align="right"></div>
    </div>
+   
   </body>
 </html>

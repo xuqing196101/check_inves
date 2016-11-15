@@ -61,8 +61,7 @@ function resetQuery(){
    </div>
    
    <div class="container mt20">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
+     <h2 class="search_detail">
        <form id="form1" action="${pageContext.request.contextPath}/statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -80,11 +79,9 @@ function resetQuery(){
     	  <div class="clear"></div>
        </form>
 	  </h2>
-	 </div>
 	</div>
   
-<div class="container content height-350">
- <div class="row magazine-page">
+<div class="content table_box container">
    <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgwhite">
@@ -131,8 +128,6 @@ function resetQuery(){
 					</div>
               </div>
             </div>
-			
-		</div> 
      </div>
   </div>
 </div>

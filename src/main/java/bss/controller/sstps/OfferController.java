@@ -147,13 +147,14 @@ public class OfferController {
 		if(name!=null && !name.equals("")){
 			map.put("name", "%"+name+"%");
 		}
+		map.put("appraisalContractId",contractId);
 		if(page==null){
 			page = 1;
 		}
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ContractProduct> list = contractProductService.select(contractProduct);
+		List<ContractProduct> list = contractProductService.select(map);
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);
@@ -179,8 +180,6 @@ public class OfferController {
 		}else{
 			url="bss/sstps/offer/supplier/list/list";
 		}
-//		ProductInfo ProductI = new ProductInfo();
-//		ProductI.setContractProduct(contractProduct);
 		ProductInfo productInfo = productInfoService.selectInfo(productId);
 		model.addAttribute("productInfo", productInfo);
 		return url;
@@ -208,13 +207,14 @@ public class OfferController {
 		if(name!=null && !name.equals("")){
 			map.put("name", "%"+name+"%");
 		}
+		map.put("appraisalContractId",contractId);
 		if(page==null){
 			page = 1;
 		}
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ContractProduct> list = contractProductService.select(contractProduct); 
+		List<ContractProduct> list = contractProductService.select(map); 
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);

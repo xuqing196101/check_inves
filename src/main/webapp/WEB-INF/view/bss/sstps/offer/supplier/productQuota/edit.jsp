@@ -28,38 +28,38 @@ function down(){
    </div>
    
    
-  <div class="container bggrey border1 mt20""> 
-    <form action="<%=basePath %>productQuota/update.html" method="post">
+  <div class="container container_box"> 
+    <form action="${pageContext.request.contextPath}/productQuota/update.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="id" name="id" class="w230 mb0" value="${pq.id }" readonly>
    
    <div>
    <h2 class="f16 count_flow mt40"><i>01</i>基础信息</h2>
-   <ul class="list-unstyled list-flow ul_list">
-   <li class="col-md-6 p0">
-	   <span class=""><i class="red">＊</i>零组部件名称：</span>
+   <ul class="ul_list mb20">
+   <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>零组部件名称：</span>
 	   <div class="input-append">
         <input type="text" id="partsName" name="partsName" value="${pq.partsName }" class="w220">
-       	<div class="validate">${ERR_partsName}</div>
+       	<div class="cue">${ERR_partsName}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>零组部件图纸：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>零组部件图纸：</span>
 	   <div class="input-append">
         <input type="text" id="partsDrawingCode" name="partsDrawingCode" value="${pq.partsDrawingCode }" class="w220">
-       	<div class="validate">${ERR_partsDrawingCode}</div>
+       	<div class="cue">${ERR_partsDrawingCode}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>工序名称：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>工序名称：</span>
 	   <div class="input-append">
         <input type="text" id="processName" name="processName" value="${pq.processName }" class="w220">
-       	<div class="validate">${ERR_processName}</div>
+       	<div class="cue">${ERR_processName}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>计量单位：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>计量单位：</span>
 	   <div class="input-append">
         <input id="measuringUnit" name="measuringUnit" value="${pq.measuringUnit }" type="text" class="w220">
        </div>
@@ -69,45 +69,45 @@ function down(){
    
    <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>02</i>单位产品工时定额</h2>
-   <ul class="list-unstyled list-flow ul_list">
-   <li class="col-md-6 p0">
-	   <span class="">准结工时：</span>
+   <ul class="ul_list mb20">
+   <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">准结工时：</span>
 	   <div class="input-append">
         <input type="text" id="offer" name="offer" value="${pq.offer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">加工工时：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">加工工时：</span>
 	   <div class="input-append">
         <input type="text" id="processingOffer" name="processingOffer" value="${pq.processingOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">装配工时：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">装配工时：</span>
 	   <div class="input-append">
         <input type="text" id="assemblyOffer" name="assemblyOffer" value="${pq.assemblyOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">调试工时：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">调试工时：</span>
 	   <div class="input-append">
         <input type="text" id="debuggingOffer" name="debuggingOffer" value="${pq.debuggingOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">试验工时：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">试验工时：</span>
 	   <div class="input-append">
         <input type="text" id="testOffer" name="testOffer" value="${pq.testOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">其他工时：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">其他工时：</span>
 	   <div class="input-append">
         <input type="text" id="otherOffer" name="otherOffer" value="${pq.otherOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">小计：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">小计：</span>
 	   <div class="input-append">
         <input type="text" id="subtotalOffer" name="subtotalOffer" value="${pq.subtotalOffer }" class="w220">
        </div>
@@ -117,23 +117,23 @@ function down(){
    
    <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>03</i>其他</h2>
-   <ul class="list-unstyled list-flow ul_list">
-   <li class="col-md-6 p0">
-	   <span class="">配套数量：</span>
+   <ul class="ul_list mb20">
+   <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">配套数量：</span>
 	   <div class="input-append">
         <input type="text" id="assortOffer" name="assortOffer" value="${pq.assortOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">单位产品工时审核核定数：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">单位产品工时审核核定数：</span>
 	   <div class="input-append">
         <input type="text" id="approvedOffer" name="approvedOffer" value="${pq.approvedOffer }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-12  p0 ">
-	   <span class="fl">备注：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pq.remark }</textarea>
+	 <li class="col-md-12 margin-0 padding-0">
+	   <span class="fl col-md-12 padding-left-5">备注：</span>
+	   <div class="col-md-12 p0 mt5">
+        <textarea class="col-md-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pq.remark }</textarea>
        </div>
 	 </li>
    </ul>

@@ -30,44 +30,44 @@ function down(){
    </div>
    
    
-  <div class="container bggrey border1 mt20""> 
+  <div class="container container_box"> 
     <form action="${pageContext.request.contextPath}/manufacturingCost/update.html" method="post">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="id" name="id" class="w230 mb0" value="${mc.id }" readonly>
    
    <div>
-   <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
-   <ul class="list-unstyled list-flow ul_list">
-   <li class="col-md-6 p0">
-	   <span class=""><i class="red">＊</i>项目名称：</span>
+   <h2 class="f16 count_flow mt40">费用信息</h2>
+   <ul class="ul_list mb20">
+   <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>项目名称：</span>
 	   <div class="input-append">
         <input type="text" id="projectName" name="projectName" value="${mc.projectName }" class="w220">
        	<div class="validate">${ERR_projectName}</div>
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">报价前2年：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">报价前2年：</span>
 	   <div class="input-append">
         <input type="text" id="tyaQuoteprice" name="tyaQuoteprice" value="${mc.tyaQuoteprice }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">报价前1年：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">报价前1年：</span>
 	   <div class="input-append">
         <input id="oyaQuoteprice" name="oyaQuoteprice" type="text" value="${mc.oyaQuoteprice }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">报价当年：</span>
+	 <li class="col-md-3 margin-0 padding-0">
+	   <span class="col-md-12 padding-left-5">报价当年：</span>
 	   <div class="input-append">
         <input id="newQuoteprice" name="newQuoteprice" type="text" value="${mc.newQuoteprice }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-12  p0 ">
-	   <span class="fl">备注：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${mc.remark }</textarea>
+	 <li class="col-md-12 margin-0 padding-0">
+	   <span class="fl col-md-12 padding-left-5">备注：</span>
+	   <div class="col-md-12 p0 mt5">
+        <textarea class="col-md-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${mc.remark }</textarea>
        </div>
 	 </li>
    </ul>
