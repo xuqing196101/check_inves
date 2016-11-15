@@ -61,6 +61,7 @@
         function publish(){
         	var articleId = $("#articleId").val();
         	var noticeType = $("#noticeType").val();
+        	var flowDefineId = $("#flowDefineId").val();
         	if(articleId == null || articleId == ""){
         		layer.alert("请先保存公告",{offset: '222px', shade:0.01});
         	}else{
@@ -75,7 +76,7 @@
 	              shift: 1, //0-6的动画形式，-1不开启
 	              offset: '100px',
 	              shadeClose: false,
-	              content: '${pageContext.request.contextPath}/open_bidding/publishEdit.html?id='+articleId+'&noticeType='+noticeType,
+	              content: '${pageContext.request.contextPath}/open_bidding/publishEdit.html?id='+articleId+'&noticeType='+noticeType+'&flowDefineId='+flowDefineId,
 	              success: function(layero, index){
 	                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	              }
@@ -124,6 +125,7 @@
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
 	    </div>
+	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId }">
 	    <input type="hidden" id="noticeType" value="${noticeType }">
 	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id }">
 	    <input type="hidden" name="id" id="articleId" value="${articleId }">

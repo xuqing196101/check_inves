@@ -12,7 +12,7 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		$(function(){
+		window.onload = function(){
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
        			if(i==1){
@@ -20,21 +20,8 @@
        			}else{
        				$("#pageNum"+i).hide();
        			}
-       			
        		}
-       		/**document.onkeydown = function (e) {
-                var ev = window.event || e;
-                var code = ev.keyCode || ev.which;
-                if (code == 116) {
-                    ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
-                    cancelBubble = true;
-                    return false;
-                }
-            }*/ //禁止f5刷新
-   			//document.oncontextmenu=function(){return false};//禁止右键刷新
-   			
-   			
-        });
+		}
 		
 		//答题时上一页下一页切换
         function setTab(index){

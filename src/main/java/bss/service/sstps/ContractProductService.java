@@ -1,5 +1,6 @@
 package bss.service.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.ContractProduct;
@@ -16,7 +17,7 @@ public interface ContractProductService {
 	
 	public void insert(ContractProduct contractProduct);
 	
-	public List<ContractProduct> select(ContractProduct contractProduct);
+	public List<ContractProduct> select(HashMap<String, Object> map);
 	
 	public void update(ContractProduct contractProduct);
 	

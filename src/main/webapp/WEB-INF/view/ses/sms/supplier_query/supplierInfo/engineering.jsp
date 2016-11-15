@@ -107,26 +107,26 @@ function tijiao(str){
         <!--详情开始-->
         <div class="container content pt0">
             <div class="tab-v2">
-                <ul class="nav nav-tabs bgwhite">
-              <li class=""><a aria-expanded="fale" href="#tab-1" class="f18"  data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" class="f18"  data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-3" class="f18"  data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-               <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
-            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18"  onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+            <ul class="nav nav-tabs bgwhite">
+               <li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('financial');">财务信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18"  onclick="tijiao('shareholder');">股东信息</a></li>
+            <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
              <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
-            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18"  onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
-            <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab"  class="f18" onclick="tijiao('engineering');">工程-专业信息</a></li>
+            <li class="active"><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('engineering');">工程-专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
-            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18"  onclick="tijiao('service');">服务-专业信息</a></li>
+            <c:if test="${fn:contains(suppliers.supplierType, '服务')}">
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('service');">服务-专业信息</a></li>
             </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18"  onclick="tijiao('item');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab"  class="f18" onclick="tijiao('product');" >产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18"  onclick="tijiao('chengxin');">诚信记录</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18"  onclick="tijiao('updateHistory');">历史修改记录</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('product');" >产品信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a></li>
             </ul>
                 <div class="tab-content padding-top-20">
                     <div class="tab-pane fade active in">

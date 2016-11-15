@@ -49,6 +49,7 @@
   </head>
   <body>
   	<form  id ="form" action="${pageContext.request.contextPath}/open_bidding/publish.html" method="post" >
+	  	<input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId }">
 	  	<input type="hidden" name="id" id="articleId" value="${articleId }">
 	  	<div class="layui-layer-wrap" >
 		  <div class="drop_window">

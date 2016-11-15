@@ -12,10 +12,11 @@
     <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
     <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="STEP" jdbcType="DECIMAL" property="step" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, FLOW_DEFINE_ID, PROJECT_ID, PACKAGE_ID, STATUS, CREATED_AT, UPDATED_AT, OPERATOR_ID, 
-    OPERATOR_NAME, IS_DELETED
+    OPERATOR_NAME, IS_DELETED, STEP
   </sql>
   
   <!-- 查询条件 -->
@@ -48,6 +49,9 @@
       </if>
       <if test="operatorName != null and operatorName !='' ">
         and fe.OPERATOR_NAME = #{operatorName} 
+      </if>
+      <if test="step != null">
+        and fe.STEP = #{step} 
       </if>
     </trim>
   </sql>
@@ -101,6 +105,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="step != null">
+        STEP,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -133,6 +140,9 @@
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=DECIMAL},
       </if>
+      <if test="step != null">
+        #{step,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   
@@ -153,10 +163,10 @@
         STATUS = #{status,jdbcType=DECIMAL},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="operatorId != null">
         OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
@@ -166,6 +176,9 @@
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="step != null">
+        STEP = #{step,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -177,6 +190,6 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_FLOW_EXECUTE fe
     <include refid="Example_Where_Clause"/>
-    ORDER BY fe.CREATED_AT DESC
+    ORDER BY fe.step DESC
   </select>
 </mapper>

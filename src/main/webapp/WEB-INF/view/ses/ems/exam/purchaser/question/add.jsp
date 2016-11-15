@@ -57,11 +57,11 @@
 				$("#items").hide();
 				var queAnswer = $("#errorAnswer").val();
 				if(queAnswer=="对"){
-					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' checked='checked'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mr5' checked='checked'/>对<input type='radio' name='answer' value='错' class='ml10'/>错 ");
 				}else if(queAnswer=="错"){
-					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0' checked='checked'/>错 ");
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mr5'/>对<input type='radio' name='answer' value='错' class='ml10' checked='checked'/>错 ");
 				}else{
-					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mr5'/>对<input type='radio' name='answer' value='错' class='ml10'/>错 ");
 				}
 			}
 		})
@@ -121,9 +121,9 @@
 			for(var i=0;i<array.length;i++){
 			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				if(queType==1){
-					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mr5'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
-					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='ml10 mr5'/>"+array[i]+"&nbsp";
 				}
 			}
 			$("#item").html(ohtml);
@@ -161,7 +161,8 @@
   		     <ul class="list-unstyled col-md-6">
 		     <li class="col-md-12 p0">
 	  			<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
-	  			<div class="col-md-12 mb5 fl">
+	  			<div class="col-md-12 fl">
+	  			 <div class="select_common">
 		  		  <select id="queType" name="queType" onchange="changeType()" class="w178">
 		  			<c:if test="${errData['type']==null }">
 		  				<option value="" selected>请选择</option>
@@ -190,6 +191,7 @@
 		  		</select>
 		  		<div class="red">${ERR_type}</div>
 		  		</div>
+		  	  </div>
 	  		</li>
 	  		
   			<li class="col-md-12 p0">
@@ -202,7 +204,7 @@
 			</ul>
 			
   			<ul class="list-unstyled col-md-6 p0">
-				<li class="col-md-12 p0">
+				<li class="col-md-12 p0" id="items">
 					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
 					<div class="fl col-md-12 mb5">
 					  <select id="options" name="options" onchange="changeOpt()" class="w178 fl">

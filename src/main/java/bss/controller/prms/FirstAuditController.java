@@ -55,7 +55,7 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toAdd")
-	public String toAdd(String projectId,Model model ){
+	public String toAdd(String projectId, Model model, String flowDefineId){
 		try {
 			
 			//初审项信息
@@ -70,7 +70,7 @@ public class FirstAuditController {
 			}else if (project.getPurchaseType().equals("公开招标")) {
 				model.addAttribute("type", "招标");
 			}
-			
+			model.addAttribute("flowDefineId", flowDefineId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,7 +113,7 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toPackageFirstAudit")
-	public String toPackageFirstAudit(String projectId,String flag,Model model){
+	public String toPackageFirstAudit(String projectId, String flag, Model model, String flowDefineId){
 		try {
 			//项目分包信息
 			HashMap<String,Object> pack = new HashMap<String,Object>();
@@ -159,6 +159,7 @@ public class FirstAuditController {
 			model.addAttribute("list", list2);
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flag", flag);
+			model.addAttribute("flowDefineId", flowDefineId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

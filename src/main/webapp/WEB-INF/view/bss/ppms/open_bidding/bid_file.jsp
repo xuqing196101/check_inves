@@ -175,20 +175,20 @@
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
 						     <li class="active">
-							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
 							 <li>
-							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
+							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}" >04、招标文件</a>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >04、招标文件</a>
 							 </li>
 						   </ul>
 						 </div>

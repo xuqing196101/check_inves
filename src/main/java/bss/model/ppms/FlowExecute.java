@@ -25,6 +25,7 @@ public class FlowExecute implements Serializable{
 
     private String operatorName;
 
+    private Integer step;
     /**
      * @Fields isDeleted : 是否删除 0：未删除， 1：删除
      */
@@ -109,4 +110,13 @@ public class FlowExecute implements Serializable{
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+    public Integer getStep() {
+        return step;
+    }
+
+    public void setStep(Integer step) {
+        this.step = step;
+    }
+    
 }

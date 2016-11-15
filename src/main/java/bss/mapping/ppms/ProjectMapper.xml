@@ -52,6 +52,7 @@
     <result column="IS_IMPORT" property="isImport"/>
     <result column="IS_PROVISIONAL" property="isProvisional"/>
     <result column="PLAN_TYPE" property="planType"/>
+    <result column="COMFIRM_FILE" property="confirmFile"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -64,7 +65,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE
+    IS_PROVISIONAL,PLAN_TYPE,COMFIRM_FILE
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -437,6 +438,9 @@
       <if test="planType != null">
         PLAN_TYPE,
       </if>
+      <if test="confirmFile != null">
+        CONFIRM_FILE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -595,6 +599,9 @@
       <if test="planType != null">
         #{planType},
       </if>
+      <if test="confirmFile != null">
+        #{confirmFile},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -752,6 +759,9 @@
       </if>
       <if test="planType != null">
         PLAN_TYPE = #{planType},
+      </if>
+      <if test="confirmFile != null">
+        CONFIRM_FILE = #{confirmFile},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

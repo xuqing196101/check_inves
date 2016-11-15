@@ -9,9 +9,6 @@
     
     <title>综合费用汇总分配计算明细</title>
 	
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-
 <script type="text/javascript">
 function edit(){
 	var proId = $("#proId").val();

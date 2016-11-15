@@ -103,11 +103,10 @@ function resetQuery(){
     
     <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
+	   		<h2>报价合同列表</h2>
 	   </div>
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
+	   
+     <h2 class="search_detail">
        <form action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -125,16 +124,12 @@ function resetQuery(){
     	  <div class="clear"></div>
        </form>
      </h2>
-   </div>
-  </div>
-	<div class="container">	
-		<div class="col-md-12 pl20 ml5">
-	   		<button class="btn" type="button" onclick="add()">报价</button>
-		</div>
+  
+	<div class="col-md-12 pl20 mt10">
+	   	<button class="btn" type="button" onclick="add()">报价</button>
 	</div>
 	
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+   <div class="content table_box">
     	<table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
@@ -162,10 +157,9 @@ function resetQuery(){
 	  				</td>
 	  			</tr>
 	  		</c:forEach>
-	</table>
+		</table>
      </div>
 
-   </div>
       <div id="pagediv" align="right"></div>
    </div>
   </body>

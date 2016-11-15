@@ -108,8 +108,8 @@ $(document).ready(function() {
 			totalRow3 += parseFloat($(this).text()); 
 		});
 	}); 
-	$('#total').val(totalRow);
-	$('#total2').val(totalRow2);
+	//$('#total').val(totalRow);
+	//$('#total2').val(totalRow2);
 	$('#total3').val(totalRow3);
 	
 }); 

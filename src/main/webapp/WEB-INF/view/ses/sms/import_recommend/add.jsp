@@ -91,37 +91,37 @@
     <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录名：</span>
 	   <div class="input-append">
-	        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+	        <input class="span5" id="loginName" name="loginName" value="${ir.loginName }" type="text">
 	        <span class="add-on">i</span>
+	        <div class="cue">${ERR_loginName}</div>
        </div>
-       <div class="red">${ERR_loginName}</div>
 	</li> 
 	 
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">登录密码：</span>
 	   <div class="input-append">
-	        <input class="span2" id="password" name="password" value="${ir.password }" type="text">
+	        <input class="span5" id="password" name="password" value="${ir.password }" type="text">
 	        <span class="add-on">i</span>
+	        <div class="cue">${ERR_password}</div>
        </div>
-       <div class="red">${ERR_password}</div>
 	 </li> 
 	 
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">企业名称：</span>
 	   <div class="input-append">
-	         <input class="span2" id="name" name="name"  value="${ir.name }" type="text"> 
+	         <input class="span5" id="name" name="name"  value="${ir.name }" type="text"> 
 	         <span class="add-on">i</span>
+	         <div class="cue">${ERR_name}</div>
        </div>
-       <div class="red">${ERR_name}</div>
 	 </li> 
 	 
 	  <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">法定代表人：</span>
 	   <div class="input-append">
-	         <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
+	         <input class="span5" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
 	         <span class="add-on">i</span>
+	         <div class="cue">${ERR_legalName}</div>
        </div>
-       <div class="red">${ERR_legalName}</div>
 	  </li> 
 	
 	  <li class="col-md-3 margin-0 padding-0 ">
@@ -133,8 +133,8 @@
 				<select name="address" class="w100" id="choose2">
 					<option class="w100">-请选择-</option>
 				</select>
+				<div class="cue">${ERR_address}</div>
 			</div>
-			<div class="red">${ERR_address}</div>
 	 </li> 
 	 
 	 <li class="col-md-3 margin-0 padding-0 ">
@@ -150,10 +150,10 @@
 	 <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">推荐单位：</span>
 	   <div class="input-append">
-	         <input class="span2" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
+	         <input class="span5" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
 	         <span class="add-on">i</span>
+	         <div class="cue">${ERR_recommendDep}</div>
        </div>
-       <div class="red">${ERR_recommendDep}</div>
 	 </li> 
    </ul>
    </div>

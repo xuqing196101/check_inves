@@ -3,6 +3,7 @@ package bss.service.ppms;
 import java.util.List;
 
 import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 
 /**
  * 版权：(C) 版权所有 
@@ -23,6 +24,15 @@ public interface FlowMangeService {
      * @return
      */
     List<FlowDefine> find(FlowDefine fd);
+    
+    /**
+     *〈简述〉根据Id获取流程环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @return
+     */
+    FlowDefine getFlowDefine(String id);
 
     /**
      *〈简述〉更新数据
@@ -50,4 +60,37 @@ public interface FlowMangeService {
      */
     void save(FlowDefine fd);
     
+    /**
+     *〈简述〉保存执行环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param flowExecute
+     */
+    void saveExecute(FlowExecute flowExecute);
+    
+    /**
+     *〈简述〉更新执行环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param flowExecute
+     */
+    void updateExecute(FlowExecute flowExecute);
+
+    /**
+     *〈简述〉查询项目执行列表
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param flowExecute
+     * @return
+     */
+    List<FlowExecute> findFlowExecute(FlowExecute flowExecute);
+    
+    /**
+     *〈简述〉根据id查询流程执行
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @return
+     */
+    FlowExecute getFlowExecute(String id);
 }

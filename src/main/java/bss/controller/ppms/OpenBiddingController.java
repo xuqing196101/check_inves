@@ -35,12 +35,15 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -125,6 +128,8 @@ public class OpenBiddingController {
     @Autowired
     private DownloadService downloadService;
     
+    @Autowired FlowMangeService flowMangeService;
+    
     /**
      * @Fields jsonData : ajax返回数据封装类
      */
@@ -142,7 +147,7 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response){
+    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
         Project project = projectService.selectById(id);
         //判断是否上传招标文件
         String typeId = DictionaryDataUtil.getId("zbwj");
@@ -152,6 +157,7 @@ public class OpenBiddingController {
         } else {
             model.addAttribute("fileId", "0");
         }
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
@@ -169,7 +175,6 @@ public class OpenBiddingController {
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
     }
     
-    
     /**
      *〈简述〉跳转到招标公告(采购公告)页面
      *〈详细描述〉
@@ -179,51 +184,8 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/bidNotice")
-    public String bidNotice(String projectId, Model model){
-          return makeNotice(projectId, "cggg", model);
-//        Project project = projectService.selectById(projectId);
-//        ArticleType articleType = new ArticleType();
-//        Article article = new Article();
-//        //货物/物资
-//        if (project.getPlanType() == 1) { 
-//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
-//        } else if (project.getPlanType() == 2){
-//            //工程
-//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
-//        } else if (project.getPlanType() == 3){
-//            //服务
-//            articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
-//        }
-//        article.setProjectId(projectId);
-//        article.setArticleType(articleType);
-//        //查询公告列表中是否有该项目的招标公告
-//        List<Article> articles = articelService.selectArticleByProjectId(article);
-//        //判断该项目是否已经保存招标公告
-//        if (articles != null && articles.size() > 0){
-//            //判断该项目的招标公告是否发布
-//            if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
-//               //已发布招标公告
-//                model.addAttribute("article", articles.get(0));
-//                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-//                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
-//                return "bss/ppms/open_bidding/bid_notice/view";
-//            } else {
-//                //未发布
-//                model.addAttribute("article", articles.get(0));
-//                model.addAttribute("articleId", articles.get(0).getId());
-//                model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-//                model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
-//                return "bss/ppms/open_bidding/bid_notice/add";
-//            }
-//        } else {
-//            //新增招标公告
-//            model.addAttribute("articleType", articleType);
-//            model.addAttribute("articleId",WfUtil.createUUID());
-//            model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
-//            model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-//            model.addAttribute("projectId", projectId);
-//            return "bss/ppms/open_bidding/bid_notice/add";
-//        }
+    public String bidNotice(String projectId, Model model, String flowDefineId){
+          return makeNotice(projectId, "cggg", model, flowDefineId);
     }
     
     /**
@@ -235,15 +197,8 @@ public class OpenBiddingController {
      * @return 
      */
     @RequestMapping("/winNotice")
-    public String winNotice(String projectId, Model model){
-          return makeNotice(projectId, "zbgg", model);
-    }
-    
-    public String printViewBack(String projectId, Model model, String name, String content){
-        model.addAttribute("name", name);
-        model.addAttribute("content", content);
-        model.addAttribute("projectId", projectId);
-        return "bss/ppms/open_bidding/bid_notice/add";
+    public String winNotice(String projectId, Model model, String flowDefineId){
+          return makeNotice(projectId, "zbgg", model, flowDefineId);
     }
     
     @RequestMapping("/showTime")
@@ -274,7 +229,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("saveBidNotice")
     @ResponseBody 
-    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId) throws Exception{
+    public AjaxJsonData saveBidNotice(HttpServletRequest request, Article article, String articleTypeId, String flowDefineId) throws Exception{
         try {
             String[] ranges = request.getParameterValues("ranges");
             int count = 0;
@@ -327,8 +282,12 @@ public class OpenBiddingController {
                 Article art = articelService.selectArticleById(article.getId());
                 if (art != null ){
                     articelService.update(article);
+                    //该环节设置为执行中状态
+                    flowExe(request, flowDefineId, article.getProjectId(), 2);
                 } else {
                     articelService.addArticle(article);
+                    //该环节设置为执行中状态
+                    flowExe(request, flowDefineId, article.getProjectId(), 2);
                 }
                 jsonData.setSuccess(true);
                 jsonData.setMessage("保存成功");
@@ -399,13 +358,14 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/publishEdit")
-    public String publishEdit(Model model, String id, String noticeType){
+    public String publishEdit(Model model, String id, String noticeType, String flowDefineId){
         if ("zbgg".equals(noticeType)) {
             model.addAttribute("typeId", DictionaryDataUtil.getId("win_notice_aduit"));
         }
         if ("cggg".equals(noticeType)) {
             model.addAttribute("typeId", DictionaryDataUtil.getId("zbggbpwj"));
         }
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("articleId", id);
         model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
         
@@ -425,7 +385,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("/publish")
     @ResponseBody
-    public void publish(HttpServletResponse response, HttpServletRequest request, Article art) throws Exception{
+    public void publish(HttpServletResponse response, HttpServletRequest request, Article art, String flowDefineId) throws Exception{
         try {
             Article article = articelService.selectArticleById(art.getId());
             Timestamp ts = new Timestamp(new Date().getTime());
@@ -434,6 +394,8 @@ public class OpenBiddingController {
             article.setPublishedName(user.getRelName());
             article.setStatus(2);
             articelService.update(article);
+            //该环节设置为已执行状态
+            flowExe(request, flowDefineId, article.getProjectId(), 1);
             String msg = "发布成功";
             String projectId = article.getProjectId();
             response.setContentType("text/html;charset=utf-8");
@@ -457,7 +419,7 @@ public class OpenBiddingController {
      * @throws IOException
      */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId, Model model) throws IOException{
+    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws IOException{
         String result = "保存失败";
         //判断该项目是否上传过招标文件
         String typeId = DictionaryDataUtil.getId("zbwj");
@@ -466,14 +428,18 @@ public class OpenBiddingController {
             //删除 ,表中数据假删除
             uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+            //该环节设置为执行中状态
+            flowExe(req, flowDefineId, projectId, 2);
         } else {
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+            //该环节设置为执行中状态
+            flowExe(req, flowDefineId, projectId, 2);
         }
         System.out.println(result);
     }
     
     /**
-     *〈简述〉
+     *〈简述〉进入确认中标公告页面
      *〈详细描述〉
      * @author yggc
      * @param projectId
@@ -481,12 +447,13 @@ public class OpenBiddingController {
      * @return
      */
     @RequestMapping("/firstAduitView")
-    public String firstAduitView(String projectId, Model model ){
+    public String firstAduitView(String projectId, Model model, String flowDefineId){
         try {
             //初审项信息
             List<FirstAudit> list = auditService.getListByProjectId(projectId);
             model.addAttribute("list", list);
             model.addAttribute("projectId", projectId);
+            model.addAttribute("flowDefineId", flowDefineId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -494,27 +461,20 @@ public class OpenBiddingController {
     }
     
     /**
-     *〈简述〉
+     *〈简述〉初审项关联查询
      *〈详细描述〉
      * @author yggc
-     * @param projectId
+     * @param projectId 项目id
      * @param flag
      * @param model
      * @return
      */
     @RequestMapping("/packageFirstAuditView")
-    public String packageFirstAuditView(String projectId, String flag, Model model){
+    public String packageFirstAuditView(String projectId, Model model, String flowDefineId){
         try {
             //项目分包信息
             HashMap<String,Object> pack = new HashMap<String,Object>();
             pack.put("projectId", projectId);
-            List<Packages> packList = packageService.findPackageById(pack);
-            if(packList.size()==0){
-                Packages pg = new Packages();
-                pg.setName("第一包"); 
-                pg.setProjectId(projectId);
-                packageService.insertSelective(pg);
-            }
             List<Packages> packages = packageService.findPackageById(pack);
             Map<String,Object> list = new HashMap<String,Object>();
             //关联表集合
@@ -534,13 +494,11 @@ public class OpenBiddingController {
             }
             model.addAttribute("idList",idList);
             model.addAttribute("packageList", packages);
-            Project project = projectService.selectById(projectId);
-            model.addAttribute("project", project);
             //初审项信息
             List<FirstAudit> list2 = auditService.getListByProjectId(projectId);
             model.addAttribute("list", list2);
             model.addAttribute("projectId", projectId);
-            model.addAttribute("flag", flag);
+            model.addAttribute("flowDefineId", flowDefineId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -557,37 +515,13 @@ public class OpenBiddingController {
      */
     @RequestMapping("/confirmOk")
     @ResponseBody 
-    public void confirmOk(HttpServletResponse response, String projectId) throws Exception{
+    public void confirmOk(HttpServletRequest request, HttpServletResponse response, String projectId, String flowDefineId) throws Exception{
         try {
-            //确认初审项
-            List<FirstAudit> firstAudits = auditService.getListByProjectId(projectId);
-            for (FirstAudit firstAudit : firstAudits) {
-                firstAudit.setIsConfirm((short)1);
-                auditService.update(firstAudit);
-            }
-            //确认初审项关联
-            PackageFirstAudit packageFirstAudit = new PackageFirstAudit();
-            packageFirstAudit.setProjectId(projectId);
-            packageFirstAudit.setIsConfirm((short)1);
-            packageFirstAuditService.update(packageFirstAudit);
-            
-            //确认评分办法
-            HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("projectId", projectId);
-            List<Packages> packagesLsit = packageService.findPackageById(map);
-            if (packagesLsit != null && packagesLsit.size() > 0){
-                for (Packages packages : packagesLsit) {
-                    ScoreModel scoreModel = new ScoreModel();
-                    scoreModel.setPackageId(packages.getId());
-                    List<ScoreModel> scoreModels = scoreModelService.findListByScoreModel(scoreModel);
-                    if(scoreModels.size() > 0){
-                        for (ScoreModel scoreModel2 : scoreModels) {
-                            scoreModel2.setStatus("1");
-                            scoreModelService.updateScoreModel(scoreModel2);
-                        }
-                    }
-                }
-            }
+            Project project = projectService.selectById(projectId);
+            project.setConfirmFile(1);
+            projectService.update(project);
+            //该环节设置为执行完状态
+            flowExe(request, flowDefineId, projectId, 1);
             String msg = "确认成功";
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
@@ -599,7 +533,6 @@ public class OpenBiddingController {
         } finally{
             response.getWriter().close();
         }
-        
     }
     
     /**
@@ -653,7 +586,16 @@ public class OpenBiddingController {
         return "bss/ppms/open_bidding/bid_file/changbiao";
     }
     
-    public String makeNotice(String projectId, String noticeType, Model model){
+    /**
+     *〈简述〉编制公告
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId 项目id
+     * @param noticeType 公告类型
+     * @param model
+     * @return
+     */
+    public String makeNotice(String projectId, String noticeType, Model model, String flowDefineId){
         Project project = projectService.selectById(projectId);
         ArticleType articleType = new ArticleType();
         Article article = new Article();
@@ -703,6 +645,7 @@ public class OpenBiddingController {
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("noticeType", noticeType);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
+                model.addAttribute("flowDefineId", flowDefineId);
                 return "bss/ppms/open_bidding/bid_notice/add";
             }
         } else {
@@ -713,8 +656,58 @@ public class OpenBiddingController {
             model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
             model.addAttribute("projectId", projectId);
             model.addAttribute("noticeType", noticeType);
+            model.addAttribute("flowDefineId", flowDefineId);
             return "bss/ppms/open_bidding/bid_notice/add";
         }
-        
+    }
+    
+    
+    /**
+     *〈简述〉添加一条流程执行记录
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param flowDefineId 流程环节定义
+     * @param projectId 项目id
+     * @param status 执行状态
+     */
+    public void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status){
+        FlowExecute temp = new FlowExecute();
+        temp.setFlowDefineId(flowDefineId);
+        temp.setProjectId(projectId);
+        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(temp);
+        //如果该项目该环节流程已经执行过
+        if (flowExecutes != null && flowExecutes.size() > 0) {
+            //执行记录设置为假删除状态
+            FlowExecute oldFlowExecute = flowExecutes.get(0); 
+            oldFlowExecute.setIsDeleted(1);
+            oldFlowExecute.setUpdatedAt(new Date());
+            flowMangeService.updateExecute(oldFlowExecute);
+            //新增一条相同环节记录
+            oldFlowExecute.setCreatedAt(new Date());
+            oldFlowExecute.setStatus(status);
+            oldFlowExecute.setId(WfUtil.createUUID());
+            oldFlowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            oldFlowExecute.setOperatorId(currUser.getId());
+            oldFlowExecute.setOperatorName(currUser.getRelName());
+            oldFlowExecute.setStatus(status);
+            flowMangeService.saveExecute(oldFlowExecute);
+        } else {
+            //如果该项目该环节流程没有执行过
+            FlowDefine flowDefine = flowMangeService.getFlowDefine(flowDefineId);
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setCreatedAt(new Date());
+            flowExecute.setFlowDefineId(flowDefineId);
+            flowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            flowExecute.setOperatorId(currUser.getId());
+            flowExecute.setOperatorName(currUser.getRelName());
+            flowExecute.setProjectId(projectId);
+            flowExecute.setStatus(status);
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setStep(flowDefine.getStep());
+            flowMangeService.saveExecute(flowExecute);
+        }
     }
 }

@@ -149,7 +149,7 @@
 		 <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	 </div>
 	 <div class="content table_box">
-		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
+		  <table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>
 				<tr>
 				    <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -164,11 +164,11 @@
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
 					    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
-					    <td>${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
+					    <td class="tc">${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
 						<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
-						<td>${list.supplierType }</td>
-						<td>${list.legalName }</td>
-						<td>
+						<td class="tc">${list.supplierType }</td>
+						<td class="tc">${list.legalName }</td>
+						<td class="tc">
 							<c:if test="${list.status==0 }"><span class="label rounded-2x label-u">未审核</span></c:if>
 							<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 							<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回</span></c:if>

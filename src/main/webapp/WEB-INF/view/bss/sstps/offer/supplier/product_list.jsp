@@ -84,6 +84,9 @@ function offer(){
 	}
 }
 
+function resetQuery(){
+	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+}
 </script>    
     
   </head>
@@ -101,36 +104,28 @@ function offer(){
     
     <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
+	   		<h2>合同产品列表</h2>
 	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
+	   
+     <h2 class="search_detail">
+       <form id="form1" action="${pageContext.request.contextPath}/offer/selectProduct.html?contractId=${id}" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">产品名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">产品名称：</label><span><input type="text" id="name" name="name" class="" value="${name }"/></span>
 	      </li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="submit" class="btn">查询</button>
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
      </h2>
-   </div>
-</div>
-	<div class="container">	
 
-		<div class="col-md-12 pl20 ml5">
+		<div class="col-md-12 pl20 mt10">
 	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
-
 		</div>
-	</div>
 	
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-striped table-hover">
+	<div class="content table_box">
+		 <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

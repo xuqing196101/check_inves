@@ -109,12 +109,6 @@ $(function(){
 		});
 		
 	}); 
-	if(totalRow1!=null){
-		$("#total1").val(totalRow1);
-	}
-	if(totalRow2!=null){
-		$("#total2").val(totalRow2);
-	}
 	if(totalRow3!=null){
 		$("#total3").val(totalRow3);
 	}

@@ -1,5 +1,6 @@
 package bss.service.sstps.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,8 @@ public class ContractProductServiceImpl implements ContractProductService {
 	 * 查询
 	 */
 	@Override
-	public List<ContractProduct> select(ContractProduct contractProduct) {
-		return contractProductMapper.select(contractProduct);
+	public List<ContractProduct> select(HashMap<String, Object> map) {
+		return contractProductMapper.select(map);
 	}
 
 

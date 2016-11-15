@@ -61,8 +61,8 @@
 				id.push($(this).val());
 		 	 }); 
 		    if(id.length==1){
-		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(6).text();
-		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(8).text();
+		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(5).text();
+		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(7).text();
 		     if(record.trim()=="正式进口代理商"){
 		        if(jihuo.trim()=="启用"){
 		    		$("#qiyong").attr("disabled",true);
@@ -224,7 +224,7 @@
 	</div>
    
   <div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover tc">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()"></th>
@@ -240,20 +240,23 @@
 		<c:forEach items="${irList.list }" var="list" varStatus="vs">
 			<tr>
 			    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
-			    <td>${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
+			    <td class="tc">${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
 				<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
-				<td>${list.legalName }</td>
+				<td  class="tc">${list.legalName }</td>
 				<td>${list.recommendDep }</td>
-				<td>
+				<td  class="tc">
 				    <c:if test="${list.type==1 }">正式进口代理商</c:if>
 					<c:if test="${list.type==2 }">临时进口代理商</c:if>
 				</td>
-				<td>
+				<td  class="tc">
 					<c:if test="${empty list.useCount }">
-						无限制
+						暂无次数
+					</c:if>
+					<c:if test="${not empty list.useCount }">
+						${list.useCount } 
 					</c:if>
 				</td>
-				<td>
+				<td class="tc">
 					<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">未激活</span></c:if>
 					<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">已激活</span></c:if>
 					<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">暂停</span></c:if>

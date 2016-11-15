@@ -14,7 +14,7 @@
 	<script type="text/javascript">
 		var retake;
 		var isAllow = "${examPaper.isAllowRetake}";
-		$(function(){
+		window.onload = function(){
 			$("#submitNoResult").hide();
 			$("#submitYesResult").hide();
 			if("${time}"){
@@ -58,7 +58,7 @@
        		}
        		countSurPlusNo();
        		countSurPlusYes();
-		})
+		}
 		
 		
 		//答题时上一页下一页切换

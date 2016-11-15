@@ -10,16 +10,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath }/public/ZHH/js/ajaxfileupload.js" type="text/javascript"></script>
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$("#purchaser").hide();
-			$("#errorPurchaser").hide();
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${paperUserList.pages}", //总页数
@@ -92,17 +85,14 @@
 				            }
 				    		$("#errResult").html(html);
 				    		layer.open({
-							 	type: 1, //page层
-								area: ['430px', '200px'],
-								closeBtn: 1,
-								shade:0.01, //遮罩透明度
-								moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								shift: 1, //0-6的动画形式，-1不开启
-								offset: ['120px', '550px'],
-								shadeClose: false,
-								content : $('#errorPurchaser')
+								  type: 1,
+								  title: '错误信息',
+								  skin: 'layui-layer-rim',
+								  shadeClose: true,
+								  area: ['580px','510px'],
+								  content: $("#errorPurchaser")
 							});
-							$(".layui-layer-shade").remove();
+							//$(".layui-layer-shade").remove();
 			    		}else if(array[array.length-1].indexOf("2")>-1){
 			    			$("#errorNews").html("Excel表中以下人员已被添加到本场考试中");
 			    			var html = "";
@@ -119,17 +109,14 @@
 				            }
 				    		$("#errResult").html(html);
 				    		layer.open({
-							 	type: 1, //page层
-								area: ['430px', '200px'],
-								closeBtn: 1,
-								shade:0.01, //遮罩透明度
-								moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								shift: 1, //0-6的动画形式，-1不开启
-								offset: ['120px', '550px'],
-								shadeClose: false,
-								content : $('#errorPurchaser')
+								  type: 1,
+								  title: '错误信息',
+								  skin: 'layui-layer-rim',
+								  shadeClose: true,
+								  area: ['580px','510px'],
+								  content: $("#errorPurchaser")
 							});
-							$(".layui-layer-shade").remove();
+							//$(".layui-layer-shade").remove();
 			    		}else if(array[array.length-1].indexOf("3")>-1){
 			    			$("#errorNews").html("Excel表中以下人员考试时间有冲突");
 			    			var html = "";
@@ -146,17 +133,14 @@
 				            }
 				    		$("#errResult").html(html);
 				    		layer.open({
-							 	type: 1, //page层
-								area: ['430px', '200px'],
-								closeBtn: 1,
-								shade:0.01, //遮罩透明度
-								moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								shift: 1, //0-6的动画形式，-1不开启
-								offset: ['120px', '550px'],
-								shadeClose: false,
-								content : $('#errorPurchaser')
+								  type: 1,
+								  title: '错误信息',
+								  skin: 'layui-layer-rim',
+								  shadeClose: true,
+								  area: ['580px','510px'],
+								  content: $("#errorPurchaser")
 							});
-							$(".layui-layer-shade").remove();
+							//$(".layui-layer-shade").remove();
 			    		}
 			    	}
 			    }  
@@ -257,15 +241,12 @@
 						            }
 						    		$("#refResult").html(html);
 						    		layer.open({
-									 	type: 1, //page层
-										area: ['430px', '200px'],
-										closeBtn: 1,
-										shade:0.01, //遮罩透明度
-										moveType: 1, //拖拽风格，0是默认，1是传统拖动
-										shift: 1, //0-6的动画形式，-1不开启
-										offset: ['120px', '550px'],
-										shadeClose: false,
-										content : $('#purchaser')
+										  type: 1,
+										  title: '信息',
+										  skin: 'layui-layer-rim',
+										  shadeClose: true,
+										  area: ['580px','510px'],
+										  content: $("#purchaser")
 									});
 									$(".layui-layer-shade").remove();
 						    	}
@@ -326,17 +307,14 @@
 				            }
 				    		$("#errResult").html(html);
 				    		layer.open({
-							 	type: 1, //page层
-								area: ['430px', '200px'],
-								closeBtn: 1,
-								shade:0.01, //遮罩透明度
-								moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								shift: 1, //0-6的动画形式，-1不开启
-								offset: ['120px', '550px'],
-								shadeClose: false,
-								content : $('#errorPurchaser')
+								  type: 1,
+								  title: '错误信息',
+								  skin: 'layui-layer-rim',
+								  shadeClose: true,
+								  area: ['580px','510px'],
+								  content: $("#errorPurchaser")
 							});
-							$(".layui-layer-shade").remove();
+							//$(".layui-layer-shade").remove();
 			    		}else if(array[array.length-1].indexOf("2")>-1){
 			    			$("#errorNews").html("以下人员考试时间有冲突");
 			    			var html = "";
@@ -353,17 +331,14 @@
 				            }
 				    		$("#errResult").html(html);
 				    		layer.open({
-							 	type: 1, //page层
-								area: ['430px', '200px'],
-								closeBtn: 1,
-								shade:0.01, //遮罩透明度
-								moveType: 1, //拖拽风格，0是默认，1是传统拖动
-								shift: 1, //0-6的动画形式，-1不开启
-								offset: ['120px', '550px'],
-								shadeClose: false,
-								content : $('#errorPurchaser')
+								  type: 1,
+								  title: '错误信息',
+								  skin: 'layui-layer-rim',
+								  shadeClose: true,
+								  area: ['580px','510px'],
+								  content: $("#errorPurchaser")
 							});
-							$(".layui-layer-shade").remove();
+							//$(".layui-layer-shade").remove();
 			    		}
 		       		}
 		       	}
@@ -410,15 +385,16 @@
 	  	<!--面包屑导航开始-->
 	   	<div class="margin-top-10 breadcrumbs">
 	      	<div class="container">
-			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考卷管理</a></li>
-			   </ul>
-			<div class="clear"></div>
+			   	<ul class="breadcrumb margin-left-0">
+			   	<li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考卷管理</a></li>
+			   	</ul>
+				<div class="clear"></div>
 		  	</div>
 	   	</div>
-		<div class="container">
-			考卷编号:${examPaper.code }
-		</div>   
+	   	
+		<div class="col-md-12 mb10 border1 bggrey mt10 container">
+	  		<div class="fl f18 gary b">考卷编号：${examPaper.code }</div>
+  		</div>
   
   	<div class="container">
 	   <div class="headline-v2">
@@ -498,12 +474,12 @@
 	  	</div>
 	  	
 	  	
-	  	<div class="content padding-left-25 padding-right-25" id="purchaser">
+	  	<div class="dnone layui-layer-wrap col-md-12" id="purchaser">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th>选择</th>
-						<th>姓名</th>
+						<th class="w50">选择</th>
+						<th class="w50">姓名</th>
 						<th>身份证号</th>
 						<th>所属单位</th>
 					</tr>
@@ -511,17 +487,18 @@
 				<tbody id="refResult">
 				</tbody>
 			</table>
-			
-			<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
-			<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
+			<div class="col-md-12 mt10 tc ">
+				<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
+			</div>
 		</div>
 	  	
-	  	<div class="content padding-left-25 padding-right-25" id="errorPurchaser">
-	  		<div id="errorNews"></div>
+	  	<div class="dnone layui-layer-wrap col-md-12" id="errorPurchaser">
+	  		<div id="errorNews" class="col-md-12 tc red mb5 f18"></div>
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th>姓名</th>
+						<th class="w60">姓名</th>
 						<th>身份证号</th>
 						<th>所属单位</th>
 					</tr>

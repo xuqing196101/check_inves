@@ -20,11 +20,11 @@
 	-->
     <script type="text/javascript">
         
-      function confirmOk(obj,id){
+      function confirmOk(obj, id, flowDefineId){
       	   layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"${pageContext.request.contextPath}/open_bidding/confirmOk.html?projectId="+id,
+	 				url:"${pageContext.request.contextPath}/open_bidding/confirmOk.html?projectId="+id+"&flowDefineId="+flowDefineId,
 	 				dataType: 'json',  
 	 	       		success:function(result){
 	                   	layer.msg(result.msg,{offset: '222px'});
@@ -43,11 +43,11 @@
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	     <li class="active">
-		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}" >01、符合性</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}" >02、符合性关联</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >02、符合性关联</a>
 		   <i></i>							  
 		 </li>
 	     <li>
@@ -59,7 +59,7 @@
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  onclick="confirmOk(this,'${projectId}');" id="queren">05、确认</a>
+		   <a  onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>
 		 </li>
 	   </ul>
 	 </div>
