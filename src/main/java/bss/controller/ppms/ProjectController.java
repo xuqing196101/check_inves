@@ -907,7 +907,7 @@ public class ProjectController extends BaseController {
         if (flowExecutes != null && flowExecutes.size() > 0) {
             for (FlowDefine flowDefine : fds) {
                 //将要执行的步骤
-                Integer willStep = flowExecutes.get(flowExecutes.size()).getStep()+1;
+                Integer willStep = flowExecutes.get(0).getStep()+1;
                 flowExecute.setFlowDefineId(flowDefine.getId());
                 //获取该项目该环节的执行情况
                 List<FlowExecute> flowExecutes2 = flowMangeService.findFlowExecute(flowExecute);
