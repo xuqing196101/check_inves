@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@include file="/WEB-INF/view/front.jsp" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/front.jsp" %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -97,8 +98,46 @@
 					pIdKey : "parentId"
 				}
 			},
+			callback: {
+				onCheck: onCheck
+			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
+	}
+	
+	function onCheck(e, treeId, treeNode) {
+		var ids = "";
+		var flag = treeNode.checked;
+		var result = checkType();
+		var tree = $.fn.zTree.getZTreeObj(result.id);
+		var nodes = tree.getChangeCheckedNodes();
+		for (var i = 0; i < nodes.length; i++) {
+			if (!nodes[i].isParent) {
+				if (ids) {
+					ids += ",";
+				}
+				ids += nodes[i].id;
+			}
+		}
+		
+		if (ids) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
+				type : "post",
+				data : {
+					ids : ids,
+					flag : flag,
+					type : result.type
+				},
+				dataType : "json",
+				success : function(result) {
+				},
+			});
+		}
+		
+		/**for (var i = 0; i < nodes.length; i++) {
+			nodes[i].checkedOld = nodes[i].checked;
+		}*/
 	}
 	
 
@@ -189,8 +228,31 @@
 </head>
 
 <body>
+	<c:if test="${currSupplier.status != 7}">
+	<%@ include file="/index_head.jsp"%>
+	</c:if>
 	<div class="wrapper">
-	<%@include file="supplierNav.jsp" %>
+
+		<!-- 项目戳开始 -->
+		<c:if test="${currSupplier.status != 7}">
+			<div class="container clear margin-top-30">
+				<h2 class="padding-20 mt40 ml30">
+					<span class="new_step current fl"><i class="">1</i>
+						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
+						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
+						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+						<span class="step_desc_01">申请表承诺书上传</span> 
+					</span>
+					<div class="clear"></div>
+				</h2>
+			</div>
+		</c:if>
+
 		<!--基本信息-->
 		<div class="container content height-300">
 			<div class="row magazine-page">
@@ -283,5 +345,7 @@
 		<input type="hidden" name="addServeCategoryIds" />
 		<input type="hidden" name="deleteServeCategoryIds" />
 	</form>
+	<!-- footer -->
+	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
 </body>
 </html>

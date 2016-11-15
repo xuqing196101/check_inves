@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@include file="/WEB-INF/view/front.jsp" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/front.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -70,7 +70,7 @@
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId + '&sign=1', //url
+				content : '${pageContext.request.contextPath}/supplier_cert_pro/add_cert_pro.html?matProId=' + matProId + '&supplierId=' + supplierId, //url
 				closeBtn : 1, //不显示关闭按钮
 			});
 		}
@@ -367,15 +367,6 @@
 		$("input[name='fileName']").val(fileName);
 		$("#download_form_id").submit();
 	}
-	
-	function download(id,key){
-		var form = $("<form>");   
-		    form.attr('style', 'display:none');   
-		    form.attr('method', 'post');
-		    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
-		    $('body').append(form); 
-		    form.submit();
-	}
 </script>
 
 <script type="text/javascript">
@@ -401,8 +392,31 @@
 </head>
 
 <body>
+	<c:if test="${currSupplier.status != 7}">
+		<%@ include file="/index_head.jsp"%>
+	</c:if>
 	<div class="wrapper">
-		<%@include file="supplierNav.jsp" %>
+
+		<!-- 项目戳开始 -->
+		<c:if test="${currSupplier.status != 7}">
+			<div class="container clear margin-top-30">
+				<h2 class="padding-20 mt40 ml30">
+					<span class="new_step current fl"><i class="">1</i>
+						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
+						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
+						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+						<span class="step_desc_01">申请表承诺书上传</span> 
+					</span>
+					<div class="clear"></div>
+				</h2>
+			</div>
+		</c:if>
+
 		<!--基本信息-->
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -568,8 +582,8 @@
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
-													</tr>
+														<%--<th class="info">附件</th>
+													--%></tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
@@ -581,7 +595,14 @@
 															<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certPro.mot}</td>
-															<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${certPro.attachId}', '${sysKey}')">${certPro.attach}</a></td>
+															<%--<td class="tc">
+																<c:if test="${certPro.attach != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certPro.attach}')">下载附件</a>
+																</c:if>
+																<c:if test="${certPro.attach == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -938,6 +959,13 @@
 		</div>
 	</div>
 	
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
+		<input type="hidden" name="fileName" />
+	</form>
 	
+	<!-- footer -->
+	<c:if test="${currSupplier.status != 7}">
+		<jsp:include page="/index_bottom.jsp" />
+	</c:if>
 </body>
 </html>
