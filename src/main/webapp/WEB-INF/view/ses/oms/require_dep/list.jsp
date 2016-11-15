@@ -100,7 +100,7 @@
 		 }
 		layer.open({
 	        type: 2,
-	        title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+	        title: [titles],
 	        maxmin: true,
 	        shade: [0.3, '#000'],
 	       	offset: top+"px",

@@ -9,7 +9,7 @@
     		var depid = $("#defaultid").val();
     		var typeName = $("#typeName").val();
     		//$("#hform").submit();
-    		parent.showiframe("添加机构人员",1000,600,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
+    		parent.showiframe("添加机构人员",600,600,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
     	}
     	function editUser(){
     		var ids = getSelectIds();
@@ -80,7 +80,7 @@
 			 }
 			layer.open({
 		        type: 2,
-		        title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+		        title: [titles],
 		        maxmin: true,
 		        shade: [0.3, '#000'],
 		       	offset: top+"px",

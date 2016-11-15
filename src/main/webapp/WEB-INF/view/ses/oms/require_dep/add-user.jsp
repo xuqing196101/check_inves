@@ -7,18 +7,6 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-<script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-
-
 <script type="text/javascript">
 	function save() {
 		var index = parent.layer.getFrameIndex(window.name);
@@ -62,91 +50,131 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+   <form action="${pageContext.request.contextPath}/purchaseManage/createUser.html" method="post" id="formID">
+   <div id="openDiv" class="layui-layer-wrap" >
+    
+          <div class="drop_window">
+              <ul class="list-unstyled">
+                 <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">编号</label>
+                  <span>
+                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+                  </span>
+                </li>
+                
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">交付时间</label>
+                  <span class="col-md-12 p0">
+                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
+                  </span>
+                </li>
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">用户名</label>
+                  <span>
+                   <input name="loginName" maxlength="30" class="col-md-12 p0" type="text">
+                  </span>
+                  <div class="b f18 ml10 red hand">${loginName_msg}</div>
+                </li>
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">真实姓名</label>
+                  <span>
+                   <input class="col-md-12 p0" name="relName" maxlength="10" type="text">
+                  </span>
+                </li>
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">密码</label>
+                  <span>
+                   <input class="col-md-12 p0" name="password" maxlength="30" id="password1" type="password">
+                  </span>
+                  <div class="b f18 ml10 red hand">${password_msg}</div>
+                </li>
+               </ul>
+            </div>
+      
+    </div>
+    </form>
    <!-- 修改订列表开始-->
-   <div class="container">
+   <%-- <div class="container container_box">
    <form action="${pageContext.request.contextPath}/purchaseManage/createUser.html" method="post" id="formID">
    <div>
-	   <div class="headline-v2">
-	   	 <h2>新增用户</h2>
-	   </div>
-	   <ul class="list-unstyled list-flow p0_20">
-    	 <li class="col-md-6 p0">
-		   <span class="">用户名：</span>
+        <h2 class="count_flow">新增用户</h2>
+	   <ul class="ul_list">
+    	 <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">用户名：</span>
 		   <div class="input-append">
-	        <input class="span2" name="loginName" maxlength="30" type="text">
+	        <input class="span5" name="loginName" maxlength="30" type="text">
 	        <span class="add-on">i</span>
 	        <div class="b f18 ml10 red hand">${loginName_msg}</div>
 	       </div>
 		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">真实姓名：</span>
+	     <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">真实姓名：</span>
 		   <div class="input-append">
-	        <input class="span2" name="relName" maxlength="10" type="text">
+	        <input class="span5" name="relName" maxlength="10" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
-		 <li class="col-md-6  p0 ">
-		   <span class="">密码：</span>
+		 <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">密码：</span>
 		   <div class="input-append">
-	        <input class="span2" name="password" maxlength="30" id="password1" type="password">
+	        <input class="span5" name="password" maxlength="30" id="password1" type="password">
 	        <span class="add-on">i</span>
 	        <div class="b f18 ml10 red hand">${password_msg}</div>
 	       </div>
 		 </li> 
-	     <li class="col-md-6  p0 ">
-		   <span class="">确认密码：</span>
+	    <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">确认密码：</span>
 		   <div class="input-append">
-	        <input class="span2" id="password2" maxlength="30" name="password2" type="password">
+	        <input class="span5" id="password2" maxlength="30" name="password2" type="password">
 	        <span class="add-on">i</span>
 	        <div class="b f18 ml10 red hand">${password2_msg}</div>
 	       </div>
 		 </li>
-		  <li class="col-md-6 p0">
-		   <span class="">性别：</span>
+		  <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">性别：</span>
 	        <select name="gender">
 	        	<option value="">-请选择-</option>
 	        	<option value="M">男</option>
 	        	<option value="F">女</option>
 	        </select>
 		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">手机：</span>
+	     <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">手机：</span>
 		   <div class="input-append">
-	        <input class="span2" name="mobile" maxlength="40" type="text">
+	        <input class="span5" name="mobile" maxlength="40" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
-	     <li class="col-md-6 p0">
-		   <span class="">邮箱：</span>
+	     <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">邮箱：</span>
 		   <div class="input-append">
-	        <input class="span2" name="email" maxlength="100" type="text">
+	        <input class="span5" name="email" maxlength="100" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">职务：</span>
+	     <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">职务：</span>
 		   <div class="input-append">
-	        <input class="span2" name="duties" maxlength="40" type="text">
+	        <input class="span5" name="duties" maxlength="40" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
 		 <li class="col-md-6  p0 hide">
-		   <span class="">所属机构：</span>
+		   <span class="col-md-12 padding-left-5">所属机构：</span>
 		   <div class="input-append">
-	        <input class="span2" name="org.id" value="${orgId }" type="text">
-	        <input class="span2" name="typeName" value="${typeName }" type="text">
+	        <input class="span5" name="org.id" value="${orgId }" type="text">
+	        <input class="span5" name="typeName" value="${typeName }" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">座机电话：</span>
+	     <li class="col-md-3 margin-0 padding-0 ">
+		   <span class="col-md-12 padding-left-5">座机电话：</span>
 		   <div class="input-append">
-	        <input class="span2" name="telephone" maxlength="40" type="text">
+	        <input class="span5" name="telephone" maxlength="40" type="text">
 	        <span class="add-on">i</span>
 	       </div>
 		 </li> 
-		 <li class="col-md-12 p0">
+		 <li class="col-md-3 margin-0 padding-0 ">
 		   <span class="fl">详细地址：</span>
 		   <div class="col-md-12 pl200 fn mt5 pwr9">
 	        <textarea class="text_area col-md-12 " name="address" maxlength="400" title="" placeholder=""></textarea>
@@ -161,6 +189,6 @@
 	  </div>
     </div>
   </form>
-  </div>
+  </div> --%>
 </body>
 </html>

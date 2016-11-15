@@ -6,24 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
-
-<title>采购机构查询列表</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<link href="<%=basePath%>public/oms/css/consume.css"  rel="stylesheet">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   /* $(function(){
 	  laypage({
@@ -102,7 +85,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -119,7 +102,6 @@
     }
   </script>
 <body>
-	<div class="wrapper">
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
@@ -137,44 +119,35 @@
 		</div>
 		
 		<div class="container">
-			<div class="headline-v2">
+			 <div class="headline-v2">
 				<h2>采购机构列表</h2>
-		</div>
-		<form action="<%=basePath%>purchaseDep/list.html" method="post"
-			id="form1" enctype="multipart/form-data" class="registerform">
-			<input type="hidden" name="page" id="page"> <input
-				type="hidden" name="flag" value="0">
-			<div align="center">
-				<table>
-					<tr>
-						<td><span>名称：</span><input type="text" name="name"
-							value="${purchaseDep.name }">
-						</td>
-						<td><span class="input-group-btn"> <input
-								class="btn-u" name="commit" value="搜索" type="button"> </span>
-						</td>
-					</tr>
-				</table>
-
-			</div>
+		      </div>
+		      <h2 class="search_detail">
+			       <form action="${pageContext.request.contextPath}/purchaseDep/list.html" method="post" id="form1" enctype="multipart/form-data" class="mb0">
+			        <ul class="demand_list">
+			          <li>
+			            <label class="fl">名称：</label><span><input type="text" name="name" value="${purchaseDep.name }"></span>
+			          </li>
+			          <button type="button" name="commit"  class="btn">查询</button>
+			        </ul>
+			        <div class="clear"></div>
+			       </form>
+			       <input type="hidden" name="page" id="page">
+			       <input type="hidden" name="flag" value="0">
+			  </h2>
 			<!-- 表格开始-->
-			<div class="container">
-				<div class="col-md-8">
-					<!-- <button class="btn btn-windows edit" type="button"
-						onclick="edit();">新增</button> -->
+			 <div class="col-md-12 pl20 mt10">
 					<button class="btn btn-windows edit" type="button"
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
 						onclick="dell();">删除</button>
-					<button class="btn btn-windows add" type="button" onclick="addPurchase();">采购人员管理</button>
+					<button class="btn btn-windows add" type="button" onclick="addPurchase();">人员管理</button>
 					<button class="btn btn-windows edit" type="button" onclick="stash()">资质暂停</button>
 					<button class="btn btn-windows edit" type="button" onclick="over()">资质终止</button>
-				</div>
 			</div>
 
-			<div class="container margin-top-5">
-				<div class="content padding-left-25 padding-right-25 padding-top-5">
-					<table class="table table-bordered table-condensed">
+			<div class="content table_box">
+                <table class="table table-bordered table-condensed table-hover table-striped">
 							<thead>
 								<tr>
 									<th class="info w30"><input id="checkAll" type="checkbox"
@@ -222,9 +195,5 @@
 
 				</div>
 			</div>
-		</form>
-			<!--/container-->
-<!--底部代码开始-->
-	</div>
 </body>
 </html>

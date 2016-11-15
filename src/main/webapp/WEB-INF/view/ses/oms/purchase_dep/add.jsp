@@ -6,15 +6,6 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>新增采购机构</title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="<%=basePath%>public/oms/css/consume.css"  rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <style type="text/css">
 .panel-title>a
 {
@@ -22,9 +13,6 @@
 }
 	
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
 	function save(){
 		var index = parent.layer.getFrameIndex(window.name); 
@@ -78,7 +66,7 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container">
-		<form action="<%=basePath%>purchaseManage/createPurchaseDep.do" method="post" id="formID">
+		<form action="${pageContext.request.contextPath}/purchaseManage/createPurchaseDep.do" method="post" id="formID">
 			<input type="hidden" value="2" name="typeName"/>
 			<div>
 				<div class="headline-v2">

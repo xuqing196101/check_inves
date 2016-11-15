@@ -1,44 +1,19 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../../../common.jsp"%>
 <%
 	 List jsList = (List) request.getAttribute("strlist"); 
 %>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
+<link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
+<script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
+<script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
+<script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
+<script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 <!--<![endif]-->
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	
-	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/oms/css/consume.css">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
-    <!--导航js-->
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript">
 	 Array.prototype.indexOf = function(val) {
 		for (var i = 0; i < this.length; i++) {
@@ -227,7 +202,7 @@
 		 }
 		layer.open({
 	        type: 2,
-	        title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+	        title: [titles],
 	        maxmin: true,
 	        shade: [0.3, '#000'],
 	       	offset: top+"px",
@@ -261,134 +236,133 @@
 	<div class="container">
 		<form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID">
 			<div>
-				<div class="headline-v2">
-					<h2>新增机构</h2>
-				</div>
+			     <h2 class="count_flow"><i>1</i>修改基本信息</h2>
 				<input type="hidden" name="depIds" id="depIds"/>
 				<input type="hidden" name="id" value="${orgnization.id }"/>
-				<ul class="list-unstyled list-flow p0_20">
-					<li class="col-md-6 p0"><span class="">名称：</span>
+				<ul class="ul_list">
+					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">名称：</span>
 						<div class="input-append">
-							<input class="span2" name="name" type="text" value="${orgnization.name }"> <span
+							<input class="span5" name="name" type="text" value="${orgnization.name }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-6 p0"><span class="">简称：</span>
+					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">简称：</span>
 						<div class="input-append">
-							<input class="span2" name="shortName" type="text" value="${orgnization.shortName }"> <span
+							<input class="span5" name="shortName" type="text" value="${orgnization.shortName }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-6 p0"><span class="">类型：</span>
-							<select class="span2" name="typeName" id="typeName" type="text" onchange="show();"> 
+					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">类型：</span>
+							<select class="span5" name="typeName" id="typeName" type="text" onchange="show();"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 							<input type="hidden" id="type" value="${orgnization.typeName }"/>
 					</li>
-					<li class="col-md-6  p0 "><span class="">上级：</span>
+					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">上级：</span>
 						<div class="input-append">
-							<input id="proSec" type="text" readonly value="${orgnization.parentName }" name="parentName" style="width:120px;" onclick="showMenu(); return false;"/>
+							<input id="proSec" class="span5" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
+							<div class="input-append">
+                              <button class="btn dropdown-toggle add-on">
+                                <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+                              </button>
+                           </div>
 						</div></li>
-					</li>
-					<li class="col-md-6 p0"><span class="">电话：</span>
+					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">电话：</span>
 						<div class="input-append">
-							<input class="span2" name="mobile" type="text" value="${orgnization.mobile }"> <span
+							<input class="span5" name="mobile" type="text" value="${orgnization.mobile }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-6  p0 "><span class="">地址：</span>
+					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">地址：</span>
 						<div class="input-append">
-							<input class="span2" name="address" type="text" value="${orgnization.address }"> <span
+							<input class="span5" name="address" type="text" value="${orgnization.address }"> <span
 								class="add-on">i</span>
 						</div></li>
 					
-					<li class="col-md-6  p0 "><span class="">邮编：</span>
+					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">邮编：</span>
 						<div class="input-append">
-							<input class="span2" name="postCode" type="text" value="${orgnization.postCode }"> <span
+							<input class="span5" name="postCode" type="text" value="${orgnization.postCode }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 "><span class="">传真：</span>
+					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">传真：</span>
 						<div class="input-append">
-							<input class="span2" name="fax" type="text" value="${orgnization.fax }"> <span
+							<input class="span5" name="fax" type="text" value="${orgnization.fax }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6 p0 hide"><span class="">类型1：</span>
-							<select class="span2" name="provinceId" type="text"> 
+					<li class="col-md-3 margin-0 padding-0 hide"><span class="col-md-12 padding-left-5">类型1：</span>
+							<select class="span5" name="provinceId" type="text"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 					</li>
-					<li class="col-md-6 p0 hide"><span class="">类型2：</span>
-							<select class="span2" name="cityId" type="text"> 
+					<li class="col-md-6 p0 hide"><span class="col-md-12 padding-left-5">类型2：</span>
+							<select class="span5" name="cityId" type="text"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">组织机构代码：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">组织机构代码：</span>
 						<div class="input-append">
-							<input class="span2" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
+							<input class="span5" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">详细地址：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">详细地址：</span>
 						<div class="input-append">
-							<input class="span2" name="detailAddr" type="text" value="${orgnization.detailAddr }"> <span
+							<input class="span5" name="detailAddr" type="text" value="${orgnization.detailAddr }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">网站地址：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">网站地址：</span>
 						<div class="input-append">
-							<input class="span2" name="website" type="text" value="${orgnization.website }"> <span
+							<input class="span5" name="website" type="text" value="${orgnization.website }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">负责人：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人：</span>
 						<div class="input-append">
-							<input class="span2" name="princinpal" type="text" value="${orgnization.princinpal }"> <span
+							<input class="span5" name="princinpal" type="text" value="${orgnization.princinpal }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">负责人身份证号：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人身份证号：</span>
 						<div class="input-append">
-							<input class="span2" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard }"> <span
+							<input class="span5" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
-					<li class="col-md-6  p0 hide monitor"><span class="">监管机构性质：</span>
+					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">监管机构性质：</span>
 						<div class="input-append">
-							<input class="span2" name="nature" type="text" value="${orgnization.nature }"> <span
+							<input class="span5" name="nature" type="text" value="${orgnization.nature }"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 				</ul>
-				<div class="mt40 mb50">
-					<button type="button" class="btn  padding-right-20 btn_back margin-5" id="dynamicAdd" onclick="dynamicadd();">添加</button>
-				</div>
-				<div class="content padding-left-25 padding-right-25 padding-top-5">
-					<table class="table table-bordered table-condensed" id="tab">
-						<thead>
-							<tr>
-								<th class="info w30"><input id="checkAll" type="checkbox"
-									onclick="selectAll()" /></th>
-								<th class="info w50">序号</th>
-								<th class="info">机构名称</th>
-								<th class="hide">机构id</th>
-								<th class="info">操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							
-						</tbody>
-					</table>
-				</div>
+				<div class="padding-top-10 clear">
+                    <h2 class="count_flow"><i>2</i>新增机构</h2>
+                       <ul class="ul_list">
+                           <div class="col-md-12 pl20 mt10">
+                               <button type="button" class="btn btn-windows add"  id="dynamicAdd" onclick="dynamicadd();">添加</button>
+                            </div>
+                               <div class="content table_box">
+                                    <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
+                                        <thead>
+                                                <tr>
+                                                    <th class="info w30"><input id="checkAll" type="checkbox"
+                                                        onclick="selectAll()" /></th>
+                                                    <th class="info w50">序号</th>
+                                                    <th class="info">机构名称</th>
+                                                    <th class="hide">机构id</th>
+                                                    <th class="info">操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                    </table>
+                                </div>
+                       </ul>
+                   </div>
 			</div>
 			<div class="col-md-12">
 				<div class="mt40 tc mb50">
-					<button type="submit" class="btn  padding-right-20 btn_back margin-5">更新</button>
+					<button type="submit" class="btn btn-windows git">更新</button>
 				</div>
 			</div>
 		</form>
