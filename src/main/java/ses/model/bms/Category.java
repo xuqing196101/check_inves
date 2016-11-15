@@ -4,15 +4,13 @@ package ses.model.bms;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
-import ses.model.sms.ProductParam;
-import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierType;
 /**
  *@Title:Category
@@ -28,7 +26,7 @@ public class Category {
     /**
      * @Fields name :目录名称 
      */
-    @NotBlank(message = "目录名称不能为空")
+    @NotBlank(message="品目名称不能为空")
     private String name;
     /**
      * @Fields status : 状态（激活/休眠）
@@ -57,12 +55,12 @@ public class Category {
     /**
      * @Fields code : 编码
      */
-    @NotBlank(message ="编码不能为空")
+    @Pattern(regexp="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{2,})$ ",message="编码必须是字母和数字组合")
     private String code;
     /**
      * @Fields position : 排序号
      */
-   
+    @Pattern(regexp="/[^0-9]+/",message="只能输入数字")
     private Integer position;
     /**
      * @Fields isDeleted : 是否删除
@@ -76,7 +74,7 @@ public class Category {
    /**
     * @Fields kind : 产品类型
     */
-    @NotBlank(message = "请选择产品类型")
+
    private String kind;
    /**
     * @Fields paramStatus : 参数状态
@@ -85,11 +83,12 @@ public class Category {
    /**
     * @Fields acceptRange : 验证规范
     */
-   @NotBlank(message = "请输入验证规范")
+
    private String acceptRange;
    /**
     * @Fields paramPublishRange : 公布范围
     */
+
    private String paramPublishRange;
 
 private CategoryAttachment categoryAttchment;
