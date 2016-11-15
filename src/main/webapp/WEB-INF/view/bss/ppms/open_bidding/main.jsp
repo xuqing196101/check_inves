@@ -28,12 +28,18 @@
 		location.href = '${pageContext.request.contextPath}/project/list.html?page='+page;
 	}
 	
-	function jump(url,projectId){
-		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId;
+	function jump(url, projectId, flowDefineId){
+		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
        	    
        $("#as").attr("href",urls);
       var el=document.getElementById('as');
        el.click();//触发打开事件
+	}
+	
+	function tips(step){
+		if(step != 1){
+			layer.msg("请先执行前面步骤",{offset: ['220px']});
+		}
 	}
 </script>
 <body>
@@ -56,9 +62,29 @@
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 	                       <c:forEach items="${fds}" var="fd">
-	                       		<li  onclick="jump('${fd.url}','${project.id }')" <c:if test="${fd.step == 1 }">class="active"</c:if>>
-	                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
-	                       		</li>
+	                       	  	<c:choose> 
+								  <c:when test="${fd.status == 4}">   
+								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')" class="active">
+		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       		</li>  
+								  </c:when> 
+								  <c:when test="${fd.status == 1}">
+		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       		</li> 
+								  </c:when> 
+								  <c:when test="${fd.status == 2}">
+		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       		</li> 
+								  </c:when>
+								  <c:otherwise>   
+								    <%-- <li  onclick="tips(${fd.step})"> --%>
+								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       		</li>  
+								  </c:otherwise> 
+								</c:choose>
 	                       </c:forEach>
 						 </ul>
 					  </div>

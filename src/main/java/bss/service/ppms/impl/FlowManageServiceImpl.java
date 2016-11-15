@@ -10,7 +10,9 @@ import com.github.pagehelper.PageHelper;
 import ses.util.PropUtil;
 
 import bss.dao.ppms.FlowDefineMapper;
+import bss.dao.ppms.FlowExecuteMapper;
 import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.service.ppms.FlowMangeService;
 
 /**
@@ -27,6 +29,9 @@ public class FlowManageServiceImpl implements FlowMangeService {
 	
     @Autowired
 	private FlowDefineMapper flowDefineMapper;
+    
+    @Autowired
+    private FlowExecuteMapper flowExecuteMapper;
 
     @Override
     public List<FlowDefine> find(FlowDefine fd) {
@@ -49,6 +54,30 @@ public class FlowManageServiceImpl implements FlowMangeService {
     public void save(FlowDefine fd) {
         flowDefineMapper.insert(fd);
     }
-	
 
+    @Override
+    public void saveExecute(FlowExecute flowExecute) {
+        flowExecuteMapper.insert(flowExecute);
+    }
+
+    @Override
+    public void updateExecute(FlowExecute flowExecute) {
+        flowExecuteMapper.update(flowExecute);
+    }
+
+    @Override
+    public List<FlowExecute> findFlowExecute(FlowExecute flowExecute) {
+        return flowExecuteMapper.findList(flowExecute);
+    }
+
+    @Override
+    public FlowDefine getFlowDefine(String id) {
+        return flowDefineMapper.get(id);
+    }
+
+    @Override
+    public FlowExecute getFlowExecute(String id) {
+        return flowExecuteMapper.get(id);
+    }
+	
 }

@@ -70,7 +70,7 @@ public class IntelligentScoringController {
 	private ProjectService projectService;
 	
 	@RequestMapping("packageList")
-	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request){
+	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", packages.getProjectId());
 		Project project = projectService.selectById(packages.getProjectId());
@@ -78,6 +78,7 @@ public class IntelligentScoringController {
 		List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
+		model.addAttribute("flowDefineId", flowDefineId);
 		return "bss/ppms/open_bidding/scoring_rubric";
 	}
 	/**

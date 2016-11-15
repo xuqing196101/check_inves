@@ -51,6 +51,11 @@ public class FlowDefine {
      * @Fields purchaseTypeId : 采购方式ID
      */
     private String purchaseTypeId;
+    
+    /**
+     * @Fields status : 1:已执行，2：执行中，3：未执行，4：将要执行
+     */
+    private Integer status;
 
     public String getId() {
         return id;
@@ -115,6 +120,13 @@ public class FlowDefine {
     public void setUrl(String url) {
         this.url = url;
     }
-    
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
     
 }

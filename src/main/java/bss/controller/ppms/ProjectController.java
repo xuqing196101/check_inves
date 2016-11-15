@@ -37,6 +37,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
@@ -882,7 +883,7 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
         model.addAttribute("page", page);
-        model.addAttribute("fds", getFlowDefine(project.getPurchaseType()));
+        model.addAttribute("fds", getFlowDefine(project.getPurchaseType(), id));
         return "bss/ppms/open_bidding/main";
     }
 
@@ -893,10 +894,42 @@ public class ProjectController extends BaseController {
      * @param code 采购方式编码
      * @return 流程环节
      */
-    public List<FlowDefine> getFlowDefine(String code){
+    public List<FlowDefine> getFlowDefine(String code, String proejctId){
         FlowDefine fd = new FlowDefine();
         fd.setPurchaseTypeId(DictionaryDataUtil.getId(code));
+        //该采购方式定义的流程环节
         List<FlowDefine> fds = flowMangeService.find(fd);
+        //该项目已执行的流程环节
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setProjectId(proejctId);
+        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
+        //如果项目已开始实施执行
+        if (flowExecutes != null && flowExecutes.size() > 0) {
+            for (FlowDefine flowDefine : fds) {
+                //将要执行的步骤
+                Integer willStep = flowExecutes.get(flowExecutes.size()).getStep()+1;
+                flowExecute.setFlowDefineId(flowDefine.getId());
+                //获取该项目该环节的执行情况
+                List<FlowExecute> flowExecutes2 = flowMangeService.findFlowExecute(flowExecute);
+                if (flowExecutes2 != null && flowExecutes2.size() > 0) {
+                    Integer s = flowExecutes2.get(0).getStatus();
+                    if (s == 1) {
+                        //已执行状态
+                        flowDefine.setStatus(1);
+                    } else if (s == 2) {
+                        //执行中状态
+                        flowDefine.setStatus(2);
+                    }
+                } else {
+                    if (flowDefine.getStep() == willStep) {
+                        flowDefine.setStatus(4);
+                    } else {
+                        //未执行状态
+                        flowDefine.setStatus(3);
+                    }
+                }
+            }
+        }
         return fds;
     }
 }

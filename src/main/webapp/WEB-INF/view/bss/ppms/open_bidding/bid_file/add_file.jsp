@@ -11,7 +11,6 @@
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
 	function OpenFile(fileId) {
-		alert(fileId);
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
@@ -46,10 +45,11 @@
 	
 	function saveFile(){
 		var projectId = $("#projectId").val();
+		var flowDefineId = $("#flowDefineId").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//参数说明
 		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId, "ntko", "", "bid.doc", "MyFile");
+		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId, "ntko", "", "bid.doc", "MyFile");
 	}
 	
 	function closeFile(){
@@ -90,6 +90,26 @@
 </head>
 
 <body onload="OpenFile('${fileId}')">
+	 <div class="col-md-12 p0">
+	   <ul class="flow_step">
+	     <li >
+		   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、符合性</a>
+		   <i></i>
+		 </li>
+		 
+		 <li >
+		   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
+		   <i></i>							  
+		 </li>
+	     <li>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评标细则</a>
+		   <i></i>
+		 </li>
+		 <li class="active">
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >04、招标文件</a>
+		 </li>
+	   </ul>
+	 </div>
 	 <!-- 按钮 -->
      <div class="fr pr15 mt10">
       	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
@@ -101,6 +121,7 @@
         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
     </div>
 	<form id="MyFile" method="post">
+		<input type="hidden" id="flowDefineId" value="${flowDefineId }">
     	<input type="hidden" id="projectId" value="${project.id }">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
