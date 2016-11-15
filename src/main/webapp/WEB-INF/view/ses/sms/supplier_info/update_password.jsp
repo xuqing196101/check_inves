@@ -16,38 +16,39 @@
 
 <script type="text/javascript">
 function tijiao() {
-			var oldPassword = $("#oldPassword").val();
-			var newPassword1 = $("#newPassword1").val();
-			var newPassword2 = $("#newPassword2").val();
-				$.ajax({
-					url : "${pageContext.request.contextPath}/supplierInfo/udpate_password.do",
-					type : "post",
-					data : {
-						oldPassword : oldPassword,
-						newPassword1:newPassword1,
-						newPassword2:newPassword2,
-					},
-					success : function(result) {
-						 if(result == "1") {
-							layer.tips("旧密码输入错误.", "#oldPassword");
-							$("#password").val("");
-						 }
-						 if(result == "2") {
-							layer.tips("两次输入密码不一致.", "#newPassword1");
-							$("#newPassword2").val("");
-						 }
-						 if(result == "3") {
-							layer.msg("修改成功");
-						 }
-						  if(result == "4") {
-							layer.tips("两次输入密码都不能为空.", "#newPassword1");
-						 }
-					},
-				});
-		};
+	var oldPassword = $("#oldPassword").val();
+	var newPassword1 = $("#newPassword1").val();
+	var newPassword2 = $("#newPassword2").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierInfo/udpate_password.do",
+			type : "post",
+			data : {
+				oldPassword : oldPassword,
+				newPassword1:newPassword1,
+				newPassword2:newPassword2,
+			},
+			success : function(result) {
+				 if(result == "1") {
+					layer.tips("旧密码输入错误.", "#oldPassword");
+					$("#password").val("");
+				 }
+				 if(result == "2") {
+					layer.tips("两次输入密码不一致.", "#newPassword1");
+					$("#newPassword2").val("");
+				 }
+				 if(result == "3") {
+					layer.msg("修改成功");
+				 }
+				  if(result == "4") {
+					layer.tips("两次输入密码都不能为空.", "#newPassword1");
+				 }
+			},
+		});
+};
+		
 function qingkong(){
-$("#newPassword1").val('');
-$("#newPassword2").val('');
+	$("#newPassword1").val('');
+	$("#newPassword2").val('');
 }
 </script>
 </head>
@@ -56,42 +57,41 @@ $("#newPassword2").val('');
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 修改密码</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">个人信息</a></li><li><a href="#">修改密码</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
   <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-   <div class="container">
-    </div>
-  <!--详情开始-->
-        <div class="padding-top-10">
-               <table class="table table-bordered">
+  <div class="container">
+   <div class="headline-v2">
+     	<h2>修改密码</h2>
+     </div>
+   <div class="content table_box">
+    	<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<tbody>
-						<tr><td colspan="6" class="bggrey tl">修改密码</td></tr>
 						<tr>
-							<td class="bggrey tc" style="width:30%">用户名：</td>
-							<td style="width:70%">
-								<input class="span3"  value="${loginName }"  type="text">
+							<td class="bggrey tr" style="width:30%">用户名：</td>
+							<td>
+								<input class="span2"  value="${loginName }"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tc" style="width:30%">旧密码：</td>
-							<td style="width:70%">
-								<input class="span3" id="oldPassword" name="oldPassword"  type="text">
+							<td class="bggrey tr" style="width:30%">旧密码：</td>
+							<td>
+								<input class="span2" id="oldPassword" name="oldPassword"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tc" style="width:30%">新密码：</td>
-							<td style="width:70%">
-								<input class="span3" id="newPassword1" name="newPassword1"  type="text">
+							<td class="bggrey tr" style="width:30%">新密码：</td>
+							<td>
+								<input class="span2" id="newPassword1" name="newPassword1"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tc" style="width:30%">确认新密码：</td>
-							<td style="width:70%">
-								<input class="span3" id="newPassword2"  name="newPassword2"  type="text">
+							<td class="bggrey tr" style="width:30%">确认新密码：</td>
+							<td>
+								<input class="span2" id="newPassword2"  name="newPassword2"  type="text">
 							</td>
 						</tr>
 					</tbody>

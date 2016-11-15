@@ -36,7 +36,8 @@
 			    }
 			});
 	  });
-		function check(){
+	  
+	  function check(){
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -52,8 +53,9 @@
 					   }
 				 }
 		   }
-	}
-		function selectAll(){
+	   }
+	
+	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
 		   if(checkAll.checked){
@@ -67,10 +69,12 @@
 			     checklist[j].checked = false;
 			  }
 		 	}
-		}
+	}
+		
   	function show(id){
   		window.location.href="${pageContext.request.contextPath}/supplier_edit/view.html?id="+id;
   	}
+  	
   	function add(){
   		 window.location.href="${pageContext.request.contextPath}/supplier_edit/add.html?id="+'${id}'; 
   	}
@@ -80,17 +84,24 @@
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商信息变更记录</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">个人信息</a></li><li><a href="#">供应商信息变更记录</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-		<div class="container clear margin-top-30">
-		    <button class="btn btn-windows add" type="button" onclick="add()">变更</button>
-		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
+   <div class="container">
+	 <div class="headline-v2">
+     	<h2>我的变更记录</h2>
+     </div>
+	
+	 <div class="col-md-12 pl20 mt10">
+	    <button class="btn btn-windows add" type="button" onclick="add()">变更</button>
+	 </div>
+	 <div class="content table_box">
+    	<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>
 				<tr>
-					<th class="info w50 tc">序号</th>
+					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">变更时间</th>
 					<th class="info">变更状态</th>
@@ -99,18 +110,18 @@
 			  <tbody>
 				 <c:forEach items="${seList.list }" var="se" varStatus="vs">
 					<tr>
-					    <td>${(vs.index+1)+(seList.pageNum-1)*(seList.pageSize)}</td>
+					    <td class="tc">${(vs.index+1)+(seList.pageNum-1)*(seList.pageSize)}</td>
 						<td><a onclick="show('${se.id}')" class="pointer">${se.supplierName }</a></td>
-						<td><fmt:formatDate value="${se.createDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-						<td>
+						<td class="tc"><fmt:formatDate value="${se.createDate }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+						<td class="tc" >
 							<c:if test="${se.status==0 }">
-								未审核
+								<span class="label rounded-2x label-dark">未审核</span>
 							</c:if>
 							<c:if test="${se.status==1}">
-								审核通过
+								<span class="label rounded-2x label-u">审核通过</span>
 							</c:if>
 							<c:if test="${se.status==2 }">
-								审核退回
+								<span class="label rounded-2x label-dark">审核退回</span>
 							</c:if>
 						</td>
 					</tr>
@@ -118,6 +129,7 @@
 			  </tbody>
 		 </table>
 			<div id="pagediv" align="right"></div>
-		 </div>		 
+		 </div>	
+	</div>	 
 </body>
 </html>

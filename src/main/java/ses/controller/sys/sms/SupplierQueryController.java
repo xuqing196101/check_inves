@@ -194,11 +194,11 @@ public class SupplierQueryController extends BaseSupplierController{
 	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
 		String supId=(String)request.getSession().getAttribute("supplierId");
 	    //第一次进来的时候有值,session为null。
-		if(supId==null&&!supplierId.equals("")){
+		if(supId==null&&!"".equals(supplierId)){
 			request.getSession().setAttribute("supplierId", supplierId);
 		}
 		//第二次进来的时候,都有值
-		if(supId!=null&&!supplierId.equals("")){
+		if(supId!=null&&!"".equals(supplierId)){
 			request.getSession().removeAttribute("supplierId");
 			request.getSession().setAttribute("supplierId", supplierId);
 		}
@@ -345,7 +345,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		Supplier supplier=new Supplier();
 		supplier.setId(supplierId);
 		getSupplierType(supplier);
-		request.setAttribute("supplierss", supplier);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/engineering";
 	}
 	

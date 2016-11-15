@@ -12,7 +12,7 @@
 <meta http-equiv="expires" content="0">    
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
- <script type="text/javascript">
+<script type="text/javascript">
   
   /*分页  */
   $(function(){
@@ -39,7 +39,6 @@
             }
         });
   });
-  
   
     /** 全选全不选 */
     function selectAll(){
@@ -218,49 +217,47 @@
 	        }
        }
     
-  </script>
-  </head>
+</script>
+</head>
   
-  <body>
+ <body>
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">供应商后台</a></li><li><a href="#">采购项目管理</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">我的项目</a></li><li><a href="#">采购项目管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
+     <div class="headline-v2">
+     	<h2>采购项目管理</h2>
+     </div>
 <!-- 项目戳开始 -->
-    <div class="p10_25">
-     <h2 class="padding-10 border1">
-     <form  action="${pageContext.request.contextPath}/mulQuo/listProject.html" id="form1" method="post" class="mb0">
-     <ul class="demand_list">
-    
-     <li class="fl">
-       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="name" value="${project.name }"/></span></label>
-       </li>
-       <li class="fl">
-      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }"/> </label> 
-       </li>
-         <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
-     </ul>
-     <div class="clear"></div>
-    </form>
+     <h2 class="search_detail">
+	     <form  action="${pageContext.request.contextPath}/mulQuo/listProject.html" id="form1" method="post" class="mb0">
+			     <ul class="demand_list">
+				       <li class="fl">
+				           <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="name" value="${project.name }"/></span></label>
+				       </li>
+				       <li class="fl">
+				           <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }"/> </label> 
+				       </li>
+			         <button class="btn" type="submit">查询</button>
+			         <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
+			     </ul>
+	             <div class="clear"></div>
+	    </form>
     </h2>
-    </div>
-     <div class="clear"></div>  
-    <div class="container">
-   <div class="col-md-12">
-    <button class="btn btn-windows add" onclick="bidDocumentManage()">投标管理</button>
-	</div>
-    </div>  
-   <div class="container clear">
-    <div class="container margin-top-5">
-               <table class="table table-striped table-bordered table-hover">
+    
+      <div class="col-md-12 pl20 mt10">
+        <button class="btn btn-windows add" onclick="bidDocumentManage()">投标管理</button>
+	  </div>
+	  
+  <div class="content table_box">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -275,17 +272,15 @@
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseType }</a></td>
+              <td><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
+              <td>${obj.projectNumber }</td>
+              <td class="tc">${obj.purchaseType }</td>
             </tr>
          </c:forEach> 
         </tbody>
       </table>
       </div>
-      
       <div id="pagediv" align="right"></div>
    </div>
- </div>
-     </body>
+</body>
 </html>
