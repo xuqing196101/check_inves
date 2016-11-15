@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.ppms.AduitQuotaMapper;
 import bss.model.ppms.AduitQuota;
 import bss.service.ppms.AduitQuotaService;
 
@@ -21,31 +22,31 @@ import bss.service.ppms.AduitQuotaService;
 public class AduitQuotaServiceImpl implements AduitQuotaService {
 	
     @Autowired
-	private AduitQuotaService aduitQuotaService;
+	private AduitQuotaMapper aduitQuotaMapper;
 
     @Override
     public List<AduitQuota> find(AduitQuota aq) {
-        return aduitQuotaService.find(aq);
+        return aduitQuotaMapper.findList(aq);
     }
 
     @Override
     public AduitQuota get(String id) {
-        return aduitQuotaService.get(id);
+        return aduitQuotaMapper.get(id);
     }
 
     @Override
     public void update(AduitQuota aq) {
-        aduitQuotaService.update(aq);        
+        aduitQuotaMapper.update(aq);        
     }
 
     @Override
     public void save(AduitQuota aq) {
-        aduitQuotaService.save(aq);        
+        aduitQuotaMapper.insert(aq);        
     }
 
     @Override
     public void delete(String id) {
-        aduitQuotaService.delete(id);
+        aduitQuotaMapper.delete(id);
     }
 	
 }

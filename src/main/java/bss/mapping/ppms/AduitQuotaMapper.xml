@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="bss.dao.bms.AduitQuotaMapper">
-  <resultMap id="AduitQuotaResult" type="bss.model.bms.AduitQuota">
+<mapper namespace="bss.dao.ppms.AduitQuotaMapper">
+  <resultMap id="AduitQuotaResult" type="bss.model.ppms.AduitQuota">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="PACKEAGE_ID" jdbcType="VARCHAR" property="packageId" />
@@ -80,7 +80,7 @@
   </delete>
   
   <!-- 3.插入数据 -->
-  <insert id="insert" parameterType="bss.model.bms.AduitQuota">
+  <insert id="insert" parameterType="bss.model.ppms.AduitQuota">
     insert into T_BSS_PPMS_ADUIT_QUOTA
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -89,7 +89,7 @@
       <if test="projectId != null">
         PROJECT_ID,
       </if>
-      <if test="packeageId != null">
+      <if test="packageId != null">
         PACKEAGE_ID,
       </if>
       <if test="supplierId != null">
@@ -130,8 +130,8 @@
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
       </if>
-      <if test="packeageId != null">
-        #{packeageId,jdbcType=VARCHAR},
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
       </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=VARCHAR},
@@ -167,14 +167,14 @@
   </insert>
   
   <!-- 4.根据主键更新数据 -->
-  <update id="update" parameterType="bss.model.bms.AduitQuota">
+  <update id="update" parameterType="bss.model.ppms.AduitQuota">
     update T_BSS_PPMS_ADUIT_QUOTA
     <set>
       <if test="projectId != null">
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
-      <if test="packeageId != null">
-        PACKEAGE_ID = #{packeageId,jdbcType=VARCHAR},
+      <if test="packageId != null">
+        PACKEAGE_ID = #{packageId,jdbcType=VARCHAR},
       </if>
       <if test="supplierId != null">
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -211,7 +211,7 @@
   </update>
   
   <!-- 5.根据条件查询 -->
-  <select id="findList" parameterType="java.lang.String" resultMap="FlowDefineResult">
+  <select id="findList" parameterType="java.lang.String" resultMap="AduitQuotaResult">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_ADUIT_QUOTA aq
