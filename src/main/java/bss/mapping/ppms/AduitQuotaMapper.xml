@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.bms.AduitQuotaMapper">
+  <resultMap id="AduitQuotaResult" type="bss.model.bms.AduitQuota">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="PACKEAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="SCORE_MODEL_ID" jdbcType="VARCHAR" property="scoreModelId" />
+    <result column="SUPPLIER_VALUE" jdbcType="DECIMAL" property="supplierValue" />
+    <result column="INIT_SCORE" jdbcType="DECIMAL" property="initScore" />
+    <result column="EXPERT_VALUE" jdbcType="DECIMAL" property="expertValue" />
+    <result column="FINAL_SCORE" jdbcType="DECIMAL" property="finalScore" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="ROUND" jdbcType="DECIMAL" property="round" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, PACKEAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, SUPPLIER_VALUE, INIT_SCORE, 
+    EXPERT_VALUE, FINAL_SCORE, CREATED_AT, UPDATED_AT, IS_DELETED, ROUND
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where aq.IS_DELETED = 0 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and aq.ID = #{id} 
+      </if>
+      <if test="projectId != null and projectId != ''">
+        and aq.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="packageId != null and packageId != ''">
+        and aq.PACKEAGE_ID = #{packageId} 
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+        and aq.SUPPLIER_ID = #{supplierId} 
+      </if>
+      <if test="scoreModelId != null and scoreModelId != ''">
+        and aq.SCORE_MODEL_ID = #{scoreModelId} 
+      </if>
+      <if test="supplierValue != null">
+        and aq.SUPPLIER_VALUE = #{supplierValue} 
+      </if>
+      <if test="initScore != null">
+        and aq.INIT_SCORE = #{initScore} 
+      </if>
+      <if test="expertValue != null">
+        and aq.EXPERT_VALUE = #{expertValue} 
+      </if>
+      <if test="finalScore != null">
+        and aq.FINAL_SCORE = #{finalScore} 
+      </if>
+      <if test="round != null">
+        and aq.ROUND = #{round} 
+      </if>
+      <if test="createdAt != null">
+        and fd.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="updatedAt != null">
+        and fd.UPDATED_AT = #{updatedAt} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据主键id查询 -->
+  <select id="get" parameterType="java.lang.String" resultMap="AduitQuotaResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADUIT_QUOTA
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据主键删除 -->
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_ADUIT_QUOTA
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.bms.AduitQuota">
+    insert into T_BSS_PPMS_ADUIT_QUOTA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packeageId != null">
+        PACKEAGE_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="scoreModelId != null">
+        SCORE_MODEL_ID,
+      </if>
+      <if test="supplierValue != null">
+        SUPPLIER_VALUE,
+      </if>
+      <if test="initScore != null">
+        INIT_SCORE,
+      </if>
+      <if test="expertValue != null">
+        EXPERT_VALUE,
+      </if>
+      <if test="finalScore != null">
+        FINAL_SCORE,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="round != null">
+        ROUND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packeageId != null">
+        #{packeageId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreModelId != null">
+        #{scoreModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierValue != null">
+        #{supplierValue,jdbcType=DECIMAL},
+      </if>
+      <if test="initScore != null">
+        #{initScore,jdbcType=DECIMAL},
+      </if>
+      <if test="expertValue != null">
+        #{expertValue,jdbcType=DECIMAL},
+      </if>
+      <if test="finalScore != null">
+        #{finalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="round != null">
+        #{round,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.根据主键更新数据 -->
+  <update id="update" parameterType="bss.model.bms.AduitQuota">
+    update T_BSS_PPMS_ADUIT_QUOTA
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packeageId != null">
+        PACKEAGE_ID = #{packeageId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreModelId != null">
+        SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierValue != null">
+        SUPPLIER_VALUE = #{supplierValue,jdbcType=DECIMAL},
+      </if>
+      <if test="initScore != null">
+        INIT_SCORE = #{initScore,jdbcType=DECIMAL},
+      </if>
+      <if test="expertValue != null">
+        EXPERT_VALUE = #{expertValue,jdbcType=DECIMAL},
+      </if>
+      <if test="finalScore != null">
+        FINAL_SCORE = #{finalScore,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="round != null">
+        ROUND = #{round,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 5.根据条件查询 -->
+  <select id="findList" parameterType="java.lang.String" resultMap="FlowDefineResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADUIT_QUOTA aq
+    <include refid="Example_Where_Clause"/>
+    ORDER BY aq.CREATED_AT DESC
+  </select>
+</mapper>
