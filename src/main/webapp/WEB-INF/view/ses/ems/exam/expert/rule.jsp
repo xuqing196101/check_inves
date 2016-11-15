@@ -102,26 +102,26 @@
    <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
    <input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
     <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-   <h2 class="count_flow"><i>1</i>专家考试规则设置</h2>
+   <h2 class="count_flow">专家考试规则设置</h2>
    <ul class="ul_list">
-	  	<ul class="list-unstyled list-flow p0_20">
-	    	<li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="fl">
-	  			   	<div class="fl">
-		  			   	<label class="fl mt5">单选题：</label>
-		  			   	<div class="fl mt5">
+	  	<ul class="list-unstyled p0_20">
+	    	<li class="col-md-12 p0 mb20">
+	  			<span class="col-md-2"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-10 p0">
+	  			   	<div class="col-md-6 p0">
+		  			   	<label class="fl">单选题：</label>
+		  			   	<div class="fl">
 		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0" value="有"/>有
 		  			   	    <input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0" value="无"/>无 
 		  			   	</div>
 		  			   	<div class="fl" id="sin">
 		  			   	  	<input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  			   	</div>
-		  			   	<div class="fl mt5 ml5 red">${ERR_single }</div>
+		  			   	<div class="fl ml5 red">${ERR_single }</div>
 	  			   	</div>
-	  			   	<div class="clear">
-		    	   	    <label class="fl mt5">多选题：</label>
-		    	   	    <div class="fl mt5">
+	  			   	<div class="col-md-6 p0">
+		    	   	    <label class="fl">多选题：</label>
+		    	   	    <div class="fl">
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0" value="有"/>有
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleNo(this)" class="mt0" value="无"/>无
 		    	   	    </div>
@@ -133,27 +133,35 @@
 	  		    </div>
 	  		</li>
 	  		
-	    	<li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>试卷分值：</span>
-	  			<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
+	    	<li class="col-md-3 p0">
+	  			<span class="col-md-12"><div class="red star_red">*</div>试卷分值：</span>
+	  			<div class="col-md-12 input-append">
+	  				<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
+	    		</div>
 	    	</li>
 	    	
-	    	<li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>及格标准：</span>
-	  			<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分</div>
-	  			<div class="fl mt10 ml5 red">${ERR_passStandard }</div>
+	    	<li class="col-md-3 p0">
+	  			<span class="col-md-12"><div class="red star_red">*</div>及格标准：</span>
+	  			<div class="col-md-12 input-append">
+	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分</div>
+	  				<div class="fl mt10 ml5 red">${ERR_passStandard }</div>
+	  			</div>
 	    	</li>
 	    	
-	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5"><div class="red star_red">*</div>考试开始时间：</span>
-		  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate mt5 fl" value="${errorData['startTime'] }"/>
-	  			<div class="fl mt10 ml5 red">${ERR_time }</div>
+	  		<li class="col-md-3 p0">
+	  			<span class="col-md-12"><div class="red star_red">*</div>考试开始时间：</span>
+	  			<div class="col-md-12 input-append">
+			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['startTime'] }"/>
+		  			<div class="fl mt10 ml5 red">${ERR_time }</div>
+	  			</div>
 	  		</li>
 	    	
-	    	<li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>考试有效时间：</span>
-	  			<div class="fl"><input type="text" name="testCycle" id="testCycle" value="${errorData['testCycle'] }"/>月</div>
-	  			<div class="fl mt10 ml5 red">${ERR_testCycle }</div>
+	    	<li class="col-md-3 p0">
+	  			<span class="col-md-12"><div class="red star_red">*</div>考试有效时间：</span>
+	  			<div class="col-md-12 input-append">
+		  			<div class="fl"><input type="text" name="testCycle" id="testCycle" value="${errorData['testCycle'] }"/>月</div>
+		  			<div class="fl mt10 ml5 red">${ERR_testCycle }</div>
+	  			</div>
 	    	</li>
 	    </ul>
 	    </ul>

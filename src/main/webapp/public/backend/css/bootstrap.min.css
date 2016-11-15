@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream:src/main/webapp/public/backend/css/bootstrap.min.css
 /*!
  * Bootstrap v3.3.2 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -178,7 +177,7 @@ button, input, select, textarea {
 .input-append, .input-prepend {
     display: inline-block;
     margin-bottom: 25px;
-    font-size: 0;
+    font-size:14px;
     white-space: nowrap;
     vertical-align: middle;
 	min-width:249px;
@@ -397,14 +396,6 @@ button, input, select, textarea {
 }
 .list-flow li .text_area{
     height:130px;
-}
-.input-append, .input-prepend {
-    display: inline-block;
-    margin-bottom: 5px;
-    font-size: 0;
-    white-space: nowrap;
-    vertical-align: middle;
-	min-width:249px;
 }
 .bround4{
   border-radius:4px!important;}
