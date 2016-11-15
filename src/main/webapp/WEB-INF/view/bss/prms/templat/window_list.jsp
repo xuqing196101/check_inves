@@ -158,7 +158,7 @@
    <div class="padding-left-25 padding-right-25">
    <div class="col-md-8">
    <!-- <a target="_blank" id="a" class="btn btn-windows"onclick="palte();" href="javascript:void(0)">模板管理</a> -->
-   <button class="btn btn-windows ht_add" type="button" onclick="guanlian();">关联</button>
+   <button class="btn btn-windows add" type="button" onclick="guanlian();">关联</button>
      <button class="btn btn-windows cancel" type="button" onclick="cancel();">取消</button>
 	</div>	
        </div>

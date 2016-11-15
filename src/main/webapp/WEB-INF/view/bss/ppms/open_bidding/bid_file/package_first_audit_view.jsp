@@ -59,22 +59,21 @@
 	 </div>
 	 <div class="tab-content clear step_cont">
 		 <!--第二个 -->
-		 <div class=class="col-md-12 tab-pane active"  id="tab-1">
-		 	   <div class="container clear" id="package">
+		 <div class="col-md-12 tab-pane active"  id="tab-1">
+		 	   <div class="container" id="package">
 				   <c:forEach items="${packageList }" var="pack" varStatus="p">
 				   		<h2 class="f16 jbxx">包名：${pack.name }</h2>
 				   		<div class="content table_box" >
 					       <table class="table table-bordered table-condensed table-hover table-striped">
 				 	            <h5>项目初审项信息</h5>
-							    <thead>
+				 	            <thead>
 							      <tr>
 							        <th>初审项名称</th>
 							        <th>要求类型</th>
 							        <th>创建人</th>
 							      </tr>
-							     </thead>
+							    </thead>
 							      <c:forEach items="${list }" var="l" varStatus="vs">
-								      <thead>
 								       <tr>
 								         <c:forEach items="${idList }" var="id" varStatus="p">
 									 	      <c:if test="${id.firstAuditId==l.id && id.packageId==pack.id }">
@@ -84,7 +83,6 @@
 											  </c:if>
 									 	 </c:forEach>
 								      </tr>
-								      </thead>
 						      	  </c:forEach>
 				   		  </table>
 				   		</div>

@@ -71,6 +71,7 @@ public class FirstAuditController {
 				model.addAttribute("type", "招标");
 			}
 			model.addAttribute("flowDefineId", flowDefineId);
+			model.addAttribute("project", project);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -246,13 +247,12 @@ public class FirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("remove")
-	public String remove(String id,RedirectAttributes attr){
+	@ResponseBody
+	public void remove(String id,RedirectAttributes attr){
 		String[] ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			service.delete(ids[i]);
 		}
-		attr.addAttribute("projectId", id);
-		return "redirect:toAdd.html";
 	}
 	/**
 	 * 

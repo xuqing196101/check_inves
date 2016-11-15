@@ -60,7 +60,7 @@
 	function openWindow(){
 		index = layer.open({
 	          type: 1, //page层
-	          area: ['700px', '200px'],
+	          area: ['300px', '250px'],
 	          title: '手动添加初审项',
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -124,7 +124,7 @@
 	    		}else if(count==1){
 		  layer.open({
 	          type: 2, //page层
-	          area: ['700px', '200px'],
+	          area: ['300px', '250px'],
 	          title: '修改初审项',
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -145,7 +145,7 @@
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['100px', '90px'],
+	          offset: ['100px', '100px'],
 	          closeBtn: 1,
 	          content:'${pageContext.request.contextPath}/firstAudit/toTemplatList.html'
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
@@ -197,14 +197,18 @@
 	<div class="col-md-12 tab-pane active"  id="tab-1">
 	 <h1 class="f16 count_flow"><i>01</i>初审项定义</h1>
 	  <form action="">
+	  <c:if test="${project.confirmFile != 1}">
 	  <input type="button" value="选择模板" onclick="openTemplat();" class="btn btn-windows add"/>
 	  <input type="button" value="添加" onclick="openWindow();" class="btn btn-windows add"/>
 	  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
 	  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
-	    <table class="table table-bordered table-condensed mt5">
+	  </c:if>
+	    <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>
 	      <tr>
+	      <c:if test="${project.confirmFile != 1}">
 	      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+	      </c:if>
 	        <th>初审项名称</th>
 	        <th>要求类型</th>
 	        <th>创建人</th>
@@ -214,7 +218,9 @@
 	      <c:forEach items="${list }" var="l" varStatus="vs">
 	      <thead>
 	       <tr>
+	       <c:if test="${project.confirmFile != 1}">
 	       	<td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
+	       </c:if>
 	        <td align="center">${l.name }</td>
 	        <td align="center">${l.kind }</td>
 	        <td align="center">${l.creater }</td>
@@ -235,16 +241,23 @@
 		 <!--打开的窗口  -->
 			<div id="openWindow"  style="display: none;">
 				<form action="${pageContext.request.contextPath}/firstAudit/add.html" method="post" id="form1">
-			     <table class="table table-bordered table-condensed">
-			     <thead>
-			      <tr>
-			        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" id="name"></td>
-			        <th>要求类型:</th><td><input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-			      </tr>
-			      <input name="creater" required="true" maxlength="10" id="creater" type="hidden" value="${sessionScope.loginUser.relName}">
+				   <ul class="list-unstyled">
+	                <li class="mt10 col-md-12 p0">
+	                  <label class="col-md-12 pl20">初审项名称</label>
+	                  <span class="col-md-12">
+	                    <input type="text" required="true" maxlength="30" name="name" id="name">
+	                  </span>
+	                </li>
+	                <li class="mt10 col-md-12 p0">
+	                  <label class="col-md-12 pl20">要求类型</label>
+	                  <span class="col-md-12">
+	                   <input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术
+	                  </span>
+	                </li>
+                <div class="clear"></div>
+                 <input name="creater" required="true" maxlength="10" id="creater" type="hidden" value="${sessionScope.loginUser.relName}">
 			      <input type="hidden" name="projectId" id="projectId" value="${projectId }">
-			     </thead>
-			    </table>
+               </ul>
 			    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
 			    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
 			  </form>

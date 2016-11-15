@@ -363,38 +363,38 @@ function zTreeOnClick(event,treeId,treeNode){
    </div>
     <table class="table table-bordered">
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>身份证:</td>
+										  	   <td width="25%" class="info">身份证:</td>
 										  	   <td>
 										          <up:show  delete="false" showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
 										  	   </td>
-										  	   <td width="25%" class="info"><i class="red">＊</i>学历证书:</td>
+										  	   <td width="25%" class="info">学历证书:</td>
 										  	   <td>
 										          <up:show  delete="false" showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>职称证书:</td>
+										  	   <td width="25%" class="info">职称证书:</td>
 										  	   <td>
 										          <up:show  delete="false"  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
 										  	   </td>
-										  	   <td width="25%" class="info"><i class="red">＊</i>学位证书:</td>
+										  	   <td width="25%" class="info">学位证书:</td>
 										  	   <td>
 										          <up:show  delete="false" showId="show4"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>个人照片:</td>
+										  	   <td width="25%" class="info">个人照片:</td>
 										  	   <td>
 										          <up:show  delete="false" showId="show5"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
 										  	   </td>
-										  	   <td width="25%" class="info"><i class="red">＊</i>专家申请表上传：</td>
+										  	   <td width="25%" class="info">专家申请表上传：</td>
 										   	    <td>
 												   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
 										   	    </td>
 										  	  
 										  	</tr>  
 										  	 <tr>
-										   	    <td width="25%" class="info"><i class="red">＊</i>专家合同书上传：</td>
+										   	    <td width="25%" class="info">专家合同书上传：</td>
 										   	    <td>
 												   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 										   	    </td>
