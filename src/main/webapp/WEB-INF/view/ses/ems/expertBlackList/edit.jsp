@@ -51,8 +51,10 @@
                     <span class="col-md-12 padding-left-5"><i class="red">＊</i>专家姓名：</span>
                     <div class="input-append">
 			            <input class="span5"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
+			            <input name="expertId" value="${expert.expertId }" class="dnone"/>
 			            <span class="add-on">i</span>
                     </div>
+                    <span class="padding-left-5 padding-left-5 red">${err_relName}</span>
 		        </li>
 		        <li class="col-md-3 margin-0 padding-0 ">
                     <span class="col-md-12 padding-left-5"><i class="red">＊</i>入库时间：</span>
@@ -60,6 +62,7 @@
                         <input class="Wdate w230"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <font id="nameFont2"></font>
                     </div>
+                    <span class="padding-left-5 red">${err_storageTime}</span>
                   </li> 
 		          <li class="col-md-3 margin-0 padding-0 ">
 			        <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚时限：</span>
@@ -73,6 +76,7 @@
 						  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>
 					      </select>
 					</div>
+					<span class="padding-left-5 red">${err_punishDate}</span>
 			      </li>
 			      <li class="col-md-3 margin-0 padding-0 ">
                     <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚日期：</span>
@@ -80,6 +84,7 @@
                         <input class="Wdate w230"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <font id="nameFont2"></font>
                     </div>
+                    <span class="padding-left-5 red">${err_dateOfPunishment}</span>
                 </li>
 		        <li class="col-md-3 margin-0 padding-0 ">
 			        <span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚方式：</span>
@@ -91,12 +96,14 @@
 						    <option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
 					    </select>
 				    </div>
+				    <span class="padding-left-5 red">${err_punishType}</span>
 				</li> 
 				<li class="col-md-11 margin-0 padding-0 ">
 					<span class="col-md-12 padding-left-5"><i class="red">＊</i>处罚理由：</span>
 		            <div class="">
 		              <textarea class="col-md-12" style="height:130px" title="不超过100个字" name="reason" >${expert.reason }</textarea>
                     </div>
+                    <span class="padding-left-5 red">${err_reason}</span>
 		        </li> 
 			</ul>
 			<h2 class="count_flow"><i>2</i>附件上传</h2>

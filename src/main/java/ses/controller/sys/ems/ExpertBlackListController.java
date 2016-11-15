@@ -3,6 +3,7 @@ package ses.controller.sys.ems;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -76,23 +77,68 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("/saveBlacklist")
-	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
-		User user=(User) request.getSession().getAttribute("loginUser");
-		expertBlackList.setCreatedAt(new Date());
-		expertBlackList.setStatus(0);
-		//保存文件
-		this.setExpertBlackListUpload(request, expertBlackList);
-		service.insert(expertBlackList);	
-		//记录操作
-		expertBlackListLog.setOperationDate(new Date()); 
-		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
-		expertBlackListLog.setOperator(user.getLoginName());
-		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
-		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
-		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
-		expertBlackListLog.setReason(expertBlackList.getReason());
-		service.insertHistory(expertBlackListLog);
-		return "redirect:blacklist.html";
+	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog, Model model) throws IOException{
+		String error = "";
+		if (expertBlackList.getRelName() == null || expertBlackList.getRelName().equals("")) {
+			model.addAttribute("err_relName", "不能为空！");
+			error = "error";
+		}
+		if (expertBlackList.getStorageTime() == null) {
+			model.addAttribute("err_storageTime", "不能为空！");
+			error = "error";
+		}
+		if (expertBlackList.getPunishDate() == null || expertBlackList.getPunishDate().equals("")) {
+			model.addAttribute("err_punishDate", "请选择！");
+			error = "error";
+		}
+		if (expertBlackList.getPunishType() == null) {
+			model.addAttribute("err_punishType", "请选择！");
+			error = "error";
+		}
+		
+		if (expertBlackList.getDateOfPunishment() == null) {
+			model.addAttribute("err_dateOfPunishment", "不能为空！");
+			error = "error";
+		}
+		
+		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
+			model.addAttribute("err_reason", "不能为空！");
+			error = "error";
+		}
+		
+		/*if (expertBlackList.getAttachmentCert() == null ) {
+			model.addAttribute("err_attachmentCert", "请上传附件！");
+			count ++;
+		} else {
+			model.addAttribute("attachmentCert", expertBlackList.getAttachmentCert());
+		}*/
+		
+		if(error.equals("error")) {
+			model.addAttribute("relName", expertBlackList.getRelName());
+			model.addAttribute("storageTime", expertBlackList.getStorageTime());
+			model.addAttribute("punishDate", expertBlackList.getPunishDate());
+			model.addAttribute("punishType", expertBlackList.getPunishType());
+			model.addAttribute("dateOfPunishment", expertBlackList.getDateOfPunishment());
+			model.addAttribute("reason", expertBlackList.getReason());
+			return "ses/ems/expertBlackList/add";
+		}else {
+			User user=(User) request.getSession().getAttribute("loginUser");
+			expertBlackList.setCreatedAt(new Date());
+			expertBlackList.setStatus(0);
+			//保存文件
+			this.setExpertBlackListUpload(request, expertBlackList);
+			service.insert(expertBlackList);	
+			//记录操作
+			expertBlackListLog.setOperationDate(new Date()); 
+			expertBlackListLog.setExpertId(expertBlackList.getExpertId());
+			expertBlackListLog.setOperator(user.getLoginName());
+			expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+			expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
+			expertBlackListLog.setPunishType(expertBlackList.getPunishType());
+			expertBlackListLog.setReason(expertBlackList.getReason());
+			service.insertHistory(expertBlackListLog);
+			return "redirect:blacklist.html";
+		}
 	}
 	/**
 	 * @Title: fnidList
@@ -155,22 +201,62 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("/updateBlacklist")
-	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
-		User user=(User) request.getSession().getAttribute("loginUser");
-		expertBlackList.setUpdatedAt(new Date());
-		//保存文件
-		this.setExpertBlackListUpload(request, expertBlackList);
-		service.update(expertBlackList);
-		//记录操作
-		expertBlackListLog.setOperationDate(new Date()); 
-		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
-		expertBlackListLog.setOperator(user.getLoginName());
-		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
-		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
-		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
-		expertBlackListLog.setReason(expertBlackList.getReason());
-		service.insertHistory(expertBlackListLog);
-		return "redirect:blacklist.html";
+	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog, Model model ) throws IOException{
+		String error = "";
+		if (expertBlackList.getRelName() == null || expertBlackList.getRelName().equals("")) {
+			model.addAttribute("err_relName", "不能为空！");
+			error = "error";
+		}
+		if (expertBlackList.getStorageTime() == null) {
+			model.addAttribute("err_storageTime", "不能为空！");
+			error = "error";
+		}
+		if (expertBlackList.getPunishDate() == null || expertBlackList.getPunishDate().equals("")) {
+			model.addAttribute("err_punishDate", "请选择！");
+			error = "error";
+		}
+		if (expertBlackList.getPunishType() == null) {
+			model.addAttribute("err_punishType", "请选择！");
+			error = "error";
+		}
+		
+		if (expertBlackList.getDateOfPunishment() == null) {
+			model.addAttribute("err_dateOfPunishment", "不能为空！");
+			error = "error";
+		}
+		
+		if (expertBlackList.getReason() == null || expertBlackList.getReason().equals("")) {
+			model.addAttribute("err_reason", "不能为空！");
+			error = "error";
+		}
+		
+		if(error.equals("error")) {
+			expertBlackList.setStorageTime(expertBlackList.getStorageTime());
+			expertBlackList.setPunishDate(expertBlackList.getPunishDate());
+			expertBlackList.setPunishType(expertBlackList.getPunishType());
+			expertBlackList.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+			expertBlackList.setReason(expertBlackList.getReason());
+			model.addAttribute("relName", expertBlackList.getRelName());
+			model.addAttribute("expert", expertBlackList);
+			return "ses/ems/expertBlackList/edit";
+		}else {
+		
+			User user=(User) request.getSession().getAttribute("loginUser");
+			expertBlackList.setUpdatedAt(new Date());
+			//保存文件
+			this.setExpertBlackListUpload(request, expertBlackList);
+			service.update(expertBlackList);
+			//记录操作
+			expertBlackListLog.setOperationDate(new Date()); 
+			expertBlackListLog.setExpertId(expertBlackList.getExpertId());
+			expertBlackListLog.setOperator(user.getLoginName());
+			expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+			expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
+			expertBlackListLog.setPunishType(expertBlackList.getPunishType());
+			expertBlackListLog.setReason(expertBlackList.getReason());
+			service.insertHistory(expertBlackListLog);
+			return "redirect:blacklist.html";
+		}
 	}
 	/**
 	 * @Title: updateStatus
