@@ -75,9 +75,8 @@ public class AppraisalContractController extends BaseSupplierController{
 	@RequestMapping(value="/selectContract",produces="application/json;charest=utf-8")
 	public void selectContract(HttpServletResponse response,HttpServletRequest request) throws Exception{
 		String purchaseType = request.getParameter("purchaseType");
-	//	String reason = new String(purchaseType.getBytes("ISO-8859-1") , "UTF-8");
+		purchaseType = new String(purchaseType.getBytes("ISO-8859-1") , "UTF-8");
 		List<Select> list = appraisalContractService.selectChose(purchaseType);
-		System.out.println("list:"+list);
 		super.writeJson(response, list);
 	}
 	
@@ -228,13 +227,24 @@ public class AppraisalContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/distributionUser")
 	public String distributionUser(Model model,String sbid){
-		//监管机构人员
+		model.addAttribute("id", sbid);
+		return "bss/sstps/distribution/distribute_user";
+	}
+	
+	/**
+	* @Title: selectUser
+	* @author Shen Zhenfei 
+	* @date 2016-11-16 上午9:28:54  
+	* @Description:获取监管人员的信息
+	* @param       
+	* @return void
+	 */
+	@RequestMapping("/selectUser")
+	public void selectUser(HttpServletResponse response,HttpServletRequest request){
 		User u = new User();
 		u.setTypeName(0);
 		List<User> user = userService.find(u);
-		model.addAttribute("user", user);
-		model.addAttribute("id", sbid);
-		return "bss/sstps/distribution/distribute_user";
+		super.writeJson(response, user);
 	}
 	
 	

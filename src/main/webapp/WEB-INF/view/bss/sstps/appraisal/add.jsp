@@ -11,7 +11,6 @@
 
 <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	
 <script type="text/javascript">
   function contractType(type){ 
@@ -80,7 +79,7 @@
 	  </div>
    </div>
    
-   <form  action="<%=basePath %>appraisalContract/save.html" method="post">
+   <form  action="${pageContext.request.contextPath}/appraisalContract/save.html" method="post">
    
 	<div class="container">
 	 	<div class="headline-v2">

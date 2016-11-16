@@ -101,6 +101,14 @@ public class SaleTender {
      */
     private String userId;
     
+    /**
+     * <pre>
+     *  默认0 投标完成 0:未开始 1：投标文件保存服务器完成 2：绑定指标完成  3：报价完成  4：投标结束  
+     * 表字段 : T_BSS_PPMS_SALE_TENDER.BID_FINISH
+     * </pre>
+     */
+    private Short bidFinish;
+    
     
     private Supplier suppliers;
     
@@ -351,6 +359,24 @@ public class SaleTender {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+
+    /**
+     * @return Returns the bidFinish.
+     */
+    public Short getBidFinish() {
+        return bidFinish;
+    }
+
+
+    /**
+     * @param bidFinish The bidFinish to set.
+     */
+    public void setBidFinish(Short bidFinish) {
+        this.bidFinish = bidFinish;
+    }
+
+
 
 
 

@@ -1079,10 +1079,10 @@ public class PurchaserExamController extends BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: editNoTestPaper
+	* @Title: editPaper
 	* @author ZhaoBo
 	* @date 2016-9-6 上午10:55:31  
-	* @Description: 编辑考卷页面
+	* @Description: 修改考卷页面
 	* @param @param model
 	* @param @param request
 	* @param @return      
@@ -1247,10 +1247,10 @@ public class PurchaserExamController extends BaseSupplierController{
 			model.addAttribute("ERR_passStandard","及格标准不能为空");
 		}else{
 			if(!ValidateUtils.PositiveNumber(passStandard)){
-				error = "passStandard";
+				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
 			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
-				error = "passStandard";
+				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
 		}
@@ -1264,7 +1264,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeNum = request.getParameter("judgeNum");
 		String judgePoint = request.getParameter("judgePoint");
 		Map<String,String> map = new HashMap<String,String>();
-		Map<String,Object> errorData = new HashMap<String,Object>();
 		if(single==null&&multiple==null&&judge==null){
 			error = "error";
 			model.addAttribute("ERR_single", "请选择");

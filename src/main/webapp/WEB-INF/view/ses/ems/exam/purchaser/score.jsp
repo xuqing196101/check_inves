@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -74,7 +74,7 @@
 		
 		//重考方法
 		function reTake(){
-			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
 				var paperId = "${paperId}";
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/reTake.do?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
@@ -84,7 +84,7 @@
 		//退出
 		function exitExam(){
 			if(score < 60&&isAllowRetake == 1){
-				layer.confirm('您确定要退出吗?若您选择退出,将不得再次参加本次考试!', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.confirm('您确定要退出吗?若您选择退出,将不得再次参加本次考试!', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 					layer.close(index);
 					window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
 				});

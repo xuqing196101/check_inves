@@ -64,8 +64,8 @@
 		    	  }
 		    	  $("#articleTypes").select2();
 		    	  $("#articleTypes").select2("val", "${article.articleType.id }");
-		    	  var typeId = $("#articleTypes").val();
-			  		if(typeId==27){
+		    	  var typeId = $("#articleTypes").select2("data").text;
+			  		if(typeId=="工作动态"){
 			  			document.getElementById("picshow").style.display="";
 			  		}
 		       }
@@ -108,7 +108,7 @@
 	 </li>
 
      <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>信息类型：</span>
 	   <div class="mb5 select_common">
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
@@ -116,7 +116,7 @@
         </div>
 	 </li> 
      <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>发布范围：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
@@ -124,7 +124,7 @@
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>文章来源：</span>
+	   <span class="col-md-12 padding-left-5">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }" type="text">
         <span class="add-on">i</span>
@@ -132,7 +132,7 @@
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>链接来源：</span>
+	   <span class="col-md-12 padding-left-5">链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
          <span class="add-on">i</span>

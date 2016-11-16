@@ -6,23 +6,30 @@
     <result column="PASS_STANDARD" property="passStandard" />
     <result column="START_TIME" property="startTime" />
     <result column="PAPER_SCORE" property="paperScore" />
-    <result column="TEST_CYCLE" property="testCycle" />
+    <result column="OFF_TIME" property="offTime" />
     <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
-    <result column="TEST_LONG" property="testLong" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,TEST_CYCLE,TYPE_DISTRIBUTION,CREATED_AT,UPDATED_AT,TEST_LONG
+    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,OFF_TIME,TYPE_DISTRIBUTION,CREATED_AT,UPDATED_AT
   </sql>
   
   <!-- 根据主键ID查询考试规则 -->
-  <select id="select" parameterType="Object" resultMap="BaseResultMap">
+  <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_RULE
     ORDER BY
     CREATED_AT DESC
+  </select>
+  
+  <!-- 根据主键ID查询考试规则 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_RULE
+    WHERE ID = #{id}
   </select>
   
  <!-- 设置考试规则,可插入null -->
@@ -44,8 +51,8 @@
       <if test="paperScore != null">
         PAPER_SCORE,
       </if>
-      <if test="testCycle != null">
-        TEST_CYCLE,
+      <if test="offTime != null">
+        OFF_TIME,
       </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION,
@@ -55,9 +62,6 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
-      </if>
-      <if test="testLong != null">
-        TEST_LONG,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -73,8 +77,8 @@
       <if test="paperScore != null">
         #{paperScore},
       </if>
-      <if test="testCycle != null">
-        #{testCycle},
+      <if test="offTime != null">
+        #{offTime},
       </if>
       <if test="typeDistribution != null">
         #{typeDistribution},
@@ -84,9 +88,6 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
-      </if>
-      <if test="testLong != null">
-        #{testLong},
       </if>
     </trim>
   </insert>
@@ -104,8 +105,8 @@
       <if test="paperScore != null">
         PAPER_SCORE = #{paperScore},
       </if>
-      <if test="testCycle != null">
-        TEST_CYCLE = #{testCycle},
+      <if test="offTime != null">
+        OFF_TIME = #{offTime},
       </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION = #{typeDistribution},
@@ -115,9 +116,6 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
-      </if>
-      <if test="testLong != null">
-        TEST_LONG = #{testLong},
       </if>
     </set>
   </update>

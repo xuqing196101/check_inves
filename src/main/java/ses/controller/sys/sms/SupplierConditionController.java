@@ -81,7 +81,7 @@ public class SupplierConditionController {
         List<Area> listArea = areaService.findTreeByPid("1",null);
         sq.setAttribute("listArea", listArea);
         sq.setAttribute("typeclassId", typeclassId);
-        Map<String, String> map=new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         Integer count=0;
         if(sids==null || sids.length==0 || "".equals(sids)){
             map.put("supervise", "请选择监督人员");

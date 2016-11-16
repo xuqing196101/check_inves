@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -155,7 +155,7 @@
 							shade:0.01, //遮罩透明度
 							moveType: 1, //拖拽风格，0是默认，1是传统拖动
 							shift: 1, //0-6的动画形式，-1不开启
-							offset: ['120px', '550px'],
+							offset: ['40%', '30%'],
 							shadeClose: false,
 							content : $('#submitNoResult')
 						});
@@ -171,7 +171,7 @@
 					shade:0.01, //遮罩透明度
 					moveType: 1, //拖拽风格，0是默认，1是传统拖动
 					shift: 1, //0-6的动画形式，-1不开启
-					offset: ['120px', '550px'],
+					offset: ['40%', '30%'],
 					shadeClose: false,
 					content : $('#submitYesResult')
 				});
@@ -217,7 +217,7 @@
   	
    	<div class="container mt10">
   	<div class="col-md-12 mb10 border1 bggrey">
-	  	<div class="fl f18 gary b">${user.relName }考试进行中</div>
+	  	 <div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
 	  	<div class="fr red mt5" id="time">考试剩余时间：<span id="second"></span></div>
   	</div>
   <form action="${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.html" method="post" id="form">
@@ -229,7 +229,7 @@
 		      <tr>
 		        <td class="col-md-1 tc">${l.index+1 }</td>
 		        <td class="col-md-11">
-			        <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+			        <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
 			       
 		          	<c:if test="${pur.examQuestionType.name=='单选题' }">
 						<c:forEach items="${fn:split(pur.items,';')}" var="it">
@@ -268,7 +268,7 @@
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-					         <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+					         <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
 					        
 					    		<c:if test="${pur.examQuestionType.name=='单选题' }">
 								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
@@ -307,7 +307,7 @@
 				     <tr>
 		       			 <td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+				          <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
 				         		<c:if test="${pur.examQuestionType.name=='单选题' }">
 								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
 								    <div class="mt10 clear fl">
@@ -346,7 +346,7 @@
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				        <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+				        <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
 				        
 				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
 								    <c:forEach items="${fn:split(pur.items,';')}" var="it">

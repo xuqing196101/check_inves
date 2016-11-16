@@ -1,9 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
+
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -12,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title></title>
 </head>
+<jsp:include page="/static/backend_common.jsp"></jsp:include>   
 <script type="text/javascript">
  
 function sumbits(){
@@ -70,20 +68,20 @@ function sumbits(){
 
    
 <!-- 修改订列表开始-->
-   <div class="  mt20">
-   <form action="${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do" id="form" method="post" >
-   <input type="hidden" value="${projectId}" name="projectId"/>
+          <div class="drop_window">
+<%--    <form action="${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do" id="form" method="post" > --%>
+<%--    <input type="hidden" value="${projectId}" name="projectId"/> --%>
      <ul class="list-unstyled">
       <li class="col-md-6">
          <label class="col-md-12 padding-left-5">专家姓名：</label>
-	    <span>
-        <input class="span2" maxlength="10" id="appendedInput" name="relName" type="text"/>
+	    <span class="col-md-12 p0">
+        <input class="col-md-12 p0" maxlength="10" id="appendedInput" name="relName" type="text"/>
         </span>
 	 </li>
-	    <li class="col-md-6 p0 ">
+	    <li class="col-md-6  ">
 	      <label class="col-md-12 padding-left-5">证件类型：</label>
-         <span>
-         <select class="w250 " name="idType">
+         <span class="col-md-12 p0">
+         <select class="col-md-12 p0" name="idType">
            <option>-请选择-</option>
            <option value="身份证">身份证</option>
            <option value="士兵证">士兵证</option>
@@ -94,73 +92,64 @@ function sumbits(){
          </select>
         </span>
      </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">证件号码：</span>
-	   <div class="input-append">
-        <input class="span2" id="appendedInput" name="idNumber" maxlength="18" type="text">
-        <span class="add-on">i</span>
-       </div>
+     <li class="col-md-6 ">
+        <label class="col-md-12 padding-left-5">证件号码：</label>
+	    <span class="col-md-12 p0">
+         <input class="col-md-12 p0" id="appendedInput" name="idNumber" maxlength="18" type="text">
+       </span>
 	 </li>
-	  <li class="col-md-6 p0 ">
-       <span class=" ">专家类型：</span>
-         <div class="select_common mb10">
-         <select class="w250 " name="expertsTypeId">
+	  <li class="col-md-6">
+	    <label class="col-md-12 padding-left-5">专家类型：</label>
+        <span>
+         <select class="col-md-12 p0" name="expertsTypeId">
            <option>-请选择-</option>
            <option value="1">技术</option>
            <option value="2">法律</option>
            <option value="3">商务</option>
          </select>
-         </div>
+        </span>
      </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">现任职务：</span>
-	   <div class="input-append">
-        <input class="span2" id="appendedInput" name="atDuty" maxlength="10" type="text">
-        <span class="add-on">i</span>
-       </div>
+     <li class="col-md-6">
+        <label class="col-md-12 padding-left-5">现任职务：</label>
+        <span class="col-md-12 p0">
+        <input class="col-md-12 p0" id="appendedInput" name="atDuty" maxlength="10" type="text">
+        </span>
 	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">联系地址：</span>
-	   <div class="input-append">
-        <input class="span2" id="appendedInput" name="unitAddress" maxlength="20" type="text">
-        <span class="add-on">i</span>
-       </div>
+     <li class="col-md-6 ">
+       <label class="col-md-12 padding-left-5">联系地址：</label>
+	   <span class="col-md-12 p0">
+        <input class="col-md-12 p0" id="appendedInput" name="unitAddress" maxlength="20" type="text">
+       </span>
 	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">联系电话：</span>
-	   <div class="input-append">
-        <input class="span2" id="appendedInput" name="mobile" maxlength="11" type="text">
-        <span class="add-on">i</span>
-       </div>
+     <li class="col-md-6">
+       <label class="col-md-12 padding-left-5">联系电话：</label>
+	   <span class="col-md-12 p0">
+        <input class="col-md-12 p0" id="appendedInput" name="mobile" maxlength="11" type="text">
+       </span>
 	 </li> 
-	  <li class="col-md-6  p0 ">
-       <span class="">分配账户：</span>
-       <div class="input-append">
-        <input class="span2" id="appendedInput" name="loginName" maxlength="11" type="text">
-        <span class="add-on">i</span>
-       </div>
+	  <li class="col-md-6">
+	    <label class="col-md-12 padding-left-5">分配账户：</label>
+        <span>
+        <input class="col-md-12 p0" id="appendedInput" name="loginName" maxlength="11" type="text">
+        </span>
      </li> 
-      <li class="col-md-6  p0 ">
-       <span class="">分配密码：</span>
-       <div class="input-append">
-        <input class="span2" id="appendedInput" name="loginPwd" maxlength="11" type="text">
-        <span class="add-on">i</span>
-       </div>
+      <li class="col-md-6">
+        <label class="col-md-12 padding-left-5">分配密码：</label>
+       <span class="col-md-12 p0">
+        <input class="col-md-12 p0" id="appendedInput" name="loginPwd" maxlength="11" type="text">
+       </span>
      </li>  
      <li class="col-md-12 p0">
-	   <span class="fl">备注：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " maxlength="200"  title="不超过200个字" placeholder="不超过200个字"></textarea>
-       </div>
+       <label class="col-md-12 padding-left-5">备注：</label>
+        <textarea class="col-md-12 h80 p0" maxlength="200"  title="不超过200个字" placeholder="不超过200个字"></textarea>
 	 </li> 
-	 
    </ul>
   <div  class="col-md-12">
    <div class="col-md-6" align="center">
     <button class="btn btn-windows add" onclick="sumbits();" type="button">添加</button>
 	</div>
   </div>
-  </form>
+<!--   </form> -->
  </div>
 </body>
 </html>

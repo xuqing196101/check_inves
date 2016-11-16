@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -11,6 +12,7 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		//判断专家是否可以开始考试
 		function test(){
 			$.ajax({
 				type:"POST",
@@ -18,20 +20,19 @@
 				url:"${pageContext.request.contextPath }/expertExam/judgeQualy.html",
 				success:function(data){
 	       			if(data==0){
-	       				layer.alert("很抱歉,考试时间已截止",{offset: ['222px', '390px']});
+	       				layer.alert("很抱歉,考试时间已截止",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}else if(data==1){
 	       				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
 	       			}else if(data==2){
-	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['222px', '390px']});
+	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}else if(data==3){
-	       				layer.alert("考试时间尚未开始",{offset: ['222px', '390px']});
+	       				layer.alert("考试时间尚未开始",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}
 	       		}
 	       	});
-			
 		}
 	</script>
   </head>
@@ -44,10 +45,11 @@
 		  	</div>
    		</div>
   	</c:if>
-  	<c:if test="${testCycle!=null }">
+  	<c:if test="${offTime!=null }">
   		<div class="container mt10">
 		  	<div class="col-md-12 f22">
-		  		各位专家，本次考试需要在${testCycle }个月内完成，并且答题及格才生效，具体考试详情请查看自己的考试安排。如果未在规定时间内完成题目，一律取消专家资格！
+		  	           <h2 class="red tc">请在读完下面内容之后,点击“开始考试”进入考试界面！</h2>
+		  		考生须知：本次考试需要在<fmt:formatDate value="${offTime }" pattern="yyyy-MM-dd HH:mm"/>之前完成，并且答题及格才生效，具体考试详情请查看自己的考试安排。如果未在规定时间内完成题目，一律取消专家资格！
 		  	</div>
 		  	<div class="col-md-12 p0 tc mt20">
 		  		<input type="button" value="开始考试" onclick="test()" class="btn"/>

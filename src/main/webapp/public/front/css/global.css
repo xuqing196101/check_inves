@@ -939,3 +939,28 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
+/** 供应商注册 */
+.btmfix {
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background: #E0E0E0;
+	box-shadow: 0px -1px 4px #ddd;
+	height: 60px;
+	border-top: 1px solid #dadada;
+}
+.border_font{
+    background-color:#ffffff;
+    border:1px dashed #dddddd;
+    /* border:1px dashed #2c9fa6; */
+    padding: 15px;
+ }
+ 
+.webuploader-pick{
+ 	 padding: 1px 12px !important;
+}
+
+.mb25{
+ 	margin-bottom: 25px;
+}

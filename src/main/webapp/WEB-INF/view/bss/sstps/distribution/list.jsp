@@ -6,8 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <title>申请合同分配</title>
     
 <script type="text/javascript">
@@ -37,14 +35,15 @@ $(function(){
 function distribution(id){
 	layer.open({
 		  type: 2, //page层
-		  area: ['450px', '350px'],
+		  area: ['35%', '45%'],
 		  title: '分配任务',
-		  closeBtn: 1,
-		  shade:0.01, //遮罩透明度
-		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-		  shift: 1, //0-6的动画形式，-1不开启
-		  offset: ['80px', '400px'],
-		  shadeClose: false,
+	//	  closeBtn: 1,
+	//	  shade:0.01, //遮罩透明度
+	//	  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	//	  shift: 1, //0-6的动画形式，-1不开启
+	//	  offset: ['80px', '400px'],
+		  skin: 'layui-layer-rim',
+		  shadeClose: true,
 		  content: "${pageContext.request.contextPath}/appraisalContract/distributionUser.html?sbid="+id,
 		  end:function(){
 			  location.reload();
@@ -65,47 +64,39 @@ function resetQuery(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">申请合同审价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价合同分配</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
     
     <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
+	   		<h2>审价合同分配列表</h2>
 	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
-       <form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text"  name="code" value="${code }" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
-	      </li> 
-	    	<input type="hidden" name="like" value="1">
+	   
+	 <h2 class="search_detail">
+		<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">合同编号：</label>
+				    <span><input type="text"  name="code" value="${code }" class=""/>
+			    </li>
+			    <li>
+			    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
+			    </li>
+			 <input type="hidden" name="like" value="1">
 	    	<button type="submit" class="btn">查询</button>
 	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </h2>
-   </div>
-</div>
-	<%--<div class="container">	
-		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">添加合同</button>
-		</div>
-	</div>
+		 </ul>
+		 <div class="clear"></div>
+		</form>
+	 </h2>
+	   
 	
-	--%><div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
+	<div class="content table_box">
 		  <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
@@ -149,6 +140,7 @@ function resetQuery(){
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
   </div>
+  
 	
   </body>
 </html>

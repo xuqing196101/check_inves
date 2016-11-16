@@ -129,8 +129,8 @@ public class ExpExtConditionController {
                 expExtractRecordMapper.updateByPrimaryKeySelective(expExtractRecord);
             }  
             //插入条件表
-            ExtConType conType=null;
-            if(extConTypeArray!=null&&extConTypeArray.getExpertsTypeId()!=null){
+            ExtConType conType = null;
+            if(extConTypeArray != null && extConTypeArray.getExpertsTypeId() != null){
                 for (int i = 0; i < extConTypeArray.getExpertsTypeId().length; i++) {
                     conType=new ExtConType();
 

@@ -100,7 +100,7 @@ function disFile(html,obj,key,del){
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		li += '<span onclick=\'view("' + obj.path + '");\' style=\'color:red;cursor:pointer;width:30px;\'>view</span>';
+		li += '<span onclick=\'view("' + obj.path + '",this);\' style=\'color:red;cursor:pointer;width:30px;\'>view</span>';
 	}
 	li += '</li>';
 	html.append(li);
@@ -130,16 +130,16 @@ function removeFile(id,key){
 /**
  * 预览
  * */
-function view(path){
+function view(path,obj){
 	var url = globalPath + '/file/viewFile.html?path=' + path;
-	packingHtml(url);
+	packingHtml(url,obj);
 }
 
 /**
  * 包装为预览html
  * @param url 请求的url
  */
-function packingHtml(url){
+function packingHtml(url,obj){
 	var html = "<div id='uploadView'> "
 		   + " <div class='filelist'> "
 		   + " <div id='imgDivId'> "
@@ -156,7 +156,8 @@ function packingHtml(url){
 		  title: false,
 		  closeBtn: 0,
 		  shadeClose: true,
-		  area: ['600px','600px'],
+		  area: ['600px','530px'],
+		  offset: [$(obj).height()],
 		  content: html
 		});
 	preview();

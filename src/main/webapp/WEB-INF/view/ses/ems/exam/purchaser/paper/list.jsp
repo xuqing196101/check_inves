@@ -50,12 +50,12 @@
 				}
 			}
 			if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
 			if(count > 1){
-				layer.alert("只能修改一项",{offset: ['222px', '390px']});
+				layer.alert("只能修改一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -70,11 +70,11 @@
 				url:"${pageContext.request.contextPath }/purchaserExam/editSelectedPaper.html?id="+ids,
 		       	success:function(data){
 			    	if(data==1){
-			    		layer.msg('当前考卷正在考试期间,请勿编辑',{offset: ['222px', '390px']});
+			    		layer.msg('考卷正在考试期间,请勿编辑',{offset: ['30%', '40%']});
 			    	}else if(data==2){
 			    		window.location.href="${pageContext.request.contextPath }/purchaserExam/editPaper.html?id="+ids;
 			    	}else if(data==3){
-			    		layer.msg('当前考卷已经过了考试有效期,不好编辑',{offset: ['222px', '390px']});
+			    		layer.msg('考卷已经过了考试有效期,不好编辑',{offset: ['30%', '40%']});
 			    	}
 		       	}
 		    });
@@ -96,11 +96,11 @@
 				}
 			}
 			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else{
@@ -115,12 +115,12 @@
 					url:"${pageContext.request.contextPath }/purchaserExam/setReference.do?id="+str,
 			       	success:function(data){
 				    	if(data==1){
-				    		layer.alert("当前考卷正在考试中,请选择其它考卷",{offset: ['222px', '390px']});
+				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
 							$(".layui-layer-shade").remove();
 				    	}else if(data==2){
 				    		window.location.href = "${pageContext.request.contextPath }/purchaserExam/viewReference.do?id="+str;
 				    	}else if(data==3){
-				    		layer.alert("当前考卷考试时间已结束,请选择其它考卷",{offset: ['222px', '390px']});
+				    		layer.alert("考卷考试时间已结束,请选择其它考卷",{offset: ['30%', '40%']});
 							$(".layui-layer-shade").remove();
 				    	}
 			       	}
@@ -140,11 +140,11 @@
 				}
 			}
 			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else{
@@ -159,10 +159,10 @@
 					url:"${pageContext.request.contextPath }/purchaserExam/setReference.do?id="+str,
 			       	success:function(data){
 				    	if(data==1){
-				    		layer.alert("当前考卷正在考试中,请选择其它考卷",{offset: ['222px', '390px']});
+				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
 							$(".layui-layer-shade").remove();
 				    	}else if(data==2){
-				    		layer.alert("当前考卷考试时间未结束,请选择其它考卷",{offset: ['222px', '390px']});
+				    		layer.alert("考卷考试时间未结束,请选择其它考卷",{offset: ['30%', '40%']});
 							$(".layui-layer-shade").remove();
 				    	}else if(data==3){
 				    		window.location.href = "${pageContext.request.contextPath }/purchaserExam/viewReference.do?id="+str;

@@ -3,6 +3,7 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,19 @@ public class ExamRuleServiceImpl implements ExamRuleServiceI {
 	}
 	
 	@Override
-	public List<ExamRule> select() {
-		return examRuleMapper.select();
+	public List<ExamRule> select(HashMap<String,Object> map) {
+		return examRuleMapper.select(map);
 	}
 	
 	@Override
 	public int updateByPrimaryKeySelective(ExamRule examRule) {
 		return examRuleMapper.updateByPrimaryKeySelective(examRule);
+	}
+
+	
+	@Override
+	public ExamRule selectById(String id) {
+		return examRuleMapper.selectById(id);
 	}
 
 
