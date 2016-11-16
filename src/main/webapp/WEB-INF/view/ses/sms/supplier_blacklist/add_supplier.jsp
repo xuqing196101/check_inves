@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-md-12 tc">
                     <input class="btn btn-windows save" type="submit" value="保存" />
-                    <input class="btn btn-windows reset" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html'" type="button" value="返回">
+                    <input class="btn btn-windows back" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html'" type="button" value="返回">
                 </div>
         </form>
     </div>

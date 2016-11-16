@@ -97,7 +97,7 @@
             
             $.ajax({  
                type: "POST",  
-               url: "<%=basePath %>area/save.html",  
+               url: "${pageContext.request.contextPath}/area/save.html",  
                data: $("#form1").serializeArray(),  
                dataType: 'json',  
                success:function(result){

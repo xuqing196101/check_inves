@@ -181,7 +181,7 @@
      LEFT JOIN
     ( select * from T_BSS_PPMS_PROJECTS t ) t1
     on  t1.id=t2.project_id
-        where 1=1 and t1.id is not null
+        where 1=1 and IS_PROVISIONAL=0 and t1.id is not null
     <if test="supplierId != null and supplierId !=''">
         AND t2.supplier_id = #{supplierId}
     </if> 
@@ -196,14 +196,14 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR} and IS_PROVISIONAL=0
   </select>
   
   <select id="selectByList" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 1
+    where 1=1 and IS_REHEARSE = 1 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
       </if>
@@ -221,7 +221,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where STATUS = 2
+    where STATUS = 2 and IS_PROVISIONAL=0
     <if test="projectName != null and projectName != ''">
        and NAME like '%'||#{projectName}||'%'
       </if>
@@ -238,7 +238,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 0
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
      <if test="name != null and name != ''">
        and NAME like '%${name}%'
       </if>

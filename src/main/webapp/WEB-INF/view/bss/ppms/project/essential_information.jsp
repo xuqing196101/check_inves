@@ -11,11 +11,6 @@
 	$(function() {
 		$("#hide_detail").hide();
 	});
-
-	function print(id) {
-		window.location.href = "${pageContext.request.contextPath}/project/print.html?id="
-				+ id;
-	}
 	function view(sign) {
 		if (sign) {
 			$("#hide_detail").show();
@@ -23,6 +18,58 @@
 			$("#hide_detail").hide();
 		}
 	}
+	
+	
+	
+	var controldate;
+    function checkDate(){
+	    controldate= $("#bidDate").val();
+	    var linkman = $("#linkman").val();
+	    var bidAddress = $("#bidAddress").val();
+	    var supplierNumber = $("#supplierNumber").val();
+	    if(linkman==""){
+	       layer.tips("请填写联系人姓名","#linkman");
+	    }else if(supplierNumber==""){
+	       layer.tips("请填写供应商人数","#supplierNumber");
+	    }else if(bidAddress==""){
+	       layer.tips("请填写开标地点","#bidAddress");
+	    }else if(controldate==""){
+		    layer.tips("时间不能为空","#bidDate");
+		    return false;
+	    }else{
+	       //验证时间不能小于当前时间
+		    var day = new Date();
+		    var Year = 0;
+		    var Month = 0;
+		    var Day = 0;
+		    var CurrentDate = "";
+		    //初始化时间
+		    Year = day.getFullYear();
+		    Month = day.getMonth()+1;
+		    Day = day.getDate();
+		    CurrentDate += Year + "-";
+		    if (Month >= 10 ){
+		      CurrentDate += Month + "-";
+		    } else{
+		      CurrentDate += "0" + Month + "-";
+		    }
+		    if (Day >= 10 ) {
+		      CurrentDate += Day ;
+		    } else{
+		       CurrentDate += "0" + Day ;
+		    } 
+		    //alert(CurrentDate);//当前日期
+		    var startDate = new Date(CurrentDate.replace("-",",")).getTime() ;
+		    var endDate = new Date(controldate.replace("-",",")).getTime() ; 
+		    if( startDate > endDate ) {
+			    layer.tips("选择日期不能小于当前日期!","#bidDate");
+			    return false;
+		    }else{
+		           $("#save_form_id").submit();
+		    }
+	    }
+    }
+	
 </script>
 </head>
 
@@ -63,7 +110,7 @@
 									</tr>
 									<tr>
 										<td class="bggrey">联系人姓名:</td>
-										<td><input name="linkman" value="${project.linkman}" /></td>
+										<td><input name="linkman" id="linkman" value="${project.linkman}" /></td>
 										<td class="bggrey">联系人联系电话:</td>
 										<td><input name="linkmanIpone" value="${project.linkmanIpone}" /></td>
 									</tr>
@@ -77,7 +124,7 @@
 										<td class="bggrey">邮编:</td>
 										<td>${project.postcode}</td>
 										<td class="bggrey">最少供应商人数:</td>
-										<td><input name="supplierNumber" value="${project.supplierNumber}" /></td>
+										<td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
 									</tr>
 									<tr>
 										<td class="bggrey">报价标准分值:</td>
@@ -87,22 +134,28 @@
 									</tr>
 									<%--  <tr>
 									        <c:forEach items="${info.list}" var="obj" varStatus="vs">
-									          <td class="bggrey tr">${obj.name}密码:</td><td>${obj.passWord}</td>
+									          <td class="bggrey">${obj.name}密码:</td><td>${obj.passWord}</td>
 									          </c:forEach>
-									          <td class="bggrey tr">评分细则:</td><td>${project.scoringRubric}</td>
+									          <td class="bggrey">评分细则:</td><td>${project.scoringRubric}</td>
 									        </tr> --%>
 									<tr>
 										<td class="bggrey">采购方式:</td>
-										<td>${project.purchaseType}</td>
+										<td>
+										<c:if test="${'jzxtp'==project.purchaseType}">竞争性谈判</c:if>
+		                                <c:if test="${'yqzb'==project.purchaseType}">邀请招标</c:if>
+		                                <c:if test="${'xjcg'==project.purchaseType}">询价采购</c:if>
+		                                <c:if test="${'gkzb'==project.purchaseType}">公开招标</c:if>
+		                                <c:if test="${'dyly'==project.purchaseType}">单一来源</c:if>
+										</td>
 										<td class="bggrey">投标截止时间:</td>
 										<td>${project.deadline}</td>
 									</tr>
 									<tr>
 										<td class="bggrey">开标时间:</td>
 										<%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
-										<td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="birthday" type="text" onclick='WdatePicker()'></td>
+										<td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="bidDate" type="text" onclick='WdatePicker()'></td>
 										<td class="bggrey">开标地点:</td>
-										<td><input name="bidAddress" value="${project.bidAddress}"/></td>
+										<td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
 									</tr>
 									<tr>
 										<td class="bggrey">招标文件报批时间:</td>
@@ -159,7 +212,7 @@
 								</tbody>
 							</table>
 							 <div class="col-md-12 tc mt20" >
-					               <button class="btn btn-windows git"  type="submit">更新</button>
+					               <button class="btn btn-windows git"  type="button" onclick="checkDate();">更新</button>
 					         </div>
 						  </form>
 						</div>
@@ -197,7 +250,13 @@
                                         <td class="tc">${obj.price}</td>
                                         <td class="tc">${obj.budget}</td>
                                         <td class="tc">${obj.deliverDate}</td>
-                                        <td class="tc">${obj.purchaseType}</td>
+                                        <td class="tc">
+	                                        <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+			                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+			                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+			                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+			                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+                                        </td>
                                         <td class="tc">${obj.supplier}</td>
                                         <td class="tc">${obj.isFreeTax}</td>
                                         <td class="tc">${obj.goodsUse}</td>
@@ -249,7 +308,7 @@
                          </form>
 				            
                         </div>
-                        <div class="tab-pane fade " id="tab-5" >
+                        <div class="tab-pane fade active" id="tab-5" >
                             <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
                             <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
                         </div>

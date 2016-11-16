@@ -58,38 +58,38 @@
     }
     
       function add(){
-        var pid = $("#mid").val();
-        layer.open({
-          type: 2, //page层
-          area: ['430px', '400px'],
-          title: '添加地区',
-          closeBtn: 1,
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['120px', '550px'],
-          shadeClose: false,
-          content: '${pageContext.request.contextPath}/area/add.html?pid='+pid
-        }); 
+            var pid = $("#mid").val();
+	        layer.open({
+	          type: 2, //page层
+	          area: ['430px', '400px'],
+	          title: '添加地区',
+	          closeBtn: 1,
+	          shade:0.01, //遮罩透明度
+	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	          shift: 1, //0-6的动画形式，-1不开启
+	          offset: ['120px', '550px'],
+	          shadeClose: false,
+	          content: '${pageContext.request.contextPath}/area/add.html?pid='+pid
+	        }); 
         }
         function edit(){
-        var pid = $("#mid").val();
-        if(pid != null && pid != '' ){
-        layer.open({
-          type: 2, //page层
-          area: ['430px', '400px'],
-          title: '添加地区',
-          closeBtn: 1,
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['120px', '550px'],
-          shadeClose: false,
-          content: '${pageContext.request.contextPath}/area/edit.html?pid='+pid
-        }); 
-        }else{
-            layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
-        }
+	        var pid = $("#mid").val();
+	        if(pid != null && pid != '' ){
+		        layer.open({
+		          type: 2, //page层
+		          area: ['430px', '400px'],
+		          title: '修改地区',
+		          closeBtn: 1,
+		          shade:0.01, //遮罩透明度
+		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		          shift: 1, //0-6的动画形式，-1不开启
+		          offset: ['120px', '550px'],
+		          shadeClose: false,
+		          content: '${pageContext.request.contextPath}/area/edit.html?pid='+pid
+		        }); 
+	        }else{
+	            layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
+	        }
         }
         function del(){
         var mid = $("#mid").val();
@@ -111,7 +111,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">菜单功能管理</a></li>
+           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">支撑系统</a></li><li><a href="javascript:void(0)">后台管理</a></li><li class="active"><a href="javascript:void(0)">菜单功能管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -124,11 +124,13 @@
    
    
    <div class="container content height-350">
+   <ul class="demand_list">
+   <li>
      <label class="fl">地区名称：<input type="text"
                                 id="search_condition" name="name" /> </label>
-                            <button
-                                class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5"
-                                onclick="selectTree();">查询</button>
+           </li>
+           <button  class="btn" onclick="selectTree();">查询</button>
+    </ul>
        <div class="row">
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
@@ -144,7 +146,6 @@
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
                         <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
-                        <input type="hidden" name="nodeId" id="mid">
                        
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
