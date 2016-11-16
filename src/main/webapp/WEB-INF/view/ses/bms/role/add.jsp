@@ -41,19 +41,6 @@
           <div class="drop_window">
               <ul class="list-unstyled">
                 <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">编号</label>
-                  <span>
-                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
-                  </span>
-                </li>
-                
-                <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">交付时间</label>
-                  <span class="col-md-12 p0">
-                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
-                  </span>
-                </li>
-                <li class="col-md-6">
                   <label class="col-md-12 padding-left-5"><i class="red">*</i>名称</label>
                   <span class="col-md-12">
                    <input name="name" maxlength="30" class="title col-md-12" type="text">
