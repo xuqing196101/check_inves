@@ -38,24 +38,36 @@
   </script>
  <body>
     <div class="layui-layer-wrap" >
-        <form action="" id="form1" method="post">
           <div class="drop_window">
               <ul class="list-unstyled">
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20"><i class="red">*</i>名称</label>
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">编号</label>
+                  <span>
+                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+                  </span>
+                </li>
+                
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5">交付时间</label>
+                  <span class="col-md-12 p0">
+                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
+                  </span>
+                </li>
+                <li class="col-md-6">
+                  <label class="col-md-12 padding-left-5"><i class="red">*</i>名称</label>
                   <span class="col-md-12">
                    <input name="name" maxlength="30" class="title col-md-12" type="text">
                   </span>
-                   <label class="col-md-12 pl20"><i class="red">*</i>状态</label>
+                   
+                </li>
+                <li class="col-md-6">
+                   <label class="col-md-12 padding-left-5"><i class="red">*</i>状态</label>
                   <span class="col-md-12">
                    <select name="status" class="w180 mb10">
                         <option value="0">可用</option>
                         <option value="1">禁用</option>
                     </select>
                   </span>
-                </li>
-                <li class="mt10 col-md-12 p0">
-                   
                 </li>
                 <li class="mt10 col-md-12 p0">
                   <label class="col-md-12 pl20">描述</label>
@@ -70,7 +82,6 @@
                 <button class="btn btn-windows back" id="backups" type="button">返回</button>
               </div>
            </div>  
-         </form>
     </div>         
  </body>
 </html>

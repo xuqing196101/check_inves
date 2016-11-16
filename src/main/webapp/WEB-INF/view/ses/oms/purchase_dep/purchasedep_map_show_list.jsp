@@ -6,15 +6,6 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title></title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="<%=basePath%>public/oms/css/consume.css"  rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <style type="text/css">
 .panel-title>a
 {
@@ -22,9 +13,6 @@
 }
 	
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
 	function save(){
 		var index = parent.layer.getFrameIndex(window.name); 
@@ -78,195 +66,152 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container">
-		<form action="<%=basePath%>purchaseManage/createPurchaseDep.do" method="post" id="formID">
-			<input type="hidden" value="2" name="typeName"/>
-			<div>
-				<div class="headline-v2">
-					<h2>新增采购机构</h2>
+       <div class="tab-content">
+          <div class="tab-v2">
+            <ul class="nav nav-tabs bgwhite">
+              <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="f18">采购机构信息</a></li>
+          </ul>
+          <form action="${pageContext.request.contextPath}/purchaseManage/createPurchaseDep.do" method="post" id="formID">
+          <div class="tab-content padding-top-20">
+            <div class="tab-pane fade active in" id="tab-1">
+                <h2 class="count_flow jbxx">基本信息</h2>
+                <input type="hidden" value="2" name="typeName"/>
+                
+                <table class="table table-bordered">
+                 <tbody>
+                 <tr>
+                  <td class="bggrey">采购机构名称：</td>
+                  <td>${purchaseDep.name }</td>
+                  <td class="bggrey ">采购业务范围：</td>
+                  <td>${purchaseDep.businessRange }</td>
+                 </tr> 
+                 <tr>
+                  <td class="bggrey">单位主要领导及电话：</td>
+                  <td>${purchaseDep.leaderTelephone }</td>
+                  <td class="bggrey ">单位地址：</td>
+                  <td>${purchaseDep.address }</td>
+                 </tr> 
+                 </tbody>
+                 </table>
+                 <h2 class="count_flow jbxx">上级部门</h2>
+                 <table class="table table-bordered">
+                 <tbody>
+                 <tr>
+                  <td class="bggrey">上级监管部门：</td>
+                  <td></td>
+                 </tr> 
+                 </tbody>
+                 </table>
+                 <h2 class="count_flow jbxx">采购人员</h2>
+                 <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
+                    <thead>
+                                    <tr>
+                                        <th class="info w50">序号</th>
+                                        <th class="info">姓名</th>
+                                        <th class="info">所属采购机构</th>
+                                        <th class="info">类型</th>
+                                        <th class="info">性别</th>
+                                        <th class="info">年龄</th>
+                                        <th class="info">职务</th>
+                                        <th class="info">职称</th>
+                                        <th class="info">采购资格等级</th>
+                                        <th class="info">学历</th>
+                                        <th class="info">电话</th>
+                                        <!-- <th class="info">资质证书类型</th> -->
+                                        <th class="info">证书编号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${purchaselist }" var="p" varStatus="vs">
+                                        <tr>
+                                            <td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+		                                <!-- 标题 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.relName}</td>
+		                                <!-- 内容 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
+		                                <!-- 创建人-->
+		                                <td class="tc" onclick="show('${p.id}');">
+		                                    <c:choose>
+		                                        <c:when test="${p.purcahserType==0}">
+		                                                                                                                                                                 军人
+		                                        </c:when>
+		                                        <c:when test="${p.purcahserType==1}">
+		                                                                                                                                                                    文职
+		                                           </c:when>
+		                                        <c:when test="${p.purcahserType==2}">
+		                                                                                                                                                                     职工
+		                                        </c:when>
+		                                        <c:when test="${p.purcahserType==3}">
+		                                                                                                                                                                      战士
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                            
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');"> 
+		                                    <c:choose>
+		                                        <c:when test="${p.gender=='M'}">
+		                                                                                                                                                                                男
+		                                        </c:when>
+		                                        <c:when test="${p.gender=='F'}">
+		                                                                                                                                                                         女
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                                                                                                                                                                     男
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.age}</td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.duties}</td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.professional}</td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">
+		                                    <c:choose>
+		                                        <c:when test="${p.quaLevel==0}">
+		                                                                                                                                                                                          初
+		                                        </c:when>
+		                                        <c:when test="${p.quaLevel==1}">
+		                                                                                                                                                                                                             中
+		                                        </c:when>
+		                                        <c:when test="${p.quaLevel==2}">
+		                                                                                                                                                                                                  高
+		                                        </c:when>
+		                                        <c:when test="${p.quaLevel==3}">
+		                                            
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                            
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </td>
+		                                <!-- 创建人-->
+		                                <td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
+		                                <!-- 是否发布 -->
+		                                <%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
+		                                <!-- 是否发布 -->
+		                                <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+		                                        </tr>
+		                                    </c:forEach>
+                                </tbody>
+                 
+                 </table>
+              </div>
+             </div>
+            </form>
+          </div>
+         </div>
 				</div>
 				<!-- 伸缩层 -->
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseOne">
-									基本信息
-								</a>
-							</h4>
-						</div>
-						<div id="collapseOne" class="panel-collapse collapse in">
-							<div class="panel-body">
-								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">采购机构名称：</span>
-										<div class="input-append">
-											<input class="span2" name="name" type="text" value="${purchaseDep.name }">
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">采购业务范围：</span>
-										<div class="input-append">
-											<input class="span2" name="businessRange" 
-												type="text" value="${purchaseDep.businessRange }"> 
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">单位主要领导及电话：</span>
-										<div class="input-append">
-											<input class="span2" name="leaderTelephone" type="text" value="${purchaseDep.leaderTelephone }"> 
-										</div>
-									</li>
-									
-									
-									<li class="col-md-6  p0 "><span class="">单位地址：</span>
-										<div class="input-append">
-											<input class="span2" name="address" type="text" value="${purchaseDep.address }"> 
-												
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<!--  class="panel panel-default" -->
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseTwo">
-									上级部门
-								</a>
-							</h4>
-						</div>
-						<div id="collapseTwo" class="panel-collapse collapse">
-							<div class="panel-body">
-								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6  p0 "><span class="">上级监管部门：</span>
-										<div class="input-append">
-											<input class="span2" name="" type="text" value="军区采购"> 
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseThree">
-									采购人员
-								</a>
-							</h4>
-						</div>
-						<div id="collapseThree" class="panel-collapse collapse">
-							<table id="tb1"
-								class="table table-striped table-bordered table-hover tc">
-								<thead>
-									<tr>
-										<th class="info w50">序号</th>
-										<th class="info">姓名</th>
-										<th class="info">所属采购机构</th>
-										<th class="info">类型</th>
-										<th class="info">性别</th>
-										<th class="info">年龄</th>
-										<th class="info">职务</th>
-										<th class="info">职称</th>
-										<th class="info">采购资格等级</th>
-										<th class="info">学历</th>
-										<th class="info">电话</th>
-										<!-- <th class="info">资质证书类型</th> -->
-										<th class="info">证书编号</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${purchaselist }" var="p" varStatus="vs">
-										<tr>
-											<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-								<!-- 标题 -->
-								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
-								<!-- 内容 -->
-								<td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
-								<!-- 创建人-->
-								<td class="tc" onclick="show('${p.id}');">
-									<c:choose>
-										<c:when test="${p.purcahserType==0}">
-											军人
-										</c:when>
-										<c:when test="${p.purcahserType==1}">
-											文职
-										</c:when>
-										<c:when test="${p.purcahserType==2}">
-											职工
-										</c:when>
-										<c:when test="${p.purcahserType==3}">
-											战士
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
-									</c:choose>
-								</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');"> 
-									<c:choose>
-										<c:when test="${p.gender=='M'}">
-											男
-										</c:when>
-										<c:when test="${p.gender=='F'}">
-											女
-										</c:when>
-										<c:otherwise>
-											男
-										</c:otherwise>
-									</c:choose>
-								</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.age}</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.professional}</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">
-									<c:choose>
-										<c:when test="${p.quaLevel==0}">
-											初
-										</c:when>
-										<c:when test="${p.quaLevel==1}">
-											中
-										</c:when>
-										<c:when test="${p.quaLevel==2}">
-											高
-										</c:when>
-										<c:when test="${p.quaLevel==3}">
-											
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
-									</c:choose>
-								</td>
-								<!-- 创建人-->
-								<td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
-								<!-- 是否发布 -->
-								<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<!-- 伸缩层 -->
-			</div>
 			
 			<div class="col-md-12">
 				
 			</div>
-		</form>
-	</div>
 </body>
 </html>

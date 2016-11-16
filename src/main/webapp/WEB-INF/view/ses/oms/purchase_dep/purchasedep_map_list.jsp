@@ -265,9 +265,8 @@ function chongzhi(){
                       </li>
 		          </ul>
 		          <div class="col-md-12 clear tc mt10">
-		           <input class="btn" onclick="submit()" type="button" value="查询">
-                             <input class="btn" onclick="chongzhi()" type="button" value="重置"> 
-                             <input class="btn" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		                  <input class="btn" onclick="submit()" type="button" value="查询">
+                          <input class="btn" onclick="chongzhi()" type="button" value="重置"> 
 		            </div>
 		       				 <div class="clear"></div>
 		     </form>
