@@ -76,10 +76,9 @@ public class ExpExtConditionController {
      * @throws UnsupportedEncodingException 
      */
     @ResponseBody
-    @RequestMapping("/saveExtCondition")
+    @RequestMapping(value="/saveExtCondition",produces = "text/html;charset=UTF-8")
     public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
                                    ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,Model model,String typeclassId,String extAddress) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
-        sq.setCharacterEncoding("UTF-8");
         List<Area> listArea = areaService.findTreeByPid("1",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId", typeclassId);
@@ -182,7 +181,7 @@ public class ExpExtConditionController {
     private Integer verification(ExpExtCondition condition, String hour, String minute,
                                  String[] sids, Model model,ExtConTypeArray extConTypeArray,Map<String, String> map) {
         model.addAttribute("ExpExtCondition", condition);
-        Integer count=0;
+        Integer count = 0;
         if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
             map.put("responseTime", "响应时限不能为空");
             count = 1;
