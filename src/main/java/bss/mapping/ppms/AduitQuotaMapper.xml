@@ -15,11 +15,12 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="ROUND" jdbcType="DECIMAL" property="round" />
+    <result column="PAGE" property="page" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, PROJECT_ID, PACKEAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, SUPPLIER_VALUE, INIT_SCORE, 
-    EXPERT_VALUE, FINAL_SCORE, CREATED_AT, UPDATED_AT, IS_DELETED, ROUND
+    EXPERT_VALUE, FINAL_SCORE, CREATED_AT, UPDATED_AT, IS_DELETED, ROUND, PAGE
   </sql>
   
   <!-- 查询条件 -->
@@ -57,10 +58,13 @@
         and aq.ROUND = #{round} 
       </if>
       <if test="createdAt != null">
-        and fd.CREATED_AT = #{createdAt} 
+        and aq.CREATED_AT = #{createdAt} 
       </if>
       <if test="updatedAt != null">
-        and fd.UPDATED_AT = #{updatedAt} 
+        and aq.UPDATED_AT = #{updatedAt} 
+      </if>
+      <if test="page != null">
+        and aq.PAGE = #{page} 
       </if>
     </trim>
   </sql>
@@ -122,6 +126,9 @@
       <if test="round != null">
         ROUND,
       </if>
+      <if test="page != null">
+        PAGE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +169,9 @@
       </if>
       <if test="round != null">
         #{round,jdbcType=DECIMAL},
+      </if>
+      <if test="page != null">
+        #{page},
       </if>
     </trim>
   </insert>
@@ -205,6 +215,9 @@
       </if>
       <if test="round != null">
         ROUND = #{round,jdbcType=DECIMAL},
+      </if>
+      <if test="page != null">
+        PAGE = #{page},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

@@ -29,10 +29,11 @@
 	
 	function saveFile(){
 		var projectId = $("#projectId").val();
+		var supplierName = $("#supplierName").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//参数说明
 		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-		obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId, "ntko", "", "toubiaowenjian.doc", "MyFile");
+		obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId, "ntko", "", supplierName+"_投标文件.doc", "MyFile");
 	}
 	
 	function closeFile(){
@@ -90,6 +91,7 @@
 	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
 	    </div>
 	    <input type="hidden" id="projectId" value="${project.id }">
+	    <input type="hidden" id="supplierName" value="${supplier.supplierName }">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
 	</div>

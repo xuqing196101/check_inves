@@ -81,6 +81,11 @@ public class AduitQuota implements Serializable{
      * @Fields round : 轮次
      */
     private Integer round;
+    
+    /**
+     * @Fields page : 页码
+     */
+    private Integer page;
 
     public String getId() {
         return id;
@@ -185,4 +190,13 @@ public class AduitQuota implements Serializable{
     public void setRound(Integer round) {
         this.round = round;
     }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+    
 }

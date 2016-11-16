@@ -46,10 +46,11 @@
 	function saveFile(){
 		var projectId = $("#projectId").val();
 		var flowDefineId = $("#flowDefineId").val();
+		var projectName = $("#projectName").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//参数说明
 		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId, "ntko", "", "bid.doc", "MyFile");
+		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId, "ntko", "", projectName+"_招标文件.doc", "MyFile");
 	}
 	
 	function closeFile(){
@@ -123,6 +124,7 @@
 	<form id="MyFile" method="post">
 		<input type="hidden" id="flowDefineId" value="${flowDefineId }">
     	<input type="hidden" id="projectId" value="${project.id }">
+    	<input type="hidden" id="projectName" value="${project.name }">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
 </body>

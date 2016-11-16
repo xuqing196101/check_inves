@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import ses.util.DictionaryDataUtil;
 
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.service.DownloadService;
 import common.service.UploadService;
 
 import bss.model.ppms.Project;
@@ -45,6 +47,9 @@ public class ProjectManageController {
     
     @Autowired
     private SaleTenderService saleTenderService;
+    
+    @Autowired
+    private DownloadService downloadService;
     
     /**
      * 跳转到编制投标文件页面
@@ -77,8 +82,22 @@ public class ProjectManageController {
         }
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
+        model.addAttribute("supplier", supplier);
         return "bss/supplier/bid/add_file";
     }
+    
+   /**
+     *〈简述〉下载文件
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param fileId
+     * @param response
+     */
+   @RequestMapping("/loadFile")
+   public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
+       downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
+   }
     
     /**
      * 绑定投标文件中的各项指标
