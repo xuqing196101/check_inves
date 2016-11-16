@@ -261,7 +261,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 function addexp(){
 		 	  layer.open({
 		           type: 2, //page层
-		         area: ['70%', '30%'],
+		         area: ['80%', '50%'],
 		           title: '添加临时专家',
 		           closeBtn: 1,
 		           shade:0.01, //遮罩透明度

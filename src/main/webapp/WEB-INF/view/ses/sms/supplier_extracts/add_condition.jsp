@@ -225,7 +225,6 @@
         $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
         $("#expertId").val($("#city option:selected").val());
         $("#extAddress").val($("#area1 option:selected").text()+","+$("#city1 option:selected").text());
-      alert($("#extAddress").val());
         $.ajax({
             cache: true,
             type: "POST",
@@ -436,7 +435,7 @@ return false;
 						 </span>
 					   </li>
 						<li><label class="fl"><span class="red">*</span>监督人员：</label><span>
-								<input class=" w250" readonly id="supervises" title="${userName}"
+								<input class="w250 fl mt5" readonly id="supervises" title="${userName}"
 								value="${userName}" onclick="supervise();" type="text">
 								<div class="b f14 red tip w150 fl" id="supervise"></div>
 	

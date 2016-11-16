@@ -10,6 +10,7 @@
 		<result column="STATUS_BOND" jdbcType="DECIMAL" property="statusBond" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="BID_FINISH" jdbcType="DECIMAL" property="bidFinish" />
 		<association property="user" column="USER_ID"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 		<association property="suppliers" column="SUPPLIER_ID"
@@ -21,7 +22,7 @@
 		<!-- @mbggenerated -->
 		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
 		st.CREATED_AT,
-		st.UPDATED_AT, st.USER_ID
+		st.UPDATED_AT, st.USER_ID,st.bidFinish
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -40,13 +41,13 @@
 		<!-- @mbggenerated -->
 		insert into T_BSS_PPMS_SALE_TENDER (ID, PROJECT_ID, STATUS_BID,
 		SUPPLIER_ID, STATUS_BOND, CREATED_AT,
-		UPDATED_AT, USER_ID)
+		UPDATED_AT, USER_ID,BID_FINISH)
 		values
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{statusBid,jdbcType=DECIMAL},
 		#{supplierId,jdbcType=VARCHAR},
 		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR})
+		#{updatedAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
@@ -76,6 +77,9 @@
 			<if test="userId != null">
 				USER_ID,
 			</if>
+			<if test="bidFinish != null">
+			     BID_FINISH,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -102,6 +106,9 @@
 			<if test="userId != null">
 				#{userId,jdbcType=VARCHAR},
 			</if>
+			 <if test="bidFinish != null">
+                #{bidFinish,jdbcType=DECIMAL},
+            </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.SaleTender">
@@ -129,6 +136,9 @@
 			<if test="userId != null">
 				USER_ID = #{userId,jdbcType=VARCHAR},
 			</if>
+			<if test="bidFinish">
+			     BID_FINISH=#{bidFinish,jdbcType=DECIMAL},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -146,7 +156,8 @@
 		CREATED_AT =
 		#{createdAt,jdbcType=DATE},
 		UPDATED_AT = #{updatedAt,jdbcType=DATE},
-		USER_ID = #{userId,jdbcType=VARCHAR}
+		USER_ID = #{userId,jdbcType=VARCHAR},
+		BID_FINISH = #{bidFinish,jdbcType=DECIMAL},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 
