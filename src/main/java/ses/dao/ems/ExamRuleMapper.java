@@ -51,4 +51,16 @@ public interface ExamRuleMapper {
 	* @return int
 	 */
 	int updateByPrimaryKeySelective(ExamRule examRule);
+	
+	/**
+	 * 
+	* @Title: selectById
+	* @author ZhaoBo
+	* @date 2016-11-16 下午12:27:30  
+	* @Description: 根据ID查找考试规则 
+	* @param @param id
+	* @param @return      
+	* @return ExamRule
+	 */
+	ExamRule selectById(String id);
 }

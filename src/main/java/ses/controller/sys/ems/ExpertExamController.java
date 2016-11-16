@@ -1057,40 +1057,35 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				model.addAttribute("optNum", option.length);
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			model.addAttribute("optNum", option.length);
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				model.addAttribute("optContent", sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						error = "option";
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
-								error = "option";
-								break outer;
-							}
+			}
+			model.addAttribute("optContent", sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
-						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -1315,7 +1310,7 @@ public class ExpertExamController extends BaseSupplierController{
 			String off = sdf.format(offTime).substring(0, 4);
 			String now = sdf.format(new Date()).substring(0,4);
 			if(off.equals(now)){
-				model.addAttribute("testCycle", examRule.get(0).getOffTime());
+				model.addAttribute("offTime", examRule.get(0).getOffTime());
 			}else{
 				model.addAttribute("message", "暂无考试安排");
 			}
@@ -1502,6 +1497,15 @@ public class ExpertExamController extends BaseSupplierController{
 		List<ExamRule> list = examRuleService.select(map);
 		for(int i=0;i<list.size();i++){
 			list.get(i).setYear(sdf.format(list.get(i).getOffTime()).substring(0, 4));
+			Date startTime = list.get(i).getStartTime();
+			Date offTime = list.get(i).getOffTime();
+			if(new Date().getTime()<startTime.getTime()){
+				list.get(i).setStatus("未开始");
+			}else if(new Date().getTime()>offTime.getTime()){
+				list.get(i).setStatus("已结束");
+			}else if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
+				list.get(i).setStatus("正在考试中");
+			}
 		}
 		model.addAttribute("list", new PageInfo<ExamRule>(list));
 		return "ses/ems/exam/expert/rule/list";
@@ -1550,6 +1554,33 @@ public class ExpertExamController extends BaseSupplierController{
 	@RequestMapping("/createRule")
 	public String createRule(){
 		return "ses/ems/exam/expert/rule/add";
+	}
+	
+	/**
+	 * 
+	* @Title: judgeEdit
+	* @author ZhaoBo
+	* @date 2016-11-16 下午12:32:09  
+	* @Description: 判断考试规则可不可以修改 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/judgeEdit")
+	@ResponseBody
+	public String judgeEdit(HttpServletRequest request){
+		String str = null;
+		String id = request.getParameter("id");
+		ExamRule rule = examRuleService.selectById(id);
+		Date startTime = rule.getStartTime();
+		Date offTime = rule.getOffTime();
+		if(new Date().getTime()<startTime.getTime()){
+			str = "0";
+		}else if(new Date().getTime()>offTime.getTime()){
+			str = "1";
+		}else if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
+			str = "2";
+		}
+		return str;
 	}
 	
 	/**
@@ -1732,66 +1763,296 @@ public class ExpertExamController extends BaseSupplierController{
 			return "ses/ems/exam/expert/rule/add";
 		}
 		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
-//		Date dNow = new Date();
-//		Calendar calendar = Calendar.getInstance(); //得到日历
-//		calendar.setTime(cTime);
-//		calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-//		dNow = calendar.getTime();
 		examRule.setOffTime(sdf.parse(offTime+":00"));
 		examRule.setPassStandard(passStandard);
 		examRule.setPaperScore(paperScore);
-		examRule.setCreatedAt(new Date());
 		examRuleService.insertSelective(examRule);
 		return "redirect:ruleList.html";
 	}
 	
 	/**
 	 * 
-	* @Title: rule
+	* @Title: editRule
 	* @author ZhaoBo
-	* @date 2016-10-12 上午10:25:28  
-	* @Description: 规则页面 
-	* @param @param model      
-	* @return void
+	* @date 2016-11-16 下午12:38:08  
+	* @Description: 修改考试规则 
+	* @param @return      
+	* @return String
 	 */
-	public void rule(Model model){
-//		List<ExamRule> ruleList = examRuleService.select();
-//		if(ruleList.size()>0){
-//			model.addAttribute("rule", ruleList.get(0));
-//		}
-//		List<ExamQuestion> examQuestion = examQuestionService.searchExpertPool();
-//		if(examQuestion.size()!=0){
-//			model.addAttribute("point", examQuestion.get(0).getPoint());
-//		}
-//		List<ExamRule> ruleList = examRuleService.select();
-//		if(ruleList.size()==0){
-//			Date now = new Date();
-//			Date dNow = new Date();
-//			Calendar calendar = Calendar.getInstance(); //得到日历
-//			calendar.setTime(now);
-//			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-//			dNow = calendar.getTime();
-//			examRule.setPassStandard(passStandard);
-//			//examRule.setQuestionCount(questionCount);
-//			examRule.setTestCycle(testCycle);
-//			examRule.setPaperScore(paperScore);
-//			examRule.setCreatedAt(new Date());
-//			examRule.setTestLong(dNow);
-//			examRuleService.insertSelective(examRule);
-//		}else{
-//			Date now = ruleList.get(0).getCreatedAt();
-//			Date dNow = new Date();
-//			Calendar calendar = Calendar.getInstance(); //得到日历
-//			calendar.setTime(now);
-//			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-//			dNow = calendar.getTime();   
-//			examRule.setPassStandard(passStandard);
-//			//examRule.setQuestionCount(questionCount);
-//			examRule.setTestCycle(testCycle);
-//			examRule.setPaperScore(paperScore);
-//			examRule.setTestLong(dNow);
-//			examRuleService.updateByPrimaryKeySelective(examRule);
-//		}
+	@RequestMapping("/editRule")
+	public String editRule(HttpServletRequest request,Model model){
+		String id = request.getParameter("id");
+		ExamRule rule = examRuleService.selectById(id);
+		model.addAttribute("examRule", rule);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTime = sdf.format(rule.getStartTime());
+		String examStartTime = startTime.substring(0,16);
+		model.addAttribute("startTime", examStartTime);
+		String offTime = sdf.format(rule.getOffTime());
+		String examOffTime = offTime.substring(0,16);
+		model.addAttribute("offTime", examOffTime);
+		String typeDistribution = rule.getTypeDistribution();
+		JSONObject object = JSONObject.fromObject(typeDistribution);
+		model.addAttribute("singleNum", object.get("singleNum"));
+		if(Integer.parseInt(object.get("singleNum").toString())>0){
+			model.addAttribute("errorSingle", "有");
+		}else{
+			model.addAttribute("errorSingle", "无");
+		}
+		model.addAttribute("singlePoint", object.get("singlePoint"));
+		model.addAttribute("multipleNum", object.get("multipleNum"));
+		if(Integer.parseInt(object.get("multipleNum").toString())>0){
+			model.addAttribute("errorMultiple", "有");
+		}else{
+			model.addAttribute("errorMultiple", "无");
+		}
+		model.addAttribute("multiplePoint", object.get("multiplePoint"));
+		return "ses/ems/exam/expert/rule/edit";
+	}
+	
+	/**
+	 * 
+	* @Title: editToExamRule
+	* @author ZhaoBo
+	* @date 2016-11-16 下午1:21:25  
+	* @Description: 修改考试规则并保存 
+	* @param @return      
+	* @return String
+	 * @throws ParseException 
+	 * @throws NumberFormatException 
+	 */
+	@RequestMapping("/editToExamRule")
+	public String editToExamRule(HttpServletRequest request,ExamRule examRule,Model model) throws NumberFormatException, ParseException{
+		examRule.setId(request.getParameter("ruleId"));
+		String error = "无";
+		String singleNum = request.getParameter("singleNum");
+		String singlePoint = request.getParameter("singlePoint");
+		String multipleNum = request.getParameter("multipleNum");
+		String multiplePoint = request.getParameter("multiplePoint");
+		String[] single = request.getParameterValues("single");
+		String[] multiple = request.getParameterValues("multiple");
+		Map<String,String> map = new HashMap<String,String>();
+		if(single==null&&multiple==null){
+			error = "error";
+			model.addAttribute("ERR_single", "请选择");
+			model.addAttribute("ERR_multiple", "请选择");
+		}else{
+			if(single!=null){
+				model.addAttribute("singleNum", singleNum);
+				model.addAttribute("singlePoint", singlePoint);
+				model.addAttribute("errorSingle", single[0]);
+			}
+			if(multiple!=null){
+				model.addAttribute("multipleNum", multipleNum);
+				model.addAttribute("multiplePoint", multiplePoint);
+				model.addAttribute("errorMultiple", multiple[0]);
+			}
+			if(single==null||multiple==null){
+				error = "error";
+				if(single==null){
+					model.addAttribute("ERR_single", "请选择");
+				}
+				if(multiple==null){
+					model.addAttribute("ERR_multiple", "请选择");
+				}
+			}else if(single[0].equals("无")&&multiple[0].equals("无")){
+				error = "error";
+				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}else{
+				if(single[0].equals("有")){
+					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_single", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+							error = "error";
+							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> tecSingle = new HashMap<String,Object>();
+							tecSingle.put("questionTypeId", 1);
+							tecSingle.put("kind", 0);
+							int tec = examQuestionService.queryQuestionCount(tecSingle);
+							HashMap<String,Object> ComSingle = new HashMap<String,Object>();
+							ComSingle.put("questionTypeId", 1);
+							ComSingle.put("kind", 1);
+							int com = examQuestionService.queryQuestionCount(ComSingle);
+							HashMap<String,Object> lawSingle = new HashMap<String,Object>();
+							lawSingle.put("questionTypeId", 1);
+							lawSingle.put("kind", 2);
+							int law = examQuestionService.queryQuestionCount(lawSingle);
+							if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
+								error = "error";
+								model.addAttribute("ERR_single", "题库中单选题数量不足");
+							}else{
+								map.put("singleNum", singleNum);
+								map.put("singlePoint", singlePoint);
+							}
+						}
+					}
+				}else{
+					map.put("singleNum", "0");
+					map.put("singlePoint", "0");
+				}
+				if(multiple[0].equals("有")){
+					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(multipleNum)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
+							tecMultiple.put("questionTypeId", 2);
+							tecMultiple.put("kind", 0);
+							int tec = examQuestionService.queryQuestionCount(tecMultiple);
+							HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
+							ComMultiple.put("questionTypeId", 2);
+							ComMultiple.put("kind", 1);
+							int com = examQuestionService.queryQuestionCount(ComMultiple);
+							HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
+							lawMultiple.put("questionTypeId", 2);
+							lawMultiple.put("kind", 2);
+							int law = examQuestionService.queryQuestionCount(lawMultiple);
+							if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
+								error = "error";
+								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
+							}else{
+								map.put("multipleNum", multipleNum);
+								map.put("multiplePoint", multiplePoint);
+							}
+						}
+					}
+				}else{
+					map.put("multipleNum", "0");
+					map.put("multiplePoint", "0");
+				}
+			}
+		}
+		String paperScore = request.getParameter("paperScore");
+		String passStandard = request.getParameter("passStandard");
+		if(passStandard.trim().isEmpty()){
+			error = "error";
+			model.addAttribute("ERR_passStandard", "及格标准不能为空");
+		}else{
+			if(!ValidateUtils.PositiveNumber(passStandard)){
+				error = "error";
+				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
+			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+				error = "error";
+				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
+			}
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = request.getParameter("startTime");
+		Date cTime = null;
+		if(time.trim().isEmpty()){
+			error = "error";
+			model.addAttribute("ERR_time", "考试开始时间不能为空");
+		}else{
+			cTime = sdf.parse(time+":00");
+			if(cTime.getTime()<=new Date().getTime()){
+				error = "error";
+				model.addAttribute("ERR_time", "考试开始时间必须比当前时间晚");
+			}else{
+				examRule.setStartTime(cTime);
+			}
+		}
+		String offTime = request.getParameter("offTime");
+		if(offTime.trim().isEmpty()){
+			error = "error";
+			model.addAttribute("ERR_offTime", "考试截止时间不能为空");
+		}else{
+			if(sdf.parse(offTime+":00").getTime()<cTime.getTime()){
+				error = "error";
+				model.addAttribute("ERR_offTime", "考试截止时间不能比考试开始时间早");
+			}else{
+				int off = Integer.parseInt(offTime.substring(0,4));
+				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
+				if(off>now){
+					error = "error";
+					model.addAttribute("ERR_offTime", "考试截止时间不能超过今年年底");
+				}
+			}
+		}
+		if(error.equals("error")){
+			model.addAttribute("examRule", examRule);
+			model.addAttribute("startTime", time);
+			model.addAttribute("offTime", offTime);
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			return "ses/ems/exam/expert/rule/edit";
+		}
+		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
+		examRule.setOffTime(sdf.parse(offTime+":00"));
+		examRule.setPassStandard(passStandard);
+		examRule.setPaperScore(paperScore);
+		examRuleService.updateByPrimaryKeySelective(examRule);
+		return "redirect:ruleList.html";
+	}
+	
+	/**
+	 * 
+	* @Title: viewRule
+	* @author ZhaoBo
+	* @date 2016-11-16 下午2:18:37  
+	* @Description: 查看考试规则页面 
+	* @param @param request
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/viewRule")
+	public String viewRule(HttpServletRequest request,Model model){
+		String id = request.getParameter("id");
+		ExamRule rule = examRuleService.selectById(id);
+		model.addAttribute("examRule", rule);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTime = sdf.format(rule.getStartTime());
+		String examStartTime = startTime.substring(0,16);
+		model.addAttribute("startTime", examStartTime);
+		String offTime = sdf.format(rule.getOffTime());
+		String examOffTime = offTime.substring(0,16);
+		model.addAttribute("offTime", examOffTime);
+		String typeDistribution = rule.getTypeDistribution();
+		JSONObject object = JSONObject.fromObject(typeDistribution);
+		model.addAttribute("singleNum", object.get("singleNum"));
+		if(Integer.parseInt(object.get("singleNum").toString())>0){
+			model.addAttribute("errorSingle", "有");
+		}else{
+			model.addAttribute("errorSingle", "无");
+		}
+		model.addAttribute("singlePoint", object.get("singlePoint"));
+		model.addAttribute("multipleNum", object.get("multipleNum"));
+		if(Integer.parseInt(object.get("multipleNum").toString())>0){
+			model.addAttribute("errorMultiple", "有");
+		}else{
+			model.addAttribute("errorMultiple", "无");
+		}
+		model.addAttribute("multiplePoint", object.get("multiplePoint"));
+		return "ses/ems/exam/expert/rule/view";
+	}
+	
+	/**
+	 * 
+	* @Title: backRule
+	* @author ZhaoBo
+	* @date 2016-11-16 下午2:30:55  
+	* @Description: 返回考试规则列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backRule")
+	public String backRule(){
+		return "redirect:ruleList.html";
 	}
 	
 	/**

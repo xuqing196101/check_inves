@@ -64,9 +64,6 @@
 		
 		//自动计算总分
 		function countScore(){
-			//document.getElementById("singleNum").value=document.getElementById("singleNum").value.replace(/\D+/g,'');
-			//document.getElementById("multipleNum").value=document.getElementById("multipleNum").value.replace(/\D+/g,'');
-			//document.getElementById("judgeNum").value=document.getElementById("judgeNum").value.replace(/\D+/g,'');
 			var sn = $("#singleNum").val();
 			var sp =$("#singlePoint").val();
 			var mn = $("#multipleNum").val();

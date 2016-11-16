@@ -39,6 +39,12 @@ public class ExamRuleServiceImpl implements ExamRuleServiceI {
 		return examRuleMapper.updateByPrimaryKeySelective(examRule);
 	}
 
+	
+	@Override
+	public ExamRule selectById(String id) {
+		return examRuleMapper.selectById(id);
+	}
+
 
 
 

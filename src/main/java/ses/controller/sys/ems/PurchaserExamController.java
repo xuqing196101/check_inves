@@ -1079,10 +1079,10 @@ public class PurchaserExamController extends BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: editNoTestPaper
+	* @Title: editPaper
 	* @author ZhaoBo
 	* @date 2016-9-6 上午10:55:31  
-	* @Description: 编辑考卷页面
+	* @Description: 修改考卷页面
 	* @param @param model
 	* @param @param request
 	* @param @return      

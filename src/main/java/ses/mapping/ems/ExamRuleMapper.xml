@@ -24,6 +24,14 @@
     CREATED_AT DESC
   </select>
   
+  <!-- 根据主键ID查询考试规则 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_RULE
+    WHERE ID = #{id}
+  </select>
+  
  <!-- 设置考试规则,可插入null -->
   <insert id="insertSelective" parameterType="Object">
   	<selectKey resultType="String" order="BEFORE" keyProperty="id">

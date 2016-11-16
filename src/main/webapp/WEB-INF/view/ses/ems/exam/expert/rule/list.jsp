@@ -90,7 +90,22 @@
 						str = info[i].value;
 					}
 				}
-				window.location.href = "${pageContext.request.contextPath }/expertExam/editRule.html?id="+str;
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"${pageContext.request.contextPath }/expertExam/judgeEdit.html?id="+str,
+					success:function(data){
+		       			if(data==0){
+		       				window.location.href = "${pageContext.request.contextPath }/expertExam/editRule.html?id="+str;
+		       			}else if(data==1){
+		       				layer.alert("考试时间已结束，不能编辑",{offset: ['30%','40%']});
+							$(".layui-layer-shade").remove();
+		       			}else if(data==2){
+		       				layer.alert("正在考试中，请勿编辑",{offset: ['30%','40%']});
+							$(".layui-layer-shade").remove();
+		       			}
+		       		}
+		       	});
 			}
 		}
 		
@@ -113,6 +128,11 @@
 			if(count == info.length){
 				selectAll.checked = true;
 			}
+		}
+		
+		//查看考试规则
+		function view(obj){
+			window.location.href = "${pageContext.request.contextPath }/expertExam/viewRule.html?id="+obj;
 		}
 	</script>
 
@@ -148,6 +168,7 @@
 				    <th>考试开始日期</th>
 					<th>考试截止日期</th>
 					<th>考卷年度</th>
+					<th>考卷状态</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -158,6 +179,7 @@
 						<td class="tc" onclick="view('${rule.id }')"><fmt:formatDate value="${rule.startTime }" pattern="yyyy-MM-dd HH:mm"/></td>
 						<td class="tc" onclick="view('${rule.id }')"><fmt:formatDate value="${rule.offTime }" pattern="yyyy-MM-dd HH:mm"/></td>
 						<td class="tc" onclick="view('${rule.id }')">${rule.year }</td>
+						<td class="tc" onclick="view('${rule.id }')">${rule.status }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

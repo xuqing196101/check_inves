@@ -63,6 +63,11 @@ public class ExamRule {
 	 */
 	private String year;
 	
+	/**
+	 * @Fields status : 考卷状态
+	 */
+	private String status;
+	
 	public String getId() {
 		return id;
 	}
@@ -141,6 +146,14 @@ public class ExamRule {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

@@ -1,10 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>专家考试规则</title>
+    <title>编辑考试规则</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -12,10 +13,10 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			var errorSingle = $("#errorSingle").val();
-			var errorMultiple = $("#errorMultiple").val();
 			var single = document.getElementsByName("single");
 			var multiple = document.getElementsByName("multiple");
+			var errorSingle = $("#errorSingle").val();
+			var errorMultiple = $("#errorMultiple").val();
 			if(errorSingle==null||errorSingle==""){
 				$("#sin").hide();
 			}else if(errorSingle=="无"){
@@ -38,8 +39,6 @@
 		
 		//自动计算总分
 		function countScore(){
-			//document.getElementById("singleNum").value=document.getElementById("singleNum").value.replace(/\D+/g,'');
-			//document.getElementById("multipleNum").value=document.getElementById("multipleNum").value.replace(/\D+/g,'');
 			var sn = $("#singleNum").val();
 			var sp =$("#singlePoint").val();
 			var mn = $("#multipleNum").val();
@@ -56,6 +55,8 @@
 			if($(obj).prop("checked")){
 				$("#sin").show();
 			}
+			$("#singleNum").val("");
+			$("#singlePoint").val("");
 		}
 		
 		//勾选单选题的无
@@ -73,6 +74,8 @@
 			if($(obj).prop("checked")){
 				$("#mul").show();
 			}
+			$("#multipleNum").val("");
+			$("#multiplePoint").val("");
 		}
 		
 		//勾选多选题的无
@@ -84,12 +87,17 @@
 			$("#multiplePoint").val("");
 			countScore();
 		}
+		
+		//返回到考试规则列表
+		function back(){
+			window.location.href = "${pageContext.request.contextPath }/expertExam/backRule.html";
+		}
 	</script>
 
   </head>
   
   <body>
-  	<!--面包屑导航开始-->
+    <!--面包屑导航开始-->
    	<div class="margin-top-10 breadcrumbs ">
       	<div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -98,11 +106,14 @@
 		<div class="clear"></div>
 	  	</div>
    	</div>
+   	
+   	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
+  	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
+   	
    <div class="container container_box">
-   <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
-   <input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
-    <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-   <h2 class="count_flow">专家考试规则设置</h2>
+   <form action="${pageContext.request.contextPath }/expertExam/editToExamRule.html" method="post">
+    <input type="hidden" name="ruleId" value="${examRule.id }"/>
+   <h2 class="count_flow">专家考试规则修改</h2>
    <ul class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">
@@ -115,7 +126,7 @@
 		  			   	    <input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0" value="无"/>无 
 		  			   	</div>
 		  			   	<div class="fl" id="sin">
-		  			   	  	<input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
+		  			   	  	<input type="text" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  			   	</div>
 		  			   	<div class="cue">${ERR_single }</div>
 	  			   	</div>
@@ -126,7 +137,7 @@
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleNo(this)" class="mt0" value="无"/>无
 		    	   	    </div>
 			    	   	<div class="fl" id="mul">
-			    	   	  	<input type="text" value="${errorData['multipleNum'] }" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['multiplePoint'] }" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
+			    	   	  	<input type="text" value="${multipleNum }" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${multiplePoint }" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  		        </div>
 		  		        <div class="cue">${ERR_multiple }</div>
 	  		        </div>
@@ -136,14 +147,14 @@
 	    	<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷分值：</span>
 	  			<div class="col-md-12 input-append p0">
-	  				<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
+	  				<input type="text" name="paperScore" id="paperScore" value="${examRule.paperScore }" readonly="readonly"/>分
 	    		</div>
 	    	</li>
 	    	
 	    	<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
 	  			<div class="col-md-12 input-append p0">
-	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分</div>
+	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${examRule.passStandard }"/>分</div>
 	  				<div class="cue">${ERR_passStandard }</div>
 	  			</div>
 	    	</li>
@@ -151,7 +162,7 @@
 	  		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
 	  			<div class="col-md-12 input-append p0">
-			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['startTime'] }"/>
+			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${startTime }"/>
 		  			<div class="cue">${ERR_time }</div>
 	  			</div>
 	  		</li>
@@ -159,19 +170,19 @@
 	    	<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
 	  			<div class="col-md-12 input-append p0">
-		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['offTime'] }"/>
+		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${offTime }"/>
 		  			<div class="cue">${ERR_offTime }</div>
 	  			</div>
 	    	</li>
 	    </ul>
 	    </ul>
-	    <div class="padding-top-10 clear">
-			<div class="col-md-12 tc">
-				<div class="mt40 tc mb50">
-				 	<button class="btn btn-windows save" type="submit">保存</button>
-				</div>
-	  		</div>
+	    
+	    <!-- 底部按钮 -->
+	    <div class="col-md-12 mt10 tc ">
+			<button class="btn btn-windows save" type="submit">保存</button>
+			<button class="btn btn-windows back" type="button" onclick="back()">返回</button>
 	  	</div>
+	  	
 	  	 </form>
 	 </div>
   </body>
