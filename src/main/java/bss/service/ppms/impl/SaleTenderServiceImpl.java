@@ -102,5 +102,14 @@ public class SaleTenderServiceImpl implements SaleTenderService {
         saleTenderMapper.updateByPrimaryKeySelective(saleTender);
     }
 
-
+    /**
+     *〈简述〉条件查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param saleTender 
+     * @return
+     */
+    public List<SaleTender> find(SaleTender saleTender){
+        return saleTenderMapper.list(saleTender);
+    }
 }

@@ -62,4 +62,12 @@ public interface SaleTenderService   {
 	 */
 	void download(String projectId,String Id);
 	
+	/**
+	 *〈简述〉条件查询
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param saleTender
+	 * @return
+	 */
+	List<SaleTender> find(SaleTender saleTender);
 }

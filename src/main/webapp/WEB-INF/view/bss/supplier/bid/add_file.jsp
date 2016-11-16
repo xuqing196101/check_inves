@@ -8,11 +8,13 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
-	function OpenFile() {
+	function OpenFile(fileId) {
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-		
+		if(fileId != 0){
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/supplierProject/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+		}
 	}
 	
 	function queryVersion(){
@@ -26,9 +28,11 @@
 	}
 	
 	function saveFile(){
+		var projectId = $("#projectId").val();
 		var obj = document.getElementById("TANGER_OCX");
-		var s = obj.GetBookmarkValue("书签");
-		alert(s);
+		//参数说明
+		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+		obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId, "ntko", "", "toubiaowenjian.doc", "MyFile");
 	}
 	
 	function closeFile(){
@@ -36,29 +40,6 @@
 		obj.close();
 	}
 	
-	//标记
-	function mark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Add("标记");
-	}	
-	
-	//获取标记内容并且定位
-	function searchMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		//判断标记是否存在
-		if(obj.ActiveDocument.Bookmarks.Exists("标记")){}
-		alert(obj.GetBookmarkValue("标记"));
-		//alert(obj.ActiveDocument.GetCurPageStart());
-		//定位到书签内容
-		obj.ActiveDocument.Bookmarks.Item("标记").Select();
-		//alert(obj.ActiveDocument.GetPagesCount());
-	}
-	
-	//删除标记
-	function delMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Item("标记").Delete();
-	}
 </script>
 
 <!-- 打开文档后只读 -->
@@ -68,7 +49,7 @@
 </script> -->
 </head>
 
-<body onload="OpenFile()">
+<body onload="OpenFile('${fileId}')">
 	<div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -108,6 +89,7 @@
 		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
 	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
 	    </div>
+	    <input type="hidden" id="projectId" value="${project.id }">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>
 	</div>
