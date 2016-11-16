@@ -97,9 +97,8 @@ $(function(){
    <div class="headline-v2">
      <h2>发布</h2>
    </div>
+    <h2 class="search_detail">
  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
     	<form id="form" action="${pageContext.request.contextPath}/categoryparam/findCategory.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -110,12 +109,11 @@ $(function(){
         </ul>
         <div class="clear"></div>
         </form>
-     </h2>
-   </div>
   </div>
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+     </h2>
+      <div class="col-md-12 mt10 p0">
+     <div class=" context table_box">
+    	<table class="table table-bordered table-condensed table-hover table-striped" >
 		<thead>
 	            <tr><th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	                <th class="info w80">序号</th>

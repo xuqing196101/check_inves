@@ -66,9 +66,8 @@ function query(){
    <div class="headline-v2">
      <h2>查询</h2>
    </div>
+    <h2 class="search_detail">
  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">产品名称：</label><span><input id="input_cate" name="name" type="text" value="" /></span>
@@ -77,12 +76,12 @@ function query(){
 	    	<a href="javascript:void(0);" class="btn" onclick="query()" value=""/>目录查询</a> 	
     	</ul>
     	  <div class="clear"></div>
-     </h2>
-   </div>
   </div>
- <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+     </h2>
+ <div class="col-md-12 mt10 p0">
+     <div class=" context table_box">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+    	
             <thead>
                 <tr>
                 <th class="info w50"><input id="selectAll" type="checkbox" onclick="selectAll()"/></th>

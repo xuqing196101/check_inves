@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -119,7 +120,7 @@ public class CategoryController extends BaseSupplierController {
 	@RequestMapping("/get")
 	public String get(HttpServletRequest request,Model model) {
 		model.addAttribute("cate",new Category());
-		return "ses/bms/category/lista";
+		return "ses/bms/category/list";
 	}
 	
 	/**
@@ -151,7 +152,7 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(Category category,HttpServletRequest request,Model model) {
+	public String save(Category category,HttpServletRequest request,HttpServletResponse response,Model model) {
 		/*String categoryuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("categoryId", categoryuuid);
 		DictionaryData dd=new DictionaryData();
@@ -177,30 +178,40 @@ public class CategoryController extends BaseSupplierController {
 		for (int i = 0; i < catenames.length; i++) {
 			if (name.equals(catenames[i])) {
 				flag = false;
-				model.addAttribute("name","目录不能重复");
+				listCategory.put("name","目录不能重复");
 			}
 		}
 		if (name==null||name.equals("")) {
 			flag= false;
-			model.addAttribute("name", "目录不能为空");
+			listCategory.put("name", "目录不能为空");
 		}
 		Integer position = Integer.parseInt(request.getParameter("position"));
 		String[] poses = pos.split(",");
 		for (int i = 0; i < poses.length; i++) {
 			if (position.equals(poses[i])) {
 				flag = false;
-				model.addAttribute("position", "排序号不能重复");
+				listCategory.put("position", "排序号不能重复");
 			}
 		}
 		if (position==null || position.equals("")) {
 			flag = false;
-			model.addAttribute("position", "排序号不能为空");
+			listCategory.put("position", "排序号不能为空");
+		}
+		String codes = request.getParameter("code");
+		String[] co = code.split(",");
+		for (int i = 0; i < co.length; i++) {
+			if (codes.equals(co[i])) {
+				flag = false;
+				listCategory.put("code", "编码已存在");
+			}
+		}
+		if (codes==null ||codes.equals("")) {
+			flag = false;
+			listCategory.put("code", "目录编码不能为空");
 		}
 		if (flag == false) {
-			model.addAttribute("", attributeValue)
-		}
-		
-		
+			super.writeJson(response, listCategory);
+		}else{
 		category.setPosition(Integer.parseInt(request.getParameter("position")));
 		category.setKind(request.getParameter("kind"));
 		category.setStatus(1);
@@ -208,11 +219,9 @@ public class CategoryController extends BaseSupplierController {
 		category.setDescription(request.getParameter("description"));
 		category.setCreatedAt(new Date());
 		categoryService.insertSelective(category);
-		
-		
-		return "redirect:get.html";
 		}
-		
+		return "ses/bms/category/list";
+	}
 		
 	
 	
@@ -289,8 +298,7 @@ public class CategoryController extends BaseSupplierController {
      */  
  
    @RequestMapping("/edit")
-   public String  edit (@RequestParam("attaattach") MultipartFile attaattach,Category category,
-	          HttpServletRequest request, HttpServletResponse response,Model model){
+   public String  edit (Category category,HttpServletRequest request, HttpServletResponse response,Model model){
 	      /*Boolean flag = true;
 	      String url = "";
 	      if(result.hasErrors()){
@@ -354,16 +362,64 @@ public class CategoryController extends BaseSupplierController {
 	      String position = request.getParameter("position");
 	      Integer Position = Integer.parseInt(position);
 	      String code = request.getParameter("code");*/
-  	      category.setName(request.getParameter("name"));
-  	      category.setPosition(Integer.parseInt(request.getParameter("position")));
-		  category.setCode(request.getParameter("code"));
-		  category.setDescription(request.getParameter("description"));
-		  
-		  category.setUpdatedAt(new Date());
-		  categoryAttachmentService.deleteByPrimaryKey(category.getId());
-	      categoryService.updateByPrimaryKeySelective(category);
-	      upload(request,attaattach,category);
-		return "redirect:get.html";
+	   Boolean flag = true;
+		String name = request.getParameter("name");
+		List<Category> cate = categoryService.selectAll();
+		String catename="";
+		String pos = "";
+		String code ="";
+		for(int i=0;i<cate.size();i++){
+		catename+=cate.get(i).getName()+",";
+		pos+= cate.get(i).getPosition()+",";
+		code+= cate.get(i).getCode()+",";
+		}
+		String[] catenames = catename.split(",");
+		for (int i = 0; i < catenames.length; i++) {
+			if (name.equals(catenames[i])) {
+				flag = false;
+				listCategory.put("name","目录不能重复");
+			}
+		}
+		if (name==null||name.equals("")) {
+			flag= false;
+			listCategory.put("name", "目录不能为空");
+		}
+		Integer position = Integer.parseInt(request.getParameter("position"));
+		String[] poses = pos.split(",");
+		for (int i = 0; i < poses.length; i++) {
+			if (position.equals(poses[i])) {
+				flag = false;
+				listCategory.put("position", "排序号不能重复");
+			}
+		}
+		if (position==null || position.equals("")) {
+			flag = false;
+			listCategory.put("position", "排序号不能为空");
+		}
+		String codes = request.getParameter("code");
+		String[] co = code.split(",");
+		for (int i = 0; i < co.length; i++) {
+			if (codes.equals(co[i])) {
+				flag = false;
+				listCategory.put("code", "编码已存在");
+			}
+		}
+		if (codes==null ||codes.equals("")) {
+			flag = false;
+			listCategory.put("code", "目录编码不能为空");
+		}
+		if (flag == false) {
+			super.writeJson(response, listCategory);
+		}else{
+		category.setPosition(Integer.parseInt(request.getParameter("position")));
+		category.setKind(request.getParameter("kind"));
+		category.setStatus(1);
+		category.setCode(request.getParameter("code"));
+		category.setDescription(request.getParameter("description"));
+		category.setCreatedAt(new Date());
+		categoryService.updateByPrimaryKeySelective(category);
+		}
+		return "ses/bms/category/list";
    }
  
    /**
