@@ -422,7 +422,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 
 	   <div style="float: left; margin-top: 15px;">
 			<label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
-			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
+			<button style="float: left;"  class="btn btn-windows input" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
 		</div>  
    </ul>
    
@@ -453,9 +453,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 	</div> -->
 	</div>
 
-	<button style="margin-left: 106px;margin-top: 20px;"  class="btn padding-right-10 btn_back" onclick="aadd()">添加子节点</button>
-	<button style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="same()">添加同级节点</button>
-	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载Excel模板</button>
+	<button style="margin-left: 106px;margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子节点</button>
+	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级节点</button>
+	<button  style="margin-top: 20px;" class="btn btn-windows output" onclick="down()">下载Excel模板</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 				

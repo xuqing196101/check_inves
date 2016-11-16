@@ -191,9 +191,16 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> findByOrgId(Map<String, Object> map) {
+	public List<Category> findByOrgId(String id) {
 		// TODO Auto-generated method stub
-	return	categoryMapper.findByOrgId(map);
+	return	categoryMapper.findByOrgId(id);
+	}
+
+	@Override
+	public List<Category> listByCateogryName(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return categoryMapper.listByCateogryName(map);
 	}
 	
 	

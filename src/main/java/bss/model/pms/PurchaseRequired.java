@@ -70,7 +70,7 @@ public class PurchaseRequired {
     
     private Date auditDate;
     
-    private String isMaster;
+    private Integer isMaster;
     
     private Integer isDelete;
     
@@ -334,11 +334,11 @@ public class PurchaseRequired {
 		this.auditDate = auditDate;
 	}
 
-	public String getIsMaster() {
+	public Integer getIsMaster() {
 		return isMaster;
 	}
 
-	public void setIsMaster(String isMaster) {
+	public void setIsMaster(Integer isMaster) {
 		this.isMaster = isMaster;
 	}
 

@@ -22,7 +22,7 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 			supplier.getSupplierMatSe().setUpdatedAt(new Date());
 			supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
 		} else {
-			supplier.getSupplierMatPro().setCreatedAt(new Date());
+			supplier.getSupplierMatSe().setCreatedAt(new Date());
 			supplierMatSeMapper.insertSelective(supplier.getSupplierMatSe());
 		}
 	}

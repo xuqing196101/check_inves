@@ -51,6 +51,10 @@ function back(){
 	});
 }
 
+function goBack(){
+	window.location.href="${pageContext.request.contextPath }/article/auditlist.html?status=1";
+}
+
 </script>    
   </head>
   
@@ -150,7 +154,7 @@ function back(){
 	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows check" type="button" onclick="sub()">审核</button>
 	    <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
-	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
 	   </div>
  	 </div>
   

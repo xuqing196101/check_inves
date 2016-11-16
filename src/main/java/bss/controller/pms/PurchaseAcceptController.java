@@ -60,7 +60,7 @@ public class PurchaseAcceptController extends BaseController{
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired, Integer page, Model model) {
 //		purchaseRequired.setStatus("2");
-		purchaseRequired.setIsMaster("1");
+		purchaseRequired.setIsMaster(1);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page == null ? 1 : page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -105,7 +105,7 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request){
+    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status){
     	
     	System.out.println("askdhash");
     	String id="";
@@ -117,10 +117,12 @@ public class PurchaseAcceptController extends BaseController{
     			if(reason!=null){
     				for(PurchaseRequired p:plist){
     					p.setReason(reason);
+    					p.setStatus(status);
         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}else{
     				for(PurchaseRequired p:plist){
+    					p.setStatus(status);
          				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}

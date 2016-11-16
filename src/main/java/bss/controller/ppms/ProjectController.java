@@ -585,11 +585,11 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/mplement")
-    public String starts(String id, Model model, Integer page) {
+    public String starts(String projectId, Model model, Integer page) {
         String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", id);
-        Project project = projectService.selectById(id);
+        map.put("projectId", projectId);
+        Project project = projectService.selectById(projectId);
         DictionaryData dictionaryData=new DictionaryData();
         dictionaryData.setCode("PROJECT_IMPLEMENT");
         String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
@@ -605,7 +605,7 @@ public class ProjectController extends BaseController {
             Task task = taskservice.selectById(number);
             model.addAttribute("task", task);
         }
-        map.put("id", id);
+        map.put("id", projectId);
         // 查看明细
         List<ProjectDetail> detail = detailService.selectById(map);
         model.addAttribute("lists", detail);

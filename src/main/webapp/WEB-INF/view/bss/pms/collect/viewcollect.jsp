@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        //	$("#page").val(e.curr);
 		        	// $("#form1").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		         location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr;
 		        }  
 		    }
 		});
@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		 var val= $(tr).children(":last").children().val();
 		 if(val!=null){
-			  window.location.href="<%=basePath%>view/update.html?sid="+val+"&&xid="+id+"&&postion="+position;
+			  window.location.href="${pageContext.request.contextPath}/view/update.html?sid="+val+"&&xid="+id+"&&postion="+position;
 		 }else{
 			 alert("已经是最高的");
 		 }
@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		 var val= $(tr).children(":last").children().val();
 		 if(val!=null){
-			  window.location.href="<%=basePath%>view/update.html?xid="+val+"&&sid="+id;
+			  window.location.href="${pageContext.request.contextPath}/view/update.html?xid="+val+"&&sid="+id;
 		 }else{
 			 alert("已经是最下面的");
 		 }
@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>view/detail.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/view/detail.html?id="+id;
 		}else{
 			layer.alert("请选择一个查看",{offset: ['222px', '390px'], shade:0.01});
 		}
@@ -126,6 +126,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
 <!--面包屑导航开始-->
+
+
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -135,15 +137,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
    </div>
 <!-- 录入采购计划开始-->
+<div class="container">
  <div class="col-md-12 pl20 mt10">
   
  
-		<input type="button" style="margin-left: 100px;" class="btn" onclick="viewdetail()" value="查看">
-	<!-- 	<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="det()">全部明细</button> -->
+		<input type="button"  class="btn" onclick="viewdetail()" value="需求单位查看">
+	
 		<button   class="btn" >历史记录</button>
-	 
-   <div class="container table_box">
-        <table class="table table-bordered table-condensed mt5">
+ </div>
+   <div class="content  table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -191,9 +194,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
       <div id="pagediv" align="right"></div>
    </div>
- </div>
 
 
+</div>
  
  
 	 </body>

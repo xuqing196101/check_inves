@@ -40,6 +40,7 @@
 		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
 	}
 	});	
+	
 	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -61,7 +62,8 @@
 			    }
 			});
 	  }); 
-	  function tijiao(){
+	  
+	 function tijiao(){
 	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
 	     var nodes=Obj.getCheckedNodes(true);  
 	     var ids = new Array();  
@@ -74,8 +76,13 @@
 	      $("#categoryIds").val(ids);
 	  	  form1.submit();
 	  }
+	  
+	function resetQuery(){
+    	$("#supplierName").val("");
+	}
 </script>
 </head>
+<body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -85,7 +92,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-<body>
+
    <div class="container content height-350">
             <div class="row">
                 <!-- Begin Content -->
@@ -105,6 +112,7 @@
 	                  </li>
                   </ul>
 		       <input class="btn" onclick="tijiao()" type="button" value="查询">
+		       <button type="button" class="btn" onclick="resetQuery()">重置</button>  	
 		     </form>
 		     <div class="content table_box">
                 <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
@@ -122,11 +130,11 @@
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-					    <td>${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
+					    <td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
-						<td>${list.contactName}</td>
-						<td>${list.supplierType }</td>
-						<td>
+						<td class="tc">${list.contactName}</td>
+						<td class="tc">${list.supplierType }</td>
+						<td class="tc">
 							<c:if test="${list.status==-1 }">
 							暂存、未提交
 							</c:if>
@@ -146,8 +154,8 @@
 							复审不通过
 							</c:if>
 						</td>
-						<td>${list.contactTelephone}</td>
-						<td>${list.level}</td>
+						<td class="tc">${list.contactTelephone}</td>
+						<td class="tc">${list.level}</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>
@@ -155,11 +163,11 @@
 		 </div>
 		 <div id="pagediv" align="right"></div>
 		 </div>
-    <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
+   <!--  <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
 	    <input type="hidden"  onclick="check()" value="submit"/>
 	    <input type="hidden"  onclick="mysubmit()" value="submit"/>
     <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form>
+    </form> -->
 	</div>
 	</div>
 	</div>

@@ -34,7 +34,7 @@
   
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_CATEGORY_ATTACHMENT
-    where ID = #{category.id}
+    where CATEGORY_ID = #{category.id}
   </delete>
  
   
@@ -132,7 +132,7 @@
         IS_DELETED = #{isDeleted},
       </if>
     </set>
-    where ID = #{id}
+    where CATEGORY_ID = #{category.id}
   </update>
   
   <update id="updateByPrimaryKey" parameterType="ses.model.bms.CategoryAttachment">

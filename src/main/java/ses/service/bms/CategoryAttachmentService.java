@@ -57,6 +57,8 @@ public interface CategoryAttachmentService {
 	* @return int
 	 */
     void deleteByPrimaryKey(String id);
+    
+    void updateByPrimaryKeySelective(CategoryAttachment categoryAttachment);
 	
 }
 

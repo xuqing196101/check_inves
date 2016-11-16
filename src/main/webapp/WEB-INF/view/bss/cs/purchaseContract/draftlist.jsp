@@ -135,7 +135,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条草稿生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				ind = layer.open({
+				/*ind = layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 				    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
@@ -145,7 +145,8 @@
 					area : [ '40%', '300px' ], //宽高
 					content : $('#numberWin'),
 					offset: ['10%', '25%']
-				});
+				});*/
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?id="+ids;
 			}
 		}else{
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
@@ -237,8 +238,9 @@
 		layer.msg(content, {
 			    skin: 'demo-class',
 				shade:false,
+				closeBtn:[0,true],
 				area: ['600px'],
-				time : 0    //默认消息框不关闭
+				time : 4000    //默认消息框不关闭
 		});//去掉msg图标
   	}
   </script>
@@ -343,7 +345,7 @@
    <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
    <input type="hidden" value="" id="ids" name="id"/>
    <input type="hidden" value="2" name="status"/>
-   	<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+   	<%--<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
   		    <li class="col-md-12 ml15">
 			   <span class="span3 fl mt5"><div class="red star_red">*</div>合同批准文号：</span>
 			   <input type="text" id="apN" name="approvalNumber" value="" class="mb0 w220"/>
@@ -359,14 +361,14 @@
 			<li class="col-md-12 mt10">
 			   <span class="span3 fl"><div class="red star_red">*</div>上传附件：</span>
 			    <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-				<up:show showId="post_attach_show" businessId="${uuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+				<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
             </li>
 			<li class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</li>
 	 </ul>
-	</form>
+	--%></form>
 	<div class="col-md-12 tc">
 	<div id="edi" class="w70p mt5 dnone tc" style="margin:0 auto">
 		 <script id="editor" name="content" type="text/plain" class=""></script>

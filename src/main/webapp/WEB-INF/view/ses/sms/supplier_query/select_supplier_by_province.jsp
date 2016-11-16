@@ -234,19 +234,17 @@ $(function() {
                     <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${sup.supplierName }" type="text"></span>
                   </li>
                   <li>
-                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="span2 fl" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
+                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-                        <span class="fl mt5">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+                        <span class="f14">至</span>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
                         </span>
                   </li>
                   <li>
                     <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
                   </li> 
                   <li>
-                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
                               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
                   </li>
                   <li>
@@ -270,7 +268,7 @@ $(function() {
                 </ul>
                 <div class="col-md-12 clear tc mt10">
                     <button type="button" onclick="submit()" class="btn">查询</button>
-                    <button type="reset" class="btn">重置</button> 
+                    <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
                 </div>
                 <div class="clear"></div>
              </form>
@@ -296,12 +294,13 @@ $(function() {
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${vs.index+1 }</td>
+						<td class="tc">${vs.index+1 }</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
-						<td>${list.contactName }</td>
-						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${list.supplierType }</td>
-						<td>		<c:if test="${list.status==-1 }">
+						<td class="tc">${list.contactName }</td>
+						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td class="tc">${list.supplierType }</td>
+						<td class="tc">		
+						    <c:if test="${list.status==-1 }">
 							暂存、未提交
 							</c:if>
 							<c:if test="${list.status==0 }">
@@ -319,7 +318,7 @@ $(function() {
 							<c:if test="${list.status==4 }">
 							复审不通过
 							</c:if></td>
-						<td>${list.businessType }</td>
+						<td class="tc">${list.businessType }</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>

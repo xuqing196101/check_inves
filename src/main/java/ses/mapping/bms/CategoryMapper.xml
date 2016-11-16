@@ -67,10 +67,10 @@
   select
    <include refid="Base_Column_List"/>
    from T_SES_BMS_CATEGORY
-   where PARAM_STATUS ='3'  AND
-   IS_PUBLISH ='1'
-  
+   where PARAM_STATUS ='3'
   </select>
+  
+  <!-- 查询所有 -->
   <select id="selectAll" parameterType="Object" resultMap="CateMap">
   select 
   <include refid="Base_Column_List"/>
@@ -98,6 +98,15 @@
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY 
   where NAME like '%'||#{name}||'%'
+
+  </select>
+  <!-- 根据产品名称和参数状态查询 -->
+  <select id="listByCateogryName" parameterType="Map" resultMap="CateMap">
+  select 
+  <include refid="Base_Column_List" />
+  from T_SES_BMS_CATEGORY 
+  where NAME like '%'||#{name}||'%'
+  AND PARAM_STATUS = '3'
   </select>
   
   <!-- 根据部门id进行修改 -->
@@ -119,7 +128,7 @@
       PARENT_ID, CREATED_AT, UPDATED_AT, 
       ATTCHMENT_ID, DESCRIPTION, IS_END, 
       CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
-    values (#{id}, #{name}, #{status}, 
+      values (#{id}, #{name}, #{status}, 
       #{parentId}, #{createdAt}, #{updatedAt}, 
      #{description}, #{isEnd}, 
       #{code}, #{position},#{is_deleted},#{isPublish},#{kind},#{paramStatus},#{acceptRange},#{paramPublishRange})
@@ -298,7 +307,7 @@
          ATTCHMENT_ID = #{categoryAttchment},
         </if>
         <if test="orgnization != null">
-         ORGNIZATION_ID = #{orgnization},
+         ORGNIZATION_ID = #{orgnization.id},
         </if>
     </set>
     where ID = #{id}

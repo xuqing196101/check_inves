@@ -1,108 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
-<script src="<%=basePath%>public/ZHH/js/hm.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script src="<%=basePath%>public/ZHH/js/smoothScroll.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
-<script src="<%=basePath%>public/ZHH/js/app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/common.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dota.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/fancy-box.js"></script>
-<script src="<%=basePath%>public/ZHH/js/style-switcher.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl.carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masking.js"></script>
-<script src="<%=basePath%>public/ZHH/js/datepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/timepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-select.js"></script>
-<script src="<%=basePath%>public/ZHH/js/locale.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.ui.widget.js"></script>
-<script src="<%=basePath%>public/ZHH/js/load-image.js"></script>
-<script src="<%=basePath%>public/ZHH/js/canvas-to-blob.js"></script>
-<script src="<%=basePath%>public/ZHH/js/tmpl.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.iframe-transport.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/form.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script src="<%=basePath%>public/ZHH/js/touch.js"></script>
-<script src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
-<script src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
-<script src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<title>采购机构查询</title>
 <script type="text/javascript">
 	  	  $(function(){
 		  laypage({
@@ -120,13 +22,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath %>purchaseManage/purchaseDepdetailList.html?page='+e.curr+"&address=${address}";
+			             location.href = '${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?page='+e.curr+"&address=${address}";
 			        }
 			    }
 			});
 	  });
 	  function fanhui(){
-	  	window.location.href="<%=basePath%>purchaseManage/purchaseDepMapList.html"
+	  	window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapList.html";
 	  }
 function chongzhi(){
 	$("#supplierName").val('');
@@ -154,46 +56,49 @@ $(function() {
 			<div class="clear"></div>
 		  </div>
 	   </div>
-  	<div class="container clear margin-top-30">
-  			<h2>查询条件</h2>
-  				<form id="form1" action="<%=basePath %>purchaseManage/purchaseDepdetailList.html" method="post">
+	   <div class="container">
+		   <div class="headline-v2">
+		     <h2>采购机构信息</h2>
+		   </div>  
+		   <h2 class="search_detail">
+  				<form id="form1" action="${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" name="parentName" value="${parentName }">
-		       <table class="table table-bordered table-condensed tc">
-		       	<tbody>
-		       		<tr>
-		       			<td style="text-align:right">采购机构名称：</td>
-		       			<td style="text-align:right"><input class="span2" id="name" name="name" value="${purchaseDep.name }" type="text"></td>
-		       			<td style="text-align:right">资质起止日期：</td>
-		       			<td>
-		       			<div class="mt5">
-		       			<input id="quaStartDate" name="quaStartDate" class="span2 fl" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
-		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl mt5">至</span>
-		       			<input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			</div>
-		       			</td>
-		       		</tr>
-		       		<tr>
-		       			<td style="text-align:right">上级监管部门：</td>
-		       			<td>
-		       			      <select name="" class="fl" >
-							   		<option selected="selected" value=''>-请选择-</option>
-							   		<option  value="生产型">部门1</option>
-							   		<option  value="销售型">部门2</option>
-							   </select>
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-		       			</td>
-		       		</tr>
-		       	</tbody>
-		       </table>
+		      <ul class="demand_list">
+                       <li>
+                        <label class="fl">采购机构名称：</label><span><input id="name" name="name" value="${purchaseDep.name }" type="text"></span>
+                      </li>
+                       <li>
+                        <label class="fl">资质起止日期：</label>
+                        <input id="quaStartDate" name="quaStartDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${purchaseDep.quaStartDate }" pattern="YYYY-MM-dd"/>'
+                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){quaStartDate.focus();},maxDate:'#F{$dp.$D(\'quaStartDate\')}'})"/>
+                        <span >至</span>
+                        <input id="quaEdndate" name="quaEdndate" value='<fmt:formatDate value="${purchaseDep.quaEdndate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'quaEdndate\')}'})"/>
+                      </li>
+                      <li>
+                        <label class="fl">上级监管部门：</label>
+                        <span class="fl">
+                          <select name="" class="w178">
+                                     <option selected="selected" value=''>-请选择-</option>
+                                    <option  value="生产型">部门1</option>
+                                    <option  value="销售型">部门2</option>
+                          </select>
+                        </span>
+                      </li>
+                  </ul>
+                   <div class="col-md-12 clear tc mt10">
+                        <input class="btn" onclick="submit()" type="button" value="查询">
+                        <input class="btn" onclick="chongzhi()" type="button" value="重置"> 
+                   
+                   </div>
+                   <div class="clear"></div>
 		     </form>
-		       <h2>采购机构信息</h2>
-		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
+		     </h2>
+		     <div class="col-md-12 pl20 mt10">
+		          <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		     </div>
+		      <div class="content table_box">
+                 <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>
@@ -209,8 +114,8 @@ $(function() {
 			  <tbody>
 				 <c:forEach items="${list.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${vs.index+1 }</td>
-						<td><a href="<%=basePath%>purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}">${list.name }</a></td>
+						<td class="tc w50">${vs.index+1 }</td>
+						<td><a href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}">${list.name }</a></td>
 						<td>${list.quaCode }</td>
 						<td>${list.levelDep }</td>
 						<%-- <td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td> --%>

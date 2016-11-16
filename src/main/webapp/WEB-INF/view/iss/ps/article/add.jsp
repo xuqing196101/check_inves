@@ -33,20 +33,20 @@
 	}
 
 	function typeInfo(){
-		var typeId = $("#articleTypes").val();
-		$("#picNone").hide();
+	//	$("#picNone").hide();
 		$("#picshow").hide();
-		if(typeId==27){
-			$("#picNone").show();
+		var typeId = $("#articleTypes").select2("data").text;
+		if(typeId=="工作动态"){
+		//	$("#picNone").show();
 			$("#picshow").show();
 		}else{
-			$("#picNone").hide();
+		//	$("#picNone").hide();
 			$("#picshow").hide();
 		}
 	}
 	
 	$(function(){
-		$("#picNone").hide();
+	//	$("#picNone").hide();
 		$("#picshow").hide();
 		$.ajax({
 			 contentType: "application/json;charset=UTF-8",
@@ -71,6 +71,10 @@
 		       }
 		});
 	})
+	
+	function goBack(){
+		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
+	}
 	
 </script>    
  </head>
@@ -99,24 +103,24 @@
 	   	<input class="span2"  name="id" type="hidden" value="${articleId }">
         <input class="span2" id="name" name="name" value="${article.name }" type="text">
         <span class="add-on">i</span>
+         <div class="cue">${ERR_name}</div>  
        </div>
-        <div class="red">${ERR_name}</div>  
 	 </li>
 
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
-	   <div class="mb5">
+	   <div class="mb5 select_common">
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
-          </div>
-          <div class="red">${ERR_typeId}</div>
+          <div class="cue">${ERR_typeId}</div>
+        </div>
 	 </li> 
      <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
-        <div class="">${ERR_range}</div>
+        <div class="cue">${ERR_range}</div>
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
@@ -124,7 +128,7 @@
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }" type="text">
         <span class="add-on">i</span>
-         <div class="red">${ERR_source}</div>
+         <div class="cue">${ERR_source}</div>
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
@@ -139,7 +143,7 @@
 	   <span class="">图片展示：</span>
 	   <div class="input-append">
         <input class="span2" id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
-      	<div class="red">${ERR_isPicShow}</div>
+      	<div class="cue">${ERR_isPicShow}</div>
        </div>
 	 </li>
 	 
@@ -150,7 +154,7 @@
        </div>
 	 </li> 
 
-	 <li class="col-md-12 p0 mt10">
+	 <li class="col-md-3 p0 mt10">
 	    <span class="fl">附件上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
@@ -158,7 +162,7 @@
 		</div>
 	 </li>
 	 
-	 <li class="col-md-12 p0 mt10" id="picNone">
+	 <li class="col-md-3 p0 mt10" id="picNone">
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
@@ -170,7 +174,7 @@
 	         
 	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows save" type="submit">保存</button>
-	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
 	</div>
   </div>
 </form>

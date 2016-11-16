@@ -1,8 +1,9 @@
 package bss.controller.pms;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,9 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
 import bss.controller.base.BaseController;
-import bss.formbean.Chart;
-import bss.formbean.Data;
-import bss.formbean.FusionCharts;
+import bss.formbean.Line;
+import bss.formbean.Maps;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 
@@ -91,38 +91,34 @@ public class PlanStatisticsController extends BaseController {
 	@RequestMapping(value="/bar",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String bar(PurchaseRequired purchaseRequired,String year) throws UnsupportedEncodingException{
-		Integer sign=1;
+		Map<String,Object> dataMap=new HashMap<String,Object>();
+		
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
 		List<Map<String,Object>> list = purchaseRequiredService.statisticDepartment(map);
 		
-		List<Data> listData = new ArrayList<Data>();
+		List<String> listData = new LinkedList<String>();
+		List<String>  data=new LinkedList<String>();
+		BigDecimal max=BigDecimal.ZERO;
+		
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
-				Data data = new Data();
-				data.setLabel(String.valueOf(m.get("DEPARTMENT")));
-				data.setValue(String.valueOf(m.get("AMOUNT")));
-				listData.add(data);
+				listData.add(String.valueOf(m.get("DEPARTMENT"))) ;
+				 String str=String.valueOf(m.get("AMOUNT"));
+				data.add(str);
+				BigDecimal min = new BigDecimal(str);
+				int n = max.compareTo(min);
+				if(n<0){
+					max=min;
+				}
 			}
 		}
 		
-		FusionCharts f=new FusionCharts();
-		/** 设置图像属性 */
-		Chart chart = new Chart();
-		if(sign == 1) {
-			chart.setCaption("需求部门统计- 柱状图(3D)");
-			chart.setFormatnumberscale("0");
-			chart.setShowborder("0");
-			chart.setBaseFontSize("14");
-			chart.setYaxisName("金额");
-		}
-	 
-		
-		/** 封装到 fusionCharts */
-		f.setChart(chart);
-		f.setData(listData);
-		String s=JSON.toJSONString(f);
-		return s;
+		dataMap.put("name", listData);
+		dataMap.put("data", data);
+		dataMap.put("max", max);
+		String json = JSON.toJSONString(dataMap);
+		return json;
 	}
 	
 	/**
@@ -139,36 +135,32 @@ public class PlanStatisticsController extends BaseController {
 	@RequestMapping(value="/pipe",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String pipe(PurchaseRequired purchaseRequired,String year){
-		
+	
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
 		List<Map<String,Object>> list = purchaseRequiredService.statisticPurchaseMethod(map);
+		Map<String,Object> data=new HashMap<String,Object>();
 		
-		List<Data> listData = new ArrayList<Data>();
+		List<Maps> maps=new LinkedList<Maps>();
+		List<String> type=new LinkedList<String>();
+		
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
-				Data data = new Data();
-				data.setLabel(String.valueOf(m.get("PURCHASETYPE")));
-				data.setValue(String.valueOf(m.get("AMOUNT")));
-				listData.add(data);
+				 
+				 type.add(String.valueOf(m.get("PURCHASETYPE")));
+				 
+				 Maps mp=new Maps();
+ 				 String string = String.valueOf(m.get("AMOUNT"));
+ 				BigDecimal decimal = new BigDecimal(string);
+				 mp.setValue(decimal);
+				 mp.setName(String.valueOf(m.get("PURCHASETYPE")));
+				 maps.add(mp);
 			}
 		}
-		
-		FusionCharts f=new FusionCharts();
-		/** 设置图像属性 */
-		Chart chart = new Chart();
- 
-			chart.setCaption("采购方式统计 - 饼状图(3D)");
-			chart.setFormatnumberscale("0");
-			chart.setShowborder("0");
-			chart.setBaseFontSize("14");
-	 
-		
-		/** 封装到 fusionCharts */
-		f.setChart(chart);
-		f.setData(listData);
-		String s=JSON.toJSONString(f);
-		return s;
+		data.put("maps", maps);
+		data.put("type", type);
+		String json = JSON.toJSONString(data);
+		return json;
 	}
 	
 	/**
@@ -189,37 +181,28 @@ public class PlanStatisticsController extends BaseController {
 		map.put("year",year);
 		List<Map<String,Object>> list = purchaseRequiredService.statisticByMonth(map);
 		
-		List<Data> listData = new ArrayList<Data>();
+		Map<String,Object> data=new HashMap<String,Object>();
+		List<String> month=new LinkedList<String>();
+		List<String> val=new LinkedList<String>();
+		List<Line> lineList=new LinkedList<Line>();
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
-				Data data = new Data();
-				data.setLabel(String.valueOf(m.get("MONTH")));
-				data.setValue(String.valueOf(m.get("AMOUNT")));
-				listData.add(data);
+				month.add(String.valueOf(m.get("MONTH")));
+				String string = String.valueOf(m.get("AMOUNT"));
+				val.add(string);
+			/*	data.setValue(String.valueOf(m.get("AMOUNT")));
+				listData.add(data);*/
 			}
 		}
-		FusionCharts f=new FusionCharts();
-		/** 设置图像属性 */
-		Chart chart = new Chart();
- 
-		chart.setCaption("按月份统计统计 - 折线图");
-		chart.setFormatnumberscale("0");
-		chart.setShowborder("0");
-		chart.setYaxisName("金额");
-		chart.setAlternatehgridcolor("ff5904");
-		chart.setDivlinecolor("ff5904");
-		chart.setCanvasbordercolor("666666");
-		chart.setBasefontcolor("666666");
-		chart.setLinecolor("FF5904");
-		chart.setBgcolor("ffffff");
-		chart.setBaseFontSize("14");
-		chart.setShowalternatehgridcolor("1");
-	 
-		
-		/** 封装到 fusionCharts */
-		f.setChart(chart);
-		f.setData(listData);
-		String s=JSON.toJSONString(f);
+		Line line=new Line();
+		line.setData(val);
+		line.setName("测试");
+		line.setType("line");
+		line.setStack("总量");
+		lineList.add(line);
+		data.put("month", month);
+		data.put("line", lineList);
+		String s=JSON.toJSONString(data);
 		return s;
 	}
 	
@@ -228,8 +211,10 @@ public class PlanStatisticsController extends BaseController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
 		Map<String,Object> maps=getMap();
-		Map<String, Object> province = getAllProvince();
-		Set<String> key = province.keySet();
+		List<Maps> listMap=new LinkedList<Maps>();
+		
+		
+		Set<String> key = maps.keySet();
 		List<Map<String,Object>> list = purchaseRequiredService.statisticOrg(map);
 		
 		 for(Map<String,Object> m:list ){
@@ -237,99 +222,66 @@ public class PlanStatisticsController extends BaseController {
 			 if(str!=null){
 				 for(String s:key){
 					  if(str.contains(s)){
-						String pri=  (String) province.get(s);
-						  maps.put(pri, m.get("COUNT"));
+						  maps.put(s, m.get("COUNT"));
 					  }
 				  } 
 			 }
 		 }
 		 
-		 String json = JSON.toJSONString(maps);
+		 for(String s:key){
+			 Maps mp=new Maps();
+//			 BigDecimal str =  (BigDecimal) maps.get(s);
+//			 
+			 String string = String.valueOf(maps.get(s));
+			 mp.setValue(new BigDecimal(string));
+			 mp.setName(s);
+			 listMap.add(mp);
+		 }
+		 
+		 String json = JSON.toJSONString(listMap);
 		return json;
 	}
 	
-	 
-	public Map<String ,Object> getAllProvince(){
-//		List<String> list=new ArrayList<String>();
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("安徽","an_hui");
-		map.put("湖南","hu_nan");
-		map.put("湖北","hu_bei");
-		map.put("江西","jiang_xi" );
-		map.put("青海","qing_hai" );
-		map.put("宁夏","ning_xia" );
-		map.put("台湾","tai_wan" );
-		map.put("海南","hai_nan" );
-		map.put("四川","si_chuan" );
-		map.put("陕西","shan_xi_1" );//陕西
-		
-		map.put("西藏","xi_zang" );
-		map.put("澳门","ao_men" );
-		map.put("广东","guang_dong" );
-		map.put("北京","bei_jing" );
-		map.put("上海","shang_hai" );
-		map.put("浙江","zhe_jiang" );
-		map.put("香港","xiang_gang" );
-		map.put("辽宁","liao_ning" );
-		map.put("云南","yun_nan" );
-		map.put("黑龙江","hei_long_jiang" );
-		
-		map.put("广西","guang_xi" );
-		map.put("内蒙古","nei_meng_gu" );
-		map.put("江苏","jiang_su" );
-		map.put("重庆","chong_qing" );
-		map.put("贵州","gui_zhou" );
-		map.put("福建","fu_jian" );
-		map.put("甘肃","gan_su" );
-		map.put("河南","he_nan" );
-		map.put("河北","he_bei");
-		map.put("新疆","xin_jiang" );
-		
-		map.put("山西","shan_xi_2" );//山西
-		map.put("山东","shan_dong");
-		map.put("天津","tian_jin" );
-		map.put("吉林","ji_lin" );
-		return map;
-	}
+
 	public  Map<String ,Object> getMap(){
 		Map<String,Object> map= new HashMap<String,Object>(40);
-		map.put("an_hui", 0);
-		map.put("hu_nan", 0);
-		map.put("hu_bei", 0);
-		map.put("jiang_xi", 0);
-		map.put("qing_hai", 0);
-		map.put("ning_xia", 0);
-		map.put("tai_wan", 0);
-		map.put("hai_nan", 0);
-		map.put("si_chuan", 0);
-		map.put("shan_xi_1", 0);//陕西
+		map.put("安徽", 0);
+		map.put("湖南", 0);
+		map.put("湖北", 0);
+		map.put("江西", 0);
+		map.put("青海", 0);
+		map.put("宁夏", 0);
+		map.put("台湾", 0);
+		map.put("海南", 0);
+		map.put("四川", 0);
+		map.put("陕西", 0);//陕西
 		
-		map.put("xi_zang", 0);
-		map.put("ao_men", 0);
-		map.put("guang_dong", 0);
-		map.put("bei_jing", 0);
-		map.put("shang_hai", 0);
-		map.put("zhe_jiang", 0);
-		map.put("xiang_gang", 0);
-		map.put("liao_ning", 0);
-		map.put("yun_nan", 0);
-		map.put("hei_long_jiang", 0);
+		map.put("西藏", 0);
+		map.put("澳门", 0);
+		map.put("广东", 0);
+		map.put("北京", 0);
+		map.put("上海", 0);
+		map.put("浙江", 0);
+		map.put("香港", 0);
+		map.put("辽宁", 0);
+		map.put("云南", 0);
+		map.put("黑龙江", 0);
 		
-		map.put("guang_xi", 0);
-		map.put("nei_meng_gu", 0);
-		map.put("jiang_su", 0);
-		map.put("chong_qing", 0);
-		map.put("gui_zhou", 0);
-		map.put("fu_jian", 0);
-		map.put("gan_su", 0);
-		map.put("he_nan", 0);
-		map.put("he_bei",0);
-		map.put("xin_jiang", 0);
+		map.put("广西", 0);
+		map.put("内蒙古", 0);
+		map.put("江苏", 0);
+		map.put("重庆", 0);
+		map.put("贵州", 0);
+		map.put("福建", 0);
+		map.put("甘肃", 0);
+		map.put("河南", 0);
+		map.put("河北",0);
+		map.put("新疆", 0);
 		
-		map.put("shan_xi_2", 0);//山西
-		map.put("shan_dong",0);
-		map.put("tian_jin", 0);
-		map.put("ji_lin", 0);
+		map.put("山西", 0);//山西
+		map.put("山东",0);
+		map.put("天津", 0);
+		map.put("吉林", 0);
 		return map;
 	}
 	

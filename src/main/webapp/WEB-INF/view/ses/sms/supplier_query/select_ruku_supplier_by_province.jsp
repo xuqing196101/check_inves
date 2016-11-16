@@ -231,12 +231,10 @@ $(function() {
                     <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
                   </li>
                   <li>
-                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="span2 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
+                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-                        <span class="fl mt5">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-                        <span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+                        <span class="f14">至</span>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
                         </span>
                   </li>
                   <li>
@@ -277,12 +275,12 @@ $(function() {
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${vs.index+1 }</td>
+						<td class="tc">${vs.index+1 }</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
-						<td>${list.contactName }</td>
-						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<td>${list.supplierType }</td>
-						<td>
+						<td class="tc">${list.contactName }</td>
+						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td class="tc">${list.supplierType }</td>
+						<td class="tc">
 							<c:if test="${list.status==-1 }">
 							暂存、未提交
 							</c:if>
@@ -302,7 +300,7 @@ $(function() {
 							复审不通过
 							</c:if>
 						</td>
-						<td>${list.businessType }</td>
+						<td class="tc">${list.businessType }</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>

@@ -610,7 +610,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="jksdj">
+	     <a href="${pageContext.request.contextPath}/importSupplier/register.html" target="home" class="jksdj">
           <span>进口商登记</span> 
 		 </a>
 	   </div>

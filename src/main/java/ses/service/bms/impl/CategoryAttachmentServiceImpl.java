@@ -51,4 +51,12 @@ public class CategoryAttachmentServiceImpl implements CategoryAttachmentService{
 		
 	}
 
+
+	@Override
+	public void updateByPrimaryKeySelective(
+			CategoryAttachment categoryAttachment) {
+	categoryAttchmentMapper.updateByPrimaryKeySelective(categoryAttachment);
+		
+	}
+
 }

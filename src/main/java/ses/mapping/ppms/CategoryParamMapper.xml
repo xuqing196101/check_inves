@@ -32,8 +32,15 @@
   where PARENT_ID=#{category.id}
   </select>
   
-    <!-- 根据品目id查询参数列表 -->
-        <select id="findListByCategoryId" parameterType="Object" resultMap="CategoryParamMap">
+    <!-- 根据品目id查询参数 -->
+       <!--  <select id="findByCategoryId" parameterType="Object" resultMap="CategoryParamMap">
+            select 
+                <include refid="Base_Column_List" />
+                    from T_SES_PPMS_CATEGORY_PARAM  
+            where CATEGORY_ID=#{category.id}
+        </select> -->
+    <!-- 根据品目id查询参数列表 --> 
+  <select id="findListByCategoryId" parameterType="Object" resultMap="CategoryParamMap">
             select 
                 <include refid="Base_Column_List" />
                     from T_SES_PPMS_CATEGORY_PARAM  

@@ -80,4 +80,6 @@ public interface CategoryAptitudeService {
     * @return list
      */
     List<CategoryAptitude> findSaleByCategoryId(String id);
+    
+    List<CategoryAptitude> findListByCategoryId(String categoryId);
 }

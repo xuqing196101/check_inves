@@ -171,5 +171,7 @@ public interface CategoryMapper {
     
     List<Category> findByStatus();
     
-     List<Category> findByOrgId(Map<String, Object> map);
+     List<Category> findByOrgId(String id);
+     
+     List<Category> listByCateogryName(Map<String, Object> map);
 }

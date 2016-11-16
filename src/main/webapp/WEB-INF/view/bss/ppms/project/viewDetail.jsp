@@ -87,7 +87,7 @@
       </h2>
        </div> 
        <div class="col-md-12 pl20 mt10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">返回</button>
+        <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </div>
      
    <div class="content table_box">
@@ -124,7 +124,13 @@
               <td class="tc">${obj.price}</td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc">
+                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+              </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>

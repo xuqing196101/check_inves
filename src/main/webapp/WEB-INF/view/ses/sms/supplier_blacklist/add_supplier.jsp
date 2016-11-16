@@ -86,6 +86,7 @@
                             </li>
                             <li class="col-md-3 margin-0 padding-0 ">
                                <span class="col-md-12 padding-left-5">期限</span>
+                               <div class="select_common">
                                 <select id="term_select_id" name="term">
                                     <option selected="selected" value="3">3个月</option>
                                     <option value="6">6个月</option>
@@ -94,21 +95,26 @@
                                     <option value="36">3年</option>
                                     <option value="0">永久</option>
                                 </select>
+                                </div>
                              </li>
                              <li class="col-md-3 margin-0 padding-0 ">
                                <span class="col-md-12 padding-left-5">处罚形式</span>
+                               <div class="select_common">
                                 <select id="punish_type_select_id"  name="punishType">
                                     <option selected="selected" value="0">警告</option>
                                     <option value="1">不得参加采购活动</option>
                                 </select>
+                                </div>
                              </li>
                              <li class="col-md-3 margin-0 padding-0 ">
                                <span class="col-md-12 padding-left-5">发布范围</span>
+                               <div class="select_common">
                                 <select id="release_type_select_id"  name="releaseType">
                                     <option selected="selected" value="0">内外网发布</option>
                                     <option value="1">内网发布</option>
                                     <option value="2">外网发布</option>
                                 </select>
+                                </div>
                              </li>
                              <li class="col-md-11 margin-0 padding-0 ">
                                <span class="col-md-12 padding-left-5">理由</span>

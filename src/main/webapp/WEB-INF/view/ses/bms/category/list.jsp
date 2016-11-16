@@ -9,29 +9,25 @@
 <title>采购目录管理</title>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/ajaxfileupload.js"></script>
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 	var treeid=null;
 	var datas;
 	 $(document).ready(function(){  
-     $.fn.zTree.init($("#ztree"),setting,datas);
-	 var treeObj = $.fn.zTree.getZTreeObj("ztree");
-	 var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
-	 for(var i=0 ;i<nodes.length;i++){
-		alert(nodes[i].status);
-		if (nodes[i].status==1) {
+          $.fn.zTree.init($("#ztree"),setting,datas);
+	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
+	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
+	      for(var i=0 ;i<nodes.length;i++){
+		     alert(nodes[i].status);
+		     if (nodes[i].status==1) {
 			check==true;
-		}
-	}
-     setTimeout(function(){  
-        expandAll("ztree");  
-    },100);//延迟加载  
+		         }
+	       }
+         setTimeout(function(){  
+         expandAll("ztree");  
+          },100);//延迟加载  
 	 }); 
 	 var setting={
 		   async:{
@@ -171,12 +167,12 @@
 						var html = "";
 						html = html+"<tr><td class='info'>上级目录</td>"+"<td><input  value='"+treename+"'/></td></tr>";
 						html = html+"<input type='hidden' name='kind' value='"+parentKind+"'/>" ;
-					    html = html+"<tr><td class='info'>目录名称</td>"+"<td><input name='name' type='text'/></td></tr>" ;
+					    html = html+"<tr><td class='info'>目录名称</td>"+"<td><input name='name' type='text'/><div id='td_input'></div></td></tr>" ;
 				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
-						html = html+"<tr><td class='info'>排序</td>"+"<td><input name='position' type='text'/></td></tr>";
-						html = html+"<tr><td class='info'>编码</td>"+"<td><input name='code' type='text'/></td></tr>";
+						html = html+"<tr><td class='info'>排序</td>"+"<td><input name='position' type='text'/><div id='td_position'></div></td></tr>";
+						html = html+"<tr><td class='info'>编码</td>"+"<td><input name='code' type='text'/><div id='td_code'></div></td></tr>";
 						html = html+"<tr><td class='info'>图片</td>"+"<td><input id='pic' type='file' name='attaattach' value='上传图片'/></td></tr>";
-						html = html+"<tr><td class='info'>描述</td>"+"<td><textarea name='description'/></td></tr>";
+						html = html+"<tr><td class='info' >描述</td>"+"<td><textarea name='description'/></td></tr>";
 						html = html+"<tr><td colspan='2'  ><input  type='button' onclick='add()'  value='提交'  class='mr30  btn btn-windows git'/>"
 						+"<input type='button' class='ml10 btn btn-windows  back' value='返回' onclick='history.go(-1)''/></td></tr>";
 						$("#result").append(html);
@@ -199,10 +195,10 @@
 						var picname = pic.split("_");
 						var html = "";
 					 	html = html+"<tr><td class='info'>上级目录</td><td><input value='"+parentname+"' readonly='readonly'/></td></tr>"; 
-						html = html+"<tr><td class='info'>目录名称</td><td><input value='"+cate.name+"' name='name'/></td></tr>";
+						html = html+"<tr><td class='info'>目录名称</td><td><input value='"+cate.name+"' name='name'/><div id='td_input'></div></td></tr>";
 						html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
-						html = html+"<tr><td class='info'>排序</td><td><input value='"+cate.position+"' name='position'/></td></tr>";
-						html = html+"<tr><td class='info'>编码</td><td><input value='"+cate.code+"' name='code'/></td></tr>";
+						html = html+"<tr><td class='info'>排序</td><td><input value='"+cate.position+"' name='position'/><div id='td_position'></div></td></tr>";
+						html = html+"<tr><td class='info'>编码</td><td><input value='"+cate.code+"' name='code'/><div id='td_code'></div></td></tr>";
 						if (attachmentPath!=null&&attachmentPath!="") {
 					    html = html+"<tr><td class='info'>已上传的图片</td><td><a id='button' class='pointer' name='attaattach' type='button' onclick='showPic()'>"+picname[1]+"</a>"
 						+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
@@ -267,23 +263,32 @@
 	 		});
 		} 
     function add(id){
-    	
-    	$.ajaxFileUpload({
+    	$.ajax({
     		cache:true,
-    		dataType:"text",
+    		dataType:"json",
     		type:"post",
+    		data:$("#fm").serialize(),
     		url:"${pageContext.request.contextPath}/category/save.html",
     		success:callback
     	});
     }
-   function callback(allListNews){
+    function callback(listCategory){
+    	$("#td_input").html(listCategory.name);
+    	$("#td_position").html(listCategory.position);
+    	$("#td_code").html(listCategory.code);
 	   
    }
    
 	/**更新数据*/
 	function renew(id){
-		document.fm.action="${pageContext.request.contextPath}/category/edit.do";
-		document.fm.submit();
+		$.ajax({
+    		cache:true,
+    		dataType:"json",
+    		type:"post",
+    		data:$("#fm").serialize(),
+    		url:"${pageContext.request.contextPath}/category/edit.html",
+    		success:callback
+    	});
 	}
 	/**删除附件*/
 	function del(){
@@ -318,7 +323,7 @@
 			<span><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-windows edit ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
-            <form  id="form" action="" name="fm" method="post" enctype="multipart/form-data" >
+            <form  id="fm" action="" method="post" enctype="multipart/form-data" >
             <input type="hidden"  onclick="add()" value=""/>
             <input type="hidden"  onclick="renew()" value=""/>
             <table id="result"  class="table table-bordered table-condensedb mt15" ></table>

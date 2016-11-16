@@ -1,16 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'search.jsp' starting page</title>
-    
+  <head>   
+    <title>My JSP 'search.jsp' starting page</title>   
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -19,14 +16,8 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -44,18 +35,17 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/search_orgnization.html?page="+e.curr;
+		            location.href = "${pageContext.request.contextPath}/categoryparam/search_orgnization.html?page="+e.curr;
 		        }
 		    }
 		});
 });
 function search(name){
 	var name =$("#input_cate").val();
-	alert(name);
-	window.location.href="<%=basePath%>categoryparam/search_categoryname.html?name="+name;
+	window.location.href="${pageContext.request.contextPath}/categoryparam/search_categoryname.html?name="+name;
 }
 function query(){
-	window.location.href="<%=basePath%>categoryparam/check_categoryparam.html";
+	window.location.href="${pageContext.request.contextPath}/categoryparam/check_categoryparam.html";
 }
 
 
@@ -76,9 +66,8 @@ function query(){
    <div class="headline-v2">
      <h2>查询</h2>
    </div>
+    <h2 class="search_detail">
  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">产品名称：</label><span><input id="input_cate" name="name" type="text" value="" /></span>
@@ -87,12 +76,12 @@ function query(){
 	    	<a href="javascript:void(0);" class="btn" onclick="query()" value=""/>目录查询</a> 	
     	</ul>
     	  <div class="clear"></div>
-     </h2>
-   </div>
   </div>
- <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+     </h2>
+ <div class="col-md-12 mt10 p0">
+     <div class=" context table_box">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+    	
             <thead>
                 <tr>
                 <th class="info w50"><input id="selectAll" type="checkbox" onclick="selectAll()"/></th>

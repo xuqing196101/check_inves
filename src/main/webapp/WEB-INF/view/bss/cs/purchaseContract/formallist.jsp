@@ -207,8 +207,9 @@
 		layer.msg(content, {
 			    skin: 'demo-class',
 				shade:false,
+				closeBtn:[0,true],
 				area: ['600px'],
-				time : 0    //默认消息框不关闭
+				time : 4000    //默认消息框不关闭
 		});//去掉msg图标
   	}
   </script>

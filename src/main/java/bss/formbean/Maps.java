@@ -1,25 +1,27 @@
 package bss.formbean;
 
+import java.math.BigDecimal;
+
 public class Maps {
 
-	private String province;
+	private String name;
 	
-	private Integer count;
+	private BigDecimal value;
 
-	public String getProvince() {
-		return province;
+	public String getName() {
+		return name;
 	}
 
-	public void setProvince(String province) {
-		this.province = province;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Integer getCount() {
-		return count;
+	public BigDecimal getValue() {
+		return value;
 	}
 
-	public void setCount(Integer count) {
-		this.count = count;
+	public void setValue(BigDecimal value) {
+		this.value = value;
 	}
 	
 	

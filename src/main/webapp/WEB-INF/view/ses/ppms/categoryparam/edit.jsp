@@ -6,18 +6,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'edit.jsp' starting page</title>
-    
+    <title>产品参数修改</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 <script type="text/javascript">
 	/**类型默认选中*/
    $(function(){
@@ -31,19 +25,19 @@
 	} 
    });
     $(function(){
-       var name = "${caAptitude.productName}";
-       var saleName = "${caAptitude.saleName}";
+       var name = "${productname}";
+       var saleName = "${salename}";
        var names = name.split(",");
        var saleNames=saleName.split(",");
        var html = "";
        var html1="";
        for ( var i = 0; i < names.length-1; i++) {
     
-       html = html+"<input class='mt10' type='text' value='"+names[i]+"' name='productName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
+       html = html+"<input class='mt10' type='text' value='"+names[i]+"' name='productName'/><br/>";
 	}
 		$("#addinput").append(html);
-       for ( var i = 0; i < saleNames[i].length-1; i++) {
-		html1 = html1+"<input class='mt10' type='text' value='"+saleNames[i]+"' name='saleName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
+       for ( var i = 0; i < saleNames.length-1; i++) {
+		html1 = html1+"<input class='mt10' type='text' value='"+saleNames[i]+"' name='saleName'/><br/>";
 	}
 	$("#addnews").append(html1);
    }); 
@@ -70,7 +64,7 @@
     	var sts="";
     	var type="";
     	/**根据name获取各项数据的值*/
-        obj = document.getElementsByName("name");
+        obj = document.getElementsByName("paramname");
         
         abj = document.getElementsByName("valueType");
       
@@ -100,23 +94,38 @@
 		$("#ddd").val(str);
 		$("#ccc").val(sts);
 		$("#eee").val(type);
-		$("#form").submit();
-	} 
+		 $.ajax({
+		    	cache:true,
+		    	dataType:"json",
+		    	type:"post",
+		    	data:$("#form").serialize(),
+		    	url :"${pageContext.request.contextPath}/categoryparam/edit.do",
+		    	success:callback
+		    })
+	}
+	 function callback(allListNews){
+	      $("#td_input").html(allListNews.name);
+	      $("#td_select").html(allListNews.value);
+	      $("#span_input").html(allListNews.ispublish);
+	      $("#span_td").html(allListNews.kind);
+	      $("#td_textarea").html(allListNews.acceptrange);
+	      $("#div_input").html(allListNews.product);
+	      $("#add_input").html(allListNews.sale);
+	      } 
 	$(function(){
-	    var name  = "${cateParam.name}";
-	  
-	    var value = "${cateParam.valueType}";
+	    var name  = "${name}";
+	    var value = "${value}";
 	    var names = name.split(",");
-	  
 	    var values = value.split(",");
 	     var html = "";
 	     for ( var i = 0 ; i< names.length-1; i++){
-				html = html +"<tr><td>参数名称：<input type='text' value='"+names[i]+"'/></td><td>"
+				html = html +"<tr><td class='info'>参数名称：<input type='text' name='paramname' value='"+names[i]+"'/><div id='td_input' ></div</td><td>参数类型："
 				+"<select  name='valueType'>"
 				+"<option value='' selected='selected'>"+values[i]+"</option>"
+				+"<option>--请选择--</option>"
 				+"<option value='字符型'>字符型</option>"
 				+"<option value='数字型'>数字型</option>"
-				+"<option value='日期型'>日期型</option><select/></td></tr>";
+				+"<option value='日期型'>日期型</option><select/><div id='td_select'></div></td></tr>";
 	     }
 	  
 	      $("#result").prepend(html);
@@ -142,7 +151,7 @@
 	   <h2>修改</h2>
 	  </div>
 	<div class="  tag-box ml100 col-md-9">
-                     <form id="form" action="<%=basePath%>categoryparam/edit.do" method="post" >
+                     <form id="form" action="${pageContext.request.contextPath}/categoryparam/edit.do" method="post" >
                       <input type="hidden" name="id" value="${category.id}"/>
                      <input type="hidden" id="sss" name="names" value="" />
                      <input type="hidden" id="bbb" name="values" value=" "/>
@@ -162,34 +171,36 @@
                          </td>
                      </tr> -->
                     
-                     <tr><td >是否公开</td>
+                     <tr><td class="info" >是否公开</td>
 					 <td>
 					 <span class="ml30"><input type="radio" value="0" name="ispublish" class="mt0" <c:if test="${category.isPublish eq 0}">checked</c:if>/>是</span>
 					 <span class="ml60"><input type="radio" value="1" name="ispublish" class="mt0" <c:if test="${category.isPublish eq 1}">checked</c:if> />否</span>
+                      <div id="span_input"></div>
 					 </td></tr>
 				
-					 <tr><td >产品类型</td>
+					 <tr><td class="info">产品类型</td>
 					 <td>
 					 <span class="ml30"><input type="checkbox" value="E73923CC68A44E2981D5EA6077580372" name="type" id="box" class="mt0"/>生产型</span>
 					 <span class="ml30"><input type="checkbox" value="18A966C6FF17462AA0C015549F9EAD79" name="type" id="box" class="mt0"/>销售型</span>
+					<div class="span_td"></div>
 					 </td></tr>
 					 
-					 <tr><td>验证规范</td><td>
-					 <textarea name="acceptRange">${category.acceptRange }</textarea></td></tr>
+					 <tr><td class="info">验证规范</td><td>
+					 <textarea name="acceptRange" class="col-md-8 h100">${category.acceptRange }</textarea><div id="td_textarea"></div></td></tr>
 					 
-					<tr><td>生产型资质</td>
-					 <td><div id="addinput"></div>
+					<tr><td class="info">生产型资质</td>
+					 <td><div id="addinput"></div></div><div id="div_input"></div>
 					 </td></tr>
 					
-					 <tr><td>销售型资质</td>
-					 <td><div id="addnews"></div>
+					 <tr><td class="info">销售型资质</td>
+					 <td><div id="addnews"></div></div><div id="add_input"></div>
 					 </td></tr>
-					
+					 </table>
 				     <tr><td colspan="2" class="" >
-					<button type="button" class="btn mr30" onclick="renew()" name="" >更新</button>
+					 <button type="button" class="btn mr30" onclick="renew()" name="" >更新</button>
 					 <input type="button"class="btn" value="返回" onclick="location.href='javascript:history.go(-1);'"/></td>
 					 </tr> 
-    </table>
+    
     </form>
     </div>
     </div>

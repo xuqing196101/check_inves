@@ -17,7 +17,20 @@ public class Test {
 	private String idNumer;
     @Pattern(regexp="^(1)[0-9]{10}$", message="手机格式错误")
     private String mobile;
+    @NotNull(message = "名称不能为空") 
+    @Pattern(regexp="^[0-9]*$", message="只允许输入数字")
+    private Integer age;
     
+    
+    
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
 	public String getName() {
 		return name;
 	}

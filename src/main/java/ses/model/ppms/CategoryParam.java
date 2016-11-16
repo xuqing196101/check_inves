@@ -17,14 +17,14 @@ public class CategoryParam {
 	/**
 	 * 参数名称
 	 * */
-	@NotBlank(message= "参数名不能为空")
+
 	private String name;
 	/**
 	 * 参数类型
 	 * */
-	@NotBlank(message = "参数类型不能为空")
+
 	private String valueType;
-	
+
 	/**
 	 * 创建时间
 	 * */

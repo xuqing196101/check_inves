@@ -92,6 +92,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.tips("退回理由不允许为空","#reson");
 	 }
  }
+ 
+ function org(obj){
+	 
+ 	   var val=$(obj).val();
+ 
+ 	   $(".org option").each(function(){
+ 	 
+ 		   var opt=$(this).val();
+ 		   if(val==opt){
+ 			   $(this).attr("selected", "selected");  
+ 		   }
+ 	   });
+    } 
+ 
+ 
 </script>
 </head>
 
@@ -154,19 +169,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td>
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
               				    <option value="" >请选择</option>
-	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
-	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-	                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+	                            <option value="gkzb" <c:if test="${'gkzb'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="yqzb" <c:if test="${'yqzb'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="jzxtp" <c:if test="${'jzxtp'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="xjcg" <c:if test="${'xjcg'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
 			                </select>
 			                
 							</td>
 							<td class="tc">
-							<select name="list[${vs.index }].organization">
+							<select class="org"  onchange="org(this)" name="list[${vs.index }].organization">
 	 						<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
-									<option value="${ss.id }">${ss.name}</option>
+									<option value="${ss.name }" <c:if test="${ss.name==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
 							

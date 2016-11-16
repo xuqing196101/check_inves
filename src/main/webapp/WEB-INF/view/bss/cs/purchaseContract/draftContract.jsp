@@ -235,7 +235,7 @@
 		    shade:0.01, //遮罩透明度
 			type : 1,
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '40%', '300px' ], //宽高
+			area : [ '45%', '300px' ], //宽高
 			content : $('#numberWin'),
 			offset: ['70%', '25%']
 		});
@@ -323,72 +323,72 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html?ids=${ids}" method="post" enctype="multipart/form-data">
+   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html?ids=${ids}" method="post" >
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="id" value="${draftCon.id}"/>
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
    		<input type="hidden" name="projectName" value="${draftCon.projectName}"/>
    		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
    		<input type="hidden" name="approvalNumber" id="appN" value=""/>
-   		<ul class="list-unstyled list-flow ul_list">
+   		<ul class="list-unstyled ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
-		     <li class="col-md-6 p0 ">
+		     <li class="col-md-3 p0 ">
 			   <span class=""><div class="red star_red">*</div>合同名称：</span>
 			   <div class="input-append">
 		        <input class="span2 contract_code" id="contract_code" value="${draftCon.name}" name="name" type="text">
 		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-6 p0">
+    		 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>合同编号：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="code" value="${draftCon.code}" type="text">
 		        	<div class="cue">${ERR_code}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>合同金额：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="money" value="${draftCon.money}" type="text">
 		        	<div class="cue">${ERR_money}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>计划任务文号：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="documentNumber" value="${draftCon.documentNumber}" type="text">
 		        	<div class="cue">${ERR_documentNumber}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>采购机构资格证号：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="quaCode" value="${draftCon.quaCode}" type="text">
 		        	<div class="cue">${ERR_quaCode}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>需求部门：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="demandSector" value="${draftCon.demandSector}" type="text">
 		        	<div class="cue">${ERR_demandSector}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>预算：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" id="budget" name="budget" value="${draftCon.budget}" type="text">
 		        	<div class="cue">${ERR_budget}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>项级预算科目：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" name="budgetSubjectItem" value="${draftCon.budgetSubjectItem}" type="text">
 		        	<div class="cue">${ERR_budgetSubjectItem}</div>
        			</div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>合同类型：</span>
 		        	<select name="contractType" id="contractType" class="span2 contract_name">
 		        		<option></option>
@@ -401,71 +401,71 @@
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
-		 <ul class="list-unstyled list-flow ul_list">
-    		 <li class="col-md-6 p0">
+		 <ul class="list-unstyled ul_list">
+    		 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方单位：</span>
 		        <div class="input-append ">
 		        	<input class="span2 supplier_id" name="purchaseDepName" value="${draftCon.purchaseDepName}" type="text">
 		        	<div class="cue">${ERR_purchaseDepName}</div>
        			</div>
 			 </li>
-		     <li class="col-md-6  p0 ">
+		     <li class="col-md-3 p0 ">
 			   <span class=""><div class="red star_red">*</div>甲方法人：</span>
 			   <div class="input-append">
 		        <input class="span2 supplier_name" name="purchaseLegal" value="${draftCon.purchaseLegal}" type="text">
 		        <div class="cue">${ERR_purchaseLegal}</div>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
+			 <li class="col-md-3 p0 ">
 			   <span class="fl"><div class="red star_red">*</div>甲方委托代理人：</span>
 			   <div class="input-append">
 		        <input class="span2 supplier_name" name="purchaseAgent" value="${draftCon.purchaseAgent}" type="text">
 		        <div class="cue">${ERR_purchaseAgent}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-6 p0">
+    		 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方联系人：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseContact" value="${draftCon.purchaseContact}" type="text">
 		         <div class="cue">${ERR_purchaseContact}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方联系电话：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseContactTelephone" value="${draftCon.purchaseContactTelephone}" type="text">
 		         <div class="cue">${ERR_purchaseContactTelephone}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方通讯地址：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseContactAddress" value="${draftCon.purchaseContactAddress}" type="text">
 		         <div class="cue">${ERR_purchaseContactAddress}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方邮政编码：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseUnitpostCode" value="${draftCon.purchaseUnitpostCode}" type="text">
 		         <div class="cue">${ERR_purchaseUnitpostCode}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方付款单位：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchasePayDep" value="${draftCon.purchasePayDep}" type="text">
 		         <div class="cue">${ERR_purchasePayDep}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方开户银行：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseBank" value="${draftCon.purchaseBank}" type="text">
 		         <div class="cue">${ERR_purchaseBank}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>甲方银行账号：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
@@ -475,71 +475,71 @@
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
-		 <ul class="list-unstyled list-flow ul_list">
-			 <li class="col-md-6 p0">
+		 <ul class="list-unstyled ul_list">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方单位：</span>
 		        <div class="input-append ">
 		        	<input class="span2 supplier_id" name="supplierDepName" type="text" value="${draftCon.supplierDepName}">
 		        	<div class="cue">${ERR_supplierDepName}</div>
        			</div>
 			 </li>
-		     <li class="col-md-6  p0 ">
+		     <li class="col-md-3 p0 ">
 			   <span class=""><div class="red star_red">*</div>乙方法人：</span>
 			   <div class="input-append">
 		        <input class="span2 supplier_name" name="supplierLegal" type="text" value="${draftCon.supplierLegal}">
 		        <div class="cue">${ERR_supplierLegal}</div>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
+			 <li class="col-md-3 p0 ">
 			   <span class="fl"><div class="red star_red">*</div>乙方委托代理人：</span>
 			   <div class="input-append">
 		        <input class="span2 supplier_name" name="supplierAgent" value="${draftCon.supplierAgent}" type="text">
 		        <div class="cue">${ERR_supplierAgent}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-6 p0">
+    		 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方联系人：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierContact" value="${draftCon.supplierContact}" type="text">
 		         <div class="cue">${ERR_supplierContact}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方联系电话：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierContactTelephone" value="${draftCon.supplierContactTelephone}" type="text">
 		         <div class="cue">${ERR_supplierContactTelephone}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方通讯地址：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierContactAddress" value="${draftCon.supplierContactAddress}" type="text">
 		         <div class="cue">${ERR_supplierContactAddress}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方邮政编码：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierUnitpostCode" value="${draftCon.supplierUnitpostCode}" type="text">
 		         <div class="cue">${ERR_supplierUnitpostCode}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方开户名称：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierBankName" value="${draftCon.supplierBankName}" type="text">
 		         <div class="cue">${ERR_supplierBankName}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方开户银行：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierBank" value="${draftCon.supplierBank}" type="text">
 		         <div class="cue">${ERR_supplierBank}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-6 p0">
+			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>乙方银行账号：</span>
 		        <div class="input-append">
 		         <input class="span2 supplier_name" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
@@ -553,7 +553,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml10">
+    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -598,11 +598,11 @@
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
-   			<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
-   			<input type="button" class="btn" onclick="printdra()" value="打印"/>
+   			<%--<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
+   			--%><input type="button" class="btn" onclick="printdra()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
-  		<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
+  		<%--<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
   		    <li class="col-md-12 ml15">
 			   <span class="span3 fl mt5"><div class="red star_red">*</div>合同批准文号：</span>
 			   <input type="text" id="apN" name="approvalNumber" value="" class="mb0 w220"/>
@@ -625,83 +625,72 @@
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</li>
 	 </ul>
-  	</form>
+  	--%></form>
  </div>
- 	<div id="openDiv" class="dnone">
-	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<ul id="treeDemo" class="ztree slect_option"></ul>
-	</div>
-			<div class="list-unstyled mt20">
-			  <ul class="demand_list">
-			    <li class="mt10">
-	    	      <label class="fl">物资名称：</label>
-	    	      <span>
+ 	<div id="openDiv" class="dnone layui-layer-wrap">
+ 	<div id="menuContent" class="menuContent dw188 tree_drop">
+					<ul id="treeDemo" class="ztree slect_option"></ul>
+					</div>
+			<div class="drop_window">
+			  <ul class="list-unstyled">
+			    <li class="mt10 col-md-12 p0">
+	    	      <label class="col-md-12 pl20">物资名称：</label>
+	    	      <span class="col-md-12">
                    <input type="hidden" id="categorieId4" name="categoryId" value="">
-				   <input id="citySel4" type="text"  readonly name="categoryName"  value=""  class="title" onclick=" showMenu(); return false;"/>
+				   <input id="citySel4" type="text"  readonly="readonly" name="categoryName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+				   
 				  </span>
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">编号：</label>
+	            
+			    <li class="col-md-6">
+	    	      <label class="col-md-12 padding-left-5">编号：</label>
 	    	      <span>
-                   <input maxlength="11" id="planNo" name="planNo" type="text" >
+                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
 				  </span>
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">数量：</label>
-	    	      <span>
-                   <input maxlength="11" id="purNum" name="purNum" onblur="sum2()" type="text" >
+			    <li class="col-md-6">
+	    	      <label class="col-md-12 padding-left-5">交付时间</label>
+	    	      <span class="col-md-12 p0">
+                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
                   </span>
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">品牌商标：</label>
-	    	      <span>
-                   <input maxlength="11" id="bra" name="bra"  value="" type="text" >
+			    <li class="col-md-6">
+	    	      <label class="col-md-12 padding-left-5">品牌商标</label>
+	    	      <span class="col-md-12 p0">
+                   <input maxlength="11" id="bra" name="bra" value="" type="text" class="col-md-12 p0">
                   </span>
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">规格型号：</label>
-	    	      <span>
-                   <input maxlength="11" id="model" name="model"  value="" type="text" >
-                  </span>
+			    <li class="col-md-6">
+	    	      <label class="col-md-12 padding-left-5">规格型号</label>
+                   <input maxlength="11" id="model" name="model" value="" type="text" class="col-md-12 p0">
 	            </li> 
-			    <li class="mt10">
-	    	      <label class="fl">计量单位：</label>
-	    	      <span>
-                   <input maxlength="11" id="unit" name="unit"  value="" type="text" >
-                  </span>
+			    <li class="col-md-3">
+	    	      <label class="col-md-12 padding-left-5">计量单位</label>
+                   <input maxlength="11" id="unit" name="unit" value="" type="text" class="col-md-12 p0">
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">单价：</label>
-	    	      <span>
-                   <input maxlength="11" id="univalent" onblur="sum1()" name="univalent"  value="" type="text" >
-                  </span>
+				<li class="col-md-3">
+	    	      <label class="col-md-12 padding-left-5">数量</label>
+                   <input maxlength="11" id="purNum" name="purNum"  type="text"class="col-md-12 p0">
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">交付时间：</label>
-	    	      <span>
-                   <input maxlength="11" id="givetime" name="givetime"  value="" type="text" >
-                  </span>
+			    <li class="col-md-3">
+	    	      <label class="col-md-12 padding-left-5">单价</label>
+                   <input maxlength="11" id="univalent" name="univalent" value="" type="text" class="col-md-12 p0">
 	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">备注：</label>
-	    	      <span>
-                  <textarea id="remarks" name="remarks" class="textAreaSize" rows="3" cols="1">
-                   </textarea>
-                  </span>
-	            </li>
-			    <li class="mt10">
-	    	      <label class="fl">合计：</label>
-	    	      <span>
-                   <input maxlength="11" id="purBudgetSum" name="purBudgetSum"  value="0" readonly="readonly" type="text" >
-                  </span>
+			    <li class="col-md-3">
+	    	      <label class="col-md-12 padding-left-5">合计</label>
+                   <input maxlength="11" id="purBudgetSum" name="purBudgetSum" value="" readonly="readonly" type="text" class="col-md-12 p0">
+	            </li> 
+			    <li class="col-md-12">
+	    	      <label class="col-md-12 padding-left-5">备注</label>
+                  <textarea id="remarks" name="remarks" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
 	            </li> 
 	            <div class="clear"></div>
 			  </ul>
 			</div>
-			<div class="tc mt20 col-md-12">
+              <div class="tc mt20 col-md-12">
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
 				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
-            </div>
+              </div>
 		</div>
 		<script type="text/javascript">
     		//实例化编辑器

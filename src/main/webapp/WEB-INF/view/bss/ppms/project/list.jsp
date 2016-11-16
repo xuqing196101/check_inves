@@ -203,21 +203,33 @@
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
 		});
-		if (id.length == 1) {
-			window.location.href = '${pageContext.request.contextPath}/project/edit.html?id='
-					+ id;
-
-		} else if (id.length > 1) {
-			layer.alert("只能选择一个", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
-		} else {
-			layer.alert("请选择需要修改的任务", {
-				offset : [ '222px', '390px' ],
-				shade : 0.01
-			});
-		}
+		var status = $("input[name='chkItem']:checked").parents("tr")
+                .find("td").eq(5).text();
+        status = $.trim(status);
+       
+            if (id.length == 1) {
+                 if(status == "实施中"){
+			            layer.alert("实施中的项目不能修改", {
+			                offset : [ '222px', '730px' ],
+			                shade : 0.01,
+			            });
+			     }else{
+			        window.location.href = '${pageContext.request.contextPath}/project/edit.html?id='
+                    + id;
+			        
+			        }
+	        } else if (id.length > 1) {
+	            layer.alert("只能选择一个", {
+	                offset : [ '222px', '730px' ],
+	                shade : 0.01,
+	            });
+	        } else {
+	            layer.alert("请选择需要修改的任务", {
+	                offset : [ '222px', '730px' ],
+	                shade : 0.01,
+	            });
+	        }
+		
 
 	}
 

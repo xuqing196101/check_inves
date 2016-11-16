@@ -582,7 +582,7 @@ function kaptcha(){
         </div>
          <div class="job-content col-md-12">
 		    <div class="categories zhuanjia_list">
-               <a href="#" title=" " target="_blank">张三</a>
+               <a href="#" title=" " target="_blank"></a>
 			</div>
 		  </div>
 	  </div>

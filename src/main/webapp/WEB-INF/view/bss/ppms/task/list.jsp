@@ -168,17 +168,27 @@
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
 		});
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+		status = $.trim(status);
 		if (id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath}/task/edit.html?id="
-					+ id;
+		  if(status == "已取消"){
+		     layer.alert("任务已取消不能修改", {
+                offset : [ '222px', '730px' ],
+                shade : 0.01
+            });
+		  }else{
+		       window.location.href = "${pageContext.request.contextPath}/task/edit.html?id="
+                    + id;
+		  }
+			
 		} else if (id.length > 1) {
 			layer.alert("只能选择一个", {
-				offset : [ '222px', '390px' ],
+				offset : [ '222px', '730px' ],
 				shade : 0.01
 			});
 		} else {
 			layer.alert("请选择需要调整的任务", {
-				offset : [ '222px', '390px' ],
+				offset : [ '222px', '730px' ],
 				shade : 0.01
 			});
 		}
@@ -284,7 +294,7 @@
 		</h2>
 
 		<div class="col-md-12 pl20 mt10">
-			<button class="btn btn-windows edit" onclick="edit()">任务调整</button>
+			<button class="btn btn-windows edit" onclick="edit()" type="button">任务调整</button>
 			<button class="btn btn-windows delete" onclick="deleted()">任务取消</button>
 			<button class="btn btn-windows git" onclick="start()">受领</button>
 	    </div>

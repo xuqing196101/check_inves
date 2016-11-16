@@ -35,6 +35,7 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierLevelService;
@@ -44,6 +45,7 @@ import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 @Controller
 @Scope("prototype")
@@ -59,6 +61,9 @@ public class SupplierQueryController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierEditService supplierEditService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 
 	/**
 	 * @Title: highmaps
@@ -173,6 +178,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			sup.setItem(listCategoryIds);
 		}
 		List<Supplier>  listSupplier=supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page==null?1:page);
+		getSupplierType(listSupplier);
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		model.addAttribute("supplier", sup);
 		model.addAttribute("categoryIds", categoryIds);
@@ -207,6 +213,8 @@ public class SupplierQueryController extends BaseSupplierController{
 		}
 		supplier = supplierAuditService.supplierById(supplierId);
 		getSupplierType(supplier);
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("suppliers", supplier);
 		if(isRuku!=null&&isRuku==1){
 			model.addAttribute("status", supplier.getStatus());
@@ -766,7 +774,11 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	 @RequestMapping("/downLoadFile")
 		public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
-			String stashPath = super.getStashPath(request);
+			if("".equals(fileName)){
+				super.alert(request, response, "无附件下载 !",true);
+				return;
+			}
+		    String stashPath = super.getStashPath(request);
 			FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
 			FtpUtil.closeFtp();
 			if (fileName != null && !"".equals(fileName)) {
