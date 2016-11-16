@@ -22,7 +22,7 @@
 		<!-- @mbggenerated -->
 		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
 		st.CREATED_AT,
-		st.UPDATED_AT, st.USER_ID,st.bidFinish
+		st.UPDATED_AT, st.USER_ID,st.BID_FINISH
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
