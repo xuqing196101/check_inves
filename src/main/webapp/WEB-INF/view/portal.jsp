@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
+<link href="${pageContext.request.contextPath}/public/portal/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/public/portal/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/portal/css/style.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/portal/css/common.css" media="screen" rel="stylesheet" type="text/css">
