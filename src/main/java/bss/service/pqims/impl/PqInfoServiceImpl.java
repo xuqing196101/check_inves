@@ -17,6 +17,7 @@ import ses.util.PropertiesUtil;
 
 import bss.dao.pqims.PqInfoMapper;
 import bss.model.pqims.PqInfo;
+import bss.model.sstps.Select;
 import bss.service.pqims.PqInfoService;
 
 /**
@@ -125,6 +126,12 @@ public class PqInfoServiceImpl implements PqInfoService {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return pqInfoMapper.selectByDepName(pqInfo);
+	}
+
+
+	@Override
+	public List<Select> selectChose(String purchaseType) {
+		return pqInfoMapper.selectChose(purchaseType);
 	}
 
 }

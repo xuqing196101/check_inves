@@ -151,19 +151,18 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>质量结果查询</h2>
+	   		<h2>质量结果登记</h2>
 	   </div>
 
    
    <!-- 查询 -->
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
+
+     <h2 class="search_detail">
    	<form action="${pageContext.request.contextPath}/pqinfo/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" id="contractName" class="mb0" /></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" id="contractCode" class="mb0" /></span></li>
-	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
+	   <li><label class="fl">合同名称：</label><span><input type="text" name="contract.name" id="contractName" class="mb0" /></span></li>
+	   <li><label class="fl">合同编号：</label><span><input type="text" name="contract.code" id="contractCode" class="mb0" /></span></li>
+	   <li><label class="fl">验收类型：</label>
 	   		<span>
 	   			<select id="searchType" name =type class="w150" >
 					<option value="-请选择-">-请选择-</option>
@@ -174,7 +173,7 @@
 	  			</select>
 	  		</span>
 	  </li>
-	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
+	  <li><label class="fl">质检结论：</label>
 	   		<span>
 	   			<select id="searchConclusion" name =conclusion class="w150" >
 					<option value="-请选择-">-请选择-</option>
@@ -183,33 +182,24 @@
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn fl ml5" type="submit">查询</button>
-	   	 <button type="reset" class="btn ml5">重置</button> 
+	   	 <button class="btn" type="submit">查询</button>
+	   	 <button type="reset" class="btn">重置</button> 
 	 </ul>
 
-	 <div class="clear"></div>
 	 </form>
+	 <div class="clear"></div>
      </h2>
-   </div>
-  </div>
-</div>
+
    
 <!-- 表格开始-->
-   <div class="container">
-   		<div class="headline-v2 fl">
-      		<h2>质检情况列表</h2>
-  		</div> 
 
-   <div class="container">
-    <div class="col-md-12 pl20">
-    		<button class="btn btn-windows add" type="button" onclick="add()">登记质检报告</button>
+    <div class="col-md-12 pl20 mt10">
+    		<button class="btn btn-windows add" type="button" onclick="add()">登记</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-		</div>        
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>      
    </div>
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+   <div class="content table_box">
+    	<table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -239,14 +229,15 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')" class="btn">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
+				<td class="tc opinter">
+				<button type="button" onclick="showPic('${PqInfo.id}')" class="btn">质检报告</button>
+				<img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/>
+				</td>
    				
 			</tr>
 		</c:forEach>
         </table>
      </div>
-   	
-   </div>
    <div id="pagediv" align="right"></div>
   </div>
   </body>

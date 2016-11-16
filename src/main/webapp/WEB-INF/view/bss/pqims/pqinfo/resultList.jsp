@@ -103,15 +103,13 @@
 	   		<h2>质量结果查询</h2>
 	   </div>
    <!-- 查询 -->
-   
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
+
+     <h2 class="search_detail"">
    	<form action="${pageContext.request.contextPath}/pqinfo/searchReasult.html" method="post" enctype="multipart/form-data" class="mb0">
 	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
+	   <li class="fl"><label class="fl">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
+	   <li class="fl"><label class="fl">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
+	   <li class="fl"><label class="fl">验收类型：</label>
 	   		<span>
 	   			<select id="searchType" name =type class="w150" >
 					<option value="-请选择-">-请选择-</option>
@@ -131,26 +129,19 @@
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
-	   	 <button type="reset" class="btn ml5 mt1">重置</button>
+	   	 <button class="btn" type="submit">查询</button>
+	   	 <button type="reset" class="btn">重置</button>
 	 </ul>
 
-	 <div class="clear"></div>
 	 </form>
+	 <div class="clear"></div>
      </h2>
-   </div>
-  </div>
-</div>
+
    
 <!-- 表格开始-->
-   <div class="container">
-   		<div class="headline-v2 fl">
-      		<h2>质检情况列表</h2>
-  		</div> 
-  		
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+
+     <div class="content table_box">
+    	<table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
 		  <th class="info w50">序号</th>
@@ -189,8 +180,6 @@
 		</c:forEach>
         </table>
     </div>
-   	
-   </div>
    <div id="pagediv" align="right"></div>
   </div>
   </body>

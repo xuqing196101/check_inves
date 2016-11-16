@@ -2,8 +2,6 @@
 package bss.controller.pqims;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
@@ -15,8 +13,10 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,14 +26,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import ses.util.PathUtil;
+import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
 
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 import bss.model.cs.PurchaseContract;
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.Supplier_pqinfo;
+import bss.model.sstps.Select;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pqims.PqInfoService;
 
@@ -47,12 +51,15 @@ import bss.service.pqims.PqInfoService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/pqinfo")
-public class PqInfoController {
+public class PqInfoController extends BaseSupplierController{
 	@Resource
 	private PqInfoService pqInfoService;
 	
 	@Resource
 	private PurchaseContractService purchaseContractService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	/**
 	 * 
 	 * @Title: getAll
@@ -79,7 +86,16 @@ public class PqInfoController {
 	 * @return:
 	 */
 	@RequestMapping("/add")
-	public String add(HttpServletRequest request,Model model){	
+	public String add(HttpServletRequest request,Model model){
+		String pqinfouuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("pqinfoId", pqinfouuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachTypeId", datas.get(0).getId());
+		}
 		return "bss/pqims/pqinfo/add";
 	}
 	
@@ -108,17 +124,26 @@ public class PqInfoController {
 			flag = false;
 			model.addAttribute("ERR_pqdate", "请选择质检日期");
 		}
-		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+		if(pqInfo.getContract().getName()==null || pqInfo.getContract().getName().equals("")){
 			flag = false;
-			model.addAttribute("ERR_contract_code","请输入合同编号");
-		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-			if (pc==null) {
+			model.addAttribute("ERR_contract_name", "请填写合同名称");
+		}else{			
+			if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
 				flag = false;
-				model.addAttribute("ERR_contract_code","合同编号不存在");
+				model.addAttribute("ERR_contract_code","请输入合同编号");
 			}else{
-				pqInfo.setContract(pc);
+				PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+				if (pc==null) {
+					flag = false;
+					model.addAttribute("ERR_contract_code","合同编号不存在");
+				}else{
+					pqInfo.setContract(pc);
+				}
 			}
+		}
+		if(pqInfo.getProjectType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_projectType", "请选择项目类型");
 		}
 		if(pqInfo.getType().equals("-请选择-")){
 			flag = false;
@@ -138,28 +163,7 @@ public class PqInfoController {
 		if(flag == false){
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
-		}else{
-		//设置上传图片
-		 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
-		 String rootpath = (PathUtil.getWebRoot() +"picUplode/").replace("\\", "/");
-	        /** 创建文件夹 */
-			File rootfile = new File(rootpath);
-			if (!rootfile.exists()) {
-				rootfile.mkdirs();
-			}
-	        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase()+ "_" + attaattach.getOriginalFilename();
-	        String filePath = rootpath+fileName;
-	        File file = new File(filePath);
-	        try {
-	        	attaattach.transferTo(file);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	        pqInfo.setReport("picUplode/"+fileName);
-		 }
-		 
+		}else{		 
 	     //封装质检信息实体类
 	     pqInfoService.add(pqInfo);
 	     url = "redirect:getAll.html";
@@ -177,8 +181,17 @@ public class PqInfoController {
 	 * @return:
 	 */
 	@RequestMapping("/edit")
-	public String edit(Model model,String id){
+	public String edit(HttpServletRequest request,Model model,String id){
 		model.addAttribute("pqinfo",pqInfoService.get(id));
+		String pqinfouuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("pqinfoId", pqinfouuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("pqinfoKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
 		return "bss/pqims/pqinfo/edit";
 	}
 	
@@ -206,17 +219,26 @@ public class PqInfoController {
 			flag = false;
 			model.addAttribute("ERR_pqdate", "请选择质检日期");
 		}
-		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+		if(pqInfo.getContract().getName()==null || pqInfo.getContract().getName().equals("")){
 			flag = false;
-			model.addAttribute("ERR_contract_code","请输入合同编号");
+			model.addAttribute("ERR_contract_name", "请填写合同名称");
 		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
-			if (pc==null) {
+			if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
 				flag = false;
-				model.addAttribute("ERR_contract_code","合同编号不存在");
+				model.addAttribute("ERR_contract_code","请输入合同编号");
 			}else{
-				pqInfo.setContract(pc);
+				PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+				if (pc==null) {
+					flag = false;
+					model.addAttribute("ERR_contract_code","合同编号不存在");
+				}else{
+					pqInfo.setContract(pc);
+				}
 			}
+		}
+		if(pqInfo.getProjectType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_projectType", "请选择项目类型");
 		}
 		if(pqInfo.getType().equals("-请选择-")){
 			flag = false;
@@ -237,26 +259,6 @@ public class PqInfoController {
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/edit";
 		}else{
-		//设置上传图片
-		 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
-			 String rootpath = (PathUtil.getWebRoot() +"picUplode/").replace("\\", "/");
-			 /** 创建文件夹 */
-			 File rootfile = new File(rootpath);
-			 if (!rootfile.exists()) {
-				 rootfile.mkdirs();
-			 }
-			 String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase()+ "_" + attaattach.getOriginalFilename();
-			 String filePath = rootpath+fileName;
-			 File file = new File(filePath);
-			 try {
-				 attaattach.transferTo(file);
-			 } catch (IllegalStateException e) {
-				 e.printStackTrace();
-			 } catch (IOException e) {
-				 e.printStackTrace();
-			 }
-			 pqInfo.setReport("picUplode/"+fileName);
-		}
 	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	        ParsePosition pos = new ParsePosition(0);
 	        Date date = formatter.parse(dateString, pos);
@@ -448,4 +450,21 @@ public class PqInfoController {
 	        baifenbi = df1.format(fen);   
 	        return baifenbi;  
 	    }  
+	  
+	  	/**
+	  	 * 
+	  	 * @Title: selectContract
+	  	 * @author Liyi 
+	  	 * @date 2016-11-15 上午11:04:01  
+	  	 * @Description:select2获取列表
+	  	 * @param:     
+	  	 * @return:
+	  	 */
+		@RequestMapping(value="/selectContract",produces="application/json;charest=utf-8")
+		public void selectContract(HttpServletResponse response,HttpServletRequest request) throws Exception{
+			String purchaseType = request.getParameter("purchaseType");
+			List<Select> list = pqInfoService.selectChose(purchaseType);
+			System.out.println("list:"+list);
+			super.writeJson(response, list);
+		}
 }

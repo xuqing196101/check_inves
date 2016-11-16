@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import bss.model.pqims.PqInfo;
+import bss.model.sstps.Select;
 
 /**
  * @Title:PqInfoService 
@@ -71,4 +72,9 @@ public interface PqInfoService {
 	 * 11.根据供应商名称查询
 	 */
 	List<String> selectByDepName(Integer pageNum,PqInfo pqInfo);
+	
+	/*
+	 * 12.select2查询合同
+	 */
+	List<Select> selectChose(String purchaseType);
 }

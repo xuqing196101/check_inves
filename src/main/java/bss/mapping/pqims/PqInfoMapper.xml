@@ -94,9 +94,7 @@
   
   <!-- 3.插入数据 -->
   <insert id="insert" parameterType="bss.model.pqims.PqInfo">
- 	<selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
+ 	
     insert into T_BSS_PQIMS_PQINFO (ID, CONTRACT_ID, PROJECT_TYPE, 
       UNIT, TYPE, PLACE, 
       PQDATE, INSPECTORS, CONDITION, 
@@ -111,9 +109,6 @@
   
   <!-- 4.插入不为空数据 -->
   <insert id="insertSelective" parameterType="bss.model.pqims.PqInfo">
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
     insert into T_BSS_PQIMS_PQINFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -342,5 +337,15 @@
     where c.SUPPLIER_DEP_NAME LIKE '%'||#{contract.supplierDepName}||'%'
     </if>
     GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
+  </select>
+    
+  <!-- selet2查询合同,根据采购方式 -->
+  <select id="selectChose" parameterType="Object" resultType="bss.model.sstps.Select">
+  	select *
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	WHERE 
+  		IS_DELETED = 0
+  		AND STATUS = 2
+		AND PURCHASE_TYPE = #{purchaseType}
   </select>
 </mapper>
