@@ -71,6 +71,10 @@ $(function(){
 	});
 })
 
+	function goBack(){
+		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
+	}
+
 </script>    
   </head>
   
@@ -89,7 +93,7 @@ $(function(){
    <div class="container container_box">
     <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
     <input type="hidden" id="ids" name="ids"/>
-	   <h2 class="count_flow"><i>1</i>修改信息</h2>
+	   <h2 class="count_flow">修改信息</h2>
 	  
 	   <ul class="ul_list mb20">
      <li class="col-md-3 margin-0 padding-0 ">
@@ -100,17 +104,17 @@ $(function(){
 		  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
         <input class="span2" id="name" name="name" type="text" value="${article.name }">
        	<span class="add-on">i</span>
+       	<div class="cue">${ERR_name}</div>
        </div>
-       <div class="validate">${ERR_name}</div>
 	 </li>
 	 
 	 <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息类型：</span>
-	   <div class="mb5">
+	   <div class="mb5 select_common">
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
+          <div class="cue">${ERR_typeId}</div>
           </div>
-          <div class="validate">${ERR_typeId}</div>
 	 </li> 
 	 
      <li class="col-md-3 margin-0 padding-0 ">
@@ -119,7 +123,7 @@ $(function(){
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
        </div>
-       <div class="validate">${ERR_range}</div>
+       <div class="cue">${ERR_range}</div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0">
 	   <span class="col-md-12 padding-left-5">文章来源：</span>
@@ -141,7 +145,7 @@ $(function(){
         <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }">
        	<span class="add-on">i</span>
        </div>
-       <div class="validate">${ERR_isPicShow}</div>
+       <div class="cue">${ERR_isPicShow}</div>
 	 </li> 
 	 
      <li class="col-md-11 margin-0 padding-0">
@@ -177,7 +181,7 @@ $(function(){
 	         
 	 <div  class="col-md-12 tc">
 	    <button class="btn btn-windows edit" type="submit">修改</button>
-	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
 	</div>
   </div>
 	         

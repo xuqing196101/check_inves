@@ -124,7 +124,7 @@
     
     
     function audit(){
-    	window.location.href="${ pageContext.request.contextPath }/article/auditlist.html?status=1";
+    	window.location.href="${pageContext.request.contextPath }/article/auditlist.html?status=1";
     }
     
     function sub(){
