@@ -70,4 +70,13 @@ public interface SaleTenderService   {
 	 * @return
 	 */
 	List<SaleTender> find(SaleTender saleTender);
+
+
+    /**
+     *〈简述〉更新数据
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param std
+     */
+    public void update(SaleTender std);
 }

@@ -112,4 +112,9 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     public List<SaleTender> find(SaleTender saleTender){
         return saleTenderMapper.list(saleTender);
     }
+
+    @Override
+    public void update(SaleTender std) {
+        saleTenderMapper.updateByPrimaryKeySelective(std);
+    }
 }
