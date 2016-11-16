@@ -315,7 +315,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
 	 </div>
-   <div class="container  table_box">
+   <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>

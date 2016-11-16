@@ -106,8 +106,8 @@ function checkAll(ele, id) {
 }
 
 /** 保存基本信息 */
-function saveBasicInfo(jsp) {
-	$("input[name='jsp']").val(jsp);
+function saveBasicInfo(obj) {
+	$("input[name='sign']").val(obj);
 	$("#basic_info_form_id").submit();
 
 }
@@ -258,8 +258,8 @@ function showReason() {
 	<div class="container container_box">
 	  <form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 		<input name="id" value="${currSupplier.id}" type="hidden" /> 
-		<input name="defaultPage" value="${defaultPage}" type="hidden" /> 
-		<input name="jsp" type="hidden" />
+	<%-- 	<input name="defaultPage" value="${defaultPage}" type="hidden" />  --%>
+		<input name="sign" type="hidden" />
 		<div>
     	  <h2 class="count_flow"><i>01</i>基本信息</h2>
     	  <ul class="list-unstyled" style="font-size: 14">
@@ -375,7 +375,7 @@ function showReason() {
 		    <li class="col-md-3 margin-0 padding-0 ">
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i>身份证号</span>
 			   <div class="input-append">
-		        <input class="span5" type="text" name="legalName" value="${currSupplier.legalName}" />
+		        <input class="span5" type="text" name="legalIdCard" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
@@ -692,8 +692,8 @@ function showReason() {
 	</div>
 	<div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	    <button type="button" class="btn save" onclick="saveBasicInfo('basic_info')">暂存</button>
-				<button type="button" class="btn" onclick="saveBasicInfo('supplier_type')">下一步</button>
+	  	  	    <button type="button" class="btn save" onclick="saveBasicInfo('2')">暂存</button>
+				<button type="button" class="btn" onclick="saveBasicInfo('1')">下一步</button>
 	  	  </div>
 	</div>
 </body>

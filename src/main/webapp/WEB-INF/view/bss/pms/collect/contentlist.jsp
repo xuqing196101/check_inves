@@ -164,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--  </div> -->
 
 
- <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="closed()" >确定</button>
+ <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px;margin-left:230px; " onclick="closed()" >确定</button>
       		<button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="cancel()" >取消</button>
  		<input type="hidden" id="ctype" vlaue="${type }">
  <form id="collected_form" action="${pageContext.request.contextPath }collect/add.html" method="post" style="margin-top: 20px;display: none;">

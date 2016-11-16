@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
  
 
  
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        //	$("#page").val(e.curr);
 		        	// $("#form1").submit();
 		        	
-		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
+		         location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr;
 		        }  
 		    }
 		});
@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	function view(no){
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no+"&&type=1";
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&&type=1";
   	}
   	
     function edit(){
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id+"&&type=2";;
+			window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+id+"&&type=2";;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -120,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				 $.ajax({
-		 			 url:"<%=basePath%>purchaser/delete.html",
+		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html",
 		 			 type:"post",
 		 			 data:{
 		 				 planNo:$('input[name="chkItem"]:checked').val()
@@ -172,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function closeLayer(){
 		var val=$("input[name='goods']:checked").val();
 		
-		window.location.href="<%=basePath%>purchaser/add.html?type="+val;
+		window.location.href="${pageContext.request.contextPath}/purchaser/add.html?type="+val;
 		layer.close(index);	
 	}
 	
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/exports.html?planNo="+id+"&&type=2";
+			window.location.href="${pageContext.request.contextPath}/purchaser/exports.html?planNo="+id+"&&type=2";
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -199,7 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>accept/submit.html?planNo="+id;
+			window.location.href="${pageContext.request.contextPath}/accept/submit.html?planNo="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -227,7 +227,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
+    <form id="add_form" action="${pageContext.request.contextPath}/accept/list.html" method="post" >
    <h2 class="padding-10 border1">
 
 	 <ul class="demand_list" >
@@ -243,11 +243,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>需求计划列表
 	  </h2>
    </div> 
-    <span class="fr option_btn margin-top-10">
+    <div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows git" onclick="sub()">受理</button>
-	  </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+	 </div>
+   <div class="content table_box">
+        <table class="table table-striped table-bordered table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>

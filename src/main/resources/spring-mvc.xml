@@ -24,7 +24,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 	<!-- springMVC拦截器 -->  
- 	<!--  <mvc:interceptors>
+ 	 <mvc:interceptors>
 		<mvc:interceptor>
 			需要拦截的地址
 			<mvc:mapping path="/*/*.do" />
@@ -75,7 +75,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -105,8 +105,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean> -->
 	<bean id="multipartResolver" class="bss.util.MyMultipartResolver">
-     <property name="excludeUrls" value="file/upload"/>
-		<!-- url中带有example的http请求就不会被multipartResolver先解析-->
+     <property name="excludeUrls" value="file/upload,supplierProject/saveBidFile"/>
+		<!-- url中带有http请求就不会被multipartResolver先解析-->
 	</bean>
 
 

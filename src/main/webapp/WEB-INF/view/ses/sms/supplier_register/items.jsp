@@ -98,14 +98,14 @@
 					pIdKey : "parentId"
 				}
 			},
-			callback: {
+		/* 	callback: {
 				onCheck: onCheck
-			}
+			} */
 		};
 		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
 	}
 	
-	function onCheck(e, treeId, treeNode) {
+	/* 	function onCheck(e, treeId, treeNode) {
 		var ids = "";
 		var flag = treeNode.checked;
 		var result = checkType();
@@ -133,12 +133,12 @@
 				success : function(result) {
 				},
 			});
-		}
+		} */
 		
 		/**for (var i = 0; i < nodes.length; i++) {
 			nodes[i].checkedOld = nodes[i].checked;
 		}*/
-	}
+/* 	} */
 	
 
 	/** 保存品目树信息 */
