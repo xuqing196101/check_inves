@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -17,32 +18,39 @@
 <style type="text/css">
 input {
   cursor:pointer;
+  
 }
 textarea {
   cursor:pointer;
 }
 </style>
 <script type="text/javascript">
-/*  $(function(){
-  layer.alert('点击需要审核的内容,弹出不通过理由框！', {
+$(function(){
+  layer.alert('点击审核项,弹出不通过理由框！', {
       title: '审核操作说明：',
       skin: 'layui-layer-molv', //样式类名
       closeBtn: 0,
+      offset:'300px',
       shift: 1 //动画类型
   });
-}) */
+})
 
-  //默认不显示勾  
+  //隐藏叉 
    $(function() {
     $(":input").each(function() {
       $(this).parent("div").find("div").hide();
+      
+      var onmouseover = "this.style.border='solid 1px #FF0000'";
+      var onmouseout = "this.style.border='solid 1px #EBEBEB'";
+       $(this).attr("onmouseover",onmouseover);
+       $(this).attr("onmouseout",onmouseout);
     });
     
-    $("a").each(function() {
-      $(this).parent("div").find("div").hide();
+    $("li").each(function() {
+      $(this).find("p").hide();
     });
   });
-  
+
 function reason(id,auditField){
   var offset = "";
   if (window.event) {
@@ -95,7 +103,7 @@ function reason(id,auditField){
 
 function reason1(ele,auditField){
   var supplierId=$("#id").val();
-  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
+  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","").replace("view","");//审批的字段名字
   var index = layer.prompt({title: '请填写不通过的理由：', formType: 2, offset:'300px'}, function(text){
   $.ajax({
       url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
@@ -112,7 +120,7 @@ function reason1(ele,auditField){
 	      }
     }
     });
-       $(ele).parents("li").find("div").show(); //显示叉
+       $(ele).parents("li").find("p").show(); //显示叉
        layer.close(index);
   });
 }
@@ -206,7 +214,7 @@ function nextStep(){
 	                    <li class="col-md-3 margin-0 padding-0 ">
 	                       <span class="" id="website2">公司网址：</span>
 	                       <div class="input-append">
-	                           <input class="span5" id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
+	                           <input class="span5 " id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
 	                           <div  id="website3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
@@ -255,49 +263,21 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>2</i>资质资信</h2>
                   <ul class="ul_list hand">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'taxCert');">近三个月完税凭证：</span>
-                      <div class="input-append">
-                        <c:if test="${suppliers.taxCert !=null}">
-                          <a class="span5 green" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
-                        </c:if>
-                        <c:if test="${suppliers.taxCert == null}">
-                          <a class="span5 red">无附件下载</a>
-                        </c:if>
-                        <div  class="b f18 ml10 fl red">×</div>
-                      </div>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月完税凭证：</span>
+                        <up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+                        <p  class="b f18 ml10 red">×</p>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'billCert');">近三年银行基本账户年末对账单：</span>
-                      <div class="input-append">
-                        <c:if test="${suppliers.billCert !=null}">
-                          <a class="span5 green" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
-                        </c:if>
-                        <c:if test="${suppliers.billCert == null}">
-                          <a class="span5 red">无附件下载</a>
-                        </c:if>
-                        <div  class="b f18 ml10 fl hand red">×</div>
-                      </div>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年银行基本账户年末对账单：</span>
+                        <up:show showId="billcert_show" delete="false" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+                        <p  class="b f18 ml10 red">×</p>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'securityCert');">近三个月缴纳社会保险金凭证：</span>
-                      <div class="input-append">
-                        <c:if test="${suppliers.securityCert != null}">
-                          <a class="span5 green" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
-                        </c:if>
-                        <c:if test="${suppliers.securityCert == null}">
-                          <a class="span5 red">无附件下载</a>
-                        </c:if>
-                        <div class="b f18 ml10 fl hand red">×</div>
-                      </div>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月缴纳社会保险金凭证：</span>
+                        <up:show showId="curitycert_show" delete="false" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+                        <p  class="b f18 ml10 red">×</p>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'breachCert');">近三年内无重大违法记录声明：</span>
-                      <div class="input-append">
-                        <c:if test="${suppliers.breachCert != null }">
-                          <a class="span5 green" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
-                        </c:if>
-                        <c:if test="${suppliers.breachCert == null}">
-                          <a class="span5 red">无附件下载</a>
-                        </c:if>
-                        <div class="b f18 ml10 fl hand red">×</div>
-                      </div>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年内无重大违法记录声明：</span>
+                      <up:show showId="bearchcert_show" groups="" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+                      <p  class="b f18 ml10 red">×</p>
                     </li>
                   </ul>
                 
@@ -415,7 +395,7 @@ function nextStep(){
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="" onclick="reason1(this,'businessCert');">营业执照：</span>
-                      <div class="input-append">
+                      <%-- <div class="input-append">
                         <c:if test="${suppliers.businessCert != null }">
                           <a class="span5 green" onclick="downloadFile('${suppliers.businessCert}')">下载附件</a>
                         </c:if>
@@ -423,7 +403,8 @@ function nextStep(){
                           <a class="span5 red">无附件下载</a>
                         </c:if>
                         <div class="b f18 ml10 fl hand red">×</div>
-                      </div>
+                      </div> --%>
+                      <up:show showId="business_show"  businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
                     </li>
                     <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessScope2">经营范围：</span>
                       <div class="col-md-9 mt5">

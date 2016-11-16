@@ -32,6 +32,11 @@ input {
     
     $(":input").each(function() {
       $(this).parent("div").find("div").hide();
+      
+      var onmouseover = "this.style.border='solid 1px #FF0000'";
+      var onmouseout = "this.style.border='solid 1px #EBEBEB'";
+       $(this).attr("onmouseover",onmouseover);
+       $(this).attr("onmouseout",onmouseout);
     });
   });
 

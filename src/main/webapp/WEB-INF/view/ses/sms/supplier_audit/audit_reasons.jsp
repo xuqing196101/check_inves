@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -200,19 +201,20 @@ alert(supplierInspectListFile);
 	          </div> --%>
 	          </div>
 	          <c:if test="${status==1 }">
-				       <h2 class="count_flow"><i>2</i>供应商考察表</h2>
-				       <ul class="ul_list">
-				      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
-	              
-	                <li>
-	                <span class="" ><i class="red">＊</i>上传考察表:</span>
-	                <input name="supplierId" value="${supplierId}" type="hidden">
-	                <input class="span3" type="file" name="supplierInspectListFile"/>
-	                <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button>
-	                <!-- <a onclick="file();" class="btn padding-left-20 padding-right-20 btn_back">上传</a> -->
-	              </li>
-	             
-	           </form>
+			     <h2 class="count_flow"><i>2</i>供应商考察表</h2>
+				 <ul class="ul_list">
+				    <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data"> --%>
+	                   <li class="col-md-5 padding-left-5">
+	                      <input name="supplierId" value="${supplierId}" type="hidden">
+		                  <span class="" ><i class="red">＊</i>上传考察表:</span>
+		                  
+		                  <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+                           <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+
+		                  <!-- <input class="span3" type="file" name="supplierInspectListFile"/>
+		                  <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button> -->
+	                   </li>
+	               <!-- </form> -->
                 </ul>
 	          </c:if>
 	          <div class="col-md-12 add_regist tc">

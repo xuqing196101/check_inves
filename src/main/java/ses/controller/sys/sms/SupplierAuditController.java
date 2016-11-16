@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import ses.model.bms.Category;
+
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -34,11 +34,11 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
@@ -47,6 +47,7 @@ import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -81,6 +82,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	
 	@Autowired
 	private UserServiceI userServiceI;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * @Title: daiBan
@@ -180,13 +184,19 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId,Integer sign) {
-		supplier = supplierAuditService.supplierById(supplierId);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		request.setAttribute("suppliers", supplier);
 		//初审、复审的标识
 		request.getSession().setAttribute("signs", sign);
+		
+		
+		//文件
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		supplier = supplierAuditService.supplierById(supplierId);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -205,7 +215,14 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
-		request.setAttribute("financial", list);
+		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		if(supplierId!=null){
+			List<SupplierFinance> supplierFinance = supplierService.get(supplierId).getListSupplierFinances();
+			request.setAttribute("financial", supplierFinance);
+		}
+		
 
 		return "ses/sms/supplier_audit/financial";
 	}
@@ -466,11 +483,15 @@ public class SupplierAuditController extends BaseSupplierController{
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		
-		
+
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		Integer status = supplier.getStatus();
 		request.setAttribute("status", status);
+		
+		//文件
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.setAttribute("suppliers", supplier);	
 		
 		request.setAttribute("supplierId", supplierId);	
 		request.getSession().removeAttribute("supplierId");
@@ -742,7 +763,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("items")
-	public String itemInformation(HttpServletResponse response,HttpServletRequest request, Category category,SupplierAudit supplierAudit, Supplier supplier) throws IOException{
+	public String itemInformation(HttpServletResponse response,HttpServletRequest request,SupplierAudit supplierAudit, Supplier supplier) throws IOException{
 		String supplierId = supplierAudit.getSupplierId();
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);

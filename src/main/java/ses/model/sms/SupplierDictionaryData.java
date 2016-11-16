@@ -6,52 +6,56 @@ public class SupplierDictionaryData implements Serializable {
 
 	private static final long serialVersionUID = -1590701894388228369L;
 
-	private String supplierTaxCert;
+	private String supplierTaxCert;  //供应商近三个月完税凭证
 
-	private String supplierBillCert;
+	private String supplierBillCert;  //供应商近三年银行基本账户年末对账单
 
-	private String supplierSecurityCert;
+	private String supplierSecurityCert;  //供应商近三个月缴纳社会保险金凭证
 
-	private String supplierBearchCert;
+	private String supplierBearchCert; //供应商近三年内无重大违法记录声明
 
-	private String supplierLevel;
+	private String supplierLevel;  //供应商分级方法
 
-	private String supplierPledge;
+	private String supplierPledge;  //供应商承诺书
 
-	private String supplierRegList;
+	private String supplierRegList;  //供应商入库申请表
 
-	private String supplierExtractsList;
+	private String supplierExtractsList;  //供应商抽取记录表
 
-	private String supplierInspectList;
+	private String supplierInspectList;  //供应商考察记录表
 
-	private String supplierReviewList;
+	private String supplierReviewList;  //供应商考察廉政意见函
 
-	private String supplierExitList;
+	private String supplierExitList;  //供应商退库申请表
 
-	private String supplierChangeList;
+	private String supplierChangeList;  //供应商变更申请表
 
-	private String supplierAuditOpinion;
+	private String supplierAuditOpinion;  //供应商财务审计报告的审计意见
 
-	private String supplierLiabilities;
+	private String supplierLiabilities;  //供应商财务资产负债表
 
-	private String supplierProfit;
+	private String supplierProfit;  //供应商财务利润表
 
-	private String supplierCashFlow;
+	private String supplierCashFlow;  //供应商财务现金流量表
 
-	private String supplierOwnerChange;
+	private String supplierOwnerChange;  //供应商财务所有者权益变动表
 
-	private String supplierBusinessCert;
+	private String supplierBusinessCert;  //供应商营业执照
 
-	private String supplierProCert;
+	private String supplierProCert;   //供应商物资生产资质证书
 
-	private String supplierSellCert;
+	private String supplierSellCert;  //供应商物资销售资质证书
 
-	private String supplierEngCert;
+	private String supplierEngCert;  //供应商工程资质证书
 
-	private String supplierServeCert;
+	private String supplierServeCert;  //供应商服务资质证书
 
-	private String SupplierEngCertFile;
+	private String supplierEngCertFile;  //供应商资质资格证书
 
+	private String supplierProductPic;  // 供应产品图片
+	
+	private String supplierQrcode; //供应商产品二维码
+	
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
 	}
@@ -229,11 +233,28 @@ public class SupplierDictionaryData implements Serializable {
 	}
 
 	public String getSupplierEngCertFile() {
-		return SupplierEngCertFile;
+		return supplierEngCertFile;
 	}
 
 	public void setSupplierEngCertFile(String supplierEngCertFile) {
-		SupplierEngCertFile = supplierEngCertFile;
+		this.supplierEngCertFile = supplierEngCertFile;
 	}
+
+	public String getSupplierProductPic() {
+		return supplierProductPic;
+	}
+
+	public void setSupplierProductPic(String supplierProductPic) {
+		this.supplierProductPic = supplierProductPic;
+	}
+
+	public String getSupplierQrcode() {
+		return supplierQrcode;
+	}
+
+	public void setSupplierQrcode(String supplierQrcode) {
+		this.supplierQrcode = supplierQrcode;
+	}
+
 
 }

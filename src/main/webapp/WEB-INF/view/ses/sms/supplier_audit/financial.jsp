@@ -22,17 +22,15 @@ td {
 <script type="text/javascript">
   //默认不显示叉
    $(function() {
-    $("td").each(function() {
-    $(this).find("a").eq(0).hide();
+     $("td").each(function() {
+    $(this).find("p").hide();
     });
     
-    $("a").each(function() {
-      $(this).parent("div").find("div").eq(0).hide();
-    });
   });
 
+    
 
-function reason(id,auditField){
+function reason(id,auditFieldName){
   var offset = "";
   if (window.event) {
     e = event || window.event;
@@ -45,7 +43,12 @@ function reason(id,auditField){
       offset = "200px";
   }
   var supplierId=$("#supplierId").val();
-  var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
+  if(auditFieldName == "财务信息"){
+    var auditContent=$("#"+id).text()+"年财务信息"; //审批的字段内容
+  }else{
+    var auditContent=$("#"+id).text()+"年财务附件";
+  }
+  
   var index = layer.prompt({
 	  title: '请填写不通过的理由：', 
 	  formType: 2, 
@@ -55,7 +58,7 @@ function reason(id,auditField){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType=finance_page"+"&auditFieldName=财务信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
+        data:"auditType=finance_page"+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
 	      success:function(result){
 		      result = eval("(" + result + ")");
@@ -67,12 +70,16 @@ function reason(id,auditField){
 		      }
 	     }
       });
-	      $("#"+id+"_show").show();
+      if(auditFieldName == "财务信息"){
+        $("#"+id+"_show").show();
+      }else{
+        $("#"+id+"_fileShow").show();
+      }
 	      layer.close(index);
     });
 }
 
-function reason1(year, ele,auditField){
+/* function reason1(year, ele,auditField){
   var offset = "";
   if (window.event) {
     e = event || window.event;
@@ -97,7 +104,6 @@ function reason1(year, ele,auditField){
 		      $.ajax({
 		          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		          type:"post",
-		          /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
 		          data:"auditType=finance_page"+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
 		          dataType:"json",
 			          success:function(result){
@@ -113,7 +119,7 @@ function reason1(year, ele,auditField){
 			        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
 			        layer.close(index);
         });
-    }
+    } */
 
 		function nextStep(){
 		  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
@@ -122,10 +128,19 @@ function reason1(year, ele,auditField){
 		}
 
 //文件下載
-  function downloadFile(fileName) {
+/*   function downloadFile(fileName) {
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
-  }
+  } */
+  
+function download(id,key){
+    var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+        $('body').append(form); 
+        form.submit();
+}
 </script>
 <script type="text/javascript">
 /*   function zhancun(){
@@ -185,8 +200,9 @@ function reason1(year, ele,auditField){
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                     </form>
                     
+                    <h2 class="count_flow"><i>1</i>信息表</h2>
                     <ul class="ul_list count_flow">
-                        <table class="table table-bordered table-condensed table-hover">
+                        <table class="table table-bordered  table-condensed table-hover">
                             <thead>
                                 <tr>
 			                       <th class="info w50">序号</th>
@@ -205,28 +221,70 @@ function reason1(year, ele,auditField){
                              <c:forEach items="${financial}" var="f" varStatus="vs">
 		                        <tr>
 		                          <td class="tc">${vs.index + 1}</td>
-		                          <td class="tc" id="${f.id }" onclick="reason('${f.id}');">${f.year } </td>
-		                          <td class="tc" onclick="reason('${f.id}');" >${f.name }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.telephone }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.auditors }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.quota }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.totalAssets }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.totalLiabilities }</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.totalNetAssets}</td>
-		                          <td class="tc" onclick="reason('${f.id}');">${f.taking}</td>
+		                          <td class="tc" id="${f.id }" onclick="reason('${f.id}','财务信息');">${f.year } </td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');" >${f.name }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.telephone }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.auditors }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.quota }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalAssets }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalLiabilities }</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalNetAssets}</td>
+		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.taking}</td>
 		                          <td class="tc" >
-		                              <a id="${f.id}_show" class="b f18 fl ml10 hand red" >×</a>
+		                              <p id="${f.id}_show" class="b f18 fl ml10 hand red" >×</p>
 		                          </td>
 		                       </tr>
                             </c:forEach>
                         </table>
                     </ul>
 
-                  <c:forEach items="${financial}" var="f" varStatus="vs">
+                   <h2 class="count_flow"><i>2</i>附件表</h2>
+                   <ul class="ul_list count_flow">
+                      <table class="table table-bordered  table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th class="w50 info">年份</th>
+                                <th class="info">财务利润表</th>
+                                <th class="info">审计报告的审计意见</th>
+                                <th class="info">资产负债表</th>
+                                <th class="info">现金流量表</th>
+                                <th class="info">所有者权益变动表</th>
+                                <th class="info w50"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="finance_attach_list_tbody_id">
+                            <c:forEach items="${financial}" var="finance" varStatus="vs">
+                                <tr>
+                                    <td class="tc" id="${finance.id }" onclick="reason('${finance.id}','财务附件');">${finance.year}</td>
+                                    <td class="tc">
+                                        <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
+                                    </td>
+                                    <td class="tc">
+                                        <a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
+                                    </td>
+                                    <td class="tc">
+                                        <a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList}</a>
+                                    </td>
+                                    <td class="tc">
+                                        <a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
+                                    </td>
+                                    <td class="tc">
+                                        <a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
+                                    </td>
+                                    <td class="tc" >
+                                      <p id="${finance.id}_fileShow" class="b f18 fl ml10 hand red" >×</p>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                          </tbody>
+                      </table>
+                      </ul>
+                </div>
+                  <%-- <c:forEach items="${financial}" var="f" varStatus="vs">
                     <div class=" margin-bottom-0 fl">
                     <h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务状况登记表</h2>
                     <ul class="ul_list">
-                      <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1('${f.year }', this,'auditOpinion');">财务审计报告意见表：</span>
+                      <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1('${f.year }', this,'auditOpinion');" >财务审计报告意见表：</span>
                         <div class="input-append">
                           <c:if test="${f.auditOpinion != null}">
                             <a class="span5 green" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
@@ -283,14 +341,14 @@ function reason1(year, ele,auditField){
                       </li>
                     </ul>
                   </div>
-                  </c:forEach>
+                  </c:forEach> --%>
                 <div class="col-md-12 add_regist tc">
                   <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
                 </div>
               </div>
             </div>
-          </div>
+
   <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
    <input type="hidden" name="fileName" />
   </form>
