@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import bss.model.pqims.PqInfo;
+import bss.model.sstps.Select;
 
 /**
  * 
@@ -157,4 +158,15 @@ public interface PqInfoMapper {
      * @return:
      */
     List<String> selectByDepName(PqInfo pqInfo);
+    
+    /**
+     * 
+     * @Title: selectChose
+     * @author Liyi 
+     * @date 2016-11-15 上午11:10:54  
+     * @Description: select2合同查询
+     * @param:     
+     * @return:
+     */
+    List<Select> selectChose(String purchaseType);
 }
