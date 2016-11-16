@@ -42,10 +42,10 @@ function back(){
 			type:"post",
 			//contentType: "application/json;charset=UTF-8",
 			dataType:"json",
-			url:"${ pageContext.request.contextPath }/article/audit.html?id="+id+"&reason="+reason+"&status=3",
+			url:"${pageContext.request.contextPath }/article/audit.html?id="+id+"&reason="+reason+"&status=3",
 			
 			success:function(){
-				window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
+				window.location.href="${pageContext.request.contextPath }/article/getAll.html";
 			}
 		});
 	});

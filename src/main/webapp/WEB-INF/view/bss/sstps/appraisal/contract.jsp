@@ -31,21 +31,8 @@ function sub(){
   </head>
   
   <body>	
-  		<%--<div id="div_print">
-	 		 合同名称:${contracts.name }
-	 		 </br>
-	 		  合同编号:${contracts.contractNo }
-	 		   </br>
-	 		   合同金额:0
-	 		    </br>
-	 		  供应商名称:XXX供应商
- 		 </div>
  		 
- 		 <input type="button"  value="打印"  onclick="dayin()" >
- 		 <input type="button"  value="提交"  onclick="sub()" >
- 		 
- 		 
- 		  --%><!--面包屑导航开始-->
+ <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
