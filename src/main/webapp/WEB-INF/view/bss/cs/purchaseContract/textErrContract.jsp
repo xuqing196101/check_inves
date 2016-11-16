@@ -388,7 +388,7 @@
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
 		 <ul class="list-unstyled ul_list">
-    		 <li class="col-md-3 p0">
+   		 <li class="col-md-3 p0">
 			   <span class="col-md-12 p0"><div class="red star_red">*</div>甲方单位：</span>
 		        <div class="input-append ">
 		        	<input class="span2 supplier_id" name="purchaseDepName" value="${purCon.purchaseDepName}" type="text">
@@ -578,7 +578,7 @@
 	</table>
 
        <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
-   	<div class="ml5">
+   	<div>
 		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
 	</div>
    	<div class="mt10">

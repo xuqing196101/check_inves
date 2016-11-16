@@ -1,7 +1,6 @@
 package bss.controller.cs;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,9 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
@@ -337,7 +333,7 @@ public class PurchaseContractController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/selectSupplierByPId")
+	@RequestMapping(value="/selectSupplierByPId",produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public String  selectSupplierByPId(HttpServletRequest request){
 		String packageId = request.getParameter("packageId");
@@ -786,16 +782,6 @@ public class PurchaseContractController {
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
 		
-		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("attachuuid", uuid);
-		DictionaryData dd=new DictionaryData();
-		dd.setCode("CONTRACT_APPROVE_ATTACH");
-		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
-		if(datas.size()>0){
-			model.addAttribute("attachtypeId", datas.get(0).getId());
-		}
-		
 		List<PurchaseContract> draftConList = purchaseContractService.selectDraftContract(map);
 		model.addAttribute("list", new PageInfo<PurchaseContract>(draftConList));
 		model.addAttribute("draftConList", draftConList);
@@ -877,6 +863,16 @@ public class PurchaseContractController {
 	@RequestMapping("/showFormalContract")
 	public String showFormalContract(HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
+		
+		model.addAttribute("attachuuid", ids);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		
 		PurchaseContract draftCon = purchaseContractService.selectFormalById(ids);
 		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
 		draftCon.setContractReList(conRequList);
@@ -902,7 +898,7 @@ public class PurchaseContractController {
 	* @return String
 	 */
 	@RequestMapping("/updateDraftContract")
-	public String updateDraftContract(@RequestParam("agrfile") MultipartFile agrfile,HttpServletRequest request,@Valid PurchaseContract purCon,BindingResult result,ProList proList,Model model) throws Exception{
+	public String updateDraftContract(HttpServletRequest request,PurchaseContract purCon,ProList proList,Model model) throws Exception{
 		Map<String, Object> map = valid(model,purCon);
 		model = (Model)map.get("model");
 		Boolean flag = (boolean)map.get("flag");
@@ -920,21 +916,9 @@ public class PurchaseContractController {
 			if(!rootFile.exists()){
 				rootFile.mkdirs();
 			}
-			/** 创建文件夹 */
-	        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
-	        String filePath = rootpath+fileName;
-	        File file = new File(filePath);
-	        try {
-	        	agrfile.transferTo(file);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();				
-				} catch (IOException e) {
-			e.printStackTrace();
-			}
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
 			purCon.setUpdatedAt(new Date());
-			purCon.setApprovePic(filePath);
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
 			String id = purCon.getId();
 			contractRequiredService.deleteByContractId(id);
@@ -973,30 +957,40 @@ public class PurchaseContractController {
 	* @return String
 	 */
 	@RequestMapping("/updateDraftById")
-	public String updateDraftById(@RequestParam("agrfile") MultipartFile agrfile,PurchaseContract purCon,HttpServletRequest request) throws Exception{
-		String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
-		/** 创建文件夹 */
-		File rootFile = new File(rootpath);
-		if(!rootFile.exists()){
-			rootFile.mkdirs();
+	public String updateDraftById(PurchaseContract purCon,HttpServletRequest request,Model model) throws Exception{
+		Boolean flag = true;
+		String url = "";
+		if(purCon.getApprovalNumber()==null || purCon.getApprovalNumber().equals("")){
+			flag=false;
+			model.addAttribute("ERR_approvalNumber", "合同批准文号不可为空");
 		}
-        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
-        String filePath = rootpath+fileName;
-        File file = new File(filePath);
-        try {
-        	agrfile.transferTo(file);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();				
-			} catch (IOException e) {
-		e.printStackTrace();
+		if(purCon.getFormalGitAt()==null){
+			flag=false;
+			model.addAttribute("ERR_formalGitAt", "正式合同上报时间不可为空");
 		}
-		purCon.setApprovePic("picupload/"+fileName);
-		purCon.setUpdatedAt(new Date());
-		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
-		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
-		purchaseContractService.updateByPrimaryKeySelective(purCon);
-		purchaseContractService.createWord(pur, requList,request);
-		return "redirect:selectDraftContract.html";
+		if(purCon.getFormalReviewedAt()==null){
+			flag=false;
+			model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间不可为空");
+		}
+		if(flag){
+			purCon.setUpdatedAt(new Date());
+			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
+			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
+			purchaseContractService.updateByPrimaryKeySelective(purCon);
+			purchaseContractService.createWord(pur, requList,request);
+			url="redirect:selectDraftContract.html";
+		}else{
+			model.addAttribute("attachuuid", purCon.getId());
+			DictionaryData dd=new DictionaryData();
+			dd.setCode("CONTRACT_APPROVE_ATTACH");
+			List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+			if(datas.size()>0){
+				model.addAttribute("attachtypeId", datas.get(0).getId());
+			}
+			url="bss/cs/purchaseContract/transFormaTional";
+		}
+		return url;
 	}
 	
 	/**
@@ -1071,4 +1065,31 @@ public class PurchaseContractController {
 		return "bss/cs/purchaseContract/formallist";
 	}
 	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-15 下午2:54:43  
+	* @Description: 跳转生成正式合同页面 
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/createTransFormal")
+	public String createTransFormal(HttpServletRequest request,Model model) throws Exception{
+		String id = request.getParameter("id");
+		model.addAttribute("id", id);
+		
+		model.addAttribute("attachuuid", id);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		
+		return "bss/cs/purchaseContract/transFormaTional";
+	}
 }

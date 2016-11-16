@@ -119,8 +119,9 @@
 		layer.msg(content, {
 			    skin: 'demo-class',
 				shade:false,
+				closeBtn:[0,true],
 				area: ['600px'],
-				time : 0    //默认消息框不关闭
+				time : 4000    //默认消息框不关闭
 		});//去掉msg图标
   	}
 	var ind=null ;
@@ -230,6 +231,7 @@
 				<th class="info">交付期</th>
 				<th class="info">合同执行状态</th>
 				<th class="info">质量检验</th>
+				<th class="info">合同类型</th>
 			</tr>
 		</thead>
 		<c:forEach items="${performanceList}" var="performance" varStatus="vs">
@@ -266,6 +268,11 @@
 					<c:if test="${performance.completedStatus=='3'}">合同完成</c:if>
 				</td>
 				<td onclick="view('${performance.id}')" class="tc pointer">${performance.checkMass}</td>
+				<td onclick="view('${performance.id}')" class="tc pointer">
+					<c:if test="${performance.contract.contractType=='0'}">正常采购合同</c:if>
+					<c:if test="${performance.contract.contractType=='1'}">以厂代储合同</c:if>
+					<c:if test="${performance.contract.contractType=='2'}">合同储备合同</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

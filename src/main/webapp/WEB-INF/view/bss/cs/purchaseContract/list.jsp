@@ -178,7 +178,7 @@
 						if(ss[0]=="true"){
 							$.ajax({
 					  			url:"${pageContext.request.contextPath}/purchaseContract/selectSupplierByPId.html?packageId="+ids,
-					  			dataType:"json",
+					  			dataType:"text",
 					  			type:"POST",
 					  			success:function(data){
 									window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+data;

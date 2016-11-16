@@ -3753,3 +3753,6 @@ ul.supplier_tab li a:hover{
 	cursor: pointer;
 	
 }
+.tab-v1 h2 span.bg12_white a:hover{
+	color:#ffffff!important;
+}

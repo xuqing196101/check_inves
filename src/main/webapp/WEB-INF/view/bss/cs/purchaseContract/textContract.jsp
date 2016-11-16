@@ -572,7 +572,7 @@
    		</c:forEach>
 	</table>
        <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
-   	<div class="ml5">
+   	<div>
 		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
 	</div>
    	<div class="mt10">
