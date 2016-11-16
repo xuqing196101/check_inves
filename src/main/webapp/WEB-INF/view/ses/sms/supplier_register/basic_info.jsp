@@ -244,28 +244,15 @@ function showReason() {
 		content : globalPath + '/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
 	});
 }
-</script>
-<style type="text/css">
-.btmfix {
-		width: 100%;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		background: #E0E0E0;
-		box-shadow: 0px -1px 4px #ddd;
-		height: 60px;
-		border-top: 1px solid #dadada;
-}
- .border_font{
-   background-color:#ffffff;
-   border:1px dashed #dddddd;
- }
 
-</style>
+</script>
 </head>
 
 <body>
-  <div class="wrapper">
+	<c:if test="${currSupplier.status != 7}">
+		<%@ include file="/index_head.jsp"%>
+    </c:if>
+   <div class="wrapper">
 	<%@include file="supplierNav.jsp" %>
 	<!--基本信息-->
 	<div class="container container_box">
@@ -282,14 +269,14 @@ function showReason() {
 					<span class="col-md-12 padding-left-5"><i class="red">*</i> 公司名称</span>
 					<div class="input-append">
 				        <input class="span5" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
-				        <span class="add-on">i</span>
+				        <span class="add-on cur_point">i</span>
 				     </div>
 				</li>
 				<li class="col-md-3 margin-0 padding-0 ">
 				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 公司网址</span>
 				    <div class="input-append">
 			        <input class="span5" type="text" name="website" value="${currSupplier.website}">
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li>
 				 
@@ -298,7 +285,7 @@ function showReason() {
 				    <div class="input-append">
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
 			        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 				 
@@ -318,7 +305,7 @@ function showReason() {
 				  <li class="col-md-3 margin-0 padding-0">
 				    <span class="col-md-12 padding-left-5"><i class="red">*</i> 公司地址</span>
 				    <div class="select_min">
-				         <select style="width:110px"  id="root_area_select_id" onchange="loadChildren()" name="address"></select> 
+				         <select style="width:110px;"  id="root_area_select_id" onchange="loadChildren()" name="address"></select> 
 				         <select style="width:110px"   id="children_area_select_id" name="address" ></select>
 			        </div>		        
 				 </li>  
@@ -327,7 +314,7 @@ function showReason() {
 				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 开户行名称</span>
 				   <div class="input-append">
 			        <input class="span5" type="text" name="bankName" value="${currSupplier.bankName}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 						 
@@ -335,7 +322,7 @@ function showReason() {
 				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 开户行账号</span>
 				   <div class="input-append">
 			        <input class="span5" type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 				 
@@ -343,32 +330,34 @@ function showReason() {
 				   <span class="col-md-12 padding-left-5"><i class="red">*</i>邮编</span>
 				   <div class="input-append">
 			        <input class="span5" type="text" name="postCode" value="${currSupplier.postCode}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li>  
 	       </fieldset>
 	       <fieldset class="col-md-12 border_font mt20">
 	 			<legend>资质资信</legend>
-				<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
-			        <u:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
-			        <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
-				</li> 
+				<li class="col-md-6 p0 mb25">
+				    <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
+		    		<u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
+		        	<u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+			    </li> 
 				
-				<li id="bill_li_id" class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
-				   <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
-				   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+				<li id="bill_li_id" class="col-md-6 p0 mb25">
+				   <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
+				   <div style="margin-bottom: 25px">
+					   <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
+					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+				   </div>
 				</li>
 												
-			   <li id="security_li_id" class="col-md-3 margin-0 padding-0 ">
-			      <span class="col-md-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
+			   <li id="security_li_id" class="col-md-6 p0 mt10 mb25">
+			      <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
 			      <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
 			      <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 			   </li>
 												
-			 <li id="breach_li_id" class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
+			 <li id="breach_li_id" class="col-md-6 p0 mt10 mb25">
+			   <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
 			   <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
 			   <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 			</li>						
@@ -379,7 +368,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 姓名</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="legalName" value="${currSupplier.legalName}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -387,7 +376,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i>身份证号</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="legalName" value="${currSupplier.legalName}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -395,7 +384,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -403,7 +392,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="legalMobile" value="${currSupplier.legalMobile}"  />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 	    </fieldset>
@@ -413,7 +402,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 联系人姓名</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactName" value="${currSupplier.contactName}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -421,7 +410,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 传真电话</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactFax" value="${currSupplier.contactFax}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -429,7 +418,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -437,7 +426,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -445,7 +434,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 邮箱</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactEmail" value="${currSupplier.contactEmail}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -453,7 +442,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 地址</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 	    </fieldset>
@@ -463,7 +452,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 统一信用代码</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="creditCode" value="${currSupplier.creditCode}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -471,7 +460,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 登记机关</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="registAuthority" value="${currSupplier.registAuthority}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -479,7 +468,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 注册资本</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="registFund" value="${currSupplier.registFund}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -488,7 +477,7 @@ function showReason() {
 			   <div class="input-append">
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 		        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -497,7 +486,7 @@ function showReason() {
 			   <div class="input-append">
 			   	<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
 		        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -505,7 +494,7 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
 			   <div class="input-append">
 		        <input class="span5" type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
-		        <span class="add-on">i</span>
+		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
@@ -513,17 +502,17 @@ function showReason() {
 			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 邮编</span>
 			   <div class="input-append">
 			      <input class="span5" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
-			      <span class="add-on">i</span>
+			      <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
 		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 营业执照</span>
-			   <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
-	       	   <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+			   <span class="col-md-5 padding-left-5"><i class="red">*</i> 营业执照:</span>
+			   <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+		   	   <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 		    </li> 
 		    
-		    <li class="col-md-11  margin-0 padding-0 ">
+		    <li class="col-md-11  margin-0 padding-0 mb25">
 		    	<span class="col-md-12 padding-left-5"> 营业范围</span>
 		    	<div>
 			       <textarea class="col-md-12" style="height:130px" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
@@ -532,7 +521,6 @@ function showReason() {
 		</fieldset>
 		 <fieldset class="col-md-12 border_font mt20">
 	 	    <legend>境外分支</legend>
-			
 			<li class="col-md-3 margin-0 padding-0 ">
 				<span class="col-md-12 padding-left-5">境外分支结构</span>
 		    	<div class="select_common">
@@ -546,7 +534,7 @@ function showReason() {
 				<span class="col-md-12 padding-left-5">境外分支所在国家</span>
 		    	 <div class="input-append">
 		    	 	<input class="span5" name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			
@@ -554,14 +542,14 @@ function showReason() {
 				<span class="col-md-12 padding-left-5">分支地址</span>
 		    	 <div class="input-append">
 		    	 	<input class="span5" type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			<li class="col-md-3 margin-0 padding-0 ">
 				<span class="col-md-12 padding-left-5">机构名称</span>
 		    	 <div class="input-append">
 		    	 	<input class="span5" type="text" name="branchName" value="${currSupplier.branchName}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			
@@ -569,7 +557,7 @@ function showReason() {
 				<span class="col-md-12 padding-left-5">分支生产经营范围</span>
 		    	 <div class="input-append">
 		    	 	<input class="span5" type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
-			        <span class="add-on">i</span>
+			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 		</fieldset>
@@ -577,7 +565,9 @@ function showReason() {
 	  <!-- 财务信息 -->
 	  <div class="padding-top-10 clear">
 	    	<h2 class="count_flow"><i>2</i>财务信息</h2>
-			<div  class="col-md-12 p0 ul_list" >
+	    	<fieldset class="col-md-12 border_font">
+	 	    <legend>列表</legend>
+			<div  class="col-md-12 p0" >
 				<div class="fl">
 					<button type="button" class="btn btn-windows add" onclick="openFinance()">新增</button>
 					<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button>
@@ -586,9 +576,9 @@ function showReason() {
 					  <table class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>
-								<th class="w30"><input type="checkbox" onchange="checkAllForFinance(this)" />
+								<th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
 								</th>
-								<th class="w50">年份</th>
+								<th class="w50 info">年份</th>
 								<th class="info">会计事务所名称</th>
 								<th class="info">事务所联系电话</th>
 								<th class="info">审计人姓名</th>
@@ -617,92 +607,94 @@ function showReason() {
 							</c:forEach>
 						</tbody>
 					</table>
-				</div>
-				<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
-					<thead>
-						<tr>
-							<th class="w30"><input type="checkbox" onchange="checkAllForFinance(this)" />
-							</th>
-							<th class="w50">年份</th>
-							<th class="info">财务利润表</th>
-							<th class="info">审计报告的审计意见</th>
-							<th class="info">资产负债表</th>
-							<th class="info">现金流量表</th>
-							<th class="info">所有者权益变动表</th>
-						</tr>
-					</thead>
-					<tbody id="finance_attach_list_tbody_id">
-						<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
+				 </div>
+			    </div>
+			   </fieldset>
+			   <fieldset class="col-md-12 border_font mt20">
+	 	    	   <legend>附件</legend>
+	 	    	   <div>
+					  <table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
+						<thead>
 							<tr>
-								<td class="tc"><input type="checkbox" value="${finance.id}" />
-								</td>
-								<td class="tc">${finance.year}</td>
-								<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
-								</td>
-								<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
-								</td>
-								<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList}</a>
-								</td>
-								<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
-								</td>
-								<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
-								</td>
+								<th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
+								</th>
+								<th class="w50 info">年份</th>
+								<th class="info">财务利润表</th>
+								<th class="info">审计报告的审计意见</th>
+								<th class="info">资产负债表</th>
+								<th class="info">现金流量表</th>
+								<th class="info">所有者权益变动表</th>
 							</tr>
-						</c:forEach>
-					  </tbody>
-				  </table>
-			</div>
-    </div>
-    <div class="padding-top-10 clear">
-	    <h2 class="count_flow"><i>3</i>股东信息</h2>
-		<div  class="col-md-12 p0 ul_list">
-			<div class="fl">
-			    <button class="btn btn-windows add" type="button" onclick="openStockholder()" >新增</button>
-				<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
-			</div>
-			<div class="mt40">
-				<table id="share_table_id" class="table table-bordered table-condensed mt5">
-					<thead>
-						<tr>
-							<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" />
-							</th>
-							<th class="info">出资人名称或姓名</th>
-							<th class="info">出资人性质</th>
-							<th class="info">统一社会信用代码或身份证号码</th>
-							<th class="info">出资金额或股份（万元/万份）</th>
-							<th class="info">比例</th>
-						</tr>
-					</thead>
-					<tbody id="stockholder_list_tbody_id">
-						<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="vs">
-							<tr>
-								<td class="tc"><input type="checkbox" value="${stockholder.id}" />
-								</td>
-								<td class="tc">${stockholder.name}</td>
-								<td class="tc">${stockholder.nature}</td>
-								<td class="tc">${stockholder.identity}</td>
-								<td class="tc">${stockholder.shares}</td>
-								<td class="tc">${stockholder.proportion}</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				  </table>
+						</thead>
+						<tbody id="finance_attach_list_tbody_id">
+							<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
+								<tr>
+									<td class="tc"><input type="checkbox" value="${finance.id}" />
+									</td>
+									<td class="tc">${finance.year}</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
+									</td>
+								</tr>
+							</c:forEach>
+						  </tbody>
+					  </table>
 				</div>
-			</div>
-		 </div>
-		</form>
-	   </div>
-	  </div>
-	<div class="mt50"></div>	  
+			</fieldset>
+			<div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>3</i>股东信息</h2>
+				<div  class="col-md-12 p0 ul_list mb50">
+				   <div class="col-md-12 p15 mt20">
+						<div class="fl">
+						    <button class="btn btn-windows add" type="button" onclick="openStockholder()" >新增</button>
+							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
+						</div>
+						<div class="mt40">
+							<table id="share_table_id" class="table table-bordered table-condensed mt5">
+								<thead>
+									<tr>
+										<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" />
+										</th>
+										<th class="info">出资人名称或姓名</th>
+										<th class="info">出资人性质</th>
+										<th class="info">统一社会信用代码或身份证号码</th>
+										<th class="info">出资金额或股份（万元/万份）</th>
+										<th class="info">比例</th>
+									</tr>
+								</thead>
+								<tbody id="stockholder_list_tbody_id">
+									<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="vs">
+										<tr>
+											<td class="tc"><input type="checkbox" value="${stockholder.id}" />
+											</td>
+											<td class="tc">${stockholder.name}</td>
+											<td class="tc">${stockholder.nature}</td>
+											<td class="tc">${stockholder.identity}</td>
+											<td class="tc">${stockholder.shares}</td>
+											<td class="tc">${stockholder.proportion}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							  </table>
+							</div>
+						</div>
+					</div>
+				 </div>
+			</form>
+		</div>
+	</div>
 	<div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	    <button type="button" class="btn save" onclick="saveBasicInfo('basic_info')">暂存</button>
 				<button type="button" class="btn" onclick="saveBasicInfo('supplier_type')">下一步</button>
 	  	  </div>
 	</div>
-	<%-- <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
-		<input type="hidden" name="fileName" />
-	</form> --%>
-
 </body>
 </html>

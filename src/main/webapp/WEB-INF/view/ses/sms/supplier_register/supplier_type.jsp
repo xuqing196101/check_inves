@@ -48,7 +48,6 @@
 		$("#supplier_type_form_id").submit();
 	}
 </script>
-
 </head>
 
 <body>
@@ -57,26 +56,20 @@
     </c:if>
 	<div class="wrapper">
 		<!-- 项目戳开始 -->
-		<c:if test="${currSupplier.status != 7}">
-			<div class="container clear margin-top-30">
-				<h2 class="padding-20 mt40 ml30">
-					<span class="new_step current fl"><i class="">1</i>
-						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
-						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
-						<span class="step_desc_01">申请表承诺书上传</span> 
-					</span>
-					<div class="clear"></div>
-				</h2>
-			</div>
-		</c:if>
-
+		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
+		<!-- <div class="sevice_list col-md-12 container">
+		  <h2>产品服务/分类</h2>
+		  <div class="col-md-12 p0">
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
+			  <div class="col-md-7 service_list">
+			    <span><input type="checkbox"/>服务类</span>
+				<span><input type="checkbox"/>工程类</span>
+			  </div>
+		    </div>
+		  </div>
+		 -->
+		
 		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
@@ -96,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> 
 	</div>
 	
 	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier_type_relate/perfect_type.html" method="post">
@@ -106,6 +99,8 @@
 	</form>
 	
 	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
+	<%-- <c:if test="${currSupplier.status != 7}">
+		<jsp:include page="../../../../../index_bottom.jsp" />
+	</c:if> --%> 
 </body>
 </html>
