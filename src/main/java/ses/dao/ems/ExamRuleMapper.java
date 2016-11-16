@@ -3,6 +3,7 @@
  */
 package ses.dao.ems;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamRule;
@@ -37,7 +38,7 @@ public interface ExamRuleMapper {
 	* @param @return      
 	* @return List<ExamRule>
 	 */
-	List<ExamRule> select();
+	List<ExamRule> select(HashMap<String,Object> map);
 	
 	/**
 	 * 

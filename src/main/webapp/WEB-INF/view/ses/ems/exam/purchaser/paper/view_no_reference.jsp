@@ -46,12 +46,12 @@
 		function poiExcel(){
 			var file = $("#excelFile").val();
 			if(file==null||file==""){
-				layer.alert("请选择文件",{offset: ['222px', '390px']});
+				layer.alert("请选择文件",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
 			if(!file.endsWith(".xls")&&!file.endsWith(".xlsx")){
-				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['222px', '390px']});
+				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -63,7 +63,7 @@
 			    dataType: "text",
 			    success: function(data) {  
 			    	if(data.length<=5){
-			    		layer.msg('添加成功',{offset: ['222px', '390px']});
+			    		layer.msg('添加成功',{offset: ['40%', '45%']});
 			    		window.setTimeout(function(){
 				       		window.location.reload();
 				       	}, 1000);
@@ -159,7 +159,7 @@
 				}
 			}
 			if(count == 0){
-				layer.alert("请选择删除内容",{offset: ['222px', '390px']});
+				layer.alert("请选择删除内容",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -168,14 +168,14 @@
 		        	ids += info[i].value+',';
 		        }
 			}
-			layer.confirm("您确定要删除吗?", {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm("您确定要删除吗?", {title:'提示',offset: ['30%', '40%'],shade:0.01}, function(index){
 				layer.close(index);
 				$.ajax({
 					type:"POST",
 					dataType:"json",
 					url:"${pageContext.request.contextPath }/purchaserExam/deleteByPaperUserId.do?ids="+ids,
 			       	success:function(data){
-			       		layer.msg('删除成功',{offset: ['222px', '390px']});
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
 				       	window.setTimeout(function(){
 				       		window.location.reload();
 				       	}, 1000);
@@ -210,7 +210,7 @@
 			var card = $("#card").val();
 			var depName = $("#depName").val();
 			if((userName==""||userName==null)&&(card==""||card==null)&&(depName==""||depName==null)){
-				layer.alert("请至少输入一个条件",{offset: ['222px', '390px']});
+				layer.alert("请至少输入一个条件",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -220,7 +220,7 @@
 				url:"${pageContext.request.contextPath }/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card+"&depName="+depName,
 			    success:function(data){
 			       	if(data==0){
-			       		layer.alert("没有查到符合条件的采购人",{offset: ['222px', '390px']});
+			       		layer.alert("没有查到符合条件的采购人",{offset: ['30%', '40%']});
 						$(".layui-layer-shade").remove();
 						return;
 			       	}else if(data==1){
@@ -270,7 +270,7 @@
 				}
 			}
 			if(count==0){
-				layer.alert("请选择一项",{offset: ['222px', '390px']});
+				layer.alert("请选择一项",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -285,7 +285,7 @@
 				url:"${pageContext.request.contextPath }/purchaserExam/addReferenceById.do?paperId="+paperId+"&id="+ids,
 		       	success:function(data){
 		       		if(data.length<=5){
-			    		layer.msg('添加成功',{offset: ['222px', '390px']});
+			    		layer.msg('添加成功',{offset: ['40%', '45%']});
 			    		window.setTimeout(function(){
 				       		window.location.reload();
 				       	}, 1000);

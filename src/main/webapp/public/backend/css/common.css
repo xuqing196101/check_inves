@@ -604,57 +604,77 @@
 
 /*颜色*/
 .pink {
-  color: #ff007e !important; }
+  color: #ff007e !important; 
+}
+
 .font_sblck{
   color:#777777;
 }
+
 .gary {
   color: #777777 !important; }
 
 .orange {
-  color: orange; }
+  color: orange; 
+}
+
 .orange_link{
   color:#f39800 !important;
 }
 .red {
   color: red; 
 }
+
 .green {
-  color: #8fc31f; }
-.green_link {
-  color: #8fc31f !important; }
+  color: #8fc31f; 
+}
+
 .blue {
-  color: #0000FF; }
+  color: #0000FF;
+}
 
 .blue_link {
-  color: #005ea7 !important; }
+  color: #005ea7 !important;
+}
 
 .blue_link:hover {
-  text-decoration: underline !important; }
+  text-decoration: underline !important;
+}
 
 .black {
-  color: #000000; }
+  color: #000000;
+}
+  
 .brown{
   color:#997a00;
 }
 .white {
-  color: #FFFFFF; }
+  color: #FFFFFF; 
+}
 
 .grey {
-  color: grey; }
+  color: grey; 
+}
+
 .bbgrey{
     color:#323232 !important;
 }
+
 .bgnone{
-    background-image:none!important;}
+    background-image:none!important;
+}
+
 .bgdd {
-  background-color: #EEE; }
+  background-color: #EEE; 
+}
 
 .bgred {
-  background-color: #EC5757; }
+  background-color: #EC5757; 
+}
 
 .bggrey {
-  background-color: #FBFBFB!important; }
+  background-color: #FBFBFB!important; 
+}
 
 .bgwhite {
   background-color: #ffffff !important; 

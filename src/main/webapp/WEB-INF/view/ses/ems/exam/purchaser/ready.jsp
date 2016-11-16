@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -14,7 +14,7 @@
 		function generatePaper(){
 			var paperNo = $("#paperNo").val().trim();
 			if(paperNo==null||paperNo==""){
-				layer.alert("请输入考试编号",{offset: ['222px', '390px']});
+				layer.alert("请输入考试编号",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -26,22 +26,22 @@
 			    	if(data==1){
 			    		window.location.href="${pageContext.request.contextPath }/purchaserExam/timing.html?paperNo="+paperNo;
 			    	}else if(data==0){
-			    		layer.alert("请输入正确的考试编号",{offset: ['222px', '390px']});
+			    		layer.alert("请输入正确的考试编号",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==2){
-			    		layer.alert("该考卷考试时间未开始",{offset: ['222px', '390px']});
+			    		layer.alert("该考卷考试时间未开始",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==3){
-			    		layer.alert("该考卷考试时间已结束",{offset: ['222px', '390px']});
+			    		layer.alert("该考卷考试时间已结束",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==5){
-			    		layer.alert("对不起,您不是该考卷的参考人员",{offset: ['222px', '390px']});
+			    		layer.alert("对不起,您不是该考卷的参考人员",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==6){
-			    		layer.alert("对不起,该考卷还没有设置参考人员",{offset: ['222px', '390px']});
+			    		layer.alert("对不起,该考卷还没有设置参考人员",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==7){
-			    		layer.alert("您已参加本场考试,无法再登录",{offset: ['222px', '390px']});
+			    		layer.alert("您已参加本场考试,无法再登录",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}
 		       	}

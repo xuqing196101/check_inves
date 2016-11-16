@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1136,7 +1135,7 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] queId = request.getParameter("queId").split(",");
 		String[] queType = request.getParameter("queType").split(",");
 		Integer score = 0;
-		List<ExamRule> examRule = examRuleService.select();
+		List<ExamRule> examRule = examRuleService.select(null);
 		String typeDistribution = examRule.get(0).getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleP = (String) obj.get("singlePoint");
@@ -1307,11 +1306,19 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/ready")
 	public String ready(Model model){
-		List<ExamRule> examRule = examRuleService.select();
+		List<ExamRule> examRule = examRuleService.select(null);
 		if(examRule.size()==0){
 			model.addAttribute("message", "暂无考试安排");
 		}else{
-			model.addAttribute("testCycle", examRule.get(0).getTestCycle());
+			Date offTime = examRule.get(0).getOffTime();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String off = sdf.format(offTime).substring(0, 4);
+			String now = sdf.format(new Date()).substring(0,4);
+			if(off.equals(now)){
+				model.addAttribute("testCycle", examRule.get(0).getOffTime());
+			}else{
+				model.addAttribute("message", "暂无考试安排");
+			}
 		}
 		return "ses/ems/exam/expert/ready";
 	}
@@ -1332,7 +1339,7 @@ public class ExpertExamController extends BaseSupplierController{
 		User user=(User) request.getSession().getAttribute("loginUser");
 		String typeId = user.getTypeId();
 		Expert expert = expertService.selectByPrimaryKey(typeId);
-		List<ExamRule> examRule = examRuleService.select();
+		List<ExamRule> examRule = examRuleService.select(null);
 		List<ExamQuestion> questionList = new ArrayList<ExamQuestion>();
 		String typeDistribution = examRule.get(0).getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
@@ -1340,6 +1347,10 @@ public class ExpertExamController extends BaseSupplierController{
 		Integer singleNum = Integer.parseInt(singleN);
 		String multipleN = (String) obj.get("multipleNum");
 		Integer multipleNum = Integer.parseInt(multipleN);
+		String singleP =  (String) obj.get("singlePoint");
+		Integer singlePoint = Integer.parseInt(singleP);
+		String multipleP = (String) obj.get("multiplePoint");
+		Integer multiplePoint = Integer.parseInt(multipleP);
 		HashMap<String,Object> single = new HashMap<String,Object>();
 		HashMap<String,Object> multiple = new HashMap<String,Object>();
 		List<ExamQuestion> singleQuestion = new ArrayList<ExamQuestion>();
@@ -1413,6 +1424,8 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("queCount", nQuestionList.size());
 		model.addAttribute("user", user);
+		model.addAttribute("singlePoint", singlePoint);
+		model.addAttribute("multiplePoint", multiplePoint);
 		return "ses/ems/exam/expert/test";
 	}
 	
@@ -1476,12 +1489,68 @@ public class ExpertExamController extends BaseSupplierController{
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/createRule")
-	public String createRule(Model model){
-		rule(model);
-		return "ses/ems/exam/expert/rule";
+	@RequestMapping("/ruleList")
+	public String createRule(Model model,Integer page){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamRule> list = examRuleService.select(map);
+		for(int i=0;i<list.size();i++){
+			list.get(i).setYear(sdf.format(list.get(i).getOffTime()).substring(0, 4));
+		}
+		model.addAttribute("list", new PageInfo<ExamRule>(list));
+		return "ses/ems/exam/expert/rule/list";
 	}
 	
+	/**
+	 * 
+	* @Title: judgeAdd
+	* @author ZhaoBo
+	* @date 2016-11-16 上午9:20:47  
+	* @Description: 判断是否可以新增
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/judgeAdd")
+	@ResponseBody
+	public String judgeAdd(){
+		String str = null;
+		List<ExamRule> rule = examRuleService.select(null);
+		if(rule.size()==0){
+			str = "0";
+		}else{
+			ExamRule examRule = rule.get(0);
+			Date offTime = examRule.getOffTime();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String off = sdf.format(offTime).substring(0, 4);
+			String now = sdf.format(new Date()).substring(0, 4);
+			if(off.equals(now)){
+				str = "1";
+			}else{
+				str = "0";
+			}
+		}
+		return str;
+	}
+	
+	/**
+	 * 
+	* @Title: createRule
+	* @author ZhaoBo
+	* @date 2016-11-16 上午9:28:36  
+	* @Description: 新增考试规则 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/createRule")
+	public String createRule(){
+		return "ses/ems/exam/expert/rule/add";
+	}
 	
 	/**
 	 * 
@@ -1622,23 +1691,13 @@ public class ExpertExamController extends BaseSupplierController{
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
 		}
-		String testCycle = request.getParameter("testCycle");
-		if(testCycle.trim().isEmpty()){
-			error = "testCycle";
-			model.addAttribute("ERR_testCycle", "考试有效时间不能为空");
-		}else{
-			if(!ValidateUtils.Z_index(testCycle)){
-				error = "testCycle";
-				model.addAttribute("ERR_testCycle", "考试有效时间必须为正整数");
-			}
-		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = request.getParameter("startTime");
 		Date cTime = null;
 		if(time.trim().isEmpty()){
 			error = "time";
 			model.addAttribute("ERR_time", "考试开始时间不能为空");
 		}else{
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			cTime = sdf.parse(time+":00");
 			if(cTime.getTime()<=new Date().getTime()){
 				error = "time";
@@ -1647,27 +1706,43 @@ public class ExpertExamController extends BaseSupplierController{
 				examRule.setStartTime(cTime);
 			}
 		}
-		if(error.equals("time")||error.equals("testCycle")||error.equals("passStandard")||error.equals("type")){
+		String offTime = request.getParameter("offTime");
+		if(offTime.trim().isEmpty()){
+			error = "offTime";
+			model.addAttribute("ERR_offTime", "考试截止时间不能为空");
+		}else{
+			if(sdf.parse(offTime+":00").getTime()<cTime.getTime()){
+				error = "offTime";
+				model.addAttribute("ERR_offTime", "考试截止时间不能比考试开始时间早");
+			}else{
+				int off = Integer.parseInt(offTime.substring(0,4));
+				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
+				if(off>now){
+					error = "offTime";
+					model.addAttribute("ERR_offTime", "考试截止时间不能超过今年年底");
+				}
+			}
+		}
+		if(error.equals("time")||error.equals("offTime")||error.equals("passStandard")||error.equals("type")){
 			errorData.put("passStandard", passStandard);
 			errorData.put("startTime", time);
-			errorData.put("testCycle", testCycle);
+			errorData.put("offTime", offTime);
 			errorData.put("score", paperScore);
 			model.addAttribute("errorData", errorData);
-			return "ses/ems/exam/expert/rule";
+			return "ses/ems/exam/expert/rule/add";
 		}
 		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
-		Date dNow = new Date();
-		Calendar calendar = Calendar.getInstance(); //得到日历
-		calendar.setTime(cTime);
-		calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-		dNow = calendar.getTime();
+//		Date dNow = new Date();
+//		Calendar calendar = Calendar.getInstance(); //得到日历
+//		calendar.setTime(cTime);
+//		calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+//		dNow = calendar.getTime();
+		examRule.setOffTime(sdf.parse(offTime+":00"));
 		examRule.setPassStandard(passStandard);
-		examRule.setTestCycle(testCycle);
 		examRule.setPaperScore(paperScore);
 		examRule.setCreatedAt(new Date());
-		examRule.setTestLong(dNow);
 		examRuleService.insertSelective(examRule);
-		return "redirect:/login/home.html";
+		return "redirect:ruleList.html";
 	}
 	
 	/**
@@ -1733,40 +1808,43 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
-		List<ExamRule> examRule = examRuleService.select();
-		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
-			List<Expert> expertList = examUserScoreService.findAllExpert();
-			for(int i=0;i<expertList.size();i++){
-				if(expertList.get(i).getIsDo()==null){
-					Expert expert = new Expert();
-					expert.setId(expertList.get(i).getId());
-					expert.setIsPass((short) 0);
-					expertService.updateByPrimaryKeySelective(expert);
-					ExamUserScore examUserScore = new ExamUserScore();
-					User user = new User();
-					user.setTypeId(expertList.get(i).getId());
-					List<User> userList = userService.queryByList(user);
-					examUserScore.setUserId(userList.get(0).getId());
-					examUserScore.setCreatedAt(new Date());
-					examUserScore.setIsMax(1);
-					examUserScore.setUserType(1);
-					examUserScore.setScore("0");
-					examUserScore.setStatus("不及格");
-					if(expertList.get(i).getExpertsTypeId().equals("1")){
-						examUserScore.setUserDuty("技术");
-					}else if(expertList.get(i).getExpertsTypeId().equals("2")){
-						examUserScore.setUserDuty("法律");
-					}else if(expertList.get(i).getExpertsTypeId().equals("3")){
-						examUserScore.setUserDuty("商务");
+		List<ExamRule> examRule = examRuleService.select(null);
+		if(examRule.size()!=0){
+			if(examRule.get(0).getOffTime().getTime()<new Date().getTime()){
+				List<Expert> expertList = examUserScoreService.findAllExpert();
+				for(int i=0;i<expertList.size();i++){
+					if(expertList.get(i).getIsDo()==null){
+						Expert expert = new Expert();
+						expert.setId(expertList.get(i).getId());
+						expert.setIsPass((short) 0);
+						expertService.updateByPrimaryKeySelective(expert);
+						ExamUserScore examUserScore = new ExamUserScore();
+						User user = new User();
+						user.setTypeId(expertList.get(i).getId());
+						List<User> userList = userService.queryByList(user);
+						examUserScore.setUserId(userList.get(0).getId());
+						examUserScore.setCreatedAt(new Date());
+						examUserScore.setIsMax(1);
+						examUserScore.setUserType(1);
+						examUserScore.setScore("0");
+						examUserScore.setStatus("不及格");
+						if(expertList.get(i).getExpertsTypeId().equals("1")){
+							examUserScore.setUserDuty("技术");
+						}else if(expertList.get(i).getExpertsTypeId().equals("2")){
+							examUserScore.setUserDuty("法律");
+						}else if(expertList.get(i).getExpertsTypeId().equals("3")){
+							examUserScore.setUserDuty("商务");
+						}
+						examUserScoreService.insertSelective(examUserScore);
+						Expert personalExpert = new Expert();
+						personalExpert.setId(expertList.get(i).getId());
+						personalExpert.setIsDo("2");
+						expertService.updateByPrimaryKeySelective(personalExpert);
 					}
-					examUserScoreService.insertSelective(examUserScore);
-					Expert personalExpert = new Expert();
-					personalExpert.setId(expertList.get(i).getId());
-					personalExpert.setIsDo("2");
-					expertService.updateByPrimaryKeySelective(personalExpert);
 				}
 			}
 		}
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String userName = request.getParameter("userName");
 		String userType = request.getParameter("userType");
@@ -1818,9 +1896,9 @@ public class ExpertExamController extends BaseSupplierController{
 	public String personalResult(Integer page,Model model,HttpServletRequest request,ExamUserScore examUserScore){
 		User user = (User) request.getSession().getAttribute("loginUser");
 		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
-		List<ExamRule> examRule = examRuleService.select();
+		List<ExamRule> examRule = examRuleService.select(null);
 		if(examRule.size()!=0){
-			if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+			if(examRule.get(0).getOffTime().getTime()<new Date().getTime()){
 				if(expert.getIsDo()==null){
 					Expert expertObject = new Expert();
 					expertObject.setId(user.getTypeId());
@@ -1885,8 +1963,8 @@ public class ExpertExamController extends BaseSupplierController{
 		Integer type = user.getTypeName();
 		String str = null;
 		if(type==5){
-			List<ExamRule> examRule = examRuleService.select();
-			Date endDate = examRule.get(0).getTestLong();
+			List<ExamRule> examRule = examRuleService.select(null);
+			Date endDate = examRule.get(0).getOffTime();
 			Date startDate = examRule.get(0).getStartTime();
 			if(endDate.getTime()>=new Date().getTime()&&new Date().getTime()>=startDate.getTime()){
 				str = "1";//可以开始考试
@@ -2255,7 +2333,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/testSchedule")
 	public String testSchedule(HttpServletRequest request,Model model){
-		List<ExamRule> examRule = examRuleService.select();
+		List<ExamRule> examRule = examRuleService.select(null);
 		if(examRule.size()==0){
 			model.addAttribute("message", "暂无考试安排");
 		}else{
@@ -2319,8 +2397,8 @@ public class ExpertExamController extends BaseSupplierController{
 	@ResponseBody
 	public String judgeReTake(){
 		String str = null;
-		List<ExamRule> examRule = examRuleService.select();
-		Date endDate = examRule.get(0).getTestLong();
+		List<ExamRule> examRule = examRuleService.select(null);
+		Date endDate = examRule.get(0).getOffTime();
 		if(new Date().getTime()<=endDate.getTime()){
 			str = "1";//可以重考
 		}else{

@@ -939,3 +939,11 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
+/*考试样式添加*/
+.score_box{
+	width: 40%;
+    margin: 0 auto;
+    padding: 50px;
+    margin-top: 60px;
+    background: #eee;
+}
