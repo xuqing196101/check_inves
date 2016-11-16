@@ -1066,6 +1066,12 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 .jczc:hover .jczc_icon{
 	background:url(../images/top-1-2.png) no-repeat center;
 }
+.wdxx .top_icon{
+	background:url(../images/wdxxb.png) no-repeat center;
+}
+.wdxx:hover .wdxx_icon{
+	background:url(../images/wdxx.png) no-repeat center;
+}
 .ywjc .top_icon{
 	background:url(../images/top_02.png) no-repeat center;
 }
