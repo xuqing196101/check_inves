@@ -168,40 +168,41 @@
 	
      <div class="container container_box">
      <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
-		   <h2 class="count_flow">新增考卷</h2>
+	<h2 class="count_flow">新增考卷</h2>
        <ul class="ul_list">
     	 <ul class="list-unstyled p0_20">
 		     <li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
 		  		<div class="col-md-12 p0 input-append">
-		  		  <input type="text" name="name" value="${errorData['name'] }"/>
-		  		  <div class="cue">${ERR_name }</div>
+		  		  	<input type="text" name="name" value="${errorData['name'] }"/>
+		  		  	<div class="cue">${ERR_name }</div>
 		  		</div>
 	  		</li>
     		
     		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
 		  		<div class="col-md-12 p0 input-append">
-		  		  <input type="text" name="code" value="${errorData['code'] }"/>
-		  		  <div class="cue">${ERR_code }</div>
+		  		  	<input type="text" name="code" value="${errorData['code'] }"/>
+		  		  	<div class="cue">${ERR_code }</div>
 		  		</div>
 	  		</li>
 	  		
             <li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
 		  		<div class="col-md-12 p0 input-append">
-		  		  <input type="text" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['startTime'] }"/>
-		  		  <div class="cue">${ERR_startTime }</div>
+		  		  	<input type="text" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['startTime'] }"/>
+		  		  	<div class="cue">${ERR_startTime }</div>
 		  		</div>
 	  		</li>
 	  		
 	  		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
 		  		<div class="col-md-12 p0 input-append">
-		  		  <input type="text" name="offTime" id="offTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['offTime'] }"/>
-		  		  <div class="cue">${ERR_offTime }</div>
+		  		  	<input type="text" name="offTime" id="offTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['offTime'] }"/>
+		  		  	<div class="cue">${ERR_offTime }</div>
 		  		</div>
 	  		</li>
+	  		
     		<li class="col-md-12 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
 	  			<div class="col-md-12 p0">
@@ -212,7 +213,7 @@
 		  			   	    <input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0 mr5" value="无"/>无 
 		  			   	 </div>
 		  			   	 <div class="fl" id="sin">
-		  			   	  <input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
+		  			   	  	<input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  			   	 </div>
 		  			     <div class="cue">${ERR_single }</div>
 	  			   	</div>
@@ -244,15 +245,15 @@
     		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>总分值：</span>
 	  			<div class="input-append col-md-12 p0">
-		  		 <input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly" class="mr5"/>分
+		  		 	<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly" class="mr5"/>分
 	  		    </div>
 	  		</li>
     		
     		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
 		  		<div class="input-append col-md-12 p0">
-		  		  <input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }" class="mr5"/>分
-		  		  <div class="cue">${ERR_passStandard }</div>
+		  		  	<input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }" class="mr5"/>分
+		  		  	<div class="cue">${ERR_passStandard }</div>
 		  		</div>
 	  		</li>
   

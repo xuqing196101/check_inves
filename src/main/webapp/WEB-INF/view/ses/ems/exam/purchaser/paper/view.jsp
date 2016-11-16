@@ -84,21 +84,39 @@
 	   <div class="container container_box">
        <h2 class="count_flow">查看考卷</h2>
        <ul class="ul_list">
-    	<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-12 p0">
-	  			<span class="fl">试卷名称：</span>
-		  		<input type="text" name="paperName" value="${examPaper.name }" disabled="disabled"/>
+    	 <ul class="list-unstyled p0_20">
+		     <li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
+		  		<div class="col-md-12 p0 input-append">
+		  			<input type="text" name="paperName" value="${examPaper.name }" disabled="disabled"/>
+	  			</div>
+	  		</li>
+    		
+    		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
+		  		<div class="col-md-12 p0 input-append">
+		  			<input type="text" name="paperNo" value="${examPaper.code }" disabled="disabled"/>
+	  			</div>
+	  		</li>
+    		
+    		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
+		  		<div class="col-md-12 p0 input-append">
+		  			<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  			</div>
+	  		</li>
+	  		
+	  		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
+		  		<div class="col-md-12 p0 input-append">
+		  			<input type="text" disabled="disabled" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  			</div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">试卷编号：</span>
-		  		<input type="text" name="paperNo" value="${examPaper.code }" disabled="disabled"/>
-	  		</li>
-    		
-    		<li class="col-md-12 p0">
-	  			<span class="fl">题型分布：</span>
-	  			<div class="fl">
-	  			   	<div class="fl">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 p0">
+	  			   	<div class="col-md-4 p0 input-append">
 		  			   	<label class="fl mt5">单选题：</label>
 		  			   	<div class="fl mt5">
 		  			   	    <input type="radio" name="single" class="mt0" value="有" disabled="disabled"/>有
@@ -108,7 +126,7 @@
 		  			   	  	<input type="text" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50" disabled="disabled"/>分/条
 		  			   	</div>
 	  			   	</div>
-	  			   	<div class="clear">
+	  			   	<div class="col-md-4 p0 input-append">
 		    	   	  	<label class="fl mt5">多选题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="multiple" class="mt0" value="有" disabled="disabled"/>有
@@ -118,7 +136,7 @@
 			    	   	  	<input type="text" value="${multipleNum }" name="multipleNum" id="multipleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" value="${multiplePoint }" name="multiplePoint" id="multiplePoint" class="ml10 w50" disabled="disabled"/>分/条
 		  		        </div>
 	  		        </div>
-	  		        <div class="clear">
+	  		        <div class="col-md-4 p0 input-append">
 		    	   	  	<label class="fl mt5">判断题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="judge" class="mt0" value="有" disabled="disabled"/>有
@@ -131,35 +149,33 @@
 	  		    </div>
 	  		</li>
     		
-    		<li class="col-md-12 p0">
-	  			<span class="fl mt5">总分值：</span>
-		  		<input class="w50 mt5" type="text"  value="${examPaper.score }" disabled="disabled"/>分
+    		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>总分值：</span>
+	  			<div class="input-append col-md-12 p0">
+		  			<input class="w50 mt5" type="text"  value="${examPaper.score }" disabled="disabled"/>分
+	  			</div>
 	  		</li>
     		
-    		<li class="col-md-12 p0">
-	  			<span class="fl">及格标准：</span>
-		  		<input class="w50" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }" disabled="disabled"/>分
-	  		</li>
-    		
-    		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试开始时间：</span>
-		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+    		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
+		  		<div class="input-append col-md-12 p0">
+		  			<input class="w50" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }" disabled="disabled"/>分
+	  			</div>
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试截止时间：</span>
-		  		<input type="text" disabled="disabled" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  		<li class="col-md-3 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>允许30分钟内重考：</span>
+	  			<div class="input-append col-md-12 p0">
+			  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是" disabled="disabled"/>是
+	    			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否" disabled="disabled"/>否
+	  			</div>
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0">
-	  			<span class="fl mb5">允许30分钟内重考：</span>
-		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是" disabled="disabled"/>是
-    			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否" disabled="disabled"/>否
-	  		</li>
-	  		
-	  		<li class="col-md-12 p0" id="time">
-	  			<span class="fl mt5">考试答题时间：</span>
-		  		<input class="w50 mt5" type="text" value="${examPaper.testTime }" disabled="disabled"/>分钟
+	  		<li class="col-md-3 p0" id="time">
+	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
+		  		<div class="input-append col-md-12 p0">
+		  			<input class="w50 mt5" type="text" value="${examPaper.testTime }" disabled="disabled"/>分钟
+	  			</div>
 	  		</li>
 	  		
 	  		</ul>
