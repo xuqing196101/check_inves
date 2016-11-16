@@ -1504,7 +1504,7 @@ public class ExpertExamController extends BaseSupplierController{
 			list.get(i).setYear(sdf.format(list.get(i).getOffTime()).substring(0, 4));
 		}
 		model.addAttribute("list", new PageInfo<ExamRule>(list));
-		return "ses/ems/exam/expert/rule_list";
+		return "ses/ems/exam/expert/rule/list";
 	}
 	
 	/**
@@ -1549,7 +1549,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/createRule")
 	public String createRule(){
-		return "ses/ems/exam/expert/rule_add";
+		return "ses/ems/exam/expert/rule/add";
 	}
 	
 	/**
@@ -1729,7 +1729,7 @@ public class ExpertExamController extends BaseSupplierController{
 			errorData.put("offTime", offTime);
 			errorData.put("score", paperScore);
 			model.addAttribute("errorData", errorData);
-			return "ses/ems/exam/expert/rule_add";
+			return "ses/ems/exam/expert/rule/add";
 		}
 		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 //		Date dNow = new Date();
@@ -1809,39 +1809,42 @@ public class ExpertExamController extends BaseSupplierController{
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
 		List<ExamRule> examRule = examRuleService.select(null);
-		if(examRule.get(0).getOffTime().getTime()<new Date().getTime()){
-			List<Expert> expertList = examUserScoreService.findAllExpert();
-			for(int i=0;i<expertList.size();i++){
-				if(expertList.get(i).getIsDo()==null){
-					Expert expert = new Expert();
-					expert.setId(expertList.get(i).getId());
-					expert.setIsPass((short) 0);
-					expertService.updateByPrimaryKeySelective(expert);
-					ExamUserScore examUserScore = new ExamUserScore();
-					User user = new User();
-					user.setTypeId(expertList.get(i).getId());
-					List<User> userList = userService.queryByList(user);
-					examUserScore.setUserId(userList.get(0).getId());
-					examUserScore.setCreatedAt(new Date());
-					examUserScore.setIsMax(1);
-					examUserScore.setUserType(1);
-					examUserScore.setScore("0");
-					examUserScore.setStatus("不及格");
-					if(expertList.get(i).getExpertsTypeId().equals("1")){
-						examUserScore.setUserDuty("技术");
-					}else if(expertList.get(i).getExpertsTypeId().equals("2")){
-						examUserScore.setUserDuty("法律");
-					}else if(expertList.get(i).getExpertsTypeId().equals("3")){
-						examUserScore.setUserDuty("商务");
+		if(examRule.size()!=0){
+			if(examRule.get(0).getOffTime().getTime()<new Date().getTime()){
+				List<Expert> expertList = examUserScoreService.findAllExpert();
+				for(int i=0;i<expertList.size();i++){
+					if(expertList.get(i).getIsDo()==null){
+						Expert expert = new Expert();
+						expert.setId(expertList.get(i).getId());
+						expert.setIsPass((short) 0);
+						expertService.updateByPrimaryKeySelective(expert);
+						ExamUserScore examUserScore = new ExamUserScore();
+						User user = new User();
+						user.setTypeId(expertList.get(i).getId());
+						List<User> userList = userService.queryByList(user);
+						examUserScore.setUserId(userList.get(0).getId());
+						examUserScore.setCreatedAt(new Date());
+						examUserScore.setIsMax(1);
+						examUserScore.setUserType(1);
+						examUserScore.setScore("0");
+						examUserScore.setStatus("不及格");
+						if(expertList.get(i).getExpertsTypeId().equals("1")){
+							examUserScore.setUserDuty("技术");
+						}else if(expertList.get(i).getExpertsTypeId().equals("2")){
+							examUserScore.setUserDuty("法律");
+						}else if(expertList.get(i).getExpertsTypeId().equals("3")){
+							examUserScore.setUserDuty("商务");
+						}
+						examUserScoreService.insertSelective(examUserScore);
+						Expert personalExpert = new Expert();
+						personalExpert.setId(expertList.get(i).getId());
+						personalExpert.setIsDo("2");
+						expertService.updateByPrimaryKeySelective(personalExpert);
 					}
-					examUserScoreService.insertSelective(examUserScore);
-					Expert personalExpert = new Expert();
-					personalExpert.setId(expertList.get(i).getId());
-					personalExpert.setIsDo("2");
-					expertService.updateByPrimaryKeySelective(personalExpert);
 				}
 			}
 		}
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String userName = request.getParameter("userName");
 		String userType = request.getParameter("userType");
