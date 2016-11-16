@@ -106,9 +106,9 @@
    <ul class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">
-	  			<span class="col-md-2"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="col-md-10 p0">
-	  			   	<div class="col-md-6 p0">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 p0">
+	  			   	<div class="col-md-6 p0 input-append">
 		  			   	<label class="fl">单选题：</label>
 		  			   	<div class="fl">
 		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0" value="有"/>有
@@ -117,9 +117,9 @@
 		  			   	<div class="fl" id="sin">
 		  			   	  	<input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  			   	</div>
-		  			   	<div class="fl ml5 red">${ERR_single }</div>
+		  			   	<div class="cue">${ERR_single }</div>
 	  			   	</div>
-	  			   	<div class="col-md-6 p0">
+	  			   	<div class="col-md-6 p0 input-append">
 		    	   	    <label class="fl">多选题：</label>
 		    	   	    <div class="fl">
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0" value="有"/>有
@@ -128,39 +128,39 @@
 			    	   	<div class="fl" id="mul">
 			    	   	  	<input type="text" value="${errorData['multipleNum'] }" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['multiplePoint'] }" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
 		  		        </div>
-		  		        <div class="fl mt5 ml5 red">${ERR_multiple }</div>
+		  		        <div class="cue">${ERR_multiple }</div>
 	  		        </div>
 	  		    </div>
 	  		</li>
 	  		
 	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12"><div class="red star_red">*</div>试卷分值：</span>
-	  			<div class="col-md-12 input-append">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷分值：</span>
+	  			<div class="col-md-12 input-append p0">
 	  				<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
 	    		</div>
 	    	</li>
 	    	
 	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12"><div class="red star_red">*</div>及格标准：</span>
-	  			<div class="col-md-12 input-append">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
+	  			<div class="col-md-12 input-append p0">
 	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分</div>
-	  				<div class="fl mt10 ml5 red">${ERR_passStandard }</div>
+	  				<div class="cue">${ERR_passStandard }</div>
 	  			</div>
 	    	</li>
 	    	
 	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12"><div class="red star_red">*</div>考试开始时间：</span>
-	  			<div class="col-md-12 input-append">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
+	  			<div class="col-md-12 input-append p0">
 			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['startTime'] }"/>
-		  			<div class="fl mt10 ml5 red">${ERR_time }</div>
+		  			<div class="cue">${ERR_time }</div>
 	  			</div>
 	  		</li>
 	    	
 	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12"><div class="red star_red">*</div>考试截止时间：</span>
-	  			<div class="col-md-12 input-append">
+	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
+	  			<div class="col-md-12 input-append p0">
 		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['offTime'] }"/>
-		  			<div class="fl mt10 ml5 red">${ERR_offTime }</div>
+		  			<div class="cue">${ERR_offTime }</div>
 	  			</div>
 	    	</li>
 	    </ul>
