@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
-<%@ include file="../../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -42,8 +41,8 @@
  			<div class="content table_box">
              <table class="table table-bordered table-condensed table-hover table-striped">
 		    	<thead>
-		    		<tr class="info">
-			    		<th>序号</th>
+		    		<tr class="info tc">
+			    		<th class="w50">序号</th>
 			    		<th>考卷名称</th>
 			    		<th>考卷编号</th>
 			    		<th>考试开始时间</th>

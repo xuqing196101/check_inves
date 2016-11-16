@@ -208,8 +208,8 @@
 	  			   	<div class="col-md-4 p0 input-append">
 		  			   	<label class="fl mt5">单选题：</label>
 		  			   	<div class="fl mt5">
-		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0" value="有"/>有
-		  			   	    <input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0" value="无"/>无 
+		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0 mr5" value="有"/>有
+		  			   	    <input type="radio" name="single" onclick="checkSingleNo(this)" class="mt0 mr5" value="无"/>无 
 		  			   	 </div>
 		  			   	 <div class="fl" id="sin">
 		  			   	  <input type="text" value="${errorData['singleNum'] }" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['singlePoint'] }" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
@@ -219,8 +219,8 @@
 	  			   	<div class="col-md-4 p0 input-append">
 		    	   	  	<label class="fl mt5">多选题：</label>
 			    	   	<div class="fl mt5">
-			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0" value="有"/>有
-			    	   	    <input type="radio" name="multiple" onclick="checkMultipleNo(this)" class="mt0" value="无"/>无
+			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0 mr5" value="有"/>有
+			    	   	    <input type="radio" name="multiple" onclick="checkMultipleNo(this)" class="mt0 mr5" value="无"/>无
 			    	   	</div>
 			    	   	<div class="fl" id="mul">
 			    	   	  	<input type="text" value="${errorData['multipleNum'] }" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['multiplePoint'] }" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
@@ -230,8 +230,8 @@
 	  		        <div class="col-md-4 p0 input-append">
 		    	   	  	<label class="fl mt5">判断题：</label>
 			    	   	<div class="fl mt5">
-			    	   	    <input type="radio" name="judge" onclick="checkJudgeYes(this)" class="mt0" value="有"/>有
-			    	   	    <input type="radio" name="judge" onclick="checkJudgeNo(this)" class="mt0" value="无"/>无
+			    	   	    <input type="radio" name="judge" onclick="checkJudgeYes(this)" class="mt0 mr5" value="有"/>有
+			    	   	    <input type="radio" name="judge" onclick="checkJudgeNo(this)" class="mt0 mr5" value="无"/>无
 			    	   	</div>
 			    	   	<div class="fl" id="ju">
 			    	   	  	<input type="text" value="${errorData['judgeNum'] }" name="judgeNum" id="judgeNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" value="${errorData['judgePoint'] }" name="judgePoint" id="judgePoint" class="ml10 w50" onkeyup="countScore()"/>分/条
@@ -244,14 +244,14 @@
     		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>总分值：</span>
 	  			<div class="input-append col-md-12 p0">
-		  		 <input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
+		  		 <input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly" class="mr5"/>分
 	  		    </div>
 	  		</li>
     		
     		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
 		  		<div class="input-append col-md-12 p0">
-		  		  <input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分
+		  		  <input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }" class="mr5"/>分
 		  		  <div class="cue">${ERR_passStandard }</div>
 		  		</div>
 	  		</li>
@@ -259,20 +259,19 @@
 	  		<li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>允许30分钟内重考：</span>
 	  			<div class="input-append col-md-12 p0">
-			  		<input type="radio" name="isAllow" id="isAllowTrue" value="是" onclick="checkTrue(this)">是
-	    			<input type="radio" name="isAllow" id="isAllowFalse" value="否" onclick="checkFalse(this)"/>否
+			  		<input type="radio" name="isAllow" id="isAllowTrue" value="是" onclick="checkTrue(this)" class="mr5">是
+	    			<input type="radio" name="isAllow" id="isAllowFalse" value="否" onclick="checkFalse(this)" class="mr5"/>否
 	  			    <div class="cue">${ERR_isAllow }</div>
 	  			</div>
 	  		</li>
 	  		
 	  		<li class="col-md-3 p0" id="time">
-	  			<span class="fl mt5"><div class="red star_red">*</div>答题用时：</span>
+	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
 		  		<div class="input-append col-md-12 p0">
-		  			<input type="text" name="testTime" id="testTime" value="${errorData['testTime'] }"/>分钟
+		  			<input type="text" name="testTime" id="testTime" value="${errorData['testTime'] }" class="mr5"/>分钟
 	  			    <div class="cue">${ERR_testTime }</div>
 	  			</div>
 	  		</li>
-	  		
 	  		</ul>
         </ul>
    

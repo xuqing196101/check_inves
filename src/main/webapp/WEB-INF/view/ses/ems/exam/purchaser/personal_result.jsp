@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
-<%@ include file="../../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -73,10 +72,10 @@
             <table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr class="info">
-						<th width="50">序号</th>
-					    <th width="150">采购人姓名</th>
+						<th class="w50">序号</th>
+					    <th class="w160">采购人姓名</th>
 					    <th>考试编号</th>
-						<th width="100">得分</th>
+						<th class="w100">得分</th>
 						<th>考试状态</th>
 					    <th>考试时间</th>
 					</tr>

@@ -34,14 +34,14 @@ public class ExamRule {
 	private Date startTime;
 	
 	/**
+	 * @Fields offTime : 考试截止时间
+	 */
+	private Date offTime;
+	
+	/**
 	 * @Fields typeDistribution : 题型分布
 	 */
 	private String typeDistribution;
-	
-	/**
-	 * @Fields testCycle : 考试周期
-	 */
-	private String testCycle;
 	
 	/**
 	 * @Fields createdAt : 创建时间
@@ -54,29 +54,14 @@ public class ExamRule {
 	private Date updatedAt;
 	
 	/**
-	 * @Fields testLong : 备用字段
-	 */
-	private Date testLong;
-	
-	/**
 	 * @Fields formatDate : 时间备用字段
 	 */
 	private String formatDate;
 	
 	/**
-	 * @Fields time : 验证考试开始时间字段
+	 * @Fields year : 考卷年度
 	 */
-	private String time;
-	
-	/**
-	 * @Fields singlePoint : 验证单选题数量字段
-	 */
-	private String singlePoint;
-	
-	/**
-	 * @Fields multiplePoint : 验证多选题数量字段
-	 */
-	private String multiplePoint;
+	private String year;
 	
 	public String getId() {
 		return id;
@@ -102,14 +87,6 @@ public class ExamRule {
 		this.paperScore = paperScore;
 	}
 
-	public String getTestCycle() {
-		return testCycle;
-	}
-
-	public void setTestCycle(String testCycle) {
-		this.testCycle = testCycle;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -124,14 +101,6 @@ public class ExamRule {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}
-
-	public Date getTestLong() {
-		return testLong;
-	}
-
-	public void setTestLong(Date testLong) {
-		this.testLong = testLong;
 	}
 
 	public String getFormatDate() {
@@ -149,6 +118,14 @@ public class ExamRule {
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+	
+	public Date getOffTime() {
+		return offTime;
+	}
+
+	public void setOffTime(Date offTime) {
+		this.offTime = offTime;
+	}
 
 	public String getTypeDistribution() {
 		return typeDistribution;
@@ -158,31 +135,12 @@ public class ExamRule {
 		this.typeDistribution = typeDistribution;
 	}
 
-	public String getTime() {
-		return time;
+	public String getYear() {
+		return year;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setYear(String year) {
+		this.year = year;
 	}
-
-	public String getSinglePoint() {
-		return singlePoint;
-	}
-
-	public void setSinglePoint(String singlePoint) {
-		this.singlePoint = singlePoint;
-	}
-
-	public String getMultiplePoint() {
-		return multiplePoint;
-	}
-
-	public void setMultiplePoint(String multiplePoint) {
-		this.multiplePoint = multiplePoint;
-	}
-
-	
-	
 	
 }

@@ -90,14 +90,14 @@
   
   <body>
   	<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
+   	<div class="margin-top-10 breadcrumbs ">
+      	<div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考试规则管理</a></li>
 		   </ul>
 		<div class="clear"></div>
-	  </div>
-   </div>
+	  	</div>
+   	</div>
    <div class="container container_box">
    <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
    <input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
@@ -157,10 +157,10 @@
 	  		</li>
 	    	
 	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12"><div class="red star_red">*</div>考试有效时间：</span>
+	  			<span class="col-md-12"><div class="red star_red">*</div>考试截止时间：</span>
 	  			<div class="col-md-12 input-append">
-		  			<div class="fl"><input type="text" name="testCycle" id="testCycle" value="${errorData['testCycle'] }"/>月</div>
-		  			<div class="fl mt10 ml5 red">${ERR_testCycle }</div>
+		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['offTime'] }"/>
+		  			<div class="fl mt10 ml5 red">${ERR_offTime }</div>
 	  			</div>
 	    	</li>
 	    </ul>

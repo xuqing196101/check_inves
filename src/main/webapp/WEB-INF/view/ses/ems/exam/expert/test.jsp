@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -45,7 +45,7 @@
 						num++;
 						break;
 					 }else if(j==document.getElementsByName("que"+i).length-1){
-						layer.confirm('您还有题目未作答,确认要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+						layer.confirm('您还有题目未作答,确认要提交吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 							layer.close(index);
 							$("#form").submit();	
 						});
@@ -53,7 +53,7 @@
 				 }
 			 }
 			 if(num==count){
-				layer.confirm('您确认要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.confirm('您确认要提交吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 					layer.close(index);
 					$("#form").submit();	
 				});
@@ -64,31 +64,42 @@
   
   <body>
   <div class="container">
-  <div class="col-md-12 mb10 border1 bggrey mt10">
-  	<div class="fl f18 gary b">${user.relName }考试进行中</div>
+    <div class="col-md-12 mb10 border1 bggrey mt10">
+  	  <div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
   	</div>
-  <form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form">
+  	<div class="col-md-12 f18 b p0">
+  		<c:if test="${singlePoint!=0&&multiplePoint!=0 }">
+  			本次考试题型包括：单选题和多选题，其中：单选题每题${singlePoint }分，多选题每题${multiplePoint }分。
+  		</c:if>
+  	  	<c:if test="${singlePoint!=0&&multiplePoint==0 }">
+  			本次考试题型包括：单选题，每题${singlePoint }分。
+  		</c:if>
+  		<c:if test="${singlePoint==0&&multiplePoint!=0 }">
+  			本次考试题型包括：多选题，每题${multiplePoint }分。
+  		</c:if>
+  	</div>
+  <form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form" class="clear mt10">
   <c:choose>
   	<c:when test="${pageSize==1 }">
 	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
 	    <tbody>
 		    <c:forEach items="${queRandom }" var="que" varStatus="l">
 		      <tr>
-		        <td class="col-md-1 tc">${l.index+1 }</td>
+		        <td class="col-md-1 tc info">${l.index+1 }</td>
 		        <td class="col-md-11">
-		          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
+		          <div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
 		          
 		          		<c:if test="${que.examQuestionType.name=='单选题' }">
 				    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 				    		<div class="mt10 clear fl">
-				    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+				    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
 				    		</div>
 				    		</c:forEach>
 				    	</c:if>
 				    	<c:if test="${que.examQuestionType.name=='多选题' }">
 				    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 				    		<div class="mt10 clear fl">
-				    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it}
+				    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
 				    		</div>
 				    		</c:forEach>
 				    	</c:if>
@@ -110,21 +121,21 @@
 		  	
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
-		       			<td class="col-md-1 tc">${l.index+1 }</td>
+		       			<td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
-					        <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
+					        <div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
 					        
 					    		<c:if test="${que.examQuestionType.name=='单选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		   <div class="mt10 clear fl">
-						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
 						    		    </div>
 						    		</c:forEach>
 						    	</c:if>
 						    	<c:if test="${que.examQuestionType.name=='多选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		  <div class="mt10 clear fl">
-						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it}
+						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
 						    		  </div>
 						    		</c:forEach>
 						    	</c:if>
@@ -145,20 +156,20 @@
 		  	
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				     <tr>
-		       			 <td class="col-md-1 tc">${l.index+1 }</td>
+		       			 <td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
 				          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
 				    			<c:if test="${que.examQuestionType.name=='单选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		  <div class="mt10 clear fl">
-						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
 						    		  </div>
 						    		</c:forEach>
 						    	</c:if>
 						    	<c:if test="${que.examQuestionType.name=='多选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		   <div class="mt10 clear fl">
-						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it}
+						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
 						    		   </div>
 						    		</c:forEach>
 						    	</c:if>
@@ -179,20 +190,20 @@
 		    <table class="clear table table-bordered table-condensed">
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
-		       			<td class="col-md-1 tc">${l.index+1 }</td>
+		       			<td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
 				          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
 				    			<c:if test="${que.examQuestionType.name=='单选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		  <div class="mt10 clear fl">
-						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
 						    		  </div>
 						    		</c:forEach>
 						    	</c:if>
 						    	<c:if test="${que.examQuestionType.name=='多选题' }">
 						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 						    		  <div class="mt10 clear fl">
-						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it}
+						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
 						    		  </div>
 						    		</c:forEach>
 						    	</c:if>

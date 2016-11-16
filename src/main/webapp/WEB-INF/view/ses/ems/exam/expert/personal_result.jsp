@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/front.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -46,11 +46,11 @@
    			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th class="w50">序号</th>
-					    <th class="w160">专家姓名</th>
-						<th>得分</th>
-						<th>考试状态</th>
-					    <th>考试时间</th>
+						<th class="w50 tc">序号</th>
+					    <th class="w160 tc">专家姓名</th>
+						<th class="tc">得分</th>
+						<th class="tc">考试状态</th>
+					    <th class="tc">考试时间</th>
 					</tr>
 				</thead>
 				<tbody>

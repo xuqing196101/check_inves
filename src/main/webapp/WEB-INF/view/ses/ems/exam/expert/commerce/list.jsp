@@ -59,7 +59,7 @@
 				}
 			}
 			if(count == 0){
-				layer.alert("请选择删除内容",{offset: ['222px', '390px']});
+				layer.alert("请选择删除内容",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -68,14 +68,14 @@
 		        	ids += info[i].value+',';
 		        }
 			}
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
 				$.ajax({
 					type:"POST",
 					dataType:"json",
 					url:"${pageContext.request.contextPath }/expertExam/deleteById.html?ids="+ids,
 			       	success:function(data){
-			       		layer.msg('删除成功',{offset: ['222px', '390px']});
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
 				       	window.setTimeout(function(){
 				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
 				       	}, 1000);
@@ -100,11 +100,11 @@
 				}
 			}
 			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				layer.alert("只能选择一项",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				layer.alert("请先选择一项",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}else{
@@ -138,12 +138,12 @@
 		function poiExcel(){
 			var file = $("#excelFile").val();
 			if(file==null||file==""){
-				layer.alert("请选择文件",{offset: ['222px', '390px']});
+				layer.alert("请选择文件",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
 			if(!file.endsWith(".xls")&&!file.endsWith(".xlsx")){
-				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['222px', '390px']});
+				layer.alert("请选择以.xls结尾或者以.xlsx结尾的文件",{offset: ['30%','40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -155,7 +155,7 @@
 			    dataType: "text",
 			    success: function(data) {
 			    	if(data.length<=5){
-			    		layer.msg('导入成功',{offset: ['222px', '390px']});
+			    		layer.msg('导入成功',{offset: ['40%', '45%']});
 				    	window.setTimeout(function(){
 				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchComExpPool.html";
 				       	}, 1000);
