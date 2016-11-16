@@ -50,7 +50,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     display: inline-block;
     height: 30px;
     padding: 4px 3px;
-    margin-bottom: 10px;
+   /*  margin-bottom: 10px; */
     font-size: 14px;
     line-height: 30px;
     color: #555;
@@ -197,13 +197,13 @@ button, input, select, textarea {
 	padding-top:20px;
 }
 .select_common{
-white-space: nowrap;
-vertical-align: middle;
-min-width: 249px;
-display: inline-block;
+	white-space: nowrap;
+	vertical-align: middle;
+	min-width: 249px;
+	display: inline-block;
 }
 .select_common select{
-border:1px solid #ccc;
+	border:1px solid #ccc;
 }
 .input_icon{
 	width:30px;
