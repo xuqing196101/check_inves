@@ -42,9 +42,9 @@
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">后台管理</a></li>
-				<li class="active"><a href="#">用户管理</a></li>
-				<li class="active"><a href="#">增加用户</a></li>
+				<li><a href="#">专家管理</a></li>
+				<li class="active"><a href="#">专家抽取</a></li>
+				<li class="active"><a href="#">专家抽取记录详情</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -91,7 +91,8 @@
 													<c:when test="${contypes.expertsTypeId==3}">
                                                                                                                                    【法律】
                                          </c:when>
-												</c:choose> ， 采购类别【 ${contypes.categoryName}
+												</c:choose> ，<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
+                                                                                                                                                  采购类别【 ${fn:replace(category,'^',',')}】
 												】，专家数量【${contypes.expertsCount}】 }
 											</li>
 										</c:forEach>

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropUtil;
+
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.ppms.ProjectAttachmentsMapper;
@@ -83,7 +85,7 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      * @return List<SaleTender>
      */
     public List<SaleTender> list(SaleTender saleTender,Integer pageNum){
-        PageHelper.startPage(pageNum, 10);
+        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
         return saleTenderMapper.list(saleTender);
     }
 

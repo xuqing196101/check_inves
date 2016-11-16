@@ -93,7 +93,7 @@
     	  layer.open({
               type: 2, //page层
               area: ['90%', '50%'],
-              title: '抽取专家 项目名称： ${projectName}',
+              title: '供应商抽取 项目名称： ${projectName}',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
               shadeClose: true,
@@ -154,10 +154,10 @@
                     <input type="hidden" class="fl" value="${projectName}" />
                  </c:if>
                  <c:if test="${projectId == null || projectId == ''}">
-                   <input type="text" id="projectName"  class="fl" value="${projectName}" />
-                   
+                   <input type="text" id="projectName"  class="fl span5" value="${projectName}" />
+                     <span class="add-on">i</span>
                  </c:if>
-                <div class="b f14 red tip fl w150" id="projectName">${projectNameError}</div> 
+                <div class="b f14 red tip fl w75" id="projectName">${projectNameError}</div> 
         </span>
          <span class="fl mt5 ml20 margin-top-10">
                  <span class="fl margin-top-6">
@@ -182,11 +182,13 @@
                     <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" />
                     
                  </c:if>
-                  <div class="b f14 red tip fl w150" id="projectNumber">${projectNumberError}</div> 
+                  <div class="b f14 red tip fl w75" id="projectNumber">${projectNumberError}</div> 
                
         </span>
         <span class="fr option_btn margin-top-10">
-            <button class="btn padding-left-10 padding-right-10 btn_back"
+          <button class="btn btn-windows add"
+                onclick="">完成抽取</button>
+            <button class="btn btn-windows add"
                 onclick="add();">添加抽取条件</button>
         </span>
 			<table class="table table-bordered table-condensed mt5">

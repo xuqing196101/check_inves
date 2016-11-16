@@ -152,7 +152,7 @@
                    <input type="text" id="projectName"  class="fl" value="${projectName}" />
                    
                  </c:if>
-                <div class="b f14 red tip fl w150" id="projectName">${projectNameError}</div> 
+                <div class="b f14 red tip fl w75" id="projectName">${projectNameError}</div> 
         </span>
          <span class="fl mt5 ml20 margin-top-10">
                  <span class="fl margin-top-6">
@@ -177,11 +177,13 @@
                     <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" />
                     
                  </c:if>
-                  <div class="b f14 red tip fl w150" id="projectNumber">${projectNumberError}</div> 
+                  <div class="b f14 red tip fl w75" id="projectNumber">${projectNumberError}</div> 
                
         </span>
         <span class="fr option_btn margin-top-10">
-            <button class="btn padding-left-10 padding-right-10 btn_back"
+          <button class="btn btn-windows add"
+                onclick="">完成抽取</button>
+            <button class="btn btn-windows add"
                 onclick="add();">添加抽取条件</button>
         </span>
 			<table class="table table-bordered table-condensed mt5">

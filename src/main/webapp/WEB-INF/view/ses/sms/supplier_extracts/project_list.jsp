@@ -43,6 +43,12 @@
         });
   });
   
+//查看明细
+  function view(id) {
+      window.location.href = "${pageContext.request.contextPath}/project/view.html?id="
+              + id;
+  }
+  
   
     /** 全选全不选 */
     function selectAll(){
@@ -153,24 +159,35 @@
           <th class="info">项目状态</th>
         </tr>
         </thead>
-        <tbody id="tbody_id">
         
-        <c:forEach items="${info.list}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseType }</a></td>
-              <td class="tc">
-              <c:if test="${'1'==obj.status}">实施中</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">已立项</c:if>
-              </td>
-            </tr>
-     
-         </c:forEach> 
-        </tbody>
+        <tbody id="tbody_id">
+
+                        <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                            <tr style="cursor: pointer;">
+                                <td class="tc w30"><input type="hidden"
+                                    value="${obj.status }" /><input type="checkbox"
+                                    value="${obj.id }" name="chkItem" onclick="check()" alt="">
+                                </td>
+                                <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
+                                </td>
+                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber
+                                        }</a></td>
+                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">
+                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+                                </a></td>
+                                <td class="tc"><c:if test="${'1'==obj.status}">实施中</c:if> <c:if
+                                        test="${'2'==obj.status}">已成交</c:if> <c:if
+                                        test="${'3'==obj.status}">已立项</c:if>
+                                </td>
+                            </tr>
+
+                        </c:forEach>
+                    </tbody>
          
          
 

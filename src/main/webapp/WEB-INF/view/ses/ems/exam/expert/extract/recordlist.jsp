@@ -173,7 +173,7 @@ $(function(){
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">后台管理</a></li>
+				<li><a href="#">专家抽取</a></li>
 				<li class="active"><a href="#">抽取专家记录</a></li>
 			</ul>
 			<div class="clear"></div>
@@ -188,9 +188,10 @@ $(function(){
 	<!-- 查询 -->
 
 	<div class="container clear margin-top-0">
-		<div class="padding-10 border1 m0_30 tc">
+		 <h2 class="search_detail">
 			<form action="${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do" method="post" id="form1" >
 				<input type="hidden" id="page" name="page">
+				
 				<ul class="demand_list">
 					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
 							name="projectName" value="${expExtractRecord.projectName }"
@@ -207,11 +208,11 @@ $(function(){
 				</ul>
 			</form>
 			<div class="clear"></div>
-		</div>
+			</h2>
 	</div>
 	<!-- 表格开始-->
 	<div class="container margin-top-5">
-		<div class="content padding-left-25 padding-right-25 padding-top-5">
+		<div class="content table_box">
 			<table class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
