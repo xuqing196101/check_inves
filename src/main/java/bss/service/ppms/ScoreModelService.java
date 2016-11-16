@@ -14,6 +14,7 @@ public interface ScoreModelService {
 	public int delScoreModelByid(HashMap<String, Object> map);
 	public int delScoreModelByMap(HashMap<String, Object> map);//朱巷删除   
 	public int delSoftScoreModelByid(HashMap<String, Object> map);
+	public ScoreModel findScoreModelByScoreModel(ScoreModel scoreModel);
 	
 	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);
