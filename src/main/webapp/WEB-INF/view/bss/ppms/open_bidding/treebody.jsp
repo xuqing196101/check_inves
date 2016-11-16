@@ -684,10 +684,6 @@ System.out.print(scoreModel);
 				<td><input name="judgeContent" id="judgeContent" value="${scoreModel.judgeContent }" title="该项内容为判断的唯一依据"></td>
 			</tr>
 			<tr>
-				<td>判断内容</td>
-				<td><input name="judgeNumber" id="judgeNumber" value="${scoreModel.judgeNumber }" title="判断内容依据数据项"></td>
-			</tr>
-			<tr>
 				<td>翻译成白话文内容</td>
 				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent1" >${scoreModel.easyUnderstandContent }</textarea></td>
 			</tr>

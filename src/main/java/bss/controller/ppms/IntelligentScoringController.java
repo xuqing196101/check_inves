@@ -21,8 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+
+import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.AjaxJsonData;
+import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.util.FloatUtil;
 
@@ -42,17 +47,19 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
 /**
  * 
- * @Title: ScoreTemplate
- * @Description: 八大评分模型
- * @author: Tian Kunfeng
- * @date: 2016-10-17上午11:17:08
+ * 版权：(C) 版权所有 
+ * <简述>  八大评分模型
+ * <详细描述>
+ * @author   tiankf
+ * @version  
+ * @since
+ * @see
  */
 @Controller
 @Scope("prototype")
 @RequestMapping("/intelligentScore")
 public class IntelligentScoringController {
-	
-	private AjaxJsonData ajaxJsonData = new AjaxJsonData();
+    private AjaxJsonData ajaxJsonData = new AjaxJsonData();
 	@Autowired
 	private PackageService packageService;
 	@Autowired
@@ -109,7 +116,6 @@ public class IntelligentScoringController {
 		return "bss/ppms/open_bidding/scoring_standard";
 	}
 	@RequestMapping("operatorScoreModel")
-	
 	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
 		String packageId = request.getParameter("id");
 		String[] startParam = request.getParameterValues("pi.startParam");
@@ -401,7 +407,7 @@ public class IntelligentScoringController {
 	@ResponseBody
 	public String quantizateScore(@ModelAttribute Packages packages,HttpServletRequest request){
 		
-		return "3";
+		return "";
 	}
 	
 	/**
@@ -515,6 +521,37 @@ public class IntelligentScoringController {
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("bidMethodId", bidMethodId);
 		return "bss/ppms/open_bidding/operator_node";
+	}
+	/**
+	 * 
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author tiankf
+	 * @param model
+	 * @param scoreModel
+	 * @param page
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("scoreModelList")
+    public String scoreModelList(Model model,@ModelAttribute ScoreModel scoreModel,Integer page,HttpServletRequest request){
+        //每页显示十条
+        PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+        model.addAttribute("scoreModelList",scoreModelList);
+
+        //分页标签
+        model.addAttribute("list",new PageInfo<ScoreModel>(scoreModelList));
+        model.addAttribute("scoreModel", scoreModel);
+        model.addAttribute("projectId", request.getParameter("proid"));
+        return "bss/ppms/open_bidding/show_score_model";
+    }
+	@RequestMapping("showScoreModel")
+	public String showScoreModel(Model model,@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
+	    scoreModel = scoreModelService.findScoreModelByScoreModel(scoreModel);
+	    model.addAttribute("scoreModel", scoreModel);
+	    return "bss/ppms/open_bidding/show_treebody";
 	}
 	//-----------------------------------方法封装-------------------------------------------------------------------------------
 	public void setPackageMarkTermTree(String packageId,String method,MarkTerm markTerm){

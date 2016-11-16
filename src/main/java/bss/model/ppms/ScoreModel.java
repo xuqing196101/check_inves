@@ -60,6 +60,10 @@ public class ScoreModel implements Serializable{
 	
 	// 参数区间
 	private List<ParamInterval> paramIntervalList;
+	private MarkTerm markTerm;
+	//transtinent 
+	private String markType;
+	private String markName;
 	
 	
 
@@ -305,5 +309,29 @@ public class ScoreModel implements Serializable{
 	public void setJudgeNumber(String judgeNumber) {
 		this.judgeNumber = judgeNumber;
 	}
+
+    public MarkTerm getMarkTerm() {
+        return markTerm;
+    }
+
+    public void setMarkTerm(MarkTerm markTerm) {
+        this.markTerm = markTerm;
+    }
+
+   /* public String getMarkType() {
+        return this.markTerm.getTypeName();
+    }
+
+    public void setMarkType(String markType) {
+        this.markType = markType;
+    }
+
+    public String getMarkName() {
+        return this.markTerm.getName();
+    }
+
+    public void setMarkName(String markName) {
+        this.markName = markName;
+    }*/
 	
 }
