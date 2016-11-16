@@ -289,6 +289,7 @@
   	from T_BSS_CS_PURCHASE_CONTRACT
   	WHERE 
   		STATUS = 2
+  		AND IS_DELETED=0
   		AND IS_APPEAL=0
 		AND PURCHASE_TYPE = #{purchaseType}
   </select>

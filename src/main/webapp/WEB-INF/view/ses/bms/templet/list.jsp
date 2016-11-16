@@ -164,8 +164,9 @@
 			<form action="${pageContext.request.contextPath}/templet/search.html"
 				method="post" enctype="multipart/form-data" class="mb0">
 				<ul class="demand_list">
-					<li><label class="fl">模板名称：</label><span><input
-							type="text" name="name" id="tname" class="mb0" />
+					<li><label class="fl">模板名称：</label>
+					<span>
+					<input type="text" name="name" id="tname" class="mb0" />
 					</span>
 					</li>
 					<li><label class="fl">模板类型：</label> <span> <select
@@ -178,8 +179,8 @@
 								<option value="合同模板">合同模板</option>
 						</select> </span></li>
 
-					<button class="btn fl ml5 mt1" type="submit">查询</button>
-					<button type="reset" class="btn ml5 mt1">重置</button>
+					<button class="btn" type="submit">查询</button>
+					<button type="reset" class="btn">重置</button>
 				</ul>
 
 				<div class="clear"></div>
