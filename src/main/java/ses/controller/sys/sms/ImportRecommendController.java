@@ -102,10 +102,12 @@ public class ImportRecommendController extends BaseSupplierController{
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
-			
 			if(ir.getAddress().equals("-请选择-")){
+				model.addAttribute("ir", ir);
 				model.addAttribute("ERR_address", "企业地址不能为空");
+				return "ses/sms/import_recommend/add";
 			}
+			
 			model.addAttribute("ir", ir);
 			return "ses/sms/import_recommend/add";
 		}
@@ -116,6 +118,11 @@ public class ImportRecommendController extends BaseSupplierController{
 				model.addAttribute("ir", ir);
 				return "ses/sms/import_recommend/add";
 			}
+		}
+		if(ir.getAddress().equals("-请选择-")){
+			model.addAttribute("ir", ir);
+			model.addAttribute("ERR_address", "企业地址不能为空");
+			return "ses/sms/import_recommend/add";
 		}
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
@@ -172,7 +179,17 @@ public class ImportRecommendController extends BaseSupplierController{
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
+			if(ir.getAddress().equals("-请选择-")){
+				model.addAttribute("ir", ir);
+				model.addAttribute("ERR_address", "企业地址不能为空");
+				return "ses/sms/import_recommend/add";
+			}
 			model.addAttribute("ir", ir);
+			return "ses/sms/import_recommend/edit";
+		}
+		if(ir.getAddress().equals("-请选择-")){
+			model.addAttribute("ir", ir);
+			model.addAttribute("ERR_address", "企业地址不能为空");
 			return "ses/sms/import_recommend/edit";
 		}
 		ir.setUpdatedAt(new Date());

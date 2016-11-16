@@ -73,9 +73,10 @@ public class SupplierEditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value="list")
 	public String registerStart(SupplierEdit se,HttpServletRequest request,Integer page,Model model){
+		User user1=(User) request.getSession().getAttribute("loginUser");
+		se.setRecordId(user1.getTypeId());
 		List<SupplierEdit> seList=supplierEditService.findAll(se,page==null?1:page);
 		request.setAttribute("seList", new PageInfo<>(seList));
-		User user1=(User) request.getSession().getAttribute("loginUser");
 		model.addAttribute("id", user1.getTypeId());
 		return "ses/sms/supplier_apply_edit/list";
 	}
@@ -112,35 +113,22 @@ public class SupplierEditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value="save")
 	public String registerEnd(SupplierEdit se,HttpServletRequest request) throws IOException{
-		Supplier supplier=(Supplier)supplierAuditService.supplierById(se.getId());
+		//Supplier supplier=(Supplier)supplierAuditService.supplierById(se.getId());
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		se.setRecordId(se.getId());
 		se.setId(null);
 		se.setCreateDate(new Timestamp(new Date().getTime()));
-		this.setSupplierUpload(request, se);
+		//现在不用了
+		//this.setSupplierUpload(request, se);
 		se.setStatus((short)0);
-		if(se.getBillCert()==null||se.getBillCert().equals("")){
-			se.setBillCert(supplier.getBillCert());
-		}
-		if(se.getSecurityCert()==null||se.getSecurityCert().equals("")){
-			se.setSecurityCert(supplier.getSecurityCert());
-		}
-		if(se.getTaxCert()==null||se.getTaxCert().equals("")){
-			se.setTaxCert(supplier.getTaxCert());
-		}
-		if(se.getBreachCert()==null||se.getBreachCert().equals("")){
-			se.setBreachCert(supplier.getBreachCert());
-		}
-		if(se.getBusinessCert()==null||se.getBusinessCert().equals("")){
-			se.setBusinessCert(supplier.getBusinessCert());
-		}
 		supplierEditService.insertSelective(se);
-		
 		Todos todo=new Todos();
 		//自己的id
 		todo.setSenderId(user1.getId());
 		//代办机构id
-		todo.setOrgId(user1.getOrg().getId());
+		if(user1.getOrg()!=null){
+			todo.setOrgId(user1.getOrg().getId());
+		}
 		//权限Id
 		todo.setPowerId(PropUtil.getProperty("gysdb"));
 		//待办类型 供应商
@@ -151,7 +139,7 @@ public class SupplierEditController extends BaseSupplierController{
 		todo.setIsDeleted((short)0);
 		todo.setCreatedAt(new Date());
 		todo.setUrl("supplier_edit/audit.html?id="+se.getId());
-		todosService.insert(todo);
+	    todosService.insert(todo);
 		return "redirect:list.html";
 	}
 	
@@ -172,6 +160,8 @@ public class SupplierEditController extends BaseSupplierController{
 		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
 		//修改前的
 		Supplier supplier=supplierAuditService.supplierById(se.getRecordId());
+		req.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		req.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		req.getSession().setAttribute("supplierId_edit", se.getId());
 		model.addAttribute("se", se);
 		model.addAttribute("supplier", supplier);
@@ -239,9 +229,11 @@ public class SupplierEditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping(value="view")
-	public String view(String id,Model model){
+	public String view(String id,Model model,HttpServletRequest request){
 		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
 		model.addAttribute("supplier",se );
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		SupplierReason sr=new SupplierReason();
 		sr.setSupplierId(se.getId());
 		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
@@ -349,6 +341,46 @@ public class SupplierEditController extends BaseSupplierController{
 	public void copyToSupplier(String seId){
 		SupplierEdit supplierEdit=supplierEditService.selectByPrimaryKey(seId);
 		Supplier supplier=supplierAuditService.supplierById(supplierEdit.getRecordId());
+		//第一次保存的时候要给原始数据保存一条，用来后面做对比
+		SupplierEdit supplierEdit1=new SupplierEdit();
+		supplierEdit1.setRecordId(supplier.getId());
+	    supplierEdit1.setSupplierName(supplier.getSupplierName());
+	    supplierEdit1.setWebsite(supplier.getWebsite());
+	    supplierEdit1.setFoundDate(supplier.getFoundDate());
+	    supplierEdit1.setBusinessType(supplier.getBusinessType());
+	    supplierEdit1.setAddress(supplier.getAddress());
+	    supplierEdit1.setBankName(supplier.getBankName());
+	    supplierEdit1.setBankAccount(supplier.getBankAccount());
+	    supplierEdit1.setPostCode(supplier.getPostCode());
+	    supplierEdit1.setTaxCert(supplier.getTaxCert());
+	    supplierEdit1.setBillCert(supplier.getBillCert());
+	    supplierEdit1.setSecurityCert(supplier.getSecurityCert());
+	    supplierEdit1.setBreachCert(supplier.getBreachCert());
+	    supplierEdit1.setLegalName(supplier.getLegalName());
+	    supplierEdit1.setLegalIdCard(supplier.getLegalIdCard());
+	    supplierEdit1.setLegalMobile(supplier.getLegalMobile());
+	    supplierEdit1.setLegalTelephone(supplier.getLegalTelephone());
+	    supplierEdit1.setContactName(supplier.getContactName());
+	    supplierEdit1.setContactTelephone(supplier.getContactTelephone());
+	    supplierEdit1.setContactMobile(supplier.getContactMobile());
+	    supplierEdit1.setContactFax(supplier.getContactFax());
+	    supplierEdit1.setContactEmail(supplier.getContactEmail());
+	    supplierEdit1.setContactAddress(supplier.getContactAddress());
+	    supplierEdit1.setCreditCode(supplier.getCreditCode());
+	    supplierEdit1.setRegistAuthority(supplier.getRegistAuthority());
+	    supplierEdit1.setRegistFund(supplier.getRegistFund());
+	    supplierEdit1.setBusinessStartDate(supplier.getBusinessStartDate());
+	    supplierEdit1.setBusinessEndDate(supplier.getBusinessEndDate());
+	    supplierEdit1.setBusinessScope(supplier.getBusinessScope());
+	    supplierEdit1.setBusinessPostCode(supplier.getBusinessPostCode());
+	    supplierEdit1.setBusinessAddress(supplier.getBusinessAddress());
+	    supplierEdit1.setOverseasBranch((short)Integer.parseInt(supplier.getOverseasBranch()+""));
+	    supplierEdit1.setBranchAddress(supplier.getBranchAddress());
+	    supplierEdit1.setBranchCountry(supplier.getBranchCountry());
+	    supplierEdit1.setBranchName(supplier.getBranchName());
+	    supplierEdit1.setBranchBusinessScope(supplier.getBranchBusinessScope());
+	    supplierEdit1.setBusinessCert(supplier.getBusinessCert());
+	    //开始改变供应商的值
 		supplier.setSupplierName(supplierEdit.getSupplierName());
 		supplier.setWebsite(supplierEdit.getWebsite());
 		supplier.setFoundDate(supplierEdit.getFoundDate());
@@ -385,50 +417,14 @@ public class SupplierEditController extends BaseSupplierController{
 		supplier.setBranchName(supplierEdit.getBranchName());
 		supplier.setBranchBusinessScope(supplierEdit.getBranchBusinessScope());
 		supplier.setBusinessCert(supplierEdit.getBusinessCert());
-		//第一次保存的时候要给原始数据保存一条，用来后面做对比
-		SupplierEdit supplierEdit1=new SupplierEdit();
-		supplierEdit.setRecordId(supplier.getId());
-	    supplierEdit.setSupplierName(supplier.getSupplierName());
-	    supplierEdit.setWebsite(supplier.getWebsite());
-	    supplierEdit.setFoundDate(supplier.getFoundDate());
-	    supplierEdit.setBusinessType(supplier.getBusinessType());
-	    supplierEdit.setAddress(supplier.getAddress());
-	    supplierEdit.setBankName(supplier.getBankName());
-	    supplierEdit.setBankAccount(supplier.getBankAccount());
-	    supplierEdit.setPostCode(supplier.getPostCode());
-	    supplierEdit.setTaxCert(supplier.getTaxCert());
-	    supplierEdit.setBillCert(supplier.getBillCert());
-	    supplierEdit.setSecurityCert(supplier.getSecurityCert());
-	    supplierEdit.setBreachCert(supplier.getBreachCert());
-	    supplierEdit.setLegalName(supplier.getLegalName());
-	    supplierEdit.setLegalIdCard(supplier.getLegalIdCard());
-	    supplierEdit.setLegalMobile(supplier.getLegalMobile());
-	    supplierEdit.setLegalTelephone(supplier.getLegalTelephone());
-	    supplierEdit.setContactName(supplier.getContactName());
-	    supplierEdit.setContactTelephone(supplier.getContactTelephone());
-	    supplierEdit.setContactMobile(supplier.getContactMobile());
-	    supplierEdit.setContactFax(supplier.getContactFax());
-	    supplierEdit.setContactEmail(supplier.getContactEmail());
-	    supplierEdit.setContactAddress(supplier.getContactAddress());
-	    supplierEdit.setCreditCode(supplier.getCreditCode());
-	    supplierEdit.setRegistAuthority(supplier.getRegistAuthority());
-	    supplierEdit.setRegistFund(supplier.getRegistFund());
-	    supplierEdit.setBusinessStartDate(supplier.getBusinessStartDate());
-	    supplierEdit.setBusinessEndDate(supplier.getBusinessEndDate());
-	    supplierEdit.setBusinessScope(supplier.getBusinessScope());
-	    supplierEdit.setBusinessPostCode(supplier.getBusinessPostCode());
-	    supplierEdit.setBusinessAddress(supplier.getBusinessAddress());
-	    supplierEdit.setOverseasBranch((short)Integer.parseInt(supplier.getOverseasBranch()+""));
-	    supplierEdit.setBranchAddress(supplier.getBranchAddress());
-	    supplierEdit.setBranchCountry(supplier.getBranchCountry());
-	    supplierEdit.setBranchName(supplier.getBranchName());
-	    supplierEdit.setBranchBusinessScope(supplier.getBranchBusinessScope());
-	    supplierEdit.setBusinessCert(supplier.getBusinessCert());
+		
 	    SupplierEdit supplierEdit2=new SupplierEdit();
 	    supplierEdit2.setRecordId(supplier.getId());
 	    supplierEdit2.setStatus((short)4);
 	    //如果是第一次审核通过的时候要给原始数据保存下来（没有保存状态）
 		if(supplierEditService.getAllbySupplierId(supplierEdit2).size()==0){
+			supplierEdit1.setStatus((short)4);
+			supplierEdit1.setCreateDate(new Timestamp(new Date().getTime()));
 			supplierEditService.insertSelective(supplierEdit1);
 		}
 		supplierService.perfectBasic(supplier);

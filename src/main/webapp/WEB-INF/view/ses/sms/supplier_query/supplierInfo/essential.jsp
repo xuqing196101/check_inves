@@ -9,30 +9,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <script type="text/javascript">
-function reason(id){
-  var supplierId=$("#id").val();
-  var id1=id+"1";
-  var id2=id+"2";
-  var id3=id+"3";
-  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
-  var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
-  var auditType=$("#essential").text(); //审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-        type:"post",
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
-      });
-  $("#"+id1+"").hide();
-  layer.msg("审核不通过的理由是："+text);    
-/*    $("input[name='auditType']").val(auditType);
-   $("input[name='auditField']").val(auditField);
-   $("input[name='auditContent']").val(auditContent);
-   $("input[name='suggest']").val(text);
-    
-   $("#save_reaeon").submit(); */
-    });
-}
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -114,14 +90,14 @@ function fanhui(){
 	  </div>
    </div>
   <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-   <!-- <div class="container">
+  <div class="container clear mt10">
+   <div class="container">
    <div class="col-md-12">
 	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
 	</div>
-    </div> -->
+    </div>
   <!--详情开始-->
-   <div class="container content pt0">
+   <div class="container content pt0 mt10">
         <div class="tab-v2">
           <ul class="nav nav-tabs bgwhite">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a></li>

@@ -105,17 +105,17 @@
    </div>
   <ul class="ul_list">
     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">登录名：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>登录名：</span>
 	   <div class="input-append">
 	    <input type="hidden" name="id" value="${ir.id }" />
-        <input class="span5" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+        <input class="span5" id="loginName" readonly name="loginName" value="${ir.loginName }" type="text">
         <span class="add-on">i</span>
         <div class="cue">${ERR_loginName}</div>
        </div>
 	</li> 
 	 
     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">登录密码：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>登录密码：</span>
 	   <div class="input-append">
          <input class="span5" id="password" name="password" value="${ir.password }" type="text">
         <span class="add-on">i</span>
@@ -124,7 +124,7 @@
 	 </li> 
 	 
 	  <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">企业名称：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业名称：</span>
 	   <div class="input-append">
          <input class="span5" id="name" name="name"  value="${ir.name }" type="text"> 
         <span class="add-on">i</span>
@@ -133,7 +133,7 @@
 	 </li> 
   
   	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">法定代表人：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>法定代表人：</span>
 	   <div class="input-append">
          <input class="span5" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
         <span class="add-on">i</span>
@@ -142,9 +142,9 @@
 	 </li> 
 	 
 	 <li class="col-md-3 margin-0 padding-0 ">
-		   <span class="col-md-12 padding-left-5">企业地址：</span>
-   		   <div class="select_common">
-	   		    <select id="choose1" class="w100" onchange="fun();">
+		   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业地址：</span>
+   		   <div class="select_common"> 
+	   		    <select id="choose1" class="w100 mr25" onchange="fun();">
 					<option  class="w100" >-请选择-</option>
 			    </select>
 				<select name="address" class="w100" id="choose2">
@@ -155,7 +155,7 @@
 	  </li> 
 	 
 	  <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">进口代理商类型：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>进口代理商类型：</span>
 	   <div class="select_common">
 	        <select id="type" class="w220" name="type">
 	           <option value="1">正式代理商</option>
@@ -165,7 +165,7 @@
 	 </li> 
 	 
 	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">推荐单位：</span>
+	   <span class="col-md-12 padding-left-5"><span class="red">*</span>推荐单位：</span>
 	   <div class="input-append">
          <input class="span5" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
          <span class="add-on">i</span>

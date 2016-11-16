@@ -164,6 +164,16 @@ public class ImportSupplierController {
 			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
 				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
 			}
+			if("-请选择-".equals(is.getAddress())){
+				model.addAttribute("is", is);
+				model.addAttribute("ERR_address", "请输入地址");
+				return "ses/sms/import_supplier/edit";
+			}
+			return "ses/sms/import_supplier/edit";
+		}
+		if("-请选择-".equals(is.getAddress())){
+			model.addAttribute("is", is);
+			model.addAttribute("ERR_address", "请输入地址");
 			return "ses/sms/import_supplier/edit";
 		}
 		
@@ -211,8 +221,19 @@ public class ImportSupplierController {
 			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
 				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
 			}
+			if("-请选择-".equals(is.getAddress())){
+				model.addAttribute("is", is);
+				model.addAttribute("ERR_address", "请输入地址");
+				return "ses/sms/import_supplier/edit";
+			}
 			return "ses/sms/import_supplier/register";
 		}
+		if("-请选择-".equals(is.getAddress())){
+			model.addAttribute("is", is);
+			model.addAttribute("ERR_address", "请输入地址");
+			return "ses/sms/import_supplier/register";
+		}
+		
 		is.setStatus((short)0);
 		is.setCreatedAt(new Timestamp(new Date().getTime()));
 		User user1=(User) request.getSession().getAttribute("loginUser");

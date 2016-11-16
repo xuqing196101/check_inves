@@ -532,8 +532,8 @@ public class SupplierQueryController extends BaseSupplierController{
 			}else if(!listEdit.get(i).getPostCode().equals(listEdit.get(i+1).getPostCode())){
 				sb.append(" 邮编:"+listEdit.get(i+1).getPostCode()+",");
 			}
-			
-			if((listEdit.get(i).getTaxCert()==null&&listEdit.get(i+1).getTaxCert()!=null)){
+			//上传方式换了  不好比较
+			/*if((listEdit.get(i).getTaxCert()==null&&listEdit.get(i+1).getTaxCert()!=null)){
 				if(listEdit.get(i+1).getTaxCert().indexOf("_")!=-1){
 					sb.append(" 完税凭证:"+listEdit.get(i+1).getTaxCert().substring(listEdit.get(i+1).getTaxCert().indexOf("_")+1,listEdit.get(i+1).getTaxCert().length())+",");
 				}
@@ -578,7 +578,7 @@ public class SupplierQueryController extends BaseSupplierController{
 				if(listEdit.get(i+1).getBreachCert().indexOf("_")!=-1){
 					sb.append(" 违法记录:"+listEdit.get(i+1).getBreachCert().substring(listEdit.get(i+1).getBreachCert().indexOf("_")+1,listEdit.get(i+1).getBreachCert().length())+",");
 				}
-			}
+			}*/
 			if((listEdit.get(i).getLegalName()==null&&listEdit.get(i+1).getLegalName()!=null)){
 				sb.append(" 法人姓名:"+listEdit.get(i+1).getLegalName()+",");
 			}else if((listEdit.get(i).getLegalName()==null&&listEdit.get(i+1).getLegalName()==null)){
@@ -735,12 +735,12 @@ public class SupplierQueryController extends BaseSupplierController{
 			}else if(!listEdit.get(i).getBranchBusinessScope().equals(listEdit.get(i+1).getBranchBusinessScope())){
 				sb.append(" 生产经营范围:"+listEdit.get(i+1).getBranchBusinessScope()+",");
 			}
-			if((listEdit.get(i).getBusinessCert()==null&&listEdit.get(i+1).getBusinessCert()!=null)){
+			/*if((listEdit.get(i).getBusinessCert()==null&&listEdit.get(i+1).getBusinessCert()!=null)){
 				sb.append(" 营业执照:"+listEdit.get(i+1).getBusinessCert()+",");
 			}else if((listEdit.get(i).getBusinessCert()==null&&listEdit.get(i+1).getBusinessCert()==null)){
 			}else if(!listEdit.get(i).getBusinessCert().equals(listEdit.get(i+1).getBusinessCert())){
 				sb.append(" 营业执照:"+listEdit.get(i+1).getBusinessCert()+",");
-			}
+			}*/
 			if((listEdit.get(i).getBranchName()==null&&listEdit.get(i+1).getBranchName()!=null)){
 				sb.append(" 分支名称:"+listEdit.get(i+1).getBranchName()+",");
 			}else if((listEdit.get(i).getBranchName()==null&&listEdit.get(i+1).getBranchName()==null)){

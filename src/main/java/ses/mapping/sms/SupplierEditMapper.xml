@@ -74,7 +74,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_EDIT
-    where 1=1  and status = 1
+    where 1=1  and status = 1 or status=4
     <if test=" recordId != null and recordId != '' ">
     	AND RECORD_ID =#{recordId}
     </if>

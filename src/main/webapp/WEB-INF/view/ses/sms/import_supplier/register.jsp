@@ -148,7 +148,7 @@
 				    <h2 class="count_flow">新增进口供应商</h2>
 				            <ul class="ul_list">
 				    		 <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">企业名称：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业名称：</span>
 							   <div class="input-append">
 						        <input class="span5" id="name" name="name" value="${is.name }"  type="text">
 						        <span class="add-on">i</span>
@@ -157,7 +157,7 @@
 							 </li> 
 							 
 							 <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">企业类别：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业类别：</span>
 							   <div class="input-append">
 						        <input class="span5" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
 						        <span class="add-on">i</span>
@@ -166,7 +166,7 @@
 							 </li> 
 							 
 							  <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">中文译名：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>中文译名：</span>
 							   <div class="input-append">
 						        <input class="span5" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
 						        <span class="add-on">i</span>
@@ -175,7 +175,7 @@
 							 </li> 
 							 
 				            <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">法定代表人：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>法定代表人：</span>
 							   <div class="input-append">
 						        <input class="span5" id="legalName" name="legalName" value="${is.legalName }" type="text">
 						        <span class="add-on">i</span>
@@ -184,9 +184,9 @@
 							 </li> 
 							 
 							   <li class="col-md-3 margin-0 padding-0 ">
-								   <span class="col-md-12 padding-left-5">企业地址：</span>
+								   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业地址：</span>
 						     	   <div class="select_common">
-						     		    <select id="choose1" class="w100" onchange="fun();">
+						     		    <select id="choose1" class="w100 mr25" onchange="fun();">
 											<option  class="w100" >-请选择-</option>
 										</select>
 										<select name="address" class="w100" id="choose2">
@@ -197,7 +197,7 @@
 							 </li> 
 									
 							 <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">邮政编码：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>邮政编码：</span>
 							   <div class="input-append">
 						        <input class="span5" id="postCode" name="postCode" value="${is.postCode }"  type="text">
 						        <span class="add-on">i</span>
@@ -206,7 +206,7 @@
 							 </li> 
 							 		
 							<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">经营产品大类：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>经营产品大类：</span>
 							   <div class="input-append">
 						        <input class="span5" id="productType" name="productType" value="${is.productType }"  type="text">
 						        <span class="add-on">i</span>
@@ -215,7 +215,7 @@
 							 </li> 		
 							 
 							 <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">主营产品：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>主营产品：</span>
 							   <div class="input-append">
 						        <input class="span5" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
 						        <span class="add-on">i</span>
@@ -224,7 +224,7 @@
 							 </li> 	
 							 
 							  <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">兼营产品：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>兼营产品：</span>
 							   <div class="input-append">
 						        <input class="span5" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
 						        <span class="add-on">i</span>
@@ -233,7 +233,7 @@
 							 </li> 	
 							 	
 							<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">生产商名称：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>生产商名称：</span>
 							   <div class="input-append">
 						        <input class="span5" id="producerName" name="producerName" value="${is.producerName }"   type="text">
 						        <span class="add-on">i</span>
@@ -242,7 +242,7 @@
 							 </li> 	
 							 
 								<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">联系人：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>联系人：</span>
 							   <div class="input-append">
 						        <input class="span5" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
 						        <span class="add-on">i</span>
@@ -251,7 +251,7 @@
 							 </li> 	
 	
 								<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">电话：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>电话：</span>
 							   <div class="input-append">
 						        <input class="span5" id="telephone" name="telephone" value="${is.telephone }"  type="text">
 						        <span class="add-on">i</span>
@@ -260,7 +260,7 @@
 							 </li> 			
 										
 								<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">传真：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>传真：</span>
 							   <div class="input-append">
 						        <input class="span5" id="fax" name="fax" value="${is.fax }" type="text">
 						        <span class="add-on">i</span>
@@ -269,7 +269,7 @@
 							 </li> 	
 							 		
 								<li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">电子邮件：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>电子邮件：</span>
 							   <div class="input-append">
 						        <input class="span5" id="email" name="email" value="${is.email }" type="text">
 						        <span class="add-on">i</span>
@@ -278,7 +278,7 @@
 							 </li> 		
 							 
 							 <li class="col-md-3 margin-0 padding-0 ">
-							   <span class="col-md-12 padding-left-5">企业网址：</span>
+							   <span class="col-md-12 padding-left-5"><span class="red">*</span>企业网址：</span>
 							   <div class="input-append">
 						        <input class="span5" id="website" name="website" value="${is.website }"  type="text">
 						        <span class="add-on">i</span>
