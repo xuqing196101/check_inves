@@ -113,4 +113,9 @@ public class ScoreModelServiceImpl implements ScoreModelService{
 		return scoreModelMapper.delParamIntervalByMap(map);
 	}*/
 
+    @Override
+    public ScoreModel findScoreModelByScoreModel(ScoreModel scoreModel) {
+        return scoreModelMapper.findScoreModelByScoreModel(scoreModel);
+    }
+
 }

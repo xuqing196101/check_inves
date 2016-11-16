@@ -55,6 +55,36 @@
       	</if>
       	ORDER BY mt.CREATED_AT DESC	
    </select> 
+   <select id="findMarkTermById" parameterType="java.lang.String" resultType="bss.model.ppms.MarkTerm">
+   		SELECT
+   			mt.id as id,
+   			mt.PID as pid,
+   			mt.NAME as name,
+   			mt.PNAME as pname,
+   			mt.URL as url,
+   			mt.CHECKED as checked,
+   			mt.IS_DELETED as isDeleted,
+   			mt.CREATED_AT as createdAt,
+   			mt.UPDATED_AT as updatedAt,
+   			mt.MAX_SCORE as maxScore,
+   			mt.PROJECT_ID as projectId,
+   			mt.PACKAGE_ID as packageId,
+   			mt.REMAIN_SCORE as remainScore,
+   			b.id  as bidMethodId,
+   			b.name as bidMethodName,
+   			b.TYPE_NAME as bidMethodTypeName,
+   			b.MAX_SCORE as bidMethodMaxScore,
+   			b.FLOATING_RATIO as bidMethodFloatingRatio,
+   			b.REMARK as bidMethodRemark
+   		FROM
+   			T_BSS_PPMS_MARK_TERM mt
+   		left join T_BSS_PPMS_BID_METHOD b on MT.BID_METHOD_ID = b.id
+   		WHERE nvl(mt.is_deleted,0)=0
+   		<if test="_parameter != null and _parameter != ''">
+	      and mt.id= #{_parameter}
+		</if> 
+      	ORDER BY mt.CREATED_AT DESC	
+   </select> 
   <insert id="saveMarkTerm" parameterType="bss.model.ppms.MarkTerm">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual

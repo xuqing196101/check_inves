@@ -31,6 +31,13 @@
    	<result column="updated_at"  property="updatedAt" />
    	<result column="status"  property="status" />
    	<result column="judge_number"  property="judgeNumber" />
+   	<!-- <association property="markTerm" column="mark_term_id" select="bss.dao.ppms.MarkTermMapper.findMarkTermById"/> -->
+   	<association property="markTerm" javaType="bss.model.ppms.MarkTerm">
+   		<id column="mark_term_id" property="id"/>
+     	<result column="mpid" property="pid"/>
+     	<result column="mname" property="name"/>
+     	<result column="mtypeName" property="typeName"/>
+   	</association>
    	<collection property="paramIntervalList" ofType="bss.model.ppms.ParamInterval">
 		<id column="piId"  property="id" />
 	    <result column="piScoreModelId" jdbcType="VARCHAR" property="scoreModelId" />
@@ -45,7 +52,117 @@
 	    <result column="piUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
 	</collection> 
   </resultMap>
-  <select id="findListByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseResultMap">
+  <!-- 基本查询  不关联一对多 -->
+  <resultMap id="BaseMap" type="bss.model.ppms.ScoreModel">
+    <id column="ID"  property="id" />
+    <result column="project_id" property="projectId"/>
+   	<result column="package_id" property="packageId"/>
+   	<result column="mark_term_id" property="markTermId"/>
+   	<result column="mark_term_name"  property="markTermName" />
+   	<result column="name"  property="name" />
+   	<result column="type_name"  property="typeName" />
+   	<result column="review_content"  property="reviewContent" />
+   	<result column="remark"  property="remark" />
+   	<result column="easy_understand_content"  property="easyUnderstandContent" />
+   	<result column="standard_explain"  property="standExplain" />
+   	<result column="standard_score"  property="standardScore" />
+   	<result column="judge_content"  property="judgeContent" />
+   	<result column="review_param"  property="reviewParam" />
+   	<result column="add_subtract_type_name"  property="addSubtractTypeName" />
+   	<result column="unit_score"  property="unitScore" />
+   	<result column="unit"  property="unit" />
+   	<result column="review_stand_score"  property="reviewStandScore" />
+   	<result column="max_score"  property="maxScore" />
+   	<result column="min_score"  property="minScore" />
+   	<result column="score"  property="score" />
+   	<result column="interval_type_name"  property="intervalTypeName" />
+   	<result column="deadline_number"  property="deadlineNumber" />
+   	<result column="interval_number"  property="intervalNumber" />
+   	<result column="is_deleted"  property="isDeleted" />
+   	<result column="created_at"  property="createdAt" />
+   	<result column="updated_at"  property="updatedAt" />
+   	<result column="status"  property="status" />
+   	<result column="judge_number"  property="judgeNumber" />
+   	<!-- <association property="markTerm" column="mark_term_id" select="bss.dao.ppms.MarkTermMapper.findMarkTermById"/> -->
+   	<association property="markTerm" javaType="bss.model.ppms.MarkTerm">
+   		<id column="mark_term_id" property="id"/>
+     	<result column="mpid" property="pid"/>
+     	<result column="mname" property="name"/>
+     	<result column="mtypeName" property="typeName"/>
+   	</association>
+  </resultMap>
+   <select id="findListByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseMap">
+   		SELECT
+   			sm.*,
+   			m.pid           as mpid,
+   			m.name          as mname,
+   			m.PNAME         as mpname,
+   			m.TYPE_NAME   as mtypeName
+   		FROM
+   			T_BSS_PPMS_SCORE_MODEL SM
+   		<!-- LEFT JOIN
+   			T_BSS_PPMS_PARAM_INTERVAL PI
+   		on sm.id = pi.score_model_id -->
+   		LEFT JOIN T_BSS_PPMS_MARK_TERM m
+   		on sm.MARK_TERM_ID = m."ID"
+   		WHERE nvl(SM.is_deleted,0)=0
+   		
+   		<if test="projectId != null">
+        	and SM.project_id = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	and SM.package_id = #{packageId}
+      	</if>
+      	<if test="markTermId != null">
+        	and SM.mark_term_id = #{markTermId}
+      	</if>
+      	<if test="typeName != null and typeName!='' ">
+        	and SM.type_name = #{typeName}
+      	</if>
+      	<if test="markTerm != null and markTerm.name!='' ">
+        	and m.name like '%'||#{markTerm.name}||'%' 
+      	</if>
+      	<if test="markTerm != null and markTerm.typeName!=''">
+        	and m.type_name = #{markTerm.typeName}
+      	</if>
+      	ORDER BY sm.CREATED_AT DESC	
+   </select> 
+    <select id="findScoreModelByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseResultMap">
+   		SELECT
+   			sm.*,
+   			pi.id	as piId,
+   			pi.score_model_id	as piScoreModelId,
+   			pi.start_param	as piStartParam,
+   			pi.end_param as piEndParam,
+   			pi.start_relation	as piStartRelation,
+   			pi.end_relation	as piEndRelation,
+   			pi.score	as piScore,
+   			pi.explain	as piExplain,
+   			pi.is_deleted	as piIsDeleted,
+   			pi.created_at	as piCreatedAt,
+   			pi.updated_at	as piUpdatedAt
+   		FROM
+   			T_BSS_PPMS_SCORE_MODEL SM
+   	    LEFT JOIN
+   			T_BSS_PPMS_PARAM_INTERVAL PI
+   		on sm.id = pi.score_model_id
+   		WHERE nvl(SM.is_deleted,0)=0
+   		
+   		<if test="projectId != null">
+        	and SM.project_id = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	and SM.package_id = #{packageId}
+      	</if>
+      	<if test="markTermId != null">
+        	and SM.mark_term_id = #{markTermId}
+      	</if>
+      	<if test="id != null">
+        	and SM.id = #{id}
+      	</if>
+      	ORDER BY sm.CREATED_AT DESC	
+   </select> 
+ <!--  <select id="findListByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseResultMap">
    		SELECT
    			sm.*,
    			pi.id	as piId,
@@ -64,6 +181,8 @@
    		LEFT JOIN
    			T_BSS_PPMS_PARAM_INTERVAL PI
    		on sm.id = pi.score_model_id
+   		LEFT JOIN T_BSS_PPMS_MARK_TERM m 
+   		on s.MARK_TERM_ID = m."ID"
    		WHERE nvl(SM.is_deleted,0)=0
    		<if test="projectId != null">
         	and SM.project_id = #{projectId}
@@ -75,7 +194,7 @@
         	and SM.mark_term_id = #{markTermId}
       	</if>
       	ORDER BY sm.CREATED_AT DESC	
-   </select> 
+   </select>  -->
   <insert id="saveScoreModel" parameterType="bss.model.ppms.ScoreModel">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual

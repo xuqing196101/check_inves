@@ -68,37 +68,36 @@ public class MarkTermServiceImpl implements MarkTermService{
 
 	@Override
 	public int updateMarkTerm(MarkTerm markTerm) {
-		// TODO Auto-generated method stub
 		return markTermMapper.updateMarkTerm(markTerm);
 	}
 
 	@Override
 	public int delMarkTermByid(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return markTermMapper.delMarkTermByid(map);
 	}
 
 	@Override
 	public int delMarkTermByMap(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return markTermMapper.delMarkTermByMap(map);
 	}
 
 	@Override
 	public int delSoftMarkTermByid(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return markTermMapper.delSoftMarkTermByid(map);
 	}
 
 	@Override
 	public int insert(MarkTerm markTerm) {
-		// TODO Auto-generated method stub
 		return markTermMapper.insert(markTerm);
 	}
 
 	@Override
 	public int delMarkTermByParentId(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return markTermMapper.delMarkTermByParentId(map);
 	}
+
+    @Override
+    public MarkTerm findMarkTermById(String id) {
+        return markTermMapper.findMarkTermById(id);
+    }
 }

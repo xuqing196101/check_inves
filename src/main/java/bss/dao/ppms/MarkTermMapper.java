@@ -16,4 +16,5 @@ public interface MarkTermMapper {
 	public int delSoftMarkTermByid(HashMap<String, Object> map);
 	public int insert(MarkTerm markTerm);
 	public int delMarkTermByParentId(HashMap<String, Object> map);
+	public MarkTerm findMarkTermById(String id);
 }
