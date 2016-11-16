@@ -555,7 +555,7 @@ public class ProjectController extends BaseController {
         map.put("purchaseDepName", project.getPurchaseDepName());
         List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
         DictionaryData dictionaryData=new DictionaryData();
-        dictionaryData.setCode("CGJH_ADJUST");
+        dictionaryData.setCode("PROJECT_IMPLEMENT");
         String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
         model.addAttribute("purchaseInfo", purchaseInfo);
         model.addAttribute("project", project);

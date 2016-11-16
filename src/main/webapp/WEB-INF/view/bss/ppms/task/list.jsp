@@ -78,7 +78,7 @@
 					.open({
 						type : 2, //page层
 						area : [ '400px', '200px' ],
-						title : '',
+						title : '上传附件',
 						shade : 0.01, //遮罩透明度
 						moveType : 1, //拖拽风格，0是默认，1是传统拖动
 						shift : 1, //0-6的动画形式，-1不开启
@@ -239,13 +239,13 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a>
+				<li><a href="javascript:void(0)"> 首页</a>
 				</li>
-				<li><a href="#">保障作业系统</a>
+				<li><a href="javascript:void(0)">保障作业系统</a>
 				</li>
-				<li><a href="#">采购任务管理</a>
+				<li><a href="javascript:void(0)">采购任务管理</a>
 				</li>
-				<li class="active"><a href="#">采购任务管理</a>
+				<li class="active"><a href="javascript:void(0)">采购任务管理</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
@@ -319,12 +319,12 @@
 								name="chkItem" onclick="check()" alt="">
 							</td>
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tc"><a href="#" onclick="viewd('${obj.id}');">${obj.name}</a>
+							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
 							</td>
-							<td class="tc"><a href="#" onclick="viewd('${obj.id}');">${obj.purchaseId
+							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.purchaseId
 									}</a>
 							</td>
-							<td class="tc"><a href="#" onclick="viewd('${obj.id}');">${obj.documentNumber
+							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber
 									}</a>
 							</td>
 							<td class="tc"><c:if test="${'1'==obj.status}">

@@ -246,10 +246,10 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">保障作业系统</a></li>
-				<li><a href="#">采购项目管理</a></li>
-				<li class="active"><a href="#">立项管理</a></li>
+				<li><a href="javascript:void(0)"> 首页</a></li>
+				<li><a href="javascript:void(0)">保障作业系统</a></li>
+				<li><a href="javascript:void(0)">采购项目管理</a></li>
+				<li class="active"><a href="javascript:void(0)">立项管理</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -261,8 +261,7 @@
 		</div>
 		<!-- 项目戳开始 -->
 		<h2 class="search_detail">
-			<form action="${pageContext.request.contextPath}/project/list.html"
-				id="form1" method="post" class="mb0">
+			<form action="${pageContext.request.contextPath}/project/list.html" id="form1" method="post" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">项目名称：<span><input
 								type="hidden" name="page" id="page"><input type="text"
@@ -279,8 +278,7 @@
 			</form>
 		</h2>
 		<div class="col-md-12 pl20 mt10">
-            <a class="btn btn-windows add"
-                href="${pageContext.request.contextPath}/project/add.html">新增</a>
+            <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新增</a>
 			<button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
 			<button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
 			<button class="btn btn-windows edit" onclick="edit();">修改</button>
@@ -302,25 +300,24 @@
 
 						<c:forEach items="${info.list}" var="obj" varStatus="vs">
 							<tr style="cursor: pointer;">
-								<td class="tc w30"><input type="hidden"
-									value="${obj.status }" /><input type="checkbox"
-									value="${obj.id }" name="chkItem" onclick="check()" alt="">
+								<td class="tc w30"><input type="hidden" value="${obj.status }" />
+								    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 								</td>
 								<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-								<td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a>
+								<td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a>
 								</td>
-								<td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber
-										}</a></td>
-								<td class="tc"><a href="#" onclick="view('${obj.id}');">
-								<c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-								<c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-								<c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-								<c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-								<c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+								<td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+								<td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">
+									<c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+									<c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+									<c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+									<c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+									<c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
 								</a></td>
-								<td class="tc"><c:if test="${'1'==obj.status}">实施中</c:if> <c:if
-										test="${'2'==obj.status}">已成交</c:if> <c:if
-										test="${'3'==obj.status}">已立项</c:if>
+								<td class="tc">
+								    <c:if test="${'1'==obj.status}">实施中</c:if> 
+								    <c:if test="${'2'==obj.status}">已成交</c:if> 
+								    <c:if test="${'3'==obj.status}">已立项</c:if>
 								</td>
 							</tr>
 
