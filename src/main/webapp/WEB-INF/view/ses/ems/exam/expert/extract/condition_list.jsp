@@ -36,7 +36,7 @@
           }(), 
           jump: function(e, first){ //触发分页后的回调
               if(!first){ //一定要加此判断，否则初始时会无限刷新projectNumber
-                  location.href = '${pageContext.request.contextPath}/ExpExtract/Extraction.html?id=${projectId}&page='+e.curr;
+                  location.href = '${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId=${projectId}&page='+e.curr;
               }
           }
       });

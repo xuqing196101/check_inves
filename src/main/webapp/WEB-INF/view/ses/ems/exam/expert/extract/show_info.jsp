@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -67,7 +68,7 @@
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td class="bggrey" >抽取地点:</td>
-						<td colspan="3" align="center">${ExpExtractRecord.extractionSites}</td>
+						<td colspan="3" align="center">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
 						<td align="center" class="bggrey" height="300px;">抽取条件<br>抽取数量
@@ -142,18 +143,20 @@
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">姓名</td>
+						  <td align="center">手机号</td>
 						<td align="center">单位</td>
 						<td align="center">职务</td>
-						<td align="center">军衔</td>
-						<td colspan="2" align="center">签证</td>
+<!-- 						<td align="center">军衔</td> -->
+						<td colspan="2" align="center">签字</td>
 					</tr>
 					<tr>
 						<td align="center">1</td>
-						<td align="center">${ExpExtractRecord.perpleUser.loginName}</td>
-						<td align="center">123</td>
-						<td align="center">${ExpExtractRecord.perpleUser.duties}</td>
-						<td align="center">军23衔</td>
-						<td colspan="2" align="center">签232证</td>
+						<td align="center">${ExpExtractRecord.perpleUser.relName}</td>
+						<td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
+						  <td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
+                        <td align="center">${ExpExtractRecord.perpleUser.duties}</td>
+<!-- 						<td align="center">军23衔</td> -->
+						<td colspan="2" align="center"></td>
 					</tr>
 					<tr>
 						<td colspan="7" align="center" class="bggrey">监督人员</td>
@@ -161,19 +164,21 @@
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">姓名</td>
+						<td align="center">手机号</td>
 						<td align="center">单位</td>
 						<td align="center">职务</td>
-						<td align="center">军衔</td>
-						<td colspan="2" align="center">签证</td>
+<!-- 						<td align="center">军衔</td> -->
+						<td colspan="2" align="center">签字</td>
 					</tr>
 					<c:forEach items="${listUser}" var="tuser" varStatus="vs">
 						<tr>
 							<td align="center">${vs.index+1 }</td>
-							<td align="center">${tuser.loginName}</td>
-							<td align="center">123</td>
-							<td align="center">${tuser.duties}</td>
-							<td align="center">军23衔</td>
-							<td colspan="2" align="center">签232证</td>
+							<td align="center">${tuser.relName}</td>
+                             <td align="center">${tuser.mobile}</td>
+                            <td align="center">${tuser.org.name}</td>
+                            <td align="center">${tuser.duties}</td>
+<!--                            <td align="center">军23衔</td> -->
+                            <td colspan="2" align="center"></td>
 						</tr>
 					</c:forEach>
 				</table>

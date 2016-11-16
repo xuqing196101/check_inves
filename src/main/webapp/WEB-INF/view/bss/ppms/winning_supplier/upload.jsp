@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
 <title>确定中标供应商</title>
 
@@ -21,8 +21,8 @@
 
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 
   	/** 全选全不选 */
@@ -61,7 +61,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/templet/view.do?id="+id;
   	}
   
 </script>

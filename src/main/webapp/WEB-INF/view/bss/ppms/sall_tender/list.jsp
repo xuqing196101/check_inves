@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>" >
+<base href="${pageContext.request.contextPath}/" >
 
 <title>模版管理</title>
 
@@ -19,12 +19,12 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <link rel="stylesheet"
-    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     type="text/css">
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -42,7 +42,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>saleTender/list.do?page='+e.curr+'&&projectId=${projectId}';
+		            location.href = '${pageContext.request.contextPath}/saleTender/list.do?page='+e.curr+'&&projectId=${projectId}';
 		        }
 		    }
 		});
@@ -86,7 +86,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/templet/view.do?id="+id;
   	}
   	
     function upload(){
@@ -104,7 +104,7 @@
                     shadeClose: true,
                     shade: 0.01,
                     area: ['500px', '230px'], //宽高
-                    content: '<%=basePath%>saleTender/showUpload.html?projectId=${projectId}&&id='+status[0],
+                    content: '${pageContext.request.contextPath}/saleTender/showUpload.html?projectId=${projectId}&&id='+status[0],
                     success: function(layero, index){
                         iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                       },
@@ -138,7 +138,7 @@
             shade: 0.01,
             area: ['90%', '50%'], //宽高
             offset:['100',''],
-            content: '<%=basePath%>saleTender/showSupplier.html?projectId=${projectId}',
+            content: '${pageContext.request.contextPath}/saleTender/showSupplier.html?projectId=${projectId}',
             success: function(layero, index){
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
               },
@@ -154,7 +154,6 @@
     }
    
     function download(){
-    	
     	   var id=[]; 
            $('input[name="chkItem"]:checked').each(function(){ 
                id.push($(this).val());
@@ -164,10 +163,8 @@
         	   if(status[1]==1){
         		    layer.alert("请先缴纳保证金",{offset: ['222px', '390px'], shade:0.01});
         	   }else if(status[2]==1){
-        		     layer.confirm('是否已缴纳标书费',{offset: ['222px', '390px'], shade:0.01}, {
-                         btn: ['是','否'] //按钮
-                       }, function(){
-                           window.location.href="<%=basePath%>saleTender/download.do?id="+status[0]+"&&projectId=${projectId}";
+        		     layer.confirm('是否已缴纳标书费',{offset: ['222px', '390px'], shade:0.01}, function(){
+                           window.location.href="${pageContext.request.contextPath}/saleTender/download.do?id="+status[0]+"&&projectId=${projectId}";
                        }, function(index){
                            layer.closeAll();
                        });      
@@ -186,7 +183,7 @@
 <body>
 	<!--面包屑导航开始-->
 	<h2 class="search_detail">
-		<form action="<%=basePath%>saleTender/list.do" method="post" id="form1" class="mb0"  >
+		<form action="${pageContext.request.contextPath}/saleTender/list.do" method="post" id="form1" class="mb0"  >
 		<input type="hidden" name="projectId" value="${projectId}">
 			<ul class="demand_list">
 				<li><label class="fl">供应商名称：</label><span><input

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -21,7 +22,50 @@
 
 <script type="text/javascript">
     $(function (){
-        var areas="${listArea[0].id}";
+    	
+    	 $("#area").empty();
+    	 var city="";
+    	 var city1="";
+    	//所在地区回显
+         var address="${ExpExtCondition.address}";
+         if(address != null && address != ''){
+                var addressArray=address.split(",");  
+                city=addressArray[1];
+                <c:forEach items="${listArea}" var="item" varStatus="status" >  
+                if("${item.name}" == addressArray[0]){
+                	   $("#area").append("<option selected='selected' value='${item.id}'>${item.name}</option>");
+                }else{
+                
+                $("#area").append("<option  value='${item.id}'>${item.name}</option>");
+                }
+                </c:forEach> 
+            
+         }else{
+        	  <c:forEach items="${listArea}" var="item" varStatus="status" >  
+            $("#area").append("<option  value='${item.id}'>${item.name}</option>");
+            </c:forEach> 
+         }
+         
+    	   $("#area1").empty();   
+    	   //抽取地址回显    
+    	    var extractAddress="${extractionSites}";
+            if(extractAddress != null && extractAddress != ''){
+                var extractAddressArray=extractAddress.split(","); 
+                city1=extractAddressArray[1];
+                <c:forEach items="${listArea}" var="item" varStatus="status" >  
+                if("${item.name}" == extractAddressArray[0]){
+                       $("#area1").append("<option selected='selected' value='${item.id}'>${item.name}</option>");
+                }else{
+                $("#area1").append("<option  value='${item.id}'>${item.name}</option>");
+                }
+                </c:forEach> 
+            }else{
+            	   <c:forEach items="${listArea}" var="item" varStatus="status" >  
+                   $("#area1").append("<option value='${item.id}'>${item.name}</option>");
+                   </c:forEach>   
+            } 
+            
+        var areas=$("#area option:selected").val();
          $.ajax({
               type:"POST",
               url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
@@ -31,11 +75,35 @@
                    var list = data;
                    $("#city").empty();
                    for(var i=0;i<list.length;i++){
-                        $("#city").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+                	   if(list[i].name==city){
+                		   $("#city").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
+                	   }
+                        $("#city").append("<option  value="+list[i].id+">"+list[i].name+"</option>");
                    }
               }
           });
+
+         var areas1=$("#area1 option:selected").val();
+         $.ajax({
+              type:"POST",
+              url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
+              data:{area:areas1},
+              dataType:"json",
+              success: function(data){
+                   var list = data;
+                   $("#city1").empty();
+                   for(var i=0;i<list.length;i++){
+                	   if(list[i].name==city1){
+                           $("#city1").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
+                       }
+                        $("#city1").append("<option  value="+list[i].id+">"+list[i].name+"</option>");
+                   }
+              }
+          }); 
+         
     });
+    
+    //供应商地区
     function areas(){
       var areas=$("#area").find("option:selected").val();
       $.ajax({
@@ -52,6 +120,23 @@
           }
       });
     }
+    //专家地区
+    function areas1(){
+        var areas1=$("#area1").find("option:selected").val();
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
+            data:{area:areas1},
+            dataType:"json",
+            success: function(data){
+                 var list = data;
+                 $("#city1").empty();
+                 for(var i=0;i<list.length;i++){
+                      $("#city1").append("<option value="+list[i].id+">"+list[i].name+"</option>");
+                 }
+            }
+        });
+      }
     
     /** 全选全不选 */
     function selectAll(){
@@ -137,8 +222,10 @@
         }
     }
     function cityt(){
-        $("#address").val($("#area option:selected").text()+$("#city option:selected").text());
+        $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
         $("#expertId").val($("#city option:selected").val());
+        $("#extAddress").val($("#area1 option:selected").text()+","+$("#city1 option:selected").text());
+      alert($("#extAddress").val());
         $.ajax({
             cache: true,
             type: "POST",
@@ -328,14 +415,22 @@ return false;
 				<input type="hidden" name="address" id="address" value="">
 				<!--          项目id -->
 				<input type="hidden" name="projectId" id="pid" value="${projectId}">
+                <!-- 		抽取地区 -->
+				<input type="hidden" name="extAddress" id="extAddress"  value="${extractionSites}">
 				<!--          监督人员 -->
 				<input type="hidden" name="sids" id="sids" value="${userId}" />
 					<ul class="demand_list">
+					<li><label class="fl"><span class="red">*</span>抽取地区：</label><span>
+                                <select class="w150" id="area1" onchange="areas1();">
+                            </select> <select name="extractionSites" class="w93" id="city1"></select>
+                              <div class="b f14 red tip w150 fl"></div>
+                         </span>
+                       </li>
 						<li><label class="fl"><span class="red">*</span>所在地区：</label><span>
 								<select class="w150" id="area" onchange="areas();">
-									<c:forEach items="${listArea }" var="area" varStatus="index">
-										<option value="${area.id }">${area.name }</option>
-									</c:forEach>
+<%-- 									<c:forEach items="${listArea }" var="area" varStatus="index"> --%>
+<%-- 										<option value="${area.id }">${area.name }</option> --%>
+<%-- 									</c:forEach> --%>
 							</select> <select name="extractionSites" class="w93" id="city"></select>
 							  <div class="b f14 red tip w150 fl"></div>
 						 </span>
@@ -392,9 +487,10 @@ return false;
 									</c:if></td>
 								<td class="tc"><input class="hide" readonly="readonly"
 									name="extCount" type="text" value="${conTypes.supplieCount }"></td>
-								<td class="tc"><input class="hide" readonly="readonly"
-									name="extCategoryName" type="text"
-									value="${conTypes.categoryName }"></td>
+								<td class="tc"><c:set value="${fn:substring(conTypes.categoryName, 0, conTypes.categoryName.length()-1)}" var="category" ></c:set>
+                                <input class="hide" readonly="readonly"
+                                    name="extCategoryName" type="text"
+                                    value="${fn:replace(category,'^',',')}"></td>
 							</tr>
 						</c:forEach>
 					</tbody>

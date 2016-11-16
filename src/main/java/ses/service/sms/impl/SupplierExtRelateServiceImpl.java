@@ -76,7 +76,7 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 if(contype.getSupplieTypeId() != null &&  !"".equals(contype.getSupplieTypeId())){
                     contype.setSupplierTypeId(contype.getSupplieTypeId().split("\\^"));
                 }
-                List<Supplier> selectAllExpert = supplierMapper.getAllSupplier(null);
+                List<Supplier> selectAllExpert = supplierMapper.listExtractionExpert(show);//getAllSupplier(null);
                 //循环吧查询出的专家集合insert到专家记录表和专家关联的表中
                 SupplierExtRelate supplierExtRelate=null;
                 for (Supplier supplier2 : selectAllExpert) {

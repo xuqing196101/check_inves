@@ -29,6 +29,7 @@ import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.model.bms.Area;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ExtConTypeArray;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
@@ -76,7 +77,7 @@ public class SupplierConditionController {
      */
     @ResponseBody
     @RequestMapping("/saveSupplierCondition")
-    public String saveSupplierCondition(SupplierCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,String typeclassId ){
+    public String saveSupplierCondition(SupplierCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,String typeclassId,String extAddress ){
         List<Area> listArea = areaService.findTreeByPid("1",null);
         sq.setAttribute("listArea", listArea);
         sq.setAttribute("typeclassId", typeclassId);
@@ -93,35 +94,50 @@ public class SupplierConditionController {
         if(count==1){
             return JSON.toJSONString(map);
         }
-        if(condition.getId()!=null&&!"".equals(condition.getId())){
+
+        //给专家记录表set信息并且插入到记录表(查询是否存在)
+        SupplierExtracts record=new SupplierExtracts();
+        record.setProjectId(condition.getProjectId());
+        PageHelper.startPage(1, 1);
+        List<SupplierExtracts> list = supplierExtractsMapper.list(record);
+
+
+        if (condition.getId() != null && !"".equals(condition.getId())){
             conditionService.update(condition);	
             //删除关联数据重新添加
             conTypeService.delete(condition.getId());
         }else{
             //插入信息
             conditionService.insert(condition);
-            //给专家记录表set信息并且插入到记录表
-            SupplierExtracts record=new SupplierExtracts();
-            record.setProjectId(condition.getProjectId());
-            record.setExtractionTime(new Date());
-            PageHelper.startPage(1, 1);
-            List<SupplierExtracts> list = supplierExtractsMapper.list(record);
-            if(list==null||list.size()==0){
+            if (list != null && list.size() != 0){
+
+            }else{
+                //给专家记录表set信息并且插入到记录表
                 SupplierExtracts expExtractRecord=new SupplierExtracts();
+                expExtractRecord.setExtractionTime(new Date());
                 Project selectById = projectService.selectById(condition.getProjectId());
-                if(selectById!=null){
+                if (selectById != null){
                     expExtractRecord.setProjectId(selectById.getId());
                     expExtractRecord.setProjectName(selectById.getName());
                 }
-                User user=(User) sq.getSession().getAttribute("loginUser");
+                User user = (User) sq.getSession().getAttribute("loginUser");
                 expExtractRecord.setExtractsPeople(user.getId());
                 expExtractRecord.setExtractTheWay((short)1);
-                expExtractRecord.setExtractionSites(condition.getAddress());
+                expExtractRecord.setExtractionSites(condition.getExtractAddress());
                 supplierExtractsMapper.insertSelective(expExtractRecord);
             }
         }
+
+        //抽取地址
+        if (extAddress != null && !"".equals(extAddress)){
+            SupplierExtracts supplierExtracts = new SupplierExtracts();
+            supplierExtracts.setId(list.get(0).getId());
+            supplierExtracts.setExtractionSites(extAddress);
+            supplierExtractsMapper.updateByPrimaryKeySelective(supplierExtracts);
+        }  
+
         SupplierConType conType=null;
-       
+
         if(extConTypeArray!=null&&extConTypeArray.getExtCount()!=null&&extConTypeArray.getExtCount().length!=0){
             for (int i = 0; i < extConTypeArray.getExtCount().length; i++) {
                 conType=new SupplierConType();
@@ -144,14 +160,13 @@ public class SupplierConditionController {
 
         //监督人员
         if(sids!=null&&sids.length!=0){
-            SupplierExtUser record=null;
             userServicl.deleteProjectId(condition.getProjectId());
             for (String id : sids) {
                 if(!"".equals(id)){
-                    record=new SupplierExtUser();
-                    record.setProjectId(condition.getProjectId());
-                    record.setUserId(id);
-                    userServicl.insertSelective(record);
+                    SupplierExtUser  record1=new SupplierExtUser();
+                    record1.setProjectId(condition.getProjectId());
+                    record1.setUserId(id);
+                    userServicl.insertSelective(record1);
                 }
             }
         }
@@ -176,6 +191,15 @@ public class SupplierConditionController {
         if(list!=null&&list.size()!=0){
             model.addAttribute("ExpExtCondition", list.get(0));
             model.addAttribute("projectId", list.get(0).getProjectId());
+            //供应商抽取地址
+            SupplierExtracts record = new SupplierExtracts();
+            record.setProjectId(list.get(0).getProjectId());
+            PageHelper.startPage(1, 1);
+            List<SupplierExtracts> listSe = supplierExtractsMapper.list(record);
+            if (listSe != null && listSe.size() != 0){
+                model.addAttribute("extractionSites", listSe.get(0).getExtractionSites());
+            }
+            
         }
 
         //获取监督人员
@@ -183,10 +207,13 @@ public class SupplierConditionController {
         model.addAttribute("listUser", listUser);
         String userName="";
         String userId="";
-        for (User user : listUser) {
-            userName+=user.getLoginName()+",";
-            userId+=user.getId()+",";
+        if (listUser != null && listUser.size() != 0){
+            for (User user : listUser) {
+                userName+=user.getLoginName()+",";
+                userId+=user.getId()+",";
+            }
         }
+
         model.addAttribute("userName", userName);
         model.addAttribute("userId", userId);
         return "ses/sms/supplier_extracts/add_condition";

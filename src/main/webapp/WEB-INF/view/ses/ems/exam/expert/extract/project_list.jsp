@@ -116,12 +116,11 @@
     <!-- 录入采购计划开始-->
     <div class="container">
         <div class="headline-v2">
-            <h2>查询条件</h2>
+            <h2>立项列表</h2>
         </div>
         
         <!-- 项目戳开始 -->
-    <div class="p10_25">
-     <h2 class="padding-10 border1">
+       <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/ExpExtract/projectlist.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
     
@@ -137,27 +136,14 @@
      <div class="clear"></div>
     </form>
     </h2>
-    </div>
-     <div class="clear"></div>
-        
-        
-        
-        
-
-
-        <div class="headline-v2 fl">
-            <h2>立项列表</h2>
-        </div>
-        <span class="fr option_btn margin-top-10">
-
-            
-            <button class="btn padding-left-10 padding-right-10 btn_back"
+         <div class="col-md-12 pl20 mt10">
+            <button class="btn"
                 onclick="opens();">人工抽取</button>
-            <button class="btn padding-left-10 padding-right-10 btn_back"
+            <button class="btn"
                 onclick="record();">抽取记录</button>
-        </span>
-        <div class="container margin-top-5">
-               <table class="table table-striped table-bordered table-hover">
+        </div>
+        <div class="container table_box">
+      <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>

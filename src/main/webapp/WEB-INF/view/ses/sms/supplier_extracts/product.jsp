@@ -77,7 +77,7 @@
       }else{
     	  name=treeNode;
       }
-      alert(name.kind);
+//       alert(name.kind);
       if(name.kind==0){  
     	 var boo= name.checked;
     	 if(boo==false){

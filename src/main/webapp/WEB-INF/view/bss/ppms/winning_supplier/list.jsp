@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="${pageContext.request.contextPath}/">
 
 <title>确定中标供应商</title>
 
@@ -21,8 +21,6 @@
 
 
 </head>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 
   	/** 全选全不选 */
@@ -50,7 +48,7 @@
 		$(check).attr("checked","true");
 		var ck=$(check).parent().parent().prev().find("td:eq(0)").html();
 		var Ranking= $(check).parent().parent().find("td:eq(5)").text();
-		if(Ranking!=1){
+        if(Ranking!=1){
 	        if($(ck).attr("checked")){
 	            
 	        }else{
@@ -61,7 +59,7 @@
 	                shadeClose: false,
 	                shade: 0.01,
 	                area: ['367px', '180px'], //宽高
-	                content: '<%=basePath%>winningSupplier/upload.html',
+	                content: '${pageContext.request.contextPath}/winningSupplier/upload.html',
 	                success: function(layero, index){
 	                    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 	                  },
@@ -101,7 +99,7 @@
 // 					   }
 // 				 }
 // 		   }
-	}
+// 	}
   
     function save(){
     	var id=[]; 
@@ -109,9 +107,9 @@
 			id.push($(this).val());
 		}); 
 		 if(id.length>=1){
-			  $.post("<%=basePath%>winningSupplier/updateBid.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
+			  $.post("{pageContext.request.contextPath}/winningSupplier/updateBid.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
                       function(data){
-                      window.location.href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}";
+                      window.location.href="{pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}";
 				  
                       },
                       "json");
@@ -125,15 +123,15 @@
     <div class="col-md-12 p0">
                            <ul class="flow_step">
                              <li class="active">
-                               <a  href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${projectId}" >01、确认中标供应商</a>
+                               <a  href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}" >01、确认中标供应商</a>
                                <i></i>
                              </li>
                              <li >
-                               <a  href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}" >02、中标通知书</a>
+                               <a  href="${pageContext.request.contextPath}/template.do?projectId=${projectId}" >02、中标通知书</a>
                                <i></i>                            
                              </li>
                              <li>
-                               <a  href="<%=basePath%>winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
+                               <a  href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
                              </li>
                            </ul>
                          </div>

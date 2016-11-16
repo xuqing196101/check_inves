@@ -161,6 +161,14 @@ public class ExpExtractRecordController extends BaseController {
                 }
             }
         }
+        
+        //专家抽取地址
+        ExpExtractRecord er = new ExpExtractRecord();
+        er.setProjectId(projectId);
+        List<ExpExtractRecord> listRe = expExtractRecordService.listExtractRecord(er,0);
+        if (listRe != null && listRe.size() != 0){
+            model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
+        }
         model.addAttribute("userName", userName);
         model.addAttribute("userId", userId);
         }else{
@@ -183,11 +191,13 @@ public class ExpExtractRecordController extends BaseController {
             if(count==1){
                 return "ses/ems/exam/expert/extract/condition_list";
             }else{
-                //创建一个临时项目
-//                Project project=new Project();
-//                project.setProjectNumber(projectNumber);
-//                project.setName(name);
-//                projectService.add(project);
+//                创建一个临时项目
+                Project project = new Project();
+                project.setProjectNumber(projectNumber);
+                project.setName(projectName);
+                project.setIsProvisional(1);
+                projectService.add(project);
+                model.addAttribute("projectId", project.getId());
             }
         
         }

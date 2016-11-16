@@ -7,7 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>" target="open_bidding_main">
+<base href="${pageContext.request.contextPath}/" >
 
 <title>上传</title>
 
@@ -19,7 +19,9 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
+    type="text/css">
 
 </head>
 
@@ -29,13 +31,15 @@
             cache: true,
             type: "POST",
             dataType : "json",
-            url:'<%=basePath%>saleTender/upload.do',
+            url:'${pageContext.request.contextPath}/saleTender/upload.do',
             data:$('#form1').serialize(),// 你的formid
             async: false,
             success: function(data) {
                 var map =data;
                 if(map=="sccuess"){
-                      window.location.href = '<%=basePath%>/saleTender/list.html?projectId=${projectId}';
+                    $("#a").attr("href","${pageContext.request.contextPath}/saleTender/list.html?projectId=${projectId}");
+                    var el=document.getElementById('a');
+                  el.click();//触发打开事件
                 }else{
                 	layer.msg("请上传");
                 }
@@ -48,20 +52,42 @@
 <body>
 	<!-- 表格开始-->
 	<div class="content padding-left-25 padding-right-25 padding-top-0">
+	<a id="a" target="_parent"></a>
 		<form  method="post" id="form1">
 		  <input name="saleId" type="hidden" value="${saleId}"  />
 		  <input name="projectId" type="hidden" value="${projectId}" />
-			发票上传:<up:upload id="bid" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}" auto="true" />
-                   <up:show showId="bid" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}"/>           
-		      打印凭证: 	<up:upload id="bond" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}" auto="true" />
-            <up:show showId="bond" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}"/>
-			
-			
-		
-				是否缴纳标书费： <input
-                name="statusBid" value="2" type="radio">是
-                <input
-                name="statusBid" value="1" type="radio">否
+	           <ul class="demand_list">
+	              <li>
+                      <label class="fl"><span class="red textspan">*</span>发票上传:</label>
+                        <span>
+                               <up:upload btnClass="fl" id="bid" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}" auto="true" />
+                        </span>
+                        <up:show showId="bid"  groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}"/>           
+                   </li>
+	               <li>
+                      <label class="fl"><span class="red textspan">*</span>凭证上传:</label>
+                        <span>
+                             <up:upload btnClass="fl" id="bond" groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}" auto="true" />
+             
+                        </span>
+                        <up:show showId="bond"  groups="bid,bond" businessId="${saleId}" sysKey="${tenderKey}" typeId="${saleTenderDypz}"/>
+                   </li>
+                   
+<!--                     <li class="col-md-6 p0 fl">是否缴纳标书费： -->
+<!--                         <div class="input-append"> -->
+<!--                         <div class="fl mr10"> -->
+<!--                           <input   name="statusBid" value="2" type="radio"> -->
+<!--                             <div class="ml5 fl">是</div> -->
+<!--                         </div> -->
+<!--                         <div class="fl mr10"> -->
+<!--                               <input  name="statusBid" value="1" type="radio"> -->
+<!--                             <div class="ml5 fl">否</div> -->
+<!--                         </div> -->
+<!--                         </div> -->
+<!--                     </li> -->
+                </ul>
+	
+	
 	</form>
 	</div>
 </body>

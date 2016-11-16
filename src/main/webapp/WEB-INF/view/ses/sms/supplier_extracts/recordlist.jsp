@@ -175,18 +175,15 @@
 			<h2>抽取供应商记录</h2>
 		</div>
 	</div>
-
 	<!-- 查询 -->
-
 	<div class="container clear margin-top-0">
-		<div class="padding-10 border1 m0_30 tc">
+	   <h2 class="search_detail">
 			<form action="${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do"
-				method="post" id="form1">
+				method="post" id="form1" class="mb0">
 				<input type="hidden" id="page" name="page">
 				<ul class="demand_list">
 					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
 							name="projectName" value="${se.projectName }" type="text" class="mb0" /></span></li>
-					<!-- 	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li> -->
 					<li class="fl mr15"><label class="fl mt5" >抽取时间：</label><span><input
 							onclick='WdatePicker()' value="<fmt:formatDate value='${se.extractionTime}'
                                 pattern='yyyy-MM-dd' />" name="extractionTime" type="text"
@@ -196,11 +193,11 @@
 				</ul>
 			</form>
 			<div class="clear"></div>
-		</div>
+		</h2>
 	</div>
 	<!-- 表格开始-->
 	<div class="container margin-top-5">
-		<div class="content padding-left-25 padding-right-25 padding-top-5">
+		<div class="content table_box">
 			<table class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>

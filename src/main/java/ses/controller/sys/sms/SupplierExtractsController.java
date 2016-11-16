@@ -24,6 +24,7 @@ import bss.model.ppms.SaleTender;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.Area;
@@ -107,10 +108,10 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")	
-    public String listExtraction(Model model,String projectId,String pages,String typeclassId){
+    public String listExtraction(Model model,String projectId,String page,String typeclassId){
         model.addAttribute("typeclassId",typeclassId);
         if (projectId != null && !"".equals(projectId)){
-            List<SupplierCondition> list= conditionService.list(new SupplierCondition(projectId),pages==null?1:Integer.valueOf(pages));
+            List<SupplierCondition> list= conditionService.list(new SupplierCondition(projectId),page==null?1:Integer.valueOf(page));
             model.addAttribute("list", new PageInfo<SupplierCondition>(list));
             Project selectById = projectService.selectById(projectId);
             if (selectById != null){
@@ -149,6 +150,15 @@ public class SupplierExtractsController extends BaseController {
                 model.addAttribute("userName", userName.substring(0, userName.length()-1));
                 model.addAttribute("userId", userId.substring(0, userId.length()-1));
             }
+            //供应商抽取地址
+            SupplierExtracts record = new SupplierExtracts();
+            record.setProjectId(projectId);
+            PageHelper.startPage(1, 1);
+            List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(record,0);
+            if (listSe != null && listSe.size() != 0){
+                model.addAttribute("extractionSites", listSe.get(0).getExtractionSites());
+            }
+
             model.addAttribute("projectId",projectId);
         }else{
             //后台数据校验

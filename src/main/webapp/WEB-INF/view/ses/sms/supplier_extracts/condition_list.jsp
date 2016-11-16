@@ -39,10 +39,7 @@
                 }(), 
                 jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                        var loginName = $("#loginName").val();
-                        var relName = $("#relName").val();
-                        var typeName = $("#typeName").val();
-                        
+                    	location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&page='+e.curr;
                     }
                 }
             });
@@ -203,8 +200,8 @@
 				</thead>
 				<c:forEach items="${list.list}" var="obj" varStatus="vs">
 					<tr >
-						<td class="tc w50">${vs.index+1}</td>
-						<td class="w800">第【${vs.index+1}】次抽取，供应商所在地区【${ obj.address}】
+						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+						<td class="w800">第【${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}】次抽取，供应商所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
 					
 						 <c:choose>

@@ -52,217 +52,240 @@ import ses.service.ems.ProjectSupervisorServicel;
 @Scope("prototype")
 @RequestMapping("/ExtCondition")
 public class ExpExtConditionController {
-	@Autowired
-	ExpExtConditionService conditionService;
-	@Autowired 
-	ExtConTypeService conTypeService;
-	@Autowired
-	private AreaServiceI areaService;
-	@Autowired
-	private ProExtSuperviseMapper extSuperviseMapper;
-	@Autowired
-	private ExpExtractRecordMapper expExtractRecordMapper;
-	@Autowired
-	ProjectSupervisorServicel projectSupervisorServicel;
-	@Autowired
-	ProjectService projectService;
-	/**
-	 * @Description:保存查询条件
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月28日 上午10:56:45  
-	 * @param @return      
-	 * @return String 
-	 * @throws UnsupportedEncodingException 
-	 */
-	@ResponseBody
-	@RequestMapping("/saveExtCondition")
-	public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
-			ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,Model model,String typeclassId) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
-		sq.setCharacterEncoding("UTF-8");
-		List<Area> listArea = areaService.findTreeByPid("1",null);
-		model.addAttribute("listArea", listArea);
-		model.addAttribute("typeclassId", typeclassId);
-		Map<String, String> map=new HashMap<>();
-		Integer verification = verification(condition, hour, minute, sids, model,extConTypeArray,map);
-		if (verification==0){
-			map.put("sccuess", "sccuess");
-			condition.setResponseTime(hour+","+minute);
-			if (condition.getId() != null && !"".equals(condition.getId())){
-				conditionService.update(condition);	
-				//删除关联数据重新添加
-				conTypeService.delete(condition.getId());
-			}else{
-				//插入信息
-				conditionService.insert(condition);
-				//给专家记录表set信息并且插入到记录表
-				ExpExtractRecord record=new ExpExtractRecord();
-				record.setProjectId(condition.getProjectId());
-				record.setExtractionTime(new Date());
-				//查询是否已有记录
-				PageHelper.startPage(1, 1);
-				List<ExpExtractRecord> list = expExtractRecordMapper.list(record);
-				if(list==null||list.size()==0){
-					ExpExtractRecord expExtractRecord=new ExpExtractRecord();
-					Project selectById = projectService.selectById(condition.getProjectId());
-					if(selectById!=null){
-						expExtractRecord.setProjectId(selectById.getId());
-						expExtractRecord.setProjectName(selectById.getName());
-					}
-					User user=(User) sq.getSession().getAttribute("loginUser");
-					expExtractRecord.setExtractsPeople(user.getId());
-					expExtractRecord.setExtractTheWay((short)1);
-					expExtractRecord.setExtractionSites(condition.getAddress());
-					expExtractRecordMapper.insertSelective(expExtractRecord);
-				}
-			}
-			//插入条件表
-			ExtConType conType=null;
-			if(extConTypeArray!=null&&extConTypeArray.getExpertsTypeId()!=null){
-				for (int i = 0; i < extConTypeArray.getExpertsTypeId().length; i++) {
-					conType=new ExtConType();
+    @Autowired
+    ExpExtConditionService conditionService;
+    @Autowired 
+    ExtConTypeService conTypeService;
+    @Autowired
+    private AreaServiceI areaService;
+    @Autowired
+    private ProExtSuperviseMapper extSuperviseMapper;
+    @Autowired
+    private ExpExtractRecordMapper expExtractRecordMapper;
+    @Autowired
+    ProjectSupervisorServicel projectSupervisorServicel;
+    @Autowired
+    ProjectService projectService;
+    /**
+     * @Description:保存查询条件
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 上午10:56:45  
+     * @param @return      
+     * @return String 
+     * @throws UnsupportedEncodingException 
+     */
+    @ResponseBody
+    @RequestMapping("/saveExtCondition")
+    public String saveExtCondition(ExpExtCondition condition,String hour,String minute,
+                                   ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq,Model model,String typeclassId,String extAddress) throws NoSuchFieldException, SecurityException, UnsupportedEncodingException{
+        sq.setCharacterEncoding("UTF-8");
+        List<Area> listArea = areaService.findTreeByPid("1",null);
+        model.addAttribute("listArea", listArea);
+        model.addAttribute("typeclassId", typeclassId);
+        Map<String, String> map=new HashMap<>();
+        Integer verification = verification(condition, hour, minute, sids, model,extConTypeArray,map);
+      
+        if (verification==0){
+            map.put("sccuess", "sccuess");
+            condition.setResponseTime(hour+","+minute);
+            //给专家记录表set信息并且插入到记录表(查看是否已存在记录)
+            ExpExtractRecord record=new ExpExtractRecord();
+            record.setProjectId(condition.getProjectId());
+            //查询是否已有记录
+            PageHelper.startPage(1, 1);
+            List<ExpExtractRecord> list = expExtractRecordMapper.list(record);
+            if (condition.getId() != null && !"".equals(condition.getId())){
+                conditionService.update(condition);	
+                //删除关联数据重新添加
+                conTypeService.delete(condition.getId());
+            }else{
+                //插入信息
+                conditionService.insert(condition);
+               
+                if (list != null && list.size() != 0){
+                
+                }else{
+                    ExpExtractRecord expExtractRecord = new ExpExtractRecord();
+                    expExtractRecord.setExtractionTime(new Date());
+                    Project selectById = projectService.selectById(condition.getProjectId());
+                    if (selectById != null){
+                        expExtractRecord.setProjectId(selectById.getId());
+                        expExtractRecord.setProjectName(selectById.getName());
+                    }
+                    User user = (User) sq.getSession().getAttribute("loginUser");
+                    expExtractRecord.setExtractsPeople(user.getId());
+                    expExtractRecord.setExtractTheWay((short)1);
+                    expExtractRecord.setExtractionSites(extAddress);
+                    expExtractRecordMapper.insertSelective(expExtractRecord);
+                }
+               
+            }
+            
+            //抽取地址
+            if (extAddress != null && !"".equals(extAddress) && list != null && list.size() != 0){
+                ExpExtractRecord expExtractRecord = new ExpExtractRecord();
+                expExtractRecord.setId(list.get(0).getId());
+                expExtractRecord.setExtractionSites(extAddress);
+                expExtractRecordMapper.updateByPrimaryKeySelective(expExtractRecord);
+            }  
+            //插入条件表
+            ExtConType conType=null;
+            if(extConTypeArray!=null&&extConTypeArray.getExpertsTypeId()!=null){
+                for (int i = 0; i < extConTypeArray.getExpertsTypeId().length; i++) {
+                    conType=new ExtConType();
 
-					conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
+                    conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
 
-					conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
-					if (extConTypeArray.getExtCategoryId().length != 0){
-						conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
-						conType.setCategoryName(extConTypeArray.getExtCategoryName()[i]);
-					}
-					if (extConTypeArray.getExtQualifications().length != 0){
-						conType.setExpertsQualification(extConTypeArray.getExtQualifications()[i]);
-					}
-					conType.setConditionId(condition.getId());
-					conType.setIsMulticondition(new Short(extConTypeArray.getIsSatisfy()[i]));
-					//如果有id就修改没有就新增
-					conTypeService.insert(conType);	
-				}
-			}
-			//监督人员
-			if(sids != null && sids.length != 0){
-				ProExtSupervise record=null;
-				extSuperviseMapper.deleteProjectId(condition.getProjectId());
-				for (String id : sids) {
-					if(!"".equals(id)){
-						record=new ProExtSupervise();
-						record.setProjectId(condition.getProjectId());
-						record.setSupviseId(id);
-						extSuperviseMapper.insertSelective(record);
-					}
-				}
-			}
-		}
-		return JSON.toJSONString(map);
-	}
-	/**
-	 * 
-	 *〈简述〉 验证消息
-	 *〈详细描述〉
-	 * @author Wang Wenshuai
-	 * @param condition
-	 * @param hour
-	 * @param minute
-	 * @param sids
-	 * @param model
-	 * @return
-	 */
-	private Integer verification(ExpExtCondition condition, String hour, String minute,
-			String[] sids, Model model,ExtConTypeArray extConTypeArray,Map<String, String> map) {
-		model.addAttribute("ExpExtCondition", condition);
-		Integer count=0;
-		if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
-			map.put("responseTime", "响应时限不能为空");
-			count = 1;
-		}
-		if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
-			map.put("age", "年龄不能为空");
-			count = 1;
-		}   
-		if (sids == null || sids.length == 0){
-			map.put("supervise", "监督人员不能为空");
-			count = 1;
-		}
-		if (condition.getTenderTime() == null || "".equals(condition.getTenderTime())){
-			map.put("tenderTime","开标时间不能为空");
-			count = 1;
-		}
-		if (extConTypeArray == null || extConTypeArray.getExtCount() == null){
-			map.put("typeArray", "请添加专家数量等条件");
-			count = 1;
-		}
-		return count;
-	}
-	/**
-	 * @Description:查询单个
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月30日 下午1:59:22  
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("/showExtCondition")
-	public String showExtCondition(ExpExtCondition condition,Model model,String cId,String typeclassId){
-		List<Area> listArea = areaService.findTreeByPid("1",null);
-		model.addAttribute("listArea", listArea);
-		model.addAttribute("typeclassId", typeclassId);
-		List<ExpExtCondition> list = conditionService.list(condition,null);
-		if(list!=null&&list.size()!=0){
-			String[] atime=list.get(0).getResponseTime()!=null?list.get(0).getResponseTime().split(","):null;
-			if(atime!=null&&atime.length>=2){
-				model.addAttribute("minute", atime[0]);
-				model.addAttribute("hour", atime[1]);
-			}
-			model.addAttribute("ExpExtCondition", list.get(0));
-			model.addAttribute("projectId", list.get(0).getProjectId());
-			//获取监督人员
-			List<User>  listUser=projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
-			model.addAttribute("listUser", listUser);
-			String userName="";
-			String userId="";
-			if(listUser != null && listUser.size() != 0)
-				for (User user : listUser) {
-					if(user != null && user.getId() != null){
-						userName+=user.getLoginName()+",";
-						userId+=user.getId()+",";
-					}
+                    conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
+                    if (extConTypeArray.getExtCategoryId().length != 0){
+                        conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
+                        conType.setCategoryName(extConTypeArray.getExtCategoryName()[i]);
+                    }
+                    if (extConTypeArray.getExtQualifications().length != 0){
+                        conType.setExpertsQualification(extConTypeArray.getExtQualifications()[i]);
+                    }
+                    conType.setConditionId(condition.getId());
+                    conType.setIsMulticondition(new Short(extConTypeArray.getIsSatisfy()[i]));
+                    //如果有id就修改没有就新增
+                    conTypeService.insert(conType);	
+                }
+            }
+         
+            //监督人员
+            if (sids != null && sids.length != 0){
+                extSuperviseMapper.deleteProjectId(condition.getProjectId());
+                for (String id : sids) {
+                    if (!"".equals(id)){
+                        ProExtSupervise record1 = new ProExtSupervise();
+                        record1.setProjectId(condition.getProjectId());
+                        record1.setSupviseId(id);
+                        extSuperviseMapper.insertSelective(record1);
+                    }
+                }
+            }
+        }
+        return JSON.toJSONString(map);
+    }
+    /**
+     * 
+     *〈简述〉 验证消息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param condition
+     * @param hour
+     * @param minute
+     * @param sids
+     * @param model
+     * @return
+     */
+    private Integer verification(ExpExtCondition condition, String hour, String minute,
+                                 String[] sids, Model model,ExtConTypeArray extConTypeArray,Map<String, String> map) {
+        model.addAttribute("ExpExtCondition", condition);
+        Integer count=0;
+        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
+            map.put("responseTime", "响应时限不能为空");
+            count = 1;
+        }
+        if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
+            map.put("age", "年龄不能为空");
+            count = 1;
+        }   
+        if (sids == null || sids.length == 0){
+            map.put("supervise", "监督人员不能为空");
+            count = 1;
+        }
+        if (condition.getTenderTime() == null || "".equals(condition.getTenderTime())){
+            map.put("tenderTime", "开标时间不能为空");
+            count = 1;
+        }
+        if (extConTypeArray == null || extConTypeArray.getExtCount() == null){
+            map.put("typeArray", "请添加供应商抽取数量，产品类型等条件");
+            count = 1;
+        }
+        return count;
+    }
+    /**
+     * @Description:查询单个
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月30日 下午1:59:22  
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping("/showExtCondition")
+    public String showExtCondition(ExpExtCondition condition,Model model,String cId,String typeclassId){
+        List<Area> listArea = areaService.findTreeByPid("1",null);
+        model.addAttribute("listArea", listArea);
+        model.addAttribute("typeclassId", typeclassId);
+        List<ExpExtCondition> list = conditionService.list(condition,null);
+        if (list != null && list.size() != 0){
+            String[] atime = list.get(0).getResponseTime() != null?list.get(0).getResponseTime().split(","):null;
+            if (atime != null && atime.length >= 2){
+                model.addAttribute("minute", atime[0]);
+                model.addAttribute("hour", atime[1]);
+            }
+            model.addAttribute("ExpExtCondition", list.get(0));
+            model.addAttribute("projectId", list.get(0).getProjectId());
+            //获取监督人员
+            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
+            model.addAttribute("listUser", listUser);
+            String userName="";
+            String userId="";
+            if (listUser != null && listUser.size() != 0){
+                for (User user : listUser) {
+                    if (user != null && user.getId() != null){
+                        userName += user.getLoginName() + ",";
+                        userId += user.getId() + ",";
+                    }
 
-				}
-			model.addAttribute("userName", userName);
-			model.addAttribute("userId", userId);
-		}
+                }
+            }
+            
+            //专家抽取地址
+            ExpExtractRecord er = new ExpExtractRecord();
+            er.setProjectId(list.get(0).getProjectId());
+            List<ExpExtractRecord> listRe = expExtractRecordMapper.list(er);
+            if (listRe != null && listRe.size() != 0){
+                model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
+            }
+            
+            model.addAttribute("userName", userName);
+            model.addAttribute("userId", userId);
+        }
 
-		return "ses/ems/exam/expert/extract/add_condition";
-	}
+        return "ses/ems/exam/expert/extract/add_condition";
+    }
 
-	/**
-	 * @Description:修改
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月30日 下午1:47:48  
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("/updateCondition")
-	public String updateCondition(){
+    /**
+     * @Description:修改
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月30日 下午1:47:48  
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping("/updateCondition")
+    public String updateCondition(){
 
-		return null;
-	}
-	/**
-	 * @Description:删除
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月30日 下午3:09:44  
-	 * @param @param delids
-	 * @param @return      
-	 * @return Object
-	 */
+        return null;
+    }
+    /**
+     * @Description:删除
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月30日 下午3:09:44  
+     * @param @param delids
+     * @param @return      
+     * @return Object
+     */
 
-	@RequestMapping("/dels")	
-	public String dels(@RequestParam(value="delids",required=false)String delids){
-		String[] id=delids.split(",");
-		for (String str : id) {
-			conTypeService.delete(str);
-		}
-		return "sccuess";
-	}
+    @RequestMapping("/dels")	
+    public String dels(@RequestParam(value="delids",required=false)String delids){
+        String[] id = delids.split(",");
+        for (String str : id) {
+            conTypeService.delete(str);
+        }
+        return "sccuess";
+    }
 }

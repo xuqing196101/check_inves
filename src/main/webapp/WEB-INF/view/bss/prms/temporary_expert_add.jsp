@@ -73,17 +73,16 @@ function sumbits(){
    <div class="  mt20">
    <form action="${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do" id="form" method="post" >
    <input type="hidden" value="${projectId}" name="projectId"/>
-   <ul class="list-unstyled list-flow ">
-     <li class="col-md-6 p0">
-	   <span class="">专家姓名：</span>
-	   <div class="input-append">
-        <input class="span2" maxlength="10" id="appendedInput" name="relName" type="text">
-        <span class="add-on">i</span>
-       </div>
+     <ul class="list-unstyled">
+      <li class="col-md-6">
+         <label class="col-md-12 padding-left-5">专家姓名：</label>
+	    <span>
+        <input class="span2" maxlength="10" id="appendedInput" name="relName" type="text"/>
+        </span>
 	 </li>
 	    <li class="col-md-6 p0 ">
-       <span class=" ">证件类型：</span>
-         <div class="select_common mb10">
+	      <label class="col-md-12 padding-left-5">证件类型：</label>
+         <span>
          <select class="w250 " name="idType">
            <option>-请选择-</option>
            <option value="身份证">身份证</option>
@@ -93,7 +92,7 @@ function sumbits(){
            <option value="护照">护照</option>
            <option value="其他">其他</option>
          </select>
-         </div>
+        </span>
      </li>
      <li class="col-md-6  p0 ">
 	   <span class="">证件号码：</span>

@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>" target="_self">
+<base href="${pageContext.request.contextPath}/" target="_self">
 
 <title>模版管理</title>
 
@@ -19,7 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <link rel="stylesheet"
-    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
     type="text/css">
 
 </head>
@@ -68,7 +68,7 @@
             id.push($(this).val());
         }); 
         if(id.length==1){
-            $.post("<%=basePath%>saleTender/save.do",{ids:id.toString(),projectId:"${projectId}"},
+            $.post("${pageContext.request.contextPath}/saleTender/save.do",{ids:id.toString(),projectId:"${projectId}"},
                     function(data){
             	if(data=="error"){
             		layer.alert("供应商已存在，无需添加",{offset: ['100px', '200px'], shade:0.01});
@@ -101,7 +101,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/templet/view.do?id="+id;
   	}
     function save(){
     	var id=[]; 
@@ -109,7 +109,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			 $.post("<%=basePath%>resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
+			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
 					  function(data){
 					    var tem=data;
 					    var ue = parent.UE.getEditor('editor'); 
