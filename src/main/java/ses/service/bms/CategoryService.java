@@ -181,4 +181,14 @@ import ses.model.sms.SupplierTypeTree;
     List<Category> findByOrgId(String id);
     
     List<Category> listByCateogryName(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉逻辑删除节点以及节点下的子节点
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param Id 节点id
+     */
+    public void deleted(String Id);
+
 }

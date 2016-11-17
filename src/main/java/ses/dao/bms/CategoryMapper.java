@@ -174,4 +174,13 @@ public interface CategoryMapper {
      List<Category> findByOrgId(String id);
      
      List<Category> listByCateogryName(Map<String, Object> map);
+    
+     /**
+      * 
+      *〈简述〉逻辑删除节点以及节点下的子节点
+      *〈详细描述〉
+      * @author Wang Wenshuai
+      * @param id
+      */
+     void deleted(List<Category> list);
 }

@@ -183,8 +183,10 @@ $(document).ready(function(){
 		window.location.href="${pageContext.request.contextPath}/categoryparam/abrogate_allocate.html?id="+id+"&status="+status;
 			
 	}
-	
-	
+	//品目管理
+	function crud(){
+		  window.location.href="${pageContext.request.contextPath}/categoryparam/crudCategory.html";
+	}
 </script>
   </head>
   <body>
@@ -199,7 +201,6 @@ $(document).ready(function(){
    </div>
   <div class="container">
    <div class="col-md-3">
-     
 	 <div class="tag-box tag-box-v3 mt10">
 	 <div><ul id="ztree" class="ztree "></ul></div>
 	 </div>
@@ -214,6 +215,7 @@ $(document).ready(function(){
         <input type="submit"  value="查询" class="btn"/>
         <button id="all" type="button" value="已分配" onclick="allocate()"class="btn">分配</button>
         <button id="unall" type="button" value="未分配" onclick="unallocate()" class="btn">取消分配</button> 
+            <button id="unall" type="button" onclick="crud();" class="btn">crud</button> 
         </form>
       
         <div class="p10_25">

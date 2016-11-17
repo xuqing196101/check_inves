@@ -18,190 +18,206 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
 
-   /**
-    * 
-    * <p>Title:CategoryServiceImpl</p>
-    * <p>Description: 采购目录管理实现类</p>
-    * @author javazxf
-    * @date 
-    */
+/**
+ * 
+ * <p>Title:CategoryServiceImpl</p>
+ * <p>Description: 采购目录管理实现类</p>
+ * @author javazxf
+ * @date 
+ */
 
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
-	
-	@Autowired
-	private CategoryMapper categoryMapper;
-	
-	@Autowired
-	private SupplierItemMapper supplierItemMapper;
-	
 
-	public void insertSelective(Category category) {
-		 categoryMapper.insertSelective(category);
-	}
+    @Autowired
+    private CategoryMapper categoryMapper;
 
-	public List<Category> findTreeByPid(String id) {
-		return categoryMapper.findTreeByPid(id);
-	}
+    @Autowired
+    private SupplierItemMapper supplierItemMapper;
 
-	public void updateByPrimaryKey(Category category) {
-		categoryMapper.updateByPrimaryKey(category);
-	}
 
-	public Category selectByPrimaryKey(String id) {
-		return categoryMapper.selectByPrimaryKey(id);
-	}
+    public void insertSelective(Category category) {
+        categoryMapper.insertSelective(category);
+    }
 
-	public void updateNameById(String id) {
-		categoryMapper.updateNameById(id);
-	}
+    public List<Category> findTreeByPid(String id) {
+        return categoryMapper.findTreeByPid(id);
+    }
 
-	public int deleteByPrimaryKey(String id) {
-		return categoryMapper.deleteByPrimaryKey(id);
-	}
+    public void updateByPrimaryKey(Category category) {
+        categoryMapper.updateByPrimaryKey(category);
+    }
 
-	public void updateByPrimaryKeySelective(Category category) {
-		categoryMapper.updateByPrimaryKeySelective(category);
-	}
-	
-	public List<Category> readExcel(Category category) {
-		return categoryMapper.readExcel(category);
-	}
+    public Category selectByPrimaryKey(String id) {
+        return categoryMapper.selectByPrimaryKey(id);
+    }
 
-	public List<Category> selectAll() {
-		return categoryMapper.selectAll();
-	}
+    public void updateNameById(String id) {
+        categoryMapper.updateNameById(id);
+    }
 
-	@Override
-	public List<Category> listByKeyword(Map<String, Object> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		return categoryMapper.listByKeyword(map);
-	}
+    public int deleteByPrimaryKey(String id) {
+        return categoryMapper.deleteByPrimaryKey(id);
+    }
 
-	@Override
-	public List<Category> listByParent(String pid) {
-		// TODO Auto-generated method stub
-		return categoryMapper.findTreeByPid(pid);
-	}
-	
-	/**
-	 * @Title: findCategoryByType
-	 * @author: Wang Zhaohua
-	 * @date: 2016-10-3 下午4:12:18
-	 * @Description: 根据类型查询
-	 * @param: @param category
-	 * @param: @return
-	 * @return: List<Category>
-	 */
-	@Override
-	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId) {
-		String kind = category.getKind();
-		if (kind != null && !"".equals(kind)) {
-			category.setKind("%" + kind + "%");
-		}
-		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
-		
-		// 查询供应商勾选品目类型
-		SupplierItem st = new SupplierItem();
-		st.setSupplierId(supplierId);
-		st.setSupplierTypeRelateId(kind);
-		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierIdAndType(st);
-		List<String> listCategoryIds = new ArrayList<String>();
-		for(SupplierItem supplierItem : listSupplierItems) {
-			listCategoryIds.add(supplierItem.getCategoryId());
-		}
-		
-		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-		for (Category c : listCategorys) {
-			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-			supplierTypeTree.setId(c.getId());
-			supplierTypeTree.setParentId(c.getParentId());
-			supplierTypeTree.setName(c.getName());
-			if (listCategoryIds.contains(c.getId())) {
-				supplierTypeTree.setChecked(true);
-			}
-			listSupplierTypeTrees.add(supplierTypeTree);
-		}
-		return listSupplierTypeTrees;
-	}
-	@Override
-	public List<SupplierTypeTree> findCategoryByTypeAndDisabled(Category category, String supplierId) {
-		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
-		
-		// 查询供应商勾选品目类型
-		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
-		List<String> listCategoryIds = new ArrayList<String>();
-		for(SupplierItem supplierItem : listSupplierItems) {
-			listCategoryIds.add(supplierItem.getCategoryId());
-		}
-		
-		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-		for (Category c : listCategorys) {
-			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-			supplierTypeTree.setId(c.getId());
-			supplierTypeTree.setParentId(c.getParentId());
-			supplierTypeTree.setName(c.getName());
-			supplierTypeTree.setChkDisabled(true);
-			if (listCategoryIds.contains(c.getId())) {
-				supplierTypeTree.setChecked(true);
-			}
-			listSupplierTypeTrees.add(supplierTypeTree);
-		}
-		return listSupplierTypeTrees;
-	}
-	
-	@Override
-	public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds) {
-		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
-		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-		for (Category c : listCategorys) {
-			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-			supplierTypeTree.setId(c.getId());
-			supplierTypeTree.setParentId(c.getParentId());
-			supplierTypeTree.setName(c.getName());
-			if (listCategoryIds.contains(c.getId())) {
-				supplierTypeTree.setChecked(true);
-			}
-			listSupplierTypeTrees.add(supplierTypeTree);
-		}
-		return listSupplierTypeTrees;
-	}
+    public void updateByPrimaryKeySelective(Category category) {
+        categoryMapper.updateByPrimaryKeySelective(category);
+    }
 
-	@Override
-	public BigDecimal checkName(String name) {
-		// TODO Auto-generated method stub
-		return categoryMapper.checkName(name);
-	}
+    public List<Category> readExcel(Category category) {
+        return categoryMapper.readExcel(category);
+    }
 
-	@Override
-	public List<Category> listByParamstatus(Map<String, Integer> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		return categoryMapper.listByParamstatus(map);
-	}
+    public List<Category> selectAll() {
+        return categoryMapper.selectAll();
+    }
 
-	
+    @Override
+    public List<Category> listByKeyword(Map<String, Object> map) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+        return categoryMapper.listByKeyword(map);
+    }
 
-	@Override
-	public List<Category> findByStatus( Map<String, Object> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		return categoryMapper.findByStatus();
-	}
+    @Override
+    public List<Category> listByParent(String pid) {
+        // TODO Auto-generated method stub
+        return categoryMapper.findTreeByPid(pid);
+    }
 
-	@Override
-	public List<Category> findByOrgId(String id) {
-		// TODO Auto-generated method stub
-	return	categoryMapper.findByOrgId(id);
-	}
+    /**
+     * @Title: findCategoryByType
+     * @author: Wang Zhaohua
+     * @date: 2016-10-3 下午4:12:18
+     * @Description: 根据类型查询
+     * @param: @param category
+     * @param: @return
+     * @return: List<Category>
+     */
+    @Override
+    public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId) {
+        String kind = category.getKind();
+        if (kind != null && !"".equals(kind)) {
+            category.setKind("%" + kind + "%");
+        }
+        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
 
-	@Override
-	public List<Category> listByCateogryName(Map<String, Object> map) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		return categoryMapper.listByCateogryName(map);
-	}
-	
-	
+        // 查询供应商勾选品目类型
+        SupplierItem st = new SupplierItem();
+        st.setSupplierId(supplierId);
+        st.setSupplierTypeRelateId(kind);
+        List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierIdAndType(st);
+        List<String> listCategoryIds = new ArrayList<String>();
+        for(SupplierItem supplierItem : listSupplierItems) {
+            listCategoryIds.add(supplierItem.getCategoryId());
+        }
+
+        List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+        for (Category c : listCategorys) {
+            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+            supplierTypeTree.setId(c.getId());
+            supplierTypeTree.setParentId(c.getParentId());
+            supplierTypeTree.setName(c.getName());
+            if (listCategoryIds.contains(c.getId())) {
+                supplierTypeTree.setChecked(true);
+            }
+            listSupplierTypeTrees.add(supplierTypeTree);
+        }
+        return listSupplierTypeTrees;
+    }
+    @Override
+    public List<SupplierTypeTree> findCategoryByTypeAndDisabled(Category category, String supplierId) {
+        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+
+        // 查询供应商勾选品目类型
+        List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
+        List<String> listCategoryIds = new ArrayList<String>();
+        for(SupplierItem supplierItem : listSupplierItems) {
+            listCategoryIds.add(supplierItem.getCategoryId());
+        }
+
+        List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+        for (Category c : listCategorys) {
+            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+            supplierTypeTree.setId(c.getId());
+            supplierTypeTree.setParentId(c.getParentId());
+            supplierTypeTree.setName(c.getName());
+            supplierTypeTree.setChkDisabled(true);
+            if (listCategoryIds.contains(c.getId())) {
+                supplierTypeTree.setChecked(true);
+            }
+            listSupplierTypeTrees.add(supplierTypeTree);
+        }
+        return listSupplierTypeTrees;
+    }
+
+    @Override
+    public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds) {
+        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+        List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+        for (Category c : listCategorys) {
+            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+            supplierTypeTree.setId(c.getId());
+            supplierTypeTree.setParentId(c.getParentId());
+            supplierTypeTree.setName(c.getName());
+            if (listCategoryIds.contains(c.getId())) {
+                supplierTypeTree.setChecked(true);
+            }
+            listSupplierTypeTrees.add(supplierTypeTree);
+        }
+        return listSupplierTypeTrees;
+    }
+
+    @Override
+    public BigDecimal checkName(String name) {
+        // TODO Auto-generated method stub
+        return categoryMapper.checkName(name);
+    }
+
+    @Override
+    public List<Category> listByParamstatus(Map<String, Integer> map) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+        return categoryMapper.listByParamstatus(map);
+    }
+
+
+
+    @Override
+    public List<Category> findByStatus( Map<String, Object> map) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+        return categoryMapper.findByStatus();
+    }
+
+    @Override
+    public List<Category> findByOrgId(String id) {
+        // TODO Auto-generated method stub
+        return	categoryMapper.findByOrgId(id);
+    }
+
+    @Override
+    public List<Category> listByCateogryName(Map<String, Object> map) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+        return categoryMapper.listByCateogryName(map);
+    }
+
+    /**
+     * 
+     *〈简述〉逻辑删除节点以及节点下的子节点
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param Id 节点id
+     */
+    public void deleted(String Id){
+        //根据父节点找出子节点 
+        List<Category>   list = new  ArrayList<Category>();
+//        list=categoryMapper.findTreeByPid(Id);
+        Category e=new Category();
+        e.setId(Id);
+        list.add(e);
+        categoryMapper.deleted(list);
+    }
+
 }

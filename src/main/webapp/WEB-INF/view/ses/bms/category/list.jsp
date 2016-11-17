@@ -8,9 +8,6 @@
 <head>   
 <title>采购目录管理</title>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 	var treeid=null;
@@ -47,7 +44,6 @@
        			    onRename: zTreeOnRename,
        			    beforeAsync: beforeAsync,  
                     onAsyncSuccess: onAsyncSuccess,
-                   
                     beforeCheck: beforeCheck
        			    
 			    }, 
@@ -65,17 +61,6 @@
 						rootPId:"0",
 					}
 			    },
-			    edit:{
-			    	enable:true,
-					editNameSelectAll:true,
-					showRemoveBtn: true,
-					showRenameBtn: true,
-					removeTitle: "删除",
-					renameTitle:"重命名",
-				},
-			   check:{
-					enable: true
-			   },
 			   view:{
 			        selectedMulti: false,
 			        showTitle: false,
@@ -135,15 +120,18 @@
     	}
     	return true;
     }
-  
-  
+    //父级id
+    var parentname="";
     /**点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id;
 		treename=treeNode.name;
 	    parentKind=treeNode.kind;
 	    isEnd=treeNode.isEnd;
-	    parentname=treeNode.getParentNode().name;
+// 	    $("#cateid").val(treeNode.id);
+// 	    if(treeNode.getParentNode()！=null){
+// 	    	   parentname=treeNode.getParentNode().name;
+// 	    }
 	    status = treeNode.status;
 	    
     }
@@ -190,20 +178,17 @@
 					type:"POST",
 					success:function(cate){
 						$("#result").empty();
-						var attachmentPath = cate.categoryAttchment.attchmentPath;
-						var pic = cate.categoryAttchment.fileName;
-						var picname = pic.split("_");
 						var html = "";
 					 	html = html+"<tr><td class='info'>上级目录</td><td><input value='"+parentname+"' readonly='readonly'/></td></tr>"; 
 						html = html+"<tr><td class='info'>目录名称</td><td><input value='"+cate.name+"' name='name'/><div id='td_input'></div></td></tr>";
 						html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
 						html = html+"<tr><td class='info'>排序</td><td><input value='"+cate.position+"' name='position'/><div id='td_position'></div></td></tr>";
 						html = html+"<tr><td class='info'>编码</td><td><input value='"+cate.code+"' name='code'/><div id='td_code'></div></td></tr>";
-						if (attachmentPath!=null&&attachmentPath!="") {
-					    html = html+"<tr><td class='info'>已上传的图片</td><td><a id='button' class='pointer' name='attaattach' type='button' onclick='showPic()'>"+picname[1]+"</a>"
-						+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
-						+"<input type='file' name='attaattach' value='重新上传' class='mt10'/></td></tr>";
-						}
+// 						if (attachmentPath!=null&&attachmentPath!="") {
+// 					    html = html+"<tr><td class='info'>已上传的图片</td><td><a id='button' class='pointer' name='attaattach' type='button' onclick='showPic()'>"+picname[1]+"</a>"
+// 						+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
+// 						+"<input type='file' name='attaattach' value='重新上传' class='mt10'/></td></tr>";
+// 						}
 						html = html+"<tr><td class='info'>描述</td><td><textarea name='description'>"+cate.description+"</textarea></td></tr>";
 						html = html+"<tr><td colspan='2'><input  type='submit' onclick='renew()' value='更新' class=' mr30  btn btn-windows reset '/>"
 						+"<input type='button' class='ml10 btn btn-windows  back' value='返回' onclick='history.go(-1)''/></td></tr>";
@@ -228,15 +213,10 @@
 			});
 	};
     
- 	/**休眠-激活*/
-    function ros(ids){
-    	var str="";
- 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
-		var nodes = treeObj.getCheckedNodes(true);
-		for ( var i = 0; i < nodes.length; i++) {
-			str+=nodes[i].id+",";
-		}
-      window.location.href="${pageContext.request.contextPath}/category/del.do?ids="+str;
+ 	/**删除*/
+    function del(){
+ 		alert("as")
+	    window.location.href="${pageContext.request.contextPath}/category/deleted.do?ids="+treeid;
  		}
  	
  	
@@ -276,7 +256,9 @@
     	$("#td_input").html(listCategory.name);
     	$("#td_position").html(listCategory.position);
     	$("#td_code").html(listCategory.code);
-	   
+    	if(listCategory != null && listCategory != ''){
+    		window.location.reload();
+    	}
    }
    
 	/**更新数据*/
@@ -290,10 +272,10 @@
     		success:callback
     	});
 	}
-	/**删除附件*/
-	function del(){
-	     window.location.href="${pageContext.request.contextPath}/category/deleted.do";
-	}	
+// 	/**删除附件*/
+// 	function del(){
+// 	     window.location.href="${pageContext.request.contextPath}/category/deleted.do";
+// 	}	
 	
     /**根据关键字查询*/
    
@@ -320,9 +302,9 @@
 	</div>
 	</div>
 		<div class=" tag-box tag-box-v3 mt15 col-md-8">
-			<span><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">新增 </a></span> 
-			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-windows edit ">修改</a></span> 
-			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
+			<span><a href="javascript:void(0);" onclick="news();" class="btn btn-windows add ">新增 </a></span> 
+			<span><a href="javascript:void(0);" onclick="update();"  class="btn btn-windows edit ">修改</a></span> 
+			<span><a href="javascript:void(0);" onclick="del();"  class="btn btn-window ">删除</a></span>
             <form  id="fm" action="" method="post" enctype="multipart/form-data" >
             <input type="hidden"  onclick="add()" value=""/>
             <input type="hidden"  onclick="renew()" value=""/>
