@@ -41,6 +41,8 @@
   
   $(function(){
 	  $("#contract").select2();
+	  $("#contract").select2("val","${appraisalContract.purchaseContract.id}");
+	  $("#purchaseType").val("${appraisalContract.purchaseType}");
   })
   
   function contractInfo(){
@@ -64,6 +66,10 @@
 	  });
   }
   
+  function goBack(){
+	  window.location.href="${pageContext.request.contextPath}/appraisalContract/select.html";
+  }
+  
 </script>
   
   </head>
@@ -74,7 +80,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">添加合同</a></li></ul>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">添加审价合同</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -83,7 +89,7 @@
    
 	<div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>添加合同</h2>
+	  		 <h2>添加审价合同</h2>
 	 	</div>
 	 	
 	 	<form id="form1">
@@ -91,7 +97,7 @@
 			<table class="table table-bordered">
 				 <tobody>
 				  	<tr>
-				 		<td width="25%" class="bggrey tr">合同类型：</td>
+				 		<td width="25%" class="bggrey tr"><div class="star_red">＊</div>合同类型：</td>
 				 		<td width="25%">
 				 			<select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
 				 				<option value=""></option>
@@ -101,32 +107,34 @@
 				 				<option value="公开招标">公开招标</option>
 				 				<option value="竞价性谈判">竞价性谈判</option>
 				 			</select>
+				 			<div class="red f12 clear">${ERR_purchaseType}</div>
 				 		</td>
-				 		<td width="25%" class="bggrey tr">合同名称：</td>
+				 		<td width="25%" class="bggrey tr"><div class="star_red">＊</div>合同名称：</td>
 				 		<td width="25%">
 				 			<select class="w230" id="contract" name="contractId" onchange="contractInfo()">
 				 			</select>
-				 			<input type="hidden" id="contractName" name="name">
+				 			<input type="hidden" id="contractName" name="name" value="${appraisalContract.name }">
+				 			<div class="red f12 clear">${ERR_contractId}</div>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">供应商名称：</td>
 				 		<td width="25%">
-				 			<input id="supplierName" name="supplierName" type="text" class="w230 mb0 border0" readonly>
+				 			<input id="supplierName" name="supplierName" value="${appraisalContract.supplierName }" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同编号：</td>
 				 		<td width="25%" >
-				 			<input id="contractCode" name="code" type="text" class="w230 mb0 border0" readonly>
+				 			<input id="contractCode" name="code" value="${appraisalContract.code }" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">采购机构：</td>
 				 		<td width="25%">
-				 			<input id="purchaseDepName" name="purchaseDepName" type="text" class="w230 mb0 border0" readonly>
+				 			<input id="purchaseDepName" name="purchaseDepName" value="${appraisalContract.purchaseDepName }" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同金额：</td>
 				 		<td width="25%">
-				 			<input id="money" name="money" type="text" class="w230 mb0 border0" readonly>
+				 			<input id="money" name="money" type="text" value="${appraisalContract.money }" class="w230 mb0 border0" readonly>
 				 		</td>
 				 	</tr>
 				 </tobody>
@@ -137,7 +145,7 @@
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn btn-windows add" type="submit" id="submit" name="submit">确定</button>
-			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
+			    <button class="btn btn-windows cancel" type="button" onclick="goBack()">取消</button>
 			</div>
 		</div>
 	

@@ -19,6 +19,7 @@ import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
+import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.sstps.AppraisalContract;
@@ -145,7 +146,7 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(AppraisalContract appraisalContract,String contractId){
+	public String save(AppraisalContract appraisalContract,String contractId,Model model){
 		
 			appraisalContract.setCreatedAt(new Date());
 			appraisalContract.setUpdatedAt(new Date());
@@ -155,32 +156,56 @@ public class AppraisalContractController extends BaseSupplierController{
 			PurchaseContract purchaseContract = new PurchaseContract();
 			purchaseContract.setId(contractId);
 			appraisalContract.setPurchaseContract(purchaseContract);
-			appraisalContractService.insert(appraisalContract);
-			appraisalContractService.updateAppeal(contractId);
 			
-			//审价产品
-			ContractProduct contractProduct = new ContractProduct();
-			//根据合同编号，获取审价ID
-			AppraisalContract app = new AppraisalContract();
-			app.setId(contractId);
-			app.setPurchaseContract(purchaseContract);
-			AppraisalContract appc = appraisalContractService.selectContractId(app);
+			boolean flag = true;
+			String url = "";
 			
-			//ContractRequired contractRequired = new ContractRequired();
-			List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
-			for(int i=0;i<list.size();i++){
-			//	ContractProduct.setId(app.getId());
-				//关联审价编号
-				contractProduct.setAppraisalContract(appc);
-				//获取合同产品
-				contractProduct.setName(list.get(i).getGoodsName());
-				contractProduct.setCreatedAt(new Date());
-				contractProduct.setUpdatedAt(new Date());
-				contractProduct.setOffer(0);
-				contractProduct.setAuditOffer(0);
-				contractProductService.insert(contractProduct);
-		}
-		return "redirect:select.html";
+			if(ValidateUtils.isNull(appraisalContract.getName())){
+				flag = false;
+				model.addAttribute("ERR_name", "合同名称不能为空");
+			}
+			if(ValidateUtils.isNull(appraisalContract.getPurchaseType())){
+				flag = false;
+				model.addAttribute("ERR_purchaseType", "合同类型不能为空");
+			}
+			if(ValidateUtils.isNull(contractId)){
+				flag = false;
+				model.addAttribute("ERR_contractId", "合同名称不能为空");
+			}
+			if(flag==false){
+				model.addAttribute("appraisalContract", appraisalContract);
+				url = "bss/sstps/appraisal/add";
+			}else{
+				
+				appraisalContractService.insert(appraisalContract);
+				appraisalContractService.updateAppeal(contractId);
+				
+				//审价产品
+				ContractProduct contractProduct = new ContractProduct();
+				//根据合同编号，获取审价ID
+				AppraisalContract app = new AppraisalContract();
+				app.setId(contractId);
+				app.setPurchaseContract(purchaseContract);
+				AppraisalContract appc = appraisalContractService.selectContractId(app);
+				
+				//ContractRequired contractRequired = new ContractRequired();
+				List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
+				for(int i=0;i<list.size();i++){
+				//	ContractProduct.setId(app.getId());
+					//关联审价编号
+					contractProduct.setAppraisalContract(appc);
+					//获取合同产品
+					contractProduct.setName(list.get(i).getGoodsName());
+					contractProduct.setCreatedAt(new Date());
+					contractProduct.setUpdatedAt(new Date());
+					contractProduct.setOffer(0);
+					contractProduct.setAuditOffer(0);
+					contractProductService.insert(contractProduct);
+				}
+				url = "redirect:select.html";
+			}
+			
+		return url;
 	}
 	
 	/**
