@@ -9,30 +9,110 @@
     <title>项目评分</title>
 <script type="text/javascript">
 	
-	function audit(obj,scoreModelId,supplierId){
-		var expertValue = $(obj).val();
-		alert(scoreModelId);
-		alert(supplierId);
-		$.ajax({
-			url:'',
-			data:{"expertValue":expertValue,"scoreModelId":scoreModelId,"supplierId":supplierId},
-			type:"post",
-			success:function(data){
-				
+	function audit(obj,scoreModelId,supplierId,typeName,markTermId,quotaId){
+		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ){
+			var flag = 0;
+			//填写的所有分数
+			var expertValues=[];
+			$(obj).parent().parent().find("input[name='expertValue']").each(function(){
+				//该行的所有填写的值
+				var value = $(this).val();
+				expertValues.push(value);
+				//判断是否有未填写的
+				if(value=='' || value==null || value==undefined){
+					flag++;
+				}
+			});
+			//flag为0证明都填写了
+			if(flag==0){
+					var supplierIds = [];
+					$(obj).parent().parent().find("input[name='supplierId']").each(function(){
+						//所有供应商的id
+						var value = $(this).val();
+						supplierIds.push(value);
+					});
+					$("#markTermId").val(markTermId);
+					$("#supplierIds").val(supplierIds);
+					$("#expertValues").val(expertValues);
+					$("#scoreModelId").val(scoreModelId);
+					$("#typeName").val(typeName);
+					$("#quotaId").val(quotaId);
+					$.ajax({
+						url:'${pageContext.request.contextPath}/reviewFirstAudit/caseGrade.html',
+						data:$("#score_form").serialize(),
+						type:"post",
+						dataType:'JSON',
+						success:function(data){
+							for(var i = 0;i<data.length;i++){
+								$(obj).parent().parent().find("input[name='supplierId']").each(function(){
+									//算出的分数
+									if(data[i].supplierId == $(this).val()){
+										$(this).next().val(data[i].score);
+									}
+								});
+							}
+						}
+					});
 			}
-			
-		});
+		}else{
+		
+			var expertValue = $(obj).val();
+			if(expertValue != ""){
+			$("#supplierIds").val(supplierId);
+			$("#expertValues").val(expertValue);
+			$("#scoreModelId").val(scoreModelId);
+			$("#typeName").val(typeName);
+			$("#quotaId").val(quotaId);
+			$.ajax({
+				url:'${pageContext.request.contextPath}/reviewFirstAudit/caseGradeTwo.html',
+				data:$("#score_form").serialize(),
+				type:"post",
+				dataType:"JSON",
+				success:function(data){
+					$(obj).parent().next().find("input[name='expertScore']").val(data);
+				}
+				
+			});
+		}
+		}
+		
 	}
 	//提交
 	function submit1(){
+		var count = 0;
+		$("#table2").find("input[name='expertValue']").each(function(){
+			if($(this).val()==""){
+				count++;
+			}
+		});
+		$("#table2").find("input[name='expertScore']").each(function(){
+			if($(this).val()==""){
+				count++;
+			}
+		});
+		if(count==0){
 		$("#form1").submit();
+		}else{
+			layer.msg("还有未评分项");
+		}
 		
 	}
   </script>
   </head>
   
   <body>
-  
+  <div class="dnone">
+  	<form  id="score_form">
+  		<input type="hidden" name="supplierIds" id="supplierIds">
+  		<input type="hidden" name="expertValues" id="expertValues">
+  		<input type="hidden" name="markTermId" id="markTermId">
+  		<input type="hidden" name="scoreModelId" id="scoreModelId">
+  		<input type="hidden" name="typeName" id="typeName">
+  		<input type="hidden" name="quotaId" id="quotaId">
+  		<input type="hidden" name="projectId" id="projectId" value="${projectId }">
+  		<input type="hidden" name="packageId" id="packageId" value="${packageId }">
+  	</form>
+  </div>
 						 <div class="tab-content clear step_cont">
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
 						 	   <div class="container clear margin-top-30" id="package">
@@ -96,12 +176,12 @@
 										 	           <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 										 	                 <td>${l.standardScore }</td>
 											 	             <td>${l.supplierValue }</td>
-											 	             <td>${l.supplierValue }</td>
+											 	             <td>${l.page }</td>
 											 	             <td>${l.initScore }</td>
 											 	             <c:choose>
 											 	              <c:when test="${l.typeName == '0' }">
 											 	               <td>
-											 	                 <select name="expertValue">
+											 	                 <select  name="expertValue" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')">
 											 	                   <option value="-1">请选择</option>
 											 	                   <option value="1">是</option>
 											 	                   <option value="0">否</option>
@@ -109,11 +189,12 @@
 											 	               </td>
 											 	              </c:when>
 											 	              <c:otherwise>
-											 	                 <td><input type="text" onblur="audit(this,'${l.scoreModelId}','${supplier.id }')" name="expertValue" style="width: 50px;"/> </td>
+											 	                 <td><input type="text" name="expertValue"  onblur="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')" style="width: 50px;"/> </td>
 											 	              </c:otherwise>
 											 	             </c:choose>
 											 	            
-											 	             <td><input type="text" name="expertScore" readonly="readonly"  style="width: 50px;"/></td>
+											 	             <td><input type="hidden" name="supplierId"  value="${supplier.id }"/>
+											 	             <input type="text" name="expertScore" readonly="readonly"  style="width: 50px;"/></td>
 										 	           </c:forEach>
 												       </tr> 
 												    </c:forEach>

@@ -46,11 +46,9 @@ public class ScoreModelUtil {
             score = getScoreByModelOne(scoreModel,flag);
         }else if (scoreModel.getTypeName().equals("1")) {
             score = getScoreByModelTwo(scoreModel,number);
-        }else if (scoreModel.getTypeName().equals("2")){
-            score = getScoreByModelTwo(scoreModel, number);
-        }else if (scoreModel.getTypeName().equals("7")){
+        }else if (scoreModel.getTypeName().equals("6")){
             score  = getScoreByModelSeven(scoreModel, number);
-        }else if (scoreModel.getTypeName().equals("8")){
+        }else if (scoreModel.getTypeName().equals("7")){
             score  = getScoreByModelEight(scoreModel, number);
         }
         return score;
@@ -476,17 +474,17 @@ public class ScoreModelUtil {
      * @return: int
      */
     public static double getDeadlineScore(double cuurScore,double deadlineScoe,Integer type){
-        double score=0;
+        //double score=0;
         if(type!=null && type.equals(0)){
             if(FloatUtil.sub(cuurScore, deadlineScoe)>0){
-                score = deadlineScoe;
+            	cuurScore = deadlineScoe;
             }
         }else if (type.equals(1)) {
             if (FloatUtil.sub(cuurScore, deadlineScoe)<0) {
                 cuurScore = deadlineScoe;
             }
         }
-        return score;
+        return cuurScore;
     }
     
     

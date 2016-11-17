@@ -480,10 +480,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											              </c:forEach>
 												        </td>
 											      </tr>
-												       <tr>
+												       <!-- <tr>
 												        <td align="center">中标供应商 </td>
 												        <td align="center" colspan="4">aa</td>
-												      </tr>
+												      </tr> -->
 												      </thead>
 								   		  </table>
 									</c:forEach>

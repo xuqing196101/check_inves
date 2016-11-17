@@ -81,6 +81,10 @@ public class AuditModelExt {
      * @Fields round : 轮次
      */
     private Integer round;
+    /**
+     * @Fields page : 页码
+     */
+    private Integer page;
     
     /**
      * SCORE_MODEL 表数据
@@ -120,6 +124,15 @@ public class AuditModelExt {
   	 * MARK_TERM表数据
   	 */
   	private String markTermName;//打分项名称
+
+  	
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
 
 	public String getQuotaId() {
 		return quotaId;

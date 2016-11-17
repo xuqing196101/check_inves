@@ -241,11 +241,8 @@
                     </span>
                   </li>
 		        </ul>
-		              <div class="col-md-12 clear tc">
-			            <input class="btn"  value="查询" type="submit">
-                         <input class="btn" id="button" onclick="clearSearch();" value="重置" type="reset">  
-			            </div>
-			          <div class="clear"></div>
+		              <input class="btn"  value="查询" type="submit">
+                      <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">  
                    </form>
                    </h2>
 <!-- 表格开始-->

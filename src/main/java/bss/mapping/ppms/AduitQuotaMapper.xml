@@ -236,7 +236,7 @@
     select q.ID AS quotaId,q.PROJECT_ID AS projectId,q.PACKEAGE_ID AS packageId,q.SUPPLIER_ID AS supplierId,
            q.SCORE_MODEL_ID AS scoreModelId,q.SUPPLIER_VALUE AS supplierValue,q.INIT_SCORE AS initScore,
            q.EXPERT_VALUE AS expertValue,q.FINAL_SCORE AS finalScore,q.CREATED_AT AS createdAt,
-           q.UPDATED_AT AS updatedAt,q.IS_DELETED AS isDeleted,q.ROUND AS round,
+           q.UPDATED_AT AS updatedAt,q.IS_DELETED AS isDeleted,q.ROUND AS round,q.PAGE AS page,
            
 	       s.MARK_TERM_ID AS markTermId,s.NAME AS name,s.TYPE_NAME AS typeName,s.REVIEW_CONTENT AS reviewContent,
 	       s.REMARK AS remark,s.EASY_UNDERSTAND_CONTENT AS easyUnderstandContent,s.STANDARD_EXPLAIN AS standExplain,

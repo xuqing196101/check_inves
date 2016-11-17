@@ -2,10 +2,8 @@ package bss.controller.prms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,12 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import bss.model.ppms.AduitQuota;
-import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
+import bss.model.ppms.SupplyMark;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
@@ -35,6 +35,7 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
+import bss.util.ScoreModelUtil;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
@@ -332,5 +333,99 @@ public class ReviewFirstAuditController {
 		}else{
 			return null;
 		}
+	}
+	/**
+	 * 
+	  * @Title: caseGrade
+	  * @author ShaoYangYang
+	  * @date 2016年11月17日 下午3:02:55  
+	  * @Description: TODO 3456模型算法
+	  * @param @param scoreModelId
+	  * @param @param supplierIds
+	  * @param @param expertValues
+	  * @param @return      
+	  * @return List<SupplyMark>
+	 */
+	@RequestMapping("caseGrade")
+	@ResponseBody
+	public String caseGrade(String markTermId,String supplierIds,String expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
+		
+		ArrayList<SupplyMark> smList = new ArrayList<>();
+		String[] ids = supplierIds.split(",");
+		String[] eids = expertValues.split(",");
+		SupplyMark sm ;
+		for (int i = 0; i < ids.length; i++) {
+			sm = new SupplyMark();
+			sm.setSupplierId(ids[i]);
+			sm.setPrarm(Double.valueOf(eids[i]));
+			sm.setMarkTermId(markTermId);
+			smList.add(sm);
+		}
+		
+		ScoreModel scoreModel = new ScoreModel();
+		scoreModel.setId(scoreModelId);
+		ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
+		List<SupplyMark> list = null ;
+		if(typeName=="3" || typeName.equals("3")) {
+			list = ScoreModelUtil.getScoreByModelThree(scoreModel2, smList);
+		}
+		if(typeName=="4" || typeName.equals("4")) {
+			 list = ScoreModelUtil.getScoreByModelFour(scoreModel2, smList);
+		}
+		if(typeName=="5" || typeName.equals("5")) {
+			 list = ScoreModelUtil.getScoreByModelFive(scoreModel2, smList, null);
+		}
+		if(typeName=="6" || typeName.equals("6")) {
+			 list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,null);
+		}
+		AduitQuota aq;
+		for (SupplyMark supplyMark : list) {
+			aq = new AduitQuota();
+			aq.setProjectId(projectId);
+			aq.setPackageId(packageId);
+			aq.setSupplierId(supplyMark.getSupplierId());
+			aq.setScoreModelId(scoreModelId);
+			List<AduitQuota> quotaList = aduitQuotaService.find(aq);
+			AduitQuota quota = quotaList.get(0);
+			java.math.BigDecimal expertValue = new java.math.BigDecimal(supplyMark.getPrarm());
+			java.math.BigDecimal finalScore = new java.math.BigDecimal(supplyMark.getScore());
+				//设置填写的参数
+				quota.setExpertValue(expertValue);
+				//设置最终得分
+				quota.setFinalScore(finalScore);
+				//执行更新
+				aduitQuotaService.update(quota);
+			}
+			
+		return JSON.toJSONString(list);
+	}
+	/**
+	 * 
+	  * @Title: caseGrade
+	  * @author ShaoYangYang
+	  * @date 2016年11月17日 下午3:02:55  
+	  * @Description: TODO 1278模型算法
+	  * @param @param scoreModelId
+	  * @param @param supplierIds
+	  * @param @param expertValues
+	  * @param @return      
+	  * @return List<SupplyMark>
+	 */
+	@RequestMapping("caseGradeTwo")
+	@ResponseBody
+	public String caseGradeTwo(String supplierIds,Integer expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
+		//算分
+		ScoreModel scoreModel = new ScoreModel();
+		scoreModel.setId(scoreModelId);
+		ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
+		double score = ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
+		//保存结果 修改数据
+		AduitQuota quota = aduitQuotaService.get(quotaId);
+		java.math.BigDecimal expertValue = new java.math.BigDecimal(expertValues);
+		quota.setExpertValue(expertValue);
+		java.math.BigDecimal scores = new java.math.BigDecimal(score);
+		quota.setFinalScore(scores);
+		aduitQuotaService.update(quota);
+		return JSON.toJSONString(score);
 	}
 }
