@@ -2,14 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>修改菜单</title>
     
@@ -61,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>preMenu/treedata.do?",
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -97,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	var pid = $("#pid").val();
             $.ajax({  
                type: "POST",  
-               url: "<%=basePath %>preMenu/update.html?pid="+pid,  
+               url: "${pageContext.request.contextPath}/preMenu/update.html?pid="+pid,  
                data: $("#form1").serializeArray(),  
                dataType: 'json',  
                success:function(result){
@@ -105,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         layer.msg(result.msg,{offset: ['150px', '180px']});
                     }else{
                         parent.window.setTimeout(function(){
-                            parent.window.location.href = "<%=basePath%>preMenu/list.html";
+                            parent.window.location.href = "${pageContext.request.contextPath}/preMenu/list.html";
                         }, 1000);
                         layer.msg(result.msg,{offset: ['150px', '180px']});
                     }

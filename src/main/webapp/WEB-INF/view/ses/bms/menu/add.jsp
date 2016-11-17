@@ -57,7 +57,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/preMenu/treedata.do?",
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -93,7 +93,7 @@
         	
             $.ajax({  
                type: "POST",  
-               url: "<%=basePath %>preMenu/save.html",  
+               url: "${pageContext.request.contextPath}/preMenu/save.html",  
                data: $("#form1").serializeArray(),  
                dataType: 'json',  
                success:function(result){
