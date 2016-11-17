@@ -14,7 +14,7 @@ import ses.model.bms.Area;
  *  @date 2016-9-7下午6:12:18
  */
 public interface AreaMapper {
-	/**
+    /**
 	 * 
 	 * @Title: deleteById
 	 * @author FengTian
