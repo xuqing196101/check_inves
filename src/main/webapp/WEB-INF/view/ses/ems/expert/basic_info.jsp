@@ -1,8 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/tld/upload" prefix="up"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -10,7 +8,6 @@
 //表单标示
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
 <title>评审专家基本信息</title>
 <script type="text/javascript">
 	    var treeObj;
@@ -932,32 +929,32 @@
 										  	<tr>
 										  	   <td width="25%" class="info"><i class="red">＊</i>身份证:</td>
 										  	   <td>
-										  	      <up:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"   auto="true"/>
-										          <up:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
+										  	      <u:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"   auto="true"/>
+										          <u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
 										  	   </td>
 										  	   <td width="25%" class="info"><i class="red">＊</i>学历证书:</td>
 										  	   <td>
-										  	      <up:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
-										          <up:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
+										  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
+										          <u:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
 										  	   <td width="25%" class="info"><i class="red">＊</i>职称证书:</td>
 										  	   <td>
-										  	      <up:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_TITLE_TYPEID }" auto="true"/>
-										          <up:show  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
+										  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_TITLE_TYPEID }" auto="true"/>
+										          <u:show  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
 										  	   </td>
 										  	   <td width="25%" class="info"><i class="red">＊</i>学位证书:</td>
 										  	   <td>
-										  	      <up:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
-										          <up:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
+										  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
+										          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
 										  	   <td width="25%" class="info"><i class="red">＊</i>个人照片:</td>
 										  	   <td>
-										  	      <up:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
-										          <up:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
+										  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
+										          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
 										  	   </td>
 										  	   <td></td><td></td>
 										  	</tr>

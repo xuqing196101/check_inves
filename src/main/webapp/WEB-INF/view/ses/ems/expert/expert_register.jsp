@@ -1,9 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<jsp:include page="/WEB-INF/view/common/tags.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 	//表单标示
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
@@ -12,9 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>专家注册</title>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
  <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
@@ -79,13 +74,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </head>
 <body>
- 
- <div class="wrapper">
-		</div>
-  
+ 	 <jsp:include page="/index_head.jsp"></jsp:include>
 <!-- 修改订列表开始-->
    <div class="container">
-   <jsp:include page="/index_head.jsp"></jsp:include>
    <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="form1">
    		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -134,15 +125,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </li>
    </ul>
   </div> 
-  <div  class="col-md-12">
-   <div class="padding-10" align="center">
-   <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-   <input class="btn btn-windows add" type="button" onclick="submitForm();" value="注册">
-	</div>
-  </div>
+	  <div  class="col-md-12">
+	   <div class="padding-10" align="center">
+		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
+		   <button class="btn btn-windows add"    type="button" onclick="submitForm();"  >注册</button>
+		</div>
+	 </div>
   </form>
  </div>
- <br/>
  <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
