@@ -38,7 +38,9 @@
      <div class="container container_box">
     <form action="${pageContext.request.contextPath}/articletype/update.html" method="post">  
     <div>
-	   		<h2 class="count_flow"><i>1</i>修改栏目</h2>
+    	<div class="headline-v2">
+	   		<h2>修改栏目</h2>
+	   	</div>
 	    <input class="span2" name ="articletypeId" type="hidden" value = '${articletype.id}'>
 	   <ul class="ul_list mb20">
 	   		  
