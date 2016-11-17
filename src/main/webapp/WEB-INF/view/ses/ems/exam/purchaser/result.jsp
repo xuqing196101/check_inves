@@ -114,8 +114,8 @@
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th>序号</th>
-						<th>采购人姓名</th>
+						<th class="w50">序号</th>
+						<th class="w160">采购人姓名</th>
 						<th>身份证号</th>
 						<th>试卷编号</th>
 					    <th>考试时间</th>

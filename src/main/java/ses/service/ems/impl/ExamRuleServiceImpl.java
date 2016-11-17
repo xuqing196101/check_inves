@@ -30,20 +30,18 @@ public class ExamRuleServiceImpl implements ExamRuleServiceI {
 	}
 	
 	@Override
-	public List<ExamRule> select(HashMap<String,Object> map) {
-		return examRuleMapper.select(map);
-	}
-	
-	@Override
 	public int updateByPrimaryKeySelective(ExamRule examRule) {
 		return examRuleMapper.updateByPrimaryKeySelective(examRule);
 	}
 
 	
 	@Override
-	public ExamRule selectById(String id) {
-		return examRuleMapper.selectById(id);
+	public List<ExamRule> selectById(HashMap<String, Object> map) {
+		return examRuleMapper.selectById(map);
 	}
+
+	
+	
 
 
 

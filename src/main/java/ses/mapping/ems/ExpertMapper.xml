@@ -67,7 +67,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_EMS_EXPERT
-		where 1=1 and IS_SUBMIT ！= '0' and IS_DELETE != 1
+		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
 		<if test="relName != null and relName !=''">
 			AND REL_NAME like '%${relName}%'
 		</if>
@@ -646,5 +646,30 @@
 			</if>
 			)
 		</foreach>
+	</select>
+	
+	
+	<!-- 查询所有专家 可条件查询 -->
+	<select id="findAllExpert" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXPERT
+		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
+		<if test="relName != null and relName !=''">
+			AND REL_NAME like #{relName}
+		</if>
+		<if test="expertsFrom != null and expertsFrom !=''">
+			AND EXPERTS_FROM = #{expertsFrom}
+		</if>
+		<if test="status != null and status !=''">
+			AND STATUS = #{status}
+		</if>
+		<if test="expertsTypeId != null and expertsTypeId !=''">
+			AND EXPERTS_TYPE_ID = #{expertsTypeId}
+		</if>
+		<if test="idNumber != null and idNumber !=''">
+			AND ID_NUMBER = #{idNumber}
+		</if>
+		ORDER BY CREATED_AT DESC
 	</select>
 </mapper>

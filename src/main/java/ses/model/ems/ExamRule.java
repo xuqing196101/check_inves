@@ -3,6 +3,7 @@
  */
 package ses.model.ems;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -61,7 +62,12 @@ public class ExamRule {
 	/**
 	 * @Fields year : 考卷年度
 	 */
-	private String year;
+	private BigDecimal year;
+	
+	/**
+	 * @Fields formatYear : 预备考卷年度
+	 */
+	private BigDecimal formatYear;
 	
 	/**
 	 * @Fields status : 考卷状态
@@ -140,12 +146,20 @@ public class ExamRule {
 		this.typeDistribution = typeDistribution;
 	}
 
-	public String getYear() {
+	public BigDecimal getYear() {
 		return year;
 	}
 
-	public void setYear(String year) {
+	public void setYear(BigDecimal year) {
 		this.year = year;
+	}
+	
+	public BigDecimal getFormatYear() {
+		return formatYear;
+	}
+
+	public void setFormatYear(BigDecimal formatYear) {
+		this.formatYear = formatYear;
 	}
 
 	public String getStatus() {

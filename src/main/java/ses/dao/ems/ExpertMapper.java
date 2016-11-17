@@ -1,5 +1,6 @@
 package ses.dao.ems;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public interface ExpertMapper {
       * @return List<Expert>
      */
     List<Expert> selectAllExpert(Map paramMap);
-    
+   
     List<Expert> findExpertList();
     
     /**
@@ -55,7 +56,17 @@ public interface ExpertMapper {
      */
     List<Expert> findExpertAll(Expert expert);
     
-    
+    /**
+     * 
+    * @Title: findAllExpert
+    * @author ZhaoBo
+    * @date 2016-11-17 下午1:07:29  
+    * @Description: 查询专家（按条件查询） 
+    * @param @param map
+    * @param @return      
+    * @return List<Expert>
+     */
+    List<Expert> findAllExpert(HashMap<String,Object> map);
     
     /**
      * @Description: 抽取供应商

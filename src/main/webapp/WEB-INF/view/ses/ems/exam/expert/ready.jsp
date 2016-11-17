@@ -25,10 +25,13 @@
 	       			}else if(data==1){
 	       				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
 	       			}else if(data==2){
-	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['30%','40%']});
+	       				layer.alert("很抱歉,您不是专家,无法参加考试",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}else if(data==3){
 	       				layer.alert("考试时间尚未开始",{offset: ['30%','40%']});
+						$(".layui-layer-shade").remove();
+	       			}else if(data==4){
+	       				layer.alert("很抱歉，您未被添加到今年的考试中",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}
 	       		}

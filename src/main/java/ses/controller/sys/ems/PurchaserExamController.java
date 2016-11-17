@@ -2443,9 +2443,9 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/loadReferenceTemplet")
 	public ResponseEntity<byte[]> loadReferenceTemplet(HttpServletRequest request) throws IOException{
 		HttpHeaders headers = new HttpHeaders();
-		String path = PathUtil.getWebRoot() + "excel/参考人员模板.xls";
+		String path = PathUtil.getWebRoot() + "excel/采购人参考人员模板.xls";
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
-		headers.setContentDispositionFormData("attachment", new String("参考人员模板.xls".getBytes("UTF-8"), "iso-8859-1"));  
+		headers.setContentDispositionFormData("attachment", new String("采购人参考人员模板.xls".getBytes("UTF-8"), "iso-8859-1"));  
 		return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));  
 	}
 	

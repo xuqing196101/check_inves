@@ -503,4 +503,13 @@ public class ExpertServiceImpl implements ExpertService {
 		// TODO Auto-generated method stub
 		return mapper.listExtractionExpert(conType);
 	}
+
+	
+	@Override
+	public List<Expert> findAllExpert(HashMap<String, Object> map) {
+		return mapper.findAllExpert(map);
+	}
 }
+
+
+

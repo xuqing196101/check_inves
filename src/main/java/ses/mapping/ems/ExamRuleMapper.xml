@@ -8,31 +8,31 @@
     <result column="PAPER_SCORE" property="paperScore" />
     <result column="OFF_TIME" property="offTime" />
     <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
+    <result column="YEAR" property="year" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,OFF_TIME,TYPE_DISTRIBUTION,CREATED_AT,UPDATED_AT
+    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,OFF_TIME,TYPE_DISTRIBUTION,YEAR,CREATED_AT,UPDATED_AT
   </sql>
   
   <!-- 根据主键ID查询考试规则 -->
-  <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_RULE
+    WHERE 1=1
+    <if test="id != null and id !=''">
+        AND ID = #{id}
+    </if>
+    <if test="year != null and year !=''">
+        AND YEAR = #{year}
+    </if>
     ORDER BY
     CREATED_AT DESC
   </select>
   
-  <!-- 根据主键ID查询考试规则 -->
-  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_EMS_EXAM_RULE
-    WHERE ID = #{id}
-  </select>
-  
- <!-- 设置考试规则,可插入null -->
+  <!-- 设置考试规则,可插入null -->
   <insert id="insertSelective" parameterType="Object">
   	<selectKey resultType="String" order="BEFORE" keyProperty="id">
       select sys_guid() from dual
@@ -56,6 +56,9 @@
       </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION,
+      </if>
+      <if test="year != null">
+        YEAR,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
@@ -82,6 +85,9 @@
       </if>
       <if test="typeDistribution != null">
         #{typeDistribution},
+      </if>
+      <if test="year != null">
+        #{year},
       </if>
       <if test="createdAt != null">
         #{createdAt},
@@ -110,6 +116,9 @@
       </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION = #{typeDistribution},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},

@@ -134,6 +134,93 @@
 		function view(obj){
 			window.location.href = "${pageContext.request.contextPath }/expertExam/viewRule.html?id="+obj;
 		}
+		
+		//设置参考人员
+		function setReference(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var str = "";
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<info.length;i++){
+					if(info[i].checked == true){
+						str = info[i].value;
+					}
+				}
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"${pageContext.request.contextPath }/expertExam/setReference.do?id="+str,
+			       	success:function(data){
+				    	if(data==1){
+				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==2){
+				    		window.location.href = "${pageContext.request.contextPath }/expertExam/viewReference.do?id="+str;
+				    	}else if(data==3){
+				    		layer.alert("考试时间已结束,请选择其它考卷",{offset: ['30%', '40%']});
+							$(".layui-layer-shade").remove();
+				    	}
+			       	}
+			    });
+				
+			}
+		}
+		
+		//查看成绩
+		function viewScore(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var str = "";
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<info.length;i++){
+					if(info[i].checked == true){
+						str = info[i].value;
+					}
+				}
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"${pageContext.request.contextPath }/expertExam/setReference.do?id="+str,
+			       	success:function(data){
+				    	if(data==1){
+				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==2){
+				    		layer.alert("考试时间未结束,请选择其它考卷",{offset: ['30%', '40%']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==3){
+				    		window.location.href = "${pageContext.request.contextPath }/expertExam/viewReference.do?id="+str;
+				    	}
+			       	}
+			    });
+			}
+		}
 	</script>
 
   </head>
@@ -143,20 +230,22 @@
    	<div class="margin-top-10 breadcrumbs ">
       	<div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考试规则管理</a></li>
+		   	<li><a href="javascript:void(0)">首页</a></li><li><a href="javascript:void(0)">支撑环境</a></li><li><a href="javascript:void(0)">专家考试规则管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  	</div>
    	</div>
    	<div class="container">
 	  	<div class="headline-v2">
-	   		<h2>专家考试规则列表</h2>
+	   		<h2>历史考试规则列表</h2>
 	   	</div>
    		
    		<!-- 表格开始-->
    		<div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+		    <button class="btn" type="button" onclick="setReference()">设置参考人员</button>
+		    <button class="btn" type="button" onclick="viewScore()">查看成绩</button>
 		</div>
 		
 		<div class="content table_box">
@@ -173,13 +262,13 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${list.list }" var="rule" varStatus="vs">
-					<tr class="pointer">
-						<td class="tc"><input type="checkbox" name="info" value="${rule.id }" onclick="check()"/></td>
-						<td class="tc" onclick="view('${rule.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td class="tc" onclick="view('${rule.id }')"><fmt:formatDate value="${rule.startTime }" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td class="tc" onclick="view('${rule.id }')"><fmt:formatDate value="${rule.offTime }" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td class="tc" onclick="view('${rule.id }')">${rule.year }</td>
-						<td class="tc" onclick="view('${rule.id }')">${rule.status }</td>
+					<tr class="pointer tc">
+						<td><input type="checkbox" name="info" value="${rule.id }" onclick="check()"/></td>
+						<td onclick="view('${rule.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+						<td onclick="view('${rule.id }')"><fmt:formatDate value="${rule.startTime }" pattern="yyyy-MM-dd HH:mm"/></td>
+						<td onclick="view('${rule.id }')"><fmt:formatDate value="${rule.offTime }" pattern="yyyy-MM-dd HH:mm"/></td>
+						<td onclick="view('${rule.id }')">${rule.year }</td>
+						<td onclick="view('${rule.id }')">${rule.status }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

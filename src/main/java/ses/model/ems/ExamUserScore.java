@@ -107,6 +107,11 @@ public class ExamUserScore {
      */
     private Integer isMax;
     
+    /**
+	 * @Fields year : 考试年份
+	 */
+	private Integer year;
+    
 	public String getId() {
 		return id;
 	}
@@ -259,9 +264,12 @@ public class ExamUserScore {
 		this.isMax = isMax;
 	}
 
-	
+	public Integer getYear() {
+		return year;
+	}
 
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 	
-    
-    
 }

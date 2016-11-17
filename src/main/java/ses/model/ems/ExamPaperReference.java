@@ -22,6 +22,12 @@ public class ExamPaperReference {
 	
 	private String code;
 	
+	private String idNumber;
+	
+	private String ruleId;
+	
+	private Integer userType;
+	
 	public String getRelName() {
 		return relName;
 	}
@@ -68,6 +74,30 @@ public class ExamPaperReference {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 	
 	

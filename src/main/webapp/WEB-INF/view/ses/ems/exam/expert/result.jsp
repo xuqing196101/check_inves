@@ -26,6 +26,12 @@
 					status_options[i].selected=true;
 				}
 			}
+			var year_options = document.getElementById("year").options;
+			for(var i=0;i<year_options.length;i++){
+				if($(year_options[i]).attr("value")=="${year}"){
+					year_options[i].selected=true;
+				}
+			}
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${expertResultList.pages}", //总页数
@@ -44,6 +50,7 @@
 			        	var userName = "${userName}";
 						var userType = "${userType}";
 						var status = "${status}";
+						var year = "${year}";
 			            location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&page="+e.curr;
 			        }
 			    }
@@ -55,11 +62,12 @@
 			var userName = $("#userName").val().trim();
 			var userType = $("#userType").val();
 			var status = $("#status").val();
-			if((userName==""||userName==null)&&(userType==""||userType==null)&&(status==""||status==null)){
+			var year = $("#year").val();
+			if((userName==""||userName==null)&&(userType==""||userType==null)&&(status==""||status==null)&&(year==""||year==null)){
 				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do";
 				return;
 			}else{
-				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&year="+year;
 			}
 			
 		}
@@ -71,6 +79,8 @@
 			userType[0].selected=true;
 			var status = document.getElementById("status").options;
 			status[0].selected=true;
+			var year = document.getElementById("year").options;
+			year[0].selected=true;
 		}
 	</script>
   </head>
@@ -98,26 +108,37 @@
 	  		<li>
 			    <label class="fl">专家类型：</label>
 			    <span>
-				   	<select id="userType" class="w178">
+				   	<select id="userType" class="w80">
 			  			<option value="">请选择</option>
 			  			<option value="1">技术</option>
-			  			<option value="3">商务</option>
 			  			<option value="2">法律</option>
+			  			<option value="3">商务</option>
 			  		</select>
 			   	</span>
 			</li>
 	  		<li>
 			    <label class="fl">考试状态：</label>
 			    <span>
-				   	<select id="status" class="w178">
+				   	<select id="status" class="w80">
 			  			<option value="">请选择</option>
 			  			<option value="及格">及格</option>
 			  			<option value="不及格">不及格</option>
 			  		</select>
 			   	</span>
 			</li>
-	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
-	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
+			<li>
+			    <label class="fl">考试年份：</label>
+			    <span>
+				   	<select id="year" class="w80">
+			  			<option value="">请选择</option>
+			  			<c:forEach items="${ruleList }" var="rule">
+			  				<option value="${rule.formatYear }">${rule.formatYear }</option>
+			  			</c:forEach>
+			  		</select>
+			   	</span>
+			</li>
+		  	<button class="btn" type="button" onclick="queryResult()">查询</button>
+		  	<button class="btn" type="button" onclick="resetResult()">重置</button>
   		</ul>
   		<div class="clear"></div>
   	</h2>
@@ -125,26 +146,28 @@
   		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
-					<th class="info">序号</th>
-					<th class="info">专家姓名</th>
-					<th class="info">专家类型</th>
-					<th class="info">证件类型</th>
-					<th class="info">证件号</th>
-					<th class="info">考试时间</th>
-					<th class="info">得分</th>
-					<th class="info">考试状态</th>
+					<tr class="info">
+						<th class="w50">序号</th>
+						<th class="w160">专家姓名</th>
+						<th>专家类型</th>
+						<th>证件类型</th>
+						<th>证件号</th>
+						<th>考试时间</th>
+						<th>得分</th>
+						<th>考试状态</th>
+					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${expertResultList.list }" var="result" varStatus="vs">
-						<tr>
-							<td class="tc">${(vs.index+1)+(expertResultList.pageNum-1)*(expertResultList.pageSize)}</td>
-							<td class="tc">${result.relName }</td>
-							<td class="tc">${result.userDuty }</td>
-							<td class="tc">${result.idType }</td>
-							<td class="tc">${result.idNumber }</td>
-							<td class="tc">${result.formatDate }</td>
-							<td class="tc">${result.score }</td>
-							<td class="tc">${result.status }</td>
+						<tr class="tc">
+							<td>${(vs.index+1)+(expertResultList.pageNum-1)*(expertResultList.pageSize)}</td>
+							<td>${result.relName }</td>
+							<td>${result.userDuty }</td>
+							<td>${result.idType }</td>
+							<td>${result.idNumber }</td>
+							<td>${result.formatDate }</td>
+							<td>${result.score }</td>
+							<td>${result.status }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

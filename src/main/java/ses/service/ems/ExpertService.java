@@ -1,5 +1,6 @@
 package ses.service.ems;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,6 +84,19 @@ public interface ExpertService {
 	      * @return List<Expert>
 	     */
 	    List<Expert> selectAllExpert(Integer pageNum,Expert expert);
+	    
+	    /**
+	     * 
+	    * @Title: findAllExpert
+	    * @author ZhaoBo
+	    * @date 2016-11-17 下午1:07:29  
+	    * @Description: 查询专家（按条件查询） 
+	    * @param @param map
+	    * @param @return      
+	    * @return List<Expert>
+	     */
+	    List<Expert> findAllExpert(HashMap<String,Object> map);
+	    
 	    /***
 	     * 
 	      * @Title: getCount

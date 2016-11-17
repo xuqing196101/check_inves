@@ -13,11 +13,12 @@
     <result column="USER_DUTY" property="userDuty" />
     <result column="TEST_DATE" property="testDate" />
     <result column="IS_MAX" property="isMax" />
+    <result column="YEAR" property="year" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, USER_ID, USER_TYPE, SCORE, STATUS, PAPER_ID,CREATED_AT, 
-    UPDATED_AT,USER_DUTY,TEST_DATE,IS_MAX
+    UPDATED_AT,USER_DUTY,TEST_DATE,IS_MAX,YEAR
   </sql>
   
   <!-- 根据主键ID查找用户成绩 -->
@@ -74,6 +75,9 @@
       <if test="isMax != null">
         IS_MAX,
       </if>
+      <if test="year != null">
+        YEAR,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +112,9 @@
       </if>
       <if test="isMax != null">
         #{isMax},
+      </if>
+      <if test="year != null">
+        #{year},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="isMax != null">
         IS_MAX = #{isMax},
       </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -171,6 +181,7 @@
       </if>
     </set>
     where USER_ID = #{userId}
+    AND YEAR = #{year}
   </update>
   
   <!-- 专家成绩按条件查询 -->
@@ -205,6 +216,11 @@
         <if test="userDuty != null and '' != userDuty">
            <![CDATA[
            AND s.USER_DUTY = #{userDuty} 
+           ]]>
+        </if>
+        <if test="year != null and '' != year">
+           <![CDATA[
+           AND s.YEAR = #{year} 
            ]]>
         </if>
         ORDER BY
