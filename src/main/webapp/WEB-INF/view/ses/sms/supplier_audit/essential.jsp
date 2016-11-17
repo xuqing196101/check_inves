@@ -41,7 +41,7 @@ $(function(){
       $(this).parent("div").find("div").hide();
       
       var onmouseover = "this.style.border='solid 1px #FF0000'";
-      var onmouseout = "this.style.border='solid 1px #EBEBEB'";
+      var onmouseout = "this.style.border='solid 1px #D3D3D3'";
        $(this).attr("onmouseover",onmouseover);
        $(this).attr("onmouseout",onmouseout);
     });

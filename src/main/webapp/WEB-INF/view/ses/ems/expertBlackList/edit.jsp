@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -110,8 +111,10 @@
             <ul class="ul_list">
                 <li class="col-md-3 margin-0 padding-0 ">
                     <span class="" ><i class="red">＊</i>批准文件:</span>
-                    <input class="span5" type="file" name="attachmentCertFile"/>
-                    <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a>
+                    <%-- <input class="span5" type="file" name="attachmentCertFile"/>
+                    <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a> --%>
+                    <up:upload id="id_up"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
+                    <up:show showId="id_show"  businessId="${expert.id}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" />
                 </li>
             </ul>
 	         <div class="margin-bottom-0  categories">

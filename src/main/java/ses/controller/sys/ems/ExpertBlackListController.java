@@ -3,10 +3,10 @@ package ses.controller.sys.ems;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,15 +23,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /**
  * <p>Title:ExpertBlackListController </p>
@@ -44,6 +47,10 @@ import com.github.pagehelper.PageInfo;
 public class ExpertBlackListController extends BaseSupplierController{
 	@Autowired
 	private ExpertBlackListService service;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
 	/**
 	 * @Title: add
 	 * @author Xu Qing
@@ -64,6 +71,18 @@ public class ExpertBlackListController extends BaseSupplierController{
 		String expertId = expertBlackList.getExpertId();
 		model.addAttribute("relName", relName);
 		model.addAttribute("expertId", expertId);
+		
+		//文件
+		DictionaryData dd = new  DictionaryData();
+		dd.setCode("EXPERT_BLACK_LIST");
+		if(  dictionaryDataServiceI.find(dd) != null && dictionaryDataServiceI.find(dd).size()>0){
+			 DictionaryData dictionaryData = dictionaryDataServiceI.find(dd).get(0);
+			 model.addAttribute("expertDictionaryData", dictionaryData);
+		}
+		model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+		
+		
 		return "ses/ems/expertBlackList/add";
 	}
 	/**
@@ -184,10 +203,23 @@ public class ExpertBlackListController extends BaseSupplierController{
 		/*//所有专家
 		List<Expert> expertList = service.findExpertList();
 		model.addAttribute("expertList", expertList);*/
+		
+		
 		//选择的专家
 		String relName = expertBlackList.getRelName();
 		model.addAttribute("relName", relName);
 		model.addAttribute("expert", expertBlackList);
+		
+		//文件
+		DictionaryData dd = new  DictionaryData();
+		dd.setCode("EXPERT_BLACK_LIST");
+		if(  dictionaryDataServiceI.find(dd) != null && dictionaryDataServiceI.find(dd).size()>0){
+			 DictionaryData dictionaryData = dictionaryDataServiceI.find(dd).get(0);
+			 model.addAttribute("expertDictionaryData", dictionaryData);
+		}
+		model.addAttribute("expertKey", Constant.EXPERT_SYS_KEY);
+		
+		
 		return "ses/ems/expertBlackList/edit";
 	}
 	/**

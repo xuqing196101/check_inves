@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -46,6 +47,7 @@
 		        <li class="col-md-3 margin-0 padding-0 ">
 	                <span class="col-md-12 padding-left-5"><i class="padding-left-5 red">＊</i>专家姓名：</span>
 	                <div class="input-append">
+	                    <input type="hidden" name="id" readonly="readonly" value="${uuid }">
 		                <input type="hidden" name="expertId" readonly="readonly" value="${expertId }">
 		                <input class="span5"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
 		                <span class="add-on">i</span>
@@ -106,8 +108,10 @@
            <ul class="ul_list">
 	           <li >
 	              <span class="" ><i class="padding-left-5 red">＊</i>批准文件:</span>
-	              <input class="span3" type="file" name="attachmentCertFile"/>
-	              <span class="padding-left-5 red">${err_attachmentCert}</span>
+	              <%-- <input class="span3" type="file" name="attachmentCertFile"/>
+	              <span class="padding-left-5 red">${err_attachmentCert}</span> --%>
+	              <up:upload id="id_up"  businessId="${uuid}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
+                  <up:show showId="id_show"  businessId="${uuid}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" />
 	           </li>
             </ul>
             <div class="col-md-12 p0">
