@@ -61,7 +61,10 @@
 	        });
 	        $("#isTop").val("${post.isTop}");
 	        $("#isLocking").val("${post.isLocking}");
-	        ue.setContent("${post.content}");
+	        
+	        ue.ready(function(){
+	        	ue.setContent("${post.content}");   
+	        });
 	        
 	});
 	  //2级联动

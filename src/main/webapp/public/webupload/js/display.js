@@ -132,12 +132,9 @@ function removeFile(id,key){
  * */
 function view(path,obj){
 	var url = globalPath + '/file/viewFile.html?path=' + path;
-<<<<<<< Updated upstream
+
 	packingHtml(url,obj);
-=======
-	
-	packingHtml(url);
->>>>>>> Stashed changes
+
 }
 
 /**
