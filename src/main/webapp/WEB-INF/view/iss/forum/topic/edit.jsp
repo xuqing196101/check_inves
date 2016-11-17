@@ -37,7 +37,9 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/topic/update.html" method="post">  
     <div>
+    <div class="headline-v2">
 	   		<h2 class="count_flow">修改主题</h2>
+	   		</div>
 	    <input  name ="topicId" type="hidden" value = '${topic.id}'>
 	   <ul class="ul_list mb20">
 	   		  

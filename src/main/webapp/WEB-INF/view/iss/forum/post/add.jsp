@@ -102,8 +102,9 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/post/save.html" method="post" >  
     <div>
-
-	   		<h2 class="count_flow">新增帖子</h2>
+            <div class="headline-v2">
+	   		  <h2 class="count_flow">新增帖子</h2>
+	   		</div>
 	   <ul class="ul_list mb20">
 	   
 	   		  <li class="col-md-3 margin-0 padding-0 ">

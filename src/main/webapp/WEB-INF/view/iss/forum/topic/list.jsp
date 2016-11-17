@@ -159,11 +159,6 @@
    <div class="container">
 
 <!-- 项目戳开始 -->
-
-   
-	<div class="headline-v2">
-	   	<h2>主题管理</h2>
-	</div>
 <h2 class="search_detail">
      <ul class="demand_list ">
        <li class="fl">

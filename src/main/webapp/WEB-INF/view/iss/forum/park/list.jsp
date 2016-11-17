@@ -139,9 +139,6 @@
 	  </div>
    </div>
 <div class="container">
-	<div class="headline-v2">
-	   <h2>版块管理</h2>
-	</div>
 
 <!-- 表格开始-->
 

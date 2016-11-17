@@ -64,9 +64,11 @@
      <div class="container container_box">
       <form action="${ pageContext.request.contextPath }/park/update.html" method="post">  
     <div>
+    <div class="headline-v2">
 	    <h2 class="count_flow">
 	   		修改版块
 	   </h2>
+	   </div>
 	    <input class="span2" name ="parkId" type="hidden" value = '${park.id}'>
 	    <input class="span2" name ="oldUserId" type="hidden" value = '${park.user.id }'>
 	    <input class="span2" name ="oldParkName" type="hidden" value = '${park.name }'>
@@ -84,18 +86,22 @@
 			 
 			 <li class="col-md-3 margin-0 padding-0 ">
 			   <span class="col-md-12 padding-left-5 ">版主：</span>
+			   <div class="select_common">
                  <select id="user"  class="w220" onchange="change(this.options[this.selectedIndex].value)">
                     <input class="span2" id="userId" type="hidden" name="userId" value =""/>
                 </select>
+                </div>
 			 </li>
 			 
 			  <li class="col-md-3 margin-0 padding-0 ">
                <span class="col-md-12 padding-left-5 ">热门：</span>
+               <div class="select_common">
                 <select id="isHoT" name="isHot" class="w220">
                 <option value="0" selected="selected">不是热门</option>
                 <option value="1">热门</option>
                 </select> 
-                <div class="validate">${ERR_isHot}</div>                  
+                <div class="validate">${ERR_isHot}</div>           
+                </div>       
              </li>
              
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			

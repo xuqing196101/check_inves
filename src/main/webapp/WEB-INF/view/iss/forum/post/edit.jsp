@@ -64,8 +64,9 @@
     <form action="${ pageContext.request.contextPath }/post/update.html" method="post" >  
       <input type="hidden" id="ids" name="ids"/>
     <div>
-
-	   		<h2 class="count_flow">修改帖子</h2>
+            <div class="headline-v2">
+	   		  <h2 class="count_flow">修改帖子</h2>
+	   		</div>
 
 	    <input  name ="postId" type="hidden" value = '${post.id}'>
 	   <ul class="ul_list mb20">	   		  

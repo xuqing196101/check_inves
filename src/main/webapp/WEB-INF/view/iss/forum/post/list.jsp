@@ -194,9 +194,6 @@
    
    <div class="container">
 <!-- 项目戳开始 -->
-	   <div class="headline-v2">
-	   		<h2>帖子管理</h2>
-	   </div>
 
 	 <h2 class="search_detail">
      <ul class="demand_list">
@@ -270,13 +267,13 @@
 				<c:if test="${length<=10}">
 					<td onclick="view('${post.id}')"  class=" pointer ">${name } </td>
 				</c:if>		
-				<c:if test="${post.isTop == 0}">
+				<c:if test="${post.isTop == 0 ||post.isTop == ''||post.isTop == null }">
 				<td class="tc pointer" onclick="view('${post.id}')">否</td>
 				</c:if>
 				<c:if test="${post.isTop == 1}">
                 <td class="tc pointer" onclick="view('${post.id}')">是</td>
                 </c:if>
-                <c:if test="${post.isLocking == 0}">
+                <c:if test="${post.isLocking == 0||post.isLocking == ''||post.isLocking == null}">
                 <td class="tc pointer" onclick="view('${post.id}')">否</td>
                 </c:if>
                 <c:if test="${post.isLocking == 1}">

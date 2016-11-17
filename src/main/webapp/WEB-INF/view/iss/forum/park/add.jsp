@@ -65,9 +65,10 @@
    <!-- 新增页面开始 -->
     <div class="container container_box"> 
 	<form action="${ pageContext.request.contextPath }/park/save.html" method="post">  
-    <div>	    
+    <div>	   
+    <div class="headline-v2"> 
 	   	<h2 class="count_flow">新增版块</h2>
-	   
+	   </div>
 	   <ul class="ul_list mb20">
 	   		  
 	   		 <li class="col-md-3 margin-0 padding-0 ">
@@ -80,8 +81,11 @@
 			 </li>
 			 
 			 <li class="col-md-3 margin-0 padding-0 ">
+			 
 			   <span class="col-md-12 padding-left-5 "> 版主：</span>
-			    	<select id="user"  class="w230" onchange="change(this.options[this.selectedIndex].value)"></select> 
+			         <div class="select_common">
+			    	    <select id="user"  class="w250" onchange="change(this.options[this.selectedIndex].value)"></select> 
+			    	</div>
 			 </li>
 			
              <input  type ="hidden" id="userId" name="userId"></input>

@@ -28,7 +28,9 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
     <div>
+    <div class="headline-v2">
 	   	<h2 class="count_flow">回复详情</h2>
+	   	</div>
 	   <ul class="ul_list mb20">
 	   		  
 

@@ -34,7 +34,9 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/reply/update.html" method="post">  
     <div>
+    <div class="headline-v2">
 	   		<h2 class="count_flow">修改回复</h2>
+	   		</div>
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
 	   <ul class="ul_list mb20">			 
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
