@@ -137,10 +137,6 @@ public class PostManageController {
 	@RequestMapping("/view")
 	public String view(Model model,String id,HttpServletRequest request){
 		Post p = postService.selectByPrimaryKey(id);	
-		Reply reply = new Reply();
-		reply.setPost(p);
-		BigDecimal replycount = replyService.queryByCount(reply);
-		p.setReplycount(replycount);
 
 		//附件信息
 		DictionaryData dd=new DictionaryData();
@@ -152,7 +148,6 @@ public class PostManageController {
 		}
 
 		model.addAttribute("post", p);		
-		System.out.println(p.getContent());
 		return "iss/forum/post/view";
 	}
 	
@@ -291,7 +286,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+	public String update(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
 		String postId= request.getParameter("postId");
@@ -571,6 +566,8 @@ public class PostManageController {
 			Topic topic =topicService.selectByPrimaryKey(topicId);
 			post.setPark(park);
 			post.setTopic(topic);
+			post.setIsLocking(0);
+			post.setIsTop(0);
 			User user = (User)request.getSession().getAttribute("loginUser");
 			post.setUser(user);
 			

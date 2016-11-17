@@ -64,9 +64,9 @@
      <div class="container container_box">
       <form action="${ pageContext.request.contextPath }/park/update.html" method="post">  
     <div>
-	    <div class="count_flow">
-	   		<i>1</i><h2>修改版块</h2>
-	   </div>
+	    <h2 class="count_flow">
+	   		修改版块
+	   </h2>
 	    <input class="span2" name ="parkId" type="hidden" value = '${park.id}'>
 	    <input class="span2" name ="oldUserId" type="hidden" value = '${park.user.id }'>
 	    <input class="span2" name ="oldParkName" type="hidden" value = '${park.name }'>
@@ -74,23 +74,23 @@
 	   <ul class="ul_list">
 	   		  
 	   		   <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div>版块名称：</span>
+			   <span class="col-md-12 padding-left-5 "><div class="red star_red">*</div>版块名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${park.name}'>
-		        <div class="validate">${ERR_name}</div>
+		        <div class="cue">${ERR_name}</div>
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5 h30">版主：</span>
+			   <span class="col-md-12 padding-left-5 ">版主：</span>
                  <select id="user"  class="w220" onchange="change(this.options[this.selectedIndex].value)">
                     <input class="span2" id="userId" type="hidden" name="userId" value =""/>
                 </select>
 			 </li>
 			 
 			  <li class="col-md-3 margin-0 padding-0 ">
-               <span class="col-md-12 padding-left-5 h30">热门：</span>
+               <span class="col-md-12 padding-left-5 ">热门：</span>
                 <select id="isHoT" name="isHot" class="w220">
                 <option value="0" selected="selected">不是热门</option>
                 <option value="1">热门</option>
@@ -99,7 +99,7 @@
              </li>
              
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> 版块介绍：</span>
+				<span class="col-md-12 padding-left-5 "> 版块介绍：</span>
 				<div class="">
 					<textarea  class="col-md-12 h130" title="不超过800个字" name="content">${park.content}</textarea>		
 				</div>			

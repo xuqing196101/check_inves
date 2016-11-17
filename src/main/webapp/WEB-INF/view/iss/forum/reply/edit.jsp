@@ -12,7 +12,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->	
@@ -35,14 +34,14 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/reply/update.html" method="post">  
     <div>
-	   		<h2 class="count_flow"><i>1</i>修改回复</h2>
+	   		<h2 class="count_flow">修改回复</h2>
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
 	   <ul class="ul_list mb20">			 
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
 				<span class="col-md-12 padding-left-5"> <div class="red fl">*</div>评论内容：</span>
 				<div class="mb5">
 				<textarea  class="h130 col-md-12" name="content">${reply.content}</textarea>		
-				<div class="validate">${ERR_content}</div>
+				<div class="cue">${ERR_content}</div>
 				</div>			
 	  	 	</li>
 	  	 </ul>

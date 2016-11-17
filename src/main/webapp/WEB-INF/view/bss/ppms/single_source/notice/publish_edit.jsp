@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ include file="../../../common.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -19,29 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 
-    <!--导航js-->
-    <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-    <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-    <script src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 	<script type="text/javascript">
    
     function addAttach(){
@@ -60,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
    <div class="container">
-    <form  id ="form" action="<%=basePath%>single_source/publish.html" method="post" target="_parent" enctype="multipart/form-data">
+    <form  id ="form" action="${pageContext.request.contextPath}/single_source/publish.html" method="post" target="_parent" enctype="multipart/form-data">
        <input type="hidden" name="id" id="articleId" value="${articleId }">
        <ul class="list-unstyled list-flow p0_20">
 	     <li class="col-md-12 p0">

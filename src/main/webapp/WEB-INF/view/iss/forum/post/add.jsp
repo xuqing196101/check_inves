@@ -35,7 +35,7 @@
 
 	    }
         var ue = UE.getEditor('editor',option);  
-        var content="${post.content}";
+        var content='${post.content}';
         ue.ready(function(){
         ue.setContent(content);    
       });
@@ -100,7 +100,7 @@
     <form action="${ pageContext.request.contextPath }/post/save.html" method="post" >  
     <div>
 
-	   		<h2 class="count_flow"><i>1</i>新增帖子</h2>
+	   		<h2 class="count_flow">新增帖子</h2>
 	   <ul class="ul_list mb20">
 	   
 	   		  <li class="col-md-3 margin-0 padding-0 ">
@@ -108,45 +108,45 @@
 			   <div class="input-append">
 		        <input class="span2 w200"  type="text" name = "name" value='${post.name }'>
 		        <span class="add-on">i</span>
-		         <div class="validate">${ERR_name}</div>
+		         <div class="cue">${ERR_name}</div>
 
 
 			 
 			 <li class="col-md-3 margin-0 padding-0">
+			
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
-			   <div class="mb5">
+			    <div class="select_common">
 			    <select id ="park" name ="parkId" class="select w220" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
+	  			<div class="cue">${ERR_park}</div>
 	  			</div>
-	  			<div class="validate">${ERR_park}</div>
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
-			 
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
-			   <div class="mb5">				 	
+			    <div class="select_common">			 	
 	        	<select id="topics" name="topicId" class="w220 ">
 	        	<option></option>
 	  			</select>
+	  			<div class="cue">${ERR_topic}</div>
 	  			</div>
-	  			<div class="validate">${ERR_topic}</div>
 			 </li>
 			 
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5 ">置顶：</span>
-			   <div class="mb5">
+		          <div class="select_common">
 			   	<select name="isTop" class="w220 ">
 	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
 	  			</select>	
-	  			</div>			 	
+	  				</div>		 	
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5 ">锁定：</span>
-			   <div class="mb5">
+			   <div class="select_common">
 			   	<select name="isLocking" class="w220 ">
 	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
@@ -159,7 +159,7 @@
 	  			<div class="mb5">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        			</div>
-       			<div class="validate">${ERR_content}</div>
+       			<div class="cue">${ERR_content}</div>
 			 </li>  
 			 <input type="hidden" name="id" value='${id}'></input>
 	   		  <li class="col-md-12 p0">

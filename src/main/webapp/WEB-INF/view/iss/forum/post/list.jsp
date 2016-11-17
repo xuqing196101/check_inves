@@ -265,13 +265,24 @@
 				<c:set value="${post.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${post.id}')" onmouseover="out('${post.name}')" class="tc pointer ">${fn:substring(name,0,10)}...</td>
+					<td onclick="view('${post.id}')"  class=" pointer ">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${post.id}')" onmouseover="out('${post.name}')" class="tc pointer ">${name } </td>
+					<td onclick="view('${post.id}')"  class=" pointer ">${name } </td>
 				</c:if>		
-				<td class="tc pointer" onclick="view('${post.id}')">${post.isTop}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.isLocking}</td>		
+				<c:if test="${post.isTop == 0}">
+				<td class="tc pointer" onclick="view('${post.id}')">否</td>
+				</c:if>
+				<c:if test="${post.isTop == 1}">
+                <td class="tc pointer" onclick="view('${post.id}')">是</td>
+                </c:if>
+                <c:if test="${post.isLocking == 0}">
+                <td class="tc pointer" onclick="view('${post.id}')">否</td>
+                </c:if>
+                <c:if test="${post.isLocking == 1}">
+                <td class="tc pointer" onclick="view('${post.id}')">是</td>
+                </c:if>
+									
 				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.publishedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.lastReplyer.relName}</td>
