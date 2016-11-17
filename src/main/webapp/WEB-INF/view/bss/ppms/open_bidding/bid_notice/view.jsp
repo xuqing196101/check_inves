@@ -28,6 +28,7 @@
              var ue = UE.getEditor('editor'); 
     		 var content = ue.getContent();
              $("#preview").removeClass("dnone");
+             $("#pre_content").empty(); 
              $("#pre_content").append(content);
              $("#form").addClass("dnone");
         }
@@ -68,7 +69,7 @@
 	            <label class="fl margin-bottom-0"><input type="checkbox" disabled="disabled" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1" >外网</label>
 	         </div><br>
-        	 <span class="red">*</span>公告内容：
+        	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
                            上传附件： 
              <p:show  showId="b" groups="b,c" delete="false" businessId="${article.id }" sysKey="${sysKey }" typeId="${typeId }"/>

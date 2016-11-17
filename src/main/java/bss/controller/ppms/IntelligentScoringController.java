@@ -31,6 +31,7 @@ import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.util.FloatUtil;
 
+import bss.controller.prms.FirstAuditController;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
@@ -86,6 +87,7 @@ public class IntelligentScoringController {
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
 		model.addAttribute("flowDefineId", flowDefineId);
+		FirstAuditController.getType(project,model);
 		return "bss/ppms/open_bidding/scoring_rubric";
 	}
 	/**

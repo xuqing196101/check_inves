@@ -55,7 +55,14 @@
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}" >04、招标文件</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}" >
+		   <c:if test="${type eq 'gkzb' }">
+		     04、招标文件
+		     </c:if>
+		    <c:if test="${type eq 'jzxtp' }">
+		     04、竞谈文件
+		    </c:if>
+		   </a>
 		   <i></i>
 		 </li>
 		 <li>

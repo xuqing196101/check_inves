@@ -96,7 +96,14 @@
 				href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
 				<i></i>
 			</li>
-			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >04、招标文件</a>
+			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
+			<c:if test="${type eq 'gkzb' }">
+		     04、招标文件
+		     </c:if>
+		    <c:if test="${type eq 'jzxtp' }">
+		     04、竞谈文件
+		    </c:if>
+			</a>
 			</li>
 		</ul>
 	</div>
@@ -135,8 +142,7 @@
 					<c:forEach items="${packagesList }" var="p" varStatus="vs">
 						<thead>
 							<tr >
-								<td class="tc w30"><input type="checkbox" value="${p.id }"
-									name="chkItem"
+								<td class="tc w30"><input type="checkbox" value="${p.id }" name="chkItem">
 								</td>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${p.name }</td>

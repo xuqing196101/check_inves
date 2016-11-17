@@ -92,7 +92,14 @@
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >04、招标文件</a>
+							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
+							    <c:if test="${type eq 'gkzb' }">
+							     04、招标文件
+							     </c:if>
+							    <c:if test="${type eq 'jzxtp' }">
+							     04、竞谈文件
+							    </c:if>
+							   </a>
 							 </li>
 						   </ul>
 						 </div>
