@@ -1,14 +1,16 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
+<%@ taglib uri="/tld/upload" prefix="up"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
+<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
 //表单标示
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
-<title>评审专家基本信息</title>
 <script type="text/javascript">
 	    var treeObj;
 		var datas;
@@ -93,9 +95,9 @@
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
-				var data = eval('(' + obj + ')');
+				//var data = eval('(' + obj + ')');
 				//alert(data);
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					 if(parentId == result.id){
 						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{ 
@@ -703,214 +705,199 @@
 					<span id="sp5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
-		<div class="container content height-350">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
-						<div class="tab-content padding-top-20  h900">
+		<div class="container container_box">
 							<div class="tab-pane fade active in height-500"  id="tab-1">
-								<div class=" margin-bottom-0"><br/>
-									<h2 class="f16 jbxx">
-										<i>01</i>专家基本信息
-									</h2>
+								<div>
+								    <h2 class="count_flow"><i>1</i>专家基本信息</h2>
 									<ul class="ul_list">
-										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">＊</i> 专家姓名：</span>
+										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 											<div class="input-append">
 												<input class="span5" id="relName" name="relName" value="${expert.relName }"   type="text"/>
 											    <span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 出生日期：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 出生日期</span>
 											<div class="input-append">
-       											 <input class="span5 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
+       											 <input class="span5"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
       										<span class="add-on">i</span>
       										</div>
 										</li>
 										
-										
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>证件号码：</span>
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>民族</span>
+                                            <div class="input-append">
+                                            <input class="span5" maxlength="10" value="${expert.nation }"  name="nation" id="nation" type="text"/>
+                                            <span class="add-on">i</span>
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i> 性别</span>
+                                            <div class="select_common">
+                                                 <select class="span5" name="gender" id="gender">
+                                                    <option selected="selected" value="">-请选择-</option>
+                                                    <option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
+                                                    <option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
+                                                  </select>
+                                                  <!-- <span class="add-on">i</span> -->
+                                            </div>
+                                        </li>
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i> 证件类型</span>
+                                            <div class="select_common">
+                                            <select  name="idType" id="idType">
+                                            <option selected="selected" value="">-请选择-</option>
+                                            <option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
+                                            <option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
+                                            <option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
+                                            <option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
+                                            <option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
+                                            <option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+                                           </select>
+                                            </div>
+                                        </li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>证件号码</span>
 											<div class="input-append">
 												 <input class="span5" maxlength="30" value="${expert.idNumber }"  name="idNumber" id="idNumber" type="text"/>
         									<span class="add-on">i</span>
         									</div>
 										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>省</span>
+                                            <div class="select_common">
+                                             <select id="addr" onchange="func();">
+                                                    <option value="">-请选择-</option>
+                                             </select>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>市</span>
+                                            <div class="select_common">
+                                             <select  name="address" id="add">
+                                                    <option value="">-请选择-</option>
+                                             </select>
+                                            </div>
+                                        </li>
 										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>民族：</span>
-											<div class="input-append">
-											<input class="span5" maxlength="10" value="${expert.nation }"  name="nation" id="nation" type="text"/>
-											<span class="add-on">i</span>
-											</div>
-										</li>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">政治面貌</span>
+                                            <div class="select_common">
+                                                <select  name="politicsStatus" id="politicsStatus">
+                                                <option selected="selected" value="">-请选择-</option>
+                                                <option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
+                                                <option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
+                                                <option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
+                                                <option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+                                               </select>
+                                               </div>
+                                        </li>
 										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i> 性别：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-												 <select class="span5" name="gender" id="gender">
-												    <option selected="selected" value="">-请选择-</option>
-												   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
-												   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
-												  </select>
-												  <!-- <span class="add-on">i</span> -->
-											</div>
-										</li>
 										
-										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">＊</i>专家来源：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-												<select class="span5" name="expertsFrom" id="expertsFrom">
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>最高学历</span>
+                                            <div class="select_common">
+                                             <select  name="hightEducation" id="hightEducation" >
+                                                <option selected="selected" value="">-请选择-</option>
+                                                <option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
+                                                <option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
+                                                <option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
+                                              </select>
+                                              <!-- <span class="add-on">i</span> -->
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>毕业院校</span>
+                                            <div class="input-append">
+                                            <input class="span5" maxlength="40" value="${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text"/>
+                                            <span class="add-on">i</span>
+                                            </div>
+                                        </li>
+										
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>专业</span>
+                                            <div class="input-append">
+                                            <input class="span5" maxlength="20" value="${expert.major }"  name="major" id="major" type="text"/>
+                                            <span class="add-on">i</span>
+                                            </div>
+                                        </li>
+                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 学位</span>
+                                            <div class="input-append">
+                                            <input class="span5" maxlength="10" value="${expert.degree }"  name="degree" id="degree" type="text"/>
+                                            <span class="add-on">i</span>
+                                            </div>
+                                        </li>
+										<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i>专家来源</span>
+											<div class="select_common">
+												<select  name="expertsFrom" id="expertsFrom">
 												<option selected="selected" value="">-请选择-</option>
 											   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
 											   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
 											   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 											   </select>
-											  <!--  <span class="add-on">i</span> -->
 											</div>
 										</li>
 										
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i> 证件类型：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											<select class="span5" name="idType" id="idType">
-										   	<option selected="selected" value="">-请选择-</option>
-										   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
-										   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
-										   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
-										   	<option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
-										   	<option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
-										   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-										   </select>
-										   <!-- <span class="add-on">i</span> -->
-											</div>
-										</li>
-										
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>所在地区：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											 <select class="span5" id="addr" onchange="func();">
-													<option value="">-请选择-</option>
-											 </select>
-											 <select class="span5" name="address" id="add">
-													<option value="">-请选择-</option>
-											 </select>
-											<!--  <span class="add-on">i</span> -->
-											</div>
-										</li>
-										
-										
-										
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>最高学历：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											 <select class="span5" name="hightEducation" id="hightEducation" >
-											 	<option selected="selected" value="">-请选择-</option>
-											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
-											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
-											  </select>
-											  <!-- <span class="add-on">i</span> -->
-											</div>
-										</li>
-										
-										
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">政治面貌：</span>
-											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-												<select class="span5" name="politicsStatus" id="politicsStatus">
-												<option selected="selected" value="">-请选择-</option>
-											   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
-											   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
-											   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
-											   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-											   </select>
-											  <!--  <span class="add-on">i</span> -->
-											   </div>
-										</li>
-										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>毕业院校：</span>
-											<div class="input-append">
-											<input class="span5" maxlength="40" value="${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text"/>
-											<span class="add-on">i</span>
-											</div>
-										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 专家技术职称：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 专家技术职称</span>
 											<div class="input-append">
 											<input class="span5" maxlength="20" value="${expert.professTechTitles }"  name="professTechTitles" id="professTechTitles" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 参加工作时间：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 参加工作时间</span>
 											<div class="input-append">
-											<input class="span5 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
+											<input class="span5"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
 										
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>专业：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 从事专业起始年度</span>
 											<div class="input-append">
-											<input class="span5" maxlength="20" value="${expert.major }"  name="major" id="major" type="text"/>
+											 <input class="span5" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 从事专业起始年度：</span>
-											<div class="input-append">
-											 <input class="span5 Wdate" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
-											<span class="add-on">i</span>
-											</div>
-										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">工作单位：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">工作单位</span>
 											<div class="input-append">
 											<input class="span5" maxlength="40" value="${expert.workUnit }"  name="workUnit" id="workUnit" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>单位地址：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>单位地址</span>
 											<div class="input-append">
 											 <input class="span5" maxlength="40" value="${expert.unitAddress }"  name="unitAddress" id="unitAddress" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>联系电话（固话）：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>联系电话（固话）</span>
 											<div class="input-append">
 											<input class="span5" maxlength="15" value="${expert.telephone }"  name="telephone" id="telephone" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>手机：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>手机</span>
 											<div class="input-append">
 											<input class="span5" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 传真：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 传真</span>
 											<div class="input-append">
 											<input class="span5" maxlength="10"  value="${expert.fax }"  name="fax" id="fax" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li> 
-        								<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 邮编：</span>
+        								<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 邮编</span>
 											<div class="input-append">
 											<input class="span5" maxlength="6" value="${expert.postCode }"  name="postCode" id="postCode" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 获得技术时间：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 获得技术时间</span>
 											<div class="input-append">
-											<input class="span5 Wdate" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+											<input class="span5" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 学位：</span>
-											<div class="input-append">
-											<input class="span5" maxlength="10" value="${expert.degree }"  name="degree" id="degree" type="text"/>
-											<span class="add-on">i</span>
-											</div>
-										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">＊</i>健康状态：</span>
+										
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>健康状态</span>
 											<div class="input-append">
 											<input class="span5" maxlength="10" value="${expert.healthState }"  name="healthState" id="healthState" type="text"/>
 											<span class="add-on">i</span>
 											</div>
 										</li>
-										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 现任职务：</span>
+										<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 现任职务</span>
 											<div class="input-append">
 											<input class="span5" maxlength="10" value="${expert.atDuty }"  name="atDuty" id="appendedInput" type="text"/>
 											<span class="add-on">i</span>
@@ -920,45 +907,45 @@
 									</div>
 									<!-- 附件信息-->
 										  <div class="padding-top-10 clear">
-										   <div class="headline-v2 clear">
-										   <h2>上传附件</h2>
-										   </div>
-										  </div>
-										  <div class="padding-left-40 padding-right-20 clear">
-										  <table class="table table-bordered">
+										    <h2 class="count_flow"><i>2</i>上传附件</h2>
+										    <ul class="ul_list">
+										    
+										 <table class="table table-bordered">
+										  <tbody>
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>身份证:</td>
+										  	   <td class="bggrey"><i class="red">*</i>身份证</td>
 										  	   <td>
 										  	      <u:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"   auto="true"/>
 										          <u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
 										  	   </td>
-										  	   <td width="25%" class="info"><i class="red">＊</i>学历证书:</td>
+										  	   <td class="bggrey"><i class="red">*</i>学历证书</td>
 										  	   <td>
 										  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
 										          <u:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>职称证书:</td>
+										  	   <td class="bggrey"><i class="red">*</i>职称证书</td>
 										  	   <td>
 										  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_TITLE_TYPEID }" auto="true"/>
 										          <u:show  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
 										  	   </td>
-										  	   <td width="25%" class="info"><i class="red">＊</i>学位证书:</td>
+										  	   <td class="bggrey"><i class="red">*</i>学位证书</td>
 										  	   <td>
 										  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
 										          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
 										  	   </td>
 										  	</tr>
 										  	<tr>
-										  	   <td width="25%" class="info"><i class="red">＊</i>个人照片:</td>
-										  	   <td>
+										  	   <td class="bggrey" ><i class="red">*</i>个人照片</td>
+										  	   <td colspan="3">
 										  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
 										          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
 										  	   </td>
-										  	   <td></td><td></td>
 										  	</tr>
+										  	</tbody>
 										  </table>
+										  </ul>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
 									        <button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
@@ -966,12 +953,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
-		
 		<div id="reg_box_id_4" class="container clear margin-top-30 yinc" style="display: none;">
 		  		<h2 class="padding-20 mt40">
 					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
@@ -982,20 +964,25 @@
 					<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
-			<br/>
-		    <h2 class="f16 jbxx">
-			<i>02</i>专家类型
-			</h2>
-			<ul class="list-unstyled list-flow" style="margin-left: 250px;">
-     		<li class="p0">
-			   <span class="col-md-12 padding-left-5">专家类型：</span>
+			 
+			<div class="container container_box">
+			<div class="headline-v2">
+                 <h2>专家类型</h2>
+               </div>
+			<div>
+		       
+			<ul class="ul_list">
+     		<li class="col-md-3 margin-0 padding-0 " >
+			   <span class="col-md-12 padding-left-5">专家类型</span>
 			   <input type="hidden" id="expertsTypeIds" value="" >
+			   <div class="select_common">
 			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		<option value="">-请选择-</option>
 			   		<option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
 			   		<option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
 			   		<option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
 			   </select>
+			   </div>
 			 </li>
    			 </ul>
    			   <div id="ztree" style="margin-left: 100px;" class="ztree"></div>
@@ -1005,7 +992,8 @@
 				<button class="btn btn-windows git"   type="button" onclick='fun1()'>下一步</button>
 			</div>
 		</div>
-		
+		</div>
+		</div>
 		<!-- 项目戳开始 -->
 		<div id="reg_box_id_5" class="container clear margin-top-30 yinc" style="display: none;">
 		  		<h2 class="padding-20 mt40">
@@ -1016,14 +1004,12 @@
 					<span id="jg4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
 					<span id="jg5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
-			</h2><br/>
-		      <h2 class="f16 jbxx">
-			    <i>03</i>选择采购机构
-			  </h2>
-			    <h2 class="f16">
-				  采购机构
-			    </h2>
-			<table id="tb1"  class="table table-bordered table-condensed">
+			</h2>
+			<div class="container container_box">
+		      <div class="headline-v2">
+			     <h2>选择采购机构</h2>
+			   </div>  
+			<table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
 			
 				<thead>
 					<tr>
@@ -1088,6 +1074,7 @@
 				<button class="btn btn-windows git"   type="button" onclick='addPurList()'>下一步</button>
 			</div>
 		</div>
+		</div>
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc" style="display: none;">
 		  <h2 class="padding-20 mt40">
 					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
@@ -1097,169 +1084,170 @@
 					<span id="dy4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
 					<span id="dy5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
-			</h2><br/>
-			<h2 class="f16 jbxx">
-			<i>04</i>打印专家申请表
 			</h2>
+			<div class="tab-content padding-top-20">
+			<div class="headline-v2">
+			     <h2>打印专家申请表</h2>
+			   </div>  
 			<!-- 供应商申请书上传：<input type="file" name=""/>
 			供应商承诺书上传：<input type="file" name=""/> -->
 				   	<div ><br/><br/>
-<table class="table table-bordered table-condensed">
+<table class="table table-bordered">
    	<tr>
-   		<td align="center" width="100px">姓名</td>
-   		<td align="center" width="150px" id="tName"></td>
-   		<td align="center">性别</td>
-		<td class="tc" id="tSex" colspan="2"></td>
+   		<td class="bggrey">姓名</td>
+   		<td id="tName"></td>
+   		<td class="bggrey">性别</td>
+		<td id="tSex" ></td>
    		<!-- <td align="center" rowspan="4">照片</td> -->
    	</tr>
    <tr>
-   		<td align="center">出生日期</td>
-   		<td align="center" width="150px" id="tBirthday"></td>
-   		<td align="center">政治面貌</td>
-   		<td align="center" width="150px" id="tFace" colspan="2"></td>
+   		<td class="bggrey">出生日期</td>
+   		<td id="tBirthday"></td>
+   		<td class="bggrey">政治面貌</td>
+   		<td  id="tFace"></td>
    </tr>
    
    <tr>
-   		<td align="center">所在地区</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">职称</td>
-   		<td align="center" width="150px" id="tHey" colspan="2"></td>
+   		<td class="bggrey">所在地区</td>
+   		<td></td>
+   		<td class="bggrey">职称</td>
+   		<td id="tHey" ></td>
    </tr>
    <tr>
-   		<td align="center">身份证号码</td>
-   		<td align="center" id="tNumber" colspan="4"></td>
+   		<td class="bggrey">身份证号码<td>
+   		<td id="tNumber" colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">从事专业类别</td>
-   		<td align="center" id="tExpertsTypeId" width="150px"></td>
-   		<td align="center">从事年限</td>
-   		<td align="center" id="tTimeStartWork" colspan="2"></td>
+   		<td class="bggrey">从事专业类别</td>
+   		<td id="tExpertsTypeId"></td>
+   		<td class="bggrey">从事年限</td>
+   		<td id="tTimeStartWork"></td>
    </tr>
    <tr>
-   		<td align="center">最高学历</td>
-   		<td align="center" id="tHight" width="150px"></td>
-   		<td align="center">最高学位</td>
-   		<td align="center" id="tWei" colspan="2"></td>
+   		<td class="bggrey">最高学历</td>
+   		<td id="tHight"></td>
+   		<td class="bggrey">最高学位</td>
+   		<td id="tWei"></td>
    
    </tr>
    <tr>
-   		<td align="center">执业资格1</td>
-   		<td align="center" width="150px"> </td>
-   		<td align="center">注册证书编号1</td>
-   		<td align="center" colspan="2"> </td>
+   		<td class="bggrey">执业资格1</td>
+   		<td > </td>
+   		<td class="bggrey">注册证书编号1</td>
+   		<td > </td>
    </tr>
    <tr>
-   		<td align="center">执业资格2</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">注册证书编号2</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">执业资格2</td>
+   		<td ></td>
+   		<td class="bggrey">注册证书编号2</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">执业资格3</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">注册证书编号3</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">执业资格3</td>
+   		<td></td>
+   		<td class="bggrey">注册证书编号3</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">近两年是否接受过评标业务培训</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">是否愿意成为应急专家</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">近两年是否接受过评标业务培训</td>
+   		<td></td>
+   		<td class="bggrey">是否愿意成为应急专家</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">所属行业</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">报送部门</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">所属行业</td>
+   		<td></td>
+   		<td class="bggrey">报送部门</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">手机号码</td>
-   		<td align="center" id="tMobile" width="150px"></td>
-   		<td align="center">单位电话</td>
-   		<td align="center" id="tTelephone" colspan="2"></td>
+   		<td class="bggrey">手机号码</td>
+   		<td id="tMobile"></td>
+   		<td class="bggrey">单位电话</td>
+   		<td id="tTelephone"></td>
    </tr>
    <tr>
-   		<td align="center">住宅电话</td>
-   		<td align="center" width="150px"></td>
-   		<td align="center">电子邮箱</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">住宅电话</td>
+   		<td></td>
+   		<td class="bggrey">电子邮箱</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">毕业院校及专业</td>
-   		<td align="center" id="tGraduateSchool" colspan="4"></td>
+   		<td class="bggrey">毕业院校及专业</td>
+   		<td id="tGraduateSchool" colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">单位名称</td>
-   		<td align="center" id="tWorkUnit" colspan="4"></td>
+   		<td class="bggrey">单位名称</td>
+   		<td id="tWorkUnit" colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">单位地址 </td>
-   		<td align="center" id="tUnitAddress" width="150px"></td>
-   		<td align="center">单位邮编</td>
-   		<td align="center" id="tPostCode" colspan="2"></td>
+   		<td class="bggrey">单位地址 </td>
+   		<td id="tUnitAddress"></td>
+   		<td class="bggrey">单位邮编</td>
+   		<td id="tPostCode"></td>
    </tr>
    <tr>
-   		<td align="center">家庭地址 </td>
-   		<td align="center" width="150px" ></td>
-   		<td align="center">家庭邮编</td>
-   		<td align="center" colspan="2"></td>
+   		<td class="bggrey">家庭地址 </td>
+   		<td></td>
+   		<td class="bggrey">家庭邮编</td>
+   		<td></td>
    </tr>
    <tr>
-   		<td align="center">评标专业一</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业一</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">评标专业二</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业二</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">评标专业三</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业三</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">评标专业四</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业四</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">评标专业五</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业五</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center">评标专业六</td>
-   		<td align="center" colspan="4"></td>
+   		<td class="bggrey">评标专业六</td>
+   		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td align="center" colspan="5">工作经历</td>
+   		<td style="font-size: 20px; font-weight: bold;" class="bggrey" align="center" colspan="4">工作经历</td>
    </tr>
    <tr>
-   		<td align="center">起止年月</td>
-   		<td align="center" colspan="3">单位及职务</td>
-   		<td align="center">证明人</td>
+   		<td class="bggrey" align="center" style="font-weight: bold;">起止年月</td>
+   		<td class="bggrey" colspan="2" align="center" style="font-weight: bold;">单位及职务</td>
+   		<td class="bggrey" align="center" style="font-weight: bold;">证明人</td>
    </tr>
    <tr>
    		<td align="center">至 </td>
-   		<td align="center" colspan="3"> </td>
-   		<td align="center" width="150px"> </td>
+   		<td align="center" colspan="2"> </td>
+   		<td align="center" > </td>
    </tr>
    <tr>
    		<td align="center"> 至</td>
-   		<td align="center" colspan="3"> </td>
-   		<td align="center" width="150px"> </td>
+   		<td align="center" colspan="2"> </td>
+   		<td align="center" > </td>
    </tr>
    <tr>
    		<td align="center">至 </td>
-   		<td align="center" colspan="3"> </td>
-   		<td align="center" width="150px"> </td>
+   		<td align="center" colspan="2"> </td>
+   		<td align="center" > </td>
    </tr>
    <tr>
    		<td align="center">至 </td>
-   		<td align="center" colspan="3"> </td>
-   		<td align="center" width="150px"> </td>
+   		<td align="center" colspan="2"> </td>
+   		<td align="center" > </td>
    </tr>
    <tr>
    		<td align="center">至 </td>
-   		<td align="center" colspan="3"> </td>
-   		<td align="center" width="150px"> </td>
+   		<td align="center" colspan="2"> </td>
+   		<td align="center"> </td>
    </tr>
    </table>
 		    <div class="tc mt20 clear col-md-11">
@@ -1271,6 +1259,7 @@
 			</div>
 		</div>
 		</div>
+		</div>
 		<div id="reg_box_id_7" class="container clear margin-top-30 yinc" style="display: none;">
 		 <h2 class="padding-20 mt40">
 					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
@@ -1280,19 +1269,19 @@
 					<span id="sc4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
 					<span id="sc5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
-			</h2><br/>
-			<h2 class="f16 jbxx">
-			<i>05</i>专家申请表、合同书
 			</h2>
-				   	<div class="" style="margin-left:280px;">
+			<div class="tab-content padding-top-20">
+			<div class="headline-v2">
+			     <h2>专家申请表、合同书</h2>
+			   </div>  
 				   	  <table class="table table-bordered">
 				   	  <tr>
-				   	    <td width="25%" class="info"><i class="red">＊</i>专家申请表：</td>
+				   	    <td class="bggrey "><i class="red">*</i>专家申请表：</td>
 				   	    <td>
 				   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
 						   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
 				   	    </td>
-				   	    <td width="25%" class="info"><i class="red">＊</i>专家合同书：</td>
+				   	    <td class="bggrey "><i class="red">*</i>专家合同书：</td>
 				   	    <td>
 				   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }" auto="true"/>
 						   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
@@ -1300,7 +1289,6 @@
 				   	  </tr>
 								    
 					 </table>
-					</div>
 			<!-- <div class="col-md-12 add_regist" style="margin-left:170px;">
 				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_" class="regist_desc"></span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_" class="regist_desc"></span></div>

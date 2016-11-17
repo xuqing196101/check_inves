@@ -237,10 +237,6 @@
 		        </form>
 		     </h2>
   
-   <!-- 菜单树-->
-   <div id="menu">
-	   <div id="menuTree" class="ztree"></div>
-   </div>
 	<!-- 表格开始-->
    <div class="col-md-12 pl20 mt10">
 	    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
@@ -283,6 +279,11 @@
 			</table>
 			<div id="pagediv" align="right"></div>
 		</div>
+		
+   <!-- 菜单树-->
+   <div id="menu">
+       <div id="menuTree" class="ztree"></div>
+   </div>
 	</div>
   </body>
 </html>
