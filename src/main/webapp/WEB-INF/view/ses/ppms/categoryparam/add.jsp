@@ -15,13 +15,6 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
-<script src="${pageContext.request.contextPath}public/layer/layer.js"></script>
 <script type="text/javascript">
     var datas;
 	var treeid=null;
@@ -105,13 +98,13 @@
 				}else{
 				
 				var html = "";
-					html = html+"<tr><td class='info'>参数名</td><td><input class='mb0' type='text' name='name'/><div id='td_input' class='validate'></div></td>"
+					html = html+"<tr><td class='info'>参数名</td><td><input class='mb0' type='text' name='name'/><div id='td_input' class='cue'></div></td>"
 					+"<td class='info'>参数类型</td><td><select name='valueType'>"
 					+"<option>--请选择--</option>"
 					+"<option value='字符型'>字符型</option>"
 					+"<option value='数字型'>数字型</option>"
 				    +"<option  value='日期型'>日期型</option>"
-				    +"</select><div id='td_select'></div></td></tr>";
+				    +"</select><div id='td_select' class='cue'></div></td></tr>";
 					$("#result").prepend(html);
 				}
 			}
@@ -167,8 +160,14 @@
     }
     /**导出excel*/
     function exports(){
-    window.location.href="${pageContext.request.contextPath}/categoryparam/exports.do?id="+treeid;
+    	if (treeid==null) {
+    		layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+			return;
+		}else{
+    window.location.href="${pageContext.request.contextPath}/categoryparam/exports.html?id="+treeid;
     }
+    }
+    /**添加资质文件输入框*/
     function addAttach(){
 		html="<input class='mt10' type='text'  name='productName'/><input class='ml10' type='button' value='-' onclick='deleteattach(this)'/><br/>";
 		$("#addinput").append(html);
@@ -177,7 +176,12 @@
 		html="<input class='mt10' type='text'  name='saleName'/><input class='ml10' type='button' value='-' onclick='deleteattach(this)'/><br/>";
 		$("#addnews").append(html);
 	 }
-	
+	 /**删除新增资质文件输入框*/
+	 function deleteattach(obj){
+			$(obj).prev().remove();
+			$(obj).next().remove();
+			$(obj).remove();
+	 }
        /**新增提交*/		
 	function fun(request){
     	
@@ -230,6 +234,7 @@
 	    	success:callback
 	    })
 	} 
+       /**回显错误信息*/
       function callback(allListNews){
       $("#td_input").html(allListNews.name);
       $("#td_select").html(allListNews.value);
@@ -276,22 +281,22 @@
 					 <td colspan="3">
 					 <span class="ml30"><input type="radio" value="0" name="ispublish"  class="mt0"/> 是</span>
 					 <span class="ml60"><input type="radio" value="1" name="ispublish" class="mt0"/> 否</span>
-					 <div id="span_input"></div>
+					 <div id="span_input" class="cue"></div>
 					 </td></tr>
 					 <tr id="kind"><td class="info" >产品类型</td>
 					 <td colspan="3">
 					 <span class="ml30"><input type="checkbox" value="E73923CC68A44E2981D5EA6077580372" name="type" id="box" class="mt0"/> 生产型</span>
 					 <span class="ml60"><input type="checkbox" value="18A966C6FF17462AA0C015549F9EAD79" name="type" id="box" class="mt0"/>销售型</span>
-					 <div class="span_td"></div>
+					 <div id="span_td" class="cue"></div>
 					 </td></tr>
-					 <tr><td class="info">验收规范</td><td colspan="3"><textarea name="acceptRange" class="col-md-8 h100"></textarea><div id="td_textarea"></div></td></tr>
+					 <tr><td class="info">验收规范</td><td colspan="3"><textarea name="acceptRange" class="col-md-8 h100"></textarea><div id="td_textarea" class="cue"></div></td></tr>
 					 <tr><td class="info">生产型资质</td>
 					 <td colspan="3"><div id="addinput"><input  type="text" value="" name="productName"/>
-					 <input  type="button" value="+" onclick="addAttach()" class="mb10"/><br/></div><div id="div_input"></div></td>
+					 <input  type="button" value="+" onclick="addAttach()" class="mb10"/><br/></div><div id="div_input" class="cue"></div></td>
 					 </tr>
 					 <tr><td class="info">销售型资质</td>
 					 <td colspan="3"><div id="addnews"><input  type="text" name="saleName" value=""/>
-					 <input  type="button" value="+" onclick="addAtt()" class="mb10"/><br/></div><div id="add_input"></div></td></tr>
+					 <input  type="button" value="+" onclick="addAtt()" class="mb10"/><br/></div><div id="add_input" class="cue"></div></td></tr>
                      </table>
 					 <div class="col-md-12 tc">
 					 <input  type="button" class=" btn mr30 btn-windows git" onclick="fun()" value="提交"/>

@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.http.protocol.HTTP;
+
+
+import net.sf.json.JSONSerializer;
+
+import org.apache.http.protocol.HttpContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -39,6 +43,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.util.PathUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+
 import common.constant.Constant;
 
 /**
@@ -152,7 +157,7 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(Category category,HttpServletRequest request,HttpServletResponse response,Model model) {
+	public String save( Category category,HttpServletRequest request,HttpServletResponse response,Model model) {
 		/*String categoryuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("categoryId", categoryuuid);
 		DictionaryData dd=new DictionaryData();
@@ -221,6 +226,66 @@ public class CategoryController extends BaseSupplierController {
 		categoryService.insertSelective(category);
 		}
 		return "ses/bms/category/list";
+	/*	Boolean flag = true;
+		String url ="";
+		String name = request.getParameter("name");
+		List<Category> cate = categoryService.selectAll();
+		String catename="";
+		String pos = "";
+		String code ="";
+		for(int i=0;i<cate.size();i++){
+		catename+=cate.get(i).getName()+",";
+		pos+= cate.get(i).getPosition()+",";
+		code+= cate.get(i).getCode()+",";
+		}
+		String[] catenames = catename.split(",");
+		for (int i = 0; i < catenames.length; i++) {
+			if (name.equals(catenames[i])) {
+				flag = false;
+				model.addAttribute("name","目录不能重复");
+			}
+		}
+		if (name==null||name.equals("")) {
+			flag= false;
+			model.addAttribute("name", "目录不能为空");
+		}
+		Integer position = Integer.parseInt(request.getParameter("position"));
+		String[] poses = pos.split(",");
+		for (int i = 0; i < poses.length; i++) {
+			if (position.equals(poses[i])) {
+				flag = false;
+				model.addAttribute("position", "排序号不能重复");
+			}
+		}
+		if (position==null || position.equals("")) {
+			flag = false;
+			model.addAttribute("position", "排序号不能为空");
+		}
+		String codes = request.getParameter("code");
+		String[] co = code.split(",");
+		for (int i = 0; i < co.length; i++) {
+			if (codes.equals(co[i])) {
+				flag = false;
+				model.addAttribute("code", "编码已存在");
+			}
+		}
+		if (codes==null ||codes.equals("")) {
+			flag = false;
+			model.addAttribute("code", "目录编码不能为空");
+		}
+		if (flag == false) {
+			model.addAttribute("category", cate);
+			url = 
+		}else{
+		category.setPosition(Integer.parseInt(request.getParameter("position")));
+		category.setKind(request.getParameter("kind"));
+		category.setStatus(1);
+		category.setCode(request.getParameter("code"));
+		category.setDescription(request.getParameter("description"));
+		category.setCreatedAt(new Date());
+		categoryService.insertSelective(category);
+		}
+		return "ses/bms/category/list";*/
 	}
 		
 	
@@ -233,31 +298,14 @@ public class CategoryController extends BaseSupplierController {
 	 * @param @return
 	 * @return String
 	 */
-	public String upload(HttpServletRequest request, MultipartFile file, Category category) {
-		if (file.getOriginalFilename() != null && file.getOriginalFilename().equals("")) {
-				String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
-				/** 创建文件夹 */
-		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + file.getOriginalFilename();		        
-		        String filePath = rootpath+fileName;
-		        File files = new File(filePath);
-		        try {
-					file.transferTo(files);
-				} catch (IllegalStateException e) {
-					e.printStackTrace();				
-					} catch (IOException e) {
-				e.printStackTrace();
-			}
-				 CategoryAttachment attachment=new CategoryAttachment();
-         		attachment.setCategory(new Category(category.getId()));
-				attachment.setFileName(fileName);
-				attachment.setCreatedAt(new Date());
-				attachment.setContentType(file.getContentType());
-				attachment.setFileSize((float)file.getSize());
-				//路径==相对路径
-				attachment.setAttchmentPath("picupload/"+fileName);
-				categoryAttachmentService.insertSelective(attachment);
-			}
-		return "redirect:get.html";
+	@RequestMapping("/upload")
+	public void upload(HttpServletRequest request, MultipartFile file, Category category) {
+		//创建文件夹
+		@SuppressWarnings("unused")
+		String path ="";
+
+				
+		
 	}
 	/**
 	 * 
@@ -377,36 +425,36 @@ public class CategoryController extends BaseSupplierController {
 		for (int i = 0; i < catenames.length; i++) {
 			if (name.equals(catenames[i])) {
 				flag = false;
-				listCategory.put("name","目录不能重复");
+				model.addAttribute("name","目录不能重复");
 			}
 		}
 		if (name==null||name.equals("")) {
 			flag= false;
-			listCategory.put("name", "目录不能为空");
+			model.addAttribute("name", "目录不能为空");
 		}
 		Integer position = Integer.parseInt(request.getParameter("position"));
 		String[] poses = pos.split(",");
 		for (int i = 0; i < poses.length; i++) {
 			if (position.equals(poses[i])) {
 				flag = false;
-				listCategory.put("position", "排序号不能重复");
+				model.addAttribute("position", "排序号不能重复");
 			}
 		}
 		if (position==null || position.equals("")) {
 			flag = false;
-			listCategory.put("position", "排序号不能为空");
+			model.addAttribute("position", "排序号不能为空");
 		}
 		String codes = request.getParameter("code");
 		String[] co = code.split(",");
 		for (int i = 0; i < co.length; i++) {
 			if (codes.equals(co[i])) {
 				flag = false;
-				listCategory.put("code", "编码已存在");
+				model.addAttribute("code", "编码已存在");
 			}
 		}
 		if (codes==null ||codes.equals("")) {
 			flag = false;
-			listCategory.put("code", "目录编码不能为空");
+			model.addAttribute("code", "目录编码不能为空");
 		}
 		if (flag == false) {
 			super.writeJson(response, listCategory);
@@ -533,5 +581,22 @@ public class CategoryController extends BaseSupplierController {
 		response.getWriter().write(json);
 		response.getWriter().flush();
 		response.getWriter().close();
+	}
+	
+	@RequestMapping("/createAdd")
+	@ResponseBody
+	public String createAdd(Model model,HttpServletRequest request){
+		String articleuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		DictionaryData da=new DictionaryData();
+		da.setCode("GGWJ");
+		List<DictionaryData> dlists = dictionaryDataServiceI.find(da);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(dlists.size()>0){
+			map.put("artiAttachTypeId",  dlists.get(0).getId());
+		}
+		
+		map.put("articleId", articleuuid);
+		map.put("articleSysKey",Constant.TENDER_SYS_KEY);
+		return JSONSerializer.toJSON(map).toString();
 	}
 }
