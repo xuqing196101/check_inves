@@ -97,7 +97,7 @@ $(function(){
 	  
 	   <ul class="ul_list mb20">
      <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">信息标题：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
 	   <div class="input-append">
 		 <input type="hidden" name="id" value="${article.id }">
 		  <input type="hidden" name="status" id="status" value="${article.status }">
@@ -109,7 +109,7 @@ $(function(){
 	 </li>
 	 
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>信息类型：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息类型：</span>
 	   <div class="mb5 select_common">
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
@@ -118,7 +118,7 @@ $(function(){
 	 </li> 
 	 
      <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>发布范围：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>

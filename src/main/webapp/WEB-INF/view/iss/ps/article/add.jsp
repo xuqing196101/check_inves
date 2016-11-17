@@ -98,7 +98,7 @@
 	 
 	   <ul class="ul_list mb20">
      	<li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息标题：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
 	   <div class="input-append">
 	   	<input class="span2"  name="id" type="hidden" value="${articleId }">
         <input class="span2" id="name" name="name" value="${article.name }" type="text">
@@ -108,7 +108,7 @@
 	 </li>
 
      <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>信息类型：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息类型：</span>
 	   <div class="mb5 select_common">
        <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
           </select>
@@ -116,7 +116,7 @@
         </div>
 	 </li> 
      <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>发布范围：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
@@ -148,7 +148,7 @@
 	 </li>
 	 
      <li class="col-md-11 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>信息正文：</span>
+	   <span class="col-md-12 padding-left-5"><i class="red fl">*</i>信息正文：</span>
 	   <div class="mb5">
 	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>

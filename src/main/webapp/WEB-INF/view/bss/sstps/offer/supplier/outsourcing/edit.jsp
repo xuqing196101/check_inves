@@ -37,21 +37,21 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="ul_list mb20">
    <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>外协加工工件名称：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>外协加工工件名称：</span>
 	   <div class="input-append">
         <input type="text" class="w220" id="outsourcingName" name="outsourcingName" value="${out.outsourcingName }">
         <div class="cue">${ERR_outsourcingName}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>规格型号：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>规格型号：</span>
 	   <div class="input-append">
         <input id="norm" name="norm" type="text" value="${out.norm }" class="w220">
         <div class="cue">${ERR_norm}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>图纸位置号(代号)：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>图纸位置号(代号)：</span>
 	   <div class="input-append">
         <input id="paperCode" name="paperCode" type="text" value="${out.paperCode }" class="w220">
         <div class="cue">${ERR_paperCode}</div>
@@ -126,7 +126,7 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>04</i>其他</h2>
    <ul class="ul_list mb20">
    <li class="col-md-12 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>供货单位：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>供货单位：</span>
 	   <div class="input-append">
         <input type="text" id="supplyUnit" name="supplyUnit" value="${out.supplyUnit }" class="w220">
         <div class="cue">${ERR_supplyUnit}</div>

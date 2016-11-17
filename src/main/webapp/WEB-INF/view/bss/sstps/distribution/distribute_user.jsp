@@ -78,7 +78,7 @@
   		
 	 	<ul class="list-unstyled mb20">
 	 		<li class="col-md-12 margin-0 padding-0">
-			   <div class="col-md-12 padding-left-5"><div class="star_red">＊</div>审价员：</div>
+			   <div class="col-md-12 padding-left-5"><div class="star_red">*</div>审价员：</div>
 			   <div class="col-md-12 input-append p0">
 		       	 <select class="w220" id="users" name="user.id">
 				 </select>
