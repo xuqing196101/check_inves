@@ -138,7 +138,7 @@
 	            <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="checkbox" name="ranges" value="1" >外网</label>
 	         </div><br>
-        	 <span class="red">*</span>公告内容：
+        	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
                           上传附件： 
              <p:upload id="a" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />

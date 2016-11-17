@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -107,7 +108,14 @@
 		   <i></i>
 		 </li>
 		 <li class="active">
-		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >04、招标文件</a>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
+		   <c:if test="${type eq 'gkzb' }">
+		     04、招标文件
+		     </c:if>
+		    <c:if test="${type eq 'jzxtp' }">
+		     04、竞谈文件
+		    </c:if>
+		   </a>
 		 </li>
 	   </ul>
 	 </div>

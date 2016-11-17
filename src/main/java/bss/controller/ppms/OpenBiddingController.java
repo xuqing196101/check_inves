@@ -35,6 +35,7 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import bss.controller.prms.FirstAuditController;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
@@ -158,6 +159,7 @@ public class OpenBiddingController {
         }
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
+        FirstAuditController.getType(project,model);
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
     

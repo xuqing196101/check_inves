@@ -63,13 +63,7 @@ public class FirstAuditController {
 			model.addAttribute("list", list2);
 			model.addAttribute("projectId", projectId);
 			Project project = projectService.selectById(projectId);
-			if(project!=null && project.getPurchaseType()!=null &&! project.getPurchaseType().equals("") && project.getPurchaseType().equals("询价采购")){
-				model.addAttribute("type", "询价");
-			}else if (project.getPurchaseType().equals("邀请招标")) {
-				model.addAttribute("type", "招标");
-			}else if (project.getPurchaseType().equals("公开招标")) {
-				model.addAttribute("type", "招标");
-			}
+			getType(project,model);
 			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("project", project);
 		} catch (Exception e) {
@@ -77,30 +71,6 @@ public class FirstAuditController {
 		}
 		return "bss/ppms/open_bidding/bid_file";
 	}
-	
-	/**
-	 * @Title: toAddCn
-	 * @author Song Biaowei
-	 * @date 2016-10-20 下午7:52:12  
-	 * @Description: 竞争性谈判的方法 cn是竞争者谈判单词的缩写
-	 * @param @param projectId
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("/toAdd_cn")
-	public String toAddCn(String projectId,Model model ){
-		try {
-			//初审项信息
-			List<FirstAudit> list2 = service.getListByProjectId(projectId);
-			model.addAttribute("list", list2);
-			model.addAttribute("projectId", projectId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "bss/ppms/competitive_negotiation/bid_file";
-	}
-	
 	
 	/**
 	 * 
@@ -161,63 +131,11 @@ public class FirstAuditController {
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flag", flag);
 			model.addAttribute("flowDefineId", flowDefineId);
+			getType(project,model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "bss/ppms/open_bidding/package_first_audit";
-	}
-	
-	@RequestMapping("/toPackageFirstAudit_cn")
-	public String toPackageFirstAuditCN(String projectId,String flag,Model model){
-		try {
-			//项目分包信息
-			HashMap<String,Object> pack = new HashMap<String,Object>();
-			pack.put("projectId", projectId);
-			/*List<Packages> packList = packageService.findPackageById(pack);
-			if(packList.size()==0){
-				Packages pg = new Packages();
-				pg.setName("第一包"); 
-				pg.setProjectId(projectId);
-				packageService.insertSelective(pg);*/
-				/*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-				List<Packages> pk = packageService.findPackageById(pack);
-				for(int i=0;i<list.size();i++){
-					ProjectDetail pd = new ProjectDetail();
-					pd.setId(list.get(i).getId());
-					pd.setPackageId(pk.get(0).getId());
-					detailService.update(pd);
-				}*/
-			//}
-			List<Packages> packages = packageService.findPackageById(pack);
-			Map<String,Object> list = new HashMap<String,Object>();
-			//关联表集合
-			List<PackageFirstAudit> idList = new ArrayList<>();
-			Map<String,Object> mapSearch = new HashMap<String,Object>(); 
-			for(Packages ps:packages){
-				list.put("pack"+ps.getId(),ps);
-				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put("packageId", ps.getId());
-				List<ProjectDetail> detailList = detailService.selectById(map);
-				ps.setProjectDetails(detailList);
-				//设置查询条件
-				mapSearch.put("projectId", projectId);
-				mapSearch.put("packageId", ps.getId());
-				List<PackageFirstAudit> selectList = packageFirstAuditService.selectList(mapSearch);
-				idList.addAll(selectList);
-			}
-			model.addAttribute("idList",idList);
-			model.addAttribute("packageList", packages);
-			Project project = projectService.selectById(projectId);
-			model.addAttribute("project", project);
-			//初审项信息
-			List<FirstAudit> list2 = service.getListByProjectId(projectId);
-			model.addAttribute("list", list2);
-			model.addAttribute("projectId", projectId);
-			model.addAttribute("flag", flag);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "bss/ppms/competitive_negotiation/package_first_audit";
 	}
 	
 	/**
@@ -321,5 +239,19 @@ public class FirstAuditController {
 	@ResponseBody
 	public void relate(String id,String projectId){
 		templatService.relate(id, projectId);
+	}
+	
+	public static void getType(Project project,Model model){
+		if(project!=null && project.getPurchaseType()!=null &&! project.getPurchaseType().equals("") && "xjcg".equals(project.getPurchaseType())){
+			model.addAttribute("type", "xjcg");
+		}else if ("yqzb".equals(project.getPurchaseType())) {
+			model.addAttribute("type", "yqzb");
+		}else if ("gkzb".equals(project.getPurchaseType())) {
+			model.addAttribute("type", "gkzb");
+		}else if ("jzxtp".equals(project.getPurchaseType())) {
+			model.addAttribute("type", "jzxtp");
+		}else if ("dyly".equals(project.getPurchaseType())) {
+			model.addAttribute("type", "dyly");
+		}
 	}
 }
