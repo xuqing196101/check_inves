@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -26,7 +26,7 @@
         	var name = $("#name").val();
         	var content = $("#content").val();
         	var projectId =$("#projectId").val();
-        	location.href = '<%=basePath%>open_bidding/printViewBack.html?name='+name+'&content='+content+'&projectId='+projectId;
+        	location.href = '${pageContext.request.contextPath}/open_bidding/printViewBack.html?name='+name+'&content='+content+'&projectId='+projectId;
         }
     </script>
     

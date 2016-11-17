@@ -42,9 +42,9 @@
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">后台管理</a></li>
-				<li class="active"><a href="#">用户管理</a></li>
-				<li class="active"><a href="#">增加用户</a></li>
+				<li><a href="#">供应商管理</a></li>
+				<li class="active"><a href="#">供应商抽取</a></li>
+				<li class="active"><a href="#">供应商抽取详情</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -78,7 +78,7 @@
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
 									<span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
 									<br />
-                                                                                                         供应商来源【${con.expertsFrom}】 供应商所在地区【${con.address}】 <br />
+                                                                                                             供应商所在地区【${con.address}】 <br />
 									<ol>
 										<c:forEach items="${con.conTypes }" var="contypes">
 											<li><c:choose>
@@ -94,8 +94,10 @@
 														test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
                                                                                                                                                      ， 供应商类型【销售型】
                                                  </c:when>
-												</c:choose> ， 采购类别【 ${contypes.categoryName}
-												】，供应商抽取数量【${contypes.supplieCount}】 }</li>
+												</c:choose> ， 
+												<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
+												
+												采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 }</li>
 										</c:forEach>
 									</ol>
 

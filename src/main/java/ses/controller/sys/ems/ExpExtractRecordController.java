@@ -175,14 +175,14 @@ public class ExpExtractRecordController extends BaseController {
             //后台数据校验
             int count=0;
             if(projectName == null || "".equals(projectName)){
-                model.addAttribute("projectNameError", "项目名称不能为空");
+                model.addAttribute("projectNameError", "不能为空");
                 count=1;
             }else{
                 model.addAttribute("projectName", projectName);
                 model.addAttribute("projectNameError", "");
             }
             if(projectNumber == null || "".equals(projectNumber)){
-                model.addAttribute("projectNumberError", "项目编号不能为空");
+                model.addAttribute("projectNumberError", "不能为空");
                 count=1;
             }else{
                 model.addAttribute("projectNumber", projectNumber);

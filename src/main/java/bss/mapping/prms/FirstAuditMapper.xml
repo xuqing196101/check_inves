@@ -22,7 +22,6 @@
     from T_BSS_PRMS_FIRST_AUDIT
     where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>
-  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

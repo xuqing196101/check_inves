@@ -110,7 +110,10 @@
 			
 			<div class="fr pr15 mt10">
 				<%-- <button class="btn btn-windows edit" onclick="addBidMethod('${projectId}');">制定评标办法</button> --%>
-				<button class="btn btn-windows edit" onclick="addMarkTerm();">制定评分细则</button>
+				
+				<c:if test="${project.confirmFile==0 || project.confirmFile==null}">
+					<button class="btn btn-windows edit" onclick="addMarkTerm();">制定评分细则</button>
+				</c:if>
 		    </div>
 		   
 			<div class="container clear margin-top-30" id="package">

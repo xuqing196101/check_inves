@@ -284,18 +284,18 @@
 				<c:set value="${formalCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.code}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.code}')" class="tc pointer ">${code}</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${code}</td>
 				</c:if>
 				<c:set value="${formalCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.name}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${formalCon.id}')" onmouseover="out('${formalCon.name}')" class="tc pointer ">${name}</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${name}</td>
 				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>

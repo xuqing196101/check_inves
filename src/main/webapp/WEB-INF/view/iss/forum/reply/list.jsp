@@ -195,10 +195,10 @@
 				<c:set value="${reply.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${reply.id}')" class="tc pointer " onmouseover="out('${reply.content}')" >${fn:substring(content,0,10)}...</td>
+					<td onclick="view('${reply.id}')" class=" pointer "  >${fn:substring(content,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${reply.id}')" class="tc pointer " onmouseover="out('${reply.content}')" >${content } </td>
+					<td onclick="view('${reply.id}')" class=" pointer "  >${content } </td>
 				</c:if>	
 				
 				<td class="tc pointer" onclick="view('${reply.id}')"><fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
@@ -206,19 +206,19 @@
 				<c:set value="${reply.post.name}" var="postContent"></c:set>
 				<c:set value="${fn:length(postContent)}" var="length"></c:set>
                 <c:if test="${length>8}">
-                    <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(postContent,0,8)}...</td>
+                    <td onclick="view('${reply.id}')" class="pointer ">${fn:substring(postContent,0,8)}...</td>
                 </c:if>
                 <c:if test="${length<=8}">
-                    <td onclick="view('${reply.id}')" class="tc pointer ">${postContent } </td>
+                    <td onclick="view('${reply.id}')" class="pointer ">${postContent } </td>
                 </c:if> 
           
                 <c:set value="${reply.reply.content}" var="replyContent"></c:set>
                 <c:set value="${fn:length(replyContent)}" var="length"></c:set>
                 <c:if test="${length>8}">
-                    <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(replyContent,0,8)}...</td>
+                    <td onclick="view('${reply.id}')" class=" pointer ">${fn:substring(replyContent,0,8)}...</td>
                 </c:if>
                 <c:if test="${length<=8}">
-                    <td onclick="view('${reply.id}')" class="tc pointer ">${replyContent } </td>
+                    <td onclick="view('${reply.id}')" class=" pointer ">${replyContent } </td>
                 </c:if> 
 				
 			</tr>

@@ -15,20 +15,7 @@
 
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	--><%--	
-	<script type="text/javascript">    
-	$(function(){ 
-		$("#parkName").val("${topic.park.name}");
-		});  
-	function cheClick(){
-		var parkId =$('input:radio[name="item"]:checked').val();
-		var parkName=$('input:radio[name="item"]:checked').next().html();
-		$("#parkId").val(parkId);
-		$("#parkName").val(parkName);
-	}
-	</script>
-	
-  --%>
+	-->
   	<script type="text/javascript">    
 	$(function(){ 
 		$("#park").val("${topic.park.id}");
@@ -50,7 +37,7 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/topic/update.html" method="post">  
     <div>
-	   		<h2 class="count_flow"><i>1</i>修改主题</h2>
+	   		<h2 class="count_flow">修改主题</h2>
 	    <input  name ="topicId" type="hidden" value = '${topic.id}'>
 	   <ul class="ul_list mb20">
 	   		  
@@ -59,20 +46,21 @@
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${topic.name}'>
 		        <span class="add-on">i</span>
-		        <div class="validate">${ERR_name}</div>
+		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 margin-0 padding-0">			 
 			   <span class="col-md-12 padding-left-5"> <div class="red star_red">*</div>所属版块：</span>
-
-	  			<select  id ="park" name ="parkId" class="w220" >
+			   <div class="select_common">
+	  			<select  id ="park" name ="parkId" class="w220 contract_name" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
-	  			<div class="validate">${ERR_park}</div>
+	  			<div class="cue">${ERR_park}</div>
+	  			</div>
 			 </li>
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
 				<span class="col-md-12 padding-left-5"> 主题介绍：</span>

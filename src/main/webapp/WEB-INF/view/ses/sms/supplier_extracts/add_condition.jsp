@@ -496,7 +496,7 @@ return false;
 				</table>
 				<div align="right" class="padding-10">
 					<div class="col-md-12 b f14 red tip" id="array"></div>
-					<button class="btn btn-windows save" id="save" onclick="cityt();"
+					<button class="btn btn-windows add" id="save" onclick="cityt();"
 						type="button">保存抽取条件</button>
 				</div>
 			</div>

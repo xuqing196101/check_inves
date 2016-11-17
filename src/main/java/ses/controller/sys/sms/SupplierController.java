@@ -38,7 +38,6 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
-
 import common.constant.Constant;
 
 /**
@@ -211,19 +210,24 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public String perfectBasic(HttpServletRequest request, Supplier supplier, String jsp, String defaultPage) throws IOException {
+	public String perfectBasic(HttpServletRequest request, Supplier supplier,String sign) throws IOException {
 		// this.setSupplierUpload(request, supplier);
 		supplierService.perfectBasic(supplier);// 保存供应商详细信息
 		supplier = supplierService.get(supplier.getId());
 
-		if ("basic_info".equals(jsp))
-			request.getSession().setAttribute("defaultPage", defaultPage);
-		else
-			request.getSession().removeAttribute("defaultPage");
+//		if ("basic_info".equals(jsp))
+//			request.getSession().setAttribute("defaultPage", defaultPage);
+//		else
+//			request.getSession().removeAttribute("defaultPage");
 
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);
-		return "redirect:page_jump.html";
+//		request.getSession().setAttribute("jump.page", jsp);
+		if(sign.equals("2")){
+			return "ses/sms/supplier_register/basic_info";
+		}else{
+			return "ses/sms/supplier_register/supplier_type";
+		}
+//		return "redirect:page_jump.html";
 
 	}
 
@@ -565,4 +569,16 @@ public class SupplierController extends BaseSupplierController {
 		return true;
 	}
 
+	
+//	回头删掉
+	
+	@RequestMapping("login")
+	public String login(HttpServletRequest request, Model model) {
+		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
+		model.addAttribute("currSupplier", supplier);
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		request.getSession().setAttribute("supplierId", supplier.getId());
+		return "ses/sms/supplier_register/basic_info";
+	}
 }

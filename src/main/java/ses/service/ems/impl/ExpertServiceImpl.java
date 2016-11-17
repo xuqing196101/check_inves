@@ -417,13 +417,19 @@ public class ExpertServiceImpl implements ExpertService {
 		todos.setCreatedAt(new Date());
 		todos.setIsDeleted((short)0);
 		todos.setIsFinish((short)0);
+		//待办类型
 		todos.setName("评审专家注册");
 		//todos.setReceiverId();
+		//接受人id
 		todos.setOrgId(expert.getPurchaseDepId());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		todos.setPowerId(config.getString("zjdb"));
+		//发送人id
 		todos.setSenderId(expert.getId());
 		todos.setUndoType((short)2);
+		//发送人姓名
+		todos.setSenderName(expert.getRelName());
+		//审核地址
 		todos.setUrl("expert/toShenHe.html?id="+expert.getId());
 		todosMapper.insert(todos );
 	}

@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -84,8 +85,10 @@
             data : {pid:1},
             success: function(data) {
                 $("#city").append("<option value='-1'>请选择</option>");
+                $("#province").append("<option value='-1'>请选择</option>");
                 $.each(data, function(idx, item) {
                     if(item.id==proviceId){
+                    	
                         var html = "<option value='" + item.id + "' selected>" + item.name
                         + "</option>";
                         $("#province").append(html);
@@ -116,12 +119,14 @@
     function loadCities(pid){
         $("#pid").val(pid);
         var cityId = $("#cid").val();
+        $("#city").empty();
         $.ajax({
             type: 'post',
             url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
             data : {pid:pid},
             success: function(data) {
                 $.each(data, function(idx, item) {
+                	$("#city").append("<option value='-1'>请选择</option>");
                     if(item.id==cityId){
                         var html = "<option value='" + item.id + "' selected>" + item.name
                         + "</option>";
@@ -155,6 +160,7 @@
             data : $('#formID').serialize(),
             //data: {'pid':pid,$("#formID").serialize()},
             success: function(data) {
+            	console.dir(data);
                 truealert(data.message,data.success == false ? 5:1);
             }
         });
@@ -199,6 +205,7 @@
             content: text,
             icon: iconindex,
             shade: [0.3, '#000'],
+            offset: 300+"px",
             yes: function(index){
                 //do something
                  //parent.location.reload();
@@ -209,14 +216,14 @@
         });
     }
     function pageOnload(){
-        var proviceId = $("#pid").val();
+        /* var proviceId = $("#pid").val();
         console.dir(proviceId);
         var cityId = $("#cid").val();
         var isAudit = $("#cid").val();
         $("#province").val('A4CCB12438AD4E49AADE355B3B02910C');
         $("#province").get(0).selectedIndex=proviceId;
         $("#province option[value ='"+proviceId+"']").attr("selected", true);//val(2);
-        $("#city").val(cityId);
+        $("#city").val(cityId); */
         //$("#provinceId").val(proviceId);
         //$("div.panel-collapse").addClass("in");
         
@@ -732,16 +739,14 @@
                                     </li> --%>
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购资质编号：</span>
                                             <div class="input-append">
-                                                <input class="span5" name="quaCode" type="text"> <span
+                                                <input class="span5" name="quaCode" type="text" value="${purchaseDep.quaCode}"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
                                                 class="red">＊</i>采购资格证书图片：</span>
                                             <div class="uploader orange m0">
-                                                <input type="text" class="filename h32 m0 fz11"
-                                                    readonly="readonly" value="未选择任何文件..." /> <input
-                                                    type="button" class="button" value="选择文件..." /> <input
-                                                    type="file" size="30" accept="image/*" />
+                                                <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true"/>
+													<up:show showId="cert_show_id" businessId="${purchaseDep.id}" sysKey="2"/>
                                             </div></li>
                                     </ul>
                                     <h2 class="count_flow"><i>3</i>个人信息</h2>

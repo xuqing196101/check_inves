@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -557,9 +558,14 @@ public class CategoryParamContrller extends BaseSupplierController {
   
 
     }
-    
-    
-    
+    /**
+   	 * 
+   	 * @Title: import
+   	 * @author Zhang XueFeng/	
+     * @Description：导入excel表
+   	 * @param 	
+   	 * @return void
+     */ 
     @RequestMapping("/import")
     public String imports(String id) throws IOException{
 	File is = new File("F:/参数模板.xlsx");
@@ -596,9 +602,23 @@ public class CategoryParamContrller extends BaseSupplierController {
 	return "redirect:getAll.html";
 	  }
     
-    
+    /**
+   	 * 
+   	 * @Title: exports
+   	 * @author Zhang XueFeng	
+     * @Description：导出excel表
+   	 * @param 	id session
+   	 * @return void
+     * @throws IOException 
+     */ 
     @RequestMapping("/exports")
-    public void export(String id,HttpSession session){
+    public void export(String id,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException{
+    	String filename ="品目参数表";
+    	
+    	response.setContentType("application/vnd.ms-excel; charset=utf-8");
+    	response.setHeader("Content-Disposition","attachment;filename="+filename);
+    	response.setCharacterEncoding("utf-8");
+    	OutputStream os=response.getOutputStream();
     	HSSFWorkbook wb = new HSSFWorkbook();
     	HSSFSheet sheet = wb.createSheet("品目参数表");
     	HSSFRow row = sheet.createRow(0);
@@ -621,9 +641,11 @@ public class CategoryParamContrller extends BaseSupplierController {
 			row.createCell(1).setCellValue(values[i]);
 		}   
 				try {
-					FileOutputStream out = new FileOutputStream("E://品目参数表.xls");
-					wb.write(out);
-					out.close();
+				
+				
+					
+					os.close();
+					
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -897,15 +919,21 @@ public class CategoryParamContrller extends BaseSupplierController {
 		map.put("page", page);
 		List<Category>  list = categoryService.listByKeyword(map);
 		String ids=null;
+		
 		for (Category cate : list) {
+			if (cate.getOrgnization()!=null) {
+				
 			ids+=cate.getOrgnization().getId()+",";
+			}
 		}
 		List<Object> catelist = new ArrayList<Object>();
-		String[]  id =ids.split(",");
+		if(ids!=null){
+			String[]  id =ids.split(",");
 		for (int i = 0; i < id.length; i++) {
 			Orgnization  org = orgnizationServiceI.findByCategoryId(id[i]);
 			category.setOrgnization(org);
 			catelist.add(category);
+		}
 		}
 		model.addAttribute("list",new PageInfo<Category>(list));
 		model.addAttribute("cate",catelist);

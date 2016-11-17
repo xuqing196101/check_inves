@@ -8,10 +8,12 @@
     <result column="IS_GROUP_LEADER" jdbcType="DECIMAL" property="isGroupLeader" />
     <result column="IS_AUDIT" jdbcType="DECIMAL" property="isAudit" />
     <result column="IS_GATHER" jdbcType="DECIMAL" property="isGather" />
+    <result column="IS_GRADE" jdbcType="DECIMAL" property="isGrade" />
+    <result column="IS_GRADE_GATHER" jdbcType="DECIMAL" property="isGatherGather" />
   </resultMap>
   
    <sql id="Base_Column_List">
-  PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER
+  PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER
   </sql>
    <!-- 根据项目id和包id 以及查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
@@ -20,22 +22,28 @@
     from T_BSS_PRMS_PACKAGE_EXPERT
     where 1=1
     <if test="packageId != null and packageId !=''">
-    AND PACKAGE_ID = '${packageId}'
+    AND PACKAGE_ID = #{packageId}
     </if>
     <if test="projectId != null and projectId !=''">
-    AND PROJECT_ID = '${projectId}'
+    AND PROJECT_ID = #{projectId}
     </if>
     <if test="isGroupLeader != null and isGroupLeader !=''">
     AND IS_GROUP_LEADER = ${isGroupLeader}
     </if>
     <if test="expertId != null and expertId !=''">
-    AND EXPERT_ID = '${expertId}'
+    AND EXPERT_ID = #{expertId}
     </if>
     <if test="isAudit != null">
-    AND IS_AUDIT = ${isAudit}
+    AND IS_AUDIT = #{isAudit}
     </if>
     <if test="isGather != null">
-    AND IS_GATHER = ${isGather}
+    AND IS_GATHER = #{isGather}
+    </if>
+    <if test="IS_GRADE != null">
+    AND IS_GRADE = #{isGrade}
+    </if>
+    <if test="IS_GRADE_GATHER != null">
+    AND IS_GRADE_GATHER = #{isGatherGather}
     </if>
   </select>
    <!-- 根据包id删除 -->
@@ -65,6 +73,12 @@
     <if test="isGather != null">
      IS_GATHER = #{isGather,jdbcType=DECIMAL},
     </if>
+    <if test="isGrade != null">
+     IS_GRADE = #{isGrade,jdbcType=DECIMAL},
+    </if>
+    <if test="isGatherGather != null">
+     IS_GRADE_GATHER = #{isGatherGather,jdbcType=DECIMAL},
+    </if>
     </set>
     where 1=1
      <if test="packageId != null and packageId !=''">
@@ -81,9 +95,10 @@
   
   <insert id="insert" parameterType="bss.model.prms.PackageExpert">
     insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID, 
-      IS_GROUP_LEADER, IS_AUDIT,IS_GATHER)
+      IS_GROUP_LEADER, IS_AUDIT,IS_GATHER,IS_GRADE,IS_GRADE_GATHER)
     values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
-      #{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL})
+      #{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL},
+      #{isGrade,jdbcType=DECIMAL}, #{isGatherGather,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
     insert into T_BSS_PRMS_PACKAGE_EXPERT
@@ -106,6 +121,12 @@
       <if test="isGather != null">
         IS_GATHER,
       </if>
+      <if test="IS_GRADE != null">
+        IS_GRADE,
+      </if>
+      <if test="IS_GRADE_GATHER != null">
+        IS_GRADE_GATHER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="packageId != null">
@@ -125,6 +146,12 @@
       </if>
       <if test="isGather != null">
         #{isGather,jdbcType=DECIMAL},
+      </if>
+      <if test="isGrade != null">
+        #{isGrade,jdbcType=DECIMAL},
+      </if>
+      <if test="isGatherGather != null">
+        #{isGatherGather,jdbcType=DECIMAL}
       </if>
     </trim>
   </insert>

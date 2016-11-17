@@ -108,18 +108,18 @@ function kaptcha(){
   <!-- End Navbar -->
   <div class="container content job-content ">
      <div class="row magazine-page clear">
-      <div class="col-md-6  margin-bottom-10">
+      <div class="col-md-8  margin-bottom-10">
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
 			<li class="item" style="left:0px;">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/1.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/2.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/3.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
 		   </ul>
 	      </div>
@@ -129,12 +129,13 @@ function kaptcha(){
 		   <b>3</b>
 	      </div>
         </div>
-        <script src="${pageContext.request.contextPath}/public/ZHQ/js/script.js"></script>
+        <script src="${pageContext.request.contextPath}/public/portal/js/script.js"></script>
        </div>
-       <div class="col-md-6 ">
+       <div class="col-md-4 ">
         <div class="tab-v1">
           <h2 class="nav nav-tabs bb1 mt0">
-            <span class="bg12_white"><a href="#">工作动态</a></span>
+            <span class="bg12_white"><a href="javascript:void(0)">工作动态</a></span>
+            <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=27">更多>></a>
 		  </h2>
 		  </div>
           <div class="">
@@ -150,6 +151,7 @@ function kaptcha(){
 						</c:if>
 	                </c:forEach>            
                 </ul>
+                
           </div>
        </div>
   <!-- Begin 登录 --><%--
@@ -258,6 +260,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=28">更多>></a>
         </div>
 		    <div id="tab-4" class="tab-pane fade">
              <ul class="categories">   
@@ -272,6 +275,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=29">更多>></a>
         </div>
 		    <div id="tab-5" class="tab-pane fade">
              <ul class="categories">   
@@ -286,6 +290,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=30">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -315,6 +320,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=31">更多>></a>
         </div>
 		    <div id="tab-7" class="tab-pane fade">
              <ul class="categories">   
@@ -329,6 +335,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=32">更多>></a>
         </div>
 		    <div id="tab-8" class="tab-pane fade">
              <ul class="categories">   
@@ -343,6 +350,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=33">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -371,6 +379,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=34">更多>></a>
         </div>
 		    <div id="tab-10" class="tab-pane fade">
              <ul class="categories">   
@@ -385,6 +394,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=35">更多>></a>
         </div>
 		    <div id="tab-11" class="tab-pane fade">
              <ul class="categories">   
@@ -399,6 +409,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=36">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -440,6 +451,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=37">更多>></a>
         </div>
 		    <div id="tab-13" class="tab-pane fade">
              <ul class="categories">   
@@ -454,6 +466,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=38">更多>></a>
         </div>
 		    <div id="tab-14" class="tab-pane fade">
              <ul class="categories">   
@@ -468,6 +481,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=39">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -497,6 +511,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=40">更多>></a>
         </div>
 		    <div id="tab-16" class="tab-pane fade">
              <ul class="categories">   
@@ -511,6 +526,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=41">更多>></a>
         </div>
 		    <div id="tab-17" class="tab-pane fade">
              <ul class="categories">   
@@ -525,6 +541,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=42">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -553,6 +570,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=43">更多>></a>
         </div>
 		    <div id="tab-19" class="tab-pane fade">
              <ul class="categories">   
@@ -567,6 +585,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=44">更多>></a>
         </div>
 		    <div id="tab-20" class="tab-pane fade">
              <ul class="categories">   
@@ -581,6 +600,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=45">更多>></a>
         </div>
 	   </div>
 	  </div>
@@ -699,7 +719,7 @@ function kaptcha(){
       <div class="col-md-3 mb10 login_box">
         <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   重要通知<a class="news_more">更多>></a>
+		   重要通知<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=46">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
@@ -720,7 +740,7 @@ function kaptcha(){
 	<div class="col-md-3 mb10 login_box">
         <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   采购法规<a class="news_more">更多>></a>
+		   采购法规<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=47">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   

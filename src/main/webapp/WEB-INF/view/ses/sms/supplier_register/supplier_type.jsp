@@ -34,7 +34,7 @@
 		zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	});
 
-	function checkedTree(jsp) {
+	function checkedTree(obj) {
 		var nodes = zTreeObj.getCheckedNodes(true);
 		var ids = "";
 		for ( var i = 0; i < nodes.length; i++) {
@@ -43,7 +43,7 @@
 			}
 			ids += $(nodes[i]).attr("id");
 		}
-		$("input[name='jsp']").val(jsp);
+		$("input[name='sign']").val(obj);
 		$("input[name='supplierTypeIds']").val(ids);
 		$("#supplier_type_form_id").submit();
 	}
@@ -58,7 +58,7 @@
 		<!-- 项目戳开始 -->
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
-		<!-- <div class="sevice_list col-md-12 container">
+		<div class="sevice_list col-md-12 container">
 		  <h2>产品服务/分类</h2>
 		  <div class="col-md-12 p0">
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
@@ -68,7 +68,7 @@
 			  </div>
 		    </div>
 		  </div>
-		 -->
+		
 		
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -76,13 +76,13 @@
 					<div class="padding-top-10">
 						<div class="padding-top-20">
 							<div class="margin-bottom-0 tc">
-								<div class="w150 lr0_tbauto">
+								<!-- <div class="w150 lr0_tbauto">
 									<ul id="treeDemo" class="ztree"></ul>
-								</div>
+								</div> -->
 								<div class="mt40 tc mb50">
-									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('basic_info')">上一步</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('supplier_type')">暂存</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree('professional_info')">下一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree(3'basic_info')">上一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree(2'supplier_type')">暂存</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="checkedTree(1'professional_info')">下一步</button>
 								</div>
 							</div>
 						</div>
@@ -94,7 +94,7 @@
 	
 	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier_type_relate/perfect_type.html" method="post">
 		<input name="id" type="hidden" value="${currSupplier.id}" />
-		<input name="jsp" type="hidden" />
+		<input name="sgin" type="hidden" />
 		<input name="supplierTypeIds" type="hidden" />
 	</form>
 	

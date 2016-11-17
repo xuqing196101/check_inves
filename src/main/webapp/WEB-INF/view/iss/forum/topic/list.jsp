@@ -214,15 +214,15 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${topic.id}" /></td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="view('${topic.id}')">${topic.name}</td>
+				<td class="pointer" onclick="view('${topic.id}')">${topic.name}</td>
 				
 				<c:set value="${topic.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
+					<td onclick="view('${topic.id}')"  class=" pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${content } </td>
+					<td onclick="view('${topic.id}')"  class=" pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.park.name}</td>

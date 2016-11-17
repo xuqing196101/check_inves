@@ -102,7 +102,7 @@ function kaptcha(){
           <div class="row container margin-bottom-10">
             <div class="col-md-8 m20_0">
               <a href="">
-                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -182,6 +182,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=1">更多>></a>
         </div>
 		    <div id="tab-22" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -196,6 +197,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=2">更多>></a>
         </div>
 		    <div id="tab-23" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -210,6 +212,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=3">更多>></a>
         </div>
 		    <div id="tab-24" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -224,6 +227,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=4">更多>></a>
         </div>
 	  </div>
 	 </div>
@@ -256,6 +260,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=5">更多>></a>
         </div>
 		    <div id="tab-26" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -270,6 +275,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=6">更多>></a>
         </div>
 		    <div id="tab-27" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -284,6 +290,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=7">更多>></a>
         </div>
 		    <div id="tab-28" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -298,6 +305,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=8">更多>></a>
         </div>
 	  </div>
 	 </div>
@@ -329,6 +337,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=9">更多>></a>
         </div>
 		    <div id="tab-30" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -343,6 +352,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=10">更多>></a>
         </div>
 		    <div id="tab-31" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -357,6 +367,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=11">更多>></a>
         </div>
 		    <div id="tab-32" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -371,6 +382,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=12">更多>></a>
         </div>
 	  </div>
 	 </div>
@@ -412,7 +424,7 @@ function kaptcha(){
 		  </a>
 	   </div>
 		</div>
-		<div class="col-md-8 mt10">
+		<div class="col-md-6 mt10">
 		<div class="margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
@@ -421,7 +433,7 @@ function kaptcha(){
 		  <li class="fl"><a aria-expanded="false" href="#tab-35" data-toggle="tab"> 废标公告</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content  buyer_list">
 		    <div id="tab-33" class="categories tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select13List']}" var="sl">
@@ -435,6 +447,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=13">更多>></a>
         </div>
 		    <div id="tab-34" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -449,6 +462,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=14">更多>></a>
         </div>
 		    <div id="tab-35" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -463,6 +477,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=15">更多>></a>
         </div>
 		</div>
 		</div>
@@ -510,7 +525,7 @@ function kaptcha(){
 		  <li class="fl"><a aria-expanded="false" href="#tab-38" data-toggle="tab"> 地方处罚公告</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content buyer_list">
 		    <div id="tab-36" class="categories tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select17List']}" var="sl">
@@ -524,6 +539,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=17">更多>></a>
         </div>
 		    <div id="tab-37" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -538,6 +554,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=18">更多>></a>
         </div>
 		    <div id="tab-38" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -552,6 +569,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=19">更多>></a>
         </div>
 		</div>
 	  </div>
@@ -594,7 +612,7 @@ function kaptcha(){
 		  <li class="fl"><a aria-expanded="false" href="#tab-40" data-toggle="tab">处罚公告</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content  buyer_list">
 		    <div id="tab-39" class="categories tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select21List']}" var="sl">
@@ -608,6 +626,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=21">更多>></a>
           </div>
 		    <div id="tab-40" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -622,6 +641,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=22">更多>></a>
         </div>
 		</div>
 	  </div>
@@ -643,37 +663,37 @@ function kaptcha(){
 	 <div class="drop_main supp_service">
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/cpml.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/jscsk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/cglt.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/zlxz.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/zlxz.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/yjfk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/shfw.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/shfw.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
 	  </a>
 	 </div>
@@ -694,18 +714,19 @@ function kaptcha(){
 	  <div class="drop_main">
 	   <div class="col-md-4 mt20">
 	    <a href="#">
-	     <div class="col-md-12 tc p0"><img src="${pageContext.request.contextPath}/public/ZHQ/images/tou_pic.jpg"/></div>
+	     <div class="col-md-12 tc p0"><img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
 		 <div class="col-md-12 f22 tc mt20 p0">在线投诉</div>
 		</a>
 	  </div>
 	  <div class="col-md-8 mt10">
 	  	<div class="margin-bottom-10 login_box job-content col-md-8">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled login_tab">
+		 <ul class="list-unstyled login_tab fl">
 		  <li class="active fl"><a>投诉处理公告</a></li>
 		 </ul>
+		 <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=23">更多>></a>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content  buyer_list">
 		    <div id="" class="categories tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select23List']}" var="sl">
@@ -718,7 +739,7 @@ function kaptcha(){
 						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
-          </ul>
+          </ul>  
         </div>
 		</div>
 	 </div>
@@ -744,7 +765,7 @@ function kaptcha(){
 		  <li class="fl"><a aria-expanded="false" href="#tab-43" data-toggle="tab"> 重要业务通知</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content buyer_list">
 		    <div id="tab-41" class="categories tab-pane fade active in">
              <ul class="p0_10">   
               <c:forEach items="${indexMapper['select24List']}" var="sl">
@@ -758,6 +779,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=24">更多>></a>
         </div>
 		    <div id="tab-42" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -772,6 +794,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=25">更多>></a>
         </div>
 		    <div id="tab-43" class="categories tab-pane fade">
              <ul class="p0_10">   
@@ -786,6 +809,7 @@ function kaptcha(){
 					</c:if>
 	          </c:forEach>
           </ul>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=26">更多>></a>
         </div>
 		</div>
 		</div>
@@ -793,7 +817,7 @@ function kaptcha(){
 	  <div class="col-md-12">
 	  <div class="col-md-5">
 	    <div class="col-md-12 fg_rule">
-		 <img src="${pageContext.request.contextPath}/public/ZHQ/images/fg_01.jpg" class="fl" />
+		 <img src="${pageContext.request.contextPath}/public/portal/images/fg_01.jpg" class="fl" />
 		</div>
 	  </div>
 	  <div class="col-md-5">
@@ -815,12 +839,10 @@ function kaptcha(){
 	</div>
 	</div>
    </li>
-
       </ul>
       </div>
       </div>
       </div>
       </div>
-      
 </body>
 </html>

@@ -250,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows git" onclick="sub()">受理</button>
 	 </div>
-   <div class="container table_box">
+   <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>

@@ -184,12 +184,11 @@
 </script>
 </head>
 <body>
-  <div class="wrapper">
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">专家列表</a></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">业务管理</a></li><li><a href="javascript:void(0)">专家列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -199,69 +198,65 @@
    <div class="headline-v2">
    <h2>评标专家列表</h2>
    </div>
-   </div>
-  
-   <form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="registerform"> 
-  <input type="hidden" name="page" id="page">
-  <input type="hidden" name="flag" value="0">
-   <div align="center">
-                    <table>
-                    <tr>
-                    <td>
-                    <span>姓名：</span>
-                    <input type="text" id="relName" name="relName" value="${expert.relName }">
-                    </td>
-                    <td>
-						 &nbsp;<span>来源：</span>
-						   <select  name="expertsFrom" id="expertsFrom" class="w178">
-						    <option selected="selected" value=''>-请选择-</option>
-						   	<option <c:if test="${expert.expertsFrom =='军队' }">selected</c:if> value="军队">军队</option>
-						   	<option <c:if test="${expert.expertsFrom =='地方' }">selected</c:if> value="地方">地方</option>
-						   	<option <c:if test="${expert.expertsFrom =='其他' }">selected</c:if> value="其他">其他</option>
-						   </select>
-					</td>
-					<td>
-                      	&nbsp;<span>状态：</span>
-							   <select name="status" id="status">
-							   		<option selected="selected" value=''>-请选择-</option>
-							   		<option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-							   		<option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
-							   		<option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
-							   		<option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
-							   </select>
-                     </td>
-                     <td> 	
-                         		&nbsp;<span >专家类型：</span>
-							   <select name="expertsTypeId" id="expertsTypeId">
-							   		<option selected="selected"  value=''>-请选择-</option>
-							   		<option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
-							   		<option <c:if test="${expert.expertsTypeId =='2' }">selected</c:if> value="2">法律</option>
-							   		<option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">商务</option>
-							   </select>
-					</td>
-					<td>&nbsp;
-                          <input class="btn"  value="搜索" type="submit">
-                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
-                     </td>
-                        </tr>
-                        </table>
+    <h2 class="search_detail">  
+   <form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="mb0"> 
+		  <input type="hidden" name="page" id="page">
+		  <input type="hidden" name="flag" value="0">
+		      <ul class="demand_list">
+		          <li>
+		            <label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
+		          </li>
+		          <li>
+		            <label class="fl">来源：</label>
+		            <span class="fl">
+		              <select  name="expertsFrom" id="expertsFrom" >
+                            <option selected="selected" value=''>-请选择-</option>
+                            <option <c:if test="${expert.expertsFrom =='军队' }">selected</c:if> value="军队">军队</option>
+                            <option <c:if test="${expert.expertsFrom =='地方' }">selected</c:if> value="地方">地方</option>
+                            <option <c:if test="${expert.expertsFrom =='其他' }">selected</c:if> value="其他">其他</option>
+                           </select>
+		            </span>
+		          </li>
+		          <li>
+                    <label class="fl">状态：</label>
+                    <span class="fl">
+                      <select name="status" id="status">
+                                    <option selected="selected" value=''>-请选择-</option>
+                                    <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
+                                    <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
+                                    <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
+                                    <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
+                               </select>
+                    </span>
+                  </li>
+                  <li>
+                    <label class="fl">专家类型：</label>
+                    <span class="fl">
+                       <select name="expertsTypeId" id="expertsTypeId">
+                                    <option selected="selected"  value=''>-请选择-</option>
+                                    <option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
+                                    <option <c:if test="${expert.expertsTypeId =='2' }">selected</c:if> value="2">法律</option>
+                                    <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">商务</option>
+                               </select>
+                    </span>
+                  </li>
+		        </ul>
+		              <div class="col-md-12 clear tc">
+			            <input class="btn"  value="查询" type="submit">
+                         <input class="btn" id="button" onclick="clearSearch();" value="重置" type="reset">  
+			            </div>
+			          <div class="clear"></div>
                    </form>
-                  </div>  
+                   </h2>
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-8">
-    <!-- <button class="btn btn-windows add" type="submit">新增</button>
-	<button class="btn btn-windows edit" type="submit">修改</button>
-	<button class="btn btn-windows delete" type="submit">删除</button> -->
+   <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
-	<button class="btn btn-windows edit" type="button" onclick="shenhe();">审核</button>
+	<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
 	<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
 	</div>
-    </div>
    
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
@@ -327,8 +322,6 @@
         <div id="pagediv" align="right"></div>
 
      </div>
-   </div>
-   
  </div>
 </body>
 </html>

@@ -33,7 +33,7 @@
      <div class="container container_box">
      	<div>
 	   		<h2 class="count_flow">
-					<i>1</i>版块详情
+					版块详情
 			</h2>
 	   <ul class="ul_list mb20">	   		  
 	   		 <li class="col-md-3 margin-0 padding-0 ">

@@ -148,10 +148,10 @@
 				<c:set value="${articletype.describe}" var="describe"></c:set>
 				<c:set value="${fn:length(describe)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${fn:substring(describe,0,10)}...</td>
+					<td onclick="view('${articletype.id}')" class="tc pointer ">${fn:substring(describe,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${articletype.describe } </td>
+					<td onclick="view('${articletype.id}')" class="tc pointer ">${articletype.describe } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.code}</td>

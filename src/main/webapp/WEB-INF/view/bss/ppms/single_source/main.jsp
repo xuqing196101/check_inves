@@ -16,24 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    
-    <script src="${ pageContext.request.contextPath }/public/ZHH/js/jquery.min.js"></script>
-    <!--导航js-->
-    <script src="${ pageContext.request.contextPath }/public/ZHH/js/jquery_ujs.js"></script>
-    <script src="${ pageContext.request.contextPath }/public/ZHH/js/bootstrap.min.js"></script>
+
 </head>
 <script type="text/javascript">
     $(function(){
@@ -68,15 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
                          <ul class="btn_list" id="menu">
-                           <li class="active"><a href="${ pageContext.request.contextPath }/project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制单一来源文件</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/single_source/" target="open_bidding_main" class="son-menu">确定单一来源文件</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/single_source/notice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布单一来源公告</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售单一来源文件</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/ExpExtract/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家谈判</a></li>
-                           <li><a href="${ pageContext.request.contextPath }/resultAnnouncement/resultAnnouncementAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制成交公示</a></li> 
-                           <li><a href="${ pageContext.request.contextPath }/winningSupplier/selectSupplier.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确定成交供应商</a></li>
+                             <c:forEach items="${fds}" var="fd">
+                                <li <c:if test="${fd.step == 1 }">class="active"</c:if>>
+                                    <a href="${pageContext.request.contextPath}/${fd.url}?projectId=${project.id}" target="open_bidding_main" class="son-menu">${fd.name }</a>
+                                </li>
+                           </c:forEach>
                          </ul>
                       </div>
                       <script type="text/javascript" language="javascript">   

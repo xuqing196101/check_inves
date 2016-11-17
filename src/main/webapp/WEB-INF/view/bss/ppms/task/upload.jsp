@@ -25,7 +25,6 @@ function cancel(){
         <div class="drop_window" id="delTask">
               <ul class="list-unstyled">
                  <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">附件上传</label>
                    <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
                     <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
                 </li>

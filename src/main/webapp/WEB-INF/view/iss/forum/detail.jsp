@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="up" uri="/tld/upload"%>
-<%@ include file="../../../../common.jsp"%>
+<%@ include file="../../front.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -18,12 +18,6 @@
 
     <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" >
-
-     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
-    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
-    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 
   <script type="text/javascript">
   $(function(){
@@ -129,7 +123,7 @@
      </div> 
         <div class="extra_file" id="file">
             <span class="f14 fl">附件：</span>
-            <up:show showId="post_attach_show"  businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+            <up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
         </div>  
      </div>
 

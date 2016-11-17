@@ -225,12 +225,19 @@ public class AreaController {
 	public List<Area> findAreaByParentId2(HttpServletResponse response, String id) throws IOException {
 		List<Area> list = areaService.findAreaByParentId(id);
 		return list;
-		/*String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write(json);
-		response.getWriter().flush();
-		response.getWriter().close();*/
 	}
+	/**
+	 * 
+	  * @Title: find_by_id
+	  * @author ShaoYangYang
+	  * @date 2016年11月15日 下午3:09:43  
+	  * @Description: TODO 根据id查询节点
+	  * @param @param response
+	  * @param @param id
+	  * @param @return
+	  * @param @throws IOException      
+	  * @return List<Area>
+	 */
 	@ResponseBody
 	@RequestMapping(value = "find_by_id")
 	public List<Area> find_by_id(HttpServletResponse response, String id) throws IOException {

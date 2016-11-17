@@ -494,8 +494,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
 	  
 	  
-   <div id="div_table" class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+   <div id="div_table" class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 <!-- 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>

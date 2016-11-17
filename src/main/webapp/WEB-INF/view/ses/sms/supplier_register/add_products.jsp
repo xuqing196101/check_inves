@@ -128,7 +128,7 @@
 												</div>
 											</li>
 											
-											<%--<li id="product_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 产品图片：</span>
+											<li id="product_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 产品图片：</span>
 												<c:if test="${supplierProducts.productPic != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${supplierProducts.productPic}')">下载附件</a>
@@ -161,7 +161,7 @@
 														</div>
 													</div>
 												</c:if>
-											</li>--%>
+											</li>
 											
 											<div class="clear"></div>
 										</ul>

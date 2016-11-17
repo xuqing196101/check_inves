@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -37,7 +38,7 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
     	<div>
-	   		<h2 class="count_flow"><i>1</i>帖子详情</h2>
+	   		<h2 class="count_flow">帖子详情</h2>
 	   
 	   <ul class="ul_list mb20">
 	   		  
@@ -133,7 +134,7 @@
 			 
 			<li class="col-md-11 margin-0 padding-0 ">
 	   			<span class="col-md-12 padding-left-5">帖子内容：</span>
-	  			<div class="">
+	  			<div class="border1">
 	  				 <%--<script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>--%>
 	  				${post.content}
 	  			</div>
@@ -141,7 +142,7 @@
 			 <li class="col-md-12 p0" id="file">
 		     <span class="fl">已上传的附件：</span>
 		     <div class="fl mt5">
-                <up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+                <up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 		     </div>
 		     </li>
 	  	 </ul>
@@ -156,7 +157,7 @@
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
-    var content="${post.content}";
+    var content='${post.content}';
 	ue.ready(function(){
   		ue.setContent(content);    
   		ue.setDisabled([]);

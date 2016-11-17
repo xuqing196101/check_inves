@@ -28,7 +28,7 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
     <div>
-	   	<h2 class="count_flow"><i>1</i>回复详情</h2>
+	   	<h2 class="count_flow">回复详情</h2>
 	   <ul class="ul_list mb20">
 	   		  
 
@@ -60,7 +60,7 @@
 			 
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="col-md-12 padding-left-5"> 回复内容：</span>
-				<div class="col-md-9 mt5 p0">
+				<div class="col-md-9 mt5 p0 border1">
 				${reply.content}
 				</div>			
 	  	 	</li>

@@ -231,4 +231,34 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY aq.CREATED_AT DESC
   </select>
+  <!-- 6.表连接查询评分需要的数据 -->
+  <select id="findAllByMap" resultType="bss.model.prms.ext.AuditModelExt">
+    select q.ID AS quotaId,q.PROJECT_ID AS projectId,q.PACKEAGE_ID AS packageId,q.SUPPLIER_ID AS supplierId,
+           q.SCORE_MODEL_ID AS scoreModelId,q.SUPPLIER_VALUE AS supplierValue,q.INIT_SCORE AS initScore,
+           q.EXPERT_VALUE AS expertValue,q.FINAL_SCORE AS finalScore,q.CREATED_AT AS createdAt,
+           q.UPDATED_AT AS updatedAt,q.IS_DELETED AS isDeleted,q.ROUND AS round,
+           
+	       s.MARK_TERM_ID AS markTermId,s.NAME AS name,s.TYPE_NAME AS typeName,s.REVIEW_CONTENT AS reviewContent,
+	       s.REMARK AS remark,s.EASY_UNDERSTAND_CONTENT AS easyUnderstandContent,s.STANDARD_EXPLAIN AS standExplain,
+	       s.STANDARD_SCORE AS standardScore,s.JUDGE_CONTENT AS judgeContent,s.REVIEW_PARAM AS reviewParam,
+	       s.ADD_SUBTRACT_TYPE_NAME AS addSubtractTypeName,s.UNIT_SCORE AS unitScore,s.UNIT AS unit,s.REVIEW_STAND_SCORE AS reviewStandScore,
+	       s.MAX_SCORE AS maxScore,s.MIN_SCORE AS minScore,s.SCORE AS score,s.INTERVAL_TYPE_NAME AS intervalTypeName,
+	       s.DEADLINE_NUMBER AS deadlineNumber,s.INTERVAL_NUMBER AS intervalNumber,
+	       mt.NAME AS markTermName
+    from T_BSS_PPMS_ADUIT_QUOTA  q 
+    LEFT JOIN T_BSS_PPMS_SCORE_MODEL s ON q.SCORE_MODEL_ID = s.ID 
+    LEFT JOIN T_BSS_PPMS_MARK_TERM mt ON s.MARK_TERM_ID = mt.ID 
+  
+      where 1=1 AND q.IS_DELETED != 1
+     <if test="packageId != null and packageId != ''">
+      AND q.PACKEAGE_ID = #{packageId} 
+     </if>
+     <if test="projectId != null and projectId != ''">
+      AND q.PROJECT_ID=#{projectId} 
+     </if>
+     <if test="typeName != null and typeName != ''">
+      AND mt.TYPE_NAME=#{typeName}
+     </if>
+  </select>
+  
 </mapper>

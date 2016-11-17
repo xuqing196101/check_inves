@@ -2,8 +2,10 @@ package bss.controller.prms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,21 +15,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.model.ppms.AduitQuota;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
+import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
+import bss.model.prms.ext.AuditModelExt;
 import bss.model.prms.ext.Extension;
+import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
+import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
+import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierService;
 
 @Controller
 @RequestMapping("reviewFirstAudit")
@@ -45,6 +57,16 @@ public class ReviewFirstAuditController {
 	private FirstAuditService firstAuditService;//初审项
 	@Autowired
 	private SaleTenderService saleTenderService;//供应商查询
+	@Autowired
+	private AduitQuotaService aduitQuotaService;//评分查询
+	@Autowired
+	private ScoreModelService scoreModelService;//模型关联查询
+	@Autowired
+	private MarkTermService markTermService;//评分项查询
+	@Autowired
+	private ExpertService expertService;//评分项查询
+	@Autowired
+	private SupplierService supplierService;//供应商查询
 
 	/**
 	 * 
@@ -131,53 +153,90 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("toGrade")
 	public String toGrade(String projectId,String packageId,Model model,HttpSession session){
-		//创建封装的实体
-		Extension extension = new Extension();
-		HashMap<String ,Object> map = new HashMap<>();
-		map.put("projectId", projectId);
-		map.put("id", packageId);
-		//查询包信息
-		List<Packages> list = packageService.findPackageById(map);
-		if(list!=null && list.size()>0){
-			Packages packages = list.get(0);
-			//放入包信息
-			extension.setPackageId(packages.getId());
-			extension.setPackageName(packages.getName());
-		}
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
+		String expertId = user.getTypeId();
+		Expert expert = expertService.selectByPrimaryKey(expertId);
 		//查询项目信息
 		Project project = projectService.selectById(projectId);
-		if(project!=null){
-			//放入项目信息
-			extension.setProjectId(project.getId());
-			extension.setProjectName(project.getName());
-			extension.setProjectCode(project.getProjectNumber());
+		HashMap<String, Object> map2 = new HashMap<>();
+		map2.put("id", packageId);
+		//查询包信息
+		List<Packages> packages = packageService.findPackageById(map2 );
+		if(packages!=null && packages.size()>0){
+			model.addAttribute("pack", packages.get(0));
 		}
-		
-		//查询改包下的初审项信息
-		Map<String,Object> map2 = new HashMap<>();
-		map2.put("projectId", projectId);
-		map2.put("packageId", packageId);
-		//查询出该包下的初审项id集合
-		List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
-		//创建初审项的集合
-		List<FirstAudit> firstAuditList = new ArrayList<>();
-		if(packageAuditList!=null && packageAuditList.size()>0){
-			for (PackageFirstAudit packageFirst : packageAuditList) {
-				//根据初审项的id 查询出初审项的信息放入集合
-				FirstAudit firstAudit = firstAuditService.get(packageFirst.getFirstAuditId());
-				firstAuditList.add(firstAudit);
-			}
-		}
-	    //放入初审项集合
-		extension.setFirstAuditList(firstAuditList);
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectId", projectId);
+		map.put("packageId", packageId);
+		if(expert.getExpertsTypeId().equals("1") || expert.getExpertsTypeId().equals("3"))
+		map.put("typeName",expert.getExpertsTypeId());
+		//查询评分信息
+		List<AuditModelExt> findAllByMap = aduitQuotaService.findAllByMap(map);
+		removeAuditModelExt(findAllByMap);
+		model.addAttribute("list", findAllByMap);
 		//查询供应商信息
-		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
-		extension.setSupplierList(supplierList);
-		
-		//把封装的实体放入域中
-		model.addAttribute("extension", extension);
+		List<Supplier> supplierList = new ArrayList<>();
+		Map<String,Object> supplierMap = new HashMap<>();
+		supplierMap.put("projectId", projectId);
+		supplierMap.put("packageId", packageId);
+		if(findAllByMap!=null && findAllByMap.size()>0){
+			for (AuditModelExt auditModelExt : findAllByMap) {
+				supplierMap.put("supplierId", auditModelExt.getSupplierId());
+				List<ReviewFirstAudit> list = service.selectList(supplierMap);
+				if(list!=null && list.size()>0){
+					//如果有一项不合格 那么就不参加评分
+					int flag = 0;
+					for (ReviewFirstAudit reviewFirstAudit : list) {
+						if(reviewFirstAudit.getIsPass()==1){
+							//证明有不合格的数据
+							flag=1;
+							break;
+						}
+					}
+					if(flag==0){
+						//List<SaleTender> list2 = saleTenderService.list(new SaleTender(auditModelExt.getSupplierId()), 0);
+						Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
+						supplierList.add(supplier);
+					}
+				}
+			}
+		}	
+		//去重复
+		removeSupplier(supplierList);
+		model.addAttribute("supplierList", supplierList);
+		model.addAttribute("project", project);
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("packageId", packageId);
 		return "bss/prms/audit/review_first_grade";
 	}
+	/**
+	 * 
+	  * @Title: removeDuplicate
+	  * @author ShaoYangYang
+	  * @date 2016年11月16日 下午3:31:52  
+	  * @Description: TODO 去重复
+	  * @param @param list      
+	  * @return void
+	 */
+	private static void removeSupplier(List<Supplier> list)   { 
+	   for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+	    for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+	      if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
+	        list.remove(j); 
+	      } 
+	    } 
+	  } 
+	} 
+	private static void removeAuditModelExt(List<AuditModelExt> list)   { 
+		for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+			for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+				if  (list.get(j).getScoreModelId(). equals(list.get(i).getScoreModelId()))   { 
+					list.remove(j); 
+				} 
+			} 
+		} 
+	} 
 	/**
 	 * 
 	  * @Title: add

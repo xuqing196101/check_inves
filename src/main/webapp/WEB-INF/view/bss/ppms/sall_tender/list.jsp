@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -240,23 +241,31 @@
 						<td class="tc opinter"><input onclick="check()"
 							type="checkbox" name="chkItem"
 							value="${sale.id}^${sale.statusBond}^${sale.statusBid}" /></td>
-						<%-- //${(vs.index+1)+(list.pageNum-1)*(list.pageSize)} --%>
-						<td class="tc opinter" onclick="view('${templet.id}')">${sale.suppliers.supplierName}</td>
+						<td class="tc opinter w200" onclick="view('${templet.id}')" title="${sale.suppliers.supplierName}">
+						  <c:choose>
+                                <c:when test="${fn:length(sale.suppliers.supplierName) > 12}">  
+                                                      ${fn:substring(sale.suppliers.supplierName, 0, 10)}......
+                                </c:when>
+                                <c:otherwise>  
+                                          ${sale.suppliers.supplierName}
+                                </c:otherwise>
+                           </c:choose>
+						
+						</td>
 
-						<td class="tc opinter">${sale.suppliers.contactName}</td>
+						<td class="tc opinter w100">${sale.suppliers.contactName}</td>
 
-						<td class="tc opinter">${sale.suppliers.contactTelephone}</td>
+						<td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>
 
-						<%--                               <td class="tc opinter" >${sale.user.relName} </td> --%>
-						<td class="tc opinter"><fmt:formatDate
+						<td class="tc opinter w150"><fmt:formatDate
 								value='${sale.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' /></td>
-						<%--                               <td class="tc opinter" onclick="view('${templet.id}')"></td> --%>
-						<td class="tc opinter"><c:if test="${sale.statusBid==1}">
+								
+						<td class="tc opinter w60"><c:if test="${sale.statusBid==1}">
                                 未缴纳
                                 </c:if> <c:if test="${sale.statusBid==2}">
                                 已缴纳
                                 </c:if></td>
-						<td class="tc opinter"><c:if test="${sale.statusBond==1}">
+						<td class="tc opinter w75"><c:if test="${sale.statusBond==1}">
                                 未缴纳
                                 </c:if> <c:if test="${sale.statusBond==2}">
                                 已缴纳

@@ -66,31 +66,29 @@
     <div class="container container_box"> 
 	<form action="${ pageContext.request.contextPath }/park/save.html" method="post">  
     <div>	    
-	   	<h2 class="count_flow"><i>1</i>新增版块</h2>
+	   	<h2 class="count_flow">新增版块</h2>
 	   
 	   <ul class="ul_list mb20">
 	   		  
 	   		 <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div> 版块名称：</span>
+			   <span class="col-md-12 padding-left-5 "><div class="red star_red">*</div> 版块名称：</span>
 			   <div class="input-append">
 		        <input class="span5" name="name" type="text" value = '${park.name}'>
 		        <span class="add-on">i</span>
-		        <div class="validate">${ERR_name}</div>
+		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5 h30"> 版主：</span>
+			   <span class="col-md-12 padding-left-5 "> 版主：</span>
 			    	<select id="user"  class="w230" onchange="change(this.options[this.selectedIndex].value)"></select> 
 			 </li>
 			
              <input  type ="hidden" id="userId" name="userId"></input>
              
              <li class="col-md-11 margin-0 padding-0 ">
-	   			<span class="col-md-12 padding-left-5"> 版块介绍：</span>
-	   			<div class="">
+	   			<span class="col-md-12 padding-left-5 "> 版块介绍：</span>
         			<textarea class="col-md-12 h130" title="不超过800个字" name="content">${park.content}</textarea>
-       			</div>
 	 		</li> 
 	 
 			

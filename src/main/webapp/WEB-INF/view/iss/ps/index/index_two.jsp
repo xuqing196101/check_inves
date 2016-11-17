@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -48,11 +47,11 @@ $(function(){
    </div>
   <div class="container content job-content ">
           <div class="col-md-12  border1 p20_20">
-                <ul class="categories li_square p0">
-                <li>
-                   <div class="col-md-6 tc f16 b">标题</div>
+            <h2 class="col-md-12">
+          		<div class="col-md-6 tc f16 b">标题</div>
                    <div class="fr b mr25 f16">发布时间</div>
-                  </li>
+             </h2>
+                <ul class="categories li_square">
                 <c:forEach items="${indexList}" var="i">
                   <li>
                    <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>

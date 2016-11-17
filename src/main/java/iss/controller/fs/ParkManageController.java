@@ -318,8 +318,10 @@ public class ParkManageController extends BaseSupplierController {
 			BigDecimal postcount = postService.queryByCount(post);
 			park.setPostcount(postcount);
 			//筛选热门版块
-			if(park.getIsHot() == 1){
-				hotParks.add(park);
+			if(park.getIsHot() != null&&!(park.getIsHot().equals(""))){
+				if(park.getIsHot() == 1){
+					hotParks.add(park);
+				}
 			}
 		}
 

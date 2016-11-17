@@ -31,7 +31,7 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
      	<div>
-	   		<h2 class="count_flow"><i>1</i>主题详情</h2>
+	   		<h2 class="count_flow">主题详情</h2>
 	   <ul class="ul_list mb20">
 	   		  
 	   		   <li class="col-md-3 margin-0 padding-0">

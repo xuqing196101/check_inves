@@ -1988,9 +1988,9 @@ img.img-mouse {
 
 /*�¼���ʽ*/
 /*�ֲ�ͼ��ʽ*/
-.section-focus-pic{margin:0px auto 0 auto;height:284px;width:100%;overflow:hidden;position:relative;}
-.section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:284px;list-style-type:none;}
-.section-focus-pic .pages{width:100%;height:284px;}
+.section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
+.section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:354px;list-style-type:none;}
+.section-focus-pic .pages{width:100%;height:354px;}
 .section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"΢���ź�";}
 .section-focus-pic ul li div{position:absolute;bottom:0;left:0;height:50px;background-color:#000;width:100%;opacity: 0.6;filter: alpha(opacity=60);}
 .section-focus-pic .controler{position:absolute;bottom:20px;right:20px;}

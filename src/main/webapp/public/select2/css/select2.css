@@ -28,7 +28,7 @@ Version: 3.5.3 Timestamp: Wed Aug 19 21:55:46 EDT 2015
     overflow: hidden;
     position: relative;
     border: 1px solid #ccc;
-    padding: 4px 3px;
+    padding: 0px 3px;
     white-space: nowrap;
     line-height:30px;
     text-decoration: none;
@@ -48,9 +48,7 @@ html[dir="rtl"] .select2-container .select2-choice {
 
 .select2-container.select2-drop-above .select2-choice {
     border-bottom-color: #aaa;
-
     border-radius: 0 0 4px 4px;
-
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(0.9, #fff));
     background-image: -webkit-linear-gradient(center bottom, #eee 0%, #fff 90%);
     background-image: -moz-linear-gradient(center bottom, #eee 0%, #fff 90%);
@@ -66,9 +64,7 @@ html[dir="rtl"] .select2-container .select2-choice {
     margin-right: 26px;
     display: block;
     overflow: hidden;
-
     white-space: nowrap;
-
     text-overflow: ellipsis;
     float: none;
     width: auto;
@@ -86,10 +82,8 @@ html[dir="rtl"] .select2-container .select2-choice > .select2-chosen {
     position: absolute;
     right: 24px;
     top: 8px;
-
     font-size: 1px;
     text-decoration: none;
-
     border: 0;
     background: url('select2.png') right top no-repeat;
     cursor: pointer;

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -60,52 +61,55 @@
    </div>
    <!-- 新增页面开始 -->
      <div class="container container_box">
-    <form action="${ pageContext.request.contextPath }/post/update.html" method="post" enctype="multipart/form-data">  
+    <form action="${ pageContext.request.contextPath }/post/update.html" method="post" >  
       <input type="hidden" id="ids" name="ids"/>
     <div>
 
-	   		<h2 class="count_flow"><i>1</i>修改帖子</h2>
+	   		<h2 class="count_flow">修改帖子</h2>
 
 	    <input  name ="postId" type="hidden" value = '${post.id}'>
-	   <ul class="ul_list mb20">
-	   		  
+	   <ul class="ul_list mb20">	   		  
 	   		  <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
 			   <div class="input-append">
 		        <input class="span2 w200"  type="text" name = "name" value='${post.name }'>
 		        <span class="add-on">i</span>
-		        <div class="validate">${ERR_name}</div>
+		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 margin-0 padding-0">			 
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
-			   <div class="mb5">
+			   <div class="select_common">
+
 			    <select id ="parks"name ="parkId" class="w220" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
+
+	  			<div class="cue">${ERR_park}</div>
 	  			</div>
-	  			<div class="validate">${ERR_park}</div>
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
-			   	<div class="mb5">				 	
+			   <div class="select_common">
+			 	
 	        	<select id="topics" name="topicId" class="w220 ">
 	        	<option></option>
 	        		<c:forEach items="${topics}" var="topic">
 			  	  		<option  value="${topic.id}">${topic.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
+
+	  			<div class="cue">${ERR_topic}</div>
 	  			</div>
-	  			<div class="validate">${ERR_topic}</div>
 			 </li>
 			 
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5">置顶：</span>
-			    <div class="mb5">	
+			    <div class="select_common">	
 			   	<select id="isTop" name="isTop" class="w220 ">
 	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
@@ -114,7 +118,7 @@
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5 ">锁定：</span>
-			    <div class="mb5">	
+			    <div class="select_common">	
 			   	<select id="isLocking" name="isLocking" class="w220 ">
 	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
@@ -126,11 +130,11 @@
 	  			<div class="mb5">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        			</div>
-       			<div class="validate">${ERR_content}</div>
+       			<div class="cue">${ERR_content}</div>
 			 </li>
 			 <li class="col-md-12 p0">
                <span class="zzzx w245">上传附件：</span>
-                  <up:upload id="post_attach_up"  businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
 			 
@@ -161,7 +165,7 @@
 
         }
     var ue = UE.getEditor('editor',option);
-    var content="${post.content}";
+    var content='${post.content}';
     ue.ready(function(){
         ue.setContent(content);    
         //ue.setDisabled([]);

@@ -275,4 +275,16 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		return map;
 	}
+	/**
+     * @Title: selectByPrimaryKey
+     * @author: Wang Zhaohua
+     * @date: 2016-9-1 下午3:39:27
+     * @Description: 根据主键获取一条数据库记录
+     * @param: @param id
+     * @param: @return
+     * @return: SupplierInfo
+     */
+   public Supplier selectById(String id){
+    	return supplierMapper.selectByPrimaryKey(id);
+    }
 }
