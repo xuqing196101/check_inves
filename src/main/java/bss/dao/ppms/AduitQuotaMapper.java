@@ -1,8 +1,10 @@
 package bss.dao.ppms;
 
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.AduitQuota;
+import bss.model.prms.ext.AuditModelExt;
 
 /**
  * 版权：(C) 版权所有 
@@ -56,5 +58,16 @@ public interface AduitQuotaMapper {
      * @return 对象集合
      */
     List<AduitQuota> findList(AduitQuota record);
+    /**
+     * 
+      * @Title: findAllByMap
+      * @author ShaoYangYang
+      * @date 2016年11月15日 下午7:05:15  
+      * @Description: TODO 表连接查询评分需要的数据
+      * @param @param map
+      * @param @return      
+      * @return List<AuditModelExt>
+     */
+    List<AuditModelExt> findAllByMap(Map<String,Object> map);
 
 }

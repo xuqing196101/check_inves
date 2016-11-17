@@ -86,7 +86,7 @@
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">个人首页</a></li><li><a href="#">项目评审</a></li><li><a href="#">供应商信息</a></li>
+           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">个人首页</a></li><li><a href="javascript:void(0)">项目评审</a></li><li><a href="javascript:void(0)">供应商信息</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -100,10 +100,10 @@
    </div> 
    <div class="container clear margin-top-30">
    <span class="fr option_btn margin-top-10">
-   	  <c:if test="${packageExpert.isAudit == 1 }">
+   	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">专家评分</button>
    	  </c:if>
-   	   <c:if test="${packageExpert.isAudit != 1 }">
+   	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
    	  </c:if>
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->

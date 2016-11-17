@@ -240,8 +240,12 @@ public class PackageExpertController {
 			packageExpert.setExpertId(expertId);
 			//评审状态 未评审
 			packageExpert.setIsAudit((short) 0);
-			//是否汇总 未汇总
+			//初审是否汇总 未汇总
 			packageExpert.setIsGather((short) 0);
+			//是否评分
+			packageExpert.setIsGrade((short) 0);
+			//评分是否汇总
+			packageExpert.setIsGatherGather((short) 0);
 			//判断组长id是否和选择的专家id一致，如果一致就设定为组长
 			if(groupId.equals(expertId)){
 				packageExpert.setIsGroupLeader((short) 1);
@@ -306,7 +310,7 @@ public class PackageExpertController {
 	  * @Title: isBack
 	  * @author ShaoYangYang
 	  * @date 2016年10月27日 下午8:13:46  
-	  * @Description: TODO 退回
+	  * @Description: TODO 初审退回
 	  * @param @param projectId 
 	  * @param @param packageId
 	  * @param @param expertId      
@@ -324,9 +328,25 @@ public class PackageExpertController {
 			List<PackageExpert> selectList = service.selectList(map);
 			if(selectList!= null && selectList.size()>0){
 				PackageExpert packageExpert = selectList.get(0);
-				if(packageExpert.getIsAudit()!=1){
+				//必须是已评审 但未评分的数据才能退回
+				if(packageExpert.getIsAudit() != 1 || packageExpert.getIsGrade() == 1){
+					
 				  response.getWriter().print("0");
 				}else{
+					//初审结果集合
+					List<ReviewFirstAudit> reviewFIrstAuditList = reviewFirstAuditService.selectList(map);
+					//判断是否全部通过，如果全部通过则不允许退回
+					int count=0;
+					for (ReviewFirstAudit reviewFirstAudit : reviewFIrstAuditList) {
+						//为1 证明有不合格数据
+						if(reviewFirstAudit.getIsPass()==1){
+							count++;
+						}
+					}
+					if(count==0){
+						response.getWriter().print("0");
+						return;
+					}
 					//查询是否已评审
 					Map<String,Object> map2 = new HashMap<String,Object>();
 					map2.put("packageId", record.getPackageId());
@@ -353,12 +373,15 @@ public class PackageExpertController {
 										 double endFirst = firstAuditProgress-firstProgress;
 										 //退回后的初审进度
 										 progress.setFirstAuditProgress(endFirst);
+										  //初审退回 评分进度清空 重新评分
+										  //progress.setScoreProgress((double) 0.0);
 										  //总进度比例
 										  double totalProgress = (firstProgress+progress.getScoreProgress())/2;
 										  //当前总进度
 										  Double totalProgress2 = progress.getTotalProgress();
 										  //计算退回之后的总进度
 										  progress.setTotalProgress(totalProgress2-totalProgress);
+										
 										  //修改
 										  reviewProgressService.updateByPrimaryKeySelective(progress);
 									  }
@@ -377,7 +400,95 @@ public class PackageExpertController {
 		}
 		
 	}
-	
+	/**
+	 * 
+	  * @Title: isBackScore
+	  * @author ShaoYangYang
+	  * @date 2016年10月27日 下午8:13:46  
+	  * @Description: TODO 评分退回
+	  * @param @param projectId 
+	  * @param @param packageId
+	  * @param @param expertId      
+	  * @return void
+	 */
+	@RequestMapping("isBackScore")
+	@ResponseBody
+	public void isBackScore(PackageExpert record,HttpServletResponse response){
+		try {
+			//查询是否已评审
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("expertId", record.getExpertId());
+			map.put("packageId", record.getPackageId());
+			map.put("projectId", record.getProjectId());
+			List<PackageExpert> selectList = service.selectList(map);
+			if(selectList!= null && selectList.size()>0){
+				PackageExpert packageExpert = selectList.get(0);
+				//必须是已评审 已评分的数据才能退回
+				if(packageExpert.getIsAudit() == 1 && packageExpert.getIsGrade() == 0){
+					//初审结果集合
+					//List<ReviewFirstAudit> reviewFIrstAuditList = reviewFirstAuditService.selectList(map);
+					//判断是否全部通过，如果全部通过则不允许退回
+					/*for (ReviewFirstAudit reviewFirstAudit : reviewFIrstAuditList) {
+						//为1 证明有不合格数据
+						if(reviewFirstAudit.getIsPass()==1){
+							 response.getWriter().print("0");
+						}
+					}*/
+				  response.getWriter().print("0");
+				}else{
+					//查询是否已评分
+					Map<String,Object> map2 = new HashMap<String,Object>();
+					map2.put("packageId", record.getPackageId());
+					map2.put("projectId", record.getProjectId());
+					//该专家下的审核项目关联集合
+					  List<PackageExpert> packageExpertList = packageExpertService.selectList(map2);
+					  //判断是否为全部已评审状态
+					  for (PackageExpert packageExpert2 : packageExpertList) {
+						if(packageExpert2.getIsGrade()==1){
+								//查询改项目的进度信息
+								  List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
+								  //更新项目进度
+								  if(reviewProgressList!=null && reviewProgressList.size()>0){
+									  ReviewProgress progress = reviewProgressList.get(0);
+									  //修改进度
+									  if(packageExpertList!=null&& packageExpertList.size()>0){
+										  //计算当前专家占用的进度比重
+										  double score =  1/(double)packageExpertList.size();
+										  BigDecimal b = new BigDecimal(score); 
+										  double scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+										  //计算退回后的初审进度
+										  Double ScoreAuditProgress = progress.getScoreProgress();
+										  //最终进度
+										 double endScore = ScoreAuditProgress-scoreProgress;
+										 //退回后的初审进度
+										 progress.setScoreProgress(endScore);
+										  //初审退回 评分进度清空 重新评分
+										  //progress.setScoreProgress((double) 0.0);
+										  //总进度比例
+										  double totalProgress = (scoreProgress+progress.getFirstAuditProgress())/2;
+										  //当前总进度
+										  Double totalProgress2 = progress.getTotalProgress();
+										  //计算退回之后的总进度
+										  progress.setTotalProgress(totalProgress2-totalProgress);
+										
+										  //修改
+										  reviewProgressService.updateByPrimaryKeySelective(progress);
+									  }
+								  }
+						}
+					}
+					Short flag = 0;
+					record.setIsGrade(flag);
+					record.setIsGatherGather(flag);
+					service.updateByBean(record);
+					response.getWriter().print("1");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	 /**
 	   * 
 	    * @Title: supplierQuote

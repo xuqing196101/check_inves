@@ -82,4 +82,28 @@ public interface ReviewProgressService {
       * @return List<ReviewProgress>
      */
     List<ReviewProgress> selectByMap(Map<String,Object> map);
+    /**
+     * 
+      * @Title: saveProgress
+      * @author ShaoYangYang
+      * @date 2016年11月16日 下午5:59:01  
+      * @Description: TODO 保存初审信息 更新初审进度
+      * @param @param projectId
+      * @param @param packageId
+      * @param @param expertId      
+      * @return void
+     */
+    void saveProgress(String projectId,String packageId,String expertId);
+    /**
+     * 
+     * @Title: saveGrade
+     * @author ShaoYangYang
+     * @date 2016年11月16日 下午5:59:01  
+     * @Description: TODO 保存评分信息 更新评分进度
+     * @param @param projectId
+     * @param @param packageId
+     * @param @param expertId      
+     * @return void
+     */
+    void saveGrade(String projectId,String packageId,String expertId);
 }
