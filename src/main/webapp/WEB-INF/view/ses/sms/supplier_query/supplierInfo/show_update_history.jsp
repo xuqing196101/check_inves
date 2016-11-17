@@ -8,30 +8,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <script type="text/javascript">
-function reason(id){
-  var supplierId=$("#id").val();
-  var id1=id+"1";
-  var id2=id+"2";
-  var id3=id+"3";
-  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
-  var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
-  var auditType=$("#essential").text(); //审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-        type:"post",
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
-      });
-  $("#"+id1+"").hide();
-  layer.msg("审核不通过的理由是："+text);    
-/*    $("input[name='auditType']").val(auditType);
-   $("input[name='auditField']").val(auditField);
-   $("input[name='auditContent']").val(auditContent);
-   $("input[name='suggest']").val(text);
-    
-   $("#save_reaeon").submit(); */
-    });
-}
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -71,16 +47,9 @@ function tijiao(str){
   $("#form_id").submit();
 }
 function yincang(){
-	$("div").removeClass("disNon");
+	$("div").removeClass("dnone");
 }
-
-
 </script>
-<style type="text/css">
-.disNon{
-	display: none;
-}
-</style>
 </head>
   
 <body>
@@ -111,7 +80,7 @@ function yincang(){
             <li class=""><a aria-expanded="true"  class="f18" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
             <li class=""><a aria-expanded="false" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
             <li class=""><a aria-expanded="fale" class="f18"  href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-           <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+            <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
             <li class=""><a aria-expanded="fale" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
              <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
@@ -129,69 +98,93 @@ function yincang(){
             <li class="active"><a aria-expanded="false"  class="f18" href="#tab-2" data-toggle="tab" onclick="tijiao('updateHistory');">历史修改记录</a></li>
           </ul>
           <div class="padding-top-20"></div>
-                  <form id="form_id" action="" method="post">
-                    <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-                  </form> 
+          <form id="form_id" action="" method="post">
+            <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+          </form> 
+          <c:if test="${not empty list }">
            <c:forEach items="${list }" var="record" varStatus="vs">
-                <c:if test="${vs.index<5 }">
-                <div class=" margin-bottom-0">
+             <c:if test="${vs.index<5 }">
+              <div class=" margin-bottom-0">
                 <div class="tml_container padding-top-10">
 				  <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="history_icon">修改记录</h2>
-				        <div class="padding-left-40">
-				          <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
-				 		  <span> ${fn:replace(records,"null", " ")}  </span>
-					    </div>
-                     </div>
-				  </div>
-				  <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				  <div class="clear"></div>
-				 </div>
+					  <div class="tml_spine">
+						<span class="tml_spine_bg"></span>
+						<span id="timeline_start_point" class="start_point"></span>
+					  </div>
+					  <div class="tml_poster" id="post_area" >
+					       <div class="poster" id="poster_1">
+		                     <div class=" margin-bottom-0">
+		                       <h2 class="history_icon">修改记录</h2>
+						        <div class="padding-left-40">
+						          <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
+						 		  <span> ${fn:replace(records,"null", " ")}  </span>
+							    </div>
+		                     </div>
+					       </div>
+						   <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
+						   <span class="ui_left_arrow"><span class="ui_arrow"></span></span>
+						   <div class="clear"></div>
+					  </div>
+                  </div>
                 </div>
-               </div>
 			  </div>
-			  </c:if>
-			  <c:if test="${vs.index==5}">
-			  		<span class="hand" onclick="yincang()"><b>点击更多...</b></span>
-			  </c:if>
+			 </c:if>
+			 <c:if test="${vs.index==5}">
+			  	<span class="hand" onclick="yincang()"><b>点击更多...</b></span>
+			 </c:if>
 			  <c:if test="${vs.index>4}">
-			  <div  class="disNon margin-bottom-0" >
-                <div  class="tml_container padding-top-10">
-				  <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					<span id="timeline_start_point" class="start_point"></span>
+				  <div  class="dnone margin-bottom-0" >
+	                <div  class="tml_container padding-top-10">
+					  <div class="dingwei">
+						  <div class="tml_spine">
+							<span class="tml_spine_bg"></span>
+							<span id="timeline_start_point" class="start_point"></span>
+						  </div>
+						  <div class="tml_poster" id="post_area" >
+							  <div class="poster" id="poster_1">
+			                     <div class=" margin-bottom-0">
+			                       <h2 class="history_icon">修改记录</h2>
+							        <div class="padding-left-40">
+							 		  <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
+							 		  <span> ${fn:replace(records,"null", " ")}  </span>
+								    </div>
+			                     </div>
+							  </div>
+							  <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
+							  <span class="ui_left_arrow"><span class="ui_arrow"></span></span>
+							  <div class="clear"></div>
+					      </div>
+	                  </div>
+	                </div>
 				  </div>
-				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="history_icon">修改记录</h2>
-				        <div class="padding-left-40">
-				 		 <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
-				 		  <span> ${fn:replace(records,"null", " ")}  </span>
-						  
-					    </div>
-                     </div>
-				  </div>
-				  <div class="period_header"><span>${fn:substringAfter(record, "^-^")}  </span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				  <div class="clear"></div>
-				 </div>
-                </div>
-               </div>
-			  </div>
 			  </c:if>
          </c:forEach>
+         </c:if> 
+         <c:if test="${empty list }">
+         	<div class=" margin-bottom-0">
+                <div class="tml_container padding-top-10">
+				  <div class="dingwei">
+					  <div class="tml_spine">
+						<span class="tml_spine_bg"></span>
+						<span id="timeline_start_point" class="start_point"></span>
+					  </div>
+					  <div class="tml_poster" id="post_area" >
+					       <div class="poster" id="poster_1">
+		                     <div class=" margin-bottom-0">
+		                       <h2 class="history_icon">修改记录</h2>
+						        <div class="padding-left-40">
+						 		  <span>暂无修改记录 </span>
+							    </div>
+		                     </div>
+					       </div>
+						   <div class="period_header"><span>  </span></div>
+						   <span class="ui_left_arrow"><span class="ui_arrow"></span></span>
+						   <div class="clear"></div>
+					  </div>
+                  </div>
+                </div>
+			  </div>
+         </c:if> 
 </div>
 </div>
 </body>

@@ -72,7 +72,7 @@ function reason(ele){
             <div class="tab-content padding-top-20">
               <div class="tab-pane fade active in height-450" id="tab-1">
                 <div class=" margin-bottom-0">
-					        <h2 class="count_flow"><i>01</i>企业基本信息</h2>
+					        <h2 class="count_flow"><i>1</i>企业基本信息</h2>
 					        <ul class="ul_list">
 					          <li class="col-md-3 margin-0 padding-0 "><span class="" id="supplierName2">供应商名称：</span>
 					            <div class="input-append">
@@ -164,28 +164,24 @@ function reason(ele){
 					            </div>
 					          </li>
 					        </ul>
-					       <h2 class="count_flow"><i>02</i>资质资信</h2>
+					       <h2 class="count_flow"><i>2</i>资质资信</h2>
 		                  <ul class="ul_list hand">
 		                     <li id="tax_li_id" class="col-md-3 margin-0 padding-0"><span class="hand">近三个月完税凭证：</span>
-								<up:upload id="taxcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
-								<up:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,auditopinion_show,auditopinion_show" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+								<up:show showId="taxcert_show" delete="flase"  groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,auditopinion_show,auditopinion_show" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
 							</li>
 							<li id="bill_li_id" class="col-md-3 margin-0 padding-0 "><span class="hand">近三年银行基本账户年末对账单：</span>
-								<up:upload id="billcert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
-								<up:show showId="billcert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+								<up:show showId="billcert_show" delete="flase" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
 							</li>
 							<li id="security_li_id" class="col-md-3 margin-0 padding-0 "><span class="hand">近三个月缴纳社会保险金凭证：</span>
-								<up:upload id="curitycert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
-								<up:show showId="curitycert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+								<up:show showId="curitycert_show" delete="flase" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
 							</li>
 							<li id="breach_li_id" class="col-md-3 margin-0 padding-0 "><span class="hand">近三年内无重大违法记录声明：</span>
-								<up:upload id="bearchcert_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
-								<up:show showId="bearchcert_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+								<up:show showId="bearchcert_show" delete="flase" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
 							</li>
 		                  </ul>
 					      
 					      
-					       <h2 class="count_flow"><i>03</i>法人代表人信息 </h2>
+					       <h2 class="count_flow"><i>3</i>法人代表人信息 </h2>
 					       <ul class="ul_list">
 											<li class="col-md-3 margin-0 padding-0 "><span class=""> 姓名：</span>
 												<div class="input-append">
@@ -233,7 +229,7 @@ function reason(ele){
 											</li>
 										</ul>
 					      
-					        <h2 class="count_flow"> <i>04</i>联系人信息</h2>
+					        <h2 class="count_flow"> <i>4</i>联系人信息</h2>
 					        <ul class="ul_list">
 					          <li class="col-md-3 margin-0 padding-0  "><span class="" id="contactName2">姓名：</span>
 					            <div class="input-append">
@@ -303,7 +299,7 @@ function reason(ele){
 					          </li>
 					        </ul>
 					      
-					    <h2 class="count_flow"><i>05</i>营业执照</h2>
+					    <h2 class="count_flow"><i>5</i>营业执照</h2>
 						<ul class="ul_list">
 							<li class="col-md-3 margin-0 padding-0 "><span class=""> 统一社会信用代码：</span>
 								<div class="input-append">
@@ -386,8 +382,7 @@ function reason(ele){
 								</div>
 							</li>
 							 <li id="breach_li_id" class="col-md-3 margin-0 padding-0 "><span class="hand">营业执照：</span>
-								<up:upload id="business_up" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
-								<up:show showId="business_show" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}"/>
+								<up:show showId="business_show" delete="flase" groups="" businessId="${supplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}"/>
 							</li>
 							<li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5">经营范围：</span>
 								<div class="col-md-9 mt5">
@@ -404,7 +399,7 @@ function reason(ele){
 								<div class="clear"></div></li>
 						</ul>
 						</div>
-						<h2 class="count_flow"><i>06</i>境外分支</h2>
+						<h2 class="count_flow"><i>6</i>境外分支</h2>
 						<ul class="ul_list">
 							<li class="col-md-3 margin-0 padding-0 "><span class=""> 境外分支结构：</span>
 									<div class="input-append">

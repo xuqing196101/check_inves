@@ -330,7 +330,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
+             url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId=''",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.User;
 import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
 import ses.service.sms.SupplierQuoteService;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -30,6 +31,7 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 
 import com.github.pagehelper.PageInfo;
 /**
@@ -49,6 +51,8 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     @Autowired
     private ProjectDetailService detailService;
     
+    @Autowired
+    private SaleTenderService saleTenderService;
 	
     @Autowired
     private ProjectService projectService;
@@ -67,12 +71,11 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @return String
      */
 	@RequestMapping(value="/list")
-	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model,String projectId){
+	public String list(HttpServletRequest req,Model model,String projectId){
 		Quote quote=new Quote();
-		//暂时测试，这样就不用新建一条数据
-		//quote.setProjectId("F12FD6D99F02453C83F5A23A0064094D");
+		User user=(User)req.getSession().getAttribute("loginUser");
 		quote.setProjectId(projectId);
-	    //quote.setSupplierId(supplierId);
+	    quote.setSupplierId(user.getTypeId());
 		List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("projectId", projectId);
@@ -81,7 +84,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		    List<List<ProjectDetail>> listPd=new ArrayList<List<ProjectDetail>>();
 		    for(Packages pk:listPackage){
 		    	map.put("packageId", pk.getId());
-		    	List<ProjectDetail> detailList = detailService.selectByCondition(map,page==null?0:page);
+		    	List<ProjectDetail> detailList = detailService.selectByCondition(map,null);
 		    	listPd.add(detailList);
 		    }
 		    model.addAttribute("listPd",listPd );
@@ -165,8 +168,20 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	    		listQuote.add(qt);
 	    	}
 	    }
-		supplierQuoteService.insert(listQuote);
-		return "redirect:finish.html?projectId="+quote.getProjectId();
+	    try {
+			supplierQuoteService.insert(listQuote);
+			//修改状态
+			SaleTender saleTender = new SaleTender();
+			saleTender.setProjectId(quote.getProjectId());
+			saleTender.setSupplierId(user.getTypeId());
+			List<SaleTender> sts = saleTenderService.find(saleTender);
+			SaleTender std = sts.get(0);
+			std.setBidFinish((short)3);
+			saleTenderService.update(std);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:supplierProject/bidIndex.html?projectId="+quote.getProjectId();
 	}
 	
 	/**

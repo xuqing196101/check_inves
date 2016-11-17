@@ -75,11 +75,7 @@ function fanhui(){
 	}
 }
 </script>
-<style type="text/css">
-
-</style>
 </head>
-  
 <body>
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -93,7 +89,9 @@ function fanhui(){
   <div class="container clear mt10">
    <div class="container">
    <div class="col-md-12">
+   <c:if test="${empty person }">
 	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</c:if>
 	</div>
     </div>
   <!--详情开始-->
@@ -228,16 +226,7 @@ function fanhui(){
 			                  <td class="bggrey">法定代表人姓名：</td>
 			                  <td>${suppliers.legalName}</td>
 			                  <td class="bggrey ">身份证号：</td>
-			                  <td onmouseover="out('${suppliers.legalIdCard }')">
-                                <c:choose>
-                                    <c:when test="${fn:length(suppliers.legalIdCard)>10}">
-                                    ${fn:substring(suppliers.legalIdCard,0,10)}...
-                                    </c:when>
-                                    <c:otherwise>
-                                    ${suppliers.legalIdCard}
-                                    </c:otherwise>
-                                </c:choose>
-                              </td>
+			                  <td>${suppliers.legalIdCard}</td>
 			                  <td class="bggrey ">固定电话：</td>
 			                  <td>${suppliers.legalTelephone}</td>
 			                 </tr>			

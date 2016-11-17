@@ -6,46 +6,49 @@
 <html>
 <head>
 <script type="text/javascript">
-	  	  $(function(){
-		  laypage({
-			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${listSupplier.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    total: "${listSupplier.total}",
-			    startRow: "${listSupplier.startRow}",
-			    endRow: "${listSupplier.endRow}",
-			    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
-			        }
-			    }
-			});
-	  });
+ $(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${listSupplier.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    total: "${listSupplier.total}",
+		    startRow: "${listSupplier.startRow}",
+		    endRow: "${listSupplier.endRow}",
+		    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		             location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
+		        }
+		    }
+		});
+  });
+  
 	  function fanhui(){
 	  	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html"
 	  }
-function chongzhi(){
-	$("#supplierName").val('');
-	$("#startDate").val('');
-	$("#endDate").val('');
-	$("#contactName").val('');
-	$("option")[0].selected = true;
-	$("#categoryIds").val('');
-	$("#supplierTypeIds").val('');
-	$("#category").val('');
-	$("#supplierType").val('');
-	  var address='${address}';
-	  address=encodeURI(address);
-      address=encodeURI(address);
-	window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address;
-}
-$(function() {
+  
+	function chongzhi(){
+		$("#supplierName").val('');
+		$("#startDate").val('');
+		$("#endDate").val('');
+		$("#contactName").val('');
+		$("option")[0].selected = true;
+		$("#categoryIds").val('');
+		$("#supplierTypeIds").val('');
+		$("#category").val('');
+		$("#supplierType").val('');
+		  var address='${address}';
+		  address=encodeURI(address);
+	      address=encodeURI(address);
+		window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address;
+	}
+	
+     $(function() {
 		var optionNodes = $("option");
 		for ( var i = 1; i < optionNodes.length; i++) {
 			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
@@ -55,18 +58,19 @@ $(function() {
 				optionNodes[i].selected = true;
 			}
 		}
-	});
+	 });
 	
-			function beforeClickCategory(treeId, treeNode) {
+		function beforeClickCategory(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeRole");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
 			return false;
-		    }
-		    function beforeClick(treeId, treeNode) {
+		}
+		    
+		function beforeClick(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
 			return false;
-		    }
+		}
 		
 		function onCheckCategory(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeRole"),
@@ -83,6 +87,7 @@ $(function() {
 			cityObj.attr("value", v);
 			$("#categoryIds").val(rid); 
 		}
+		
 		function onCheck(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType"),
 			nodes = zTree.getCheckedNodes(true),
@@ -98,7 +103,8 @@ $(function() {
 			cityObj.attr("value", v);
 			$("#supplierTypeIds").val(rid); 
 		}
-			function showCategory() {
+		
+		function showCategory() {
 			var setting = {
 			check: {
 					enable: true,
@@ -141,6 +147,7 @@ $(function() {
 			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 			$("body").bind("mousedown", onBodyDownOrg);
 		}
+		
 		function showSupplierType() {
 			var setting = {
 			check: {
@@ -162,10 +169,11 @@ $(function() {
 					onCheck: onCheck
 				}
 			};
+			
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
+             url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId=''",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -184,21 +192,25 @@ $(function() {
 			$("#supplierTypeContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 			$("body").bind("mousedown", onBodyDownSupplierType);
 		}
+		
 		function hideRole() {
 			$("#roleContent").fadeOut("fast");
 			$("body").unbind("mousedown", onBodyDownOrg);
 			
 		}
+		
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
 			$("body").unbind("mousedown", onBodyDownOrg);
 			
 		}
+		
 		function onBodyDownOrg(event) {
 			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
 				hideRole();
 			}
 		}
+		
 		function onBodyDownSupplierType(event) {
 			if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
 				hideSupplierType();
@@ -274,7 +286,7 @@ $(function() {
              </form>
      </h2>
      <div class="col-md-12 pl20 mt10">
-	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+	    <button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
 	 </div>
      <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

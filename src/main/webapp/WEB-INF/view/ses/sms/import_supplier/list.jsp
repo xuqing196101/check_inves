@@ -169,7 +169,7 @@
 						<td class="tc">${list.supplierType }</td>
 						<td class="tc">${list.legalName }</td>
 						<td class="tc">
-							<c:if test="${list.status==0 }"><span class="label rounded-2x label-u">未审核</span></c:if>
+							<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">未审核</span></c:if>
 							<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 							<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回</span></c:if>
 						</td>

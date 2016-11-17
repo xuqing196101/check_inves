@@ -76,8 +76,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("/highmaps")
 	public String highmaps(Supplier sup,Model model,Integer status,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds,HttpServletRequest req){
-		User user=(User)req.getSession().getAttribute("loginUser");
-		model.addAttribute("supplierId", user.getTypeId());
 		//调用供应商查询方法 List<Supplier>
 		if(status!=null){
 			sup.setStatus(status);
@@ -130,11 +128,9 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("/findSupplierByPriovince")
 	public String findSupplierByPriovince(HttpServletRequest req,Supplier sup,Integer page,Model model,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds) throws UnsupportedEncodingException{
-		User user=(User)req.getSession().getAttribute("loginUser");
-		model.addAttribute("supplierId", user.getTypeId());
 		String address=this.getProvince(sup.getAddress());
 		if("".equals(address)){
-			sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8"));
+			sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 3).replace(",", ""));
 		}else{
 			sup.setAddress(address);
 		}
@@ -197,31 +193,55 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/essential")
-	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
-		String supId=(String)request.getSession().getAttribute("supplierId");
-	    //第一次进来的时候有值,session为null。
+	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Integer person,Model model) {
+		//这个是之前页面提交没有supplierId 现在有了，但是不敢去掉。以后有时间看仔细再去掉
+		/*String supId=(String)request.getSession().getAttribute("supplierId");
 		if(supId==null&&!"".equals(supplierId)){
 			request.getSession().setAttribute("supplierId", supplierId);
 		}
-		//第二次进来的时候,都有值
 		if(supId!=null&&!"".equals(supplierId)){
 			request.getSession().removeAttribute("supplierId");
 			request.getSession().setAttribute("supplierId", supplierId);
 		}
 		if(supId!=null&&supplierId.equals("")){
 			supplierId=supId;
+		}*/
+		User user=(User)request.getSession().getAttribute("loginUser");
+		Integer ps=(Integer)request.getSession().getAttribute("ps");
+		if(user.getTypeId()!=null&&ps!=null){
+			person=ps;
 		}
+		if(user.getTypeId()!=null&&person!=null){
+			request.getSession().setAttribute("ps",person);
+			supplierId=user.getTypeId();
+		}
+		
 		supplier = supplierAuditService.supplierById(supplierId);
 		getSupplierType(supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("suppliers", supplier);
+		//将状态是否入库isRuku存入session里面
+		Integer irk=(Integer)request.getSession().getAttribute("irk");
+	    //第一次进来的时候有值,session为null。
+		if(irk==null&&isRuku!=null){
+			request.getSession().setAttribute("irk",isRuku);
+		}else if(irk!=null&&isRuku==null){
+			isRuku=(Integer)request.getSession().getAttribute("irk");
+		}else if(irk!=null&&isRuku!=null){
+			Integer isRuku1=(Integer)request.getSession().getAttribute("irk");
+			if(!isRuku.equals(isRuku1)){
+				request.getSession().removeAttribute("irk");
+				request.getSession().setAttribute("irk",isRuku);
+			}
+		}
 		if(isRuku!=null&&isRuku==1){
 			model.addAttribute("status", supplier.getStatus());
 		}
 		if(isRuku!=null&&isRuku==2){
 			model.addAttribute("category", 1);
 		}
+		model.addAttribute("person", person);
 		return "ses/sms/supplier_query/supplierInfo/essential";
 	}
 	
