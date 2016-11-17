@@ -38,7 +38,7 @@ function down(){
    <h2 class="f16 count_flow mt40">费用信息</h2>
    <ul class="ul_list mb20">
    <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>项目名称：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
 	   <div class="input-append">
         <input type="text" id="projectName" name="projectName" value="${pc.projectName }" class="w220">
         <div class="cue">${ERR_projectName}</div>

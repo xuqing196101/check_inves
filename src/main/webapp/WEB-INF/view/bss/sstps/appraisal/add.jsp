@@ -97,7 +97,7 @@
 			<table class="table table-bordered">
 				 <tobody>
 				  	<tr>
-				 		<td width="25%" class="bggrey tr"><div class="star_red">＊</div>合同类型：</td>
+				 		<td width="25%" class="bggrey tr"><div class="star_red">*</div>合同类型：</td>
 				 		<td width="25%">
 				 			<select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
 				 				<option value=""></option>
@@ -109,7 +109,7 @@
 				 			</select>
 				 			<div class="red f12 clear">${ERR_purchaseType}</div>
 				 		</td>
-				 		<td width="25%" class="bggrey tr"><div class="star_red">＊</div>合同名称：</td>
+				 		<td width="25%" class="bggrey tr"><div class="star_red">*</div>合同名称：</td>
 				 		<td width="25%">
 				 			<select class="w230" id="contract" name="contractId" onchange="contractInfo()">
 				 			</select>

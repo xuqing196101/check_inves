@@ -37,21 +37,21 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="ul_list mb20">
    <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>项目名称：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
 	   <div class="input-append">
         <input type="text" id="projectName" name="projectName" value="${yp.projectName }" class="w220">
         <div class="validate">${ERR_projectName}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>产品名称：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>产品名称：</span>
 	   <div class="input-append">
         <input type="text" id="productName" name="productName" value="${yp.productName }" class="w220">
         <div class="validate">${ERR_productName}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">＊</div>计量单位：</span>
+	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>计量单位：</span>
 	   <div class="input-append">
         <input id="measuringUnit" name="measuringUnit" type="text" value="${yp.measuringUnit }" class="w220">
         <div class="validate">${ERR_measuringUnit}</div>
