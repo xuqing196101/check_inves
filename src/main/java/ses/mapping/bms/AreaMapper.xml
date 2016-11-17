@@ -61,12 +61,15 @@
   	<!-- 根据父节点找出子节点-->
   <select id="findTreeByPid"  resultMap="BaseResultMap">
   	select 
-  	*
+  	<include refid="Base_Column_List" />
   	from T_SES_BMS_AREA
-  	where AREA_TYPE = #{pid} and  IS_DELETED=0
+  	where IS_DELETED=0
+  	 <if test="pid != null and name !=''">
+        and PARENT_ID = #{pid}   
+     </if> 
   	 <if test="name != null and name !=''">
         and NAME like '%${name}%'
-      </if> 
+     </if> 
   	ORDER BY CREATED_AT ASC
   </select>
   <!-- 根据id删除 -->

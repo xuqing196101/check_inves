@@ -3,6 +3,7 @@ package ses.service.bms;
 import java.util.List;
 
 import ses.model.bms.Area;
+import ses.model.bms.AreaZtree;
 
 
 /**
@@ -70,6 +71,16 @@ public interface AreaServiceI {
 	 * @return List<Area>
 	 */
 	List<Area> findTreeByPid(String pid,String name);
+	
+	/**
+	 * 
+	 *〈简述〉
+	 * 修改查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
+	List<AreaZtree> getTreeList(String pid,String name);
 
 	/**
 	 * 

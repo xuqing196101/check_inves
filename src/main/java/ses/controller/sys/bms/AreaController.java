@@ -3,9 +3,7 @@ package ses.controller.sys.bms;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-
 import ses.model.bms.Area;
 import ses.model.bms.AreaZtree;
 import ses.service.bms.AreaServiceI;
+
+import com.alibaba.fastjson.JSON;
 
 
 /**
@@ -67,30 +64,9 @@ public class AreaController {
 	 * @return String
 	 */
 	@ResponseBody
-	@RequestMapping(value="/listByOne",produces = "text/html;charset=UTF-8")
-	public String listByOne(Area area,Model model)throws Exception {
-		if (area.getId() == null) {
-			area.setId("1");
-		}
-		List<Area> list = areaService.findTreeByPid(area.getId(),area.getName());
-		List<AreaZtree> listTree = new ArrayList<AreaZtree>();
-		String ee = "";
-		for (Area a : list) {
-			List<Area> cList = areaService.findTreeByPid(a.getId(),area.getName());
-			AreaZtree az = new AreaZtree();
-			if (!cList.isEmpty()) {
-				az.setIsParent("true");
-			} else {
-				az.setIsParent("false");
-			}
-			az.setId(a.getId());
-			az.setName(a.getName());
-			az.setpId(a.getAreaType());
-			listTree.add(az);
-		}
-		ee = JSONObject.toJSONString(listTree);
-		//model.addAttribute("aa", list1);
-		return ee;
+	@RequestMapping(value="/listByOne",produces = "application/json;charset=UTF-8")
+	public List<AreaZtree> listByOne(Area area,Model model)throws Exception {
+	    return areaService.getTreeList(area.getId(),area.getName());
 	}
 	/**
 	 * 

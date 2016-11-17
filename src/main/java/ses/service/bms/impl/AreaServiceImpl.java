@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.AreaMapper;
 import ses.model.bms.Area;
+import ses.model.bms.AreaZtree;
 import ses.service.bms.AreaServiceI;
 
 /**
@@ -21,6 +23,10 @@ import ses.service.bms.AreaServiceI;
  */
 @Service("areaService")
 public class AreaServiceImpl implements AreaServiceI {
+    
+    /** 区域根节点 */
+    private static final String ROOT_PID = "0";
+    
 	@Autowired
 	private AreaMapper areaMapper;
 	
@@ -111,7 +117,86 @@ public class AreaServiceImpl implements AreaServiceI {
 		return lists;
 	}
 	
+	
 	/**
+	 * 
+	 * @see ses.service.bms.AreaServiceI#getTreeList(java.lang.String, java.lang.String)
+	 */
+	@Override
+    public List<AreaZtree> getTreeList(String pid, String name) {
+	    Map<String,Object> map = new HashMap<String,Object>();
+	    
+	    if (StringUtils.isNotBlank(name)) {
+	        map.put("name", name);
+	        List<Area> areaList = areaMapper.findTreeByPid(map);
+	        return synchrous(areaList);
+	    } else {
+	        if (!StringUtils.isNotBlank(pid)) {
+	            map.put("pid", ROOT_PID);
+	        } else {
+	            map.put("pid", pid);
+	        }
+	        
+	        List<Area> areaList = areaMapper.findTreeByPid(map);
+	        return asynchrous(areaList);
+	    }
+	   
+    }
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *  异步查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @param list List<Area>集合
+	 * @return
+	 */
+	private List<AreaZtree> asynchrous(List<Area> areaList){
+	    List<AreaZtree> list = new ArrayList<AreaZtree>();
+	    for (Area a : areaList) {
+            AreaZtree az = new AreaZtree();
+            if (a.getParentId().equals(ROOT_PID)) {
+                az.setIsParent("true");
+            } else {
+                az.setIsParent("false");
+            }
+            az.setId(a.getId());
+            az.setName(a.getName());
+            az.setpId(a.getAreaType());
+            list.add(az);
+        }
+	    return list;
+	}
+	/**
+	 * 
+	 *〈简述〉
+	 *  同步查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @param areaList List<Area>
+	 * @return
+	 */
+	private List<AreaZtree> synchrous(List<Area> areaList){
+        List<AreaZtree> list = new ArrayList<AreaZtree>();
+        for (Area a : areaList) {
+            AreaZtree az = new AreaZtree();
+            for (Area area : areaList) {
+                if (a.getId().equals(area.getParentId())) {
+                    az.setIsParent("true");
+                } else {
+                    az.setIsParent("false");
+                }
+            }
+            az.setId(a.getId());
+            az.setName(a.getName());
+            az.setpId(a.getAreaType());
+            list.add(az);
+        }
+        return list;
+    }
+
+    /**
 	 * 
 	 * @Title: update
 	 * @author FengTian
