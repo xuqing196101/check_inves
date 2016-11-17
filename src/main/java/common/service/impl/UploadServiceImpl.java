@@ -306,12 +306,16 @@ public class UploadServiceImpl implements UploadService {
     public List<UploadFile> getFiles(HttpServletRequest request) {
         String businessId = request.getParameter("businessId");
         String typeId = request.getParameter("typeId");
-        Integer systemKey = Integer.parseInt(request.getParameter("key"));
-        String tableName = Constant.fileSystem.get(systemKey);
-        List<UploadFile> list = uploadDao.getFiles(tableName, businessId, typeId);
-        if (list != null && list.size() > 0) {
-            return list;
+        String key = request.getParameter("key");
+        if (StringUtils.isNotBlank(key)) {
+            Integer systemKey = Integer.parseInt(request.getParameter("key"));
+            String tableName = Constant.fileSystem.get(systemKey);
+            List<UploadFile> list = uploadDao.getFiles(tableName, businessId, typeId);
+            if (list != null && list.size() > 0) {
+                return list;
+            }
         }
+       
         return new ArrayList<UploadFile>();
     }
 
