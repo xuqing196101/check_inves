@@ -1101,13 +1101,14 @@ line-height:100%;
 }
 .drop_hover{
  background:#ffffff;
- min-height:305px;
- padding:20px 25px 0 25px;
+ min-height:375px;
+ padding:20px 25px 20px 25px;
  }
 .drop_main{
  border:1px solid #157c82;
  overflow:hidden;
- min-height:285px;
+ min-height:335px;
+ padding:20px 10px 10px 10px;
 }
 .drop_next{
  top:100%;

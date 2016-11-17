@@ -141,7 +141,10 @@ public class IndexNewsController extends BaseSupplierController{
 		ArticleType articleTypeOne = articleTypeService.selectTypeByPrimaryKey(articleTypeId);
 		Integer pages = indexNewsService.selectCount(countMap);
 		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
-		Integer endRow = (page-1)+indexNewsList.size();
+		Integer endRow = 0;
+		if(indexNewsList!=null){
+			endRow = (page-1)+indexNewsList.size();
+		}
 		model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);
 		model.addAttribute("endRow", endRow);

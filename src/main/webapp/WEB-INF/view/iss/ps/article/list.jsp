@@ -210,7 +210,6 @@
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
 	  				<th class="info">浏览量</th>
-	  				<th class="info">下载量</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="article" varStatus="vs">
@@ -248,7 +247,6 @@
 		  				</c:if>
 		  			</td>
 		  			<td class="tc">${article.showCount }</td>
-		  			<td class="tc"><a href="${ pageContext.request.contextPath }/downloadUser/selectDownloadUserByArticleId.html?articleId=${article.id}">${article.downloadCount }</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>

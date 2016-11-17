@@ -114,13 +114,13 @@
 	<div class="container content">
 		<div class="row">
 			<div class="col-md-8">
-				<img src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" width="50%" height="90%" />
+				<img src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="50%" height="90%" />
 			</div>
 			<div class="col-md-4"></div>
 			<div class="container content">
 				<div class="row">
 					<div class="sign_left col-md-6 mt60 ">
-						<img src="${pageContext.request.contextPath}/public/ZHQ/images/sign_left.jpg" width="100%" height="100%" />
+						<img src="${pageContext.request.contextPath}/public/portal/images/sign_left.jpg" width="100%" height="100%" />
 					</div>
 					<div class="col-md-5 mt60 login_right  col-md-offset-1 ">
 						<div class="col-md-10 col-sm-8 clear">
