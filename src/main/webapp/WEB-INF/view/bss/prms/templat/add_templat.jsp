@@ -72,15 +72,15 @@
 		<form
 			action="${pageContext.request.contextPath}/auditTemplat/add.html"
 			method="post" id="form1">
-			<h2 class="count_flow">
-				<i>1</i>添加模板
-			</h2>
+			<div class="headline-v2">
+                 <h2>新增模板</h2>
+               </div>
 			<ul class="ul_list">
 				<li class="col-md-3 margin-0 padding-0 "><span
 					class="col-md-12 padding-left-5">初审项模板名称</span>
 					<div class="input-append">
-						<input type="text" id="name" maxlength="30" name="name"> <span
-							class="add-on">i</span>
+						<input class="span5" type="text" id="name" maxlength="30" name="name">
+						<span class="add-on">i</span>
 					</div>
 				</li>
 				<li class="col-md-3 margin-0 padding-0 "><span class="">初审项模板类型</span>

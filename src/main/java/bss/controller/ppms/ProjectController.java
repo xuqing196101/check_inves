@@ -593,6 +593,8 @@ public class ProjectController extends BaseController {
         DictionaryData dictionaryData=new DictionaryData();
         dictionaryData.setCode("PROJECT_IMPLEMENT");
         String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
+        dictionaryData.setCode("PROJECT_APPROVAL_DOCUMENTS");
+        String dataIds = dictionaryDataService.find(dictionaryData).get(0).getId();
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
@@ -611,6 +613,7 @@ public class ProjectController extends BaseController {
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
         model.addAttribute("dataId", dataId);
+        model.addAttribute("dataIds", dataIds);
         return "bss/ppms/project/essential_information";
     }
     

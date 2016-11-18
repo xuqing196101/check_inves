@@ -38,41 +38,39 @@
   </script>
  <body>
    
-   <div class="container">
+  <div class="layui-layer-wrap" >
 	   <form action="" id="form1" method="post">
-		   <div>
+		   <div class="drop_window">
 			   <input name="id" value=${role.id } type="hidden">
-			  <ul class="list-unstyled mt10">
-			     <li class="col-md-6 p0">
-			       <span class="fl mt5 red">*</span>
-				   <span class="fl mt5">名称：</span>
-				   <div class="input-append">
-			        <input class="w140" name="name" value=${role.name } maxlength="30" type="text">
-			        <span class="add-on">i</span>
-			       </div>
+			  <ul class="list-unstyled">
+			      <li class="col-md-6">
+			       <label class="col-md-12 padding-left-5"><i class="red">*</i>名称</label>
+				   <span class="col-md-12">
+			        <input class="title col-md-12" name="name" value=${role.name } maxlength="30" type="text">
+			        </span>
 				 </li>
-				 <li class="col-md-6 p0 ">
-				 	<span class="fl  red">*</span>
-				 	<span class="fl">状态：</span>
+				 <li class="col-md-6">
+				 	 <label class="col-md-12 padding-left-5"><i class="red">*</i>状态</label>
+				 	 <span class="col-md-12">
 					<select  name="status"  class="w180 mb10">
 					   	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 				    </select>
+				    </span>
 				</li>
-			     <li class="col-md-12 p0 ml6">
-				   <span class="fl mt5">描述：</span>
-				   <div class="fn mt5">
-			        <textarea class="text_area1 mt6" name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
-			       </div>
+			     <li class="mt10 col-md-12 p0">
+				   <label class="col-md-12 pl20">描述</label>
+				  <span class="col-md-12">
+			        <textarea class="text_area1 mt6 " name="description"  maxlength="400" title="" placeholder="">${role.description }</textarea>
+			       </span>
 				 </li> 
+				 <div class="clear"></div>
 			   </ul>
 		  </div> 
 	   
-		  <div  class="col-md-12">
-		    <div class="fl padding-10">
+		  <div class="tc mt10 col-md-12">
 			    <button class="btn btn-windows git" id="update" type="button">更新</button>
 			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
-			</div>
 		  </div>
 	  </form>
   </div>

@@ -23,7 +23,7 @@
 	   <div class="col-md-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">须知文档详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">须知文档详情</a></li>
             </ul>
             <div class="tab-content padding-top-20">
             <div class="tab-pane fade active in" id="tab-1">

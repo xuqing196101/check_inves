@@ -8,214 +8,215 @@
 <html>
 <head>
 <script type="text/javascript">
-	$(function() {
-		$("#hide_detail").hide();
-	});
-	function view(sign) {
-		if (sign) {
-			$("#hide_detail").show();
-		} else {
-			$("#hide_detail").hide();
-		}
-	}
-	
-	
-	
-	var controldate;
-    function checkDate(){
-	    controldate= $("#bidDate").val();
-	    var linkman = $("#linkman").val();
-	    var bidAddress = $("#bidAddress").val();
-	    var supplierNumber = $("#supplierNumber").val();
-	    if(linkman==""){
-	       layer.tips("请填写联系人姓名","#linkman");
-	    }else if(supplierNumber==""){
-	       layer.tips("请填写供应商人数","#supplierNumber");
-	    }else if(bidAddress==""){
-	       layer.tips("请填写开标地点","#bidAddress");
-	    }else if(controldate==""){
-		    layer.tips("时间不能为空","#bidDate");
-		    return false;
-	    }else{
-	       //验证时间不能小于当前时间
-		    var day = new Date();
-		    var Year = 0;
-		    var Month = 0;
-		    var Day = 0;
-		    var CurrentDate = "";
-		    //初始化时间
-		    Year = day.getFullYear();
-		    Month = day.getMonth()+1;
-		    Day = day.getDate();
-		    CurrentDate += Year + "-";
-		    if (Month >= 10 ){
-		      CurrentDate += Month + "-";
-		    } else{
-		      CurrentDate += "0" + Month + "-";
-		    }
-		    if (Day >= 10 ) {
-		      CurrentDate += Day ;
-		    } else{
-		       CurrentDate += "0" + Day ;
-		    } 
-		    //alert(CurrentDate);//当前日期
-		    var startDate = new Date(CurrentDate.replace("-",",")).getTime() ;
-		    var endDate = new Date(controldate.replace("-",",")).getTime() ; 
-		    if( startDate > endDate ) {
-			    layer.tips("选择日期不能小于当前日期!","#bidDate");
-			    return false;
-		    }else{
-		           $("#save_form_id").submit();
-		    }
-	    }
+    $(function() {
+        $("#hide_detail").hide();
+    });
+    function view(sign) {
+        if (sign) {
+            $("#hide_detail").show();
+        } else {
+            $("#hide_detail").hide();
+        }
     }
-	
+    
+    
+    
+    var controldate;
+    function checkDate(){
+        controldate= $("#bidDate").val();
+        var linkman = $("#linkman").val();
+        var bidAddress = $("#bidAddress").val();
+        var supplierNumber = $("#supplierNumber").val();
+        if(linkman==""){
+           layer.tips("请填写联系人姓名","#linkman");
+        }else if(supplierNumber==""){
+           layer.tips("请填写供应商人数","#supplierNumber");
+        }else if(bidAddress==""){
+           layer.tips("请填写开标地点","#bidAddress");
+        }else if(controldate==""){
+            layer.tips("时间不能为空","#bidDate");
+            return false;
+        }else{
+           //验证时间不能小于当前时间
+            var day = new Date();
+            var Year = 0;
+            var Month = 0;
+            var Day = 0;
+            var CurrentDate = "";
+            //初始化时间
+            Year = day.getFullYear();
+            Month = day.getMonth()+1;
+            Day = day.getDate();
+            CurrentDate += Year + "-";
+            if (Month >= 10 ){
+              CurrentDate += Month + "-";
+            } else{
+              CurrentDate += "0" + Month + "-";
+            }
+            if (Day >= 10 ) {
+              CurrentDate += Day ;
+            } else{
+               CurrentDate += "0" + Day ;
+            } 
+            //alert(CurrentDate);//当前日期
+            var startDate = new Date(CurrentDate.replace("-",",")).getTime() ;
+            var endDate = new Date(controldate.replace("-",",")).getTime() ; 
+            if( startDate > endDate ) {
+                layer.tips("选择日期不能小于当前日期!","#bidDate");
+                return false;
+            }else{
+                   $("#save_form_id").submit();
+            }
+        }
+    }
+    
 </script>
 </head>
 
 <body>
+    <!--面包屑导航开始-->
        <div class="tab-content">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
-						<li class="active"><a aria-expanded="true" href="#tab-1"
-							data-toggle="tab" class="f18">详细信息</a></li>
-						<li class=""><a aria-expanded="false" href="#tab-2"
-							data-toggle="tab" class="f18">项目明细</a></li>
-							<li class=""><a aria-expanded="false" href="#tab-3"
+                        <li class="active"><a aria-expanded="true" href="#tab-1"
+                            data-toggle="tab" class="f18">详细信息</a></li>
+                        <li class=""><a aria-expanded="false" href="#tab-2"
+                            data-toggle="tab" class="f18">项目明细</a></li>
+                            <li class=""><a aria-expanded="false" href="#tab-3"
                             data-toggle="tab" class="f18">项目表单</a></li>
-						<li class=""><a aria-expanded="false" href="#tab-4"
-							data-toggle="tab" class="f18">打印报批文件</a></li>
-						<li class=""><a aria-expanded="false" href="#tab-5"
+                        <li class=""><a aria-expanded="false" href="#tab-4"
+                            data-toggle="tab" class="f18">打印报批文件</a></li>
+                        <li class=""><a aria-expanded="false" href="#tab-5"
                             data-toggle="tab" class="f18">附件上传</a></li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade active in" id="tab-1">
-							<h2 class="count_flow jbxx">基本信息</h2>
-							<form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" target="_parent">
-							<table class="table table-bordered">
-								<tbody>
-									<tr>
-										<td class="bggrey">项目编号:</td>
-										<td>${project.projectNumber}<input type="hidden" name="id" value="${project.id}"/></td>
-										<td class="bggrey">项目名称:</td>
-										<td>${project.name}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">负责人姓名:</td>
-										<td>${project.principal}</td>
-										<td class="bggrey">负责人联系电话:</td>
-										<td>${project.ipone}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">联系人姓名:</td>
-										<td><input name="linkman" id="linkman" value="${project.linkman}" /></td>
-										<td class="bggrey">联系人联系电话:</td>
-										<td><input name="linkmanIpone" value="${project.linkmanIpone}" /></td>
-									</tr>
-									<tr>
-										<td class="bggrey">招标单位:</td>
-										<td>${project.sectorOfDemand}</td>
-										<td class="bggrey">联系地址:</td>
-										<td>${project.address}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">邮编:</td>
-										<td>${project.postcode}</td>
-										<td class="bggrey">最少供应商人数:</td>
-										<td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
-									</tr>
-									<tr>
-										<td class="bggrey">报价标准分值:</td>
-										<td>${project.offerStandard}</td>
-										<td class="bggrey">预算报价（万元）:</td>
-										<td>${project.budgetAmount}</td>
-									</tr>
-									<%--  <tr>
-									        <c:forEach items="${info.list}" var="obj" varStatus="vs">
-									          <td class="bggrey">${obj.name}密码:</td><td>${obj.passWord}</td>
-									          </c:forEach>
-									          <td class="bggrey">评分细则:</td><td>${project.scoringRubric}</td>
-									        </tr> --%>
-									<tr>
-										<td class="bggrey">采购方式:</td>
-										<td>
-										<c:if test="${'jzxtp'==project.purchaseType}">竞争性谈判</c:if>
-		                                <c:if test="${'yqzb'==project.purchaseType}">邀请招标</c:if>
-		                                <c:if test="${'xjcg'==project.purchaseType}">询价采购</c:if>
-		                                <c:if test="${'gkzb'==project.purchaseType}">公开招标</c:if>
-		                                <c:if test="${'dyly'==project.purchaseType}">单一来源</c:if>
-										</td>
-										<td class="bggrey">投标截止时间:</td>
-										<td>${project.deadline}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">开标时间:</td>
-										<%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
-										<td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="bidDate" type="text" onclick='WdatePicker()'></td>
-										<td class="bggrey">开标地点:</td>
-										<td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
-									</tr>
-									<tr>
-										<td class="bggrey">招标文件报批时间:</td>
-										<td>${project.approvalTime}</td>
-										<td class="bggrey">招标文件批复时间:</td>
-										<td>${project.replyTime}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">需求计划提报时间:</td>
-										<td>${project.demandFromTime}</td>
-										<td class="bggrey">${task.name}采购任务下达时间:</td>
-										<td><fmt:formatDate value='${task.giveTime}'
-												pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-									</tr>
-									<tr>
-										<td class="bggrey">${task.name}采购任务受理时间:</td>
-										<td><fmt:formatDate value='${task.acceptTime}'
-												pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-										<td class="bggrey">采购项目立项时间:</td>
-										<td><fmt:formatDate value='${project.createAt}'
-												pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-									</tr>
-									<tr>
-										<td class="bggrey">采购项目实施时间:</td>
-										<td><fmt:formatDate value='${project.startTime}'
-												pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-										<td class="bggrey">招标公告发布时间:</td>
-										<td>${project.noticeNewsTime}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">招标公告审批时间:</td>
-										<td>${project.appTime}</td>
-										<td class="bggrey">供应商报名时间:</td>
-										<td>${project.signUpTime}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">报名截止时间:</td>
-										<td>${project.applyDeanline}</td>
-										<td class="bggrey">售后维护时间:</td>
-										<td>${project.maintenanceTime}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">发送中标通知书时间:</td>
-										<td>${project.noticeTime}</td>
-										<td class="bggrey">项目结束时间:</td>
-										<td>${project.endTime}</td>
-									</tr>
-									<tr>
-										<td class="bggrey">合同签订时间:</td>
-										<td>${project.signingTime}</td>
-										<td class="bggrey">验收时间:</td>
-										<td>${project.acceptanceTime}</td>
-									</tr>
-								</tbody>
-							</table>
-							 <div class="col-md-12 tc mt20" >
-					               <button class="btn btn-windows git"  type="button" onclick="checkDate();">更新</button>
-					         </div>
-						  </form>
-						</div>
-						<div class="tab-pane fade " id="tab-2">
-							<table class="table table-bordered table-condensed mt5">
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="tab-1">
+                            <h2 class="count_flow jbxx">基本信息</h2>
+                            <form id="save_form_id" action="${pageContext.request.contextPath}/project/addProject.html" method="post" target="_parent">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td class="bggrey">项目编号:</td>
+                                        <td>${project.projectNumber}<input type="hidden" name="id" value="${project.id}"/></td>
+                                        <td class="bggrey">项目名称:</td>
+                                        <td>${project.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">负责人姓名:</td>
+                                        <td>${project.principal}</td>
+                                        <td class="bggrey">负责人联系电话:</td>
+                                        <td>${project.ipone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">联系人姓名:</td>
+                                        <td><input name="linkman" id="linkman" value="${project.linkman}" /></td>
+                                        <td class="bggrey">联系人联系电话:</td>
+                                        <td><input name="linkmanIpone" value="${project.linkmanIpone}" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">招标单位:</td>
+                                        <td>${project.sectorOfDemand}</td>
+                                        <td class="bggrey">联系地址:</td>
+                                        <td>${project.address}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">邮编:</td>
+                                        <td>${project.postcode}</td>
+                                        <td class="bggrey">最少供应商人数:</td>
+                                        <td><input name="supplierNumber" id="supplierNumber" value="${project.supplierNumber}" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">报价标准分值:</td>
+                                        <td>${project.offerStandard}</td>
+                                        <td class="bggrey">预算报价（万元）:</td>
+                                        <td>${project.budgetAmount}</td>
+                                    </tr>
+                                    <%--  <tr>
+                                            <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                                              <td class="bggrey">${obj.name}密码:</td><td>${obj.passWord}</td>
+                                              </c:forEach>
+                                              <td class="bggrey">评分细则:</td><td>${project.scoringRubric}</td>
+                                            </tr> --%>
+                                    <tr>
+                                        <td class="bggrey">采购方式:</td>
+                                        <td>
+                                        <c:if test="${'jzxtp'==project.purchaseType}">竞争性谈判</c:if>
+                                        <c:if test="${'yqzb'==project.purchaseType}">邀请招标</c:if>
+                                        <c:if test="${'xjcg'==project.purchaseType}">询价采购</c:if>
+                                        <c:if test="${'gkzb'==project.purchaseType}">公开招标</c:if>
+                                        <c:if test="${'dyly'==project.purchaseType}">单一来源</c:if>
+                                        </td>
+                                        <td class="bggrey">投标截止时间:</td>
+                                        <td>${project.deadline}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">开标时间:</td>
+                                        <%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
+                                        <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="bidDate" type="text" onclick='WdatePicker()'></td>
+                                        <td class="bggrey">开标地点:</td>
+                                        <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">招标文件报批时间:</td>
+                                        <td>${project.approvalTime}</td>
+                                        <td class="bggrey">招标文件批复时间:</td>
+                                        <td>${project.replyTime}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">需求计划提报时间:</td>
+                                        <td>${project.demandFromTime}</td>
+                                        <td class="bggrey">${task.name}采购任务下达时间:</td>
+                                        <td><fmt:formatDate value='${task.giveTime}'
+                                                pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">${task.name}采购任务受理时间:</td>
+                                        <td><fmt:formatDate value='${task.acceptTime}'
+                                                pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                                        <td class="bggrey">采购项目立项时间:</td>
+                                        <td><fmt:formatDate value='${project.createAt}'
+                                                pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">采购项目实施时间:</td>
+                                        <td><fmt:formatDate value='${project.startTime}'
+                                                pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                                        <td class="bggrey">招标公告发布时间:</td>
+                                        <td>${project.noticeNewsTime}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">招标公告审批时间:</td>
+                                        <td>${project.appTime}</td>
+                                        <td class="bggrey">供应商报名时间:</td>
+                                        <td>${project.signUpTime}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">报名截止时间:</td>
+                                        <td>${project.applyDeanline}</td>
+                                        <td class="bggrey">售后维护时间:</td>
+                                        <td>${project.maintenanceTime}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">发送中标通知书时间:</td>
+                                        <td>${project.noticeTime}</td>
+                                        <td class="bggrey">项目结束时间:</td>
+                                        <td>${project.endTime}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bggrey">合同签订时间:</td>
+                                        <td>${project.signingTime}</td>
+                                        <td class="bggrey">验收时间:</td>
+                                        <td>${project.acceptanceTime}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                             <div class="col-md-12 tc mt20" >
+                                   <button class="btn btn-windows git"  type="button" onclick="checkDate();">更新</button>
+                             </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane fade " id="tab-2">
+                            <table class="table table-bordered table-condensed mt5">
 
                                 <thead>
                                     <tr>
@@ -249,11 +250,11 @@
                                         <td class="tc">${obj.budget}</td>
                                         <td class="tc">${obj.deliverDate}</td>
                                         <td class="tc">
-	                                        <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-			                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-			                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-			                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-			                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+                                            <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+                                            <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+                                            <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+                                            <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+                                            <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
                                         </td>
                                         <td class="tc">${obj.supplier}</td>
                                         <td class="tc">${obj.isFreeTax}</td>
@@ -265,54 +266,54 @@
 
 
                             </table>
-						</div>
+                        </div>
 
-						<div class="tab-pane fade " id="tab-3" >
-				        </div>
-				        <div class="tab-pane fade " id="tab-4" >
-				            <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-							        <%-- <input class="btn btn-windows save" type="button" onclick="bag('${project.id}');" value="分包"> --%> 
-							            <table class="table table-bordered">
+                        <div class="tab-pane fade " id="tab-3" >
+                        </div>
+                        <div class="tab-pane fade " id="tab-4" >
+                            <div class="margin-bottom-0  categories">
+                            <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
+                                      <%--   <table class="table table-bordered">
                                              <tbody>
                                                 <tr>
-								                  <td class="bggrey">项目编号：</td>
-								                  <td>${project.projectNumber}</td>
-								                  <td class="bggrey ">项目名称：</td>
-								                  <td>${project.name}</td>
-								                </tr>
-								                <tr>
+                                                  <td class="bggrey">项目编号：</td>
+                                                  <td>${project.projectNumber}</td>
+                                                  <td class="bggrey ">项目名称：</td>
+                                                  <td>${project.name}</td>
+                                                </tr>
+                                                <tr>
                                                   <td class="bggrey">预算金额:</td>
                                                   <td>${project.purchaseDepName}</td>
                                                   <td class="bggrey ">经办人:</td>
                                                   <td>${project.ipone}</td>
                                                 </tr>
-										        <tr>
-										          <td class="bggrey">项目介绍:</td>
-										          <td colspan="3">
-										            ${project.prIntroduce}
-										          </td>
-										        </tr>
-										        <tr>
+                                                <tr>
+                                                  <td class="bggrey">项目介绍:</td>
+                                                  <td colspan="3">
+                                                    ${project.prIntroduce}
+                                                  </td>
+                                                </tr>
+                                                <tr>
                                                   <td class="bggrey">工作分工:</td>
                                                   <td colspan="3">
                                                     ${project.divisionOfWork}
                                                   </td>
                                                 </tr>
-							            </table>
-							            <div class="col-md-12 tc">
-							            <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
-							            <button class="btn btn-windows back"  onclick="history.go(-1)" type="button">返回</button>
-							            </div>
+                                        </table> --%>
+                                        <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+                                        <div class="col-md-12 tc">
+                                        <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
+                                        </div>
                          </form>
-				            
+                            </div>
                         </div>
                         <div class="tab-pane fade active" id="tab-5" >
                             <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
                             <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
                         </div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

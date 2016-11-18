@@ -35,7 +35,9 @@
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/noticeDocument/save.do" method="post">
    		<div>
-   		<h2 class="count_flow"><i>1</i>新增须知文档</h2>
+   		<div class="headline-v2">
+		     <h2>新增须知文档</h2>
+		   </div>  
    		<ul class="ul_list">
 		     <li class="col-md-3 margin-0 padding-0 mb5">
 			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档名称</span>

@@ -141,22 +141,22 @@
     update T_SES_BMS_AREA
     <set>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+        IS_DELETED = #{isDeleted},
       </if>
       <if test="position != null">
-        POSITION = #{position,jdbcType=DECIMAL},
+        POSITION = #{position},
       </if>
       <if test="areaType != null">
-        AREA_TYPE = #{areaType,jdbcType=VARCHAR},
+        AREA_TYPE = #{areaType},
       </if>
       <if test="parentId != null">
-        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+        PARENT_ID = #{parentId},
       </if>
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},

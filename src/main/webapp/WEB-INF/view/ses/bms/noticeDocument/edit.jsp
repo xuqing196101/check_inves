@@ -32,13 +32,13 @@
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/noticeDocument/update.do" method="post">
    		<div>
-   		<h2 class="count_flow">
-                    <i>1</i>修改须知文档
-         </h2>
+   		<div class="headline-v2">
+             <h2>修改须知文档</h2>
+           </div> 
    		<ul class="ul_list">
    		<input class="span2" name="id" type="hidden" value="${noticeDocument.id}">
      		<li class="col-md-3 margin-0 padding-0 mb5">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档名称：</span>
+			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档名称</span>
 			   <div class="input-append mb0">
 		        	<input class="span5 mb0" name="name" type="text" value="${noticeDocument.name}">
 		        	 <span class="add-on">i</span>
@@ -55,7 +55,7 @@
                     <div id="contractCodeErr" class="clear red">${ERR_docType}</div>
              </li>
 		     <li class="col-md-12 p0">
-	   			<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档内容：</span>
+	   			<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档内容</span>
 	  			<div class="col-md-9 p0 mt5">
 	  				 <script id="editor" name="content" type="text/plain" class=""></script>
 	  				 <div id="contractCodeErr" class="clear red">${ERR_content}</div>

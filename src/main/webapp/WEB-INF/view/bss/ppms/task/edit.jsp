@@ -162,8 +162,8 @@
             }else{
                 layer.open({
                       type: 1, //page层
-                      area: ['500px', '300px'],
-                      title: '您是要变更明细吗？',
+                      area : [ '400px', '200px' ],
+                      title: '请上传更改附件',
                       shade:0.01, //遮罩透明度
                       moveType: 1, //拖拽风格，0是默认，1是传统拖动
                       shift: 1, //0-6的动画形式，-1不开启
@@ -178,7 +178,13 @@
         
         
         function delTask(id){
-                  $("#form1").submit();
+            var upload_id = $("#upload_id").val();
+            if(upload_id){
+                $("#form1").submit();
+            }else{
+                layer.tips("请上传附件", "#uuId");
+            } 
+                  
 		}
 		function cancel(){
 		     layer.closeAll();
@@ -332,13 +338,19 @@
         <button class="btn btn-windows save" type="button" onclick="edit();">变更</button>
         <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
       </div>
-           <div id="file" style="display: none;">
+           <div id="file" class="dnone">
+                <br>
+                <span id="uuId"></span>
 		        <input type="hidden" name="id" value="${task.id}"/>
 		         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+		         
 		         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
-		        <br/><br/><br/>
-		        <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
-		         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+		         
+		        <div class="tc mt10 col-md-12">
+		          <br>
+			        <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
+			         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+		         </div>
              </div> 
    </form>
  </div>

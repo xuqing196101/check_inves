@@ -144,13 +144,6 @@
                     <span class="add-on">i</span>
                    </div>
                  </li>
-                 <li class="col-md-6 p0">
-                   <span class="fl mt5">排序：</span>
-                   <div class="input-append">
-                    <input class="span2" name="parentId" value="${area.parentId }"  maxlength="3" type="text">
-                    <span class="add-on">i</span>
-                   </div>
-                 </li>
                </ul>
           </div> 
        

@@ -1,6 +1,7 @@
 package ses.service.bms.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,15 @@ public class AreaServiceImpl implements AreaServiceI {
 	 */
 	@Override
 	public void save(Area area) {
+	    Area aa = null;
+        if(area.getId() != null && !"".equals(area.getId())){
+            aa = areaMapper.selectById(area.getId());
+            area.setParentId(aa.getId());
+        }else{
+            area.setParentId(ROOT_PID);
+        }
+        area.setIsDeleted(0);
+        area.setCreatedAt(new Date());
 		areaMapper.save(area);
 	}
 	

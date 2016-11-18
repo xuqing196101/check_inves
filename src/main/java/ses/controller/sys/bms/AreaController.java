@@ -100,7 +100,7 @@ public class AreaController {
 	@RequestMapping("/edit")
 	public String edit(String pid, Model model){
 		Area area = areaService.listById(pid);
-		String ids = area.getAreaType();
+		String ids = area.getParentId();
 		Area area1 = areaService.listById(ids);
 		model.addAttribute("area", area);
 		model.addAttribute("area1", area1);
@@ -119,13 +119,6 @@ public class AreaController {
 	@RequestMapping("/save")
 	@ResponseBody
 	public String save(Area area){
-		Area aa = null;
-		if(area.getId() != null && !"".equals(area.getId())){
-			aa = areaService.listById(area.getId());
-		}
-		area.setAreaType(aa.getId());
-		area.setIsDeleted(0);
-		area.setCreatedAt(new Date());
 		areaService.save(area);
 		String msg = "{\"msg\":\"success\"}";
 		return msg;

@@ -124,13 +124,11 @@
                       </li>
                       <li>
                         <label class="fl">操作类型：</label>
-                        <div class="select_common ">
                             <select class="w180 " id="isFinish" name="isFinish">
                                 <option value="">请选择</option>
                                 <option value="0">已操作</option>
                                  <option value="1">未操作</option>
                             </select>
-                        </div>
                       </li> 
                         <button type="submit"  class="btn">查询</button>
                         <button type="button" onclick="resetQuery()" class="btn">重置</button>    

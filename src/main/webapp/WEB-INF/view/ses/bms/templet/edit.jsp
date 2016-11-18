@@ -40,9 +40,9 @@
 			method="post">
 			<input class="span2" name="id" type="hidden" value="${templet.id}">
 			<div>
-				<h2 class="count_flow">
-					<i>1</i>修改模板
-				</h2>
+				<div class="headline-v2">
+                 <h2>修改模板</h2>
+               </div>
 				<ul class="ul_list">
 					<li class="col-md-3 margin-0 padding-0 mb5">
 					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
