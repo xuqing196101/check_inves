@@ -183,4 +183,14 @@ public interface CategoryMapper {
       * @param id
       */
      void deleted(List<Category> list);
+     
+     /**
+      * 
+      *〈简述〉 按照品目名称查看品目是否存在
+      *〈详细描述〉
+      * @author myc
+      * @param name 品目名称
+      * @return 数量
+      */
+     public Integer findByName(String name);
 }

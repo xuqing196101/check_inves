@@ -191,4 +191,13 @@ import ses.model.sms.SupplierTypeTree;
      */
     public void deleted(String Id);
 
+    /**
+     * 
+     *〈简述〉 按照名称检索
+     *〈详细描述〉
+     * @author myc
+     * @param name
+     * @return 返回数量
+     */
+    public Integer findByName(String name);
 }

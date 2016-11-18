@@ -958,4 +958,12 @@ li:first-child {
 }
 /*供应商投标样式添加*/
 .green_link {
-  color: #8fc31f !important; }
+  color: #8fc31f !important; 
+ }
+ 
+/** 隐藏div */ 
+.dis_none{
+ 	position: absolute; 
+ 	opacity: 0; 
+ 	filter:Alpha(opacity=0);
+ }

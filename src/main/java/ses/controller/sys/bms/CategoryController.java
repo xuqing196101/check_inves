@@ -13,18 +13,15 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
 import net.sf.json.JSONSerializer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
@@ -34,9 +31,10 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
-
+import common.bean.ResBean;
 import common.constant.Constant;
 
 /**
@@ -60,6 +58,11 @@ public class CategoryController extends BaseSupplierController {
 
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
+    
+    /** 操作类型 - 添加 */
+    private static final String OPERA_ADD = "add";
+    /** 操作类型 - 编辑 */
+    private static final String OPERA_EDIT = "edit";
 
 
 
@@ -132,25 +135,21 @@ public class CategoryController extends BaseSupplierController {
         model.addAttribute("cate",new Category());
         return "ses/bms/category/list";
     }
-
+    
     /**
-     * @Title: search
-     * @author zhangxuefeng
-     * @Description:根据关键字查找内容
-     * @param @return
-     * @return String
+     * 
+     *〈简述〉
+     * 添加页面初始化
+     *〈详细描述〉
+     * @author myc
+     * @return
      */
-    /*@ResponseBody
-	@RequestMapping("/search")
-	public void search(HttpServletRequest request, HttpServletResponse response,String name) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", name);
-		//List<Category> nodeList = categoryService.listByKeyword(name);
-		String list ="";
-		return list = JSON.toJSONString(nodeList);
-		super.writeJson(response, nodeList);
-
-	}*/
+    @ResponseBody
+    @RequestMapping(value = "/add")
+    public String add(){
+        String uuid = WfUtil.createUUID();
+        return uuid;
+    }
 
     /**
      * 
@@ -161,157 +160,83 @@ public class CategoryController extends BaseSupplierController {
      * @param @return
      * @return String 
      */
-    @RequestMapping("/save")
-    public String save( Category category,HttpServletRequest request,HttpServletResponse response,Model model) {
-        /*String categoryuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("categoryId", categoryuuid);
-		DictionaryData dd=new DictionaryData();
-		dd.setCode("CATEGORY_ATTACHMENT");
-		List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("categorySysKey", Constant.TENDER_SYS_KEY);
-		if(lists.size()>0){
-			model.addAttribute("attachTypeId", lists.get(0).getId());
-		}
-         */
-        Boolean flag = true;
+    @ResponseBody
+    @RequestMapping(value = "/save", produces = "application/json;charset=UTF-8")
+    public ResBean save(HttpServletRequest request) {
         String name = request.getParameter("name");
-        List<Category> cate = categoryService.selectAll();
-        String catename="";
-        String pos = "";
-        String code ="";
-        for(int i=0;i<cate.size();i++){
-            catename+=cate.get(i).getName()+",";
-            pos+= cate.get(i).getPosition()+",";
-            code+= cate.get(i).getCode()+",";
+        String id = request.getParameter("id");
+        String position = request.getParameter("position");
+        
+        String operaType = request.getParameter("opera");
+        
+        if (StringUtils.isEmpty(name)) {
+            ResBean res = new ResBean();
+            res.setSuccess(false);
+            res.setMsg("品目名称不能为空");
+           return  res;
         }
-        String[] catenames = catename.split(",");
-        for (int i = 0; i < catenames.length; i++) {
-            if (name.equals(catenames[i])) {
-                flag = false;
-                listCategory.put("name","目录不能重复");
+        
+        
+        if (StringUtils.isEmpty(position)) {
+            ResBean res = new ResBean();
+            res.setSuccess(false);
+            res.setError("序号不能为空");
+           return  res;
+        }
+        
+        if (!StringUtils.isNumeric(position)) {
+            ResBean res = new ResBean();
+            res.setSuccess(false);
+            res.setError("序号只能输入正整数");
+           return  res;
+        }
+        
+        ResBean res = new ResBean();
+        
+        /**
+         * 新增
+         */
+        if (operaType.equals(OPERA_ADD)) {
+            
+            Integer count = categoryService.findByName(name.trim());
+            
+            if (count != null && count > 0) {
+                res.setSuccess(false);
+                res.setMsg("品目名称已经存在");
+               return  res;
             }
-        }
-        if (name==null||name.equals("")) {
-            flag= false;
-            listCategory.put("name", "目录不能为空");
-        }
-        Integer position = Integer.parseInt(request.getParameter("position"));
-        String[] poses = pos.split(",");
-        for (int i = 0; i < poses.length; i++) {
-            if (position.equals(poses[i])) {
-                flag = false;
-                listCategory.put("position", "排序号不能重复");
-            }
-        }
-        if (position==null || position.equals("")) {
-            flag = false;
-            listCategory.put("position", "排序号不能为空");
-        }
-        String codes = request.getParameter("code");
-        String[] co = code.split(",");
-        for (int i = 0; i < co.length; i++) {
-            if (codes.equals(co[i])) {
-                flag = false;
-                listCategory.put("code", "编码已存在");
-            }
-        }
-        if (codes==null ||codes.equals("")) {
-            flag = false;
-            listCategory.put("code", "目录编码不能为空");
-        }
-        if (flag == false) {
-            super.writeJson(response, listCategory);
-        }else{
-            category.setPosition(Integer.parseInt(request.getParameter("position")));
-            category.setKind(request.getParameter("kind"));
+            
+            Category category = new Category();
+            category.setId(id);
+            category.setPosition(Integer.parseInt(position));
+            category.setParentId(request.getParameter("parentId"));
+            category.setName(name);
             category.setStatus(1);
-            category.setCode(request.getParameter("code"));
             category.setDescription(request.getParameter("description"));
             category.setCreatedAt(new Date());
+            category.setIsDeleted(0);
             categoryService.insertSelective(category);
+            res.setSuccess(true);
         }
-        return "ses/bms/category/list";
-        /*	Boolean flag = true;
-		String url ="";
-		String name = request.getParameter("name");
-		List<Category> cate = categoryService.selectAll();
-		String catename="";
-		String pos = "";
-		String code ="";
-		for(int i=0;i<cate.size();i++){
-		catename+=cate.get(i).getName()+",";
-		pos+= cate.get(i).getPosition()+",";
-		code+= cate.get(i).getCode()+",";
-		}
-		String[] catenames = catename.split(",");
-		for (int i = 0; i < catenames.length; i++) {
-			if (name.equals(catenames[i])) {
-				flag = false;
-				model.addAttribute("name","目录不能重复");
-			}
-		}
-		if (name==null||name.equals("")) {
-			flag= false;
-			model.addAttribute("name", "目录不能为空");
-		}
-		Integer position = Integer.parseInt(request.getParameter("position"));
-		String[] poses = pos.split(",");
-		for (int i = 0; i < poses.length; i++) {
-			if (position.equals(poses[i])) {
-				flag = false;
-				model.addAttribute("position", "排序号不能重复");
-			}
-		}
-		if (position==null || position.equals("")) {
-			flag = false;
-			model.addAttribute("position", "排序号不能为空");
-		}
-		String codes = request.getParameter("code");
-		String[] co = code.split(",");
-		for (int i = 0; i < co.length; i++) {
-			if (codes.equals(co[i])) {
-				flag = false;
-				model.addAttribute("code", "编码已存在");
-			}
-		}
-		if (codes==null ||codes.equals("")) {
-			flag = false;
-			model.addAttribute("code", "目录编码不能为空");
-		}
-		if (flag == false) {
-			model.addAttribute("category", cate);
-			url = 
-		}else{
-		category.setPosition(Integer.parseInt(request.getParameter("position")));
-		category.setKind(request.getParameter("kind"));
-		category.setStatus(1);
-		category.setCode(request.getParameter("code"));
-		category.setDescription(request.getParameter("description"));
-		category.setCreatedAt(new Date());
-		categoryService.insertSelective(category);
-		}
-		return "ses/bms/category/list";*/
+        /**
+         * 编辑
+         */
+        if (operaType.equals(OPERA_EDIT)) {
+            Category category = categoryService.selectByPrimaryKey(id);
+            if (category != null) {
+                category.setPosition(Integer.parseInt(position));
+                category.setDescription(request.getParameter("description"));
+                category.setName(name);
+                category.setUpdatedAt(new Date());
+                categoryService.updateByPrimaryKeySelective(category);
+                res.setSuccess(true);
+            }
+        }
+        return res;
     }
 
 
 
-    /**
-     * @Title: 上传附件
-     * @author Zhang Xuefeng
-     * @date 2016-9-1 下午2:00:40
-     * @Description: 保存
-     * @param @return
-     * @return String
-     */
-    @RequestMapping("/upload")
-    public void upload(HttpServletRequest request, MultipartFile file, Category category) {
-        //创建文件夹
-        @SuppressWarnings("unused")
-        String path ="";
-
-
-
-    }
     /**
      * 
      * @Title: update
@@ -341,139 +266,6 @@ public class CategoryController extends BaseSupplierController {
         categoryService.updateByPrimaryKeySelective(category);
         return "ses/bms/category/list";
     }
-    /**
-     * 
-     * @Title: edit
-     * @author Zhang XueFeng
-     * @Description:修改目录信息
-     * @param @return 
-     * @return String
-     */  
-
-    @RequestMapping("/edit")
-    public String  edit (Category category,HttpServletRequest request, HttpServletResponse response,Model model){
-        /*Boolean flag = true;
-	      String url = "";
-	      if(result.hasErrors()){
-				List<FieldError> errors = result.getFieldErrors();
-				for(FieldError fieldError:errors){
-					model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-				}
-				flag = false;
-	      }
-	      String name = request.getParameter("name");
-	      if (name.equals(category.getName())) {
-	    	  flag = false;
-			model.addAttribute("ERR_name","品目名不能重复");
-		}
-	      Integer position = Integer.parseInt(request.getParameter("position"));
-	      if (position.equals(category.getPosition())) {
-			flag = false;
-			model.addAttribute("ERR_position","排序号不能重复");
-		}
-	      String code = request.getParameter("code");
-	      if (code.equals(category.getCode())) {
-			flag = false;
-			model.addAttribute("ERR_code","品目编码不能重复");
-		}
-	      if (flag == false) {
-		     url = "ses/bms/category/list";
-		}else{
-			 category.setName(name);
-			 category.setPosition(position);
-			 category.setCode(code);
-			 category.setDescription(request.getParameter("description"));
-			 categoryService.updateByPrimaryKeySelective(category);
-			 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
-					String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
-         *//** 创建文件夹 *//*
-			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach.getOriginalFilename();		        
-			        String filePath = rootpath+fileName;
-			        File file = new File(filePath);
-			        try {
-						attaattach.transferTo(file);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();				
-						} catch (IOException e) {
-					e.printStackTrace();
-				}
-					 CategoryAttachment attachment=new CategoryAttachment();
-	         		attachment.setCategory(new Category(category.getId()));
-					attachment.setFileName(fileName);
-					attachment.setCreatedAt(new Date());
-					attachment.setContentType(attaattach.getContentType());
-					attachment.setFileSize((float)attaattach.getSize());
-					//路径==相对路径
-					attachment.setAttchmentPath("picupload/"+fileName);
-					categoryAttachmentService.updateByPrimaryKeySelective(attachment);
-					url = "ses/bms/category/list";
-				}
-
-		}
-				return url;*/
-        /* String name = request.getParameter("name");
-	      String position = request.getParameter("position");
-	      Integer Position = Integer.parseInt(position);
-	      String code = request.getParameter("code");*/
-        Boolean flag = true;
-        String name = request.getParameter("name");
-        List<Category> cate = categoryService.selectAll();
-        String catename="";
-        String pos = "";
-        String code ="";
-        for(int i=0;i<cate.size();i++){
-            catename += cate.get(i).getName()+",";
-            pos += cate.get(i).getPosition()+",";
-            code += cate.get(i).getCode()+",";
-        }
-        String[] catenames = catename.split(",");
-        for (int i = 0; i < catenames.length; i++) {
-            if (name.equals(catenames[i])) {
-                flag = false;
-                model.addAttribute("name","目录不能重复");
-            }
-        }
-        if (name==null||name.equals("")) {
-            flag= false;
-            model.addAttribute("name", "目录不能为空");
-        }
-        Integer position = Integer.parseInt(request.getParameter("position"));
-        String[] poses = pos.split(",");
-        for (int i = 0; i < poses.length; i++) {
-            if (position.equals(poses[i])) {
-                flag = false;
-                model.addAttribute("position", "排序号不能重复");
-            }
-        }
-        if (position==null || position.equals("")) {
-            flag = false;
-            model.addAttribute("position", "排序号不能为空");
-        }
-        String codes = request.getParameter("code");
-        String[] co = code.split(",");
-        for (int i = 0; i < co.length; i++) {
-            if (codes.equals(co[i])) {
-                flag = false;
-                model.addAttribute("code", "编码已存在");
-            }
-        }
-        if (codes==null ||codes.equals("")) {
-            flag = false;
-            model.addAttribute("code", "目录编码不能为空");
-        }
-        if (flag == false) {
-            super.writeJson(response, listCategory);
-        }else{
-            category.setPosition(Integer.parseInt(request.getParameter("position")));
-            category.setKind(request.getParameter("kind"));
-            category.setStatus(1);
-            category.setCode(request.getParameter("code"));
-            category.setDescription(request.getParameter("description"));
-            category.setCreatedAt(new Date());
-            categoryService.updateByPrimaryKeySelective(category);
-        }
-        return "ses/bms/category/list";
-    }
 
     /**
      * 
@@ -495,9 +287,18 @@ public class CategoryController extends BaseSupplierController {
      * @param @return 
      * @return String
      */ 
+    @ResponseBody
     @RequestMapping("/deleted")
-    public void change(HttpServletRequest request,String ids){
-        categoryService.deleted(ids);
+    public String change(HttpServletRequest request){
+        String id = request.getParameter("id");
+        Category category = categoryService.selectByPrimaryKey(id);
+        if (category != null) {
+            category.setIsDeleted(1);
+            category.setUpdatedAt(new Date());
+            categoryService.updateByPrimaryKeySelective(category);
+            return "success";
+        }
+        return "failed";
     }
     /**
      * @Title: findCategoryByType

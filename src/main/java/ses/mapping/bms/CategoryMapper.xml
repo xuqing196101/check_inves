@@ -67,7 +67,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
-		where IS_DELETED=0 and PARENT_ID=#{id}
+		where IS_DELETED=0 and PARENT_ID=#{id} order by POSITION
 	</select>
 	<!-- 根据参数状态和是否公开查询参数列表 -->
 	<select id="findByStatus" parameterType="Map" resultMap="CateMap">
@@ -150,9 +150,6 @@
 	</insert>
 
 	<insert id="insertSelective" parameterType="ses.model.bms.Category">
-		<selectKey keyProperty="id" resultType="String" order="BEFORE">
-			select sys_guid() from dual
-		</selectKey>
 		insert into T_SES_BMS_CATEGORY
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -349,6 +346,14 @@
 		count(1) from
 		T_SES_BMS_CATEGORY
 		where IS_DELETED=1 and name = #{Name}
+	</select>
+	
+	<!-- 按名称查询品目名称是否存在-->
+	<select id="findByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select
+		count(ID) from
+		T_SES_BMS_CATEGORY
+		where IS_DELETED=0 and name = #{Name}
 	</select>
 	
 	<!-- 逻辑删除节点以及节点下的子节点 -->

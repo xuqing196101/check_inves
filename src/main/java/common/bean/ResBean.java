@@ -14,6 +14,10 @@ public class ResBean {
     private boolean success;
     
     private String filePath;
+    
+    private String msg;
+    
+    private String error;
 
     public boolean isSuccess() {
         return success;
@@ -29,6 +33,22 @@ public class ResBean {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
     
     

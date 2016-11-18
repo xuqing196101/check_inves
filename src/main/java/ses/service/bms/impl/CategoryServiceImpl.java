@@ -219,5 +219,9 @@ public class CategoryServiceImpl implements CategoryService {
         list.add(e);
         categoryMapper.deleted(list);
     }
+    
+    public Integer findByName(String name){
+       return  categoryMapper.findByName(name);
+    }
 
 }

@@ -1,30 +1,22 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>   
-<title>采购目录管理</title>
-
-
 <script type="text/javascript">
-	var treeid=null;
+	var treeid = null , nodeName;
 	var datas;
 	 $(document).ready(function(){  
           $.fn.zTree.init($("#ztree"),setting,datas);
 	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
 	      for(var i=0 ;i<nodes.length;i++){
-		     alert(nodes[i].status);
 		     if (nodes[i].status==1) {
-			check==true;
-		         }
+				 check==true;
+		      }
 	       }
-         setTimeout(function(){  
-         expandAll("ztree");  
-          },100);//延迟加载  
 	 }); 
 	 var setting={
 		   async:{
@@ -38,13 +30,6 @@
 				},
 				callback:{
 			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, 
-					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-       			    beforeAsync: beforeAsync,  
-                    onAsyncSuccess: onAsyncSuccess,
-                    beforeCheck: beforeCheck
        			    
 			    }, 
 				data:{
@@ -66,220 +51,226 @@
 			        showTitle: false,
 			   },
          };
-	function filter(treeId,parentNode,childNode){
+	
+	 
+	 function filter(treeId,parentNode,childNode){
 		 if (!childNodes) return null;
-		for(var i = 0; i<childNodes.length;i++){
-			childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
-		}
+			for(var i = 0; i<childNodes.length;i++){
+				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
+			}
 		return childNodes;
 	 }
-    function beforeAsync(){
-    	curAsyncCount++;
-    }
-   
-    function onAsyncSuccess(event,treeId,treeNode,msg){
-    	curAsyncCount--;
-    	if(curStatus =="expand"){
-    		expandNodes(treeNode.children);
-    	}else if(curStatus == "async"){
-    		asyncNodes(treeNode.children);
-    	}
-    	if(curAsyncCount <=0 ){
-    		curStatus = "";
-    	}
-    }
+	 
     
-    var curStatus = "init" , curAsyncCount = 0,goAsync =false;
-    function expandAll(){
-    	if(!check()){
-    		return;
-    	}
-    	var tree = $.fn.zTree.getZTreeObj("ztree");
-    	expandNodes(tree.getNodes());
-    	if(!goAsync){
-    		curStatus ="";
-    	}
-    }
-    function expandNodes(nodes){
-    	if(!nodes) return;
-    	curStatus = "expand";
-    	var tree = $.fn.zTree.getZTreeObj("ztree");
-    	for(var  i =0;i<nodes.length;i++){
-    		tree.expandNode(nodes[i],true,false,false);//展开节点就会调用后台查询子节点
-    		if(nodes[i].isParent && nodes[i].zAsync){
-    			expandNodes(nodes[i].children);//递归
-    		}else{
-    			goAsync = true;
-    		}
-    			
-    	}
-    }
-    function check(){
-    	if(curAsyncCount > 0){
-    		return false;
-    	}
-    	return true;
-    }
-    //父级id
-    var parentname="";
+   
     /**点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id;
-		treename=treeNode.name;
-	    parentKind=treeNode.kind;
-	    isEnd=treeNode.isEnd;
-// 	    $("#cateid").val(treeNode.id);
-// 	    if(treeNode.getParentNode()！=null){
-// 	    	   parentname=treeNode.getParentNode().name;
-// 	    }
-	    status = treeNode.status;
-	    
+    	treeid = treeNode.id;
+    	var node = treeNode.getParentNode();
+    	if (node && node != null ) {
+    		resetTips();
+    		$("#tableDivId").removeClass("dis_none");
+    		$("#uploadBtnId").addClass("dis_none");
+			$("#btnIds").hide();
+			$("#fileId_downBsId").val(treeNode.id);
+			$("#fileId_showdel").val("false");
+			showInit();
+	    	nodeName = node.name;
+    		update();
+    	} else {
+    		$("#tableDivId").addClass("dis_none");
+    	}
     }
-    function beforeCheck(treeId, treeNode) {
-        return true;
-    };
     
-    /**添加采购目录*/
-    function news(){
-			if (treeid==null) {
-				layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+    
+    /**新增 */
+    function add(){
+		if (treeid==null) {
+			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
 			return;		
-			      }else{
-			    	    $("#result").empty();
-			    	    var zTree = $.fn.zTree.getZTreeObj("ztree");
-						nodes = zTree.getSelectedNodes();
-						var node = nodes[0];
-						if(node.isParent){
-							parentname==treename;
-						}
-						var html = "";
-						html = html+"<tr><td class='info'>上级目录</td>"+"<td><input  value='"+treename+"'/></td></tr>";
-						html = html+"<input type='hidden' name='kind' value='"+parentKind+"'/>" ;
-					    html = html+"<tr><td class='info'>目录名称</td>"+"<td><input name='name' type='text'/><div id='td_input'></div></td></tr>" ;
-				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
-						html = html+"<tr><td class='info'>排序</td>"+"<td><input name='position' type='text'/><div id='td_position'></div></td></tr>";
-						html = html+"<tr><td class='info'>编码</td>"+"<td><input name='code' type='text'/><div id='td_code'></div></td></tr>";
-						html = html+"<tr><td class='info'>图片</td>"+"<td><input id='pic' type='file' name='attaattach' value='上传图片'/></td></tr>";
-						html = html+"<tr><td class='info' >描述</td>"+"<td><textarea name='description'/></td></tr>";
-						html = html+"<tr><td colspan='2'  ><input  type='button' onclick='add()'  value='提交'  class='mr30  btn btn-windows git'/>"
-						+"<input type='button' class='ml10 btn btn-windows  back' value='返回' onclick='history.go(-1)''/></td></tr>";
-						$("#result").append(html);
+		}else{
+    	    var zTree = $.fn.zTree.getZTreeObj("ztree");
+			nodes = zTree.getSelectedNodes();
+			var node = nodes[0];
+			if (node) {
+				$.ajax({
+					url:"${pageContext.request.contextPath}/category/add.do",
+					type:"POST",
+					success:function(data){
+						reset();
+						$("#tableDivId").removeClass("dis_none");
+						$("#mainId").val(data);
+						$("#uploadId_businessId").val(data);
+						$("#fileId_downBsId").val(data);
+						$("#fileId_showdel").val("true");
+						showInit();
 					}
-			}
+				});
+				$("#pid").val(node.id);
+				$("#parentNameId").text(node.name);
+				$("#uploadBtnId").removeClass("dis_none");
+				$("#btnIds").show();
+				$("#operaId").val('add');
+				
+			} 
+		}
+	}
+    /** 重置 */
+    function reset() {
+    	$("#cateId").val("");
+		$("#posId").val("");
+		$("#descId").val("");
+    }
 
 	/**修改节点信息*/
     function update(){
-	 		if (treeid==null){
-	 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
-			}else{
-				$.ajax({
-					url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
-					dataType:"json",
-					type:"POST",
-					success:function(cate){
-						$("#result").empty();
-						var html = "";
-					 	html = html+"<tr><td class='info'>上级目录</td><td><input value='"+parentname+"' readonly='readonly'/></td></tr>"; 
-						html = html+"<tr><td class='info'>目录名称</td><td><input value='"+cate.name+"' name='name'/><div id='td_input'></div></td></tr>";
-						html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
-						html = html+"<tr><td class='info'>排序</td><td><input value='"+cate.position+"' name='position'/><div id='td_position'></div></td></tr>";
-						html = html+"<tr><td class='info'>编码</td><td><input value='"+cate.code+"' name='code'/><div id='td_code'></div></td></tr>";
-// 						if (attachmentPath!=null&&attachmentPath!="") {
-// 					    html = html+"<tr><td class='info'>已上传的图片</td><td><a id='button' class='pointer' name='attaattach' type='button' onclick='showPic()'>"+picname[1]+"</a>"
-// 						+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
-// 						+"<input type='file' name='attaattach' value='重新上传' class='mt10'/></td></tr>";
-// 						}
-						html = html+"<tr><td class='info'>描述</td><td><textarea name='description'>"+cate.description+"</textarea></td></tr>";
-						html = html+"<tr><td colspan='2'><input  type='submit' onclick='renew()' value='更新' class=' mr30  btn btn-windows reset '/>"
-						+"<input type='button' class='ml10 btn btn-windows  back' value='返回' onclick='history.go(-1)''/></td></tr>";
-						$("#result").append(html);
-				      }
-                   });
-                }
-             }
-	
-
-	
-      /**图片展示*/      
-    function showPic(){
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: '800',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: $("#photo")
-			});
-	};
+ 		if (treeid==null){
+ 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
+		}else{
+		  $.ajax({
+			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
+			dataType:"json",
+			type:"POST",
+			success:function(cate){
+				$("#uploadId_businessId").val(cate.id);
+				$("#fileId_downBsId").val(cate.id);
+				$("#pid").val(cate.parentId);
+				$("#parentNameId").text(nodeName);
+				$("#cateId").val(cate.name);
+				$("#posId").val(cate.position);
+				$("#descId").val(cate.description);
+		      }
+            });
+        }
+    }
     
- 	/**删除*/
-    function del(){
- 		alert("as")
-	    window.location.href="${pageContext.request.contextPath}/category/deleted.do?ids="+treeid;
- 		}
- 	
- 	
- 	/**重命名和删除的回调函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
- 		}
-
-	/**删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"${pageContext.request.contextPath}/category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	/**节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"${pageContext.request.contextPath}/category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		} 
-    function add(id){
+	/** 保存 */
+	function save(id){
     	$.ajax({
-    		cache:true,
     		dataType:"json",
     		type:"post",
     		data:$("#fm").serialize(),
-    		url:"${pageContext.request.contextPath}/category/save.html",
+    		url:"${pageContext.request.contextPath}/category/save.do",
     		success:callback
     	});
     }
-    function callback(listCategory){
-    	$("#td_input").html(listCategory.name);
-    	$("#td_position").html(listCategory.position);
-    	$("#td_code").html(listCategory.code);
-    	if(listCategory != null && listCategory != ''){
-    		window.location.reload();
+    
+    /** 清空错误提示 */
+    function resetTips(){
+    	$("#cateTipsId").text("");
+    	$("#posTipsId").text("");
+    }
+    
+    /** 保存后的提示 */
+    function callback(msg){
+    	resetTips();
+    	if (msg.success) {
+    		$("#uploadBtnId").hide();
+			$("#btnIds").hide();
+			if ($("#operaId").val() == "add") {
+				refreshNode();
+			} else {
+				refreshParentNode();
+			}
+			layer.msg('保存成功');
+    	} else {
+    		if (msg.msg != null && msg.msg != ""){
+    			$("#cateTipsId").text(msg.msg);
+    		}
+    		if (msg.error != null && msg.error !="") {
+    			$("#posTipsId").text(msg.error);
+    		}
     	}
    }
    
-	/**更新数据*/
-	function renew(id){
-		$.ajax({
-    		cache:true,
-    		dataType:"json",
-    		type:"post",
-    		data:$("#fm").serialize(),
-    		url:"${pageContext.request.contextPath}/category/edit.html",
-    		success:callback
-    	});
-	}
-// 	/**删除附件*/
-// 	function del(){
-// 	     window.location.href="${pageContext.request.contextPath}/category/deleted.do";
-// 	}	
-	
-    /**根据关键字查询*/
+    /**
+     	刷新当前节点
+    */
+   function refreshNode(){
+	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
+	   type = "refresh",  
+	   silent = false,  
+	   nodes = zTree.getSelectedNodes();
+	   zTree.reAsyncChildNodes(nodes[0], type, silent);  
+   }
+    
+    /** 刷新父级节点 */
+   function refreshParentNode() {  
+	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
+	   type = "refresh", 
+	   silent = false,  
+	   nodes = zTree.getSelectedNodes();  
+	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
+	   zTree.reAsyncChildNodes(parentNode, type, silent);  
+   }
    
+	
+	  /** 编辑 */
+  function 	edit(){
+		  $("#operaId").val('edit');
+		  $("#mainId").val(treeid);
+		  $("#fileId_showdel").val("true");
+		  $("#uploadBtnId").removeClass("dis_none");
+	      $("#btnIds").show();
+	      update();
+	      showInit();
+	  }
+	
+  /**删除*/
+  function del(){
+	  if (treeid == null){
+		 layer.alert("请选择一个子节点,进行删除",{offset: ['150px', '500px'], shade:0.01});
+		 return;
+	  }
+	  var zTree = $.fn.zTree.getZTreeObj("ztree");
+	  var nodes = zTree.getSelectedNodes();  
+	  if (nodes[0] && nodes[0].isParent){
+		  layer.alert("请选择一个子节点,进行删除",{offset: ['150px', '500px'], shade:0.01});
+		  return;
+	  }
+	  
+	  layer.confirm('您确认要删除吗？', {
+		  btn: ['确认','取消']
+	    },function (){
+	    	delNode();
+	    }
+  	  );
+  }
+  
+  /** 删除节点 */
+  function delNode(){
+	  $.ajax({
+	  		type:"post",
+	  		url:"${pageContext.request.contextPath}/category/deleted.do?id=" + treeid,
+	  		success:function(data){
+	  			if (data == "success") {
+	  				refreshParentNode();
+	  				layer.msg('删除成功');
+	  				$("#tableDivId").addClass("dis_none");
+	  			} else {
+	  				layer.msg('删除失败');
+	  			}
+	  		}
+	  	});
+  }
+  
+  /** 获取所有的子级 */
+  function getAllChildrenNodes(treeNode,result){
+	  if (treeNode.isParent) {
+		  var childrenNodes = treeNode.children;
+		  if (childrenNodes) {
+			  for (var i = 0; i < childrenNodes.length; i++) {
+				  result += ',' + childrenNodes[i].id;
+				  result = getAllChildrenNodes(childrenNodes[i], result);
+			  }
+		  }
+	  }
+	  return result;
+  }
+	
+	
 </script>
+
 </head>
 
 <body>
@@ -287,30 +278,72 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">采购目录管理</a></li><li><a href="#">首页</a></li>
+		   <li><a href="javascript:void(0);"> 首页</a></li><li><a href="javascript:void(0);">支撑系统</a></li><li><a href="javascript:void(0);">产品管理</a></li><li><a href="javascript:void(0);">产品目录管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-   <div class="col-md-3"><%--
-   <div>
-   <span><input id="key" type="text" /><input id="query" type="button" value="搜索"/></span>
-   </div>
-	--%><div class="tag-box tag-box-v3 mt15">
-	 <div><ul id="ztree" class="ztree"></ul></div>
-	</div>
-	</div>
-		<div class=" tag-box tag-box-v3 mt15 col-md-8">
-			<span><a href="javascript:void(0);" onclick="news();" class="btn btn-windows add ">新增 </a></span> 
-			<span><a href="javascript:void(0);" onclick="update();"  class="btn btn-windows edit ">修改</a></span> 
-			<span><a href="javascript:void(0);" onclick="del();"  class="btn btn-window ">删除</a></span>
-            <form  id="fm" action="" method="post" enctype="multipart/form-data" >
-            <input type="hidden"  onclick="add()" value=""/>
-            <input type="hidden"  onclick="renew()" value=""/>
-            <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-            </form>
-        </div>
+	   <div class="container">
+		   <div class="col-md-3">
+		  	 <div class="tag-box tag-box-v3 mt15">
+			 	<div><ul id="ztree" class="ztree"></ul></div>
+			 </div>
+		   </div>
+		   <div class=" tag-box tag-box-v3 mt15 col-md-8">
+		   		<button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
+		   		<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
+		   		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+		        <div id="tableDivId"   class="content dis_none" >   
+		        	<form id="fm">
+		        		<input type="hidden" id="pid" name="parentId" />
+		        		<input type="hidden" id="mainId" name="id" />
+		        		<input type="hidden" id="operaId" name="opera" />
+			            <table id="result"  class="table table-bordered table-condensedb" >
+			            		<tr>
+			            			<th class='info'>上级目录</th>
+			            			<td id="parentNameId"></td>
+			            		</tr>
+			            		<tr>
+			            		    <th class='info'><span class="red">*</span>目录名称</th>
+			            		    <td>
+			            		        <div class="input-append" >
+			            		    	  <input id="cateId" class="span5" 	  style="height: 30px"  name='name'/>
+			            		    	  <span class="add-on">i</span><span id="cateTipsId" class="red" />
+			            		    	</div>
+			            		    </td>
+			            		</tr>
+			            		<tr>
+			            			<th class='info'><span class="red">*</span>排序</th>
+			            			<td>
+			            				<div class="input-append" >
+			            				  <input style="height: 30px" id="posId"  class="span5"  name='position'/>
+			            				  <span class="add-on">i</span><span id="posTipsId" class="red" />
+			            				</div>
+			            		    </td>
+			            	    </tr>
+			            	    <tr>
+			            	    	<th class='info'>图片</th>
+			            	    	<td>
+			            	    		<div id="uploadBtnId" class="dis_none">
+			            	    			<u:upload  id="uploadId"   businessId="${id}" auto="true" sysKey="2"/>
+			            	    		</div>
+			            	    		<div id="showFileId">
+			            	    			<u:show showId="fileId" businessId="${id}" sysKey="2"/>
+			            	    		</div>
+			            	    	</td>
+			            	    </tr>
+			            	    <tr>
+			            	        <th class='info'>描述</thssss>
+			            	        <td><textarea name='description' class="span5" id="descId"></textarea></td>
+			            	    </tr>
+			            </table>
+			            <div id="btnIds" class="dnone">
+			            	<button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
+			            	<button  type='button' onclick='renew()'  class='mr30  btn btn-windows reset '>重置</button>
+			            </div>
+			         </form> 
+		         </div>
+	       </div>
 	</div>
 </body>
 </html>
