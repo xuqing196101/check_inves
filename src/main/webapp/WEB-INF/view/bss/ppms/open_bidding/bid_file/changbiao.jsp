@@ -20,7 +20,11 @@
 		$("div").removeClass("disNon");
 	}
 	 $(function(){
+	   if('${date}'>0){
 	 	setInterval("showTime()", 1000);
+	   } else {
+	   	$("#showTime").text("已开标");
+	   }
 	 });
 		function showTime(){
 		    var projectId=$("#projectId").val();
@@ -32,17 +36,36 @@
 					var bidTime=data;
 					if(bidTime<0){
 						$("#showTime").text("已开标");
+						//clearInterval("showTiem()");
 					}else{
 						var day=bidTime/(60*60*24*1000);
 						day=parseInt(day);
 						if(day<1){
 						    day=0;
 							var hour=bidTime/(60*60*1000);
+							hour=parseInt(hour);
 							if(hour<1){
 							    hour=0;
 								var minutes=bidTime/(60*1000);
+								minutes=parseInt(minutes);
 								if(minutes<1){
 									var second=bidTime/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
+								};
+							}else{
+								var minutes=(bidTime-hour*60*60*1000-60*60*24*1000*day)/(60*1000);
+								var second=0;
+								minutes=parseInt(minutes);
+								if(minutes<1){
+								    minutes=0;
+									second=(bidTime-hour*60*60*1000-60*60*24*1000*day)/1000;
+									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
 								};
 							};
 						}else{
@@ -53,6 +76,7 @@
 								var minutes=(bidTime-60*60*24*1000*day)/(60*1000);
 								if(minutes<1){
 									var second=(bidTime-60*60*24*1000*day)/1000;
+									second=parseInt(second);
 								};
 							}else{
 								var minutes=(bidTime-hour*60*60*1000-60*60*24*1000*day)/(60*1000);
@@ -120,8 +144,8 @@
 		<c:forEach items="${listSupplier }" var="ls" varStatus="vs">
 			<tr>
 			    <td>${vs.index+1 }</td>
-				<td>${ls.name }</td>
-				<td>${ls.concatName }</td>
+				<td>${ls.supplierName }</td>
+				<td>${ls.contactName }</td>
 				<td>${ls.mobile }</td>
 				<td></td>
 				<td></td>

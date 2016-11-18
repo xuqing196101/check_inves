@@ -455,6 +455,9 @@ public class OpenBiddingController {
             model.addAttribute("list", list);
             model.addAttribute("projectId", projectId);
             model.addAttribute("flowDefineId", flowDefineId);
+            Project project=projectService.selectById(projectId);
+            FirstAuditController.getType(project,model);
+            model.addAttribute("project", project);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -500,6 +503,9 @@ public class OpenBiddingController {
             model.addAttribute("list", list2);
             model.addAttribute("projectId", projectId);
             model.addAttribute("flowDefineId", flowDefineId);
+            Project project=projectService.selectById(projectId);
+            FirstAuditController.getType(project,model);
+            model.addAttribute("project", project);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -551,15 +557,15 @@ public class OpenBiddingController {
     public String changbiao(String projectId, Model model ){
        //项目信息
     	Project project=projectService.selectById(projectId);
+    	 //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";
         for(Supplier sup:listSupplier){
         	supplierStr+=sup.getId()+",";
         }
-       //参与项目的所有供应商
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
-        map.put("purchaseType", "公开招标");
+        map.put("purchaseType", "gkzb");
         List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
@@ -584,6 +590,15 @@ public class OpenBiddingController {
         model.addAttribute("listPd", listPd);
         model.addAttribute("listQuoteList", listQuoteList);
         model.addAttribute("project", project);
+    	//开标时间
+    	long bidDate=0;
+    	if(project.getBidDate()==null){
+    	}else{
+    		bidDate=project.getBidDate().getTime();
+    	}
+    	long nowDate=new Date().getTime();
+    	long date=bidDate-nowDate;
+    	model.addAttribute("date", date);
         return "bss/ppms/open_bidding/bid_file/changbiao";
     }
     
