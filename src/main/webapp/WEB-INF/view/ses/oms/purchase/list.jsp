@@ -22,7 +22,8 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		             location.href = '${pageContext.request.contextPath}/purchase/list.html?page='+e.curr;
+		        	$("#page").val(e.curr);
+		            location.href = '${pageContext.request.contextPath}/purchase/list.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -112,6 +113,9 @@
 		    }
 		});
 	}
+	function resetQuery(){
+		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
 </script>
 </head>
 
@@ -153,7 +157,7 @@
 							</span>
 							</li>
 							<button type="button" onclick="submit();" class="btn">查询</button>
-                            <button type="button" onclick="chongzhi();" class="btn">重置</button>
+                            <button type="button" onclick="resetQuery();" class="btn">重置</button>
 						</ul>
 						<div class="clear"></div>
 					</form>

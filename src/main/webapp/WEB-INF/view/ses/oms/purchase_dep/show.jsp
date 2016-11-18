@@ -745,8 +745,8 @@
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
                                                 class="red">＊</i>采购资格证书图片：</span>
                                             <div class="uploader orange m0">
-                                                <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true" typeId="${PURCHASE_QUA_CERT_ID }"/>
-												<up:show showId="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" typeId="${PURCHASE_QUA_CERT_ID }"/>
+                                                <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true"/>
+													<up:show showId="cert_show_id" businessId="${purchaseDep.id}" sysKey="2"/>
                                             </div></li>
                                     </ul>
                                     <h2 class="count_flow"><i>3</i>个人信息</h2>

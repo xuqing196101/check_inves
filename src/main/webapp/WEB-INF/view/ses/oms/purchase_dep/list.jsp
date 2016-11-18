@@ -8,25 +8,28 @@
 <head>
 </head>
 <script type="text/javascript">
-  /* $(function(){
-	  laypage({
+   $(function(){
+	   laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${listStationMessage.pages}", //总页数
+		    pages: "${list.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
-		    groups: "${listStationMessage.pages}">=3?3:"${listStationMessage.pages}", //连续显示分页数
+		    total: "${list.total}",
+		    startRow: "${list.startRow}",
+		    endRow: "${list.endRow}",
+		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-// 		        var page = location.search.match(/page=(\d+)/);
-		        return "${listStationMessage.pageNum}";
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	$("#pages").val(e.curr);
-		        	$("form:first").submit();
+		        	$("#page").val(e.curr);
+		            location.href = '${pageContext.request.contextPath}/intelligentScore/scoreModelList.html?page='+e.curr+'&packageId=${scoreModel.packageId}';
 		        }
 		    }
 		});
-  }); */
+  }); 
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -95,11 +98,136 @@
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.do";
     }
     function show(id){
-    	window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id+"&&type=view";
+    	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
     }
     function addPurchase(){
     	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
     }
+    function resetQuery(){
+		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+	function submit() {
+		$("#form1").submit();
+	}
+	function purchaseStash(quaStatus){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+		}else if(id.length>1){
+			layer.alert("只能选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return;
+		}else{
+			layer.alert("请选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		var title = "确定暂停采购机构资质吗?";
+		layer.confirm(title,{
+                offset: ['50px','90px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                     layer.open({
+						type : 2, //page层
+						area : [ '500px', '300px' ],
+						title : title,
+						shade : 0.01, //遮罩透明度
+						moveType : 1, //拖拽风格，0是默认，1是传统拖动
+						shift : 1, //0-6的动画形式，-1不开启
+						offset : [ '220px', '630px' ],
+						shadeClose : true,
+						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=0'
+					 });
+                },function(){
+                    var index=parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index);
+                }
+                    
+          ); 
+		
+	}
+	function purchaseNormal(quaStatus){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+		}else if(id.length>1){
+			layer.alert("只能选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return;
+		}else{
+			layer.alert("请选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		var title = "确定要启用采购机构资质吗";
+		layer.confirm(title,{
+                offset: ['50px','90px'],
+                shade:0.01,
+                
+                },function(index){
+                	
+                     layer.close(index);
+                     layer.open({
+						type : 2, //page层
+						area : [ '500px', '300px' ],
+						title : title,
+						shade : 0.01, //遮罩透明度
+						moveType : 1, //拖拽风格，0是默认，1是传统拖动
+						shift : 1, //0-6的动画形式，-1不开启
+						offset : [ '220px', '630px' ],
+						shadeClose : true,
+						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=1'
+					 });
+					
+                }
+                    
+          ); 
+	}
+	function purchaseTerminal(quaStatus){
+		if(quaStatus!=null && quaStatus!='' && quaStatus==0){
+			layer.alert("已经暂定，不可终止，请恢复后在终止操作",{offset: ['222px', '390px'], shade:0.01});
+			return;
+		}
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+		}else if(id.length>1){
+			layer.alert("只能选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return;
+		}else{
+			layer.alert("请选择一条记录",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		var title = "确定终止采购机构资质吗";
+		layer.confirm(title,{
+                offset: ['50px','90px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                     layer.open({
+						type : 2, //page层
+						area : [ '500px', '300px' ],
+						title : title,
+						shade : 0.01, //遮罩透明度
+						moveType : 1, //拖拽风格，0是默认，1是传统拖动
+						shift : 1, //0-6的动画形式，-1不开启
+						offset : [ '220px', '630px' ],
+						shadeClose : true,
+						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=2'
+					 });
+                },function(){
+                    var index=parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index);
+                }
+                    
+          ); 
+	}
   </script>
 <body>
 		<!--面包屑导航开始-->
@@ -123,16 +251,18 @@
 				<h2>采购机构列表</h2>
 		      </div>
 		      <h2 class="search_detail">
-			       <form action="${pageContext.request.contextPath}/purchaseDep/list.html" method="post" id="form1" enctype="multipart/form-data" class="mb0">
+			       <form action="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html" method="post" id="form1" enctype="multipart/form-data" class="mb0">
+			       <input type="hidden" name="page" id="page">
 			        <ul class="demand_list">
 			          <li>
 			            <label class="fl">名称：</label><span><input type="text" name="name" value="${purchaseDep.name }"></span>
 			          </li>
-			          <button type="button" name="commit"  class="btn">查询</button>
+			         <button type="button" onclick="submit()" class="btn">查询</button>
+					<button type="button" onclick="resetQuery();" class="btn">重置</button>
 			        </ul>
 			        <div class="clear"></div>
 			       </form>
-			       <input type="hidden" name="page" id="page">
+			       
 			       <input type="hidden" name="flag" value="0">
 			  </h2>
 			<!-- 表格开始-->
@@ -142,8 +272,10 @@
 					<button class="btn btn-windows delete" type="button"
 						onclick="dell();">删除</button>
 					<button class="btn btn-windows add" type="button" onclick="addPurchase();">人员管理</button>
-					<button class="btn btn-windows edit" type="button" onclick="stash()">资质暂停</button>
-					<button class="btn btn-windows edit" type="button" onclick="over()">资质终止</button>
+					<button class="btn btn-windows edit" type="button" onclick="purchaseStash()">资质暂停</button>
+					<button class="btn btn-windows edit" type="button" onclick="purchaseNormal()">资质启用</button>
+					<button class="btn btn-windows edit" type="button" onclick="purchaseTerminal()">资质终止</button>
+					
 			</div>
 
 			<div class="content table_box">
@@ -161,6 +293,7 @@
 									<th class="info">采购资质编号</th>
 									<th class="info">采购业务等级</th>
 									<th class="info">采购资质范围</th>
+									<th class="info">资质状态</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -186,12 +319,30 @@
 										<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
 										<!-- 是否发布 -->
 										<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
+										<td class="tc" onclick="show('${p.id}');" id="${p.id }">
+											<c:choose>
+												<c:when test="${p.quaRange==0}">
+													暂停
+												</c:when>
+												<c:when test="${p.quaRange==1}">
+													正常
+												</c:when>
+												<c:when test="${p.quaRange==2}">
+													已终止
+												</c:when>
+												<c:otherwise>
+											
+												</c:otherwise>
+											</c:choose>
+										${p.quaRange}
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 					</table>
 					<!-- <div id="page" align="right"></div> -->
-					<p class="pagestyle">${pagesql}</p>
+					<div id="pagediv" align="right"></div>
+					<%-- <p class="pagestyle">${pagesql}</p> --%>
 
 				</div>
 			</div>

@@ -43,6 +43,7 @@
 		       d.IS_DELETED   as isDeleted,
 		       d.UPDATED_AT   as updatedAt,
 		       d.CREATED_AT   as createdAt,
+		       d.QUA_STASH_REASON  as quaStashReason,
 		       o.id       as orgId,
 		       o.NAME         as name,
 		       o.SHORT_NAME   as shortName,
@@ -264,6 +265,9 @@
 		 	 <if test="quaStatus != null and quaStatus != ''">
 		 		,QUA_STATUS=#{quaStatus,jdbcType=NUMERIC}
 		 	</if>
+		 	 <if test="quaStashReason != null and quaStashReason != ''">
+		 		,QUA_STASH_REASON=#{quaStashReason,jdbcType=VARCHAR}
+		 	</if>
 		 	 <if test="quaStartDate != null and quaStartDate != ''">
 		 		,QUA_START_DATE=#{quaStartDate,jdbcType=TIMESTAMP}
 		 	</if>
@@ -310,7 +314,8 @@
 		       d.IS_DELETED   as isDeleted,
 		       d.UPDATED_AT   as updatedAt,
 		       d.CREATED_AT   as createdAt,
-		       d.ORG_ID       as orgId,
+		       d.QUA_STASH_REASON  as quaStashReason,
+		       o.id        as orgId,
 		       o.NAME         as name,
 		       o.SHORT_NAME   as shortName,
 		       o.ORG_CODE     as orgCode,

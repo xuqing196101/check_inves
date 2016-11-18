@@ -28,11 +28,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import bss.model.ppms.ScoreModel;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
@@ -46,6 +50,7 @@ import ses.model.oms.util.CommUtils;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -84,6 +89,9 @@ public class PurchaseManageController {
 	private AreaServiceI areaServiceI;
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
@@ -693,13 +701,17 @@ public class PurchaseManageController {
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("typeName", 0);
+		if(purchaseDep!=null){
+		    map.put("name", purchaseDep.getName());
+		}
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		page = new PageInfo(purchaseDepList);
 		model.addAttribute("purchaseDepList",purchaseDepList);
 
 		//分页标签
-		String pagesales = CommUtils.getTranslation(page,"purchaseManage/purchaseUnitList.do");
-		model.addAttribute("pagesql", pagesales);
+		 model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
+		/*String pagesales = CommUtils.getTranslation(page,"purchaseManage/purchaseUnitList.do");
+		model.addAttribute("pagesql", pagesales);*/
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "ses/oms/purchase_dep/list";
 	}
@@ -728,8 +740,96 @@ public class PurchaseManageController {
 			purchaseDep = list.get(0);
 		}
 		model.addAttribute("purchaseDep", purchaseDep);
+		//多文件上传
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		DictionaryData dd=new DictionaryData();
+        dd.setCode("PURCHASE_QUA_CERT");
+        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+        if(lists.size()>0){
+            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_STASH");
+        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
+        if(liststash.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
+        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
+        if(listnormal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
+        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
+        if(listterminal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
+        }
 		return "ses/oms/purchase_dep/edit";
 	}
+	/**
+	 * 
+	 *〈简述〉查看页面
+	 *〈详细描述〉
+	 * @author tiankf
+	 * @param purchaseDep
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("showPurchaseDep")
+    public String showPurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", purchaseDep.getId());
+        List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+        if(list!=null && list.size()>0){
+            purchaseDep = list.get(0);
+        }
+        model.addAttribute("purchaseDep", purchaseDep);
+        return "ses/oms/purchase_dep/show";
+    }
+	/**
+	 * 
+	 *〈简述〉资质暂停  资质终止  资质启用操作页面
+	 *〈详细描述〉
+	 * @author tiankf
+	 * @param purchaseDep
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("updateQuateStatus")
+    public String updateQuateStatus(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", purchaseDep.getId());
+        List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+        if(list!=null && list.size()>0){
+            purchaseDep = list.get(0);
+        }
+        model.addAttribute("purchaseDep", purchaseDep);
+        //多文件上传
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        DictionaryData dd=new DictionaryData();
+        dd.setCode("PURCHASE_QUA_CERT");
+        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+        if(lists.size()>0){
+            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_STASH");
+        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
+        if(liststash.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
+        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
+        if(listnormal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
+        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
+        if(listterminal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
+        }
+        return "ses/oms/purchase_dep/update_quate_status";
+    }
 	@RequestMapping("updatePurchaseDep")
 	public String updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) throws IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -750,10 +850,14 @@ public class PurchaseManageController {
 		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
 		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
 		String depIds= request.getParameter("depIds");
-		orgnizationServiceI.updateOrgnizationById(purchaseDep.getOrgnization());
+		if(purchaseDep.getOrgnization()!=null){
+		    
+		    orgnizationServiceI.updateOrgnizationById(purchaseDep.getOrgnization());
+		}
 		purchaseOrgnizationServiceI.update(purchaseDep);
 		jsonData.setSuccess(true);
 		jsonData.setMessage("更新成功");
+		jsonData.setObj(purchaseDep);
 		return jsonData;
 	}
 	/**

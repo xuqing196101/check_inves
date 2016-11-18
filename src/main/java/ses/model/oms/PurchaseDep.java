@@ -42,6 +42,10 @@ public class PurchaseDep extends Orgnization{
     private Integer quaRange;//采购资质范围,1：综合2：物资3：工程 4：服务 
     
     private Integer quaStatus;//资质状态  0资质暂停1默认正常2资质终止
+    
+    private String quaStashReason;//资质暂停理由
+    private String quaNormalReason;//资质启用理由
+    private String quaTerminalReason;//资质终止理由
 
     private String quaCert;
 
@@ -479,5 +483,11 @@ public class PurchaseDep extends Orgnization{
 	public void setOrgnization(Orgnization orgnization) {
 		this.orgnization = orgnization;
 	}
+    public String getQuaStashReason() {
+        return quaStashReason;
+    }
+    public void setQuaStashReason(String quaStashReason) {
+        this.quaStashReason = quaStashReason;
+    }
     
 }
