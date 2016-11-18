@@ -112,12 +112,12 @@ function kaptcha(){
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
-		  	<c:forEach items="${indexMapper['picList']}" var="pic">
+		  	<%--<c:forEach items="${indexMapper['picList']}" var="pic">
 			   <li class="item">
 					<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
 			   </li>
 			</c:forEach>
-			<%--<li class="item" style="left:0px;">
+			--%><li class="item" style="left:0px;">
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
@@ -126,7 +126,7 @@ function kaptcha(){
 			<li class="item">
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
-		   --%></ul>
+		   </ul>
 	      </div>
 	      <div class="controler" data-scro="controler">
 		   <b class="down">1</b>

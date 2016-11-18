@@ -112,7 +112,9 @@ public class IndexNewsController extends BaseSupplierController{
 				attachTypeId = lists.get(0).getId();
 			}
 			List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
-			article.setPic(uploadList.get(0).getPath());
+			if(uploadList!=null){
+				article.setPic(uploadList.get(0).getPath());
+			}
 			indexPics.add(article);
 		}
 		indexMapper.put("picList", indexPics);
