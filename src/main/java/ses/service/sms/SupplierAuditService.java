@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -34,7 +36,7 @@ public interface SupplierAuditService {
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
-	 List<Supplier> supplierList(Supplier supplier,Integer page);
+	PageInfo<Supplier> supplierList(Supplier supplier);
 	 
     /**
      * @Title: querysupplier

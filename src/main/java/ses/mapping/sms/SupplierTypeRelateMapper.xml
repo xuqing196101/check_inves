@@ -100,14 +100,16 @@
 	</select>
 
 	<select id="findSupplierTypeBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select
-		t2.*,
-		t3.NAME as SUPPLIER_TYPE_NAME
-		from
-		T_SES_SMS_SUPPLIER t1
-		join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
-		join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
-		where t1.ID = #{supplierId}
+		SELECT
+		    t1.NAME as SUPPLIER_TYPE_NAME
+		FROM
+		    T_SES_BMS_DICTIONARY_DATA t1
+		JOIN 
+		    T_SES_SMS_SUPPLIER_TYPE_RELATE t2
+		ON
+		    t2.SUPPLIER_TYPE_ID = t1.CODE
+		WHERE
+		    t2.SUPPLIER_ID = #{supplierId}
 	</select>
 
 	<delete id="deleteBySupplierId" parameterType="java.lang.String">

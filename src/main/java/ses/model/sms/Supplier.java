@@ -492,6 +492,10 @@ public class Supplier implements Serializable {
 	private List<String> itemType;
 	
 	private Integer sign;
+	
+	private Integer page;
+	
+	private Integer rows;
 
 	public List<String> getItemType() {
 		return itemType;
@@ -1132,5 +1136,22 @@ public class Supplier implements Serializable {
 	public void setSign(Integer sign) {
 		this.sign = sign;
 	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public Integer getRows() {
+		return rows;
+	}
+
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
+	
 	
 }

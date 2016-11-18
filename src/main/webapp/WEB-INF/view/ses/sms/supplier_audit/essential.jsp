@@ -180,10 +180,10 @@ function nextStep(){
 			            <li class="active"><a >详细信息</a></li>
 			            <li class=""><a >财务信息</a></li>
 			            <li class=""><a >股东信息</a></li>
-			            <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+			            <c:if test="${fn:contains(supplierTypeNames, '生产')}">
 			            <li class=""><a >物资-生产型专业信息</a></li>
 			            </c:if>
-			            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+			            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
 			            <li class=""><a >物资-销售型专业信息</a></li>
 			            </c:if>
 			            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
@@ -264,19 +264,19 @@ function nextStep(){
                   <h2 class="count_flow"><i>2</i>资质资信</h2>
                   <ul class="ul_list hand">
                     <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月完税凭证：</span>
-                        <up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+                        <up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
                         <p  class="b f18 ml10 red">×</p>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年银行基本账户年末对账单：</span>
-                        <up:show showId="billcert_show" delete="false" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+                        <up:show showId="billcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
                         <p  class="b f18 ml10 red">×</p>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月缴纳社会保险金凭证：</span>
-                        <up:show showId="curitycert_show" delete="false" groups="" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+                        <up:show showId="curitycert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
                         <p  class="b f18 ml10 red">×</p>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年内无重大违法记录声明：</span>
-                      <up:show showId="bearchcert_show" groups="" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+                      <up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
                       <p  class="b f18 ml10 red">×</p>
                     </li>
                   </ul>
@@ -404,7 +404,7 @@ function nextStep(){
                         </c:if>
                         <div class="b f18 ml10 fl hand red">×</div>
                       </div> --%>
-                      <up:show showId="business_show"  businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+                      <up:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
                     </li>
                     <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessScope2">经营范围：</span>
                       <div class="col-md-9 mt5">

@@ -169,13 +169,13 @@
 				            <th class="info w50">选择</th>
 				            <th class="info w50">序号</th>
 				            <th class="info">供应商名称</th>
-				            <th class="info">企业类型</th>
+				             <th class="info">企业类型</th>
 				            <th class="info">企业性质</th>
 				            <!-- <th class="info">企业状态</th> -->
 				            <th class="info">审核状态</th>
 		                </tr>
 		            </thead>
-		            <c:forEach items="${supplierAll }" var="list" varStatus="page">
+		            <c:forEach items="${result.list }" var="list" varStatus="page">
 		                <tr>
 				            <td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 				            <td class="tc w50">${page.count}</td>

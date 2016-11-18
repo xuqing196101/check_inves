@@ -45,9 +45,11 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -153,12 +155,30 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * @return List<Supplier>
 	 */
 	@Override
-	public List<Supplier> supplierList(Supplier supplier,Integer page) {
-		if(page!=null){
+	public PageInfo<Supplier> supplierList(Supplier supplier) {
+		/*if(page!=null){
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}*/
+		Integer page = supplier.getPage();
+		page = page == null ? 1 : page;
+		Integer count = supplierMapper.getCount(supplier);
+		if (count != null && count > 0) {
+			PageInfo<Supplier> pageInfo = new PageInfo<>();
+			Integer pageSize = PropUtil.getIntegerProperty("pageSize"); //获取每页条数
+			double dCount = count.doubleValue();
+			double dPageSize = pageSize.doubleValue();
+			pageInfo.setTotal(count);// 设置总条数
+			pageInfo.setPages((int)Math.ceil(dCount / dPageSize));// 总页数
+			pageInfo.setStartRow((page - 1) * pageSize + 1); //开始条数
+			pageInfo.setEndRow(page * pageSize);  //结束条数
+			pageInfo.setPageNum(page);  //当前页
+			supplier.setRows(pageSize);
+			supplier.setPage(page);
+			pageInfo.setList(supplierMapper.findSupplier(supplier));
+			return pageInfo;
 		}
-		return supplierMapper.findSupplier(supplier);
+		return null;
 	}
 	
 	@Override
@@ -501,7 +521,6 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 
 	@Override
 	public String findSupplierTypeNameBySupplierId(String supplierId) {
-		
 		Supplier supplier = supplierMapper.getSupplier(supplierId);
 		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
 		String supplierTypeNames = "";

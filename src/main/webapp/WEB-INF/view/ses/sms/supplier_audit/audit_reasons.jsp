@@ -128,10 +128,10 @@ alert(supplierInspectListFile);
               <li class=""><a >详细信息</a></li>
               <li class=""><a >财务信息</a></li>
               <li class=""><a >股东信息</a></li>
-              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
 	            <li class=""><a >物资-生产型专业信息</a></li>
 	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
 	            <li class=""><a >物资-销售型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
@@ -204,13 +204,13 @@ alert(supplierInspectListFile);
 			     <h2 class="count_flow"><i>2</i>供应商考察表</h2>
 				 <ul class="ul_list">
 				    <%-- <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data"> --%>
-	                   <li class="col-md-5 padding-left-5">
+	                   <li class="col-md-6 p0 mb25">
 	                      <input name="supplierId" value="${supplierId}" type="hidden">
-		                  <span class="" ><i class="red">＊</i>上传考察表:</span>
-		                  
-		                  <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
-                           <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
-
+		                  <span class="col-md-5 padding-left-5" ><i class="red">*</i>上传考察表:</span>
+		                  <div style="margin-bottom: 25px">
+		                      <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+                            <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+                          </div>
 		                  <!-- <input class="span3" type="file" name="supplierInspectListFile"/>
 		                  <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button> -->
 	                   </li>

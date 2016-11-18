@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -36,7 +35,6 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
@@ -184,13 +182,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId,Integer sign) {
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
+		
 		//初审、复审的标识
 		request.getSession().setAttribute("signs", sign);
-		
-		
+	
 		//文件
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -247,9 +246,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		//下一步的跳转页面
 		String url = null;
-		if(supplierTypeName.contains("生产型")){
+		if(supplierTypeName.contains("生产")){
 			url=request.getContextPath()+"/supplierAudit/materialProduction.html";
-		}else if(supplierTypeName.contains("销售型") && url == null){
+		}else if(supplierTypeName.contains("销售") && url == null){
 			url=request.getContextPath()+"/supplierAudit/materialSales.html";
 		}else if(supplierTypeName.contains("工程") && url == null){
 			url=request.getContextPath()+"/supplierAudit/engineering.html";
@@ -288,7 +287,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		//下一步的跳转页面
 		String url = null;
-		if(supplierTypeName.contains("销售型")){
+		if(supplierTypeName.contains("销售")){
 			url=request.getContextPath()+"/supplierAudit/materialSales.html";
 		}else if(supplierTypeName.contains("工程") && url == null){
 			url=request.getContextPath()+"/supplierAudit/engineering.html";
@@ -844,13 +843,8 @@ public class SupplierAuditController extends BaseSupplierController{
 			supplier.setSign(sign);
 			request.getSession().removeAttribute("signs");
 		}
-		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
-		request.setAttribute("result", new PageInfo<>(supplierAll));
-		request.setAttribute("supplierAll", supplierAll);
-
-		//所有供应商类型
-		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
-		request.setAttribute("supplierType", supplierType);
+		PageInfo<Supplier> result = supplierAuditService.supplierList(supplier);
+		request.setAttribute("result", result);
 		
 		//回显名字
 		String supplierName = supplier.getSupplierName();
