@@ -11,10 +11,13 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
-	function OpenFile() {
+	function OpenFile(fileId) {
 		var obj = document.getElementById("TANGER_OCX");
 		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
+		if(fileId != 0){
+			obj.BeginOpenFromURL("${pageContext.request.contextPath}/supplierProject/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
+		}
 	}
 	
 	function queryVersion(){
@@ -41,7 +44,7 @@
 		var obj = document.getElementById("TANGER_OCX");
 		//obj.ShowTipMessage("提示","绑定指标时请把光标停在选中内容的起始处");
 		if(typeof(obj.ActiveDocument) == "undefined"){
-			obj.ShowTipMessage("提示","文档加载失败或者未加载文档",true);
+			obj.ShowTipMessage("提示","文档加载失败或者未加载文档");
 			return;
 		}
 		//获取当前页码
@@ -111,14 +114,9 @@
 	}
 </script>
 
-<!-- 打开文档后只读 -->
-<!-- <script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
-		var obj = document.getElementById("TANGER_OCX");
-		obj.SetReadOnly(true);
-</script> -->
 </head>
 
-<body onload="OpenFile()">
+<body onload="OpenFile('${fileId}')">
 	<div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -130,19 +128,63 @@
     <div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1 green_link">编制标书</a>
-			  <span class="green_link">→</span>
+		    	<c:if test="${std.bidFinish == 0}">
+				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v2 orange_link">编制标书</a>
+				  <span class="green_link">→</span>
+		    	</c:if>
+		    	<c:if test="${std.bidFinish != 0}">
+				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
+				  <span class="">→</span>
+		    	</c:if>
 			</span>
 			<span>
-			  <a href="javascript:void(0);" onclick="bd('${project.id}');" class="img-v2 orange_link">绑定指标</a>
-			  <span class="">→</span>
+				<c:if test="${std.bidFinish == 1}">
+				  <a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v2 orange_link">绑定指标</a>
+				  <span class="green_link">→</span>
+				</c:if>
+				<c:if test="${std.bidFinish == 2 || std.bidFinish == 3 || std.bidFinish == 4}">
+				  <a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
+				  <span class="">→</span>
+				</c:if>
+				<c:if test="${std.bidFinish == 0}">
+				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">绑定指标</a>
+				  <span class="">→</span>
+				</c:if>
 			</span>
 			<span>
-			  <a href="javascript:void(0);" onclick="tishi('请先绑定评审指标');" class="img-v3">填写报价</a>
-			  <span class="">→</span>
+				<c:if test="${std.bidFinish == 2 }">
+				  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${project.id}"  class="img-v2 orange_link">填写报价</a>
+				  <span class="green_link">→</span>
+				</c:if>
+				<c:if test="${std.bidFinish == 0}">
+				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">填写报价</a>
+				  <span class="">→</span>
+				</c:if>
+				<c:if test="${std.bidFinish == 1}">
+				  <a href="javascript:void(0);" onclick="tishi('请先绑定指标');" class="img-v3">填写报价</a>
+				  <span class="">→</span>
+				</c:if>
+				<c:if test="${std.bidFinish == 3 || std.bidFinish == 4}">
+				  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${project.id}" class="img-v1">填写报价</a>
+				  <span class="">→</span>
+				</c:if>
 			</span>
 		    <span>
-			  <a href="javascript:void(0);" onclick="tishi('请先完成投标报价');" class="img-v3">完成</a>
+		    	<c:if test="${std.bidFinish == 3 }">
+			  		<a href="javascript:void(0);" class="img-v2  orange_link">完成</a>
+		    	</c:if>
+		    	<c:if test="${std.bidFinish == 0}">
+				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">完成</a>
+				</c:if>
+				<c:if test="${std.bidFinish == 1}">
+				  <a href="javascript:void(0);" onclick="tishi('请先绑定指标');" class="img-v3">完成</a>
+				</c:if>
+				<c:if test="${std.bidFinish == 2}">
+				  <a href="javascript:void(0);" onclick="tishi('请先填写报价');" class="img-v3">完成</a>
+				</c:if>
+				<c:if test="${std.bidFinish == 4}">
+				  <a href="javascript:void(0);"  class="img-v1">完成</a>
+				</c:if>
 			</span>
    		</div>
   	</div>
@@ -222,6 +264,8 @@
 				         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存绑定操作"></input>
 				    </div>
 				</c:if>
+				<input type="hidden" id="status" value="${status }">
+				 <input type="hidden" id="fileId" value="${fileId }">
 				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</form>
 		  </div>

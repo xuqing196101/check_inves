@@ -17,7 +17,7 @@ public class DictionaryData implements Serializable{
     private String description;
 
     @NotNull(message = "名称不能为空")
-    private String Name;
+    private String name;
     
     private Date createdAt;
 
@@ -77,11 +77,11 @@ public class DictionaryData implements Serializable{
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public Integer getKind() {

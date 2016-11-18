@@ -163,4 +163,12 @@ public interface UserServiceI {
     * @return List<User>
      */
     List<User> queryParkManagers();
+
+    /**
+     *〈简述〉重置密码
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param u
+     */
+    void resetPwd(User u);
 }

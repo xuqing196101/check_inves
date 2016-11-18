@@ -146,8 +146,59 @@
 	
 	}
 	
+	function resetPaw(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			$("#userId").val(id);
+			layer.open({
+					  type: 1,
+					  title: '重置密码',
+					  area: ['300px', '200px'],
+					  closeBtn: 1,
+					  shade:0.01, //遮罩透明度
+					  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+					  shift: 1, //0-6的动画形式，-1不开启
+					  offset: '150px',
+					  shadeClose: false,
+					  content: $("#openDiv")
+					});
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
+		}else{
+			layer.alert("请选择用户",{offset: '222px', shade:0.01});
+		}
+	
+	}
+	
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+	
+	function cancel(){
+		layer.closeAll();
+	}
+	
+	function resetPasswSubmit(){
+		$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/user/resetPwd.html",        
+	           	data : $('#form2').serializeArray(),
+			    dataType:'json',
+			    success:function(result){
+			    	if(!result.success){
+                    	layer.msg(result.msg,{offset: ['150px']});
+			    	}else{
+			    		layer.closeAll();
+			    		layer.msg(result.msg,{offset: ['222px']});
+			    	}
+                },
+                error: function(result){
+                    layer.msg("重置失败",{offset: ['222px']});
+                }
+	     });    
 	}
   </script>
   <body>
@@ -200,10 +251,11 @@
       
    	  <!-- 表格开始-->
 	  <div class="col-md-12 pl20 mt10">
-			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-				<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
+		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+			<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
+			<button class="btn btn-windows edit" type="button" onclick="resetPaw()">重置密码</button>
 	  </div>
 	  
 	    <div class="content table_box">
@@ -263,6 +315,33 @@
 		       </table>
 		    </div>
 		  <div id="pagediv" align="right"></div>
+	  </div>
+	  
+	  <div id="openDiv" class="dnone layui-layer-wrap" >
+	  <form id="form2" method="post" >
+	  	<div class="drop_window">
+	  		  <input type="hidden" name="id" id="userId" >
+			  <ul class="list-unstyled">
+			    <li class="col-md-6">
+	    	      <span class="col-md-12 padding-left-5"><span class="red">*</span>输入密码</span>
+				  <span class="col-md-12">
+				   <input name="password" value="" class="col-md-12" type="password">
+				  </span>
+	            </li>
+			    <li class="col-md-6">
+	    	      <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
+	    	      <span class="col-md-12">
+                   <input name="password2" type="password" class="col-md-12 p0">
+				  </span>
+	            </li>
+	            <div class="clear"></div>
+			  </ul>
+              <div class="tc mt10 col-md-12">
+                <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
+				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
+              </div>
+		    </div>
+		 </form>
 	  </div>
   </body>
 </html>

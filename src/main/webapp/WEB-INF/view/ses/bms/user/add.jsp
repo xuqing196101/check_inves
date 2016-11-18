@@ -72,7 +72,7 @@
 			            }  
 			        }  
 			        tree = $.fn.zTree.init($("#treeOrg"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
+			       // tree.expandAll(true);//全部展开
                }
          	});
 			var cityObj = $("#orgSel");
@@ -179,7 +179,7 @@
 		   <div class="clear"></div>
 	   </div>
    </div>
-   <!-- 修改订列表开始-->
+   <!-- 表单内容开始-->
    <div class="container container_box">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeOrg" class="ztree"  ></ul>
@@ -189,48 +189,46 @@
 	   </div>
    	   <sf:form action="${pageContext.request.contextPath}/user/save.html" method="post" modelAttribute="user">
 		   <div>
-			   <div class="headline-v2 bggrey">
-			   		<h2>新增用户</h2>
-			   </div>
+			   <h2 class="count_flow">新增用户</h2>
 			   <ul class="ul_list">
-			      <li class="col-md-3 margin-0 padding-0 ">
+			     <li class="col-md-3 margin-0 padding-0 ">
 				   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名</span>
-				   <div class="input-append pr">
-			        <input class="span2" name="loginName" value="${user.loginName }" maxlength="30" type="text">
+				   <div class="input-append">
+			        <input class="span5" name="loginName" value="${user.loginName }" maxlength="30" type="text">
 			        <span class="add-on">i</span>
-			        <span class="checkUser"><sf:errors path="loginName"/></span>
-			       	<span class="checkUser">${exist }</span>
+			       	<div class="cue"><sf:errors path="loginName"/></div>
+			       	<div class="cue">${exist }</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>真实姓名</span>
-				    <div class="input-append pr">
-				        <input class="span2" name="relName" value="${user.relName }" maxlength="10" type="text">
+				    <div class="input-append">
+				        <input class="span5" name="relName" value="${user.relName }" maxlength="30" type="text">
 				        <span class="add-on">i</span>
-				        <span class="checkUser"><sf:errors path="relName"/></span>
+				        <div class="cue"><sf:errors path="relName"/></div>
 			       	</div>
 			 	 </li>
 			 	 <li class="col-md-3 margin-0 padding-0 ">
 			   		<span class="col-md-12 padding-left-5"><span class="red">*</span>密码</span>
-				    <div class="input-append pr">
-				        <input class="span2" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
+				    <div class="input-append">
+				        <input class="span5" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
 				        <span class="add-on">i</span>
-				        <span class="checkUser"><sf:errors path="password"/></span>
+				        <div class="cue"><sf:errors path="password"/></div>
 			        </div>
 			 	</li> 
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
-				    <div class="input-append pr">
-				        <input class="span2" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
+				    <div class="input-append">
+				        <input class="span5" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
-				        <span class="checkUser"><sf:errors path="password2"/></span>
-				        <div class="b f18 ml10 red hand">${password2_msg}</div>
+				        <div class="cue"><sf:errors path="password2"/></div>
+				        <div class="cue">${password2_msg}</div>
 			        </div>
 			 	</li>
 			 	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
-			        <div class="clear pr">
-			        <select class="w250 " id="gender" name="gender">
+			        <div class="select_common">
+			        <select id="gender" name="gender">
 			        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
 			        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
 			        </select>
@@ -238,30 +236,31 @@
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>手机</span>
-				    <div class="input-append pr" >
-				        <input class="span2" name="mobile" value="${user.mobile }" maxlength="40" type="text">
+				    <div class="input-append" >
+				        <input class="span5" name="mobile" value="${user.mobile }" maxlength="40" type="text">
 				        <span class="add-on">i</span>
-				        <span class="checkUser"><sf:errors path="mobile"/></span>
+				        <div class="cue"><sf:errors path="mobile"/></div>
 			        </div>
 			 	</li>
 		        <li class="col-md-3 margin-0 padding-0" >
 				   	<span class="col-md-12 padding-left-5">邮箱</span>
 				   	<div class="input-append">
-				        <input class="span2" name="email" value="${user.email }" maxlength="100" type="text">
+				        <input class="span5" name="email" value="${user.email }" maxlength="100" type="text">
 				        <span class="add-on">i</span>
-				        <span class="checkUser"><sf:errors path="email"/></span>
+				        <div class="cue"><sf:errors path="email"/></div>
 			       	</div>
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5">职务</span>
 				    <div class="input-append">
-			        	<input class="span2" name="duties" value="${user.duties }"  maxlength="40" type="text">
+			        	<input class="span5" name="duties" value="${user.duties }"  maxlength="40" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 				 </li>
 				<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>类型</span>
-			        <select class="w250 " name="typeName">
+				    <div class="select_common">
+			        <select name="typeName">
 			        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
 			        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
 			        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
@@ -272,42 +271,45 @@
 			        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
 			        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
 			        </select>
+			        </div>
 				 </li>
 			 	<li class="col-md-3 margin-0 padding-0 ">
 				   	<span class="col-md-12 padding-left-5"><span class="red">*</span>所属机构</span>
-				   	<div class="select_common pr">
-					   	<input id="oId" name="orgId" value="${user.orgId }" type="hidden">
-				        <input id="orgSel" class="w250" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
-				        <i class="input_icon " onclick="showOrg();">
-							<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
-				        </i>
-			       	 <span class="checkUser"><sf:errors path="orgId"/></span>
-			       	</div>
-			       	
+				   	<div class="input-append">
+				        <input id="oId" name="orgId" value="${user.orgId }" type="hidden">
+				        <input id="orgSel" class="span5" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+						<div class="" onclick="showOrg();">
+				          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+				          </button>
+				        </div>
+				        <div class="cue"><sf:errors path="orgId"/></div>
+			        </div>
 			 	</li>
 		     	<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5">座机电话</span>
 				    <div class="input-append">
-			        	<input class="span2" name="telephone" value="${user.telephone }" maxlength="40" type="text">
+			        	<input class="span5" name="telephone" value="${user.telephone }" maxlength="40" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 			    </li> 
 				<li class="col-md-3 margin-0 padding-0 ">
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>角色</span>
-				     <div class="input-append pr" >
-					   	<input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
-				        <input id="roleSel" class="w250" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
-				        <i class="input_icon " onclick="showRole();">
-							<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
-				        </i>
-				        <span class="checkUser"><sf:errors path="roleId"/></span>
+				    <div class="input-append">
+				        <input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
+				        <input id="roleSel" class="span5" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
+						<div class="" onclick="showRole();">
+				          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+				          </button>
+				        </div>
+				        <div class="cue"><sf:errors path="roleId"/></div>
 			        </div>
-			        
 			 	</li>
 			 	<li class="col-md-11 margin-0 padding-0">
 			 	   <span class="col-md-12 padding-left-5">详细地址</span>
 				   <div class="">
-			        	<textarea class="col-md-12" name="address" title="不超过100个字"></textarea>
+			        	<textarea class="col-md-12" style="height:130px" name="address" title="不超过100个字">${user.address }</textarea>
 			       </div>
 			 	</li>
 			   </ul>

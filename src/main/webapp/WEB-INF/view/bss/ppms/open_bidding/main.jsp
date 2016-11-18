@@ -31,10 +31,15 @@
 	function jump(url, projectId, flowDefineId){
 		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
        	    
-       $("#as").attr("href",urls);
+       //$("#as").attr("href",urls);
       var el=document.getElementById('as');
        el.click();//触发打开事件
+       $("#open_bidding_main").load(urls);
 	}
+	
+	$(function(){
+		$("#open_bidding_main").load("${pageContext.request.contextPath}/${url}");
+	});
 	
 	function tips(step){
 		if(step != 1){
@@ -65,42 +70,31 @@
 	                       	  	<c:choose> 
 								  <c:when test="${fd.status == 4}">   
 								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')" class="active">
-		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:when> 
 								  <c:when test="${fd.status == 1}">
 		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       			<a  class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when> 
 								  <c:when test="${fd.status == 2}">
 		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when>
 								  <c:otherwise>   
 								    <%-- <li  onclick="tips(${fd.step})"> --%>
 								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a  target="open_bidding_main" class="son-menu">${fd.name }</a>
+		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:otherwise> 
 								</c:choose>
 	                       </c:forEach>
 						 </ul>
 					  </div>
-					  <script type="text/javascript" language="javascript">   
-						function iFrameHeight() {   
-						var ifm= document.getElementById("open_bidding_iframe");   
-						var subWeb = document.frames ? document.frames["open_bidding_iframe"].document : ifm.contentDocument;   
-						if(ifm != null && subWeb != null) {
-						   ifm.height = subWeb.body.scrollHeight;
-						   /*ifm.width = subWeb.body.scrollWidth;*/
-						}   
-						}   
-						</script>
 					  <!-- 右侧内容开始-->
-					  <div class="tag-box tag-box-v4 col-md-9" >
-						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="${pageContext.request.contextPath}/${url}"></iframe>
+					  <div class="tag-box tag-box-v4 col-md-9"  id="open_bidding_main">
 					  </div>
 					  <div class="col-md-12 tc mt20" >
 					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>

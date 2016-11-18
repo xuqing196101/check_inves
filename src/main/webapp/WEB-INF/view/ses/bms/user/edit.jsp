@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -17,6 +16,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
+	<%@ include file="/WEB-INF/view/common.jsp"%>
 	<script type="text/javascript">
 		/* 机构树 */
 		
@@ -187,8 +187,8 @@
 	  </div>
    </div>
    
-   <!-- 修改订列表开始-->
-   <div class="container bggrey border1 mt20">
+   <!-- 表单内容开始-->
+   <div class="container container_box">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeOrg" class="ztree"></ul>
 	   </div>
@@ -197,9 +197,7 @@
 	   </div>
 	   <sf:form action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
 	   	   <div>
-			    <div class="headline-v2 bggrey">
-			   		<h2>修改用户</h2>
-			    </div>
+			    <h2 class="count_flow">修改用户</h2>
 			    <input type="hidden" id="currpage" name="currpage" value="${currPage}">
 			    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
 			   	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
@@ -207,60 +205,60 @@
 			   	<input class="span2" name="password" type="hidden" value="${user.password}">
 			   	<input class="span2" name="password2" type="hidden" value="${user.password}">
 			   	<input class="span2" name="randomCode" type="hidden" value="${user.randomCode}">
-	   			<ul class="list-unstyled list-flow ul_list">
-			   	 	<li class="col-md-6 p0">
-					    <span class=""><div class="fr">用户名：</div><div class="red">*</div></span>
+	   			<ul class="ul_list">
+	   				<li class="col-md-3 margin-0 padding-0 ">
+					   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名</span>
+					   <div class="input-append">
+				        <input class="span5" name="loginName" readonly="readonly" value="${user.loginName }" maxlength="30" type="text">
+				        <span class="add-on">i</span>
+				       	<div class="cue"><sf:errors path="loginName"/></div>
+				       	<div class="cue">${exist }</div>
+				       </div>
+					</li>
+					<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>真实姓名</span>
 					    <div class="input-append">
-					        <input class="span2" name="loginName" type="text" readonly="readonly" value="${user.loginName}">
+					        <input class="span5" name="relName" value="${user.relName }" maxlength="30" type="text">
 					        <span class="add-on">i</span>
+					        <div class="cue"><sf:errors path="relName"/></div>
+				       	</div>
+				 	</li>
+			 		<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
+				        <div class="select_common">
+				        <select id="gender" name="gender">
+				        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
+				        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+				        </select>
 				        </div>
 				 	</li>
-		     		<li class="col-md-6  p0 ">
-					    <span class=""><div class="fr">真实姓名：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" name="relName" type="text" value="${user.relName}">
+			     	<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>手机</span>
+					    <div class="input-append" >
+					        <input class="span5" name="mobile" value="${user.mobile }" maxlength="40" type="text">
 					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="relName"/></div>
+					        <div class="cue"><sf:errors path="mobile"/></div>
 				        </div>
-			 		</li>
-			 		<li class="col-md-6 p0">
-					    <span class=""><div class="fr">性别：</div><div class="red">*</div></span>
-					    <div class="select_common mb10 pr">
-					        <select name="gender" class="w250 ">
-					        	<option value="">-请选择-</option> 
-					        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
-					        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
-					        </select>
-					        <div class="b f14 red tip pa l260 t0"><sf:errors path="gender"/></div>
-				        </div>
-			 		</li>
-		     		<li class="col-md-6  p0 ">
-					    <span class=""><div class="fr">手机：</div><div class="red">*</div></span>
-					    <div class="input-append pr">
-					        <input class="span2" name="mobile" value="${user.mobile }" type="text">
+				 	</li>
+			        <li class="col-md-3 margin-0 padding-0" >
+					   	<span class="col-md-12 padding-left-5">邮箱</span>
+					   	<div class="input-append">
+					        <input class="span5" name="email" value="${user.email }" maxlength="100" type="text">
 					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="mobile"/></div>
-				        </div>
-			 		</li>
-		           	<li class="col-md-6 p0">
-					    <span class="">邮箱：</span>
-					    <div class="input-append pr">
-					        <input class="span2" name="email" value="${user.email }" type="text">
-					        <span class="add-on">i</span>
-					        <div class="b f14 red tip pa l260"><sf:errors path="email"/></div>
-				        </div>
-			 		</li>
-		     		<li class="col-md-6  p0 ">
-					    <span class="">职务：</span>
+					        <div class="cue"><sf:errors path="email"/></div>
+				       	</div>
+				 	</li>
+		     		<li class="col-md-3 margin-0 padding-0">
+					    <span class="col-md-12 padding-left-5">职务：</span>
 					    <div class="input-append">
-					        <input class="span2" name="duties" value="${user.duties }" type="text">
+					        <input class="span5" name="duties" value="${user.duties }" type="text">
 					        <span class="add-on">i</span>
 				        </div>
 			 		</li>
-			 		<li class="col-md-6 p0">
-					    <span class=""><div class="fr">类型：</div><div class="red">*</div></span>
-					    <div class="select_common mb10 pr">
-					        <select name="typeName" class="w250 ">
+			 		<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>类型</span>
+					    <div class="select_common">
+					        <select name="typeName" >
 					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
 					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
 					        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
@@ -273,42 +271,46 @@
 					        </select>
 				        </div>
 			 		</li>
-			 		<li class="col-md-6  p0 ">
-					    <span class=""><div class="fr">所属机构：</div><div class="red">*</div></span>
-					    <div class="select_common pr">
+			 		<li class="col-md-3 margin-0 padding-0">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>所属机构</span>
+					   	<div class="input-append">
 						   	<input id="oId" name="orgId" type="hidden" value="${orgId }">
-					        <input id="orgSel" class="w250" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
-					        <i class="input_icon " onclick="showOrg();">
-								<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
-					        </i>
+					        <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
+					        <div class="" onclick="showOrg();">
+					        	<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+								   <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+						        </button>
+					        </div>
+					        <div class="cue"><sf:errors path="orgId"/></div>
 				        </div>
-				        <div class="b f14 red tip pa l462"><sf:errors path="orgId"/></div>
 			 		</li>
-		     		<li class="col-md-6  p0 ">
-						    <span class="">座机电话：</span>
-						    <div class="input-append">
-						        <input class="span2" name="telephone" type="text" value="${user.telephone}">
-						        <span class="add-on">i</span>
+		     		<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5">座机电话</span>
+					    <div class="input-append">
+				        	<input class="span5" name="telephone" value="${user.telephone }" maxlength="40" type="text">
+				        	<span class="add-on">i</span>
+				        </div>
+				    </li>
+					<li class="col-md-3 margin-0 padding-0 ">
+					    <span class="col-md-12 padding-left-5"><span class="red">*</span>角色</span>
+					    <div class="input-append">
+						   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
+					        <input id="roleSel" class="span5" name="roleName" type="text" readonly value="${roleName}"  onclick="showRole();" />
+					        <div class="" onclick="showRole();">
+					          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+							    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+					          </button>
 					        </div>
-					 </li> 
-					<li class="col-md-6 p0">
-						    <span class=""><div class="fr">角色：</div><div class="red">*</div></span>
-						    <div class="select_common pr">
-							   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
-						        <input id="roleSel" class="w250" name="roleName" type="text" readonly value="${roleName}"  onclick="showRole();" />
-						        <i class="input_icon " onclick="showRole();">
-									<img src="${pageContext.request.contextPath}/public/ZHH/images/down.png" class="margin-bottom-5" />
-						        </i>
-					        </div>
-					        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
+					        <div class="cue"><sf:errors path="roleId"/></div>
+				        </div>
+				        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
 					 </li>
-					<li class="col-md-12 p0">
-						    <span class="fl">详细地址：</span>
-						    <div class="col-md-12 pl200 fn mt5 pwr9">
-					       		<textarea class="text_area col-md-12 " address="address" maxlength="200" title="" placeholder="">${user.address}</textarea>
-					        </div>
-			 		</li>
-				 
+				     <li class="col-md-11 margin-0 padding-0">
+				 	   <span class="col-md-12 padding-left-5">详细地址</span>
+					   <div class="">
+				        	<textarea class="col-md-12" style="height:130px" name="address" title="不超过100个字">${user.address }</textarea>
+				       </div>
+				 	</li>
 	   			</ul>
 	  	  </div> 
 	  	   <div class="col-md-12 tc mt20" >

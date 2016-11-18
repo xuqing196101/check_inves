@@ -146,9 +146,12 @@
                url: "${pageContext.request.contextPath}/role/opera.html?ids="+ids,  
                dataType: 'json',  
                success:function(result){
-               		window.setTimeout(function(){
-                        window.location.href = "${pageContext.request.contextPath}/role/list.html";
-                    }, 1000);
+               		if(result.msg == '已禁用'){
+               			$("#"+ids).html('<span class="label rounded-2x label-dark">禁用</span>');
+               		}
+               		if(result.msg == '已启用'){
+               			$("#"+ids).html('<span class="label rounded-2x label-u">启用</span>');
+               		}
                     layer.msg(result.msg,{offset: '222px'});
                 },
                 error: function(result){
@@ -267,10 +270,10 @@
 							</td>
 							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tc">${role.name}</td>
-							<td class="tc"><c:if test="${role.status == 0}">
-									<span class="label rounded-2x label-u">启用</span>
+							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
+									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
-									<span class="label rounded-2x label-dark">暂停</span>
+									<span class="label rounded-2x label-dark">禁用</span>
 								</c:if></td>
 							<td class="tc">${role.description}</td>
 						</tr>

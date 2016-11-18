@@ -523,60 +523,62 @@ public class UserManageController extends BaseController{
 		JSONArray jObject = JSONArray.fromObject(treeList);
 		return jObject.toString();
 	}
-	
-	@RequestMapping(value = "/downloadtest")
-	public void downloadConfigFile(HttpServletResponse response, String fileName) throws Exception {
 
-		//		try {
-//			User user=null;
-//			String id =user.getId();
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw new Exception(e);
-//		}
-//		String path = FtpUtil.upload2("test7",uploadFile);
-//		String filName = path.substring(path.lastIndexOf("/")+1);
-//		FtpUtil.downloadFtpFile(response, "test7", "2CC39D3BA36D423DBAC5C4C4A9626ED3_全国人大采购电子办公业务系统项目数据库设计说明书20160628(20点46)--汇总.doc");
-//		FtpUtil.downloadFtpFile(response, "test7", "开发规范.txt");
-//		FtpUtil.downloadFtpFile(response, "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
-//		FtpUtil.downloadFtpFile(response, "test7", "开发规范1.txt");
-		//		fileName = "E2B3FCF57CF74D8EBC8B66BD4A85F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf";
-//		response.setCharacterEncoding("UTF-8");
-//		response.setContentType("multipart/form-data;charset=UTF-8");
-//		
-//			FTPClient ftpClient = new FTPClient(); 
-//		    try {  
-//		        int reply;  
-//		        ftpClient.connect("127.0.0.1",21); 
-//	            ftpClient.login("test", "123456");
-//		        reply = ftpClient.getReplyCode();  
-//		        if (!FTPReply.isPositiveCompletion(reply)) {  
-//		        	ftpClient.disconnect();
-//		            return;  
-//		        }
-//		        ftpClient.changeWorkingDirectory("test7");//转移到FTP服务器目录  
-//		        ftpClient.setControlEncoding("GBK");
-//				FTPFile ftpFile = ftpClient.mlistFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"));
-//				OutputStream outputStream = null;
-//				response.setHeader("Content-Disposition", "attachment;fileName="+new String( fileName.getBytes("GBK"), "ISO8859-1" ) );
-//				outputStream = response.getOutputStream();
-//				ftpClient.retrieveFile(ftpFile.getName(), outputStream);
-//				outputStream.flush();
-//				outputStream.close();
-//		        FTPFile[] fs = ftpClient.listFiles();  
-//		        for(int i=0;i<fs.length;i++){  
-//		        	String tempFileName =  new String(fs[i].getName().getBytes("ISO8859-1"), "UTF-8");
-//		            if(tempFileName.equals(fileName)){
-//		            	String saveAsFileName = tempFileName.substring(tempFileName.indexOf("_")+1);  
-//		    			response.setHeader("Content-Disposition", "attachment;fileName="+saveAsFileName);
-//		    			OutputStream os = response.getOutputStream();
-//		                ftpClient.retrieveFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), os);
-//		                os.flush();
-//		                os.close();
-//		                break;
-//		            }
-//		        }
+	/**
+	 *〈简述〉重置密码
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param user
+	 * @throws IOException 
+	 */
+	@RequestMapping("/resetPwd")
+	public void resetPwd(HttpServletResponse response, User u) throws IOException{
+	    try{
+	        int count = 0;
+	        String msg = "";
+	        String pwd2 = u.getPassword2();
+	        String pwd = u.getPassword();
+	        if (pwd == null || "".equals(pwd)) {
+	            msg = "请输入密码";
+	            count ++;
+            }
+	        if (pwd2 == null || "".equals(pwd2)) {
+                if (count > 0) {
+                    msg = "请输入密码和确认密码";
+                    count ++;
+                } else {
+                    msg = "请输入确认密码";
+                    count ++;
+                }
+            }
+	        if (count > 0) {
+	            response.setContentType("text/html;charset=utf-8");
+	            response.getWriter()
+	                    .print("{\"success\": " + false + ", \"msg\": \"" + msg
+	                            + "\"}");
+            }
+	        if (count == 0) {
+                if (!pwd.equals(pwd2)) {
+                    msg = "两次密码不一致";
+                    response.setContentType("text/html;charset=utf-8");
+                    response.getWriter()
+                            .print("{\"success\": " + false + ", \"msg\": \"" + msg
+                                    + "\"}");
+                } else {
+                    userService.resetPwd(u);
+                    msg = "重置密码成功";
+                    response.setContentType("text/html;charset=utf-8");
+                    response.getWriter()
+                            .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                                    + "\"}");
+                }
+            }
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
 	}
-
 }

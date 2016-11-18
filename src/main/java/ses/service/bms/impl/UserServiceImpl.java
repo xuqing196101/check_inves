@@ -14,6 +14,7 @@ import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.UserServiceI;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -132,8 +133,7 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public List<User> list(User user, int pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+	    PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
 		List<User> users = userMapper.queryByList(user);
 		return users;
 	}
@@ -152,6 +152,18 @@ public class UserServiceImpl implements UserServiceI {
 	public List<User> queryParkManagers() {
 		return userMapper.queryParkManagers();
 	}
-	
+
+    @Override
+    public void resetPwd(User u) {
+        List<User> users = userMapper.selectByPrimaryKey(u.getId());
+        User user = users.get(0);
+        Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+        // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+        md5.setEncodeHashAsBase64(false);     
+        String pwd = md5.encodePassword(u.getPassword(), user.getRandomCode());
+        user.setPassword(pwd);
+        user.setUpdatedAt(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 }
 

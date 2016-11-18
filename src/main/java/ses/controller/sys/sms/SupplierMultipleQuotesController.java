@@ -44,10 +44,10 @@ import com.github.pagehelper.PageInfo;
 @Scope("prototype")
 @RequestMapping(value = "/mulQuo")
 public class SupplierMultipleQuotesController extends BaseSupplierController {
-	
-	@Autowired
-	private SupplierQuoteService supplierQuoteService;
-	
+    
+    @Autowired
+    private SupplierQuoteService supplierQuoteService;
+    
     @Autowired
     private ProjectDetailService detailService;
     
@@ -95,37 +95,6 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		    model.addAttribute("project",project );
 		    model.addAttribute("listDate",listDate );
 		    return "ses/sms/multiple_quotes/quote_list";
-	}
-	
-	/**
-	 * @Title: quoteHistory
-	 * @author Song Biaowei
-	 * @date 2016-11-7 下午2:41:35  
-	 * @Description: 查询报价历史
-	 * @param @param req
-	 * @param @param timestamp
-	 * @param @param projectId
-	 * @param @param quote
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 * @throws ParseException 
-	 */
-	@RequestMapping(value="/quoteHistory")
-	public String quoteHistory(HttpServletRequest req,String timestamp,String projectId,Quote quote,Model model) throws ParseException{
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("projectId", projectId);
-	    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
-	    List<List<Quote>> listQuote=new ArrayList<List<Quote>>();
-	    for(Packages pk:listPackage){
-	    	quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
-	    	quote.setPackageId(pk.getId());
-	    	List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-	    	listQuote.add(quoteList);
-	    }
-	    model.addAttribute("listPackage",listPackage );
-	    model.addAttribute("listQuote",listQuote );
-		return "ses/sms/multiple_quotes/quote_history_record";
 	}
 	
 	/**
@@ -230,62 +199,122 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 			return "ses/sms/multiple_quotes/list";
 	}
 	
-    /**
-     * 跳转到编制投标文件页面
-     * @author Song Biaowei
-     * @param proejctId
-     * @param model
-     * @return 页面名称
-     */
-    @RequestMapping("/bidDocument")
-    public String bidDocument(String projectId, Model model){
-        Project project = projectService.selectById(projectId);
-        model.addAttribute("project", project);
-        return "ses/sms/multiple_quotes/add_file";
+    @RequestMapping(value="/list")
+    public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model,String projectId){
+        Quote quote=new Quote();
+        //暂时测试，这样就不用新建一条数据
+        //quote.setProjectId("F12FD6D99F02453C83F5A23A0064094D");
+        quote.setProjectId(projectId);
+        //quote.setSupplierId(supplierId);
+        List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("projectId", projectId);
+            List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+            //开始循环包
+            List<List<ProjectDetail>> listPd=new ArrayList<List<ProjectDetail>>();
+            for(Packages pk:listPackage){
+                map.put("packageId", pk.getId());
+                List<ProjectDetail> detailList = detailService.selectByCondition(map,page==null?0:page);
+                listPd.add(detailList);
+            }
+            model.addAttribute("listPd",listPd );
+            model.addAttribute("listPackage", listPackage);
+            model.addAttribute("projectId", projectId);
+            Project project=new Project();
+            project.setId(projectId);
+            model.addAttribute("project",project );
+            model.addAttribute("listDate",listDate );
+            SaleTender std = getProSupplier(req, projectId);
+            if (std != null) {
+                model.addAttribute("std", std);
+            }
+            return "ses/sms/multiple_quotes/quote_list";
     }
     
     /**
-     * 绑定投标文件中的各项指标
+     * @Title: quoteHistory
      * @author Song Biaowei
-     * @return
+     * @date 2016-11-7 下午2:41:35  
+     * @Description: 查询报价历史
+     * @param @param req
+     * @param @param timestamp
+     * @param @param projectId
+     * @param @param quote
+     * @param @param model
+     * @param @return      
+     * @return String
+     * @throws ParseException 
      */
-    @RequestMapping("/toBindingIndex")
-    public String toBindingIndex(String projectId, Model model){
-        Project project = projectService.selectById(projectId);
-        model.addAttribute("project", project);
-        return "ses/sms/multiple_quotes/bid_index";
+    @RequestMapping(value="/quoteHistory")
+    public String quoteHistory(HttpServletRequest req,String timestamp,String projectId,Quote quote,Model model) throws ParseException{
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+        List<List<Quote>> listQuote=new ArrayList<List<Quote>>();
+        for(Packages pk:listPackage){
+            quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+            quote.setPackageId(pk.getId());
+            List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+            listQuote.add(quoteList);
+        }
+        model.addAttribute("listPackage",listPackage );
+        model.addAttribute("listQuote",listQuote );
+        return "ses/sms/multiple_quotes/quote_history_record";
     }
     
     /**
-	 * @Title: baojia
-	 * @author Song Biaowei
-	 * @date 2016-10-28 上午10:22:00  
-	 * @Description: 点击项目进行报价
-	 * @param @param req
-	 * @param @param id
-	 * @param @param packageName
-	 * @param @param packageId
-	 * @param @param model
-	 * @param @return
-	 * @param @throws UnsupportedEncodingException      
-	 * @return String
-	 */
-	@RequestMapping(value="/baojia")
-	public String baojia(HttpServletRequest req,String id,String packageName,HttpServletResponse response,String packageId,Integer page,Model model) throws UnsupportedEncodingException{
-			HashMap<String, Object> map = new HashMap<String, Object>();
-	        map.put("id",id );
-	        List<ProjectDetail> detailList = detailService.selectByCondition(map,page==null?0:page);
-	        List<ProjectDetail> list=new ArrayList<ProjectDetail>();
-	        if(detailList.size()>0){
-	        	for(ProjectDetail pd:detailList){
-	        		if(pd.getPackages().getName().equals(URLDecoder.decode(packageName,"UTF-8"))){
-	        			list.add(pd);
-	        		}
-	        	}
-	        }
-			model.addAttribute("list", list);
-			model.addAttribute("id", id);
-			model.addAttribute("projectId", id);
-			return "ses/sms/multiple_quotes/quote";
-	}
+     * @Title: baojia
+     * @author Song Biaowei
+     * @date 2016-10-28 上午10:22:00  
+     * @Description: 点击项目进行报价
+     * @param @param req
+     * @param @param id
+     * @param @param packageName
+     * @param @param packageId
+     * @param @param model
+     * @param @return
+     * @param @throws UnsupportedEncodingException      
+     * @return String
+     */
+    @RequestMapping(value="/baojia")
+    public String baojia(HttpServletRequest req,String id,String packageName,HttpServletResponse response,String packageId,Integer page,Model model) throws UnsupportedEncodingException{
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id",id );
+            List<ProjectDetail> detailList = detailService.selectByCondition(map,page==null?0:page);
+            List<ProjectDetail> list=new ArrayList<ProjectDetail>();
+            if(detailList.size()>0){
+                for(ProjectDetail pd:detailList){
+                    if(pd.getPackages().getName().equals(URLDecoder.decode(packageName,"UTF-8"))){
+                        list.add(pd);
+                    }
+                }
+            }
+            model.addAttribute("list", list);
+            model.addAttribute("id", id);
+            model.addAttribute("projectId", id);
+            return "ses/sms/multiple_quotes/quote";
+    }
+    
+     /**
+     *〈简述〉获取供应商与项目的关联对象
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param req
+     * @param projectId 项目id
+     * @return 供应商与项目的关联对象
+     */
+    public SaleTender getProSupplier(HttpServletRequest req, String projectId){
+        //供应商与项目的关联的关联作为投标文件的业务id
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProjectId(projectId);
+        Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+        saleTender.setSupplierId(supplier.getId());
+        List<SaleTender> sts = saleTenderService.find(saleTender);
+        if (sts != null && sts.size() > 0) {
+            SaleTender std = sts.get(0);
+            return std;
+        } else {
+            return null;
+        }
+    }
 }
