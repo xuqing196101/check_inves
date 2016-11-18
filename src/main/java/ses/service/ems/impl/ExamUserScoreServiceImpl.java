@@ -100,5 +100,19 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 
 	
+	@Override
+	public List<ExamUserScore> findExpertScore(HashMap<String, Object> map) {
+		return examUserScoreMapper.findExpertScore(map);
+	}
+
+
+	
+	@Override
+	public List<ExamUserScore> findPurchaserScore(HashMap<String, Object> map) {
+		return examUserScoreMapper.findPurchaserScore(map);
+	}
+
+
+	
 	
 }

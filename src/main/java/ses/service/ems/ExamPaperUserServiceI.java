@@ -101,30 +101,6 @@ public interface ExamPaperUserServiceI {
 	
 	/**
 	 * 
-	* @Title: selectPurchaserYesReference
-	* @author ZhaoBo
-	* @date 2016-9-22 下午3:04:05  
-	* @Description: 查看已考考卷的参考人员信息 
-	* @param @param examPaperUser
-	* @param @return      
-	* @return List<ExamPaperUser>
-	 */
-	List<ExamPaperUser> selectPurchaserYesReference(HashMap<String,Object> map);
-	
-	/**
-	 * 
-	* @Title: selectPrintYesReference
-	* @author ZhaoBo
-	* @date 2016-9-24 上午11:14:52  
-	* @Description: 打印预览已考考卷的参考人员信息 
-	* @param @param examPaperUser
-	* @param @return      
-	* @return List<ExamPaperUser>
-	 */
-	List<ExamPaperUser> selectPrintYesReference(ExamPaperUser examPaperUser);
-	
-	/**
-	 * 
 	* @Title: findAll
 	* @author ZhaoBo
 	* @date 2016-9-25 下午8:41:55  
@@ -157,4 +133,16 @@ public interface ExamPaperUserServiceI {
 	* @return List<ExamPaperUser>
 	 */
 	List<ExamPaperUser> findCurrentUserSchedule(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: findNoTest
+	* @author ZhaoBo
+	* @date 2016-11-18 上午8:46:31  
+	* @Description: 查看未考人员 
+	* @param @param map
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> findNoTest(HashMap<String,Object> map);
 }

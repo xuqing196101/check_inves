@@ -58,18 +58,6 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 
 	
 	@Override
-	public List<ExamPaperUser> selectPurchaserYesReference(HashMap<String,Object> map) {
-		return examPaperUserMapper.selectPurchaserYesReference(map);
-	}
-
-	
-	@Override
-	public List<ExamPaperUser> selectPrintYesReference(ExamPaperUser examPaperUser) {
-		return examPaperUserMapper.selectPrintYesReference(examPaperUser);
-	}
-
-	
-	@Override
 	public List<ExamPaperUser> findAll() {
 		return examPaperUserMapper.findAll();
 	}
@@ -90,6 +78,12 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 	@Override
 	public List<ExamPaperUser> findCurrentUserSchedule(HashMap<String, Object> map) {
 		return examPaperUserMapper.findCurrentUserSchedule(map);
+	}
+
+	
+	@Override
+	public List<ExamPaperUser> findNoTest(HashMap<String, Object> map) {
+		return examPaperUserMapper.findNoTest(map);
 	}
 
 }

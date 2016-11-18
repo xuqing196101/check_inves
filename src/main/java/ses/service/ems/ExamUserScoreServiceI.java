@@ -138,4 +138,28 @@ public interface ExamUserScoreServiceI {
     List<Expert> findAllExpert();
     
     List<ExamUserScore> findByUserIdAndCode(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findExpertScore
+    * @author ZhaoBo
+    * @date 2016-11-17 下午9:54:57  
+    * @Description: 查看专家已考成绩 
+    * @param @param map
+    * @param @return      
+    * @return List<ExamUserScore>
+     */
+    List<ExamUserScore> findExpertScore(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findPurchaserScore
+    * @author ZhaoBo
+    * @date 2016-11-17 下午11:45:08  
+    * @Description: 查看采购人已考成绩  
+    * @param @param map
+    * @param @return      
+    * @return List<ExamUserScore>
+     */
+    List<ExamUserScore> findPurchaserScore(HashMap<String,Object> map);
 }

@@ -111,6 +111,11 @@ public class ExamUserScore {
 	 * @Fields year : 考试年份
 	 */
 	private Integer year;
+	
+	/**
+	 * @Fields ruleId : 规则ID
+	 */
+	private String ruleId;
     
 	public String getId() {
 		return id;
@@ -270,6 +275,14 @@ public class ExamUserScore {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
 	}
 	
 }

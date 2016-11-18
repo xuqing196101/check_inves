@@ -153,11 +153,12 @@
     AND RULE_ID = #{ruleId}
   </update>
   
-  <!-- 查出所有的规则的参考人员 -->
+  <!-- 查出所属规则的参考人员 -->
   <select id="findAll" parameterType="java.util.Map" resultType="ses.model.ems.ExpertPaperUser">
   	SELECT
   		E.ID AS id,
 		U.ID AS userId,
+		E.IS_DO AS isDo,
 		U.REL_NAME AS relName,
 		E.USER_TYPE AS userType,
 		E.RULE_ID AS ruleId,

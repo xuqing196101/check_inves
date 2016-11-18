@@ -198,7 +198,7 @@
 							  area: ['580px','510px'],
 							  content: $("#error")
 						});
-						//$(".layui-layer-shade").remove();
+						$(".layui-layer-shade").remove();
 			    	}
 			    }
 			}); 
@@ -316,10 +316,10 @@
 					<c:if test="${fn:length(t.topic)<=20}">
 						<td onclick="view('${t.id }')">${t.topic }</td>
 					</c:if>
-					<c:if test="${fn:length(t.items)>20}">
-						<td onclick="view('${t.id }')">${fn:substring(t.items,0,20)}...</td>
+					<c:if test="${fn:length(t.items)>80}">
+						<td onclick="view('${t.id }')">${fn:substring(t.items,0,80)}...</td>
 					</c:if>
-					<c:if test="${fn:length(t.items)<=20}">
+					<c:if test="${fn:length(t.items)<=80}">
 						<td onclick="view('${t.id }')">${t.items }</td>
 					</c:if>
 					<td class="tc" onclick="view('${t.id }')">${t.answer}</td>

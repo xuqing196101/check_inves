@@ -1678,13 +1678,13 @@ public class PurchaserExamController extends BaseSupplierController{
 		String relName = request.getParameter("relName");
 		String status = request.getParameter("status");
 		String code = request.getParameter("code");
-		if(relName!=null&&relName!=""){
+		if(relName!=null&&!relName.equals("")){
 			map.put("relName", "%"+relName+"%");
 		}
-		if(code!=null&&code!=""){
+		if(code!=null&&!code.equals("")){
 			map.put("code", code);
 		}
-		if(status!=null&&status!=""){
+		if(status!=null&&!status.equals("")){
 			map.put("status", status);
 		}
 		if(page==null){
@@ -1721,8 +1721,8 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/printReView")
 	public String printReView(HttpServletRequest request,ExamPaperUser examPaperUser,Model model){
 		examPaperUser.setPaperId(request.getParameter("paperId"));
-		List<ExamPaperUser> paperUserList = examPaperUserService.selectPrintYesReference(examPaperUser);
-		model.addAttribute("paperUserList",paperUserList);
+		
+		//model.addAttribute("paperUserList",paperUserList);
 		return "ses/ems/exam/purchaser/print";
 	}
 	
@@ -1905,44 +1905,45 @@ public class PurchaserExamController extends BaseSupplierController{
 			page = 1;
 		}
 		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-	    List<ExamPaperUser> paperUserList = new ArrayList<ExamPaperUser>();
 		if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
-			paperUserList = examPaperUserService.getAllByPaperId(map);
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(map);
 			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
 			model.addAttribute("id", id[0]);
 			path = "ses/ems/exam/purchaser/paper/view_test_reference";
 		}else if(new Date().getTime()<startTime.getTime()){
-			model.addAttribute("examPaper", examPaper);
-			paperUserList = examPaperUserService.getAllByPaperId(map);
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(map);
 			model.addAttribute("id", id[0]);
 			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
 			path = "ses/ems/exam/purchaser/paper/view_no_reference";
 		}else if(new Date().getTime()>offTime.getTime()){
-			paperUserList = examPaperUserService.selectPurchaserYesReference(map);
-			for(int i=0;i<paperUserList.size();i++){
-				if(paperUserList.get(i).getScore()==null||paperUserList.get(i).getScore()==""){
-					paperUserList.get(i).setScore("0");
+			List<ExamPaperUser> paperUser = examPaperUserService.findNoTest(map);
+			if(paperUser.size()!=0){
+				for(int i=0;i<paperUser.size();i++){
 					ExamUserScore userScore = new ExamUserScore();
 					userScore.setCreatedAt(new Date());
 					userScore.setUserType(2);
-					userScore.setUserId(paperUserList.get(i).getUserId());
+					userScore.setUserId(paperUser.get(i).getUserId());
 					userScore.setScore("0");
 					userScore.setIsMax(1);
 					userScore.setPaperId(id[0]);
 					userScore.setStatus("不及格");
 					examUserScoreService.insertSelective(userScore);
-					ExamPaperUser paperUser = new ExamPaperUser();
-					paperUser.setId(paperUserList.get(i).getId());
-					paperUser.setIsDo(2);
-					examPaperUserService.updateByPrimaryKeySelective(paperUser);
+					ExamPaperUser p = new ExamPaperUser();
+					p.setId(paperUser.get(i).getId());
+					p.setIsDo(2);
+					examPaperUserService.updateByPrimaryKeySelective(p);
 				}
-				
 			}
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamUserScore> userScoreList = examUserScoreService.findPurchaserScore(map);
 			model.addAttribute("examPaper", examPaper);
 			model.addAttribute("id", id[0]);
-			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
+			model.addAttribute("paperUserList",new PageInfo<ExamUserScore>(userScoreList));
 			path = "ses/ems/exam/purchaser/paper/view_yes_reference";
 		}
 		return path;

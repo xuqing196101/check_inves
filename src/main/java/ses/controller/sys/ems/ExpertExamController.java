@@ -1784,6 +1784,8 @@ public class ExpertExamController extends BaseSupplierController{
 		examRule.setOffTime(sdf.parse(offTime+":00"));
 		examRule.setPassStandard(passStandard);
 		examRule.setPaperScore(paperScore);
+		examRule.setCreatedAt(new Date());
+		examRule.setYear(Integer.parseInt(sdf.format(new Date()).substring(0, 4)));
 		examRuleService.insertSelective(examRule);
 		return "redirect:ruleList.html";
 	}
@@ -2270,7 +2272,7 @@ public class ExpertExamController extends BaseSupplierController{
 			map.put("ruleId", examRule.get(0).getId());
 			map.put("userId", user.getId());
 			List<ExpertPaperUser> userList = expertPaperUserService.findAll(map);
-			if(userList.size()!=0){
+			if(userList.size()==0){
 				str = "4";
 			}else{
 				Date endDate = examRule.get(0).getOffTime();
@@ -2762,6 +2764,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/viewReference")
 	public String viewReference(HttpServletRequest request,Model model,Integer page){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String path = null;
 		String id = request.getParameter("id");
 		HashMap<String,Object> rulemap = new HashMap<String,Object>();
@@ -2775,24 +2778,48 @@ public class ExpertExamController extends BaseSupplierController{
 			page = 1;
 		}
 		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-	    List<ExpertPaperUser> userList = new ArrayList<>();
 		if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
-			userList = expertPaperUserService.findAll(map);
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExpertPaperUser> userList = expertPaperUserService.findAll(map);
 			model.addAttribute("userList",new PageInfo<ExpertPaperUser>(userList));
 			model.addAttribute("id", id);
 			path = "ses/ems/exam/expert/rule/view_test_reference";
 		}else if(new Date().getTime()<startTime.getTime()){
 			model.addAttribute("examRule", examRule);
-			userList = expertPaperUserService.findAll(map);
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExpertPaperUser> userList = expertPaperUserService.findAll(map);
 			model.addAttribute("id", id);
 			model.addAttribute("userList",new PageInfo<ExpertPaperUser>(userList));
 			path = "ses/ems/exam/expert/rule/view_no_reference";
 		}else if(new Date().getTime()>offTime.getTime()){
+			List<ExpertPaperUser> list = expertPaperUserService.findNoTest(examRule.getId());//未考人员
+			if(list.size()!=0){
+				for(int i=0;i<list.size();i++){
+					ExamUserScore userScore = new ExamUserScore();
+					userScore.setCreatedAt(new Date());
+					userScore.setUserType(1);
+					userScore.setUserId(list.get(i).getUserId());
+					userScore.setScore("0");
+					userScore.setIsMax(1);
+					userScore.setStatus("不及格");
+					userScore.setYear(Integer.parseInt(sdf.format(examRule.getOffTime()).substring(0, 4)));
+					examUserScoreService.insertSelective(userScore);
+					ExpertPaperUser expertPaperUser = new ExpertPaperUser();
+					expertPaperUser.setUserId(list.get(i).getUserId());
+					expertPaperUser.setIsDo(2);
+					expertPaperUser.setIsPass(0);
+					expertPaperUser.setRuleId(examRule.getId());
+					expertPaperUserService.updateById(expertPaperUser);
+				}
+			}
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamUserScore> userScoreList = examUserScoreService.findExpertScore(map);
 			model.addAttribute("examRule", examRule);
 			model.addAttribute("id", id);
-			model.addAttribute("userList",new PageInfo<ExpertPaperUser>(userList));
+			model.addAttribute("userList",new PageInfo<ExamUserScore>(userScoreList));
 			path = "ses/ems/exam/expert/rule/view_yes_reference";
 		}
 		return path;
@@ -3175,4 +3202,6 @@ public class ExpertExamController extends BaseSupplierController{
         }
 		return excelFile;
 	}
+	
+	
 }

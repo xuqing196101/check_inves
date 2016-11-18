@@ -301,4 +301,39 @@
         ORDER BY
     	S.CREATED_AT DESC
   </select>
+  
+  <!-- 查询专家已考人员信息 -->
+  <select id="findExpertScore" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
+  	SELECT
+		U.REL_NAME AS relName,
+		s.SCORE AS score,
+		P.ID_NUMBER AS idNumber,
+		s.USER_DUTY AS userDuty,
+		s.STATUS AS status
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s
+	LEFT JOIN T_SES_EMS_EXPERT_PAPER_USER P ON s.USER_ID = P.USER_ID
+	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
+	WHERE
+		s.IS_MAX = 1
+	AND p.RULE_ID = #{ruleId}
+  </select>
+  
+  <!-- 查询采购人已考人员信息 -->
+  <select id="findPurchaserScore" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
+  	SELECT
+		U.REL_NAME AS relName,
+		P.CODE AS code,
+		P.UNIT_NAME AS unitName,
+		s.SCORE AS score,
+		P.CARD AS card,
+		s.STATUS AS status
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s
+	LEFT JOIN T_SES_EMS_EXAM_PAPER_USER P ON s.USER_ID = P.USER_ID
+	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
+	WHERE
+		s.IS_MAX = 1
+	AND P.PAPER_ID = #{paperId}
+  </select>
 </mapper>

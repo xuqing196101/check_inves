@@ -27,7 +27,7 @@
   <body>
   	<div class="container">
    		<div class="col-md-10">
-  			<input type="button" class="btn btn-windows pl13" value="打印表格" onclick="dayin()" id="print"/>
+  			<input type="button" class="btn" value="打印表格" onclick="dayin()" id="print"/>
   		</div>
   	</div>
   

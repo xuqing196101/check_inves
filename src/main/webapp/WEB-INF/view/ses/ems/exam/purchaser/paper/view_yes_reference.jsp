@@ -67,22 +67,24 @@
   		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
-					<th class="info w50">序号</th>
-					<th class="info w100">姓名</th>
-					<th class="info">身份证号</th>
-					<th class="info">试卷编号</th>
-					<th class="info">所属单位</th>
-					<th class="info">得分</th>
+					<tr class="info">
+						<th class="w50">序号</th>
+						<th class="w100">姓名</th>
+						<th>身份证号</th>
+						<th>试卷编号</th>
+						<th>所属单位</th>
+						<th>得分</th>
+					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${paperUserList.list }" varStatus="vs" var="paper">
-						<tr>
-							<td class="tc">${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
-							<td class="tc">${paper.userName }</td>
-							<td class="tc">${paper.card }</td>
-							<td class="tc">${paper.code }</td>
-							<td class="tc">${paper.unitName }</td>
-							<td class="tc">${paper.score }</td>
+						<tr class="tc">
+							<td>${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
+							<td>${paper.userName }</td>
+							<td>${paper.card }</td>
+							<td>${paper.code }</td>
+							<td>${paper.unitName }</td>
+							<td>${paper.score }</td>
 						</tr>
 					</c:forEach>
 				</tbody>
