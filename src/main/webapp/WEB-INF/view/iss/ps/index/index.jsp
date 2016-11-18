@@ -112,7 +112,12 @@ function kaptcha(){
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
-			<li class="item" style="left:0px;">
+		  	<c:forEach items="${indexMapper['picList']}" var="pic">
+			   <li class="item">
+					<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
+			   </li>
+			</c:forEach>
+			<%--<li class="item" style="left:0px;">
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
@@ -121,7 +126,7 @@ function kaptcha(){
 			<li class="item">
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
-		   </ul>
+		   --%></ul>
 	      </div>
 	      <div class="controler" data-scro="controler">
 		   <b class="down">1</b>
@@ -240,7 +245,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">采购公告</span>
-		  <ul class="list-unstyled col-md-7 buyer_news">
+		  <ul class="list-unstyled col-md-7 buyer_news m0">
 		    <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" > 服务</a></li>
@@ -300,7 +305,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">中标公告</span>
-		  <ul class="list-unstyled buyer_news col-md-7">
+		  <ul class="list-unstyled buyer_news col-md-7 m0">
 		    <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" > 服务</a></li>
@@ -359,7 +364,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">单一来源公告</span>
-		  <ul class="list-unstyled buyer_news col-md-7">
+		  <ul class="list-unstyled buyer_news col-md-7 m0">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" > 服务</a></li>
@@ -630,7 +635,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="${pageContext.request.contextPath}/importSupplier/register.html" target="home" class="jksdj">
+	     <a onclick="importAdd()" target="home" class="jksdj">
           <span>进口商登记</span> 
 		 </a>
 	   </div>

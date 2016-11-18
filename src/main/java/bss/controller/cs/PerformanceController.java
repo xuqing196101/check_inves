@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.util.ValidateUtils;
+
 import com.github.pagehelper.PageInfo;
 
 import bss.model.cs.Performance;
@@ -229,8 +231,16 @@ public class PerformanceController {
 		String id = request.getParameter("id");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id",id);
+		PurchaseContract purCon = purchaseContactService.selectById(id);
 		List<AppraisalContract> apCon = appraisalContractService.selectAppraisalContractByContractId(map);
-		String finalClosed = apCon.get(0).getAuditMoney().toString();
+		String finalClosed = "";
+		if(purCon.getFinallyClosed()==null){
+			if(apCon.get(0)!=null){
+				finalClosed = apCon.get(0).getAuditMoney().toString();
+			}
+		}else{
+			finalClosed = purCon.getFinallyClosed().toString();
+		}
 		return finalClosed;
 	}
 	
@@ -247,9 +257,23 @@ public class PerformanceController {
 	* @param @throws Exception      
 	* @return String
 	 */
-	@RequestMapping("/updateFinalClosed")
+	@RequestMapping(value="/updateFinalClosed",produces = "text/html; charset=utf-8")
+	@ResponseBody
 	public String updateFinalClosed(HttpServletRequest request,PurchaseContract pur) throws Exception{
-		purchaseContactService.updateByPrimaryKeySelective(pur);
-		return "redirect:/performance/selectAll.html";
+		boolean flag = true;
+		String errNews = "";
+		if(!ValidateUtils.Money(pur.getFinallyClosed().toString()) == false){
+			flag=false;
+			errNews="输入的金额不对";
+		}else if(ValidateUtils.isNull(pur.getFinallyClosed())){
+			flag=false;
+			errNews="金额不能为空";
+		}
+		if(!flag){
+			return errNews;
+		}else{
+			purchaseContactService.updateByPrimaryKeySelective(pur);
+			return "1";
+		}
 	}
 }

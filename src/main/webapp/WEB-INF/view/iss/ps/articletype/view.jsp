@@ -14,7 +14,6 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
-  
   <body>           	   
     <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -28,11 +27,8 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
     <div>
-	   <div class="headline-v2">
-	   		<h2>修改栏目</h2>
-	   	</div>
+	   <h2 class="list_title">查看栏目</h2>
 	   <ul class="ul_list mb20">
-	   		  
 	   		   <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5">栏目名称：</span>
 			   <div class="input-append">
@@ -55,8 +51,6 @@
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 
-
 			 <li class="col-md-3 margin-0 padding-0">
 			   <span class="col-md-12 padding-left-5">创建时间：</span>				 	
 	  			<div class="input-append">
@@ -71,8 +65,6 @@
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			 
-			 
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
 				<span class="col-md-12 padding-left-5">栏目介绍：</span>
 				<div class="mb5">
@@ -80,14 +72,11 @@
 				</div>			
 	  	 	</li>
 	  	 </ul>
-	  	 	
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 tc">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
-     
      </div>
      </div>
-
   </body>
 </html>

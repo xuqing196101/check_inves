@@ -28,6 +28,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
@@ -69,6 +71,9 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private UploadService uploadService;
 	/**
 	 * 
 	* @Title: sign
@@ -95,6 +100,22 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNews(Model model) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
+		List<Article> picList = articleService.selectPic();
+		List<Article> indexPics = new ArrayList<Article>();
+		for(Article article : picList){
+			DictionaryData dd=new DictionaryData();
+			dd.setCode("POST_ATTACHMENT");
+			List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+			String sysKey = Constant.FORUM_SYS_KEY.toString();
+			String attachTypeId=null;
+			if(lists.size()>0){
+				attachTypeId = lists.get(0).getId();
+			}
+			List<UploadFile> uploadList = uploadService.getFilesOther(article.getId(), attachTypeId, sysKey);
+			article.setPic(uploadList.get(0).getPath());
+			indexPics.add(article);
+		}
+		indexMapper.put("picList", indexPics);
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
 			if(!indexNewsList.isEmpty()){

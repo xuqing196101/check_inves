@@ -119,4 +119,10 @@ public class ArticleServiceImpl implements ArticleService {
 	public void updateisPicShow(String isPicShow) {
 		articleMapper.updateisPicShow(isPicShow);
 	}
+
+	@Override
+	public List<Article> selectPic() {
+		return articleMapper.selectPic();
+	}
+	
 }

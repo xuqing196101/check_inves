@@ -2103,7 +2103,9 @@ a.news_more{
   line-height:37px;
 }
 .floor_kind .tab-content .categories{
-  padding:0 10px;}
+  padding:0 10px;
+  overflow: hidden;
+}
 .flow_btn{
   padding: 3px 5px !important;
   border:1px solid #eee;
@@ -2399,7 +2401,7 @@ a.yjfk{
 	line-height: 30px;
 }
 .floor_kind .tab-content .tab-pane{
-	height:190px;
+	height:200px;
 	position: relative;
 }
 .tab_more{

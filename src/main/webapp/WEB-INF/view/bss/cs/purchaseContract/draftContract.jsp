@@ -390,6 +390,7 @@
 			 </li>
 			 <li class="col-md-3 p0">
 			   <span class=""><div class="red star_red">*</div>合同类型：</span>
+			   <div class="select_common">
 		        	<select name="contractType" id="contractType" class="span2 contract_name">
 		        		<option></option>
 		        		<option value="0">正常采购合同</option>
@@ -397,6 +398,7 @@
 		        		<option value="2">合同储备合同</option>
 		        	</select>
 		        	<div class="cue">${ERR_contractType}</div>
+		        </div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>

@@ -403,7 +403,14 @@ p, li, li a, label {
     border-image:  !important;
     padding: 20px 20px 10px !important;
 }
-
+h2.list_title{
+	height:16px;
+	line-height: 16px;
+	border-left:4px solid #2c9fa6;
+	padding-left:10px; 
+	font-size: 16px;
+	margin: 15px 0;
+} 
 .count_flow i {
     width: 24px;
     height: 24px;
@@ -437,6 +444,7 @@ p, li, li a, label {
     display: block;
     margin-left: 5px;
 }
+
 .input-append label{
 	font-size: 14px;
 }
@@ -449,14 +457,6 @@ a.upload {
     margin-left: 5px;
     display: block;
     float: left;
-}
-
-.input-append a {
-    font-size: 13px;
-    height: 25px;
-    line-height: 25px;
-    display: block;
-    margin-left: 5px;
 }
 
 a {
@@ -503,6 +503,8 @@ a.thumbnail {
     min-width:249px;
     position:relative;
     margin-bottom:25px;
+    clear: both;
+    height:32px;
 }
 
 .select_common select{
@@ -946,6 +948,13 @@ li:first-child {
     padding: 50px;
     margin-top: 60px;
     background: #eee;
+}
+.input-append{
+	margin-bottom: 25px;
+	position:relative;
+	height:32px;
+	clear:both;
+	float: left;
 }
 /*供应商投标样式添加*/
 .green_link {
