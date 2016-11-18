@@ -267,81 +267,93 @@
 	     set 
 	         UPDATED_AT=sysdate
 	         <!-- -->
-	        <if test="name != null and name != ''">
+	        <if test="name != null">
 		 		,NAME=#{name,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="typeName != null and typeName != ''">
+		 	<if test="typeName != null">
 		 		,TYPE_NAME=#{typeName,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="parentId != null and parentId != ''">
+		 	<if test="parentId != null">
 		 		,PARENT_ID=#{parentId,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="parentName != null and parentName != ''">
+		 	<if test="parentName != null">
 		 		,PARENT_NAME=#{parentName,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="describtion != null and describtion != ''">
+		 	<if test="describtion != null">
 		 		,DESCRIBTION=#{describtion,jdbcType=VARCHAR}
 		 	</if>
 		 	
-		 	 <if test="address != null and address != ''">
+		 	 <if test="address != null">
 		 		,ADDRESS=#{address,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="mobile != null and mobile != ''">
+		 	 <if test="mobile != null">
 		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
 		 	</if>
-		 	 <if test="postCode != null and postCode != ''">
+		 	 <if test="postCode != null">
 		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
 		 	</if>
-		 	 <if test="orgCode != null and orgCode != ''">
+		 	 <if test="orgCode != null">
 		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
 		 	</if>
-	        <if test="shortName != null and shortName != ''">
+	        <if test="shortName != null">
 		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="telephone != null and telephone != ''">
+		 	 <if test="telephone != null">
 		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="areaId != null and areaId != ''">
+		 	 <if test="areaId != null">
 		 		,AREA_ID=#{areaId,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="detailAddr != null and detailAddr != ''">
+		 	 <if test="detailAddr != null">
 		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="fax != null and fax != ''">
+		 	 <if test="fax != null">
 		 		,FAX=#{fax,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="website != null and website != ''">
+		 	 <if test="website != null">
 		 		,WEBSITE=#{website,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="princinpal != null and princinpal != ''">
+		 	 <if test="princinpal != null">
 		 		,PRINCINPAL=#{princinpal,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="princinpalIdCard != null and princinpalIdCard != ''">
+		 	 <if test="princinpalIdCard != null">
 		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="nature != null and nature != ''">
+		 	 <if test="nature != null">
 		 		,NATURE=#{nature,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="orgLevel != null and orgLevel != ''">
+		 	 <if test="orgLevel != null">
 		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
 		 	</if>
-		 	 <if test="position != null and position != ''">
+		 	 <if test="position != null">
 		 		,POSITION=#{position,jdbcType=INTEGER}
 		 	</if>
-		 	 <if test="isroot != null and isroot != ''">
+		 	 <if test="isroot != null">
 		 		,IS_ROOT=#{isroot,jdbcType=INTEGER}
 		 	</if>
-		 	 <if test="pid != null and pid != ''">
+		 	 <if test="pid != null">
 		 		,PROVINCE_ID=#{pid,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="cid != null and cid != ''">
+		 	 <if test="cid != null">
 		 		,CITY_ID=#{cid,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="is_deleted != null and is_deleted != ''">
+		 	 <if test="is_deleted != null">
 		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
 		 	</if>
-		 	 <if test="isroot != null and isroot != ''">
+		 	 <if test="isroot != null">
 		 		,IS_ROOT=#{isroot,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="quaStatus != null">
+		 		,QUA_STATUS=#{quaStatus,jdbcType=NUMERIC}
+		 	</if>
+		 	<if test="quaStashReason != null">
+		 		,QUA_STASH_REASON=#{quaStashReason,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="quaNormalReason != null">
+		 		,QUA_NORMAL_REASON=#{quaNormalReason,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="quaTerminalReason != null">
+		 		,QUA_TERMINAL_REASON=#{quaTerminalReason,jdbcType=VARCHAR}
 		 	</if>
 	     where s.id=#{id}    
 	</update>

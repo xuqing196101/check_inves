@@ -784,6 +784,29 @@ public class PurchaseManageController {
             purchaseDep = list.get(0);
         }
         model.addAttribute("purchaseDep", purchaseDep);
+      //多文件上传
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        DictionaryData dd=new DictionaryData();
+        dd.setCode("PURCHASE_QUA_CERT");
+        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
+        if(lists.size()>0){
+            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_STASH");
+        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
+        if(liststash.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
+        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
+        if(listnormal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
+        }
+        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
+        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
+        if(listterminal.size()>0){
+            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
+        }
         return "ses/oms/purchase_dep/show";
     }
 	/**
@@ -798,6 +821,11 @@ public class PurchaseManageController {
 	 */
 	@RequestMapping("updateQuateStatus")
     public String updateQuateStatus(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+	    String quaStatus = request.getParameter("quaStatus");
+	    model.addAttribute("quaStatus", quaStatus);
+	    if(quaStatus!=null ){
+	        purchaseDep.setQuaStatus(Integer.parseInt(quaStatus));
+	    }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", purchaseDep.getId());
         List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
@@ -860,6 +888,23 @@ public class PurchaseManageController {
 		jsonData.setObj(purchaseDep);
 		return jsonData;
 	}
+	@RequestMapping(value="updateOrgnizationAjxa",method= RequestMethod.POST)
+    @ResponseBody
+    public AjaxJsonData updateOrgnizationAjxa(@ModelAttribute Orgnization orgnization,HttpServletRequest request){
+        @SuppressWarnings("unused")
+        User currUser = (User) request.getSession().getAttribute("loginUser");
+        HashMap<String, Object> map = new HashMap<String, Object>();//
+        map.put("id", orgnization.getId());
+        map.put("quaStatus", orgnization.getQuaStatus());
+        map.put("quaStashReason", orgnization.getQuaStashReason());
+        map.put("quaNormalReason", orgnization.getQuaNormalReason());
+        map.put("quaTerminalReason", orgnization.getQuaTerminalReason());
+        orgnizationServiceI.updateOrgnization(map);
+        jsonData.setSuccess(true);
+        jsonData.setMessage("更新成功");
+        jsonData.setObj(orgnization);
+        return jsonData;
+    }
 	/**
 	 * 
 	 * @Title: gettreebody

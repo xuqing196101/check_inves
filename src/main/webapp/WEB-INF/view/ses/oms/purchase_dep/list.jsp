@@ -124,28 +124,26 @@
 			return ;
 		}
 		var title = "确定暂停采购机构资质吗?";
-		layer.confirm(title,{
-                offset: ['50px','90px'],
-                shade:0.01,
-                btn:['是','否'],
-                },function(){
-                     layer.open({
-						type : 2, //page层
-						area : [ '500px', '300px' ],
-						title : title,
-						shade : 0.01, //遮罩透明度
-						moveType : 1, //拖拽风格，0是默认，1是传统拖动
-						shift : 1, //0-6的动画形式，-1不开启
-						offset : [ '220px', '630px' ],
-						shadeClose : true,
-						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=0'
-					 });
-                },function(){
-                    var index=parent.layer.getFrameIndex(window.name);
-                     parent.layer.close(index);
-                }
-                    
-          ); 
+		var status = $("#"+id[0]).text().trim();
+		if(status=="终止"){
+			layer.alert("已终止不可暂停",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		if(status=="暂停"){
+			layer.alert("已是暂停状态",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		 layer.open({
+			type : 2, //page层
+			area : [ '500px', '300px' ],
+			title : title,
+			shade : 0.01, //遮罩透明度
+			moveType : 1, //拖拽风格，0是默认，1是传统拖动
+			shift : 1, //0-6的动画形式，-1不开启
+			offset : [ '220px', '630px' ],
+			shadeClose : true,
+			content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?id='+id[0]+'&quaStatus=0'
+		 });
 		
 	}
 	function purchaseNormal(quaStatus){
@@ -163,28 +161,26 @@
 			return ;
 		}
 		var title = "确定要启用采购机构资质吗";
-		layer.confirm(title,{
-                offset: ['50px','90px'],
-                shade:0.01,
-                
-                },function(index){
-                	
-                     layer.close(index);
-                     layer.open({
-						type : 2, //page层
-						area : [ '500px', '300px' ],
-						title : title,
-						shade : 0.01, //遮罩透明度
-						moveType : 1, //拖拽风格，0是默认，1是传统拖动
-						shift : 1, //0-6的动画形式，-1不开启
-						offset : [ '220px', '630px' ],
-						shadeClose : true,
-						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=1'
-					 });
-					
-                }
-                    
-          ); 
+		var status = $("#"+id[0]).text().trim();
+		if(status=="终止"){
+			layer.alert("已终止不可启用",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		if(status=="正常"){
+			layer.alert("已是正常状态",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		layer.open({
+			type : 2, //page层
+			area : [ '500px', '300px' ],
+			title : title,
+			shade : 0.01, //遮罩透明度
+			moveType : 1, //拖拽风格，0是默认，1是传统拖动
+			shift : 1, //0-6的动画形式，-1不开启
+			offset : [ '220px', '630px' ],
+			shadeClose : true,
+			content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?id='+id[0]+'&quaStatus=1'
+		});
 	}
 	function purchaseTerminal(quaStatus){
 		if(quaStatus!=null && quaStatus!='' && quaStatus==0){
@@ -205,28 +201,26 @@
 			return ;
 		}
 		var title = "确定终止采购机构资质吗";
-		layer.confirm(title,{
-                offset: ['50px','90px'],
-                shade:0.01,
-                btn:['是','否'],
-                },function(){
-                     layer.open({
-						type : 2, //page层
-						area : [ '500px', '300px' ],
-						title : title,
-						shade : 0.01, //遮罩透明度
-						moveType : 1, //拖拽风格，0是默认，1是传统拖动
-						shift : 1, //0-6的动画形式，-1不开启
-						offset : [ '220px', '630px' ],
-						shadeClose : true,
-						content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?quaStatus=2'
-					 });
-                },function(){
-                    var index=parent.layer.getFrameIndex(window.name);
-                     parent.layer.close(index);
-                }
-                    
-          ); 
+		var status = $("#"+id[0]).text().trim();
+		if(status=="终止"){
+			layer.alert("已是终止状态",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		if(status=="暂停"){
+			layer.alert("暂停状态不可终止",{offset: ['222px', '390px'], shade:0.01});
+			return ;
+		}
+		layer.open({
+			type : 2, //page层
+			area : [ '500px', '300px' ],
+			title : title,
+			shade : 0.01, //遮罩透明度
+			moveType : 1, //拖拽风格，0是默认，1是传统拖动
+			shift : 1, //0-6的动画形式，-1不开启
+			offset : [ '220px', '630px' ],
+			shadeClose : true,
+			content : '${pageContext.request.contextPath}/purchaseManage/updateQuateStatus.html?id='+id[0]+'&quaStatus=2'
+		 });
 	}
   </script>
 <body>
@@ -321,20 +315,20 @@
 										<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
 										<td class="tc" onclick="show('${p.id}');" id="${p.id }">
 											<c:choose>
-												<c:when test="${p.quaRange==0}">
+												<c:when test="${p.quaStatus==0}">
 													暂停
 												</c:when>
-												<c:when test="${p.quaRange==1}">
+												<c:when test="${p.quaStatus==1}">
 													正常
 												</c:when>
-												<c:when test="${p.quaRange==2}">
-													已终止
+												<c:when test="${p.quaStatus==2}">
+													终止
 												</c:when>
 												<c:otherwise>
-											
+													正常
 												</c:otherwise>
 											</c:choose>
-										${p.quaRange}
+										
 										</td>
 									</tr>
 								</c:forEach>

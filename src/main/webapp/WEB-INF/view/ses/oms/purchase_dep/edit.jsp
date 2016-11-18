@@ -746,7 +746,7 @@
                                                 class="red">＊</i>采购资格证书图片：</span>
                                             <div class="uploader orange m0">
                                                 <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true" typeId="${PURCHASE_QUA_CERT_ID }"/>
-												<up:show showId="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" typeId="${PURCHASE_QUA_CERT_ID }"/>
+												<up:show  showId="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" typeId="${PURCHASE_QUA_CERT_ID }"/>
                                             </div></li>
                                     </ul>
                                     <h2 class="count_flow"><i>3</i>个人信息</h2>

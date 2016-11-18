@@ -73,6 +73,12 @@ public class Orgnization implements Serializable {
     private String requireDepId;
     private String status;
     
+    private Integer quaStatus;//资质状态  0资质暂停1默认正常2资质终止
+    
+    private String quaStashReason;//资质暂停理由
+    private String quaNormalReason;//资质启用理由
+    private String quaTerminalReason;//资质终止理由
+    
   
 	public void setStatus(String status) {
 		this.status = status;
@@ -357,5 +363,37 @@ public class Orgnization implements Serializable {
 	public void setParentName(String parentName) {
 		this.parentName = parentName;
 	}
+
+    public Integer getQuaStatus() {
+        return quaStatus;
+    }
+
+    public void setQuaStatus(Integer quaStatus) {
+        this.quaStatus = quaStatus;
+    }
+
+    public String getQuaStashReason() {
+        return quaStashReason;
+    }
+
+    public void setQuaStashReason(String quaStashReason) {
+        this.quaStashReason = quaStashReason;
+    }
+
+    public String getQuaNormalReason() {
+        return quaNormalReason;
+    }
+
+    public void setQuaNormalReason(String quaNormalReason) {
+        this.quaNormalReason = quaNormalReason;
+    }
+
+    public String getQuaTerminalReason() {
+        return quaTerminalReason;
+    }
+
+    public void setQuaTerminalReason(String quaTerminalReason) {
+        this.quaTerminalReason = quaTerminalReason;
+    }
     
 }

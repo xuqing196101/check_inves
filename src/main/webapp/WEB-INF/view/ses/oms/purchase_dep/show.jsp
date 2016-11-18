@@ -745,9 +745,23 @@
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
                                                 class="red">＊</i>采购资格证书图片：</span>
                                             <div class="uploader orange m0">
-                                                <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true"/>
-													<up:show showId="cert_show_id" businessId="${purchaseDep.id}" sysKey="2"/>
+												<up:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2"/>
                                             </div></li>
+                                        <%-- <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
+                                                class="red">＊</i>资质暂停文件：</span>
+                                            <div class="uploader orange m0">
+												<up:show delete="false" showId="cert_show_id1" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_STASH_ID }" sysKey="2"/>
+                                            </div></li>
+                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
+                                                class="red">＊</i>资质启用文件：</span>
+                                            <div class="uploader orange m0">
+												<up:show delete="false" showId="cert_show_id2" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_NORMAL_ID }" sysKey="2"/>
+                                            </div></li>
+                                          <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
+                                                class="red">＊</i>资质终止文件：</span>
+                                            <div class="uploader orange m0">
+												<up:show delete="false" showId="cert_show_id3" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_TERMINAL_ID }" sysKey="2"/>
+                                            </div></li>  --%>
                                     </ul>
                                     <h2 class="count_flow"><i>3</i>个人信息</h2>
                                     <ul class="ul_list">
