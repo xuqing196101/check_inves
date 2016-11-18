@@ -147,14 +147,17 @@
 	   	</c:forEach>
    		<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
    	
-		  <div class="container container_box">
-      <form action="${pageContext.request.contextPath }/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
-      <input type="hidden" name="content" value="${purchaserQue.topic }"/>
-      <h2 class="count_flow">新增题目</h2>
-      <ul class="ul_list">
-  			<ul class="list-unstyled list-flow p0_20">
-		     	<li class="col-md-12 p0">
-	  				<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
+	<div class="container container_box">
+	     <form action="${pageContext.request.contextPath }/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
+	     <input type="hidden" name="content" value="${purchaserQue.topic }"/>
+	     <div class="headline-v2">
+	      	<h2 class="count_flow">修改题目</h2>
+	     </div>
+	     <div class="ul_list">
+		 <ul class="list-unstyled col-md-6">
+		     <li class="col-md-12 p0">
+	  			<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
+	  			<div class="col-md-12 mb5 fl">
 			  		<select id="queType" name="queType" onchange="changeType()" class="w178">
 			  			<option value="">请选择</option>
 			  			<c:forEach items="${examPoolType }" var="e">
@@ -168,21 +171,23 @@
 			  				</c:choose>
 			  			</c:forEach>
 			  		</select>
-			  		<div class="fl red mt5 ml5">${ERR_type}</div>
-  				</li>
+			  		<div class="red">${ERR_type}</div>
+			  	</div>
+  			</li>
   		
 		  		<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>题干：</span>
-					<div class="fl mt5 col-md-9 p0">
-			  			<textarea class="text_area col-md-8" name="topic" id="queTopic">${purchaserQue.topic }</textarea>
+				   <span class="col-md-12"><div class="red fl">*</div>题干：</span>
+				   <div class="col-md-12">
+			  			<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${purchaserQue.topic }</textarea>
 		  				<div class="clear red">${ERR_topic}</div>
 		  			</div>
 		  		</li>
+  			</ul>
   		
-  		
-  			<li class="col-md-12 p0" id="items">
-				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
-				<div class="fl col-md-9 p0">
+  			<ul class="list-unstyled col-md-6 p0">
+	  			<li class="col-md-12 p0" id="items">
+				<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
+				<div class="fl col-md-12 mb5">
 					<select id="options" name="options" onchange="changeOpt()" class="w178 fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${optNum==3 }">
@@ -235,28 +240,24 @@
 			  			</c:if>
 		  			</select>
 					<div class="red fl ml5 mt5">${ERR_option }</div> 
-					<div class="col-md-9 clear p0" id="item"></div>
+					<div class="col-md-12 clear p0" id="item"></div>
 			    </div>
 			 </li> 
   		
   		
   		
 	  		<li class="col-md-12 p0">
-				<span class="fl"><div class="red star_red">*</div>答案：</span>
-				<div class="fl ml5 mt5" id="answers"></div>
-			    <div class="mt5 ml5 red fl">${ERR_answer }</div>
+				<span class="fl ml15"><div class="red fl">*</div>答案：</span>	
+				<div class="fl" id="answers" class="select_check"></div>
+			    <div class="red fl">${ERR_answer }</div>
 	  		</li>
   		</ul>
   		</ul>
   		
   		<!-- 底部按钮 -->
-	  	<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-					<button class="btn btn-windows save" onclick="save()">保存</button>
-		  			<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
-	  			</div>
-	  		</div>
+	  	<div class="col-md-12 mt10 tc ">
+			<button class="btn btn-windows save" onclick="save()">保存</button>
+		  	<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	  	</div>
   	
   			</form>

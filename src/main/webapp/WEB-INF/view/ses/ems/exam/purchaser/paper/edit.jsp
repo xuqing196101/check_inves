@@ -178,7 +178,9 @@
       <input type="hidden" name="paperId" value="${examPaper.id }"/>
       <input type="hidden" name="paperName" value="${examPaper.name }"/>
       <input type="hidden" name="paperCode" value="${examPaper.code }"/>
-       <h2 class="count_flow">修改考卷</h2>
+      	<div class="headline-v2">
+       		<h2 class="count_flow">修改考卷</h2>
+       	</div>
        <ul class="ul_list">
     	<ul class="list-unstyled p0_20">
 		     <li class="col-md-3 p0">

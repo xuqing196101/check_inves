@@ -715,9 +715,12 @@ public class ExpertExamController extends BaseSupplierController{
 		StringBuffer sb_option = new StringBuffer();
 		String content = request.getParameter("content");
 		String queType = request.getParameter("queType");
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
 		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
+			
 			return "ses/ems/exam/expert/law/edit";
 		}
 		String error = "无";
@@ -801,8 +804,6 @@ public class ExpertExamController extends BaseSupplierController{
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("lawQue",examQuestion);
 			model.addAttribute("lawAnswer",sb.toString());
-			List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
-			model.addAttribute("examPoolType",examQuestionType);
 			optionNum(model);
 			return "ses/ems/exam/expert/law/edit";
 		}
@@ -905,6 +906,8 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToTec")
 	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
 		String id = request.getParameter("id");
 		examQuestion.setId(id);
 		String[] items = saveOption();
@@ -996,8 +999,6 @@ public class ExpertExamController extends BaseSupplierController{
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("tecQue",examQuestion);
 			model.addAttribute("tecAnswer",sb.toString());
-			List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
-			model.addAttribute("examPoolType",examQuestionType);
 			optionNum(model);
 			return "ses/ems/exam/expert/technical/edit";
 		}
@@ -1019,6 +1020,8 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToCom")
 	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
 		String id = request.getParameter("id");
 		examQuestion.setId(id);
 		String[] items = saveOption();
@@ -1107,8 +1110,6 @@ public class ExpertExamController extends BaseSupplierController{
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("comQue",examQuestion);
 			model.addAttribute("comAnswer",sb.toString());
-			List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
-			model.addAttribute("examPoolType",examQuestionType);
 			optionNum(model);
 			return "ses/ems/exam/expert/commerce/edit";
 		}
@@ -1751,7 +1752,15 @@ public class ExpertExamController extends BaseSupplierController{
 				error = "time";
 				model.addAttribute("ERR_time", "考试开始时间必须比当前时间晚");
 			}else{
-				examRule.setStartTime(cTime);
+				int start = Integer.parseInt(time.substring(0,4));
+				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
+				if(start>now){
+					error = "time";
+					model.addAttribute("ERR_time", "请在今年时间范围内选择考试开始时间");
+				}else{
+					examRule.setStartTime(cTime);
+				}
+				
 			}
 		}
 		String offTime = request.getParameter("offTime");
@@ -1767,7 +1776,7 @@ public class ExpertExamController extends BaseSupplierController{
 				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
 				if(off>now){
 					error = "offTime";
-					model.addAttribute("ERR_offTime", "考试截止时间不能超过今年年底");
+					model.addAttribute("ERR_offTime", "请在今年时间范围内选择考试截止时间");
 				}
 			}
 		}
@@ -1981,7 +1990,14 @@ public class ExpertExamController extends BaseSupplierController{
 				error = "error";
 				model.addAttribute("ERR_time", "考试开始时间必须比当前时间晚");
 			}else{
-				examRule.setStartTime(cTime);
+				int start = Integer.parseInt(time.substring(0,4));
+				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
+				if(start>now){
+					error = "error";
+					model.addAttribute("ERR_time", "请在今年时间范围内选择考试开始时间");
+				}else{
+					examRule.setStartTime(cTime);
+				}
 			}
 		}
 		String offTime = request.getParameter("offTime");
@@ -1997,7 +2013,7 @@ public class ExpertExamController extends BaseSupplierController{
 				int now = Integer.parseInt(sdf.format(new Date()).substring(0, 4));
 				if(off>now){
 					error = "error";
-					model.addAttribute("ERR_offTime", "考试截止时间不能超过今年年底");
+					model.addAttribute("ERR_offTime", "请在今年时间范围内选择考试截止时间");
 				}
 			}
 		}

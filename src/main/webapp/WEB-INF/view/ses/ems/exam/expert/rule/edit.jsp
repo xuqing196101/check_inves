@@ -113,7 +113,9 @@
    <div class="container container_box">
    <form action="${pageContext.request.contextPath }/expertExam/editToExamRule.html" method="post">
     <input type="hidden" name="ruleId" value="${examRule.id }"/>
-   <h2 class="count_flow">专家考试规则修改</h2>
+    <div class="headline-v2">
+   		<h2 class="count_flow">修改规则</h2>
+   	</div>
    <ul class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">

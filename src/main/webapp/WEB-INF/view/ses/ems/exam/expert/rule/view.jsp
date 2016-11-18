@@ -54,7 +54,9 @@
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
    	
    <div class="container container_box">
-   <h2 class="count_flow">查看专家考试规则</h2>
+	   <div class="headline-v2">
+	   		<h2 class="count_flow">查看规则</h2>
+	   </div>
    <ul class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">

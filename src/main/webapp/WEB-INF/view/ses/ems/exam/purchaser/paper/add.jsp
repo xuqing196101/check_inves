@@ -60,9 +60,6 @@
 		
 		//自动计算总分
 		function countScore(){
-			//document.getElementById("singleNum").value=document.getElementById("singleNum").value.replace(/\D+/g,'');
-			//document.getElementById("multipleNum").value=document.getElementById("multipleNum").value.replace(/\D+/g,'');
-			//document.getElementById("judgeNum").value=document.getElementById("judgeNum").value.replace(/\D+/g,'');
 			var sn = $("#singleNum").val();
 			var sp =$("#singlePoint").val();
 			var mn = $("#multipleNum").val();
@@ -168,9 +165,11 @@
 	
      <div class="container container_box">
      <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
-	<h2 class="count_flow">新增考卷</h2>
-       <ul class="ul_list">
-    	 <ul class="list-unstyled p0_20">
+		<div class="headline-v2">
+			<h2 class="count_flow">新增考卷</h2>
+		</div>
+       	<ul class="ul_list">
+    	 	<ul class="list-unstyled p0_20">
 		     <li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
 		  		<div class="col-md-12 p0 input-append">

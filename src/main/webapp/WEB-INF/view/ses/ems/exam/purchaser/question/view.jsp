@@ -67,45 +67,50 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   
    		<c:forEach items="${optContent }" var="opt">
 	   		<input type="hidden" name="errorOption" value="${opt }"/>
 	   	</c:forEach>
-   	<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
-    <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <div>
-      <div class="container container_box">
-      <h2 class="count_flow">查看题目</h2>
-      <ul class="ul_list">		
-  			<ul class="list-unstyled list-flow p0_20">
-		     	<li class="col-md-12 p0">
-	  				<span class="fl">请选择题型：</span>
-			  		<select id="queType" name="queType" disabled="disabled" class="w178">
-			  			<option value="">请选择</option>
-			  			<c:forEach items="${examPoolType }" var="e">
-			  				<c:choose>
-			  					<c:when test="${e.id==purchaserQue.questionTypeId }">
-			  						<option value="${e.id }" selected="selected">${e.name }</option>
-			  					</c:when>
-			  					<c:otherwise>
-			  						<option value="${e.id }">${e.name }</option>
-			  					</c:otherwise>
-			  				</c:choose>
-			  			</c:forEach>
-			  		</select>
-  				</li>
+   		<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
+   		
+    	<div class="container container_box">
+	   		<div class="headline-v2">
+      			<h2 class="count_flow">查看题目</h2>
+     		</div>
+     		 <div class="ul_list">
+				<ul class="list-unstyled col-md-6">
+		    		 <li class="col-md-12 p0">
+	  				 	<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
+	  				 	<div class="col-md-12 mb5 fl">
+				  			 <select id="queType" name="queType" disabled="disabled" class="w178">
+			  					<option value="">请选择</option>
+			  					<c:forEach items="${examPoolType }" var="e">
+				  					<c:choose>
+					  					<c:when test="${e.id==purchaserQue.questionTypeId }">
+					  						<option value="${e.id }" selected="selected">${e.name }</option>
+					  					</c:when>
+					  					<c:otherwise>
+					  						<option value="${e.id }">${e.name }</option>
+					  					</c:otherwise>
+					  				</c:choose>
+			  					</c:forEach>
+			  				</select>
+			  			</div>
+  					</li>
   		
 		  		<li class="col-md-12 p0">
-					<span class="fl">题干：</span>
-					<div class="">
-			  			<textarea disabled="disabled" class="text_area col-md-8" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
+					<span class="col-md-12"><div class="red fl">*</div>题干：</span>
+					<div class="col-md-12">
+			  			<textarea disabled="disabled" class="col-md-10 h80 p0" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
 		  			</div>
 		  		</li>
+  			</ul>
   		
-  		
-  			<li class="col-md-12 p0" id="items">
-				<span class="fl">请选择选项数量：</span>
-				<div class="fl col-md-9 p0">
-					<select id="options" name="options" class="w178 fl" disabled="disabled">
+  			<ul class="list-unstyled col-md-6 p0">
+	  			<li class="col-md-12 p0" id="items">
+					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
+					<div class="fl col-md-12 mb5">
+					<select id="options" name="options" disabled="disabled" class="w178 fl">
 			  			<option value=" ">请选择</option>
 			  			<c:if test="${optNum==3 }">
 			  				<option value="three" selected>3</option>
@@ -157,29 +162,21 @@
 			  			</c:if>
 		  			</select>
 					<div class="col-md-9 clear p0" id="item"></div>
-			    </div>
-			 </li> 
+			    	</div>
+			 	</li> 
   		
-  		
-  		
-	  		<li class="col-md-12 p0">
-				<span class="fl">答案：</span>
-				<div class="fl ml5 mt5" id="answers"></div>
-	  		</li>
-  		</ul>
-  		</ul>
+	  			<li class="col-md-12 p0">
+					<span class="fl ml15"><div class="red fl">*</div>答案：</span>	
+					<div class="fl" id="answers" class="select_check"></div>
+	  			</li>
+  			</ul>
+  		</div>
   		
   		<!-- 底部按钮 -->
-	  	<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	  			</div>
-	  		</div>
+	  	<div class="col-md-12 mt10 tc ">
+		  	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>	
 	  	</div>
 
-  		</div>
-	</div>
-</div>
+  		
   </body>
 </html>

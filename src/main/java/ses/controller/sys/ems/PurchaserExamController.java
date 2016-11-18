@@ -361,6 +361,8 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToPurchaser")
 	public String editToPurchaser(HttpServletRequest request,ExamQuestion examQuestion,Model model){
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectPurchaserAll();
+		model.addAttribute("examPoolType",examQuestionType);
 		examQuestion.setId(request.getParameter("id"));
 		String[] items = saveOption();
 		String content = request.getParameter("content");
@@ -460,8 +462,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("purchaserQue",examQuestion);
 			model.addAttribute("purchaserAnswer",sb_answer.toString());
-			List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectPurchaserAll();
-			model.addAttribute("examPoolType",examQuestionType);
 			optionNum(model);
 			return "ses/ems/exam/purchaser/question/edit";
 		}

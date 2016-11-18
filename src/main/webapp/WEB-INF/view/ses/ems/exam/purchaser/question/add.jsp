@@ -156,7 +156,9 @@
 	   
 	<div class="container container_box">
    	<form action="${pageContext.request.contextPath }/purchaserExam/saveToPurPool.html" method="post" id="form">
-    <h2 class="count_flow">新增题目</h2>
+    	<div class="headline-v2">
+    		<h2 class="count_flow">新增题目</h2>
+    	</div>
    		<div class="ul_list">
   		     <ul class="list-unstyled col-md-6">
 		     <li class="col-md-12 p0">

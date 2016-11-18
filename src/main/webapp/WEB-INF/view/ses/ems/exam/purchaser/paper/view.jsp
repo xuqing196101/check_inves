@@ -81,37 +81,39 @@
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	
-	   <div class="container container_box">
-       <h2 class="count_flow">查看考卷</h2>
-       <ul class="ul_list">
-    	 <ul class="list-unstyled p0_20">
-		     <li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
-		  		<div class="col-md-12 p0 input-append">
-		  			<input type="text" name="paperName" value="${examPaper.name }" disabled="disabled"/>
-	  			</div>
-	  		</li>
+	<div class="container container_box">
+	   	<div class="headline-v2">
+       		<h2 class="count_flow">查看考卷</h2>
+       	</div>
+       	<ul class="ul_list">
+    	 	<ul class="list-unstyled p0_20">
+		     	<li class="col-md-3 p0">
+		  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
+			  		<div class="col-md-12 p0 input-append">
+			  			<input type="text" name="paperName" value="${examPaper.name }" disabled="disabled"/>
+		  			</div>
+	  			</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
-		  		<div class="col-md-12 p0 input-append">
-		  			<input type="text" name="paperNo" value="${examPaper.code }" disabled="disabled"/>
-	  			</div>
-	  		</li>
+	    		<li class="col-md-3 p0">
+		  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
+			  		<div class="col-md-12 p0 input-append">
+			  			<input type="text" name="paperNo" value="${examPaper.code }" disabled="disabled"/>
+		  			</div>
+		  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
-		  		<div class="col-md-12 p0 input-append">
-		  			<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
-	  			</div>
-	  		</li>
+	    		<li class="col-md-3 p0">
+		  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
+			  		<div class="col-md-12 p0 input-append">
+			  			<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+		  			</div>
+		  		</li>
 	  		
-	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
-		  		<div class="col-md-12 p0 input-append">
-		  			<input type="text" disabled="disabled" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
-	  			</div>
-	  		</li>
+		  		<li class="col-md-3 p0">
+		  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
+			  		<div class="col-md-12 p0 input-append">
+			  			<input type="text" disabled="disabled" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+		  			</div>
+		  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>

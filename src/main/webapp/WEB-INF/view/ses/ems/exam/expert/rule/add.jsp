@@ -105,9 +105,11 @@
    	</div>
    <div class="container container_box">
    <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
-   <input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
-    <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-   <h2 class="count_flow">专家考试规则设置</h2>
+	   	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
+	    <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
+	    <div class="headline-v2">
+   			<h2 class="count_flow">新增规则</h2>
+   		</div>
    <ul class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">

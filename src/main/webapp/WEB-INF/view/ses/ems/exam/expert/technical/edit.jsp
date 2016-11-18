@@ -135,7 +135,9 @@
    <div class="container container_box">
    <form action="${pageContext.request.contextPath }/expertExam/editToTec.html?id=${tecQue.id }" method="post" id="form">
     <input type="hidden" name="content" value="${tecQue.topic }"/>
-	   	<h2 class="count_flow">修改技术类题目</h2>
+    	<div class="headline-v2">
+	   		<h2 class="count_flow">修改技术类题目</h2>
+	   	</div>
 	   	<div class="ul_list">
 		<ul class="list-unstyled col-md-6">
 		     <li class="col-md-12 p0">
