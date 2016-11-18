@@ -151,7 +151,7 @@
 							    shade:0.01, //遮罩透明度
 								type : 1,
 								skin : 'layui-layer-rim', //加上边框
-								area : [ '40%', '300px' ], //宽高
+								area : [ '40%', '200px' ], //宽高
 								content : $('#numberWin'),
 								offset: ['10%', '25%']
 							});
@@ -164,11 +164,24 @@
 		}
 	}
 	
+	function cancel(){
+		layer.close(ind);
+	}
+	
 	function save(){
 		var findClosed = $("#finalClosed").val();
 		if(findClosed==null || findClosed==''){
 			layer.alert("请先填写最终金额",{offset: ['222px', '390px'], shade:0.01});
 		}else{
+			$.ajax({
+				url:"${pageContext.request.contextPath}/performance/updateFinalClosed.html",
+				type:"post",
+				dataType:"text",
+				data:$('#finForm').serialize(),
+				success:function(data){
+					alert(data);
+				}
+			});
 			$("#finForm").submit();
 		}
 	}
@@ -243,18 +256,18 @@
 				<c:set value="${performance.contract.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>3}">
-					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.code}')" class="tc pointer ">${fn:substring(code,0,3)}...</td>
+					<td onclick="view('${performance.id}')" class="tc pointer ">${fn:substring(code,0,3)}...</td>
 				</c:if>
 				<c:if test="${length<=3}">
-					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.code}')" class="tc pointer ">${code}</td>
+					<td onclick="view('${performance.id}')" class="tc pointer ">${code}</td>
 				</c:if>
 				<c:set value="${performance.contract.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>4}">
-					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.name}')" class="tc pointer ">${fn:substring(name,0,4)}...</td>
+					<td onclick="view('${performance.id}')" class="tc pointer ">${fn:substring(name,0,4)}...</td>
 				</c:if>
 				<c:if test="${length<=4}">
-					<td onclick="view('${performance.id}')" onmouseover="out('${performance.contract.name}')" class="tc pointer ">${name}</td>
+					<td onclick="view('${performance.id}')" class="tc pointer ">${name}</td>
 				</c:if>		
 				<td onclick="view('${performance.id}')" class="tc pointer">${performance.deliverySchedule}</td>
 				<td onclick="view('${performance.id}')" class="tc pointer">${performance.fundsPaid}</td>
@@ -281,7 +294,7 @@
      	 <input id="pId" type="hidden" name="id" value=""/>
 	     <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
 	  		    <li class="col-md-12 ml15">
-				   <span class="span3 fl mt5"><div class="red star_red">*</div>最终结算金额：</span>
+				   <span class="span3 fl"><div class="red star_red">*</div>最终结算金额：</span>
 				   <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
 				</li>
 				<li class="tc col-md-12 mt20">

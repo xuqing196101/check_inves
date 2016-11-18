@@ -37,11 +37,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*" />
 			
-<!-- 			论坛首页浏览 -->
-			<mvc:exclude-mapping path="/park/getIndex.*" />
-			<mvc:exclude-mapping path="/post/getIndexlist.*" />
-			<mvc:exclude-mapping path="/post/getHotlist.*" />
-			<mvc:exclude-mapping path="/post/getIndexDetail.*" />	
 			
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			

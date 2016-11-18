@@ -5,6 +5,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+  <link href="${pageContext.request.contextPath}/public/backend/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+  
   </head>
   <script type="text/javascript">
     $(function(){
@@ -40,7 +42,7 @@
     <div class="layui-layer-wrap" >
           <div class="drop_window">
               <ul class="list-unstyled">
-                <li class="col-md-6">
+                <li class="col-sm-6 col-md-6 col-lg-6">
                   <label class="col-md-12 padding-left-5"><i class="red">*</i>名称</label>
                   <span class="col-md-12">
                    <input name="name" maxlength="30" class="title col-md-12" type="text">

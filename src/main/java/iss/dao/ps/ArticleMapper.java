@@ -158,6 +158,16 @@ public interface ArticleMapper {
 	* @return List<Article>
 	 */
 	List<Article> selectArticleByName(Article article);
+	
+	/**
+	* @Title: selectPic
+	* @author Shen Zhenfei 
+	* @date 2016-9-18 下午1:55:48  
+	* @Description: 查询首页图片
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectPic();
   
 	/**
 	 * Description: 根据项目查找

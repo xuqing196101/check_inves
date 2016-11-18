@@ -395,5 +395,15 @@
     where IS_PIC_SHOW = #{isPicShow}
   </update>
   
+  <select id="selectPic" resultMap="ArticleMapper">
+  	SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+		IS_PIC_SHOW IN (1, 2, 3)
+	ORDER BY
+		IS_PIC_SHOW
+  </select>
   
 </mapper>

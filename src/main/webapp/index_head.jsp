@@ -30,52 +30,19 @@ function myInfo(){
 	}
 }
 
-function login(){
-	if($("#inputEmail").val()==""){
-		layer.tips("请输入用户名","#inputEmail",{
-			tips : 1
-		});		
-	}else if($("#inputPassword").val()==""){
-		layer.tips("请输入密码","#inputPassword",{
-			tips : 1
-		});		
-	}else if($("#inputCode").val()==""){
-		layer.tips("请输入验证码","#inputCode",{
-			tips : 1
-		});		
-	}else{
-		var index=layer.load();
-		$.ajax({
-			url:"${pageContext.request.contextPath}/login/login.html",
-			type:"post",
-			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
-			success:function(data){
-				if(data=="errorcode"){
-					layer.tips("验证码不正确","#inputCode",{
-						tips : 1
-					});	
-					layer.close(index);
-				}else if(data=="errorlogin"){				
-					layer.msg("用户名或密码错误！");
-					layer.close(index);
-				}else if(data=="nullcontext"){				
-					layer.msg("请输入用户名密码或者验证码!");
-				}else if(data=="scuesslogin"){				
-					layer.close(index);
-					window.location.href="${pageContext.request.contextPath}/login/index.html";
-				}else if(data="deleteLogin"){
-					layer.msg("账号不存在!");
-					layer.close(index);
-				}
-				kaptcha();
-			}
-		});
+function importAdd(){
+	if(user==null){
+		layer.alert("请先登录",{offset: ['222px', '390px'], shade:0.01});
+		return;
 	}
+	var typeName = "${sessionScope.loginUser.typeName}";
+	if(typeName!='7'){
+		layer.alert("您不是进口商",{offset: ['222px', '390px'], shade:0.01});
+	}else{
+		window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
+	}
+}
 
-}
-function kaptcha(){
-	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
-}
 </script>
 </head>
 <body>
