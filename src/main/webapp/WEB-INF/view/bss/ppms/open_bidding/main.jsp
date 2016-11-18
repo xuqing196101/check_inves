@@ -37,9 +37,11 @@
        $("#open_bidding_main").load(urls);
 	}
 	
-	$(function(){
-		$("#open_bidding_main").load("${pageContext.request.contextPath}/${url}");
-	});
+	//页面初始加载将要执行的页面
+	function initLoad(){
+		var url = $("#initurl").val();
+		$("#open_bidding_main").load("${pageContext.request.contextPath}/"+url);
+	}
 	
 	function tips(step){
 		if(step != 1){
@@ -47,7 +49,7 @@
 		}
 	}
 </script>
-<body>
+<body onload="initLoad()">
   
    <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -94,15 +96,15 @@
 						 </ul>
 					  </div>
 					  <!-- 右侧内容开始-->
+					  <input type="hidden" id="initurl" value="${url }">
 					  <div class="tag-box tag-box-v4 col-md-9"  id="open_bidding_main">
+					  		
 					  </div>
 					  <div class="col-md-12 tc mt20" >
 					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
        	   			  </div>
 				  </div>
                 </div>
-                <!-- End Content -->
-            </div>
         </div><!--/container-->
         	<a id="as" class="dnone" target="open_bidding_main" class="son-menu"></a>
 </body>

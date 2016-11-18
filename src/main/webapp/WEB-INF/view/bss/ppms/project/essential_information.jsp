@@ -74,8 +74,6 @@
 </head>
 
 <body>
-	<!--面包屑导航开始-->
-	<div class="container">
        <div class="tab-content">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
@@ -316,6 +314,5 @@
 		</div>
 	</div>
 
-</div>
 </body>
 </html>

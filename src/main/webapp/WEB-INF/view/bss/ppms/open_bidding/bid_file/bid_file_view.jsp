@@ -37,6 +37,10 @@
 	 	       	});
 	 		});
       }
+      
+      function jump(url){
+       	$("#open_bidding_main").load(url);
+	   }
   </script>
   </head>
   <body>
@@ -47,7 +51,7 @@
 		   <i></i>
 		 </li>
 		 <li>
-		   <a  href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >02、符合性关联</a>
+		   <a onclick="jump('${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')">02、符合性关联</a>
 		   <i></i>							  
 		 </li>
 	     <li>
