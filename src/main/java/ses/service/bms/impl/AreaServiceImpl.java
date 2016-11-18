@@ -163,7 +163,7 @@ public class AreaServiceImpl implements AreaServiceI {
             }
             az.setId(a.getId());
             az.setName(a.getName());
-            az.setpId(a.getAreaType());
+            az.setpId(a.getParentId());
             list.add(az);
         }
 	    return list;
@@ -190,7 +190,7 @@ public class AreaServiceImpl implements AreaServiceI {
             }
             az.setId(a.getId());
             az.setName(a.getName());
-            az.setpId(a.getAreaType());
+            az.setpId(a.getParentId());
             list.add(az);
         }
         return list;
