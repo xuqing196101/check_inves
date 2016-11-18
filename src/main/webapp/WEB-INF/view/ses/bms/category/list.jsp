@@ -74,7 +74,7 @@
 			$("#btnIds").hide();
 			$("#fileId_downBsId").val(treeNode.id);
 			$("#fileId_showdel").val("false");
-			showInit();
+			$("#uploadBtnId").hide();
 	    	nodeName = node.name;
     		update();
     	} else {
@@ -99,6 +99,7 @@
 					success:function(data){
 						reset();
 						$("#tableDivId").removeClass("dis_none");
+						$("#uploadBtnId").show();
 						$("#mainId").val(data);
 						$("#uploadId_businessId").val(data);
 						$("#fileId_downBsId").val(data);
@@ -139,6 +140,7 @@
 				$("#cateId").val(cate.name);
 				$("#posId").val(cate.position);
 				$("#descId").val(cate.description);
+				 showInit();
 		      }
             });
         }
@@ -212,8 +214,8 @@
 		  $("#fileId_showdel").val("true");
 		  $("#uploadBtnId").removeClass("dis_none");
 	      $("#btnIds").show();
+	      $("#uploadBtnId").show();
 	      update();
-	      showInit();
 	  }
 	
   /**删除*/
@@ -299,30 +301,31 @@
 		        		<input type="hidden" id="mainId" name="id" />
 		        		<input type="hidden" id="operaId" name="opera" />
 			            <table id="result"  class="table table-bordered table-condensedb" >
-			            		<tr>
-			            			<th class='info'>上级目录</th>
+			            	 <tbody>
+			            	 	<tr>
+			            			<td class='info'>上级目录</td>
 			            			<td id="parentNameId"></td>
 			            		</tr>
 			            		<tr>
-			            		    <th class='info'><span class="red">*</span>目录名称</th>
+			            		    <td class='info'>目录名称<span class="red">*</span></td>
 			            		    <td>
 			            		        <div class="input-append" >
-			            		    	  <input id="cateId" class="span5" 	  style="height: 30px"  name='name'/>
+			            		    	  <input id="cateId" class="span5 h30" 	  name='name'/>
 			            		    	  <span class="add-on">i</span><span id="cateTipsId" class="red" />
 			            		    	</div>
 			            		    </td>
 			            		</tr>
 			            		<tr>
-			            			<th class='info'><span class="red">*</span>排序</th>
+			            			<td class='info'>排序<span class="red">*</span></td>
 			            			<td>
 			            				<div class="input-append" >
-			            				  <input style="height: 30px" id="posId"  class="span5"  name='position'/>
+			            				  <input  id="posId"  class="span5 h30"  name='position'/>
 			            				  <span class="add-on">i</span><span id="posTipsId" class="red" />
 			            				</div>
 			            		    </td>
 			            	    </tr>
 			            	    <tr>
-			            	    	<th class='info'>图片</th>
+			            	    	<td class='info'>图片</td>
 			            	    	<td>
 			            	    		<div id="uploadBtnId" class="dis_none">
 			            	    			<u:upload  id="uploadId"   businessId="${id}" auto="true" sysKey="2"/>
@@ -333,9 +336,10 @@
 			            	    	</td>
 			            	    </tr>
 			            	    <tr>
-			            	        <th class='info'>描述</thssss>
+			            	        <td class='info'>描述</td>
 			            	        <td><textarea name='description' class="span5" id="descId"></textarea></td>
 			            	    </tr>
+			            	  </tbody>
 			            </table>
 			            <div id="btnIds" class="dnone">
 			            	<button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
