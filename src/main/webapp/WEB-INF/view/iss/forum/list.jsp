@@ -45,6 +45,7 @@
                 }
             }
         });
+        $("#laypage_0").addClass("pt10");
   });
   
   function search(topicId){
@@ -185,5 +186,5 @@
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
-</html>
+</html> 
 

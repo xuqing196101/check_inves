@@ -25,7 +25,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >评论管理</a></li><li class="active"><a >评论修改</a></li>
+		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >回复管理</a></li><li class="active"><a >回复修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -40,10 +40,11 @@
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
 	   <ul class="ul_list mb20">			 
 			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> <div class="red fl">*</div>评论内容：</span>
+				<span class="col-md-12 padding-left-5"> <div class="red fl">*</div>回复内容：</span>			
 				<div class="mb5">
-				<textarea  class="h130 col-md-12" name="content">${reply.content}</textarea>		
-				<div class="cue">${ERR_content}</div>
+	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+       			</div>		
+				<div class="red">${ERR_content}</div>
 				</div>			
 	  	 	</li>
 	  	 </ul>
@@ -56,7 +57,26 @@
   </div>
      </form>
      </div>
+ <script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 
+    var option ={
+            toolbars: [[
+                        'undo', 'redo', '|',
+                        'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                         'fontfamily', 'fontsize', '|',
+                         'indent', '|',
+                        'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
+                ]]
+
+        }
+    var ue = UE.getEditor('editor',option);
+    var content='${reply.content}';
+    ue.ready(function(){
+        ue.setContent(content);    
+    });
+</script>
   </body>
 </html>
 

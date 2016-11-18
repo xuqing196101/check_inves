@@ -21,6 +21,11 @@
 
   <script type="text/javascript">
   $(function(){
+  		var replyLength ="${replyLength}";
+  		if(replyLength == 0){
+  			$("#repliesForJudge").hide();
+  		}
+   		
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${list.pages}", //总页数
@@ -41,7 +46,7 @@
                 }
             }
         });
-
+		$("#laypage_0").addClass("pt10");
   });
   function publishForPost(postId){
 	  var isLocking = "${post.isLocking}";
@@ -126,9 +131,9 @@
             <up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" />
         </div>  
      </div>
-
+	<div id="repliesForJudge">
      <!-- 回复列表 -->
-     <div class="col-md-12 p30_40 border1 margin-top-20">
+     <div class="col-md-12 p30_40 border1 margin-top-20" >
         
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
             <div id="${reply.id}" class="col-md-12 comment_main border1">
@@ -163,8 +168,11 @@
             
         </c:forEach>
      </div>
+     
      <!-- 分页Div -->
-     <div id="pagediv" align="right"></div>  
+     <div id="pagediv" align="right" ></div>  
+     </div>
+     
       <!-- 我要评论Div -->
      <div class="col-md-12 p30_40 border1" id="publish">
          <div class="clear col-md-12 p0">
@@ -175,8 +183,8 @@
            <script id="editor" name="content" type="text/plain" class= ""></script>
             <div class="validate">${ERR_content}</div>
          </div>
-         <div class="clear col-md-12 p0">
-           <button class="btn btn-windows fr " id ="publishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发布</button>
+         <div class="clear col-md-12 pt10 tc">
+           <button class="btn btn-windows " id ="publishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发布</button>
          </div>    
      </div>
    </div>

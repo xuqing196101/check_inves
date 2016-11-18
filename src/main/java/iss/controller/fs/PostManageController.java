@@ -496,9 +496,10 @@ public class PostManageController {
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
 		Post post = postService.selectByPrimaryKey(postId);	
-
+		
 		model.addAttribute("post", post);
 		model.addAttribute("list",  new PageInfo<Reply>(list));
+		model.addAttribute("replyLength",  list.size());
 		return "iss/forum/detail";
 	}
 	/**   

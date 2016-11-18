@@ -176,10 +176,10 @@
 				
 				<c:set value="${park.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
-				<c:if test="${length>10}">
-					<td onclick="view('${park.id}')"  class=" pointer ">${fn:substring(content,0,10)}...</td>
+				<c:if test="${length>30}">
+					<td onclick="view('${park.id}')"  class=" pointer ">${fn:substring(content,0,30)}...</td>
 				</c:if>
-				<c:if test="${length<=10}">
+				<c:if test="${length<=30}">
 					<td onclick="view('${park.id}')"  class=" pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>

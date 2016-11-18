@@ -40,6 +40,7 @@
                 }
             }
         });
+        $("#laypage_0").addClass("pt10");
   });
   
  </script>
