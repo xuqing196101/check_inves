@@ -270,6 +270,23 @@
 	  return result;
   }
 	
+  /** 隐藏div */
+  function  hiddenDiv(){
+	  $("#cateNameId").hide();
+	  $("#posNameId").hide();
+	  $("#descId").hide();
+  }
+  
+  /** 显示div */
+  function showDiv(){
+	  $("#cateTdId").text("");
+	  $("#posTdId").text("");
+	  $("#descTdId").text("");
+	  
+	  $("#cateNameId").show();
+	  $("#posNameId").show();
+	  $("#descId").show();
+  }
 	
 </script>
 
@@ -307,9 +324,9 @@
 			            			<td id="parentNameId"></td>
 			            		</tr>
 			            		<tr>
-			            		    <td class='info'>目录名称<span class="red">*</span></td>
-			            		    <td>
-			            		        <div class="input-append" >
+			            		    <td class='info'>品目名称<span class="red">*</span></td>
+			            		    <td id="cateTdId">
+			            		        <div class="input-append" id="cateNameId" >
 			            		    	  <input id="cateId" class="span5 h30" 	  name='name'/>
 			            		    	  <span class="add-on">i</span><span id="cateTipsId" class="red" />
 			            		    	</div>
@@ -317,8 +334,8 @@
 			            		</tr>
 			            		<tr>
 			            			<td class='info'>排序<span class="red">*</span></td>
-			            			<td>
-			            				<div class="input-append" >
+			            			<td id="posTdId">
+			            				<div class="input-append" id ="posNameId">
 			            				  <input  id="posId"  class="span5 h30"  name='position'/>
 			            				  <span class="add-on">i</span><span id="posTipsId" class="red" />
 			            				</div>
@@ -337,7 +354,7 @@
 			            	    </tr>
 			            	    <tr>
 			            	        <td class='info'>描述</td>
-			            	        <td><textarea name='description' class="span5" id="descId"></textarea></td>
+			            	        <td id="descTdId"><textarea name='description' class="span5 h80 textArea_resizeB"   id="descId"></textarea></td>
 			            	    </tr>
 			            	  </tbody>
 			            </table>
