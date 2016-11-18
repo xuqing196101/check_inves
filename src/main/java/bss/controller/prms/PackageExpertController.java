@@ -23,19 +23,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import bss.model.ppms.AduitQuota;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
+import bss.model.prms.ExpertScore;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
+import bss.model.prms.ext.AuditModelExt;
 import bss.model.prms.ext.PackExpertExt;
 import bss.model.prms.ext.SupplierExt;
+import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
+import bss.service.prms.ExpertScoreService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
@@ -71,7 +76,11 @@ public class PackageExpertController {
 	@Autowired
 	private PackageExpertService packageExpertService;//专家项目包 关联表
 	@Autowired
-	SupplierQuoteService supplierQuoteService;//供应商报价
+	private SupplierQuoteService supplierQuoteService;//供应商报价
+	@Autowired
+	private ExpertScoreService expertScoreService;//专家评分
+	@Autowired
+	private AduitQuotaService aduitQuotaService;//评分
 	/**
 	 * 
 	  * @Title: toPackageExpert
@@ -100,6 +109,8 @@ public class PackageExpertController {
 		List<PackageExpert> expertIdList = new ArrayList<>();
 		//进度集合
 		List<ReviewProgress> reviewProgressList = new ArrayList<>();
+		List<ExpertScore> expertScoreAll = new ArrayList<>();
+		List<AuditModelExt> auditModelListAll = new ArrayList<>();
 		Map<String,Object> mapSearch = new HashMap<String,Object>(); 
 		for(Packages ps:packages){
 			list.put("pack"+ps.getId(),ps);
@@ -112,6 +123,12 @@ public class PackageExpertController {
 			mapSearch.put("packageId", ps.getId());
 			//查询出该项目下的包关联的信息集合
 			List<PackageExpert> selectList = service.selectList(mapSearch);
+			//查询评审项
+			List<AuditModelExt> auditModelExtList = aduitQuotaService.findAllByMap(mapSearch);
+			auditModelListAll.addAll(auditModelExtList);
+			//查询评分信息
+			List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
+			expertScoreAll.addAll(expertList);
 			//查询进度
 			List<ReviewProgress> selectByMap = reviewProgressService.selectByMap(map);
 			expertIdList.addAll(selectList);
@@ -203,12 +220,34 @@ public class PackageExpertController {
 				}
 				packExpertExtList.add(packExpertExt);
 		}
+		//评审项信息
+		removeAuditModelExt(auditModelListAll);
+		model.addAttribute("auditModelListAll", auditModelListAll);
 		model.addAttribute("packExpertExtList", packExpertExtList);
 		model.addAttribute("supplierExtList", supplierExtList);
+		model.addAttribute("expertScoreList", expertScoreAll);
 		//成功标示
 		model.addAttribute("flag", flag);
 		return "bss/prms/package_expert";
 	}
+	/**
+	 * 
+	  * @Title: removeAuditModelExt
+	  * @author ShaoYangYang
+	  * @date 2016年11月18日 下午3:18:44  
+	  * @Description: TODO 去重复
+	  * @param @param list      
+	  * @return void
+	 */
+	private static void removeAuditModelExt(List<AuditModelExt> list)   { 
+		for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+			for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+				if  (list.get(j).getScoreModelId(). equals(list.get(i).getScoreModelId()))   { 
+					list.remove(j); 
+				} 
+			} 
+		} 
+	} 
 	/**
 	 * 
 	  * @Title: relate
@@ -405,7 +444,7 @@ public class PackageExpertController {
 	  * @Title: isBackScore
 	  * @author ShaoYangYang
 	  * @date 2016年10月27日 下午8:13:46  
-	  * @Description: TODO 评分退回
+	  * @Description: TODO 评分确认或退回
 	  * @param @param projectId 
 	  * @param @param packageId
 	  * @param @param expertId      
@@ -413,80 +452,51 @@ public class PackageExpertController {
 	 */
 	@RequestMapping("isBackScore")
 	@ResponseBody
-	public void isBackScore(PackageExpert record,HttpServletResponse response){
-		try {
-			//查询是否已评审
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("expertId", record.getExpertId());
-			map.put("packageId", record.getPackageId());
-			map.put("projectId", record.getProjectId());
-			List<PackageExpert> selectList = service.selectList(map);
-			if(selectList!= null && selectList.size()>0){
-				PackageExpert packageExpert = selectList.get(0);
-				//必须是已评审 已评分的数据才能退回
-				if(packageExpert.getIsAudit() == 1 && packageExpert.getIsGrade() == 0){
-					//初审结果集合
-					//List<ReviewFirstAudit> reviewFIrstAuditList = reviewFirstAuditService.selectList(map);
-					//判断是否全部通过，如果全部通过则不允许退回
-					/*for (ReviewFirstAudit reviewFirstAudit : reviewFIrstAuditList) {
-						//为1 证明有不合格数据
-						if(reviewFirstAudit.getIsPass()==1){
-							 response.getWriter().print("0");
-						}
-					}*/
-				  response.getWriter().print("0");
-				}else{
-					//查询是否已评分
+	public void isBackScore(String projectId,String packageId ,String supplierId,String scoreModelId,Integer flag,HttpServletResponse response){
+			try {
+				//查询是否已评审
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("projectId", projectId);
+				map.put("packageId", packageId);
+				//1为退回
+				if(flag == 1){
+					//判断能不能退回
 					Map<String,Object> map2 = new HashMap<String,Object>();
-					map2.put("packageId", record.getPackageId());
-					map2.put("projectId", record.getProjectId());
-					//该专家下的审核项目关联集合
-					  List<PackageExpert> packageExpertList = packageExpertService.selectList(map2);
-					  //判断是否为全部已评审状态
-					  for (PackageExpert packageExpert2 : packageExpertList) {
-						if(packageExpert2.getIsGrade()==1){
-								//查询改项目的进度信息
-								  List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
-								  //更新项目进度
-								  if(reviewProgressList!=null && reviewProgressList.size()>0){
-									  ReviewProgress progress = reviewProgressList.get(0);
-									  //修改进度
-									  if(packageExpertList!=null&& packageExpertList.size()>0){
-										  //计算当前专家占用的进度比重
-										  double score =  1/(double)packageExpertList.size();
-										  BigDecimal b = new BigDecimal(score); 
-										  double scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-										  //计算退回后的初审进度
-										  Double ScoreAuditProgress = progress.getScoreProgress();
-										  //最终进度
-										 double endScore = ScoreAuditProgress-scoreProgress;
-										 //退回后的初审进度
-										 progress.setScoreProgress(endScore);
-										  //初审退回 评分进度清空 重新评分
-										  //progress.setScoreProgress((double) 0.0);
-										  //总进度比例
-										  double totalProgress = (scoreProgress+progress.getFirstAuditProgress())/2;
-										  //当前总进度
-										  Double totalProgress2 = progress.getTotalProgress();
-										  //计算退回之后的总进度
-										  progress.setTotalProgress(totalProgress2-totalProgress);
-										
-										  //修改
-										  reviewProgressService.updateByPrimaryKeySelective(progress);
-									  }
-								  }
+					map2.put("projectId", projectId);
+					map2.put("packageId", packageId);
+					map2.put("supplierId", supplierId);
+					map2.put("scoreModelId", scoreModelId);
+					List<ExpertScore> expertScoreList = expertScoreService.selectByMap(map2);
+					if(expertScoreList == null || expertScoreList.size()==0){
+						//为空证明没有评分数据 则不能退回
+						response.getWriter().print("tuihui");
+						return ;
+					}else{
+						for (ExpertScore expertScore : expertScoreList) {
+							BigDecimal score = expertScore.getScore();
+							//如果有没有得分数据的也证明没有评分
+							if(score==null){
+								response.getWriter().print("tuihui");
+								return ;
+							}
 						}
 					}
-					Short flag = 0;
-					record.setIsGrade(flag);
-					record.setIsGatherGather(flag);
-					service.updateByBean(record);
-					response.getWriter().print("1");
+					//修改进度
+					reviewProgressService.updateProgress(map);
+					//修改评分状态为 未评分
+					packageExpertService.updateScore(map);
+					//修改AduitQuota的round状态为退回
+					aduitQuotaService.updateStatus(projectId, packageId, supplierId, scoreModelId,flag);
+					response.getWriter().print("tuihuisuccess");
+				}else{
+					//确认  保存最终得分  分数不一致则不执行保存
+					String message = aduitQuotaService.updateStatus(projectId, packageId, supplierId, scoreModelId,flag);
+					response.getWriter().print(message);
 				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 	}
 	 /**

@@ -276,6 +276,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    var projectId=$("#projectId").val();
 					location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="+projectId+"&supplierId="+supplierId;
 		 }
+		 //评分确认或退回
+		 function querenOrTuiHUi(packageId,supplierId,scoreModelId,flag){
+			 var projectId=$("#projectId").val();
+			 $.ajax({
+				 url:'${pageContext.request.contextPath}/packageExpert/isBackScore.html',
+				 data:{'packageId':packageId,'projectId':projectId,'supplierId':supplierId,'scoreModelId':scoreModelId,'flag':flag},
+				 success:function(data){
+					 if(data == "tuihui"){
+						 layer.msg("不能退回！");
+					 }else if(data=="success"){
+						 layer.msg("确认成功！");
+					 }else if(data=="tuihuisuccess"){
+						 layer.msg("退回成功！");
+					 }else {
+						 layer.msg("不能确认！");
+					 }
+				 },
+				 error:function(data){
+					 
+				 }
+			 });
+			 
+		 }
 		 </script>
 		 </head>
 		 
@@ -551,54 +574,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									
 									
 									  <h3>06、评分汇总</h3>
+									  <!-- 循环包 -->
 								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+								   	 <!--循环供应商  -->
+								   	   <c:forEach items="${supplierList }" var="supplier" varStatus="vs" >
+								   	  
+								   	   <h5>供应商：${supplier.suppliers.supplierName }</h5>
 								   		   <table class="table table-bordered table-condensed mt5">
 											    <thead>
 											    <tr align="right">
-									   		   		<td align="right" colspan="${3+supplierList.size() }">
+									   		   		<td align="right" colspan="${2+packExpertExtList.size() }">
 									   		   		<button class="btn btn-windows back" type="button">评分汇总</button>
 								   	                <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 								   	                </td>
 									   		   </tr>
 											      <tr>
-											      	<th colspan="${supplierList.size()+3 }">${pack.name }评分汇总</th>
+											      	<th colspan="${packExpertExtList.size()+2 }">${pack.name }评分汇总</th>
 											      </tr>
 											      <tr>
-											        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
-											        <th>评委</th>
-											        <th>评分完成</th>
-											        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-											        <th>${supplier.suppliers.supplierName }</th>
+											        <th>评审项</th>
+											        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+											        <th>${ext.expert.relName }</th>
 											        </c:forEach>
+											        <th>操作</th>
 											      </tr>
 											      </thead>
 											      <thead>
-											       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-											         <c:if test="${ext.packageId eq pack.id }">
-												       <tr>
-												       <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
-												        <td align="center">${ext.expert.relName } </td>
-												        <td align="center">未完成 </td>
-												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-											               <td align="center"></td>
+											         <c:set var="TOTAL" value="0"></c:set>
+											       <c:forEach items="${auditModelListAll }" var="model" varStatus="vs">
+											      
+											         <c:if test="${model.packageId eq pack.id }">
+												       <tr align="center">
+												       <td>${model.markTermName }</td>
+												        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+											               
+											               <td align="center">
+											                 <c:forEach items="${expertScoreList }" var="score" varStatus="vs">
+											                 	<c:if test="${score.expertId eq ext.expert.id && score.packageId eq pack.id && score.supplierId eq supplier.suppliers.id && score.scoreModelId eq model.scoreModelId }">
+											                 	${score.score }
+											                 	<c:set var="TOTAL" value="${TOTAL+score.score }"></c:set>
+											                 	</c:if>
+											                 	
+											                 </c:forEach>
+											               </td>
 											            </c:forEach>
+											            <td width="150px">
+											                 <input type="button" class="btn" onclick="querenOrTuiHUi('${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',2)" value="确认">
+											                 <input type="button" class="btn" onclick="querenOrTuiHUi('${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="退回">
+											                 
+											               </td>
 												      </tr>
 												     </c:if>
 										      	  </c:forEach>
-												      <%--  <tr>
-												        <td align="center" colspan="2">评分结果 </td>
-												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-												        <td align="center">aa</td>
-												        </c:forEach>
-												      </tr>
 												       <tr>
-												        <td align="center" colspan="2">该包报价 </td>
-												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-												        <td align="center">aa</td>
+												        <td align="center">评分合计 </td>
+												        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+												           
+												       
+												        <td align="center">${TOTAL }</td>
 												        </c:forEach>
-												      </tr> --%>
+												        <td width="150px">
+											               </td>
+												      </tr>
 												      </thead>
 								   		  </table>
+								   		  </c:forEach>
 									</c:forEach>
 							   </div> 
 							<div class="container clear margin-top-30" id="package">

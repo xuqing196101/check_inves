@@ -2,6 +2,7 @@ package bss.model.prms.ext;
 
 import java.util.List;
 
+import bss.model.prms.ExpertScore;
 import bss.model.prms.PackageExpert;
 import ses.model.ems.Expert;
 
@@ -10,6 +11,8 @@ public class PackExpertExt {
 	private Expert expert;
 	//关联表集合
 	private List<PackageExpert> packExpertList;
+	//评分表集合
+	private List<ExpertScore> expertScoreList;
 	//包id
 	private String packageId;
 	//项目id
@@ -19,6 +22,14 @@ public class PackExpertExt {
 	private String isPass;
 
 
+
+	public List<ExpertScore> getExpertScoreList() {
+		return expertScoreList;
+	}
+
+	public void setExpertScoreList(List<ExpertScore> expertScoreList) {
+		this.expertScoreList = expertScoreList;
+	}
 
 	public String getIsPass() {
 		return isPass;

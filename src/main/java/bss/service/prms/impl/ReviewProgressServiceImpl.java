@@ -156,6 +156,9 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 				 totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				  //总进度更新
 				 reviewProgress2.setTotalProgress(totalProgress);
+				 if(totalProgress==1){
+					 reviewProgress2.setAuditStatus("初审完成");
+				 }
 				 //修改进度
 				 updateByMap(reviewProgress2);
 			  }
@@ -257,4 +260,23 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 		  }
 	  }
     }
+    /**
+     * 
+      * @Title: updateProgress
+      * @author ShaoYangYang
+      * @date 2016年11月18日 下午6:24:29  
+      * @Description: TODO 修改评分退回后的进度  供PackageExpertController调用
+      * @param @param map      
+      * @return void
+     */
+   public void updateProgress(Map<String,Object> map){
+	   List<ReviewProgress> revList = selectByMap(map);
+		for (ReviewProgress reviewProgress : revList) {
+			//评分进度清零
+			reviewProgress.setScoreProgress(0.0);
+			//总进度重新计算
+			reviewProgress.setTotalProgress(reviewProgress.getFirstAuditProgress()/2);
+			updateByMap(reviewProgress);
+		}
+   }
 }

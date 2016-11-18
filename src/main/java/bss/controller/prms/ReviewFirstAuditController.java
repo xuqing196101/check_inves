@@ -1,5 +1,6 @@
 package bss.controller.prms;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
+import bss.model.prms.ExpertScore;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
@@ -32,6 +34,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
+import bss.service.prms.ExpertScoreService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
@@ -68,6 +71,8 @@ public class ReviewFirstAuditController {
 	private ExpertService expertService;//评分项查询
 	@Autowired
 	private SupplierService supplierService;//供应商查询
+	@Autowired
+	private ExpertScoreService expertScoreService;//供应商查询
 
 	/**
 	 * 
@@ -348,8 +353,10 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("caseGrade")
 	@ResponseBody
-	public String caseGrade(String markTermId,String supplierIds,String expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
-		
+	public String caseGrade(String markTermId,String supplierIds,String expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId,HttpSession session){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
+		String expertId = user.getTypeId();
 		ArrayList<SupplyMark> smList = new ArrayList<>();
 		String[] ids = supplierIds.split(",");
 		String[] eids = expertValues.split(",");
@@ -378,24 +385,16 @@ public class ReviewFirstAuditController {
 		if(typeName=="6" || typeName.equals("6")) {
 			 list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,null);
 		}
-		AduitQuota aq;
-		for (SupplyMark supplyMark : list) {
-			aq = new AduitQuota();
-			aq.setProjectId(projectId);
-			aq.setPackageId(packageId);
-			aq.setSupplierId(supplyMark.getSupplierId());
-			aq.setScoreModelId(scoreModelId);
-			List<AduitQuota> quotaList = aduitQuotaService.find(aq);
-			AduitQuota quota = quotaList.get(0);
-			java.math.BigDecimal expertValue = new java.math.BigDecimal(supplyMark.getPrarm());
-			java.math.BigDecimal finalScore = new java.math.BigDecimal(supplyMark.getScore());
-				//设置填写的参数
-				quota.setExpertValue(expertValue);
-				//设置最终得分
-				quota.setFinalScore(finalScore);
-				//执行更新
-				aduitQuotaService.update(quota);
-			}
+		
+		
+		ExpertScore expertScore = new ExpertScore();
+		expertScore.setExpertId(expertId);
+		expertScore.setProjectId(projectId);
+		expertScore.setPackageId(packageId);
+		expertScore.setScoreModelId(scoreModelId);
+		expertScoreService.saveScore(expertScore, list,scoreModelId);
+		
+		
 			
 		return JSON.toJSONString(list);
 	}
@@ -413,19 +412,27 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("caseGradeTwo")
 	@ResponseBody
-	public String caseGradeTwo(String supplierIds,Integer expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
+	public String caseGradeTwo(HttpSession session,String supplierIds,Integer expertValues,String scoreModelId,String typeName,String quotaId,String projectId,String packageId){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
+		String expertId = user.getTypeId();
 		//算分
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setId(scoreModelId);
 		ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
 		double score = ScoreModelUtil.getQuantizateScore(scoreModel2, expertValues, expertValues);
 		//保存结果 修改数据
-		AduitQuota quota = aduitQuotaService.get(quotaId);
-		java.math.BigDecimal expertValue = new java.math.BigDecimal(expertValues);
-		quota.setExpertValue(expertValue);
-		java.math.BigDecimal scores = new java.math.BigDecimal(score);
-		quota.setFinalScore(scores);
-		aduitQuotaService.update(quota);
+		ExpertScore expertScore = new ExpertScore();
+		expertScore.setExpertId(expertId);
+		expertScore.setProjectId(projectId);
+		expertScore.setPackageId(packageId);
+		expertScore.setScoreModelId(scoreModelId);
+		expertScore.setSupplierId(supplierIds);
+		BigDecimal expertValue = new BigDecimal(expertValues);
+		BigDecimal score2= new BigDecimal(score);
+		expertScore.setScore(score2);
+		expertScore.setExpertValue(expertValue);
+		expertScoreService.saveScore(expertScore, null,scoreModelId);
 		return JSON.toJSONString(score);
 	}
 }

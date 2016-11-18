@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.ExpertScoreMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.ExpertScore">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="SCORE_MODEL_ID" jdbcType="VARCHAR" property="scoreModelId" />
+    <result column="EXPERT_VALUE" jdbcType="DECIMAL" property="expertValue" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+    <result column="IS_HISTORY" jdbcType="DECIMAL" property="isHistory" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EXPERT_ID, PROJECT_ID, PACKAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, EXPERT_VALUE, 
+    SCORE, IS_HISTORY
+  </sql>
+   <select id="selectByMap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_EXPERT_SCORE
+    where 1=1 AND IS_HISTORY != 1
+      <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+      </if>
+      <if test="projectId != null and projectId != ''">
+       AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+       AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+      </if>
+      <if test="scoreModelId != null and scoreModelId != ''">
+       AND SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_EXPERT_SCORE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_EXPERT_SCORE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.prms.ExpertScore">
+    insert into T_BSS_PRMS_EXPERT_SCORE (ID, EXPERT_ID, PROJECT_ID, 
+      PACKAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, 
+      EXPERT_VALUE, SCORE, IS_HISTORY
+      )
+    values (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{packageId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{scoreModelId,jdbcType=VARCHAR}, 
+      #{expertValue,jdbcType=DECIMAL}, #{score,jdbcType=DECIMAL}, #{isHistory,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.ExpertScore">
+    insert into T_BSS_PRMS_EXPERT_SCORE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="scoreModelId != null">
+        SCORE_MODEL_ID,
+      </if>
+      <if test="expertValue != null">
+        EXPERT_VALUE,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="isHistory != null">
+        IS_HISTORY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreModelId != null">
+        #{scoreModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertValue != null">
+        #{expertValue,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="isHistory != null">
+        #{isHistory,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.prms.ExpertScore">
+    update T_BSS_PRMS_EXPERT_SCORE
+    <set>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreModelId != null">
+        SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertValue != null">
+        EXPERT_VALUE = #{expertValue,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="isHistory != null">
+        IS_HISTORY = #{isHistory,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.prms.ExpertScore">
+    update T_BSS_PRMS_EXPERT_SCORE
+    set EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      SCORE_MODEL_ID = #{scoreModelId,jdbcType=VARCHAR},
+      EXPERT_VALUE = #{expertValue,jdbcType=DECIMAL},
+      SCORE = #{score,jdbcType=DECIMAL},
+      IS_HISTORY = #{isHistory,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

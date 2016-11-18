@@ -48,4 +48,14 @@ public interface PackageExpertService {
 	      * @return void
 	     */
 	    void updateByBean(PackageExpert record);
+	    /**
+	     * 
+	      * @Title: updateScore
+	      * @author ShaoYangYang
+	      * @date 2016年11月18日 下午6:22:07  
+	      * @Description: TODO 修改评分状态  供PackageExpertController中调用
+	      * @param @param map      
+	      * @return void
+	     */
+	    void updateScore(Map<String , Object> map);
 }

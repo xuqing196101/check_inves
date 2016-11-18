@@ -69,4 +69,17 @@ public interface AduitQuotaService {
       * @return List<AuditModelExt>
      */
     List<AuditModelExt> findAllByMap(Map<String,Object> map);
+    /**
+     * 
+      * @Title: updateStatus
+      * @author ShaoYangYang
+      * @date 2016年11月18日 下午6:16:57  
+      * @Description: TODO 供packageExpertController 调用修改
+      * @param @param projectId
+      * @param @param packageId
+      * @param @param supplierId
+      * @param @param scoreModelId      
+      * @return void
+     */
+    String updateStatus(String projectId,String packageId ,String supplierId,String scoreModelId,Integer flag);
 }

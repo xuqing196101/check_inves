@@ -68,4 +68,20 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     public void updateByBean(PackageExpert record){
     	mapper.updateByBean(record);
     }
+    /**
+     * 
+      * @Title: updateScore
+      * @author ShaoYangYang
+      * @date 2016年11月18日 下午6:22:07  
+      * @Description: TODO 修改评分状态  供PackageExpertController中调用
+      * @param @param map      
+      * @return void
+     */
+    public void updateScore(Map<String , Object> map){
+    	List<PackageExpert> packageExpertList = selectList(map);
+		for (PackageExpert packageExpert : packageExpertList) {
+			packageExpert.setIsGrade((short) 0);
+			updateByBean(packageExpert);
+		}
+    }
 }

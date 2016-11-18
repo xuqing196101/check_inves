@@ -181,20 +181,37 @@
 											 	             <c:choose>
 											 	              <c:when test="${l.typeName == '0' }">
 											 	               <td>
-											 	                 <select  name="expertValue" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')">
-											 	                   <option value="-1">请选择</option>
-											 	                   <option value="1">是</option>
-											 	                   <option value="0">否</option>
+											 	                 <select    name="expertValue" 
+											 	                  <c:if test="${l.round == 0  }"> style="width: 50px;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                  </c:if>
+											 	                   <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                  </c:if>
+											 	                  <c:if test="${l.round == 2  }"> disabled="disabled" style="width: 50px;"
+											 	                  </c:if>
+											 	                 
+											 	                  >
+											 	                   <option value=""> </option>
+											 	                   <option <c:if test="${l.expertValue == 1 }">selected</c:if> value="1">是</option>
+											 	                   <option <c:if test="${l.expertValue == 0 }">selected</c:if> value="0">否</option>
 											 	                 </select>
 											 	               </td>
 											 	              </c:when>
 											 	              <c:otherwise>
-											 	                 <td><input type="text" name="expertValue"  onblur="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')" style="width: 50px;"/> </td>
+											 	                 <td><input type="text"  name="expertValue" value="${l.expertValue }"
+											 	                  <c:if test="${l.round == 0  }"> style="width: 50px;" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                  </c:if>
+											 	                   <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                  </c:if>
+											 	                  <c:if test="${l.round == 2  }"> readonly="readonly" style="width: 50px;"
+											 	                  </c:if>
+											 	                   </td>
 											 	              </c:otherwise>
 											 	             </c:choose>
 											 	            
-											 	             <td><input type="hidden" name="supplierId"  value="${supplier.id }"/>
-											 	             <input type="text" name="expertScore" readonly="readonly"  style="width: 50px;"/></td>
+											 	             <td>
+											 	             <input type="hidden" name="supplierId"  value="${supplier.id }"/>
+											 	             <input type="text" name="expertScore" readonly="readonly" value="${l.finalScore }"  style="width: 50px;"/>
+											 	             </td>
 										 	           </c:forEach>
 												       </tr> 
 												    </c:forEach>

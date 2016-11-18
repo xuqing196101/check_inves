@@ -101,7 +101,7 @@
    <div class="container clear margin-top-30">
    <span class="fr option_btn margin-top-10">
    	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
-   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">专家评分</button>
+   	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
    	  </c:if>
    	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>

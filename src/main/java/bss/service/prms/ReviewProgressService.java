@@ -106,4 +106,14 @@ public interface ReviewProgressService {
      * @return void
      */
     void saveGrade(String projectId,String packageId,String expertId);
+    /**
+     * 
+      * @Title: updateProgress
+      * @author ShaoYangYang
+      * @date 2016年11月18日 下午6:24:29  
+      * @Description: TODO 修改评分退回后的进度  供PackageExpertController调用
+      * @param @param map      
+      * @return void
+     */
+    void updateProgress(Map<String,Object> map);
 }
