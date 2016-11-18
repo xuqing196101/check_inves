@@ -757,34 +757,6 @@ public class PurchaserExamController extends BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: testTime
-	* @author ZhaoBo
-	* @date 2016-10-12 下午1:38:30  
-	* @Description: 考试时间时和分
-	* @param @param model      
-	* @return void
-	 */
-	public void testTime(Model model){
-//		List<Integer> hour = new ArrayList<Integer>();
-//		List<Integer> second = new ArrayList<Integer>();
-//		for(int i=0;i<24;i++){
-//			hour.add(i);
-//		}
-//		for(int i=0;i<60;i++){
-//			second.add(i);
-//		}
-//		model.addAttribute("hour", hour);
-//		model.addAttribute("second", second);
-		
-		
-		//String type = "{\"singleNum\":\""+singleNum+"\",\"singlePoint\":\""+singlePoint+"\",\"multipleNum\":\"+multipleNum+\","+
-//				  "\"multiplePoint\":\""+multiplePoint+"\",\"judgeNum\":\""+judgeNum+"\",\"judgePoint\":\""+judgePoint+"\"}";
-//				JSONObject typeDistribution = new JSONObject(type);
-//				examPaper.setTypeDistribution(typeDistribution.toString());
-	}
-	
-	/**
-	 * 
 	* @Title: saveToExamPaper
 	* @author ZhaoBo
 	* @date 2016-9-5 下午4:19:29  
@@ -905,126 +877,127 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeNum = request.getParameter("judgeNum");
 		String judgePoint = request.getParameter("judgePoint");
 		Map<String,String> map = new HashMap<String,String>();
-		if(single==null&&multiple==null&&judge==null){
-			error = "error";
-			model.addAttribute("ERR_single", "请选择");
-			model.addAttribute("ERR_multiple", "请选择");
-			model.addAttribute("ERR_judge", "请选择");
-		}else{
-			if(single!=null){
-				errorData.put("singleNum", singleNum);
-				errorData.put("singlePoint", singlePoint);
-				errorData.put("single", single[0]);
-			}
-			if(multiple!=null){
-				errorData.put("multipleNum", multipleNum);
-				errorData.put("multiplePoint", multiplePoint);
-				errorData.put("multiple", multiple[0]);
-			}
-			if(judge!=null){
-				errorData.put("judgeNum", judgeNum);
-				errorData.put("judgePoint", judgePoint);
-				errorData.put("judge", judge[0]);
-			}
-			if(single==null||multiple==null||judge==null){
-				error = "error";
-				if(single==null){
-					model.addAttribute("ERR_single", "请选择");
-				}
-				if(multiple==null){
-					model.addAttribute("ERR_multiple", "请选择");
-				}
-				if(judge==null){
-					model.addAttribute("ERR_judge", "请选择");
-				}
-			}else if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
+		if(single!=null&&multiple!=null&&judge!=null){
+			errorData.put("singleNum", singleNum);
+			errorData.put("singlePoint", singlePoint);
+			errorData.put("single", single[0]);
+			errorData.put("multipleNum", multipleNum);
+			errorData.put("multiplePoint", multiplePoint);
+			errorData.put("multiple", multiple[0]);
+			errorData.put("judgeNum", judgeNum);
+			errorData.put("judgePoint", judgePoint);
+			errorData.put("judge", judge[0]);
+			if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
 				error = "error";
 				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}
+		}
+		if(single==null){
+			error = "type";
+			model.addAttribute("ERR_single", "请选择");
+		}else{
+			errorData.put("singleNum", singleNum);
+			errorData.put("singlePoint", singlePoint);
+			errorData.put("single", single[0]);
+			if(single[0].equals("有")){
+				if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_single", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(singleNum)){
+						error = "error";
+						model.addAttribute("ERR_single", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+						error = "error";
+						model.addAttribute("ERR_single", "分值必须为大于0的正数");
+					}else{
+						HashMap<String,Object> purSingle = new HashMap<String,Object>();
+						purSingle.put("questionTypeId", 1);
+						int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
+						if(purchaserSingle<Integer.parseInt(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题库中单选题数量不足");
+						}else{
+							map.put("singleNum", singleNum);
+							map.put("singlePoint", singlePoint);
+						}
+					}
+				}
 			}else{
-				if(single[0].equals("有")){
-					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+				map.put("singleNum", "0");
+				map.put("singlePoint", "0");
+			}
+		}
+		if(multiple==null){
+			error = "type";
+			model.addAttribute("ERR_multiple", "请选择");
+		}else{
+			errorData.put("multipleNum", multipleNum);
+			errorData.put("multiplePoint", multiplePoint);
+			errorData.put("multiple", multiple[0]);
+			if(multiple[0].equals("有")){
+				if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_multiple", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
-						model.addAttribute("ERR_single", "请把题型分布补充完整");
+						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+						error = "error";
+						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(singleNum)){
+						HashMap<String,Object> purMultiple = new HashMap<String,Object>();
+						purMultiple.put("questionTypeId", 2);
+						int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
+						if(purchaserMultiple<Integer.parseInt(multipleNum)){
 							error = "error";
-							model.addAttribute("ERR_single", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
-							error = "error";
-							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+							model.addAttribute("ERR_multiple", "题库中多选题数量不足");
 						}else{
-							HashMap<String,Object> purSingle = new HashMap<String,Object>();
-							purSingle.put("questionTypeId", 1);
-							int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
-							if(purchaserSingle<Integer.parseInt(singleNum)){
-								error = "error";
-								model.addAttribute("ERR_single", "题库中单选题数量不足");
-							}else{
-								map.put("singleNum", singleNum);
-								map.put("singlePoint", singlePoint);
-							}
+							map.put("multipleNum", multipleNum);
+							map.put("multiplePoint", multiplePoint);
 						}
 					}
-				}else{
-					map.put("singleNum", "0");
-					map.put("singlePoint", "0");
 				}
-				if(multiple[0].equals("有")){
-					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+			}else{
+				map.put("multipleNum", "0");
+				map.put("multiplePoint", "0");
+			}
+		}
+		if(judge==null){
+			error = "error";
+			model.addAttribute("ERR_judge", "请选择");
+		}else{
+			errorData.put("judgeNum", judgeNum);
+			errorData.put("judgePoint", judgePoint);
+			errorData.put("judge", judge[0]);
+			if(judge[0].equals("有")){
+				if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_judge", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(judgeNum)){
 						error = "error";
-						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
+						model.addAttribute("ERR_judge", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+						error = "error";
+						model.addAttribute("ERR_judge", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(multipleNum)){
+						HashMap<String,Object> purJudge = new HashMap<String,Object>();
+						purJudge.put("questionTypeId",3);
+						int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
+						if(purchaserJudge<Integer.parseInt(judgeNum)){
 							error = "error";
-							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
-							error = "error";
-							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
+							model.addAttribute("ERR_judge", "题库中判断题数量不足");
 						}else{
-							HashMap<String,Object> purMultiple = new HashMap<String,Object>();
-							purMultiple.put("questionTypeId", 2);
-							int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
-							if(purchaserMultiple<Integer.parseInt(multipleNum)){
-								error = "error";
-								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
-							}else{
-								map.put("multipleNum", multipleNum);
-								map.put("multiplePoint", multiplePoint);
-							}
+							map.put("judgeNum", judgeNum);
+							map.put("judgePoint", judgePoint);
 						}
 					}
-				}else{
-					map.put("multipleNum", "0");
-					map.put("multiplePoint", "0");
 				}
-				if(judge[0].equals("有")){
-					if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
-						error = "error";
-						model.addAttribute("ERR_judge", "请把题型分布补充完整");
-					}else{
-						if(!ValidateUtils.Z_index(judgeNum)){
-							error = "error";
-							model.addAttribute("ERR_judge", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(judgePoint)){
-							error = "error";
-							model.addAttribute("ERR_judge", "分值必须为大于0的正数");
-						}else{
-							HashMap<String,Object> purJudge = new HashMap<String,Object>();
-							purJudge.put("questionTypeId",3);
-							int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
-							if(purchaserJudge<Integer.parseInt(judgeNum)){
-								error = "error";
-								model.addAttribute("ERR_judge", "题库中判断题数量不足");
-							}else{
-								map.put("judgeNum", judgeNum);
-								map.put("judgePoint", judgePoint);
-							}
-						}
-					}
-				}else{
-					map.put("judgeNum", "0");
-					map.put("judgePoint", "0");
-				}
+			}else{
+				map.put("judgeNum", "0");
+				map.put("judgePoint", "0");
 			}
 		}
 		if(error.equals("error")){
@@ -1264,126 +1237,127 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeNum = request.getParameter("judgeNum");
 		String judgePoint = request.getParameter("judgePoint");
 		Map<String,String> map = new HashMap<String,String>();
-		if(single==null&&multiple==null&&judge==null){
-			error = "error";
-			model.addAttribute("ERR_single", "请选择");
-			model.addAttribute("ERR_multiple", "请选择");
-			model.addAttribute("ERR_judge", "请选择");
-		}else{
-			if(single!=null){
-				model.addAttribute("singleNum", singleNum);
-				model.addAttribute("singlePoint", singlePoint);
-				model.addAttribute("errorSingle", single[0]);
-			}
-			if(multiple!=null){
-				model.addAttribute("multipleNum", multipleNum);
-				model.addAttribute("multiplePoint", multiplePoint);
-				model.addAttribute("errorMultiple", multiple[0]);
-			}
-			if(judge!=null){
-				model.addAttribute("judgeNum", judgeNum);
-				model.addAttribute("judgePoint", judgePoint);
-				model.addAttribute("errorJudge", judge[0]);
-			}
-			if(single==null||multiple==null||judge==null){
-				error = "error";
-				if(single==null){
-					model.addAttribute("ERR_single", "请选择");
-				}
-				if(multiple==null){
-					model.addAttribute("ERR_multiple", "请选择");
-				}
-				if(judge==null){
-					model.addAttribute("ERR_judge", "请选择");
-				}
-			}else if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
+		if(single!=null&&multiple!=null&&judge!=null){
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("errorSingle", single[0]);
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			model.addAttribute("errorMultiple", multiple[0]);
+			model.addAttribute("judgeNum", judgeNum);
+			model.addAttribute("judgePoint", judgePoint);
+			model.addAttribute("errorJudge", judge[0]);
+			if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
 				error = "error";
 				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}
+		}
+		if(single==null){
+			error = "type";
+			model.addAttribute("ERR_single", "请选择");
+		}else{
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("errorSingle", single[0]);
+			if(single[0].equals("有")){
+				if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_single", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(singleNum)){
+						error = "error";
+						model.addAttribute("ERR_single", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+						error = "error";
+						model.addAttribute("ERR_single", "分值必须为大于0的正数");
+					}else{
+						HashMap<String,Object> purSingle = new HashMap<String,Object>();
+						purSingle.put("questionTypeId", 1);
+						int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
+						if(purchaserSingle<Integer.parseInt(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题库中单选题数量不足");
+						}else{
+							map.put("singleNum", singleNum);
+							map.put("singlePoint", singlePoint);
+						}
+					}
+				}
 			}else{
-				if(single[0].equals("有")){
-					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+				map.put("singleNum", "0");
+				map.put("singlePoint", "0");
+			}
+		}
+		if(multiple==null){
+			error = "type";
+			model.addAttribute("ERR_multiple", "请选择");
+		}else{
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			model.addAttribute("errorMultiple", multiple[0]);
+			if(multiple[0].equals("有")){
+				if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_multiple", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
-						model.addAttribute("ERR_single", "请把题型分布补充完整");
+						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+						error = "error";
+						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(singleNum)){
+						HashMap<String,Object> purMultiple = new HashMap<String,Object>();
+						purMultiple.put("questionTypeId", 2);
+						int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
+						if(purchaserMultiple<Integer.parseInt(multipleNum)){
 							error = "error";
-							model.addAttribute("ERR_single", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
-							error = "error";
-							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+							model.addAttribute("ERR_multiple", "题库中多选题数量不足");
 						}else{
-							HashMap<String,Object> purSingle = new HashMap<String,Object>();
-							purSingle.put("questionTypeId", 1);
-							int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
-							if(purchaserSingle<Integer.parseInt(singleNum)){
-								error = "error";
-								model.addAttribute("ERR_single", "题库中单选题数量不足");
-							}else{
-								map.put("singleNum", singleNum);
-								map.put("singlePoint", singlePoint);
-							}
+							map.put("multipleNum", multipleNum);
+							map.put("multiplePoint", multiplePoint);
 						}
 					}
-				}else{
-					map.put("singleNum", "0");
-					map.put("singlePoint", "0");
 				}
-				if(multiple[0].equals("有")){
-					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+			}else{
+				map.put("multipleNum", "0");
+				map.put("multiplePoint", "0");
+			}
+		}
+		if(judge==null){
+			error = "error";
+			model.addAttribute("ERR_judge", "请选择");
+		}else{
+			model.addAttribute("judgeNum", judgeNum);
+			model.addAttribute("judgePoint", judgePoint);
+			model.addAttribute("errorJudge", judge[0]);
+			if(judge[0].equals("有")){
+				if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_judge", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(judgeNum)){
 						error = "error";
-						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
+						model.addAttribute("ERR_judge", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+						error = "error";
+						model.addAttribute("ERR_judge", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(multipleNum)){
+						HashMap<String,Object> purJudge = new HashMap<String,Object>();
+						purJudge.put("questionTypeId",3);
+						int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
+						if(purchaserJudge<Integer.parseInt(judgeNum)){
 							error = "error";
-							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
-							error = "error";
-							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
+							model.addAttribute("ERR_judge", "题库中判断题数量不足");
 						}else{
-							HashMap<String,Object> purMultiple = new HashMap<String,Object>();
-							purMultiple.put("questionTypeId", 2);
-							int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
-							if(purchaserMultiple<Integer.parseInt(multipleNum)){
-								error = "error";
-								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
-							}else{
-								map.put("multipleNum", multipleNum);
-								map.put("multiplePoint", multiplePoint);
-							}
+							map.put("judgeNum", judgeNum);
+							map.put("judgePoint", judgePoint);
 						}
 					}
-				}else{
-					map.put("multipleNum", "0");
-					map.put("multiplePoint", "0");
 				}
-				if(judge[0].equals("有")){
-					if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
-						error = "error";
-						model.addAttribute("ERR_judge", "请把题型分布补充完整");
-					}else{
-						if(!ValidateUtils.Z_index(judgeNum)){
-							error = "error";
-							model.addAttribute("ERR_judge", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(judgePoint)){
-							error = "error";
-							model.addAttribute("ERR_judge", "分值必须为大于0的正数");
-						}else{
-							HashMap<String,Object> purJudge = new HashMap<String,Object>();
-							purJudge.put("questionTypeId",3);
-							int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
-							if(purchaserJudge<Integer.parseInt(judgeNum)){
-								error = "error";
-								model.addAttribute("ERR_judge", "题库中判断题数量不足");
-							}else{
-								map.put("judgeNum", judgeNum);
-								map.put("judgePoint", judgePoint);
-							}
-						}
-					}
-				}else{
-					map.put("judgeNum", "0");
-					map.put("judgePoint", "0");
-				}
+			}else{
+				map.put("judgeNum", "0");
+				map.put("judgePoint", "0");
 			}
 		}
 		if(error.equals("error")){
@@ -1896,11 +1870,11 @@ public class PurchaserExamController extends BaseSupplierController{
 	public String viewReference(HttpServletRequest request,Model model,Integer page){
 		String path = null;
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		String[] id = request.getParameter("id").split(",");
-		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id[0]);
+		String id = request.getParameter("id");
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id);
 		Date startTime = examPaper.getStartTime();
 	    Date offTime = examPaper.getOffTime(); 
-	    map.put("paperId", id[0]);
+	    map.put("paperId", id);
 	    if(page==null){
 			page = 1;
 		}
@@ -1910,13 +1884,15 @@ public class PurchaserExamController extends BaseSupplierController{
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(map);
 			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
-			model.addAttribute("id", id[0]);
+			model.addAttribute("examPaper", examPaper);
+			model.addAttribute("id", id);
 			path = "ses/ems/exam/purchaser/paper/view_test_reference";
 		}else if(new Date().getTime()<startTime.getTime()){
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamPaperUser> paperUserList = examPaperUserService.getAllByPaperId(map);
-			model.addAttribute("id", id[0]);
+			model.addAttribute("examPaper", examPaper);
+			model.addAttribute("id", id);
 			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
 			path = "ses/ems/exam/purchaser/paper/view_no_reference";
 		}else if(new Date().getTime()>offTime.getTime()){
@@ -1929,7 +1905,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					userScore.setUserId(paperUser.get(i).getUserId());
 					userScore.setScore("0");
 					userScore.setIsMax(1);
-					userScore.setPaperId(id[0]);
+					userScore.setPaperId(id);
 					userScore.setStatus("不及格");
 					examUserScoreService.insertSelective(userScore);
 					ExamPaperUser p = new ExamPaperUser();
@@ -1942,7 +1918,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 			List<ExamUserScore> userScoreList = examUserScoreService.findPurchaserScore(map);
 			model.addAttribute("examPaper", examPaper);
-			model.addAttribute("id", id[0]);
+			model.addAttribute("id", id);
 			model.addAttribute("paperUserList",new PageInfo<ExamUserScore>(userScoreList));
 			path = "ses/ems/exam/purchaser/paper/view_yes_reference";
 		}
@@ -2040,6 +2016,29 @@ public class PurchaserExamController extends BaseSupplierController{
 			map.put("purchaseDepName",depName);
 		}
 		List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
+		return purchaser;
+	}
+	
+	/**
+	 * 
+	* @Title: checkPurchaserInfo
+	* @author ZhaoBo
+	* @date 2016-11-18 下午1:07:10  
+	* @Description: 核实采购人信息 
+	* @param @return      
+	* @return List<PurchaseInfo>
+	 */
+	@RequestMapping("/checkPurchaserInfo")
+	@ResponseBody
+	public List<PurchaseInfo> checkPurchaserInfo(HttpServletRequest request){
+		String[] id = request.getParameter("id").split(",");
+		List<PurchaseInfo> purchaser = new ArrayList<>();
+		for(int i=0;i<id.length;i++){
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", id[i]);
+			PurchaseInfo info = purchaseService.findPurchaseList(map).get(0);
+			purchaser.add(info);
+		}
 		return purchaser;
 	}
 	
@@ -2590,4 +2589,47 @@ public class PurchaserExamController extends BaseSupplierController{
 	public String backPaper(){
 		return "redirect:paperManage.html";
 	}
+	
+	/**
+	 * 
+	* @Title: userAdd
+	* @author ZhaoBo
+	* @date 2016-11-18 上午11:07:40  
+	* @Description: 添加考试人员 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/userAdd")
+	public String userAdd(HttpServletRequest request,Model model,Integer page){
+		String paperId = request.getParameter("paperId");
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
+		String relName = request.getParameter("relName");
+		String card = request.getParameter("card");
+		String depName = request.getParameter("depName");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(relName!=null&&!relName.equals("")){
+			map.put("relName", relName);
+		}
+		if(card!=null&&!card.equals("")){
+			map.put("idCard", card);
+		}
+		if(depName!=null&&!depName.equals("")){
+			map.put("purchaseDepName",depName);
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<PurchaseInfo> purchaser = purchaseService.findPurchaseList(map);
+		model.addAttribute("examPaper", examPaper);
+		model.addAttribute("id", paperId);
+		model.addAttribute("relName", relName);
+		model.addAttribute("card", card);
+		model.addAttribute("depName", depName);
+		model.addAttribute("purchaser", new PageInfo<PurchaseInfo>(purchaser));
+		return "ses/ems/exam/purchaser/paper/user_add";
+	}
+	
 }

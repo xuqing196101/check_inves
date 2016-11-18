@@ -36,7 +36,7 @@
 		})
 		
 		//endsWith方法
-		if (typeof String.prototype.endsWith != 'function') {  
+		if(typeof String.prototype.endsWith != 'function') {  
 		    String.prototype.endsWith = function (str){  
 		         return this.slice(-str.length) == str;  
 		    };  
@@ -204,158 +204,10 @@
 			window.location.href = "${pageContext.request.contextPath }/purchaserExam/loadReferenceTemplet.html";
 		}
 		
-		//查询
-		function query(){
-			var userName = $("#userName").val();
-			var card = $("#card").val();
-			var depName = $("#depName").val();
-			if((userName==""||userName==null)&&(card==""||card==null)&&(depName==""||depName==null)){
-				layer.alert("请至少输入一个条件",{offset: ['30%', '40%']});
-				$(".layui-layer-shade").remove();
-				return;
-			}
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"${pageContext.request.contextPath }/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card+"&depName="+depName,
-			    success:function(data){
-			       	if(data==0){
-			       		layer.alert("没有查到符合条件的采购人",{offset: ['30%', '40%']});
-						$(".layui-layer-shade").remove();
-						return;
-			       	}else if(data==1){
-			       		$.ajax({
-							type:"POST",
-							dataType:"json",
-							url:"${pageContext.request.contextPath }/purchaserExam/getReference.do?userName="+userName+"&card="+card+"&depName="+depName,
-						    success:function(data){
-						    	if(data){
-						    		var html = "";
-						    		for(var i=0;i<data.length;i++){
-						            	  html = html + "<tr class='tc'>";
-						            	  html = html + "<td><input type='checkbox' name='purchaserInfo' value='"+data[i].userId+"'/></td>";
-						            	  html = html + "<td>"+data[i].relName+"</td>";
-						            	  html = html + "<td>"+data[i].idCard+"</td>";
-						            	  html = html + "<td>"+data[i].purchaseDepName+"</td>";
-						            	  html = html + "</tr>";
-						            }
-						    		$("#refResult").html(html);
-						    		layer.open({
-										  type: 1,
-										  title: '信息',
-										  skin: 'layui-layer-rim',
-										  shadeClose: true,
-										  area: ['580px','510px'],
-										  content: $("#purchaser")
-									});
-									$(".layui-layer-shade").remove();
-						    	}
-						    }
-					     })
-			       	}	
-			    }
-		     });
-			
-		}
-		
-		//添加参考人员
-		function add(){
-			var paperId = $("#paperId").val();
-			var count = 0;
-			var ids = "";
-			var info = document.getElementsByName("purchaserInfo");
-			for(var i=0;i<info.length;i++){
-				if(info[i].checked == true){
-					count++;
-				}
-			}
-			if(count==0){
-				layer.alert("请选择一项",{offset: ['30%', '40%']});
-				$(".layui-layer-shade").remove();
-				return;
-			}
-			for(var i=0;i<info.length;i++){
-				if(info[i].checked == true){
-					ids += info[i].value + ",";
-				}
-			}
-			$.ajax({
-				type:"POST",
-				dataType:"text",
-				url:"${pageContext.request.contextPath }/purchaserExam/addReferenceById.do?paperId="+paperId+"&id="+ids,
-		       	success:function(data){
-		       		if(data.length<=5){
-			    		layer.msg('添加成功',{offset: ['40%', '45%']});
-			    		window.setTimeout(function(){
-				       		window.location.reload();
-				       	}, 1000);
-			    	}else{
-			    		var array = data.split(";");
-			    		if(array[array.length-1].indexOf("1")>-1){
-			    			$("#errorNews").html("以下人员已经被添加到本场考试中");
-			    			var html = "";
-				    		for(var i=0;i<array.length-1;i++){
-				            	  html = html + "<tr class='tc'>";
-				            	  if(i==0){
-				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
-				            	  }else{
-				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
-				            	  }
-				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
-				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
-				            	  html = html + "</tr>";
-				            }
-				    		$("#errResult").html(html);
-				    		layer.open({
-								  type: 1,
-								  title: '错误信息',
-								  skin: 'layui-layer-rim',
-								  shadeClose: true,
-								  area: ['580px','510px'],
-								  content: $("#errorPurchaser")
-							});
-							$(".layui-layer-shade").remove();
-			    		}else if(array[array.length-1].indexOf("2")>-1){
-			    			$("#errorNews").html("以下人员考试时间有冲突");
-			    			var html = "";
-				    		for(var i=0;i<array.length-1;i++){
-				            	  html = html + "<tr class='tc'>";
-				            	  if(i==0){
-				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
-				            	  }else{
-				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
-				            	  }
-				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
-				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
-				            	  html = html + "</tr>";
-				            }
-				    		$("#errResult").html(html);
-				    		layer.open({
-								  type: 1,
-								  title: '错误信息',
-								  skin: 'layui-layer-rim',
-								  shadeClose: true,
-								  area: ['580px','510px'],
-								  content: $("#errorPurchaser")
-							});
-							$(".layui-layer-shade").remove();
-			    		}
-		       		}
-		       	}
-	       	});
-		}
-		
 		//取消方法
         function cancel(){
         	layer.closeAll();
         }
-		
-		//重置结果
-		function resetResult(){
-			$("#userName").val("");
-			$("#card").val("");
-			$("#depName").val("");
-		}
 		
 		//检查全选
 		function check(){
@@ -377,6 +229,12 @@
 				selectAll.checked = true;
 			}
 		}
+		
+		//添加
+		function addUser(){
+			var paperId = $("#paperId").val();
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/userAdd.html?paperId="+paperId;
+		}
 	</script>
 
   </head>
@@ -392,47 +250,20 @@
 		  	</div>
 	   	</div>
 	   	
-		<div class="col-md-12 mb10 border1 bggrey mt10 container">
-	  		<div class="fl f18 gary b">考卷编号：${examPaper.code }</div>
+		<div class="container mt20">
+		  	<div class="ml20 mt10 tc f18 b">
+	  		考卷编号：${examPaper.code }
+	  	  	</div>
   		</div>
   
   	<div class="container">
-	   <div class="headline-v2">
-	   		<h2>添加考试人员</h2>
-	   </div>
-  		
-  		<h2 class="search_detail">
-			<ul class="demand_list">
-		    	<li>
-			    	<label class="fl">姓名：</label>
-			    	<span>
-			    		<input type="text" id="userName" name="userName"/>
-			    	</span>
-			    </li>
-			    <li>
-			    	<label class="fl">身份证号：</label>
-			    	<span>
-				    	<input type="text" id="card" name="card"/>
-			   		</span>
-			     </li>
-			     <li>
-			    	<label class="fl">采购机构：</label>
-			    	<span>
-				    	<input type="text" id="depName" name="depName"/>
-			   		</span>
-			     </li>
-			    <button class="btn" type="button" onclick="query()">查询</button>
-	    		<button class="btn" type="button" onclick="resetResult()">重置</button>
-		    </ul>
-		    <div class="clear"></div>
-	 	</h2>
-    
 	   	<div class="headline-v2">
 	   		<h2>参考人员列表</h2>
 	  	</div>
    	
 		<!-- 按钮开始 -->
 		<div class="col-md-12 pl20 mt10">
+			<button class="btn btn-windows add" type="button" onclick="addUser()">添加</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
 		    <button class="btn btn-windows output" type="button" onclick="download()">模板下载</button>
 		    <span class="">
@@ -472,26 +303,6 @@
   		<div class="mt20 clear tc">
 	      <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 	  	</div>
-	  	
-	  	
-	  	<div class="dnone layui-layer-wrap col-md-12" id="purchaser">
-	  		<table class="table table-bordered table-condensed table-hover">
-				<thead>
-					<tr class="info">
-						<th class="w50">选择</th>
-						<th class="w50">姓名</th>
-						<th>身份证号</th>
-						<th>所属单位</th>
-					</tr>
-				</thead>
-				<tbody id="refResult">
-				</tbody>
-			</table>
-			<div class="col-md-12 mt10 tc ">
-				<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
-				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
-			</div>
-		</div>
 	  	
 	  	<div class="dnone layui-layer-wrap col-md-12" id="errorPurchaser">
 	  		<div id="errorNews" class="col-md-12 tc red mb5 f18"></div>

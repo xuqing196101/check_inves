@@ -1623,107 +1623,106 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] multiple = request.getParameterValues("multiple");
 		Map<String,String> errorData = new HashMap<String,String>();
 		Map<String,String> map = new HashMap<String,String>();
-		if(single==null&&multiple==null){
-			error = "type";
-			model.addAttribute("ERR_single", "请选择");
-			model.addAttribute("ERR_multiple", "请选择");
-		}else{
-			if(single!=null){
-				errorData.put("singleNum", singleNum);
-				errorData.put("singlePoint", singlePoint);
-				errorData.put("single", single[0]);
-			}
-			if(multiple!=null){
-				errorData.put("multipleNum", multipleNum);
-				errorData.put("multiplePoint", multiplePoint);
-				errorData.put("multiple", multiple[0]);
-			}
-			if(single==null||multiple==null){
-				error = "type";
-				if(single==null){
-					model.addAttribute("ERR_single", "请选择");
-				}
-				if(multiple==null){
-					model.addAttribute("ERR_multiple", "请选择");
-				}
-			}else if(single[0].equals("无")&&multiple[0].equals("无")){
+		if(single!=null&&multiple!=null){
+			errorData.put("singleNum", singleNum);
+			errorData.put("singlePoint", singlePoint);
+			errorData.put("single", single[0]);
+			errorData.put("multipleNum", multipleNum);
+			errorData.put("multiplePoint", multiplePoint);
+			errorData.put("multiple", multiple[0]);
+			if(single[0].equals("无")&&multiple[0].equals("无")){
 				error = "type";
 				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}
+		}
+		if(single==null){
+			error = "type";
+			model.addAttribute("ERR_single", "请选择");
+		}else{
+			errorData.put("singleNum", singleNum);
+			errorData.put("singlePoint", singlePoint);
+			errorData.put("single", single[0]);
+			if(single[0].equals("有")){
+				if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+					error = "type";
+					model.addAttribute("ERR_single", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(singleNum)){
+						error = "type";
+						model.addAttribute("ERR_single", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+						error = "type";
+						model.addAttribute("ERR_single", "分值必须为大于0的正数");
+					}else{
+						HashMap<String,Object> tecSingle = new HashMap<String,Object>();
+						tecSingle.put("questionTypeId", 1);
+						tecSingle.put("kind", 0);
+						int tec = examQuestionService.queryQuestionCount(tecSingle);
+						HashMap<String,Object> ComSingle = new HashMap<String,Object>();
+						ComSingle.put("questionTypeId", 1);
+						ComSingle.put("kind", 1);
+						int com = examQuestionService.queryQuestionCount(ComSingle);
+						HashMap<String,Object> lawSingle = new HashMap<String,Object>();
+						lawSingle.put("questionTypeId", 1);
+						lawSingle.put("kind", 2);
+						int law = examQuestionService.queryQuestionCount(lawSingle);
+						if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
+							error = "type";
+							model.addAttribute("ERR_single", "题库中单选题数量不足");
+						}else{
+							map.put("singleNum", singleNum);
+							map.put("singlePoint", singlePoint);
+						}
+					}
+				}
 			}else{
-				if(single[0].equals("有")){
-					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+				map.put("singleNum", "0");
+				map.put("singlePoint", "0");
+			}
+		}
+		if(multiple==null){
+			error = "type";
+			model.addAttribute("ERR_multiple", "请选择");
+		}else{
+			errorData.put("multipleNum", multipleNum);
+			errorData.put("multiplePoint", multiplePoint);
+			errorData.put("multiple", multiple[0]);
+			if(multiple[0].equals("有")){
+				if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+					error = "type";
+					model.addAttribute("ERR_multiple", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "type";
-						model.addAttribute("ERR_single", "请把题型分布补充完整");
+						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+						error = "type";
+						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(singleNum)){
+						HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
+						tecMultiple.put("questionTypeId", 2);
+						tecMultiple.put("kind", 0);
+						int tec = examQuestionService.queryQuestionCount(tecMultiple);
+						HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
+						ComMultiple.put("questionTypeId", 2);
+						ComMultiple.put("kind", 1);
+						int com = examQuestionService.queryQuestionCount(ComMultiple);
+						HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
+						lawMultiple.put("questionTypeId", 2);
+						lawMultiple.put("kind", 2);
+						int law = examQuestionService.queryQuestionCount(lawMultiple);
+						if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
 							error = "type";
-							model.addAttribute("ERR_single", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
-							error = "type";
-							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+							model.addAttribute("ERR_multiple", "题库中多选题数量不足");
 						}else{
-							HashMap<String,Object> tecSingle = new HashMap<String,Object>();
-							tecSingle.put("questionTypeId", 1);
-							tecSingle.put("kind", 0);
-							int tec = examQuestionService.queryQuestionCount(tecSingle);
-							HashMap<String,Object> ComSingle = new HashMap<String,Object>();
-							ComSingle.put("questionTypeId", 1);
-							ComSingle.put("kind", 1);
-							int com = examQuestionService.queryQuestionCount(ComSingle);
-							HashMap<String,Object> lawSingle = new HashMap<String,Object>();
-							lawSingle.put("questionTypeId", 1);
-							lawSingle.put("kind", 2);
-							int law = examQuestionService.queryQuestionCount(lawSingle);
-							if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
-								error = "type";
-								model.addAttribute("ERR_single", "题库中单选题数量不足");
-							}else{
-								map.put("singleNum", singleNum);
-								map.put("singlePoint", singlePoint);
-							}
+							map.put("multipleNum", multipleNum);
+							map.put("multiplePoint", multiplePoint);
 						}
 					}
-				}else{
-					map.put("singleNum", "0");
-					map.put("singlePoint", "0");
 				}
-				if(multiple[0].equals("有")){
-					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
-						error = "type";
-						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
-					}else{
-						if(!ValidateUtils.Z_index(multipleNum)){
-							error = "type";
-							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
-							error = "type";
-							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
-						}else{
-							HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
-							tecMultiple.put("questionTypeId", 2);
-							tecMultiple.put("kind", 0);
-							int tec = examQuestionService.queryQuestionCount(tecMultiple);
-							HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
-							ComMultiple.put("questionTypeId", 2);
-							ComMultiple.put("kind", 1);
-							int com = examQuestionService.queryQuestionCount(ComMultiple);
-							HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
-							lawMultiple.put("questionTypeId", 2);
-							lawMultiple.put("kind", 2);
-							int law = examQuestionService.queryQuestionCount(lawMultiple);
-							if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
-								error = "type";
-								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
-							}else{
-								map.put("multipleNum", multipleNum);
-								map.put("multiplePoint", multiplePoint);
-							}
-						}
-					}
-				}else{
-					map.put("multipleNum", "0");
-					map.put("multiplePoint", "0");
-				}
+			}else{
+				map.put("multipleNum", "0");
+				map.put("multiplePoint", "0");
 			}
 		}
 		String paperScore = request.getParameter("paperScore");
@@ -1854,107 +1853,106 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] single = request.getParameterValues("single");
 		String[] multiple = request.getParameterValues("multiple");
 		Map<String,String> map = new HashMap<String,String>();
-		if(single==null&&multiple==null){
-			error = "error";
-			model.addAttribute("ERR_single", "请选择");
-			model.addAttribute("ERR_multiple", "请选择");
-		}else{
-			if(single!=null){
-				model.addAttribute("singleNum", singleNum);
-				model.addAttribute("singlePoint", singlePoint);
-				model.addAttribute("errorSingle", single[0]);
-			}
-			if(multiple!=null){
-				model.addAttribute("multipleNum", multipleNum);
-				model.addAttribute("multiplePoint", multiplePoint);
-				model.addAttribute("errorMultiple", multiple[0]);
-			}
-			if(single==null||multiple==null){
-				error = "error";
-				if(single==null){
-					model.addAttribute("ERR_single", "请选择");
-				}
-				if(multiple==null){
-					model.addAttribute("ERR_multiple", "请选择");
-				}
-			}else if(single[0].equals("无")&&multiple[0].equals("无")){
+		if(single!=null&&multiple!=null){
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("errorSingle", single[0]);
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			model.addAttribute("errorMultiple", multiple[0]);
+			if(single[0].equals("无")&&multiple[0].equals("无")){
 				error = "error";
 				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}
+		}
+		if(single==null){
+			error = "error";
+			model.addAttribute("ERR_single", "请选择");
+		}else{
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("errorSingle", single[0]);
+			if(single[0].equals("有")){
+				if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_single", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(singleNum)){
+						error = "error";
+						model.addAttribute("ERR_single", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+						error = "error";
+						model.addAttribute("ERR_single", "分值必须为大于0的正数");
+					}else{
+						HashMap<String,Object> tecSingle = new HashMap<String,Object>();
+						tecSingle.put("questionTypeId", 1);
+						tecSingle.put("kind", 0);
+						int tec = examQuestionService.queryQuestionCount(tecSingle);
+						HashMap<String,Object> ComSingle = new HashMap<String,Object>();
+						ComSingle.put("questionTypeId", 1);
+						ComSingle.put("kind", 1);
+						int com = examQuestionService.queryQuestionCount(ComSingle);
+						HashMap<String,Object> lawSingle = new HashMap<String,Object>();
+						lawSingle.put("questionTypeId", 1);
+						lawSingle.put("kind", 2);
+						int law = examQuestionService.queryQuestionCount(lawSingle);
+						if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题库中单选题数量不足");
+						}else{
+							map.put("singleNum", singleNum);
+							map.put("singlePoint", singlePoint);
+						}
+					}
+				}
 			}else{
-				if(single[0].equals("有")){
-					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+				map.put("singleNum", "0");
+				map.put("singlePoint", "0");
+			}
+		}
+		if(multiple==null){
+			error = "error";
+			model.addAttribute("ERR_multiple", "请选择");
+		}else{
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			model.addAttribute("errorMultiple", multiple[0]);
+			if(multiple[0].equals("有")){
+				if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+					error = "error";
+					model.addAttribute("ERR_multiple", "请补充完整");
+				}else{
+					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
-						model.addAttribute("ERR_single", "请把题型分布补充完整");
+						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+						error = "error";
+						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
-						if(!ValidateUtils.Z_index(singleNum)){
+						HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
+						tecMultiple.put("questionTypeId", 2);
+						tecMultiple.put("kind", 0);
+						int tec = examQuestionService.queryQuestionCount(tecMultiple);
+						HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
+						ComMultiple.put("questionTypeId", 2);
+						ComMultiple.put("kind", 1);
+						int com = examQuestionService.queryQuestionCount(ComMultiple);
+						HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
+						lawMultiple.put("questionTypeId", 2);
+						lawMultiple.put("kind", 2);
+						int law = examQuestionService.queryQuestionCount(lawMultiple);
+						if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
 							error = "error";
-							model.addAttribute("ERR_single", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
-							error = "error";
-							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+							model.addAttribute("ERR_multiple", "题库中多选题数量不足");
 						}else{
-							HashMap<String,Object> tecSingle = new HashMap<String,Object>();
-							tecSingle.put("questionTypeId", 1);
-							tecSingle.put("kind", 0);
-							int tec = examQuestionService.queryQuestionCount(tecSingle);
-							HashMap<String,Object> ComSingle = new HashMap<String,Object>();
-							ComSingle.put("questionTypeId", 1);
-							ComSingle.put("kind", 1);
-							int com = examQuestionService.queryQuestionCount(ComSingle);
-							HashMap<String,Object> lawSingle = new HashMap<String,Object>();
-							lawSingle.put("questionTypeId", 1);
-							lawSingle.put("kind", 2);
-							int law = examQuestionService.queryQuestionCount(lawSingle);
-							if(tec<Integer.parseInt(singleNum)||com<Integer.parseInt(singleNum)||law<Integer.parseInt(singleNum)){
-								error = "error";
-								model.addAttribute("ERR_single", "题库中单选题数量不足");
-							}else{
-								map.put("singleNum", singleNum);
-								map.put("singlePoint", singlePoint);
-							}
+							map.put("multipleNum", multipleNum);
+							map.put("multiplePoint", multiplePoint);
 						}
 					}
-				}else{
-					map.put("singleNum", "0");
-					map.put("singlePoint", "0");
 				}
-				if(multiple[0].equals("有")){
-					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
-						error = "error";
-						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
-					}else{
-						if(!ValidateUtils.Z_index(multipleNum)){
-							error = "error";
-							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
-							error = "error";
-							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
-						}else{
-							HashMap<String,Object> tecMultiple = new HashMap<String,Object>();
-							tecMultiple.put("questionTypeId", 2);
-							tecMultiple.put("kind", 0);
-							int tec = examQuestionService.queryQuestionCount(tecMultiple);
-							HashMap<String,Object> ComMultiple = new HashMap<String,Object>();
-							ComMultiple.put("questionTypeId", 2);
-							ComMultiple.put("kind", 1);
-							int com = examQuestionService.queryQuestionCount(ComMultiple);
-							HashMap<String,Object> lawMultiple = new HashMap<String,Object>();
-							lawMultiple.put("questionTypeId", 2);
-							lawMultiple.put("kind", 2);
-							int law = examQuestionService.queryQuestionCount(lawMultiple);
-							if(tec<Integer.parseInt(multipleNum)||com<Integer.parseInt(multipleNum)||law<Integer.parseInt(multipleNum)){
-								error = "error";
-								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
-							}else{
-								map.put("multipleNum", multipleNum);
-								map.put("multiplePoint", multiplePoint);
-							}
-						}
-					}
-				}else{
-					map.put("multipleNum", "0");
-					map.put("multiplePoint", "0");
-				}
+			}else{
+				map.put("multipleNum", "0");
+				map.put("multiplePoint", "0");
 			}
 		}
 		String paperScore = request.getParameter("paperScore");
@@ -2827,6 +2825,29 @@ public class ExpertExamController extends BaseSupplierController{
 	
 	/**
 	 * 
+	* @Title: checkExpertInfo
+	* @author ZhaoBo
+	* @date 2016-11-18 下午1:07:10  
+	* @Description: 核实专家信息 
+	* @param @return      
+	* @return List<Expert>
+	 */
+	@RequestMapping("/checkExpertInfo")
+	@ResponseBody
+	public List<Expert> checkExpertInfo(HttpServletRequest request){
+		String[] id = request.getParameter("id").split(",");
+		List<Expert> expert = new ArrayList<>();
+		for(int i=0;i<id.length;i++){
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("id", id[i]);
+			Expert info = expertService.findAllExpert(map).get(0);
+			expert.add(info);
+		}
+		return expert;
+	}
+	
+	/**
+	 * 
 	* @Title: findUserByCondition
 	* @author ZhaoBo
 	* @date 2016-11-17 下午12:53:11  
@@ -2862,17 +2883,19 @@ public class ExpertExamController extends BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: getReference
+	* @Title: userAdd
 	* @author ZhaoBo
-	* @date 2016-11-17 下午1:11:58  
-	* @Description: 查询专家 
-	* @param @param request
+	* @date 2016-11-18 下午1:47:03  
+	* @Description: 添加考试人员 
 	* @param @return      
-	* @return List<PurchaseInfo>
+	* @return String
 	 */
-	@RequestMapping("/getReference")
-	@ResponseBody
-	public List<Expert> getReference(HttpServletRequest request){
+	@RequestMapping("/userAdd")
+	public String userAdd(HttpServletRequest request,Model model,Integer page){
+		String ruleId = request.getParameter("ruleId");
+		HashMap<String,Object> ruleMap = new HashMap<String,Object>();
+		ruleMap.put("id", ruleId);
+		ExamRule examRule = examRuleService.selectById(ruleMap).get(0);
 		String relName = request.getParameter("userName");
 		String idNumber = request.getParameter("idNumber");
 		String userType = request.getParameter("userType");
@@ -2886,8 +2909,20 @@ public class ExpertExamController extends BaseSupplierController{
 		if(userType!=null&&!userType.equals("")){
 			map.put("expertsTypeId",userType);
 		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<Expert> expert = expertService.findAllExpert(map);
-		return expert;
+		model.addAttribute("examRule", examRule);
+		model.addAttribute("ruleId", ruleId);
+		model.addAttribute("relName", relName);
+		model.addAttribute("idNumber", idNumber);
+		model.addAttribute("userType", userType);
+		model.addAttribute("expert", new PageInfo<Expert>(expert));
+		return "ses/ems/exam/expert/rule/user_add";
 	}
 	
 	/**

@@ -670,6 +670,9 @@
 		<if test="idNumber != null and idNumber !=''">
 			AND ID_NUMBER = #{idNumber}
 		</if>
+		<if test="id != null and id !=''">
+			AND ID = #{id}
+		</if>
 		ORDER BY CREATED_AT DESC
 	</select>
 </mapper>

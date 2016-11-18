@@ -25,35 +25,37 @@
   </head>
   
   <body>
-  	<div class="container">
-   		<div class="col-md-10">
-  			<input type="button" class="btn" value="打印表格" onclick="dayin()" id="print"/>
-  		</div>
-  	</div>
+	  	<div class="container">
+	   		<div class="col-md-12 pl20 mt10">
+	  			<input type="button" class="btn" value="打印表格" onclick="dayin()" id="print"/>
+	  		</div>
   
-	  	<div class="container margin-top-5">
-     		<div class="content padding-left-25 padding-right-25 padding-top-5" id="div_print">
+		  	<!-- 表格开始 -->
+	  		<div class="content table_box" id="div_print">
 	   			<table class="table table-bordered table-condensed">
 			  		<thead>
-			  			<th>序号</th>
-			  			<th>姓名</th>
-			  			<th>考试编号</th>
-			  			<th>所属单位</th>
-			  			<th>得分</th>
+			  			<tr class="info">
+				  			<th class="w50">序号</th>
+				  			<th class="w100">姓名</th>
+				  			<th>身份证号</th>
+				  			<th>试卷编号</th>
+				  			<th>所属单位</th>
+				  			<th>得分</th>
+			  			</tr>
 			  		</thead>
 			  		<tbody>
 			  			 <c:forEach items="${paperUserList }" var="paper" varStatus="p">
-				  			 <tr>
-				    			<td class="tc">${p.index+1 }</td>
-								<td class="tc">${paper.userName }</td>
-								<td class="tc">${paper.code }</td>
-								<td class="tc">${paper.unitName }</td>
-								<td class="tc">${paper.score }</td>
+				  			 <tr class="tc">
+				    			<td>${p.index+1 }</td>
+								<td>${paper.userName }</td>
+								<td>${paper.code }</td>
+								<td>${paper.unitName }</td>
+								<td>${paper.score }</td>
 				    		</tr>
 			    		</c:forEach>
 			  		</tbody>
 	  			</table>
 	  		</div>
-   		</div>
+	  	</div>
   </body>
 </html>
