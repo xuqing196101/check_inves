@@ -969,25 +969,13 @@ public class SupplierQueryController extends BaseSupplierController{
 	
 	public void getSupplierType(List<Supplier> listSupplier){
 		for(Supplier sup:listSupplier){
-			List<SupplierTypeRelate> listSupplierTypeRelates = supplierService.get(sup.getId()).getListSupplierTypeRelates();
-			String supplierType="";
-			if(listSupplierTypeRelates.size()>0){
-				for(SupplierTypeRelate str:listSupplierTypeRelates){
-					supplierType+=str.getSupplierTypeName()+" ";
-				}
-				sup.setSupplierType(supplierType);
-			}
+			String supplierTypes = supplierService.selectSupplierTypes(sup);
+			sup.setSupplierType(supplierTypes);
 		}
 	}
 	public void getSupplierType(Supplier supplier){
-			List<SupplierTypeRelate> listSupplierTypeRelates = supplierService.get(supplier.getId()).getListSupplierTypeRelates();
-			String supplierType="";
-			if(listSupplierTypeRelates.size()>0){
-				for(SupplierTypeRelate str:listSupplierTypeRelates){
-					supplierType+=str.getSupplierTypeName()+" ";
-				}
-				supplier.setSupplierType(supplierType);
-			}
+			String supplierTypes = supplierService.selectSupplierTypes(supplier);
+			supplier.setSupplierType(supplierTypes);
 	}
 	
 }

@@ -207,4 +207,15 @@ public interface SupplierMapper {
      * @return: Supplier
      */
     Supplier getByMap(Map<String, Object> param);
+    
+    /**
+     * @Title: selectSupplierTypes
+     * @author Song Biaowei
+     * @date 2016-11-18 下午2:40:13  
+     * @Description: 查询供应商的类型
+     * @param @param supplierId
+     * @param @return      
+     * @return String
+     */
+    String selectSupplierTypes(Supplier supplier);
 }

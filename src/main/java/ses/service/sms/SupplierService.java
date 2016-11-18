@@ -110,4 +110,15 @@ public interface SupplierService {
      * @return: SupplierInfo
      */
     Supplier selectById(String id);
+    
+    /**
+     * @Title: selectSupplierTypes
+     * @author Song Biaowei
+     * @date 2016-11-18 下午2:41:51  
+     * @Description: 查询供应商的类型
+     * @param @param id
+     * @param @return      
+     * @return String
+     */
+    String selectSupplierTypes(Supplier supplier);
 }

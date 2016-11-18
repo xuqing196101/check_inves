@@ -374,7 +374,7 @@ $(function() {
 		        </ul>
 		        <div class="col-md-12 clear tc mt10">
 		            <button type="button" onclick="submit()" class="btn">查询</button>
-		            <button type="reset" class="btn">重置</button> 
+		            <button type="button" onclick="chongzhi()" class="btn">重置</button> 
 	            </div>
 	            <div class="clear"></div>
 		     </form>

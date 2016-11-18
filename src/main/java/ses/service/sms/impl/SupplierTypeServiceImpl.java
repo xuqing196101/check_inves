@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierTypeService;
 
 /**
@@ -24,8 +26,8 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 	@Autowired
 	private SupplierTypeMapper supplierTypeMapper;
 	
-	@Autowired
-	private SupplierTypeRelateMapper supplierTypeRelateMapper;
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataService;
 	
 	/**
 	 * @Title: findSupplierType
@@ -39,20 +41,22 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 	@Override
 	public List<SupplierTypeTree> findSupplierType(String supplierId) {
 		// 查询供应商所有类型
-		List<SupplierType> listSupplierTypes = supplierTypeMapper.findSupplierType();
-		
-		// 查询供应商勾选类型
-		List<String> listSupplierTypeIds = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
-		
+		DictionaryData dictionaryData=new DictionaryData();
+		dictionaryData.setKind(6);
+		List<DictionaryData> ldlist1 = dictionaryDataService.find(dictionaryData);
+		dictionaryData.setKind(8);
+		List<DictionaryData> ldlist2 = dictionaryDataService.find(dictionaryData);
 		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-		for (SupplierType supplierType : listSupplierTypes) {
+		for (DictionaryData dd : ldlist1) {
 			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-			supplierTypeTree.setId(supplierType.getId());
-			supplierTypeTree.setParentId(supplierType.getParentId());
-			supplierTypeTree.setName(supplierType.getName());
-			if (listSupplierTypeIds.contains(supplierType.getId())) {
-				supplierTypeTree.setChecked(true);
-			}
+			supplierTypeTree.setId(dd.getCode());
+			supplierTypeTree.setName(dd.getName());
+			listSupplierTypeTrees.add(supplierTypeTree);
+		}
+		for (DictionaryData dd : ldlist2) {
+			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+			supplierTypeTree.setId(dd.getCode());
+			supplierTypeTree.setName(dd.getName());
 			listSupplierTypeTrees.add(supplierTypeTree);
 		}
 		return listSupplierTypeTrees;

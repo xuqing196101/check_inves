@@ -287,4 +287,9 @@ public class SupplierServiceImpl implements SupplierService {
    public Supplier selectById(String id){
     	return supplierMapper.selectByPrimaryKey(id);
     }
+
+	@Override
+	public String selectSupplierTypes(Supplier supplier) {
+		return supplierMapper.selectSupplierTypes(supplier);
+	}
 }
