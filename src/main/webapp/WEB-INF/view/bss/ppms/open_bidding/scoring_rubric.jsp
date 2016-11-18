@@ -77,6 +77,10 @@
 		function show(packageId){
 			window.location.href = "${pageContext.request.contextPath}/intelligentScore/scoreModelList.html?packageId="+packageId+"&proid=${projectId}";
 		}
+		
+	   function jump(url){
+       	 $("#open_bidding_main").load(url);
+	   }
 </script>
   </head>
   
@@ -84,19 +88,19 @@
 	<div class="col-md-12 p0">
 		<ul class="flow_step">
 			<li><a
-				href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}">01、符合性</a>
+				onclick="jump('${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">01、符合性</a>
 				<i></i>
 			</li>
 
 			<li><a
-				href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、符合性关联</a>
+				onclick="jump('${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">02、符合性关联</a>
 				<i></i>
 			</li>
 			<li class="active"><a
-				href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
+				onclick="jump('${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">03、评标细则</a>
 				<i></i>
 			</li>
-			<li><a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
+			<li><a  onclick="jump('${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}')" >
 			<c:if test="${type eq 'gkzb' }">
 		     04、招标文件
 		     </c:if>

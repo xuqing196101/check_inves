@@ -28,7 +28,7 @@
 			});
 	  });
 	    function fanhui(){
-	  	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?status=3";
+	  	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3";
 	  }
 function chongzhi(){
 	$("#supplierName").val('');
@@ -42,7 +42,7 @@ function chongzhi(){
 	var address='${address}';
 	address=encodeURI(address);
     address=encodeURI(address);
-     window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
+     window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address+"&judge=3";
 }
 $(function() {
 		var optionNodes = $("option");
@@ -224,7 +224,7 @@ $(function() {
        <h2 class="search_detail">
   				<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="status" value="3">
+		       <input type="hidden" name="judge" value="3">
 		       <input type="hidden" name="address" value="${address }">
 		       <ul class="demand_list">
 		          <li>

@@ -75,8 +75,11 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/highmaps")
-	public String highmaps(Supplier sup,Model model,Integer status,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds,HttpServletRequest req){
+	public String highmaps(Supplier sup,Model model,Integer status,Integer judge,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds,HttpServletRequest req){
 		//调用供应商查询方法 List<Supplier>
+		if(judge!=null){
+			status=judge;
+		}
 		if(status!=null){
 			sup.setStatus(status);
 		}
@@ -107,7 +110,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		model.addAttribute("supplierType", supplierType);
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		model.addAttribute("categoryIds", categoryIds);
-		if(status!=null&&status==3){
+		if(judge!=null&&judge==3){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
 			return "ses/sms/supplier_query/all_supplier";
@@ -127,10 +130,17 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/findSupplierByPriovince")
-	public String findSupplierByPriovince(HttpServletRequest req,Supplier sup,Integer page,Model model,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds) throws UnsupportedEncodingException{
+	public String findSupplierByPriovince(HttpServletRequest req,Integer judge,Supplier sup,Integer page,Model model,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds) throws UnsupportedEncodingException{
+		if(judge!=null){
+			sup.setStatus(judge);
+		}
 		String address=this.getProvince(sup.getAddress());
 		if("".equals(address)){
-			sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 3).replace(",", ""));
+			if(address.length()>2){
+				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 2).replace(",", ""));
+			}else{
+				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 1).replace(",", ""));
+			}
 		}else{
 			sup.setAddress(address);
 		}
@@ -152,7 +162,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		model.addAttribute("categoryIds", categoryIds);
 		//等于3说明是入库供应商
-		if(sup.getStatus()!=null&&sup.getStatus()==3){
+		if(judge!=null&&judge==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
 		}else{
 			return "ses/sms/supplier_query/select_supplier_by_province";

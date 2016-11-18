@@ -106,7 +106,7 @@
                events: {
                    click: function () { 
                    address=this.name;
-                       window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
+                       window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address+"&judge=3";
                     }
                   }
            }
@@ -212,7 +212,7 @@ function chongzhi(){
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
-	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?status=3";
+	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3";
 }
 $(function() {
 		var optionNodes = $("option");
@@ -392,7 +392,7 @@ $(function() {
      <h2>供应商数量统计</h2>
    </div> 
    <h2 class="search_detail">
-  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?status=3" method="post">
+  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
                   <li>

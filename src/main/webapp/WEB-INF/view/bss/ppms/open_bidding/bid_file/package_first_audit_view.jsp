@@ -31,25 +31,29 @@
 	 	       	});
 	 		});
       }
+      
+      function jump(url){
+       	$("#open_bidding_main").load(url);
+	   }
 	</script>
   </head>
   <body>
      <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	     <li >
-		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
+		   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')" >01、符合性</a>
 		   <i></i>
 		 </li>
 		 <li class="active">
-		   <a  href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >02、符合性关联</a>
+		   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')" >02、符合性关联</a>
 		   <i></i>							  
 		 </li>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
+		   <a  onclick="jump('${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}')">03、评标细则</a>
 		   <i></i>
 		 </li>
 		 <li>
-		   <a href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}" >
+		   <a onclick="jump('${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}')" >
 		      <c:if test="${type eq 'gkzb' }">04、招标文件</c:if>
 		      <c:if test="${type eq 'jzxtp' }">04、竞谈文件</c:if>
 		   </a>

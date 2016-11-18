@@ -239,7 +239,8 @@
 	     <h2>供应商信息</h2>
 	   </div> 
   				<h2 class="search_detail">
-            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html" method="post" class="mb0">
+            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post" class="mb0">
+               <input type="hidden" name="address" value="${address }">
                <input type="hidden" name="page" id="page">
                <ul class="demand_list">
                   <li>
