@@ -70,32 +70,32 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @param @return      
      * @return String
      */
-	@RequestMapping(value="/list")
-	public String list(HttpServletRequest req,Model model,String projectId){
-		Quote quote=new Quote();
-		User user=(User)req.getSession().getAttribute("loginUser");
-		quote.setProjectId(projectId);
-	    quote.setSupplierId(user.getTypeId());
-		List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("projectId", projectId);
-		    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
-		    //开始循环包
-		    List<List<ProjectDetail>> listPd=new ArrayList<List<ProjectDetail>>();
-		    for(Packages pk:listPackage){
-		    	map.put("packageId", pk.getId());
-		    	List<ProjectDetail> detailList = detailService.selectByCondition(map,null);
-		    	listPd.add(detailList);
-		    }
-		    model.addAttribute("listPd",listPd );
-		    model.addAttribute("listPackage", listPackage);
-		    model.addAttribute("projectId", projectId);
-		    Project project=new Project();
-		    project.setId(projectId);
-		    model.addAttribute("project",project );
-		    model.addAttribute("listDate",listDate );
-		    return "ses/sms/multiple_quotes/quote_list";
-	}
+//	@RequestMapping(value="/list")
+//	public String list(HttpServletRequest req,Model model,String projectId){
+//		Quote quote=new Quote();
+//		User user=(User)req.getSession().getAttribute("loginUser");
+//		quote.setProjectId(projectId);
+//	    quote.setSupplierId(user.getTypeId());
+//		List<Date> listDate=supplierQuoteService.selectQuoteCount(quote);
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//			map.put("projectId", projectId);
+//		    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+//		    //开始循环包
+//		    List<List<ProjectDetail>> listPd=new ArrayList<List<ProjectDetail>>();
+//		    for(Packages pk:listPackage){
+//		    	map.put("packageId", pk.getId());
+//		    	List<ProjectDetail> detailList = detailService.selectByCondition(map,null);
+//		    	listPd.add(detailList);
+//		    }
+//		    model.addAttribute("listPd",listPd );
+//		    model.addAttribute("listPackage", listPackage);
+//		    model.addAttribute("projectId", projectId);
+//		    Project project=new Project();
+//		    project.setId(projectId);
+//		    model.addAttribute("project",project );
+//		    model.addAttribute("listDate",listDate );
+//		    return "ses/sms/multiple_quotes/quote_list";
+//	}
 	
 	/**
 	 * @Title: save
