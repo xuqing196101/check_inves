@@ -100,7 +100,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean> -->
 	<bean id="multipartResolver" class="bss.util.MyMultipartResolver">
-     <property name="excludeUrls" value="file/upload,supplierProject/saveBidFile"/>
+     <property name="excludeUrls" value="file/upload,supplierProject/saveBidFile,open_bidding/saveBidFile"/>
 		<!-- url中带有http请求就不会被multipartResolver先解析-->
 	</bean>
 

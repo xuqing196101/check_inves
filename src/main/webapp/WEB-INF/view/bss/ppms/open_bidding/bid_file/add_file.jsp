@@ -58,78 +58,93 @@
 		var obj = document.getElementById("TANGER_OCX");
 		obj.close();
 	}
-	
-	//标记
-	function mark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Add("标记");
-	}	
-	
-	//获取标记内容并且定位
-	function searchMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		//判断标记是否存在
-		if(obj.ActiveDocument.Bookmarks.Exists("标记")){}
-		alert(obj.GetBookmarkValue("标记"));
-		//alert(obj.ActiveDocument.GetCurPageStart());
-		//定位到书签内容
-		obj.ActiveDocument.Bookmarks.Item("标记").Select();
-		//alert(obj.ActiveDocument.GetPagesCount());
-	}
-	
-	//删除标记
-	function delMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Item("标记").Delete();
-	}
+		
+	function jump(url){
+      	$("#open_bidding_main").load(url);
+    }
 </script>
 
 <!-- 打开文档后只读 -->
-<!-- <script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
+<script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
 		var obj = document.getElementById("TANGER_OCX");
-		obj.SetReadOnly(true);
-</script> -->
+		var st = $("#ope").val();
+		if(st == 'view'){
+			obj.SetReadOnly(true);
+		}
+</script>
 </head>
 
 <body onload="OpenFile('${fileId}')">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
-	     <li >
-		   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、符合性</a>
+	   	 <c:if test="${ope == 'add' }">
+		     <li >
+			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、符合性</a>
+			   <i></i>
+			 </li>
+			 
+			 <li >
+			   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
+			   <i></i>							  
+			 </li>
+		     <li>
+			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评标细则</a>
+			   <i></i>
+			 </li>
+			 <li class="active">
+			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
+			   <c:if test="${type eq 'gkzb' }">
+			     04、招标文件
+			     </c:if>
+			    <c:if test="${type eq 'jzxtp' }">
+			     04、竞谈文件
+			    </c:if>
+			   </a>
+			 </li>
+	   	 </c:if>
+	   	 <c:if test="${ope == 'view' }">
+	   	 	<li class="active">
+		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }" >01、符合性</a>
 		   <i></i>
 		 </li>
-		 
-		 <li >
-		   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
+		 <li>
+		   <a onclick="jump('${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')">02、符合性关联</a>
 		   <i></i>							  
 		 </li>
 	     <li>
-		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
 		   <i></i>
 		 </li>
-		 <li class="active">
-		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
-		   <c:if test="${type eq 'gkzb' }">
-		     04、招标文件
-		     </c:if>
-		    <c:if test="${type eq 'jzxtp' }">
-		     04、竞谈文件
-		    </c:if>
+		 <li>
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}" >
+		     <c:if test="${type eq 'gkzb' }">04、招标文件</c:if>
+		     <c:if test="${type eq 'jzxtp' }"> 04、竞谈文件</c:if>
 		   </a>
+		   <i></i>
 		 </li>
+		 <li>
+		    <c:if test="${project.confirmFile == 0 }"><a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a></c:if>
+		    <c:if test="${project.confirmFile == 1 }"><a>05、已确认</a></c:if>
+		 </li>
+	   	 
+	   	 </c:if>
 	   </ul>
 	 </div>
 	 <!-- 按钮 -->
-     <div class="fr pr15 mt10">
-      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
-      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
-      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
-      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
-      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-     	<input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
-    </div>
+	 <c:if test="${project.confirmFile == 0 && ope =='add'}">
+	     <div class="fr pr15 mt10">
+	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
+	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
+	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
+	     	<input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
+	    </div>
+	 </c:if>
 	<form id="MyFile" method="post">
+		<input type="hidden" id="ope" value="${ope }">
+		<input type="hidden" id="confirmFileId" value="${project.confirmFile}">
 		<input type="hidden" id="flowDefineId" value="${flowDefineId }">
     	<input type="hidden" id="projectId" value="${project.id }">
     	<input type="hidden" id="projectName" value="${project.name }">

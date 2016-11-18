@@ -160,6 +160,25 @@ public class OpenBiddingController {
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
         FirstAuditController.getType(project,model);
+        model.addAttribute("ope", "add");
+        return "bss/ppms/open_bidding/bid_file/add_file";
+    }
+    
+    @RequestMapping("/bidFileView")
+    public String bidFileView(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
+        Project project = projectService.selectById(id);
+        //判断是否上传招标文件
+        String typeId = DictionaryDataUtil.getId("zbwj");
+        List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files != null && files.size() > 0){
+            model.addAttribute("fileId", files.get(0).getId());
+        } else {
+            model.addAttribute("fileId", "0");
+        }
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("project", project);
+        model.addAttribute("ope", "view");
+        FirstAuditController.getType(project,model);
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
     
