@@ -35,7 +35,7 @@ $(function(){
 function distribution(id){
 	layer.open({
 		  type: 2, //page层
-		  area: ['35%', '45%'],
+		  area: ['40%', '75%'],
 		  title: '分配任务',
 	//	  closeBtn: 1,
 	//	  shade:0.01, //遮罩透明度

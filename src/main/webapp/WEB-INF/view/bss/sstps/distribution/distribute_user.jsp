@@ -19,7 +19,8 @@
   function sure(){
 	 var user = $("#users").select2("val");
 	  if(user.trim()==""){
-		  layer.alert("审价人员不能为空",{offset: ['100px', '90px'], shade:0.01});
+		 // layer.alert("审价人员不能为空",{offset: ['100px', '90px'], shade:0.01});
+		  $("#checkUser").html("审价人员不能为空");
 	  }else{
 		  $.ajax({
 			  type: "POST",  
@@ -72,22 +73,23 @@
   
   <body>
   
-  <div class="container mt20">
+  <div class="container mt10">
   	<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/updateDistribution.html" method="post">
   		<input type="hidden" value="${id }" name="id" id="id">
   		
 	 	<ul class="list-unstyled mb20">
-	 		<li class="col-md-12 margin-0 padding-0">
+	 		<li class="col-md-12 margin-0 pl20">
 			   <div class="col-md-12 padding-left-5"><div class="star_red">*</div>审价员：</div>
-			   <div class="col-md-12 input-append p0">
+			   <div class="col-md-12 select_common p0">
 		       	 <select class="w220" id="users" name="user.id">
 				 </select>
+				  <div class="cue" id="checkUser"></div>
 			   </div>
 			 </li>
-			 <li class="col-md-12 margin-0 padding-0 clear">
+			 <li class="col-md-12 margin-0 clear">
 			 	<div class="col-md-12 padding-left-5">审价任务：</div>
 			 	<div class="col-md-12 padding-left-5">
-		          <textarea class="col-md-12 h80 w220" id="appraisalTask" name="appraisalTask" title="不超过250个字" placeholder="不超过250个字"></textarea>
+		          <textarea class="col-md-12 h80 col-xs-12 col-sm-12" id="appraisalTask" name="appraisalTask" title="不超过250个字" placeholder="不超过250个字"></textarea>
 			    </div>
 			 </li>
 	 	</ul>
