@@ -29,7 +29,7 @@ $.ajax({
 		//var data = eval('(' + obj+ ')');
 		$.each(obj,function(i,result){
 			if(addressId == result.id){
-				parentId = result.areaType;
+				parentId = result.parentId;
 				$("#add").append(result.name);
 			}
 			
@@ -48,8 +48,8 @@ $(function(){
 	$.ajax({
 		url : "${pageContext.request.contextPath}/area/listByOne.do",
 		success:function(obj){
-			var data = eval('(' + obj + ')');
-			$.each(data,function(i,result){
+			//var data = eval('(' + obj + ')');
+			$.each(obj,function(i,result){
 				if(parentId == result.id){
 					$("#addr").append(result.name+",");
 				}

@@ -361,7 +361,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   	   <input type="hidden" id="projectId" name="projectId" value="${project.id}">
 								   	   <input type="hidden" name="packageIds" id="packageIds">
 								   	   <div style="height:110px; overflow:auto;">
-										   <table >
+										   <table table table-bordered table-condensed mt5>
 										 	            
 													      	<tr >
 													      	  <td style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;">

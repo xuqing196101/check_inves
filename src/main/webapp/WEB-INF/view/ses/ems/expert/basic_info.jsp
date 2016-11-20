@@ -17,7 +17,6 @@
 		var parentId ;
 		var addressId="${expert.address}";
 		//地区回显和数据显示
-		window.onload=function(){
 			 $.ajax({
 			url : "${pageContext.request.contextPath}/area/find_by_id.do",
 			data:{"id":addressId},
@@ -25,7 +24,8 @@
 				//var data = eval('(' + obj + ')');
 				$.each(obj,function(i,result){
 					if(addressId == result.id){
-						parentId = result.areaType;
+						//alert(JSON.stringify(result));
+						parentId = result.parentId;
 					$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
@@ -38,8 +38,7 @@
 			 if (location.href.indexOf("?xyz=")<0)
 			 {
 			 location.href=location.href+"&?xyz="+Math.random();
-			 }
-		}
+			 } 
 		function func(){
 			var parentId = $("#addr").val();
 			$.ajax({
@@ -97,6 +96,7 @@
 			success:function(obj){
 				//var data = eval('(' + obj + ')');
 				//alert(data);
+				//alert(parentId);
 				$.each(obj,function(i,result){
 					 if(parentId == result.id){
 						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");

@@ -20,63 +20,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var parentId ;
 		var addressId="${expert.address}";
 		//alert(addressId);
-		//地区回显和数据显示
-			 window.onload=function(){
-				 $.ajax({
-						url : "${pageContext.request.contextPath}/area/find_by_id.do",
-						data:{"id":addressId},
-						success:function(obj){
-							//alert(JSON.stringify(obj));
-							//var data = eval('(' + obj+ ')');
-							$.each(obj,function(i,result){
-								if(addressId == result.id){
-									parentId = result.areaType;
-								$("#add").append(result.name);
-								}
-							});
-						},
-						error:function(obj){
-						}
-					}); 
-			 }
 		
 			 var setting={
 						async:{
-									enable:true,
-									url:"${pageContext.request.contextPath}/category/createtree.do",
-									autoParam:["id", "name=n", "level=lv"],  
-						            otherParam:{"otherParam":"zTreeAsyncTest"},  
-						            dataFilter: filter,  
-									dataType:"json",
-									type:"post"
+								enable:true,
+								url:"${pageContext.request.contextPath}/category/createtree.do",
+								autoParam:["id", "name=n", "level=lv"],  
+					            otherParam:{"otherParam":"zTreeAsyncTest"},  
+					            dataFilter: filter,  
+								dataType:"json",
+								type:"post"
 								},
-								callback:{
-							    	onClick:zTreeOnClick,//点击节点触发的事件
-							    	//onAsyncSuccess: zTreeOnAsyncSuccess
-							    	beforeAsync: beforeAsync,  
-					                onAsyncSuccess: onAsyncSuccess,
-					                beforeCheck: zTreeBeforeCheck
-							    }, 
-								data:{
-									keep:{
-										parent:true
-									},					
-									simpleData:{
-										enable:true,
-										idKey:"id",
-										pIdKey:"pId",
-										rootPId:0
-									}
-							    },
-							   check:{
-									enable: true,
-									chkStyle:"checkbox"
-							   }
+							callback:{
+						    	onClick:zTreeOnClick,//点击节点触发的事件
+						    	//onAsyncSuccess: zTreeOnAsyncSuccess
+						    	beforeAsync: beforeAsync,  
+				                onAsyncSuccess: onAsyncSuccess,
+				                beforeCheck: zTreeBeforeCheck
+						    }, 
+							data:{
+								keep:{
+									parent:true
+								},					
+								simpleData:{
+									enable:true,
+									idKey:"id",
+									pIdKey:"pId",
+									rootPId:0
+								}
+						    },
+						   check:{
+								enable: true,
+								chkStyle:"checkbox"
+						   }
 				  };
-		   var listId;
+   var listId;
 	$(function() {
-		
-		
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		   var radio=document.getElementsByName("purchaseDepId");
@@ -110,23 +89,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 					 $("#ztree").hide();
 				 }
-			  
+				//地区回显和数据显示
+				 $.ajax({
+						url : "${pageContext.request.contextPath}/area/find_by_id.do",
+						data:{"id":addressId},
+						success:function(obj){
+							$.each(obj,function(i,result){
+								if(addressId == result.id){
+									parentId = result.parentId;
+								$("#add").append(result.name);
+								}
+							});
+						}
+					}); 
 				//地区
 					$.ajax({
 						url : "${pageContext.request.contextPath}/area/listByOne.do",
 						success:function(obj){
-							var data = eval('(' + obj + ')');
+							//var data = eval('(' + obj + ')');
 							//alert(data);
-							$.each( data,function(i,result){
+							$.each( obj,function(i,result){
 								 if(parentId == result.id){
 									$("#addr").append(result.name+",");
 								}
 							});
-							//alert(JSON.stringify(obj));
-						},
-						error:function(obj){
 						}
-						
 					});
 					
 			  

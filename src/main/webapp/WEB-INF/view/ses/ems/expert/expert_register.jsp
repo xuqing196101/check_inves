@@ -10,7 +10,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
- <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_regester.js"></script>
+<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
 	   var message = $("#message").val();

@@ -166,9 +166,12 @@ public class AreaServiceImpl implements AreaServiceI {
 	    List<AreaZtree> list = new ArrayList<AreaZtree>();
 	    for (Area a : areaList) {
             AreaZtree az = new AreaZtree();
-            if (a.getParentId().equals(ROOT_PID)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("pid", a.getId());
+            List<Area> ziList = areaMapper.findTreeByPid(map );
+            if(ziList!=null && ziList.size()>0){
                 az.setIsParent("true");
-            } else {
+            }else{
                 az.setIsParent("false");
             }
             az.setId(a.getId());
