@@ -205,55 +205,55 @@ function nextStep(){
                     <h2 class="count_flow"><i>1</i>企业基本信息</h2>
                     <ul class="ul_list">
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="supplierName2">供应商名称：</span>
+	                       <span class="col-md-12 padding-left-5" id="supplierName2">供应商名称：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text">
 	                           <div id="supplierName3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="website2">公司网址：</span>
+	                       <span class="col-md-12 padding-left-5" id="website2">公司网址：</span>
 	                       <div class="input-append">
 	                           <input class="span5 " id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
 	                           <div  id="website3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="foundDate2">成立日期：</span>
+	                       <span class="col-md-12 padding-left-5" id="foundDate2">成立日期：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="foundDate" value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text">
 	                           <div id="foundDate3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="businessType2">营业执照登记类型：</span>
+	                       <span class="col-md-12 padding-left-5" id="businessType2">营业执照登记类型：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="businessType" value="${suppliers.businessType } " type="text" onclick="reason(this.id,'businessType')">
 	                           <div id="businessType3"  class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="address2">地址：</span>
+	                       <span class="col-md-12 padding-left-5" id="address2">地址：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="address" value="${suppliers.address } " type="text" onclick="reason(this.id,'address')" >
 	                           <div id="address3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="bankName2">开户行名称：</span>
+	                       <span class="col-md-12 padding-left-5" id="bankName2">开户行名称：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="bankName" value="${suppliers.bankName } "  type="text" onclick="reason(this.id,'bankName')" >
 	                           <div id="bankName3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="" id="bankAccount2">开户行账户：</span>
+	                       <span class="col-md-12 padding-left-5" id="bankAccount2">开户行账户：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="bankAccount" value="${suppliers.bankAccount } " type="text" onclick="reason(this.id,'bankAccount')" >
 	                           <div id="bankAccount3" class="b f18 fl ml10 hand red">×</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="postCode2">邮编：</span>
+	                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="postCode2">邮编：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="postCode" value="${suppliers.postCode }" type="text" onclick="reason(this.id,'postCode')" >
 	                           <div id="postCode3" class="b f18 fl ml10 hand red">×</div>
@@ -284,25 +284,25 @@ function nextStep(){
                   <h2 class="count_flow"><i>3</i>法人代表人信息</h2>
                   <ul class="ul_list">
                     <li class="col-md-3 margin-0 padding-0 ">
-                        <span class="" id="legalName2">姓名：</span>
+                        <span class="col-md-12 padding-left-5" id="legalName2">姓名：</span>
                         <div class="input-append">
                             <input class="span5" id="legalName" value="${suppliers.legalName } " type="text" onclick="reason(this.id,'legalName')">
                             <div id="legalName3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="legaIdCard2">身份证号：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legaIdCard2">身份证号：</span>
                         <div class="input-append">
                         <input class="span5" id="legaIdCard" value="${suppliers.legalIdCard } "  type="text" onclick="reason(this.id,'legalIdCard')">
                         <div id="legaIdCard3"  class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="legalTelephone2">固定电话：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalTelephone2">固定电话：</span>
                       <div class="input-append">
                         <input class="span5" id="legalTelephone" value="${suppliers.legalTelephone } " type="text" onclick="reason(this.id,'legalTelephone')">
                         <div id="legalTelephone3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="legalMobile2">手机：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="legalMobile" value="${suppliers.legalMobile } " type="text" onclick="reason(this.id,'legalMobile')">
                         <div id="legalMobile3" class="b f18 fl ml10 hand red">×</div>
@@ -312,37 +312,37 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>4</i>联系人信息</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactName2">姓名：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactName2">姓名：</span>
                       <div class="input-append">
                         <input class="span5" id="contactName" value="${suppliers.contactName } " type="text" onclick="reason(this.id,'contactName')" >
                         <div id="contactName3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactFax2">传真：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactFax2">传真：</span>
                       <div class="input-append">
                         <input class="span5" id="contactFax" value="${suppliers.contactFax } "  type="text" onclick="reason(this.id,'contactFax')" >
                         <div id="contactFax3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactTelephone1">固定电话：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactTelephone1">固定电话：</span>
                       <div class="input-append">
                         <input class="span5" id="contactTelephone" value="${suppliers.contactTelephone } " type="text" onclick="reason(this.id,'contactTelephone')" >
                         <div id="contactTelephone3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactMobile2">手机：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="contactMobile" value="${suppliers.contactMobile } " type="text" onclick="reason(this.id,'contactMobile')" >
                         <div id="contactMobile3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactEmail2">邮箱：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactEmail2">邮箱：</span>
                       <div class="input-append">
                         <input class="span5" id="contactEmail" value="${suppliers.contactEmail } " type="text" onclick="reason(this.id,'contactEmail')" >
                         <div id="contactEmail3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="contactAddress2">地址：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactAddress2">地址：</span>
                       <div class="input-append">
                         <input class="span5" id="contactAddress" value="${suppliers.contactAddress } " type="text" onclick="reason(this.id,'contactAddress')" >
                         <div id="contactAddress3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
@@ -352,31 +352,31 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>5</i>营业执照</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="creditCode2">统一社会信用代码：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="creditCode2">统一社会信用代码：</span>
                       <div class="input-append">
                         <input class="span5" id="creditCode" value="${suppliers.creditCode } " type="text" onclick="reason(this.id,'creditCode')" >
                         <div id="creditCode3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="registAuthority2">登记机关：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registAuthority2">登记机关：</span>
                       <div class="input-append">
                         <input class="span5" id="registAuthority" value="${suppliers.registAuthority } "  type="text" onclick="reason(this.id,'registAuthority')" >
                         <div id="registAuthority3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="registFund2">注册资本：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registFund2">注册资本：</span>
                       <div class="input-append">
                         <input class="span5" id="registFund" value="${suppliers.registFund } " type="text" onclick="reason(this.id,'registFund')" >
                         <div id="registFund3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="businessEndDate2">营业开始时间：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessEndDate2">营业开始时间：</span>
                       <div class="input-append">
                         <input class="span5" id="businessEndDate" onclick="reason(this.id,'businessStartDate')" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>"type="text"/>
                         <div id="businessEndDate3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="businessStartDate2">营业截止时间：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessStartDate2">营业截止时间：</span>
                       <div class="input-append">
                        <input class="span5" id="businessStartDate" onclick="reason(this.id,'businessStartDate')" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>"type="text"/>
                         <div id="businessStartDate3" onclick="reason(this.id)" class="b f18 fl ml10 hand red">×</div>
@@ -388,7 +388,7 @@ function nextStep(){
                         <div id="businessAddress3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="businessPostCode2">邮编：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessPostCode2">邮编：</span>
                       <div class="input-append">
                         <input class="span5" id="businessPostCode" value="${suppliers.businessPostCode } " type="text" onclick="reason(this.id,'businessPostCode')" >
                         <div id="businessPostCode3" class="b f18 fl ml10 hand red">×</div>
@@ -419,25 +419,25 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>6</i>境外分支</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="overseasBranch2">境外分支机构：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="overseasBranch2">境外分支机构：</span>
                       <div class="input-append">
                         <input class="span5" id="overseasBranch" value="${suppliers.overseasBranch } " type="text" onclick="reason(this.id,'overseasBranch')" >
                         <div id="overseasBranch3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="branchCountry2">境外分支所在国家：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchCountry2">境外分支所在国家：</span>
                       <div class="input-append">
                         <input class="span5" id="branchCountry" value="${suppliers.branchCountry } " type="text" onclick="reason(this.id,'branchCountry')" >
                         <div id="branchCountry3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="branchAddress2">分支地址：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchAddress2">分支地址：</span>
                       <div class="input-append">
                         <input class="span5" id="branchAddress" value="${suppliers.branchAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
                         <div id="branchAddress3" class="b f18 fl ml10 hand red">×</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="" id="branchName2">机构名称：</span>
+                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchName2">机构名称：</span>
                       <div class="input-append">
                         <input class="span5" id="branchName" value="${suppliers.branchName } " type="text" onclick="reason(this.id,'branchName')" >
                         <div id="branchName3" class="b f18 fl ml10 hand red">×</div>

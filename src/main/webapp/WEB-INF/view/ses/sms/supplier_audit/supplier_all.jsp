@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
@@ -182,7 +183,10 @@
 				            <td class="tc">${list.supplierName }</td>
 				            <td class="tc">
 				              <c:forEach items="${list.listSupplierTypeRelates}" var="str">
-				                ${str.supplierTypeName}
+				                <c:if test = "${fn:contains(str.supplierTypeName, '生产')}">${str.supplierTypeName }</c:if>
+				                <c:if test = "${fn:contains(str.supplierTypeName, '销售')}">${str.supplierTypeName }</c:if>
+				                <c:if test = "${fn:contains(str.supplierTypeName, '服务')}">${str.supplierTypeName }</c:if>
+				                <c:if test = "${fn:contains(str.supplierTypeName, '工程')}">${str.supplierTypeName }</c:if>
 				              </c:forEach>
 				            </td>
 				            <td class="tc">${list.businessType }</td>
