@@ -264,7 +264,13 @@
 										<td class="tc">${obj.deliverDate}<input type="hidden"
 											name="list[${vs.index }].deliverDate"
 											value="${obj.deliverDate }"></td>
-										<td class="tc">${obj.purchaseType}<input type="hidden"
+										<td class="tc">
+										        <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+			                                    <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+			                                    <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+			                                    <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+			                                    <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+										<input type="hidden"
 											name="list[${vs.index }].purchaseType"
 											value="${obj.purchaseType }"></td>
 										<td class="tc">${obj.supplier}<input type="hidden"

@@ -24,13 +24,28 @@
     var controldate;
     function checkDate(){
         controldate= $("#bidDate").val();
+        var linkmanIpone = $("#linkmanIpone").val();
         var linkman = $("#linkman").val();
         var bidAddress = $("#bidAddress").val();
-        var supplierNumber = $("#supplierNumber").val();
+         var supplierNumber = $("#supplierNumber").val();
+         supplierNumber = $.trim(supplierNumber);
+        var purchaseType = $("#purchaseType").val();
         if(linkman==""){
            layer.tips("请填写联系人姓名","#linkman");
-        }else if(supplierNumber==""){
-           layer.tips("请填写供应商人数","#supplierNumber");
+        }else if(!(/^1[34578]\d{9}$/.test(linkmanIpone))){
+            layer.tips("请输入正确的电话","#linkmanIpone");
+        }else if(purchaseType=="jzxtp" || purchaseType == "yqzb" || purchaseType == "xjcg" || purchaseType == "gkzb"){
+            if(supplierNumber< 3){
+                layer.tips("供应商人数不能小于3人","#supplierNumber");
+            }else if(supplierNumber != /^\d+$/){
+                layer.tips("请输入数字","#supplierNumber");
+            }
+        }else if(purchaseType=="dyly"){
+            if(supplierNumber != 1){
+                layer.tips("供应商人数只能为1人","#supplierNumber");
+            }else if(supplierNumber != /^\d+$/){
+                layer.tips("请输入数字","#supplierNumber");
+            }
         }else if(bidAddress==""){
            layer.tips("请填写开标地点","#bidAddress");
         }else if(controldate==""){
@@ -111,7 +126,7 @@
                                         <td class="bggrey">联系人姓名:</td>
                                         <td><input name="linkman" id="linkman" value="${project.linkman}" /></td>
                                         <td class="bggrey">联系人联系电话:</td>
-                                        <td><input name="linkmanIpone" value="${project.linkmanIpone}" /></td>
+                                        <td><input name="linkmanIpone" id="linkmanIpone" value="${project.linkmanIpone}" /></td>
                                     </tr>
                                     <tr>
                                         <td class="bggrey">招标单位:</td>
@@ -140,6 +155,7 @@
                                     <tr>
                                         <td class="bggrey">采购方式:</td>
                                         <td>
+                                        <input type="hidden" id="purchaseType" value="${project.purchaseType}"/>
                                         <c:if test="${'jzxtp'==project.purchaseType}">竞争性谈判</c:if>
                                         <c:if test="${'yqzb'==project.purchaseType}">邀请招标</c:if>
                                         <c:if test="${'xjcg'==project.purchaseType}">询价采购</c:if>
@@ -307,7 +323,7 @@
                          </form>
                             </div>
                         </div>
-                        <div class="tab-pane fade active" id="tab-5" >
+                        <div class="tab-pane fade " id="tab-5" >
                             <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
                             <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
                         </div>

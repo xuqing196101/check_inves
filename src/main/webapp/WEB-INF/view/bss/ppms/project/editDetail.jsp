@@ -259,16 +259,16 @@
 											<select name="lists[${vs.index }].purchaseType"
 												onchange="sel(this);" style="width:100px" id="select">
 												<option value="gkzb"
-													<c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>>公开招标</option>
+													<c:if test="${'gkzb' eq obj.purchaseType}"> selected="selected" </c:if>>公开招标</option>
 												<option value="yqzb"
-													<c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>>邀请招标</option>
+													<c:if test="${'yqzb' eq obj.purchaseType}"> selected="selected" </c:if>>邀请招标</option>
 												<option value="jzxtp"
-													<c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>>竞争性谈判</option>
+													<c:if test="${'jzxtp' eq obj.purchaseType}"> selected="selected" </c:if>>竞争性谈判</option>
 												<option value="xjcg"
-													<c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>>询价采购</option>
+													<c:if test="${'xjcg' eq obj.purchaseType}"> selected="selected" </c:if>>询价采购</option>
 												<option value="dyly"
-													<c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>>单一来源</option>
-											</select>
+													<c:if test="${'dyly' eq obj.purchaseType}"> selected="selected" </c:if>>单一来源</option>
+											</select> 
 										</c:if> <input type="hidden" id="idss" name="lists[${vs.index }].id"
 										value="${obj.id }"></td>
 									<td class="tc">${obj.supplier}</td>

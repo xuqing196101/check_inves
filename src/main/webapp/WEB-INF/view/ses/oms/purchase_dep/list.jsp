@@ -300,7 +300,9 @@
 										<!-- 序号 -->
 										<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
 										<!-- 标题 -->
-										<td class="tc" onclick="show('${p.id}');">${p.name}</td>
+										<td class="tc" >
+										<a href="javascript:void(0)" onclick="show('${p.id}');">${p.name}</a>
+										</td>
 										<!-- 内容 -->
 										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
 										<!-- 创建人-->

@@ -11,8 +11,9 @@
   
     function check(ele){
         var flag = $(ele).prop("checked");
-        var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
+        var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).children().val();
         purchaseType = $.trim(purchaseType);
+        alert(purchaseType);
         var goodUse = $("input[name='chkItem']:checked").parents("tr").find("td").eq(13).text();
         goodUse = $.trim(goodUse);
         if (!goodUse) {
@@ -130,7 +131,15 @@
               <td class="tc">${obj.price}</td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc">
+              <input type="hidden" name="ttype" value="${obj.purchaseType }">
+              
+                                     <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
+                                    <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
+                                    <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
+                                    <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
+                                    <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+              </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
