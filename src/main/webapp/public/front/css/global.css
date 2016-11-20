@@ -972,24 +972,32 @@ li:first-child {
    cursor: pointer;
 }
 /**供应商注册*/
-.sevice_list h2{
-   padding-left:40px;
-   height:35px;
-   line-height:35px;
-   font-size:17px;
-   background:url(../images/reg_icon1.png) no-repeat 5px #fafafa;
+ .sevice_list h2{
+	  padding-left:40px;
+	  height:35px;
+	  line-height:35px;
+	  font-size:17px;
+	  background:url(../images/reg_icon1.png) no-repeat 5px #e0e0e0;
+	 }
+	 .sevice_list .title{
+	  height:30px;
+	  line-height:30px;
+	 }
+	 .service_list span{
+	  height:30px;
+	  line-height:30px;
+	  float:left;
+	  display:block;
+	  margin-right:10px;
+	 }
+	 .service_list span input{
+	 margin-right:5px;
+	 }
+	 .service_desc{
+	  background-color:#f8f8f8;
+	  padding:10px;
+	 }
+	 
+.done{
+	display: none;
 }
-.sevice_list .title{
-    height:30px;
-    line-height:30px;
- }
-.service_list span{
-    height:30px;
-    line-height:30px;
-    float:left;
-    display:block;
-    margin-right:10px;
- }
-.service_list span input{
-    margin-right:5px;
- }

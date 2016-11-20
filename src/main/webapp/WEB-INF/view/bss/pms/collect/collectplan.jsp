@@ -287,9 +287,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 	已受理
 			  </c:if>
 			   <c:if test="${obj.status=='5' }">
-			 	已经汇总
+			 	已汇总
 			  </c:if>
-			   <c:if test="${obj.status=='6' }">
+			   <c:if test="${obj.status=='6·' }">
 			 	审核通过
 			  </c:if>
 			   <c:if test="${obj.status=='7' }">

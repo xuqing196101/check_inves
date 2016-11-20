@@ -42,6 +42,15 @@
 		$("#cert_pro_form_id").attr("action", action);
 		$("#cert_pro_form_id").submit();
 	}
+	
+	function cancels(){
+		 var index=parent.layer.getFrameIndex(window.name);
+ 
+		    parent.layer.close(index);
+
+	}
+	
+	
 </script>
 
 </head>
@@ -58,7 +67,7 @@
 							<input name="id" value="${uuid}" type="hidden" />
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matProId" value="${supplierCertPro.matProId}" type="hidden" />
-							<input name="sign" value="${supplierCertPro.sign}" type="hidden" />
+							<input name="sign" value="${sign}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
@@ -90,9 +99,12 @@
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 是否年检：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="mot" />
-												</div>
+												 <div class="select_common">
+											        <select name="mot">
+											          <option value="1">是</option>
+											          <option value="0">无</option>
+											        </select>
+											      </div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
 												<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
@@ -105,7 +117,7 @@
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>
 						</form>
 					</div>

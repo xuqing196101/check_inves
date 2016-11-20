@@ -26,6 +26,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
@@ -34,6 +35,7 @@ import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
@@ -74,6 +76,11 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private NoticeDocumentService noticeDocumentService;
+	
+	
+	/** 供应商关联类型 */
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	
 	/**
 	 * @Title: getIdentity
@@ -220,11 +227,22 @@ public class SupplierController extends BaseSupplierController {
 //		else
 //			request.getSession().removeAttribute("defaultPage");
 
+		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
+		request.getSession().setAttribute("relate", relate);
 		request.getSession().setAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", jsp);
 		if(sign.equals("2")){
 			return "ses/sms/supplier_register/basic_info";
 		}else{
+			DictionaryData dd=new DictionaryData();
+			dd.setKind(6);
+			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("supplieType", list);
+			DictionaryData dd2=new DictionaryData();
+			dd2.setKind(8);
+			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
+			request.getSession().setAttribute("wlist", wlist);
+			
 			return "ses/sms/supplier_register/supplier_type";
 		}
 //		return "redirect:page_jump.html";
@@ -245,8 +263,8 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_professional")
-	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String jsp, String defaultPage) throws IOException {
-		request.getSession().removeAttribute("defaultPage");
+	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String sign) throws IOException {
+	 
 
 		if (supplier.getSupplierMatPro() != null) {
 			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
@@ -260,16 +278,25 @@ public class SupplierController extends BaseSupplierController {
 		if (supplier.getSupplierMatSe() != null) {
 			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 		}
+		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		supplier = supplierService.get(supplier.getId());
 		
-		if ("professional_info".equals(jsp))
+	/*	if ("professional_info".equals(jsp))
 			request.getSession().setAttribute("defaultPage", defaultPage);
 		else
-			request.getSession().removeAttribute("defaultPage");
+			request.getSession().removeAttribute("defaultPage");*/
 
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);
-		return "redirect:page_jump.html";
+	/*	request.getSession().setAttribute("jump.page", jsp);*/
+		if(sign.equals("3")){
+			return "ses/sms/supplier_register/basic_info";
+		}
+		else if(sign.equals("2")){
+			return "ses/sms/supplier_register/supplier_type";	
+		}else{
+			return "redirect:page_jump.html";
+		}
+		
 
 	}
 	
@@ -574,7 +601,7 @@ public class SupplierController extends BaseSupplierController {
 	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
+		Supplier supplier = supplierService.get("8A6FD8C10F584C07B782587FA2C26576");
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

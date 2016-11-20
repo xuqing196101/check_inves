@@ -40,6 +40,13 @@
 		$("#cert_eng_form_id").attr("action", action);
 		$("#cert_eng_form_id").submit();
 	}
+	
+	function cancels(){
+		 var index=parent.layer.getFrameIndex(window.name);
+
+		    parent.layer.close(index);
+
+	}
 </script>
 
 </head>
@@ -141,7 +148,7 @@
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">返回</button>
 							</div>
 						</form>
 					</div>

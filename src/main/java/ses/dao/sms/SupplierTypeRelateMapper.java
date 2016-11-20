@@ -77,7 +77,7 @@ public interface SupplierTypeRelateMapper {
      */
     int updateByPrimaryKey(SupplierTypeRelate record);
     
-    List<String> findSupplierTypeIdBySupplierId(String supplierId);
+    List<SupplierTypeRelate> findSupplierTypeIdBySupplierId(String supplierId);
     
     int deleteBySupplierId(String supplierId);
     

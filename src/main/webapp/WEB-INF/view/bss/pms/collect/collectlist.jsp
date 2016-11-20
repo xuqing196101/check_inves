@@ -294,7 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	已提交</option>
 						   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
 						   	    <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 已受理</option>
-						   	   <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 已经汇总</option>
+						   	   <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 已汇总</option>
 						   	    <option value="6" <c:if test="${inf.status=='6'}"> selected</c:if> >审核通过</option>
 				   	    		 <option value="6" <c:if test="${inf.status=='7'}"> selected</c:if> >审核暂存</option>
 			 	   	   </select>
@@ -392,10 +392,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  <div id="content" class="dnone">
 	 
-	<form id="collect_form" action="<%=basePath%>collect/add.html" method="post" style="margin-top: 20px;">
-	<div style="text-align: center;"><span>计划编号:</span><input  type="text" name="cno" value=""></div>
-	  <div style="text-align: center;"><span>文件名称:</span><input  type="text" name="fileName" value=""></div>
-	       <div  style="text-align: center;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span><input  type="password" name="password" value=""></div>
+	<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post" style="margin-top: 20px;">
+	<div style="text-align: center;"><span>计划编号：</span><input  type="text" name="cno" value=""></div>
+	  <div style="text-align: center;"><span>文件名称：</span><input  type="text" name="fileName" value=""></div>
+	       <div  style="text-align: center;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</span><input  type="password" name="password" value=""></div>
 	       
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>
@@ -404,7 +404,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <input type="hidden" name="department" id="dep" value="">
 		  <input type="hidden" name="goodsType" id="goodsType" value="">
 	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >生成采购计划</button>
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 20px" onclick="cancels()" >取消</button>
 	   
 	 </form>   
  </div>

@@ -41,12 +41,13 @@ public class SupplierCertProController extends BaseSupplierController {
 	private SupplierCertProService supplierCertProService;
 	
 	@RequestMapping(value = "add_cert_pro")
-	public String addCertPro(Model model, SupplierCertPro supplierCertPro, String supplierId) {
+	public String addCertPro(Model model, SupplierCertPro supplierCertPro, String supplierId,Integer sign) {
 		model.addAttribute("supplierCertPro", supplierCertPro);
 		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("sign", sign);
 		return "ses/sms/supplier_register/add_cert_pro";
 	}
 	
@@ -58,7 +59,7 @@ public class SupplierCertProController extends BaseSupplierController {
 		request.getSession().setAttribute("defaultPage", "tab-1");
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "professional_info");
-		return "redirect:../supplier/page_jump.html";
+		return "ses/sms/supplier_register/supplier_type";	
 	}
 	
 	@RequestMapping(value = "back_to_professional")

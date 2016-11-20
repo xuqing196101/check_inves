@@ -837,7 +837,14 @@
     <!-- 根据审核状态查询供应商及条件查询 -->
     <select id="findSupplier" parameterType="ses.model.sms.Supplier"
         resultMap="findSupplierMap">
-        select
+        
+        select *
+        from T_SES_SMS_SUPPLIER tt1
+        where 1=1  
+ <include refid="ifCondition"/> 
+        
+        order by SCORE DESC
+        <!-- select
             t1. *,
             t2.ID as ID_ ,
             t3.NAME as NAME_
@@ -868,7 +875,7 @@
         left join  
             T_SES_BMS_DICTIONARY_DATA t3 
         ON t2.SUPPLIER_TYPE_ID = t3.CODE
-        ORDER BY decode(STATUS,'0','1','7','8','3','2','4'), t1.SCORE DESC
+        ORDER BY decode(STATUS,'0','1','7','8','3','2','4'), t1.SCORE DESC -->
     </select>
     
     <resultMap type="ses.model.sms.Supplier" id="findSupplierMap"

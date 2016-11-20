@@ -40,6 +40,13 @@
 		$("#cert_sell_form_id").attr("action", action);
 		$("#cert_sell_form_id").submit();
 	}
+	
+	function cancels(){
+		 var index=parent.layer.getFrameIndex(window.name);
+	 
+		    parent.layer.close(index);
+
+	}
 </script>
 
 </head>
@@ -86,19 +93,24 @@
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 是否年检：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="mot" />
-												</div>
+										 
+													 <div class="select_common">
+											        <select name="mot">
+											          <option value="1">是</option>
+											          <option value="0">无</option>
+											        </select>
+											      </div>
+											      
+										 
 											</li>
-											<%--<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
 												<div class="input-append">
 													<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-														<input type="button" name="file" class="button" value="选择..."/>
-														<input name="attachFile" type="file" size="30"/>
+														<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
+												       <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}"/>
 													</div>
 												</div>
-											</li>--%>
+											</li>
 											<div class="clear"></div>
 										</ul>
 									</div>
@@ -106,7 +118,7 @@
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>
 						</form>
 					</div>

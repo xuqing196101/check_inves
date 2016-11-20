@@ -11,11 +11,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import common.model.UploadFile;
-
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -52,20 +52,30 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	@Autowired
+	private SupplierTypeRelateMapper supplierTypeRelateMapper;
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
-		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+//		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
 		
-		String supplierTypeNames = "";
-		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
-			if (i > 0) {
-				supplierTypeNames += ",";
+//		String supplierTypeNames = "";
+//		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
+//			if (i > 0) {
+//				supplierTypeNames += ",";
+//			}
+//			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
+//		}
+//		supplier.setSupplierTypeNames(supplierTypeNames);
+		List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
+		StringBuffer sb=new StringBuffer();
+		if(relateList!=null&&relateList.size()>0){
+			for(SupplierTypeRelate s:relateList){
+				sb.append(s.getSupplierTypeId()).append(",");
 			}
-			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
+//			supplier.setListSupplierTypeRelates(relateList);
 		}
-		supplier.setSupplierTypeNames(supplierTypeNames);
-		
+		supplier.setSupplierTypeIds(sb.toString());
 		SupplierDictionaryData supplierDictionaryData = dictionaryDataServiceI.getSupplierDictionary();
 		List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
 		for (SupplierFinance sf : listSupplierFinances) {

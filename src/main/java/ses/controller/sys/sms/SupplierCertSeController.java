@@ -48,7 +48,8 @@ public class SupplierCertSeController extends BaseSupplierController {
 		request.getSession().setAttribute("defaultPage", "tab-4");
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "professional_info");
-		return "redirect:../supplier/page_jump.html";
+//		return "redirect:../supplier/page_jump.html";
+		return "ses/sms/supplier_register/supplier_type";
 	}
 	
 	@RequestMapping(value = "back_to_professional")

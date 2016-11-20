@@ -287,7 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </c:if>
 			  
 			  <c:if test="${obj.status=='5' }">
-			 	已经汇总
+			 	已汇总
 			  </c:if>
 			  
 			  </td>

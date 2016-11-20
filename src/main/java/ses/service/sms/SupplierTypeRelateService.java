@@ -1,6 +1,9 @@
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierTypeRelate;
 
 /**
  * @Title: SupplierTypeRelateService
@@ -19,4 +22,15 @@ public interface SupplierTypeRelateService {
 	 * @return: void
 	 */
 	public void saveSupplierTypeRelate(Supplier supplier);
+	/**
+	 * 
+	* @Title: queryBySupplier
+	* @Description: 根据供应商id查询所有的供应商类型
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return List<SupplierTypeRelate>     
+	* @throws
+	 */
+	List<SupplierTypeRelate> queryBySupplier(String id);
 }

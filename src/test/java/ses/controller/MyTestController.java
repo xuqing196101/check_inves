@@ -38,7 +38,7 @@ public class MyTestController extends BaseSupplierController {
 		super.writeJson(response, code);
 	}
 
-	@RequestMapping("login")
+/*	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
@@ -46,5 +46,5 @@ public class MyTestController extends BaseSupplierController {
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("supplierId", supplier.getId());
 		return "ses/sms/supplier_register/basic_info";
-	}
+	}*/
 }

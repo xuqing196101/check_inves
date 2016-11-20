@@ -24,7 +24,7 @@
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_MAT_ENG
-		where ID = #{id}
+		where SUPPLIER_ID = #{id}
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierMatEng">
 		insert into T_SES_SMS_SUPPLIER_MAT_ENG (ID, SUPPLIER_ID, ORG_NAME,
