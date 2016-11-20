@@ -138,9 +138,9 @@ public class SupplierQueryController extends BaseSupplierController{
 		String address=this.getProvince(sup.getAddress());
 		if("".equals(address)){
 			if(address.length()>2){
-				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 2).replace(",", ""));
+				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 3).replace(",", ""));
 			}else{
-				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 1).replace(",", ""));
+				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 2).replace(",", ""));
 			}
 		}else{
 			sup.setAddress(address);
@@ -165,7 +165,11 @@ public class SupplierQueryController extends BaseSupplierController{
 		if(judge!=null&&judge==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
 		}else{
-			return "ses/sms/supplier_query/select_supplier_by_province";
+			if(sup.getStatus()!=null&&sup.getStatus()==3){
+				return "ses/sms/supplier_query/select_ruku_supplier_by_province";
+			}else{
+				return "ses/sms/supplier_query/select_supplier_by_province";
+			}
 		}
 	}
 	

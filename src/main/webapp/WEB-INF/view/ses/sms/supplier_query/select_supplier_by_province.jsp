@@ -308,7 +308,7 @@
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 						<td class="tc">${vs.index+1 }</td>
-						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
+						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=0&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName }</td>
 						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td class="tc">${list.supplierType }</td>

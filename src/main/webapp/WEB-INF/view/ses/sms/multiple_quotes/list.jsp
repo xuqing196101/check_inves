@@ -213,7 +213,7 @@
 	        }else if(id.length>1){
 	            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	        }else{
-	            layer.alert("请选择需要修改的任务",{offset: ['222px', '390px'], shade:0.01});
+	            layer.alert("请选择需要投标的项目",{offset: ['222px', '390px'], shade:0.01});
 	        }
        }
     
@@ -274,7 +274,9 @@
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
               <td>${obj.projectNumber }</td>
-              <td class="tc">${obj.purchaseType }</td>
+              <td class="tc">${obj.purchaseType }
+              
+              </td>
             </tr>
          </c:forEach> 
         </tbody>

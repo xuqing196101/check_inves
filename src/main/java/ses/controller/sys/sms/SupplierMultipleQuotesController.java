@@ -21,9 +21,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierQuoteService;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -56,6 +58,9 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	
     @Autowired
     private ProjectService projectService;
+    
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataService;
     
     /**
      * @Title: list
@@ -193,8 +198,9 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		    }
 		    map.put("name", project.getName());
 		    map.put("projectNumber", project.getProjectNumber());
-		    List<Project> pdList = supplierQuoteService.selectByCondition(map,page==null?0:page);
-		    model.addAttribute("info", new PageInfo<>(pdList));
+		    List<Project> pjList = supplierQuoteService.selectByCondition(map,page==null?0:page);
+		    this.getPurchaserType(pjList);
+		    model.addAttribute("info", new PageInfo<>(pjList));
 		    model.addAttribute("project", project);
 			return "ses/sms/multiple_quotes/list";
 	}
@@ -284,5 +290,26 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         } else {
             return null;
         }
+    }
+    
+    /**
+     * @Title: getPurchaserType
+     * @author Song Biaowei
+     * @date 2016-11-20 下午3:02:21  
+     * @Description: 给采购类型重新赋值
+     * @param @param listPj      
+     * @return void
+     */
+    public void getPurchaserType(List<Project> listPj){
+    	if(listPj.size()>0){
+    		for(Project project:listPj){
+    			DictionaryData dd=new DictionaryData();
+    			dd.setCode(project.getPurchaseType());
+    			List<DictionaryData> listByPage = dictionaryDataService.listByPage(dd, 1);
+    			if(listByPage.size()>0){
+    				project.setPurchaseType(listByPage.get(0).getName());
+    			}
+    		}
+    	}
     }
 }

@@ -96,41 +96,64 @@
 			}
 		});
 		
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/listByOne.do",
-			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
-					if(parentId == result.id){
-						$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{
-					$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-			},
-			error:function(obj){
-			}
-		});
+		
 	});
 	
-	function fun(){
+	$(function(){
+		  var parentId;
+		 //地区回显和数据显示
+			$.ajax({
+				url : "${pageContext.request.contextPath}/area/find_by_id.do",
+				data:{"id":addressId},
+				success:function(obj){
+					$.each(obj,function(i,result){
+						if(addressId == result.id){
+							parentId  = result.parentId;
+						$("#choose2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+							$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+						
+					});
+				}
+			});
+
+		   
+		   $.ajax({
+				url : "${pageContext.request.contextPath}/area/listByOne.do",
+				success:function(obj){
+					$.each(obj,function(i,result){
+						if(parentId == result.id){
+							$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+						$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+					});
+				}
+				
+			});
+	});	
+	
+    function fun(){
 		var parentId = $("#choose1").val();
 		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 			data:{"id":parentId},
 			success:function(obj){
-			var data = eval('(' + obj + ')');
 				$("#choose2").empty();
 				$("#choose2").append("<option value=''>-请选择-</option>");
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					
 					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
 			},
 			error:function(obj){
+				
 			}
+			
 		});
 	}
+
 </script>
 </head>
 <body>

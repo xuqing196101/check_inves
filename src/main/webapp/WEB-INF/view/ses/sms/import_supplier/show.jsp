@@ -10,25 +10,62 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
-var parentId ;
-var addressId="${is.address}";
-$.ajax({
-		url : "${pageContext.request.contextPath}/area/find_by_id.do",
-		data:{"id":addressId},
-		success:function(obj){
-			$.each(obj,function(i,result){
-				if(addressId == result.id){
-					parentId = result.areaType;
-				$("#choose2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				}else{
-					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+    var parentId ;
+    var addressId="${is.address}";
+	$(function(){
+		  var parentId;
+		 //地区回显和数据显示
+			$.ajax({
+				url : "${pageContext.request.contextPath}/area/find_by_id.do",
+				data:{"id":addressId},
+				success:function(obj){
+					$.each(obj,function(i,result){
+						if(addressId == result.id){
+							parentId  = result.parentId;
+						$("#choose2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+							$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+						
+					});
 				}
 			});
-		},
-		error:function(obj){
-		}
-		
-	});
+
+		   
+		   $.ajax({
+				url : "${pageContext.request.contextPath}/area/listByOne.do",
+				success:function(obj){
+					$.each(obj,function(i,result){
+						if(parentId == result.id){
+							$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+						$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+					});
+				}
+				
+			});
+	});	
+	
+    function fun(){
+		var parentId = $("#choose1").val();
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
+			data:{"id":parentId},
+			success:function(obj){
+				$("#choose2").empty();
+				$("#choose2").append("<option value=''>-请选择-</option>");
+				$.each(obj,function(i,result){
+					
+					$("#choose2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				});
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+	}
 //鼠标移动显示全部内容
 	function out(content){
 	if(content.length >= 10){
@@ -43,23 +80,7 @@ $.ajax({
 		layer.closeAll();//关闭消息框
 	}
 }
-$(function(){
-	$.ajax({
-			url : "${pageContext.request.contextPath}/area/listByOne.do",
-			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
-					if(parentId == result.id){
-						$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{
-					$("#choose1").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-			},
-			error:function(obj){
-			}
-		});
-});
+
 </script>
 </head>
 <body>

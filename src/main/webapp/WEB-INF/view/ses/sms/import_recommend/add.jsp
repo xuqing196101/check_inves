@@ -33,8 +33,7 @@
     	$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
+				$.each(obj,function(i,result){
 					if(parentId == result.id){
 						$("#choose1").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 					}else{
