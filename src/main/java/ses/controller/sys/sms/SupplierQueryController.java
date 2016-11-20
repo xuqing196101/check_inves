@@ -134,6 +134,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		if(judge!=null){
 			sup.setStatus(judge);
 		}
+		model.addAttribute("address", sup.getAddress());
 		String address=this.getProvince(sup.getAddress());
 		if("".equals(address)){
 			if(address.length()>2){
@@ -155,7 +156,6 @@ public class SupplierQueryController extends BaseSupplierController{
 		List<Supplier>  listSupplier=supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page==null?1:page);
 		this.getSupplierType(listSupplier);
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
-		model.addAttribute("address", sup.getAddress());
 		model.addAttribute("supplier", sup);
 		model.addAttribute("categoryNames", categoryNames);
 		model.addAttribute("supplierType", supplierType);

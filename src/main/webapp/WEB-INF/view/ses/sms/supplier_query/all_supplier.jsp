@@ -337,17 +337,17 @@ $(function() {
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
 		          <li>
-		            <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${sup.supplierName }" type="text"></span>
+		            <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
 		          </li>
 		          <li>
-		            <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
+		            <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                         <span class="f14">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
                         </span>
 		          </li>
 		          <li>
-		            <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
+		            <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
 		          </li> 
 		          <li>
                     <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />

@@ -406,7 +406,7 @@ $(function() {
                         </span>
                   </li>
                   <li>
-                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${contactName }" type="text"></span>
+                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
                   </li> 
                   <li>
                     <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />

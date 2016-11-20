@@ -78,7 +78,17 @@
         SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
         CREATED_AT, UPDATED_AT, BUSINESS_CERT
     </sql>
-
+    <!--查询每个供应商所对应的所有类型 作者SBW  -->
+	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier" resultType="java.lang.String">
+		select  wm_concat(t1.name) from(
+			SELECT T2."NAME",T1.SUPPLIER_ID FROM "JDCG"."T_SES_SMS_SUPPLIER_TYPE_RELATE" t1 
+			LEFT JOIN T_SES_BMS_DICTIONARY_DATA t2 on T1.SUPPLIER_TYPE_ID=T2.CODE
+		) t1 where 1=1 
+		<if test="id != null and id !=''">
+			and T1.SUPPLIER_ID = #{id,jdbcType=VARCHAR}
+		</if>
+		GROUP BY T1.SUPPLIER_ID
+	</select>
     <select id="selectByPrimaryKey" parameterType="java.lang.String"
         resultMap="BaseResultMap">
         select

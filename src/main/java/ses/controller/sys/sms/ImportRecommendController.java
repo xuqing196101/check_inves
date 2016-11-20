@@ -103,11 +103,14 @@ public class ImportRecommendController extends BaseSupplierController{
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
 			if(ir.getAddress().equals("-请选择-")){
-				model.addAttribute("ir", ir);
 				model.addAttribute("ERR_address", "企业地址不能为空");
-				return "ses/sms/import_recommend/add";
 			}
-			
+			if(ir.getLoginName()!=null){
+				List<User> users = userService.findByLoginName(ir.getLoginName());
+				if(users.size() > 0){
+					model.addAttribute("ERR_loginName", "用户名已存在");
+				}
+			}
 			model.addAttribute("ir", ir);
 			return "ses/sms/import_recommend/add";
 		}
@@ -180,8 +183,6 @@ public class ImportRecommendController extends BaseSupplierController{
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
 			if(ir.getAddress().equals("-请选择-")){
-				model.addAttribute("ir", ir);
-				model.addAttribute("ERR_address", "企业地址不能为空");
 				return "ses/sms/import_recommend/add";
 			}
 			model.addAttribute("ir", ir);

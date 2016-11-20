@@ -78,6 +78,8 @@
 	  }
 	  
 	function resetQuery(){
+	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+        Obj.checkAllNodes(false);
     	$("#supplierName").val("");
 	}
 </script>
