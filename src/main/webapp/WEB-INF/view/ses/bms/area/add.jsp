@@ -5,23 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="${pageContext.request.contextPath}/">
-    
-    <title>添加菜单</title>
-    
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
-    <!--
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/demo.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
     <script type="text/javascript">
        var datas;
         function onClick(e, treeId, treeNode) {
@@ -114,46 +97,56 @@
             });
             
         });
-        $("#backups").click(function(){
+        /* $("#backups").click(function(){
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index); 
-        });
+        }); */
     });
   </script>
  <body>
-   
-   <div class="container">
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+           <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">数据字典</a></li><li><a href="#">地区管理</a></li><li class="active"><a href="#">添加地区</a></li>
+           </ul>
+        <div class="clear"></div>
+      </div>
+   </div>
+   <div class="container container_box">
        <div id="menuContent" class="menuContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
             <ul id="treeDemo" class="ztree"  style="width: 220px"></ul>
+       </div>
+       <div>
+       <div class="headline-v2">
+         <h2>添加地区</h2>
        </div>
        <form action="" id="form1" method="post">
            <div>
                <input type="hidden" name="id" id="pid" value="${area.id }">
-               <ul class="list-unstyled mt10 p0_20">
+               <ul class="ul_list">
                  <li class="col-md-6 p0">
-                   <span class="fl mt5">上级：</span>
+                   <span class="col-md-12 padding-left-5">上级</span>
                    <div class="input-append">
-                    <input id="citySel" class="span2" name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
+                    <input id="citySel" class="span5" name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
                     <span class="add-on">i</span>
                    </div>
                  </li>
                  <li class="col-md-6 p0">
-                   <span class="fl mt5">名称：</span>
+                   <span class="col-md-12 padding-left-5">名称</span>
                    <div class="input-append">
-                    <input class="span2" name="name" maxlength="30" type="text">
+                    <input class="span5" name="name" maxlength="30" type="text">
                     <span class="add-on">i</span>
                    </div>
                  </li>
                </ul>
           </div> 
        
-          <div  class="col-md-12">
-            <div class="fl padding-10">
+         <div class="col-md-12 tc">
                 <button class="btn btn-windows save" id="save" type="button">保存</button>
-                <button class="btn btn-windows back" id="backups" type="button">返回</button>
+                <button class="btn btn-windows back" id="backups" type="button" onclick="history.go(-1)">返回</button>
             </div>
+            </form>
           </div>
-      </form>
   </div>
  </body>
 </html>

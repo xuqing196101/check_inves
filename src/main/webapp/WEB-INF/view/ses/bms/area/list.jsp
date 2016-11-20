@@ -30,7 +30,7 @@
                         enable:true,
                         idKey:"id",
                         pId:"pId",
-                        rootPId:-1,
+                        rootPId:0,
                     }
                 },
                 callback:{
@@ -59,7 +59,7 @@
     
       function add(){
             var pid = $("#mid").val();
-	        layer.open({
+	   /*      layer.open({
 	          type: 2, //page层
 	          area: ['430px', '400px'],
 	          title: '添加地区',
@@ -70,12 +70,13 @@
 	          offset: ['120px', '550px'],
 	          shadeClose: false,
 	          content: '${pageContext.request.contextPath}/area/add.html?pid='+pid
-	        }); 
+	        });  */
+	        window.location.href="${pageContext.request.contextPath}/area/add.html?pid="+pid;
         }
         function edit(){
 	        var pid = $("#mid").val();
 	        if(pid != null && pid != '' ){
-		        layer.open({
+		        /* layer.open({
 		          type: 2, //page层
 		          area: ['430px', '400px'],
 		          title: '修改地区',
@@ -86,7 +87,8 @@
 		          offset: ['120px', '550px'],
 		          shadeClose: false,
 		          content: '${pageContext.request.contextPath}/area/edit.html?pid='+pid
-		        }); 
+		        });  */
+		        window.location.href="${pageContext.request.contextPath}/area/edit.html?pid="+pid;
 	        }else{
 	            layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
 	        }
@@ -111,26 +113,28 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">支撑系统</a></li><li><a href="javascript:void(0)">后台管理</a></li><li class="active"><a href="javascript:void(0)">菜单功能管理</a></li>
+           <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">支撑系统</a></li><li><a href="javascript:void(0)">后台管理</a></li><li class="active"><a href="javascript:void(0)">地区管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
    <div class="container">
        <div class="headline-v2">
-            <h2>菜单功能管理</h2>
+            <h2>地区管理</h2>
        </div>
    </div>
    
    
    <div class="container content height-350">
-   <ul class="demand_list">
-   <li>
-     <label class="fl">地区名称：<input type="text"
-                                id="search_condition" name="name" /> </label>
-           </li>
-           <button  class="btn" onclick="selectTree();">查询</button>
-    </ul>
+        <h2 style="margin-left: 20px;">
+            <ul class="demand_list">
+                <li>
+                 <label class="fl">地区名称：<input type="text" id="search_condition" name="name" /> </label>
+                </li>
+                <button  class="btn" onclick="selectTree();">查询</button>
+                <br><br>
+            </ul>
+         </h2>
        <div class="row">
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
@@ -146,7 +150,6 @@
                         <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
                         <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
                         <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
-                       
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
                         <input type="hidden" name="nodeId" id="mid">

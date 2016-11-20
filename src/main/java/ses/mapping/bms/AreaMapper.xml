@@ -64,7 +64,7 @@
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_AREA
   	where IS_DELETED=0
-  	 <if test="pid != null and name !=''">
+  	 <if test="pid != null and pid !=''">
         and PARENT_ID = #{pid}   
      </if> 
   	 <if test="name != null and name !=''">

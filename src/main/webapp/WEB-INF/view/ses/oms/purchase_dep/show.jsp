@@ -604,281 +604,137 @@
                             <input type="hidden" value="${purchaseDep.typeName }" name="orgnization.typeName"/>
                             <div class="tab-content padding-top-20">
                                 <div class="tab-pane fade active in" id="tab-1">
-                                    <h2 class="count_flow"><i>1</i>基本信息</h2>
+                                    <h2 class="count_flow jbxx">基本信息</h2>
                                     <input class="hide" name="orgnization.id" type="hidden" value="${purchaseDep.orgId }">
                                     <input class="hide" name="id" type="hidden" value="${purchaseDep.id }">
-                                    <ul class="ul_list">
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购机构名称</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="orgnization.name" type="text"
-                                                    value="${purchaseDep.name }"> <span class="add-on">i</span>
-                                                <div class="b f18 ml10 red hand">${name_msg}</div>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购机构简称：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="orgnization.shortName"
-                                                    type="text" value="${purchaseDep.shortName }"> <span
-                                                    class="add-on">i</span>
-                                                <div class="b f18 ml10 red hand">${name_msg}</div>
-                                            </div></li>
-
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购机构单位级别：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="levelDep" type="text"
-                                                    value="${purchaseDep.levelDep }"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">行政隶属单位：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="subordinateOrgName"
-                                                    value="${purchaseDep.subordinateOrgName }" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购业务范围：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="businessRange"
-                                                    value="${purchaseDep.businessRange }" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购机构地址：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="orgnization.address" type="text"
-                                                    value="${purchaseDep.address }"> <span
-                                                    class="add-on">i</span>
-                                                <div class="b f18 ml10 red hand">${name_msg}</div>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">邮编：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="orgnization.postCode"
-                                                    value="${ purchaseDep.postCode}" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">传真号：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="fax" type="text"
-                                                    value="${ purchaseDep.fax}"> <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">省：</span>
-                                            <div class="select_common">
-                                                <select  name="provinceId" id="province"
-                                                    onchange="loadCities(this.value);">
-                                                </select> <input type="hidden" name="orgnization.provinceId" id="pid"
-                                                    value="${purchaseDep.provinceId }">
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">市：</span>
-                                            <div class="select_common">
-                                                <select  name="cityId" id="city"
-                                                    onchange="loadTown(this.value);">
-                                                </select> <input type="hidden" name="orgnization.cityId" id="cid"
-                                                    value="${purchaseDep.cityId }">
-                                            </div></li>
-
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">值班室电话：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="dutyRoomPhone" type="text"
-                                                    value="${ purchaseDep.dutyRoomPhone}"> <span
-                                                    class="add-on">i</span>
-                                            </div>
-                                        </li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">是否具有审核供应商：</span>
-                                            <div class="select_common">
-                                            <select  name="isAuditSupplier">
-                                                <option value="">-请选择-</option>
-                                                <option value="1">是</option>
-                                                <option value="0">否</option>
-                                        </select>
-                                        </div>
-                                        </li>
-                                    </ul>
+                                    <table class="table table-bordered">
+						                 <tbody>
+						                 <tr>
+						                  <td class="bggrey">采购机构名称：</td>
+						                  <td>${purchaseDep.name }</td>
+						                  <td class="bggrey ">采购机构简称：</td>
+						                  <td>${purchaseDep.shortName }</td>
+						                  <td class="bggrey ">采购机构单位级别：</td>
+						                  <td>${purchaseDep.levelDep }</td>
+						                 </tr> 
+						                 <tr>
+                                          <td class="bggrey">行政隶属单位：</td>
+                                          <td>${purchaseDep.subordinateOrgName }</td>
+                                          <td class="bggrey ">采购业务范围：</td>
+                                          <td>${purchaseDep.businessRange }</td>
+                                          <td class="bggrey ">采购机构地址：</td>
+                                          <td>${purchaseDep.address }</td>
+                                         </tr> 
+                                         <tr>
+                                          <td class="bggrey">邮编：</td>
+                                          <td>${purchaseDep.postCode }</td>
+                                          <td class="bggrey ">省：</td>
+                                          <td>${purchaseDep.provinceId }</td>
+                                          <td class="bggrey">市：</td>
+                                          <td>${purchaseDep.cityId }</td>
+                                         </tr> 
+                                         <tr>
+                                          <td class="bggrey ">值班室电话：</td>
+                                          <td>${purchaseDep.dutyRoomPhone }</td>
+                                          <td class="bggrey ">传真号：</td>
+                                          <td>${purchaseDep.fax }</td>
+                                          <td class="bggrey ">是否具有审核供应商：</td>
+                                          <td>${purchaseDep.isAuditSupplier }</td>
+                                         </tr> 
+						                 </tbody>
+						            </table>
                                     <!--  class="panel panel-default" -->
-                                    <h2 class="count_flow"><i>2</i>资质信息</h2>
-                                    <ul class="ul_list">
-                                        <li class="col-md-3 margin-0 padding-0 ">
-                                            <span class="col-md-12 padding-left-5">采购资质等级：</span> 
-                                            <div class="select_common">
-                                            <select name="quaLevel" >
-                                                <option value="">-请选择-</option>
-                                                <option value="1">一级</option>
-                                                <option value="2">二级</option>
-                                                <option value="3">三级</option>
-                                                <option value="4">四级</option>
-                                                <option value="5">五级</option>
-                                                <option value="6">六级</option>
-                                                <option value="7">七级</option>
-                                                <option value="8">八级</option>
-                                                <option value="9">九级</option>
-                                        </select></div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购资质范围：</span>
-                                        <div class="select_common"> 
-                                        <select  name="quaRange" >
-                                                <option value="">-请选择-</option>
-                                                <option value="1">综合</option>
-                                                <option value="1">物资</option>
-                                                <option value="1">工程</option>
-                                                <option value="1">服务</option>
-                                        </select></div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
-                                                class="red">＊</i>采购资质开始日期：</span>
-                                            <div class="input-append">
-                                                <input class="Wdate w230"  type="text" readonly="readonly"
-                                                    onClick="WdatePicker()" name="quaStartDate"
-                                                    value="<fmt:formatDate value="${purchaseDep.quaStartDate}" pattern="yyyy-MM-dd" />" />
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class=""><i
-                                                class="red">＊</i>采购资质截止日期：</span>
-                                            <div class="input-append">
-                                                <input class="Wdate w230" type="text" readonly="readonly"
-                                                    onClick="WdatePicker()" name="quaEdndate"
-                                                    value="<fmt:formatDate value="${purchaseDep.quaEdndate}" pattern="yyyy-MM-dd" />" />
-                                            </div></li>
-                                        <%-- <li>
-                                        <div>
-                                            <input id="d12" type="text"/>
-                                            <img onclick="WdatePicker({el:'d12'})" src="${pageContext.request.contextPath}/public/My97DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle">
-                                        </div>
-                                    </li> --%>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购资质编号：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="quaCode" type="text" value="${purchaseDep.quaCode}"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
-                                                class="red">＊</i>采购资格证书图片：</span>
-                                            <div class="uploader orange m0">
-												<up:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2"/>
-                                            </div></li>
-                                        <%-- <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
-                                                class="red">＊</i>资质暂停文件：</span>
-                                            <div class="uploader orange m0">
-												<up:show delete="false" showId="cert_show_id1" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_STASH_ID }" sysKey="2"/>
-                                            </div></li>
-                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
-                                                class="red">＊</i>资质启用文件：</span>
-                                            <div class="uploader orange m0">
-												<up:show delete="false" showId="cert_show_id2" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_NORMAL_ID }" sysKey="2"/>
-                                            </div></li>
-                                          <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i
-                                                class="red">＊</i>资质终止文件：</span>
-                                            <div class="uploader orange m0">
-												<up:show delete="false" showId="cert_show_id3" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_STATUS_TERMINAL_ID }" sysKey="2"/>
-                                            </div></li>  --%>
-                                    </ul>
-                                    <h2 class="count_flow"><i>3</i>个人信息</h2>
-                                    <ul class="ul_list">
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">单位主要领导姓名及电话：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="leaderTelephone" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">军官编制人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="officerCountnum" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">军官现有人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="officerNowCounts" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">士兵现有人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="soldierNowCounts" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">士兵编制人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="soldierNum" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">职工编制人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="staffNum" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">职工现有人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="staffNowCounts" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">具备采购资格人员数量：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="purchasersCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">初级采购师人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="juniorPurCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">高级采购师人数：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="seniorPurCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                    </ul>
-                                    <h2 class="count_flow"><i>3</i>甲方信息</h2>
-                                    <ul class="ul_list">
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">单位名称：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="depName" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">法定代表人：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="legal" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">委托代理人：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="agent" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">联系人：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="contact" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">联系电话：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="contactTelephone" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">通讯地址：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="contactAddress" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">邮政编码：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="unitPostCode" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">付款单位：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="payDep" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">开户银行：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="bank" type="text"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">银行账号：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="bankAccount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                    </ul>
-                                    <div class="clear"></div>
-                                    <!-- <div class="mt40 tc mb50">
-                                        <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="updateBasic();" value="确认" /> <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="stashBasic();" value="暂存" /> <input type="button"
-                                            class="btn  padding-right-20 btn_back margin-5"
-                                            onclick="history.go(-1)" value="取消" />
-                                    </div> -->
+                                    <h2 class="count_flow jbxx">资质信息</h2>
+                                    <table class="table table-bordered">
+						                 <tbody>
+						                 <tr>
+						                  <td class="bggrey">采购资质等级：</td>
+						                  <td>${purchaseDep.quaLevel }</td>
+						                  <td class="bggrey ">采购资质范围：</td>
+						                  <td>${purchaseDep.quaRange }</td>
+						                  <td class="bggrey ">采购资质编号：</td>
+                                          <td>${purchaseDep.quaCode }</td>
+						                 </tr> 
+						                 <tr>
+						                  <td class="bggrey ">采购资质开始日期：</td>
+                                          <td><fmt:formatDate value="${purchaseDep.quaStartDate}" pattern="yyyy-MM-dd" /></td>
+                                          <td class="bggrey">采购资质截止日期：</td>
+                                          <td><fmt:formatDate value="${purchaseDep.quaEdndate}" pattern="yyyy-MM-dd" /></td>
+                                          <td class="bggrey ">采购资格证书图片：</td>
+                                          <td><up:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2"/></td>
+                                         </tr>
+						                 </tbody>
+						             </table>
+						             <h2 class="count_flow jbxx">个人信息</h2>
+							                <table class="table table-bordered">
+								                 <tbody>
+								                 <tr>
+								                  <td class="bggrey">单位主要领导姓名及电话：</td>
+								                  <td>${purchaseDep.leaderTelephone}</td>
+								                  <td class="bggrey ">军官编制人数：</td>
+								                  <td>${purchaseDep.officerCountnum}</td>
+								                 </tr> 
+								                 <tr>
+								                  <td class="bggrey ">军官现有人数：</td>
+                                                  <td>${purchaseDep.officerNowCounts}</td>
+                                                  <td class="bggrey">士兵现有人数：</td>
+                                                  <td>${purchaseDep.soldierNowCounts}</td>
+                                                 </tr>
+                                                 <tr>
+                                                  <td class="bggrey ">士兵编制人数：</td>
+                                                  <td>${purchaseDep.soldierNum}</td>
+                                                  <td class="bggrey ">职工编制人数：</td>
+                                                  <td>${purchaseDep.staffNum}</td>
+                                                 </tr> 
+                                                 <tr>
+                                                  <td class="bggrey">职工现有人数：</td>
+                                                  <td>${purchaseDep.staffNowCounts}</td>
+                                                  <td class="bggrey ">具备采购资格人员数量：</td>
+                                                  <td>${purchaseDep.purchasersCount}</td>
+                                                 </tr> 
+                                                  <tr>
+                                                  <td class="bggrey ">初级采购师人数：</td>
+                                                  <td>${purchaseDep.juniorPurCount}</td>
+                                                  <td class="bggrey">高级采购师人数：</td>
+                                                  <td>${purchaseDep.seniorPurCount}</td>
+                                                 </tr> 
+								                 </tbody>
+							                 </table>
+							                 <h2 class="count_flow jbxx">甲方信息</h2>
+								                <table class="table table-bordered">
+									                 <tbody>
+									                 <tr>
+									                  <td class="bggrey">单位名称：</td>
+									                  <td>${purchaseDep.depName}</td>
+									                  <td class="bggrey ">法定代表人：</td>
+									                  <td>${purchaseDep.legal}</td>
+									                 </tr> 
+									                 <tr>
+									                 <td class="bggrey ">委托代理人：</td>
+                                                      <td>${purchaseDep.agent}</td>
+                                                      <td class="bggrey">联系人：</td>
+                                                      <td>${purchaseDep.contact}</td>
+                                                     </tr>
+                                                     <tr>
+                                                      <td class="bggrey ">联系电话：</td>
+                                                      <td>${purchaseDep.contactTelephone}</td>
+                                                      <td class="bggrey ">通讯地址：</td>
+                                                      <td>${purchaseDep.contactAddress}</td>
+                                                     </tr> 
+                                                      <tr>
+                                                      <td class="bggrey">邮政编码：</td>
+                                                      <td>${purchaseDep.unitPostCode}</td>
+                                                      <td class="bggrey ">付款单位：</td>
+                                                      <td>${purchaseDep.payDep}</td>
+                                                     </tr> 
+                                                     <tr>
+                                                     <td class="bggrey ">开户银行：</td>
+                                                      <td>${purchaseDep.bank}</td>
+                                                      <td class="bggrey ">银行账号：</td>
+                                                      <td>${purchaseDep.bankAccount}</td>
+                                                     </tr>
+									                 </tbody>
+									             </table>
                                 </div>
                                 
                                 <!-- 财务信息 -->
@@ -886,11 +742,6 @@
                                     <div class="headline-v2">
 								     <h2>部门信息</h2>
 								   </div>
-                                    <div class="col-md-12 pl20 mt10">
-                                        <button type="button"
-                                            class="btn btn-windows add"
-                                            id="dynamicAdd" onclick="addOrg();">添加</button>
-                                    </div>
                                     <div class="content table_box">
                                              <table class="table table-bordered table-condensed table-hover table-striped" id="tab-orgnization">
                                             <thead>
@@ -916,40 +767,26 @@
 
                                 <!-- 股东信息 -->
                                 <div class="tab-pane fade height-200" id="tab-3">
-                                    <h2 class="count_flow"><i>1</i>基本信息</h2>
-                                    <ul class="ul_list">
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">办公场地总面积：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="officeArea" type="text"
-                                                    value="${purchaseDep.officeArea}"> <span
-                                                    class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">办公司数量：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="officeCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">会议室数量：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="mettingRoomCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">招标室数量：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="inviteRoomCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                        <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">评标室数量：</span>
-                                            <div class="input-append">
-                                                <input class="span5" name="bidRoomCount" type="text">
-                                                <span class="add-on">i</span>
-                                            </div></li>
-                                    </ul>
-                                    <h2 class="count_flow"><i>2</i>添加场所</h2>
-                                    <ul class="ul_list">
-	                                    <div class="col-md-12 pl20 mt10">
-	                                       <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="addOffice();">新增</button>
-	                                    </div>
+                                    <h2 class="count_flow jbxx">基本信息</h2>
+						                <table class="table table-bordered">
+							                 <tbody>
+							                 <tr>
+							                  <td class="bggrey">办公场地总面积：</td>
+							                  <td>${purchaseDep.officeArea}</td>
+							                  <td class="bggrey ">办公司数量：</td>
+							                  <td>${purchaseDep.officeCount}</td>
+							                  <td class="bggrey ">会议室数量：</td>
+							                  <td>${purchaseDep.mettingRoomCount}</td>
+							                 </tr> 
+							                  <tr>
+                                              <td class="bggrey">招标室数量：</td>
+                                              <td>${purchaseDep.inviteRoomCount}</td>
+                                              <td class="bggrey ">评标室数量：</td>
+                                              <td colspan="3">${purchaseDep.bidRoomCount}</td>
+                                             </tr>
+							                 </tbody>
+							              </table>
+                                    <h2 class="count_flow jbxx">场所信息</h2>
 	                                    <div class="content table_box">
                                             <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
                                              <thead>
@@ -970,11 +807,8 @@
 
                                             </tbody>
                                         </table>
-                                        <div class="clear"></div>
-                                    </ul>
-                                           
                                     </div>
-                                    
+                                    </div>
                                     <!-- <div class="mt40 tc mb50">
                                         <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updatePosition();" value="确认"/>
                                         <input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashPosition();" value="暂存"/> 
@@ -983,13 +817,8 @@
                                 <!--  -->
                                 <div class="tab-pane fade height-200" id="tab-4">
                                     <div class="headline-v2">
-								     <h2>选择采购管理部门</h2>
+								     <h2>采购管理部门信息</h2>
 								   </div> 
-                                    <div class="col-md-12 pl20 mt10">
-                                        <button type="button"
-                                            class="btn btn-windows add"
-                                            id="dynamicAdd" onclick="dynamicaddThree();">添加</button>
-                                    </div>
                                     <div class="content table_box">
                                         <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
                                             <thead>
@@ -1007,16 +836,8 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
-                                
-                            <div class="mt40 tc mb50">
-                                        <input type="button" class="btn btn-windows git" onclick="update();" value="确认"/>
-                                        <input type="button" class="btn" onclick="stash();"  value="暂存" /> 
-                                        <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
-                                    </div>
                         </form>
                     </div>
                 </div>
