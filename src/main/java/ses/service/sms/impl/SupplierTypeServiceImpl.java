@@ -29,6 +29,9 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
     @Autowired
     private DictionaryDataServiceI dictionaryDataService;
 	
+    @Autowired
+	private SupplierTypeRelateMapper supplierTypeRelateMapper;
+    
 	/**
 	 * @Title: findSupplierType
 	 * @author: Wang Zhaohua
@@ -46,6 +49,11 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 		List<DictionaryData> ldlist1 = dictionaryDataService.find(dictionaryData);
 		dictionaryData.setKind(8);
 		List<DictionaryData> ldlist2 = dictionaryDataService.find(dictionaryData);
+//		List<SupplierType> listSupplierTypes = supplierTypeMapper.findSupplierType();
+		
+		// 查询供应商勾选类型
+//		List<SupplierTypeRelate> listSupplierTypeIds = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
+		
 		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
 		for (DictionaryData dd : ldlist1) {
 			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
