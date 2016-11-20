@@ -20,6 +20,10 @@ function save(){
 		layer.alert("上传的附件类型不正确",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
+
+function cancel(){
+	window.location.href="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html";
+}
 	
 </script>    
  </head>

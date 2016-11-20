@@ -42,31 +42,31 @@
     <div class="layui-layer-wrap" >
           <div class="drop_window">
               <ul class="list-unstyled">
-                <li class="col-sm-6 col-md-6 col-lg-6">
-                  <label class="col-md-12 padding-left-5"><i class="red">*</i>名称</label>
-                  <span class="col-md-12">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 padding-left-5 col-xs-12"><i class="red">*</i>名称</label>
+                  <span class="col-md-12 col-xs-12">
                    <input name="name" maxlength="30" class="title col-md-12" type="text">
                   </span>
                    
                 </li>
-                <li class="col-md-6">
-                   <label class="col-md-12 padding-left-5"><i class="red">*</i>状态</label>
-                  <span class="col-md-12">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 padding-left-5 col-xs-12"><i class="red">*</i>状态</label>
+                  <span class="col-md-12 col-xs-12">
                    <select name="status" class="w180 mb10">
                         <option value="0">可用</option>
                         <option value="1">禁用</option>
                     </select>
                   </span>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">描述</label>
-                   <span class="col-md-12">
-                    <textarea class="text_area1 mt6" name="description" maxlength="200" title="" placeholder=""></textarea>
+                <li class="mt10 col-md-12 p0 col-xs-12">
+                  <label class="col-md-12 pl20 col-xs-12">描述</label>
+                   <span class="col-md-12 col-xs-12">
+                    <textarea class="col-xs-12 h80 mt6" name="description" maxlength="200" title="" placeholder=""></textarea>
                    </span>
                 </li>
                 <div class="clear"></div>
              </ul>
-             <div class="tc mt10 col-md-12">
+             <div class="tc mt10 col-md-12 col-xs-12">
                  <button class="btn btn-windows save" id="save" type="button">保存</button>
                 <button class="btn btn-windows back" id="backups" type="button">返回</button>
               </div>

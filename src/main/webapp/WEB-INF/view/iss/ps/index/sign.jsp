@@ -119,10 +119,10 @@
 			<div class="col-md-4"></div>
 			<div class="container content">
 				<div class="row">
-					<div class="sign_left col-md-6 mt60 ">
+					<div class="sign_left col-md-6  ">
 						<img src="${pageContext.request.contextPath}/public/portal/images/sign_left.jpg" width="100%" height="100%" />
 					</div>
-					<div class="col-md-5 mt60 login_right  col-md-offset-1 ">
+					<div class="col-md-5  login_right  col-md-offset-1 ">
 						<div class="col-md-10 col-sm-8 clear">
 							<div class="box-shadow shadow-effect-2 opacity-80 sign_box">
 								<header class="margin-top-10 ofh">
@@ -214,7 +214,6 @@
 										</form>
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>

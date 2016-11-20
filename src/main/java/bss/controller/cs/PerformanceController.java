@@ -262,14 +262,14 @@ public class PerformanceController {
 	public String updateFinalClosed(HttpServletRequest request,PurchaseContract pur) throws Exception{
 		boolean flag = true;
 		String errNews = "";
-		if(!ValidateUtils.Money(pur.getFinallyClosed().toString()) == false){
-			flag=false;
-			errNews="输入的金额不对";
-		}else if(ValidateUtils.isNull(pur.getFinallyClosed())){
+		if(ValidateUtils.isNull(pur.getFinallyClosed())){
 			flag=false;
 			errNews="金额不能为空";
+		}else if(!ValidateUtils.Money(pur.getFinallyClosed().toString())){
+			flag=false;
+			errNews="输入的金额不对";
 		}
-		if(!flag){
+		if(flag==false){
 			return errNews;
 		}else{
 			purchaseContactService.updateByPrimaryKeySelective(pur);

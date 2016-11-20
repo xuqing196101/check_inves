@@ -14,7 +14,7 @@
 var user = "${sessionScope.loginUser.loginName}";
 $(function(){
 	if(user!=null && user!=''){
-		$("#welcome").html("你好，欢迎来到中国军队采购网！:"+user);
+		$("#welcome").html(user+"你好，欢迎来到中国军队采购网！");
 	}
 	
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){

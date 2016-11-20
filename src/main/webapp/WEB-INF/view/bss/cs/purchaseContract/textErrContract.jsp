@@ -160,24 +160,49 @@
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
 		}else{
-			var detab = $("#detailtable tr:last td:eq(1)");
-			var vstab = Number(detab.html());
-			var html = "";
-			var tabl = $("#detailtable");
-			html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
-			html += "<td class='tc w50'>"+(vstab+1)+"</td>";
-			html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
-			html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
-			tabl.append(html);
-			layer.close(index);
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/purchaseContract/validAddRe.html",
+				type:"post",
+				dataType:"json",
+				data:$('#myForm').serialize(),
+				success:function(data){
+					if(data==1){
+						var detab = $("#detailtable tr:last td:eq(1)");
+						var vstab = Number(detab.html());
+						if($("#detailtable tr").length<=1){
+							vstab = 0;
+						}
+						var html = "";
+						var tabl = $("#detailtable");
+						html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+						html += "<td class='tc w50'>"+(vstab+1)+"</td>";
+						html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#bra').val()+"'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
+						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
+						html += "<td class='tnone'></td>"
+						tabl.append(html);
+						layer.close(index);
+					}else{
+						var obj = new Function("return" + data)();
+						$("#wzmc").text(obj.wzmc);
+						$("#bh").text(obj.bh);
+						$("#jfsj").text(obj.jfsj);
+						$("#ppsb").text(obj.ppsb);
+						$("#ggxh").text(obj.ggxh);
+						$("#jldw").text(obj.jldw);
+						$("#sl").text(obj.sl);
+						$("#dj").text(obj.dj);
+					}
+				}
+			});
 		}
 	}
 	
@@ -208,7 +233,7 @@
 	    shade:0.01, //遮罩透明度
 		type : 1,
 		skin : 'layui-layer-rim', //加上边框
-		area : [ '45%', '550px' ], //宽高
+		area : [ '50%', '550px' ], //宽高
 		content : $('#openDiv'),
 		offset: ['600px', '350px']
 	  });
@@ -542,7 +567,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml5">
+    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -611,62 +636,86 @@
  </div>
  	<div id="openDiv" class="dnone layui-layer-wrap">
  	<div id="menuContent" class="menuContent dw188 tree_drop">
-					<ul id="treeDemo" class="ztree slect_option"></ul>
-					</div>
+		<ul id="treeDemo" class="ztree slect_option"></ul>
+		</div>
 			<div class="drop_window">
+			<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 			  <ul class="list-unstyled">
 			    <li class="mt10 col-md-12 p0">
-	    	      <label class="col-md-12 pl20">物资名称：</label>
+	    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
 	    	      <span class="col-md-12">
+	    	      <div class="input-long">
                    <input type="hidden" id="categorieId4" name="categoryId" value="">
-				   <input id="citySel4" type="text"  readonly="readonly" name="categoryName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
-				  </span>
-	            </li>
-	            
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">编号：</label>
-	    	      <span>
-                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+				   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+				   <div class="cue" id="wzmc"></div>
+				   </div>
 				  </span>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">交付时间</label>
-	    	      <span class="col-md-12 p0">
-                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5">
+	    	        <div class="red star_red">*</div>编号：</label>
+	    	        <div class="input-append col-md-12 p0">
+                      <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+                      <div class="cue" id="bh"></div>
+                    </div>
+	            </li>
+			    <li class="col-md-6">
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>交付时间</label>
+	    	       <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
+                   <div class="cue" id="jfsj"></div>
+                   </div>
                   </span>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">品牌商标</label>
-	    	      <span class="col-md-12 p0">
-                   <input maxlength="11" id="bra" name="bra" value="" type="text" class="col-md-12 p0">
-                  </span>
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>品牌商标</label>
+	    	       <div class="input-append col-md-12 p0">
+                    <input maxlength="11" id="bra" name="brand" value="" type="text" class="col-md-12 p0">
+                    <div class="cue" id="ppsb"></div>
+                  </div>
 	            </li>
 			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">规格型号</label>
-                   <input maxlength="11" id="model" name="model" value="" type="text" class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>规格型号</label>
+	    	       <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="model" name="stand" value="" type="text" class="col-md-12 p0">
+                   <div class="cue" id="ggxh"></div>
 	            </li> 
 			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">计量单位</label>
-                   <input maxlength="11" id="unit" name="unit" value="" type="text" class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>计量单位</label>
+                  <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="unit" name="item" value="" type="text" class="col-md-12 p0">
+                   <div class="cue" id="jldw"></div>
+                  </div>
 	            </li>
 				<li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">数量</label>
-                   <input maxlength="11" id="purNum" name="purNum"  type="text"class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>数量</label>
+                  <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="purNum" name="purchaseCount" onblur="sum1()" type="text"class="col-md-12 p0">
+                   <div class="cue" id="sl"></div>
+	              </div>
 	            </li>
 			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">单价</label>
-                   <input maxlength="11" id="univalent" name="univalent" value="" type="text" class="col-md-12 p0">
+	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
+                  <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="univalent" name="price" onblur="sum1()" value="" type="text" class="col-md-12 p0">
+                   <div class="cue" id="dj"></div>
+	              </div>
 	            </li>
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5">合计</label>
-                   <input maxlength="11" id="purBudgetSum" name="purBudgetSum" value="" readonly="readonly" type="text" class="col-md-12 p0">
+                  <div class="input-append col-md-12 p0">
+                   <input maxlength="11" id="purBudgetSum" name="amount" value="" readonly="readonly" type="text" class="col-md-12 p0">
+	              </div>
 	            </li> 
 			    <li class="col-md-12">
 	    	      <label class="col-md-12 padding-left-5">备注</label>
-                  <textarea id="remarks" name="remarks" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
+                  <div class="input-append col-md-12 p0">
+                    <textarea id="remarks" name="memo" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
+	              </div>
 	            </li> 
 	            <div class="clear"></div>
 			  </ul>
+			  </form>
 			</div>
               <div class="tc mt20 col-md-12">
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 

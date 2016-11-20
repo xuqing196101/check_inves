@@ -956,6 +956,12 @@ li:first-child {
 	clear:both;
 	float: left;
 }
+.input-long{
+	margin-bottom: 25px;
+	position:relative;
+	height:32px;
+	clear:both;
+}
 /*供应商投标样式添加*/
 .green_link {
   color: #8fc31f !important; 

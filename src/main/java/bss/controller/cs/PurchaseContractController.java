@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONSerializer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
@@ -55,7 +59,7 @@ import common.constant.Constant;
 @Controller
 @Scope("prototype")
 @RequestMapping("/purchaseContract")
-public class PurchaseContractController {
+public class PurchaseContractController extends BaseSupplierController{
 	
 	@Autowired
 	private PurchaseContractService purchaseContractService;
@@ -673,14 +677,14 @@ public class PurchaseContractController {
 		if(ValidateUtils.isNull(purCon.getMoney())){
 			flag = false;
 			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(!ValidateUtils.Money(purCon.getMoney().toString()) == false){
+		}else if(!ValidateUtils.Money(purCon.getMoney().toString())){
 			flag = false;
 			model.addAttribute("ERR_money", "请输入正确金额");
 		}
 		if(ValidateUtils.isNull(purCon.getBudget())){
 			flag = false;
 			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(!ValidateUtils.Money(purCon.getBudget().toString()) == false){
+		}else if(!ValidateUtils.Money(purCon.getBudget().toString())){
 			flag = false;
 			model.addAttribute("ERR_budget", "请输入正确金额");
 		}
@@ -1091,5 +1095,92 @@ public class PurchaseContractController {
 		}
 		
 		return "bss/cs/purchaseContract/transFormaTional";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-20 上午9:05:30  
+	* @Description: 新增明细验证 
+	* @param @param conRe
+	* @param @param response
+	* @param @throws Exception      
+	* @return void
+	 */
+	@RequestMapping("/validAddRe")
+	public void validAddRe(ContractRequired conRe,HttpServletResponse response) throws Exception{
+		boolean flag = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(ValidateUtils.isNull(conRe.getGoodsName())){
+			flag=false;
+			map.put("wzmc", "物资名称不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getPlanNo())){
+			flag=false;
+			map.put("bh", "编号不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getDeliverDate())){
+			flag=false;
+			map.put("jfsj", "交付时间不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getBrand())){
+			flag=false;
+			map.put("ppsb", "品牌商标不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getStand())){
+			flag=false;
+			map.put("ggxh", "规格型号不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getItem())){
+			flag=false;
+			map.put("jldw", "计量单位不能为空");
+		}
+		if(ValidateUtils.isNull(conRe.getPurchaseCount())){
+			flag=false;
+			map.put("sl", "数量不能为空");
+		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount().toString())){
+			flag=false;
+			map.put("sl", "请输入正整数");
+		}
+		if(ValidateUtils.isNull(conRe.getPrice())){
+			flag=false;
+			map.put("dj", "单价不能为空");
+		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount().toString())){
+			flag=false;
+			map.put("dj", "请输入正整数");
+		}
+		
+		if(flag){
+			super.writeJson(response, 1);
+		}else{
+			super.writeJson(response, JSONSerializer.toJSON(map).toString());
+		}
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-20 上午9:06:41  
+	* @Description: 验证选择的供应商 
+	* @param @throws Exception      
+	* @return void
+	 */
+	@RequestMapping("/isChoiceSupplier")
+	public void isChoiceSupplier(String delSupplier,HttpServletResponse response) throws Exception{
+		Boolean flag = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(ValidateUtils.isNull(delSupplier)){
+			flag = false;
+			map.put("delsuerr", "请先选择供应商");
+		}
+		if(flag){
+			super.writeJson(response, 1);
+		}else{
+			super.writeJson(response, JSONSerializer.toJSON(map).toString());
+		}
 	}
 }

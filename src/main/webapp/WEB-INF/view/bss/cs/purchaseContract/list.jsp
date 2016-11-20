@@ -153,11 +153,19 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		});
-  		if(del==null || del==''){
-  			layer.alert("请选择供应商",{offset: ['222px', '390px'], shade:0.01});
-  		}else{
-  			window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
-  		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/isChoiceSupplier.html?delSupplier="+supid,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data==1){
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
+				}else{
+					var obj = new Function("return" + data)();
+					$("#delsuperr").text(obj.delsuerr);
+				}
+			}
+		});
   	}
   	
   	function someCreateContract(){
@@ -258,10 +266,11 @@
 	</table>
     </div>
    <div id="pagediv" align="right"></div>
-   <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
-  		    <li class="col-md-12 ml15">
-			   <span class="span3 fl"><div class="red star_red">*</div>成交供应商：</span>
-			   <select name="delsupplier" id="delSele">
+   <ul class="list-unstyled dnone mt10" id="numberWin">
+  		    <li class="col-md-12">
+			   <span class="col-md-12 fl"><div class="red star_red">*</div>成交供应商：</span>
+			   <select name="delsupplier" id="delSele" class="mb0 ml15 w220">
+			   <div id='delsuperr' class="cue col-md-12"></div>
 			   </select>
 			</li>
 			<li class="tc col-md-12 mt20">

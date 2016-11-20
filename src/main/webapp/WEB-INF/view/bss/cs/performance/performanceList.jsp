@@ -151,7 +151,7 @@
 							    shade:0.01, //遮罩透明度
 								type : 1,
 								skin : 'layui-layer-rim', //加上边框
-								area : [ '40%', '200px' ], //宽高
+								area : [ '40%', 'auto' ], //宽高
 								content : $('#numberWin'),
 								offset: ['10%', '25%']
 							});
@@ -169,21 +169,19 @@
 	}
 	
 	function save(){
-		var findClosed = $("#finalClosed").val();
-		if(findClosed==null || findClosed==''){
-			layer.alert("请先填写最终金额",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			$.ajax({
-				url:"${pageContext.request.contextPath}/performance/updateFinalClosed.html",
-				type:"post",
-				dataType:"text",
-				data:$('#finForm').serialize(),
-				success:function(data){
-					alert(data);
+		$.ajax({
+			url:"${pageContext.request.contextPath}/performance/updateFinalClosed.html",
+			type:"post",
+			dataType:"text",
+			data:$('#finForm').serialize(),
+			success:function(data){
+				if(data=='1'){
+					window.location.href="${pageContext.request.contextPath}/performance/selectAll.html";
+				}else{
+					$("#cue").text(data);
 				}
-			});
-			$("#finForm").submit();
-		}
+			}
+		});
 	}
   </script>
   </head>
@@ -292,10 +290,13 @@
      </div>
      <form id="finForm" action="${pageContext.request.contextPath}/performance/updateFinalClosed.html" method="post">
      	 <input id="pId" type="hidden" name="id" value=""/>
-	     <ul class="list-unstyled list-flow dnone mt10" id="numberWin">
-	  		    <li class="col-md-12 ml15">
-				   <span class="span3 fl"><div class="red star_red">*</div>最终结算金额：</span>
-				   <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
+	     <ul class="list-unstyled mt10 dnone" id="numberWin">
+	  		    <li class="col-md-12">
+				   <span class="col-md-12 fl"><div class="red star_red">*</div>最终结算金额：</span>
+				   <div class="input-append col-md-12">
+				     <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
+				     <div id='cue' class="cue col-md-12"></div>
+				   </div>
 				</li>
 				<li class="tc col-md-12 mt20">
 				 <input type="button" class="btn" onclick="save()" value="确定"/>
