@@ -971,3 +971,7 @@ li:first-child {
 .textArea_resizeB{
 	resize: none;
 }
+
+.s_ztree{
+	overflow-y:auto !important;
+}

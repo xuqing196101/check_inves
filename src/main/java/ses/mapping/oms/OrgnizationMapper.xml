@@ -110,8 +110,22 @@
 		 </if>
 		 <if test="princinpal != null and princinpal != ''">
 		   AND d.PRINCINPAL like '%'||#{princinpal}||'%'
-		  </if>
+		 </if>
     </select> 
+    <!-- 查询需求部门 -->
+    <select id="findOrgPartByParam" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization" >
+    	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
+    	FROM T_SES_OMS_ORG
+    	WHERE TYPE_NAME ='2'
+    	AND IS_DELETED = '0'
+    	<if test="name != null and name != ''">
+    	  AND NAME like '%'||#{name}||'%' 
+    	</if>
+    	<if test="princinpal != null and princinpal != ''">
+		   AND PRINCINPAL like '%'||#{princinpal}||'%'
+		 </if>
+    </select>
+    
    <!-- 根据id查部门 -->
 	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
 			   select d.id  as id,

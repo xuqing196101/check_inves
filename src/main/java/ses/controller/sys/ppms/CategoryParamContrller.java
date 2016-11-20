@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -25,6 +27,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
@@ -32,9 +36,11 @@ import ses.model.bms.CategoryTree;
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
+import ses.service.bms.CategoryAssignedService;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
+
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
@@ -51,6 +57,10 @@ public class CategoryParamContrller extends BaseSupplierController {
 
     @Autowired
     private OrgnizationServiceI orgnizationServiceI;
+    
+    /** 产品分配service  */
+    @Autowired
+    private CategoryAssignedService cateAssignService;
 
 
 
@@ -839,8 +849,9 @@ public class CategoryParamContrller extends BaseSupplierController {
         map.put("name",name);
         map.put("princinpal", princinpal);
         map.put("page", page);
-        List<Orgnization>  cate = orgnizationServiceI.findByName(map);
+        List<Orgnization>  cate = orgnizationServiceI.getNeedOrg(map);
         model.addAttribute("cate",cate);
+        model.addAttribute("name", name);
         model.addAttribute("list",new PageInfo<Orgnization>(cate));
         return "ses/ppms/categoryparam/allocate";
     }
@@ -851,6 +862,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @param 
      * @return string
      */
+    @Deprecated
     @RequestMapping("/edit_allocate")
     public String allocate(HttpServletRequest request,HttpServletResponse response,
                            String ids,String id,String status){//ids  是树的节点   id是部门id
@@ -864,6 +876,26 @@ public class CategoryParamContrller extends BaseSupplierController {
         orgnizationServiceI.updateByCategoryId(org);
         return "redirect:query_orgnization.html";
 
+    }
+    
+    /**
+     * 
+     *〈简述〉 
+     *  分配任务
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/assigned")
+    public String  assigned(HttpServletRequest request){
+        
+        String orgIds = request.getParameter("orgId");
+        String cateIds = request.getParameter("cateId");
+      
+        return cateAssignService.assigned(orgIds, cateIds);
+        
     }
     /**
      * @Title: abrogate_allocate

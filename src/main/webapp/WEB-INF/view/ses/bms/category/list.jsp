@@ -6,7 +6,7 @@
 <html>
 <head>   
 <script type="text/javascript">
-	var treeid = null , nodeName;
+	var treeid = null , nodeName=null;
 	var datas;
 	 $(document).ready(function(){  
           $.fn.zTree.init($("#ztree"),setting,datas);
@@ -80,6 +80,13 @@
     	} else {
     		$("#tableDivId").addClass("dis_none");
     	}
+    }
+    /** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
     }
     
     
@@ -161,6 +168,8 @@
     function resetTips(){
     	$("#cateTipsId").text("");
     	$("#posTipsId").text("");
+    	$("#descTipsId").text("");
+    	
     }
     
     /** 保存后的提示 */
@@ -169,11 +178,7 @@
     	if (msg.success) {
     		$("#uploadBtnId").hide();
 			$("#btnIds").hide();
-			if ($("#operaId").val() == "add") {
-				refreshNode();
-			} else {
-				refreshParentNode();
-			}
+			refreshParentNode();
 			layer.msg('保存成功');
     	} else {
     		if (msg.msg != null && msg.msg != ""){
@@ -181,6 +186,9 @@
     		}
     		if (msg.error != null && msg.error !="") {
     			$("#posTipsId").text(msg.error);
+    		}
+    		if (msg.lenTxt != null && msg.lenTxt !=""){
+    			$("#descTipsId").text(msg.lenTxt);
     		}
     	}
    }
@@ -205,18 +213,32 @@
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
 	   zTree.reAsyncChildNodes(parentNode, type, silent);  
    }
+    
+    /** 刷新根节点 */
+   function refreshRootNode(){
+	   var treeObj = $.fn.zTree.getZTreeObj("ztree");
+	   var type = "refresh", 
+	   silent = false;
+	   treeObj.reAsyncChildNodes("", type, silent);  
+   }
    
 	
 	  /** 编辑 */
   function 	edit(){
-		  $("#operaId").val('edit');
-		  $("#mainId").val(treeid);
-		  $("#fileId_showdel").val("true");
-		  $("#uploadBtnId").removeClass("dis_none");
-	      $("#btnIds").show();
-	      $("#uploadBtnId").show();
-	      update();
+	  var zTree = $.fn.zTree.getZTreeObj("ztree");
+	  var nodes = zTree.getSelectedNodes();  
+	  if (isRoot(nodes[0])){
+		  layer.msg(nodes[0].name + '不能被编辑');
+		  return;
 	  }
+	  $("#operaId").val('edit');
+	  $("#mainId").val(treeid);
+	  $("#fileId_showdel").val("true");
+	  $("#uploadBtnId").removeClass("dis_none");
+      $("#btnIds").show();
+      $("#uploadBtnId").show();
+      update();
+	}
 	
   /**删除*/
   function del(){
@@ -246,7 +268,7 @@
 	  		url:"${pageContext.request.contextPath}/category/deleted.do?id=" + treeid,
 	  		success:function(data){
 	  			if (data == "success") {
-	  				refreshParentNode();
+	  				refreshRootNode();
 	  				layer.msg('删除成功');
 	  				$("#tableDivId").addClass("dis_none");
 	  			} else {
@@ -255,38 +277,8 @@
 	  		}
 	  	});
   }
-  
-  /** 获取所有的子级 */
-  function getAllChildrenNodes(treeNode,result){
-	  if (treeNode.isParent) {
-		  var childrenNodes = treeNode.children;
-		  if (childrenNodes) {
-			  for (var i = 0; i < childrenNodes.length; i++) {
-				  result += ',' + childrenNodes[i].id;
-				  result = getAllChildrenNodes(childrenNodes[i], result);
-			  }
-		  }
-	  }
-	  return result;
-  }
 	
-  /** 隐藏div */
-  function  hiddenDiv(){
-	  $("#cateNameId").hide();
-	  $("#posNameId").hide();
-	  $("#descId").hide();
-  }
   
-  /** 显示div */
-  function showDiv(){
-	  $("#cateTdId").text("");
-	  $("#posTdId").text("");
-	  $("#descTdId").text("");
-	  
-	  $("#cateNameId").show();
-	  $("#posNameId").show();
-	  $("#descId").show();
-  }
 	
 </script>
 
@@ -354,7 +346,10 @@
 			            	    </tr>
 			            	    <tr>
 			            	        <td class='info'>描述</td>
-			            	        <td id="descTdId"><textarea name='description' class="span5 h80 textArea_resizeB"   id="descId"></textarea></td>
+			            	        <td id="descTdId">
+			            	        	<textarea name='description' class="span5 h80 textArea_resizeB"   id="descId"></textarea>
+			            	        	<span class="red" id="descTipsId"></span>
+			            	        </td>
 			            	    </tr>
 			            	  </tbody>
 			            </table>

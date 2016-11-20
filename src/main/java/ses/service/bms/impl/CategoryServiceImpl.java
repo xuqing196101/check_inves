@@ -2,14 +2,19 @@ package ses.service.bms.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import common.bean.ResBean;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
@@ -17,6 +22,7 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
+import ses.util.StringUtil;
 
 /**
  * 
@@ -34,6 +40,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
+    
+    
+    /** 操作类型 - 添加 */
+    private static final String OPERA_ADD = "add";
+    /** 操作类型 - 编辑 */
+    private static final String OPERA_EDIT = "edit";
 
 
     public void insertSelective(Category category) {
@@ -71,6 +83,89 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> selectAll() {
         return categoryMapper.selectAll();
     }
+    
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#saveCategory(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public ResBean saveCategory(HttpServletRequest request) {
+        
+        String name = request.getParameter("name");
+        String id = request.getParameter("id");
+        String position = request.getParameter("position");
+        String operaType = request.getParameter("opera");
+        String desc = request.getParameter("description");
+        
+        ResBean res = new ResBean();
+        if (StringUtils.isEmpty(name)) {
+            res.setSuccess(false);
+            res.setMsg("品目名称不能为空");
+           return  res;
+        }
+        
+        if (StringUtils.isEmpty(position)) {
+            res.setSuccess(false);
+            res.setError("序号不能为空");
+           return  res;
+        }
+        
+        if (!StringUtils.isNumeric(position)) {
+            res.setSuccess(false);
+            res.setError("序号只能输入正整数");
+            return  res;
+        }
+        
+        if (!StringUtil.validateStrByLength(desc,400)) {
+            res.setSuccess(false);
+            res.setLenTxt("最多只能输入200个汉字");
+            return  res;
+        }
+        
+        /**
+         * 新增
+         */
+        if (operaType.equals(OPERA_ADD)) {
+            
+            Integer count = findByName(name.trim());
+            
+            if (count != null && count > 0) {
+                res.setSuccess(false);
+                res.setMsg("品目名称已经存在");
+               return  res;
+            }
+            
+            Category category = new Category();
+            category.setId(id);
+            category.setPosition(Integer.parseInt(position));
+            category.setParentId(request.getParameter("parentId"));
+            category.setName(name);
+            category.setStatus(1);
+            category.setDescription(desc);
+            category.setCreatedAt(new Date());
+            category.setIsDeleted(0);
+            insertSelective(category);
+            res.setSuccess(true);
+        }
+        /**
+         * 编辑
+         */
+        if (operaType.equals(OPERA_EDIT)) {
+            Category category = selectByPrimaryKey(id);
+            if (category != null) {
+                category.setPosition(Integer.parseInt(position));
+                category.setDescription(desc);
+                category.setName(name);
+                category.setUpdatedAt(new Date());
+                updateByPrimaryKeySelective(category);
+                res.setSuccess(true);
+            }
+        }
+        return res;
+    }
+    
+    
 
     @Override
     public List<Category> listByKeyword(Map<String, Object> map) {

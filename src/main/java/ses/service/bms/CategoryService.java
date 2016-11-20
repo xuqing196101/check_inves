@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import common.bean.ResBean;
+
 import ses.model.bms.Category;
 import ses.model.sms.SupplierTypeTree;
 
@@ -200,4 +204,16 @@ import ses.model.sms.SupplierTypeTree;
      * @return 返回数量
      */
     public Integer findByName(String name);
+    
+    /**
+     * 
+     *〈简述〉
+     * 保存品目
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return
+     */
+
+    public ResBean saveCategory(HttpServletRequest request);
 }

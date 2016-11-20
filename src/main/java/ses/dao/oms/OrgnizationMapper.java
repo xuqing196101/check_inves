@@ -16,4 +16,15 @@ public interface OrgnizationMapper {
 	List<Orgnization> findByName(Map<String, Object> map);
 	int updateByCategoryId(Orgnization orgnization);
 	List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉
+	 * 获取需求部门
+	 *〈详细描述〉
+	 * @author myc
+	 * @param map
+	 * @return
+	 */
+    List<Orgnization> findOrgPartByParam(Map<String, Object> map);
 }

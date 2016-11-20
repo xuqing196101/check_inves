@@ -18,6 +18,8 @@ public class ResBean {
     private String msg;
     
     private String error;
+    
+    private String lenTxt;
 
     public boolean isSuccess() {
         return success;
@@ -50,6 +52,15 @@ public class ResBean {
     public void setError(String error) {
         this.error = error;
     }
+
+    public String getLenTxt() {
+        return lenTxt;
+    }
+
+    public void setLenTxt(String lenTxt) {
+        this.lenTxt = lenTxt;
+    }
+
     
     
 }

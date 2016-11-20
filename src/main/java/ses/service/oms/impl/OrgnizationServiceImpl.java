@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 @Service("orgnizationService")
@@ -82,5 +83,21 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return orgniztionMapper.findByName(map);
 	}
+
+	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#getNeedOrg(java.util.Map)
+	 */
+    @Override
+    public List<Orgnization> getNeedOrg(Map<String, Object> map) {
+        
+        PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSize")));
+        return orgniztionMapper.findOrgPartByParam(map);
+    }
+	
+	
+	
+	
+	
 
 }

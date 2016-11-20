@@ -49,16 +49,11 @@ public class PageTld extends TagSupport {
 
         JspWriter out = pageContext.getOut();
         try {
-            out.println("<input type='hidden' id='pageNum' value='" + pPages
-                    + "' />");
-            out.println("<input type='hidden' id='pageCurr' value='" + pCurr
-                    + "' />");
-            out.println("<input type='hidden' id='pTotal' value='" + pTotal
-                    + "' />");
-            out.println("<input type='hidden' id='pStart' value='" + pStart
-                    + "' />");
-            out.println("<input type='hidden' id='pEnd' value='" + pEnd
-                    + "' />");
+            out.println("<input type='hidden' id='pageNum' value='" + pPages + "' />");
+            out.println("<input type='hidden' id='pageCurr' value='" + pCurr + "' />");
+            out.println("<input type='hidden' id='pTotal' value='" + pTotal + "' />");
+            out.println("<input type='hidden' id='pStart' value='" + pStart + "' />");
+            out.println("<input type='hidden' id='pEnd' value='" + pEnd + "' />");
             out.println("<input type='hidden' id='url' value='" + url + "' />");
         } catch (IOException e) {
             e.printStackTrace();

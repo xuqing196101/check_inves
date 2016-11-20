@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.CategoryAssignedMapper">
+	
+	<!-- 结果集 -->
+	<resultMap id="CategoryAptitudeMap" type="ses.model.bms.CategoryAssigned">
+		<id column="ID"  property="id" />
+	    <result column="CREATED_AT"  property="createdAt" />
+	    <result column="UPDATED_AT"  property="updatedAt" />
+	    <result column="ORG_ID"  property="orgId" />
+	    <result column="CATE_ID"  property="cateId" />
+	</resultMap>
+	
+	<!-- 查询基础 -->
+	<sql id="Base_Column_List">
+		    ID, ORG_ID,CATE_ID, CREATED_AT,UPDATED_AT	    
+    </sql>
+	
+	<!-- 批量插入 -->
+	<insert id="batchInsert" parameterType="ses.model.bms.CategoryAssigned">
+		 <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+        	select sys_guid() from dual
+    	</selectKey>
+		INSERT INTO T_SES_BMS_CATE_ORG 
+		  (ID, ORG_ID,CATE_ID , CREATED_AT,UPDATED_AT) values 
+		  (#{id}, #{orgId,jdbcType=VARCHAR}, #{cateId,jdbcType=VARCHAR},
+      			#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<!-- 批量删除 -->
+	<delete id="batchaDelete">
+		DELETE FROM T_SES_BMS_CATE_ORG
+		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR}
+		AND  CATE_ID = #{cateId,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

@@ -20,4 +20,15 @@ public interface OrgnizationServiceI {
 	Orgnization  findByCategoryId(String id);
 	int updateByCategoryId(Orgnization orgnization);
 	List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *  获取需求部门数据
+	 *〈详细描述〉
+	 * @author myc
+	 * @param map 参数map
+	 * @return
+	 */
+	List<Orgnization> getNeedOrg(Map<String, Object> map);
 }

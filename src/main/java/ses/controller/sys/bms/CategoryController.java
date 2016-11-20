@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONSerializer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -58,12 +57,6 @@ public class CategoryController extends BaseSupplierController {
 
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
-    
-    /** 操作类型 - 添加 */
-    private static final String OPERA_ADD = "add";
-    /** 操作类型 - 编辑 */
-    private static final String OPERA_EDIT = "edit";
-
 
 
 
@@ -163,76 +156,10 @@ public class CategoryController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/save", produces = "application/json;charset=UTF-8")
     public ResBean save(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String id = request.getParameter("id");
-        String position = request.getParameter("position");
         
-        String operaType = request.getParameter("opera");
+        ResBean resBean = categoryService.saveCategory(request);
         
-        if (StringUtils.isEmpty(name)) {
-            ResBean res = new ResBean();
-            res.setSuccess(false);
-            res.setMsg("品目名称不能为空");
-           return  res;
-        }
-        
-        
-        if (StringUtils.isEmpty(position)) {
-            ResBean res = new ResBean();
-            res.setSuccess(false);
-            res.setError("序号不能为空");
-           return  res;
-        }
-        
-        if (!StringUtils.isNumeric(position)) {
-            ResBean res = new ResBean();
-            res.setSuccess(false);
-            res.setError("序号只能输入正整数");
-           return  res;
-        }
-        
-        ResBean res = new ResBean();
-        
-        /**
-         * 新增
-         */
-        if (operaType.equals(OPERA_ADD)) {
-            
-            Integer count = categoryService.findByName(name.trim());
-            
-            if (count != null && count > 0) {
-                res.setSuccess(false);
-                res.setMsg("品目名称已经存在");
-               return  res;
-            }
-            
-            Category category = new Category();
-            category.setId(id);
-            category.setPosition(Integer.parseInt(position));
-            category.setParentId(request.getParameter("parentId"));
-            category.setName(name);
-            category.setStatus(1);
-            category.setDescription(request.getParameter("description"));
-            category.setCreatedAt(new Date());
-            category.setIsDeleted(0);
-            categoryService.insertSelective(category);
-            res.setSuccess(true);
-        }
-        /**
-         * 编辑
-         */
-        if (operaType.equals(OPERA_EDIT)) {
-            Category category = categoryService.selectByPrimaryKey(id);
-            if (category != null) {
-                category.setPosition(Integer.parseInt(position));
-                category.setDescription(request.getParameter("description"));
-                category.setName(name);
-                category.setUpdatedAt(new Date());
-                categoryService.updateByPrimaryKeySelective(category);
-                res.setSuccess(true);
-            }
-        }
-        return res;
+        return resBean;
     }
 
 
