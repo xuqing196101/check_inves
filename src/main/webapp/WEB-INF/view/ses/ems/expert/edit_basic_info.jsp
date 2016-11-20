@@ -16,58 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
     var treeObj;
 	var datas;
-	var parentId ;
-	var addressId="${expert.address}";
-	//alert(addressId);
-	//地区回显和数据显示
-	$.ajax({
-		url : "${pageContext.request.contextPath}/area/find_by_id.do",
-		data:{"id":addressId},
-		success:function(obj){
-			//alert(JSON.stringify(obj));
-			//var data = eval('(' + obj+ ')');
-			$.each(obj,function(i,result){
-				if(addressId == result.id){
-					parentId = result.areaType;
-				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				}else{
-					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
-				}
-				
-			});
-			//alert(JSON.stringify(data));
-			//alert(parentId);
-			
-		},
-		error:function(obj){
-			
-		}
-		
-	});
 
-	$(function(){
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/listByOne.do",
-			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
-					if(parentId == result.id){
-						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{
-					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-				
-				//alert(JSON.stringify(obj));
-			},
-			error:function(obj){
-				
-			}
-			
-		});
+	var addressId="${expert.address}";
 		
-		
-	});	
 	
 	function fun(){
 		var parentId = $("#addr").val();
@@ -82,8 +33,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 				});
-				
-				//alert(JSON.stringify(obj));
 			},
 			error:function(obj){
 				
@@ -126,6 +75,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  };
 	   var listId;
 	   $(function(){
+		   var parentId;
+		 //地区回显和数据显示
+			$.ajax({
+				url : "${pageContext.request.contextPath}/area/find_by_id.do",
+				data:{"id":addressId},
+				success:function(obj){
+					//alert(JSON.stringify(obj));
+					$.each(obj,function(i,result){
+						if(addressId == result.id){
+							parentId  = result.parentId;
+							//alert("上"+parentId);
+						$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+							$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+						
+					});
+				}
+			});
+
+		   
+		   $.ajax({
+				url : "${pageContext.request.contextPath}/area/listByOne.do",
+				success:function(obj){
+					//var data = eval('(' + obj + ')');
+					//alert(parentId);
+					$.each(obj,function(i,result){
+						if(parentId == result.id){
+							$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+						$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+					});
+				}
+				
+			});
 		   var id="${expert.id}";
 			  $.ajax({
 				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
@@ -133,7 +118,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  listId=result;
 				  },
 				  error:function(result){
-					  alert("出错啦！");
 				  }
 			  }); 
 		  var expertsTypeId = $("#expertsTypeId").val();

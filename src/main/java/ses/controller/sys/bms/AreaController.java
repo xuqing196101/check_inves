@@ -212,18 +212,8 @@ public class AreaController {
 	public List<Area> find_by_id(HttpServletResponse response, String id) throws IOException {
 		if(StringUtils.isNotEmpty(id)){
 		Area area = areaService.listById(id);
-		Area area2 = new Area();
-		area2.setAreaType(area.getAreaType());
 		//根据父id查询出所有子节点
-		List<Area> listByArea = areaService.listByArea(area2);
-		/*Map<String,Object> map =new HashMap<>();
-		map.put("area", area);
-		map.put("listByArea", listByArea);*/
-		/*String json = JSON.toJSONStringWithDateFormat(listByArea, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().write(json);
-		response.getWriter().flush();
-		response.getWriter().close();*/
+		List<Area> listByArea = areaService.findAreaByParentId(area.getParentId());
 		return listByArea;
 		}
 		return new ArrayList<>();

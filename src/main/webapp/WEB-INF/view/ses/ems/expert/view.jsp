@@ -21,51 +21,8 @@ var datas;
 var parentId ;
 var addressId="${expert.address}"
 //alert(addressId);
-//地区回显和数据显示
-$.ajax({
-	url : "${pageContext.request.contextPath}/area/find_by_id.do",
-	data:{"id":addressId},
-	success:function(obj){
-		//alert(JSON.stringify(obj));
-		//var data = eval('(' + obj+ ')');
-		$.each(obj,function(i,result){
-			if(addressId == result.id){
-				parentId = result.areaType;
-			$("#add").append(result.name);
-			}
-			
-		});
-		//alert(JSON.stringify(data));
-		//alert(parentId);
-		
-	},
-	error:function(obj){
-		
-	}
-	
-});
 
-$(function(){
-	$.ajax({
-		url : "${pageContext.request.contextPath}/area/listByOne.do",
-		success:function(obj){
-			var data = eval('(' + obj + ')');
-			$.each(data,function(i,result){
-				if(parentId == result.id){
-					$("#addr").append(result.name+",");
-				}
-			});
-			
-			//alert(JSON.stringify(obj));
-		},
-		error:function(obj){
-			
-		}
-		
-	});
-	
-	
-});	
+
    var setting={
 			async:{
 						//autoParam:["id"],
@@ -102,6 +59,49 @@ $(function(){
 	  };
    var listId;
    $(function(){
+	 //地区回显和数据显示
+	   $.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_id.do",
+			data:{"id":addressId},
+			success:function(obj){
+				//alert(JSON.stringify(obj));
+				//var data = eval('(' + obj+ ')');
+				$.each(obj,function(i,result){
+					if(addressId == result.id){
+						parentId = result.parentId;
+					$("#add").append(result.name);
+					}
+					
+				});
+				//alert(JSON.stringify(data));
+				//alert(parentId);
+				
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+	   
+	   $.ajax({
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			success:function(obj){
+				//var data = eval('(' + obj + ')');
+				$.each(obj,function(i,result){
+					if(parentId == result.id){
+						$("#addr").append(result.name+",");
+					}
+				});
+				
+				//alert(JSON.stringify(obj));
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+		
+	   
 	   var id="${expert.id}";
 	   
 		  $.ajax({

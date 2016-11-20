@@ -17,75 +17,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 	var treeObj;
 	var datas;
-	var parentId ;
-	var addressId="${expert.address}"
-	//alert(addressId);
-	//地区回显和数据显示
-	$.ajax({
-		url : "${pageContext.request.contextPath}/area/find_by_id.do",
-		data:{"id":addressId},
-		success:function(obj){
-			//alert(JSON.stringify(obj));
-			//var data = eval('(' + obj+ ')');
-			$.each(obj,function(i,result){
-				if(addressId == result.id){
-					parentId = result.areaType;
-				$("#addr").append(result.name);
-				}
-				
-			});
-			//alert(JSON.stringify(data));
-			//alert(parentId);
-			
-		},
-		error:function(obj){
-			
-		}
-		
-	});
+	
 
 	$(function(){
+		var parentId ="";
+		var addressId="${expert.address}"
+		//alert(addressId);
+		//地区回显和数据显示
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_id.do",
+			data:{"id":addressId},
+			success:function(obj){
+				//alert(JSON.stringify(obj));
+				//var data = eval('(' + obj+ ')');
+				$.each(obj,function(i,result){
+					if(addressId == result.id){
+						parentId = result.parentId;
+						//alert(parentId);
+					$("#addr").append(result.name);
+					}
+				});
+			}
+		});
+		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
-				var data = eval('(' + obj + ')');
-				$.each(data,function(i,result){
+				//var data = eval('(' + obj + ')');
+				//alert(parentId);
+				$.each(obj,function(i,result){
 					if(parentId == result.id){
 						$("#add").append(result.name+",");
 					}
 				});
-				
-				//alert(JSON.stringify(obj));
-			},
-			error:function(obj){
-				
 			}
-			
 		});
-		
-		
 	});	
-
-	function fun(){
-		var parentId = $("#add").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
-			data:{"id":parentId},
-			success:function(obj){
-				$("#addr").empty();
-				//var data = eval('(' + obj + ')');
-				$("#addr").append("<option value=''>-请选择-</option>");
-				$.each(obj,function(i,result){
-					
-					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
-				});
-			},
-			error:function(obj){
-				
-			}
-			
-		});
-	}
 
 	
 	   var setting={
