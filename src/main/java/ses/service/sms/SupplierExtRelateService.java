@@ -78,4 +78,6 @@ public interface SupplierExtRelateService {
     void updateStatusCount(String type,String conTypeId);
     
     
+    
+    
 }

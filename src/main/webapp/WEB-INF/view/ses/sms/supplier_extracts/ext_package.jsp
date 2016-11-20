@@ -43,11 +43,6 @@
         });
   });
   
-//查看明细
-  function view(id) {
-      window.location.href = "${pageContext.request.contextPath}/project/view.html?id="
-              + id;
-  }
   
   
     /** 全选全不选 */
@@ -97,6 +92,7 @@
         	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=1";
         }
     }
+    
     function record(){
     	   location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
     }
@@ -124,7 +120,6 @@
 		<div class="headline-v2">
 			<h2>立项列表</h2>
 		</div>
-<!-- 项目戳开始 -->
      <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
@@ -153,43 +148,26 @@
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
-          <th class="info">项目名称</th>
-          <th class="info">项目编号</th>
-          <th class="info">采购方式</th>
-          <th class="info">项目状态</th>
+          <th class="info">包名称</th>
+          <th class="info">抽取次数</th>
+          <th class="info">已抽取数量</th>
         </tr>
         </thead>
         
         <tbody id="tbody_id">
 
-                        <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                        <c:forEach items="${list.list}" var="obj" varStatus="vs">
                             <tr style="cursor: pointer;">
-                                <td class="tc w30"><input type="hidden"
-                                    value="${obj.status }" /><input type="checkbox"
-                                    value="${obj.id }" name="chkItem" onclick="check()" alt="">
+                                <td class="tc w30"><input type="checkbox"
+                                    value="${obj.id}" name="chkItem" onclick="check()" alt="">
                                 </td>
                                 <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
-                                </td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber
-                                        }</a></td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">
-                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
-                                </a></td>
-                                <td class="tc"><c:if test="${'1'==obj.status}">实施中</c:if> <c:if
-                                        test="${'2'==obj.status}">已成交</c:if> <c:if
-                                        test="${'3'==obj.status}">已立项</c:if>
-                                </td>
+                                <td class="tc " onclick="view('${obj.id}');">${obj.packages.name}</td>
+                                <td class="tc " onclick="view('${obj.id}');">${obj.count}</td>
+                                <td class="tc " onclick="view('${obj.id}');">${obj.number}</td>
                             </tr>
-
                         </c:forEach>
                     </tbody>
-         
-         
 
       </table>
       </div>

@@ -39,7 +39,7 @@
                 }(), 
                 jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                    	location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?projectId=${projectId}&page='+e.curr;
+                    	location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id=${projectId}&page='+e.curr;
                     }
                 }
             });
@@ -127,71 +127,149 @@
         </div>
     </div>
 	</c:if>
+	
+	<!-- 项目戳开始 -->
+	<div class="container container_box">
+	       <form>
+	           <div>
+	            <h2 class="count_flow"><i>1</i>必填项</h2>
+	           <ul class="ul_list">
+	             <li class="col-md-3 margin-0 padding-0 ">
+	               <span class="col-md-12 padding-left-5">抽取地区:</span>
+	               <div class="input-append">
+	                <input class="span5" id="appendedInput" type="text">
+	                <span class="add-on">i</span>
+	               </div>
+	             </li>
+	             <li class="col-md-3 margin-0 padding-0 ">
+	               <span class="col-md-12 padding-left-5">监督人员:</span>
+	               <div class="input-append">
+	                <input class="span5" id="appendedInput" type="text">
+	                <span class="add-on">i</span>
+	               </div>
+	             </li>
+	             <li class="col-md-3 margin-0 padding-0 ">
+                   <span class="col-md-12 padding-left-5">项目名称:</span>
+                   <div class="input-append">
+                    <input class="span5" id="appendedInput" value="${projectName}" type="text">
+                    <span class="add-on">i</span>
+                   </div>
+                 </li>
+                 <li class="col-md-3 margin-0 padding-0 ">
+                   <span class="col-md-12 padding-left-5">项目编号:</span>
+                   <div class="input-append">
+                    <input class="span5" id="appendedInput" value="${projectNumber}" type="text">
+                    <span class="add-on">i</span>
+                   </div>
+                 </li>
+	               <li class="col-md-3 margin-0 padding-0 ">
+                   <span class="col-md-12 padding-left-5">包名:</span>
+                   <div class="input-append">
+                    <input class="span5" id="appendedInput" value="${packageName}" type="text">
+                    <span class="add-on">i</span>
+                   </div>
+                 </li>
+	        
+	           </ul>
+	          </div>
+	      </form>
+	 </div> 
+	
 	<!-- 录入采购计划开始-->
-	<div class="container">
+	<div class="">
 		<!-- 项目戳开始 -->
 		<form id="add_form" action="${pageContext.request.contextPath}/project/list.html"
 			method="post">
 		</form>
-		<div class="container clear margin-top-30">
-		  <div class="clear"></div>
-          <span class="fl mt5  margin-top-10">
-                 <span class="fl margin-top-6">
-                 <c:if test="${projectId == null || projectId == ''}">
-                 <span class="red">*</span>
-                 </c:if>项目名称 ：</span>
-                 <c:if test="${projectId!=null&&projectId!=''}">
-	                 <span class=" fl" title="${projectName}">
-                    <c:choose>
-                        <c:when test="${fn:length(projectName) > 50}">
-                          ${fn:substring(projectName, 0, 50)}......
-                        </c:when>
-                        <c:otherwise>
-                        ${projectName}
-                        </c:otherwise>
-                    </c:choose>
-                    </span>
-                    <input type="hidden" class="fl" value="${projectName}" />
-                 </c:if>
-                 <c:if test="${projectId == null || projectId == ''}">
-                   <input type="text" id="projectName"  class="fl span5" value="${projectName}" />
-                     <span class="add-on">i</span>
-                 </c:if>
-                <div class="b f14 red tip fl w75" id="projectName">${projectNameError}</div> 
-        </span>
-         <span class="fl mt5 ml20 margin-top-10">
-                 <span class="fl margin-top-6">
-                   <c:if test="${projectId == null || projectId == ''}">
-                 <span class="red">*</span>
-                 </c:if>
-                                               项目编号：</span>
-                   <c:if test="${projectId!=null&&projectId!=''}">
-                    <span class=" fl" title="${projectNumber}">
-                    <c:choose>
-                        <c:when test="${fn:length(projectNumber) > 50}">
-                          ${fn:substring(projectNumber, 0, 50)}......
-                        </c:when>
-                        <c:otherwise>
-                        ${projectNumber}
-                        </c:otherwise>
-                    </c:choose>
-                    </span>
-                    <input type="hidden" class="fl"  value="${projectNumber}" />
-                 </c:if>
-                 <c:if test="${projectId == null || projectId == ''}">
-                    <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" />
+<!-- 		<div class="container clear margin-top-30"> -->
+<!-- 		  <div class="clear"></div> -->
+<!--           <span class="fl mt5  margin-top-10"> -->
+<!--                  <span class="fl margin-top-6"> -->
+<%--                  <c:if test="${projectId == null || projectId == ''}"> --%>
+<!--                  <span class="red">*</span> -->
+<%--                  </c:if>项目名称 ：</span> --%>
+<%--                  <c:if test="${projectId!=null&&projectId!=''}"> --%>
+<%-- 	                 <span class=" fl" title="${projectName}"> --%>
+<%--                     <c:choose> --%>
+<%--                         <c:when test="${fn:length(projectName) > 50}"> --%>
+<%--                           ${fn:substring(projectName, 0, 50)}...... --%>
+<%--                         </c:when> --%>
+<%--                         <c:otherwise> --%>
+<%--                         ${projectName} --%>
+<%--                         </c:otherwise> --%>
+<%--                     </c:choose> --%>
+<!--                     </span> -->
+<%--                     <input type="hidden" class="fl" value="${projectName}" /> --%>
+<%--                  </c:if> --%>
+<%--                  <c:if test="${projectId == null || projectId == ''}"> --%>
+<%--                    <input type="text" id="projectName"  class="fl span5" value="${projectName}" /> --%>
+<!--                      <span class="add-on">i</span> -->
+<%--                  </c:if> --%>
+<%--                 <div class="b f14 red tip fl w75" id="projectName">${projectNameError}</div>  --%>
+<!--         </span> -->
+<!--          <span class="fl mt5 ml20 margin-top-10"> -->
+<!--                  <span class="fl margin-top-6"> -->
+<%--                    <c:if test="${projectId == null || projectId == ''}"> --%>
+<!--                  <span class="red">*</span> -->
+<%--                  </c:if> --%>
+<!--                                                项目编号：</span> -->
+<%--                    <c:if test="${projectId!=null&&projectId!=''}"> --%>
+<%--                     <span class=" fl" title="${projectNumber}"> --%>
+<%--                     <c:choose> --%>
+<%--                         <c:when test="${fn:length(projectNumber) > 50}"> --%>
+<%--                           ${fn:substring(projectNumber, 0, 50)}...... --%>
+<%--                         </c:when> --%>
+<%--                         <c:otherwise> --%>
+<%--                         ${projectNumber} --%>
+<%--                         </c:otherwise> --%>
+<%--                     </c:choose> --%>
+<!--                     </span> -->
+<%--                     <input type="hidden" class="fl"  value="${projectNumber}" /> --%>
+<%--                  </c:if> --%>
+<%--                  <c:if test="${projectId == null || projectId == ''}"> --%>
+<%--                     <input type="text" class="fl" id="projectNumber"  value="${projectNumber}" /> --%>
                     
-                 </c:if>
-                  <div class="b f14 red tip fl w75" id="projectNumber">${projectNumberError}</div> 
+<%--                  </c:if> --%>
+<%--                   <div class="b f14 red tip fl w75" id="projectNumber">${projectNumberError}</div>  --%>
                
-        </span>
-        <span class="fr option_btn margin-top-10">
-          <button class="btn btn-windows add"
-                onclick="">完成抽取</button>
-            <button class="btn btn-windows add"
-                onclick="add();">添加抽取条件</button>
-        </span>
-			<table class="table table-bordered table-condensed mt5">
+<!--         </span> -->
+<!--          <span class="fl mt5 ml20 margin-top-10"> -->
+<!--                  <span class="fl margin-top-6"> -->
+<%--                    <c:if test="${projectId == null || projectId == ''}"> --%>
+<!--                  <span class="red">*</span> -->
+<%--                  </c:if> --%>
+<!--                                                包名：</span> -->
+<%--                    <c:if test="${projectId!=null&&projectId!=''}"> --%>
+<%--                     <span class=" fl" title="${packageName}"> --%>
+<%--                     <c:choose> --%>
+<%--                         <c:when test="${fn:length(packageName) > 50}"> --%>
+<%--                           ${fn:substring(packageName, 0, 50)}...... --%>
+<%--                         </c:when> --%>
+<%--                         <c:otherwise> --%>
+<%--                         ${packageName} --%>
+<%--                         </c:otherwise> --%>
+<%--                     </c:choose> --%>
+<!--                     </span> -->
+<%--                     <input type="hidden" class="fl"  value="${packageName}" /> --%>
+<%--                  </c:if> --%>
+<%--                  <c:if test="${projectId == null || projectId == ''}"> --%>
+<%--                     <input type="text" class="fl" id="packageName"  value="${packageName}" /> --%>
+                    
+<%--                  </c:if> --%>
+<%--                   <div class="b f14 red tip fl w75" id="projectNumber">${projectNumberError}</div>  --%>
+               
+<!--         </span> -->
+    <!-- 项目戳开始 -->
+    <div class="container container_box">
+           <form>
+               <div>
+                <h2 class="count_flow"><i>2</i>条件列表</h2>
+                <ul class="ul_list">
+		        <span class="fr option_btn margin-top-10">
+		            <button class="btn btn-windows add"
+		                onclick="add();">添加条件</button>
+		        </span>
+			     <table class="table table-bordered table-condensed ">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -245,8 +323,10 @@
 					</tr>
 				</c:forEach>
 			</table>
-
 			<div id="pagediv" align="right"></div>
+			</ul>
+		</div>
+		</form>
 		</div>
 	</div>
 

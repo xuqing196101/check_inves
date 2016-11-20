@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierExtPackageMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierExtPackage">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+		<result column="COUNT" jdbcType="DECIMAL" property="count" />
+		<result column="IS_FINISH" jdbcType="DECIMAL" property="isFinish" />
+		<result column="NUMBER" jdbcType="DECIMAL" property="number" />
+		<association property="packages" column="PACKAGE_ID"
+			select="bss.dao.ppms.PackageMapper.selectByPrimaryKeyId" />
+			 <association property="project" column="PROJECT_ID"
+            select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, CREATED_AT, UPDATED_AT, IS_DELETED, PROJECT_ID, PACKAGE_ID,
+		"COUNT",
+		IS_FINISH,
+		"NUMBER"
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierExtPackage">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_PACKAGE (ID, CREATED_AT,
+		UPDATED_AT,
+		IS_DELETED, PROJECT_ID, PACKAGE_ID,
+		COUNT, IS_FINISH, NUMBER
+		)
+		values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE},
+		#{updatedAt,jdbcType=DATE},
+		#{isDeleted,jdbcType=DECIMAL},
+		#{projectId,jdbcType=VARCHAR}, #{packageId,jdbcType=VARCHAR},
+		#{count,jdbcType=DECIMAL}, #{isFinish,jdbcType=DECIMAL},
+		#{number,jdbcType=DECIMAL}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierExtPackage">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID,
+			</if>
+			<if test="count != null">
+				COUNT,
+			</if>
+			<if test="isFinish != null">
+				IS_FINISH,
+			</if>
+			<if test="number != null">
+				NUMBER,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="packageId != null">
+				#{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=DECIMAL},
+			</if>
+			<if test="isFinish != null">
+				#{isFinish,jdbcType=DECIMAL},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierExtPackage">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		<set>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				COUNT = #{count,jdbcType=DECIMAL},
+			</if>
+			<if test="isFinish != null">
+				IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+			</if>
+			<if test="number != null">
+				NUMBER = #{number,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierExtPackage">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		set CREATED_AT =
+		#{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+		PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR},
+		PACKAGE_ID =
+		#{packageId,jdbcType=VARCHAR},
+		COUNT = #{count,jdbcType=DECIMAL},
+		IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+		NUMBER =
+		#{number,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 批量插入 -->
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO T_SES_SMS_SUPPLIER_EXT_PACKAGE
+		(PROJECT_ID,PACKAGE_ID)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.packageId,jdbcType=VARCHAR}
+			from dual
+		</foreach>
+	</insert>
+	<!-- list -->
+	<select id="list" resultMap="BaseResultMap" parameterType="ses.model.sms.SupplierExtPackage">
+
+		SELECT
+
+		<include refid="Base_Column_List" />
+
+		FROM T_SES_SMS_SUPPLIER_EXT_PACKAGE
+
+		WHERE 1=1
+		
+		<if test="projectId != null and projectId != ''">
+			AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null and id != ''">
+			AND ID = #{id,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+</mapper>
