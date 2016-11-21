@@ -112,19 +112,19 @@ function sub(){
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
-	 <li class="col-md-12 p0 mt10" id="picNone" >
-	    <span class="fl">图片上传：</span>
-	    <div class="fl">
-			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
-		</div>
-	 </li>
-	 <li class="col-md-12 p0 mt10">
+	 <li class="col-md-4 margin-0 padding-0 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
   	   	${fn:split(a.fileName, '_')[1]},
   	   </c:forEach>
 	 </div>
+	 </li>
+	 <li class="col-md-3 margin-0 padding-0 mt10" id="picNone" >
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
 	 </li>
   	 </ul>
 	 </div>
