@@ -1,19 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html>
   <head>
- 
-    <title>查看质检信息</title>
- 
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />  
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" type="text/css" />
+    
   </head>
   <script type="text/javascript">
   function showPic(url,name){
@@ -39,122 +37,85 @@
 	  </div>
    </div>
    
-  <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<div>
-	    	<div class="headline-v2">
-	   			<h2>质检信息详情</h2>
-	   		</div>
+  <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">须知文档详情</a></li>
+            </ul>
+            <div class="tab-content padding-top-20">
+            <div class="tab-pane fade active in" id="tab-1">
+                <h2 class="count_flow jbxx">基本信息</h2>
+                <table class="table table-bordered">
+                 <tbody>
+                     <tr>
+	                  <td width=25% class="bggrey ">项目类别：</td>
+	                  <td width=25%>${pqinfo.projectType}</td>
+	                  <td width=25% class="bggrey ">合同名称：</td>
+	                  <td width=25%>${pqinfo.contract.name}</td>
+	                 </tr>
+	                 <tr>
+	                  <td width=25% class="bggrey ">合同编号：</td>
+	                  <td width=25%>${pqinfo.contract.code}</td>
+	                  <td width=25% class="bggrey ">供应商组织机构代码：</td>
+	                  <td width=25%>${pqinfo.contract.supplierPurId}</td>
+	                 </tr> 
+	                 <tr>
+	                  <td width=25% class="bggrey ">供应商名称：</td>
+	                  <td width=25%>${pqinfo.contract.supplierDepName}</td>
+	                  <td width=25% class="bggrey "></td>
+	                  <td width=25%></td>
+	                 </tr> 
+                 </tbody>
+                 </table>
 	   		
-	   		<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-6  p0 ">
-			   <span class="">合同编号：</span>
-			   <div class="input-append">
-		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" value = '${pqinfo.contract.code}' readonly="readonly">
-		       </div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="">合同名称：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="contract_name" type="text" value = '${pqinfo.contract.name}' readonly="readonly">
-       			</div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="">供应商组织机构代码：</span>
-		        <div class="input-append ">
-		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplierPurId}' readonly="readonly">
-       			</div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">供应商名称：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" name="supplier_name" type="text" value = '${pqinfo.contract.supplierDepName}' readonly="readonly">
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">项目类别：</span>
-			   <div class="btn-group ">
-		        <input class="span2" name="projectType" type="text" value = '${pqinfo.projectType}' readonly="readonly">
-		       </div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="">质检单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2" name="unit" type="text" value = '${pqinfo.unit}' readonly="readonly">
-       			</div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="fl">质检类型：</span>
-			   <div class="btn-group ">
-		        	<input class="span2" name="type" type="text" value = '${pqinfo.type}' readonly="readonly">
-		       </div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="">质检地点：</span>
-		        <div class="input-append ">
-		        	<input class="span2" name="place" type="text" value = '${pqinfo.place}' readonly="readonly">
-       			</div>
-			 </li>
-			<li class="col-md-6  p0 ">
-			   <span class="">质检日期：</span>
-			   <div class="input-append">
-		        <input class="span2" name="date" type="text"  value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>"readonly="readonly">
-		       </div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="">质检人员：</span>
-		        <div class="input-append ">
-		        	<input class="span2" name="inspectors" type="text" value = '${pqinfo.inspectors}' readonly="readonly">
-       			</div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="">质检情况：</span>
-			   <div class="input-append">
-		        <input class="span2" name="condition" type="text" value = '${pqinfo.condition}' readonly="readonly">
-		       </div>
-			 </li>
-    		 <li class="col-md-6 p0">
-			   <span class="fl">质检结论：</span>
-		        <div class="btn-group ">
-		         <input class="span2" name="conclusion" type="text" value = '${pqinfo.conclusion}' readonly="readonly">
-       			</div>
-			 </li>
-			 <li class="col-md-12  p0 ">
-			   <span class="fl">详细情况：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		         <textarea class="text_area col-md-12 " name="detail"  readonly="readonly" >${pqinfo.detail}</textarea>
-		       </div>
-			 </li>
-   		</ul>
-   		<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-6  p0 ">
-			   <span class="">质检报告：</span>
-			   <div class="fl">
-		        <button type="button" onclick="showPic('${pqinfo.report}','质检报告')">质检报告</button><img class="hide" id="photo" src="${pqinfo.report}"/>
-		       </div>
-			 </li>
-		</ul>
+				 <h2 class="count_flow jbxx">质检信息</h2>
+                 <table class="table table-bordered">
+                 <tbody>
+                     <tr>
+	                  <td width=25% class="bggrey ">质检单位：</td>
+	                  <td width=25%>${pqinfo.unit}</td>
+	                  <td width=25% class="bggrey ">质检类型：</td>
+	                  <td width=25%>${pqinfo.type}</td>
+	                 </tr>
+	                 <tr>
+	                  <td width=25% class="bggrey ">质检地点：</td>
+	                  <td width=25%>${pqinfo.place}</td>
+	                  <td width=25% class="bggrey ">质检日期：</td>
+	                  <td width=25%><fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/></td>
+	                 </tr> 
+	                 <tr>
+	                  <td width=25% class="bggrey ">质检人员：</td>
+	                  <td width=25%>${pqinfo.inspectors}</td>
+	                  <td width=25% class="bggrey ">质检情况：</td>
+	                  <td width=25%>${pqinfo.condition}</td>
+	                 </tr>
+	                 <tr>
+	                  <td width=25% class="bggrey ">质检结论：</td>
+	                  <td width=25%>${pqinfo.conclusion}</td>
+	                  <td width=25% class="bggrey ">质检报告：</td>
+	                  <td width=25%>
+	                  	<button type="button" onclick="view('${pqinfo.report}',this)" class="btn">质检报告</button>
+					  </td>
+	                 </tr>
+	                 <tr>
+	                  <td width=25% class="bggrey ">详细情况：</td>
+	                  <td colspan="3">${pqinfo.detail}</td>
+	                 </tr>
+                 </tbody>
+                 </table>
+			</div>
+		</div>
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
-	</div>
+  <div  class="col-md-12 tc">
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
 	  	 
 	</div>  	
-     
      </div>
      </div>
-     <script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
-    var content='${pqinfo.report}';
-	ue.ready(function(){
-  		ue.setContent(content);    
-  		ue.setDisabled([]);
-	});
-    
-</script>
+     </div>
+
   </body>
 </html>

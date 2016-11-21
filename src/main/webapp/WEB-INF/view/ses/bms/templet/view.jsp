@@ -19,49 +19,57 @@
 				</li>
 				<li><a href="#">论坛管理</a>
 				</li>
-				<li class="active"><a href="#">版块管理</a>
+				<li class="active"><a href="#">模板管理</a>
 				</li>
-				<li class="active"><a href="#">版块详情</a>
+				<li class="active"><a href="#">模板详情</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 	</div>
 
-	<div class="container container_box">
-			<div>
-				<h2 class="count_flow">
-					<i>1</i>模板详情
-				</h2>
-				<ul class="ul_list mb20">
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">模板名称</span>
-						<div class="input-append">
-							<input class="span5" type="text" value='${templet.name}'
-								readonly="readonly">
-							<span class="add-on">i</span>
-						</div></li>
-
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">模板类型</span>
-						<div class="input-append">
-							<input class="span5" type="text" value='${templet.temType}'
-								readonly="readonly">
-							<span class="add-on">i</span>
-						</div></li>
-					<li class="col-md-12 p0">
-					<span class="col-md-12 p0">模板内容</span>
-						<div class="col-md-9 mt5 p0">
-							<script id="editor" name="content" type="text/plain" ></script>
-							<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
-						</div></li>
-				</ul>
+	<div class="container content pt0">
+ 	<div class="row magazine-page">
+	   <div class="col-md-12 tab-v2">
+	        <div class="padding-top-10">
+				<ul class="nav nav-tabs bgwhite">
+	            	<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">须知文档详情</a></li>
+           	 	</ul>
+           	 	<div class="tab-content padding-top-20">
+            	<div class="tab-pane fade active in" id="tab-1">
+                	<h2 class="count_flow jbxx">基本信息</h2>
+                	<table class="table table-bordered">
+                 		<tbody>
+                     		<tr>
+	                  			<td class="bggrey ">模板名称：</td>
+	                  			<td>${templet.name}</td>
+	                  			<td class="bggrey ">模板类型：</td>
+	                  			<td>${templet.temType}</td>
+	                 		</tr>
+	                 		<tr>
+	                  			<td class="bggrey ">创建时间：</td>
+	                  			<td><fmt:formatDate value='${templet.createdAt}' pattern='yyyy-MM-dd'/></td>
+	                  			<td class="bggrey ">修改时间：</td>
+	                  			<td><fmt:formatDate value='${templet.updatedAt}' pattern='yyyy-MM-dd'/></td>
+	                 		</tr> 
+                 		</tbody>
+           	 		</table>
+					<h2 class="count_flow jbxx">模板内容</h2>
+                 	<div class="col-md-12  fn mt5 pwr9">
+                     <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+                    <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
+                	</div>
+                 </div>
+                </div>
 				<!-- 底部按钮 -->
 				<div class="col-md-12 tc">
 						<button class="btn btn-windows back" onclick="history.go(-1)"
 							type="button">返回</button>
 				</div>
-			</div>
-
-	</div>
+			</div>  	
+     	</div>
+     </div>
+    </div>
 	<script type="text/javascript">
 		//实例化编辑器
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例

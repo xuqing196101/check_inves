@@ -12,7 +12,7 @@
   <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li><li class="active"><a href="#">版块详情</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">须知文档管理</a></li><li class="active"><a href="#">须知文档详情</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -53,7 +53,7 @@
                  </div>
 	<!-- 底部按钮 -->			          
   <div class="col-md-12 tc">
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
 	  	 
 	</div>  	
