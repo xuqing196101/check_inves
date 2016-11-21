@@ -501,12 +501,6 @@ button, input, select, textarea {
     background-position: 121px 0;
 	padding-top:20px;
 }
-.select_common{
-white-space: nowrap;
-vertical-align: middle;
-min-width: 249px;
-display: inline-block;
-}
 .select_common select{
 border:1px solid #ccc;
 }

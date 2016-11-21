@@ -426,7 +426,7 @@ h2.list_title{
     background: url("../images/round.png") center center no-repeat;
 }
 
-.span5{
+.input_group{
    width:100%;
    position:relative;
    display:table-cell;
@@ -435,6 +435,10 @@ h2.list_title{
    height: 32px!important;
    line-height: 32px!important;
  }
+.span5{
+	width: 200px;
+	float: left;
+}
  
 /*上传下载*/
 .download {
@@ -505,7 +509,6 @@ a.thumbnail {
     display: inline-block;
     white-space: nowrap;
     vertical-align: middle;
-    min-width:249px;
     position:relative;
     margin-bottom:25px;
     clear: both;
@@ -513,7 +516,7 @@ a.thumbnail {
 }
 
 .select_common select{
-	width:230px;
+	width:99%;
 }
 
 li:first-child {
