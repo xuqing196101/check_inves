@@ -427,8 +427,13 @@ h2.list_title{
 }
 
 .span5{
-   width:200px;
+   width:100%;
+   position:relative;
+   display:table-cell;
    float:left;
+   margin-bottom:0px!important;
+   height: 32px!important;
+   line-height: 32px!important;
  }
  
 /*上传下载*/
@@ -955,6 +960,7 @@ li:first-child {
 	height:32px;
 	clear:both;
 	float: left;
+	display: table;
 }
 .input-long{
 	margin-bottom: 25px;

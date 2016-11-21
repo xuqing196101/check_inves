@@ -36,116 +36,116 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div>
     <h2 class="count_flow"><i>1</i>修改订单</h2>
    <ul class="ul_list">
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">采购单位</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购单位</span>
+	   <div class="input-append col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">发票抬头</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发票抬头</span>
+	   <div class="input-append col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">采购单位联系人</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购单位联系人</span>
+	   <div class="input-append col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">采购单位联系人座机</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购单位联系人座机</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">采购单位联系人手机</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购单位联系人手机</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">采购单位地址</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购单位地址</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">供应商名称</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商名称</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>  
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">供应商单位联系人</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商单位联系人</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">供应商单位联系人座机</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商单位联系人座机</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>  
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">供应商单位联系人手机 </span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商单位联系人手机 </span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">供应商单位地址 </span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商单位地址 </span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">交付日期</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">交付日期</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="Wdate w230" id="appendedInput" type="text">
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">预算金额（元）</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">预算金额（元）</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">发票编号</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发票编号</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0 ">
-	 	<span class="zzzx">营业执照（三证合一）：</span>
-     	<div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	 	<span class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照（三证合一）：</span>
+     	<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
           <a href="#" class="upload"><i></i>上传附件</a>
         </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0 ">
-	 	<div class="fl">文件下载：<span class="ml10">供应商注册须知</span><a href="#" class="download"></a></div>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	 	<div class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文件下载：<span class="input-append col-md-12 col-sm-12 col-xs-12 p0">供应商注册须知</span><a href="#" class="download"></a></div>
 	 </li>
-     <li class="col-md-11 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">备注</span>
-	   <div class="">
-        <textarea class="col-md-12" style="height:130px" title="不超过800个字"></textarea>
+     <li class="col-md-12 col-sm-12 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+        <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过800个字"></textarea>
        </div>
 	 </li> 
 
@@ -156,121 +156,114 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="padding-top-10 clear">
     <h2 class="count_flow"><i>2</i>产品明细</h2>
    <ul class="ul_list">
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">品目</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">品目</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" type="text">
-		<div class="input-append">
-          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		    <img src="<%=basePath%>public/backend/images/down.png" class="margin-bottom-5"/>
-          </button>
-          <ul class="dropdown-menu list-unstyled">
-          </ul>
-       </div>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">品牌</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">品牌</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>  
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">型号</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">型号</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">版本号</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">版本号</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>  
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">市场单价（元）</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">市场单价（元）</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">成交单价（元）</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交单价（元）</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">数量</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">单位</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">小计（元）</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">小计（元）</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">下拉框</span>
-	   <div class="select_common">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">下拉框</span>
+	   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
         <select>
           <option>选项一</option>
           <option>选项二</option>
         </select>
        </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
+     <li class="col-md-3 col-sm-6 col-xs-12">
      <div class="select_check">
 	   <input type="checkbox">多选
 	 </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0 ">
+     <li class="col-md-3 col-sm-6 col-xs-12">
      <div class="select_check">
 	   <input type="radio">单选
 	 </div>
 	 </li>
-     <li class="col-md-11 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">备注</span>
-	   <div class="">
-        <textarea class="col-md-12" style="height:130px" title="不超过800个字"></textarea>
+     <li class="col-md-12 col-sm-12 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+        <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过800个字"></textarea>
        </div>
 	 </li> 
 	 </ul>
 	 <ul class="ul_list padding-left-20">
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">运费（元）</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input class="span5 col-md-8 padding-0 " id="appendedInput" type="text">
-        <span class="add-on col-md-4">i</span>
+     <li class="col-md-4 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">运费（元）</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="span5" id="appendedInput" type="text">
+        <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">其他费用（元）</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input class="span5 col-md-8 padding-0 " id="appendedInput" type="text">
-        <span class="add-on col-md-4">i</span>
+     <li class="col-md-4 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他费用（元）</span>
+	   <div class="input-append  col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="span5" id="appendedInput" type="text">
+        <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">其他费用说明</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input class="span5 col-md-8 padding-0 " id="appendedInput" type="text">
-        <span class="add-on col-md-4">i</span>
+     <li class="col-md-4 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他费用说明</span>
+	   <div class="input-append  col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="span5" id="appendedInput" type="text">
+        <span class="add-on">i</span>
        </div>
 	 </li> 
    </ul>

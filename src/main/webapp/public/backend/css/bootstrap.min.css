@@ -362,11 +362,11 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 }
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
     display: inline-block;
-    height: 30px;
+    height: 32px;
     padding: 4px 3px;
     margin-bottom: 10px;
     font-size: 14px;
-    line-height: 30px;
+    line-height: 32px;
     color: #555;
     vertical-align: middle;
     border:1px solid #ccc;
@@ -451,21 +451,20 @@ button, input, select, textarea {
     border-radius: 0;
 }
 .input-append .add-on, .input-prepend .add-on {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
+    display:table-cell;
+    padding:0 10px 0 10px;
+    width:1%;
 	text-align:center;
-    min-width: 16px;
-    padding: 0px 0px 0px 0px;
     font-size: 16px;
     font-weight: 600;
-    line-height: 30px;
     text-align: center;
     text-shadow: 0 1px 0 #fff;
     background-color: #ffffff;
 	font-family:"americantypewritercondensed";
     border: 1px solid #ccc;
 	color:#777777;
+	vertical-align: middle;
+	margin-left: -1px;
 }
 .span2{
     width:220px;
