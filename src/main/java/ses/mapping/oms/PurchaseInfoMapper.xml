@@ -57,7 +57,7 @@
 		</if>
 		<!-- 根据用户身份证号查询 -->
 		<if test="idCard != null and '' != idCard">
-			and d.ID_CARD= #{idCard}
+			and d.ID_CARD LIKE '%'||#{idCard}||'%'
 		</if>
 		<!-- 根据用户ID查询 -->
 		<if test="userId != null and '' != userId">

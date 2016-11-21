@@ -97,8 +97,6 @@
 			if($(obj).prop("checked")){
 				$("#sin").show();
 			}
-			$("#singleNum").val("");
-			$("#singlePoint").val("");
 		}
 		
 		//勾选单选题的无
@@ -116,8 +114,6 @@
 			if($(obj).prop("checked")){
 				$("#mul").show();
 			}
-			$("#multipleNum").val("");
-			$("#multiplePoint").val("");
 		}
 		
 		//勾选多选题的无
@@ -135,8 +131,6 @@
 			if($(obj).prop("checked")){
 				$("#ju").show();
 			}
-			$("#judgeNum").val("");
-			$("#judgePoint").val("");
 		}
 		
 		//勾选判断题的无

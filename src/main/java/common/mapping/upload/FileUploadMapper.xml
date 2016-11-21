@@ -71,4 +71,11 @@
   	 WHERE ID = #{id, jdbcType=VARCHAR}
   </update>
   
+  <select id="findById"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM T_SES_BMS_ATTACHMENT
+  	 WHERE IS_DELETED = 0 
+  	 AND ID = #{id}
+  </select>
 </mapper>

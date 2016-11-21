@@ -374,6 +374,7 @@ public class UploadServiceImpl implements UploadService {
     }
 
 
+
     @Override
     public List<UploadFile> getFilesOther(String businessId, String typeId, String sysKey) {
         Integer systemKey = Integer.parseInt(sysKey);
@@ -398,5 +399,10 @@ public class UploadServiceImpl implements UploadService {
         }
         return ERROR;
     }
-    
+
+	
+	@Override
+	public UploadFile findById(String id) {
+		return uploadDao.findById(id);
+	}
 }

@@ -656,7 +656,7 @@
 		from T_SES_EMS_EXPERT
 		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
 		<if test="relName != null and relName !=''">
-			AND REL_NAME like #{relName}
+			AND REL_NAME LIKE #{relName}
 		</if>
 		<if test="expertsFrom != null and expertsFrom !=''">
 			AND EXPERTS_FROM = #{expertsFrom}
@@ -668,7 +668,7 @@
 			AND EXPERTS_TYPE_ID = #{expertsTypeId}
 		</if>
 		<if test="idNumber != null and idNumber !=''">
-			AND ID_NUMBER = #{idNumber}
+			AND ID_NUMBER LIKE #{idNumber}
 		</if>
 		<if test="id != null and id !=''">
 			AND ID = #{id}

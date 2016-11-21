@@ -85,4 +85,14 @@ public interface FileUploadMapper {
      * @return
      */
     List<UploadFile> getFilesByIds(@Param("id")String id, @Param("tableName")String tableName);
+    
+    /**
+     * 
+     *〈简述〉根据主键查询
+     *〈详细描述〉
+     * @author ZhaoBo
+     * @param id 主键
+     * @return UploadFile
+     */
+    UploadFile findById(String id);
 }

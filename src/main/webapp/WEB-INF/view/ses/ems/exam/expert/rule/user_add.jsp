@@ -13,7 +13,7 @@
 	<script type="text/javascript">
 		$(function(){
 			$("#relName").val("${relName}");
-			$("#card").val("${card}");
+			$("#idNumber").val("${idNumber}");
 			var type_options = document.getElementById("userType").options;
 			for(var i=0;i<type_options.length;i++){
 				if($(type_options[i]).attr("value")=="${userType}"){

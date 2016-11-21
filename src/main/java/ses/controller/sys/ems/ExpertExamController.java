@@ -2912,7 +2912,7 @@ public class ExpertExamController extends BaseSupplierController{
 		HashMap<String,Object> ruleMap = new HashMap<String,Object>();
 		ruleMap.put("id", ruleId);
 		ExamRule examRule = examRuleService.selectById(ruleMap).get(0);
-		String relName = request.getParameter("userName");
+		String relName = request.getParameter("relName");
 		String idNumber = request.getParameter("idNumber");
 		String userType = request.getParameter("userType");
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -2920,7 +2920,7 @@ public class ExpertExamController extends BaseSupplierController{
 			map.put("relName", "%"+relName+"%");
 		}
 		if(idNumber!=null&&!idNumber.equals("")){
-			map.put("idNumber", idNumber);
+			map.put("idNumber", "%"+idNumber+"%");
 		}
 		if(userType!=null&&!userType.equals("")){
 			map.put("expertsTypeId",userType);

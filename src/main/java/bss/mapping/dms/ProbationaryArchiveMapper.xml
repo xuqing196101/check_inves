@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.dms.ProbationaryArchiveMapper">
+  <resultMap id="BaseResultMap" type="bss.model.dms.ProbationaryArchive">
+    <id column="ID" property="id" />
+    <result column="CONTRACT_CODE" property="contractCode" />
+    <result column="PROJECT_CODE" property="projectCode" />
+    <result column="YEAR" property="year" />
+    <result column="PURCHASE_DEP" property="purchaseDep" />
+    <result column="PURCHASE_TYPE" property="purchaseType" />
+    <result column="PRODUCT_NAME" property="productName" />
+    <result column="SUPPLIER_NAME" property="supplierName" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="DRAFT_GIT_AT" property="draftGitAt" />
+    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt" />
+    <result column="FORMAL_GIT_AT" property="formalGitAt" />
+    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt" />
+    <result column="REPORT_AT" property="reportAt" />
+    <result column="APPLY_AT" property="applyAt" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID,CONTRACT_CODE,PROJECT_CODE,YEAR,PURCHASE_DEP,PURCHASE_TYPE,PRODUCT_NAME,
+    SUPPLIER_NAME,PROJECT_ID,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,
+    FORMAL_REVIEWED_AT,REPORT_AT,APPLY_AT,CREATED_AT,UPDATED_AT
+  </sql>
+  
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_DMS_PROBATIONARY_ARCHIVE
+    where ID = #{id}
+  </select>
+  
+  <insert id="insertSelective" parameterType="bss.model.dms.ProbationaryArchive">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_DMS_PROBATIONARY_ARCHIVE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractCode != null">
+        CONTRACT_CODE,
+      </if>
+      <if test="projectCode != null">
+        PROJECT_CODE,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="draftGitAt != null">
+        DRAFT_GIT_AT,
+      </if>
+      <if test="draftReviewedAt != null">
+        DRAFT_REVIEWED_AT,
+      </if>
+      <if test="formalGitAt != null">
+        FORMAL_GIT_AT,
+      </if>
+      <if test="formalReviewedAt != null">
+        FORMAL_REVIEWED_AT,
+      </if>
+      <if test="reportAt != null">
+        REPORT_AT,
+      </if>
+      <if test="applyAt != null">
+        APPLY_AT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractCode != null">
+        #{contractCode},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode},
+      </if>
+      <if test="year != null">
+        #{year},
+      </if>
+      <if test="purchaseDep != null">
+        #{purchaseDep},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType},
+      </if>
+      <if test="productName != null">
+        #{productName},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="draftGitAt != null">
+        #{draftGitAt},
+      </if>
+      <if test="draftReviewedAt != null">
+        #{draftReviewedAt},
+      </if>
+      <if test="formalGitAt != null">
+        #{formalGitAt},
+      </if>
+      <if test="formalReviewedAt != null">
+        #{formalReviewedAt},
+      </if>
+      <if test="reportAt != null">
+        #{reportAt},
+      </if>
+      <if test="applyAt != null">
+        #{applyAt},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.dms.ProbationaryArchive">
+    update T_BSS_DMS_PURCHASE_ARCHIVE
+    <set>
+      <if test="contractCode != null">
+        CONTRACT_CODE = #{contractCode},
+      </if>
+      <if test="projectCode != null">
+        PROJECT_CODE = #{projectCode},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP = #{purchaseDep},
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE = #{purchaseType},
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="draftGitAt != null">
+        DRAFT_GIT_AT = #{draftGitAt},
+      </if>
+      <if test="draftReviewedAt != null">
+        DRAFT_REVIEWED_AT = #{draftReviewedAt},
+      </if>
+      <if test="formalGitAt != null">
+        FORMAL_GIT_AT = #{formalGitAt},
+      </if>
+      <if test="formalReviewedAt != null">
+        FORMAL_REVIEWED_AT = #{formalReviewedAt},
+      </if>
+      <if test="reportAt != null">
+        REPORT_AT = #{reportAt},
+      </if>
+      <if test="applyAt != null">
+        APPLY_AT = #{applyAt},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  	<!--查询所有的预备档案  -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM T_BSS_DMS_PROBATIONARY_ARCHIVE
+	    ORDER BY
+	    	CREATED_AT DESC
+	</select>
+</mapper>

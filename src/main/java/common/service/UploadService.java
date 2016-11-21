@@ -82,6 +82,7 @@ public interface UploadService {
      * @return
      */
     public String saveOnlineFile(HttpServletRequest request ,String businessId, String typeId, String sysKey);
+
     
     /**
      *〈简述〉 获取文件
@@ -102,4 +103,15 @@ public interface UploadService {
      * @param sysKey 系统key
      */
     public String updateFileOther(String id, String sysKey);
+    
+    /**
+     * 
+     *〈简述〉根据主键查询
+     *〈详细描述〉
+     * @author ZhaoBo
+     * @param id 主键
+     * @return UploadFile
+     */
+    UploadFile findById(String id);
+
 }

@@ -5,16 +5,34 @@
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
     <result column="CODE" property="code" />
-    <result column="PURCHASE_CONTRACT_MODE" property="purchaseContractMode" />
   	<result column="PURCHASE_CONTRACT_ID" property="purchaseContractId" />
-	<result column="RANGE" property="range" />
 	<result column="STATUS" property="status" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
+    <result column="CONTRACT_CODE" property="contractCode" />
+    <result column="PROJECT_CODE" property="projectCode" />
+    <result column="YEAR" property="year" />
+    <result column="PURCHASE_DEP" property="purchaseDep" />
+    <result column="PURCHASE_TYPE" property="purchaseType" />
+    <result column="PRODUCT_NAME" property="productName" />
+    <result column="SUPPLIER_NAME" property="supplierName" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="TYPE" property="type" />
+    <result column="REASON" property="reason" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="DRAFT_GIT_AT" property="draftGitAt" />
+    <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt" />
+    <result column="FORMAL_GIT_AT" property="formalGitAt" />
+    <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt" />
+    <result column="REPORT_AT" property="reportAt" />
+    <result column="APPLY_AT" property="applyAt" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME,CODE,PURCHASE_CONTRACT_MODE,PURCHASE_CONTRACT_ID,RANGE,STATUS,CREATED_AT,UPDATED_AT
+    ID,NAME,CODE,PURCHASE_CONTRACT_ID,STATUS,CREATED_AT,UPDATED_AT,
+    CONTRACT_CODE,PROJECT_CODE,YEAR,PURCHASE_DEP,PURCHASE_TYPE,PRODUCT_NAME,
+    SUPPLIER_NAME,IS_DELETED,TYPE,REASON,PROJECT_ID,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,
+    FORMAL_REVIEWED_AT,REPORT_AT,APPLY_AT
   </sql>
   
   <select id="selectArchiveById" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -39,14 +57,8 @@
       <if test="code != null">
         CODE,
       </if>
-      <if test="purchaseContractMode != null">
-        PURCHASE_CONTRACT_MODE,
-      </if>
       <if test="purchaseContractId != null">
         PURCHASE_CONTRACT_ID,
-      </if>
-      <if test="range != null">
-        RANGE,
       </if>
       <if test="status != null">
         STATUS,
@@ -56,6 +68,57 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
+      </if>
+      <if test="contractCode != null">
+        CONTRACT_CODE,
+      </if>
+      <if test="projectCode != null">
+        PROJECT_CODE,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="draftGitAt != null">
+        DRAFT_GIT_AT,
+      </if>
+      <if test="draftReviewedAt != null">
+        DRAFT_REVIEWED_AT,
+      </if>
+      <if test="formalGitAt != null">
+        FORMAL_GIT_AT,
+      </if>
+      <if test="formalReviewedAt != null">
+        FORMAL_REVIEWED_AT,
+      </if>
+      <if test="reportAt != null">
+        REPORT_AT,
+      </if>
+      <if test="applyAt != null">
+        APPLY_AT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -68,14 +131,8 @@
       <if test="code != null">
         #{code},
       </if>
-      <if test="purchaseContractMode != null">
-        #{purchaseContractMode},
-      </if>
       <if test="purchaseContractId != null">
         #{purchaseContractId},
-      </if>
-      <if test="range != null">
-        #{range},
       </if>
       <if test="status != null">
         #{status},
@@ -85,6 +142,57 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="contractCode != null">
+        #{contractCode},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode},
+      </if>
+      <if test="year != null">
+        #{year},
+      </if>
+      <if test="purchaseDep != null">
+        #{purchaseDep},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType},
+      </if>
+      <if test="productName != null">
+        #{productName},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="reason != null">
+        #{reason},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="draftGitAt != null">
+        #{draftGitAt},
+      </if>
+      <if test="draftReviewedAt != null">
+        #{draftReviewedAt},
+      </if>
+      <if test="formalGitAt != null">
+        #{formalGitAt},
+      </if>
+      <if test="formalReviewedAt != null">
+        #{formalReviewedAt},
+      </if>
+      <if test="reportAt != null">
+        #{reportAt},
+      </if>
+      <if test="applyAt != null">
+        #{applyAt},
       </if>
     </trim>
   </insert>
@@ -97,14 +205,8 @@
       <if test="code != null">
         CODE = #{code},
       </if>
-      <if test="purchaseContractMode != null">
-        PURCHASE_CONTRACT_MODE = #{purchaseContractMode},
-      </if>
       <if test="purchaseContractId != null">
         PURCHASE_CONTRACT_ID = #{purchaseContractId},
-      </if>
-      <if test="range != null">
-        RANGE = #{range},
       </if>
       <if test="status != null">
         STATUS = #{status},
@@ -115,8 +217,212 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
+      <if test="contractCode != null">
+        CONTRACT_CODE = #{contractCode},
+      </if>
+      <if test="projectCode != null">
+        PROJECT_CODE = #{projectCode},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP = #{purchaseDep},
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE = #{purchaseType},
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="type != null">
+        TYPE = #{type},
+      </if>
+      <if test="reason != null">
+        REASON = #{reason},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="draftGitAt != null">
+        DRAFT_GIT_AT = #{draftGitAt},
+      </if>
+      <if test="draftReviewedAt != null">
+        DRAFT_REVIEWED_AT = #{draftReviewedAt},
+      </if>
+      <if test="formalGitAt != null">
+        FORMAL_GIT_AT = #{formalGitAt},
+      </if>
+      <if test="formalReviewedAt != null">
+        FORMAL_REVIEWED_AT = #{formalReviewedAt},
+      </if>
+      <if test="reportAt != null">
+        REPORT_AT = #{reportAt},
+      </if>
+      <if test="applyAt != null">
+        APPLY_AT = #{applyAt},
+      </if>
     </set>
     where ID = #{id}
   </update>
   
+  	<!--查询采购档案(包括按条件查询)  -->
+	<select id="selectArchiveList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM T_BSS_DMS_PURCHASE_ARCHIVE
+	    WHERE nvl(IS_DELETED,0)=0
+	    <if test="name != null and name !=''">
+	        AND NAME LIKE '%'||#{name}||'%'   
+	    </if>
+	    <if test="code != null and code !=''">
+	        AND CODE LIKE '%'||#{code}||'%'
+	    </if>
+	    <if test="contractCode != null and contractCode !=''">
+	        AND CONTRACT_CODE LIKE '%'||#{contractCode}||'%'
+	    </if>
+	    <if test="year != null and year !=''">
+	        AND YEAR = #{year}
+	    </if>
+	    <if test="purchaseDep != null and purchaseDep !=''">
+	        AND PURCHASE_DEP LIKE '%'||#{purchaseDep}||'%'
+	    </if>
+	    <if test="purchaseType != null and purchaseType !=''">
+	        AND PURCHASE_TYPE = #{purchaseType}
+	    </if>
+	    <if test="supplierName != null and supplierName !=''">
+	        AND SUPPLIER_NAME = #{supplierName}
+	    </if>
+	    <if test="status != null and status !=''">
+	        AND STATUS = #{status}
+	    </if>
+	    ORDER BY
+	    	CREATED_AT DESC
+	</select>
+	
+	<!-- 根据档案名称查询档案 -->
+	<select id="findArchiveByName" parameterType="java.lang.Object" resultMap="BaseResultMap">
+		SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM T_BSS_DMS_PURCHASE_ARCHIVE
+	    WHERE nvl(IS_DELETED,0)=0
+	    AND NAME = #{name}
+	</select>
+	
+	<!-- 查找已审价的单一来源采购合同 -->
+	<select id="findAppraisalContract" parameterType="java.util.Map" resultType="bss.model.dms.PurchaseArchive">
+		SELECT
+			pcon.ID AS purchaseContractId,
+			pcon.code AS contractCode,
+			ppms.project_NUMBER AS projectCode,
+			pcon.YEAR AS year,
+			pcon.PURCHASE_DEP_NAME AS purchaseDep,
+			ppms.PURCHASE_TYPE AS purchaseType,
+			pcon.SUPPLIER_DEP_NAME AS supplierName,
+			wmsys.wm_concat(req.GOODS_NAME) as productName
+		FROM
+			T_BSS_SSTPS_APPRAISAL_CONTRACT acon
+		LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT pcon ON acon.PURCHASE_ID = pcon.ID
+		LEFT JOIN T_BSS_PPMS_PROJECTS ppms ON pcon.project_id = ppms.ID
+		LEFT JOIN T_BSS_CS_CONTRACT_REQUIRED req ON req.CONTRACT_ID = pcon.id
+		WHERE
+			acon.APPRAISAL = 2
+		GROUP BY 
+			pcon.ID,
+			pcon.code,
+			ppms.project_NUMBER,
+			pcon.YEAR,
+			pcon.PURCHASE_DEP_NAME,
+			ppms.PURCHASE_TYPE,
+			pcon.SUPPLIER_DEP_NAME
+	</select>
+	
+	<!-- 查找已验收的竞争性方式采购合同 -->
+	<select id="findCompetitiveWayContract" parameterType="java.util.Map" resultType="bss.model.dms.PurchaseArchive">
+		SELECT
+			pcon.ID AS purchaseContractId,
+			pcon.code AS contractCode,
+			ppms.project_NUMBER AS projectCode,
+			pcon.YEAR AS year,
+			pcon.PURCHASE_DEP_NAME AS purchaseDep,
+			ppms.PURCHASE_TYPE AS purchaseType,
+			pcon.SUPPLIER_DEP_NAME AS supplierName,
+			wmsys.wm_concat (req.GOODS_NAME) AS productName
+		FROM
+			T_BSS_PQIMS_PQINFO pqin
+		LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT pcon ON pqin.CONTRACT_ID = pcon.ID
+		LEFT JOIN T_BSS_PPMS_PROJECTS ppms ON pcon.project_id = ppms.ID
+		LEFT JOIN T_BSS_CS_CONTRACT_REQUIRED req ON req.contract_id = pcon.ID
+		WHERE
+			pqin.IS_CHECK = 1
+		AND PQIN.PROJECT_TYPE IN (
+			'公开招标',
+			'询价',
+			'邀请招标',
+			'竞争性谈判'
+		)
+		GROUP BY
+			pcon.ID,
+			pcon.code,
+			ppms.project_NUMBER,
+			pcon.YEAR,
+			pcon.PURCHASE_DEP_NAME,
+			ppms.PURCHASE_TYPE,
+			pcon.SUPPLIER_DEP_NAME
+	</select>
+	
+	<select id="findContract" parameterType="java.util.Map" resultType="bss.model.dms.PurchaseArchive">
+		SELECT
+			pcon.ID AS purchaseContractId,
+			pcon.code AS contractCode,
+			ppms.project_NUMBER AS projectCode,
+			ppms.ID AS projectId,
+			pcon.YEAR AS year,
+			pcon.PURCHASE_DEP_NAME AS purchaseDep,
+			ppms.PURCHASE_TYPE AS purchaseType,
+			pcon.SUPPLIER_DEP_NAME AS supplierName,
+			wmsys.wm_concat (req.GOODS_NAME) AS productName
+		FROM
+			T_BSS_CS_PURCHASE_CONTRACT pcon
+		LEFT JOIN T_BSS_PPMS_PROJECTS ppms ON pcon.project_id = ppms.ID
+		LEFT JOIN T_BSS_CS_CONTRACT_REQUIRED req ON req.contract_id = pcon.ID
+		WHERE
+			PCON.ID = #{contractId}
+		GROUP BY 
+			pcon.ID,
+			pcon.code,
+			ppms.project_NUMBER,
+			ppms.ID,
+			pcon.YEAR,
+			pcon.PURCHASE_DEP_NAME,
+			ppms.PURCHASE_TYPE,
+			pcon.SUPPLIER_DEP_NAME
+	</select>
+	
+	<select id="findArchiveByUserId" parameterType="java.util.Map" resultType="bss.model.dms.PurchaseArchive">
+   		SELECT DISTINCT
+			b.ARCHIVE_ID AS archiveId,
+			P.NAME AS name,
+			P.CODE AS code,
+			P.CONTRACT_CODE AS contractCode,
+			P.YEAR AS year,
+			P.PURCHASE_DEP AS purchaseDep,
+			P.PURCHASE_TYPE AS purchaseType,
+			P.PRODUCT_NAME AS productName,
+			P.SUPPLIER_NAME AS supplierName,
+			P.STATUS AS status
+		FROM
+			T_BSS_DMS_ARCHIVE_BORROW b,
+			T_BSS_DMS_PURCHASE_ARCHIVE P
+		WHERE
+			nvl(b.IS_DELETED, 0) = 0
+		AND b.ARCHIVE_ID = P.ID
+		AND USER_ID = #{userId}
+   </select>
 </mapper>
