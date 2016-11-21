@@ -278,309 +278,282 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 }
 		 //评分确认或退回
 		 function querenOrTuiHUi(packageId,supplierId,scoreModelId,flag){
-			 var projectId=$("#projectId").val();
-			 $.ajax({
-				 url:'${pageContext.request.contextPath}/packageExpert/isBackScore.html',
-				 data:{'packageId':packageId,'projectId':projectId,'supplierId':supplierId,'scoreModelId':scoreModelId,'flag':flag},
-				 success:function(data){
-					 if(data == "tuihui"){
-						 layer.msg("不能退回！");
-					 }else if(data=="success"){
-						 layer.msg("确认成功！");
-					 }else if(data=="tuihuisuccess"){
-						 layer.msg("退回成功！");
-					 }else {
-						 layer.msg("不能确认！");
-					 }
-				 },
-				 error:function(data){
-					 
-				 }
-			 });
-			 
+					 var projectId=$("#projectId").val();
+					 $.ajax({
+						 url:'${pageContext.request.contextPath}/packageExpert/isBackScore.html',
+						 data:{'packageId':packageId,'projectId':projectId,'supplierId':supplierId,'scoreModelId':scoreModelId,'flag':flag},
+						 success:function(data){
+							 if(data == "tuihui"){
+								 layer.alert("不能退回！",{offset: ['280px', '390px'], shade:0.01});
+							 }else if(data=="success"){
+								 layer.alert("确认成功！",{offset: ['280px', '390px'], shade:0.01});
+							 }else if(data=="tuihuisuccess"){
+								 layer.alert("退回成功！",{offset: ['280px', '390px'], shade:0.01});
+							 }else {
+								 layer.alert("不能确认！",{offset: ['280px', '390px'], shade:0.01});
+							 }
+						 },
+						 error:function(data){
+							 
+						 }
+					 });
 		 }
-		 </script>
-		 </head>
-		 
-		 <body>
-		 <!-- <input type="button" class="btn" value="查看" onclick="supplierView('417881FADA704F10B2FD697336076D9B')"> -->
-		 	<div class="tab-content clear step_cont">
-		 		<div class=class= "col-md-12 tab-pane active"  id="tab-1"
-		 			style="display: block;">
-		 
-		 			<div class="container clear margin-top-30" id="package">
-		 				<table class="table table-bordered table-condensed mt5">
-		 					<h3>01、专家名单</h3>
-		 					<div align="right">
-		 						<button class="btn btn-windows back" onclick="resetPwd();" type="button">重置密码</button>
-		 						<button class="btn btn-windows back" onclick="addexp();" type="button">添加临时供应商</button>
-		 					</div>
-		 					<thead>
-		 						<tr>
-		 							<th class="info w30"><input type="checkbox" id="checkAllExp"
-		 								onclick="selectAllExp()" alt=""></th>
-		 							<th class="info w50">序号</th>
-		 							<th>专家姓名</th>
-		 							<th>专家类型</th>
-		 							<th>证件号</th>
-		 							<th>现任职务</th>
-		 							<th>联系地址</th>
-		 							<th>联系电话</th>
-		 						</tr>
-		 					</thead>
-		 					<tbody id="tbody">
-		 					<c:forEach items="${expertList }" var="expert" varStatus="vs">
-		 							<tr>
-		 								<td class="tc w30"><input type="checkbox"
-		 									value="${expert.expert.id}" name="chkItemExp" onclick="checkExp()"
-		 									alt=""></td>
-		 								<td class="tc w30">${vs.count }</td>
-		 								<td align="center">${expert.expert.relName }</td>
-		 								<c:if test="${expert.expert.expertsTypeId eq '1' }">
-		 									<td align="center">技术</td>
-		 								</c:if>
-		 								<c:if test="${expert.expert.expertsTypeId eq '2' }">
-		 								<td align="center">法律</td>
-		 								</c:if>
-		 								<c:if test="${expert.expert.expertsTypeId eq '3' }">
-		 									<td align="center">商务</td>
-		 								</c:if>
-		 								<td align="center">${expert.expert.idNumber }</td>
-		 								<td align="center">${expert.expert.atDuty }</td>
-		 								<td align="center">${expert.expert.unitAddress }</td>
-		 								<td align="center">${expert.expert.mobile }</td>
-		 							</tr>
-		 					</c:forEach>
-		 					</tbody>
-		 				</table>
-										 	            <h3>02、各包分配评委</h3>
-								   <c:forEach items="${packageList }" var="pack" varStatus="p">
-									   <form action="${pageContext.request.contextPath}/packageExpert/relate.html" method="post" >
-									   <!--包id  -->
-									   <input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
-								   	   <input type="hidden" id="projectId" name="projectId" value="${project.id}">
-								   	   <input type="hidden" name="packageIds" id="packageIds">
-								   	   <div style="height:110px; overflow:auto;">
-										   <table table table-bordered table-condensed mt5>
-										 	            
-													      	<tr >
-													      	  <td style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;">
-													      	&nbsp;&nbsp;<span style=" font-size: 18;">包名:${pack.name }</span>&nbsp;&nbsp;
-													      	<c:forEach items="${expertList }" var="expert" varStatus="vs">
-													      	<input type="checkbox" name="chkItem" value="${expert.expert.id }" 
-													      		        <c:forEach items="${expertIdList }" var="e" varStatus="p">
-														      	    	  <c:if test="${e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
-														      	    	  checked
-														      	    	  </c:if>
-														      	    	</c:forEach>
-													      	>${expert.expert.relName }&nbsp;
-													      	</c:forEach>
-													      	<!-- <input type="checkbox" name="chkItem" value="222">专家2
-													      	<input type="checkbox" name="chkItem" value="333" onchange="clearSelect(this);">专家3 -->
-													      	  &nbsp;&nbsp;  组长：<select name="groupId" onchange="selectClick(this);">
-													      	    	<option value="0">-请选择-</option>
-													      	    	<c:forEach items="${expertList }" var="expert" varStatus="vs">
-													      	    	<option value="${expert.expert.id }"
-														      	    	<c:forEach items="${expertIdList }" var="e" varStatus="p">
-														      	    	  <c:if test="${e.isGroupLeader==1 && e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
-														      	    	  selected
-														      	    	  </c:if>
-														      	    	</c:forEach>
-													      	    	>${expert.expert.relName }</option>
-													      	    	</c:forEach>
-													      	      </select>&nbsp;&nbsp;
-													      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add">
-													      	  </td>
-													      	</tr>
-										   </table>
-									     </div>
-									   </form>
-								   </c:forEach>
-								    <table class="table table-bordered table-condensed mt5">
-								 	            <h3>03、供应商报价表</h3>
-											    <thead>
-											      <tr>
-											      	<th class="info w50">序号</th>
-											        <th>供应商名称</th>
-											        <th>联系人</th>
-											        <th>联系电话</th>
-											        <th>报价</th>
-											      </tr>
-											     </thead>
-											      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-												      <thead>
-												       <tr>
-												        <td class="tc w30">${vs.count } </td>
-												        <td align="center">${supplier.suppliers.supplierName } </td>
-												        <td align="center">${supplier.suppliers.contactName }</td>
-												        <td align="center">${supplier.suppliers.contactTelephone }</td>
-												        <td align="center">
-												          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
-												        </td>
-												      </tr>
-												      </thead>
-										      	  </c:forEach>
-								   		  </table>
-								 	            <h3>04、评审进度</h3>
-								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
-								   		   <table class="table table-bordered table-condensed mt5">
-											    <thead>
-											      <tr>
-											      	<th rowspan="2">${pack.name }</th>
-											        <th>状态</th>
-											        <th>总进度</th>
-											        <th>符合性审查进度</th>
-											        <th>评分进度</th>
-											      </tr>
-											      <tr>
-											            <td align="center">&nbsp;
-											            <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">未评审</c:if>
-											            <c:forEach items="${reviewProgressList }" var="progress">
-												           <c:if test="${progress.packageId eq pack.id }">
-												            <c:choose>
-												              <c:when test="${progress.auditStatus != null }">
-												               ${progress.auditStatus}
-												              </c:when>
-												              <c:otherwise>
-												                                     未评审
-												              </c:otherwise>
-												            </c:choose>
-											               </c:if>
-											              </c:forEach>
-											            </td>
-												        <td align="center">
-												        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
-												          <c:forEach items="${reviewProgressList }" var="progress">
-												          <c:choose>
-												           <c:when test="${progress.packageId eq pack.id }">
-												            <c:choose>
-												              <c:when test="${progress.totalProgress != null }">
-												               ${progress.totalProgress*100}%
-												              </c:when>
-												              <c:otherwise>
-												              0%
-												              </c:otherwise>
-												            </c:choose>
-											               </c:when>
-											               <c:otherwise> </c:otherwise>
-											               </c:choose>
-											              </c:forEach>
-												        </td>
-												        <td align="center">
-												        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
-												         <c:forEach items="${reviewProgressList }" var="progress">
-												          <c:choose>
-												           <c:when test="${progress.packageId eq pack.id }">
-												            <c:choose>
-												              <c:when test="${progress.firstAuditProgress != null }">
-												                ${progress.firstAuditProgress*100}%
-												              </c:when>
-												              <c:otherwise>
-												                0%
-												              </c:otherwise>
-												            </c:choose>
-											               </c:when>
-											               <c:otherwise> </c:otherwise>
-											               </c:choose>
-											              </c:forEach>
-												        </td>
-												        <td align="center">
-												        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
-												        <c:forEach items="${reviewProgressList }" var="progress">
-												          <c:choose>
-												           <c:when test="${progress.packageId eq pack.id }">
-												            <c:choose>
-												              <c:when test="${progress.scoreProgress != null }">
-												                ${progress.scoreProgress*100}%
-												              </c:when>
-												              <c:otherwise>
-												                0%
-												              </c:otherwise>
-												            </c:choose>
-											               </c:when>
-											               <c:otherwise> </c:otherwise>
-											               </c:choose>
-											              </c:forEach>
-												        </td>
-											      </tr>
-												       <!-- <tr>
-												        <td align="center">中标供应商 </td>
-												        <td align="center" colspan="4">aa</td>
-												      </tr> -->
-												      </thead>
-								   		  </table>
-									</c:forEach>
-									   <h3>05、符合性审查</h3>
-								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
-								   		   <table class="table table-bordered table-condensed mt5">
-								   		   <thead>
-									   		   <tr align="right">
-									   		   		<td align="right" colspan="${3+supplierList.size() }">
-									   		   		<button  class="btn btn-windows git" onclick="gather(this);" type="button">符合汇总</button>
-									   	 	         <button class="btn btn-windows back" onclick="isBack(this);" type="button">退回重审</button>
-									   		   		</td>
-									   		   </tr>
-											    
-											      <tr>
-											      	<th colspan="${3+supplierList.size() }">${pack.name }初审情况</th>
-											      </tr>
-											      <tr>
-											        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
-											        <th>评委</th>
-											        <th>符合性审查完成</th>
-											        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-											        <th>${supplier.suppliers.supplierName }</th>
-											        </c:forEach>
-											      </tr>
-											      </thead>
-											      <thead>
-											       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-											        <c:if test="${ext.packageId eq pack.id }">
-												       <tr>
-												        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
-												        <td align="center">${ext.expert.relName } </td>
-												        <td align="center">${ext.isPass } </td>
-												       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-											        	<td align="center">
-											        	<c:if test="${ext.isPass eq '已评审'}">
-											        	  <c:forEach items="${supplierExtList }" var="supplierExt">
-											        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId && supplierExt.packageId eq pack.id}">
-											        	  	${supplierExt.suppIsPass }
-											        	  	</c:if>
-											        	  </c:forEach>
-											        	 </c:if>
-											        	 <c:if test="${ext.isPass eq '未评审'}">未评审 </c:if>
-											        	</td>
-											        	</c:forEach>
-												      </tr>
-											        </c:if>
-											        
-										      	  </c:forEach>
-												      <%--  <tr>
-												        <td align="center" colspan="3">初审结果 </td>
-												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-												        <td align="center">
-												           <c:forEach items="${supplierExtList }" var="supplierExt">
-											        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && supplierExt.packageId eq pack.id}">
-											        	  	${supplierExt.isAudit }
-											        	  	</c:if>
-											        	  </c:forEach>
-												        </td>
-												        </c:forEach>
-												      </tr> --%>
-												      </thead>
-								   		  </table>
-									</c:forEach>
-									
-									
+ </script>
+</head>
+<body>
+<div class="tab-content clear step_cont">
+ <div class= "col-md-12 tab-pane active"  id="tab-1" style="display: block;">
+   <div class="" id="package">
+	<table class="table table-bordered table-condensed table-hover table-striped">
+		<h3>01、专家名单</h3>
+		<div align="right">
+			<button class="btn btn-windows back" onclick="resetPwd();" type="button">重置密码</button>
+			<button class="btn btn-windows back" onclick="addexp();" type="button">添加临时供应商</button>
+		</div>
+		<thead>
+			<tr>
+				<th class="info w30"><input type="checkbox" id="checkAllExp"
+					onclick="selectAllExp()" alt=""></th>
+				<th class="info w50">序号</th>
+				<th>专家姓名</th>
+				<th>专家类型</th>
+				<th>证件号</th>
+				<th>现任职务</th>
+				<th>联系地址</th>
+				<th>联系电话</th>
+			</tr>
+		</thead>
+		<tbody id="tbody">
+		<c:forEach items="${expertList }" var="expert" varStatus="vs">
+			<tr>
+				<td class="tc w30"><input type="checkbox"
+					value="${expert.expert.id}" name="chkItemExp" onclick="checkExp()"
+					alt=""></td>
+				<td class="tc w30">${vs.count }</td>
+				<td align="center">${expert.expert.relName }</td>
+				<c:if test="${expert.expert.expertsTypeId eq '1' }">
+					<td align="center">技术</td>
+				</c:if>
+				<c:if test="${expert.expert.expertsTypeId eq '2' }">
+				<td align="center">法律</td>
+				</c:if>
+				<c:if test="${expert.expert.expertsTypeId eq '3' }">
+					<td align="center">商务</td>
+				</c:if>
+				<td align="center">${expert.expert.idNumber }</td>
+				<td align="center">${expert.expert.atDuty }</td>
+				<td align="center">${expert.expert.unitAddress }</td>
+				<td align="center">${expert.expert.mobile }</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+   <h3>02、各包分配评委</h3>
+   <c:forEach items="${packageList }" var="pack" varStatus="p">
+	   <form action="${pageContext.request.contextPath}/packageExpert/relate.html" method="post" >
+	   <!--包id  -->
+	   <input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
+   	   <input type="hidden" id="projectId" name="projectId" value="${project.id}">
+   	   <input type="hidden" name="packageIds" id="packageIds">
+   	   <div style="height:110px; overflow:auto;">
+		   <table class="table table-bordered table-condensed table-hover table-striped">
+	      	<tr >
+	      	  <td style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;">
+	      	&nbsp;&nbsp;<span style=" font-size: 18;">包名:${pack.name }</span>
+	      	<c:forEach items="${expertList }" var="expert" varStatus="vs">
+	      	<input type="checkbox" name="chkItem" value="${expert.expert.id }" 
+	      		        <c:forEach items="${expertIdList }" var="e" varStatus="p">
+		      	    	  <c:if test="${e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
+		      	    	  checked
+		      	    	  </c:if>
+		      	    	</c:forEach>
+	      	>${expert.expert.relName }&nbsp;
+	      	</c:forEach>
+	      	        组长：<select name="groupId" onchange="selectClick(this);">
+	      	    	<option value="0">-请选择-</option>
+	      	    	<c:forEach items="${expertList }" var="expert" varStatus="vs">
+	      	    	<option value="${expert.expert.id }"
+		      	    	<c:forEach items="${expertIdList }" var="e" varStatus="p">
+		      	    	  <c:if test="${e.isGroupLeader==1 && e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
+		      	    	  selected
+		      	    	  </c:if>
+		      	    	</c:forEach>
+	      	    	>${expert.expert.relName }</option>
+	      	    	</c:forEach>
+	      	      </select>&nbsp;&nbsp;
+	      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add">
+	      	  </td>
+	      	</tr>
+		   </table>
+	     </div>
+	   </form>
+   </c:forEach>
+   <table class="table table-bordered table-condensed table-hover table-striped">
+           <h3>03、供应商报价表</h3>
+		    <thead>
+		      <tr>
+		      	<th class="info w50">序号</th>
+		        <th>供应商名称</th>
+		        <th>联系人</th>
+		        <th>联系电话</th>
+		        <th>报价</th>
+		      </tr>
+		     </thead>
+		      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			      <thead>
+			       <tr>
+			        <td class="tc w30">${vs.count } </td>
+			        <td align="center">${supplier.suppliers.supplierName } </td>
+			        <td align="center">${supplier.suppliers.contactName }</td>
+			        <td align="center">${supplier.suppliers.contactTelephone }</td>
+			        <td align="center">
+			          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
+			        </td>
+			      </tr>
+			      </thead>
+	      	  </c:forEach>
+  </table>
+      <h3>04、评审进度</h3>
+   <c:forEach items="${packageList }" var="pack" varStatus="vs">
+ 		   <table class="table table-bordered table-condensed table-hover table-striped">
+		    <thead>
+		      <tr>
+		      	<th rowspan="2">${pack.name }</th>
+		        <th>状态</th>
+		        <th>总进度</th>
+		        <th>符合性审查进度</th>
+		        <th>评分进度</th>
+		      </tr>
+		      <tr>
+	            <td align="center">&nbsp;
+	            <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">未评审</c:if>
+	            <c:forEach items="${reviewProgressList }" var="progress">
+		           <c:if test="${progress.packageId eq pack.id }">
+		            <c:choose>
+		              <c:when test="${progress.auditStatus != null }">
+		               ${progress.auditStatus}
+		              </c:when>
+		              <c:otherwise>
+		                                     未评审
+		              </c:otherwise>
+		            </c:choose>
+	               </c:if>
+	              </c:forEach>
+	            </td>
+		        <td align="center">
+		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
+		          <c:forEach items="${reviewProgressList }" var="progress">
+		          <c:choose>
+		           <c:when test="${progress.packageId eq pack.id }">
+		            <c:choose>
+		              <c:when test="${progress.totalProgress != null }">
+		               ${progress.totalProgress*100}%
+		              </c:when>
+		              <c:otherwise>
+		              0%
+		              </c:otherwise>
+		            </c:choose>
+	               </c:when>
+	               <c:otherwise> </c:otherwise>
+	               </c:choose>
+	              </c:forEach>
+		        </td>
+		        <td align="center">
+		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
+		         <c:forEach items="${reviewProgressList }" var="progress">
+		          <c:choose>
+		           <c:when test="${progress.packageId eq pack.id }">
+		            <c:choose>
+		              <c:when test="${progress.firstAuditProgress != null }">
+		                ${progress.firstAuditProgress*100}%
+		              </c:when>
+		              <c:otherwise>
+		                0%
+		              </c:otherwise>
+		            </c:choose>
+	               </c:when>
+	               <c:otherwise> </c:otherwise>
+	               </c:choose>
+	              </c:forEach>
+		        </td>
+		        <td align="center">
+		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
+		        <c:forEach items="${reviewProgressList }" var="progress">
+		          <c:choose>
+		           <c:when test="${progress.packageId eq pack.id }">
+		            <c:choose>
+		              <c:when test="${progress.scoreProgress != null }">
+		                ${progress.scoreProgress*100}%
+		              </c:when>
+		              <c:otherwise>
+		                0%
+		              </c:otherwise>
+		            </c:choose>
+	               </c:when>
+	               <c:otherwise> </c:otherwise>
+	               </c:choose>
+	              </c:forEach>
+		        </td>
+		      </tr>
+	      </thead>
+  </table>
+</c:forEach>
+   <h3>05、符合性审查</h3>
+   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+   		   <table class="table table-bordered table-condensed table-hover table-striped">
+   		   <thead>
+	   		   <tr align="right">
+	   		   		<td align="right" colspan="${3+supplierList.size() }">
+	   		   		<button  class="btn btn-windows git" onclick="gather(this);" type="button">符合汇总</button>
+	   	 	         <button class="btn btn-windows back" onclick="isBack(this);" type="button">退回重审</button>
+	   		   		</td>
+	   		   </tr>
+			    
+			      <tr>
+			      	<th colspan="${3+supplierList.size() }">${pack.name }初审情况</th>
+			      </tr>
+			      <tr>
+			        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
+			        <th>评委</th>
+			        <th>符合性审查完成</th>
+			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			        <th>${supplier.suppliers.supplierName }</th>
+			        </c:forEach>
+			      </tr>
+			      </thead>
+			      <thead>
+			       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+			        <c:if test="${ext.packageId eq pack.id }">
+				       <tr>
+				        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
+				        <td align="center">${ext.expert.relName } </td>
+				        <td align="center">${ext.isPass } </td>
+				       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			        	<td align="center">
+			        	<c:if test="${ext.isPass eq '已评审'}">
+			        	  <c:forEach items="${supplierExtList }" var="supplierExt">
+			        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId && supplierExt.packageId eq pack.id}">
+			        	  	${supplierExt.suppIsPass }
+			        	  	</c:if>
+			        	  </c:forEach>
+			        	 </c:if>
+			        	 <c:if test="${ext.isPass eq '未评审'}">未评审 </c:if>
+			        	</td>
+			        	</c:forEach>
+				      </tr>
+			        </c:if>
+			        
+		      	  </c:forEach>
+				 </thead>
+   		  </table>
+	</c:forEach>
 									  <h3>06、评分汇总</h3>
 									  <!-- 循环包 -->
 								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
 								   	 <!--循环供应商  -->
 								   	   <c:forEach items="${supplierList }" var="supplier" varStatus="vs" >
-								   	  
 								   	   <h5>供应商：${supplier.suppliers.supplierName }</h5>
-								   		   <table class="table table-bordered table-condensed mt5">
+								   		   <table class="table table-bordered table-condensed table-hover table-striped">
 											    <thead>
 											    <tr align="right">
 									   		   		<td align="right" colspan="${2+packExpertExtList.size() }">
@@ -602,7 +575,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											      <thead>
 											         <c:set var="TOTAL" value="0"></c:set>
 											       <c:forEach items="${auditModelListAll }" var="model" varStatus="vs">
-											      
 											         <c:if test="${model.packageId eq pack.id }">
 												       <tr align="center">
 												       <td>${model.markTermName }</td>
@@ -626,7 +598,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												      </tr>
 												     </c:if>
 										      	  </c:forEach>
-												       <tr>
+												      <%--  <tr>
 												        <td align="center">评分合计 </td>
 												        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
 												           
@@ -635,7 +607,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												        </c:forEach>
 												        <td width="150px">
 											               </td>
-												      </tr>
+												      </tr> --%>
 												      </thead>
 								   		  </table>
 								   		  </c:forEach>

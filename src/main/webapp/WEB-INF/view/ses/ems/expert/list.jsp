@@ -164,12 +164,12 @@
  			if(value[1]==1){
  				index = layer.open({
  			          type: 2, //page层
- 			          area: ['900px', '600px'],
+ 			          area: ['700px', '600px'],
  			          title: '诚信登记',
  			          shade:0.01, //遮罩透明度
  			          moveType: 1, //拖拽风格，0是默认，1是传统拖动
  			          shift: 1, //0-6的动画形式，-1不开启
- 			          offset: ['100px', '250px'],
+ 			          offset: ['5px', '300px'],
  			          shadeClose: true,
  			          content:"${pageContext.request.contextPath}/credible/findAll.html?id="+value[0]
  			          //数组第二项即吸附元素选择器或者DOM $('#openWindow')

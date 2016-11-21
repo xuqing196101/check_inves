@@ -50,6 +50,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
@@ -91,6 +92,8 @@ public class ExpertController {
 	private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
 	@Autowired
 	SupplierQuoteService supplierQuoteService;//供应商报价
+	@Autowired
+	NoticeDocumentService noticeDocumentService;
 	/**
 	 * 
 	  * @Title: toExpert
@@ -152,7 +155,11 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping(value="/toRegisterNotice")
-	public String toRegisterNotice(){
+	public String toRegisterNotice(Model model){
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("docType", "专家须知文档");
+		String doc = noticeDocumentService.findDocByMap(param);
+		model.addAttribute("doc", doc);
 		return "ses/ems/expert/register_notice";
 	}
 	
@@ -622,7 +629,7 @@ public class ExpertController {
 	  * @Title: deleteAll
 	  * @author ShaoYangYang
 	  * @date 2016年9月8日 下午3:53:36  
-	  * @Description: TODO 删除
+	  * @Description: TODO 软删除
 	  * @param       
 	  * @return void
 	 */
@@ -631,7 +638,11 @@ public class ExpertController {
 		String[] id = ids.split(",");
 		//循环删除选中的数据
 		for (String string : id) {
-			service.deleteByPrimaryKey(string);
+			Expert expert = service.selectByPrimaryKey(string);
+			if(expert != null){
+			expert.setIsDelete((short) 1);
+			service.updateByPrimaryKeySelective(expert);
+			}
 		}
 		return "redirect:findAllExpert.html";
 	}

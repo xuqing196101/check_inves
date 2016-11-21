@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -108,7 +109,9 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("registration_page")
 	public String registrationPage(Model model) {
-		model.addAttribute("doc", noticeDocumentService.findSupplierDoc());
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("docType", "供应商须知文档");
+		model.addAttribute("doc", noticeDocumentService.findDocByMap(param));
 		return "ses/sms/supplier_register/registration";
 	}
 
