@@ -246,40 +246,40 @@
 			</tr>
 		</thead>
 		<c:forEach items="${performanceList}" var="performance" varStatus="vs">
-			<tr>
+			<tr class="pointer">
 				<td class="tnone">${performance.contract.purchaseType }</td>
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${performance.id}" /></td>
 				<td class="tnone">${performance.contract.id}</td>
-				<td onclick="view('${performance.id}')" class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td onclick="view('${performance.id}')" class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${performance.contract.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>3}">
-					<td onclick="view('${performance.id}')" class="tc pointer ">${fn:substring(code,0,3)}...</td>
+					<td onclick="view('${performance.id}')" class="tc">${fn:substring(code,0,3)}...</td>
 				</c:if>
 				<c:if test="${length<=3}">
-					<td onclick="view('${performance.id}')" class="tc pointer ">${code}</td>
+					<td onclick="view('${performance.id}')" class="tc">${code}</td>
 				</c:if>
 				<c:set value="${performance.contract.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>4}">
-					<td onclick="view('${performance.id}')" class="tc pointer ">${fn:substring(name,0,4)}...</td>
+					<td onclick="view('${performance.id}')">${fn:substring(name,0,4)}...</td>
 				</c:if>
 				<c:if test="${length<=4}">
-					<td onclick="view('${performance.id}')" class="tc pointer ">${name}</td>
+					<td onclick="view('${performance.id}')">${name}</td>
 				</c:if>		
-				<td onclick="view('${performance.id}')" class="tc pointer">${performance.deliverySchedule}</td>
-				<td onclick="view('${performance.id}')" class="tc pointer">${performance.fundsPaid}</td>
-				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.draftSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.formalSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td onclick="view('${performance.id}')" class="tc pointer"><fmt:formatDate value='${performance.delivery}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-				<td onclick="view('${performance.id}')" class="tc pointer">
+				<td onclick="view('${performance.id}')" class="tc">${performance.deliverySchedule}</td>
+				<td onclick="view('${performance.id}')" class="tc">${performance.fundsPaid}</td>
+				<td onclick="view('${performance.id}')" class="tc"><fmt:formatDate value='${performance.draftSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc"><fmt:formatDate value='${performance.formalSignedAt}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc"><fmt:formatDate value='${performance.delivery}' pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+				<td onclick="view('${performance.id}')" class="tc">
 					<c:if test="${performance.completedStatus=='0'}">合同执行中</c:if>
 					<c:if test="${performance.completedStatus=='1'}">合同终止</c:if>
 					<c:if test="${performance.completedStatus=='2'}">合同变更</c:if>
 					<c:if test="${performance.completedStatus=='3'}">合同完成</c:if>
 				</td>
-				<td onclick="view('${performance.id}')" class="tc pointer">${performance.checkMass}</td>
-				<td onclick="view('${performance.id}')" class="tc pointer">
+				<td onclick="view('${performance.id}')" class="tc">${performance.checkMass}</td>
+				<td onclick="view('${performance.id}')" class="tc">
 					<c:if test="${performance.contract.contractType=='0'}">正常采购合同</c:if>
 					<c:if test="${performance.contract.contractType=='1'}">以厂代储合同</c:if>
 					<c:if test="${performance.contract.contractType=='2'}">合同储备合同</c:if>
@@ -290,19 +290,20 @@
      </div>
      <form id="finForm" action="${pageContext.request.contextPath}/performance/updateFinalClosed.html" method="post">
      	 <input id="pId" type="hidden" name="id" value=""/>
-	     <ul class="list-unstyled mt10 dnone" id="numberWin">
+	     <ul class="list-unstyled mt10 dnone col-xs-offset-3" id="numberWin">
 	  		    <li class="col-md-12">
 				   <span class="col-md-12 fl"><div class="red star_red">*</div>最终结算金额：</span>
 				   <div class="input-append col-md-12">
 				     <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
 				     <div id='cue' class="cue col-md-12"></div>
 				   </div>
-				</li>
-				<li class="tc col-md-12 mt20">
-				 <input type="button" class="btn" onclick="save()" value="确定"/>
-				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-				</li>
+				</li>	
+				<li class="tc col-md-12 tl pl50 pb20">
+			       <input type="button" class="btn" onclick="save()" value="确定"/>
+			       <input type="button" class="btn" onclick="cancel()" value="取消"/>
+		        </li>
 		 </ul>
+		 
 	 </form>
    <div id="pagediv" align="right"></div>
    </div>
