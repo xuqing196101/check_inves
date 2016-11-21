@@ -132,10 +132,19 @@ function tijiao(url){
 
 
 //文件下載
-  function downloadFile(fileName) {
+ /*  function downloadFile(fileName) {
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
-  }
+  } */
+  
+  function download(id,key){
+    var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+        $('body').append(form); 
+        form.submit();
+}
   
   //只读
   $(function() {
@@ -233,12 +242,13 @@ function tijiao(url){
 		                           <c:if test="${m.mot==1 }">是</c:if>
 		                          </td>
 		                          <td class="tc">
-		                            <c:if test="${m.attach !=null}">
+		                            <%-- <c:if test="${m.attach !=null}">
 		                              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
 		                            </c:if>
 		                            <c:if test="${m.attach ==null}">
 		                              <a class="red">无附件下载</a>
-		                            </c:if>
+		                            </c:if> --%>
+		                            <a class="mt3 color7171C6" href="javascript:download('${m.attachId}', '${sysKey}')">${m.attach}</a>
 		                          </td>
 		                          <td class="tc">
 		                            <a  id="${m.id }_show" class="b f18 fl ml10 hand red">×</a>

@@ -284,7 +284,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
-		
+
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("销售")){

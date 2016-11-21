@@ -160,12 +160,30 @@
 	
 	
 	<!-- 资质证书信息 -->
-	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-      select 
-      *
-      from 
-      T_SES_SMS_SUPPLIER_CERT_PRO c,T_SES_SMS_SUPPLIER_MAT_PRO m
-      where   m.Id = c.MAT_PRO_ID 
-      AND m.SUPPLIER_ID=#{supplierId}
+	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="findSupplierCertProBySupplierId">
+        SELECT
+		    T1.*,
+		    T3.ID as ID_,
+		    T3.NAME AS FILE_NAME
+		FROM
+		T_SES_SMS_SUPPLIER_CERT_PRO t1
+		LEFT JOIN 
+		    T_SES_SMS_SUPPLIER_MAT_PRO t2 
+		ON 
+		    T1.MAT_PRO_ID = T2.ID
+		LEFT JOIN 
+		    T_SES_SMS_SUPPLIER_ATTACHMENT t3 
+		ON 
+		    t1. ID = t3.BUSINESS_ID
+		WHERE
+		    T2.SUPPLIER_ID = #{supplierId}
   </select>
+  <resultMap type="ses.model.sms.SupplierCertPro" id="findSupplierCertProBySupplierId" extends="BaseResultMap">
+        <collection property="listUploadFiles" ofType="common.model.UploadFile">
+            <id column="ID_" property="id"/>
+            <result column="FILE_NAME" property="name"/>
+            <result column="FILE_SIZE" property="size"/>
+            <result column="TYPE_ID" property="typeId"/>
+        </collection>
+    </resultMap>
 </mapper>

@@ -278,7 +278,7 @@ function download(id,key){
                             </c:forEach>
                           </tbody>
                       </table>
-                      </ul>
+                   </ul>
                 </div>
                   <%-- <c:forEach items="${financial}" var="f" varStatus="vs">
                     <div class=" margin-bottom-0 fl">
@@ -349,8 +349,8 @@ function download(id,key){
               </div>
             </div>
 
-  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
-   <input type="hidden" name="fileName" />
-  </form>
+    <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+        <input type="hidden" name="fileName" />
+    </form>
 </body>
 </html>
