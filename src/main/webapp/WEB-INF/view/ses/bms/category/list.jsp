@@ -278,8 +278,6 @@
 	  	});
   }
 	
-  
-	
 </script>
 
 </head>
@@ -297,7 +295,7 @@
 	   <div class="container">
 		   <div class="col-md-3">
 		  	 <div class="tag-box tag-box-v3 mt15">
-			 	<div><ul id="ztree" class="ztree"></ul></div>
+			 	<div><ul id="ztree" class="ztree s_ztree"></ul></div>
 			 </div>
 		   </div>
 		   <div class=" tag-box tag-box-v3 mt15 col-md-8">
@@ -353,9 +351,8 @@
 			            	    </tr>
 			            	  </tbody>
 			            </table>
-			            <div id="btnIds" class="dnone">
+			            <div id="btnIds" class="dnone textc">
 			            	<button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
-			            	<button  type='button' onclick='renew()'  class='mr30  btn btn-windows reset '>重置</button>
 			            </div>
 			         </form> 
 		         </div>

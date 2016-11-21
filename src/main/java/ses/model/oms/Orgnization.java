@@ -2,9 +2,6 @@ package ses.model.oms;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import ses.model.bms.Category;
 public class Orgnization implements Serializable {
     /**
 	 * @Fields serialVersionUID : 
@@ -78,6 +75,9 @@ public class Orgnization implements Serializable {
     private String quaStashReason;//资质暂停理由
     private String quaNormalReason;//资质启用理由
     private String quaTerminalReason;//资质终止理由
+    
+    /** 品目名称 */
+    private transient String cateNames;
     
   
 	public void setStatus(String status) {
@@ -394,6 +394,14 @@ public class Orgnization implements Serializable {
 
     public void setQuaTerminalReason(String quaTerminalReason) {
         this.quaTerminalReason = quaTerminalReason;
+    }
+
+    public String getCateNames() {
+        return cateNames;
+    }
+
+    public void setCateNames(String cateNames) {
+        this.cateNames = cateNames;
     }
     
 }

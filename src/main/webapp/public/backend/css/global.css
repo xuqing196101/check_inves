@@ -988,5 +988,6 @@ li:first-child {
 }
 
 .s_ztree{
+	height: 420px !important;
 	overflow-y:auto !important;
 }

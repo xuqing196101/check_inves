@@ -123,7 +123,7 @@
     	</if>
     	<if test="princinpal != null and princinpal != ''">
 		   AND PRINCINPAL like '%'||#{princinpal}||'%'
-		 </if>
+		</if>
     </select>
     
    <!-- 根据id查部门 -->

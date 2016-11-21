@@ -1,5 +1,7 @@
 package ses.dao.bms;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import ses.model.bms.CategoryAssigned;
@@ -37,4 +39,17 @@ public interface CategoryAssignedMapper {
      * @param orgId 需求部门Id{@link java.lang.String}
      */
     void batchaDelete(@Param("cateId") String cateId, @Param("orgId")String orgId);
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据需求部门查询品目名称
+     *〈详细描述〉
+     * @author myc
+     * @param orgId {@link 需求部门Id}
+     * @return
+     */
+    List<CategoryAssigned> findCateListByOrg(String orgId);
+    
+    
 }

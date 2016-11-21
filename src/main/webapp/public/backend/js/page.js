@@ -45,6 +45,9 @@ function getPageUrl(currPage){
 
 //鼠标移动显示全部内容
 function titleMouseOver(content,obj){
+	if (content == null || content == ""){
+		return;
+	}
 	layer.tips(content,obj,{
 		tips: [2,'#2c9fA6'],
 		time:0

@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,ses.util.StringUtil" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <%@ include file="../../../common.jsp"%>
 
@@ -120,14 +120,79 @@
 		   }
 	}
      
+     /** 取消分配任务 */
+     function uAllocate(){
+    	var cateId=[];
+ 		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
+ 	    var nodes=treeObj.getCheckedNodes(true);  
+ 	    for(var i=0;i<nodes.length;i++){ 
+ 	    	if (nodes[i].pId != '0'){
+ 	    		cateId.push(nodes[i].id);
+ 	    	}
+ 	    } 
+ 	    var orgId=[]; 
+ 	    var isErrorName;
+		$('input[name="chkItem"]:checked').each(function(){ 
+			var cateName = $(this).parents('tr').find('td').eq(5).text();
+			isErrorName = null;
+			if (cateName == null || cateName == ""){
+				var name = $(this).parents('tr').find('td').eq(2).text();
+				isErrorName = name;
+				return false;
+			}
+			orgId.push($(this).val());
+		});
+		
+		if (isErrorName != null){
+			layer.msg("部门:" + isErrorName + ",没有分配品目,无法取消");	
+			return;
+		}
+		
+		if (orgId.length == 0){
+			layer.msg("请选择需求部门");
+			return;
+		}
+		if (cateId.length == 0) {
+			layer.confirm('您确认要全部取消吗？', {
+				  btn: ['确认','取消']
+			    },function (){
+			    	unassigned(orgId,'');
+			    }
+		  	  );
+		} else {
+			unassigned(orgId,cateId);
+		}
+		
+     }
+     
+     /** 取消  */
+     function unassigned(orgId, cateId){
+ 		$.ajax({
+     		type:"post",
+     		url:"${pageContext.request.contextPath}/categoryparam/unassigned.do?orgId= "+ orgId + "&cateId=" +cateId ,
+     		success:function(data){
+     			if (data == "ok"){
+     				layer.msg('取消成功');
+     				getResult(orgId);
+     			} else {
+     				layer.msg('取消失败');
+     			}
+     		}
+     	});
+ 	}
+     
 	//获取选中节点 
 	
 	function allocate(){
 		var cateId=[];
+		var cateName = [];
 		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
 	    var nodes=treeObj.getCheckedNodes(true);  
 	    for(var i=0;i<nodes.length;i++){ 
-	    	cateId.push(nodes[i].id);
+	    	if (nodes[i].pId != '0'){
+	    		cateId.push(nodes[i].id);
+		    	cateName.push(nodes[i].name);
+	    	}
 	    } 
 		var orgId=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -144,24 +209,64 @@
 			return ;
 		}
 		
-		assigned(orgId,cateId);
+		assigned(orgId,cateId,cateName);
 		
 	  }
 	
 	/** 分配 */
-	function assigned(orgId, cateId){
+	function assigned(orgId, cateId ,cateName){
 		$.ajax({
     		type:"post",
-    		url:"${pageContext.request.contextPath}/categoryparam/assigned.do?orgId= "+ orgId + "&cateId=" +cateId ,
+    		url:"${pageContext.request.contextPath}/categoryparam/assigned.do?orgId= "+ orgId + "&cateId=" +cateId + "&cateName= "+ cateName ,
     		success:function(data){
     			if (data == "ok"){
     				layer.msg('分配成功');
+    				getResult(orgId);
     			} else {
     				layer.msg(data);
     			}
     		}
     	});
 	}
+	
+	/** 更新结果 */
+	function getResult(orgIds){
+		$.ajax({
+    		type:"post",
+    		dataType:"json",
+    		url:"${pageContext.request.contextPath}/categoryparam/assignedRes.do?orgIds= "+ orgIds ,
+    		success:function(data){
+    			showCateResult(data);
+    		}
+    	});
+	}
+	
+	/** 展示结果 */
+	function showCateResult(data){
+		if (data && data.length > 0){
+			for (var i =0;i<data.length;i++) {
+				showValue(data[i]);
+			}
+		}
+	}
+	
+	/** 显示值 **/
+	function showValue(obj){
+		$('input[name="chkItem"]:checked').each(function(){ 
+			var checkedId = $(this).val();
+			if (checkedId == obj.orgId) {
+				$(this).parents('tr').find('td').eq(5).removeAttr("onmouseover");
+				var names = obj.cateNames;
+				if (names.length > 17){
+					$(this).parents('tr').find('td').eq(5).text(names.substring(0,17) + "...");
+				} else {
+					$(this).parents('tr').find('td').eq(5).text(names);
+				}
+				$(this).parents('tr').find('td').eq(5).attr("onmouseover","titleMouseOver('"+obj.cateNames+"',this)");
+			}
+		});
+	}
+	
 	
 	/* 查询 */
 	function query(){
@@ -197,7 +302,7 @@
 	   </div>
 	   <div class="col-md-9">
 		    <div class="headline-v2">
-		     <h2>采购机构列表</h2>
+		     <h2>产品分配列表</h2>
 		    </div>
 		   <div class="search_detail">
 			   <form id="form" action="${pageContext.request.contextPath}/categoryparam/query_orgnization.html" method="post">
@@ -205,10 +310,10 @@
 			   		<input type="hidden" name="page" value="" id="page"/>	
 			        <ul class="demand_list">
 			        	 <li>
-					    	<label class="fl">需求部门：</label><span><input type="text" id="orgId" value="${name}" name="name"  class="mt10"/></span>
+					    	<label class="fl">需求部门：</label><span><input type="text" id="orgId" value="${name}" name="name"  /></span>
 					     </li>
 					     <li>
-					    	<label class="fl">负责人：</label><span><input type="text" id="leadId" name="princinpal"  class="mt10"/></span>
+					    	<label class="fl">负责人：</label><span><input type="text" id="leadId" name="princinpal"  /></span>
 					     </li>
 			        </ul>
 			        <button type="button"  onclick="query();"  class="btn">查询</button>
@@ -216,28 +321,40 @@
 		        </form>
 		      </div>
 		      <div class="col-md-12 pl20 mt10">
-		      		<button id="all" type="button"  onclick="allocate()"class="btn">分配</button>
+		      		<button  type="button"  onclick="allocate();"class="btn">分配</button>
+		      		<button  type="button"  onclick="uAllocate();"class="btn">取消</button>
 		      </div>
 		      <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" >
 		            <thead>    
 		                <tr>
-		                <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
-		                <th class="info w80">序号</th>
-		                <th class="info">需求部门</th>
-		                <th class="info">负责人</th>
-		                <th class="info">电话</th>
-		                <th class="info">状态</th>
+			                <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
+			                <th class="info w80">序号</th>
+			                <th class="info w180">需求部门</th>
+			                <th class="info w100">负责人</th>
+			                <th class="info w120">电话</th>
+			                <th class="info">品目名称</th>
 		                </tr>
 		            </thead>
 		            <c:forEach var="cate" items="${cate}"  varStatus="vs">
-		            <tr>
+		            <c:set value="${fn:length(cate.cateNames)}"  var="length"/>
+		              <tr>
 		                <td class="tc pointer"><input  onclick="check()" type="checkbox" name="chkItem" value="${cate.id}"/></td>
 		                <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 		                <td class="tc pointer">${cate.name}</td>
 		                <td class="tc pointer">${cate.princinpal}</td>
 		                <td class="tc pointer">${cate.mobile}</td>
-		                <td id="status" class="tc pointer">${cate.status}</td></tr>
+		                <c:if test="${length > 17}">
+		                	<td class="pointer" onmouseover="titleMouseOver('${cate.cateNames}',this)" onmouseout="titleMouseOut();">
+		                		${fn:substring(cate.cateNames,0,17)}...
+		                	</td>
+		                </c:if>
+		                <c:if test="${length <= 17}">
+		                	<td class="pointer" onmouseover="titleMouseOver('${cate.cateNames}',this)" onmouseout="titleMouseOut();" >
+		                		${cate.cateNames}
+		                	</td>
+		                </c:if>
+		              </tr>
 		            </c:forEach>
 		       </table>
          	</div>
