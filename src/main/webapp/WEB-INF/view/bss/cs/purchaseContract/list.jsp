@@ -266,14 +266,16 @@
 	</table>
     </div>
    <div id="pagediv" align="right"></div>
-   <ul class="list-unstyled dnone mt10" id="numberWin">
+   <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
   		    <li class="col-md-12">
 			   <span class="col-md-12 fl"><div class="red star_red">*</div>成交供应商：</span>
-			   <select name="delsupplier" id="delSele" class="mb0 ml15 w220">
-			   <div id='delsuperr' class="cue col-md-12"></div>
-			   </select>
+			   <div class="select_common">
+			     <select name="delsupplier" id="delSele" class="mb0 ml15 w220">
+			     </select>
+			     <div id='delsuperr' class="cue col-md-12"></div>
+			   </div>
 			</li>
-			<li class="tc col-md-12 mt20">
+			<li class="tc col-md-12 tl pl50 pb20">
 			 <input type="button" class="btn" onclick="save()" value="确定"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</li>

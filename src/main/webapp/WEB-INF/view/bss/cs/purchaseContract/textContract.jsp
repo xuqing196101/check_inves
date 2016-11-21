@@ -224,7 +224,7 @@
 	    shade:0.01, //遮罩透明度
 		type : 1,
 		skin : 'layui-layer-rim', //加上边框
-		area : [ '50%', '550px' ], //宽高
+		area : [ '50%', '600px' ], //宽高
 		content : $('#openDiv'),
 		offset: ['600px', '350px']
 	  });
@@ -244,7 +244,7 @@
 		    shade:0.01, //遮罩透明度
 			type : 1,
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '40%', '300px' ], //宽高
+			area : [ '40%', '250px' ], //宽高
 			content : $('#numberWin'),
 			offset: ['80%', '25%']
 		});
@@ -254,27 +254,23 @@
 	function save(){
 		var draftGitAt = $("#draftGitAt").val();
 		var draftReviewedAt = $("#draftReviewedAt").val();
-		var flag = false;
-		var news = "";
-		if(draftGitAt!=null && draftGitAt!=''){
-			flag = true;
-		}else{
-			flag = false;
-			news+="请填写上报时间";
-		}
-		if(draftReviewedAt!=null && draftReviewedAt!=''){
-			flag=true;
-		}else{
-			flag=false;			
-			news+="请填写批复时间";
-		}
 		
-		if(flag){
-			$("#status").val("1");
-			$("#contractForm").submit();
-		}else{
-			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
-		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/addDraftGit.html",
+			type:"post",
+			dataType:"json",
+			data:{"draftGitAt":draftGitAt,"draftReviewedAt":draftReviewedAt},
+			success:function(data){
+				if(data==1){
+					$("#status").val("1");
+					$("#contractForm").submit();
+				}else{
+					var obj = new Function("return" + data)();
+					$("#gitTime").text(obj.gitAt);
+					$("#reviewTime").text(obj.reviewAt);
+				}
+			}
+		});
 	}
 	
 	function cancel(){
@@ -605,8 +601,30 @@
    			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
   		
-  		<div id="numberWin" class="dnone mt20">
-  		    <div class="col-md-12">
+  		<ul class="list-unstyled mt10 dnone" id="numberWin">
+	  		    <li class="col-md-6">
+				   <span class="col-md-12 fl"><div class="red star_red">*</div>草稿合同上报时间：</span>
+				   <div class="input-append col-md-12">
+				     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+				     <div id='gitTime' class="cue col-md-12"></div>
+				   </div>
+				</li>
+				<li class="col-md-6">
+				   <span class="col-md-12 fl"><div class="red star_red">*</div>草稿合同批复时间：</span>
+				   <div class="input-append col-md-12">
+				     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+				     <div id='reviewTime' class="cue col-md-12"></div>
+				   </div>
+				</li>
+				<li class="tc col-md-12 mt20">
+				 <input type="button" class="btn" onclick="save()" value="生成"/>
+				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+				</li>
+		 </ul>
+  		
+  		
+  		
+  		    <%--<div class="col-md-12">
 			   <span class="span3 fl mt5"><div class="red star_red">*</div>草稿合同上报时间：</span>
 			   <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
 			</div>
@@ -618,8 +636,7 @@
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</div>
-	 	</div>
-  	</form>
+  	--%></form>
  </div>
  	<div id="openDiv" class="dnone layui-layer-wrap">
  	<div id="menuContent" class="menuContent dw188 tree_drop">

@@ -129,8 +129,15 @@ public class PerformanceController {
 		if(idArray==null){
 			performanceList = performanceService.selectAll(map);
 		}else{
-			map.put("idArray", idArray);
-			performanceList = performanceService.selectAllByidArray(map);
+			if(idArray.length>0){
+				map.put("idArray", idArray);
+				performanceList = performanceService.selectAllByidArray(map);
+			}else{
+				String[] idss = new String[1];
+				idss[0] = "";
+				map.put("idArray", idss);
+				performanceList = performanceService.selectAllByidArray(map);
+			}
 		}
 		if(!performanceList.isEmpty()){
 			for(Performance per : performanceList){

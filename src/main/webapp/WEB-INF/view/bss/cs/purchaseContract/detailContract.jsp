@@ -43,9 +43,8 @@
    		--%><div class="headline-v2">
    			<h2>明细信息</h2>
    		</div>
-   		<div class="container clear">
-   		<div class="p10_25">
-      	<table class="table table-bordered table-condensed mt5 table-hover mb0">
+   		<div class="container table_box">
+      	<table class="table table-bordered table-condensed table-hover">
 	      <thead>
 			<tr>
 				<th class="info w50">序号</th>
@@ -77,7 +76,6 @@
 			</tr>
    		</c:forEach>
 	</table>
-     </div>
     </div>
   		<div  class="col-md-12 tc mt20">
    			<button class="btn" onclick="next()">下一步</button>
