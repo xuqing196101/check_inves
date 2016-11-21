@@ -1,7 +1,9 @@
 package bss.controller.supplier;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
 
+import bss.model.ppms.AduitQuota;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -31,6 +35,7 @@ import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
@@ -86,6 +91,9 @@ public class ProjectManageController {
     
     @Autowired
     private PackageService packageService;
+    
+    @Autowired
+    private AduitQuotaService aduitQuotaService;
     
     /**
      *〈简述〉投标管理进入
@@ -311,6 +319,43 @@ public class ProjectManageController {
         }
     }
     
+    @RequestMapping("/saveIndex")
+    @ResponseBody
+    public void saveIndex(String datas, HttpServletResponse response, HttpServletRequest req) throws IOException{
+        try {
+            AduitQuota aq = new AduitQuota();
+            //解析datas
+            String[] data = datas.split(",");
+            for (String values : data) {
+                String value = values.substring(1, values.length()-1);
+                String[] v = value.split("_");
+                aq.setCreatedAt(new Date());
+                aq.setId(WfUtil.createUUID());
+                aq.setIsDeleted((short)0);
+                aq.setPackageId(v[2]);
+                aq.setProjectId(v[0]);
+                aq.setRound(0);
+                aq.setScoreModelId(v[1]);
+                Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+                aq.setSupplierId(supplier.getId());
+                BigDecimal bd = new BigDecimal(v[3]);
+                aq.setSupplierValue(bd);
+                aduitQuotaService.save(aq);
+            }
+            String msg = "保存成功";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ",  \"msg\": \"" + msg
+                            + "\"}");
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+        
+    }
+    
     /**
      *〈简述〉结果页面
      *〈详细描述〉
@@ -351,4 +396,5 @@ public class ProjectManageController {
             return null;
         }
     }
+    
 }
