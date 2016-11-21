@@ -175,7 +175,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			pageInfo.setPageNum(page);  //当前页
 			supplier.setRows(pageSize);
 			supplier.setPage(page);
-			pageInfo.setList(supplierMapper.findSupplier(supplier));
+			pageInfo.setList(supplierMapper.findSupplierAll(supplier));
 			return pageInfo;
 		}
 		return null;
