@@ -77,4 +77,9 @@ public interface PqInfoService {
 	 * 12.select2查询合同
 	 */
 	List<Select> selectChose(String purchaseType);
+	
+	/*
+	 * 13.查询；图片路径
+	 */
+	String queryPath(String id);
 }

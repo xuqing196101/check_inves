@@ -188,7 +188,7 @@
       <if test="detail != null ">
         #{detail},
       </if>
-      <if test="report != null and report != ''">
+      <if test="report != null">
         #{report},
       </if>
       <if test="createdAt != null">
@@ -347,5 +347,13 @@
   		IS_DELETED = 0
   		AND STATUS = 2
 		AND PURCHASE_TYPE = #{purchaseType}
+  </select>
+  
+   <!-- 查询图片路径 -->
+  <select id="queryPath" parameterType="Object" resultType="Object">
+  	select PATH
+  	from T_SES_BMS_ATTACHMENT
+  	WHERE 
+		BUSINESS_ID = #{id}
   </select>
 </mapper>

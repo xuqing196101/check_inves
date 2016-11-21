@@ -110,7 +110,7 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
-			@RequestParam("attaattach") MultipartFile attaattach,@Valid PqInfo pqInfo,BindingResult result,Model model){
+			@Valid PqInfo pqInfo,BindingResult result,Model model){
 		
 		Boolean flag = true;
 		String url = "";
@@ -141,7 +141,7 @@ public class PqInfoController extends BaseSupplierController{
 				}
 			}
 		}
-		if(pqInfo.getProjectType().equals("-请选择-")){
+		if(pqInfo.getProjectType()==null||pqInfo.getProjectType().equals("-请选择-")){
 			flag = false;
 			model.addAttribute("ERR_projectType", "请选择项目类型");
 		}
@@ -163,7 +163,11 @@ public class PqInfoController extends BaseSupplierController{
 		if(flag == false){
 			model.addAttribute("pqinfo", pqInfo);
 			url="bss/pqims/pqinfo/add";
-		}else{		 
+		}else{
+		 String report=pqInfoService.queryPath(pqInfo.getId());
+		 if(report!=null && report!=""){
+			 pqInfo.setReport(report);
+		 }
 	     //封装质检信息实体类
 	     pqInfoService.add(pqInfo);
 	     url = "redirect:getAll.html";
@@ -182,9 +186,9 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/edit")
 	public String edit(HttpServletRequest request,Model model,String id){
+		
 		model.addAttribute("pqinfo",pqInfoService.get(id));
-		String pqinfouuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("pqinfoId", pqinfouuid);
+		model.addAttribute("pqinfoID",id);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("CONTRACT_APPROVE_ATTACH");
 		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
@@ -206,7 +210,7 @@ public class PqInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,@RequestParam("date") String dateString,
-			@RequestParam("attaattach") MultipartFile attaattach,@Valid PqInfo pqInfo,BindingResult result,Model model){
+			@Valid PqInfo pqInfo,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
 		//设置质检日期
@@ -263,7 +267,10 @@ public class PqInfoController extends BaseSupplierController{
 	        ParsePosition pos = new ParsePosition(0);
 	        Date date = formatter.parse(dateString, pos);
 	        pqInfo.setDate(date);
-	        
+			String report=pqInfoService.queryPath(pqInfo.getId());
+			if(report!=null && report!=""){
+				 pqInfo.setReport(report);
+			}
 	        pqInfoService.update(pqInfo);
 	        url="redirect:getAll.html";
 		}

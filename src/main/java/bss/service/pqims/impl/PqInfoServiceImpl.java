@@ -134,4 +134,12 @@ public class PqInfoServiceImpl implements PqInfoService {
 		return pqInfoMapper.selectChose(purchaseType);
 	}
 
+	/* (non-Javadoc)
+	 * @see bss.service.pqims.PqInfoService#queryPath(java.lang.String)
+	 */
+	@Override
+	public String queryPath(String id) {
+		return pqInfoMapper.queryPath(id);
+	}
+
 }

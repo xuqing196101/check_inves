@@ -1,16 +1,17 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html>
   <head> 
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />  
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" type="text/css" />
+    
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -28,10 +29,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	if(("${pqinfo.contract.name}"!=null && "${pqinfo.contract.name}"!="") ||
-			        		("${pqinfo.contract.code}"!=null && "${pqinfo.contract.code}"!="") ||
-			        		("${pqinfo.type}"!="" && "${pqinfo.type}"!="-请选择-" && "${pqinfo.type}"!=null) ||
-			        		("${pqinfo.conclusion}"!="-请选择-" &&"${pqinfo.conclusion}"!="" &&"${pqinfo.conclusion}"!=null  )){
+		        	if((${pqinfo.contract.name!=null} && ${pqinfo.contract.name!=""}) ||
+		        		(${pqinfo.contract.code!=null} && ${pqinfo.contract.code!=""}) ||
+		        		(${pqinfo.type!=""} && ${pqinfo.type!="-请选择-"} && ${pqinfo.type!=null}) ||
+		        		(${pqinfo.conclusion!="-请选择-"} && ${pqinfo.conclusion!=""} && ${pqinfo.conclusion!=null}  )){
 			        		location.href = '${pageContext.request.contextPath}/pqinfo/searchReasult.do?page='+e.curr+'&contract.name='+"${pqinfo.contract.name}"+'&contract.code='+ "${pqinfo.contract.code}"+'&type='+ "${pqinfo.type}"+'&conclusion='+ "${pqinfo.conclusion}";
 			        	}else{
 			            	location.href = '${pageContext.request.contextPath}/pqinfo/getAllReasult.do?page='+e.curr;
@@ -57,7 +58,7 @@
 		 	}
 		}
 	
-  	function view(id){
+  	function show(id){
   		window.location.href="${pageContext.request.contextPath}/pqinfo/view.html?id="+id;
   	}
     
@@ -74,12 +75,12 @@
 			});
 	};
 	$(function(){
-		if("${pqinfo.type}"!=null&&"${pqinfo.type}"!=""){
+		if(${pqinfo.type!=null}&&${pqinfo.type!=""}){
 			$("#searchType").val('${pqinfo.type}');			
 		}else{
 			$("#searchType").val('-请选择-');	
 		}
-		if("${pqinfo.conclusion}"!=null&&"${pqinfo.conclusion}"!=""){
+		if(${pqinfo.conclusion!=null}&&${pqinfo.conclusion!=""}){
 			$("#searchConclusion").val('${pqinfo.conclusion}');			
 		}else{
 			$("#searchConclusion").val('-请选择-');	
@@ -174,8 +175,9 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')" class="btn">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
-   				
+				<td class="tc opinter">
+				<button type="button" onclick="view('${PqInfo.report}',this)" class="btn">质检报告</button>
+				</td>  				
 			</tr>
 		</c:forEach>
         </table>

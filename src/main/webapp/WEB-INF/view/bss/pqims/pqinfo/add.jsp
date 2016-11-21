@@ -35,15 +35,18 @@
     })	
     
     $(function(){
-        var type=$("#ty").val();
-        var conclusion=$("#conc").val();
-		$("#purchaseType").val("${pqinfo.projectType}");
-    	if(type!=null&&type!=""){
+
+        if(${pqinfo.projectType!=null}&&${pqinfo.projectType!=""}){
+			$("#purchaseType").val("${pqinfo.projectType}");	
+        }else{
+        	$("#purchaseType").val("-请选择-");
+        }
+    	if(${pqinfo.type!=null}&&${pqinfo.type!=""}){
 			$("#type").val("${pqinfo.type}");
 		}else{
 			$("#type").val("-请选择-");
 		}
-    	if(conclusion!=null&&conclusion!=""){
+    	if(${pqinfo.conclusion!=null}&&${pqinfo.conclusion!=""}){
 			$("#conclusion").val("${pqinfo.conclusion}");
 		}else{
 			$("#conclusion").val("-请选择-");
@@ -134,10 +137,10 @@
    		<div>
    			<h2 class="count_flow">登记质检报告</h2>
    			<ul class="ul_list">
-   				<input type="hidden" class="contract_id" name="contract.id">
-   			
+   				<input type="hidden" class="contract_id" name="contract.id" value="${attachTypeId }">
+   				<input type="hidden" class="id" name="id" value = '${pqinfoId}'>
    				<li class="col-md-3 margin-0 padding-0">
-			   		<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>项目类别：</span>
+			   		<span class="col-md-12 padding-left-5"><i class="star_red">＊</i>项目类别：</span>
 		        	<div class="select_common">
 		        	 <select id="purchaseType" name="projectType" class="w230" onchange="contractType(this.options[this.selectedIndex].value)">
 						<option value="-请选择-">请选择</option>
@@ -152,7 +155,7 @@
 			 	</li>
 			 
 		     	<li class="col-md-3 margin-0 padding-0">
-			   		<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>合同名称：</span>
+			   		<span class="col-md-12 padding-left-5"><i class="star_red">＊</i>合同名称：</span>
 			   		<div class="select_common">
 			   		  <select id="contract" class="w230" onchange="change()"></select>
 			   		  <input type="hidden" id="contractName" name="contract.name" value="${pqinfo.contract.code }">
@@ -185,7 +188,7 @@
 			 	</li>
 
     		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检单位：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检单位：</span>
 		        <div class="input-append ">
 		        	<input class="span5" name="unit" value = '${pqinfo.unit}' type="text">
 		        	<span class="add-on">i</span>
@@ -193,7 +196,7 @@
        			</div>
 			 </li>
 		     <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检类型：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检类型：</span>
 			   <div class="select_common">
 		        	<select id="type" name =type class="w230" >
 						<option value="-请选择-">请选择</option>
@@ -207,7 +210,7 @@
 	  			</div>
 			 </li>
     		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检地点：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检地点：</span>
 		        <div class="input-append ">
 		        	<input class="span5" name="place" value = '${pqinfo.place}' type="text">
 		        	<span class="add-on">i</span>
@@ -215,14 +218,14 @@
        			</div>
 			 </li>
 			<li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检日期：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检日期：</span>
 			   <div class="input-append">
 		        <input class=" Wdate w230" name="dateString" type="text" value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true})">
 		        <div class="cue">${ERR_pqdate}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检人员：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检人员：</span>
 		        <div class="input-append ">
 		        	<input class="span5" name="inspectors"  value = '${pqinfo.inspectors}'  type="text">
 		        	<span class="add-on">i</span>
@@ -230,7 +233,7 @@
        			</div>
 			 </li>
 			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检情况：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检情况：</span>
 			   <div class="input-append">
 		        <input class="span5" name="condition" type="text" value = '${pqinfo.condition}'  >
 		        <span class="add-on">i</span>
@@ -238,7 +241,7 @@
 		       </div>
 			 </li>
     		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>质检结论：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检结论：</span>
 			   <div class="select_common">
 		        	<select id="conclusion" name ="conclusion" class="w220" >
 						<option value="-请选择-" >请选择</option>
@@ -250,7 +253,7 @@
 	  			</div>
 			 </li>
 			 <li class="col-md-11 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>详细情况：</span>
+			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>详细情况：</span>
 			   <div class="">
 		        <textarea class="h130 col-md-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
 		       </div>

@@ -169,4 +169,15 @@ public interface PqInfoMapper {
      * @return:
      */
     List<Select> selectChose(String purchaseType);
+    
+    /**
+     * 
+     * @Title: queryPath
+     * @author Liyi 
+     * @date 2016-11-21 上午9:39:35  
+     * @Description: 查询图片路劲
+     * @param:     
+     * @return:
+     */
+    String queryPath(String id);
 }
