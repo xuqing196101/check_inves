@@ -24,10 +24,10 @@
 			}(),
 			jump : function(e, first) { //触发分页后的回调
 				if (!first) { //一定要加此判断，否则初始时会无限刷新
-					if ("${templet.name != null}"
-							&& "${templet.name != ''}"
-							|| ("${templet.temType != '-请选择-'}" && "${templet.temType != ''}")) {
-						location.href = '${pageContext.request.contextPath}/templet/search.html?page='
+					if (${templet.name != null}
+							&& ${templet.name != ""}
+							|| (${templet.temType != "-请选择-"} && ${templet.temType != ""})) {
+						location.href = "${pageContext.request.contextPath}/templet/search.html?page="
 								+ e.curr
 								+ '&name='
 								+ "${templet.name}"
