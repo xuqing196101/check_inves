@@ -84,10 +84,10 @@
              <li class=""><a aria-expanded="false" class="f18"  href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
              <li class=""><a aria-expanded="false" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
              <li class=""><a aria-expanded="fale" class="f18"  href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-             <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '生产')}">
             <li class=""><a aria-expanded="fale" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '销售')}">
             <li class=""><a aria-expanded="fale" href="#tab-3" class="f18"  data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
@@ -107,51 +107,57 @@
                             <input id="supplierId" name="supplierId" value="${supplierId}"
                                 type="hidden">
                         </form>
-                  <table class="table table-bordered table-condensed table-hover">
-                      <thead>
-                        <tr>
-                          <th class="info w50">序号</th>
-                          <th class="info">所属类别</th>
-                          <th class="info">产品名称</th>
-                          <th class="info">品牌</th>
-                          <th class="info">规格型号</th>
-                          <th class="info">尺寸</th>
-                          <th class="info">生产产地</th>
-                          <th class="info">保质期</th>
-                          <th class="info">生产商</th>
-                          <th class="info">参考价格</th>
-                          <th class="info">产品图片</th>
-                          <th class="info">商品二维码</th>
-                        </tr>
-                      </thead>
-                      <tbody id="products_tbody_id">
-                        <c:forEach items="${productsList}" var="products" varStatus="vs">
-                          <tr>
-                            <td class="tc" id="${products.id}_index">${vs.index+1 }</td>
-                            <td id="${products.categoryId}" class="tc">${products.categoryName}</td>
-                            <td class="tc" id="${products.id}_name" onclick="reason('${products.id}');">${products.name}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
-                            <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
-                            <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
-                            <td class="tc">
-                              <c:if test="${products.productPic != null}">
-                                <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
-                            </td>
-                            <td class="tc" >
-                              <c:if test="${products.qrCode != null}">
-                                <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
-                            </td>
-                           
-                          </tr>
-                        </c:forEach>
+                  <c:forEach items="${listItem}" var="item" varStatus="vs">
+              <h2 class="count_flow"><i>${vs.index + 1}</i>${item.categoryName}产品信息表</h2>
+              <ul class="ul_list">
+                <table class="table table-bordered table-condensed table-hover">
+                <thead>
+                  <tr>
+                    <th class="info w50">序号</th>
+                    <th class="info">所属类别</th>
+                    <th class="info">产品名称</th>
+                    <th class="info">品牌</th>
+                    <th class="info">规格型号</th>
+                    <th class="info">尺寸</th>
+                    <th class="info">生产产地</th>
+                    <th class="info">保质期</th>
+                    <th class="info">生产商</th>
+                    <th class="info">参考价格</th>
+                    <th class="info">产品图片</th>
+                    <th class="info">商品二维码</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
+                    <tr>
+                      <td class="tc w50">${vs.index + 1}</td>
+                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}">${item.categoryName}</td>
+                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}_name">${products.name}</td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
+                      <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
+                      <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
+                      <td class="tc">
+                        <c:if test="${products.productPic != null}">
+                          <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
+                        </c:if>
+                        <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
+                      </td>
+                      <td class="tc" >
+                        <c:if test="${products.qrCode != null}">
+                          <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
+                        </c:if>
+                        <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
+                      </td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
+              </table>
+              </ul>
+            </c:forEach>
                       </tbody>
                     </table>
                 </div>

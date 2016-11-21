@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../../common.jsp"%>
-
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
@@ -46,10 +45,13 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
-function downloadFile(fileName){
-	  fileName=encodeURI(fileName);
-      fileName=encodeURI(fileName);
-	  window.location.href="${pageContext.request.contextPath}/supplierQuery/downLoadFile.html?fileName="+fileName;
+function download(id,key){
+    var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+        $('body').append(form); 
+        form.submit();
 }
 </script>
 </head>
@@ -76,10 +78,10 @@ function downloadFile(fileName){
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('shareholder');">股东信息</a></li>
-              <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+              <c:if test="${fn:contains(suppliers.supplierType, '生产')}">
             <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '销售')}">
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">
@@ -127,30 +129,35 @@ function downloadFile(fileName){
                      </c:forEach>
                   </table>
                   <h2 class="count_flow jbxx">附件下载</h2>
-                   <c:forEach items="${financial}" var="f" varStatus="vs">
-	                  <h2 class="count_flow">
-	                  <i>0${vs.index+1 }</i>${f.year }年
-	                  </h2>
-	                  <ul class="ul_list">
-	                   <li class="col-md-3 margin-0 padding-0 ">
-					        <div class="fl">文件下载：<span class="ml10">财务审计报告意见表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
-					   </li>
-					   <li class="col-md-3 margin-0 padding-0 ">
-                            <div class="fl">文件下载：<span class="ml10">资产负债表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
-                       </li>
-                       <li class="col-md-3 margin-0 padding-0 ">
-                            <div class="fl">文件下载：<span class="ml10">利润表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
-                       </li>
-                       <li class="col-md-3 margin-0 padding-0 ">
-                            <div class="fl">文件下载：<span class="ml10">现金流量表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
-                       </li>
-                       <li class="col-md-3 margin-0 padding-0 ">
-                            <br/>
-                            <div class="fl">文件下载：<span class="ml10">所有者权益变动表</span><a href="#" onclick="downloadFile('${f.auditOpinion}')" class="download"></a></div>
-                       </li>
-					   </ul>
-                  </c:forEach> 
-                  
+                   <table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
+						<thead>
+							<tr>
+								<th class="info">年份</th>
+								<th class="info">财务利润表</th>
+								<th class="info">审计报告的审计意见</th>
+								<th class="info">资产负债表</th>
+								<th class="info">现金流量表</th>
+								<th class="info">所有者权益变动表</th>
+							</tr>
+						</thead>
+						<tbody id="finance_attach_list_tbody_id">
+							<c:forEach items="${financial}" var="f" varStatus="vs">
+								<tr>
+									<td class="tc">${f.year}</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${f.auditOpinionId}', '${sysKey}')">${f.auditOpinion}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${f.liabilitiesListId}', '${sysKey}')">${f.liabilitiesList}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${f.profitListId}', '${sysKey}')">${f.profitList}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${f.cashFlowStatementId}', '${sysKey}')">${f.cashFlowStatement}</a>
+									</td>
+									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${f.changeListId}', '${sysKey}')">${f.changeList}</a>
+									</td>
+								</tr>
+							</c:forEach>
+						  </tbody>
+					  </table>
                 </div>
               </div>
           </div>

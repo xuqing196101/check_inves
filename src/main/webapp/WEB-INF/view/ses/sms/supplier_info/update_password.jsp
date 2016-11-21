@@ -71,25 +71,25 @@ function qingkong(){
     	<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<tbody>
 						<tr>
-							<td class="bggrey tr" style="width:30%">用户名：</td>
+							<td class="bggrey tr">用户名：</td>
 							<td>
 								<input class="span2"  value="${loginName }"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tr" style="width:30%">旧密码：</td>
+							<td class="bggrey tr">旧密码：</td>
 							<td>
 								<input class="span2" id="oldPassword" name="oldPassword"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tr" style="width:30%">新密码：</td>
+							<td class="bggrey tr">新密码：</td>
 							<td>
 								<input class="span2" id="newPassword1" name="newPassword1"  type="text">
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tr" style="width:30%">确认新密码：</td>
+							<td class="bggrey tr">确认新密码：</td>
 							<td>
 								<input class="span2" id="newPassword2"  name="newPassword2"  type="text">
 							</td>

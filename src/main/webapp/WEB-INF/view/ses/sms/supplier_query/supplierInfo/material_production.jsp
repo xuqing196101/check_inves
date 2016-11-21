@@ -134,13 +134,13 @@
 					<li class=""><a aria-expanded="fale" href="#tab-3"
 						data-toggle="tab" class="f18" onclick="tijiao('shareholder');">股东信息</a>
 					</li>
-					<c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+					<c:if test="${fn:contains(suppliers.supplierType, '生产')}">
 						<li class="active"><a aria-expanded="fale" href="#tab-2"
 							data-toggle="tab" class="f18"
 							onclick="tijiao('materialProduction');">物资-生产型专业信息</a>
 						</li>
 					</c:if>
-					<c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
+					<c:if test="${fn:contains(suppliers.supplierType, '销售')}">
 						<li class=""><a aria-expanded="fale" href="#tab-3"
 							data-toggle="tab" class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a>
 						</li>
@@ -175,33 +175,43 @@
 								type="hidden">
 						</form>
 						<h2 class="count_flow jbxx">供应商资质证书</h2>
-						<table class="table table-bordered table-condensed table-hover">
-							<thead>
-								<tr>
-									<th class="info">资质证书名称</th>
-									<th class="info">资质等级</th>
-									<th class="info">发证机关</th>
-									<th class="info">有效期(起止时间)</th>
-									<th class="info">是否年检</th>
-									<th class="info">附件上传</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${materialProduction}" var="m">
-									<tr>
-										<td class="tc" id="${m.id}">${m.name }</td>
-										<td class="tc">${m.levelCert}</td>
-										<td class="tc">${m.licenceAuthorith }</td>
-										<td class="tc"><fmt:formatDate value="${m.expStartDate }"
-												pattern='yyyy-MM-dd' /> 至 <fmt:formatDate
-												value="${m.expEndDate }" pattern='yyyy-MM-dd' /></td>
-										<td class="tc"><c:if test="${m.mot==0 }">否</c:if> <c:if
-												test="${m.mot==1 }">是</c:if></td>
-										<td class="tc">${m.attach }</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+						 <table class="table table-bordered table-condensed table-hover">
+		                    <thead>
+		                      <tr>
+		                        <th class="info w50">序号</th>
+		                        <th class="info">资质证书名称</th>
+		                        <th class="info">资质等级</th>
+		                        <th class="info">发证机关</th>
+		                        <th class="info">有效期(起止时间)</th>
+		                        <th class="info">是否年检</th>
+		                        <th class="info">附件</th>
+		                      </tr>
+		                      </thead>
+		                      <c:forEach items="${materialProduction}" var="m" varStatus="vs">
+		                        <tr>
+		                          <td class="tc">${vs.index + 1}</td>
+		                          <td class="tc" id="${m.id}" onclick="reason('${m.id}');">${m.name }</td>
+		                          <td class="tc" onclick="reason('${m.id}');">${m.levelCert}</td>
+		                          <td class="tc" onclick="reason('${m.id}');">${m.licenceAuthorith }</td>
+		                          <td class="tc" onclick="reason('${m.id}');">
+		                            <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+		                            <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
+		                          </td>
+		                          <td class="tc" onclick="reason('${m.id}');">
+		                           <c:if test="${m.mot==0 }">否</c:if>
+		                           <c:if test="${m.mot==1 }">是</c:if>
+		                          </td>
+		                          <td class="tc">
+		                            <c:if test="${m.attach !=null}">
+		                              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
+		                            </c:if>
+		                            <c:if test="${m.attach ==null}">
+		                              <a class="red">无附件下载</a>
+		                            </c:if>
+		                          </td>
+		                        </tr>
+		                      </c:forEach>
+		                  </table>
 					</div>
 					<div class="tab-pane fade active in">
 						<h2 class="count_flow jbxx">组织结构和人员</h2>
@@ -212,13 +222,15 @@
 									<td onmouseover="out('${supplierMatPros.orgName}')">${supplierMatPros.orgName}</td>
 									<td class="bggrey">人员总数：</td>
 									<td>${supplierMatPros.totalMange }</td>
-									<td class="bggrey">管理人员：</td>
-									<td>${supplierMatPros.totalMange }</td>
 								</tr>
 
 								<tr>
+								    <td class="bggrey">管理人员：</td>
+									<td>${supplierMatPros.totalMange }</td>
 									<td class="bggrey">技术人员：</td>
 									<td onmouseover="out('${supplierMatPros.orgName}')">${supplierMatPros.totalTech}</td>
+								</tr>
+								<tr>
 									<td class="bggrey">工人(职员)：</td>
 									<td colspan="3">${supplierMatPros.totalWorker }</td>
 								</tr>
@@ -234,12 +246,14 @@
 						<td onmouseover="out('${supplierMatPros.scaleTech}')">${supplierMatPros.scaleTech}</td>
 						<td class="bggrey">高级技术人员比例：</td>
 						<td>${supplierMatPros.scaleHeightTech }</td>
-						<td class="bggrey">研发部门名称：</td>
-						<td>${supplierMatPros.researchName }</td>
 					</tr>
 					<tr>
+					    <td class="bggrey">研发部门名称：</td>
+						<td>${supplierMatPros.researchName }</td>
 						<td class="bggrey">研发部门人数：</td>
 						<td onmouseover="out('${supplierMatPros.totalResearch}')">${supplierMatPros.totalResearch}</td>
+					</tr>
+					<tr>
 						<td class="bggrey">研发部门负责人：</td>
 						<td>${supplierMatPros.researchLead }</td>
 						<td class="bggrey">承担国家军队科研项目：</td>
@@ -247,8 +261,7 @@
 					</tr>
 					<tr>
 						<td class="bggrey">获得国家军队科技项目：</td>
-						<td colspan="5"
-							onmouseover="out('${supplierMatPros.totalResearch}')">${supplierMatPros.countryReward}</td>
+						<td colspan="3">${supplierMatPros.countryReward}</td>
 					</tr>
 					</thead>
                         </table>
@@ -267,20 +280,20 @@
                         </table>
                     </div>
                     <div class="tab-pane fade active in">
-                        <h2 class="count_flow jbxx">物资生产型供应商质量检测登记</h2>
-                        <table class="table table-bordered table-condensed table-hover">
-                        <thead>
+                    <h2 class="count_flow jbxx">物资生产型供应商质量检测登记</h2>
+                    <table class="table table-bordered table-condensed table-hover">
+                    <thead>
 					<tr>
 						<td class="bggrey">质量检测部门：</td>
 						<td onmouseover="out('${supplierMatPros.qcName}')">${supplierMatPros.qcName}</td>
 						<td class="bggrey">质量检测人数：</td>
 						<td>${supplierMatPros.totalQc }</td>
-						<td class="bggrey">质检部门负责人：</td>
-						<td>${supplierMatPros.qcLead }</td>
 					</tr>
 					<tr>
+					    <td class="bggrey">质检部门负责人：</td>
+						<td>${supplierMatPros.qcLead }</td>
 						<td class="bggrey">质量检测设备名称：</td>
-						<td colspan="5" onmouseover="out('${supplierMatPros.qcDevice}')">${supplierMatPros.qcDevice}</td>
+						<td>${supplierMatPros.qcDevice}</td>
 					</tr>
 					</tbody>
 					</table>

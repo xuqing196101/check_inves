@@ -7,37 +7,6 @@
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <script type="text/javascript">
-function reason(id){
-  var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"销售资质证书信息"; //审批的字段名字
-   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-        type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
-      });
-       $("#"+id+"_hide").hide();
-        layer.msg("审核不通过的理由是："+text);
-    });
-}
-
-function reason1(id){
-  var supplierId=$("#supplierId").val();
-  var id2=id+"2";
-  var id1=id+"1";
-  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
-  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-        type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
-      });
-     layer.msg("审核不通过的理由是："+text);
-     $("#"+id1+"").hide();
-    });
-}
-
-
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -109,10 +78,10 @@ function tijiao(str){
               <li class=""><a aria-expanded="fale" href="#tab-1" class="f18"  data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" class="f18"  data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" class="f18"  data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-              <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+              <c:if test="${fn:contains(suppliers.supplierType, '生产')}">
             <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" class="f18"  onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '销售')}">
             <li class="active"><a aria-expanded="fale" href="#tab-3" data-toggle="tab"  class="f18" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">

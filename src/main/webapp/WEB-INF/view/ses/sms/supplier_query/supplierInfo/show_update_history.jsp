@@ -80,10 +80,10 @@ function yincang(){
             <li class=""><a aria-expanded="true"  class="f18" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
             <li class=""><a aria-expanded="false" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
             <li class=""><a aria-expanded="fale" class="f18"  href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-            <c:if test="${fn:contains(suppliers.supplierType, '生产型')}">
+            <c:if test="${fn:contains(suppliers.supplierType, '生产')}">
             <li class=""><a aria-expanded="fale" class="f18"  href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
             </c:if>
-             <c:if test="${fn:contains(suppliers.supplierType, '销售型')}">
+             <c:if test="${fn:contains(suppliers.supplierType, '销售')}">
             <li class=""><a aria-expanded="fale"  class="f18" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             </c:if>
             <c:if test="${fn:contains(suppliers.supplierType, '工程')}">

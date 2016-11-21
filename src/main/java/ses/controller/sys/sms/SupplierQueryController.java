@@ -26,13 +26,16 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierProducts;
+import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
@@ -46,6 +49,7 @@ import ses.util.PropUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.model.UploadFile;
 
 @Controller
 @Scope("prototype")
@@ -274,6 +278,37 @@ public class SupplierQueryController extends BaseSupplierController{
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+		SupplierDictionaryData supplierDictionaryData = dictionaryDataServiceI.getSupplierDictionary();
+		for (SupplierFinance sf : list) {
+			List<UploadFile> listUploadFiles = sf.getListUploadFiles();
+			for (UploadFile uf : listUploadFiles) {
+				if (supplierDictionaryData.getSupplierProfit().equals(uf.getTypeId())) {
+					sf.setProfitListId(uf.getId());
+					sf.setProfitList(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierAuditOpinion().equals(uf.getTypeId())) {
+					sf.setAuditOpinionId(uf.getId());
+					sf.setAuditOpinion(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierLiabilities().equals(uf.getTypeId())) {
+					sf.setLiabilitiesListId(uf.getId());
+					sf.setLiabilitiesList(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierCashFlow().equals(uf.getTypeId())) {
+					sf.setCashFlowStatementId(uf.getId());
+					sf.setCashFlowStatement(uf.getName());
+					continue;
+				}
+				if (supplierDictionaryData.getSupplierOwnerChange().equals(uf.getTypeId())) {
+					sf.setChangeListId(uf.getId());
+					sf.setChangeList(uf.getName());
+					continue;
+				}
+			}
+		}
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("financial", list);
 		supplier.setId(supplierId);
@@ -318,11 +353,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("/materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
-		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
-		//资质资格证书信息
 		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
-		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
-		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
@@ -374,15 +405,22 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("/engineering")
 	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
 		String supplierId = supplierMatEng.getSupplierId();
+		if(supplierId != null){
 		//资质资格证书信息
 		List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+		request.setAttribute("supplierCertEng", supplierCertEng);
+		
 		//资质资格信息
 		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
-		//组织结构和注册人人员
-		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
-		request.setAttribute("supplierCertEng", supplierCertEng);
 		request.setAttribute("supplierAptitutes", supplierAptitute);
+		
+		//组织结构
+		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
 		request.setAttribute("supplierMatEngs",supplierMatEng);
+		//注册人人员
+		 List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();
+		 request.setAttribute("listRegPerson", listSupplierRegPersons);
+		}
 		request.setAttribute("supplierId", supplierId);
 		Supplier supplier=new Supplier();
 		supplier.setId(supplierId);
@@ -433,10 +471,10 @@ public class SupplierQueryController extends BaseSupplierController{
 	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
 		String supplierId = supplierAudit.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
-		//产品
-		List<SupplierProducts> productsList= supplierService.get(supplierId).getListSupplierProducts();
-		request.setAttribute("productsList", productsList);
-		//勾选的供应商类型
+		if(supplierId != null){
+			List<SupplierItem> listItem= supplierService.get(supplierId).getListSupplierItems();
+			request.setAttribute("listItem", listItem);
+		}
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		supplier.setId(supplierId);

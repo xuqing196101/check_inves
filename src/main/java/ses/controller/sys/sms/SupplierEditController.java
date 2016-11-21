@@ -96,7 +96,7 @@ public class SupplierEditController extends BaseSupplierController{
 		Supplier supplier=supplierAuditService.supplierById(id);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("supplier", supplier);
+		model.addAttribute("currSupplier", supplier);
 		return "ses/sms/supplier_apply_edit/add";
 	}
 	
@@ -215,7 +215,7 @@ public class SupplierEditController extends BaseSupplierController{
 			supplierEditService.updateByPrimaryKey(se);
 		}
 		todosService.updateIsFinish("supplier_edit/audit.html?id="+id);
-		return "redirect:/login/home.html";
+		return "redirect:/login/index.html";
 	}
 	
 	/**
@@ -231,7 +231,7 @@ public class SupplierEditController extends BaseSupplierController{
 	@RequestMapping(value="view")
 	public String view(String id,Model model,HttpServletRequest request){
 		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
-		model.addAttribute("supplier",se );
+		model.addAttribute("suppliers",se );
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		SupplierReason sr=new SupplierReason();
