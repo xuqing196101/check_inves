@@ -99,6 +99,9 @@
 			    <c:if test="${type eq 'jzxtp' }">
 			     04、竞谈文件
 			    </c:if>
+			    <c:if test="${type eq 'dyly' }">
+			     04、单一来源文件
+			    </c:if>
 			   </a>
 			 </li>
 	   	 </c:if>
@@ -119,6 +122,7 @@
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }" >
 		     <c:if test="${type eq 'gkzb' }">04、招标文件</c:if>
 		     <c:if test="${type eq 'jzxtp' }"> 04、竞谈文件</c:if>
+		     <c:if test="${type eq 'dyly' }"> 04、单一来源文件</c:if>
 		   </a>
 		   <i></i>
 		 </li>

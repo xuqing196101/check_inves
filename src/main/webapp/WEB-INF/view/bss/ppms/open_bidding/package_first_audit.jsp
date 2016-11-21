@@ -103,6 +103,9 @@
 							    <c:if test="${type eq 'jzxtp' }">
 							     04、竞谈文件
 							    </c:if>
+							    <c:if test="${type eq 'dyly' }">
+							     04、单一来源文件
+							    </c:if>
 							   </a>
 							 </li>
 						   </ul>
