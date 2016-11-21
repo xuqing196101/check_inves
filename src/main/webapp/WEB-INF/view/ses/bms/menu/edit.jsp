@@ -5,14 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    <title>修改菜单</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 	<SCRIPT type="text/javascript">
 		var setting = {
 			check: {
@@ -119,33 +111,32 @@
   </script>
  <body>
    
-   <div class="container">
+   <div class="layui-layer-wrap">
    	   <div id="menuContent" class="menuContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeDemo" class="ztree"  style="width: 220px"></ul>
 	   </div>
 		
 	   <form action="" id="form1" method="post">
-		   <div>
+		   <div class="drop_window">
 		   	   <input type="hidden" name="id" id="mid" value="${menu.id }">
 		   	   <input type="hidden" name="isDeleted" value="${menu.isDeleted }">
 		   	   <input type="hidden" name="pid" id="pid" value="${menu.parentId.id }">
-			   <ul class="list-unstyled mt10 p0_20">
-			     <li class="col-md-6 p0">
-				   <span class="fl mt5">上级：</span>
-				   <div class="input-append ">
-				   	<input id="citySel" class="span2" type="text" readonly value="${menu.parentId.name }"  onclick="showMenu();" />
-			        <span class="add-on">i</span>
-			       </div>
+			    <ul class="list-unstyled">
+			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+				   <label class="col-md-12 pl20 col-xs-12">上级</label>
+				   <span class="col-md-12 col-xs-12">
+                       <input id="citySel" class="title col-md-12" type="text" readonly value="${menu.parentId.name }"  onclick="showMenu();" />
+                    </span>
 				 </li>
-			     <li class="col-md-6 p0">
-				   <span class="fl mt5">名称：</span>
-				   <div class="input-append">
-			        <input class="span2" name="name" maxlength="30" value="${menu.name }" type="text">
-			        <span class="add-on">i</span>
-			       </div>
+			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+				   <label class="col-md-12 pl20 col-xs-12">名称</label>
+				   <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="name" value="${menu.name }"  maxlength="30" type="text">
+                    </span>
 				 </li>
-				 <li class="col-md-6 p0 ">
-				 	<span class="fl mt5">类型：</span>
+				 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
+				 	<label class="col-md-12 pl20 col-xs-12">类型</label>
+				 	<span class="col-md-12 col-xs-12">
 					<select name="type" class="w180 mt5" >
 					 	<option value="">-请选择-</option>
 					   	<option value="navigation" <c:if test="${'navigation' eq menu.type}">selected</c:if>>导航</option>
@@ -153,43 +144,42 @@
 					   	<option value="menu" <c:if test="${'menu' eq menu.type}">selected</c:if>>菜单</option>
 					   	<option value="button" <c:if test="${'button' eq menu.type}">selected</c:if>>按钮</option>
 					</select>
+					</span>
 				</li>
-				<li class="col-md-6 p0 ">
-				 	<span class="fl mt5">状态：</span>
+				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+				 	<label class="col-md-12 pl20 col-xs-12">状态</label>
+				 	<span class="col-md-12 col-xs-12">
 					<select  name="status" class="w180 mt5" >
 					   	<option value="0" <c:if test="${'0' eq menu.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq menu.status}">selected</c:if>>暂停</option>
 				    </select>
+				    </span>
 				</li>
-				<li class="col-md-6 p0">
-				   <span class="fl mt5">路径：</span>
-				   <div class="input-append">
-			        <input class="span2 mt5" name="url" value="${menu.url }" maxlength="300" type="text">
-			        <span class="add-on mt5">i</span>
-			       </div>
+				<li class="mt10 col-md-12 p0 col-xs-12">
+				  <label class="col-md-12 pl20 col-xs-12">路径</label>
+				   <span class="col-md-12 col-xs-12">
+                        <input class="col-xs-12 h80 mt6" name="url" value="${menu.url }" maxlength="300" type="text">
+                    </span>
 				 </li>
-			     <li class="col-md-6 p0">
-				   <span class="fl mt5">排序：</span>
-				   <div class="input-append">
-			        <input class="span2" name="position" value="${menu.position }" maxlength="3" type="text">
-			        <span class="add-on">i</span>
-			       </div>
-				 </li>
-				<li class="col-md-6 p0">
-				   <span class="fl mt5">图标：</span>
-				   <div class="input-append">
-			        <input class="span2" name="icon" value="${menu.icon }" maxlength="200" type="text">
-			        <span class="add-on">i</span>
-			       </div>
-				 </li>
+				  <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">排序</label>
+                    <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="position" value="${menu.position }" maxlength="3" type="text">
+                    </span>
+                 </li>
+                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">图标</label>
+                    <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="icon" value="${menu.icon }" maxlength="200" type="text">
+                    </span>
+                 </li>
+                  <div class="clear"></div>
 			   </ul>
 		  </div> 
 	   
-		  <div  class="col-md-12">
-		    <div class="fl padding-10">
+		  <div class="tc mt10 col-md-12 col-xs-12">
 			    <button class="btn btn-windows reset" id="update" type="button">更新</button>
 			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
-			</div>
 		  </div>
 	  </form>
   </div>

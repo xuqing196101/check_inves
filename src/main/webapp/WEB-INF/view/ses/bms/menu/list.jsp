@@ -98,7 +98,7 @@
 		if(mid != null && mid != '' ){
 			layer.open({
 			  type: 2, //page层
-			  area: ['430px', '400px'],
+			  area: ['550px','400px'],
 			  title: '修改菜单',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -129,7 +129,7 @@
     	var pid = $("#mid").val();
 		layer.open({
 		  type: 2, //page层
-		  area: ['430px', '400px'],
+		  area: ['550px','400px'],
 		  title: '添加菜单',
 		  closeBtn: 1,
 		  shade:0.01, //遮罩透明度

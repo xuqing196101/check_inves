@@ -27,7 +27,9 @@
 		<form action="${pageContext.request.contextPath}/supplier_stars/save_or_update_supplier_stars.html" method="post">
 			<input type="hidden" name="id" value="${supplierStars.id}" />
 				<div>
-				    <h2 class="count_flow"><i>1</i>添加星级</h2>
+				     <div class="headline-v2">
+					     <h2>添加星级</h2>
+					   </div>   
 					<ul class="ul_list">
 						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">一星级所需分数</span>
 							<div class="input-append">

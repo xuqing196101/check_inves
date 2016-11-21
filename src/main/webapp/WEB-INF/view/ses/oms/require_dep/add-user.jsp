@@ -42,57 +42,47 @@
 </head>
 <body>
    <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">机构管理</a></li><li class="active"><a href="#">增加用户</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
+   <div class="layui-layer-wrap">
    <form action="${pageContext.request.contextPath}/purchaseManage/createUser.html" method="post" id="formID">
-   <div id="openDiv" class="layui-layer-wrap" >
-    
-          <div class="drop_window">
+            <div class="drop_window">
               <ul class="list-unstyled">
-                 <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">编号</label>
-                  <span>
-                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+                 <li class="mt10 col-md-12 p0 col-xs-12">
+                  <label class="col-md-12 pl20 col-xs-12">编号</label>
+                  <span class="col-md-12 col-xs-12">
+                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-xs-12 h80 mt6">
                   </span>
                 </li>
                 
-                <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">交付时间</label>
-                  <span class="col-md-12 p0">
-                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
+                <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">交付时间</label>
+                   <span class="col-md-12 col-xs-12">
+                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="title col-md-12">
                   </span>
                 </li>
-                <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">用户名</label>
-                  <span>
-                   <input name="loginName" maxlength="30" class="col-md-12 p0" type="text">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">用户名</label>
+                  <span class="col-md-12 col-xs-12">
+                   <input name="loginName" maxlength="30" class="title col-md-12" type="text">
                   </span>
                   <div class="b f18 ml10 red hand">${loginName_msg}</div>
                 </li>
-                <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">真实姓名</label>
-                  <span>
-                   <input class="col-md-12 p0" name="relName" maxlength="10" type="text">
+                <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">真实姓名</label>
+                  <span class="col-md-12 col-xs-12">
+                   <input class="title col-md-12" name="relName" maxlength="10" type="text">
                   </span>
                 </li>
-                <li class="col-md-6">
-                  <label class="col-md-12 padding-left-5">密码</label>
-                  <span>
-                   <input class="col-md-12 p0" name="password" maxlength="30" id="password1" type="password">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">密码</label>
+                   <span class="col-md-12 col-xs-12">
+                   <input class="title col-md-12" name="password" maxlength="30" id="password1" type="password">
                   </span>
                   <div class="b f18 ml10 red hand">${password_msg}</div>
                 </li>
                </ul>
             </div>
-      
-    </div>
     </form>
+    </div>
    <!-- 修改订列表开始-->
    <%-- <div class="container container_box">
    <form action="${pageContext.request.contextPath}/purchaseManage/createUser.html" method="post" id="formID">

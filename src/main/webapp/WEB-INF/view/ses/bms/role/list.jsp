@@ -118,7 +118,7 @@
 		if(id.length==1){
 			layer.open({
 			  type: 2, //page层
-			  area: ['450px', '360px'],
+			  area: ['580px','350px'],
 			  title: '修改角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -183,7 +183,7 @@
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['580px','510px'],
+			  area: ['580px','350px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
