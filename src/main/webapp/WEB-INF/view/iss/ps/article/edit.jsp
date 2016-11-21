@@ -51,6 +51,7 @@ function deleteAtta(id,obj){
 }
 
 $(function(){
+	var typeId;
 	$.ajax({
 		 contentType: "application/json;charset=UTF-8",
 		  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
@@ -67,8 +68,17 @@ $(function(){
 	    	  }
 	    	  $("#articleTypes").select2();
 	    	  $("#articleTypes").select2("val", "${article.articleType.id }");
+	    	  typeId = "${article.articleType.name }";
+	    	  if(typeId=="工作动态"){
+	    			$("#picNone").removeClass().addClass("col-md-3 p0 mt10"); 
+	    			$("#picshow").show();
+	    		}else{
+	    			$("#picNone").removeClass().addClass("col-md-3 p0 mt10 dis_none"); 
+	    			$("#picshow").hide();
+	    		}
 	       }
 	});
+	
 })
 
 	function goBack(){
@@ -155,7 +165,15 @@ $(function(){
        </div>
 	 </li>  
 	 
-	 <li class="col-md-12 p0 mt10" id="picNone" >
+	 <li class="col-md-4 p0 mt5">
+	 <span class="fl">已上传的附件：</span>
+	 <div class="fl">
+	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
+	 </div>
+	 </li>
+	 
+	 <li class="col-md-3 p0 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
@@ -163,13 +181,6 @@ $(function(){
 		</div>
 	 </li>
 	 
-	 <li class="col-md-12 p0 mt5">
-	 <span class="fl">已上传的附件：</span>
-	 <div class="fl">
-	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-			<up:show showId="artice_file_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
-	 </div>
-	 </li>
 	 <%--<li class="col-md-12 p0 mt5">
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
