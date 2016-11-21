@@ -452,23 +452,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 	<!-- 	</div> -->
 	</div>
+	<div class="container clear">
 
-	<button style="margin-left: 106px;margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子节点</button>
+	<button style="margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子节点</button>
 	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级节点</button>
 	<button  style="margin-top: 20px;" class="btn btn-windows output" onclick="down()">下载Excel模板</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
-				
+	</div>			
 <!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
 
 
-	<div class="container clear margin-top-30" id="add_div" >
+	<div style="overflow: scroll;" class="container clear" id="add_div" >
 
-		<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
+		<form id="add_form"  action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 		<!-- 	<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="planType" value="" id="ptype"> -->
-			<table class="table table-bordered table-condensed mt5" >
+			<table class="table table-bordered table-condensed mt5" style="white-space: nowrap;overflow: hidden;word-spacing:keep-all;" >
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
