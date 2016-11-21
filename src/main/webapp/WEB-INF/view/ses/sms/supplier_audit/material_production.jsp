@@ -242,13 +242,12 @@ function tijiao(url){
 		                           <c:if test="${m.mot==1 }">是</c:if>
 		                          </td>
 		                          <td class="tc">
-		                            <%-- <c:if test="${m.attach !=null}">
-		                              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
+		                            <c:if test="${m.attach !=null}">
+		                              <a class="mt3 color7171C6" href="javascript:download('${m.attachId}', '${sysKey}')">${m.attach}</a>
 		                            </c:if>
 		                            <c:if test="${m.attach ==null}">
 		                              <a class="red">无附件下载</a>
-		                            </c:if> --%>
-		                            <a class="mt3 color7171C6" href="javascript:download('${m.attachId}', '${sysKey}')">${m.attach}</a>
+		                            </c:if>
 		                          </td>
 		                          <td class="tc">
 		                            <a  id="${m.id }_show" class="b f18 fl ml10 hand red">×</a>

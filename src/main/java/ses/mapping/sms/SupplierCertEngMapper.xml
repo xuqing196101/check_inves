@@ -17,7 +17,8 @@
 		<result column="EXP_START_DATE" property="expStartDate" />
 		<result column="EXP_END_DATE" property="expEndDate" />
 		<result column="CERT_STATUS" property="certStatus" />
-		<result column="ATTACH_CERT" property="attachCert" />
+		<result column="FILE_NAME" property="attachCert" />
+		<result column="ID_" property="attachCertId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, TECH_PT, TECH_JOP,
@@ -230,13 +231,21 @@
 	
 	<!-- 资质资格证书信息 -->
 	<select id="findCertEngBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT
-		c.*
-		FROM
-		T_SES_SMS_SUPPLIER_CERT_ENG c,T_SES_SMS_SUPPLIER_MAT_ENG  m
-		WHERE
-		c.MAT_ENG_ID=m.ID
-		AND
-		m.SUPPLIER_ID=#{supplierId}
+		select
+            t1.*, 
+            t3.ID as ID_,
+            t3.NAME as FILE_NAME
+        from
+            T_SES_SMS_SUPPLIER_CERT_ENG t1
+        left join 
+            T_SES_SMS_SUPPLIER_MAT_ENG t2 
+         on
+            t1.MAT_ENG_ID = t2. ID
+        left join  
+            T_SES_SMS_SUPPLIER_ATTACHMENT t3 
+        on 
+            t3.BUSINESS_ID = t1. ID
+        where
+            t2.SUPPLIER_ID = #{supplierId}
   </select>
 </mapper>

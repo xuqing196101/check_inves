@@ -325,6 +325,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
 		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("工程")){
@@ -372,6 +375,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		
 		request.setAttribute("supplierId", supplierId);
+		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//下一步的跳转页面
 		String url = null;

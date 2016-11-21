@@ -17,7 +17,8 @@
 		<result column="APTITUTE_STATUS" property="aptituteStatus" />
 		<result column="APTITUTE_CHANGE_AT" property="aptituteChangeAt" />
 		<result column="APTITUTE_CHANGE_REASON" property="aptituteChangeReason" />
-		<result column="ATTACH_CERT" property="attachCert" />
+		<result column="FILE_NAME" property="attachCert" />
+		<result column="ID_" property="attachCertId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, "APTITUTE_ LEVEL",
@@ -230,13 +231,21 @@
 	
 	<!-- 供应商资质资格信息 -->
 	<select id="findAptituteBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT
-		a.*
-		FROM
-		T_SES_SMS_SUPPLIER_APTITUTE a,T_SES_SMS_SUPPLIER_MAT_ENG  m
-		WHERE
-		a.MAT_ENG_ID=m.ID
-		AND
-		m.SUPPLIER_ID=#{supplierId}
+		select
+		  t1.*,
+		  t3.ID as ID_,
+		  t3.NAME as FILE_NAME
+		from
+		  T_SES_SMS_SUPPLIER_APTITUTE t1
+		left join
+		  T_SES_SMS_SUPPLIER_MAT_ENG t2
+		on
+		  t1.MAT_ENG_ID=t2.ID
+		left join
+		  T_SES_SMS_SUPPLIER_ATTACHMENT t3 
+		on
+		  t3.BUSINESS_ID = t1.ID
+		where
+		  t2.SUPPLIER_ID=#{supplierId}
   </select>
 </mapper>
