@@ -41,58 +41,60 @@
   <div class="wrapper">
    <jsp:include page="/index_head.jsp"></jsp:include>
         <div class="container content height-350 job-content ">
-            <div class="col-md-12 p20 border1 margin-top-20 mb40">
-                <div class="tab-v1">
-                    <h2 class="ml50 bbgrey f30">发布帖子</h2>
-                </div>
+           <h2 class="f30 tc">发布帖子</h2>
+            <div class="col-md-12 p20 border1 margin-top-20 mb40">     
         <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" >
-       <div>
        <ul class="list-unstyled list-flow p0_20 f18">   
         
               <li class="col-md-12  p0  mb10">
                <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
-               
-                <textarea class="col-md-9"  name="name"></textarea>
-                <div class="validate">${ERR_name}</div>
+               <div class="select_common col-md-9 p0">
+                <textarea class="col-md-12"  name="name"></textarea>
+                <div class="cue">${ERR_name}</div>
+               </div>
                 <%--<span class="add-on">i</span>--%>
                
              </li>
              
              <li class="col-md-6 p0">
                <span class="fl"><div class="red star_red">*</div>所属版块：</span>
-                <select name ="parkId" class="w250 mb10" onchange="change(this.options[this.selectedIndex].value)">
+               <div class="select_common">
+                <select name ="parkId" onchange="change(this.options[this.selectedIndex].value)">
                     <option></option>
                     <c:forEach items="${parks}" var="park">
                         <option  value="${park.id}">${park.name}</option>
                     </c:forEach> 
                 </select>
-                <div class="validate">${ERR_park}</div>
+                <div class="cue">${ERR_park}</div>
+                </div>
              </li>
              
              <li class="col-md-6  p0">
-               <span class="fl"><div class="red star_red">*</div>所属主题：</span>                    
-                <select id="topics" name="topicId" class="w250 mb10">
+               <span class="fl"><div class="red star_red">*</div>所属主题：</span>    
+               <div class="select_common">                
+                <select id="topics" name="topicId">
                 <option></option>
                 </select>
-                <div class="validate">${ERR_topic}</div>
+                <div class="cue">${ERR_topic}</div>
+                </div>
              </li>
                         
             <li class="col-md-12 p0">
                 <span class="fl"><div class="red star_red">*</div>帖子内容：</span>
-                <div class="fl mt5 col-md-9 p0 fwb">
+                <div class="fl mt5 col-md-9 p0">
                      <script id="editor" name="content" type="text/plain" class= ""></script>
+                      <div class="red clear f12">${ERR_content}</div>
                 </div>
-                <div class="validate">${ERR_content}</div>
              </li>   
               <input type="hidden" name="id" value='${id}'></input> 
-                 <li class="col-md-12 p0">
-               <span >上传附件：</span>
+              <li class="col-md-12 p0">
+               <span>上传附件：</span>
+               <div class="fl f14">
                   <up:upload id="post_attach_up" multiple="true" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
+               </div>
               </li>            
          </ul>
-         <div class="clear"></div>
-    </div>      
         <!-- 底部按钮 -->                     
       <div  class="mt20 tc">   
         <button class="btn" type="submit">发布</button>

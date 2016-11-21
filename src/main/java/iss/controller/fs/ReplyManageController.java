@@ -8,6 +8,7 @@ import iss.model.fs.Reply;
 import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,31 +110,61 @@ public class ReplyManageController {
 	*/
 	@RequestMapping("/save")
 	@ResponseBody
-	public void save(HttpServletRequest request,Reply reply){			
-		String postId = request.getParameter("postId");
-		String content = request.getParameter("content");
-		String replyId =request.getParameter("replyId");
-		Post post = postService.selectByPrimaryKey(postId);
-		Timestamp tsp = new Timestamp(new Date().getTime());
-		Timestamp tsu = new Timestamp(new Date().getTime());
-		User user = (User) request.getSession().getAttribute("loginUser");
-		reply.setUser(user);
-		if(replyId ==null || replyId == ""){			
-			BigDecimal replyCount =post.getReplycount();
-			BigDecimal haha = new BigDecimal(1);
-			post.setReplycount(replyCount.add(haha));
-			post.setLastReplyer(user);
-			post.setLastReplyedAt(tsp);
-			postService.updateByPrimaryKeySelective(post);			
-		}else{
-			Reply supReply = replyService.selectByPrimaryKey(replyId);
-			reply.setReply(supReply);		
-		}		
-		reply.setPost(post);
-		reply.setContent(content);
-		reply.setPublishedAt(tsp);
-		reply.setUpdatedAt(tsu);		
-		replyService.insertSelective(reply);
+	public void save(HttpServletRequest request,HttpServletResponse response,Reply reply)throws IOException{	
+		try {
+            String msg = "";
+            int count = 0;
+            if ("".equals(reply.getContent()) || reply.getContent() == null) {
+                msg += "请填写回复内容";
+                count ++;
+            }
+            //校验失败
+            if (count > 0) {
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print(
+                        "{\"success\": " + false + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+            //检验成功
+            if (count == 0) {
+            	String postId = request.getParameter("postId");
+    			String content = request.getParameter("content");
+    			String replyId =request.getParameter("replyId");
+    			Post post = postService.selectByPrimaryKey(postId);
+    			Timestamp tsp = new Timestamp(new Date().getTime());
+    			Timestamp tsu = new Timestamp(new Date().getTime());
+    			User user = (User) request.getSession().getAttribute("loginUser");
+    			reply.setUser(user);
+    			//根据replyId来判断 是回复帖子，还是回复回复
+    			if(replyId ==null || replyId == ""){			
+    				BigDecimal replyCount =post.getReplycount();
+    				BigDecimal haha = new BigDecimal(1);
+    				post.setReplycount(replyCount.add(haha));
+    				post.setLastReplyer(user);
+    				post.setLastReplyedAt(tsp);
+    				postService.updateByPrimaryKeySelective(post);			
+    			}else{
+    				Reply supReply = replyService.selectByPrimaryKey(replyId);
+    				reply.setReply(supReply);		
+    			}		
+    			reply.setPost(post);
+    			reply.setContent(content);
+    			reply.setPublishedAt(tsp);
+    			reply.setUpdatedAt(tsu);		
+    			replyService.insertSelective(reply);
+            	msg += "回复成功";
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter()
+                        .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+					
+			response.getWriter().flush();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally{
+	        response.getWriter().close();
+	    }
 	}
 	
 	

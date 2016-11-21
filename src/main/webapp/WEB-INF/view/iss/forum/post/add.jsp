@@ -163,7 +163,7 @@
 	  			<div class="mb5">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        			</div>
-       			<div class="cue">${ERR_content}</div>
+       			<div class="red clear f12">${ERR_content}</div>
 			 </li>  
 			 <input type="hidden" name="id" value='${id}'></input>
 	   		  <li class="col-md-12 p0">

@@ -131,7 +131,7 @@
 	  			<div class="mb5">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        			</div>
-       			<div class="red">${ERR_content}</div>
+       			<div class="red clear f12">${ERR_content}</div>
 			 </li>
 			 <li class="col-md-12 p0">
                <span class="zzzx w245">上传附件：</span>

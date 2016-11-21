@@ -59,9 +59,21 @@
 	          url:"${ pageContext.request.contextPath }/reply/save.html?postId="+postId+"&content="+text,   
 	          contentType: "application/json;charset=UTF-8", 
 	          type:"POST",   //请求方式           
-	          success : function() {     
-	              location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
-	          }
+	          dataType: 'json', 
+	          success : function(result) {    	          
+		          if(!result.success){		          			
+	                        layer.msg(result.msg,{offset: ['20px']});
+	                    }else{ 		                    	              		
+		          			parent.window.setTimeout(function(){
+	                            parent.window.location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
+	                        }, 1000);
+	                        layer.msg(result.msg,{offset: ['20px']});
+	          			}
+	          },
+	          error: function(result){
+                    layer.msg("回复失败",{offset: ['20px']});
+              }
+	          
 	      });
 	  }	  
   }
@@ -88,11 +100,23 @@
 		   $.ajax({
 	       url:"${ pageContext.request.contextPath }/reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
 	       contentType: "application/json;charset=UTF-8", 
-	       type:"POST",   //请求方式           
-	       success : function() {   
-	           var postId = "${post.id}";
-	           location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
-	           }
+	       type:"POST",   //请求方式         
+	       dataType: 'json',   
+	       success : function(result) {    
+		          if(!result.success){
+	                        layer.msg(result.msg,{offset: ['20px']});
+	                    }else{ 		              		
+	                    	var postId = "${post.id}";
+		          			parent.window.setTimeout(function(){
+	                        parent.window.location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
+	                        }, 1000);
+	                        layer.msg(result.msg,{offset: ['20px']});
+	          			}
+	          },
+	          error: function(result){
+                    layer.msg("回复失败",{offset: ['20px']});
+              }
+	           
 	     });      
   }
  </script>
