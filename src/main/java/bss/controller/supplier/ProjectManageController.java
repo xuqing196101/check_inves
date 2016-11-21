@@ -25,12 +25,14 @@ import common.service.DownloadService;
 import common.service.UploadService;
 
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.MarkTermService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -81,6 +83,9 @@ public class ProjectManageController {
     
     @Autowired
     private MarkTermService markTermService;
+    
+    @Autowired
+    private PackageService packageService;
     
     /**
      *〈简述〉投标管理进入
@@ -194,29 +199,44 @@ public class ProjectManageController {
      * @param model
      */
     private void getBinding(SaleTender saleTender, String projectId, Model model) {
-      //初审项
+        //初审项
         List<FirstAudit> firstAudits = new ArrayList<FirstAudit>();
+        String[] packageIds = saleTender.getPackages().split(",");
         Map<String, Object> map =new HashMap<String, Object>();
-        //map.put("packageId", packageId);
+        map.put("packageIds", packageIds);
         map.put("projectId", projectId);
-        List<PackageFirstAudit> packageFirstAudits = packageFirstAuditService.selectList(map);
+        List<PackageFirstAudit> packageFirstAudits = packageFirstAuditService.findByProAndPackage(map);
         for (PackageFirstAudit packageFirstAudit : packageFirstAudits) {
             FirstAudit firstAudit = firstAuditService.get(packageFirstAudit.getFirstAuditId());
             firstAudits.add(firstAudit);
         }
         //评审模型关联
+        List<ScoreModel> scoreModels = new ArrayList<ScoreModel>();
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setProjectId(projectId);
-      //  scoreModel.setPackageId(packageId);
-        List<ScoreModel> scoreModels = scoreModelService.findListByScoreModel(scoreModel);
+        for (String packageId : packageIds) {
+            scoreModel.setPackageId(packageId);
+            List<ScoreModel> sms = scoreModelService.findListByScoreModel(scoreModel);
+            scoreModels.addAll(sms);
+        }
         for (ScoreModel scoreModel2 : scoreModels) {
             MarkTerm markTerm = new MarkTerm();
             markTerm.setId(scoreModel2.getMarkTermId());
             List<MarkTerm> markTerms = markTermService.findListByMarkTerm(markTerm);
             if (markTerms != null && markTerms.size() > 0) {
-                scoreModel2.setMarkTermName(markTerms.get(0).getName());
+                scoreModel2.setMarkTerm(markTerms.get(0));
             }
         }
+        List<Packages> packages = new ArrayList<Packages>();
+        for (String packageId : packageIds) {
+            HashMap<String, Object> paMap = new HashMap<String, Object>();
+            paMap.put("id", packageId);
+            List<Packages> pg = packageService.findPackageById(paMap);
+            if (pg != null && pg.size() > 0) {
+                packages.add(pg.get(0));
+            }
+        }
+        model.addAttribute("packages", packages);
         model.addAttribute("scoreModels", scoreModels);
         model.addAttribute("firstAudits", firstAudits);
     }
@@ -242,6 +262,9 @@ public class ProjectManageController {
                 //删除 ,表中数据假删除
                 uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
+                //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
+                std.setBidFinish((short)1);
+                saleTenderService.update(std);
             } else {
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
                 //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成

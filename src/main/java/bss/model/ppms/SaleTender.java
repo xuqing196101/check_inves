@@ -117,6 +117,8 @@ public class SaleTender {
     
     private Project project;
     
+    private String packages;
+    
     
     public Project getProject() {
 		return project;
@@ -377,9 +379,12 @@ public class SaleTender {
     }
 
 
+    public String getPackages() {
+        return packages;
+    }
 
 
-
-    
-    
+    public void setPackages(String packages) {
+        this.packages = packages;
+    }
 }

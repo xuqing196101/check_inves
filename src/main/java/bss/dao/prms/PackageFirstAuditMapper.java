@@ -30,7 +30,7 @@ public interface PackageFirstAuditMapper {
       * @param @return      
       * @return List<PackageFirstAudit>
      */
-    List<PackageFirstAudit>selectList(Map<String,Object> map);
+    List<PackageFirstAudit> selectList(Map<String,Object> map);
     /**
      * 
       * @Title: update
@@ -41,4 +41,15 @@ public interface PackageFirstAuditMapper {
       * @return void
      */
     void update(PackageFirstAudit record);
+    
+    /**
+     *〈简述〉根据项目id和包id数组查询关联表集合
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map
+     * @return
+     */
+    List<PackageFirstAudit> findByProAndPackage(Map<String,Object> map);
+    
+    
 }

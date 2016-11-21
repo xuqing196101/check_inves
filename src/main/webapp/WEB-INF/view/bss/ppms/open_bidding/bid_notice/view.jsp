@@ -65,7 +65,7 @@
 			 <span class="red">*</span>公告标题：<br>
 			 <input class="col-md-12 w100p" id="name" name="name" readonly="readonly" value="${article.name}" type="text"><br>
         	 <span class="red">*</span>发布范围：<br>
-			 <div class="input-append">
+			 <div>
 	            <label class="fl margin-bottom-0"><input type="checkbox" disabled="disabled" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="checkbox" disabled="disabled" name="ranges" value="1" >外网</label>
 	         </div><br>

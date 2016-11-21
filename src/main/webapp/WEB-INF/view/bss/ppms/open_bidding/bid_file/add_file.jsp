@@ -79,20 +79,20 @@
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">
 		     <li >
-			   <a  onclick="jump('${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}')" >01、符合性</a>
+			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、符合性</a>
 			   <i></i>
 			 </li>
 			 
 			 <li >
-			   <a  onclick="jump('${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}')" >02、符合性关联</a>
+			   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
 			   <i></i>							  
 			 </li>
 		     <li>
-			   <a  onclick="jump('${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}')">03、评标细则</a>
+			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">03、评标细则</a>
 			   <i></i>
 			 </li>
 			 <li class="active">
-			   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}')" >
+			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
 			   <c:if test="${type eq 'gkzb' }">
 			     04、招标文件
 			     </c:if>
@@ -103,36 +103,35 @@
 			 </li>
 	   	 </c:if>
 	   	 <c:if test="${ope == 'view' }">
-	   	 	<li class="active">
-		   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')" >01、符合性</a>
+	   	 	<li >
+		   <a  href="${pageContext.request.contextPath}/open_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId }" >01、符合性</a>
 		   <i></i>
 		 </li>
 		 <li>
-		   <a onclick="jump('${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${projectId}&flowDefineId=${flowDefineId }')">02、符合性关联</a>
+		   <a href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、符合性关联</a>
 		   <i></i>							  
 		 </li>
 	     <li>
-		   <a  onclick="jump('${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}')">03、评标细则</a>
+		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">03、评标细则</a>
 		   <i></i>
 		 </li>
-		 <li>
-		   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}')" >
+		 <li class="active">
+		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }" >
 		     <c:if test="${type eq 'gkzb' }">04、招标文件</c:if>
 		     <c:if test="${type eq 'jzxtp' }"> 04、竞谈文件</c:if>
 		   </a>
 		   <i></i>
 		 </li>
 		 <li>
-		    <c:if test="${project.confirmFile == 0 }"><a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a></c:if>
+		    <c:if test="${project.confirmFile == 0 || project.confirmFile==null}"><a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a></c:if>
 		    <c:if test="${project.confirmFile == 1 }"><a>05、已确认</a></c:if>
 		 </li>
-	   	 
 	   	 </c:if>
 	   </ul>
 	 </div>
 	 <!-- 按钮 -->
 	 <c:if test="${project.confirmFile == 0 && ope =='add'}">
-	     <div class="fr pr15 mt10">
+	     <div class="mt10 mb10">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
