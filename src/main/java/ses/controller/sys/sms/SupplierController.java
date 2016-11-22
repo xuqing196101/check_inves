@@ -24,10 +24,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
@@ -37,11 +43,14 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * @Title: supplierController
@@ -78,10 +87,16 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private NoticeDocumentService noticeDocumentService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	
 	/** 供应商关联类型 */
 	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;
+	
+	@Autowired
+	private UploadService uploadService;
 	
 	/**
 	 * @Title: getIdentity
@@ -127,11 +142,11 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("register_page")
 	public String registerPage(HttpServletRequest request) {
-		boolean flag = this.checkReferer(request, "/supplier/registration_page.html");
-		if (flag) {
+//		boolean flag = this.checkReferer(request, "/supplier/registration_page.html");
+//		if (flag) {
 			return "ses/sms/supplier_register/register";
-		}
-		return "redirect:registration_page.html";
+//		}
+//		return "redirect:registration_page.html";
 	}
 
 	/**
@@ -150,9 +165,9 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.register(supplier);
 			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-			request.getSession().setAttribute("jump.page", "basic_info");
+//			request.getSession().setAttribute("jump.page", "basic_info");
 			request.getSession().setAttribute("currSupplier", supplier);
-			return "redirect:page_jump.html";
+			return "ses/sms/supplier_register/basic_info";
 		}
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_register/register";
@@ -220,7 +235,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public String perfectBasic(HttpServletRequest request, Supplier supplier,String sign) throws IOException {
+	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier,String flag) throws IOException {
 		// this.setSupplierUpload(request, supplier);
 		supplierService.perfectBasic(supplier);// 保存供应商详细信息
 		supplier = supplierService.get(supplier.getId());
@@ -229,14 +244,13 @@ public class SupplierController extends BaseSupplierController {
 //			request.getSession().setAttribute("defaultPage", defaultPage);
 //		else
 //			request.getSession().removeAttribute("defaultPage");
-
+		boolean info = validateBasicInfo(request,model,supplier);
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		request.getSession().setAttribute("relate", relate);
 		request.getSession().setAttribute("currSupplier", supplier);
+		info=true;
 //		request.getSession().setAttribute("jump.page", jsp);
-		if(sign.equals("2")){
-			return "ses/sms/supplier_register/basic_info";
-		}else{
+		if(flag.equals("1")&&info==true){
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -245,8 +259,10 @@ public class SupplierController extends BaseSupplierController {
 			dd2.setKind(8);
 			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 			request.getSession().setAttribute("wlist", wlist);
-			
 			return "ses/sms/supplier_register/supplier_type";
+			
+		}else{
+			return "ses/sms/supplier_register/basic_info";
 		}
 //		return "redirect:page_jump.html";
 
@@ -266,21 +282,24 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_professional")
-	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String sign) throws IOException {
+	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag) throws IOException {
 	 
-
-		if (supplier.getSupplierMatPro() != null) {
-			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+		String[] str = supplier.getSupplierTypeIds().trim().split(",");
+		for(String s:str){
+			if (supplier.getSupplierMatPro() != null) {
+				supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSell() != null) {
+				supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+			}
+			if (supplier.getSupplierMatEng() != null) {
+				supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSe() != null) {
+				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+			}
 		}
-		if (supplier.getSupplierMatSell() != null) {
-			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-		}
-		if (supplier.getSupplierMatEng() != null) {
-			supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-		}
-		if (supplier.getSupplierMatSe() != null) {
-			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-		}
+		
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		supplier = supplierService.get(supplier.getId());
 		
@@ -291,13 +310,13 @@ public class SupplierController extends BaseSupplierController {
 
 		request.getSession().setAttribute("currSupplier", supplier);
 	/*	request.getSession().setAttribute("jump.page", jsp);*/
-		if(sign.equals("3")){
+		if(flag.equals("3")){
 			return "ses/sms/supplier_register/basic_info";
 		}
-		else if(sign.equals("2")){
+		else if(flag.equals("2")){
 			return "ses/sms/supplier_register/supplier_type";	
 		}else{
-			return "redirect:page_jump.html";
+			return "ses/sms/supplier_register/items";
 		}
 		
 
@@ -530,6 +549,7 @@ public class SupplierController extends BaseSupplierController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 	}
 
+	//注册登记校验
 	public boolean validateRegister(HttpServletRequest request, Model model, Supplier supplier) {
 		String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
 		int count = 0;
@@ -563,10 +583,11 @@ public class SupplierController extends BaseSupplierController {
 		return true;
 	}
 
+	 //基本信息校验
 	public boolean validateBasicInfo(HttpServletRequest request, Model model, Supplier supplier) {
 		int count = 0;
 		if (supplier.getSupplierName() == null || !supplier.getSupplierName().trim().matches("^.{1,80}$")) {
-			model.addAttribute("err_msg_supplierName", "必填项 !");
+			model.addAttribute("err_msg_supplierName", "不能为空!");
 			count++;
 		}
 		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
@@ -574,24 +595,84 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 		if (supplier.getFoundDate() == null) {
-			model.addAttribute("err_msg_foundDate", "必填项 !");
+			model.addAttribute("err_msg_foundDate", "不能为空 !");
 			count++;
 		}
 		if (supplier.getAddress() == null || supplier.getAddress().split(",").length != 2) {
-			model.addAttribute("err_msg_address", "必填项 !");
+			model.addAttribute("err_msg_address", "不能为空!");
 			count++;
 		}
 		if (supplier.getBankName() == null || !supplier.getBankName().trim().matches("^.{1,80}$")) {
-			model.addAttribute("err_msg_bankName", "必填项 !");
+			model.addAttribute("err_msg_bankName", "不能为空 !");
 			count++;
 		}
 		if (supplier.getBankAccount() == null || !supplier.getBankAccount().matches("^\\d{16}||\\d{19}$")) {
-			model.addAttribute("err_msg_bankAccount", "必填项 !");
+			model.addAttribute("err_msg_bankAccount", "不能为空 !");
 			count++;
 		}
 		if (supplier.getPostCode() == null || !ValidateUtils.Zipcode(supplier.getPostCode())) {
-			model.addAttribute("err_msg_postCode", "格式错误 !");
+			model.addAttribute("err_msg_postCode", "不能为空 !");
 			count++;
+		}
+		if(supplier.getLegalName()==null){
+			model.addAttribute("err_legalName", "不能为空 !");
+			count++;
+		}
+		if(supplier.getLegalIdCard()==null ){
+			model.addAttribute("err_legalCard", "不能为空 !");
+			count++;
+		}
+		if(supplier.getLegalIdCard()!=null && !supplier.getLegalIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+			model.addAttribute("err_legalCard", "身份证号码格式不正确 !");
+			count++;
+		}
+		if(supplier.getLegalTelephone()==null){
+			model.addAttribute("err_legalPhone", "不能为空 !");
+			count++;
+		}
+		if(supplier.getLegalTelephone()!=null&&!supplier.getLegalTelephone().matches("^(0[1-9]{2})-\\d{8}$|^(0[1-9]{3}-(\\d{7,8}))$")){
+			model.addAttribute("err_legalPhone", "固话格式不正确 !");
+			count++;
+		}
+		if(supplier.getContactName()==null){
+			model.addAttribute("err_conName", "不能为空 !");
+			count++;
+		}
+		if(supplier.getRegistAuthority()==null){
+			model.addAttribute("err_reAuthoy", "不能为空 !");
+			count++;
+		}
+		if(supplier.getRegistFund()==null){
+			model.addAttribute("err_fund", "不能为空 !");
+			count++;
+		}
+		if(supplier.getRegistFund()!=null&&supplier.getRegistFund().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
+			count++;
+		}
+		if(supplier.getBusinessStartDate()==null){
+			model.addAttribute("err_sDate", "营业开始时间不能为空 !");
+			count++;
+		}
+		if(supplier.getBusinessEndDate()==null){
+			model.addAttribute("err_eDate", "营业截至时间不能为空 !");
+			count++;
+		}
+		if(supplier.getBusinessAddress()==null){
+			model.addAttribute("err_bAddress", "经营地址不能为空!");
+			count++;
+		}
+		if(supplier.getBusinessPostCode()==null){
+			model.addAttribute("err_bCode", "不能为空!");
+			count++;
+		}
+		if(supplier!=null&&supplier.getBusinessPostCode()!=null&&!ValidateUtils.Zipcode(supplier.getBusinessPostCode().toString())){
+			model.addAttribute("err_bCode", "邮编格式不正确!");
+			count++;
+		}
+		List<UploadFile> list = uploadService.getFilesOther(supplier.getId(), null, Constant.SUPPLIER_SYS_KEY.toString());
+		if(list!=null&&list.size()>0){
+			
 		}
 		if (count > 0) {
 			return false;
@@ -599,12 +680,245 @@ public class SupplierController extends BaseSupplierController {
 		return true;
 	}
 
+	//生产信息校验
+	public boolean validatePro(HttpServletRequest request,SupplierMatPro supplierMatPro,Model model){
+		boolean bool=true;
+		if(supplierMatPro.getOrgName()==null){
+			model.addAttribute("org", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()==null){
+			model.addAttribute("person", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+			model.addAttribute("person", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()==null){
+			model.addAttribute("mange", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+			model.addAttribute("mange", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()==null){
+			model.addAttribute("tech", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+			model.addAttribute("tech", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()==null){
+			model.addAttribute("work", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+			model.addAttribute("work", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getScaleTech()==null){
+			model.addAttribute("stech", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getScaleTech()==null&&supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
+			model.addAttribute("stech", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getScaleHeightTech()==null){
+			model.addAttribute("height", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getScaleHeightTech()!=null&&supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
+			model.addAttribute("height", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getResearchName()==null){
+			model.addAttribute("reName", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalResearch()==null){
+			model.addAttribute("tRe", "不能为空");
+			bool=false;
+		}
+		
+		if(supplierMatPro.getTotalResearch()!=null&&supplierMatPro.getTotalResearch().toString().matches("^[0-9]*$")){
+			model.addAttribute("tRe", "只能输入整数");
+			bool=false;
+		}
+		if(supplierMatPro.getResearchLead()==null){
+			model.addAttribute("leader", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getCountryPro()==null){
+			model.addAttribute("contry", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getCountryReward()==null){
+			model.addAttribute("reward", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalBeltline()==null){
+			model.addAttribute("line", "不能为空");
+			bool=false;	
+		}
+		if(supplierMatPro.getTotalBeltline()!=null&&supplierMatPro.getTotalBeltline().toString().matches("^[0-9]*$")){
+			model.addAttribute("line", "只能输入整数");
+			bool=false;	
+		}
+		if(supplierMatPro.getTotalDevice()==null){
+			model.addAttribute("device", "不能为空");
+			bool=false;	
+		}
+		if(supplierMatPro.getTotalDevice()!=null&&supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
+			model.addAttribute("device", "格式正确");
+			bool=false;	
+		}
+		if(supplierMatPro.getQcName()==null){
+			model.addAttribute("qcName", "不能为空");
+			bool=false;	
+		}
+		if(supplierMatPro.getTotalQc()==null){
+			model.addAttribute("tQc", "不能为空");
+			bool=false;	
+		}
+		if(supplierMatPro.getTotalQc()!=null&&supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
+			model.addAttribute("tQc", "格式不正确");
+			bool=false;	
+		}
+		if(supplierMatPro.getQcLead()==null){
+			model.addAttribute("tQc", "不能为空");
+			bool=false;	
+		}
+		if(supplierMatPro.getQcDevice()==null){
+			model.addAttribute("tQc", "不能为空");
+			bool=false;	
+		}
+		
+		return bool;
+	}
+	
+	//销售信息校验
+	public boolean validateSale(HttpServletRequest request,SupplierMatSell supplierMatPro,Model model){
+		boolean bool=true;
+		if(supplierMatPro.getOrgName()==null){
+			model.addAttribute("sale_org", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()==null){
+			model.addAttribute("sale_person", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+			model.addAttribute("sale_person", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()==null){
+			model.addAttribute("sale_mange", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+			model.addAttribute("sale_mange", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()==null){
+			model.addAttribute("sale_tech", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+			model.addAttribute("sale_tech", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()==null){
+			model.addAttribute("sale_work", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+			model.addAttribute("sale_work", "格式不正确");
+			bool=false;
+		}
+		
+		return bool;
+	}
+	//工程信息校验
+	public boolean validateEng(HttpServletRequest request,SupplierMatEng supplierMatPro,Model model){
+		boolean bool=true;
+		if(supplierMatPro.getOrgName()==null){
+			model.addAttribute("eng_org", "不能为空");
+			bool=false;
+		}
+	   if(supplierMatPro.getTotalTech()==null){
+			model.addAttribute("eng_tech", "不能为空");
+			bool=false;
+	   }
+	   if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+			model.addAttribute("eng_tech", "不能为空");
+			bool=false;
+	   }
+	   
+		
+		
+		return bool;
+	}
+	//服务信息校验
+	public boolean validateServer(HttpServletRequest request,SupplierMatServe supplierMatPro,Model model){
+		boolean bool=true;
+		if(supplierMatPro.getOrgName()==null){
+			model.addAttribute("fw_org", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()==null){
+			model.addAttribute("fw_person", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+			model.addAttribute("fw_person", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()==null){
+			model.addAttribute("fw_mange", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+			model.addAttribute("fw_mange", "人员必须是整数");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()==null){
+			model.addAttribute("fw_tech", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+			model.addAttribute("fw_tech", "格式不正确");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()==null){
+			model.addAttribute("fw_work", "不能为空");
+			bool=false;
+		}
+		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+			model.addAttribute("fw_work", "格式不正确");
+			bool=false;
+		}
+		
+		
+		return bool;
+	}
+	@RequestMapping("/category")
+	public String  queryByPid(String id,Model model){
+		String pid = DictionaryDataUtil.getId("GC");
+		List<Category> list = categoryService.listByParent(pid);
+		model.addAttribute("list", list);
+		return "";
+	}
+	
 	
 //	回头删掉
 	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("8A6FD8C10F584C07B782587FA2C26576");
+		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

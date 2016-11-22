@@ -7,17 +7,18 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import common.constant.Constant;
-
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
 import ses.service.bms.DictionaryDataServiceI;
@@ -50,14 +51,21 @@ public class SupplierFinanceController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "save_or_update_finance")
-	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId) throws IOException {
+	@ResponseBody
+	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId,Model model) throws IOException {
 		this.setFinanceUpload(request, supplierFinance);
 		supplierFinanceService.saveOrUpdateFinance(supplierFinance);
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-2");
+//		request.getSession().setAttribute("defaultPage", "tab-2");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "basic_info");
-		return "redirect:../supplier/page_jump.html";
+//		request.getSession().setAttribute("jump.page", "basic_info");
+//		boolean flag=validate(request, supplierFinance, supplierId, model);
+//		 if(flag==false){
+//			 return "0";
+//		 }else{
+			 return "1";
+//		 }
+		
 	}
 	
 	@RequestMapping(value = "back_to_basic_info")
@@ -111,5 +119,71 @@ public class SupplierFinanceController extends BaseSupplierController {
 				}
 			}
 		}
+	}
+	
+	
+	
+	public boolean validate(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId,Model model){
+		boolean bool=true;
+		if(supplierFinance.getYear()==null){
+			model.addAttribute("year", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getName()==null){
+			model.addAttribute("name", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTelephone()==null){
+			model.addAttribute("phone", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getAuditors()==null){
+			model.addAttribute("auditors", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getQuota()==null){
+			model.addAttribute("quota", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalAssets()==null){
+			model.addAttribute("assets", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalAssets()==null){
+			model.addAttribute("assets", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalAssets()!=null&&supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+			model.addAttribute("assets", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalLiabilities()==null){
+			model.addAttribute("bilit", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalLiabilities()!=null&&supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+			model.addAttribute("bilit", "金额错误");
+			bool=false;
+		}
+		if(supplierFinance.getTotalNetAssets()==null){
+			model.addAttribute("noAssets", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTotalNetAssets()!=null&&supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+			model.addAttribute("noAssets", "金额错误");
+			bool=false;
+		}
+		if(supplierFinance.getTaking()==null){
+			model.addAttribute("taking", "不能为空");
+			bool=false;
+		}
+		if(supplierFinance.getTaking()!=null&&supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+			model.addAttribute("taking", "金额格式错误");
+			bool=false;
+		}
+		
+		return bool;
+		
+		
 	}
 }

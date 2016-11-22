@@ -88,7 +88,7 @@ public class PlanLookController extends BaseController {
 //		DictionaryData p=new DictionaryData();
 //		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 //		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		return "bss/pms/collect/planlist";
 	}
@@ -125,7 +125,7 @@ public class PlanLookController extends BaseController {
 		/*		DictionaryData dd=new DictionaryData();
 				dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 				dictionaryData.setParent(dd);*/
-				List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+				List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 				List<AuditParam> all=new LinkedList<AuditParam>();
 				AuditParam auditParam=new AuditParam();
 				
@@ -167,7 +167,7 @@ public class PlanLookController extends BaseController {
 //		DictionaryData p=new DictionaryData();
 //		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 //		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		List<AuditParam> all=new LinkedList<AuditParam>();
 		AuditParam auditParam=new AuditParam();
 		
@@ -212,6 +212,8 @@ public class PlanLookController extends BaseController {
 		String did = dictionaryDataServiceI.find(dd).get(0).getId();
 		model.addAttribute("aid", did);
 		
+		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");
+		model.addAttribute("mType", mType);
 		
 		return "bss/pms/collect/audit";
 	}

@@ -315,7 +315,7 @@ public class AuditSetController {
 //		DictionaryData dd=new DictionaryData();
 //		dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 //		dictionaryData.setParent(dd);
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic =dictionaryDataServiceI.findByKind("4");
 		List<AuditParam> all=new LinkedList<AuditParam>();
 		AuditParam auditParam=new AuditParam();
 		

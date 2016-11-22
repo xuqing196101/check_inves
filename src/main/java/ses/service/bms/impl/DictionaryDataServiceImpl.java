@@ -54,11 +54,10 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
         return dictionaryDataMapper.findRepeat(dd);
     }
 
-	@Override
-	public List<DictionaryData> queryAudit(DictionaryData dd) {
-		// TODO Auto-generated method stub
-		return dictionaryDataMapper.queryAudit(dd);
-	}
+//	public List<DictionaryData> queryAudit(DictionaryData dd) {
+//		// TODO Auto-generated method stub
+//		return dictionaryDataMapper.queryAudit(dd);
+//	}
 	
 	
 	/**

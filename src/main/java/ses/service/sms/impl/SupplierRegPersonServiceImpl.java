@@ -15,12 +15,12 @@ public class SupplierRegPersonServiceImpl implements SupplierRegPersonService {
 
 	@Override
 	public void saveOrUpdateRegPerson(SupplierRegPerson supplierRegPerson) {
-		String id = supplierRegPerson.getId();
-		if (id != null && !"".equals(id)) {
-			supplierRegPersonMapper.updateByPrimaryKeySelective(supplierRegPerson);
-		} else {
+//		String id = supplierRegPerson.getId();
+//		if (id != null && !"".equals(id)) {
+//			supplierRegPersonMapper.updateByPrimaryKeySelective(supplierRegPerson);
+//		} else {
 			supplierRegPersonMapper.insertSelective(supplierRegPerson);
-		}
+//		}
 	}
 
 	@Override

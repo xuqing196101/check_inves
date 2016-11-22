@@ -9,10 +9,10 @@
 		<result column="CERT_MAX_LEVEL" property="certMaxLevel" />
 		<result column="TECH_NAME" property="techName" />
 		<result column="TECH_PT" property="techPt" />
-		<result column="TECH_JOP" property="techJop" />
+		<result column="TECH_JOB" property="techJop" />
 		<result column="DEP_NAME" property="depName" />
 		<result column="DEP_PT" property="depPt" />
-		<result column="DEP_JOP" property="depJop" />
+		<result column="DEP_JOB" property="depJop" />
 		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
 		<result column="EXP_START_DATE" property="expStartDate" />
 		<result column="EXP_END_DATE" property="expEndDate" />
@@ -21,8 +21,8 @@
 		<result column="ID_" property="attachCertId" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, TECH_PT, TECH_JOP,
-		DEP_NAME, DEP_PT, DEP_JOP, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE, CERT_STATUS,
+		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, TECH_PT, TECH_JOB,
+		DEP_NAME, DEP_PT, DEP_JOB, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE, CERT_STATUS,
 		ATTACH_CERT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -38,8 +38,8 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierCertEng">
 		insert into T_SES_SMS_SUPPLIER_CERT_ENG (ID, MAT_ENG_ID, CERT_TYPE,
 		CERT_CODE, CERT_MAX_LEVEL, TECH_NAME,
-		TECH_PT, TECH_JOP, DEP_NAME,
-		DEP_PT, DEP_JOP, LICENCE_AUTHORITH,
+		TECH_PT, TECH_JOB, DEP_NAME,
+		DEP_PT, DEP_JOB, LICENCE_AUTHORITH,
 		EXP_START_DATE, EXP_END_DATE, CERT_STATUS,
 		ATTACH_CERT)
 		values (#{id}, #{matEngId}, #{certType},
@@ -74,7 +74,7 @@
 				TECH_PT,
 			</if>
 			<if test="techJop != null">
-				TECH_JOP,
+				TECH_JOB,
 			</if>
 			<if test="depName != null">
 				DEP_NAME,
@@ -83,7 +83,7 @@
 				DEP_PT,
 			</if>
 			<if test="depJop != null">
-				DEP_JOP,
+				DEP_JOB,
 			</if>
 			<if test="licenceAuthorith != null">
 				LICENCE_AUTHORITH,
@@ -151,9 +151,7 @@
 				#{attachCert},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select sys_guid() from dual
-		</selectKey>
+	
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertEng">
 		update T_SES_SMS_SUPPLIER_CERT_ENG
@@ -177,7 +175,7 @@
 				TECH_PT = #{techPt},
 			</if>
 			<if test="techJop != null">
-				TECH_JOP = #{techJop},
+				TECH_JOB = #{techJop},
 			</if>
 			<if test="depName != null">
 				DEP_NAME = #{depName},
@@ -186,7 +184,7 @@
 				DEP_PT = #{depPt},
 			</if>
 			<if test="depJop != null">
-				DEP_JOP = #{depJop},
+				DEP_JOB = #{depJop},
 			</if>
 			<if test="licenceAuthorith != null">
 				LICENCE_AUTHORITH = #{licenceAuthorith},
@@ -214,10 +212,10 @@
 		CERT_MAX_LEVEL = #{certMaxLevel},
 		TECH_NAME = #{techName},
 		TECH_PT = #{techPt},
-		TECH_JOP = #{techJop},
+		TECH_JOB = #{techJop},
 		DEP_NAME = #{depName},
 		DEP_PT = #{depPt},
-		DEP_JOP = #{depJop},
+		DEP_JOB = #{depJop},
 		LICENCE_AUTHORITH = #{licenceAuthorith},
 		EXP_START_DATE = #{expStartDate},
 		EXP_END_DATE = #{expEndDate},

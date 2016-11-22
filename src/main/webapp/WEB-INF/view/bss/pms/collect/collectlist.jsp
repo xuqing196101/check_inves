@@ -340,15 +340,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc"  >${obj.planName }</td>
 			
 			  <td class="tc"  >
-			   <c:if test="${obj.planType==1}">
-			 	 货物
-			  </c:if>
-			   <c:if test="${obj.planType=='2' }">
-		     	工程
-			  </c:if>
-			   <c:if test="${obj.planType=='3' }">
-			 	 服务
-			  </c:if>
+			   <c:forEach items="${dic }" var="dic">
+				   <c:if test="${obj.planType==dic.id}">
+				   ${dic.name }
+				   </c:if>
+			   </c:forEach>
 			  
 			  </td>
 			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>

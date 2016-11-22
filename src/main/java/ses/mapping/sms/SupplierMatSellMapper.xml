@@ -6,14 +6,14 @@
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="ORG_NAME" property="orgName" />
 		<result column="TOTAL_PERSON" property="totalPerson" />
-		<result column="TOTAL_MANGE" property="totalMange" />
+		<result column="TOTAL_MANAGE" property="totalMange" />
 		<result column="TOTAL_TECH" property="totalTech" />
 		<result column="TOTAL_WORKER" property="totalWorker" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH, TOTAL_WORKER, CREATED_AT,
+		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH, TOTAL_WORKER, CREATED_AT,
 		UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -28,7 +28,7 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierMatSell">
 		insert into T_SES_SMS_SUPPLIER_MAT_SELL (ID, SUPPLIER_ID, ORG_NAME,
-		TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH,
+		TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH,
 		TOTAL_WORKER, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{supplierId}, #{orgName},
@@ -52,7 +52,7 @@
 				TOTAL_PERSON,
 			</if>
 			<if test="totalMange != null">
-				TOTAL_MANGE,
+				TOTAL_MANAGE,
 			</if>
 			<if test="totalTech != null">
 				TOTAL_TECH,
@@ -113,7 +113,7 @@
 				TOTAL_PERSON = #{totalPerson},
 			</if>
 			<if test="totalMange != null">
-				TOTAL_MANGE = #{totalMange},
+				TOTAL_MANAGE = #{totalMange},
 			</if>
 			<if test="totalTech != null">
 				TOTAL_TECH = #{totalTech},
@@ -135,7 +135,7 @@
 		set SUPPLIER_ID = #{supplierId},
 		ORG_NAME = #{orgName},
 		TOTAL_PERSON = #{totalPerson},
-		TOTAL_MANGE = #{totalMange},
+		TOTAL_MANAGE = #{totalMange},
 		TOTAL_TECH = #{totalTech},
 		TOTAL_WORKER = #{totalWorker},
 		CREATED_AT = #{createdAt},

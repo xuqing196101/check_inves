@@ -19,7 +19,7 @@ public interface DictionaryDataServiceI {
     
     List<DictionaryData> findRepeat(DictionaryData dd);
     
-    List<DictionaryData> queryAudit(DictionaryData dd);
+//    List<DictionaryData> queryAudit(DictionaryData dd);
     
     /**
      * @Title: getSupplierDictionary

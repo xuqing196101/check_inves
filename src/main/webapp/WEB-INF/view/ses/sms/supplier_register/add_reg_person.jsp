@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -9,36 +10,44 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+ <%@ include file="/WEB-INF/view/front.jsp" %>
 
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_reg_person/";
+		/* var action = "${pageContext.request.contextPath}/supplier_reg_person/";
 		if (sign) {
 			action += "save_or_update_reg_person.html";
 		} else {
 			action += "back_to_professional.html";
 		}
 		$("#cert_eng_form_id").attr("action", action);
-		$("#cert_eng_form_id").submit();
+		$("#cert_eng_form_id").submit(); */
+		
+		 $.ajax({
+	       type: "POST",  
+           url: "${pageContext.request.contextPath}/supplier_reg_person/save_or_update_reg_person.html",  
+           data: $("#cert_eng_form_id").serialize(),  
+           dataType:"json",
+           success:function(result){
+        	   var boo=result.bool;
+	             if(boo==false){
+	            	 $("#cert_type").text(result.type);
+	                  $("#cert_count").text(result.regNum);
+	             } else{
+	          	     parent.location.reload(); 
+	          	 
+	             }
+        	   
+            },
+            error: function(result){
+                layer.msg("添加失败",{offset: ['150px', '180px']});
+            }
+            
+            
+		 });
+		 
+		 
 	}
 	
 	function cancels(){
@@ -63,6 +72,7 @@
 						<form id="cert_eng_form_id" method="post" target="_parent">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matEngId" value="${matEngId}" type="hidden" />
+							<input name="id" value="${id}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-100" id="tab-1">
@@ -72,11 +82,13 @@
 												<div class="input-append">
 													<input class="span3" type="text" name="regType" />
 												</div>
+										    <div class="cue" id="cert_type"></div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册人数：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="regNumber" />
 												</div>
+											 <div class="cue" id="cert_count"></div>
 											</li>
 											<div class="clear"></div>
 										</ul>

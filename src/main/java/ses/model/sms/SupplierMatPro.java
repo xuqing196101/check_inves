@@ -98,7 +98,7 @@ public class SupplierMatPro implements Serializable {
 
 	/**
 	 * <pre>
-	 * 研发部人数
+	 * 研发部负责人
 	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_PRO.RESEARCH_LEAD
 	 * </pre>
 	 */

@@ -30,7 +30,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
@@ -57,6 +60,8 @@ public class PurchaseRequiredController extends BaseController{
 	private PurchaseRequiredService purchaseRequiredService;
 	
 
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * 
@@ -155,7 +160,16 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/add")
 	public String add(Model model,String type) {
-		model.addAttribute("type", type);
+//		model.addAttribute("type", type);
+		DictionaryData dd=new DictionaryData();
+		dd.setKind(6);
+		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+		DictionaryData dd2=new DictionaryData();
+		dd.setKind(5);
+		List<DictionaryData> list2 = dictionaryDataServiceI.find(dd2);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("list2", list2);
 		return "bss/pms/purchaserequird/add";
 	}
 	/**
@@ -220,6 +234,8 @@ public class PurchaseRequiredController extends BaseController{
 			if(i==0){
 				PurchaseRequired p = list.get(0);
 //					String id = UUID.randomUUID().toString().replaceAll("-", "");
+				   String dicId = DictionaryDataUtil.getId(p.getPurchaseType());
+				   p.setPurchaseType(dicId);
 					p.setGoodsType(type);
 					p.setPlanNo(planNo);
 					p.setPlanName(planName);
@@ -236,6 +252,8 @@ public class PurchaseRequiredController extends BaseController{
 //					purchaseRequiredService.add(p);	
 			}else{
 				PurchaseRequired p = list.get(i);
+				String dicId = DictionaryDataUtil.getId(p.getPurchaseType());
+			    p.setPurchaseType(dicId);
 				p.setGoodsType(type);
 				p.setPlanNo(planNo);
 				p.setPlanName(planName);

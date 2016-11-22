@@ -24,12 +24,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.PropUtil;
+import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 
 @Controller
 @Scope("prototype")
-public class BaseSupplierController {
+public class BaseSupplierController extends BaseController {
 	private static Logger logger = Logger.getLogger(BaseSupplierController.class);
 
 	/**

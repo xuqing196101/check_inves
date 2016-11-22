@@ -340,11 +340,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 							 <select name="list[${vs.index }].purchaseType" onchange="sel(this)" style="width:100px" id="select">
               				    <option value="" >请选择</option>
-	                            <option value="gkzb" <c:if test="${'gkzb'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                           <%--  <option value="gkzb" <c:if test="${'gkzb'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
 	                            <option value="yqzb" <c:if test="${'yqzb'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
 	                            <option value="jzxtp" <c:if test="${'jzxtp'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
 	                            <option value="xjcg" <c:if test="${'xjcg'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option> --%>
+	                            <c:forEach items="${dicType }" var="mt">
+								  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
+								</c:forEach>
+								
 			                </select>
 							
 							</td>

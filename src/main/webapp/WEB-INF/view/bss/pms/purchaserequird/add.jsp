@@ -404,9 +404,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <span class="col-md-12 padding-left-5">物资类别</span>
 		  <div style="width: 200px;">
 		      <select style="width: 200px;" name="planType" id="wtype">
-				<option value="1">货物</option>
-				<option value="2">工程</option>
-				<option value="3">服务</option>
+		      <c:forEach items="${list }" var="obj">
+				<option value="${obj.id }">${obj.name }</option>
+			 </c:forEach>
 			</select> 
 	     </div>
 	 </li> 
@@ -509,11 +509,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>
 					 <select name="list[0].purchaseType" style="width:90px" id="select">
               				    <option value="" >请选择</option>
-	                            <option value="gkzb" >公开招标</option>
-	                            <option value="yqzb" >邀请招标</option>
-	                            <option value="jzxtp" >竞争性谈判</option>
-	                            <option value="xjcg" >询价采购</option>
-	                            <option value="dyly"  >单一来源</option>
+	                                <c:forEach items="${list2 }" var="obj">
+										<option value="${obj.id }">${obj.name }</option>
+									 </c:forEach>
 			           </select>
 			                
 					</td>

@@ -8,24 +8,36 @@
  function checks(obj){
 	 var bool=$(obj).is(':checked');
 	 var val=$(obj).val();
-
-	 if(bool==true&&val=='gc'){
+	var id=$("sid").val();
+	 if(bool==true&&val=='GC'){
 	
+			layer.open({
+				type : 2,
+				title : '添加工程证书信息',
+				// skin : 'layui-layer-rim', //加上边框
+				area : [ '600px', '500px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier_cert_eng/add_cert_eng.html?id=GC&&sid'+sid, //url
+				closeBtn : 1, //不显示关闭按钮
+			});
+			
+			
 		 $("#gc").show();
-	 }else if(bool!=true&&val=='gc'){
+	 }else if(bool!=true&&val=='GC'){
 		 $("#gc").hide();
 	 }
-	 if(bool==true&&val=='fw'){
+	 if(bool==true&&val=='FW'){
 			
 		 $("#fw").show();
-	 }else if(bool!=true&&val=='fw'){
+	 }else if(bool!=true&&val=='FW'){
 		 $("#fw").hide();
 	 }
 	  
-	 if(bool==true&&val=='wz'){
+	 if(bool==true&&val=='HW'){
 			
 		 $("#wz").show();  
-	 }else if(bool!=true&&val=='wz'){
+	 }else if(bool!=true&&val=='HW'){
 	/* 	 $('input[name="chkItem"]:checked').each(function(){ 
 			var val= $(this).val();
 			
@@ -38,10 +50,10 @@
 			 for(var i=0;i<checklist.length;i++)
 			   {
 		 			var vals=checklist[i].value;
-		 			if(vals=='xs'){
+		 			if(vals=='XS'){
 		 				checklist[i].checked = false;
 		 			}
-		 			if(vals=='sc'){
+		 			if(vals=='SC'){
 		 				checklist[i].checked = false;
 		 			} 
 			 
@@ -52,14 +64,14 @@
  	 	$("#sc").hide();
  	 	$("#xs").hide();  
 	 }
-	 if(bool==true&&val=='sc'){
+	 if(bool==true&&val=='SC'){
 		 $("#sc").show();  
-	 }else if(bool!=true&&val=='sc'){
+	 }else if(bool!=true&&val=='SC'){
 	 	 $("#sc").hide();  
 	 }
-	 if(bool==true&&val=='xs'){
+	 if(bool==true&&val=='XS'){
 		 $("#xs").show();  
-	 }else if(bool!=true&&val=='xs'){
+	 }else if(bool!=true&&val=='XS'){
 	 	 $("#xs").hide();  
 	 }
 	 
@@ -67,7 +79,14 @@
  }
  
  function prev(obj){
-	    $("input[name='sign']").val(obj);
+	   var id =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val()); 
+		}); 
+		
+		$("input[name='supplierTypeIds']").val(id);
+		
+	    $("input[name='flag']").val(obj);
 		$("#save_pro_form_id").submit();
  }
  function store(obj){
@@ -79,10 +98,10 @@
 	 	var bool=false;
 	 	var boo=false;
 		 for(var i=0;i<id.length;i++){
-			if(id[i]=='wz'){
+			if(id[i]=='HW'){
 				bool=true;
 			}
-			if(id[i]=='xs'||id[i]=='sc'){
+			if(id[i]=='XS'||id[i]=='SC'){
 				boo=true;
 			} 
 		 }
@@ -90,9 +109,9 @@
 		$("input[name='supplierTypeIds']").val(id);
 		
 		
-	    $("input[name='sign']").val(obj);
-	    if(bool==true||boo==true){
-	    	layer.alert("请勾选产品服务类属性",{offset: ['222px', '390px'], shade:0.01});
+	    $("input[name='flag']").val(obj);
+	    if(bool==true&&boo!=true){
+	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
 	    }else{
 	    	 if(id.length>1){
 	    		 
@@ -113,10 +132,10 @@
 	 	var bool=false;
 	 	var boo=false;
 		 for(var i=0;i<id.length;i++){
-			if(id[i]=='wz'){
+			if(id[i]=='HW'){
 				bool=true;
 			}
-			if(id[i]=='xs'||id[i]=='sc'){
+			if(id[i]=='XS'||id[i]=='SC'){
 				boo=true;
 			} 
 		 }
@@ -126,10 +145,10 @@
 		$("input[name='supplierTypeIds']").val(id);
 		
 		
-	    $("input[name='sign']").val(obj);
+	    $("input[name='flag']").val(obj);
 	    
-	    if(bool==true||boo==true){
-	    	layer.alert("请勾选产品服务类属性",{offset: ['222px', '390px'], shade:0.01});
+	    if(bool==true&&boo!=true){
+	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
 	    }else{
 	    	 if(id.length>1){
 	    		 
@@ -365,7 +384,7 @@
 		} else {
 			layer.open({
 				type : 2,
-				title : '添加物资生产证书信息',
+				title : '添加物资服务证书信息',
 				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
@@ -415,16 +434,16 @@
 					      var checkValue=$(checkbox).val();
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
-				                      if(arrays[i]=='sc'){
+				                      if(arrays[i]=='SC'){
 				                    	  $("#sc").show();
 				                      }
-				                      if(arrays[i]=='xs'){
+				                      if(arrays[i]=='XS'){
 				                    	  $("#xs").show();
 				                      }
-				                      if(arrays[i]=='fw'){
+				                      if(arrays[i]=='FW'){
 				                    	  $("#fw").show();
 				                      }
-				                      if(arrays[i]=='gc'){
+				                      if(arrays[i]=='GC'){
 				                    	  $("#gc").show();
 				                      }
 				               }
@@ -489,6 +508,49 @@
 	
 	
 </script>
+
+
+    <link href="css/page_job.css" media="screen" rel="stylesheet">
+	<style>
+	 .sevice_list h2{
+	  padding-left:40px;
+	  height:35px;
+	  line-height:35px;
+	  font-size:17px;
+	  background:url(images/reg_icon1.png) no-repeat 5px #e0e0e0;
+	 }
+	 .sevice_list h2 span{
+	  font-size:15px;
+	  margin-right:10px;
+	 }
+	 .sevice_list .title{
+	  height:30px;
+	  line-height:30px;
+	 }
+	 .service_list span{
+	  height:30px;
+	  line-height:30px;
+	  float:left;
+	  display:block;
+	  margin-right:10px;
+	 }
+	 .service_list span input{
+	 margin-right:5px;
+	 }
+	 .service_desc{
+	  background-color:#f8f8f8;
+	  padding:10px;
+	 }
+	 .service_kind h2{
+	 font-size:16px;
+	 font-weight:bold;
+	 height:30px;
+	 line-height:30px;
+	 border-bottom:1px solid #dddddd;
+	}
+	</style>
+	
+	
 </head>
 
 <body>
@@ -505,12 +567,8 @@
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
-				 <%--    <c:forEach items="${relate}" var="rel" > --%>
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" />${obj.name }</span>
-				   <%--    </c:forEach> --%>
 			      </c:forEach>
-		 
-			   
 			  </div>
 		    </div>
 		  </div>
@@ -521,31 +579,50 @@
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类/属性：</div>
 			  <div class="col-md-7 service_list">
 				    <c:forEach items="${wlist }" var="obj" >
-				  <%--     <c:forEach items="${relate }" var="rel" > --%>
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code }" />${obj.name }</span>
-				<%--       </c:forEach> --%>
 			      </c:forEach>
-			    
 			  </div>
 		    </div>
-		  </div>
-		  
-		  
-		
-		<!--    <div class="dnone" id="wz">
-			    
-	       </div>  -->
-			     
-			     
+	 </div>
+	 
+<!-- <div class="col-md-12 service_kind">
+  <h2 class="m0 col-md-12">已选产品/服务分类：</h2>
+  <div class="col-md-12 service_desc bgwhite">
+	  <div class="col-md-12 service_list p0">
+	    <span class="col-md-3 m0"><input type="checkbox"/>安保服务类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>白蚁防治及四害消杀白蚁防治及四害消杀</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>材料设备类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>规划设计类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>文商旅类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>信息类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>营销类</span>
+	  </div>
+  </div>
+</div> -->
+<div class="sevice_list col-md-12">
+  <h2 class="m0">服务类：
+
+  </h2>
+  <div class="col-md-12 service_desc">
+	  <div class="col-md-12 service_list p0">
+	    <span class="col-md-3 m0"><input type="checkbox"/>安保服务类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>白蚁防治及四害消杀白蚁防治及四害消杀</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>材料设备类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>规划设计类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>文商旅类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>信息类</span>
+		<span class="col-md-3 m0"><input type="checkbox"/>营销类</span>
+	  </div>
+  </div>
+</div>
+
+
 	<div style="margin-top: 100px;">
-		
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
-							<input type="hidden" name="id" value="${currSupplier.id}" />
-							<input type="hidden" name="sign" />
+							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
+							<input type="hidden" name="flag" />
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
-							<div style="margin-top: 200px;">
-							
-							
+				<div style="margin-top: 200px;">
 								<!-- 物资生产型专业信息 -->
 			              <div class="dnone" id="sc">
 			              <div class="container container_box">
@@ -553,7 +630,7 @@
 			              	    <ul class="list-unstyled" style="font-size: 14">
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
-								<fieldset class="col-md-12 border_font">
+								 <fieldset class="col-md-12 border_font">
 										<legend>供应商组织机构和人员</legend>
 												<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i>组织机构：</span>
 													<div class="input-append">
@@ -589,7 +666,7 @@
 													</div>
 												</li>
 												<!-- <div class="clear"></div> -->
-											</fieldset>
+									</fieldset>
 	 
 						            <fieldset class="col-md-12 border_font mt20">
 	 											<legend>产品研发能力 </legend>
@@ -643,7 +720,7 @@
 	
 	
 	
-											<fieldset class="col-md-12 border_font mt20">
+										<fieldset class="col-md-12 border_font mt20">
 	 											<legend>供应商生产能力  </legend>
 											 
 												<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i>生产线名称数量：</span>
@@ -691,20 +768,18 @@
 											 
 											 
 											 </fieldset>
-						</ul>					 
+									</ul>					 
 											 
 		 	<fieldset class="col-md-12 border_font mt20">
 	 	    <legend>供应商物资生产资质证书</legend>
-	 	    
 			<!-- 	    <h2 class="count_flow">供应商物资生产资质证书 </h2> -->
-				 
 					   <div class="col-md-12 p0">
 											<div class="fl">
 											  <button type="button" class="btn fr mr0" onclick="deleteCertPro()">删除</button>
 											  <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
 											</div>
 											<div class="mt40">
-					  <table class="table table-bordered table-condensed mt5">
+					                       <table class="table table-bordered table-condensed mt5">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>

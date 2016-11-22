@@ -2,21 +2,34 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.alibaba.fastjson.JSON;
+
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertSeService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -33,23 +46,44 @@ public class SupplierCertSeController extends BaseSupplierController {
 	@Autowired
 	private SupplierCertSeService supplierCertSeService;
 	
-	@RequestMapping(value = "add_cert_se")
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private UploadService uploadService;
+	
+	
+	@RequestMapping(value = "/add_cert_se")
 	public String addCertSell(Model model, String matSeId, String supplierId) {
 		model.addAttribute("matSeId", matSeId);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		return "ses/sms/supplier_register/add_cert_se";
 	}
 	
-	@RequestMapping(value = "save_or_update_cert_se")
-	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertServe supplierCertSe, String supplierId) throws IOException {
+	@RequestMapping(value = "/save_or_update_cert_se" ,produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertServe supplierCertSe, String supplierId,HttpServletResponse response) throws IOException {
 		// this.setCertSeUpload(request, supplierCertSe);
-		supplierCertSeService.saveOrUpdateCertSe(supplierCertSe);
+	
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-4");
+//		request.getSession().setAttribute("defaultPage", "tab-4");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "professional_info");
+//		request.getSession().setAttribute("jump.page", "professional_info");
 //		return "redirect:../supplier/page_jump.html";
-		return "ses/sms/supplier_register/supplier_type";
+//		return "ses/sms/supplier_register/supplier_type";
+		
+		Map<String, Object> map = valudateServer(supplierCertSe);
+		boolean bool = (boolean) map.get("bool");
+		if(bool==true){
+			supplierCertSeService.saveOrUpdateCertSe(supplierCertSe);
+		} 
+//		response.getWriter().print(map);
+		String json = JSON.toJSONString(map);
+		return json;
 	}
 	
 	@RequestMapping(value = "back_to_professional")
@@ -95,5 +129,40 @@ public class SupplierCertSeController extends BaseSupplierController {
 				}
 			}
 		}
+	}
+	
+	public Map<String,Object> valudateServer(SupplierCertServe supplierCertSe){
+		Map<String,Object> map=new HashMap<String,Object>();
+		boolean bool=true;
+
+		if(supplierCertSe.getName()==null){
+			map.put("name", "不能为空");
+			bool=false;
+		}
+		if(supplierCertSe.getLevelCert()==null){
+			map.put("level", "不能为空");
+			bool=false;
+		}
+		if(supplierCertSe.getLicenceAuthorith()==null){
+			map.put("authorith", "不能为空");
+			bool=false;
+		}
+		if(supplierCertSe.getExpStartDate()==null){
+			map.put("sDate", "不能为空");
+			bool=false;
+		}
+		if(supplierCertSe.getExpEndDate()==null){
+			map.put("eDate", "不能为空");
+			bool=false;
+		}
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		List<UploadFile> list = uploadService.getFilesOther(supplierCertSe.getId(), supplierDictionary.getSupplierServeCert(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
+		if(list.size()<=0){
+			map.put("file", "文件未上传");
+			bool=false;
+		}
+		map.put("bool", bool);
+		return map;
+		
 	}
 }

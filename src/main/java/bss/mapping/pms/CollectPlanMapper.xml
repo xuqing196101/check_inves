@@ -13,14 +13,14 @@
     <result column="ORDER_AT" jdbcType="DATE" property="orderAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
-    <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+    <result column="PLAN_NUMBER" jdbcType="VARCHAR" property="planNo" />
     <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
      <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
-    UPDATED_AT, POSITION,PLAN_NO,GOODS_TYPE,PURCHASE_TYPE,TASK_ID
+    UPDATED_AT, POSITION,PLAN_NUMBER,GOODS_TYPE,PURCHASE_TYPE,TASK_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CollectPlan_Map">
     select 
@@ -36,11 +36,11 @@
     insert into T_BSS_PMS_COLLECT_PLAN (ID, FILE_NAME, PASSWORD, 
       DEPARTMENT, BUDGET, STATUS, 
       PURCHASE_ID, CREATED_AT, ORDER_AT,GOODS_TYPE,PURCHASE_TYPE 
-      UPDATED_AT, POSITION,PLAN_NO)
+      UPDATED_AT, POSITION,PLAN_NUMBER)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{orderAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NUMBER,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
       #{purchaseType,jdbcType=VARCHAR},#{TASK_ID,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
@@ -80,7 +80,7 @@
         POSITION,
       </if>
        <if test="planNo != null">
-        PLAN_NO,
+        PLAN_NUMBER,
       </if>
        <if test="goodsType != null">
         GOODS_TYPE,
@@ -174,7 +174,7 @@
         POSITION = #{position,jdbcType=DECIMAL},
       </if>
        <if test="planNo != null">
-        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+        PLAN_NUMBER = #{planNo,jdbcType=VARCHAR},
       </if>
        <if test="goodsType != null">
         GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
       ORDER_AT = #{orderAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       POSITION = #{position,jdbcType=DECIMAL},
-      PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      PLAN_NUMBER = #{planNo,jdbcType=VARCHAR},
       GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
       PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
 	  TASK_ID = #{taskId,jdbcType=VARCHAR}

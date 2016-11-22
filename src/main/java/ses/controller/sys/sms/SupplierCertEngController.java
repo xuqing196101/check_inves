@@ -2,7 +2,11 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,12 +15,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.alibaba.fastjson.JSON;
+import com.google.gson.annotations.JsonAdapter;
+
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierDictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -33,23 +46,38 @@ public class SupplierCertEngController extends BaseSupplierController {
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	
+	@Autowired
+	private UploadService uploadService;
+	
+	
 	@RequestMapping(value = "add_cert_eng")
 	public String addCertEng(Model model, String matEngId, String supplierId) {
 		model.addAttribute("matEngId", matEngId);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		return "ses/sms/supplier_register/add_cert_eng";
 	}
 	
-	@RequestMapping(value = "save_or_update_cert_eng")
+	@RequestMapping(value = "save_or_update_cert_eng",produces = "text/html;charset=UTF-8")
+	@ResponseBody
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierCertEng supplierCertEng, String supplierId) throws IOException {
-		// this.setCertEngUpload(request, supplierCertEng);
-		supplierCertEngService.saveOrUpdateCertEng(supplierCertEng);
+ 
+		
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-3");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "professional_info");
-//		return "redirect:../supplier/page_jump.html";
-		return "ses/sms/supplier_register/supplier_type";
+		Map<String, Object> map = validateEng(supplierCertEng);
+		boolean bool = (boolean) map.get("bool");
+		if(bool==false){
+			supplierCertEngService.saveOrUpdateCertEng(supplierCertEng);
+		} 
+			return JSON.toJSONString(map);
+ 
 	}
 	
 	@RequestMapping(value = "back_to_professional")
@@ -95,5 +123,80 @@ public class SupplierCertEngController extends BaseSupplierController {
 				}
 			}
 		}
+	}
+	/**
+	 * 
+	* @Title: validateEng
+	* @Description: 校验
+	* author: Li Xiaoxiao 
+	* @param @param supplierCertEng
+	* @param @return     
+	* @return Map<String,Object>     
+	* @throws
+	 */
+	
+	public Map<String,Object> validateEng(SupplierCertEng supplierCertEng){
+		Map<String,Object> map=new HashMap<String,Object>();
+		boolean bool=true;
+		if(supplierCertEng.getCertType()==null){
+			map.put("certType", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getCertCode()==null){
+			map.put("certCode", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getCertMaxLevel()==null){
+			map.put("cerLevel", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getTechName()==null){
+			map.put("techName", "不能为空");
+			bool=false;
+		}
+		
+		if(supplierCertEng.getTechPt()==null){
+			map.put("techPt", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getTechJop()==null){
+			map.put("certJob", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getDepName()==null){
+			map.put("depName", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getDepPt()==null){
+			map.put("depPt", "不能为空");
+			bool=false;
+		}
+		
+		if(supplierCertEng.getDepJop()==null){
+			map.put("depJob", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getLicenceAuthorith()==null){
+			map.put("authorith", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getExpStartDate()==null){
+			map.put("sDate", "不能为空");
+			bool=false;
+		}
+		if(supplierCertEng.getExpEndDate()==null){
+			map.put("eDate", "不能为空");
+			bool=false;
+		}
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		List<UploadFile> list = uploadService.getFilesOther(supplierCertEng.getId(), supplierDictionary.getSupplierEngCert(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
+		if(list.size()<=0){
+			map.put("file", "文件未上传");
+			bool=false;
+		}
+		
+		map.put("bool", bool);
+		return map;
+		
 	}
 }

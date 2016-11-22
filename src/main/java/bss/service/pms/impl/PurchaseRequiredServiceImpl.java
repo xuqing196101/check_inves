@@ -132,35 +132,7 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 
 	@Override
 	public void batchAdd(List<PurchaseRequired> data) throws IOException {
-//		String resource = "spring-mybatis.xml";
-//	        InputStream inputStream = null;
-//	        SqlSession batchSqlSession = null;
-//	        try{
-//	            inputStream = Resources.getResourceAsStream(resource);
-//	            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-//	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-//	            int batchCount = 500;//每批commit的个数
-//	            for(int index = 0; index < data.size();index++){
-//	            	PurchaseRequired stu = data.get(index);
-//	                batchSqlSession.getMapper(PurchaseRequiredMapper.class).insertSelective(stu);
-//	                if(index !=0 && index%batchCount == 0){
-//	                    batchSqlSession.commit();
-//	                }
-//	            }
-//	            batchSqlSession.commit();
-//	        }catch (Exception e){
-//	            e.printStackTrace();
-//	        }finally {
-//	            if(batchSqlSession != null){
-//	                batchSqlSession.close();
-//	            }
-//	            if(inputStream != null){
-//	                inputStream.close();
-//	            }
-//	        }
-		
-		
-		//   DefaultSqlSessionFactory sqlSessionFactory = (DefaultSqlSessionFactory) ServiceBeanConstant.CTX.getBean("sqlSessionFactory");
+
 	        SqlSession batchSqlSession = null;
 	        try{
 	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);

@@ -160,11 +160,11 @@ public class TaskAdjustController extends BaseController{
 			audits.addAll(audit);
 			}
 		//查询出所有审核参数
-				DictionaryData	dictionaryData=new DictionaryData();
+//				DictionaryData	dictionaryData=new DictionaryData();
 //				DictionaryData dd=new DictionaryData();
 //				dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
 
-				List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+				List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 				List<AuditParam> all=new LinkedList<AuditParam>();
 				AuditParam auditParam=new AuditParam();
 				
@@ -199,6 +199,11 @@ public class TaskAdjustController extends BaseController{
 		dd.setCode("CGJH_AUDIT");
 		String did = dictionaryDataServiceI.find(dd).get(0).getId();
 		model.addAttribute("aid", did);
+		
+		List<DictionaryData> dicType = dictionaryDataServiceI.findByKind("5");
+		model.addAttribute("dicType", dicType);
+		
+		
 		return "bss/pms/taskadjust/edit";
 	}
 	

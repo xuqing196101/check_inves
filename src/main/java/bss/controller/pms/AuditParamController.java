@@ -39,7 +39,7 @@ public class AuditParamController {
 	public String list(AuditParam auditParam,Model model,Integer page){
 		DictionaryData	dictionaryData=new DictionaryData();
 	
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		
 		List<AuditParam> list = auditParameService.query(auditParam, page==null?1:page);
@@ -53,7 +53,7 @@ public class AuditParamController {
 	public String add(Model model){
 		DictionaryData	dictionaryData=new DictionaryData();
 		
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		return "bss/pms/auditparam/add";
 	}
@@ -63,7 +63,7 @@ public class AuditParamController {
 	public String edit(String id,Model model,Integer page){
 		DictionaryData	dictionaryData=new DictionaryData();
 	
-		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
+		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		model.addAttribute("dic", dic);
 		AuditParam param = auditParameService.queryById(id);
 		model.addAttribute("aparam", param);

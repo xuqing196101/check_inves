@@ -15,12 +15,12 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 	
 	@Override
 	public void saveOrUpdateAptitute(SupplierAptitute supplierAptitute) {
-		String id = supplierAptitute.getId();
-		if (id != null && !"".equals(id)) {
-			supplierAptituteMapper.updateByPrimaryKeySelective(supplierAptitute);
-		} else {
+//		String id = supplierAptitute.getId();
+//		if (id != null && !"".equals(id)) {
+//			supplierAptituteMapper.updateByPrimaryKeySelective(supplierAptitute);
+//		} else {
 			supplierAptituteMapper.insertSelective(supplierAptitute);
-		}
+//		}
 
 	}
 

@@ -15,12 +15,12 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 
 	@Override
 	public void saveOrUpdateCertEng(SupplierCertEng supplierCertEng) {
-		String id = supplierCertEng.getId();
-		if (id != null && !"".equals(id)) {
-			supplierCertEngMapper.updateByPrimaryKeySelective(supplierCertEng);
-		} else {
+//		String id = supplierCertEng.getId();
+//		if (id != null && !"".equals(id)) {
+//			supplierCertEngMapper.updateByPrimaryKeySelective(supplierCertEng);
+//		} else {
 			supplierCertEngMapper.insertSelective(supplierCertEng);
-		}
+//		}
 	}
 
 	@Override
