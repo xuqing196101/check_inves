@@ -31,4 +31,16 @@ public interface DictionaryDataServiceI {
      * @return: SupplierDictionaryData
      */
     SupplierDictionaryData getSupplierDictionary();
+    
+    /**
+     * 
+     *〈简述〉根据ID获取对象
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    DictionaryData getDictionaryData(String id);
+    
+    
 }
