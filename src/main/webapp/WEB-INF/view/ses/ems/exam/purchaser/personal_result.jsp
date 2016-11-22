@@ -7,7 +7,6 @@
 	<script type="text/javascript">
 		$(function(){
 			$("#code").val("${code}");
-			
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -65,8 +64,6 @@
     		</ul>
     		<div class="clear"></div>
     	</h2>
-  	
-    
   
     	<div class="content table_box">
             <table class="table table-bordered table-condensed table-hover table-striped">

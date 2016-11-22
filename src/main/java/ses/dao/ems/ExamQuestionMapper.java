@@ -106,31 +106,7 @@ public interface ExamQuestionMapper {
     * @param @return      
     * @return List<examQuestion>
      */
-    List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectMultipleRandom
-    * @author ZhaoBo
-    * @date 2016-9-6 下午2:18:03  
-    * @Description: 采购人根据考卷题型随机查找多选题  
-    * @param @param multipleNum
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectMultipleRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectJudgeRandom
-    * @author ZhaoBo
-    * @date 2016-9-6 下午2:18:52  
-    * @Description: 采购人根据考卷题型随机查找判断题  
-    * @param @param judgeNum
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectJudgeRandom(ExamQuestion examQuestion);
+    List<ExamQuestion> selectPurchaserQuestionRandom(HashMap<String,Object> map);
     
     /**
      * 
@@ -183,7 +159,7 @@ public interface ExamQuestionMapper {
     * @Title: selectByTecTopic
     * @author ZhaoBo
     * @date 2016-11-2 下午1:56:42  
-    * @Description: TODO 
+    * @Description:  
     * @param @param map
     * @param @return      
     * @return List<ExamQuestion>

@@ -258,7 +258,7 @@
 	        </if>
 	        <if test="code != null and '' != code">
 	           <![CDATA[
-	           	AND P.CODE = #{code} 
+	           	AND P.CODE LIKE #{code} 
 	           ]]>
 	        </if>
 			ORDER BY
@@ -267,20 +267,21 @@
   
   <!-- 根据userId查找属于用户的成绩 -->
   <select id="findByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
-    SELECT 
-    <include refid="Base_Column_List" />
-    FROM T_SES_EMS_EXAM_USER_SCORE
-    WHERE
-    <if test="userId != null and '' != userId">
-       USER_ID = #{userId}
-    </if>  
-    <if test="paperId != null and '' != paperId">
-       AND PAPER_ID = #{paperId}
-    </if> 
-    ORDER BY
-    	CREATED_AT DESC
+	    SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM T_SES_EMS_EXAM_USER_SCORE
+	    WHERE
+	    <if test="userId != null and '' != userId">
+	       USER_ID = #{userId}
+	    </if>  
+	    <if test="paperId != null and '' != paperId">
+	       AND PAPER_ID = #{paperId}
+	    </if> 
+	    ORDER BY
+	    	CREATED_AT DESC
   </select>
   
+  <!-- 采购人按条件查询自己的考试成绩 -->
   <select id="findByUserIdAndCode" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   		SELECT
 			s.ID as id,
@@ -294,12 +295,12 @@
 		WHERE
 			s.PAPER_ID = P.ID
 		AND
-			S.USER_ID = #{userId}
+			s.USER_ID = #{userId}
 		<if test="code != null and '' != code">
-           AND P.CODE = #{code}
+           AND P.CODE LIKE #{code}
         </if> 
         ORDER BY
-    	S.CREATED_AT DESC
+    	s.CREATED_AT DESC
   </select>
   
   <!-- 查询专家已考人员信息 -->

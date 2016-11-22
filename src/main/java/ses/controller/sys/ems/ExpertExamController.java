@@ -1440,6 +1440,8 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("user", user);
 		model.addAttribute("singlePoint", singlePoint);
 		model.addAttribute("multiplePoint", multiplePoint);
+		model.addAttribute("singleNum", singleNum);
+		model.addAttribute("multipleNum", multipleNum);
 		return "ses/ems/exam/expert/test";
 	}
 	
@@ -2254,10 +2256,12 @@ public class ExpertExamController extends BaseSupplierController{
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ExamUserScore> scores = examUserScoreService.findByUserId(map);
-		for(int i=0;i<scores.size();i++){
-			scores.get(i).setRelName(user.getRelName());
-			if(scores.get(i).getTestDate()!=null){
-				scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+		if(scores.size()!=0){
+			for(int i=0;i<scores.size();i++){
+				scores.get(i).setRelName(user.getRelName());
+				if(scores.get(i).getTestDate()!=null){
+					scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+				}
 			}
 		}
 		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));

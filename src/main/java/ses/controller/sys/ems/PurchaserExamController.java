@@ -652,15 +652,24 @@ public class PurchaserExamController extends BaseSupplierController{
 		Integer multipleNum = Integer.parseInt(multipleN);
 		String judgeN = (String) obj.get("judgeNum");
 		Integer judgeNum = Integer.parseInt(judgeN);
-		ExamQuestion single = new ExamQuestion();
-		single.setSingleNum(singleNum);
-		ExamQuestion multiple = new ExamQuestion();
-		multiple.setMultipleNum(multipleNum);
-		ExamQuestion judge = new ExamQuestion();
-		judge.setJudgeNum(judgeNum);
-		List<ExamQuestion> singleQue = examQuestionService.selectSingleRandom(single);
-		List<ExamQuestion> multipleQue = examQuestionService.selectMultipleRandom(multiple);
-		List<ExamQuestion> judgeQue = examQuestionService.selectJudgeRandom(judge);
+		String singleP =  (String) obj.get("singlePoint");
+		Integer singlePoint = Integer.parseInt(singleP);
+		String multipleP = (String) obj.get("multiplePoint");
+		Integer multiplePoint = Integer.parseInt(multipleP);
+		String judgeP = (String) obj.get("judgePoint");
+		Integer judgePoint = Integer.parseInt(judgeP);
+		HashMap<String,Object> smap = new HashMap<String,Object>();
+		smap.put("questionTypeId", 1);
+		smap.put("queNum", singleNum);
+		List<ExamQuestion> singleQue = examQuestionService.selectPurchaserQuestionRandom(smap);
+		HashMap<String,Object> mmap = new HashMap<String,Object>();
+		mmap.put("questionTypeId", 2);
+		mmap.put("queNum", multipleNum);
+		List<ExamQuestion> multipleQue = examQuestionService.selectPurchaserQuestionRandom(mmap);
+		HashMap<String,Object> jmap = new HashMap<String,Object>();
+		jmap.put("questionTypeId", 3);
+		jmap.put("queNum", judgeNum);
+		List<ExamQuestion> judgeQue = examQuestionService.selectPurchaserQuestionRandom(jmap);
 		List<ExamQuestion> purchaserQue = new ArrayList<ExamQuestion>();
 		purchaserQue.addAll(singleQue);
 		purchaserQue.addAll(multipleQue);
@@ -706,6 +715,12 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("examPaper", examPaper);
 		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
+		model.addAttribute("singlePoint", singlePoint);
+		model.addAttribute("multiplePoint", multiplePoint);
+		model.addAttribute("judgePoint", judgePoint);
+		model.addAttribute("singleNum", singleNum);
+		model.addAttribute("multipleNum", multipleNum);
+		model.addAttribute("judgeNum", judgeNum);
 		return "ses/ems/exam/purchaser/test";
 	}
 	
@@ -1656,7 +1671,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			map.put("relName", "%"+relName+"%");
 		}
 		if(code!=null&&!code.equals("")){
-			map.put("code", code);
+			map.put("code", "%"+code+"%");
 		}
 		if(status!=null&&!status.equals("")){
 			map.put("status", status);
@@ -1724,15 +1739,24 @@ public class PurchaserExamController extends BaseSupplierController{
 		Integer multipleNum = Integer.parseInt(multipleN);
 		String judgeN = (String) obj.get("judgeNum");
 		Integer judgeNum = Integer.parseInt(judgeN);
-		ExamQuestion single = new ExamQuestion();
-		single.setSingleNum(singleNum);
-		ExamQuestion multiple = new ExamQuestion();
-		multiple.setMultipleNum(multipleNum);
-		ExamQuestion judge = new ExamQuestion();
-		judge.setJudgeNum(judgeNum);
-		List<ExamQuestion> singleQue = examQuestionService.selectSingleRandom(single);
-		List<ExamQuestion> multipleQue = examQuestionService.selectMultipleRandom(multiple);
-		List<ExamQuestion> judgeQue = examQuestionService.selectJudgeRandom(judge);
+		String singleP =  (String) obj.get("singlePoint");
+		Integer singlePoint = Integer.parseInt(singleP);
+		String multipleP = (String) obj.get("multiplePoint");
+		Integer multiplePoint = Integer.parseInt(multipleP);
+		String judgeP = (String) obj.get("judgePoint");
+		Integer judgePoint = Integer.parseInt(judgeP);
+		HashMap<String,Object> smap = new HashMap<String,Object>();
+		smap.put("questionTypeId", 1);
+		smap.put("queNum", singleNum);
+		List<ExamQuestion> singleQue = examQuestionService.selectPurchaserQuestionRandom(smap);
+		HashMap<String,Object> mmap = new HashMap<String,Object>();
+		mmap.put("questionTypeId", 2);
+		mmap.put("queNum", multipleNum);
+		List<ExamQuestion> multipleQue = examQuestionService.selectPurchaserQuestionRandom(mmap);
+		HashMap<String,Object> jmap = new HashMap<String,Object>();
+		jmap.put("questionTypeId", 3);
+		jmap.put("queNum", judgeNum);
+		List<ExamQuestion> judgeQue = examQuestionService.selectPurchaserQuestionRandom(jmap);
 		List<ExamQuestion> purchaserQue = new ArrayList<ExamQuestion>();
 		purchaserQue.addAll(singleQue);
 		purchaserQue.addAll(multipleQue);
@@ -1778,6 +1802,12 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("examPaper", examPaper);
 		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
+		model.addAttribute("singlePoint", singlePoint);
+		model.addAttribute("multiplePoint", multiplePoint);
+		model.addAttribute("judgePoint", judgePoint);
+		model.addAttribute("singleNum", singleNum);
+		model.addAttribute("multipleNum", multipleNum);
+		model.addAttribute("judgeNum", judgeNum);
 		String thirty = request.getParameter("thirty");
 		if(thirty!=null&&!thirty.equals("")){
 			model.addAttribute("thirty", thirty);
@@ -2466,25 +2496,10 @@ public class PurchaserExamController extends BaseSupplierController{
 		String code = request.getParameter("code");
 		examPaperUser.setUserId(user.getId());
 		List<ExamPaperUser> userPapers = examPaperUserService.getAllPaperByUserId(examPaperUser);
-		List<ExamUserScore> userScores = new ArrayList<ExamUserScore>();
-		if(userPapers.size()==0){
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("userId", user.getId());
-			if(code!=null&&code!=""){
-				map.put("code", code);
-			}
-			if(page==null){
-				page = 1;
-			}
-			map.put("page", page.toString());
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-			userScores = examUserScoreService.findByUserIdAndCode(map);
-		}else{
+		if(userPapers.size()!=0){
 			for(int i=0;i<userPapers.size();i++){
 				ExamPaper examPaper = examPaperService.selectByPrimaryKey(userPapers.get(i).getPaperId());
-			    Date offTime = examPaper.getOffTime();
-			    if(new Date().getTime()>offTime.getTime()){
+				if(new Date().getTime()>examPaper.getOffTime().getTime()){
 			    	if(userPapers.get(i).getIsDo()==0){
 			    		ExamUserScore examUserScore = new ExamUserScore();
 			    		examUserScore.setCreatedAt(new Date());
@@ -2502,24 +2517,26 @@ public class PurchaserExamController extends BaseSupplierController{
 			    	}
 			    }
 			}
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("userId", user.getId());
-			if(code!=null&&code!=""){
-				map.put("code", code);
-			}
-			if(page==null){
-				page = 1;
-			}
-			map.put("page", page.toString());
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-			userScores = examUserScoreService.findByUserIdAndCode(map);
 		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", user.getId());
+		if(code!=null&&!code.equals("")){
+			map.put("code", "%"+code+"%");
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamUserScore> userScores = examUserScoreService.findByUserIdAndCode(map);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i=0;i<userScores.size();i++){
-			userScores.get(i).setRelName(user.getRelName());
-			if(userScores.get(i).getTestDate()!=null){
-				userScores.get(i).setFormatDate(sdf.format(userScores.get(i).getTestDate()));
+		if(userScores.size()!=0){
+			for(int i=0;i<userScores.size();i++){
+				userScores.get(i).setRelName(user.getRelName());
+				if(userScores.get(i).getTestDate()!=null){
+					userScores.get(i).setFormatDate(sdf.format(userScores.get(i).getTestDate()));
+				}
 			}
 		}
 		model.addAttribute("list", new PageInfo<ExamUserScore>(userScores));

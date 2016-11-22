@@ -202,24 +202,49 @@
   	<div id="submitNoResult">
   		<div class="red tc mt20">您还有题目未作答,确定交卷吗?</div>
   		<div class="tc mt10">剩余时间：<span id="surplusNo"></span></div>
-  		
   		<div class="col-md-12 tc mt20">
   		  <button class="btn" type="button" onclick="sure()">确定</button>
   		  <button class="btn" type="button" onclick="cancel()">取消</button>
   		</div>
   	</div>
+  	
   	<div id="submitYesResult">
-  		剩余时间：<span id="surplusYes"></span>
-  		<span>确定交卷吗?</span>
-  		<button class="btn" type="button" onclick="sure()">确定</button>
-  		<button class="btn" type="button" onclick="cancel()">取消</button>
+  		<div class="red tc mt20">确定交卷吗?</div>
+  		<div class="tc mt10">剩余时间：<span id="surplusYes"></span></div>
+  		<div class="col-md-12 tc mt20">
+	  		<button class="btn" type="button" onclick="sure()">确定</button>
+	  		<button class="btn" type="button" onclick="cancel()">取消</button>
+  		</div>
   	</div>
   	
    	<div class="container mt10">
-  	<div class="col-md-12 mb10 border1 bggrey">
-	  	 <div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
-	  	<div class="fr red mt5" id="time">考试剩余时间：<span id="second"></span></div>
-  	</div>
+  		<div class="col-md-12 mb10 border1 bggrey">
+	  	 	<div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
+	  		<div class="fr red mt5" id="time">考试剩余时间：<span id="second"></span></div>
+  		</div>
+  		<div class="col-md-12 f18 b p0">
+	  		<c:if test="${singlePoint!=0&&multiplePoint!=0&&judgePoint!=0 }">
+	  			本次考试题型包括：单选题、多选题和判断题，其中：单选题${singleNum }题，每题${singlePoint }分，多选题${multipleNum }题，每题${multiplePoint }分，判断题${judgeNum }题，每题${judgePoint }分。
+	  		</c:if>
+	  	  	<c:if test="${singlePoint!=0&&multiplePoint==0&&judgePoint==0 }">
+	  			本次考试题型包括：单选题，共${singleNum }题，每题${singlePoint }分。
+	  		</c:if>
+	  		<c:if test="${singlePoint==0&&multiplePoint!=0&&judgePoint==0  }">
+	  			本次考试题型包括：多选题，共${multipleNum }题，每题${multiplePoint }分。
+	  		</c:if>
+	  		<c:if test="${singlePoint==0&&multiplePoint==0&&judgePoint!=0  }">
+	  			本次考试题型包括：判断题，共${judgeNum }题，每题${judgePoint }分。
+	  		</c:if>
+	  		<c:if test="${singlePoint!=0&&multiplePoint!=0&&judgePoint==0  }">
+	  			本次考试题型包括：单选题和多选题，其中：单选题${singleNum }题，每题${singlePoint }分，多选题${multipleNum }题，每题${multiplePoint }分。
+	  		</c:if>
+	  		<c:if test="${singlePoint!=0&&multiplePoint==0&&judgePoint!=0  }">
+	  			本次考试题型包括：单选题和判断题，其中：单选题${singleNum }题，每题${singlePoint }分，判断题${judgeNum }题，每题${judgePoint }分分。
+	  		</c:if>
+	  		<c:if test="${singlePoint==0&&multiplePoint!=0&&judgePoint!=0  }">
+	  			本次考试题型包括：多选题和判断题，其中：多选题${multipleNum }题，每题${multiplePoint }分，判断题${judgeNum }题，每题${judgePoint }分。
+	  		</c:if>
+  		</div>
   <form action="${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.html" method="post" id="form">
   <c:choose>
   	<c:when test="${pageSize==1 }">

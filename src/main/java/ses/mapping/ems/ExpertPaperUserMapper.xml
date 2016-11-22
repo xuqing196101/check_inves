@@ -181,7 +181,7 @@
   <!-- 查看未参考的人员 -->
   <select id="findNoTest" parameterType="java.lang.String" resultType="ses.model.ems.ExpertPaperUser">
   	SELECT
-  		*
+  		<include refid="Base_Column_List" />
 	FROM
 		T_SES_EMS_EXPERT_PAPER_USER 
 	WHERE 
@@ -191,7 +191,7 @@
   
   <select id="findNoTestById" parameterType="java.util.Map" resultType="ses.model.ems.ExpertPaperUser">
   	SELECT
-  		*
+  		<include refid="Base_Column_List" />
 	FROM
 		T_SES_EMS_EXPERT_PAPER_USER 
 	WHERE 
