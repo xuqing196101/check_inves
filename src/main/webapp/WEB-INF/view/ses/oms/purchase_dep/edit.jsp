@@ -609,13 +609,13 @@
                                     <input class="hide" name="id" type="hidden" value="${purchaseDep.id }">
                                     <ul class="ul_list">
                                         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购机构名称</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="orgnization.name" type="text"
                                                     value="${purchaseDep.name }"> <span class="add-on">i</span>
                                                 <div class="b f18 ml10 red hand">${name_msg}</div>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购机构简称</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="orgnization.shortName"
                                                     type="text" value="${purchaseDep.shortName }"> <span
                                                     class="add-on">i</span>
@@ -623,38 +623,38 @@
                                             </div></li>
 
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购机构单位级别</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="levelDep" type="text"
                                                     value="${purchaseDep.levelDep }"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">行政隶属单位</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="subordinateOrgName"
                                                     value="${purchaseDep.subordinateOrgName }" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购业务范围</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="businessRange"
                                                     value="${purchaseDep.businessRange }" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购机构地址</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="orgnization.address" type="text"
                                                     value="${purchaseDep.address }"> <span
                                                     class="add-on">i</span>
                                                 <div class="b f18 ml10 red hand">${name_msg}</div>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="orgnization.postCode"
                                                     value="${ purchaseDep.postCode}" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="fax" type="text"
                                                     value="${ purchaseDep.fax}"> <span class="add-on">i</span>
                                             </div></li>
@@ -674,7 +674,7 @@
                                             </div></li>
 
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">值班室电话</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="dutyRoomPhone" type="text"
                                                     value="${ purchaseDep.dutyRoomPhone}"> <span
                                                     class="add-on">i</span>
@@ -719,14 +719,14 @@
                                         </select></div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
                                                 class="red">＊</i>采购资质开始日期</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="Wdate w230"  type="text" readonly="readonly"
                                                     onClick="WdatePicker()" name="quaStartDate"
                                                     value="<fmt:formatDate value="${purchaseDep.quaStartDate}" pattern="yyyy-MM-dd" />" />
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i
                                                 class="red">＊</i>采购资质截止日期</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="Wdate w230" type="text" readonly="readonly"
                                                     onClick="WdatePicker()" name="quaEdndate"
                                                     value="<fmt:formatDate value="${purchaseDep.quaEdndate}" pattern="yyyy-MM-dd" />" />
@@ -738,7 +738,7 @@
                                         </div>
                                     </li> --%>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质编号</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="quaCode" type="text" value="${purchaseDep.quaCode}"> <span
                                                     class="add-on">i</span>
                                             </div></li>
@@ -752,52 +752,52 @@
                                     <h2 class="count_flow"><i>3</i>个人信息</h2>
                                     <ul class="ul_list">
                                         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位主要领导姓名及电话</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="leaderTelephone" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">军官编制人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="officerCountnum" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">军官现有人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="officerNowCounts" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">士兵现有人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="soldierNowCounts" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">士兵编制人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="soldierNum" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职工编制人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="staffNum" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职工现有人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="staffNowCounts" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">具备采购资格人员数量</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="purchasersCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初级采购师人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="juniorPurCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">高级采购师人数</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="seniorPurCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
@@ -805,52 +805,52 @@
                                     <h2 class="count_flow"><i>3</i>甲方信息</h2>
                                     <ul class="ul_list">
                                         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位名称</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="depName" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">法定代表人</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="legal" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">委托代理人</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="agent" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系人</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="contact" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="contactTelephone" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">通讯地址</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="contactAddress" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="unitPostCode" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">付款单位</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="payDep" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">开户银行</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="bank" type="text"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">银行账号</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="bankAccount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
@@ -905,28 +905,28 @@
                                     <h2 class="count_flow"><i>1</i>基本信息</h2>
                                     <ul class="ul_list">
                                         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公场地总面积</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="officeArea" type="text"
                                                     value="${purchaseDep.officeArea}"> <span
                                                     class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公司数量</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="officeCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">会议室数量</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="mettingRoomCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">招标室数量</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="inviteRoomCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>
                                         <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">评标室数量</span>
-                                            <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                                 <input class="input_group" name="bidRoomCount" type="text">
                                                 <span class="add-on">i</span>
                                             </div></li>

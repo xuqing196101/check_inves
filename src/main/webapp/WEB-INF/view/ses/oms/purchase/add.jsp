@@ -191,7 +191,7 @@
 				<ul class="ul_list">
 				    <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名</span>
-				       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				        <input class="input_group" name="relName" type="text" value="${purchaseInfo.relName }">
 				        <span class="add-on">i</span>
 				        <div class="b f18 ml10 red hand">${name_msg}</div>
@@ -225,26 +225,26 @@
                      </li>
                      <li class="col-md-3 col-sm-6 col-xs-12"> 
 				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">民族</span>
-				       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				        <input class="input_group" name="nation" value="${purchaseInfo.subordinateOrgName }" type="text">
 				        <span class="add-on">i</span>
 				       </div>
 				     </li>
 				     <li class="col-md-3 col-sm-6 col-xs-12"> 
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
-                       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                         <input class="input_group" name="political" value="${purchaseInfo.businessRange }" type="text">
                         <span class="add-on">i</span>
                        </div>
                      </li>
                      <li class="col-md-3 col-sm-6 col-xs-12"> 
 				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">出生年月</span>
-				       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 				        <input class="input_group" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />" type="text">
 				       </div>
 				     </li>
 				     <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证号</span>
-                           <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                               <input class="input_group" name="idCard" value="${ purchaseInfo.postCode}" type="text"> 
                               <span class="add-on">i</span>
                            </div>
@@ -262,26 +262,26 @@
                            </div>
                      </li>
                      <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职称</span>
-                           <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                               <input class="input_group" name="professional" type="text" value="${ purchaseInfo.professional}"> 
                               <span class="add-on">i</span>
                            </div>
                      </li>
                      <li class="col-md-3 col-sm-6 col-xs-12"> 
 					       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所属采购机构</span>
-					       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+					       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 					        <input type="hidden"  id="treeId" name="purchaseDepId" value="${purchaseInfo.purchaseDepId }"  class="text"/>
 					        <input class="input_group" id="proSec" type="text" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName" onclick="showMenu(); return false;">
 					       </div>
 					 </li>
 					 <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职务</span>
-                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="input_group" name="duties" type="text" value="${ purchaseInfo.duties}"> <span
                                                 class="add-on">i</span>
                                          </div>
                       </li>
                       <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">年龄</span>
-                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="input_group" name="age" type="text" value="${ purchaseInfo.age}"> <span
                                                 class="add-on">i</span>
                                         </div>
@@ -292,13 +292,13 @@
 				    <h2 class="count_flow"><i>2</i>修改专业信息</h2>
 				   <ul class="ul_list">
 				        <li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
-                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="input_group" name="topStudy" type="text"> <span
                                                 class="add-on">i</span>
                                         </div>
                           </li>
                           <li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">毕业院校</span>
-                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="input_group" name="graduateSchool" type="text"> <span
                                                 class="add-on">i</span>
                                         </div>
@@ -321,24 +321,24 @@
 					   <h2 class="count_flow"><i>3</i>修改资质信息</h2>
 								<ul class="ul_list">
 									<li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">资质编号</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="quaCode" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质范围</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="quaRank" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质开始日期</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" /> 
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质截止日期</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" /> 
 										</div>
 									</li>
@@ -367,25 +367,25 @@
 					   <h2 class="count_flow"><i>4</i>修改人员信息</h2>
 								<ul class="ul_list">
 									<li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机号码</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="mobile" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公号码</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="telephone" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号码</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="fax" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 											<input class="input_group" name="postCode" type="text"> <span
 												class="add-on">i</span>
 										</div>

@@ -41,7 +41,7 @@
    		<ul class="ul_list">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档名称</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 		        <input class="input_group" name="name" type="text" value="${noticeDocument.name}">
 		        <span class="add-on">i</span>
 		       </div>

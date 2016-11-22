@@ -104,20 +104,24 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/delTask")
 	public String delTask(Model model,String id){
-    	Task task = taskservice.selectById(id);
-    	DictionaryData dictionaryData=new DictionaryData();
-    	dictionaryData.setCode("CGJH_ADJUST");
-        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
-        model.addAttribute("task", task);
-        model.addAttribute("dataId", dataId);
-		return "bss/ppms/task/upload";
+	    if(id != null){
+	        Task task = taskservice.selectById(id);
+	        DictionaryData dictionaryData=new DictionaryData();
+	        dictionaryData.setCode("CGJH_ADJUST");
+	        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
+	        model.addAttribute("task", task);
+	        model.addAttribute("dataId", dataId);
+	    }
+	    return "bss/ppms/task/upload";
 	}
 	
 	@RequestMapping("/deleteTask")
     public String deleteTask(Model model,String id){
-        Task task = taskservice.selectById(id);
-        task.setStatus(2);
-        taskservice.update(task);
+	    if(id != null){
+	        Task task = taskservice.selectById(id);
+	        task.setStatus(2);
+	        taskservice.update(task); 
+	    }
         return "redirect:list.html";
     }
 	
@@ -134,47 +138,72 @@ public class TackController extends BaseController{
 	@RequestMapping("/startTask")
 	@ResponseBody
 	public void startTask(String ids){
-		String[] ide = ids.split(",");
-		for (int i = 0; i < ide.length; i++) {
-			 taskservice.startTask(ide[i]);
-			 Task task = taskservice.selectById(ide[i]);
-			 List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-			 for (String s : list) {
-			     Map<String,Object> map=new HashMap<String,Object>();
-		            map.put("planNo", s);
-		            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-		            for (PurchaseRequired purchaseRequired : list2) {
-		                purchaseRequired.setDetailStatus(1);
-		                purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
-            }
-			 task.setAcceptTime(new Date());
-			 taskservice.update(task);
-		}
+	    if(ids != null){
+	        String[] ide = ids.split(",");
+	        for (int i = 0; i < ide.length; i++) {
+	             taskservice.startTask(ide[i]);
+	             Task task = taskservice.selectById(ide[i]);
+	             List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+	             if(list != null && list.size()>0){
+	                 for (String s : list) {
+	                     Map<String,Object> map=new HashMap<String,Object>();
+	                        map.put("planNo", s);
+	                        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	                        for (PurchaseRequired purchaseRequired : list2) {
+	                            purchaseRequired.setDetailStatus(1);
+	                            purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
+	                        }
+    	                 task.setAcceptTime(new Date());
+    	                 taskservice.update(task);
+	                 }
+	             }
+	        }
+	    }
 	}
-	}
-	
+	/**
+	 * 
+	 *〈跳转修改页面〉
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param id
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,HttpServletRequest request){
-	    Task task = taskservice.selectById(id);
-	    CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
-	    List<String> list = conllectPurchaseService.getNo(task.getCollectId());
-	    for(String s:list){
-	        Map<String,Object> map=new HashMap<String,Object>();
-	        map.put("planNo", s);
-	        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
-	        listp.addAll(list2);
+	    if(id != null){
+	        Task task = taskservice.selectById(id);
+	        CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+	        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+	        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+	        if(list != null && list.size()>0){
+	            for(String s:list){
+	                Map<String,Object> map=new HashMap<String,Object>();
+	                map.put("planNo", s);
+	                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	                listp.addAll(list2);
+	            }
+	        }
+	        DictionaryData dictionaryData=new DictionaryData();
+	        dictionaryData.setCode("CGJH_ADJUST");
+	        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
+	        model.addAttribute("dataId", dataId);
+	        model.addAttribute("task", task);
+	        model.addAttribute("lists", listp);
+	        model.addAttribute("queryById", queryById);
 	    }
-	    DictionaryData dictionaryData=new DictionaryData();
-        dictionaryData.setCode("CGJH_ADJUST");
-        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
-        model.addAttribute("dataId", dataId);
-	    model.addAttribute("task", task);
-	    model.addAttribute("lists", listp);
-	    model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/edit";
 	}
-	
+	/**
+	 * 
+	 *〈递归查询〉
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param response
+	 * @param id
+	 * @throws IOException
+	 */
 	@RequestMapping("/viewIds")
     public void viewIds(HttpServletResponse response,String id) throws IOException {
             HashMap<String, Object> map = new HashMap<String, Object>();
@@ -186,7 +215,15 @@ public class TackController extends BaseController{
             response.getWriter().flush();
             response.getWriter().close();
     }
-	
+	/**
+	 * 
+	 *〈跳转查看页面〉
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/view")
 	public String view(String id,Model model){
 		Task task = taskservice.selectById(id);
@@ -204,7 +241,19 @@ public class TackController extends BaseController{
 		return "bss/ppms/task/view";
 	}
 	
-	
+	/**
+	 * 
+	 *〈修改〉
+	 *〈详细描述〉
+	 * @author Administrator
+	 * @param ide
+	 * @param fileName
+	 * @param planNo
+	 * @param task
+	 * @param list
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/update")
     public String updateById(String ide, String fileName, String planNo,
                              Task task,PurchaseRequiredFormBean list, HttpServletRequest request){
