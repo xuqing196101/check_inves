@@ -6,7 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>专家信息列表</title>
 <script type="text/javascript">
    $(function(){
 		  laypage({

@@ -31,4 +31,25 @@ public interface DictionaryDataServiceI {
      * @return: SupplierDictionaryData
      */
     SupplierDictionaryData getSupplierDictionary();
+    
+    /**
+     * 
+     *〈简述〉根据ID获取对象
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    DictionaryData getDictionaryData(String id);
+    
+    /**
+     * 
+     *〈简述〉
+     *  根据字典类型查询数据
+     *〈详细描述〉
+     * @author myc
+     * @param kind 类型Id
+     * @return
+     */
+    public List<DictionaryData> findByKind(String kind);
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.maven.usability.diagnostics.DiagnosisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import ses.model.sms.ImportRecommend;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -141,7 +143,7 @@ public class ImportRecommendController extends BaseSupplierController{
 		user.setLoginName(ir.getLoginName());
 		user.setPassword(ir.getPassword());
 		user.setTypeId(ir.getId());
-		user.setTypeName(7);
+		user.setTypeName(DictionaryDataUtil.getId("IMP_AGENT_U"));
 		userService.save(user, null);
 		return "redirect:list.html";
 	}

@@ -22,7 +22,6 @@ import ses.service.bms.DictionaryDataServiceI;
 @Component
 public class DictionaryDataUtil {
     
-    public static DictionaryData dictionaryData = new DictionaryData();
     
     @Autowired
     private DictionaryDataServiceI dictionaryDataService;
@@ -48,6 +47,7 @@ public class DictionaryDataUtil {
      * @throws Exception
      */
     public static String getId(String code) {
+    	DictionaryData dictionaryData = new DictionaryData();
         String id = "";
         dictionaryData.setCode(code);
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
@@ -65,6 +65,7 @@ public class DictionaryDataUtil {
      * @return
      */
     public static DictionaryData get(String code){
+    	DictionaryData dictionaryData = new DictionaryData();
         DictionaryData dd = null;
         dictionaryData.setCode(code);
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
@@ -82,6 +83,7 @@ public class DictionaryDataUtil {
      * @return
      */
     public static List<DictionaryData> find(Integer kind){
+    	DictionaryData dictionaryData = new DictionaryData();
         dictionaryData.setKind(kind);
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
         return dds;
