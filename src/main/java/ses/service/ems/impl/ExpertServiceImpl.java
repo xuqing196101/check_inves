@@ -18,12 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAttachmentMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
@@ -32,6 +34,7 @@ import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
@@ -51,6 +54,8 @@ public class ExpertServiceImpl implements ExpertService {
 	private ExpertCategoryMapper categoryMapper;
 	@Autowired
 	private TodosMapper todosMapper;
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -217,7 +222,10 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
 	public void editBasicInfo(Expert expert,User user){
     	//判断用户的类型为专家类型
-    	if(user!=null && user.getTypeName()==5){
+    	String typeName = user.getTypeName();
+    	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeName);
+    	
+    	if(user!=null && "EXPERT_U".equals(data.getCode())){
     		//Expert expert = service.selectByPrimaryKey(user.getTypeId());
     		if(user.getTypeId()!=null && StringUtils.isNotEmpty(user.getTypeId())){
     			//id不为空为修改个人信息
@@ -254,9 +262,11 @@ public class ExpertServiceImpl implements ExpertService {
 	@Override
 	public Map<String,Object> loginRedirect(User user) throws Exception {
 		String typeId = user.getTypeId();
-		Integer typeName = user.getTypeName();
+		String typeName = user.getTypeName();
+    	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeName);
+    	
 		Map<String,Object> map =  new HashMap<>();
-		if(StringUtils.isNotEmpty(typeId) && typeName==5){
+		if(StringUtils.isNotEmpty(typeId) &&"EXPERT_U".equals(data.getCode())){
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
@@ -452,7 +462,7 @@ public class ExpertServiceImpl implements ExpertService {
 			if(u==null){
 				throw new RuntimeException("该用户不存在！");
 			}
-			u.setTypeName(5);
+			u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				u.setTypeId(expertId);
 			}else{
@@ -509,6 +519,14 @@ public class ExpertServiceImpl implements ExpertService {
 	public List<Expert> findAllExpert(HashMap<String, Object> map) {
 		return mapper.findAllExpert(map);
 	}
+	
+	private Map<String,Object> saveValidate(Expert expert){
+		Map<String,Object> map = new HashMap<>();
+		
+		
+		return map;
+	}
+	
 }
 
 

@@ -28,9 +28,19 @@
 					$.each(obj,function(i,result){
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
+					$("#addr2").val(parentId);
+					func2();
 				}
 			});
+			
 		}
+		//第一个字地区事件
+		function copySel(){
+			$("#add2").val($("#add").val());
+			
+		}
+		
+		//第二个select事件
 		function func2(){
 			var parentId = $("#addr2").val();
 			$.ajax({
@@ -330,7 +340,7 @@
 	function editTable(){
 		var name = $("#relName").val();
 		$("#tName").text(name);
-		
+		//性别
 		var obj = document.getElementById("gender"); //selectid
 
 		var index = obj.selectedIndex; // 选中索引
@@ -374,6 +384,20 @@
 		$("#tPostCode").text(postCode);
 		var timeStartWork = $("#timeStartWork").val();
 		$("#tTimeStartWork").text(timeStartWork);
+		//父地区
+		var add= document.getElementById("addr"); //selectid
+
+		var addiIdex = add.selectedIndex; // 选中索引
+
+		var addValue1 =add.options[addiIdex].text;
+		//子地区
+		var add2= document.getElementById("add"); //selectid
+
+		var addiIdex2 = add2.selectedIndex; // 选中索引
+
+		var addValue2 =add2.options[addiIdex2].text;
+		
+		$("#Taddress").text(addValue1+","+addValue2);
 	}
 	function fun(){
 		var ty1 = document.getElementById('ty1'); 
@@ -706,6 +730,7 @@
 		}
 		supplierRegist('reg_box_id', 6, 'next');
 	}
+	
 </script>
 </head>
 <body>
@@ -791,7 +816,7 @@
                                         </li>
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>市</span>
                                             <div class="select_common">
-                                             <select  name="address" id="add">
+                                             <select  name="address" id="add" onchange="copySel()">
                                                     <option value="">-请选择-</option>
                                              </select>
                                             </div>
@@ -1149,7 +1174,7 @@
    
    <tr>
    		<td width="250px;" class="bggrey">所在地区</td>
-   		<td width="250px;"></td>
+   		<td width="250px;" id="Taddress"></td>
    		<td width="250px;" class="bggrey">职称</td>
    		<td width="250px;" id="tHey" ></td>
    </tr>

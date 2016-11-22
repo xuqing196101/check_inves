@@ -504,11 +504,11 @@ a.thumbnail {
     position:relative;
     margin-bottom:25px;
     clear: both;
-    height:32px;
+    height:30px;
 }
 
 .select_common select{
-	width:99%;
+	width:100%;
 }
 
 li:first-child {

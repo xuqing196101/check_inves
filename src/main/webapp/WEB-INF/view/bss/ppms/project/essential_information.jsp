@@ -80,8 +80,7 @@
                 layer.tips("选择日期不能小于当前日期!","#bidDate");
                 return false;
             }else{
-                return false;
-                   //$("#save_form_id").submit();
+                   $("#save_form_id").submit();
             }
         }
     }
@@ -169,7 +168,7 @@
                                     <tr>
                                         <td class="bggrey">开标时间:</td>
                                         <%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
-                                        <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="bidDate" type="text" onclick='WdatePicker()'></td>
+                                        <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                                         <td class="bggrey">开标地点:</td>
                                         <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
                                     </tr>

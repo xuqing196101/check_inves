@@ -176,14 +176,14 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/register")
-	public String register( User expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2,RedirectAttributes attr){
+	public String register( User user,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2,RedirectAttributes attr){
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
 			//判断用户名密码是否合法
-			String loginName = expert.getLoginName();
-			String password = expert.getPassword();
+			String loginName = user.getLoginName();
+			String password = user.getPassword();
 			String regex="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
 			Pattern p = Pattern.compile(regex);
 			Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
@@ -198,19 +198,19 @@ public class ExpertController {
 				model.addAttribute("message", "密码不符合规则");
 				return "ems/expert/expert_register";
 			}
-		expert.setId(WfUtil.createUUID());
-		request.setAttribute("user", expert);
+			user.setId(WfUtil.createUUID());
+		request.setAttribute("user", user);
 		//model.addAttribute("expert", expert);
 		//查找用户类型
 		String userType = DictionaryDataUtil.getId("EXPERT_U");
-		expert.setTypeName(userType);
-		userService.save(expert, null);
-		attr.addAttribute("userId", expert.getId());
+		user.setTypeName(userType);
+		userService.save(user, null);
+		attr.addAttribute("userId", user.getId());
 		return "redirect:toAddBasicInfo.html";
 		} 
 		//重复提交
 		else{
-			attr.addAttribute("userId", expert.getId());
+			attr.addAttribute("userId", user.getId());
 			return "redirect:toAddBasicInfo.html";
 		}
 	}

@@ -2,6 +2,8 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,9 +23,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseInfo;
@@ -32,29 +32,24 @@ import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
-import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
-import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
 
@@ -81,12 +76,6 @@ public class ProjectController extends BaseController {
      */
     @Autowired
     private TaskService taskservice;
-
-    /**
-     * 
-     */
-    @Autowired
-    private ProjectAttachmentsService attachmentsService;
 
     /**
      * 
@@ -526,14 +515,23 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/addProject")
-    public String addProject(String id, String bidAddress, Date bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+    public String addProject(String id, String bidAddress, String flowDefineId, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
         Project project = projectService.selectById(id);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
-        project.setBidDate(bidDate);
+        Date date = new Date();   
+        //注意format的格式要与日期String的格式相匹配   
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+        try {   
+            date = sdf.parse(bidDate);  
+            project.setBidDate(date);
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }  
         projectService.update(project);
+       // flowExe(request, flowDefineId, project.getId(), 2);
         return "redirect:excute.html?id="+id;
     }
 
@@ -899,10 +897,10 @@ public class ProjectController extends BaseController {
      * @param code 采购方式编码
      * @return 流程环节
      */
-    public Map<String, Object> getFlowDefine(String code, String projectId){
+    public Map<String, Object> getFlowDefine(String purchaseTypeId, String projectId){
         HashMap<String, Object> map = new HashMap<String, Object>();
         FlowDefine fd = new FlowDefine();
-        fd.setPurchaseTypeId(DictionaryDataUtil.getId(code));
+        fd.setPurchaseTypeId(purchaseTypeId);
         //该采购方式定义的流程环节
         List<FlowDefine> fds = flowMangeService.find(fd);
         //该项目已执行的流程环节
