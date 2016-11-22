@@ -44,7 +44,7 @@
         <result column="BRANCH_NAME" property="branchName" />
         <result column="BRANCH_BUSINESS_SCOPE" property="branchBusinessScope" />
         <result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
-        <result column="STATUS" property="status" />
+        <result column="SUPPLIER_STATUS" property="status" />
         <result column="PROCUREMENT_DEP_ID" property="procurementDepId" />
         <result column="SUPPLIER_LEVEL" property="supplierLevel" />
         <result column="SUPPLIER_PLEDGE" property="supplierPledge" />
@@ -72,7 +72,7 @@
         BUSINESS_ADDRESS, BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY,
         BRANCH_ADDRESS,
         BRANCH_NAME, BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID,
-        STATUS, PROCUREMENT_DEP_ID, SUPPLIER_LEVEL,
+        SUPPLIER_STATUS, PROCUREMENT_DEP_ID, SUPPLIER_LEVEL,
         SUPPLIER_PLEDGE,
         SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
         SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
@@ -131,7 +131,7 @@
         BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY,
         BRANCH_ADDRESS,
         BRANCH_NAME, BRANCH_BUSINESS_SCOPE,
-        SUPPLIER_TYPE_ID, STATUS,
+        SUPPLIER_TYPE_ID, SUPPLIER_STATUS,
         PROCUREMENT_DEP_ID,
         SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST,
         SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
@@ -295,7 +295,7 @@
                 SUPPLIER_TYPE_ID,
             </if>
             <if test="status != null">
-                STATUS,
+                SUPPLIER_STATUS,
             </if>
             <if test="procurementDepId != null">
                 PROCUREMENT_DEP_ID,
@@ -662,7 +662,7 @@
                 BUSINESS_CERT = #{businessCert},
             </if>
             <if test="status != null">
-                STATUS = #{status},
+                SUPPLIER_STATUS = #{status},
             </if>
         </set>
         where ID = #{id}
@@ -722,7 +722,7 @@
         BRANCH_BUSINESS_SCOPE = #{branchBusinessScope},
         SUPPLIER_TYPE_ID =
         #{supplierTypeId},
-        STATUS = #{status},
+        SUPPLIER_STATUS = #{status},
         PROCUREMENT_DEP_ID =
         #{procurementDepId},
         SUPPLIER_LEVEL = #{supplierLevel},
@@ -775,7 +775,7 @@
             AND CONTACT_NAME = #{contactName}
         </if>
         <if test="status != null">
-            and STATUS = #{status}
+            and SUPPLIER_STATUS = #{status}
         </if>
         <if test="address != null and address !=''">
             and ADDRESS like '%${address}%'
@@ -802,14 +802,14 @@
             and tt1.SUPPLIER_NAME like '%${supplierName}%'
         </if>
         <if test="sign == 1">
-            and (tt1.STATUS = 0 or tt1.STATUS = 2 or tt1.STATUS = 7 or
-            tt1.STATUS = 8)
+            and (tt1.SUPPLIER_STATUS = 0 or tt1.SUPPLIER_STATUS = 2 or tt1.SUPPLIER_STATUS = 7 or
+            tt1.SUPPLIER_STATUS = 8)
         </if>
         <if test="sign == 2">
-            and (tt1.STATUS = 1 or tt1.STATUS = 3 or tt1.STATUS = 4)
+            and (tt1.SUPPLIER_STATUS = 1 or tt1.SUPPLIER_STATUS = 3 or tt1.SUPPLIER_STATUS = 4)
         </if>
         <if test="status != null">
-            and tt1.STATUS = #{status}
+            and tt1.SUPPLIER_STATUS = #{status}
         </if>
         <if test="startDate != null">
             and tt1.CREATED_AT &gt;= #{startDate}
@@ -855,6 +855,40 @@
         <include refid="ifCondition"/> 
         
         order by SCORE DESC
+ 
+        <!-- select
+            t1. *,
+            t2.ID as ID_ ,
+            t3.NAME as NAME_
+        from(
+            select
+                *
+            from(
+                select
+                    tmp_page.*, ROWNUM row_id
+                from(
+                    select
+                        *
+                        from
+                            T_SES_SMS_SUPPLIER tt1
+                        where 1=1
+                            <include refid="ifCondition"/>
+                    ) tmp_page
+                where
+                    ROWNUM &lt;= (#{page} * #{rows})
+                )
+            where
+            row_id &gt; ((#{page} - 1) * #{rows})
+        ) t1
+        left join 
+            T_SES_SMS_SUPPLIER_TYPE_RELATE t2 
+        ON 
+            t1. ID = t2.SUPPLIER_ID
+        left join  
+            T_SES_BMS_DICTIONARY_DATA t3 
+        ON t2.SUPPLIER_TYPE_ID = t3.CODE
+        ORDER BY decode(SUPPLIER_STATUS,'0','1','7','8','3','2','4'), t1.SCORE DESC -->
+ 
     </select>
     
     <resultMap type="ses.model.sms.Supplier" id="findSupplierMap"
@@ -899,7 +933,7 @@
         left join  
             T_SES_BMS_DICTIONARY_DATA t3 
         ON t2.SUPPLIER_TYPE_ID = t3.CODE
-        ORDER BY decode(STATUS,'0','1','7','8','3','2','4'), t1.SCORE DESC
+        ORDER BY decode(SUPPLIER_STATUS,'0','1','7','8','3','2','4'), t1.SCORE DESC
     </select>
 
 
@@ -942,7 +976,7 @@
             AND CONTACT_NAME = #{contactName}
         </if>
         <if test="status != null">
-            and STATUS = #{status}
+            and SUPPLIER_STATUS = #{status}
         </if>
         <if test="address != null and address !=''">
             and NAME like '%${address}%'
@@ -1001,7 +1035,7 @@
             AND t4.CONTACT_NAME = #{contactName}
         </if>
         <if test="status != null">
-            and t4.STATUS = #{status}
+            and t4.SUPPLIER_STATUS = #{status}
         </if>
         <if test="address != null and address !=''">
             and t4.ADDRESS like '%${address}%'
@@ -1019,7 +1053,7 @@
         update
         T_SES_SMS_SUPPLIER
         set
-        STATUS = #{status}
+        SUPPLIER_STATUS = #{status}
         where ID = #{id}
     </update>
     <update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
@@ -1069,7 +1103,7 @@
     <!-- 供应商抽取集合 -->
     <!-- AND ee.ADDRESS = #{address} -->
     <!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
-    <!-- AND EE.STATUS = 1 -->
+    <!-- AND EE.SUPPLIER_STATUS = 1 -->
     <!-- AND IS_BLACK = 0 -->
     <select id="listExtractionExpert" parameterType="ses.model.sms.SupplierCondition"
         resultMap="findSupplierMap">
