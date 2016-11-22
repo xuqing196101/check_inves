@@ -425,21 +425,13 @@ h2.list_title{
     font-weight: bold;
     background: url("../images/round.png") center center no-repeat;
 }
-
-.input_group{
-   width:100%;
-   position:relative;
-   display:table-cell;
-   float:left;
-   margin-bottom:0px!important;
-   height: 32px!important;
-   line-height: 32px!important;
- }
 .span5{
 	width: 200px;
 	float: left;
+	position:relative;
+	float:left;
 }
- 
+
 /*上传下载*/
 .download {
     padding: 5px 12px;
@@ -960,10 +952,9 @@ li:first-child {
 .input-append{
 	margin-bottom: 25px;
 	position:relative;
-	height:32px;
+	height:30px;
 	clear:both;
 	float: left;
-	display: table;
 }
 .input-long{
 	margin-bottom: 25px;
