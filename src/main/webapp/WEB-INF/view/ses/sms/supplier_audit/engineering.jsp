@@ -191,10 +191,10 @@ function nextStep(url){
 		              <li class=""><a >财务信息</a></li>
 		              <li class=""><a >股东信息</a></li>
 		              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-			            <li class=""><a >物资-生产型专业信息</a></li>
+			            <li class=""><a >物资-生产专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-			            <li class=""><a >物资-销售型专业信息</a></li>
+			            <li class=""><a >物资-销售专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
 			            <li class="active"><a >工程-专业信息</a></li>
@@ -361,7 +361,7 @@ function nextStep(url){
 			                  </table>
                             </ul>
                             
-                            <h2 class="count_flow"><i>3</i>供应商组织机构</h2>
+                            <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
                             <ul class="ul_list count_flow">
 		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
 		                          <div class="input-append">

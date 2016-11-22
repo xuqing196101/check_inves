@@ -77,6 +77,8 @@ public class SupplierCertServe implements Serializable {
 	 * </pre>
 	 */
 	private String attach;
+	
+	private String attachId;
 
 	public String getId() {
 		return id;
@@ -149,4 +151,13 @@ public class SupplierCertServe implements Serializable {
 	public void setAttach(String attach) {
 		this.attach = attach;
 	}
+
+	public String getAttachId() {
+		return attachId;
+	}
+
+	public void setAttachId(String attachId) {
+		this.attachId = attachId;
+	}
+	
 }

@@ -33,7 +33,7 @@ $(function(){
       offset:'300px',
       shift: 1 //动画类型
   });
-})
+});
 
   //隐藏叉 
    $(function() {
@@ -181,10 +181,10 @@ function nextStep(){
 			            <li class=""><a >财务信息</a></li>
 			            <li class=""><a >股东信息</a></li>
 			            <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-			            <li class=""><a >物资-生产型专业信息</a></li>
+			            <li class=""><a >物资-生产专业信息</a></li>
 			            </c:if>
 			            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-			            <li class=""><a >物资-销售型专业信息</a></li>
+			            <li class=""><a >物资-销售专业信息</a></li>
 			            </c:if>
 			            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
 			            <li class=""><a >工程-专业信息</a></li>
