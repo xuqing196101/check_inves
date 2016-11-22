@@ -27,7 +27,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-11 p0' disabled>"+$(errorOption[i]).val()+"</textarea></div>";
+				ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0' disabled>"+$(errorOption[i]).val()+"</textarea></div>";
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
 						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
@@ -69,96 +69,96 @@
 	     		<h2 class="count_flow">查看商务类题目</h2>
 	     	</div>
     		<div class="ul_list">
-				<ul class="list-unstyled col-md-6">
-		    		 <li class="col-md-12 p0">
-	  				 	<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
-	  				 	<div class="col-md-12 mb5 fl">
-				  			 <select id="queType" name="queType" disabled="disabled" class="w178">
-					  			<option value="">请选择</option>
-					  			<c:forEach items="${examPoolType }" var="e">
-					  				<c:choose>
-					  					<c:when test="${e.id==comQue.questionTypeId }">
-					  						<option value="${e.id }" selected="selected">${e.name }</option>
-					  					</c:when>
-					  					<c:otherwise>
-					  						<option value="${e.id }">${e.name }</option>
-					  					</c:otherwise>
-					  				</c:choose>
-					  			</c:forEach>
-					  		 </select>
-					  	</div>
-	  				</li>
+  				<ul class="list-unstyled col-md-6">
+			     <li class="col-md-12 col-sm-12 col-xs-12 p0">
+		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
+		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
+			  		  	<select id="queType" name="queType" onchange="changeType()" class="" disabled="disabled">
+					  		<option value="">请选择</option>
+					  		<c:forEach items="${examPoolType }" var="e">
+					  			<c:choose>
+					  				<c:when test="${e.id==comQue.questionTypeId }">
+					  					<option value="${e.id }" selected="selected">${e.name }</option>
+					  				</c:when>
+					  				<c:otherwise>
+					  					<option value="${e.id }">${e.name }</option>
+					  				</c:otherwise>
+					  			</c:choose>
+					  		</c:forEach>
+					  	</select>
+					 </div>
+	  			</li>
 		
-					<li class="col-md-12 p0">
-						<span class="col-md-12"><div class="red fl">*</div>题干：</span>
-						<div class="col-md-12">
-		        			<textarea class="col-md-10 h80 p0" name="topic" id="queTopic" disabled="disabled">${comQue.topic }</textarea>
-		       			</div>
-			 		</li> 
-			 	</ul>
+				<li class="col-md-12 col-sm-12 col-xs-12 p0">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+		        		<textarea class="col-md-10 h80 p0" name="topic" id="queTopic" disabled="disabled">${comQue.topic }</textarea>
+		       		</div>
+			 	</li> 
+			</ul>
 		   
 	  	
 	  		<ul class="list-unstyled col-md-6 p0">
-	  			<li class="col-md-12 p0">
-					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
-					<div class="fl col-md-12 mb5">
-					<select id="options" name="options" disabled="disabled" class="w178 fl">
-			  			<option value="">请选择</option>
-			  			<c:if test="${optNum==3 }">
-			  				<option value="three" selected>3</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=3 }">
-			  				<option value="three">3</option>
-			  			</c:if>
-			  			<c:if test="${optNum==4 }">
-			  				<option value="four" selected>4</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=4 }">
-			  				<option value="four">4</option>
-			  			</c:if>
-			  			<c:if test="${optNum==5 }">
-			  				<option value="five" selected>5</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=5 }">
-			  				<option value="five">5</option>
-			  			</c:if>
-			  			<c:if test="${optNum==6 }">
-			  				<option value="six" selected>6</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=6 }">
-			  				<option value="six">6</option>
-			  			</c:if>
-			  			<c:if test="${optNum==7 }">
-			  				<option value="seven" selected>7</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=7 }">
-			  				<option value="seven">7</option>
-			  			</c:if>
-			  			<c:if test="${optNum==8 }">
-			  				<option value="eight" selected>8</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=8 }">
-			  				<option value="eight">8</option>
-			  			</c:if>
-			  			<c:if test="${optNum==9 }">
-			  				<option value="nine" selected>9</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=9 }">
-			  				<option value="nine">9</option>
-			  			</c:if>
-			  			<c:if test="${optNum==10 }">
-			  				<option value="ten" selected>10</option>
-			  			</c:if>
-			  			<c:if test="${optNum!=10 }">
-			  				<option value="ten">10</option>
-			  			</c:if>
-		  			</select>
+				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0" disabled="disabled">
+				  			<option value="">请选择</option>
+				  			<c:if test="${optNum==3 }">
+				  				<option value="three" selected>3</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=3 }">
+				  				<option value="three">3</option>
+				  			</c:if>
+				  			<c:if test="${optNum==4 }">
+				  				<option value="four" selected>4</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=4 }">
+				  				<option value="four">4</option>
+				  			</c:if>
+				  			<c:if test="${optNum==5 }">
+				  				<option value="five" selected>5</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=5 }">
+				  				<option value="five">5</option>
+				  			</c:if>
+				  			<c:if test="${optNum==6 }">
+				  				<option value="six" selected>6</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=6 }">
+				  				<option value="six">6</option>
+				  			</c:if>
+				  			<c:if test="${optNum==7 }">
+				  				<option value="seven" selected>7</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=7 }">
+				  				<option value="seven">7</option>
+				  			</c:if>
+				  			<c:if test="${optNum==8 }">
+				  				<option value="eight" selected>8</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=8 }">
+				  				<option value="eight">8</option>
+				  			</c:if>
+				  			<c:if test="${optNum==9 }">
+				  				<option value="nine" selected>9</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=9 }">
+				  				<option value="nine">9</option>
+				  			</c:if>
+				  			<c:if test="${optNum==10 }">
+				  				<option value="ten" selected>10</option>
+				  			</c:if>
+				  			<c:if test="${optNum!=10 }">
+				  				<option value="ten">10</option>
+				  			</c:if>
+		  				</select>
 					<div class="col-md-9 clear p0" id="items"></div>
 				</div>
 			 </li> 
 		   
-		  		<li class="col-md-12 p0">
-					<span class="fl ml15"><div class="red fl">*</div>答案：</span>	
+		  		<li class="col-md-12 col-sm-12 col-xs-12 mt25">
+					<span class="fl"><div class="red fl">*</div>答案：</span>
 					<div class="fl" id="answers" class="select_check"></div>
 				</li>
   			</ul>

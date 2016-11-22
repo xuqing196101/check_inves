@@ -32,9 +32,9 @@
 			var ahtml = "";
 			for(var i=0;i<array.length;i++){
 				if($(errorOption[i]).val()==""||$(errorOption[i]).val()==null){
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
 				}else{
-					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
 				}
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
@@ -102,7 +102,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -137,16 +137,16 @@
 	   <input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
 	   
      <div class="container container_box">
-     <form action="${pageContext.request.contextPath }/expertExam/saveToLaw.html" method="post" id="form">
+     	<form action="${pageContext.request.contextPath }/expertExam/saveToLaw.html" method="post" id="form">
 		   <div class="headline-v2">
 		   		<h2 class="count_flow">新增法律类题目</h2>
 		   </div>
 	   	   <div class="ul_list">
-  		      <ul class="list-unstyled col-md-6">
-		      <li class="col-md-12 p0">
-	  			 <span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
-	  			 <div class="col-md-12 mb5 fl">
-		  		  <select id="queType" name="queType" onchange="changeType()" class="w178">
+  			  <ul class="list-unstyled col-md-6">
+			     <li class="col-md-12 col-sm-12 col-xs-12 p0">
+		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
+		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
+			  		<select id="queType" name="queType" onchange="changeType()" class="">
 		  			<c:if test="${errData['type']==null }">
 		  				<option value="" selected>请选择</option>
 		  			</c:if>
@@ -170,22 +170,22 @@
 		  		</div>
 	  		</li>
   		
-		    <li class="col-md-12 p0">
-			   <span class="col-md-12"><div class="red fl">*</div>题干：</span>
-			   <div class="col-md-12">
+		   <li class="col-md-12 col-sm-12 col-xs-12 p0">
+				<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
 		        	<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
 		       		<div class="clear red">${ERR_topic}</div>
 		       </div>
 			</li> 
-		   </ul>
+		</ul>
 
 		
 			<ul class="list-unstyled col-md-6 p0">
-				<li class="col-md-12 p0">
-					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
-					<div class="fl col-md-12 mb5">
-					  <select id="options" name="options" onchange="changeOpt()" class="w178 fl">
-			  				<option value="">请选择</option>
+				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0">
+			  			<option value="">请选择</option>
 				  			<c:if test="${errData['options']=='three' }">
 				  				<option value="three" selected>3</option>
 				  			</c:if>
@@ -235,13 +235,13 @@
 				  				<option value="ten">10</option>
 				  			</c:if>
 		  			   	</select>
-			         	<div class="red fl ml5 mt5">${ERR_option }</div> 
+			         	<div class="red fl clear">${ERR_option }</div> 
 					    <div class="col-md-9 clear p0" id="items"></div>
 			         </div>
 				 </li> 
 			
-				<li class="col-md-12 p0">
-					<span class="fl ml15"><div class="red fl">*</div>答案：</span>
+				<li class="col-md-12 col-sm-12 col-xs-12 mt25">
+					<span class="fl"><div class="red fl">*</div>答案：</span>
 					<div class="fl" id="answers" class="select_check"></div>
 					<div class="red fl">${ERR_answer }</div>
 				</li>
