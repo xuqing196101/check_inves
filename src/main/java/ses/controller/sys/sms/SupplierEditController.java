@@ -96,7 +96,7 @@ public class SupplierEditController extends BaseSupplierController{
 		Supplier supplier=supplierAuditService.supplierById(id);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("currSupplier", supplier);
+		model.addAttribute("suppliers", supplier);
 		return "ses/sms/supplier_apply_edit/add";
 	}
 	
@@ -113,7 +113,6 @@ public class SupplierEditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value="save")
 	public String registerEnd(SupplierEdit se,HttpServletRequest request) throws IOException{
-		//Supplier supplier=(Supplier)supplierAuditService.supplierById(se.getId());
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		se.setRecordId(se.getId());
 		se.setId(null);
@@ -160,35 +159,13 @@ public class SupplierEditController extends BaseSupplierController{
 		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
 		//修改前的
 		Supplier supplier=supplierAuditService.supplierById(se.getRecordId());
+		Supplier result=supplierEditService.getResult(se, supplier);
 		req.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		req.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		req.getSession().setAttribute("supplierId_edit", se.getId());
-		model.addAttribute("se", se);
-		model.addAttribute("supplier", supplier);
+		req.getSession().setAttribute("result",result);
+		model.addAttribute("currSupplier", se);
 		return "ses/sms/supplier_apply_edit/audit";
-	}
-	
-	/**
-	 * @Title: auditView
-	 * @author Song Biaowei
-	 * @date 2016-10-19 下午8:29:31  
-	 * @Description: 查看
-	 * @param @param id
-	 * @param @param model
-	 * @param @param req
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping(value="auditView")
-	public String auditView(String id,Model model,HttpServletRequest req){
-		//修改后的
-		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
-		//修改前的
-		Supplier supplier=supplierAuditService.supplierById(se.getRecordId());
-		req.getSession().setAttribute("supplierId_edit", se.getId());
-		model.addAttribute("se", se);
-		model.addAttribute("supplier", supplier);
-		return "ses/sms/supplier_apply_edit/audit_views";
 	}
 	
 	/**
@@ -234,10 +211,6 @@ public class SupplierEditController extends BaseSupplierController{
 		model.addAttribute("suppliers",se );
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		SupplierReason sr=new SupplierReason();
-		sr.setSupplierId(se.getId());
-		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
-		model.addAttribute("srList", srList);
 		return "ses/sms/supplier_apply_edit/view";
 	}
 	
@@ -255,34 +228,9 @@ public class SupplierEditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value="reasonList")
 	public String reasonList(SupplierReason sr,HttpServletRequest request,Integer page,Model model){
-		sr.setSupplierId((String)request.getSession().getAttribute("supplierId_edit"));
 		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
 		model.addAttribute("srList", srList);
-		model.addAttribute("supplierId", sr.getSupplierId());
 		return "ses/sms/supplier_apply_edit/audits";
-	}
-	
-	/**
-	 * @Title: reasonList
-	 * @author Song Biaowei
-	 * @date 2016-10-17 下午6:41:12  
-	 * @Description: 查看问题汇总
-	 * @param @param sr
-	 * @param @param request
-	 * @param @param page
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping(value="viewReason")
-	public String viewReason(SupplierReason sr,HttpServletRequest request,Integer page,Model model){
-		sr.setSupplierId((String)request.getSession().getAttribute("supplierId_edit"));
-		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
-		model.addAttribute("srList", srList);
-		if(srList.size()!=0){
-			model.addAttribute("supplierId", srList.get(0).getSupplierId());
-		}
-		return "ses/sms/supplier_apply_edit/audit_view";
 	}
 	
 	/**
@@ -298,7 +246,6 @@ public class SupplierEditController extends BaseSupplierController{
 	@RequestMapping(value="saveReason")
 	@ResponseBody
 	public void saveReason(SupplierReason sr,HttpServletRequest request) throws IOException{
-		sr.setSupplierId((String)request.getSession().getAttribute("supplierId_edit"));
 		supplierAudReasonService.insertSelective(sr);
 	}
 	
@@ -342,82 +289,10 @@ public class SupplierEditController extends BaseSupplierController{
 		SupplierEdit supplierEdit=supplierEditService.selectByPrimaryKey(seId);
 		Supplier supplier=supplierAuditService.supplierById(supplierEdit.getRecordId());
 		//第一次保存的时候要给原始数据保存一条，用来后面做对比
-		SupplierEdit supplierEdit1=new SupplierEdit();
-		supplierEdit1.setRecordId(supplier.getId());
-	    supplierEdit1.setSupplierName(supplier.getSupplierName());
-	    supplierEdit1.setWebsite(supplier.getWebsite());
-	    supplierEdit1.setFoundDate(supplier.getFoundDate());
-	    supplierEdit1.setBusinessType(supplier.getBusinessType());
-	    supplierEdit1.setAddress(supplier.getAddress());
-	    supplierEdit1.setBankName(supplier.getBankName());
-	    supplierEdit1.setBankAccount(supplier.getBankAccount());
-	    supplierEdit1.setPostCode(supplier.getPostCode());
-	    supplierEdit1.setTaxCert(supplier.getTaxCert());
-	    supplierEdit1.setBillCert(supplier.getBillCert());
-	    supplierEdit1.setSecurityCert(supplier.getSecurityCert());
-	    supplierEdit1.setBreachCert(supplier.getBreachCert());
-	    supplierEdit1.setLegalName(supplier.getLegalName());
-	    supplierEdit1.setLegalIdCard(supplier.getLegalIdCard());
-	    supplierEdit1.setLegalMobile(supplier.getLegalMobile());
-	    supplierEdit1.setLegalTelephone(supplier.getLegalTelephone());
-	    supplierEdit1.setContactName(supplier.getContactName());
-	    supplierEdit1.setContactTelephone(supplier.getContactTelephone());
-	    supplierEdit1.setContactMobile(supplier.getContactMobile());
-	    supplierEdit1.setContactFax(supplier.getContactFax());
-	    supplierEdit1.setContactEmail(supplier.getContactEmail());
-	    supplierEdit1.setContactAddress(supplier.getContactAddress());
-	    supplierEdit1.setCreditCode(supplier.getCreditCode());
-	    supplierEdit1.setRegistAuthority(supplier.getRegistAuthority());
-	    supplierEdit1.setRegistFund(supplier.getRegistFund());
-	    supplierEdit1.setBusinessStartDate(supplier.getBusinessStartDate());
-	    supplierEdit1.setBusinessEndDate(supplier.getBusinessEndDate());
-	    supplierEdit1.setBusinessScope(supplier.getBusinessScope());
-	    supplierEdit1.setBusinessPostCode(supplier.getBusinessPostCode());
-	    supplierEdit1.setBusinessAddress(supplier.getBusinessAddress());
-	    supplierEdit1.setOverseasBranch((short)Integer.parseInt(supplier.getOverseasBranch()+""));
-	    supplierEdit1.setBranchAddress(supplier.getBranchAddress());
-	    supplierEdit1.setBranchCountry(supplier.getBranchCountry());
-	    supplierEdit1.setBranchName(supplier.getBranchName());
-	    supplierEdit1.setBranchBusinessScope(supplier.getBranchBusinessScope());
-	    supplierEdit1.setBusinessCert(supplier.getBusinessCert());
+		SupplierEdit supplierEdit1=supplierEditService.setToSupplierEdit(supplier);
 	    //开始改变供应商的值
-		supplier.setSupplierName(supplierEdit.getSupplierName());
-		supplier.setWebsite(supplierEdit.getWebsite());
-		supplier.setFoundDate(supplierEdit.getFoundDate());
-		supplier.setBusinessType(supplierEdit.getBusinessType());
-		supplier.setAddress(supplierEdit.getAddress());
-		supplier.setBankName(supplierEdit.getBankName());
-		supplier.setBankAccount(supplierEdit.getBankAccount());
-		supplier.setPostCode(supplierEdit.getPostCode());
-		supplier.setTaxCert(supplierEdit.getTaxCert());
-		supplier.setBillCert(supplierEdit.getBillCert());
-		supplier.setSecurityCert(supplierEdit.getSecurityCert());
-		supplier.setBreachCert(supplierEdit.getBreachCert());
-		supplier.setLegalName(supplierEdit.getLegalName());
-		supplier.setLegalIdCard(supplierEdit.getLegalIdCard());
-		supplier.setLegalMobile(supplierEdit.getLegalMobile());
-		supplier.setLegalTelephone(supplierEdit.getLegalTelephone());
-		supplier.setContactName(supplierEdit.getContactName());
-		supplier.setContactTelephone(supplierEdit.getContactTelephone());
-		supplier.setContactMobile(supplierEdit.getContactMobile());
-		supplier.setContactFax(supplierEdit.getContactFax());
-		supplier.setContactEmail(supplierEdit.getContactEmail());
-		supplier.setContactAddress(supplierEdit.getContactAddress());
-		supplier.setCreditCode(supplierEdit.getCreditCode());
-		supplier.setRegistAuthority(supplierEdit.getRegistAuthority());
-		supplier.setRegistFund(supplierEdit.getRegistFund());
-		supplier.setBusinessStartDate(supplierEdit.getBusinessStartDate());
-		supplier.setBusinessEndDate(supplierEdit.getBusinessEndDate());
-		supplier.setBusinessScope(supplierEdit.getBusinessScope());
-		supplier.setBusinessAddress(supplierEdit.getBusinessAddress());
-		supplier.setBusinessPostCode(supplierEdit.getBusinessPostCode());
-		supplier.setOverseasBranch(Integer.parseInt(supplierEdit.getOverseasBranch()+""));
-		supplier.setBranchAddress(supplierEdit.getBranchAddress());
-		supplier.setBranchCountry(supplierEdit.getBranchCountry());
-		supplier.setBranchName(supplierEdit.getBranchName());
-		supplier.setBranchBusinessScope(supplierEdit.getBranchBusinessScope());
-		supplier.setBusinessCert(supplierEdit.getBusinessCert());
-		
+		Supplier supplier1=supplierEditService.setToSupplier(supplierEdit);
+		supplier1.setId(supplier.getId());
 	    SupplierEdit supplierEdit2=new SupplierEdit();
 	    supplierEdit2.setRecordId(supplier.getId());
 	    supplierEdit2.setStatus((short)4);
@@ -427,6 +302,6 @@ public class SupplierEditController extends BaseSupplierController{
 			supplierEdit1.setCreateDate(new Timestamp(new Date().getTime()));
 			supplierEditService.insertSelective(supplierEdit1);
 		}
-		supplierService.perfectBasic(supplier);
+		supplierService.perfectBasic(supplier1);
 	}
 }

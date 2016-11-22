@@ -2,6 +2,7 @@ package ses.service.sms;
 
 import java.util.List;
 
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierEdit;
 
 public interface SupplierEditService {
@@ -80,4 +81,30 @@ public interface SupplierEditService {
 	 * @return List<SupplierEdit>
 	 */
 	List<SupplierEdit> getAllRecord(SupplierEdit se);
+	
+	/**
+	 * @Title: getResult
+	 * @author Song Biaowei
+	 * @date 2016-11-21 下午3:33:09  
+	 * @Description:比较变更修改的字段
+	 * @param @param se
+	 * @param @param supplier
+	 * @param @return      
+	 * @return Supplier
+	 */
+	public Supplier getResult(SupplierEdit se,Supplier supplier);
+	
+	/**
+	 * @Title: setToSupplierEdit
+	 * @author Song Biaowei
+	 * @date 2016-11-21 下午5:04:35  
+	 * @Description: TODO 
+	 * @param @param supplier
+	 * @param @return      
+	 * @return SupplierEdit
+	 */
+	public SupplierEdit setToSupplierEdit(Supplier supplier);
+	
+	public Supplier setToSupplier(SupplierEdit se);
+	
 }

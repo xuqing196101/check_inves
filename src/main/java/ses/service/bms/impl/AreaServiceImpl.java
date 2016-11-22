@@ -233,7 +233,7 @@ public class AreaServiceImpl implements AreaServiceI {
 	 */
 	@Override
 	public List<Area> findRootArea() {
-		return areaMapper.findRootArea("1");
+		return areaMapper.findRootArea("0");
 	}
 	
 	/**
