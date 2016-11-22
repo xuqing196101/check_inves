@@ -229,4 +229,14 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
     public DictionaryData getDictionaryData(String id) {
         return dictionaryDataMapper.selectByPrimaryKey(id);
     }
+    
+    /**
+     * 
+     * @see ses.service.bms.DictionaryDataServiceI#findByKind(java.lang.Integer)
+     */
+    @Override
+    public List<DictionaryData> findByKind(String kind) {
+        
+        return dictionaryDataMapper.findByKind(kind);
+    }
 }
