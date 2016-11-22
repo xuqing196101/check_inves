@@ -212,12 +212,12 @@
 				<input type="hidden" name="depIds" id="depIds"/>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="name" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">简称</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="shortName" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
@@ -232,28 +232,28 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> 
        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input id="proSec" type="text" readonly value="${orgnization.parentName }" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="mobile" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="address" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="postCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="fax" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
@@ -272,32 +272,32 @@
 							</select>
 					</li> -->
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="orgCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="detailAddr" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网站地址</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="website" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="princinpal" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人身份证号</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="princinpalIdCard" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">监管机构性质</span>
-						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="nature" type="text"> <span
 								class="add-on">i</span>
 						</div></li>

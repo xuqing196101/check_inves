@@ -258,10 +258,10 @@
 											test="${null!=obj.purchaseType && obj.purchaseType != ''}">
 											<select name="lists[${vs.index }].purchaseType"
 												onchange="sel(this);" style="width:100px" id="select">
-												<option value="gkzb"
-													<c:if test="${'gkzb' eq obj.purchaseType}"> selected="selected" </c:if>>公开招标</option>
-												<option value="yqzb"
-													<c:if test="${'yqzb' eq obj.purchaseType}"> selected="selected" </c:if>>邀请招标</option>
+												<option value="GKZB"
+													<c:if test="${'GKZB' eq obj.purchaseType}"> selected="selected" </c:if>>公开招标</option>
+												<option value="YQZB"
+													<c:if test="${'YQZB' eq obj.purchaseType}"> selected="selected" </c:if>>邀请招标</option>
 												<option value="jzxtp"
 													<c:if test="${'jzxtp' eq obj.purchaseType}"> selected="selected" </c:if>>竞争性谈判</option>
 												<option value="xjcg"

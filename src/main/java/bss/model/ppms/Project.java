@@ -1,6 +1,9 @@
 package bss.model.ppms;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.concurrent.TimedSemaphore;
 
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -342,15 +345,15 @@ public class Project {
 		this.dateOfEntrustment = dateOfEntrustment;
 	}
 
-	public Date getBidDate() {
-		return bidDate;
-	}
+    public Date getBidDate() {
+        return bidDate;
+    }
 
-	public void setBidDate(Date bidDate) {
-		this.bidDate = bidDate;
-	}
+    public void setBidDate(Date bidDate) {
+        this.bidDate = bidDate;
+    }
 
-	public String getBidAddress() {
+    public String getBidAddress() {
 		return bidAddress;
 	}
 

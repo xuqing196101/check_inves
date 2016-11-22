@@ -69,7 +69,7 @@
                     <ul class="ul_list">
                             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
-                               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                               <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
                                   <input name="supplierId" type="hidden" value="${supplier.id}">
                                 <input class="input_group" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}">
@@ -77,11 +77,10 @@
                                </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">起始时间</span>
-                               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                       <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5">起始时间</span>
+                               <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
                                     <fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime" />
                                     <input class="input_group" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
-                                    <span class="add-on">i</span>
                                 </div>
                             </li>
                             <li class="col-md-3 col-sm-6 col-xs-12">

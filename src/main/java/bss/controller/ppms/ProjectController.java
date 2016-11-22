@@ -2,6 +2,8 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,7 +44,6 @@ import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
@@ -75,12 +76,6 @@ public class ProjectController extends BaseController {
      */
     @Autowired
     private TaskService taskservice;
-
-    /**
-     * 
-     */
-    @Autowired
-    private ProjectAttachmentsService attachmentsService;
 
     /**
      * 
@@ -520,14 +515,23 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/addProject")
-    public String addProject(String id, String bidAddress, Date bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+    public String addProject(String id, String bidAddress, String flowDefineId, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
         Project project = projectService.selectById(id);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
-        project.setBidDate(bidDate);
+        Date date = new Date();   
+        //注意format的格式要与日期String的格式相匹配   
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+        try {   
+            date = sdf.parse(bidDate);  
+            project.setBidDate(date);
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }  
         projectService.update(project);
+       // flowExe(request, flowDefineId, project.getId(), 2);
         return "redirect:excute.html?id="+id;
     }
 

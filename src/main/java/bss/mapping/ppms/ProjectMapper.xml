@@ -26,7 +26,7 @@
     <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
     <result column="DEADLINE"  property="deadline" />
     <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
-    <result column="BID_DATE"  property="bidDate" />
+    <result column="BID_DATE"  property="bidDate" jdbcType="TIMESTAMP"/>
     <result column="BID_ADDRESS" property="bidAddress" />
     <result column="REQUIERED_ID"  property="requieredId" />
     <result column="BALE_NO"  property="baleNo" />
@@ -147,7 +147,7 @@
         and p.DATE_OF_ENTRUSTMENT = #{dateOfEntrustment} 
       </if>
       <if test="bidDate != null">
-        and p.BID_DATE = #{bidDate} 
+        and p.BID_DATE = #{bidDate,jdbcType=TIMESTAMP} 
       </if>
       <if test="bidAddress != null and bidAddress != ''">
         and p.BID_ADDRESS = #{bidAddress}
@@ -519,7 +519,7 @@
         #{dateOfEntrustment,jdbcType=DATE},
       </if>
       <if test="bidDate != null">
-        #{bidDate,jdbcType=DATE},
+        #{bidDate,jdbcType=TIMESTAMP},
       </if>
       <if test="bidAddress != null">
         #{bidAddress,jdbcType=VARCHAR},
@@ -680,7 +680,7 @@
         DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
       </if>
       <if test="bidDate != null">
-        BID_DATE = #{bidDate,jdbcType=DATE},
+        BID_DATE = #{bidDate,jdbcType=TIMESTAMP},
       </if>
       <if test="bidAddress != null">
         BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
