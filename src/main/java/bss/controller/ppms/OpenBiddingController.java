@@ -41,12 +41,14 @@ import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
@@ -127,6 +129,9 @@ public class OpenBiddingController {
     
     @Autowired
     private DownloadService downloadService;
+    
+    @Autowired
+    private SaleTenderService saleTenderService;
     
     @Autowired FlowMangeService flowMangeService;
     
@@ -574,8 +579,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("/changbiao")
     public String changbiao(String projectId, Model model ){
-       //项目信息
-    	Project project=projectService.selectById(projectId);
+        //项目信息
     	 //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";
@@ -585,11 +589,8 @@ public class OpenBiddingController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
         map.put("purchaseType", "gkzb");
-        List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
-        //暂时测试  等到有数据的时候我就删掉
-        //supplierStr="8BE39E5BF23846EC93EED74F57ACF1F4,90F6C6A8544C421EB3DF67ED51185D7C";
         List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
         if(listsupplierId.get(0).length()>30){
 	        for(String str:listsupplierId){
@@ -605,9 +606,46 @@ public class OpenBiddingController {
 	            listQuoteList.add(listQuote);
 	        }
         }
+        model.addAttribute("listQuoteList", listQuoteList);
+        return "bss/ppms/open_bidding/bid_file/changbiao";
+    }
+    
+    /**
+     * @Title: toubiao
+     * @author Song Biaowei
+     * @date 2016-11-22 下午7:48:44  
+     * @Description: 开标投标
+     * @param @param projectId
+     * @param @param model
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping("/toubiao")
+    public String toubiao(String projectId, Model model ){
+       //项目信息
+    	Project project=projectService.selectById(projectId);
+    	 //参与项目的所有供应商
+        List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+        if(listSupplier.size()>0){
+        	for(Supplier sup:listSupplier){
+        		 SaleTender saleTender=new SaleTender();
+                 saleTender.setSupplierId(sup.getId());
+                 List<SaleTender> st=saleTenderService.list(saleTender, 1);
+                 if(st!=null){
+                	 if(st.get(0).getBidFinish()==1){
+                		 sup.setBidFinish("已上传");
+                	 }else{
+                		 sup.setBidFinish("未上传");
+                	 }
+                 }
+        	}
+        }
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId",projectId);
+        map.put("purchaseType", "gkzb");
+        List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("listPd", listPd);
-        model.addAttribute("listQuoteList", listQuoteList);
         model.addAttribute("project", project);
     	//开标时间
     	long bidDate=0;
@@ -617,8 +655,11 @@ public class OpenBiddingController {
     	}
     	long nowDate=new Date().getTime();
     	long date=bidDate-nowDate;
+    	if(date<0){
+    		//存一条数据到后台
+    	}
     	model.addAttribute("date", date);
-        return "bss/ppms/open_bidding/bid_file/changbiao";
+        return "bss/ppms/open_bidding/bid_file/open_bid";
     }
     
     /**

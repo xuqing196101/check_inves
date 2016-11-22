@@ -502,17 +502,20 @@ public class Supplier implements Serializable {
 	
 	/**地址全名*/
 	private String addressName;
-	
-	public String getAddressName() {
-		return addressName;
-	}
-
-	public void setAddressName(String addressName) {
-		this.addressName = addressName;
-	}
 
 	/**发售表书里面已经存在供应商id*/
 	private List<String> stsupplierIds;
+	
+	/**投标文件状态*/
+	private String bidFinish;
+	
+	public String getBidFinish() {
+		return bidFinish;
+	}
+
+	public void setBidFinish(String bidFinish) {
+		this.bidFinish = bidFinish;
+	}
 
 	public List<String> getStsupplierIds() {
 		return stsupplierIds;
@@ -521,7 +524,13 @@ public class Supplier implements Serializable {
 	public void setStsupplierIds(List<String> stsupplierIds) {
 		this.stsupplierIds = stsupplierIds;
 	}
+	public String getAddressName() {
+		return addressName;
+	}
 
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
 	public String getName() {
 		return name;
 	}
