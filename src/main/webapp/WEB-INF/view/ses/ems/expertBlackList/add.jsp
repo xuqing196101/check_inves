@@ -40,9 +40,9 @@
             <input type="hidden" name="operationType" value="0">
             <h2 class="count_flow"><i>1</i>增加信息</h2>
             <ul class="ul_list">
-		        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	                <span class="col-md-12 col-sm-12 col-xs-12 "><i class=" red">＊</i>专家姓名：</span>
-	                <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+		        <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
+	                <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>专家姓名：</span>
+	                <div class="input-append input_group col-sm-12 col-xs-12 p0">
 	                    <input type="hidden" name="id" readonly="readonly" value="${uuid }">
 		                <input type="hidden" name="expertId" readonly="readonly" value="${expertId }">
 		                <input class="input_group"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
@@ -50,15 +50,20 @@
 		            </div>
 		            <span class=" red">${err_relName}</span>
                  </li>
-	             <li class="col-md-3 col-sm-6 col-xs-12">
-		             <span class="col-md-12 col-sm-12 col-xs-12 "><i class=" red">＊</i>入库时间：</span>
-		             <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
-		                 <input class="input_group"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()' id="txtBirthday" value="<fmt:formatDate value="${storageTime}" pattern='yyyy-MM-dd'/>" />
+	             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚方式：</span>
+                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                         <select  name="punishType">
+                             <option value="">请选择</option>
+                             <option value="1" <c:if test="${'1' eq punishType}">selected</c:if>>警告</option>
+                             <option value="2" <c:if test="${'2' eq punishType}">selected</c:if>>严重警告</option>
+                             <option value="3" <c:if test="${'3' eq punishType}">selected</c:if>>取消资格</option>
+                         </select>
                      </div>
-                     <span class=" red">${err_storageTime}</span>
-		         </li>
-		         <li class="col-md-3 col-sm-6 col-xs-12">
-	                 <span class="col-md-12 col-sm-12 col-xs-12 "><i class=" red">＊</i>处罚时限：</span>
+                     <span class=" red">${err_punishType}</span>
+                </li>
+		         <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	                 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚时限：</span>
 	                 <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			             <select name="punishDate">
 					  		 <option value="">请选择</option>
@@ -71,29 +76,24 @@
 				     </div>
 				     <span class=" red">${err_punishDate}</span>
 			     </li>
-			      <li class="col-md-3 col-sm-6 col-xs-12">
-                     <span class="col-md-12 col-sm-12 col-xs-12 "><i class=" red">＊</i>处罚日期：</span>
-                     <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+			      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚日期：</span>
+                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
                          <input class="input_group" readonly="readonly" name="dateOfPunishment"  type="text" onclick='WdatePicker()' value="<fmt:formatDate value="${dateOfPunishment}" pattern='yyyy-MM-dd'/>">
                      </div>
                      <font id="nameFont2"></font>
                      <span class=" red">${err_dateOfPunishment}</span>
                  </li>
-	             <li class="col-md-3 col-sm-6 col-xs-12">
-		             <span class="col-md-12 col-sm-12 col-xs-12 "><i class=" red">＊</i>处罚方式：</span>
-		             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-		  	             <select  name="punishType">
-					  	     <option value="">请选择</option>
-					  		 <option value="1" <c:if test="${'1' eq punishType}">selected</c:if>>警告</option>
-                             <option value="2" <c:if test="${'2' eq punishType}">selected</c:if>>严重警告</option>
-                             <option value="3" <c:if test="${'3' eq punishType}">selected</c:if>>取消资格</option>
-			             </select>
-			         </div>
-			         <span class=" red">${err_punishType}</span>
-		        </li> 
+		        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>入库时间：</span>
+                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                         <input class="input_group"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()' id="txtBirthday" value="<fmt:formatDate value="${storageTime}" pattern='yyyy-MM-dd'/>" />
+                     </div>
+                     <span class=" red">${err_storageTime}</span>
+                 </li> 
 		       <li class="col-md-12 col-sm-12 col-xs-12">
-		            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class=" red">＊</i>处罚理由：</span>
-                    <div class="col-md-12 col-sm-12 col-xs-12 p0">
+		            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12padding-left-5"><i class=" red">＊</i>处罚理由：</span>
+                    <div class="col-md-12 padding-left-5 col-sm-12 col-xs-12p0">
                         <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过100个字" name="reason" >${reason }</textarea>
                     </div>
                     <span class=" red">${err_reason}</span>
@@ -102,8 +102,8 @@
 	       
 	       <h2 class="count_flow"><i>2</i>附件上传</h2>
            <ul class="ul_list">
-	           <li >
-	              <span class="" ><i class=" red">＊</i>批准文件:</span>
+	           <li class="col-md-6 p0 mt10 mb25">
+	              <span class="col-md-5 padding-left-5" ><i class=" red">＊</i>批准文件:</span>
 	              <%-- <input class="span3" type="file" name="attachmentCertFile"/>
 	              <span class=" red">${err_attachmentCert}</span> --%>
 	              <up:upload id="id_up"  businessId="${uuid}" sysKey="${expertKey}" typeId="${expertDictionaryData.id}" auto="true" /> 
