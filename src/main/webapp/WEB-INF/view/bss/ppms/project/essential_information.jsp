@@ -37,13 +37,13 @@
         }else if(purchaseType=="jzxtp" || purchaseType == "yqzb" || purchaseType == "xjcg" || purchaseType == "gkzb"){
             if(supplierNumber< 3){
                 layer.tips("供应商人数不能小于3人","#supplierNumber");
-            }else if(supplierNumber != /^\d+$/){
+            }else if(!(/^\d+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
             }
         }else if(purchaseType=="dyly"){
             if(supplierNumber != 1){
                 layer.tips("供应商人数只能为1人","#supplierNumber");
-            }else if(supplierNumber != /^\d+$/){
+            }else if(!(/^\d+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
             }
         }else if(bidAddress==""){
@@ -80,7 +80,8 @@
                 layer.tips("选择日期不能小于当前日期!","#bidDate");
                 return false;
             }else{
-                   $("#save_form_id").submit();
+                return false;
+                   //$("#save_form_id").submit();
             }
         }
     }

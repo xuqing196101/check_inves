@@ -67,26 +67,26 @@
             <div>
                  <h2 class="count_flow"><i>1</i>添加供应商</h2>
                     <ul class="ul_list">
-                            <li class="col-md-3 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">供应商名称</span>
-                               <div class="input-append">
+                            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称</span>
+                               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                                   <input name="id" type="hidden" value="${supplierBlacklist.id}">
                                   <input name="supplierId" type="hidden" value="${supplier.id}">
-                                <input class="span5" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}">
+                                <input class="input_group" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}">
                                 <span class="add-on">i</span>
                                </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">起始时间</span>
-                               <div class="input-append">
+                            <li class="col-md-3 col-sm-6 col-xs-12">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">起始时间</span>
+                               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                                     <fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime" />
-                                    <input class="span5" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
+                                    <input class="input_group" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
                                     <span class="add-on">i</span>
                                 </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">期限</span>
-                               <div class="select_common">
+                            <li class="col-md-3 col-sm-6 col-xs-12">
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">期限</span>
+                               <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="term_select_id" name="term">
                                     <option selected="selected" value="3">3个月</option>
                                     <option value="6">6个月</option>
@@ -97,18 +97,18 @@
                                 </select>
                                 </div>
                              </li>
-                             <li class="col-md-3 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">处罚形式</span>
-                               <div class="select_common">
+                             <li class="col-md-3 col-sm-6 col-xs-12">
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">处罚形式</span>
+                                <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="punish_type_select_id"  name="punishType">
                                     <option selected="selected" value="0">警告</option>
                                     <option value="1">不得参加采购活动</option>
                                 </select>
                                 </div>
                              </li>
-                             <li class="col-md-3 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">发布范围</span>
-                               <div class="select_common">
+                            <li class="col-md-3 col-sm-6 col-xs-12">
+                               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围</span>
+                               <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                 <select id="release_type_select_id"  name="releaseType">
                                     <option selected="selected" value="0">内外网发布</option>
                                     <option value="1">内网发布</option>
@@ -116,10 +116,11 @@
                                 </select>
                                 </div>
                              </li>
-                             <li class="col-md-11 margin-0 padding-0 ">
-                               <span class="col-md-12 padding-left-5">理由</span>
-                               <div class="">
-                                <textarea class="col-md-12" style="height:130px" name="reason" title="不超过800个字" placeholder="不超过800个字">${supplierBlacklist.reason}</textarea>
+                             <li class="col-md-12 col-sm-12 col-xs-12">
+                                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">理由</span>
+                              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                                <textarea class="col-md-12 col-sm-12 col-xs-12" name="reason"  style="height:130px" title="不超过800个字" placeholder="不超过800个字">
+                                ${supplierBlacklist.reason}</textarea>
                                </div>
                              </li>
                     </ul>

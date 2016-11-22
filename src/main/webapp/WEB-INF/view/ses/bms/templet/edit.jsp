@@ -44,17 +44,17 @@
                  <h2>修改模板</h2>
                </div>
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 mb5">
-					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
-						<div class="input-append mb0">
-							<input class="span5 mb0" name="name" type="text"
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
+                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="name" type="text"
 								value="${templet.name}">
 								<span class="add-on">i</span>
 						</div>
 						<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 					</li>
-					<li class="col-md-3 margin-0 padding-0 ">
-					<span class="col-md-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
+					<li class="col-md-3 col-sm-6 col-xs-12">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
 							<select id="temType" name=temType class="w220">
 								<option value="-请选择-">-请选择-</option>
 								<option value="采购公告">采购公告</option>
@@ -65,8 +65,9 @@
 							</select>
 							<div id="contractCodeErr" class="clear red">${ERR_temType}</div>
 					</li>
-					<li class="col-md-12 p0"><span class="col-md-12 padding-left-5 mt10"><i class="red fl">＊</i>模板内容</span>
-						<div class="col-md-9 p0 mt5">
+					<li class="col-md-12 col-sm-12 col-xs-12">
+                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板内容</span>
+                        <div class="col-md-12 col-sm-12 col-xs-12 p0">
 							<script id="editor" name="content" type="text/plain" class=""></script>
 							<div id="contractCodeErr" class="clear red">${ERR_content}</div>
 							<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->

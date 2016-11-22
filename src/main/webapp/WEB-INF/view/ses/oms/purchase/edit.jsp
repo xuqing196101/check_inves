@@ -196,16 +196,16 @@
 			<div>
 			    <h2 class="count_flow"><i>1</i>修改基本信息</h2>
 			         <ul class="ul_list">
-					     <li class="col-md-3 margin-0 padding-0 ">
-					       <span class="col-md-12 padding-left-5">姓名：</span>
-					       <div class="input-append">
-					        <input class="span5" name="relName" type="text" value="${purchaseInfo.relName }"> 
+					     <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
+					       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名</span>
+					       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+					        <input class="input_group" name="relName" type="text" value="${purchaseInfo.relName }"> 
 					        <span class="add-on">i</span>
 					        <div class="b f18 ml10 red hand">${name_msg}</div>
 					       </div>
 					     </li>
-					     <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">性别：</span>
-                                        <div class="select_common">
+					     <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">性别</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                             <input type="hidden" id="gender-select" value="${purchaseInfo.gender }"/>
                                             <select  name="gender" id="gender"> 
                                                 <option value="">-请选择-</option>
@@ -214,45 +214,45 @@
                                             </select> 
                                         </div>
                           </li>
-                          <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">省：</span>
-                                        <div class="select_common">
+                          <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">省</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                             <select name="provinceId" id="province" onchange="loadCities(this.value);"> 
                                             </select>
                                             <input type="hidden" name="purchaseInfo.provinceId" id="pid" value="${purchaseInfo.provinceId }">
                                         </div>
                            </li>
-                           <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">市：</span>
-                                        <div class="select_common">
+                           <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">市</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                             <select name="cityId" id="city" onchange="loadTown(this.value);">
                                             </select> 
                                             <input type="hidden" name="purchaseInfo.cityId" id="cid" value="${purchaseInfo.cityId }">
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">民族：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="nation" value="${purchaseInfo.nation }"
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">民族</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="nation" value="${purchaseInfo.nation }"
                                                 type="text"> <span class="add-on">i</span>
                                         </div>
                              </li>
-                             <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">政治面貌：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="political" value="${purchaseInfo.political }"
+                             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="political" value="${purchaseInfo.political }"
                                                 type="text"> <span class="add-on">i</span>
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">＊</i>出生年月：</span>
-                                        <div class="input-append">
-                                            <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="${purchaseInfo.birthAt}" />
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>出生年月</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="${purchaseInfo.birthAt}" />
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">身份证号：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="idCard" value="${ purchaseInfo.idCard}"
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证号</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="idCard" value="${ purchaseInfo.idCard}"
                                                 type="text"> <span class="add-on">i</span>
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">人员类别：</span>
-                                        <div class="select_common">
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员类别</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                             <input type="hidden" id="purcahserType-select" value="${purchaseInfo.purcahserType }"/>
                                             <select name="purcahserType" id="purcahserType"> 
                                                 <option value="">-请选择-</option>
@@ -263,32 +263,27 @@
                                             </select>
                                         </div> 
                            </li>
-                           <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">职称：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="professional" type="text" value="${ purchaseInfo.professional}"> <span
+                           <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职称</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="professional" type="text" value="${ purchaseInfo.professional}"> <span
                                                 class="add-on">i</span>
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">所属采购机构：</span>
-                                        <div class="select_common">
-                                            <input id="proSec" type="text" class="span5" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName"  onclick="showMenu(); return false;"/>
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所属采购机构</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input id="proSec" type="text" class="input_group" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName"  onclick="showMenu(); return false;"/>
                                             <input type="hidden"  id="treeId" name="purchaseDepId" value="${purchaseInfo.purchaseDepId }"  class="text"/>
-                                            <div class="input-append">
-										          <button class="btn dropdown-toggle add-on" onclick="showMenu();">
-										            <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-										          </button>
-										       </div>
                                         </div>
                             </li>
-                            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">职务：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="duties" type="text" value="${ purchaseInfo.duties}"> <span
+                            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职务</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="duties" type="text" value="${ purchaseInfo.duties}"> <span
                                                 class="add-on">i</span>
                                         </div>
                            </li>
-                           <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">年龄：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="age" type="text" value="${ purchaseInfo.age}"> <span
+                           <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">年龄</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="age" type="text" value="${ purchaseInfo.age}"> <span
                                                 class="add-on">i</span>
                                         </div>
                             </li>
@@ -297,27 +292,27 @@
 							<div class="padding-top-10 clear">
 							     <h2 class="count_flow"><i>2</i>专业信息</h2>
 							     <ul class="ul_list">
-							         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">学历：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="topStudy" type="text" value="${ purchaseInfo.topStudy}"> <span
+							         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="topStudy" type="text" value="${ purchaseInfo.topStudy}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                      </li>
-                                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">毕业院校：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="graduateSchool" type="text" value="${ purchaseInfo.graduateSchool}"> <span
+                                     <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">毕业院校</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="graduateSchool" type="text" value="${ purchaseInfo.graduateSchool}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5">工作经历：</span>
-                                        <div class="">
-                                            <textarea class=" col-md-12 " style="height:130px" name="workExperience" value="${ purchaseInfo.workExperience}"
+                                    <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工作经历</span>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                                            <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" name="workExperience" value="${ purchaseInfo.workExperience}"
                                                 maxlength="400" title="" placeholder=""></textarea>
                                         </div>
                                     </li>
-                                    <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5">培训经历：</span>
-                                        <div class="">
-                                            <textarea class=" col-md-12 " style="height:130px" name="trainExperience" value="${ purchaseInfo.trainExperience}"
+                                    <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">培训经历</span>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                                            <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" name="trainExperience" value="${ purchaseInfo.trainExperience}"
                                                 maxlength="400" title="" placeholder=""></textarea>
                                         </div>
                                     </li>
@@ -326,30 +321,30 @@
 							<div class="padding-top-10 clear">
 							     <h2 class="count_flow"><i>3</i>资质信息</h2>
 							     <ul class="ul_list">
-							         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">资质编号：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="quaCode" type="text" value="${ purchaseInfo.quaCode}"> <span
+							         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">资质编号</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="quaCode" type="text" value="${ purchaseInfo.quaCode}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购资质范围：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="quaRank" type="text" value="${ purchaseInfo.quaRank}"> <span
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质范围</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="quaRank" type="text" value="${ purchaseInfo.quaRank}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5"><i class="red">＊</i>采购资质开始日期：</span>
-                                        <div class="input-append">
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质开始日期</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate"  value="${purchaseInfo.quaStartDate}"/> 
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5"><i class="red">＊</i>采购资质截止日期：</span>
-                                        <div class="input-append">
+                                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质截止日期</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
                                             <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="${purchaseInfo.quaEdndate}"/> 
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">采购资质等级：</span>
-                                        <div class="select_common">
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质等级</span>
+                                        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                                             <input type="hidden" id="quaLevel-select" value="${purchaseInfo.quaLevel }"/>
                                             <select  name="quaLevel" id="quaLevel">
                                                 <option value="">-请选择-</option>
@@ -359,7 +354,7 @@
                                             </select> 
                                         </div>
                                     </li>
-                                    <li id="tax_li_id" class="col-md-3 margin-0 padding-0"><span class="zzzx"><i class="red">＊</i> 采购资格证书图片：</span>
+                                    <li id="tax_li_id" class="col-md-3 margin-0 padding-0"><span class="zzzx"><i class="red">＊</i> 采购资格证书图片</span>
                                         <c:if test="${purchaseInfo.quaCert != null}">
                                             <div>
                                                 <a class="color7171C6" href="javascript:void(0)"
@@ -382,33 +377,33 @@
 							<div class="padding-top-10 clear">
 							    <h2 class="count_flow"><i>4</i>人员信息</h2>
 							   <ul class="ul_list">
-							         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">手机号码：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="mobile" type="text" value="${ purchaseInfo.mobile}"> <span
+							         <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机号码</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="mobile" type="text" value="${ purchaseInfo.mobile}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5">办公号码：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="telephone" type="text" value="${ purchaseInfo.telephone}"> <span
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公号码</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="telephone" type="text" value="${ purchaseInfo.telephone}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">传真号码：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="fax" type="text" value="${ purchaseInfo.fax}"> <span
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号码</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="fax" type="text" value="${ purchaseInfo.fax}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">邮政编码：</span>
-                                        <div class="input-append">
-                                            <input class="span5" name="postCode" type="text" value="${ purchaseInfo.postCode}"> <span
+                                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>
+                                        <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                                            <input class="input_group" name="postCode" type="text" value="${ purchaseInfo.postCode}"> <span
                                                 class="add-on">i</span>
                                         </div>
                                     </li>
-                                    <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5">联系地址：</span>
-                                        <div class="">
-                                            <textarea class="col-md-12" style="height:130px" name="address" value="${ purchaseInfo.address}"
+                                    <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                                            <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" name="address" value="${ purchaseInfo.address}"
                                                 maxlength="400" title="" placeholder=""></textarea>
                                         </div>
                                     </li>

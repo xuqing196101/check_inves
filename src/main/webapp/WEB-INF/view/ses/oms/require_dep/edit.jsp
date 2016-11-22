@@ -240,97 +240,92 @@
 				<input type="hidden" name="depIds" id="depIds"/>
 				<input type="hidden" name="id" value="${orgnization.id }"/>
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">名称：</span>
-						<div class="input-append">
-							<input class="span5" name="name" type="text" value="${orgnization.name }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="name" type="text" value="${orgnization.name }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">简称：</span>
-						<div class="input-append">
-							<input class="span5" name="shortName" type="text" value="${orgnization.shortName }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">简称</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="shortName" type="text" value="${orgnization.shortName }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">类型：</span>
-							<select class="span5" name="typeName" id="typeName" type="text" onchange="show();"> 
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
+							<select class="input_group" name="typeName" id="typeName" type="text" onchange="show();"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 							<input type="hidden" id="type" value="${orgnization.typeName }"/>
 					</li>
-					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">上级：</span>
-						<div class="input-append">
-							<input id="proSec" class="span5" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input id="proSec" class="input_group" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
-							<div class="input-append">
-                              <button class="btn dropdown-toggle add-on">
-                                <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-                              </button>
-                           </div>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">电话：</span>
-						<div class="input-append">
-							<input class="span5" name="mobile" type="text" value="${orgnization.mobile }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="mobile" type="text" value="${orgnization.mobile }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">地址：</span>
-						<div class="input-append">
-							<input class="span5" name="address" type="text" value="${orgnization.address }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="address" type="text" value="${orgnization.address }"> <span
 								class="add-on">i</span>
 						</div></li>
 					
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">邮编：</span>
-						<div class="input-append">
-							<input class="span5" name="postCode" type="text" value="${orgnization.postCode }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="postCode" type="text" value="${orgnization.postCode }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">传真：</span>
-						<div class="input-append">
-							<input class="span5" name="fax" type="text" value="${orgnization.fax }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="fax" type="text" value="${orgnization.fax }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0 hide"><span class="col-md-12 padding-left-5">类型1：</span>
-							<select class="span5" name="provinceId" type="text"> 
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型1</span>
+							<select class="input_group" name="provinceId" type="text"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 					</li>
-					<li class="col-md-6 p0 hide"><span class="col-md-12 padding-left-5">类型2：</span>
-							<select class="span5" name="cityId" type="text"> 
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型2</span>
+							<select class="input_group" name="cityId" type="text"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
 					</li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">组织机构代码：</span>
-						<div class="input-append">
-							<input class="span5" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">详细地址：</span>
-						<div class="input-append">
-							<input class="span5" name="detailAddr" type="text" value="${orgnization.detailAddr }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="detailAddr" type="text" value="${orgnization.detailAddr }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">网站地址：</span>
-						<div class="input-append">
-							<input class="span5" name="website" type="text" value="${orgnization.website }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网站地址</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="website" type="text" value="${orgnization.website }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人：</span>
-						<div class="input-append">
-							<input class="span5" name="princinpal" type="text" value="${orgnization.princinpal }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="princinpal" type="text" value="${orgnization.princinpal }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人身份证号：</span>
-						<div class="input-append">
-							<input class="span5" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人身份证号</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">监管机构性质：</span>
-						<div class="input-append">
-							<input class="span5" name="nature" type="text" value="${orgnization.nature }"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">监管机构性质</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="nature" type="text" value="${orgnization.nature }"> <span
 								class="add-on">i</span>
 						</div></li>
 				</ul>
