@@ -21,17 +21,6 @@
     <script type="text/javascript">
 	function submit1(){
 		
-		<%-- $.ajax({
-			url:"<%=basePath %>firstAudit/add.html",
-			data:$("#form1").serialize(),
-			type:"post",
-			success:function(){
-				window.location.reload();
-			},
-			error:function(){
-				layer.msg("添加失败",{offset: ['222px', '390px']});
-			}
-		}); --%>
 		var name = $("#name").val();
 		if(!name){
 			layer.tips("请填写名称", "#name");
@@ -45,12 +34,6 @@
 			layer.tips("请选择类型", "#kind");
 			return ;
 		}
-		
-		/* var creater = $("#creater").val();
-		if(!creater){
-			layer.tips("请填写名称", "#creater");
-			return ;
-		} */
 		$("#form1").submit();
 	}
 	 var index;
@@ -209,7 +192,9 @@
 <div class="tab-content clear step_cont">
 	<!--第一个  -->
 	<div class="col-md-12 tab-pane active"  id="tab-1">
-	 <h1 class="f16 count_flow"><i>01</i>初审项定义</h1>
+	 <div class="headline-v2">
+   <h2>初审项定义</h2>
+   </div>
 	  <form action="">
 	  <c:if test="${project.confirmFile != 1}">
 	  <input type="button" value="选择模板" onclick="openTemplat();" class="btn btn-windows add"/>
@@ -223,14 +208,13 @@
 	      <c:if test="${project.confirmFile != 1}">
 	      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 	      </c:if>
-	        <th>初审项名称</th>
-	        <th>要求类型</th>
-	        <th>创建人</th>
-	        <th>创建时间</th>
+	        <th class="info">初审项名称</th>
+	        <th class="info">要求类型</th>
+	        <th class="info">创建人</th>
+	        <th class="info">创建时间</th>
 	      </tr>
 	     </thead>
 	      <c:forEach items="${list }" var="l" varStatus="vs">
-	      <thead>
 	       <tr>
 	       <c:if test="${project.confirmFile != 1}">
 	       	<td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
@@ -240,7 +224,6 @@
 	        <td align="center">${l.creater }</td>
 	        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 	      </tr>
-	      </thead>
 	      </c:forEach>
 	    </table>
 	  </form>
@@ -248,7 +231,6 @@
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-		    		<!-- <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"> -->
 				</div>
 		  	</div>
 		 </div>	
