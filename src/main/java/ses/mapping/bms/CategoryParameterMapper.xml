@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.CategoryParameterMapper">
+	
+	<resultMap id="CategoryMap" type="ses.model.bms.Category">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="PARENT_ID" property="parentId" />
+	</resultMap>
+	
+	<select id="findCategoryTree" resultMap="CategoryMap">
+		SELECT A.ID AS id, A.NAME AS name, A.PARENT_ID AS parentId
+		FROM T_SES_BMS_CATEGORY A, T_SES_BMS_CATE_ORG B
+		WHERE A.ID = B.CATE_ID
+		   AND A.IS_DELETED = '0'
+		   AND B.ORG_ID = #{orgId}
+	</select>
+	
+</mapper>

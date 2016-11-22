@@ -42,5 +42,14 @@ public interface DictionaryDataServiceI {
      */
     DictionaryData getDictionaryData(String id);
     
-    
+    /**
+     * 
+     *〈简述〉
+     *  根据字典类型查询数据
+     *〈详细描述〉
+     * @author myc
+     * @param kind 类型Id
+     * @return
+     */
+    public List<DictionaryData> findByKind(String kind);
 }

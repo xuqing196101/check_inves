@@ -166,6 +166,14 @@
     and ID != #{id,jdbcType=VARCHAR}
     and CODE =#{code}
   </select>
+  <!-- 按照kind查询 -->
+   <select id="findByKind" resultMap="DictionaryDataMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_SES_BMS_DICTIONARY_DATA 
+    WHERE IS_DELETED = 0 
+    AND KIND = #{kind}
+  </select>
   
   <select id="queryAudit" parameterType="ses.model.bms.DictionaryData" resultMap="DictionaryDataMap" >
   select 

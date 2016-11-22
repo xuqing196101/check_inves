@@ -47,4 +47,15 @@ public interface DictionaryDataMapper {
      * @return: List<DictionaryData>
      */
     List<DictionaryData> findByMap(Map<String, Object> param);
+    
+    /**
+     * 
+     *〈简述〉
+     *  按照类型查询
+     *〈详细描述〉
+     * @author myc
+     * @param kind 类型
+     * @return
+     */
+    List<DictionaryData> findByKind(String kind);
 }
