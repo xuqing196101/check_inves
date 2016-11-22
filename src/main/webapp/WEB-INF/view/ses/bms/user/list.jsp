@@ -230,15 +230,19 @@
 				    	   <span>
 					        <select id="typeName" name="typeName">
 					        	<option value="">请选择</option>
-					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
-					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
-					        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
-					        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
-					        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
-					        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
-					        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
-					        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
-					        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
+					        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
+					        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
+										<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+										<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+										<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+										<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+										<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
+										<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
+										<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
+										<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
+										<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+					        		</option>
+					        	</c:forEach>
 					        </select>
 					        </span>
 				      </li> 
@@ -279,35 +283,21 @@
 					  <td class="tc" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
 					  <td class="tc">${user.org.name}</td>
-					  <td class="tc">${user.telephone}</td>
+					  <td class="tc">${user.mobile}</td>
 					  <td class="tc">
-						<c:if test="${user.typeName == 0}">
-							采购管理人员
-						</c:if>
-						<c:if test="${user.typeName == 1}">
-							采购机构人员
-						</c:if>
-						<c:if test="${user.typeName == 2}">
-							需求人员
-						</c:if>
-						<c:if test="${user.typeName == 3}">
-							其他人员
-						</c:if>
-						<c:if test="${user.typeName == 4}">
-							供应商
-						</c:if>
-						<c:if test="${user.typeName == 5}">
-							专家
-						</c:if>
-						<c:if test="${user.typeName == 6}">
-							进口供应商
-						</c:if>
-						<c:if test="${user.typeName == 7}">
-							进口代理商
-						</c:if>
-						<c:if test="${user.typeName == 8}">
-							监督人员
-						</c:if>
+					  	<c:forEach items="${typeNames}" var="t" varStatus="vs">
+					  		<c:if test="${t.id eq user.typeName}">
+					  			<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+								<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+								<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+								<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+								<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
+								<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
+								<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
+								<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
+								<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+					  		</c:if>
+			        	</c:forEach>
 					  </td>
 					</tr>
 				</c:forEach>

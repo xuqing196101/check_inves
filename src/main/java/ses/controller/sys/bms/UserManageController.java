@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -33,6 +35,7 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 
 import bss.controller.base.BaseController;
 
@@ -82,6 +85,10 @@ public class UserManageController extends BaseController{
 		model.addAttribute("user", user);
 		logger.info(JSON.toJSONStringWithDateFormat(users,
 				"yyyy-MM-dd HH:mm:ss"));
+		List<DictionaryData> genders = DictionaryDataUtil.find(13);
+        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+        model.addAttribute("typeNames", typeNames);
+        model.addAttribute("genders", genders);
 		return "ses/bms/user/list";
 	}
 
@@ -133,6 +140,10 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request, Model model) {
+	    List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	    model.addAttribute("typeNames", typeNames);
+	    model.addAttribute("genders", genders);
 		return "ses/bms/user/add";
 	}
 
@@ -152,6 +163,10 @@ public class UserManageController extends BaseController{
 	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
 		//校验字段
 		if(result.hasErrors()){
+		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	        model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("user", user);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
@@ -162,6 +177,10 @@ public class UserManageController extends BaseController{
 		if(users.size() > 0){
 			model.addAttribute("user", user);
 			model.addAttribute("exist", "用户名已存在");
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	        model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
 			return "ses/bms/user/add";
@@ -170,6 +189,10 @@ public class UserManageController extends BaseController{
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);
 			model.addAttribute("password2_msg", "两次输入密码不一致");
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	        model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
 			return "ses/bms/user/add";
@@ -243,6 +266,10 @@ public class UserManageController extends BaseController{
 					}
 				}
 			}
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	        model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("roleId", roleId);
 			model.addAttribute("roles", roles);
@@ -274,6 +301,10 @@ public class UserManageController extends BaseController{
 		
 		//校验字段
 		if(result.hasErrors()){
+		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
+	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	        model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("user", u);
 			model.addAttribute("orgId", u.getOrgId());
 			model.addAttribute("orgName", request.getParameter("orgName"));
@@ -411,6 +442,10 @@ public class UserManageController extends BaseController{
 					roleName += list.get(i).getName() + ",";
 				}
 			}
+			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+            List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+			model.addAttribute("typeNames", typeNames);
+	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("user", u);
 		} else {

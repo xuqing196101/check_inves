@@ -229,8 +229,12 @@
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
 			        <div class="select_common">
 			        <select id="gender" name="gender">
-			        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
-			        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+			        	<c:forEach items="${genders}" var="g" varStatus="vs">
+			        		<option value="${g.id }" <c:if test="${g.id eq user.gender}">selected</c:if>>
+			        			<c:if test="${'M' eq g.code}">男</c:if>
+			        			<c:if test="${'F' eq g.code}">女</c:if>
+			        		</option>
+			        	</c:forEach>
 			        </select>
 			        </div>
 			 	</li>
@@ -261,15 +265,17 @@
 				    <span class="col-md-12 padding-left-5"><span class="red">*</span>类型</span>
 				    <div class="select_common">
 			        <select name="typeName">
-			        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
-			        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
-			        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
-			        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
-			        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
-			        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
-			        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
-			        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
-			        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
+			        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
+			        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
+				        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
+									<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+									<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+									<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+									<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+									<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+				        		</option>
+			        		</c:if>
+			        	</c:forEach>
 			        </select>
 			        </div>
 				 </li>
