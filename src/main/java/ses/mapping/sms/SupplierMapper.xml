@@ -754,9 +754,14 @@
         resultMap="supplierMap">
         select * from T_SES_SMS_SUPPLIER where ID = #{id}
     </select>
-    <select id="getAllSupplier" parameterType="java.lang.String"
+  <select id="getAllSupplier" parameterType="java.lang.String"
         resultMap="supplierMap">
-        select * from T_SES_SMS_SUPPLIER where 1=1
+        <!--select * from T_SES_SMS_SUPPLIER where 1=1如果出错 这是之前的代码2016/11/22  -->
+        select * from(
+        select t3.name||T2."NAME" as addressName,T1.* from T_SES_SMS_SUPPLIER T1
+		LEFT JOIN T_SES_BMS_AREA T2 ON T1.ADDRESS=T2.ID
+		LEFT JOIN T_SES_BMS_AREA T3 ON T2.PARENT_ID=T3.ID )
+		where 1=1
         <if test="supplierName != null and supplierName !=''">
             and SUPPLIER_NAME like '%${supplierName}%'
         </if>
@@ -775,6 +780,12 @@
         <if test="address != null and address !=''">
             and ADDRESS like '%${address}%'
         </if>
+        <if test="stsupplierIds != null">
+           <foreach collection="stsupplierIds" item="id" open="and ID not in ("
+               close=")" separator=",">
+               #{id}
+           </foreach>
+         </if>
         ORDER BY FOUND_DATE DESC
     </select>
     <update id="updateSupplierProcurementDep" parameterType="ses.model.sms.Supplier">
@@ -892,10 +903,10 @@
     </select>
 
 
-    <select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
+   <select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
         resultMap="findSupplierMap">
         select * from(
-        select t1.typeId,t1.categoryId,t2.* from(
+        select T4.NAME  , t1.typeId,t1.categoryId,t2.* from(
         select id,
         wm_concat(DISTINCT(categoryId)) as
         categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
@@ -912,6 +923,10 @@
         ) t2 ON t1.id =t2.id
         ) GROUP BY id )t1
         left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
+        <!--查询地址 start 如果抱错就去掉这个 注释address条件查询 现在查询的是关联area表的name字段 在上面也加了一个t4.NAME-->
+        LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS=T3.ID
+        LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID=T4.ID
+        <!--end  -->
         ) where 1=1 and
         SUPPLIER_NAME is not null
         <if test="supplierName != null and supplierName !=''">
@@ -930,8 +945,14 @@
             and STATUS = #{status}
         </if>
         <if test="address != null and address !=''">
+            and NAME like '%${address}%'
+        </if> 
+       <!--  
+        <if test="address != null and address !=''">
             and ADDRESS like '%${address}%'
-        </if>
+        </if> 
+        -->
+        
         <if test="itemType != null and itemType != ''">
             <foreach item="itemType" index="index" collection="itemType"
                 open="" separator="" close="">
@@ -946,6 +967,7 @@
         </if>
         ORDER BY FOUND_DATE DESC
     </select>
+ 
 
     <select id="querySupplier" parameterType="ses.model.sms.Supplier"
         resultMap="findSupplierMap">

@@ -35,8 +35,10 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     
     /** 根目录 */
     private static final String ROOT_PID = "0";
-    /** 字典类型-根节点 */
+    /** 字典类型-品目根节点 */
     private static final String  KIND_TYPE = "6";
+    /** 字典类型-品目参数类型 */
+    private static final String KIND_PARAM_TYPE = "14";
     
     /** 产品参数管理 */
     @Autowired
@@ -72,6 +74,19 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
         
         return treeList;
     }
+    
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryParameterService#initTypes()
+     */
+    @Override
+    public List<DictionaryData> initTypes() {
+        
+        return directionService.findByKind(KIND_PARAM_TYPE);
+    }
+
+
 
     /**
      * 

@@ -473,14 +473,13 @@ button, input, select, textarea {
 	position: relative;
 	display: table;
 }
-.input_group .add-on, .input_group .add-on {
+.input_group .add-on, .input_group .add-on{
     display:table-cell;
     padding:0 10px 0 10px;
     width:1%;
 	text-align:center;
     font-size: 16px;
     font-weight: 600;
-    text-align: center;
     text-shadow: 0 1px 0 #fff;
     background-color: #ffffff;
 	font-family:"americantypewritercondensed";
@@ -489,7 +488,25 @@ button, input, select, textarea {
 	vertical-align: middle;
 	margin-left: -1px;
 }
-
+ .input_group .drop_up{
+    display: table-cell;
+    width: 1%;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+    background-color: rgb(255, 255, 255);
+    font-family: americantypewritercondensed;
+    color: rgb(119, 119, 119);
+    vertical-align: middle;
+    margin-left: -1px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial; 
+    padding: 0 7px;
+    border-left:0px;
+  }
 .input_group input{
    width:100%;
    position:relative;

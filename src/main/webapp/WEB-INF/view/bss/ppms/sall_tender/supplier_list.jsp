@@ -67,11 +67,15 @@
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val());
         }); 
+        var packageIds=[];
+		$('input[name="packages"]:checked').each(function(){ 
+			packageIds.push($(this).val());
+		}); 
         if(id.length==1){
-            $.post("${pageContext.request.contextPath}/saleTender/save.do",{ids:id.toString(),projectId:"${projectId}"},
+            $.post("${pageContext.request.contextPath}/saleTender/save.do",{ids:id.toString(),packages:packageIds.toString(),projectId:"${projectId}"},
                     function(data){
             	if(data=="error"){
-            		layer.alert("供应商已存在，无需添加",{offset: ['100px', '200px'], shade:0.01});
+            		layer.alert("请添加包",{offset: ['100px', '200px'], shade:0.01});
             	}else{
             		 parent.location.reload();
             	}
@@ -108,7 +112,11 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
+		if(packageIds.length==0){
+		     layer.alert("请选择包",{offset: ['222px', '390px'], shade:0.01});
+		     return;
+		}
+		/* if(id.length==1){
 			 $.post("${pageContext.request.contextPath}/resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
 					  function(data){
 					    var tem=data;
@@ -127,7 +135,7 @@
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择模板",{offset: ['222px', '390px'], shade:0.01});
-		}
+		} */
     }
     
     function resetQuery(){
@@ -150,13 +158,15 @@
 					<div class="clear"></div>
 				</form>
 			</h2>
-	
+	         <c:forEach items="${listPackage}" var="lp" varStatus="vs">
+	         	<input type="checkbox" name="packages" value="${lp.id }" />	<span>${lp.name }</span>
+	         </c:forEach>
 			<table class="table table-bordered table-condensed" >
 				<thead>
 					<tr>
 						<th class="info w30"><input id="checkAll" type="checkbox"
 							onclick="selectAll()" /></th>
-						<th class="info w50">供应商名称</th>
+						<th class="info">供应商名称</th>
 						<!-- 							<th class="info">组织机构代码</th> -->
 						<th class="info">联系人姓名</th>
 						<th class="info">联系人电话</th>
@@ -175,7 +185,7 @@
 
 						<td class="tc opinter">${ext.contactTelephone}</td>
 
-						<td class="tc opinter">${ext.address}</td>
+						<td class="tc opinter">${ext.addressName}</td>
 					</tr>
 				</c:forEach>
 			</table>

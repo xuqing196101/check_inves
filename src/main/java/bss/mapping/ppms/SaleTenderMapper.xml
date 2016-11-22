@@ -81,7 +81,7 @@
 			<if test="bidFinish != null">
 			     BID_FINISH,
 			</if>
-			<if test="packeages != null">
+			<if test="packages != null">
 			     PACKAGR_IDS,
 			</if>
 		</trim>

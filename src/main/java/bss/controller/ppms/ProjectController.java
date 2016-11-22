@@ -2,6 +2,8 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,7 +44,6 @@ import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
@@ -75,12 +76,6 @@ public class ProjectController extends BaseController {
      */
     @Autowired
     private TaskService taskservice;
-
-    /**
-     * 
-     */
-    @Autowired
-    private ProjectAttachmentsService attachmentsService;
 
     /**
      * 
@@ -130,36 +125,12 @@ public class ProjectController extends BaseController {
         request.getSession().removeAttribute("idr");
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
+        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+        model.addAttribute("kind", kind);
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
     }
-    
-    
-    /**
-     * 
-     *〈预研项目页面〉
-     *〈详细描述〉
-     * @author Administrator
-     * @param page
-     * @param model
-     * @param project
-     * @param request
-     * @return
-     */
-    @RequestMapping("/lists")
-    public String lists(Integer page, Model model, Project project, HttpServletRequest request) {
-        request.getSession().removeAttribute("idr");
-        List<Project> list = projectService.lists(page == null ? 1 : page, project);
-        for (Project project2 : list) {
-            model.addAttribute("IsRehearse", project2.getIsRehearse());
-        }
-        PageInfo<Project> info = new PageInfo<Project>(list);
-        model.addAttribute("info", info);
-        model.addAttribute("projects", project);
-        return "bss/ppms/project/list";
-    }
-
     /**
      * 〈简述〉 〈详细描述〉
      * 
@@ -192,6 +163,8 @@ public class ProjectController extends BaseController {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
                 lists.add(purchaseRequired);
             }
+            List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+            model.addAttribute("kind", kind);
             model.addAttribute("lists", lists);
             model.addAttribute("ids", ide);
             model.addAttribute("checkedIds", checkedIds);
@@ -338,7 +311,7 @@ public class ProjectController extends BaseController {
                     project.setIsImport(0);
                 }
                 if(list.getList().get(0).getPlanType() != null){
-                    project.setPlanType(Integer.valueOf(list.getList().get(0).getPlanType()));
+                    project.setPlanType(list.getList().get(0).getPlanType());
                 }
                 project.setPurchaseType(list.getList().get(0).getPurchaseType());
                 projectService.add(project);    
@@ -425,6 +398,8 @@ public class ProjectController extends BaseController {
             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
             lists.addAll(list2);
         }
+        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+        model.addAttribute("kind", kind);
         model.addAttribute("lists", lists);
         model.addAttribute("checkedIds", checkedIds);
         return "bss/ppms/project/saveDetail";
@@ -492,6 +467,8 @@ public class ProjectController extends BaseController {
             HashMap<String, Object> map = new HashMap<String, Object>();
             map.put("id", id);
             List<ProjectDetail> detail = detailService.selectById(map);
+            List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+            model.addAttribute("kind", kind);
             model.addAttribute("lists", detail);
             return "bss/ppms/project/viewDetail";
 
@@ -514,20 +491,31 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         map.put("id", id);
         List<ProjectDetail> detail = detailService.selectById(map);
+        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+        model.addAttribute("kind", kind);
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
         return "bss/ppms/project/editDetail";
     }
     
     @RequestMapping("/addProject")
-    public String addProject(String id, String bidAddress, Date bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
+    public String addProject(String id, String bidAddress, String flowDefineId, String bidDate, String linkman, String linkmanIpone, Integer supplierNumber, HttpServletRequest request) {
         Project project = projectService.selectById(id);
         project.setLinkman(linkman);
         project.setLinkmanIpone(linkmanIpone);
         project.setSupplierNumber(supplierNumber);
         project.setBidAddress(bidAddress);
-        project.setBidDate(bidDate);
+        Date date = new Date();   
+        //注意format的格式要与日期String的格式相匹配   
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");   
+        try {   
+            date = sdf.parse(bidDate);  
+            project.setBidDate(date);
+        } catch (Exception e) {   
+            e.printStackTrace();   
+        }  
         projectService.update(project);
+       // flowExe(request, flowDefineId, project.getId(), 2);
         return "redirect:excute.html?id="+id;
     }
 
@@ -602,6 +590,8 @@ public class ProjectController extends BaseController {
         map.put("id", projectId);
         // 查看明细
         List<ProjectDetail> detail = detailService.selectById(map);
+        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+        model.addAttribute("kind", kind);
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
         model.addAttribute("dataId", dataId);

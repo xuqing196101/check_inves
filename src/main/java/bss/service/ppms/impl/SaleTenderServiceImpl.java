@@ -40,12 +40,7 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      */
     @Override
     public String insert(SaleTender saleTender) {
-        List<SaleTender> list = saleTenderMapper.list(new SaleTender(saleTender.getProjectId(), saleTender.getSupplierId()));
-        if (list != null && list.size() != 0){
-            return "error";
-        } else {
-            saleTenderMapper.insertSelective(saleTender);
-        }
+        saleTenderMapper.insertSelective(saleTender);
         return "sccuess";
     }
 

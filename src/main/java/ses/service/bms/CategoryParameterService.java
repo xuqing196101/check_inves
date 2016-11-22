@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 
 /**
  * 
@@ -28,4 +29,15 @@ public interface CategoryParameterService {
      * @return CategoryTree 对象集合
      */
     public List<CategoryTree> initTree(HttpServletRequest request);
+    
+    
+    /**
+     * 
+     *〈简述〉
+     * 初始化产品数据类型
+     *〈详细描述〉
+     * @author myc
+     * @return DictionaryData集合
+     */
+    public List<DictionaryData> initTypes();
 }

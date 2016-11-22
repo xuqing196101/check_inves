@@ -308,11 +308,9 @@
 								</td>
 								<td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
 								<td class="tc"><a href="javascript:void(0)" onclick="view('${obj.id}');">
-									<c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-									<c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-									<c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-									<c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-									<c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+									<c:forEach items="${kind}" var="kind" >
+                                                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                     </c:forEach>
 								</a></td>
 								<td class="tc">
 								    <c:if test="${'1'==obj.status}">实施中</c:if> 
