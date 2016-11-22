@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.Area;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
@@ -149,7 +150,7 @@ public class SupplierQueryController extends BaseSupplierController{
 				sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8").substring(0, 2).replace(",", ""));
 			}
 		}else{
-			sup.setAddress(address);
+		    sup.setAddress(address);
 		}
 		if(categoryIds!=null&&!"".equals(categoryIds)){
 			List<String> listCategoryIds=Arrays.asList(categoryIds.split(","));
@@ -237,6 +238,12 @@ public class SupplierQueryController extends BaseSupplierController{
 		}
 		
 		supplier = supplierAuditService.supplierById(supplierId);
+		try {
+			Area area=areaService.listById(areaService.listById(supplier.getAddress()).getParentId());
+			supplier.setAddress(area.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		getSupplierType(supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

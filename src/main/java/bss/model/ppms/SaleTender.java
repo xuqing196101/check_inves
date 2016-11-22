@@ -22,13 +22,14 @@ public class SaleTender {
 
 
 	public SaleTender(String projectId, Short statusBid, String supplierId,
-			Short statusBond, String userId) {
+			Short statusBond, String userId,String packages) {
 		super();
 		this.projectId = projectId;
 		this.statusBid = statusBid;
 		this.supplierId = supplierId;
 		this.statusBond = statusBond;
 		this.userId = userId;
+		this.packages=packages;
 	}
 	
 

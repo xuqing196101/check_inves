@@ -3,6 +3,8 @@
  */
 package bss.controller.ppms;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,20 +16,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import common.constant.Constant;
-import bss.model.ppms.SaleTender;
-import bss.service.ppms.SaleTenderService;
-
-
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierQuoteService;
+import bss.model.ppms.Packages;
+import bss.model.ppms.SaleTender;
+import bss.service.ppms.SaleTenderService;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 /**
  * @Description: 发售标书
@@ -48,6 +50,8 @@ public class SaleTenderController {
     private SupplierAuditService auditService;//查询所有供应商
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
+    @Autowired
+    private SupplierQuoteService supplierQuoteService;
 
     /**
      * @Description:展示发售标书列表
@@ -82,7 +86,21 @@ public class SaleTenderController {
      */
     @RequestMapping("/showSupplier")
     public  String showSupplier(Model model, String projectId,String page,Supplier supplier){
+    	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
+    	SaleTender saleTender=new SaleTender();
+    	saleTender.setProjectId(projectId);
+    	List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
+    	List<String> stsupplierIds=new ArrayList<String>();
+    	for(SaleTender st:list){
+    		stsupplierIds.add(st.getSuppliers().getId());
+    	}
+    	supplier.setStsupplierIds(stsupplierIds);
         List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+        //当前项目的所有包
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", "51B2054556F845D39187387FC39005AF");
+        List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+        model.addAttribute("listPackage", listPackage);
         model.addAttribute("list", new PageInfo<>(allSupplier));
         model.addAttribute("projectId", projectId);
         model.addAttribute("supplierName", supplier.getSupplierName());
@@ -161,11 +179,15 @@ public class SaleTenderController {
      */
     @ResponseBody
     @RequestMapping("/save")
-    public Object save(String ids,String status,HttpServletRequest sq,String projectId){
+    public Object save(String ids,String packages,String status,HttpServletRequest sq,String projectId){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
         String info = "";
-        if (attribute != null){
-            info = saleTenderService.insert(new SaleTender(projectId, (short)1, ids, (short)1, attribute.getId()));
+        if(packages==null||"".equals(packages.trim())){
+        	info="error";
+        }else{
+        	if (attribute != null){
+                saleTenderService.insert(new SaleTender(projectId, (short)1, ids, (short)1, attribute.getId(),packages));
+            }
         }
         return JSON.toJSONString(info);
     }
