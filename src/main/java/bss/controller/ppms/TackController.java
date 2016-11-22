@@ -173,6 +173,7 @@ public class TackController extends BaseController{
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,HttpServletRequest request){
 	    if(id != null){
+	        DictionaryData dictionaryData=new DictionaryData();
 	        Task task = taskservice.selectById(id);
 	        CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
 	        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
@@ -182,13 +183,21 @@ public class TackController extends BaseController{
 	                Map<String,Object> map=new HashMap<String,Object>();
 	                map.put("planNo", s);
 	                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	                if(list2 != null && list2.size()>0){
+	                    for (PurchaseRequired purchaseRequired : list2) {
+	                        dictionaryData = dictionaryDataService.getDictionaryData(purchaseRequired.getPurchaseType());
+	                        model.addAttribute("code", dictionaryData.getCode());
+                        }
+	                }
 	                listp.addAll(list2);
 	            }
 	        }
-	        DictionaryData dictionaryData=new DictionaryData();
+	        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+	        model.addAttribute("kind", kind);
 	        dictionaryData.setCode("CGJH_ADJUST");
 	        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
 	        model.addAttribute("dataId", dataId);
+	       
 	        model.addAttribute("task", task);
 	        model.addAttribute("lists", listp);
 	        model.addAttribute("queryById", queryById);
@@ -236,6 +245,8 @@ public class TackController extends BaseController{
             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
             listp.addAll(list2);
         }
+        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
+        model.addAttribute("kind", kind);
         model.addAttribute("lists", listp);
         model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/view";
