@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
 
 /**
@@ -59,5 +60,19 @@ public class CategoryParameterController {
     public List<CategoryTree> initTree(HttpServletRequest request){
         List<CategoryTree> list = paramService.initTree(request);
         return list;
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     * 初始化品目类型
+     *〈详细描述〉
+     * @author myc
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/initTypes")
+    public List<DictionaryData> initParamTypes(){
+        return paramService.initTypes();
     }
 }
