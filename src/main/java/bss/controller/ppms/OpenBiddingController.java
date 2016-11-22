@@ -112,12 +112,6 @@ public class OpenBiddingController {
     @Autowired
     private FirstAuditService auditService;
     
-    /**
-     * @Fields scoreModelService : 引用模型业务接口
-     */
-    @Autowired
-    private ScoreModelService scoreModelService;
-    
     @Autowired
     private UploadService uploadService;
     
@@ -678,12 +672,12 @@ public class OpenBiddingController {
         //如果是拟制招标公告
         if ("cggg".equals(noticeType)) {
             //货物/物资
-            if (project.getPlanType() == 1) { 
+            if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
-            } else if (project.getPlanType() == 2){
+            } else if (DictionaryDataUtil.getId("GC").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
-            } else if (project.getPlanType() == 3){
+            } else if (DictionaryDataUtil.getId("FW").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
             }
@@ -691,12 +685,12 @@ public class OpenBiddingController {
         //如果是拟制中标公告
         if ("zbgg".equals(noticeType)) {
             //货物/物资
-            if (project.getPlanType() == 1) { 
+            if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
-            } else if (project.getPlanType() == 2){
+            } else if (DictionaryDataUtil.getId("GC").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
-            } else if (project.getPlanType() == 3){
+            } else if (DictionaryDataUtil.getId("FW").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
             }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.Supplier;
-import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
@@ -38,7 +37,6 @@ import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
@@ -70,12 +68,6 @@ public class ProjectManageController {
     
     @Autowired
     private DownloadService downloadService;
-    
-    @Autowired
-    private SupplierQuoteService supplierQuoteService;
-    
-    @Autowired
-    private ProjectDetailService detailService;
     
     @Autowired
     private ScoreModelService scoreModelService;
