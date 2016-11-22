@@ -308,7 +308,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<h1 class="f16 count_flow"><i>01</i>专家名单</h1>
 		<div align="right">
 			<button class="btn btn-windows back" onclick="resetPwd();" type="button">重置密码</button>
-			<button class="btn btn-windows add" onclick="addexp();" type="button">添加临时供应商</button>
+			<button class="btn btn-windows add" onclick="addexp();" type="button">添加临时专家</button>
 		</div>
 		<thead>
 			<tr>

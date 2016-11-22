@@ -90,48 +90,7 @@
 			  };
 	var listId;
 	$(function(){
-		var parentId ;
-		var addressId="${expert.address}";
-		//地区回显和数据显示
-		 $.ajax({
-		url : "${pageContext.request.contextPath}/area/find_by_id.do",
-		data:{"id":addressId},
-		success:function(obj){
-			//var data = eval('(' + obj + ')');
-			$.each(obj,function(i,result){
-				if(addressId == result.id){
-					//alert(JSON.stringify(result));
-					parentId = result.parentId;
-				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				$("#add2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				}else{
-					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
-				}
-			});
-		}
-	}); 
 		
-		//地区
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/listByOne.do",
-			success:function(obj){
-				//var data = eval('(' + obj + ')');
-				//alert(data);
-				//alert(parentId);
-				$.each(obj,function(i,result){
-					 if(parentId == result.id){
-						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-						$("#addr2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{ 
-					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					$("#addr2").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-			},
-			error:function(obj){
-			}
-		});
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		   var radio=document.getElementsByName("purchaseDepId");
@@ -149,7 +108,6 @@
 					  listId=result;
 				  },
 				  error:function(result){
-					  alert("出错啦！");
 				  }
 			  }); 
 			  var expertsTypeId = $("#expertsTypeId").val();
@@ -248,10 +206,10 @@
 				  layer.msg("已暂存");
 			  },
 			  error:function(result){
-				  alert("出错啦！");
 			  }
 		});
 	}
+	//无提示暂存
 	function submitForm2(){
 		getChildren();
 		$.ajax({
@@ -263,7 +221,6 @@
 				$("#id").val(result.id);
 			  },
 			  error:function(result){
-				  alert("出错啦！");
 			  }
 		});
 	}
@@ -730,15 +687,57 @@
 		}
 		supplierRegist('reg_box_id', 6, 'next');
 	}
-	
+	var parentId ;
+	var addressId="${expert.address}";
+	window.onload=function(){
+		//地区回显和数据显示
+		 $.ajax({
+		url : "${pageContext.request.contextPath}/area/find_by_id.do",
+		data:{"id":addressId},
+		success:function(obj){
+			//var data = eval('(' + obj + ')');
+			$.each(obj,function(i,result){
+				if(addressId == result.id){
+					//alert(JSON.stringify(result));
+					parentId = result.parentId;
+				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				$("#add2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				}else{
+					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				}
+			});
+		}
+	}); 
+		
+		//地区
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			success:function(obj){
+				//var data = eval('(' + obj + ')');
+				//alert(data);
+				//alert(parentId);
+				$.each(obj,function(i,result){
+					 if(parentId == result.id){
+						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						$("#addr2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{ 
+					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#addr2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+				});
+			}
+		});
+	}
 </script>
 </head>
 <body>
+<input value="${errorMap.realName }"   type="text"/>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
 		<input type="hidden" name="userId" value="${user.id }"/>
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }"/>
 		<input type="hidden" name="id" id="id" value="${expert.id }"/>
-		<input type="hidden" name="zancun" id="zancun"/>
+		<input type="hidden" name="zancun" id="zancun" value=""/>
 		<input type="hidden" name="sysId" value="${sysId }"/>
 		<%
 			session.setAttribute("tokenSession", tokenValue);

@@ -4,8 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -175,12 +177,15 @@ public class test2 {
 		//A D
 
 		
-		int n=10;
+		/*int n=10;
 		boolean b=false;
 		if((b==true)&&((n+=10)==20)){
 			System.out.println("hhh");
 		}else{
 			System.out.println("kkk");
-		}
+		}*/
+		Map<String,Object> map = new HashMap<>();
+		map.put("aa", "aa");
+		System.out.println(map.isEmpty());
 	}
 }

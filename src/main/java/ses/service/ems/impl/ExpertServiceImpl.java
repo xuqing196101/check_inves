@@ -36,6 +36,7 @@ import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
 
@@ -360,7 +361,8 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public void saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception{
+	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception{
+		Map<String,Object> map;
 		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
 		if(StringUtils.isNotEmpty(expert.getId())){
 			expert.setIsDo("0");
@@ -370,19 +372,9 @@ public class ExpertServiceImpl implements ExpertService {
 			expert.setStatus("0");
 			//修改时间
 			expert.setUpdatedAt(new Date());
-			//执行修改
-			mapper.updateByPrimaryKeySelective(expert);
-			//获取之前的附件
-			//List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
-			//删除之前的附件
-			/*if(attachList!=null && attachList.size()>0){
-				for (ExpertAttachment expertAttachment : attachList) {
-					//修改之前的附件信息为删除状态 和历史状态
-					expertAttachment.setIsDelete((short)1);
-					expertAttachment.setIsHistory((short)1);
-					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
-				}
-			}*/
+			//执行校验并修改
+			 map = Validate(expert,2);
+			//mapper.updateByPrimaryKeySelective(expert);
 			//获取之前的审核信息
 			List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
 			if(auditList!=null && auditList.size()>0){
@@ -393,8 +385,6 @@ public class ExpertServiceImpl implements ExpertService {
 					expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
 				}
 			}
-			//附件上传
-			//uploadFile(files, realPath,expert.getId());
 			if(expert.getExpertsTypeId().equals("1")){
 			//保存品目
 				saveCategory(expert, categoryIds);
@@ -414,7 +404,8 @@ public class ExpertServiceImpl implements ExpertService {
 		expert.setCreatedAt(new Date());
 		//修改时间
 		expert.setUpdatedAt(new Date());
-		//执行保存
+		//执行校验并保存
+		 map = Validate(expert,1);
 		mapper.insertSelective(expert);
 		//文件上传
 		//uploadFile(files, realPath,expertId);
@@ -442,6 +433,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//审核地址
 		todos.setUrl("expert/toShenHe.html?id="+expert.getId());
 		todosMapper.insert(todos );
+		return map;
 	}
 	
 	/**
@@ -520,11 +512,73 @@ public class ExpertServiceImpl implements ExpertService {
 		return mapper.findAllExpert(map);
 	}
 	
-	private Map<String,Object> saveValidate(Expert expert){
+	private Map<String,Object> Validate(Expert expert,int flag){
 		Map<String,Object> map = new HashMap<>();
+		if(!ValidateUtils.isNotNull(expert.getRelName().trim())){
+			map.put("realName", "姓名不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getNation().trim())){
+			map.put("nation", "民族不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getGender().trim())){
+			map.put("gender", "姓别不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getIdType().trim())){
+			map.put("idType", "证件类型不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getIdNumber().trim())){
+			map.put("idNumber", "证件号码不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getAddress().trim())){
+			map.put("address", "地区不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getHightEducation().trim())){
+			map.put("hightEducation", "学历不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getGraduateSchool().trim())){
+			map.put("graduateSchool", "毕业院校不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getMajor().trim())){
+			map.put("major", "专业不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getExpertsFrom().trim())){
+			map.put("expertsFrom", "来源不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getUnitAddress().trim())){
+			map.put("unitAddress", "单位地址不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getTelephone().trim())){
+			map.put("telephone", "联系电话不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getMobile().trim())){
+			map.put("mobile", "手机不能为空！");
+		}
+		if(!ValidateUtils.isNotNull(expert.getHealthState().trim())){
+			map.put("healthState", "健康状态不能为空！");
+		}
 		
-		
-		return map;
+		if(!ValidateUtils.Mobile(expert.getMobile().trim())){
+			map.put("mobile", "手机号码不符合规则！");
+		}
+		String idType = expert.getIdType();
+		DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
+		if("ID_CARD".equals(data.getCode())){
+			if(!ValidateUtils.IDcard(expert.getIdNumber().trim())){
+				map.put("idNumber", "证件号码无效！");
+			}
+		}
+		if(map.isEmpty()){
+			if(flag==1){
+				//新增
+				mapper.insert(expert);
+			}else{
+				//修改
+				mapper.updateByPrimaryKeySelective(expert);
+			}
+			return null;
+		}else{
+			return map;
+		}
 	}
 	
 }

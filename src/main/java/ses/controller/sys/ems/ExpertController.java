@@ -225,7 +225,7 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/toAddBasicInfo")
-	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
+	public String toAddBasicInfo(@RequestParam("userId")String userId,Map<String,Object> errorMap,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
 	/*	if(user==null){
 			throw new RuntimeException("该用户没有注册！");
@@ -287,6 +287,7 @@ public class ExpertController {
 		model.addAttribute("expertKey", expertKey);
 		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
+		model.addAttribute("errorMap", errorMap);
 		if(flag==1){
 			return "ses/ems/expert/basic_info_view";
 		}else{
@@ -591,8 +592,12 @@ public class ExpertController {
 				//用户信息处理
 				service.userManager(user, userId, expert, expertId);
 				//调用service逻辑代码 实现提交
-				service.saveOrUpdate(expert, expertId, categoryId);
-				
+				Map<String, Object> map = service.saveOrUpdate(expert, expertId, categoryId);
+				if(map!=null && !map.isEmpty()){
+					attr.addAttribute("userId", userId);
+					 attr.addAllAttributes(map);
+					return "redirect:toAddBasicInfo.html";
+				}
 			}else{
 				//重复提交  这里未做重复提醒，只是不重复增加
 			}
