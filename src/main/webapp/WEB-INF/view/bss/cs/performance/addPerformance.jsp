@@ -32,46 +32,46 @@
   	<form action="${pageContext.request.contextPath}/performance/addPerformance.html" method="post" id="form">
   	<input type="hidden" name="contractId" value="${contractId}"/>
   		<ul class="list-unstyled ul_list">
-     <li class="col-md-3 p0 ">
-	   <span class="">合同草稿签订时间：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同草稿签订时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input type="text" name="draftSignedAt" id="draftSignedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
        </div>
 	 </li> 
-     <li class="col-md-3 p0 ">
-	   <span class="">正式合同签订时间：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">正式合同签订时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input type="text" name="formalSignedAt" id="formalSignedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
        </div>
 	 </li> 
-     <li class="col-md-3 p0 ">
-	   <span class="">交付日期：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交付日期：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	    <input type="text" name="delivery" id="delivery" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
        </div>
 	 </li> 
-	 <li class="col-md-3 p0">
-	   <span class="">交货进度：</span>
-	   <div class="input-append">
-        <input class="span2" id="deliverySchedule" type="text" name="deliverySchedule">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交货进度：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="deliverySchedule" type="text" name="deliverySchedule">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="">资金支付百分比：</span>
-	   <div class="input-append">
-        <input class="span2" id="fundsPaid" type="text" name="fundsPaid">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">资金支付百分比：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="fundsPaid" type="text" name="fundsPaid">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="">质量检验结果：</span>
-	   <div class="input-append">
-        <input class="span2" id="checkMass" name="checkMass" type="text">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">质量检验结果：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="checkMass" name="checkMass" type="text">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="col-md-12 p0">合同执行状态：</span>
-	   <div class="select_common">
-        <select name="completedStatus" id="completedStatus" class="span2 contract_name">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同执行状态：</span>
+	   <div class="select_common input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <select name="completedStatus" id="completedStatus" class="contract_name">
         	<option></option>
         	<option value="0">执行中</option>
         	<option value="1">终止</option>

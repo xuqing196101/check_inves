@@ -50,31 +50,31 @@ function cancel(){
     <input type="hidden" value="2" name="status"/>
      <div class="">
 	   <ul class="ul_list mb20">
-     	<li class="col-md-3 p0">
-	   <span class="col-md-12 p0"><div class="red star_red">*</div>合同批准文号：</span>
-	   <div class="input-append">
-        <input class="span2 contract_name" id="apN" name="approvalNumber" value="" type="text">
+     	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>合同批准文号：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="contract_name" id="apN" name="approvalNumber" value="" type="text">
         <div class="cue">${ERR_approvalNumber}</div>
        </div>
 	 </li>
 
-     <li class="col-md-3 p0">
-	   <span class="col-md-12 p0"><div class="red star_red">*</div>正式合同上报时间：</span>
-	   <div class="input-append">
-        <input type="text" name="formalGitAt" id="formalGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate span2 contract_name"/>
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>正式合同上报时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input type="text" name="formalGitAt" id="formalGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
         <div class="cue">${ERR_formalGitAt}</div>
        </div>
 	 </li> 
-     <li class="col-md-3 p0">
-	   <span class="col-md-12 p0"><div class="red star_red">*</div>正式合同批复时间：</span>
-	   <div class="input-append">
-        <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate span2 contract_name"/>
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>正式合同批复时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
         <div class="cue">${ERR_formalReviewedAt}</div>
        </div>
 	 </li> 
-	 <li class="col-md-3 p0 margin-0 ">
-	    <span class="col-md-12"><div class="red star_red">*</div>附件上传：</span>
-	    <div class="col-md-12 select_common">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	    <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>附件上传：</span>
+	    <div class="select_common input_group col-md-12 col-sm-12 col-xs-12 p0">
 	        <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
 			<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 		</div>

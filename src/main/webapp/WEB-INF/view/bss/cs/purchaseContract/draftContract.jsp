@@ -346,66 +346,66 @@
    		<input type="hidden" name="approvalNumber" id="appN" value=""/>
    		<ul class="list-unstyled ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
-		     <li class="col-md-3 p0 ">
-			   <span class=""><div class="red star_red">*</div>合同名称：</span>
-			   <div class="input-append">
-		        <input class="span2 contract_code" id="contract_code" value="${draftCon.name}" name="name" type="text">
+		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同名称：</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        <input class="contract_code" id="contract_code" value="${draftCon.name}" name="name" type="text">
 		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>合同编号：</span>
-		        <div class="input-append p0 col-md-12">
-		        	<input class="span2 contract_name" name="code" value="${draftCon.code}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同编号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="code" value="${draftCon.code}" type="text">
 		        	<div class="cue">${ERR_code}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>合同金额：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="money" value="${draftCon.money}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同金额：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="money" value="${draftCon.money}" type="text">
 		        	<div class="cue">${ERR_money}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>计划任务文号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="documentNumber" value="${draftCon.documentNumber}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>计划任务文号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="documentNumber" value="${draftCon.documentNumber}" type="text">
 		        	<div class="cue">${ERR_documentNumber}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>采购机构资格证号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="quaCode" value="${draftCon.quaCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>采购机构资格证号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="quaCode" value="${draftCon.quaCode}" type="text">
 		        	<div class="cue">${ERR_quaCode}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>需求部门：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="demandSector" value="${draftCon.demandSector}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>需求部门：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="demandSector" value="${draftCon.demandSector}" type="text">
 		        	<div class="cue">${ERR_demandSector}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="col-md-12 p0"><div class="red star_red">*</div>预算：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" id="budget" name="budget" value="${draftCon.budget}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>预算：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" id="budget" name="budget" value="${draftCon.budget}" type="text">
 		        	<div class="cue">${ERR_budget}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>项级预算科目：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="budgetSubjectItem" value="${draftCon.budgetSubjectItem}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>项级预算科目：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" name="budgetSubjectItem" value="${draftCon.budgetSubjectItem}" type="text">
 		        	<div class="cue">${ERR_budgetSubjectItem}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>合同类型：</span>
-			   <div class="select_common">
-		        	<select name="contractType" id="contractType" class="span2 contract_name">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同类型：</span>
+			   <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+		        	<select name="contractType" id="contractType" class="contract_name">
 		        		<option></option>
 		        		<option value="0">正常采购合同</option>
 		        		<option value="1">以厂代储合同</option>
@@ -418,73 +418,73 @@
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
 		 <ul class="list-unstyled ul_list">
-    		 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" name="purchaseDepName" value="${draftCon.purchaseDepName}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        	<input class="supplier_id" name="purchaseDepName" value="${draftCon.purchaseDepName}" type="text">
 		        	<div class="cue">${ERR_purchaseDepName}</div>
        			</div>
 			 </li>
-		     <li class="col-md-3 p0 ">
-			   <span class=""><div class="red star_red">*</div>甲方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" name="purchaseLegal" value="${draftCon.purchaseLegal}" type="text">
+		     <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方法人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" name="purchaseLegal" value="${draftCon.purchaseLegal}" type="text">
 		        <div class="cue">${ERR_purchaseLegal}</div>
 		       </div>
 			 </li>
-			 <li class="col-md-3 p0 ">
-			   <span class="fl"><div class="red star_red">*</div>甲方委托代理人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" name="purchaseAgent" value="${draftCon.purchaseAgent}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方委托代理人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" name="purchaseAgent" value="${draftCon.purchaseAgent}" type="text">
 		        <div class="cue">${ERR_purchaseAgent}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseContact" value="${draftCon.purchaseContact}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方联系人：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseContact" value="${draftCon.purchaseContact}" type="text">
 		         <div class="cue">${ERR_purchaseContact}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseContactTelephone" value="${draftCon.purchaseContactTelephone}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方联系电话：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseContactTelephone" value="${draftCon.purchaseContactTelephone}" type="text">
 		         <div class="cue">${ERR_purchaseContactTelephone}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseContactAddress" value="${draftCon.purchaseContactAddress}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方通讯地址：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseContactAddress" value="${draftCon.purchaseContactAddress}" type="text">
 		         <div class="cue">${ERR_purchaseContactAddress}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseUnitpostCode" value="${draftCon.purchaseUnitpostCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方邮政编码：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseUnitpostCode" value="${draftCon.purchaseUnitpostCode}" type="text">
 		         <div class="cue">${ERR_purchaseUnitpostCode}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方付款单位：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchasePayDep" value="${draftCon.purchasePayDep}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方付款单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchasePayDep" value="${draftCon.purchasePayDep}" type="text">
 		         <div class="cue">${ERR_purchasePayDep}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseBank" value="${draftCon.purchaseBank}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方开户银行：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseBank" value="${draftCon.purchaseBank}" type="text">
 		         <div class="cue">${ERR_purchaseBank}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>甲方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方银行账号：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
 		         <div class="cue">${ERR_purchaseBankAccount}</div>
 		        </div>
 			 </li>
@@ -492,73 +492,73 @@
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
 		 <ul class="list-unstyled ul_list">
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" name="supplierDepName" type="text" value="${draftCon.supplierDepName}">
+			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        	<input class="supplier_id" name="supplierDepName" type="text" value="${draftCon.supplierDepName}">
 		        	<div class="cue">${ERR_supplierDepName}</div>
        			</div>
 			 </li>
-		     <li class="col-md-3 p0 ">
-			   <span class=""><div class="red star_red">*</div>乙方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" name="supplierLegal" type="text" value="${draftCon.supplierLegal}">
+		     <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方法人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" name="supplierLegal" type="text" value="${draftCon.supplierLegal}">
 		        <div class="cue">${ERR_supplierLegal}</div>
 		       </div>
 			 </li>
-			 <li class="col-md-3 p0 ">
-			   <span class="fl"><div class="red star_red">*</div>乙方委托代理人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" name="supplierAgent" value="${draftCon.supplierAgent}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方委托代理人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" name="supplierAgent" value="${draftCon.supplierAgent}" type="text">
 		        <div class="cue">${ERR_supplierAgent}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierContact" value="${draftCon.supplierContact}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方联系人：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierContact" value="${draftCon.supplierContact}" type="text">
 		         <div class="cue">${ERR_supplierContact}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierContactTelephone" value="${draftCon.supplierContactTelephone}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方联系电话：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierContactTelephone" value="${draftCon.supplierContactTelephone}" type="text">
 		         <div class="cue">${ERR_supplierContactTelephone}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierContactAddress" value="${draftCon.supplierContactAddress}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方通讯地址：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierContactAddress" value="${draftCon.supplierContactAddress}" type="text">
 		         <div class="cue">${ERR_supplierContactAddress}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierUnitpostCode" value="${draftCon.supplierUnitpostCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方邮政编码：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierUnitpostCode" value="${draftCon.supplierUnitpostCode}" type="text">
 		         <div class="cue">${ERR_supplierUnitpostCode}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方开户名称：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierBankName" value="${draftCon.supplierBankName}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方开户名称：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierBankName" value="${draftCon.supplierBankName}" type="text">
 		         <div class="cue">${ERR_supplierBankName}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierBank" value="${draftCon.supplierBank}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方开户银行：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierBank" value="${draftCon.supplierBank}" type="text">
 		         <div class="cue">${ERR_supplierBank}</div>
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class=""><div class="red star_red">*</div>乙方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方银行账号：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
 		         <div class="cue">${ERR_supplierBankAccount}</div>
 		        </div>
 			 </li>

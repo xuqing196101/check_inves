@@ -43,45 +43,45 @@
   	<input type="hidden" name="contractId" value="${performance.contractId}"/>
   	<input type="hidden" name="id" value="${performance.id}"/>
   		<ul class="list-unstyled ul_list">
-  	<li class="col-md-3 p0 ">
-	   <span class="">合同草稿签订时间：</span>
-	   <div class="input-append">
+  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同草稿签订时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <input id="draftSignedAt" name="draftSignedAt" value="<fmt:formatDate value="${performance.draftSignedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'2008-03-08 11:30:00',lang:'zh-cn'})"/>
        </div>
 	 </li> 
-     <li class="col-md-3 p0 ">
-	   <span class="">正式合同签订时间：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">正式合同签订时间：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <input id="formalSignedAt" name="formalSignedAt" value="<fmt:formatDate value="${performance.formalSignedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'2008-03-08 11:30:00',lang:'zh-cn'})"/>
        </div>
 	 </li> 
-     <li class="col-md-3 p0 ">
-	   <span class="">交付日期：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交付日期：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <input id="delivery" name="delivery" value="<fmt:formatDate value="${performance.delivery}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" onFocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'2008-03-08 11:30:00',lang:'zh-cn'})"/>
        </div>
 	 </li> 
-	<li class="col-md-3 p0">
-	   <span class="">交货进度：</span>
-	   <div class="input-append">
-        <input class="span2" id="deliverySchedule" value="${performance.deliverySchedule }" type="text" name="deliverySchedule">
+	<li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交货进度：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="deliverySchedule" value="${performance.deliverySchedule }" type="text" name="deliverySchedule">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="">资金支付百分比：</span>
-	   <div class="input-append">
-        <input class="span2" id="fundsPaid" value="${performance.fundsPaid}" type="text" name="fundsPaid">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">资金支付百分比：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="fundsPaid" value="${performance.fundsPaid}" type="text" name="fundsPaid">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="">质量检验结果：</span>
-	   <div class="input-append">
-        <input class="span2" id="checkMass" value="${performance.checkMass}" name="checkMass" type="text">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">质量检验结果：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="checkMass" value="${performance.checkMass}" name="checkMass" type="text">
        </div>
 	 </li>
-     <li class="col-md-3 p0 ">
-	   <span class="col-md-12 p0">合同执行状态：</span>
-	   <div class="select_common">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同执行状态：</span>
+	   <div class="select_common input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <select name="completedStatus" id="completedStatus">
         	<option></option>
         	<option value="0">执行中</option>

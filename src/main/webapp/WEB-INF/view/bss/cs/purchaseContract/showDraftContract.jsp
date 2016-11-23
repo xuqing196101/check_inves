@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>合同草稿修改</title>
+    <title>合同草稿查看</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
     <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -37,182 +37,182 @@
    			<h2>基本信息</h2>
    		</div>
    		--%><h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
-   		<ul class="list-unstyled p0_20 ul_list">
+   		<ul class="list-unstyled ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
-		     <li class="col-md-3 p0 ">
-			   <span class="">合同名称：</span>
-			   <div class="input-append">
-		        <input class="span2 contract_code" readonly="readonly" id="contract_code" value="${draftCon.name}" name="name" type="text">
+		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">合同名称：</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        <input class="contract_code" readonly="readonly" id="contract_code" value="${draftCon.name}" name="name" type="text">
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class="">合同编号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="code" value="${draftCon.code}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同编号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="code" value="${draftCon.code}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">合同金额：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="money" value="${draftCon.money}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同金额：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="money" value="${draftCon.money}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">计划任务文号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="documentNumber" value="${draftCon.documentNumber}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">计划任务文号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="documentNumber" value="${draftCon.documentNumber}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">采购机构资格证号：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="quaCode" value="${draftCon.quaCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购机构资格证号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="quaCode" value="${draftCon.quaCode}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">需求部门：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="demandSector" value="${draftCon.demandSector}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">需求部门：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="demandSector" value="${draftCon.demandSector}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">预算：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${draftCon.budget}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">预算：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="budget" value="${draftCon.budget}" type="text">
        			</div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">项级预算科目：</span>
-		        <div class="input-append ">
-		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${draftCon.budgetSubjectItem}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">项级预算科目：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		        	<input class="contract_name" readonly="readonly" name="budget" value="${draftCon.budgetSubjectItem}" type="text">
        			</div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
-		 <ul class="list-unstyled p0_20 ul_list">
-    		 <li class="col-md-3 p0">
-			   <span class="">甲方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" readonly="readonly" name="purchaseDepName" value="${draftCon.purchaseDepName}" type="text">
+		 <ul class="list-unstyled ul_list">
+    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        	<input class="supplier_id" readonly="readonly" name="purchaseDepName" value="${draftCon.purchaseDepName}" type="text">
        			</div>
 			 </li>
-		     <li class="col-md-3 p0 ">
-			   <span class="">甲方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" readonly="readonly" name="purchaseLegal" value="${draftCon.purchaseLegal}" type="text">
+		     <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方法人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" readonly="readonly" name="purchaseLegal" value="${draftCon.purchaseLegal}" type="text">
 		       </div>
 			 </li>
-			 <li class="col-md-3 p0 ">
-			   <span class="fl">甲方委托代理人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" readonly="readonly" name="purchaseAgent" value="${draftCon.purchaseAgent}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方委托代理人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" readonly="readonly" name="purchaseAgent" value="${draftCon.purchaseAgent}" type="text">
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class="">甲方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseContact" value="${draftCon.purchaseContact}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方联系人：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseContact" value="${draftCon.purchaseContact}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseContactTelephone" value="${draftCon.purchaseContactTelephone}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方联系电话：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseContactTelephone" value="${draftCon.purchaseContactTelephone}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseContactAddress" value="${draftCon.purchaseContactAddress}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方通讯地址：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseContactAddress" value="${draftCon.purchaseContactAddress}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseUnitpostCode" value="${draftCon.purchaseUnitpostCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方邮政编码：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseUnitpostCode" value="${draftCon.purchaseUnitpostCode}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方付款单位：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchasePayDep" value="${draftCon.purchasePayDep}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方付款单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchasePayDep" value="${draftCon.purchasePayDep}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseBank" value="${draftCon.purchaseBank}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方开户银行：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseBank" value="${draftCon.purchaseBank}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">甲方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">甲方银行账号：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
 		        </div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
-		 <ul class="list-unstyled p0_20 ul_list">
-			 <li class="col-md-3 p0">
-			   <span class="">乙方单位：</span>
-		        <div class="input-append ">
-		        	<input class="span2 supplier_id" readonly="readonly" name="supplierDepName" type="text" value="${draftCon.supplierDepName}">
+		 <ul class="list-unstyled ul_list">
+			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方单位：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        	<input class="supplier_id" readonly="readonly" name="supplierDepName" type="text" value="${draftCon.supplierDepName}">
        			</div>
 			 </li>
-		     <li class="col-md-3 p0 ">
-			   <span class="">乙方法人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" readonly="readonly" name="supplierLegal" type="text" value="${draftCon.supplierLegal}">
+		     <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方法人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" readonly="readonly" name="supplierLegal" type="text" value="${draftCon.supplierLegal}">
 		       </div>
 			 </li>
-			 <li class="col-md-3 p0 ">
-			   <span class="fl">乙方委托代理人：</span>
-			   <div class="input-append">
-		        <input class="span2 supplier_name" readonly="readonly" name="supplierAgent" value="${draftCon.supplierAgent}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方委托代理人：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        <input class="supplier_name" readonly="readonly" name="supplierAgent" value="${draftCon.supplierAgent}" type="text">
 		       </div>
 			 </li>
-    		 <li class="col-md-3 p0">
-			   <span class="">乙方联系人：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierContact" value="${draftCon.supplierContact}" type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方联系人：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierContact" value="${draftCon.supplierContact}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方联系电话：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierContactTelephone" value="${draftCon.supplierContactTelephone}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方联系电话：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierContactTelephone" value="${draftCon.supplierContactTelephone}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方通讯地址：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierContactAddress" value="${draftCon.supplierContactAddress}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方通讯地址：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierContactAddress" value="${draftCon.supplierContactAddress}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方邮政编码：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierUnitpostCode" value="${draftCon.supplierUnitpostCode}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方邮政编码：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierUnitpostCode" value="${draftCon.supplierUnitpostCode}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方开户名称：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierBankName" value="${draftCon.supplierBankName}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方开户名称：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierBankName" value="${draftCon.supplierBankName}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方开户银行：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierBank" value="${draftCon.supplierBank}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方开户银行：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierBank" value="${draftCon.supplierBank}" type="text">
 		        </div>
 			 </li>
-			 <li class="col-md-3 p0">
-			   <span class="">乙方银行账号：</span>
-		        <div class="input-append">
-		         <input class="span2 supplier_name" readonly="readonly" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">乙方银行账号：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class="supplier_name" readonly="readonly" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
 		        </div>
 			 </li>
 			 <div class="clear"></div>
