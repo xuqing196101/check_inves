@@ -78,63 +78,63 @@ function goBack(){
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" readonly>
 	 
 	   <ul class="ul_list mb20">
-     <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">信息标题：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" type="text" name="name" value="${article.name }" readonly>
         <span class="add-on">i</span>
        </div>
 	 </li>
-     <li class="col-md-3 margin-0 padding-0  ">
-	   <span class="col-md-12 padding-left-5">信息类型：</span>
-      <select id="articleTypeId" name="articleType.id" class="select w220" disabled>
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息类型：</span>
+      <select id="articleTypeId" name="articleType.id" class="select_common col-md-12 col-sm-12 col-xs-12" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
          </select>
 	 </li> 
-	 <li class="col-md-3 margin-0 padding-0  ">
-	   <span class="col-md-12 padding-left-5">发布范围：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
        </div>
 	 </li> 
-	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">文章来源：</span>
-       <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
+       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text" readonly>
        <span class="add-on">i</span>
        </div>
 	 </li> 
-	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">链接来源：</span>
-       <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">链接来源：</span>
+       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
         <span class="add-on">i</span>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0" id="picshow">
-	   <span class="">图片展示：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" readonly>
        	<span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-11 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">信息正文：</span>
-	   <div class="mb5">
+     <li class="col-md-12 col-sm-12 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>
-	 <li class="col-md-4 p0 mt10">
+	 <li class="col-md-6 col-sm-6 col-xs-12 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
 		<up:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 </div>
 	 </li> 
-	 <li class="col-md-3 p0 mt10" id="picNone" >
+	 <li class="col-md-6 col-sm-6 col-xs-12 mt10" id="picNone" >
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
 			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
@@ -145,10 +145,10 @@ function goBack(){
 	  <div class="padding-top-10 clear">
 	   <h2 class="count_flow"><i>2</i>审核</h2>
 	  <ul class="ul_list mb20">
-		     <li class="col-md-11 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">退回理由：</span>
-			   <div class="mb5">
-		        <textarea class="h130 col-md-12 " id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
+		     <li class=" col-md-12 col-sm-12 col-xs-12">
+			   <span class=" col-md-12 col-sm-12 col-xs-12 padding-left-5">退回理由：</span>
+			   <div class=" col-md-12 col-sm-12 col-xs-12 p0">
+		        <textarea class="h130 col-md-12 col-sm-12 col-xs-12" id="reason" name="reason" title="不超过250个字" placeholder="不超过250个字"></textarea>
 		       </div>
 			 </li> 
 		   </ul>

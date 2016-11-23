@@ -39,24 +39,22 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/topic/save.html" method="post">  
     <div>
-    <div class="headline-v2">
-	   	<h2 class="count_flow">新增主题</h2>
-	   		</div>
+	   	<h2 class="list_title">新增主题</h2>
 	    <ul class="ul_list mb20">
 	   		  
-	   		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"> <div class="red star_red">*</div>主题名称：</span>
-			   <div class="input-append">
-		        <input class="span2" name="name" type="text"  value = '${topic.name}'>
+	   		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> <div class="red star_red">*</div>主题名称：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input name="name" type="text"  value = '${topic.name}'>
 		        <span class="add-on">i</span>
 		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><div class="red star_red">*</div>所属版块：</span>
-			   <div class="select_common">
-                <select  id ="parkId" name ="parkId" class=" w220 " >
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>所属版块：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                <select  id ="parkId" name ="parkId" class=" col-md-12 col-sm-12 col-xs-12 p0" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -67,15 +65,15 @@
 	  			
 			 </li>
 			 
-			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> 主题介绍：</span>
-				<div class="">
-					<textarea  class="h130 col-md-12" title="不超过800个字" name="content">${topic.content}</textarea>		
+			<li class="col-md-12 col-sm-12 col-xs-12">	  	 			
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 主题介绍：</span>
+				<div class=" col-md-12 col-sm-12 col-xs-12 p0">
+					<textarea  class="h130 col-md-12 col-sm-12 col-xs-12" title="不超过800个字" name="content">${topic.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
 	<!-- 底部按钮 -->			          
-    <div class="col-md-12 tc"> 
+    <div class="col-md-12 col-sm-12 col-xs-12 tc"> 
     	<button class="btn btn-windows save" type="submit">保存</button>
     	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   	</div>

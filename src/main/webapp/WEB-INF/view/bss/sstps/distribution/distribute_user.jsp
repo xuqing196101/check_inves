@@ -77,24 +77,24 @@
   	<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/updateDistribution.html" method="post">
   		<input type="hidden" value="${id }" name="id" id="id">
   		
-	 	<ul class="list-unstyled mb20">
-	 		<li class="col-md-12 margin-0 pl20">
+	 	<ul class="list-unstyled mb20 over_hideen">
+	 		<li class="col-md-4 col-sm-4 col-xs-4 pl15">
 			   <div class="col-md-12 padding-left-5"><div class="star_red">*</div>审价员：</div>
-			   <div class="col-md-12 select_common p0">
-		       	 <select class="w220" id="users" name="user.id">
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		       	 <select id="users" name="user.id">
 				 </select>
 				  <div class="cue" id="checkUser"></div>
 			   </div>
 			 </li>
-			 <li class="col-md-12 margin-0 clear">
-			 	<div class="col-md-12 padding-left-5">审价任务：</div>
-			 	<div class="col-md-12 padding-left-5">
+			 <li class="col-md-12 col-sm-12 col-xs-12">
+			 	<div class="col-sm-12 col-xs-12 padding-left-5">审价任务：</div>
+			 	<div class="col-md-12 padding-left-5 col-md-12 col-sm-12 col-xs-12 p0">
 		          <textarea class="col-md-12 h80 col-xs-12 col-sm-12" id="appraisalTask" name="appraisalTask" title="不超过250个字" placeholder="不超过250个字"></textarea>
 			    </div>
 			 </li>
 	 	</ul>
 	 	
-    	<div  class="col-md-12 tc mt20 clear">
+    	<div  class="col-md-12 col-sm-12 col-xs-12 tc mt20 clear">
 	   			<button class="btn btn-windows add" type="button" onclick="sure()">确定</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 	   	</div>

@@ -39,21 +39,21 @@
     <form action="${pageContext.request.contextPath}/articletype/update.html" method="post">  
     <div>
       <h2 class="list_title">修改栏目</h2>
-	    <input class="span2" name ="articletypeId" type="hidden" value = '${articletype.id}'>
+	    <input name ="articletypeId" type="hidden" value = '${articletype.id}'>
 	   <ul class="ul_list mb20">
 	   		  
-	   		   <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>栏目名称：</span>
-			   <div class="input-append">
-		        <input class="span2" id="typeName" type="text" name="name" value = '${articletype.name}'>
+	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>栏目名称：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input id="typeName" type="text" name="name" value = '${articletype.name}'>
 		        <div class="validate">${ERR_name}</div>
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			<li class="col-md-11 margin-0 padding-0">	  	 			
-				<span class="col-md-12 padding-left-5">栏目介绍：</span>
-				<div class="mb5">
-				<textarea  class="h130 col-md-12" name="describe">${articletype.describe}</textarea>		
+			<li class="col-md-12 col-sm-12 col-xs-12">	  	 			
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">栏目介绍：</span>
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
+				<textarea  class="h130 col-md-12 col-sm-12 col-xs-12 p0" name="describe">${articletype.describe}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul> 	

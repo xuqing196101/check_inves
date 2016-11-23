@@ -37,45 +37,43 @@ function down(){
    <div>
    <h2 class="f16 count_flow mt40">费用信息</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
-	   <div class="input-append">
-        <input type="text" id="projectName" name="projectName" value="${pc.projectName }" class="w220">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input type="text" id="projectName" name="projectName" value="${pc.projectName }" >
         <div class="cue">${ERR_projectName}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">报价前2年：</span>
-	   <div class="input-append">
-        <input type="text" id="tyaQuoteprice" name="tyaQuoteprice" value="${pc.tyaQuoteprice }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12 ">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">报价前2年：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input type="text" id="tyaQuoteprice" name="tyaQuoteprice" value="${pc.tyaQuoteprice }" >
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">报价前1年：</span>
-	   <div class="input-append">
-        <input id="oyaQuoteprice" name="oyaQuoteprice" type="text" value="${pc.oyaQuoteprice }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12 ">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">报价前1年：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input id="oyaQuoteprice" name="oyaQuoteprice" type="text" value="${pc.oyaQuoteprice }" >
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">报价当年：</span>
-	   <div class="input-append">
-        <input id="newQuoteprice" name="newQuoteprice" type="text" value="${pc.newQuoteprice }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12 ">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">报价当年：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input id="newQuoteprice" name="newQuoteprice" type="text" value="${pc.newQuoteprice }" >
        </div>
 	 </li>
-	 <li class="col-md-12 margin-0 padding-0">
-	   <span class="fl col-md-12 padding-left-5">备注：</span>
-	   <div class="col-md-12 p0 mt5">
-        <textarea class="col-md-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pc.remark }</textarea>
+	 <li class="col-md-12 col-sm-12 col-xs-12 ">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注：</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+        <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pc.remark }</textarea>
        </div>
 	 </li>
    </ul>
    </div>
    
-	 	<div  class="col-md-12">
-	   		<div class="mt40 tc mb50">
+	 	<div  class="col-md-12 mt20 mb50 tc col-sm-12 col-xs-12">
 			    <button class="btn btn-windows edit" type="submit">修改</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="down()">取消</button>
-			</div>
 		</div>
 	
 </form>	

@@ -102,25 +102,22 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/post/save.html" method="post" >  
     <div>
-            <div class="headline-v2">
-	   		  <h2 class="count_flow">新增帖子</h2>
-	   		</div>
-	   <ul class="ul_list mb20">
-	   
-	   		  <li class="col-md-3 margin-0 padding-0 ">
+	   	 <h2 class="list_title">新增帖子</h2>
+	      <ul class="ul_list mb20">
+	   		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
-			   <div class="input-append">
-		        <input class="span2 w200"  type="text" name = "name" value='${post.name }'>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
+		        <input type="text" name = "name" value='${post.name }'>
 		        <span class="add-on">i</span>
 		         <div class="cue">${ERR_name}</div>
 
 
 			 
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 			
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
-			    <div class="select_common">
-			    <select id ="park" name ="parkId" class="select w220" onchange="change(this.options[this.selectedIndex].value)">
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			    <select id ="park" name ="parkId" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -129,28 +126,28 @@
 	  			<div class="cue">${ERR_park}</div>
 	  			</div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
-			    <div class="select_common">			 	
-	        	<select id="topics" name="topicId" class="w220 ">
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">			 	
+	        	<select id="topics" name="topicId" class="col-md-12 col-sm-12 col-xs-12 p0 ">
 	        	<option></option>
 	  			</select>
 	  			<div class="cue">${ERR_topic}</div>
 	  			</div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 ">置顶：</span>
-		          <div class="select_common">
-			   	<select name="isTop" class="w220 ">
+		          <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			   	<select name="isTop" class="col-md-12 col-sm-12 col-xs-12 p0 ">
 	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
 	  			</select>	
 	  				</div>		 	
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 ">锁定：</span>
-			   <div class="select_common">
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			   	<select name="isLocking" class="w220 ">
 	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
@@ -158,16 +155,16 @@
 	  			</div>	 	
 			 </li>		
 			 <input type="hidden" name="id" value='${id}'></input>	 
-			<li class="col-md-11 margin-0 padding-0">
-	   			<span class="col-md-12 padding-left-5"><div class="red fl">*</div> 帖子内容：</span>
-	  			<div class="mb5">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+			<li class="col-md-12 col-sm-12 col-xs-12">
+	   			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div> 帖子内容：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  				 <script id="editor" name="content" type="text/plain" class="col-md-12 col-sm-12 col-xs-12 p0"></script>
        			</div>
        			<div class="red clear f12">${ERR_content}</div>
 			 </li>  
 			 <input type="hidden" name="id" value='${id}'></input>
-	   		  <li class="col-md-12 p0">
-		       <span class="zzzx w245">上传附件：</span>
+	   		  <li class="col-md-12 col-sm-12 col-xs-12 mt10">
+		       <span class="fl">上传附件：</span>
 		          <up:upload id="post_attach_up"  multiple="true" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>

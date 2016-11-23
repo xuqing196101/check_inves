@@ -972,6 +972,7 @@ li:first-child {
  	position: absolute; 
  	opacity: 0; 
  	filter:Alpha(opacity=0);
+ 	display: none;
  }
 /** textArea resie none*/
 .textArea_resizeB{

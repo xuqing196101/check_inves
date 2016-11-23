@@ -94,65 +94,65 @@
      <div class="">
 	   <h2 class="count_flow">新增信息</h2>
 	 
-	   <ul class="ul_list mb20">
-     	<li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
-	   <div class="input-append">
-	   	<input class="span2"  name="id" type="hidden" value="${articleId }">
-        <input class="span2" id="name" name="name" value="${article.name }" type="text">
+	  <ul class="ul_list mb20">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息标题：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	   	<input  name="id" type="hidden" value="${articleId }">
+        <input id="name" name="name" value="${article.name }" type="text">
         <span class="add-on">i</span>
          <div class="cue">${ERR_name}</div>  
        </div>
 	 </li>
 
-     <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>信息类型：</span>
-	   <div class="mb5 select_common">
-       <select id="articleTypes" name="articleType.id" class="select w220" onchange="typeInfo()">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息类型：</span>
+	   <div class=" select_common col-md-12 col-sm-12 col-xs-12 p0">
+       <select id="articleTypes" name="articleType.id" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="typeInfo()">
           </select>
           <div class="cue">${ERR_typeId}</div>
         </div>
 	 </li> 
-     <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
-	   <div class="input-append">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>发布范围：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
         <div class="cue">${ERR_range}</div>
        </div>
 	 </li> 
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">文章来源：</span>
-       <div class="input-append">
-        <input class="span2" id="source" name="source" value="${article.source }" type="text">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
+       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input id="source" name="source" value="${article.source }" type="text">
         <span class="add-on">i</span>
          <div class="cue">${ERR_source}</div>
        </div>
 	 </li> 
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">链接来源：</span>
-       <div class="input-append">
-        <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">链接来源：</span>
+       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
          <span class="add-on">i</span>
        </div>
 	 </li>
 
-	 <li class="col-md-3 margin-0 padding-0" id="picshow" style="display:none">
-	   <span class="">图片展示：</span>
-	   <div class="input-append">
-        <input class="span2" id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
+	 <li class="col-md-3 col-sm-6 col-xs-12" id="picshow" style="display:none">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+        <input id="isPicShow" name="isPicShow" value="${article.isPicShow }" type="text">
       	<div class="cue">${ERR_isPicShow}</div>
        </div>
 	 </li>
 	 
-     <li class="col-md-11 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><i class="red fl">*</i>信息正文：</span>
-	   <div class="mb5">
-	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
+     <li class="col-md-12 col-sm-12 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">*</i>信息正文：</span>
+	   <div class=" col-md-12 col-sm-12 col-xs-12 p0">
+	   <script id="editor" name="content" type="text/plain" class="col-md-12 col-sm-12 col-xs-12 p0"></script>
        </div>
 	 </li> 
 
-	 <li class="col-md-3 p0 mt10">
+	 <li class="col-md-6 col-sm-6 col-xs-12 mt10">
 	    <span class="fl">附件上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_file_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
@@ -160,7 +160,7 @@
 		</div>
 	 </li>
 	 
-	 <li class="col-md-3 p0 mt10 dis_none" id="picNone">
+	 <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_none" id="picNone">
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />

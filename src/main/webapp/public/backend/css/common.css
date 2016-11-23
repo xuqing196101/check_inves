@@ -782,7 +782,9 @@ th.bg_tc {
 
 .del {
   text-decoration: line-through; }
-
+.over_hideen{
+	overflow: hidden;
+}
 .no_break {
   table-layout: fixed;
   word-break: break-all;
