@@ -51,17 +51,6 @@
    							rootPId:"a",
    						}
    				    },
-   				    edit:{
-   				    	enable:true,
-   						editNameSelectAll:true,
-   						showRemoveBtn: true,
-   						showRenameBtn: true,
-   						removeTitle: "删除",
-   						renameTitle:"重命名",
-   					},
-   				    check:{
-   						enable: true
-   				    },
    				
    	  };
    	    $.fn.zTree.init($("#treeDemo"),setting,datas);

@@ -288,7 +288,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(flag.equals("true")){
 			out:for(int i=0;i<proList.size()-1;i++){
 				for(int j=i+1;j<proList.size();j++){
-					if(!proList.get(i).getId().equals(proList.get(j))){
+					if(!proList.get(i).getId().equals(proList.get(j).getId())){
 						flag="false";
 						news = "";
 						news+="不是同一个项目";
