@@ -47,7 +47,7 @@
  <div class=" breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">供应商变更</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">信息变更</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>

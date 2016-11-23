@@ -19,11 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.Area;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierReason;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAudReasonService;
@@ -58,6 +60,9 @@ public class SupplierEditController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierService supplierService;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	
 	/**
 	 * @Title: registerStart
@@ -94,6 +99,7 @@ public class SupplierEditController extends BaseSupplierController{
 	@RequestMapping(value="add")
 	public String register(HttpServletRequest request,String id,Model model){
 		Supplier supplier=supplierAuditService.supplierById(id);
+		supplier.setAddress(getAddressName(supplier.getAddress()));
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("suppliers", supplier);
@@ -159,6 +165,7 @@ public class SupplierEditController extends BaseSupplierController{
 		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
 		//修改前的
 		Supplier supplier=supplierAuditService.supplierById(se.getRecordId());
+		supplier.setAddress(getAddressName(supplier.getAddress()));
 		Supplier result=supplierEditService.getResult(se, supplier);
 		req.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		req.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -292,6 +299,10 @@ public class SupplierEditController extends BaseSupplierController{
 		SupplierEdit supplierEdit1=supplierEditService.setToSupplierEdit(supplier);
 	    //开始改变供应商的值
 		Supplier supplier1=supplierEditService.setToSupplier(supplierEdit);
+		Area area = new Area();
+		area.setName(supplier1.getAddress().split(",")[1]);
+		List<Area> listArea = areaService.listByArea(area);
+		supplier1.setAddress(listArea.get(0).getId());
 		supplier1.setId(supplier.getId());
 	    SupplierEdit supplierEdit2=new SupplierEdit();
 	    supplierEdit2.setRecordId(supplier.getId());
@@ -303,5 +314,28 @@ public class SupplierEditController extends BaseSupplierController{
 			supplierEditService.insertSelective(supplierEdit1);
 		}
 		supplierService.perfectBasic(supplier1);
+	}
+	
+	/**
+	 * @Title: getAddressName
+	 * @author Song Biaowei
+	 * @date 2016-11-23 下午4:22:56  
+	 * @Description: 根据地址ID获取中文名称
+	 * @param @param str
+	 * @param @return      
+	 * @return String
+	 */
+	public String getAddressName(String str){
+		String provinceName="";
+		String cityName="";
+		Area area=areaService.listById(str);
+		if(area!=null){
+			cityName=area.getName();
+			Area area1=areaService.listById(area.getParentId());
+			if(area1!=null){
+				provinceName=area1.getName();
+			}
+		}
+		return provinceName+","+cityName;
 	}
 }
