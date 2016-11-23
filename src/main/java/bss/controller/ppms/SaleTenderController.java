@@ -4,6 +4,7 @@
 package bss.controller.ppms;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -188,7 +189,10 @@ public class SaleTenderController {
         	info="error";
         }else{
         	if (attribute != null){
-                saleTenderService.insert(new SaleTender(projectId, (short)1, ids, (short)1, attribute.getId(),packages));
+        		List<String> listIds=Arrays.asList(ids.split(","));
+        		for(String str:listIds){
+        			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)1, attribute.getId(),packages));
+        		}
             }
         }
         return JSON.toJSONString(info);
