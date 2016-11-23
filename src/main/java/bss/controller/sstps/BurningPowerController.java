@@ -253,4 +253,27 @@ public class BurningPowerController {
 		model.addAttribute("proId",productId);
 		return "redirect:/wagesPayable/userGetAll.html?productId="+productId;
 	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		BurningPower burningPower = new BurningPower();
+		burningPower.setContractProduct(contractProduct);
+		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/burningPower_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,BurningPowerList BurningPowerList,String productId){
+		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
+		for (BurningPower burningPower : BurningPowers) {
+			burningPower.setUpdatedAt(new Date());
+			burningPowerService.update(burningPower);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/wagesPayable/userGetAllCheck.html?productId="+productId;
+	}
 }

@@ -13,7 +13,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}accessoriesCon/userGetAll.html?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/accessoriesCon/userGetAllCheck.html?productId="+proId;
 }
 
 
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">外购成品件消耗定额明细审核</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源复审</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">外购成品件消耗定额明细复审</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -42,7 +42,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	<form action="${pageContext.request.contextPath}outproductCon/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/outproductCon/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -54,6 +54,7 @@ function onStep(){
 						<th colspan="5" class="info">所属加工生产装配工艺消耗定额（数量、质量、含税金额）</th>
 						<th colspan="3" class="info">消耗定额审核核准数（含税金额）</th>
 						<th rowspan="2" class="info">核减金额</th>
+						<th rowspan="2" class="info">复核减金额</th>
 						<th rowspan="2" class="info">供货单位</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
@@ -83,7 +84,8 @@ function onStep(){
 						<td class="tc">${out.consumeAmout }</td>
 						<td class="tc">${out.consumePrice }</td>
 						<td class="tc">${out.consumeMoney }</td>
-						<td class="tc"><input type="text" value='${out.subtractMoney }' name="outproductCons['${vs.index }'].subtractMoney"></td>
+						<td class="tc">${out.subtractMoney }</td>
+						<td class="tc"><input type="text" value='${out.checkMoney }' name="outproductCons['${vs.index }'].checkMoney"></td>
 						<td class="tc">${out.supplyUnit }</td>
 						<td class="tc">${out.remark }</td>
 					</tr>

@@ -13,7 +13,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}outsourcingCon/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/outsourcingCon/userGetAllCheck.do?productId="+proId;
 }
 
 
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">专项费用明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">专项费用明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -41,7 +41,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="${pageContext.request.contextPath}specialCost/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}/specialCost/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -59,6 +59,8 @@ function onStep(){
 						<th class="info">单位产品分摊额</th>
 						<th class="info">核准金额</th>
 						<th class="info">核减金额</th>
+						<th class="info">复核准金额</th>
+						<th class="info">复核减金额</th>
 						<th class="info">备   注</th>
 					</tr>
 				</thead>
@@ -76,8 +78,10 @@ function onStep(){
 						<td class="tc">${sc.money }</td>
 						<td class="tc">${sc.proportionAmout }</td>
 						<td class="tc">${sc.proportionPrice }</td>
-						<td class="tc"><input type="text" value='${sc.approvedMoney }' name="specialCosts['${vs.index }'].approvedMoney"></td>
-						<td class="tc"><input type="text" value='${sc.subtractMoney }' name="specialCosts['${vs.index }'].subtractMoney"></td>
+						<td class="tc">${sc.approvedMoney }</td>
+						<td class="tc">${sc.subtractMoney }</td>
+						<td class="tc"><input type="text" value='${sc.checkApprovedMoney }' name="specialCosts['${vs.index }'].checkApprovedMoney"></td>
+						<td class="tc"><input type="text" value='${sc.checkMoney }' name="specialCosts['${vs.index }'].checkMoney"></td>
 						<td class="tc">${sc.remark }</td>
 					</tr>
 				</c:forEach>

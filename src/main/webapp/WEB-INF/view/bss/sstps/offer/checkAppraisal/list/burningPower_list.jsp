@@ -13,7 +13,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}specialCost/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/specialCost/userGetAllCheck.do?productId="+proId;
 }
 
 </script>
@@ -26,7 +26,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">燃料动力费明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">燃料动力费明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -41,7 +41,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="${pageContext.request.contextPath}burningPower/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}/burningPower/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -55,6 +55,7 @@ function onStep(){
 						<th colspan="3" class="info">报价前1年</th>
 						<th colspan="3" class="info">报价当年</th>
 						<th rowspan="2" class="info">审核核准金额</th>
+						<th rowspan="2" class="info">复审核准金额</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
@@ -86,7 +87,8 @@ function onStep(){
 						<td class="tc">${bp.newAcount }</td>
 						<td class="tc">${bp.newAvgPrice }</td>
 						<td class="tc">${bp.newMoney }</td>
-						<td class="tc"><input type="text" value='${bp.approvedMoney }' name="burningPowers['${vs.index }'].approvedMoney"></td>
+						<td class="tc">${bp.approvedMoney }</td>
+						<td class="tc"><input type="text" value='${bp.checkMoney }' name="burningPowers['${vs.index }'].checkMoney"></td>
 						<td class="tc">${bp.remark }</td>
 					</tr>
 				</c:forEach>

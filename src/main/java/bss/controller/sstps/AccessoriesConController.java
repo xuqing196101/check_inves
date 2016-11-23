@@ -247,4 +247,39 @@ public class AccessoriesConController {
 		
 		return "bss/sstps/offer/userAppraisal/list/accessories_list";
 	}
+	
+	/**
+	 * 
+	 * @Title: userUpdateCheck
+	 * @author Liyi 
+	 * @date 2016-10-26 下午3:36:22  
+	 * @Description:审价人员审减金额修改
+	 * @param:     
+	 * @return:
+	 */
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
+		for (AccessoriesCon accessoriesCon : accessoriesCons) {
+			accessoriesCon.setUpdatedAt(new Date());
+			accessoriesConService.update(accessoriesCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/outproductCon/userGetAllCheck.html?productId="+proID;
+	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		AccessoriesCon accessoriesCon = new AccessoriesCon();
+		accessoriesCon.setContractProduct(contractProduct);
+		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/CheckAppraisal/list/accessories_list";
+	}
 }

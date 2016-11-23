@@ -13,7 +13,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}outsourcingCon/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/outsourcingCon/userGetAll.do?productId="+proId;
 }
 
 
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">专项费用明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">专项费用明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -41,7 +41,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="${pageContext.request.contextPath}specialCost/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}/specialCost/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>

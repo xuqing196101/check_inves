@@ -245,5 +245,26 @@ public class ManufacturingCostController {
 		return "redirect:/periodCost/userGetAll.html?productId="+productId;
 	}
 	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		ManufacturingCost manufacturingCost = new ManufacturingCost();
+		manufacturingCost.setContractProduct(contractProduct);
+		List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/manufacturingCost_list";
+	}
 	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,ManufacturingCostList ManufacturingCostList,String productId){
+		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
+		for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
+			manufacturingCost.setUpdatedAt(new Date());
+			manufacturingCostService.update(manufacturingCost);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/periodCost/userGetAllCheck.html?productId="+productId;
+	}	
 }

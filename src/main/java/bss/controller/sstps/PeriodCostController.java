@@ -250,4 +250,27 @@ public class PeriodCostController {
 		model.addAttribute("proId",productId);
 		return "redirect:/yearPlan/userGetAll.html?productId="+productId;
 	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		PeriodCost periodCost = new PeriodCost();
+		periodCost.setContractProduct(contractProduct);
+		List<PeriodCost> list = periodCostService.selectProduct(periodCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/periodCost_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,PeriodCostList PeriodCostList,String productId){
+		List<PeriodCost> PeriodCosts = PeriodCostList.getPeriodCosts();
+		for (PeriodCost periodCost : PeriodCosts) {
+			periodCost.setUpdatedAt(new Date());
+			periodCostService.update(periodCost);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/yearPlan/userGetAllCheck.html?productId="+productId;
+	}
 }

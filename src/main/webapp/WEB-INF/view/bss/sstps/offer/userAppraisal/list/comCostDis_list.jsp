@@ -14,7 +14,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}productQuota/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/userGetAll.do?productId="+proId;
 }
 
 </script>
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">综合费用汇总分配计算明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">综合费用汇总分配计算明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -39,7 +39,7 @@ function onStep(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="${pageContext.request.contextPath}comCostDis/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	<form id="formID" name="form1" action="${pageContext.request.contextPath}/comCostDis/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
