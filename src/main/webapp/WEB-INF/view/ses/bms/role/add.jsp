@@ -40,6 +40,7 @@
   </script>
  <body>
     <div class="layui-layer-wrap" >
+    	<form action="" id="form1" method="post">
           <div class="drop_window">
               <ul class="list-unstyled">
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
@@ -70,7 +71,8 @@
                  <button class="btn btn-windows save" id="save" type="button">保存</button>
                 <button class="btn btn-windows back" id="backups" type="button">返回</button>
               </div>
-           </div>  
+           </div>
+        </form>  
     </div>         
  </body>
 </html>

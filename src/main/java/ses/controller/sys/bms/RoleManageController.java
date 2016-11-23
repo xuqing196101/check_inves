@@ -17,13 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
-import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
-import ses.model.bms.Userrole;
-import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 
@@ -47,9 +42,6 @@ public class RoleManageController {
 	
 	@Autowired
 	private UserServiceI userService;
-
-	@Autowired
-	private PreMenuServiceI preMenuService;
 
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 
@@ -190,16 +182,7 @@ public class RoleManageController {
 		String[] idstr = ids.split(",");
 		for (String id : idstr) {
 			Role r = roleService.get(id);
-			// 删除角色与用户的关联
-			Userrole userrole = new Userrole();
-			userrole.setRoleId(r);
-			roleService.deleteRoelUser(userrole);
-			// 删除角色与权限的关联
-			RolePreMenu rm = new RolePreMenu();
-			rm.setRole(r);
-			roleService.deleteRoelMenu(rm);
-			// 删除角色
-			roleService.delete(id);
+			roleService.deleteBatch(r);
 		}
 		return "redirect:list.html";
 	}
@@ -236,48 +219,9 @@ public class RoleManageController {
 	public void saveRoleMenu(HttpServletRequest request,
 			HttpServletResponse response, String roleId, String ids)
 			throws IOException {
-
 		try {
 			Role role = roleService.get(roleId);
-			//先删除该角色下用户的用户-权限菜单关联
-			List<Role> rlist = roleService.selectRole(role, null);
-			if(rlist != null && rlist.size() > 0){
-				//该角色所有用户
-				List<User> ulist = rlist.get(0).getUsers();
-				//该角色所有权限菜单
-				List<PreMenu> mlist = rlist.get(0).getPreMenus();
-				for (User user : ulist) {
-					for (PreMenu preMenu : mlist) {
-						UserPreMenu userPreMenu = new UserPreMenu();
-						userPreMenu.setPreMenu(preMenu);
-						userPreMenu.setUser(user);
-						userService.deleteUserMenu(userPreMenu);
-					}
-				}
-			}
-			//删除该角色的角色-权限菜单关联
-			RolePreMenu rm = new RolePreMenu();
-			rm.setRole(role);
-			roleService.deleteRoelMenu(rm);
-			String[] pIds = ids.split(",");
-			for (String str : pIds) {
-				PreMenu preMenu = preMenuService.get(str);
-				//保存角色-权限菜单关联
-				RolePreMenu rolePreMenu = new RolePreMenu();
-				rolePreMenu.setPreMenu(preMenu);
-				rolePreMenu.setRole(role);
-				roleService.saveRolePreMenu(rolePreMenu);
-				//保存该角色下用户的用户-权限菜单关联
-				if(rlist != null && rlist.size() > 0){
-					List<User> ulist = rlist.get(0).getUsers();
-					for (User user : ulist) {
-						UserPreMenu userPreMenu = new UserPreMenu();
-						userPreMenu.setPreMenu(preMenu);
-						userPreMenu.setUser(user);
-						userService.saveUserMenu(userPreMenu);
-					}
-				}
-			}
+			roleService.saveRoleMenu(role, ids);
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
 			response.getWriter().flush();

@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,9 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+    private SqlSessionFactory sqlSessionFactory; 
 	
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
@@ -164,6 +170,52 @@ public class UserServiceImpl implements UserServiceI {
         user.setPassword(pwd);
         user.setUpdatedAt(new Date());
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public void saveUserMenuBatch(List<UserPreMenu> userPreMenus) {
+        SqlSession batchSqlSession = null;
+        try{
+            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+            int batchCount = 50;//每批commit的个数
+            for(int index = 0; index < userPreMenus.size();index++){
+                UserPreMenu userPreMenu = userPreMenus.get(index);
+                batchSqlSession.getMapper(UserMapper.class).saveUserMenu(userPreMenu);
+                if(index !=0 && index%batchCount == 0){
+                    batchSqlSession.commit();
+                }
+            }
+            batchSqlSession.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(batchSqlSession != null){
+                batchSqlSession.close();
+            }
+        }
+    }
+
+    @Override
+    public void deleteUserMenuBatch(List<UserPreMenu> ups) {
+        SqlSession batchSqlSession = null;
+        try{
+            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+            int batchCount = 50;//每批commit的个数
+            for(int index = 0; index < ups.size();index++){
+                UserPreMenu userPreMenu = ups.get(index);
+                batchSqlSession.getMapper(UserMapper.class).deleteUserMenu(userPreMenu);
+                if(index !=0 && index%batchCount == 0){
+                    batchSqlSession.commit();
+                }
+            }
+            batchSqlSession.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if(batchSqlSession != null){
+                batchSqlSession.close();
+            }
+        }
     }
 }
 
