@@ -8,15 +8,12 @@
   <head>
     
     <title>燃料动力费明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>specialCost/checkGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}specialCost/userGetAll.do?productId="+proId;
 }
 
 </script>
@@ -44,7 +41,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="<%=basePath %>burningPower/checkUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}burningPower/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>

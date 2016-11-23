@@ -6,8 +6,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}public/laypage-v1.3/laypage/laypage.js"></script>
     <title>产品审价</title>
     
 <script type="text/javascript">
@@ -29,7 +29,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});
@@ -78,7 +78,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/userSelectProductInfo.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}offer/userSelectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{

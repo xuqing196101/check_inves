@@ -9,14 +9,12 @@
     
     <title>综合费用汇总分配计算明细</title>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
+	
 <script type="text/javascript">
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>productQuota/checkGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}productQuota/userGetAll.do?productId="+proId;
 }
 
 </script>
@@ -41,7 +39,7 @@ function onStep(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="<%=basePath%>comCostDis/checkUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	<form id="formID" name="form1" action="${pageContext.request.contextPath}comCostDis/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

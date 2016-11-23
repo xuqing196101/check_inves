@@ -12,11 +12,11 @@
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>comCostDis/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}comCostDis/userGetAll.do?productId="+proId;
 }
 
 function cancel(){
-	window.location.href="<%=basePath%>auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}auditSummary/cancel.html";
 }
 
 </script>
@@ -41,7 +41,7 @@ function cancel(){
 	 	</div>
    </div>
    
-   <form action="<%=basePath%>auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="apid" name="id" value="${ap.id }" />

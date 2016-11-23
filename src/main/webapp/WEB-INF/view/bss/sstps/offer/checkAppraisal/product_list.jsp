@@ -6,8 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     <title>产品审价</title>
     
 <script type="text/javascript">
@@ -29,7 +27,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});
@@ -78,7 +76,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/userSelectProductInfo.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}offer/userSelectProductInfoCheck.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -96,7 +94,7 @@ function offer(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">产品审价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">产品审价</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -124,7 +122,7 @@ function offer(){
 </div>
 	<div class="container">	
 		<div class="col-md-8 mt10 ml10">
-	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
+	   		<button class="btn" type="button" onclick="offer()">产品复审</button>
 		</div>
 	</div>
 	
@@ -145,7 +143,9 @@ function offer(){
 	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	  				<td class="tc">${product.name }</td>
-	  				<td class="tc" name="offer">已报价</td>
+	  				<c:if test="${product.offer==1 }">
+	  					<td class="tc" name="offer">已报价</td>
+	  				</c:if>
 	  			</tr>
 	  			</c:if>
 	  		</c:forEach>

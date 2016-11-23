@@ -97,7 +97,9 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	 * 统计列表
 	 */
 	@Override
-	public List<AppraisalContract> selectAppraisal(HashMap<String, Object> map) {
+	public List<AppraisalContract> selectAppraisal(HashMap<String, Object> map,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return appraisalContractMapper.selectAppraisal(map);
 	}
 

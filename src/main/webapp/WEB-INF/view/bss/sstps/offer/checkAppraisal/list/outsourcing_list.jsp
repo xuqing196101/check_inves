@@ -8,14 +8,11 @@
   <head>
     
     <title>外协加工件消耗定额明细</title>
-	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>outproductCon/checkGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}outproductCon/userGetAll.do?productId="+proId;
 }
 
 
@@ -44,7 +41,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="<%=basePath %>outsourcingCon/checkUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}outsourcingCon/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>

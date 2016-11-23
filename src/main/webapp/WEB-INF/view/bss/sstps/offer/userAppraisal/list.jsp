@@ -6,8 +6,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}public/laypage-v1.3/laypage/laypage.js"></script>
     <title>审价人员审价</title>
     
 <script type="text/javascript">
@@ -28,7 +28,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>offer/appraisalList.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}offer/appraisalList.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -74,7 +74,7 @@ function add(){
 		id.push($(this).val());
 	}); 
 	if(id.length==1){
-		window.location.href="<%=basePath%>offer/userSelectProduct.html?contractId="+id;
+		window.location.href="${pageContext.request.contextPath}offer/userSelectProduct.html?contractId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -102,68 +102,67 @@ function add(){
 	   <div class="headline-v2">
 	   		<h2>查询条件</h2>
 	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
-	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </h2>
-   </div>
-</div>
-	<div class="container">	
-		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">审价</button>
-	   		<button class="btn btn-windows ht_add" type="button" >导出</button>
+   		<!-- 查询 -->
+		<h2 class="search_detail">
+			<form action="${pageContext.request.contextPath}/templet/search.html"
+				method="post" enctype="multipart/form-data" class="mb0">
+				<ul class="demand_list">
+					<li><label class="fl">合同名称：</label>
+						<span>
+							<input type="text" name="name" id="tname" class="mb0" />
+						</span>
+					</li>
+					<li><label class="fl">合同编号：</label>
+						<span>
+							<input type="text" name="name" id="tname" class="mb0" />
+						</span>
+					</li>
+					<li><label class="fl">供应商名称：</label>
+						<span>
+							<input type="text" name="name" id="tname" class="mb0" />
+						</span>
+					</li>
+					<button class="btn" type="submit">查询</button>
+					<button type="reset" class="btn">重置</button>
+				</ul>
+
+				<div class="clear"></div>
+			</form>
+		</h2>
+		<!-- 表格开始-->
+		<div class="col-md-12 pl20 mt10">
+				<button class="btn btn-windows add" type="button" onclick="add()">审价</button>
+				<button class="btn btn-windows edit" type="button">导出</button>
 		</div>
-		
-	</div>
-	
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
-		  	<thead>
-	  			<tr>
-	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-	  				<th class="info">序号</th>
-	  				<th class="info">合同名称</th>
-	  				<th class="info">合同编号</th>
-	  				<th class="info">合同金额(万元)</th>
-	  				<th class="info">供应商名称</th>
-	  				<th class="info">签订状态</th>
-	  			</tr>
-	  		</thead>
-	  		<c:forEach items="${list.list}" var="contract" varStatus="vs">
-	  			<c:if test="${contract.appraisal=='1' }">
-	  			<tr class="pointer">
-	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
-	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	  				<td class="tc">${contract.name }</td>
-	  				<td class="tc">${contract.code }</td>
-	  				<td class="tc">${contract.money }</td>
-	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">审价中</td>
-	  			</tr>
-	  			</c:if>
-	  		</c:forEach>
-		  </table>
-	  	</div>  
-	  	<div id="pagediv" align="right"></div>
-  </div>
-	
+		<div class="content table_box">
+             <table class="table table-bordered table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+	  							<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	  							<th class="info">序号</th>
+				  				<th class="info">合同名称</th>
+				  				<th class="info">合同编号</th>
+				  				<th class="info">合同金额(万元)</th>
+				  				<th class="info">供应商名称</th>
+				  				<th class="info">签订状态</th>
+							</tr>
+						</thead>
+						<c:forEach items="${list.list}" var="contract" varStatus="vs">
+							<c:if test="${contract.appraisal=='1' }">
+				  			<tr class="pointer">
+				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
+				  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				  				<td class="tc">${contract.name }</td>
+				  				<td class="tc">${contract.code }</td>
+				  				<td class="tc">${contract.money }</td>
+				  				<td class="tc">${contract.supplierName }</td>
+				  				<td class="tc">审价中</td>
+				  			</tr>
+				  			</c:if>
+						</c:forEach>
+					</table>
+				<div id="pagediv" align="right"></div>
+		</div>
+
   </body>
 </html>

@@ -7,7 +7,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>装备（产品）技术资料概述</title>
     
@@ -30,7 +29,7 @@
 	  </div>
    </div>
   
-  <form action="<%=basePath %>offerProduct/userSave.html" method="post" enctype="multipart/form-data">
+  <form action="${pageContext.request.contextPath}offerProduct/userSave.html" method="post" enctype="multipart/form-data">
    
 	<div class="container">
 	 	<div class="headline-v2">

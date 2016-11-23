@@ -45,9 +45,15 @@
 		       </div>
 		        	<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 			 </li>
+<<<<<<< Updated upstream
 		     <li class="col-md-3 col-sm-6 col-xs-12">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
                     <select id="docType" name =docType >
+=======
+		     <li class="col-md-3 margin-0 padding-0 ">
+               <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
+                    <select id="docType" name =docType class="w220">
+>>>>>>> Stashed changes
                         <option value="-请选择-">-请选择-</option>
                         <option value="供应商须知文档">供应商须知文档</option>
                         <option value="专家须知文档">专家须知文档</option>

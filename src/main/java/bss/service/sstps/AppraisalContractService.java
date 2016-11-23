@@ -104,7 +104,7 @@ public interface AppraisalContractService {
 	* @param @return      
 	* @return List<AppraisalContract>
 	 */
-	List<AppraisalContract> selectAppraisal(HashMap<String, Object> map);
+	List<AppraisalContract> selectAppraisal(HashMap<String, Object> map,Integer page);
 	
 	/**
 	* @Title: selectStatisical

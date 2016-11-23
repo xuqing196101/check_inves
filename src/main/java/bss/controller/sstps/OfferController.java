@@ -1,3 +1,4 @@
+
 package bss.controller.sstps;
 
 import java.util.HashMap;
@@ -105,7 +106,7 @@ public class OfferController {
 	 */
 	@RequestMapping("/checkList")
 	public String checkList(Model model,Integer page){
-		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+		List<AppraisalContract> list = appraisalContractService.selectAppraisal(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "bss/sstps/offer/checkAppraisal/list";
@@ -232,6 +233,64 @@ public class OfferController {
 	 */
 	@RequestMapping("/userSelectProductInfo")
 	public String userSelectProductInfo(Model model,String productId,HttpServletRequest request){
+		ContractProduct contractProduct = contractProductService.selectById(productId);
+		model.addAttribute("contractProduct", contractProduct);
+		
+		String url="bss/sstps/offer/userAppraisal/list/list";
+		
+//		ProductInfo ProductI = new ProductInfo();
+//		ProductI.setContractProduct(contractProduct);
+	 	ProductInfo productInfo = productInfoService.selectInfo(productId);
+		model.addAttribute("productInfo", productInfo);
+		
+		return url;
+	}
+	/**
+	 * 
+	 * @Title: userSelectProductCheck
+	 * @author Liyi 
+	 * @date 2016-10-24 下午4:18:03  
+	 * @Description:审价人员复审合同产品
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSelectProductCheck")
+	public String userSelectProductCheck(Model model,String contractId,ContractProduct contractProduct,Integer page){
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractId);
+		contractProduct.setAppraisalContract(appraisalContract);
+		
+		String name = contractProduct.getName();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		if(name!=null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		map.put("appraisalContractId",contractId);
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ContractProduct> list = contractProductService.select(map); 
+		model.addAttribute("list", new PageInfo<ContractProduct>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("id", contractId);
+		return "bss/sstps/offer/checkAppraisal/product_list";
+	}
+	
+	/**
+	 * 
+	 * @Title: userSelectProductInfo
+	 * @author Liyi 
+	 * @date 2016-10-24 下午6:10:23  
+	 * @Description:装备技术审价
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSelectProductInfoCheck")
+	public String userSelectProductInfoCheck(Model model,String productId,HttpServletRequest request){
 		ContractProduct contractProduct = contractProductService.selectById(productId);
 		model.addAttribute("contractProduct", contractProduct);
 		
