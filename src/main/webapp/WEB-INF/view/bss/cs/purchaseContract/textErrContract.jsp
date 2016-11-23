@@ -544,6 +544,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
+		<div class="over_scroll col-md-12 col-sm-12 col-xs-12 p0">
     	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
 			<tr>
@@ -578,7 +579,7 @@
 			</tr>
    		</c:forEach>
 	</table>
-
+	</div>
        <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
    	<div>
 		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>

@@ -785,6 +785,9 @@ th.bg_tc {
 .over_hideen{
 	overflow: hidden;
 }
+.over_scroll{
+	overflow: scroll;
+}
 .no_break {
   table-layout: fixed;
   word-break: break-all;
