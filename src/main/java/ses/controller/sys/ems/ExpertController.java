@@ -1,7 +1,6 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,13 +33,13 @@ import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
-import bss.model.prms.ReviewProgress;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 import common.constant.Constant;
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -49,7 +47,9 @@ import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
@@ -57,7 +57,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
-import ses.util.PropUtil;
+import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 
@@ -90,7 +90,11 @@ public class ExpertController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
 	@Autowired
-	SupplierQuoteService supplierQuoteService;//供应商报价
+	private SupplierQuoteService supplierQuoteService;//供应商报价
+	@Autowired
+	private NoticeDocumentService noticeDocumentService;
+	@Autowired
+	private AreaServiceI areaServiceI;//地区查询
 	/**
 	 * 
 	  * @Title: toExpert
@@ -144,7 +148,7 @@ public class ExpertController {
 	
 	/**
 	 * 
-	  * @Title: toExpert
+	  * @Title: toRegisterNotice
 	  * @author lkzx 
 	  * @date 2016年8月31日 下午7:04:16  
 	  * @Description: TODO 跳转到评审专家注册须知页面
@@ -152,7 +156,11 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping(value="/toRegisterNotice")
-	public String toRegisterNotice(){
+	public String toRegisterNotice(Model model){
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("docType", "专家须知文档");
+		String doc = noticeDocumentService.findDocByMap(param);
+		model.addAttribute("doc", doc);
 		return "ses/ems/expert/register_notice";
 	}
 	
@@ -168,14 +176,14 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/register")
-	public String register( User expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2,RedirectAttributes attr){
+	public String register( User user,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2,RedirectAttributes attr){
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
 			//判断用户名密码是否合法
-			String loginName = expert.getLoginName();
-			String password = expert.getPassword();
+			String loginName = user.getLoginName();
+			String password = user.getPassword();
 			String regex="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
 			Pattern p = Pattern.compile(regex);
 			Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
@@ -190,17 +198,19 @@ public class ExpertController {
 				model.addAttribute("message", "密码不符合规则");
 				return "ems/expert/expert_register";
 			}
-		expert.setId(WfUtil.createUUID());
-		request.setAttribute("user", expert);
+			user.setId(WfUtil.createUUID());
+		request.setAttribute("user", user);
 		//model.addAttribute("expert", expert);
-		expert.setTypeName(5);
-		userService.save(expert, null);
-		attr.addAttribute("userId", expert.getId());
+		//查找用户类型
+		String userType = DictionaryDataUtil.getId("EXPERT_U");
+		user.setTypeName(userType);
+		userService.save(user, null);
+		attr.addAttribute("userId", user.getId());
 		return "redirect:toAddBasicInfo.html";
 		} 
 		//重复提交
 		else{
-			attr.addAttribute("userId", expert.getId());
+			attr.addAttribute("userId", user.getId());
 			return "redirect:toAddBasicInfo.html";
 		}
 	}
@@ -215,8 +225,11 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/toAddBasicInfo")
-	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
+	public String toAddBasicInfo(@RequestParam("userId")String userId,Map<String,Object> errorMap,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
+	/*	if(user==null){
+			throw new RuntimeException("该用户没有注册！");
+		}*/
 		String typeId = user.getTypeId();
 		//生成专家id
 		String expertId = "";
@@ -243,7 +256,29 @@ public class ExpertController {
 		Map<String, Object> typeMap = getTypeId();
 		//判断是否有合同书和申请表的附件
 		String att = isAttachment(expertId,typeMap);
-		 model.addAttribute("att", att);
+		//查询数据字典中的证件类型配置数据
+		List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+		model.addAttribute("idTypeList", idTypeList);
+		//查询数据字典中的政治面貌配置数据
+		List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+		model.addAttribute("zzList", zzList);
+		//查询数据字典中的最高学历配置数据
+		List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+		model.addAttribute("xlList", xlList);
+		//查询数据字典中的专家来源配置数据
+		List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+		model.addAttribute("lyTypeList", lyTypeList);
+		//查询数据字典中的性别配置数据
+		List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+		model.addAttribute("sexList", sexList);
+		//产品类型数据字典
+		List<DictionaryData> spList = DictionaryDataUtil.find(6);
+		model.addAttribute("spList", spList);
+		//货物类型数据字典
+		List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+		model.addAttribute("hwList", hwList);
+		
+		model.addAttribute("att", att);
 		//typrId集合
 		model.addAttribute("typeMap", typeMap);
 	
@@ -252,6 +287,7 @@ public class ExpertController {
 		model.addAttribute("expertKey", expertKey);
 		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
+		model.addAttribute("errorMap", errorMap);
 		if(flag==1){
 			return "ses/ems/expert/basic_info_view";
 		}else{
@@ -454,7 +490,7 @@ public class ExpertController {
 	public String toPersonInfo(Model model,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		User user = (User)session.getAttribute("loginUser");
 		//判断用户的类型为专家类型
-		if(user!=null && user.getTypeName()==5){
+		if(user!=null){
 			String typeId = user.getTypeId();
 			if(typeId!=null && StringUtils.isNotEmpty(typeId)){
 			Expert expert = service.selectByPrimaryKey(typeId);
@@ -556,8 +592,12 @@ public class ExpertController {
 				//用户信息处理
 				service.userManager(user, userId, expert, expertId);
 				//调用service逻辑代码 实现提交
-				service.saveOrUpdate(expert, expertId, categoryId);
-				
+				Map<String, Object> map = service.saveOrUpdate(expert, expertId, categoryId);
+				if(map!=null && !map.isEmpty()){
+					attr.addAttribute("userId", userId);
+					 attr.addAllAttributes(map);
+					return "redirect:toAddBasicInfo.html";
+				}
 			}else{
 				//重复提交  这里未做重复提醒，只是不重复增加
 			}
@@ -622,7 +662,7 @@ public class ExpertController {
 	  * @Title: deleteAll
 	  * @author ShaoYangYang
 	  * @date 2016年9月8日 下午3:53:36  
-	  * @Description: TODO 删除
+	  * @Description: TODO 软删除
 	  * @param       
 	  * @return void
 	 */
@@ -631,7 +671,11 @@ public class ExpertController {
 		String[] id = ids.split(",");
 		//循环删除选中的数据
 		for (String string : id) {
-			service.deleteByPrimaryKey(string);
+			Expert expert = service.selectByPrimaryKey(string);
+			if(expert != null){
+			expert.setIsDelete((short) 1);
+			service.updateByPrimaryKeySelective(expert);
+			}
 		}
 		return "redirect:findAllExpert.html";
 	}
@@ -799,7 +843,7 @@ public class ExpertController {
 		  try {
 			User user = (User)session.getAttribute("loginUser");
 				//判断用户的类型为专家类型
-				if(user!=null && user.getTypeName()==5){
+				if(user!=null){
 					//获取专家id
 					String typeId = user.getTypeId();
 					Map<String, Object> map = new HashMap<String, Object>();
@@ -984,19 +1028,21 @@ public class ExpertController {
 			/** 用于组装word页面需要的数据 */
 			Map<String, Object> dataMap = new HashMap<String, Object>();
 			dataMap.put("name", expert.getRelName()== null ? "" : expert.getRelName());
-			String sex="";
 			String gender = expert.getGender();
-			if(gender!=null && gender.equals("M")){
-				sex="男"; 
-			}
-			if(gender!=null && gender.equals("F")){
-				sex="女";
-			}
-			dataMap.put("sex",sex);
+			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(gender);
+			dataMap.put("sex",dictionaryData==null ? "" : dictionaryData.getName());
 			dataMap.put("birthday",expert.getBirthday()== null ? "" :new SimpleDateFormat(
 					"yyyy-MM-dd").format(expert.getBirthday()));
-			dataMap.put("face",expert.getPoliticsStatus()== null ? "" : expert.getPoliticsStatus());
-			dataMap.put("address",expert.getAddress()== null ? "" : "");
+			//政治面貌
+			String faceId = expert.getPoliticsStatus();
+			DictionaryData data = dictionaryDataServiceI.getDictionaryData(faceId);
+			dataMap.put("face",data== null ? "" : data.getName());
+			String addressId = expert.getAddress();
+			//子节点
+			Area area = areaServiceI.listById(addressId);
+			//父节点
+			Area area2 = areaServiceI.listById(area.getParentId());
+			dataMap.put("address",area2== null || area==null ?  "" :area2.getName()+","+area.getName());
 			dataMap.put("zhi",expert.getProfessTechTitles()== null ? "" : expert.getProfessTechTitles());
 			dataMap.put("number",expert.getIdNumber()== null ? "" : expert.getIdNumber());
 			String expertType="";
@@ -1011,7 +1057,9 @@ public class ExpertController {
 			dataMap.put("type",expertType);
 			dataMap.put("date",expert.getTimeStartWork()== null ? "" :new SimpleDateFormat(
 					"yyyy-MM-dd").format(expert.getTimeStartWork()));
-			dataMap.put("xueli",expert.getHightEducation() == null ? "" : expert.getHightEducation());
+			String hightEducationId = expert.getHightEducation();
+			DictionaryData data2 = dictionaryDataServiceI.getDictionaryData(hightEducationId);
+			dataMap.put("xueli",data2 == null ? "" : data2.getName());
 			dataMap.put("xuewei",expert.getDegree() == null ? "" : expert.getDegree());
 			dataMap.put("phone", expert.getMobile() == null ? "" : expert.getMobile());
 			dataMap.put("teliphone", expert.getTelephone() == null ? "" : expert.getTelephone());

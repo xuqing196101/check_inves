@@ -216,7 +216,7 @@
   <!-- 查看当前采购人的考试安排 -->
   <select id="findNoTest" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
   		SELECT
-			*
+			<include refid="Base_Column_List" />
 		FROM
 			T_SES_EMS_EXAM_PAPER_USER
 		WHERE

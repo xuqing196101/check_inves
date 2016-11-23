@@ -37,13 +37,13 @@
         }else if(purchaseType=="jzxtp" || purchaseType == "yqzb" || purchaseType == "xjcg" || purchaseType == "gkzb"){
             if(supplierNumber< 3){
                 layer.tips("供应商人数不能小于3人","#supplierNumber");
-            }else if(supplierNumber != /^\d+$/){
+            }else if(!(/^\d+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
             }
         }else if(purchaseType=="dyly"){
             if(supplierNumber != 1){
                 layer.tips("供应商人数只能为1人","#supplierNumber");
-            }else if(supplierNumber != /^\d+$/){
+            }else if(!(/^\d+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
             }
         }else if(bidAddress==""){
@@ -156,11 +156,9 @@
                                         <td class="bggrey">采购方式:</td>
                                         <td>
                                         <input type="hidden" id="purchaseType" value="${project.purchaseType}"/>
-                                        <c:if test="${'jzxtp'==project.purchaseType}">竞争性谈判</c:if>
-                                        <c:if test="${'yqzb'==project.purchaseType}">邀请招标</c:if>
-                                        <c:if test="${'xjcg'==project.purchaseType}">询价采购</c:if>
-                                        <c:if test="${'gkzb'==project.purchaseType}">公开招标</c:if>
-                                        <c:if test="${'dyly'==project.purchaseType}">单一来源</c:if>
+                                            <c:forEach items="${kind}" var="kind" >
+                                                 <c:if test="${kind.id == project.purchaseType}">${kind.name}</c:if>
+                                            </c:forEach>
                                         </td>
                                         <td class="bggrey">投标截止时间:</td>
                                         <td>${project.deadline}</td>
@@ -168,7 +166,7 @@
                                     <tr>
                                         <td class="bggrey">开标时间:</td>
                                         <%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
-                                        <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="bidDate" id="bidDate" type="text" onclick='WdatePicker()'></td>
+                                        <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                                         <td class="bggrey">开标地点:</td>
                                         <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
                                     </tr>
@@ -266,11 +264,9 @@
                                         <td class="tc">${obj.budget}</td>
                                         <td class="tc">${obj.deliverDate}</td>
                                         <td class="tc">
-                                            <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-                                            <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-                                            <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-                                            <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-                                            <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
+                                           <c:forEach items="${kind}" var="kind" >
+                                                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                            </c:forEach>
                                         </td>
                                         <td class="tc">${obj.supplier}</td>
                                         <td class="tc">${obj.isFreeTax}</td>
@@ -289,33 +285,6 @@
                         <div class="tab-pane fade " id="tab-4" >
                             <div class="margin-bottom-0  categories">
                             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                                      <%--   <table class="table table-bordered">
-                                             <tbody>
-                                                <tr>
-                                                  <td class="bggrey">项目编号：</td>
-                                                  <td>${project.projectNumber}</td>
-                                                  <td class="bggrey ">项目名称：</td>
-                                                  <td>${project.name}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td class="bggrey">预算金额:</td>
-                                                  <td>${project.purchaseDepName}</td>
-                                                  <td class="bggrey ">经办人:</td>
-                                                  <td>${project.ipone}</td>
-                                                </tr>
-                                                <tr>
-                                                  <td class="bggrey">项目介绍:</td>
-                                                  <td colspan="3">
-                                                    ${project.prIntroduce}
-                                                  </td>
-                                                </tr>
-                                                <tr>
-                                                  <td class="bggrey">工作分工:</td>
-                                                  <td colspan="3">
-                                                    ${project.divisionOfWork}
-                                                  </td>
-                                                </tr>
-                                        </table> --%>
                                         <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
                                         <div class="col-md-12 tc">
                                         <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>

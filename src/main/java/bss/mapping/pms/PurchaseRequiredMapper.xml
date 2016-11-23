@@ -7,7 +7,7 @@
 		<result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
 		<result column="PLAN_TYPE" jdbcType="VARCHAR" property="planType" />
 		<result column="DEPARTMENT" jdbcType="VARCHAR" property="department" />
-		<result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+		<result column="MATERIAL_NAME" jdbcType="VARCHAR" property="goodsName" />
 		<result column="STAND" jdbcType="VARCHAR" property="stand" />
 		<result column="QUALIT_STAND" jdbcType="VARCHAR" property="qualitStand" />
 		<result column="ITEM" jdbcType="VARCHAR" property="item" />
@@ -18,30 +18,30 @@
 		<result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
 		<result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
 		<result column="IS_FREE_TAX" jdbcType="VARCHAR" property="isFreeTax" />
-		<result column="GOODS_USE" jdbcType="VARCHAR" property="goodsUse" />
+		<result column="MATERIAL_USE" jdbcType="VARCHAR" property="goodsUse" />
 		<result column="USE_UNIT" jdbcType="VARCHAR" property="useUnit" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
 		<result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
 		<result column="REQ_LEVEL" jdbcType="VARCHAR" property="reqLevel" />
-		<result column="STARUS" jdbcType="VARCHAR" property="status" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
 		<result column="MEMO" jdbcType="VARCHAR" property="memo" />
 		<result column="SEQ" jdbcType="VARCHAR" property="seq" />
 		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
-		<result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
+		<result column="MATERIAL_TYPE" jdbcType="VARCHAR" property="goodsType" />
 		<result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
 		<result column="ORGANIZATION" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="DECIMAL" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
 		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
 		<result column="CODE" jdbcType="VARCHAR"  property="code"/>
-		<result column="ONE_PURCHASETYPE" jdbcType="VARCHAR"  property="onePurchaseType"/>
-		<result column="ONE_ORGANIZA" jdbcType="VARCHAR"  property="oneOrganiza"/>
+		<result column="ONE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="onePurchaseType"/>
+		<result column="ONE_ORGANIZATION" jdbcType="VARCHAR"  property="oneOrganiza"/>
 		<result column="ONE_ADVICE" jdbcType="VARCHAR"  property="oneAdvice"/>
-		<result column="TWO_TECHADVICE" jdbcType="VARCHAR"  property="twoTechAdvice"/>
+		<result column="TWO_TECH_ADVICE" jdbcType="VARCHAR"  property="twoTechAdvice"/>
 		<result column="TWO_ADVICE" jdbcType="VARCHAR"  property="twoAdvice"/>
-		<result column="THREE_PURCHASETYPE" jdbcType="VARCHAR"  property="threePurchaseType"/>
-		<result column="THREE_ORGANIZA" jdbcType="VARCHAR"  property="threeOrganiza"/>
+		<result column="THREE_PURCHASE_TYPE" jdbcType="VARCHAR"  property="threePurchaseType"/>
+		<result column="THREE_ORGANIZATION" jdbcType="VARCHAR"  property="threeOrganiza"/>
 		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
 		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
 		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
@@ -49,12 +49,12 @@
 		<result column="REASON" jdbcType="VARCHAR"  property="reason"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
+		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, MATERIAL_NAME, STAND,
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
-		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
+		MATERIAL_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
+		STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -79,14 +79,14 @@
 	</delete>
 	<insert id="insert" parameterType="bss.model.pms.PurchaseRequired">
 		insert into T_BSS_PMS_PURCHASE_REQUIRED (ID, PLAN_NAME, PLAN_NO,
-		PLAN_TYPE, DEPARTMENT, GOODS_NAME,
+		PLAN_TYPE, DEPARTMENT, MATERIAL_NAME,
 		STAND, QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET,
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
-		IS_FREE_TAX, GOODS_USE, USE_UNIT,
+		IS_FREE_TAX, MATERIAL_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
+		REQ_LEVEL, STATUS, MEMO,SEQ,HISTORY_STATUS,MATERIAL_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASE_TYPE,
+		ONE_ORGANIZATION,ONE_ADVICE,TWO_TECH_ADVICE,TWO_ADVICE,THREE_PURCHASE_TYPE,THREE_ORGANIZATION,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -127,7 +127,7 @@
 				DEPARTMENT,
 			</if>
 			<if test="goodsName != null">
-				GOODS_NAME,
+				MATERIAL_NAME,
 			</if>
 			<if test="stand != null">
 				STAND,
@@ -160,7 +160,7 @@
 				IS_FREE_TAX,
 			</if>
 			<if test="goodsUse != null">
-				GOODS_USE,
+				MATERIAL_USE,
 			</if>
 			<if test="useUnit != null">
 				USE_UNIT,
@@ -178,7 +178,7 @@
 				REQ_LEVEL,
 			</if>
 			<if test="status != null">
-				STARUS,
+				STATUS,
 			</if>
 			<if test="memo != null">
 				MEMO,
@@ -190,7 +190,7 @@
 				HISTORY_STATUS,
 			</if>
 			<if test="goodsType != null">
-				GOODS_TYPE,
+				MATERIAL_TYPE,
 			</if>
 			<if test="auditDate != null">
 				AUDIT_DATE,
@@ -211,25 +211,25 @@
 				CODE,
 			</if>
 			<if test="onePurchaseType != null">
-				ONE_PURCHASETYPE,
+				ONE_PURCHASE_TYPE,
 			</if>
 			<if test="oneOrganiza != null">
-				ONE_ORGANIZA,
+				ONE_ORGANIZATION,
 			</if>
 			<if test="oneAdvice != null">
 				ONE_ADVICE,
 			</if>
 			<if test="twoTechAdvice != null">
-				TWO_TECHADVICE,
+				TWO_TECH_ADVICE,
 			</if>
 			<if test="twoAdvice != null">
 				TWO_ADVICE,
 			</if>
 			<if test="threePurchaseType != null">
-				THREE_PURCHASETYPE,
+				THREE_PURCHASE_TYPE,
 			</if>
 			<if test="threeOrganiza != null">
-				THREE_ORGANIZA,
+				THREE_ORGANIZATION,
 			</if>
 			<if test="threeAdvice != null">
 				THREE_ADVICE,
@@ -402,7 +402,7 @@
 				DEPARTMENT = #{department,jdbcType=VARCHAR},
 			</if>
 			<if test="goodsName != null">
-				GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+				MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
 			</if>
 			<if test="stand != null">
 				STAND = #{stand,jdbcType=VARCHAR},
@@ -435,7 +435,7 @@
 				IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
 			</if>
 			<if test="goodsUse != null">
-				GOODS_USE = #{goodsUse,jdbcType=VARCHAR},
+				MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
 			</if>
 			<if test="useUnit != null">
 				USE_UNIT = #{useUnit,jdbcType=VARCHAR},
@@ -453,7 +453,7 @@
 				REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-				STARUS = #{status,jdbcType=VARCHAR},
+				STATUS = #{status,jdbcType=VARCHAR},
 			</if>
 			<if test="memo != null">
 				MEMO = #{memo,jdbcType=VARCHAR},
@@ -465,7 +465,7 @@
 				HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
 			</if>
 			<if test="goodsType != null">
-				GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+				MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
 			</if>
 			<if test="auditDate != null">
 				AUDIT_DATE = #{auditDate,jdbcType=DATE},
@@ -486,25 +486,25 @@
 				code = #{isCollect,jdbcType=VARCHAR},
 			</if>
 			<if test="onePurchaseType != null">
-				ONE_PURCHASETYPE=#{onePurchaseType,jdbcType=VARCHAR},
+				ONE_PURCHASE_TYPE=#{onePurchaseType,jdbcType=VARCHAR},
 			</if>
 			<if test="oneOrganiza != null">
-				ONE_ORGANIZA=#{oneOrganiza,jdbcType=VARCHAR},
+				ONE_ORGANIZATION=#{oneOrganiza,jdbcType=VARCHAR},
 			</if>
 			<if test="oneAdvice != null">
 				ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
 			</if>
 			<if test="twoTechAdvice != null">
-				TWO_TECHADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+				TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
 			</if>
 			<if test="twoAdvice != null">
 				TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
 			</if>
 			<if test="threePurchaseType != null">
-				THREE_PURCHASETYPE=#{threePurchaseType,jdbcType=VARCHAR},
+				THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
 			</if>
 				<if test="threeOrganiza != null">
-				THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
+				THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
 			</if>
 			<if test="threeAdvice != null">
 				THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
@@ -530,7 +530,7 @@
 		PLAN_NO = #{planNo,jdbcType=VARCHAR},
 		PLAN_TYPE = #{planType,jdbcType=VARCHAR},
 		DEPARTMENT = #{department,jdbcType=VARCHAR},
-		GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+		MATERIAL_NAME = #{goodsName,jdbcType=VARCHAR},
 		STAND = #{stand,jdbcType=VARCHAR},
 		QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
 		ITEM = #{item,jdbcType=VARCHAR},
@@ -541,30 +541,30 @@
 		PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
 		SUPPLIER = #{supplier,jdbcType=VARCHAR},
 		IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
-		GOODS_USE = #{goodsUse,jdbcType=VARCHAR},
+		MATERIAL_USE = #{goodsUse,jdbcType=VARCHAR},
 		USE_UNIT = #{useUnit,jdbcType=VARCHAR},
 		CREATED_AT = #{createdAt,jdbcType=DATE},
 		USER_ID = #{userId,jdbcType=VARCHAR},
 		PARENT_ID = #{parentId,jdbcType=VARCHAR},
 		REQ_LEVEL = #{reqLevel,jdbcType=VARCHAR},
-		STARUS = #{status,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=VARCHAR},
 		MEMO = #{memo,jdbcType=VARCHAR},
 		SEQ = #{seq,jdbcType=VARCHAR},
 		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
-		GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+		MATERIAL_TYPE = #{goodsType,jdbcType=VARCHAR},
 		AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
 		ORGANIZATION = #{organization,jdbcType=VARCHAR},
 		IS_MASTER = #{isMaster,jdbcType=DECIMAL},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},
 		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
 		code = #{code,jdbcType=INTEGER},
-		ONE_PURCHASETYPE=#{onePurchaseType,jdbcType=VARCHAR},
-		ONE_ORGANIZA=#{oneOrganiza,jdbcType=VARCHAR},
+		ONE_PURCHASE_TYPE=#{onePurchaseType,jdbcType=VARCHAR},
+		ONE_ORGANIZATION=#{oneOrganiza,jdbcType=VARCHAR},
 	    ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
-	    TWO_TECHADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+	    TWO_TECH_ADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
 	    TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
-		THREE_PURCHASETYPE=#{threePurchaseType,jdbcType=VARCHAR},
-		THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
+		THREE_PURCHASE_TYPE=#{threePurchaseType,jdbcType=VARCHAR},
+		THREE_ORGANIZATION=#{threeOrganiza,jdbcType=VARCHAR},
 		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
 		BRAND=#{brand,jdbcType=VARCHAR},
 		USER_UNIT=#{userUnit,jdbcType=VARCHAR},
@@ -593,7 +593,7 @@
 				and IS_MASTER = #{isMaster}
 			</if>
 			<if test="status != null">
-				and STARUS = #{status}
+				and STATUS = #{status}
 			</if>
 			<if test="isCollect != null">
 				and IS_COLLECT = #{isCollect}
@@ -647,7 +647,7 @@
 	update T_BSS_PMS_PURCHASE_REQUIRED
 	<set>
 	<if test="status != null">
-		STARUS = #{status},
+		STATUS = #{status},
 	</if>
 	<if test="isCollect != null">
 		IS_COLLECT = #{isCollect}
@@ -671,7 +671,7 @@
 				and IS_MASTER = #{isMaster}
 			</if>
 			<if test="status != null">
-				and STARUS = #{status}
+				and STATUS = #{status}
 			</if>
 		</where>
 		ORDER BY IS_MASTER
@@ -750,7 +750,7 @@
 					id=#{oid},
 				</if>
 				<if test="status != null">
-					STARUS = #{status},
+					STATUS = #{status},
 				</if>
 				<if test="historyStatus !=null">
 					HISTORY_STATUS = #{historyStatus}

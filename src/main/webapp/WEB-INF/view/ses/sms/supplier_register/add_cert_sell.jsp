@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -9,29 +10,11 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-
+<%@ include file="/WEB-INF/view/front.jsp" %>
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_cert_sell/";
+/* 		var action = "${pageContext.request.contextPath}/supplier_cert_sell/";
 		if (sign) {
 			action += "save_or_update_cert_sell.html";
 		} else {
@@ -39,6 +22,30 @@
 		}
 		$("#cert_sell_form_id").attr("action", action);
 		$("#cert_sell_form_id").submit();
+		 */
+		 var index=parent.layer.getFrameIndex(window.name);
+		 $.ajax({
+			   type: "POST",  
+             url: "${pageContext.request.contextPath}/supplier_cert_sell/save_or_update_cert_sell.html",  
+             data: $("#cert_sell_form_id").serialize(),  
+             success:function(result){
+               if(result=='0'){
+              	     alert(result);
+              	 
+               } else{
+            	   parent.location.reload(); 
+              	 // parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_basic.html?flag=1";
+            	 
+               }
+          	   
+              },
+              error: function(result){
+                  layer.msg("添加失败",{offset: ['150px', '180px']});
+              }
+              
+              
+		 });
+		 
 	}
 	
 	function cancels(){
@@ -65,7 +72,7 @@
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class=" margin-bottom-0">
+									<div class="margin-bottom-0">
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质证书名称：</span>
 												<div class="input-append">
@@ -104,12 +111,8 @@
 										 
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
-												<div class="input-append">
-													<div class="uploader orange h32 m0 fz8">
-														<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}" auto="true" />
-												       <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProCert}"/>
-													</div>
-												</div>
+									 				<up:upload id="cert_up" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
+												   <up:show showId="cert_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}"/>
 											</li>
 											<div class="clear"></div>
 										</ul>

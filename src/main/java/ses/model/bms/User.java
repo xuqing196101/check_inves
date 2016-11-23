@@ -100,8 +100,8 @@ public class User implements Serializable{
      * 8：监督人员
      */
     @NotNull(message = "用户类型不能为空")  
-    private Integer typeName;
-
+    private String typeName;
+    
     /** 关联用户ID */
     private String typeId;
     
@@ -232,14 +232,6 @@ public class User implements Serializable{
         this.duties = duties == null ? null : duties.trim();
     }
 
-    public Integer getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(Integer typeName) {
-        this.typeName = typeName;
-    }
-
     public String getTypeId() {
         return typeId;
     }
@@ -311,5 +303,13 @@ public class User implements Serializable{
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
-	
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
 }

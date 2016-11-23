@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tld/upload"  prefix="u"%>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -10,13 +11,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
+			$("#temporary").hide();
 			$("#name").val("${name}");
 			$("#depName").val("${depName}");
 			laypage({
@@ -36,7 +33,7 @@
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var name = "${name}";
 			        	var depName = "${depName}";
-			        	location.href = "<%=path%>/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName+"&page="+e.curr;
+			        	location.href = "${pageContext.request.contextPath }/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -47,10 +44,10 @@
 			var name = $("#name").val();
 			var depName = $("#depName").val();
 			if((name==null||name=="")&&(depName==null||depName=="")){
-				window.location.href = "<%=path%>/purchaseArchive/archiveAuthorize.html";
+				window.location.href = "${pageContext.request.contextPath }/purchaseArchive/archiveAuthorize.html";
 				return;
 			}else{
-				window.location.href = "<%=path%>/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName;
+				window.location.href = "${pageContext.request.contextPath }/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName;
 			}
 		}
 		
@@ -62,6 +59,30 @@
 		
 		//临时授权
 		function auth(){
+			var count = 0;
+			var id = "";
+			var info = document.getElementsByName("info");
+			for(var i=0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i=0;i<info.length;i++){
+					if(info[i].checked == true){
+						id = info[i].value;
+					}
+				}
+				window.location.href = "${pageContext.request.contextPath }/purchaseArchive/jumpToAuthorize.html?userId="+id;
+			}
 			
 		}
 		
@@ -79,6 +100,60 @@
 				}
 			}
 		}
+		
+		//取消
+		function cancel(){
+			layer.closeAll();
+		}
+		
+		//检查全选
+		function check(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == false){
+					selectAll.checked = false;
+					break;
+				}
+			}
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == info.length){
+				selectAll.checked = true;
+			}
+		}
+		
+		//查看某个人可以看得扫描件
+		function viewArchive(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var id = "";
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['30%', '40%']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i=0;i<info.length;i++){
+					if(info[i].checked == true){
+						id = info[i].value;
+					}
+				}
+				window.location.href = "${pageContext.request.contextPath }/purchaseArchive/viewArchive.do?id="+id;
+			}
+		}
 	</script>
 
   </head>
@@ -94,43 +169,45 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
+	   		<h2>授权管理</h2>
 	   </div>
-   </div>
    
-   <div class="container">
-  		<div class="border1 col-md-12 ml30">
-	  		姓名:<input type="text" id="name" name="name" class="mt10"/>
-	  		采购机构:<input type="text" id="depName" name="depName" class="mt10"/>
-	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
-	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
-  		</div>
-  	</div>
+	   <h2 class="search_detail">
+			<ul class="demand_list">
+				<li>
+			    	<label class="fl">姓名：</label><span><input type="text" id="name" name="name" class=""/></span>
+			    </li>
+		  		<li>
+			    	<label class="fl">采购机构：</label><span><input type="text" id="depName" name="depName" class=""/></span>
+			    </li>
+		  		<button class="btn" type="button" onclick="queryResult()">查询</button>
+		  		<button class="btn" type="button" onclick="resetResult()">重置</button>
+	  		</ul>
+	  		<div class="clear"></div>
+	  	</h2>
   	
-  		<!-- 按钮开始-->
-	   <div class="container">
-	   		<div class="col-md-12">
-			    <button class="btn btn-windows pl13" type="button" onclick="auth()">临时授权</button>
-			</div>
-	    </div>
+  	    <!-- 按钮开始-->
+	   	<div class="col-md-12 pl20 mt10">
+			<button class="btn" type="button" onclick="auth()">授权</button>
+			<button class="btn" type="button" onclick="viewArchive()">查看</button>
+	  	</div>
   	
-  	<div class="container">
-  		<div class="content padding-left-25 padding-right-25 padding-top-5">
+  		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
 						<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-						<th>序号</th>
-						<th>姓名</th>
-						<th>采购机构</th>
-						<th>联系电话</th>
+						<th class="w50">序号</th>
+						<th class="w160">姓名</th>
+						<th class="w260">采购机构</th>
+						<th class="w160">联系电话</th>
 						<th>联系地址</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${purchaseList.list }" var="purchase" varStatus="vs">
 						<tr class="tc">
-							<td class="tc"><input type="checkbox" name="info" value="${purchase.id }"/></td>
+							<td class="tc"><input type="checkbox" name="info" value="${purchase.userId }" onclick="check()"/></td>
 							<td>${(vs.index+1)+(purchaseList.pageNum-1)*(purchaseList.pageSize)}</td>
 							<td>${purchase.relName }</td>
 							<td>${purchase.purchaseDepName }</td>
@@ -142,6 +219,6 @@
 			</table>
 		</div>
 		<div id="pageDiv" align="right"></div>
-  	</div>
-  </body>
+  		</div>
+  	</body>
 </html>

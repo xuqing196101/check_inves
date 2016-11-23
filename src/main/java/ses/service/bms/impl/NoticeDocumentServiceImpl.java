@@ -84,10 +84,8 @@ public class NoticeDocumentServiceImpl implements NoticeDocumentService{
 	 * @return: List<String>
 	 */
 	@Override
-	public String findSupplierDoc() {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("docType", "供应商须知文档");
-		List<String> list = noticeDocumentMapper.findByMap(param);
+	public String findDocByMap(Map<String, Object> map) {
+		List<String> list = noticeDocumentMapper.findByMap(map);
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}

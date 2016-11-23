@@ -24,6 +24,7 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
 
@@ -142,7 +143,7 @@ public class SupplierServiceImpl implements SupplierService {
         user.setLoginName(supplier.getLoginName());
         user.setRandomCode(random);
         user.setPassword(pwd);
-        user.setTypeName(4);
+        user.setTypeName(DictionaryDataUtil.getId("SUPPLIER_U"));
         user.setIsDeleted(0);
         userMapper.insertSelective(user);
         

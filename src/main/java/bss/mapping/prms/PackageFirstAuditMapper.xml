@@ -23,6 +23,19 @@
     from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
     where PACKAGE_ID = #{packageId,jdbcType=VARCHAR} AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>
+  <!-- 根据项目id和包id数组查询关联表集合 -->
+  <select id="findByProAndPackage"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    where PACKAGE_ID in 
+	<foreach item="item" index="index" collection="packageIds" open="(" separator="," close=")">  
+	 	#{item}  
+	</foreach> 
+    AND 
+    PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
+  
   <!--根据项目id 包id 初审项id  修改数据  -->
   <update id="update" parameterType="bss.model.prms.PackageFirstAudit">
     update T_BSS_PRMS_PACKAGE_FIRST_AUDIT

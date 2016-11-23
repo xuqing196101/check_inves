@@ -22,7 +22,7 @@ public interface ExamQuestionServiceI {
 	* @Title: deleteByPrimaryKey
 	* @author ZhaoBo
 	* @date 2016-9-7 上午9:57:29  
-	* @Description: 根据主键ID删除题库
+	* @Description: 根据主键ID删除题目
 	* @param @param id
 	* @param @return      
 	* @return int
@@ -34,7 +34,7 @@ public interface ExamQuestionServiceI {
 	* @Title: insertSelective
 	* @author ZhaoBo
 	* @date 2016-9-7 上午9:57:49  
-	* @Description: 插入题库 
+	* @Description: 新增题目 
 	* @param @param examQuestion
 	* @param @return      
 	* @return int
@@ -46,7 +46,7 @@ public interface ExamQuestionServiceI {
     * @Title: selectByPrimaryKey
     * @author ZhaoBo
     * @date 2016-9-7 上午9:58:02  
-    * @Description: 根据主键ID查找题库 
+    * @Description: 根据主键ID查找题目 
     * @param @param id
     * @param @return      
     * @return examQuestion
@@ -58,7 +58,7 @@ public interface ExamQuestionServiceI {
     * @Title: updateByPrimaryKeySelective
     * @author ZhaoBo
     * @date 2016-9-7 上午9:58:20  
-    * @Description:	根据主键ID更新题库 
+    * @Description:	更新题目
     * @param @param examQuestion
     * @param @return      
     * @return int
@@ -102,39 +102,15 @@ public interface ExamQuestionServiceI {
     
     /**
      * 
-    * @Title: selectSingleRandom
+    * @Title: selectPurchaserQuestionRandom
     * @author ZhaoBo
-    * @date 2016-9-6 下午2:16:28  
-    * @Description: 采购人根据考卷题型随机查找单选题 
-    * @param @param singleNum
+    * @date 2016-11-22 上午10:08:00  
+    * @Description: 采购人随机抽题 
+    * @param @param map
     * @param @return      
-    * @return List<examQuestion>
+    * @return List<ExamQuestion>
      */
-    List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectMultipleRandom
-    * @author ZhaoBo
-    * @date 2016-9-6 下午2:18:03  
-    * @Description: 采购人根据考卷题型随机查找多选题  
-    * @param @param multipleNum
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectMultipleRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectJudgeRandom
-    * @author ZhaoBo
-    * @date 2016-9-6 下午2:18:52  
-    * @Description: 采购人根据考卷题型随机查找判断题  
-    * @param @param judgeNum
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectJudgeRandom(ExamQuestion examQuestion);
+    List<ExamQuestion> selectPurchaserQuestionRandom(HashMap<String,Object> map);
     
     /**
      * 
@@ -187,7 +163,7 @@ public interface ExamQuestionServiceI {
     * @Title: selectByTecTopic
     * @author ZhaoBo
     * @date 2016-11-2 下午1:57:10  
-    * @Description: TODO 
+    * @Description:  
     * @param @param map
     * @param @return      
     * @return List<ExamQuestion>

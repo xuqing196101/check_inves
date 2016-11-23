@@ -10,8 +10,6 @@ import java.util.Date;
 * @date 2016-9-7上午9:30:55
  */
 public class ExamQuestion{
-	
-
 	/**
 	 * @Fields id : 主键ID
 	 */
@@ -21,7 +19,6 @@ public class ExamQuestion{
      * @Fields answer : 答案
      */
     private String answer;
-    
     
     /**
      * @Fields questionTypeId :题目类型
@@ -64,22 +61,7 @@ public class ExamQuestion{
     private ExamQuestionType examQuestionType;
     
     /**
-     * @Fields singleNum :采购人单选题数量
-     */
-    private Integer singleNum;
-    
-    /**
-     * @Fields multipleNum :采购人多选题数量
-     */
-    private Integer multipleNum;
-    
-    /**
-     * @Fields judgeNum :采购人判断题数量
-     */
-    private Integer judgeNum;
-    
-    /**
-     * @Fields queNum :专家考试题目数量
+     * @Fields queNum :题目数量
      */
     private Integer queNum;
     
@@ -166,30 +148,6 @@ public class ExamQuestion{
 
 	public void setExamQuestionType(ExamQuestionType examQuestionType) {
 		this.examQuestionType = examQuestionType;
-	}
-
-	public Integer getSingleNum() {
-		return singleNum;
-	}
-
-	public void setSingleNum(Integer singleNum) {
-		this.singleNum = singleNum;
-	}
-
-	public Integer getMultipleNum() {
-		return multipleNum;
-	}
-
-	public void setMultipleNum(Integer multipleNum) {
-		this.multipleNum = multipleNum;
-	}
-
-	public Integer getJudgeNum() {
-		return judgeNum;
-	}
-
-	public void setJudgeNum(Integer judgeNum) {
-		this.judgeNum = judgeNum;
 	}
 
 	public Integer getQueNum() {

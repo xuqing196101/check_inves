@@ -17,6 +17,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
+<script type="text/javascript">
+	$(function(){
+	if('${suppliers.status}'==2){
+		showReason();
+	}
+	});
+	
+	function showReason() {
+		var supplierId = "${suppliers.id}";
+		var left = document.body.clientWidth - 500;
+		var top = window.screen.availHeight / 2 - 150;
+		layer.open({
+			type : 2,
+			title : '审核反馈',
+			closeBtn : 0, //不显示关闭按钮
+			skin : 'layui-layer-lan', //加上边框
+			area : [ '500px', '300px' ], //宽高
+			offset : [ top, left ],
+			shade : 0,
+			maxmin : true,
+			shift : 2,
+			content : globalPath + '/supplier_edit/reasonList.html?supplierId='+supplierId, //url
+		});
+	}
+</script>
 </head>
 <body>
  <div class=" breadcrumbs ">

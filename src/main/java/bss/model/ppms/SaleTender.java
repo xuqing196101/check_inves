@@ -22,13 +22,14 @@ public class SaleTender {
 
 
 	public SaleTender(String projectId, Short statusBid, String supplierId,
-			Short statusBond, String userId) {
+			Short statusBond, String userId,String packages) {
 		super();
 		this.projectId = projectId;
 		this.statusBid = statusBid;
 		this.supplierId = supplierId;
 		this.statusBond = statusBond;
 		this.userId = userId;
+		this.packages=packages;
 	}
 	
 
@@ -116,6 +117,8 @@ public class SaleTender {
     private User user;
     
     private Project project;
+    
+    private String packages;
     
     
     public Project getProject() {
@@ -377,9 +380,12 @@ public class SaleTender {
     }
 
 
+    public String getPackages() {
+        return packages;
+    }
 
 
-
-    
-    
+    public void setPackages(String packages) {
+        this.packages = packages;
+    }
 }

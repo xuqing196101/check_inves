@@ -8,7 +8,36 @@
   <head>
     <title>项目评分</title>
 <script type="text/javascript">
-	
+$(document).ready(function() { 
+	 $("input[name='expertValue']").bind("keypress", function(event) {  
+   var event= event || window.event;  
+   var getValue = $(this).val();  
+   //控制第一个不能输入小数点"."  
+   if (getValue.length == 0 && event.which == 46) {  
+       event.preventDefault();  
+       return;  
+   }  
+   //控制只能输入一个小数点"."  
+   if (getValue.indexOf('.') != -1 && event.which == 46) {  
+       event.preventDefault();  
+       return;  
+   }  
+   //控制只能输入的值  
+   if (event.which && (event.which < 48 || event.which > 57) && event.which != 8 && event.which != 46) {  
+       event.preventDefault();  
+        return;  
+       }  
+   });  
+   //失去焦点是触发  
+   $("input[name='expertValue']").bind("blur", function(event) {  
+   var value = $(this).val(), reg = /\.$/;  
+   if (reg.test(value)) {  
+   value = value.replace(reg, "");  
+   $(this).val(value);  
+   }  
+   });  
+   });  
+   
 	function audit(obj,scoreModelId,supplierId,typeName,markTermId,quotaId){
 		if(typeName=='2' || typeName=='3' ||typeName=='4' ||typeName=='5' ){
 			var flag = 0;
@@ -97,6 +126,7 @@
 		}
 		
 	}
+	
   </script>
   </head>
   
@@ -127,6 +157,9 @@
 						 	            </tr>
 						 	         </thead>
 						 	       </table>
+						 	       <h5>
+						 	         <font color="red">*提示：红色字体数据为被退回评分，需要重新填写提交！</font>
+						 	       </h5>
 									   <form action="${pageContext.request.contextPath}/expert/saveGrade.html" id="form1" method="post" >
 									   <!--项目id  -->
 								   	   <input type="hidden" name="projectId" id="projectId" value="${projectId }">
@@ -197,10 +230,10 @@
 											 	               </td>
 											 	              </c:when>
 											 	              <c:otherwise>
-											 	                 <td><input type="text"  name="expertValue" value="${l.expertValue }"
-											 	                  <c:if test="${l.round == 0  }"> style="width: 50px;" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                 <td><input type="text"  name="expertValue" id="ipt5" onpaste="return false;" value="${l.expertValue }"
+											 	                  <c:if test="${l.round == 0  }"> style="width: 50px; ime-mode:disabled" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
 											 	                  </c:if>
-											 	                   <c:if test="${l.round == 1  }"> style="width: 50px; color:red;"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                   <c:if test="${l.round == 1  }"> style="width: 50px; color:red; ime-mode:disabled"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
 											 	                  </c:if>
 											 	                  <c:if test="${l.round == 2  }"> readonly="readonly" style="width: 50px;"
 											 	                  </c:if>

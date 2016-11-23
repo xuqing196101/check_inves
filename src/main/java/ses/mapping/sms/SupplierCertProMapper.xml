@@ -161,11 +161,21 @@
 	
 	<!-- 资质证书信息 -->
 	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
-      select 
-      *
-      from 
-      T_SES_SMS_SUPPLIER_CERT_PRO c,T_SES_SMS_SUPPLIER_MAT_PRO m
-      where   m.Id = c.MAT_PRO_ID 
-      AND m.SUPPLIER_ID=#{supplierId}
+        select
+		    T1.*,
+		    T3.ID as ID_,
+		    T3.NAME as FILE_NAME
+		from
+		T_SES_SMS_SUPPLIER_CERT_PRO t1
+		left join 
+		    T_SES_SMS_SUPPLIER_MAT_PRO t2 
+		on 
+		    T1.MAT_PRO_ID = T2.ID
+		left join  
+		    T_SES_SMS_SUPPLIER_ATTACHMENT t3 
+		on 
+		    t1. ID = t3.BUSINESS_ID
+		where
+		    T2.SUPPLIER_ID = #{supplierId}
   </select>
 </mapper>

@@ -20,13 +20,13 @@ import common.utils.AuthUtil;
 
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
-import ses.model.ems.Expert;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 
 /**
@@ -108,7 +108,7 @@ public class LoginController {
 				logger.info("验证码输入有误");
 				out.print("errorcode");
 			} else if (u != null) {
-				if (u.getTypeName() == 5) {
+				if (DictionaryDataUtil.getId("EXPERT_U").equals(u.getTypeName())) {
 					try {
 						Map<String, Object> map = expertService.loginRedirect(u);
 						Object object = map.get("expert");
@@ -141,7 +141,7 @@ public class LoginController {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else if (u.getTypeName() == 4) { 
+				} else if (DictionaryDataUtil.getId("SUPPLIER_U").equals(u.getTypeName())) { 
 					Map<String, Object> map = supplierService.checkLogin(u);
 					String msg = (String) map.get("status");
 					if ("success".equals(msg)) {

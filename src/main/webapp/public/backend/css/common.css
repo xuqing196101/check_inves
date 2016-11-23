@@ -59,6 +59,9 @@
 
 .w140 {
   width: 140px; }
+ 
+.w150 {
+  width: 150px; }
 
 .w160 {
   width: 160px; }
@@ -540,7 +543,7 @@
   padding-left: 10px; }
 
 .pl15 {
-  padding-left: 15px; }
+  padding-left: 15px!important; }
 
 .pl20 {
   padding-left: 20px!important; }

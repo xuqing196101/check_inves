@@ -92,7 +92,7 @@
     		          shade:0.01, //遮罩透明度
     		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
     		          shift: 1, //0-6的动画形式，-1不开启
-    		          offset: ['120px', '250px'],
+    		          offset: ['220px', '650px'],
     		          shadeClose: true,
     		          content:"${pageContext.request.contextPath}/credible/toUpdate.html?id="+id
     		        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
@@ -158,7 +158,7 @@
 	          shade:0.01, //遮罩透明度
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['220px', '250px'],
+	          offset: ['220px', '650px'],
 	          shadeClose: true,
 	          content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
@@ -293,33 +293,36 @@
      </div>
    </div>
     
- </div>
- <div id="openWindow"  style="display: none;">
+ <div id="openWindow"   class="dnone layui-layer-wrap" >
+    <div class="drop_window">
 	<form action="${pageContext.request.contextPath}/credible/save.html" method="post" id="form2">
 	 <ul class="list-unstyled">
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">诚信内容</label>
-                  <span class="col-md-12">
-                    <input type="text"  maxlength="255" name="badBehavior" id="name">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">诚信内容</label>
+                  <span class="col-md-12 col-xs-12">
+                    <input type="text" class="title col-md-12"  maxlength="255" name="badBehavior" id="name">
                   </span>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">状态</label>
-                  <span class="col-md-12">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">状态</label>
+                  <span class="col-md-12 col-xs-12">
                    <input type="radio"  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" id="kind" value="2" >停用
                   </span>
                 </li>
                 <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">分值</label>
-                  <span class="col-md-12">
-                   <input name="score"  maxlength="10" id="creater" type="text">
+                  <label class="col-md-12 pl20 col-xs-12">分值</label>
+                   <span class="col-md-12 col-xs-12">
+                   <input name="score" class="title col-md-12"   maxlength="5" id="creater" type="text">
                   </span>
                 </li>
                 <div class="clear"></div>
                </ul>
-    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
-    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
+               <div class="tc mt10 col-md-12 col-xs-12">
+				    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
+				    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
+			     </div>
   </form>
+</div>
 </div>
 </body>
 </html>

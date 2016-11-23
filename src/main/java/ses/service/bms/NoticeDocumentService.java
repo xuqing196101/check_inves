@@ -4,6 +4,8 @@
 package ses.service.bms;
 
 import java.util.List;
+import java.util.Map;
+
 import ses.model.bms.NoticeDocument;
 /**
  * @Title:NoticeDocumentService 
@@ -48,9 +50,9 @@ public interface NoticeDocumentService {
 	 * @Title: findSupplierDoc
 	 * @author: Wang Zhaohua
 	 * @date: 2016-11-10 下午3:43:22
-	 * @Description: 查找供应商须知文档
+	 * @Description: 查找须知文档
 	 * @param: @return
 	 * @return: List<String>
 	 */
-	String findSupplierDoc();
+	String findDocByMap(Map<String, Object> map);
 }

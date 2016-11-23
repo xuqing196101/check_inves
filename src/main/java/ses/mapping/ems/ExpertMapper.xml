@@ -17,7 +17,7 @@
 		<result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
 		<result column="NATION" jdbcType="VARCHAR" property="nation" />
 		<result column="GRADUATE_SCHOOL" jdbcType="VARCHAR" property="graduateSchool" />
-		<result column="HIGHT_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
+		<result column="LAST_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
 		<result column="MAJOR" jdbcType="VARCHAR" property="major" />
 		<result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
 		<result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
@@ -38,7 +38,7 @@
 		<result column="STATUS" jdbcType="CHAR" property="status" />
 		<result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
 		<result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
-		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+		<result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
 		<result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
 		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
 		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
@@ -49,7 +49,7 @@
 		BIRTHDAY,
 		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
 		POLITICS_STATUS, NATION, GRADUATE_SCHOOL,
-		HIGHT_EDUCATION,
+		LAST_EDUCATION,
 		MAJOR,
 		WORK_UNIT, TELEPHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS,
 		PROFESS_TECH_TITLES,
@@ -57,7 +57,7 @@
 		POST_CODE, DEGREE, AT_DUTY,
 		EXPERTS_TYPE_ID,
 		PURCHASE_DEP_ID, STATUS,
-		IS_BLACK, HONESTY_SCORE, REL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
+		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
 	</sql>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
@@ -69,7 +69,7 @@
 		from T_SES_EMS_EXPERT
 		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
 		<if test="relName != null and relName !=''">
-			AND REL_NAME like '%${relName}%'
+			AND REAL_NAME like '%${relName}%'
 		</if>
 		<if test="expertsFrom != null and expertsFrom !=''">
 			AND EXPERTS_FROM = '${expertsFrom}'
@@ -92,7 +92,7 @@
 		where 1=1 and IS_SUBMIT != '0' and
 		IS_DELETE != 1
 		<if test="relName!=null">
-			and REL_NAME= #{relName,jdbcType=VARCHAR}
+			and REAL_NAME= #{relName,jdbcType=VARCHAR}
 		</if>
 		<if test="expertsTypeId!=null">
 			and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
@@ -123,7 +123,7 @@
 		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
 		POLITICS_STATUS,
 		NATION, GRADUATE_SCHOOL,
-		HIGHT_EDUCATION, MAJOR, WORK_UNIT,
+		LAST_EDUCATION, MAJOR, WORK_UNIT,
 		TELEPHONE,
 		FAX, MAKE_TECH_DATE,
 		HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
@@ -132,7 +132,7 @@
 		AT_DUTY,
 		EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS,
 		IS_BLACK,
-		HONESTY_SCORE, REL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
+		HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
 		)
 		values (#{id,jdbcType=VARCHAR},
 		#{isSubmit,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
 				GRADUATE_SCHOOL,
 			</if>
 			<if test="hightEducation != null">
-				HIGHT_EDUCATION,
+				LAST_EDUCATION,
 			</if>
 			<if test="major != null">
 				MAJOR,
@@ -279,7 +279,7 @@
 				HONESTY_SCORE,
 			</if>
 			<if test="relName != null">
-				REL_NAME,
+				REAL_NAME,
 			</if>
 			<if test="remarks != null">
 				REMARKS,
@@ -457,7 +457,7 @@
 				GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
 			</if>
 			<if test="hightEducation != null">
-				HIGHT_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
+				LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
 			</if>
 			<if test="major != null">
 				MAJOR = #{major,jdbcType=VARCHAR},
@@ -518,7 +518,7 @@
 				HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
 			</if>
 			<if test="relName != null">
-				REL_NAME = #{relName,jdbcType=VARCHAR},
+				REAL_NAME = #{relName,jdbcType=VARCHAR},
 			</if>
 			<if test="remarks != null">
 				REMARKS = #{remarks,jdbcType=VARCHAR},
@@ -552,7 +552,7 @@
 		#{nation,jdbcType=VARCHAR},
 		GRADUATE_SCHOOL =
 		#{graduateSchool,jdbcType=VARCHAR},
-		HIGHT_EDUCATION =
+		LAST_EDUCATION =
 		#{hightEducation,jdbcType=VARCHAR},
 		MAJOR = #{major,jdbcType=VARCHAR},
 		WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
@@ -581,7 +581,7 @@
 		IS_BLACK = #{isBlack,jdbcType=CHAR},
 		HONESTY_SCORE =
 		#{honestyScore,jdbcType=DECIMAL},
-		REL_NAME =
+		REAL_NAME =
 		#{relName,jdbcType=VARCHAR},
 		REMARKS =
 		#{remarks,jdbcType=VARCHAR}
@@ -602,7 +602,7 @@
       T_SES_EMS_EXPERT
     where 1=1
     <if test="relName != null and relName !=''">
-      AND REL_NAME like '%${relName}%'
+      AND REAL_NAME like '%${relName}%'
     </if>
     <if test="ids != null">
       <foreach collection="ids" item="id" open="and ID not in (" close=")" separator=",">
@@ -656,7 +656,7 @@
 		from T_SES_EMS_EXPERT
 		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
 		<if test="relName != null and relName !=''">
-			AND REL_NAME like #{relName}
+			AND REAL_NAME LIKE #{relName}
 		</if>
 		<if test="expertsFrom != null and expertsFrom !=''">
 			AND EXPERTS_FROM = #{expertsFrom}
@@ -668,7 +668,7 @@
 			AND EXPERTS_TYPE_ID = #{expertsTypeId}
 		</if>
 		<if test="idNumber != null and idNumber !=''">
-			AND ID_NUMBER = #{idNumber}
+			AND ID_NUMBER LIKE #{idNumber}
 		</if>
 		<if test="id != null and id !=''">
 			AND ID = #{id}

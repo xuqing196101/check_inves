@@ -35,7 +35,9 @@
 			var obj = document.getElementById("TANGER_OCX");
 			//参数说明
 			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-			obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId, "ntko", "", supplierName+"_投标文件.doc", "MyFile");
+			var s = obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId, "ntko", "", supplierName+"_投标文件.doc", "MyFile");
+			obj.ShowTipMessage("提示","投标文件已上传至服务器");
+			window.location.href = "${pageContext.request.contextPath}/supplierProject/bidIndex.html?projectId="+projectId;
 		}
 	}
 	
@@ -154,11 +156,11 @@
 			</span>
    		</div>
   	</div>
-  	<div class="container content height-350 pt0">
+  	<div class="container content height-350 pt0 mt20">
 	<form id="MyFile" method="post"  enctype="multipart/form-data">
 		<c:if test="${std.bidFinish == 0 }">
 			<!-- 按钮 -->
-	        <div class="fr pr15 mt10">
+	        <div class="mt10 mb10">
 	        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	        	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
 	        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->

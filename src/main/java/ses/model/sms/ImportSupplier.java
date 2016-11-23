@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 public class ImportSupplier implements Serializable {
@@ -29,9 +26,9 @@ public class ImportSupplier implements Serializable {
     private Integer postCode;
 	@NotBlank(message="产品大类不能为空")
     private String productType;
-	@NotBlank(message="主营不能为空")
+	@NotBlank(message="主营产品不能为空")
     private String majorProduct;
-	@NotBlank(message="副营不能为空")
+	@NotBlank(message="兼营产品不能为空")
     private String byproduct;
 	@NotBlank(message="成产商不能为空")
     private String producerName;

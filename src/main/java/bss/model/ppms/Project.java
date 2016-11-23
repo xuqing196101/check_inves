@@ -1,6 +1,9 @@
 package bss.model.ppms;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.concurrent.TimedSemaphore;
 
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -108,7 +111,7 @@ public class Project {
     
     private Integer isProvisional;
     
-    private Integer planType; //（1是货物，2是工程，3是服务）
+    private String planType; //（货物，工程，服务）
     
     private Integer confirmFile; //确认制作招标文件内容。0：未确认  ，1：已确认
 
@@ -342,15 +345,15 @@ public class Project {
 		this.dateOfEntrustment = dateOfEntrustment;
 	}
 
-	public Date getBidDate() {
-		return bidDate;
-	}
+    public Date getBidDate() {
+        return bidDate;
+    }
 
-	public void setBidDate(Date bidDate) {
-		this.bidDate = bidDate;
-	}
+    public void setBidDate(Date bidDate) {
+        this.bidDate = bidDate;
+    }
 
-	public String getBidAddress() {
+    public String getBidAddress() {
 		return bidAddress;
 	}
 
@@ -550,11 +553,11 @@ public class Project {
         this.isProvisional = isProvisional;
     }
 
-    public Integer getPlanType() {
+    public String getPlanType() {
         return planType;
     }
 
-    public void setPlanType(Integer planType) {
+    public void setPlanType(String planType) {
         this.planType = planType;
     }
 

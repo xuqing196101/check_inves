@@ -1183,4 +1183,35 @@ public class PurchaseContractController extends BaseSupplierController{
 			super.writeJson(response, JSONSerializer.toJSON(map).toString());
 		}
 	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-21 上午10:58:44  
+	* @Description: 验证草稿提报时间 
+	* @param @param purCon
+	* @param @param response
+	* @param @throws Exception      
+	* @return void
+	 */
+	@RequestMapping("/addDraftGit")
+	public void addDraftGit(PurchaseContract purCon,HttpServletResponse response) throws Exception{
+		Boolean flag = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(purCon.getDraftGitAt()==null){
+			flag = false;
+			map.put("gitAt", "提报时间不能为空");
+		}
+		if(purCon.getDraftReviewedAt()==null){
+			flag = false;
+			map.put("reviewAt", "报批时间不能为空");
+		}
+		if(flag){
+			super.writeJson(response, 1);
+		}else{
+			super.writeJson(response, JSONSerializer.toJSON(map).toString());
+		}
+	}
 }

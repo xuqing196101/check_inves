@@ -9,7 +9,7 @@
 		<result column="BRAND" property="brand" />
 		<result column="MODELS" property="models" />
 		<result column="PRO_SIZE" property="proSize" />
-		<result column="ORGIN" property="orgin" />
+		<result column="ORIGIN" property="orgin" />
 		<result column="EXPIRATION_DATE" property="expirationDate" />
 		<result column="PRODUCER" property="producer" />
 		<result column="REFERENCE_PRICE" property="referencePrice" />
@@ -20,7 +20,7 @@
 		<result column="CATEGORY_NAME" property="categoryName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, ITEM_ID, SUPPLIER_ID, NAME, BRAND, MODELS, PRO_SIZE, ORGIN, EXPIRATION_DATE,
+		ID, ITEM_ID, SUPPLIER_ID, NAME, BRAND, MODELS, PRO_SIZE, ORIGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC, QR_CODE, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -37,7 +37,7 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierProducts">
 		insert into T_SES_SMS_SUPPLIER_PRODUCTS (ID, ITEM_ID, SUPPLIER_ID,
 		NAME, BRAND, MODELS,
-		PRO_SIZE, ORGIN, EXPIRATION_DATE,
+		PRO_SIZE, ORIGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC,
 		QR_CODE, CREATED_AT, UPDATED_AT
 		)
@@ -73,7 +73,7 @@
 				PRO_SIZE,
 			</if>
 			<if test="orgin != null">
-				ORGIN,
+				ORIGIN,
 			</if>
 			<if test="expirationDate != null">
 				EXPIRATION_DATE,
@@ -170,7 +170,7 @@
 				PRO_SIZE = #{proSize},
 			</if>
 			<if test="orgin != null">
-				ORGIN = #{orgin},
+				ORIGIN = #{orgin},
 			</if>
 			<if test="expirationDate != null">
 				EXPIRATION_DATE = #{expirationDate},
@@ -204,7 +204,7 @@
 		BRAND = #{brand},
 		MODELS = #{models},
 		PRO_SIZE = #{proSize},
-		ORGIN = #{orgin},
+		ORIGIN = #{orgin},
 		EXPIRATION_DATE = #{expirationDate},
 		PRODUCER = #{producer},
 		REFERENCE_PRICE = #{referencePrice},

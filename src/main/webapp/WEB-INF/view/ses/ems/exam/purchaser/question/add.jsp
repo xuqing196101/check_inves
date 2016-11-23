@@ -33,9 +33,9 @@
 				var ahtml = "";
 				for(var i=0;i<array.length;i++){
 					if($(errorOption[i]).val()==""||$(errorOption[i]).val()==null){
-						ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+						ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
 					}else{
-						ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
+						ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
 					}
 					if(queType==1){
 						if(queAnswer.indexOf(array[i])>-1){
@@ -75,35 +75,35 @@
 		function changeType(){
 			var queType = $("#queType").val();
 			var all_options = document.getElementById("options");
-				if(queType==1){
-					$("#queTopic").attr("disabled",false);
-					$("#queTopic").val(" ");
-					$("#options").attr("disabled",false);
-					all_options[0].selected = true;
-					$("#item").html(" ");
-					$("#answers").html(" ");
-					$("#items").show();
-				}else if(queType==2){
-					$("#queTopic").attr("disabled",false);
-					$("#queTopic").val(" ");
-					$("#options").attr("disabled",false);
-					all_options[0].selected = true;
-					$("#item").html(" ");
-					$("#answers").html(" ");
-					$("#items").show();
-				}else if(queType==3){
-					$("#queTopic").attr("disabled",false);
-					$("#queTopic").val(" ");
-					$("#items").hide();
-					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
-				}else{
-					document.getElementById("queTopic").setAttribute("disabled",true);
-					document.getElementById("options").setAttribute("disabled",true);
-					$("#queTopic").val(" ");
-					all_options[0].selected = true;
-					$("#item").html(" ");
-					$("#answers").html(" ");
-				}
+			if(queType==1){
+				$("#queTopic").attr("disabled",false);
+				$("#queTopic").val(" ");
+				$("#options").attr("disabled",false);
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
+				$("#items").show();
+			}else if(queType==2){
+				$("#queTopic").attr("disabled",false);
+				$("#queTopic").val(" ");
+				$("#options").attr("disabled",false);
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
+				$("#items").show();
+			}else if(queType==3){
+				$("#queTopic").attr("disabled",false);
+				$("#queTopic").val(" ");
+				$("#items").hide();
+				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
+			}else{
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
+				$("#queTopic").val(" ");
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
+			}
 		}
 	
 		//切换选项数量
@@ -119,7 +119,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 col-sm-12 col-xs-12 p0'><div class='fl mt5'><div class='red fl'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-10 col-sm-10 col-xs-10 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mr5'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -160,114 +160,112 @@
     		<h2 class="count_flow">新增题目</h2>
     	</div>
    		<div class="ul_list">
-  		     <ul class="list-unstyled col-md-6">
-		     <li class="col-md-12 p0">
-	  			<span class="col-md-12"><div class="red fl">*</div>请选择题型：</span>
-	  			<div class="col-md-12 fl">
-	  			 <div class="select_common">
-		  		  <select id="queType" name="queType" onchange="changeType()" class="w178">
-		  			<c:if test="${errData['type']==null }">
-		  				<option value="" selected>请选择</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']!=null }">
-		  				<option value="">请选择</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']==1 }">
-		  				<option value="1" selected>单选题</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']!=1 }">
-		  				<option value="1">单选题</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']==2 }">
-		  				<option value="2" selected>多选题</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']!=2 }">
-		  				<option value="2">多选题</option>
-		  			</c:if>	
-		  			<c:if test="${errData['type']==3 }">
-		  				<option value="3" selected>判断题</option>
-		  			</c:if>
-		  			<c:if test="${errData['type']!=3 }">
-		  				<option value="3">判断题</option>
-		  			</c:if>		 
-		  		</select>
-		  		<div class="red">${ERR_type}</div>
-		  		</div>
-		  	  </div>
-	  		</li>
+  			<ul class="list-unstyled col-md-6">
+			    <li class="col-md-12 col-sm-12 col-xs-12 p0">
+		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
+		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
+			  		  	<select id="queType" name="queType" onchange="changeType()" class="">
+				  			<c:if test="${errData['type']==null }">
+				  				<option value="" selected>请选择</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']!=null }">
+				  				<option value="">请选择</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']==1 }">
+				  				<option value="1" selected>单选题</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']!=1 }">
+				  				<option value="1">单选题</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']==2 }">
+				  				<option value="2" selected>多选题</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']!=2 }">
+				  				<option value="2">多选题</option>
+				  			</c:if>	
+				  			<c:if test="${errData['type']==3 }">
+				  				<option value="3" selected>判断题</option>
+				  			</c:if>
+				  			<c:if test="${errData['type']!=3 }">
+				  				<option value="3">判断题</option>
+				  			</c:if>		 
+		  				</select>
+		  				<div class="red">${ERR_type}</div>
+		  			</div>
+	  			</li>
 	  		
-  			<li class="col-md-12 p0">
-			   <span class="col-md-12"><div class="red fl">*</div>题干：</span>
-			   <div class="col-md-12">
-		        	<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
-		       		<div class="clear red">${ERR_topic}</div>
-		       </div>
-			</li> 
+  				<li class="col-md-12 col-sm-12 col-xs-12 p0">
+					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+		        		<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
+		       			<div class="clear red">${ERR_topic}</div>
+		       		</div>
+				</li> 
 			</ul>
 			
   			<ul class="list-unstyled col-md-6 p0">
-				<li class="col-md-12 p0" id="items">
-					<span class="col-md-12"><div class="red fl">*</div>请选择选项数量：</span>
-					<div class="fl col-md-12 mb5">
-					  <select id="options" name="options" onchange="changeOpt()" class="w178 fl">
-			  			<option value="">请选择</option>
-			  			<c:if test="${errData['options']=='three' }">
-			  				<option value="three" selected>3</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='three' }">
-			  				<option value="three">3</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='four' }">
-			  				<option value="four" selected>4</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='four' }">
-			  				<option value="four">4</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='five' }">
-			  				<option value="five" selected>5</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='five' }">
-			  				<option value="five">5</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='six' }">
-			  				<option value="six" selected>6</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='six' }">
-			  				<option value="six">6</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='seven' }">
-			  				<option value="seven" selected>7</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='seven' }">
-			  				<option value="seven">7</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='eight' }">
-			  				<option value="eight" selected>8</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='eight' }">
-			  				<option value="eight">8</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='nine' }">
-			  				<option value="nine" selected>9</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='nine' }">
-			  				<option value="nine">9</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']=='ten' }">
-			  				<option value="ten" selected>10</option>
-			  			</c:if>
-			  			<c:if test="${errData['options']!='ten' }">
-			  				<option value="ten">10</option>
-			  			</c:if>
-		  			</select>
-					<div class="red fl ml5 mt5">${ERR_option }</div> 
-					<div class="col-md-9 clear p0" id="item"></div>
-			    </div>
-			 </li> 
+				<li class="col-md-12 col-sm-12 col-xs-12 pl15" id="items">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0">
+			  				<option value="">请选择</option>
+			  				<c:if test="${errData['options']=='three' }">
+			  					<option value="three" selected>3</option>
+			  				</c:if>
+				  			<c:if test="${errData['options']!='three' }">
+				  				<option value="three">3</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='four' }">
+				  				<option value="four" selected>4</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='four' }">
+				  				<option value="four">4</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='five' }">
+				  				<option value="five" selected>5</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='five' }">
+				  				<option value="five">5</option>
+				  			</c:if>
+			  				<c:if test="${errData['options']=='six' }">
+				  				<option value="six" selected>6</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='six' }">
+				  				<option value="six">6</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='seven' }">
+				  				<option value="seven" selected>7</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='seven' }">
+				  				<option value="seven">7</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='eight' }">
+				  				<option value="eight" selected>8</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='eight' }">
+				  				<option value="eight">8</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='nine' }">
+				  				<option value="nine" selected>9</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='nine' }">
+				  				<option value="nine">9</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']=='ten' }">
+				  				<option value="ten" selected>10</option>
+				  			</c:if>
+				  			<c:if test="${errData['options']!='ten' }">
+				  				<option value="ten">10</option>
+				  			</c:if>
+		  				</select>
+						<div class="red fl clear">${ERR_option }</div> 
+						<div class="col-md-9 clear p0" id="item"></div>
+			    	</div>
+			 	</li> 
   		
-  				<li class="col-md-12 p0">
-					<span class="fl ml15"><div class="red fl">*</div>答案：</span>
-					<div class="fl" id="answers"></div>
+  				<li class="col-md-12 col-sm-12 col-xs-12 mt25">
+					<span class="fl"><div class="red fl">*</div>答案：</span>
+					<div class="fl" id="answers" class="select_check"></div>
 			       	<div class="red fl">${ERR_answer }</div>
 				</li>
   			</ul>

@@ -81,7 +81,7 @@ public class SupplierCertPro implements Serializable {
 	private String attachId;
 
 	private Integer sign;
-
+	
 	public String getId() {
 		return id;
 	}

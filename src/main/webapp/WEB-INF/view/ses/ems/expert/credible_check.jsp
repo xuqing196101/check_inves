@@ -8,6 +8,31 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>专家诚信列表</title>
 <script type="text/javascript">
+$(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${result.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    total: "${result.total}",
+		    startRow: "${result.startRow}",
+		    endRow: "${result.endRow}",
+		    groups: "${result.pages}">=5?5:"${result.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+//		        var page = location.search.match(/page=(\d+)/);
+//		        return page ? page[1] : 1;
+				return "${result.pageNum}";
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		        	$("#page").val(e.curr);
+		        	$("#form1").submit();
+		        }
+		    }
+		});
+	  
+});
+
    /** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("check");
@@ -81,30 +106,23 @@
 <body>
   <div class="wrapper">
 <!-- 我的订单页面开始-->
-   <div class="container">
    <div class="headline-v2">
    <h2>专家诚信登记</h2>
    </div>
-   </div>
-  
-   <form action="${pageContext.request.contextPath}/credible/findAll.html"  method="post"   class="registerform"> 
+  <h2 class="search_detail"> 
+   <form action="${pageContext.request.contextPath}/credible/findAll.html" id="form1" method="post"   class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
-   <div align="center">
-                    <table>
-                    <tr>
-                    <td>
-                    <span>关键字：</span><input type="text" id="relName" name="badBehavior" value="">
-                    </td>
-					<td>
-                         &nbsp;&nbsp; <input class="btn"  value="搜索" type="submit">
-                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
-                     </td>
-                        </tr>
-                        </table>
-                  </form>
-                  </div>
-                  </div>  
+                  <ul class="demand_list">
+                    <li>
+                       <label class="fl">关键字：</label><span><input type="text" id="relName" name="badBehavior" value="${badBehavior }"></span>
+                    </li>
+                  </ul>
+                         <input class="btn"  value="搜索" type="submit">
+                         <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
+   </form>
+  </h2>
+ </div>
 <form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 
    <div class="container">
    <div class="col-md-8">
@@ -129,7 +147,7 @@
 		  <th class="info">分值</th>
 		</tr>
 		</thead>
-		<c:forEach items="${expertCredible }" var="e" varStatus="vs">
+		<c:forEach items="${result.list }" var="e" varStatus="vs">
 		<tr style="cursor: pointer; ">
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td  class="tc w50">${vs.index+1}</td>
@@ -149,6 +167,7 @@
 		</tr>
 		</c:forEach>
         </table>
+        <div id="pagediv" align="right"></div>
      </div>
    </div>
    </form>

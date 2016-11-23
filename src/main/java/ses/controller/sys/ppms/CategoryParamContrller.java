@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -30,8 +31,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.formbean.CategotyBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
+import ses.model.bms.CategoryAssigned;
 import ses.model.bms.CategoryTree;
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
@@ -850,7 +853,25 @@ public class CategoryParamContrller extends BaseSupplierController {
         map.put("princinpal", princinpal);
         map.put("page", page);
         List<Orgnization>  cate = orgnizationServiceI.getNeedOrg(map);
-        model.addAttribute("cate",cate);
+        
+        List<Orgnization> orgList = new ArrayList<Orgnization>();
+        for (Orgnization org : cate){
+            
+             List<CategoryAssigned> caList  = cateAssignService.findCaListByOrgId(org.getId());
+             String cateNames = "";
+             for (CategoryAssigned ca : caList) {
+                  if (ca != null && StringUtils.isNotBlank(ca.getCateName())){
+                      cateNames += ca.getCateName() + ",";
+                  }
+             }
+             if (StringUtils.isNotBlank(cateNames)){
+                 org.setCateNames(cateNames.substring(0,cateNames.length()-1));
+             } 
+             
+             orgList.add(org);
+             
+        }
+        model.addAttribute("cate",orgList);
         model.addAttribute("name", name);
         model.addAttribute("list",new PageInfo<Orgnization>(cate));
         return "ses/ppms/categoryparam/allocate";
@@ -880,6 +901,23 @@ public class CategoryParamContrller extends BaseSupplierController {
     
     /**
      * 
+     *〈简述〉
+     * 获取授权后的品目信息
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/assignedRes")
+    public List<CategotyBean> categoryResult(HttpServletRequest request){
+       String orgIds = request.getParameter("orgIds");
+       List<CategotyBean> list = cateAssignService.getCateAssignedRes(orgIds);
+       return list;
+    }
+    
+    /**
+     * 
      *〈简述〉 
      *  分配任务
      *〈详细描述〉
@@ -893,10 +931,29 @@ public class CategoryParamContrller extends BaseSupplierController {
         
         String orgIds = request.getParameter("orgId");
         String cateIds = request.getParameter("cateId");
+        String cateNames = request.getParameter("cateName");
       
-        return cateAssignService.assigned(orgIds, cateIds);
+        return cateAssignService.assigned(orgIds, cateIds, cateNames);
         
     }
+    
+    /**
+     * 
+     *〈简述〉
+     * 取消分配
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return 
+     */
+    @ResponseBody
+    @RequestMapping("/unassigned")
+    public String unassigned(HttpServletRequest request){
+        String orgIds = request.getParameter("orgId");
+        String cateIds = request.getParameter("cateId");
+        return cateAssignService.unassigned(orgIds, cateIds);
+    }
+    
     /**
      * @Title: abrogate_allocate
      * @author Zhang XueFeng

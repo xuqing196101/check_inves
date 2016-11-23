@@ -496,6 +496,48 @@ public class Supplier implements Serializable {
 	private Integer page;
 	
 	private Integer rows;
+	
+	/**获取所有数据库address的省级单位名称*/
+	private String name;
+	
+	/**地址全名*/
+	private String addressName;
+
+	/**发售表书里面已经存在供应商id*/
+	private List<String> stsupplierIds;
+	
+	/**投标文件状态*/
+	private String bidFinish;
+	
+	public String getBidFinish() {
+		return bidFinish;
+	}
+
+	public void setBidFinish(String bidFinish) {
+		this.bidFinish = bidFinish;
+	}
+
+	public List<String> getStsupplierIds() {
+		return stsupplierIds;
+	}
+
+	public void setStsupplierIds(List<String> stsupplierIds) {
+		this.stsupplierIds = stsupplierIds;
+	}
+	public String getAddressName() {
+		return addressName;
+	}
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public List<String> getItemType() {
 		return itemType;

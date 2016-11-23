@@ -1,10 +1,10 @@
 //校验基本信息 不能为空的字段
 function validateForm1(){
 	var relName = $("#relName").val();
-	if(!relName){
+	/*if(!relName){
 		layer.msg("请输入姓名 !",{offset: ['222px', '390px']});
 		return false;
-	}
+	}*/
 	var gender = $("#gender").val();
 	if(!gender){
 		layer.msg("请选择性别 !",{offset: ['222px', '390px']});

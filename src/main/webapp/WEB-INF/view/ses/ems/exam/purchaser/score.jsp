@@ -42,7 +42,7 @@
 			}
 		}
 		
-		
+		//计时
 		function countTime(){
 		    if(timeLeft<=0){
 		    	$("#reTake").hide();
@@ -58,41 +58,36 @@
 		
 		$(function(){
 			$("#reTake").hide();
-			if(score < pass&&isAllowRetake == 1){
-				$("#isPass").html("很遗憾,您未通过本场考试");
+			if(isAllowRetake==1){
 				$("#reTake").show();
 				$("#div_time").show();
-			}else if(score >= pass){
-				$("#isPass").html("恭喜您通过了本场考试");
-				$("#reTake").hide();
-				$("#div_time").hide();
+				if(score < pass){
+					$("#isPass").html("很遗憾,您未通过本场考试!");
+				}else{
+					$("#isPass").html("恭喜您通过了本场考试");
+				}
 			}else{
-				$("#isPass").html("很遗憾,您未通过本场考试!");
+				if(score < pass){
+					$("#isPass").html("很遗憾,您未通过本场考试!");
+				}else{
+					$("#isPass").html("恭喜您通过了本场考试");
+				}
 				$("#div_time").hide();
 			}
 		})
 		
 		//重考方法
 		function reTake(){
-			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
-				layer.close(index);
-				var paperId = "${paperId}";
-				window.location.href = "${pageContext.request.contextPath }/purchaserExam/reTake.do?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
-			});
+			var paperId = "${paperId}";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/reTake.do?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
 		}
 		
 		//退出
 		function exitExam(){
-			if(score < 60&&isAllowRetake == 1){
-				layer.confirm('您确定要退出吗?若您选择退出,将不得再次参加本次考试!', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
-					layer.close(index);
-					window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
-				});
-			}else if(score >= 60){
+			layer.confirm('您确定要退出吗?若您选择退出,将不得再次参加本次考试!', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
+				layer.close(index);
 				window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
-			}else{
-				window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
-			}
+			});
 		}
 	</script>
 	
@@ -102,7 +97,6 @@
   	<div class="container tc"> 
   		 <div class="score_box border1">
   		    <div><span class="f18">得分：</span><span class="f22 red">${score }</span><span class="f18">分</span></div>
-  			<!--<div class="f18">感谢您的参与!</div>-->
   			<div id="isPass" class="f18 mt10"></div>
   		    <div id="div_time" class="tc mt10">
   				重考剩余时间:<span id="time"></span>

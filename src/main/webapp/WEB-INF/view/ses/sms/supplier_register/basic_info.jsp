@@ -107,7 +107,7 @@ function checkAll(ele, id) {
 
 /** 保存基本信息 */
 function saveBasicInfo(obj) {
-	$("input[name='sign']").val(obj);
+	$("input[name='flag']").val(obj);
 	$("#basic_info_form_id").submit();
 
 }
@@ -259,7 +259,7 @@ function showReason() {
 	  <form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 		<input name="id" value="${currSupplier.id}" type="hidden" /> 
 	<%-- 	<input name="defaultPage" value="${defaultPage}" type="hidden" />  --%>
-		<input name="sign" type="hidden" />
+		<input name="flag" type="hidden" />
 		<div>
     	  <h2 class="count_flow"><i>01</i>基本信息</h2>
     	  <ul class="list-unstyled" style="font-size: 14">

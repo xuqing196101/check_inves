@@ -54,11 +54,10 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
         return dictionaryDataMapper.findRepeat(dd);
     }
 
-	@Override
-	public List<DictionaryData> queryAudit(DictionaryData dd) {
-		// TODO Auto-generated method stub
-		return dictionaryDataMapper.queryAudit(dd);
-	}
+//	public List<DictionaryData> queryAudit(DictionaryData dd) {
+//		// TODO Auto-generated method stub
+//		return dictionaryDataMapper.queryAudit(dd);
+//	}
 	
 	
 	/**
@@ -216,4 +215,27 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 		}
 		return supplierDictionaryData;
 	}
+
+	/**
+     * 
+     *〈简述〉根据ID获取对象
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    @Override
+    public DictionaryData getDictionaryData(String id) {
+        return dictionaryDataMapper.selectByPrimaryKey(id);
+    }
+    
+    /**
+     * 
+     * @see ses.service.bms.DictionaryDataServiceI#findByKind(java.lang.Integer)
+     */
+    @Override
+    public List<DictionaryData> findByKind(String kind) {
+        
+        return dictionaryDataMapper.findByKind(kind);
+    }
 }

@@ -140,10 +140,19 @@ function nextStep(url){
 }
 
 //文件下載
-  function downloadFile(fileName) {
+/*   function downloadFile(fileName) {
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
-  }
+  } */
+    function download(id,key){
+    var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+        $('body').append(form); 
+        form.submit();
+}
+  
 </script>
 <script type="text/javascript">
 /*   function zhancun(){
@@ -182,10 +191,10 @@ function nextStep(url){
 		              <li class=""><a >财务信息</a></li>
 		              <li class=""><a >股东信息</a></li>
 		              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-			            <li class=""><a >物资-生产型专业信息</a></li>
+			            <li class=""><a >物资-生产专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-			            <li class=""><a >物资-销售型专业信息</a></li>
+			            <li class=""><a >物资-销售专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
 			            <li class="active"><a >工程-专业信息</a></li>
@@ -250,7 +259,8 @@ function nextStep(url){
 		                        </td>
 		                        <td class="tc" >
 		                          <c:if test="${s.attachCert !=null}">
-	                                <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+	                                <%-- <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a> --%>
+	                                <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
 	                              </c:if>
 	                               <c:if test="${s.attachCert ==null}">
 	                                 <a class="red">无附件下载</a>
@@ -312,10 +322,11 @@ function nextStep(url){
 		                        <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteChangeReason }</td>
 		                        <td class="tc" >
 		                          <c:if test="${s.attachCert !=null}">
-		                            <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+		                            <%-- <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a> --%>
+		                            <a class="mt3 color7171C6" href="javascript:download('${s.attachCertId}', '${sysKey}')">${s.attachCert}</a>
 		                          </c:if>
 		                          <c:if test="${s.attachCert ==null}">
-		                           <a class="red">无附件下载</a>
+		                              <a class="red">无附件下载</a>
 		                          </c:if>
 		                        </td>
 		                        <td class="tc">
@@ -350,7 +361,7 @@ function nextStep(url){
 			                  </table>
                             </ul>
                             
-                            <h2 class="count_flow"><i>3</i>供应商组织机构</h2>
+                            <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
                             <ul class="ul_list count_flow">
 		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
 		                          <div class="input-append">

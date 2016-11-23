@@ -425,12 +425,13 @@ h2.list_title{
     font-weight: bold;
     background: url("../images/round.png") center center no-repeat;
 }
-
 .span5{
-   width:200px;
-   float:left;
- }
- 
+	width: 200px;
+	float: left;
+	position:relative;
+	float:left;
+}
+
 /*上传下载*/
 .download {
     padding: 5px 12px;
@@ -500,15 +501,14 @@ a.thumbnail {
     display: inline-block;
     white-space: nowrap;
     vertical-align: middle;
-    min-width:249px;
     position:relative;
     margin-bottom:25px;
     clear: both;
-    height:32px;
+    height:30px;
 }
 
 .select_common select{
-	width:230px;
+	width:100%;
 }
 
 li:first-child {
@@ -952,7 +952,7 @@ li:first-child {
 .input-append{
 	margin-bottom: 25px;
 	position:relative;
-	height:32px;
+	height:30px;
 	clear:both;
 	float: left;
 }
@@ -979,5 +979,6 @@ li:first-child {
 }
 
 .s_ztree{
+	height: 420px !important;
 	overflow-y:auto !important;
 }

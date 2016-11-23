@@ -28,13 +28,16 @@
 		location.href = '${pageContext.request.contextPath}/project/list.html?page='+page;
 	}
 	
-	function jump(url, projectId, flowDefineId){
+	function jumpLoad(url, projectId, flowDefineId){
 		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
-       	    
-       //$("#as").attr("href",urls);
+      $("#as").attr("href",urls);
       var el=document.getElementById('as');
        el.click();//触发打开事件
-       $("#open_bidding_main").load(urls);
+      // $("#open_bidding_main").load(urls);
+	}
+	
+	function jumpChild(url){
+		$("#open_bidding_main").load(url +"#TANGER_OCX");
 	}
 	
 	//页面初始加载将要执行的页面
@@ -71,23 +74,23 @@
 	                       <c:forEach items="${fds}" var="fd">
 	                       	  	<c:choose> 
 								  <c:when test="${fd.status == 4}">   
-								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')" class="active">
+								    <li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" class="active">
 		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:when> 
 								  <c:when test="${fd.status == 1}">
-		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+		                       		<li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
 		                       			<a  class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when> 
 								  <c:when test="${fd.status == 2}">
-		                       		<li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+		                       		<li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
 		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when>
 								  <c:otherwise>   
 								    <%-- <li  onclick="tips(${fd.step})"> --%>
-								    <li  onclick="jump('${fd.url}','${project.id }','${fd.id}')">
+								    <li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
 		                       			<a   class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:otherwise> 
@@ -97,9 +100,23 @@
 					  </div>
 					  <!-- 右侧内容开始-->
 					  <input type="hidden" id="initurl" value="${url }">
-					  <div class="tag-box tag-box-v4 col-md-9"  id="open_bidding_main">
+					  <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
 					  		
-					  </div>
+					  </div> -->
+					  <script type="text/javascript" language="javascript">   
+                        function iFrameHeight() {   
+                        var ifm= document.getElementById("open_bidding_iframe");   
+                        var subWeb = document.frames ? document.frames["open_bidding_iframe"].document : ifm.contentDocument;   
+                        if(ifm != null && subWeb != null) {
+                           ifm.height = subWeb.body.scrollHeight;
+                           /*ifm.width = subWeb.body.scrollWidth;*/
+                        }   
+                        }   
+                        </script>
+                      <!-- 右侧内容开始-->
+                      <div class="tag-box tag-box-v4 col-md-9">
+                         <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
+                      </div>
 					  <div class="col-md-12 tc mt20" >
 					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
        	   			  </div>

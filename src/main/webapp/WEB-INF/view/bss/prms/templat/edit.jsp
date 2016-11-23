@@ -72,15 +72,15 @@ function submit1(){
                  <h2>修改模板</h2>
                </div>
        <ul class="ul_list">
-            <li class="col-md-3 margin-0 padding-0 "><span
-                    class="col-md-12 padding-left-5">初审项模板名称</span>
-                    <div class="input-append">
-                        <input type="text" class="span5" id="name" maxlength="30" name="name" value="${templat.name }">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板名称</span>
+                    <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+                        <input type="text" class="input_group" id="name" maxlength="30" name="name" value="${templat.name }">
                         <span class="add-on">i</span>
                     </div>
             </li>
             
-            <li class="col-md-3 margin-0 padding-0 "><span class="">初审项模板类型</span>
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="">初审项模板类型</span>
                     <div class="select_check">
                         <input type="radio" name="kind" value="商务" <c:if test="${fn:contains(templat.kind,'商务')}">checked="true"</c:if> >商务
                         <input type="radio" <c:if test="${fn:contains(templat.kind,'技术')}">checked="true"</c:if> name="kind" id="kind" value="技术" >技术

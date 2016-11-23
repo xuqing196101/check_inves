@@ -109,7 +109,7 @@ function goBack(){
        </div>
 	 </li> 
 	 <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><i class="red">＊</i>链接来源：</span>
+	   <span class="col-md-12 padding-left-5">链接来源：</span>
        <div class="input-append">
         <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
         <span class="add-on">i</span>
@@ -119,6 +119,7 @@ function goBack(){
 	   <span class="">图片展示：</span>
 	   <div class="input-append">
         <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" readonly>
+       	<span class="add-on">i</span>
        </div>
 	 </li> 
      <li class="col-md-11 margin-0 padding-0">
@@ -127,17 +128,17 @@ function goBack(){
          <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>
-	 <li class="col-md-12 p0 mt10" id="picNone" >
-	    <span class="fl">图片上传：</span>
-	    <div class="fl">
-			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
-		</div>
-	 </li> 
-	 <li class="col-md-12 p0 mt10">
+	 <li class="col-md-4 p0 mt10">
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
 		<up:show showId="artice_file_show" delete="false" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	 </div>
+	 </li> 
+	 <li class="col-md-3 p0 mt10" id="picNone" >
+	    <span class="fl">图片上传：</span>
+	    <div class="fl">
+			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+		</div>
 	 </li> 
   	 </ul> 
 	 </div>

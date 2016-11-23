@@ -11,7 +11,10 @@
     <title>装备（产品）技术资料概述</title>
 
 <script type="text/javascript">
-
+function goBack(){
+	var contractId = $("#contractProductId").val()
+	window.location.href="${pageContext.request.contextPath}/offer/selectProduct.html?contractId="+contractId;
+}
 </script>
   </head>
   
@@ -32,7 +35,7 @@
 	  		 <h2>装备（产品）技术资料概述</h2>
 	 	</div>
 	 	
-	 	<input type="hidden" id="contractProduct.id" name="contractProduct.id" class="w230 mb0" value="${contractProduct.id }">
+	 	<input type="hidden" id="contractProductId" name="contractProduct.id" class="w230 mb0" value="${contractProduct.id }">
 	 	<input type="hidden" id="id" name="id" class="w230 mb0" value="${productInfo.id }">
 	 	
 	 	<div class="container padding-left-25 padding-right-25 mt5">

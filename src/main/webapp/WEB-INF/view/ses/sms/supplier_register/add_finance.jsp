@@ -32,15 +32,45 @@
 <script>var globalPath = "${contextPath}";</script>
 <script type="text/javascript">
 	
-	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_finance/";
+	function saveOrBack() {
+		
+		
+	/* 	var action = "${pageContext.request.contextPath}/supplier_finance/";
 		if (sign) {
 			action += "save_or_update_finance.html";
 		} else {
 			action += "back_to_basic_info.html";
 		}
 		$("#finance_form_id").attr("action", action);
-		$("#finance_form_id").submit();
+		$("#finance_form_id").submit(); */
+		// var index=parent.layer.getFrameIndex(window.name);
+		 $.ajax({
+			   type: "POST",  
+               url: "${pageContext.request.contextPath}/supplier_finance/save_or_update_finance.html",  
+               data: $("#finance_form_id").serialize(),  
+               success:function(result){
+                 if(result=='0'){
+                	alert(result);
+                	 
+                 } else{
+                	 
+                	 parent.window.location.href = "${pageContext.request.contextPath}/supplier/login.html";
+                 }
+            	   
+                },
+                error: function(result){
+                    layer.msg("添加失败",{offset: ['150px', '180px']});
+                }
+                
+                
+		 });
+		
+	}
+	function cancels(){
+		 var index=parent.layer.getFrameIndex(window.name);
+
+		    parent.layer.close(index);
+
 	}
 </script>
 
@@ -138,8 +168,8 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack()">保存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>
 						</form>
 					</div>

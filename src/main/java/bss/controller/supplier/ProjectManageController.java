@@ -1,7 +1,9 @@
 package bss.controller.supplier;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,22 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.Supplier;
-import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
 
+import bss.model.ppms.AduitQuota;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.MarkTermService;
-import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
@@ -65,12 +70,6 @@ public class ProjectManageController {
     private DownloadService downloadService;
     
     @Autowired
-    private SupplierQuoteService supplierQuoteService;
-    
-    @Autowired
-    private ProjectDetailService detailService;
-    
-    @Autowired
     private ScoreModelService scoreModelService;
     
     @Autowired
@@ -81,6 +80,12 @@ public class ProjectManageController {
     
     @Autowired
     private MarkTermService markTermService;
+    
+    @Autowired
+    private PackageService packageService;
+    
+    @Autowired
+    private AduitQuotaService aduitQuotaService;
     
     /**
      *〈简述〉投标管理进入
@@ -194,29 +199,44 @@ public class ProjectManageController {
      * @param model
      */
     private void getBinding(SaleTender saleTender, String projectId, Model model) {
-      //初审项
+        //初审项
         List<FirstAudit> firstAudits = new ArrayList<FirstAudit>();
+        String[] packageIds = saleTender.getPackages().split(",");
         Map<String, Object> map =new HashMap<String, Object>();
-        //map.put("packageId", packageId);
+        map.put("packageIds", packageIds);
         map.put("projectId", projectId);
-        List<PackageFirstAudit> packageFirstAudits = packageFirstAuditService.selectList(map);
+        List<PackageFirstAudit> packageFirstAudits = packageFirstAuditService.findByProAndPackage(map);
         for (PackageFirstAudit packageFirstAudit : packageFirstAudits) {
             FirstAudit firstAudit = firstAuditService.get(packageFirstAudit.getFirstAuditId());
             firstAudits.add(firstAudit);
         }
         //评审模型关联
+        List<ScoreModel> scoreModels = new ArrayList<ScoreModel>();
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setProjectId(projectId);
-      //  scoreModel.setPackageId(packageId);
-        List<ScoreModel> scoreModels = scoreModelService.findListByScoreModel(scoreModel);
+        for (String packageId : packageIds) {
+            scoreModel.setPackageId(packageId);
+            List<ScoreModel> sms = scoreModelService.findListByScoreModel(scoreModel);
+            scoreModels.addAll(sms);
+        }
         for (ScoreModel scoreModel2 : scoreModels) {
             MarkTerm markTerm = new MarkTerm();
             markTerm.setId(scoreModel2.getMarkTermId());
             List<MarkTerm> markTerms = markTermService.findListByMarkTerm(markTerm);
             if (markTerms != null && markTerms.size() > 0) {
-                scoreModel2.setMarkTermName(markTerms.get(0).getName());
+                scoreModel2.setMarkTerm(markTerms.get(0));
             }
         }
+        List<Packages> packages = new ArrayList<Packages>();
+        for (String packageId : packageIds) {
+            HashMap<String, Object> paMap = new HashMap<String, Object>();
+            paMap.put("id", packageId);
+            List<Packages> pg = packageService.findPackageById(paMap);
+            if (pg != null && pg.size() > 0) {
+                packages.add(pg.get(0));
+            }
+        }
+        model.addAttribute("packages", packages);
         model.addAttribute("scoreModels", scoreModels);
         model.addAttribute("firstAudits", firstAudits);
     }
@@ -242,6 +262,9 @@ public class ProjectManageController {
                 //删除 ,表中数据假删除
                 uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
+                //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
+                std.setBidFinish((short)1);
+                saleTenderService.update(std);
             } else {
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
                 //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
@@ -288,6 +311,43 @@ public class ProjectManageController {
         }
     }
     
+    @RequestMapping("/saveIndex")
+    @ResponseBody
+    public void saveIndex(String datas, HttpServletResponse response, HttpServletRequest req) throws IOException{
+        try {
+            AduitQuota aq = new AduitQuota();
+            //解析datas
+            String[] data = datas.split(",");
+            for (String values : data) {
+                String value = values.substring(1, values.length()-1);
+                String[] v = value.split("_");
+                aq.setCreatedAt(new Date());
+                aq.setId(WfUtil.createUUID());
+                aq.setIsDeleted((short)0);
+                aq.setPackageId(v[2]);
+                aq.setProjectId(v[0]);
+                aq.setRound(0);
+                aq.setScoreModelId(v[1]);
+                Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+                aq.setSupplierId(supplier.getId());
+                BigDecimal bd = new BigDecimal(v[3]);
+                aq.setSupplierValue(bd);
+                aduitQuotaService.save(aq);
+            }
+            String msg = "保存成功";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ",  \"msg\": \"" + msg
+                            + "\"}");
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+        
+    }
+    
     /**
      *〈简述〉结果页面
      *〈详细描述〉
@@ -328,4 +388,5 @@ public class ProjectManageController {
             return null;
         }
     }
+    
 }

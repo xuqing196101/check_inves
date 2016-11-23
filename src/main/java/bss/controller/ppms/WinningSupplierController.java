@@ -3,6 +3,8 @@
  */
 package bss.controller.ppms;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierQuoteService;
+
 import com.alibaba.fastjson.JSON;
 
 
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SupplierCheckPass;
+import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.SupplierCheckPassService;
 
 /**
@@ -37,6 +44,15 @@ public class WinningSupplierController extends BaseController {
     @Autowired
     SupplierCheckPassService checkPassService; 
     
+    @Autowired
+    PackageService packageService;
+    
+    @Autowired
+    SupplierQuoteService supplierQuoteService;
+    
+    @Autowired
+    AduitQuotaService aduitQuotaService;
+    
     
     /**
      *〈简述〉选择中标供应商
@@ -46,9 +62,28 @@ public class WinningSupplierController extends BaseController {
      * @return
      */
     @RequestMapping("/selectSupplier")
-    public String selectWinningSupplier(Model model,String projectId){
+    public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
         List<Packages> listPackage = checkPassService.listPackage(projectId);
-        model.addAttribute("list", listPackage);
+//        //项目分包信息
+//        HashMap<String,Object> pack = new HashMap<String,Object>();
+//        pack.put("projectId", projectId);
+//        List<Packages> packages = packageService.findPackageById(pack);
+//        for (Packages pg : packages) {
+//            //获取该包下初审通过参与报价的供应商
+//            List<Supplier> supplierList = new ArrayList<Supplier>(); 
+//            
+//            //改包下供应商报价信息
+//            HashMap<String, Object> map = new HashMap<String, Object>();
+//            map.put("projectId", projectId);
+//            map.put("packageId", pg);
+//            map.put("", );
+//            supplierQuoteService.find(map);
+//            //改包下供应商得分信息
+//            SupplierCheckPass supplierCheckPass = new SupplierCheckPass();
+//            pg.getSupplierList();
+//        }
+//        JSON.parseObject(text, clazz);
+        model.addAttribute("packages", listPackage);
         model.addAttribute("projectId", projectId);
         return "bss/ppms/winning_supplier/list";
     }

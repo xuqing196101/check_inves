@@ -22,7 +22,6 @@ import ses.service.bms.DictionaryDataServiceI;
 @Component
 public class DictionaryDataUtil {
     
-    public static DictionaryData dictionaryData = new DictionaryData();
     
     @Autowired
     private DictionaryDataServiceI dictionaryDataService;
@@ -48,6 +47,7 @@ public class DictionaryDataUtil {
      * @throws Exception
      */
     public static String getId(String code) {
+    	DictionaryData dictionaryData = new DictionaryData();
         String id = "";
         dictionaryData.setCode(code);
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
@@ -55,5 +55,37 @@ public class DictionaryDataUtil {
             id = dds.get(0).getId();
         } 
         return id;
+    }
+    
+    /**
+     *〈简述〉根据code获取数据字典对象
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param code 编码
+     * @return
+     */
+    public static DictionaryData get(String code){
+    	DictionaryData dictionaryData = new DictionaryData();
+        DictionaryData dd = null;
+        dictionaryData.setCode(code);
+        List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
+        if (dds != null && dds.size() > 0) {
+            dd = dds.get(0);
+        } 
+        return dd;
+    }
+    
+    /**
+     *〈简述〉根据类型查询数据字典集合
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param kind
+     * @return
+     */
+    public static List<DictionaryData> find(Integer kind){
+    	DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setKind(kind);
+        List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
+        return dds;
     }
 }

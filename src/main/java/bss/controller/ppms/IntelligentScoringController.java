@@ -90,6 +90,31 @@ public class IntelligentScoringController {
 		FirstAuditController.getType(project,model);
 		return "bss/ppms/open_bidding/scoring_rubric";
 	}
+	
+	/**
+	 *〈简述〉查看
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param packages 分包对象
+	 * @param model
+	 * @param request
+	 * @param flowDefineId 流程定义Id
+	 * @return
+	 */
+	@RequestMapping("packageListView")
+    public String packageListView(@ModelAttribute Packages packages,Model model,HttpServletRequest request,String flowDefineId){
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("projectId", packages.getProjectId());
+        Project project = projectService.selectById(packages.getProjectId());
+        model.addAttribute("project", project);
+        List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
+        model.addAttribute("packagesList", packagesList);
+        model.addAttribute("projectId", packages.getProjectId());
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("ope", "view");
+        FirstAuditController.getType(project,model);
+        return "bss/ppms/open_bidding/scoring_rubric";
+    }
 	/**
 	 * 
 	 * @Title: list

@@ -142,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    </td>
 			    <td class="tc"  >${obj.fileName }</td>
 			      <td class="tc"  >
-					   <c:if test="${obj.goodsType==1}">
+					   <%-- <c:if test="${obj.goodsType==1}">
 					 	 货物
 					  </c:if>
 					   <c:if test="${obj.goodsType=='2' }">
@@ -150,7 +150,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  </c:if>
 					   <c:if test="${obj.goodsType=='3' }">
 					 	 服务
-					  </c:if>
+					  </c:if> --%>
+					    <c:forEach items="${dicType }" var="mt">
+								  <option value="${mt.id }"<c:if test="${mt.id==obj.goodsType }"> selected="selected"</c:if> >${mt.name}</option>
+					    </c:forEach>
+								
+								
 			  </td>
 			</tr>
 	 

@@ -11,6 +11,7 @@
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="BID_FINISH" jdbcType="DECIMAL" property="bidFinish" />
+		<result column="PACKAGR_IDS" jdbcType="VARCHAR" property="packages" />
 		<association property="user" column="USER_ID"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 		<association property="suppliers" column="SUPPLIER_ID"
@@ -22,7 +23,7 @@
 		<!-- @mbggenerated -->
 		st.ID, st.PROJECT_ID, st.STATUS_BID, st.SUPPLIER_ID, st.STATUS_BOND,
 		st.CREATED_AT,
-		st.UPDATED_AT, st.USER_ID,st.BID_FINISH
+		st.UPDATED_AT, st.USER_ID,st.BID_FINISH,st.PACKAGR_IDS
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -41,13 +42,13 @@
 		<!-- @mbggenerated -->
 		insert into T_BSS_PPMS_SALE_TENDER (ID, PROJECT_ID, STATUS_BID,
 		SUPPLIER_ID, STATUS_BOND, CREATED_AT,
-		UPDATED_AT, USER_ID,BID_FINISH)
+		UPDATED_AT, USER_ID,BID_FINISH,PACKAGR_IDS)
 		values
 		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
 		#{statusBid,jdbcType=DECIMAL},
 		#{supplierId,jdbcType=VARCHAR},
 		#{statusBond,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE},
-		#{updatedAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL})
+		#{updatedAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR}),#{bidFinish,jdbcType=DECIMAL},#{packages,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
@@ -80,6 +81,9 @@
 			<if test="bidFinish != null">
 			     BID_FINISH,
 			</if>
+			<if test="packages != null">
+			     PACKAGR_IDS,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -109,6 +113,9 @@
 			 <if test="bidFinish != null">
                 #{bidFinish,jdbcType=DECIMAL},
             </if>
+            <if test="packages != null">
+				#{packages,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.SaleTender">
@@ -139,6 +146,9 @@
 			<if test="bidFinish">
 			     BID_FINISH=#{bidFinish,jdbcType=DECIMAL},
 			</if>
+			<if test="packages != null">
+				PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -158,6 +168,7 @@
 		UPDATED_AT = #{updatedAt,jdbcType=DATE},
 		USER_ID = #{userId,jdbcType=VARCHAR},
 		BID_FINISH = #{bidFinish,jdbcType=DECIMAL},
+		PACKAGR_IDS = #{packages,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 

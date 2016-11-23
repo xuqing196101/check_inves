@@ -25,6 +25,8 @@ public class CategoryAssigned {
     private Date createdAt;
     /** 修改日期 */
     private Date updatedAt;
+    /** 品目名称 */
+    private String cateName;
 
     
     public String getId() {
@@ -65,6 +67,14 @@ public class CategoryAssigned {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
     }
     
     

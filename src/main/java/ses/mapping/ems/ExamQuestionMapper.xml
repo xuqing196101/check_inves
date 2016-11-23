@@ -285,14 +285,10 @@
 			E.QUESTION_TYPE_ID = T.ID
 			AND E.PERSON_TYPE = 2
             <if test="topic != null and '' != topic">
-            	<![CDATA[
                	AND E.TOPIC LIKE #{topic}
-                 ]]>  
             </if> 
             <if test="questionTypeId != null and '' != questionTypeId">
-            	<![CDATA[
                 AND E.QUESTION_TYPE_ID = #{questionTypeId}
-                ]]>
             </if> 
         </where>
         ORDER BY
@@ -300,8 +296,8 @@
         	E.CREATED_AT DESC
   </select> 
   
-  <!-- 采购人根据考卷题型随机查找单选题 -->
-  <select id="selectSingleRandom" parameterType="Object" resultMap="BaseColumn">
+  <!-- 采购人根据考卷题型随机查找题目-->
+  <select id="selectPurchaserQuestionRandom" parameterType="java.util.Map" resultMap="BaseColumn">
   		SELECT
 			*
 		FROM
@@ -318,67 +314,12 @@
 			WHERE
 				E.QUESTION_TYPE_ID = T.ID
 			AND E.PERSON_TYPE = 2
-			AND E.QUESTION_TYPE_ID = 1
+			AND E.QUESTION_TYPE_ID = #{questionTypeId}
 			ORDER BY
 				dbms_random.
 			VALUE
 		)
 		WHERE
-			ROWNUM &lt;= #{singleNum}
+			ROWNUM &lt;= #{queNum}
   </select>
-  
-   <!-- 采购人根据考卷题型随机查找多选题 -->
-  <select id="selectMultipleRandom" parameterType="Object" resultMap="BaseColumn">
-  		SELECT
-			*
-		FROM
-			(
-			SELECT
-				E.ID,
-				E.TOPIC,
-				E.ITEMS,
-				E.ANSWER,
-				T.NAME
-			FROM
-				T_SES_EMS_EXAM_QUESTION E,
-				T_SES_EMS_EXAM_QUESTION_TYPE T
-			WHERE
-				E.QUESTION_TYPE_ID = T.ID
-			AND E.PERSON_TYPE = 2
-			AND E.QUESTION_TYPE_ID = 2
-			ORDER BY
-				dbms_random.
-			VALUE
-		)
-		WHERE
-			ROWNUM &lt;= #{multipleNum}
-  </select>
-  
-   <!-- 采购人根据考卷题型随机查找判断题 -->
-  <select id="selectJudgeRandom" parameterType="Object" resultMap="BaseColumn">
-  		SELECT
-			*
-		FROM
-			(
-			SELECT
-				E.ID,
-				E.TOPIC,
-				E.ITEMS,
-				E.ANSWER,
-				T.NAME
-			FROM
-				T_SES_EMS_EXAM_QUESTION E,
-				T_SES_EMS_EXAM_QUESTION_TYPE T
-			WHERE
-				E.QUESTION_TYPE_ID = T.ID
-			AND E.PERSON_TYPE = 2
-			AND E.QUESTION_TYPE_ID = 3
-			ORDER BY
-				dbms_random.
-			VALUE
-		)
-		WHERE
-			ROWNUM &lt;= #{judgeNum}
-  </select>
-
 </mapper>

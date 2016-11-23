@@ -139,10 +139,19 @@ function nextStep(){
 
 
 //文件下載
-  function downloadFile(fileName) {
+ /*  function downloadFile(fileName) {
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
-  }
+  } */
+  
+    function download(id,key){
+    var form = $("<form>");   
+        form.attr('style', 'display:none');   
+        form.attr('method', 'post');
+        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+        $('body').append(form); 
+        form.submit();
+}
 </script>
 <script type="text/javascript">
 /*   function zhancun(){
@@ -181,10 +190,10 @@ function nextStep(){
 		              <li class=""><a >财务信息</a></li>
 		              <li class=""><a >股东信息</a></li>
 		              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-			            <li class=""><a >物资-生产型专业信息</a></li>
+			            <li class=""><a >物资-生产专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-			            <li class=""><a >物资-销售型专业信息</a></li>
+			            <li class=""><a >物资-销售专业信息</a></li>
 			          </c:if>
 			          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
 			            <li class=""><a >工程-专业信息</a></li>
@@ -233,7 +242,8 @@ function nextStep(){
                           </td>
                           <td class="tc">
                             <c:if test="${s.attach !=null}">
-                             <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a>
+                             <%-- <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a> --%>
+                             <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
                             </c:if>
                             <c:if test="${s.attach ==null}">
                              <a class="red">无附件下载</a>

@@ -9,7 +9,7 @@
     		var depid = $("#defaultid").val();
     		var typeName = $("#typeName").val();
     		//$("#hform").submit();
-    		parent.showiframe("添加机构人员",600,600,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
+    		parent.showiframe("添加机构人员",550,400,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
     	}
     	function editUser(){
     		var ids = getSelectIds();
@@ -196,7 +196,7 @@
 								</h3>
 							</div>
 							<div class="panel-body">
-								<table class="table table-bordered table-hover" id="user">
+							<table class="table table-bordered table-condensed table-hover table-striped" id="user">
 									<thead>
 										<tr>
 											<th><input type="checkbox" onclick="selectAll();" id="allId" alt="全选"/></th>
@@ -250,7 +250,7 @@
 								</h3>
 							</div>
 							<div class="panel-body">
-								<table class="table table-bordered table-hover">
+								<table class="table table-bordered table-condensed table-hover table-striped">
 									<thead>
 										<tr>
 											<!-- <th><input type="checkbox" /></th> -->

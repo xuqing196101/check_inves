@@ -62,4 +62,9 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
    public void update(PackageFirstAudit record){
 	   mapper.update(record);
    }
+   
+   @Override
+   public List<PackageFirstAudit> findByProAndPackage(Map<String, Object> map) {
+        return mapper.findByProAndPackage(map);
+   }
 }

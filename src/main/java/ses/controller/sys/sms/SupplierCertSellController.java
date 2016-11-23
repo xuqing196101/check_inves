@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import common.constant.Constant;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertSell;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertSellService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -32,11 +35,17 @@ public class SupplierCertSellController extends BaseSupplierController {
 
 	@Autowired
 	private SupplierCertSellService supplierCertSellService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 
 	@RequestMapping(value = "add_cert_sell")
 	public String addCertSell(Model model, String matSellId, String supplierId) {
 		model.addAttribute("matSellId", matSellId);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		return "ses/sms/supplier_register/add_cert_sell";
 	}
 

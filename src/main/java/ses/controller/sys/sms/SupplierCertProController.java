@@ -2,7 +2,10 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +15,19 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import common.constant.Constant;
+import com.alibaba.fastjson.JSON;
 
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierCertProService;
 import ses.service.sms.SupplierService;
@@ -40,6 +48,9 @@ public class SupplierCertProController extends BaseSupplierController {
 	@Autowired
 	private SupplierCertProService supplierCertProService;
 	
+	@Autowired
+	private UploadService uploadService;
+	
 	@RequestMapping(value = "add_cert_pro")
 	public String addCertPro(Model model, SupplierCertPro supplierCertPro, String supplierId,Integer sign) {
 		model.addAttribute("supplierCertPro", supplierCertPro);
@@ -51,15 +62,18 @@ public class SupplierCertProController extends BaseSupplierController {
 		return "ses/sms/supplier_register/add_cert_pro";
 	}
 	
-	@RequestMapping(value = "save_or_update_cert_pro")
-	public String saveOrUpdateCertPro(HttpServletRequest request, SupplierCertPro supplierCertPro, String supplierId) throws IOException {
-		// this.setCertProUpload(request, supplierCertPro);
-		supplierCertProService.saveOrUpdateCertPro(supplierCertPro);
+	@RequestMapping(value = "/save_or_update_cert_pro" ,produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String saveOrUpdateCertPro(HttpServletRequest request, SupplierCertPro supplierCertPro, String supplierId,Model model) throws IOException {
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-1");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "professional_info");
-		return "ses/sms/supplier_register/supplier_type";	
+		Map<String, Object> map = valudatePro(supplierCertPro);
+		boolean bool = (boolean) map.get("bool");
+		if(bool==false){
+			supplierCertProService.saveOrUpdateCertPro(supplierCertPro);
+		} 
+			return JSON.toJSONString(map);
+ 
 	}
 	
 	@RequestMapping(value = "back_to_professional")
@@ -105,5 +119,41 @@ public class SupplierCertProController extends BaseSupplierController {
 				}
 			}
 		}
+	}
+	
+	
+	public  Map<String,Object> valudatePro(SupplierCertPro supplierCertPro){
+		Map<String,Object> map=new HashMap<String,Object>();
+		boolean bool=true;
+		if(supplierCertPro.getName()==null){
+			map.put("name", "不能为空");
+			bool=false;
+		}
+		if(supplierCertPro.getLevelCert()==null){
+			map.put("level", "不能为空");
+			bool=false;
+		}
+		if(supplierCertPro.getLicenceAuthorith()==null){
+			map.put("authorith", "不能为空");
+			bool=false;
+		}
+		if(supplierCertPro.getExpStartDate()==null){
+			map.put("sDate", "不能为空");
+			bool=false;
+		}
+		if(supplierCertPro.getExpEndDate()==null){
+			map.put("eDate", "不能为空");
+			bool=false;
+		}
+		
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		List<UploadFile> list = uploadService.getFilesOther(supplierCertPro.getId(), supplierDictionary.getSupplierProCert(), String.valueOf(Constant.SUPPLIER_SYS_KEY));
+		if(list.size()<=0){
+			map.put("file", "文件未上传");
+			bool=false;
+		}
+		
+		map.put("bool", bool);
+		return map;
 	}
 }

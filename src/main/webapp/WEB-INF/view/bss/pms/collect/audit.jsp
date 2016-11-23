@@ -231,11 +231,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td>
 							
 							<select  onchange="sel(this)" name="list[${vs.index }].purchaseType">
-							<option value="gkzb">公开招标</option>
-							<option value="yqzb">邀请招标</option>
-							<option value="dzjp">电子反拍</option>
-							<option value="jzxtp">竞争性谈判</option>
-							<option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+								<%-- <option value="gkzb">公开招标</option>
+								<option value="yqzb">邀请招标</option>
+								<option value="dzjp">电子反拍</option>
+								<option value="jzxtp">竞争性谈判</option>
+								<option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option> --%>
+								
+								<c:forEach items="${mType }" var="mt">
+								 <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
+								</c:forEach>
 							</select>
 							</td>
 							<td class="tc">

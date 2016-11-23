@@ -5,8 +5,6 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>专家诚信修改</title>
 <script type="text/javascript">
    
 	function cancel(){
@@ -107,33 +105,37 @@
 </script>
 </head>
 <body>
- <div id="openWindow">
+ <div id="openWindow" class=" layui-layer-wrap" >
+    <div class="drop_window">
 	<form action="${pageContext.request.contextPath}/credible/update.html" method="post" id="form1">
 	<input type="hidden" name="id" value="${expertCredible.id }">
 	<ul class="list-unstyled">
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">诚信内容</label>
-                  <span class="col-md-12">
-                    <input type="text"  maxlength="255" value="${expertCredible.badBehavior }" name="badBehavior" id="name">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">诚信内容</label>
+                  <span class="col-md-12 col-xs-12">
+                    <input type="text"  maxlength="255" class="title col-md-12" value="${expertCredible.badBehavior }" name="badBehavior" id="name">
                   </span>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">状态</label>
-                  <span class="col-md-12">
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                  <label class="col-md-12 pl20 col-xs-12">状态</label>
+                  <span class="col-md-12 col-xs-12">
                   <input type="radio" <c:if test="${expertCredible.isStatus == 1 }">checked</c:if>  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" <c:if test="${expertCredible.isStatus == 2 }">checked</c:if>  id="kind" value="2" >停用
                   </span>
                 </li>
-                <li class="mt10 col-md-12 p0">
-                  <label class="col-md-12 pl20">分值</label>
-                  <span class="col-md-12">
-                   <input name="score"  style="ime-mode:disabled" onpaste="return false" value="${expertCredible.score}"   maxlength="5" id="creater" type="text">
+                 <li class="mt10 col-md-12 p0">
+                  <label class="col-md-12 pl20 col-xs-12">分值</label>
+                   <span class="col-md-12 col-xs-12">
+                   <input name="score" class="title col-md-12"   onpaste="return false" value="${expertCredible.score}"   maxlength="5" id="creater" type="text">
                   </span>
                 </li>
                 <div class="clear"></div>
                </ul>
-    <input type="button" onclick="submit1();"  value="修改"class="btn btn-windows add"/>
-    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
+               <div class="tc mt10 col-md-12 col-xs-12">
+				    <input type="button" onclick="submit1();"  value="修改"class="btn btn-windows add"/>
+				    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
+			     </div>
   </form>
+</div>
 </div>
 </body>
 </html>

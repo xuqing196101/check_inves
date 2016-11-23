@@ -9,12 +9,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
 import ses.dao.ems.ExamQuestionMapper;
 import ses.model.ems.ExamQuestion;
 import ses.service.ems.ExamQuestionServiceI;
-import ses.util.PropertiesUtil;
 
 /**
  * @Title:ExamQuestionServiceImpl 
@@ -48,55 +45,39 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectSingleRandom(examQuestion);
-	}
-	
-	@Override
-	public List<ExamQuestion> selectMultipleRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectMultipleRandom(examQuestion);
-	}
-	
-	@Override
-	public List<ExamQuestion> selectJudgeRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectJudgeRandom(examQuestion);
+	public List<ExamQuestion> selectPurchaserQuestionRandom(HashMap<String,Object> map) {
+		return examQuestionMapper.selectPurchaserQuestionRandom(map);
 	}
 	
 	@Override
 	public List<ExamQuestion> queryPurchaserByTerm(HashMap<String, Object> map) {
 		return examQuestionMapper.queryPurchaserByTerm(map);
 	}
-
 	
 	@Override
 	public List<ExamQuestion> searchExpertPool() {
 		return examQuestionMapper.searchExpertPool();
 	}
-
 	
 	@Override
 	public List<ExamQuestion> selectByTopic(HashMap<String, Object> map) {
 		return examQuestionMapper.selectByTopic(map);
 	}
-
 	
 	@Override
 	public int queryQuestionCount(HashMap<String, Object> map) {
 		return examQuestionMapper.queryQuestionCount(map);
 	}
-
 	
 	@Override
 	public List<ExamQuestion> selectQuestionRandom(HashMap<String, Object> map) {
 		return examQuestionMapper.selectQuestionRandom(map);
 	}
-
 	
 	@Override
 	public List<ExamQuestion> selectByTecTopic(HashMap<String, Object> map) {
 		return examQuestionMapper.selectByTecTopic(map);
 	}
-
 	
 	@Override
 	public int queryPurchaserQuestionCount(HashMap<String, Object> map) {
@@ -107,6 +88,5 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	public List<ExamQuestion> findExpertQuestionList(HashMap<String, Object> map) {
 		return examQuestionMapper.findExpertQuestionList(map);
 	}
-
 	
 }

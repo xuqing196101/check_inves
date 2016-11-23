@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
+import ses.service.bms.DictionaryDataServiceI;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.CollectPurchase;
@@ -45,6 +47,9 @@ public class CollectPlanController extends BaseController {
 	@Autowired
 	private CollectPurchaseService collectPurchaseService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
 		/**
 		 * 
 		* @Title: queryPlan
@@ -63,6 +68,8 @@ public class CollectPlanController extends BaseController {
 			PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 			model.addAttribute("info", info);
 			model.addAttribute("inf", purchaseRequired);
+			List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
+			model.addAttribute("dic", dic);
 			return "bss/pms/collect/collectlist";
 		}
 		/**
@@ -83,6 +90,10 @@ public class CollectPlanController extends BaseController {
 			model.addAttribute("info", info);
 			model.addAttribute("inf", collectPlan);
 			model.addAttribute("type", type);
+			
+			List<DictionaryData> mType = dictionaryDataServiceI.findByKind("6");
+			model.addAttribute("mType", mType);
+			
 			return "bss/pms/collect/contentlist";
 		}
 		 /**

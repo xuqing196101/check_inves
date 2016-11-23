@@ -36,30 +36,30 @@ function down(){
    <div>
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>上级项目：</span>
-	   <div class="input-append">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>上级项目：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="firsetProduct" name="firsetProduct" value="${burningPower.firsetProduct }" class="w220">
        	<div class="cue">${ERR_firsetProduct}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>二级项目：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>二级项目：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="secondProduct" name="secondProduct" value="${burningPower.secondProduct }" class="w220">
        	<div class="cue">${ERR_secondProduct}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input id="thirdProduct" name="thirdProduct" type="text" value="${burningPower.thirdProduct }" class="w220">
        	<div class="cue">${ERR_thirdProduct}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>计量单位：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>计量单位：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input id="unit" name="unit" type="text" value="${burningPower.unit }" class="w220">
        	<div class="cue">${ERR_unit}</div>
        </div>
@@ -70,22 +70,22 @@ function down(){
    <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>02</i>报价前2年</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">数量：：</span>
-	   <div class="input-append">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="tyaAcount" name="tyaAcount" value="${burningPower.tyaAcount }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">平均单价(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">平均单价(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="tyaAvgPrice" name="tyaAvgPrice" value="${burningPower.tyaAvgPrice }" class="w220">
        </div>
 	 </li>
 	 
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">金额(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">金额(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="tyaMoney" name="tyaMoney" value="${burningPower.tyaMoney }" class="w220">
        </div>
 	 </li>
@@ -96,21 +96,21 @@ function down(){
    <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>03</i>报价前1年</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">数量：：</span>
-	   <div class="input-append">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="oyaAcount" name="oyaAcount" value="${burningPower.oyaAcount }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">平均单价(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">平均单价(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="oyaAvgPrice" name="oyaAvgPrice" value="${burningPower.oyaAvgPrice }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">金额(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">金额(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="oyaMoney" name="oyaMoney" value="${burningPower.oyaMoney }" class="w220">
        </div>
 	 </li>
@@ -121,21 +121,21 @@ function down(){
    <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>04</i>报价当年</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">数量：：</span>
-	   <div class="input-append">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="newAcount" name="newAcount" value="${burningPower.newAcount }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">平均单价(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">平均单价(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="newAvgPrice" name="newAvgPrice" value="${burningPower.newAvgPrice }" class="w220">
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">金额(元)：</span>
-	   <div class="input-append">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">金额(元)：</span>
+	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input type="text" id="newMoney" name="newMoney" value="${burningPower.newMoney }" class="w220">
        </div>
 	 </li>
@@ -145,16 +145,16 @@ function down(){
     <div class="padding-top-10 clear">
    <h2 class="f16 count_flow mt40"><i>05</i>其他</h2>
    <ul class="ul_list mb20">
-	 <li class="col-md-12 margin-0 padding-0">
-	   <span class="fl col-md-12 padding-left-5">备注：</span>
-	   <div class="col-md-12 p0 mt5">
-        <textarea class="col-md-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${burningPower.remark }</textarea>
+	 <li class="col-md-12 col-sm-12 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注：</span>
+	   <div class="col-md-12 p0 col-sm-12 col-xs-12">
+        <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${burningPower.remark }</textarea>
        </div>
 	 </li>
    </ul>
    </div>
    
-	 	<div  class="col-md-12">
+	 	<div  class="col-md-12 col-sm-12 col-xs-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn btn-windows edit" type="submit">修改</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="down()">取消</button>

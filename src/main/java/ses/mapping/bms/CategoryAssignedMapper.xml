@@ -5,33 +5,47 @@
 	<!-- 结果集 -->
 	<resultMap id="CategoryAptitudeMap" type="ses.model.bms.CategoryAssigned">
 		<id column="ID"  property="id" />
-	    <result column="CREATED_AT"  property="createdAt" />
-	    <result column="UPDATED_AT"  property="updatedAt" />
 	    <result column="ORG_ID"  property="orgId" />
 	    <result column="CATE_ID"  property="cateId" />
+	    <result column="CATE_NAME" property="cateName" />
+	    <result column="CREATED_AT"  property="createdAt" />
+	    <result column="UPDATED_AT"  property="updatedAt" />
 	</resultMap>
 	
 	<!-- 查询基础 -->
 	<sql id="Base_Column_List">
-		    ID, ORG_ID,CATE_ID, CREATED_AT,UPDATED_AT	    
+		    ID, ORG_ID, CATE_ID, CATE_NAME ,CREATED_AT,UPDATED_AT	    
     </sql>
 	
 	<!-- 批量插入 -->
 	<insert id="batchInsert" parameterType="ses.model.bms.CategoryAssigned">
-		 <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
         	select sys_guid() from dual
     	</selectKey>
 		INSERT INTO T_SES_BMS_CATE_ORG 
-		  (ID, ORG_ID,CATE_ID , CREATED_AT,UPDATED_AT) values 
-		  (#{id}, #{orgId,jdbcType=VARCHAR}, #{cateId,jdbcType=VARCHAR},
+		  (ID, ORG_ID,CATE_ID ,CATE_NAME , CREATED_AT,UPDATED_AT) values 
+		  (#{id}, #{orgId,jdbcType=VARCHAR},#{cateId,jdbcType=VARCHAR}, #{cateName,jdbcType=VARCHAR},
       			#{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
 	</insert>
+	
+	<!-- 根据需求部门查询品目名称 -->
+	<select id="findCateListByOrg" resultMap="CategoryAptitudeMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATE_ORG
+		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR}
+	</select>
 	
 	<!-- 批量删除 -->
 	<delete id="batchaDelete">
 		DELETE FROM T_SES_BMS_CATE_ORG
-		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR}
-		AND  CATE_ID = #{cateId,jdbcType=VARCHAR}
+		WHERE  1 = 1
+		<if test="orgId != null and orgId != ''">
+			AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="cateId != null and cateId != ''">
+			AND  CATE_ID = #{cateId,jdbcType=VARCHAR}
+		</if>
 	</delete>
 	
 </mapper>

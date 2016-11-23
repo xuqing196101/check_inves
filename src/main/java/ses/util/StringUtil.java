@@ -1,5 +1,7 @@
 package ses.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 public class StringUtil {
     
@@ -45,5 +47,22 @@ public class StringUtil {
           } else {
              return true;
          }
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *  截取字符串
+     *〈详细描述〉
+     * @author myc
+     * @param value
+     * @param limit
+     * @return
+     */
+    public static String sub(String value, int limit){
+        if (StringUtils.isNotBlank(value) && value.length() > limit) {
+            return value.substring(0,limit) + "...";
+        }
+        return value;
     }
 }

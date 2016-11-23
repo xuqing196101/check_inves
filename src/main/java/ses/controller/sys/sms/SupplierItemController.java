@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
@@ -36,9 +37,10 @@ public class SupplierItemController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
+	@ResponseBody
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String jsp, String defaultPage) {
 		supplierItemService.saveOrUpdate(supplierItem);
-		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
+	/*	Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 		
 		if ("items".equals(jsp))
 			request.getSession().setAttribute("defaultPage", defaultPage);
@@ -46,7 +48,7 @@ public class SupplierItemController {
 			request.getSession().removeAttribute("defaultPage");
 		
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);
-		return "redirect:../supplier/page_jump.html";
+		request.getSession().setAttribute("jump.page", jsp);*/
+		return "";
 	}
 }

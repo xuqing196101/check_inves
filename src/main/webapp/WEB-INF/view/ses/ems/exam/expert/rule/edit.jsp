@@ -55,8 +55,6 @@
 			if($(obj).prop("checked")){
 				$("#sin").show();
 			}
-			$("#singleNum").val("");
-			$("#singlePoint").val("");
 		}
 		
 		//勾选单选题的无
@@ -74,8 +72,6 @@
 			if($(obj).prop("checked")){
 				$("#mul").show();
 			}
-			$("#multipleNum").val("");
-			$("#multiplePoint").val("");
 		}
 		
 		//勾选多选题的无
@@ -116,7 +112,7 @@
     <div class="headline-v2">
    		<h2 class="count_flow">修改规则</h2>
    	</div>
-   <ul class="ul_list">
+   <div class="ul_list">
 	  	<ul class="list-unstyled p0_20">
 	    	<li class="col-md-12 p0 mb20">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
@@ -177,13 +173,13 @@
 	  			</div>
 	    	</li>
 	    </ul>
-	    </ul>
+	 </div>
 	    
-	    <!-- 底部按钮 -->
-	    <div class="col-md-12 mt10 tc ">
+		<!-- 底部按钮 -->
+		<div class="col-md-12 mt10 tc ">
 			<button class="btn btn-windows save" type="submit">保存</button>
 			<button class="btn btn-windows back" type="button" onclick="back()">返回</button>
-	  	</div>
+		</div>
 	  	
 	  	 </form>
 	 </div>

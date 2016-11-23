@@ -77,6 +77,8 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest req,Model model,String projectId){
+	    SaleTender std = getProSupplier(req, projectId);
+        model.addAttribute("std", std);
 		Quote quote=new Quote();
 		User user=(User)req.getSession().getAttribute("loginUser");
 		quote.setProjectId(projectId);

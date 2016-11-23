@@ -133,6 +133,8 @@ public class SupplierCertEng implements Serializable {
 	 * </pre>
 	 */
 	private String attachCert;
+	
+	private String attachCertId;
 
 	public String getId() {
 		return id;
@@ -261,4 +263,13 @@ public class SupplierCertEng implements Serializable {
 	public void setAttachCert(String attachCert) {
 		this.attachCert = attachCert;
 	}
+
+	public String getAttachCertId() {
+		return attachCertId;
+	}
+
+	public void setAttachCertId(String attachCertId) {
+		this.attachCertId = attachCertId;
+	}
+	
 }

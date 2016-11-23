@@ -35,7 +35,7 @@
     where ID = #{id}
   </select>
   
-  <select id="selectByProduct" parameterType="java.lang.String" resultType="bss.model.sstps.ProductInfo">
+  <select id="selectByProduct" parameterType="java.lang.String" resultMap="ProductInfoBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,

@@ -14,12 +14,12 @@ public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSe
 	
 	@Override
 	public void saveOrUpdateCertSe(SupplierCertServe supplierCertSe) {
-		String id = supplierCertSe.getId();
-		if (id != null && !"".equals(id)) {
-			supplierCertSeMapper.updateByPrimaryKeySelective(supplierCertSe);
-		} else {
+//		String id = supplierCertSe.getId();
+//		if (id != null && !"".equals(id)) {
+//			supplierCertSeMapper.updateByPrimaryKeySelective(supplierCertSe);
+//		} else {
 			supplierCertSeMapper.insertSelective(supplierCertSe);
-		}
+//		}
 
 	}
 

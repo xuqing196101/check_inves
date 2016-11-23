@@ -37,80 +37,80 @@ function down(){
    <div>
    <h2 class="f16 count_flow mt40">专项费用信息</h2>
    <ul class="ul_list mb20">
-   <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
-	   <div class="input-append">
-        <input type="text" class="w220" id="projectName" name="projectName" value="${sc.projectName }">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目名称：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input type="text"  id="projectName" name="projectName" value="${sc.projectName }">
         <div class="cue">${ERR_projectName}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>项目明细：</span>
-	   <div class="input-append">
-        <input id="productDetal" name="productDetal" value="${sc.productDetal }" type="text" class="w220" >
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>项目明细：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="productDetal" name="productDetal" value="${sc.productDetal }" type="text"  >
         <div class="cue">${ERR_productDetal}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5"><div class="star_red">*</div>名称：</span>
-	   <div class="input-append">
-        <input id="name" name="name" type="text" value="${sc.name }" class="w220" >
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="name" name="name" type="text" value="${sc.name }"  >
         <div class="cue">${ERR_name}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">规格型号：</span>
-	   <div class="input-append">
-        <input id="norm" name="norm" type="text" value="${sc.norm }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">规格型号：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="norm" name="norm" type="text" value="${sc.norm }" >
         <div class="cue">${ERR_norm}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">计量单位：</span>
-	   <div class="input-append">
-        <input id="measuringUnit" name="measuringUnit" type="text" value="${sc.measuringUnit }" class="w220" >
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">计量单位：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="measuringUnit" name="measuringUnit" type="text" value="${sc.measuringUnit }"  >
         <div class="cue">${ERR_measuringUnit}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">数量(消耗使用)：</span>
-	   <div class="input-append">
-        <input id="amount" name="amount" type="text" value="${sc.amount }" class="w220" >
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量(消耗使用)：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="amount" name="amount" type="text" value="${sc.amount }"  >
         <div class="cue">${ERR_paperCode}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">单价：</span>
-	   <div class="input-append">
-        <input id="price" name="price" type="text" value="${sc.price }" class="w220" >
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单价：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="price" name="price" type="text" value="${sc.price }"  >
         <div class="cue">${ERR_paperCode}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">金额：</span>
-	   <div class="input-append">
-        <input id="money" name="money" type="text" value="${sc.money }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">金额：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="money" name="money" type="text" value="${sc.money }" >
         <div class="cue">${ERR_money}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">分摊数量：</span>
-	   <div class="input-append">
-        <input id="proportionAmout" name="proportionAmout" type="text" value="${sc.proportionAmout }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">分摊数量：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="proportionAmout" name="proportionAmout" type="text" value="${sc.proportionAmout }" >
         <div class="cue">${ERR_proportionAmout}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 margin-0 padding-0">
-	   <span class="col-md-12 padding-left-5">单位产品分摊额：</span>
-	   <div class="input-append">
-        <input id="proportionPrice" name="proportionPrice" type="text" value="${sc.proportionPrice }" class="w220">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位产品分摊额：</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input id="proportionPrice" name="proportionPrice" type="text" value="${sc.proportionPrice }" >
         <div class="cue">${ERR_proportionPrice}</div>
        </div>
 	 </li>
-	 <li class="col-md-12 margin-0 padding-0">
-	   <span class="fl col-md-12 padding-left-5">备注：</span>
-	   <div class="col-md-12 p0 mt5">
-        <textarea class="col-md-12 h80" id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${sc.remark }</textarea>
+	 <li class="col-md-12 col-sm-12 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注：</span>
+	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+        <textarea class="col-md-12 col-sm-12 col-xs-12 h80" id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${sc.remark }</textarea>
        </div>
 	 </li>
    </ul>

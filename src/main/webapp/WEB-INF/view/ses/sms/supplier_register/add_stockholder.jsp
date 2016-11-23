@@ -31,14 +31,34 @@
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_stockholder/";
+/* 		var action = "${pageContext.request.contextPath}/supplier_stockholder/";
 		if (sign) {
 			action += "save_or_update_stockholder.html";
 		} else {
 			action += "back_to_basic_info.html";
 		}
 		$("#stockholder_form_id").attr("action", action);
-		$("#stockholder_form_id").submit();
+		$("#stockholder_form_id").submit(); */
+		 $.ajax({
+			   type: "POST",  
+             url: "${pageContext.request.contextPath}/supplier_stockholder/save_or_update_stockholder.html",  
+             data: $("#stockholder_form_id").serialize(),  
+             success:function(result){
+               if(result=='0'){
+              	alert(result);
+              	 
+               } else{
+              	 
+              	 parent.window.location.href = "${pageContext.request.contextPath}/supplier/login.html";
+               }
+          	   
+              },
+              error: function(result){
+                  layer.msg("添加失败",{offset: ['150px', '180px']});
+              }
+		 });
+		
+		
 	}
 	function cancels(){
 		 var index=parent.layer.getFrameIndex(window.name);

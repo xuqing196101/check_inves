@@ -39,6 +39,8 @@ public class UploadFile implements Serializable {
     private int isDelete;
     /** 表名称 */
     private String tableName;
+    /** 状态 */
+    private Integer status;
     
     public String getId() {
         return id;
@@ -100,6 +102,12 @@ public class UploadFile implements Serializable {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
     
     
     

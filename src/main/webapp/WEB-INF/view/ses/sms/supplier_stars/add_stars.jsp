@@ -27,35 +27,42 @@
 		<form action="${pageContext.request.contextPath}/supplier_stars/save_or_update_supplier_stars.html" method="post">
 			<input type="hidden" name="id" value="${supplierStars.id}" />
 				<div>
-				    <h2 class="count_flow"><i>1</i>添加星级</h2>
+				     <div class="headline-v2">
+					     <h2>添加星级</h2>
+					   </div>   
 					<ul class="ul_list">
-						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">一星级所需分数</span>
-							<div class="input-append">
-								<input class="span5" name="oneStars" type="text" value="${supplierStars.oneStars}" />
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">一星级所需分数</span>
+							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" name="oneStars" type="text" value="${supplierStars.oneStars}" />
 								<span class="add-on">i</span>
 							</div>
 						</li>
-						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">二星级所需分数</span>
-							<div class="input-append">
-								<input class="span5" name="twoStars" type="text" value="${supplierStars.twoStars}" />
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">二星级所需分数</span>
+							 <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" name="twoStars" type="text" value="${supplierStars.twoStars}" />
 								<span class="add-on">i</span>
 							</div>
 						</li>
-						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">三星级所需分数</span>
-							<div class="input-append">
-								<input class="span5" name="threeStars" type="text" value="${supplierStars.threeStars}" />
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">三星级所需分数</span>
+							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" name="threeStars" type="text" value="${supplierStars.threeStars}" />
 								<span class="add-on">i</span>
 							</div>
 						</li>
-						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">四星级所需分数</span>
-							<div class="input-append">
-								<input class="span5" name="fourStars" type="text" value="${supplierStars.fourStars}" />
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">四星级所需分数</span>
+							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" name="fourStars" type="text" value="${supplierStars.fourStars}" />
 								<span class="add-on">i</span>
 							</div>
 						</li>
-						<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">五星级所需分数</span>
-							<div class="input-append">
-								<input class="span5" name="fiveStars" type="text" value="${supplierStars.fiveStars}" />
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">五星级所需分数</span>
+							<div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" name="fiveStars" type="text" value="${supplierStars.fiveStars}" />
 								<span class="add-on">i</span>
 							</div>
 						</li>

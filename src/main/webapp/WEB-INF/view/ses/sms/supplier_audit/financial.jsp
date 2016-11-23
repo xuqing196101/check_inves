@@ -179,10 +179,10 @@ function download(id,key){
 		              <li class="active"><a id="financial">财务信息</a></li>
 		              <li class=""><a >股东信息</a></li>
 		              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-		              <li class=""><a >物资-生产型专业信息</a></li>
+		              <li class=""><a >物资-生产专业信息</a></li>
 		              </c:if>
 		              <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-		              <li class=""><a >物资-销售型专业信息</a></li>
+		              <li class=""><a >物资-销售专业信息</a></li>
 		              </c:if>
 		              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
 		              <li class=""><a >工程-专业信息</a></li>
@@ -278,7 +278,7 @@ function download(id,key){
                             </c:forEach>
                           </tbody>
                       </table>
-                      </ul>
+                   </ul>
                 </div>
                   <%-- <c:forEach items="${financial}" var="f" varStatus="vs">
                     <div class=" margin-bottom-0 fl">
@@ -349,8 +349,8 @@ function download(id,key){
               </div>
             </div>
 
-  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
-   <input type="hidden" name="fileName" />
-  </form>
+    <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+        <input type="hidden" name="fileName" />
+    </form>
 </body>
 </html>

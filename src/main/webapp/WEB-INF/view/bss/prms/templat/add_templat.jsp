@@ -76,14 +76,14 @@
                  <h2>新增模板</h2>
                </div>
 			<ul class="ul_list">
-				<li class="col-md-3 margin-0 padding-0 "><span
-					class="col-md-12 padding-left-5">初审项模板名称</span>
-					<div class="input-append">
-						<input class="span5" type="text" id="name" maxlength="30" name="name">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板名称</span>
+					<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+						<input class="input_group" type="text" id="name" maxlength="30" name="name">
 						<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="">初审项模板类型</span>
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板类型</span>
 					<div class="select_check">
 						<input type="radio" name="kind" value="商务">商务 
 						<input type="radio" name="kind" id="kind" value="技术">技术 

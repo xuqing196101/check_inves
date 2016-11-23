@@ -74,7 +74,7 @@ public class ExpertCredibleController {
 	 * @Title: findAll
 	 * @author ShaoYangYang
 	 * @date 2016年11月2日 下午7:44:06  
-	 * @Description: TODO  不分页查询
+	 * @Description: TODO  分页查询
 	 * @param @param expertCredible
 	 * @param @param page
 	 * @param @param model
@@ -82,12 +82,12 @@ public class ExpertCredibleController {
 	 * @return String
 	 */
 	@RequestMapping("findAll")
-	public String findAll(String badBehavior,String id,Model model){
+	public String findAll(String badBehavior,String id,Integer page,Model model){
 		Map<String,Object> map = new HashMap<>();
-			map.put("badBehavior", badBehavior);
-			map.put("isStatus", 1);
-		List<ExpertCredible> list = service.findAll(map);
-		model.addAttribute("expertCredible", list);
+		map.put("isStatus", 1);
+		map.put("badBehavior", badBehavior);
+		List<ExpertCredible> list = service.list(page==null?0:page, map);
+		model.addAttribute("result", new PageInfo<>(list));
 		model.addAttribute("badBehavior", badBehavior);
 		model.addAttribute("expertId", id);
 		return "ses/ems/expert/credible_check";

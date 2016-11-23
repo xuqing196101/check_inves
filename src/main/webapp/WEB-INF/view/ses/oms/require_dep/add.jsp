@@ -211,18 +211,18 @@
 			     <h2 class="count_flow"><i>1</i>新增基本信息</h2>
 				<input type="hidden" name="depIds" id="depIds"/>
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">名称</span>
-						<div class="input-append">
-							<input class="span5" name="name" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="name" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">简称</span>
-						<div class="input-append">
-							<input class="span5" name="shortName" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">简称</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="shortName" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5">类型</span>
-					    <div class="select_common">
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
+					    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="typeName" id="typeName"  onchange="show();"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
@@ -230,38 +230,34 @@
 							</select>
 					   </div>
 					</li>
-					<li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5">上级</span>
-						<div class="input-append">
-							<input id="proSec" type="text" readonly value="${orgnization.parentName }" class="span5" name="parentName"  onclick="showMenu(); return false;"/>
+					<li class="col-md-3 col-sm-6 col-xs-12"> 
+       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input id="proSec" type="text" readonly value="${orgnization.parentName }" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
-							<div class="input-append">
-					          <button class="btn dropdown-toggle add-on">
-					            <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-					          </button>
-					       </div>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">电话</span>
-						<div class="input-append">
-							<input class="span5" name="mobile" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="mobile" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5">地址</span>
-						<div class="input-append">
-							<input class="span5" name="address" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="address" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 					
-					<li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5">邮编</span>
-						<div class="input-append">
-							<input class="span5" name="postCode" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="postCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 padding-left-5">传真</span>
-						<div class="input-append">
-							<input class="span5" name="fax" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="fax" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<!-- <li class="col-md-3 margin-0 padding-0 "><span class="">类型1：</span>
+					<!-- <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="">类型1：</span>
 							<select class="span2" name="provinceId" type="text"> 
 								<option value="2">需求部门</option>
 								<option value="1">采购机构</option>
@@ -275,34 +271,34 @@
 								<option value="0">管理部门</option>
 							</select>
 					</li> -->
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">组织机构代码</span>
-						<div class="input-append">
-							<input class="span5" name="orgCode" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="orgCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">详细地址</span>
-						<div class="input-append">
-							<input class="span5" name="detailAddr" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="detailAddr" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">网站地址</span>
-						<div class="input-append">
-							<input class="span5" name="website" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网站地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="website" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人</span>
-						<div class="input-append">
-							<input class="span5" name="princinpal" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="princinpal" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">负责人身份证号</span>
-						<div class="input-append">
-							<input class="span5" name="princinpalIdCard" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人身份证号</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="princinpalIdCard" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3  p0 hide monitor"><span class="col-md-12 padding-left-5">监管机构性质</span>
-						<div class="input-append">
-							<input class="span5" name="nature" type="text"> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">监管机构性质</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="nature" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
 				</ul>

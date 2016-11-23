@@ -28,6 +28,7 @@
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
+<script src="${pageContext.request.contextPath}/public/backend/js/page.js" ></script>
 <!-- 时间插件 -->
 <script src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 

@@ -14,36 +14,13 @@
 <script type="text/javascript">
 	    var treeObj;
 		var datas;
-		var parentId ;
-		var addressId="${expert.address}";
-		//地区回显和数据显示
-			 $.ajax({
-			url : "${pageContext.request.contextPath}/area/find_by_id.do",
-			data:{"id":addressId},
-			success:function(obj){
-				//var data = eval('(' + obj + ')');
-				$.each(obj,function(i,result){
-					if(addressId == result.id){
-						//alert(JSON.stringify(result));
-						parentId = result.parentId;
-					$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{
-						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-			},
-			error:function(obj){
-			}
-		}); 
-			 if (location.href.indexOf("?xyz=")<0)
-			 {
-			 location.href=location.href+"&?xyz="+Math.random();
-			 } 
+		
+		
 		function func(){
 			var parentId = $("#addr").val();
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
-				data:{"id":parentId},
+				data:{"id":parentId}, 
 				success:function(obj){
 					$("#add").empty();
 					//var data = eval('(' + obj + ')');
@@ -51,8 +28,31 @@
 					$.each(obj,function(i,result){
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
-				},
-				error:function(obj){
+					$("#addr2").val(parentId);
+					func2();
+				}
+			});
+			
+		}
+		//第一个字地区事件
+		function copySel(){
+			$("#add2").val($("#add").val());
+			
+		}
+		
+		//第二个select事件
+		function func2(){
+			var parentId = $("#addr2").val();
+			$.ajax({
+				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
+				data:{"id":parentId},
+				success:function(obj){
+					$("#add2").empty();
+					//var data = eval('(' + obj + ')');
+					$("#add2").append("<option  value=''>-请选择-</option>");
+					$.each(obj,function(i,result){
+						$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					});
 				}
 			});
 		}
@@ -90,24 +90,7 @@
 			  };
 	var listId;
 	$(function(){
-		//地区
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/listByOne.do",
-			success:function(obj){
-				//var data = eval('(' + obj + ')');
-				//alert(data);
-				//alert(parentId);
-				$.each(obj,function(i,result){
-					 if(parentId == result.id){
-						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-					}else{ 
-					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					}
-				});
-			},
-			error:function(obj){
-			}
-		});
+		
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		   var radio=document.getElementsByName("purchaseDepId");
@@ -125,7 +108,6 @@
 					  listId=result;
 				  },
 				  error:function(result){
-					  alert("出错啦！");
 				  }
 			  }); 
 			  var expertsTypeId = $("#expertsTypeId").val();
@@ -224,10 +206,10 @@
 				  layer.msg("已暂存");
 			  },
 			  error:function(result){
-				  alert("出错啦！");
 			  }
 		});
 	}
+	//无提示暂存
 	function submitForm2(){
 		getChildren();
 		$.ajax({
@@ -239,7 +221,6 @@
 				$("#id").val(result.id);
 			  },
 			  error:function(result){
-				  alert("出错啦！");
 			  }
 		});
 	}
@@ -316,23 +297,34 @@
 	function editTable(){
 		var name = $("#relName").val();
 		$("#tName").text(name);
-		var sex = $("#gender").val();
-		if(sex=="M"){
-		  $("#tSex").text("男");
-		}
-		if(sex=="F"){
-			$("#tSex").text("女");
-		}
+		//性别
+		var obj = document.getElementById("gender"); //selectid
+
+		var index = obj.selectedIndex; // 选中索引
+
+		var text = obj.options[index].text;
+		  $("#tSex").text(text);
 		var birthday = $("#birthday").val();
 		$("#tBirthday").text(birthday);
-		var tFace = $("#politicsStatus").val();
+		//政治面貌
+		var obj3 = document.getElementById("politicsStatus"); //selectid
+
+		var index3 = obj3.selectedIndex; // 选中索引
+
+		var tFace = obj3.options[index3].text;
 		$("#tFace").text(tFace);
 		var professTechTitles = $("#professTechTitles").val();
 		$("#tHey").text(professTechTitles);
 		var idNumber = $("#idNumber").val();
 		$("#tNumber").text(idNumber);
-		var hightEducation = $("#hightEducation").val();
-		$("#tHight").text(hightEducation);
+		//最高学历
+		var obj2 = document.getElementById("hightEducation"); //selectid
+
+		var index2 = obj2.selectedIndex; // 选中索引
+
+		var text2 = obj2.options[index2].text;
+		
+		$("#tHight").text(text2);
 		var degree = $("#degree").val();
 		$("#tWei").text(degree);
 		var mobile = $("#mobile").val();
@@ -349,6 +341,20 @@
 		$("#tPostCode").text(postCode);
 		var timeStartWork = $("#timeStartWork").val();
 		$("#tTimeStartWork").text(timeStartWork);
+		//父地区
+		var add= document.getElementById("addr"); //selectid
+
+		var addiIdex = add.selectedIndex; // 选中索引
+
+		var addValue1 =add.options[addiIdex].text;
+		//子地区
+		var add2= document.getElementById("add"); //selectid
+
+		var addiIdex2 = add2.selectedIndex; // 选中索引
+
+		var addValue2 =add2.options[addiIdex2].text;
+		
+		$("#Taddress").text(addValue1+","+addValue2);
 	}
 	function fun(){
 		var ty1 = document.getElementById('ty1'); 
@@ -681,14 +687,57 @@
 		}
 		supplierRegist('reg_box_id', 6, 'next');
 	}
+	var parentId ;
+	var addressId="${expert.address}";
+	window.onload=function(){
+		//地区回显和数据显示
+		 $.ajax({
+		url : "${pageContext.request.contextPath}/area/find_by_id.do",
+		data:{"id":addressId},
+		success:function(obj){
+			//var data = eval('(' + obj + ')');
+			$.each(obj,function(i,result){
+				if(addressId == result.id){
+					//alert(JSON.stringify(result));
+					parentId = result.parentId;
+				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				$("#add2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				}else{
+					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				}
+			});
+		}
+	}); 
+		
+		//地区
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			success:function(obj){
+				//var data = eval('(' + obj + ')');
+				//alert(data);
+				//alert(parentId);
+				$.each(obj,function(i,result){
+					 if(parentId == result.id){
+						$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						$("#addr2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{ 
+					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					$("#addr2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+				});
+			}
+		});
+	}
 </script>
 </head>
 <body>
+<input value="${errorMap.realName }"   type="text"/>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
 		<input type="hidden" name="userId" value="${user.id }"/>
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }"/>
 		<input type="hidden" name="id" id="id" value="${expert.id }"/>
-		<input type="hidden" name="zancun" id="zancun"/>
+		<input type="hidden" name="zancun" id="zancun" value=""/>
 		<input type="hidden" name="sysId" value="${sysId }"/>
 		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -734,22 +783,20 @@
                                             <div class="select_common">
                                                  <select class="span5" name="gender" id="gender">
                                                     <option selected="selected" value="">-请选择-</option>
-                                                    <option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
-                                                    <option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
+                                                    <c:forEach items="${sexList }" var="sex" varStatus="vs">
+                                                      <option <c:if test="${expert.gender eq sex.id }">selected="selected"</c:if> value="${sex.id }">${sex.name }</option>
+                                                    </c:forEach>
                                                   </select>
                                                   <!-- <span class="add-on">i</span> -->
                                             </div>
-                                        </li>
+                                        </li> 
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i> 证件类型</span>
                                             <div class="select_common">
                                             <select  name="idType" id="idType">
                                             <option selected="selected" value="">-请选择-</option>
-                                            <option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
-                                            <option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
-                                            <option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
-                                            <option <c:if test="${expert.idType eq '工作证' }">selected="selected"</c:if> value="工作证">工作证</option>
-                                            <option <c:if test="${expert.idType eq '护照' }">selected="selected"</c:if> value="护照">护照</option>
-                                            <option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+                                            <c:forEach items="${idTypeList }" var="idType" varStatus="vs">
+                                              <option <c:if test="${expert.idType eq idType.id }">selected="selected"</c:if> value="${idType.id }">${idType.name }</option>
+                                            </c:forEach>
                                            </select>
                                             </div>
                                         </li>
@@ -768,7 +815,7 @@
                                         </li>
                                         <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>市</span>
                                             <div class="select_common">
-                                             <select  name="address" id="add">
+                                             <select  name="address" id="add" onchange="copySel()">
                                                     <option value="">-请选择-</option>
                                              </select>
                                             </div>
@@ -778,10 +825,9 @@
                                             <div class="select_common">
                                                 <select  name="politicsStatus" id="politicsStatus">
                                                 <option selected="selected" value="">-请选择-</option>
-                                                <option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
-                                                <option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
-                                                <option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
-                                                <option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+                                                <c:forEach items="${zzList }" var="zz" varStatus="vs">
+                                                  <option <c:if test="${expert.politicsStatus eq zz.id }">selected="selected"</c:if> value="${zz.id }">${zz.name }</option>
+                                                </c:forEach>
                                                </select>
                                                </div>
                                         </li>
@@ -791,9 +837,9 @@
                                             <div class="select_common">
                                              <select  name="hightEducation" id="hightEducation" >
                                                 <option selected="selected" value="">-请选择-</option>
-                                                <option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
-                                                <option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-                                                <option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
+                                                <c:forEach items="${xlList }" var="xl" varStatus="vs">
+                                                <option <c:if test="${expert.hightEducation eq xl.id }">selected="selected"</c:if> value="${xl.id }">${xl.name }</option>
+                                                </c:forEach>
                                               </select>
                                               <!-- <span class="add-on">i</span> -->
                                             </div>
@@ -822,9 +868,9 @@
 											<div class="select_common">
 												<select  name="expertsFrom" id="expertsFrom">
 												<option selected="selected" value="">-请选择-</option>
-											   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
-											   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
-											   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+												<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
+											     	<option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id }">${ly.name }</option>
+												</c:forEach>
 											   </select>
 											</div>
 										</li>
@@ -1010,7 +1056,22 @@
 			     <h2>选择采购机构</h2>
 			   </div>  
 			<table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
-			
+			<ul class="ul_list">
+			<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>省</span>
+                <div class="select_common">
+                 <select id="addr2" onchange="func2();">
+                        <option value="">-请选择-</option>
+                 </select>
+                </div>
+            </li>
+            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>市</span>
+                <div class="select_common">
+                 <select  name="address2" id="add2">
+                        <option value="">-请选择-</option>
+                 </select>
+                </div>
+            </li>
+            </ul>
 				<thead>
 					<tr>
 					  <th class="info w30"><input type="radio"   disabled="disabled"  id="purchaseDepId2" ></th>
@@ -1093,131 +1154,134 @@
 			供应商承诺书上传：<input type="file" name=""/> -->
 				   	<div ><br/><br/>
 <table class="table table-bordered">
+<div align="right">
+<a class="btn btn-windows git" onclick='downloadTable()' href="javascript:void(0)">下载</a>
+</div>
    	<tr>
-   		<td class="bggrey">姓名</td>
-   		<td id="tName"></td>
-   		<td class="bggrey">性别</td>
-		<td id="tSex" ></td>
+   		<td width="250px;" class="bggrey">姓名</td>
+   		<td width="250px;" id="tName"></td>
+   		<td width="250px;" class="bggrey">性别</td>
+		<td width="250px;" id="tSex" ></td>
    		<!-- <td align="center" rowspan="4">照片</td> -->
    	</tr>
    <tr>
-   		<td class="bggrey">出生日期</td>
-   		<td id="tBirthday"></td>
-   		<td class="bggrey">政治面貌</td>
-   		<td  id="tFace"></td>
+   		<td width="250px;" class="bggrey">出生日期</td>
+   		<td width="250px;" id="tBirthday"></td>
+   		<td width="250px;" class="bggrey">政治面貌</td>
+   		<td width="250px;"  id="tFace"></td>
    </tr>
    
    <tr>
-   		<td class="bggrey">所在地区</td>
-   		<td></td>
-   		<td class="bggrey">职称</td>
-   		<td id="tHey" ></td>
+   		<td width="250px;" class="bggrey">所在地区</td>
+   		<td width="250px;" id="Taddress"></td>
+   		<td width="250px;" class="bggrey">职称</td>
+   		<td width="250px;" id="tHey" ></td>
    </tr>
    <tr>
-   		<td class="bggrey">身份证号码<td>
+   		<td width="250px;" class="bggrey">身份证号码<td>
    		<td id="tNumber" colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">从事专业类别</td>
-   		<td id="tExpertsTypeId"></td>
-   		<td class="bggrey">从事年限</td>
-   		<td id="tTimeStartWork"></td>
+   		<td width="250px;" class="bggrey">从事专业类别</td>
+   		<td width="250px;" id="tExpertsTypeId"></td>
+   		<td width="250px;" class="bggrey">从事年限</td>
+   		<td width="250px;" id="tTimeStartWork"></td>
    </tr>
    <tr>
-   		<td class="bggrey">最高学历</td>
-   		<td id="tHight"></td>
-   		<td class="bggrey">最高学位</td>
-   		<td id="tWei"></td>
+   		<td width="250px;" class="bggrey">最高学历</td>
+   		<td width="250px;" id="tHight"></td>
+   		<td width="250px;" class="bggrey">最高学位</td>
+   		<td width="250px;" id="tWei"></td>
    
    </tr>
    <tr>
-   		<td class="bggrey">执业资格1</td>
-   		<td > </td>
-   		<td class="bggrey">注册证书编号1</td>
-   		<td > </td>
+   		<td width="250px;" class="bggrey">执业资格1</td>
+   		<td width="250px;" > </td>
+   		<td width="250px;" class="bggrey">注册证书编号1</td>
+   		<td width="250px;" > </td>
    </tr>
    <tr>
-   		<td class="bggrey">执业资格2</td>
-   		<td ></td>
-   		<td class="bggrey">注册证书编号2</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">执业资格2</td>
+   		<td width="250px;" ></td>
+   		<td width="250px;" class="bggrey">注册证书编号2</td>
+   		<td width="250px;"></td>
    </tr>
    <tr>
-   		<td class="bggrey">执业资格3</td>
-   		<td></td>
-   		<td class="bggrey">注册证书编号3</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">执业资格3</td>
+   		<td width="250px;"></td>
+   		<td width="250px;" class="bggrey">注册证书编号3</td>
+   		<td width="250px;" ></td>
    </tr>
    <tr>
-   		<td class="bggrey">近两年是否接受过评标业务培训</td>
-   		<td></td>
-   		<td class="bggrey">是否愿意成为应急专家</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">近两年是否接受过评标业务培训</td>
+   		<td width="250px;"></td>
+   		<td width="250px;" class="bggrey">是否愿意成为应急专家</td>
+   		<td width="250px;"></td>
    </tr>
    <tr>
-   		<td class="bggrey">所属行业</td>
-   		<td></td>
-   		<td class="bggrey">报送部门</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">所属行业</td>
+   		<td width="250px;"></td>
+   		<td width="250px;" class="bggrey">报送部门</td>
+   		<td width="250px;"></td>
    </tr>
    <tr>
-   		<td class="bggrey">手机号码</td>
-   		<td id="tMobile"></td>
-   		<td class="bggrey">单位电话</td>
-   		<td id="tTelephone"></td>
+   		<td width="250px;" class="bggrey">手机号码</td>
+   		<td width="250px;" id="tMobile"></td>
+   		<td width="250px;" class="bggrey">单位电话</td>
+   		<td width="250px;" id="tTelephone"></td>
    </tr>
    <tr>
-   		<td class="bggrey">住宅电话</td>
-   		<td></td>
-   		<td class="bggrey">电子邮箱</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">住宅电话</td>
+   		<td width="250px;"></td>
+   		<td width="250px;" class="bggrey">电子邮箱</td>
+   		<td width="250px;"></td>
    </tr>
    <tr>
-   		<td class="bggrey">毕业院校及专业</td>
+   		<td width="250px;" class="bggrey">毕业院校及专业</td>
    		<td id="tGraduateSchool" colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">单位名称</td>
+   		<td width="250px;" class="bggrey">单位名称</td>
    		<td id="tWorkUnit" colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">单位地址 </td>
-   		<td id="tUnitAddress"></td>
-   		<td class="bggrey">单位邮编</td>
-   		<td id="tPostCode"></td>
+   		<td width="250px;" class="bggrey">单位地址 </td>
+   		<td width="250px;" id="tUnitAddress"></td>
+   		<td width="250px;" class="bggrey">单位邮编</td>
+   		<td width="250px;" id="tPostCode"></td>
    </tr>
    <tr>
-   		<td class="bggrey">家庭地址 </td>
-   		<td></td>
-   		<td class="bggrey">家庭邮编</td>
-   		<td></td>
+   		<td width="250px;" class="bggrey">家庭地址 </td>
+   		<td width="250px;"></td>
+   		<td width="250px;" class="bggrey">家庭邮编</td>
+   		<td width="250px;"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业一</td>
+   		<td width="250px;" class="bggrey">评标专业一</td>
+   		<td width="250px;" colspan="3"></td>
+   </tr>
+   <tr>
+   		<td width="250px;" class="bggrey">评标专业二</td>
    		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业二</td>
+   		<td width="250px;" class="bggrey">评标专业三</td>
    		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业三</td>
+   		<td width="250px;" class="bggrey">评标专业四</td>
    		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业四</td>
+   		<td width="250px;" class="bggrey">评标专业五</td>
    		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业五</td>
+   		<td width="250px;" class="bggrey">评标专业六</td>
    		<td colspan="3"></td>
    </tr>
    <tr>
-   		<td class="bggrey">评标专业六</td>
-   		<td colspan="3"></td>
-   </tr>
-   <tr>
-   		<td style="font-size: 20px; font-weight: bold;" class="bggrey" align="center" colspan="4">工作经历</td>
+   		<td  style="font-size: 20px; font-weight: bold;" class="bggrey" align="center" colspan="4">工作经历</td>
    </tr>
    <tr>
    		<td class="bggrey" align="center" style="font-weight: bold;">起止年月</td>
@@ -1253,8 +1317,8 @@
 		    <div class="tc mt20 clear col-md-11">
 		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 6, 'pre')">上一步</button>
 				<!-- <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button> -->
-				<a class="btn btn-windows git" onclick='downloadTable()' href="javascript:void(0)">下载</a>
-				<button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
+				
+				<!-- <button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button> -->
 				<button class="btn btn-windows git"   type="button" onclick='four()'>下一步</button>
 			</div>
 		</div>
@@ -1297,45 +1361,10 @@
 			 </div> -->
 		    <div class="tc mt20 clear col-md-11">
 		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 7, 'pre')">上一步</button>
-				<button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 7, 'next')">下一步</button>
+				<!-- <button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button> -->
+				<input  class="btn btn-windows git" type="button" onclick="addSubmitForm()" value="提交" />
 			</div>
 		</div>
-		
-		<div id="reg_box_id_8" class="container content height-350 yinc" style="display: none;">
-		 <div class="row magazine-page pt40 mb40">
-		   <div class="login_cl fl col-md-3">
-		    <img src="${pageContext.request.contextPath}/public/ZHQ/images/success.jpg"/>
-		   </div>
-		   <div class="login_cr fl col-md-9 pt20">
-		    <div class="col-md-12">
-		     <p>
-			  <span class="regist_info f18 b">信息填写完成！确认无误后请提交生效，提交后将不能更改！</span>正在等待审核人员审批。
-			 </p>
-		    </div>
-			<!-- <div class="col-md-12 add_regist" >
-			 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_2" class="regist_desc"></span></div>
-			 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_2" class="regist_desc"></span></div>
-			 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span id="address_2" class="regist_desc"></span></div>
-			 <div class="fl mr20"><label class="regist_name">联系电话：</label><span id="phone_2" class="regist_desc"></span></div>
-			 </div> -->
-			 <div class="mt20 col-md-12">
-			  <button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 8, 'pre')">上一步</button>
-			  <input  class="btn btn-windows git" type="button" onclick="addSubmitForm()" value="提交" />
-			 </div>
-			</div>
-		   </div>
-		 </div>
 		</form>
-	<div class="footer-v2" id="footer-v2">
-      <div class="footer">
-              <address class="">
-              Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-               浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-       </div>
-    </div>
 </body>
 </html>

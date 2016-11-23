@@ -284,7 +284,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
-		
+
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("销售")){
@@ -321,6 +324,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
+		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//下一步的跳转页面
 		String url = null;
@@ -370,6 +376,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		request.setAttribute("supplierId", supplierId);
 		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("服务")){
@@ -394,16 +403,19 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("serviceInformation")
 	public String serviceInformation(HttpServletRequest request,SupplierMatServe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
+		request.setAttribute("supplierId", supplierId);
 		//资质证书信息
 		List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		request.setAttribute("supplierCertSes", supplierCertSe);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		request.setAttribute("supplierMatSes", supplierMatSe);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
-		request.setAttribute("supplierTypeNames", supplierTypeName);
-		request.setAttribute("supplierCertSes", supplierCertSe);
-		request.setAttribute("supplierMatSes", supplierMatSe);
-		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);		
+		//文件
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		return "ses/sms/supplier_audit/service_information";
 	}
 	/**
@@ -748,6 +760,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
+		//文件
+		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		return "ses/sms/supplier_audit/application_form";
 	}
 	

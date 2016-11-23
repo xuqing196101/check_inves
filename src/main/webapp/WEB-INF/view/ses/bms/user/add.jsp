@@ -191,130 +191,132 @@
 		   <div>
 			   <h2 class="count_flow">新增用户</h2>
 			   <ul class="ul_list">
-			     <li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><span class="red">*</span>用户名</span>
-				   <div class="input-append">
-			        <input class="span5" name="loginName" value="${user.loginName }" maxlength="30" type="text">
+			     <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
+				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>用户名</span>
+				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <input  name="loginName" value="${user.loginName }" maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
 			       	<div class="cue">${exist }</div>
 			       </div>
 				 </li>
-				 <li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>真实姓名</span>
-				    <div class="input-append">
-				        <input class="span5" name="relName" value="${user.relName }" maxlength="30" type="text">
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="relName" value="${user.relName }" maxlength="30" type="text">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="relName"/></div>
 			       	</div>
 			 	 </li>
-			 	 <li class="col-md-3 margin-0 padding-0 ">
-			   		<span class="col-md-12 padding-left-5"><span class="red">*</span>密码</span>
-				    <div class="input-append">
-				        <input class="span5" name="password" value="${user.password }" maxlength="30" id="password1" type="password">
+			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>密码</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="password" value="${user.password }" maxlength="30" id="password1" type="password">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password"/></div>
 			        </div>
 			 	</li> 
-		     	<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
-				    <div class="input-append">
-				        <input class="span5" id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="red">*</span>确认密码</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  id="password2" value="${user.password2 }" maxlength="30" name="password2" type="password">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="password2"/></div>
 				        <div class="cue">${password2_msg}</div>
 			        </div>
 			 	</li>
-			 	<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>性别</span>
-			        <div class="select_common">
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>性别</span>
+			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <select id="gender" name="gender">
-			        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if>>男</option>
-			        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+			        	<c:forEach items="${genders}" var="g" varStatus="vs">
+			        		<option value="${g.id }" <c:if test="${g.id eq user.gender}">selected</c:if>>
+			        			<c:if test="${'M' eq g.code}">男</c:if>
+			        			<c:if test="${'F' eq g.code}">女</c:if>
+			        		</option>
+			        	</c:forEach>
 			        </select>
 			        </div>
 			 	</li>
-		     	<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>手机</span>
-				    <div class="input-append" >
-				        <input class="span5" name="mobile" value="${user.mobile }" maxlength="40" type="text">
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>手机</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
+				        <input  name="mobile" value="${user.mobile }" maxlength="40" type="text">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="mobile"/></div>
 			        </div>
 			 	</li>
-		        <li class="col-md-3 margin-0 padding-0" >
-				   	<span class="col-md-12 padding-left-5">邮箱</span>
-				   	<div class="input-append">
-				        <input class="span5" name="email" value="${user.email }" maxlength="100" type="text">
+		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
+				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="email" value="${user.email }" maxlength="100" type="text">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="email"/></div>
 			       	</div>
 			 	</li>
-		     	<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5">职务</span>
-				    <div class="input-append">
-			        	<input class="span5" name="duties" value="${user.duties }"  maxlength="40" type="text">
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="duties" value="${user.duties }"  maxlength="40" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 				 </li>
-				<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>类型</span>
-				    <div class="select_common">
+				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
+				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <select name="typeName">
-			        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
-			        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
-			        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
-			        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
-			        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
-			        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
-			        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
-			        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
-			        	<option value="8" <c:if test="${'8' eq user.typeName}">selected</c:if>>监督人员</option>
+			        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
+			        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
+				        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
+									<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+									<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+									<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+									<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+									<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+				        		</option>
+			        		</c:if>
+			        	</c:forEach>
 			        </select>
 			        </div>
 				 </li>
-			 	<li class="col-md-3 margin-0 padding-0 ">
-				   	<span class="col-md-12 padding-left-5"><span class="red">*</span>所属机构</span>
-				   	<div class="input-append">
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
+				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <input id="oId" name="orgId" value="${user.orgId }" type="hidden">
-				        <input id="orgSel" class="span5" type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
-						<div class="" onclick="showOrg();">
-				          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+				        <input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+						<div class="drop_up" onclick="showOrg();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-				          </button>
 				        </div>
 				        <div class="cue"><sf:errors path="orgId"/></div>
 			        </div>
 			 	</li>
-		     	<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5">座机电话</span>
-				    <div class="input-append">
-			        	<input class="span5" name="telephone" value="${user.telephone }" maxlength="40" type="text">
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="telephone" value="${user.telephone }" maxlength="40" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 			    </li> 
-				<li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><span class="red">*</span>角色</span>
-				    <div class="input-append">
+				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>角色</span>
+				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
 				        <input id="rId" name="roleId"  type="hidden" value="${user.roleId }">
-				        <input id="roleSel" class="span5" type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
-						<div class="" onclick="showRole();">
-				          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+				        <input id="roleSel"  type="text" name="roleName" readonly value="${roleName }"  onclick="showRole();" />
+						<div class="drop_up" onclick="showRole();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-				          </button>
 				        </div>
 				        <div class="cue"><sf:errors path="roleId"/></div>
 			        </div>
 			 	</li>
-			 	<li class="col-md-11 margin-0 padding-0">
-			 	   <span class="col-md-12 padding-left-5">详细地址</span>
-				   <div class="">
-			        	<textarea class="col-md-12" style="height:130px" name="address" title="不超过100个字">${user.address }</textarea>
+			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>
+				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+			        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="height:130px" name="address" title="不超过100个字">${user.address }</textarea>
 			       </div>
 			 	</li>
 			   </ul>
 		   </div> 
-	       <div class="col-md-12 tc mt20" >
+	       <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 tc mt20" >
 			   <button class="btn btn-windows save"  type="submit">保存</button>
 			   <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
        	   </div>

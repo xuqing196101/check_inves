@@ -672,7 +672,6 @@
     top: 8px;
     right: 9px;
     font-size: 11px;
-    content: "\f105";
     position: absolute;
     font-weight: normal;
     display: inline-block;
@@ -687,7 +686,6 @@
     .header-v5 .dropdown > a:after {
         top: 9px;
         right: 15px;
-        content: "\f107";
     }
 }
 

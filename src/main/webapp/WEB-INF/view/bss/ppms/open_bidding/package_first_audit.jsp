@@ -83,25 +83,28 @@
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
 						     <li >
-							   <a  onclick="jump('${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}')" >01、符合性</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
 							 <li class="active">
-							   <a  onclick="jump('${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')" >02、符合性关联</a>
+							   <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  onclick="jump('${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">03、评标细则</a>
+							   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  onclick="jump('${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}')" >
+							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
 							    <c:if test="${type eq 'gkzb' }">
 							     04、招标文件
 							     </c:if>
 							    <c:if test="${type eq 'jzxtp' }">
 							     04、竞谈文件
+							    </c:if>
+							    <c:if test="${type eq 'dyly' }">
+							     04、单一来源文件
 							    </c:if>
 							   </a>
 							 </li>
@@ -109,7 +112,9 @@
 						 </div>
 						 <div class="tab-content clear step_cont">
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
-						 	<h1 class="f16 count_flow"><i>02</i>关联初审项</h1>
+						 	<div class="headline-v2">
+						   <h2>关联初审项</h2>
+						   </div>
 						 	   <div class="container clear margin-top-30" id="package">
 						 	   
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
@@ -130,14 +135,13 @@
 											       <c:if test="${project.confirmFile == 1}">
 											      	<th class="info w30"><input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll(this)"  alt=""></th>
 											      </c:if>
-											        <th>初审项名称</th>
-											        <th>要求类型</th>
-											        <th>创建人</th>
-											        <th>创建时间</th>
+											        <th class="info">初审项名称</th>
+											        <th class="info">要求类型</th>
+											        <th class="info">创建人</th>
+											        <th class="info">创建时间</th>
 											      </tr>
 											     </thead>
 											      <c:forEach items="${list }" var="l" varStatus="vs">
-												      <thead>
 												       <tr>
 												        <td class="tc w30">
 												        <c:if test="${project.confirmFile != 1}">
@@ -160,7 +164,6 @@
 												        <td align="center">${l.creater }</td>
 												        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 												      </tr>
-												      </thead>
 										      	  </c:forEach>
 										      	  <c:if test="${project.confirmFile != 1}">
 										      	  <input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>

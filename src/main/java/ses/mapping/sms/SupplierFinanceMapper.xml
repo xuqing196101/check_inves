@@ -15,7 +15,7 @@
 		<result column="AUDIT_OPINION" property="auditOpinion" />
 		<result column="LIABILITIES_LIST" property="liabilitiesList" />
 		<result column="PROFIT_LIST" property="profitList" />
-		<result column="CASH_FLOW_STATEMENT" property="cashFlowStatement" />
+		<result column="CASH_FLOW_STATEMENT_LIST" property="cashFlowStatement" />
 		<result column="CHANGE_LIST" property="changeList" />
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="CREATED_AT" property="createdAt" />
@@ -23,7 +23,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, YEAR, TELEPHONE, AUDITORS, QUOTA, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
-		TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
+		TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT_LIST, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -41,7 +41,7 @@
 		TELEPHONE, AUDITORS, QUOTA,
 		TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST,
-		PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
+		PROFIT_LIST, CASH_FLOW_STATEMENT_LIST, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{name}, #{year},
@@ -95,7 +95,7 @@
 				PROFIT_LIST,
 			</if>
 			<if test="cashFlowStatement != null">
-				CASH_FLOW_STATEMENT,
+				CASH_FLOW_STATEMENT_LIST,
 			</if>
 			<if test="changeList != null">
 				CHANGE_LIST,
@@ -207,7 +207,7 @@
 				PROFIT_LIST = #{profitList},
 			</if>
 			<if test="cashFlowStatement != null">
-				CASH_FLOW_STATEMENT = #{cashFlowStatement},
+				CASH_FLOW_STATEMENT_LIST = #{cashFlowStatement},
 			</if>
 			<if test="changeList != null">
 				CHANGE_LIST = #{changeList},
@@ -238,7 +238,7 @@
 		AUDIT_OPINION = #{auditOpinion},
 		LIABILITIES_LIST = #{liabilitiesList},
 		PROFIT_LIST = #{profitList},
-		CASH_FLOW_STATEMENT = #{cashFlowStatement},
+		CASH_FLOW_STATEMENT_LIST = #{cashFlowStatement},
 		CHANGE_LIST = #{changeList},
 		SUPPLIER_ID = #{supplierId},
 		CREATED_AT = #{createdAt},
