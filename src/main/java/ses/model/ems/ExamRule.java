@@ -88,7 +88,7 @@ public class ExamRule {
 	public void setPassStandard(String passStandard) {
 		this.passStandard = passStandard;
 	}
-
+	
 	public String getPaperScore() {
 		return paperScore;
 	}

@@ -2282,9 +2282,9 @@ public class ExpertExamController extends BaseSupplierController{
 	@ResponseBody
 	public String judgeQualy(HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		Integer type = user.getTypeName();
+		String type = user.getTypeName();
 		String str = null;
-		if(type==5){
+		if(type.equals(5)){
 			List<ExamRule> examRule = examRuleService.selectById(null);
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("ruleId", examRule.get(0).getId());
@@ -2963,7 +2963,7 @@ public class ExpertExamController extends BaseSupplierController{
 		for(int i=0;i<id.length;i++){
 			Expert expert = expertService.selectByPrimaryKey(id[i]);
 			User user = new User();
-			user.setTypeName(5);
+			user.setTypeName("5");
 			user.setTypeId(id[i]);
 			User want = userService.find(user).get(0);
 			HashMap<String, Object> ruleMap = new HashMap<String,Object>();
@@ -2985,7 +2985,7 @@ public class ExpertExamController extends BaseSupplierController{
 			for(int i=0;i<id.length;i++) {
 				Expert expert = expertService.selectByPrimaryKey(id[i]);
 				User user = new User();
-				user.setTypeName(5);
+				user.setTypeName("5");
 				user.setTypeId(id[i]);
 				User want = userService.find(user).get(0);
 				ExamPaperReference paperReference = new ExamPaperReference();
@@ -3141,7 +3141,7 @@ public class ExpertExamController extends BaseSupplierController{
 						}
 						Expert expertC = expertService.findAllExpert(mapC).get(0);
 						User user = new User();
-						user.setTypeName(5);
+						user.setTypeName("5");
 						user.setTypeId(expertC.getId());
 						User want = userService.find(user).get(0);
 						HashMap<String, Object> p_id = new HashMap<String,Object>();
@@ -3189,7 +3189,7 @@ public class ExpertExamController extends BaseSupplierController{
 					}
 					Expert expert = expertService.findAllExpert(map).get(0);
 					User user = new User();
-					user.setTypeName(5);
+					user.setTypeName("5");
 					user.setTypeId(expert.getId());
 					User want = userService.find(user).get(0);
 					ExamPaperReference paperReference = new ExamPaperReference();
