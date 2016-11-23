@@ -109,7 +109,14 @@
 	    <div class="margin-top-10 breadcrumbs ">
 	        <div class="container">
 	            <ul class="breadcrumb margin-left-0">
-	                <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li><li class="active"><a href="#">供应商列表</a></li>
+	                <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商审核</a></li><li class="active">
+	                   <c:if test="${sign == 1}">
+	                       <a href="#">供应商初审列表</a>
+	                   </c:if>
+	                   <c:if test="${sign == 2}">
+	                       <a href="#">供应商复审列表</a>
+                       </c:if>
+                   </li>
 	            </ul>
 	        </div>
 	    </div>
