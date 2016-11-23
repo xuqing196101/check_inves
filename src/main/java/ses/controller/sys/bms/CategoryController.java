@@ -285,7 +285,10 @@ public class CategoryController extends BaseSupplierController {
      */
     @RequestMapping(value = "query_category")
     public void queryCategory(HttpServletResponse response, Category category, String categoryIds) throws IOException {
-        List<String> list=Arrays.asList(categoryIds.split(","));
+    	List<String> list=new ArrayList<String>();
+    	if(categoryIds!=null){
+        	 list=Arrays.asList(categoryIds.split(","));
+        }
         List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         response.setContentType("text/html;charset=utf-8");

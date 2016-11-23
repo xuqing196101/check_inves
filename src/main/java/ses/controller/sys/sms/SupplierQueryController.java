@@ -101,16 +101,15 @@ public class SupplierQueryController extends BaseSupplierController{
 		Map<String,Object> mapProvince=supplierEditService.getAllProvince();
 		for(Supplier supplier:listSupplier){
 			for(Map.Entry<String, Object> entry:mapProvince.entrySet()){   
-				//if(supplier.getAddress()!=null&&supplier.getAddress().indexOf(entry.getKey())!=-1){
-				if(supplier.getAddress()!=null){
-					String strAddress=areaService.listById(areaService.listById(supplier.getAddress()).getParentId()).getName();
-					if(strAddress.indexOf(entry.getKey())!=-1){
+				if(supplier.getName()!=null&&!"".equals(supplier.getName())){
+					if(supplier.getName().indexOf(entry.getKey())!=-1){
 						map.put((String)entry.getValue(),(Integer)map.get(entry.getValue())+1);
+						break;
 					}
 				}
 			}   
 		}
-		 String json = JSON.toJSONString(map);
+		String json = JSON.toJSONString(map);
 		model.addAttribute("data", json);
 		model.addAttribute("sup",sup);
 		model.addAttribute("categoryNames", categoryNames);

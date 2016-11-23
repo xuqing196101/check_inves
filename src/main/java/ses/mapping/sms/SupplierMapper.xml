@@ -57,6 +57,7 @@
         <result column="CREATED_AT" property="createdAt" />
         <result column="UPDATED_AT" property="updatedAt" />
         <result column="SCORE" property="score" />
+        <result column="NAME" property="name" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
