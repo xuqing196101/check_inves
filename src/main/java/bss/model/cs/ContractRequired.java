@@ -16,10 +16,16 @@ public class ContractRequired {
     private String item;//计量单位
 
     private Long purchaseCount;//采购数量
+    
+    private String purchaseCount_string;
 
     private BigDecimal price;//单价
+    
+    private String price_string;
 
     private BigDecimal amount;//合计金额
+    
+    private String amount_string;
 
     private String deliverDate;//交付时间
 
@@ -29,7 +35,31 @@ public class ContractRequired {
     
     private Integer isDeleted;
 
-    public Integer getIsDeleted() {
+    public String getPurchaseCount_string() {
+		return purchaseCount_string;
+	}
+
+	public void setPurchaseCount_string(String purchaseCount_string) {
+		this.purchaseCount_string = purchaseCount_string;
+	}
+
+	public String getPrice_string() {
+		return price_string;
+	}
+
+	public void setPrice_string(String price_string) {
+		this.price_string = price_string;
+	}
+
+	public String getAmount_string() {
+		return amount_string;
+	}
+
+	public void setAmount_string(String amount_string) {
+		this.amount_string = amount_string;
+	}
+
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 

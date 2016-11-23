@@ -112,7 +112,7 @@
 				$(this).parent().parent().remove();
 			})
 		}else{
-			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的信息",{offset: ['50%', '390px'], shade:0.01});
 		}
     }
    	
@@ -134,6 +134,7 @@
 	}
 	
 	function bynSub(){
+		
 		var sum1 = $("#purBudgetSum").val()-0;
 		var sumbudget = $("#budget").val();
 		var sum2 = null;
@@ -146,51 +147,50 @@
 		if(sumAll>sumbudget){
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
-		}else{
-			
-			$.ajax({
-				url:"${pageContext.request.contextPath}/purchaseContract/validAddRe.html",
-				type:"post",
-				dataType:"json",
-				data:$('#myForm').serialize(),
-				success:function(data){
-					if(data==1){
-						var detab = $("#detailtable tr:last td:eq(1)");
-						var vstab = Number(detab.html());
-						if($("#detailtable tr").length<=1){
-							vstab = 0;
-						}
-						var html = "";
-						var tabl = $("#detailtable");
-						html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
-						html += "<td class='tc w50'>"+(vstab+1)+"</td>";
-						html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#bra').val()+"'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
-						html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
-						html += "<td class='tnone'></td>"
-						tabl.append(html);
-						layer.close(index);
-					}else{
-						var obj = new Function("return" + data)();
-						$("#wzmc").text(obj.wzmc);
-						$("#bh").text(obj.bh);
-						$("#jfsj").text(obj.jfsj);
-						$("#ppsb").text(obj.ppsb);
-						$("#ggxh").text(obj.ggxh);
-						$("#jldw").text(obj.jldw);
-						$("#sl").text(obj.sl);
-						$("#dj").text(obj.dj);
-					}
-				}
-			});
 		}
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/validAddRe.html",
+			type:"post",
+			dataType:"json",
+			data:$('#myForm').serialize(),
+			success:function(data){
+				if(data==1){
+					var detab = $("#detailtable tr:last td:eq(1)");
+					var vstab = Number(detab.html());
+					if($("#detailtable tr").length<=1){
+						vstab = 0;
+					}
+					var html = "";
+					var tabl = $("#detailtable");
+					html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+					html += "<td class='tc w50'>"+(vstab+1)+"</td>";
+					html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' readonly='readonly' value='"+$('#planNo').val()+"' class='w50'/></td>";
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' readonly='readonly' value='"+$('#citySel4').val()+"'/></td>";
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' readonly='readonly' value='"+$('#bra').val()+"'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' readonly='readonly' value='"+$('#model').val()+"' class='w60'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' readonly='readonly' value='"+$('#unit').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' readonly='readonly' value='"+$('#purNum').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' readonly='readonly' value='"+$('#univalent').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' readonly='readonly' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' readonly='readonly' value='"+$('#givetime').val()+"' class='w100'/></td>"
+					html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' readonly='readonly' value='"+$('#remarks').val()+"'/></td>"
+					html += "<td class='tnone'></td>"
+					tabl.append(html);
+					layer.close(index);
+				}else{
+					var obj = new Function("return" + data)();
+					$("#wzmc").text(obj.wzmc);
+					$("#bh").text(obj.bh);
+					$("#jfsj").text(obj.jfsj);
+					$("#ppsb").text(obj.ppsb);
+					$("#ggxh").text(obj.ggxh);
+					$("#jldw").text(obj.jldw);
+					$("#sl").text(obj.sl);
+					$("#dj").text(obj.dj);
+				}
+			}
+		});
 	}
 	
 	function quxiao(){
@@ -682,21 +682,21 @@
 				<li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>数量</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="purNum" name="purchaseCount" onblur="sum1()" type="text"class="col-md-12 p0">
+                   <input maxlength="11" id="purNum" name="purchaseCount_string" onblur="sum1()" type="text"class="col-md-12 p0">
                    <div class="cue" id="sl"></div>
 	              </div>
 	            </li>
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="univalent" name="price" onblur="sum1()" value="" type="text" class="col-md-12 p0">
+                   <input maxlength="11" id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
                    <div class="cue" id="dj"></div>
 	              </div>
 	            </li>
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5">合计</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="purBudgetSum" name="amount" value="" readonly="readonly" type="text" class="col-md-12 p0">
+                   <input maxlength="11" id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
 	              </div>
 	            </li> 
 			    <li class="col-md-12">

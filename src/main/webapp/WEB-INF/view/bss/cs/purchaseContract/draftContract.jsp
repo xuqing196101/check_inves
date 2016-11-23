@@ -113,7 +113,7 @@
 				$(this).parent().parent().remove();
 			})
 		}else{
-			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的信息",{offset: ['50%', '390px'], shade:0.01});
 		}
     }
    	

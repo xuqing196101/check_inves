@@ -1172,17 +1172,17 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag=false;
 			map.put("jldw", "计量单位不能为空");
 		}
-		if(ValidateUtils.isNull(conRe.getPurchaseCount())){
+		if(ValidateUtils.isNull(conRe.getPurchaseCount_string())){
 			flag=false;
 			map.put("sl", "数量不能为空");
-		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount().toString())){
+		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount_string())){
 			flag=false;
 			map.put("sl", "请输入正整数");
 		}
-		if(ValidateUtils.isNull(conRe.getPrice())){
+		if(ValidateUtils.isNull(conRe.getPrice_string())){
 			flag=false;
 			map.put("dj", "单价不能为空");
-		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount().toString())){
+		}else if(!ValidateUtils.Z_index(conRe.getPurchaseCount_string())){
 			flag=false;
 			map.put("dj", "请输入正整数");
 		}

@@ -114,7 +114,7 @@
 				$(this).parent().parent().remove();
 			})
 		}else{
-			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的信息",{offset: ['50%', '390px'], shade:0.01});
 		}
     }
    	
@@ -377,7 +377,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同类型：</span>
 			     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
-		        	<select name="contractType" class="contract_name">
+		        	<select name="contractType" id="contractType"  class="contract_name">
 		        		<option></option>
 		        		<option value="0">正常采购合同</option>
 		        		<option value="1">以厂代储合同</option>
