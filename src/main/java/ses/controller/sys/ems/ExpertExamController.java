@@ -67,6 +67,7 @@ import ses.service.ems.ExamUserAnswerServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.ems.ExpertPaperUserServiceI;
 import ses.service.ems.ExpertService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
@@ -2963,7 +2964,7 @@ public class ExpertExamController extends BaseSupplierController{
 		for(int i=0;i<id.length;i++){
 			Expert expert = expertService.selectByPrimaryKey(id[i]);
 			User user = new User();
-			user.setTypeName("5");
+			user.setTypeName(DictionaryDataUtil.getId("EXPERT_U"));
 			user.setTypeId(id[i]);
 			User want = userService.find(user).get(0);
 			HashMap<String, Object> ruleMap = new HashMap<String,Object>();
@@ -2985,7 +2986,7 @@ public class ExpertExamController extends BaseSupplierController{
 			for(int i=0;i<id.length;i++) {
 				Expert expert = expertService.selectByPrimaryKey(id[i]);
 				User user = new User();
-				user.setTypeName("5");
+				user.setTypeName(DictionaryDataUtil.getId("EXPERT_U"));
 				user.setTypeId(id[i]);
 				User want = userService.find(user).get(0);
 				ExamPaperReference paperReference = new ExamPaperReference();
@@ -3141,7 +3142,7 @@ public class ExpertExamController extends BaseSupplierController{
 						}
 						Expert expertC = expertService.findAllExpert(mapC).get(0);
 						User user = new User();
-						user.setTypeName("5");
+						user.setTypeName(DictionaryDataUtil.getId("EXPERT_U"));
 						user.setTypeId(expertC.getId());
 						User want = userService.find(user).get(0);
 						HashMap<String, Object> p_id = new HashMap<String,Object>();
@@ -3189,7 +3190,7 @@ public class ExpertExamController extends BaseSupplierController{
 					}
 					Expert expert = expertService.findAllExpert(map).get(0);
 					User user = new User();
-					user.setTypeName("5");
+					user.setTypeName(DictionaryDataUtil.getId("EXPERT_U"));
 					user.setTypeId(expert.getId());
 					User want = userService.find(user).get(0);
 					ExamPaperReference paperReference = new ExamPaperReference();
