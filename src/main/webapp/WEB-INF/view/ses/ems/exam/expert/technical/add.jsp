@@ -180,8 +180,8 @@
 			<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
-					<div class="col-md-6 col-sm-6 col-xs-6 p0">
-					  <select id="options" name="options" onchange="changeOpt()" class="col-md-12 col-sm-12 col-xs-12 p0">
+					<div class="col-md-12 col-sm-12 col-xs-12 p0">
+					  <select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6 p0">
 			  			<option value="">请选择</option>
 			  			<c:if test="${errData['options']=='three' }">
 			  				<option value="three" selected>3</option>
@@ -233,7 +233,7 @@
 			  			</c:if>
 		  			 </select>
 		  			   	<div class="red fl clear">${ERR_option }</div> 
-					    <div class="col-md-9 clear p0" id="items"></div>
+					    <div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
 			         </div>
 				 </li>
 				 

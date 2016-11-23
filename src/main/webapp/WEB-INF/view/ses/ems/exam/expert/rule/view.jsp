@@ -53,16 +53,14 @@
    	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
    	
-   <div class="container container_box">
-	   <div class="headline-v2">
-	   		<h2 class="count_flow">查看规则</h2>
-	   </div>
-   <ul class="ul_list">
+   	<div class="container container_box">
+	<h2 class="list_title">查看规则</h2>
+   	<div class="ul_list">
 	  	<ul class="list-unstyled p0_20">
-	    	<li class="col-md-12 p0 mb20">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="col-md-12 p0">
-	  			   	<div class="col-md-6 p0 input-append">
+	    	<li class="col-md-12 col-sm-12 col-xs-12 pl15 mb20">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		  			   	<label class="fl">单选题：</label>
 		  			   	<div class="fl">
 		  			   	    <input type="radio" name="single" class="mt0" value="有" disabled="disabled"/>有
@@ -72,7 +70,7 @@
 		  			   	  	<input type="text" disabled="disabled" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" disabled="disabled" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条
 		  			   	</div>
 	  			   	</div>
-	  			   	<div class="col-md-6 p0 input-append">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	    <label class="fl">多选题：</label>
 		    	   	    <div class="fl">
 			    	   	    <input type="radio" name="multiple" class="mt0" value="有" disabled="disabled"/>有
@@ -85,35 +83,35 @@
 	  		    </div>
 	  		</li>
 	  		
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷分值：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
+	  			<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 	  				<input type="text" disabled="disabled" name="paperScore" id="paperScore" value="${examRule.paperScore }" readonly="readonly"/>分
 	    		</div>
 	    	</li>
 	    	
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
+	  			<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 	  				<div class="fl"><input type="text" disabled="disabled" name="passStandard" id="passStandard" value="${examRule.passStandard }"/>分</div>
 	  			</div>
 	    	</li>
 	    	
-	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
-	  			<div class="col-md-12 input-append p0">
+	  		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 			  		<input type="text" disabled="disabled" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${startTime }"/>
 	  			</div>
 	  		</li>
 	    	
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 		  			<input type="text" disabled="disabled" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${offTime }"/>
 	  			</div>
 	    	</li>
 	    </ul>
-	    </ul>
+	    </div>
 	    
 	    <!-- 底部按钮 -->
 	    <div class="col-md-12 mt10 tc ">

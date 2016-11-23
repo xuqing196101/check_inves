@@ -234,7 +234,7 @@
 				  			</c:if>
 		  			   </select>
 					   <div class="red fl clear">${ERR_option }</div> 
-					   <div class="col-md-9 clear p0" id="items"></div>
+					   <div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
 			        </div>
 				</li> 
 				
@@ -247,7 +247,7 @@
   	    </div>
   	    
   	    <!-- 按钮 -->
-      	<div class="col-md-12 mt10 tc ">
+      	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
           	<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
             <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
         </div>
