@@ -19,6 +19,7 @@ import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
@@ -267,7 +268,7 @@ public class AppraisalContractController extends BaseSupplierController{
 	@RequestMapping("/selectUser")
 	public void selectUser(HttpServletResponse response,HttpServletRequest request){
 		User u = new User();
-		u.setTypeName(0);
+		u.setTypeName(DictionaryDataUtil.getId("PUR_MG_U"));
 		List<User> user = userService.find(u);
 		super.writeJson(response, user);
 	}

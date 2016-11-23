@@ -200,7 +200,7 @@ public class StatisticalController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<AppraisalContract> list = appraisalContractService.selectAppraisal(map);
+		List<AppraisalContract> list = appraisalContractService.selectAppraisal(map,page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("code", code);
