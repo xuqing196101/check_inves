@@ -871,6 +871,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//初审、复审标识
 		request.setAttribute("sign",supplier.getSign());
 		request.getSession().getAttribute("sign");
+		
 		return "ses/sms/supplier_audit/supplier_all";
 	}	
 }

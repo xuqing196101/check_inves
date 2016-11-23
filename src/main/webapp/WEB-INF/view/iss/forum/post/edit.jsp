@@ -64,77 +64,70 @@
     <form action="${ pageContext.request.contextPath }/post/update.html" method="post" >  
       <input type="hidden" id="ids" name="ids"/>
     <div>
-            <div class="headline-v2">
-	   		  <h2 class="count_flow">修改帖子</h2>
-	   		</div>
-
+       <h2 class="list_title">修改帖子</h2>
 	    <input  name ="postId" type="hidden" value = '${post.id}'>
 	   <ul class="ul_list mb20">	   		  
-	   		  <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
-			   <div class="input-append">
-		        <input class="span2 w200"  type="text" name = "name" value='${post.name }'>
+	   		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>帖子名称：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name = "name" value='${post.name }'>
 		        <span class="add-on">i</span>
 		        <div class="cue">${ERR_name}</div>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">			 
-			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
-			   <div class="select_common">
-
-			    <select id ="parks"name ="parkId" class="w220" onchange="change(this.options[this.selectedIndex].value)">
+			 <li class="col-md-3 col-sm-6 col-xs-12">			 
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>所属版块：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			    <select id ="parks"name ="parkId" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
-
 	  			<div class="cue">${ERR_park}</div>
 	  			</div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
-			   <div class="select_common">
-			 	
-	        	<select id="topics" name="topicId" class="w220 ">
-	        	<option></option>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>所属主题：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+	        	<select id="topics" name="topicId">
+	        	   <option></option>
 	        		<c:forEach items="${topics}" var="topic">
 			  	  		<option  value="${topic.id}">${topic.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
-
 	  			<div class="cue">${ERR_topic}</div>
 	  			</div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">置顶：</span>
-			    <div class="select_common">	
-			   	<select id="isTop" name="isTop" class="w220 ">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">置顶：</span>
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">	
+			   	<select id="isTop" name="isTop">
 	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
 	  			</select>				 	
 	  			</div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5 ">锁定：</span>
-			    <div class="select_common">	
-			   	<select id="isLocking" name="isLocking" class="w220 ">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">锁定：</span>
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">	
+			   	<select id="isLocking" name="isLocking" class="col-md-12 col-sm-12 col-xs-12 p0 ">
 	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
 	        	</div>
 	  			</select>	 	
 			 </li>			 
-			<li class="col-md-11 margin-0 padding-0">
-	   			<span class="col-md-12 padding-left-5"><div class="red fl">*</div>帖子内容：</span>
-	  			<div class="mb5">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+			<li class="col-md-12 col-sm-12 col-xs-12">
+	   			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>帖子内容：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  				 <script id="editor" name="content" type="text/plain" class="col-md-12 col-sm-12 col-xs-12 p0"></script>
        			</div>
        			<div class="red clear f12">${ERR_content}</div>
 			 </li>
-			 <li class="col-md-12 p0">
-               <span class="zzzx w245">上传附件：</span>
+			 <li class="col-md-12 col-sm-12 col-xs-12 mt10">
+               <span class="fl">上传附件：</span>
                   <up:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
@@ -143,7 +136,7 @@
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
-    <div class="col-md-12 tc">        
+    <div class="col-md-12 col-sm-12 col-xs-12 tc">        
     	<button class="btn btn-windows save" type="submit">更新</button>
     	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>

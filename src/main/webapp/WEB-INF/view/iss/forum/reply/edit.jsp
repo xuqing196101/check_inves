@@ -34,26 +34,25 @@
      <div class="container container_box">
     <form action="${ pageContext.request.contextPath }/reply/update.html" method="post">  
     <div>
-    <div class="headline-v2">
-	   		<h2 class="count_flow">修改回复</h2>
-	   		</div>
+	   	<h2 class="list_title">修改回复</h2>
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
 	   <ul class="ul_list mb20">			 
-			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> <div class="red fl">*</div>回复内容：</span>			
-				<div class="mb5">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+			<li class="col-md-12 col-sm-12 col-xs-12 pl15">	  	 			
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> <div class="red fl">*</div>回复内容：</span>			
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  				 <script id="editor" name="content" type="text/plain" class="col-md-12 col-sm-12 col-xs-12 p0"></script>
        			</div>		
 				<div class="red clear f12">${ERR_content}</div>
 				</div>			
 	  	 	</li>
 	  	 </ul>
-	</div>  	
 	<!-- 底部按钮 -->			          
-    <div class="col-md-12 tc">     
+    <div class="col-md-12 col-sm-12 col-xs-12 tc">     
     	<button class="btn btn-windows save" type="submit">更新</button>
     	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
+	</div>  	
+
   </div>
      </form>
      </div>

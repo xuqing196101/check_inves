@@ -60,9 +60,21 @@
 		 </li>
 		 <li>
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId }" >
-		     <c:if test="${type eq 'gkzb' }">04、招标文件</c:if>
-		     <c:if test="${type eq 'jzxtp' }"> 04、竞谈文件</c:if>
-		     <c:if test="${type eq 'dyly' }"> 04、单一来源文件</c:if>
+		         <c:if test="${project.dictionary.code eq 'GKZB' }">
+			     04、招标文件
+			     </c:if>
+			     <c:if test="${project.dictionary.code eq 'XJCG' }">
+			     04、询价文件
+			     </c:if>
+			     <c:if test="${project.dictionary.code eq 'YQZB' }">
+			     04、招标文件
+			     </c:if>
+			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
+			     04、竞谈文件
+			     </c:if>
+			     <c:if test="${project.dictionary.code eq 'DYLY' }">
+			     04、单一来源文件
+			     </c:if>
 		   </a>
 		   <i></i>
 		 </li>

@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 function goBack(){
-	var contractId = $("#contractProductId").val()
+	var contractId = $("#contractProductId").val();
 	window.location.href="${pageContext.request.contextPath}/offer/selectProduct.html?contractId="+contractId;
 }
 </script>

@@ -160,6 +160,9 @@ public class PurchaseContractController extends BaseSupplierController{
 //			proList.add(pro);
 //		}
 		model.addAttribute("packageList", pacList);
+		model.addAttribute("projectName", projectName);
+		model.addAttribute("projectCode", projectCode);
+		model.addAttribute("purchaseDep", purchaseDep);
 		return "bss/cs/purchaseContract/list";
 	}
 	
@@ -261,10 +264,13 @@ public class PurchaseContractController extends BaseSupplierController{
 		String flag = "true";
 		String news = "";
 		List<String> supIdList = new ArrayList<String>();
+		List<Project> proList = new ArrayList<Project>();
 		for(int i=0;i<ids.length;i++){
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", ids[i]);
 			Packages pack = packageService.findPackageById(map).get(0);
+			Project pro = projectService.selectById(pack.getProjectId());
+			proList.add(pro);
 			SupplierCheckPass suchp = new SupplierCheckPass();
 			suchp.setPackageId(pack.getId());
 			suchp.setIsWonBid((short)1);
@@ -279,13 +285,28 @@ public class PurchaseContractController extends BaseSupplierController{
 			}
 		}
 		
-		if(!supIdList.isEmpty()){
-			for(int j=0;j<supIdList.size()-1;j++){
-				for(int m=j+1;m<supIdList.size();m++){
-					if(!supIdList.get(j).equals(supIdList.get(m))){
+		if(flag.equals("true")){
+			out:for(int i=0;i<proList.size()-1;i++){
+				for(int j=i+1;j<proList.size();j++){
+					if(!proList.get(i).getId().equals(proList.get(j).getId())){
 						flag="false";
 						news = "";
-						news+="供应商不一致";
+						news+="不是同一个项目";
+						break out;
+					}
+				}
+			}
+		}
+		
+		if(flag.equals("true")){
+			if(!supIdList.isEmpty()){
+				for(int j=0;j<supIdList.size()-1;j++){
+					for(int m=j+1;m<supIdList.size();m++){
+						if(!supIdList.get(j).equals(supIdList.get(m))){
+							flag="false";
+							news = "";
+							news+="供应商不一致";
+						}
 					}
 				}
 			}
@@ -543,13 +564,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		model = (Model)map.get("model");
 		Boolean flag = (boolean)map.get("flag");
 		String url = "";
-//		if(result.hasErrors()){
-//			flag = false;
-//			List<FieldError> errors = result.getFieldErrors();
-//			for(FieldError fieldError:errors){
-//				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-//			}
-//		}
 		if(flag == false){
 			String ids = request.getParameter("ids");
 			List<ContractRequired> requList = proList.getProList();
@@ -563,6 +577,10 @@ public class PurchaseContractController extends BaseSupplierController{
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
 			purCon.setCreatedAt(new Date());
 			purCon.setUpdatedAt(new Date());
+			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
+			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
+			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
+			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
 			purchaseContractService.insertSelective(purCon);
 			String id = purCon.getId();
 			List<ContractRequired> requList = proList.getProList();
@@ -571,6 +589,72 @@ public class PurchaseContractController extends BaseSupplierController{
 				contractRequiredService.insertSelective(conRequ);
 			}
 			url = "redirect:selectAllPuCon.html";
+		}
+		return url;
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:02:44  
+	* @Description: 修改合同草稿 
+	* @param @param agrfile
+	* @param @param request
+	* @param @param purCon
+	* @param @param result
+	* @param @param proList
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/updateDraftContract")
+	public String updateDraftContract(PurchaseContract purCon,ProList proList,HttpServletRequest request,Model model) throws Exception{
+		Map<String, Object> map = valid(model,purCon);
+		model = (Model)map.get("model");
+		Boolean flag = (boolean)map.get("flag");
+		String url = "";
+		if(flag == false){
+			String ids = request.getParameter("ids");
+			List<ContractRequired> requList = proList.getProList();
+			model.addAttribute("draftCon", purCon);
+			model.addAttribute("requList", requList);
+			model.addAttribute("ids", ids);
+			return "bss/cs/purchaseContract/draftContract";
+		}else{
+			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
+			File rootFile = new File(rootpath);
+			if(!rootFile.exists()){
+				rootFile.mkdirs();
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+			purCon.setYear(new BigDecimal(sdf.format(new Date())));
+			purCon.setUpdatedAt(new Date());
+			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
+			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
+			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
+			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+			purchaseContractService.updateByPrimaryKeySelective(purCon);
+			String id = purCon.getId();
+			contractRequiredService.deleteByContractId(id);
+			List<ContractRequired> requList = proList.getProList();
+			for(ContractRequired conRequ:requList){
+				if(conRequ.getGoodsName()==null){
+					break;
+				}
+				if(conRequ.getId()==null){
+					conRequ.setContractId(id);
+					contractRequiredService.insertSelective(conRequ);
+				}else{
+					contractRequiredService.updateByPrimaryKeySelective(conRequ);
+				}
+			}
+			if(purCon.getStatus()==2){
+				purchaseContractService.createWord(purCon, requList,request);
+			}
+			url = "redirect:selectDraftContract.html";
 		}
 		return url;
 	}
@@ -590,10 +674,10 @@ public class PurchaseContractController extends BaseSupplierController{
 	public Map valid(Model model,PurchaseContract purCon){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean flag = true;
-		if(ValidateUtils.isNull(purCon.getSupplierBankAccount())){
+		if(ValidateUtils.isNull(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "乙方账号不能为空");
-		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount().toString()) == false){
+		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getSupplierBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_supplierBankAccount", "请输入正确的乙方账号");
 		}
@@ -667,24 +751,24 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_contractType", "合同类型不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount())){
+		if(ValidateUtils.isNull(purCon.getPurchaseBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_purchaseBankAccount", "甲方账号不能为空");
-		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount().toString())){
+		}else if(!ValidateUtils.BANK_ACCOUNT(purCon.getPurchaseBankAccount_string())){
 			flag = false;
 			model.addAttribute("ERR_purchaseBankAccount", "请输入正确的甲方账号");
 		}
-		if(ValidateUtils.isNull(purCon.getMoney())){
+		if(ValidateUtils.isNull(purCon.getMoney_string())){
 			flag = false;
 			model.addAttribute("ERR_money", "合同金额不能为空");
-		}else if(!ValidateUtils.Money(purCon.getMoney().toString())){
+		}else if(!ValidateUtils.Money(purCon.getMoney_string())){
 			flag = false;
 			model.addAttribute("ERR_money", "请输入正确金额");
 		}
-		if(ValidateUtils.isNull(purCon.getBudget())){
+		if(ValidateUtils.isNull(purCon.getBudget_string())){
 			flag = false;
 			model.addAttribute("ERR_budget", "合同预算不能为空");
-		}else if(!ValidateUtils.Money(purCon.getBudget().toString())){
+		}else if(!ValidateUtils.Money(purCon.getBudget_string())){
 			flag = false;
 			model.addAttribute("ERR_budget", "请输入正确金额");
 		}
@@ -718,7 +802,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierUnitpostCode())){
 			flag = false;
 			model.addAttribute("ERR_supplierUnitpostCode", "乙方邮编不能为空");
-		}else if(!ValidateUtils.Zipcode(purCon.getPurchaseUnitpostCode())){
+		}else if(!ValidateUtils.Zipcode(purCon.getSupplierUnitpostCode())){
 			flag = false;
 			model.addAttribute("ERR_supplierUnitpostCode", "请输入正确的邮编");
 		}
@@ -822,7 +906,18 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
 		}
-		
+		if(draftCon.getMoney()!=null){
+			draftCon.setMoney_string(draftCon.getMoney().toString());
+		}
+		if(draftCon.getBudget()!=null){
+			draftCon.setBudget_string(draftCon.getBudget().toString());
+		}
+		if(draftCon.getSupplierBankAccount()!=null){
+			draftCon.setSupplierBankAccount_string(draftCon.getSupplierBankAccount().toString());
+		}
+		if(draftCon.getPurchaseBankAccount()!=null){
+			draftCon.setPurchaseBankAccount_string(draftCon.getPurchaseBankAccount().toString());
+		}
 		model.addAttribute("draftCon", draftCon);
 		model.addAttribute("ids", ids);
 		return "bss/cs/purchaseContract/draftContract";
@@ -884,67 +979,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		return "bss/cs/purchaseContract/showFormalContract";
 	}
 	
-	/**
-	 * 
-	* 〈简述〉 〈详细描述〉
-	* 
-	* @author QuJie 
-	* @date 2016-11-11 下午3:02:44  
-	* @Description: 修改合同草稿 
-	* @param @param agrfile
-	* @param @param request
-	* @param @param purCon
-	* @param @param result
-	* @param @param proList
-	* @param @param model
-	* @param @return
-	* @param @throws Exception      
-	* @return String
-	 */
-	@RequestMapping("/updateDraftContract")
-	public String updateDraftContract(HttpServletRequest request,PurchaseContract purCon,ProList proList,Model model) throws Exception{
-		Map<String, Object> map = valid(model,purCon);
-		model = (Model)map.get("model");
-		Boolean flag = (boolean)map.get("flag");
-		String url = "";
-		if(flag == false){
-			String ids = request.getParameter("ids");
-			List<ContractRequired> requList = proList.getProList();
-			model.addAttribute("draftCon", purCon);
-			model.addAttribute("requList", requList);
-			model.addAttribute("ids", ids);
-			return "bss/cs/purchaseContract/draftContract";
-		}else{
-			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
-			File rootFile = new File(rootpath);
-			if(!rootFile.exists()){
-				rootFile.mkdirs();
-			}
-			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
-			purCon.setYear(new BigDecimal(sdf.format(new Date())));
-			purCon.setUpdatedAt(new Date());
-			purchaseContractService.updateByPrimaryKeySelective(purCon);
-			String id = purCon.getId();
-			contractRequiredService.deleteByContractId(id);
-			List<ContractRequired> requList = proList.getProList();
-			for(ContractRequired conRequ:requList){
-				if(conRequ.getGoodsName()==null){
-					break;
-				}
-				if(conRequ.getId()==null){
-					conRequ.setContractId(id);
-					contractRequiredService.insertSelective(conRequ);
-				}else{
-					contractRequiredService.updateByPrimaryKeySelective(conRequ);
-				}
-			}
-			if(purCon.getStatus()==2){
-				purchaseContractService.createWord(purCon, requList,request);
-			}
-			url = "redirect:selectDraftContract.html";
-		}
-		return url;
-	}
+	
 	
 	/**
 	 * 

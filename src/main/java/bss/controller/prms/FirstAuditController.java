@@ -63,7 +63,6 @@ public class FirstAuditController {
 			model.addAttribute("list", list2);
 			model.addAttribute("projectId", projectId);
 			Project project = projectService.selectById(projectId);
-			getType(project,model);
 			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("project", project);
 		} catch (Exception e) {
@@ -131,7 +130,6 @@ public class FirstAuditController {
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("flag", flag);
 			model.addAttribute("flowDefineId", flowDefineId);
-			getType(project,model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -239,19 +237,5 @@ public class FirstAuditController {
 	@ResponseBody
 	public void relate(String id,String projectId){
 		templatService.relate(id, projectId);
-	}
-	
-	public static void getType(Project project,Model model){
-		if(project!=null && project.getPurchaseType()!=null &&! project.getPurchaseType().equals("") && "xjcg".equals(project.getPurchaseType())){
-			model.addAttribute("type", "xjcg");
-		}else if ("yqzb".equals(project.getPurchaseType())) {
-			model.addAttribute("type", "yqzb");
-		}else if ("gkzb".equals(project.getPurchaseType())) {
-			model.addAttribute("type", "gkzb");
-		}else if ("jzxtp".equals(project.getPurchaseType())) {
-			model.addAttribute("type", "jzxtp");
-		}else if ("dyly".equals(project.getPurchaseType())) {
-			model.addAttribute("type", "dyly");
-		}
 	}
 }

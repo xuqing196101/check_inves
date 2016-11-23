@@ -38,30 +38,26 @@
    		<ul class="ul_list">
    		<input class="span2" name="id" type="hidden" value="${noticeDocument.id}">
      		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档名称</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档名称</span>
                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 		        	<input class="input_group" name="name" type="text" value="${noticeDocument.name}">
 		        	 <span class="add-on">i</span>
 		       </div>
 		        	<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 			 </li>
-<<<<<<< Updated upstream
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
+                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档类型</span>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
                     <select id="docType" name =docType >
-=======
-		     <li class="col-md-3 margin-0 padding-0 ">
-               <span class="col-md-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
-                    <select id="docType" name =docType class="w220">
->>>>>>> Stashed changes
                         <option value="-请选择-">-请选择-</option>
                         <option value="供应商须知文档">供应商须知文档</option>
                         <option value="专家须知文档">专家须知文档</option>
                     </select>
                     <div id="contractCodeErr" class="clear red">${ERR_docType}</div>
+                  </div>
              </li>
 		       <li class="col-md-12 col-sm-12 col-xs-12">
-                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档内容</span>
+                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档内容</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	  				 <script id="editor" name="content" type="text/plain" class=""></script>
 	  				 <div id="contractCodeErr" class="clear red">${ERR_content}</div>
@@ -71,7 +67,7 @@
 	 		
 			 
    			</ul>
-  		<div  class="col-md-12 tc">
+  		<div  class="col-md-12 col-sm-12 col-xs-12 tc">
     		<button class="btn btn-windows edit" type="submit">更新</button>
     		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   		</div>

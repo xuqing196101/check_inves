@@ -84,7 +84,7 @@
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">个人信息</a></li><li><a href="#">供应商信息变更记录</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">个人信息</a></li><li><a href="#">信息变更记录</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -102,7 +102,7 @@
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>
-					<th class="info">供应商名称</th>
+					<th class="info">名称</th>
 					<th class="info">变更时间</th>
 					<th class="info">变更状态</th>
 				</tr>

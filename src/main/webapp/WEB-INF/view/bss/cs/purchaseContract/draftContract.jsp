@@ -52,17 +52,6 @@
    							rootPId:"a",
    						}
    				    },
-   				    edit:{
-   				    	enable:true,
-   						editNameSelectAll:true,
-   						showRemoveBtn: true,
-   						showRenameBtn: true,
-   						removeTitle: "删除",
-   						renameTitle:"重命名",
-   					},
-   				    check:{
-   						enable: true
-   				    },
    				
    	  };
    	    $.fn.zTree.init($("#treeDemo"),setting,datas);
@@ -363,7 +352,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同金额：</span>
 		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		        	<input class="contract_name" name="money" value="${draftCon.money}" type="text">
+		        	<input class="contract_name" name="money_string" value="${draftCon.money_string}" type="text">
 		        	<div class="cue">${ERR_money}</div>
        			</div>
 			 </li>
@@ -391,7 +380,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>预算：</span>
 		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		        	<input class="contract_name" id="budget" name="budget" value="${draftCon.budget}" type="text">
+		        	<input class="contract_name" id="budget" name="budget_string" value="${draftCon.budget_string}" type="text">
 		        	<div class="cue">${ERR_budget}</div>
        			</div>
 			 </li>
@@ -484,7 +473,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方银行账号：</span>
 		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-		         <input class="supplier_name" name="purchaseBankAccount" value="${draftCon.purchaseBankAccount}" type="text">
+		         <input class="supplier_name" name="purchaseBankAccount_string" value="${draftCon.purchaseBankAccount_string}" type="text">
 		         <div class="cue">${ERR_purchaseBankAccount}</div>
 		        </div>
 			 </li>
@@ -558,7 +547,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12 ">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方银行账号：</span>
 		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-		         <input class="supplier_name" name="supplierBankAccount" value="${draftCon.supplierBankAccount}" type="text">
+		         <input class="supplier_name" name="supplierBankAccount_string" value="${draftCon.supplierBankAccount_string}" type="text">
 		         <div class="cue">${ERR_supplierBankAccount}</div>
 		        </div>
 			 </li>

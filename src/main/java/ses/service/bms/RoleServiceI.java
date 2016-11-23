@@ -124,4 +124,21 @@ public interface RoleServiceI {
 	* @return BigDecimal
 	 */
 	BigDecimal checkRolesByUserId(String userId);
+
+    /**
+     *〈简述〉删除角色
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param r
+     */
+    void deleteBatch(Role r);
+
+    /**
+     *〈简述〉保存角色勾选权限
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param role
+     * @param ids
+     */
+    void saveRoleMenu(Role role, String ids);
 }

@@ -286,7 +286,7 @@
 		    <button class="btn btn-windows add" type="button" onclick="addTechnical()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editTechnical()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-		    <button class="btn btn-windows output" type="button" onclick="download()">模板下载</button>
+		    <button class="btn btn-windows input" type="button" onclick="download()">模板下载</button>
 		    <button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 		    <input type="file" name="file" id="excelFile" style="display:inline"/>
 		</div>       

@@ -147,7 +147,7 @@ function reason(id,auditType){
         enable : true,
         url : "${pageContext.request.contextPath}/category/find_category.do",
         otherParam : {
-          supplierId : "${currSupplier.id}",
+          supplierId : "${supplierId}",
           kind : kind
         },
         dataType : "json",
@@ -167,14 +167,14 @@ function reason(id,auditType){
           pIdKey : "parentId"
         }
       },
-      callback: {
+ /*      callback: {
         onCheck: onCheck
-      }
+      } */
     };
     zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
   }
   
-  function onCheck(e, treeId, treeNode) {
+/*   function onCheck(e, treeId, treeNode) {
     var ids = "";
     var flag = treeNode.checked;
     var result = checkType();
@@ -202,12 +202,12 @@ function reason(id,auditType){
         success : function(result) {
         },
       });
-    }
+    } */
     
     /**for (var i = 0; i < nodes.length; i++) {
       nodes[i].checkedOld = nodes[i].checked;
     }*/
-  }
+/*   } */
 </script>
 </head>
     <body>

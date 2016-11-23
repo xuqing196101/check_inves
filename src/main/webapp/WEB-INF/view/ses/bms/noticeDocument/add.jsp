@@ -34,13 +34,11 @@
 <!-- 新增须知文档开始-->
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/noticeDocument/save.do" method="post">
-   		<div>
-   		<div class="headline-v2">
-		     <h2>新增须知文档</h2>
-		   </div>  
+   		<div> 
+		<h2 class="list_title">新增须知文档</h2> 
    		<ul class="ul_list">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档名称</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档名称</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 		        <input class="input_group" name="name" type="text" value="${noticeDocument.name}">
 		        <span class="add-on">i</span>
@@ -48,18 +46,20 @@
 		       <div id="contractCodeErr" class="clear red">${ERR_name}</div>
 			 </li>
     		 <li class="col-md-3 col-sm-6 col-xs-12">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档类型</span>
-          			<select id="docType" name =docType class="w220">
+                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档类型</span>
+          	     <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
+          			<select id="docType" name =docType>
 						<option value="-请选择-">-请选择-</option>
 			  	  	 	<option value="供应商须知文档">供应商须知文档</option>
 			  	  	 	<option value="专家须知文档">专家须知文档</option>
 	  				</select>
 	  				<div id="contractCodeErr" class="clear red">${ERR_docType}</div>
+	  			 </div>
 			 </li>
 		     
 			  <li class="col-md-12 col-sm-12 col-xs-12">
-                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>须知文档内容</span>
-                        <div class="col-md-12 col-sm-12 col-xs-12 p0">
+                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档内容</span>
+                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
 	  				 <script id="editor" name="content" type="text/plain"></script>
         			<div id="contractCodeErr" class="clear red">${ERR_content}</div>
         			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->

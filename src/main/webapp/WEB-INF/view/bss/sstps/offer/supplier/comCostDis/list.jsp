@@ -37,10 +37,8 @@ function nextStep(){
 
 function next(){
 	var proId = $("#proId").val();
-	//var a = $("#formID").serialize();
 	
 	$("#formID").submit();
-	$("#form2").submit();
 }
 
 </script>

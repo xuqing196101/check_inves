@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
@@ -13,30 +14,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	
-	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/oms/css/consume.css">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
-    <!--导航js-->
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-
 <script type="text/javascript">
 	function save(){
 		var index = parent.layer.getFrameIndex(window.name);
@@ -49,7 +26,7 @@
 			    success: function(data) {
 			    	//$("#total_score").text(data.message);
 			    	//$("#remain_score").text(data.message);
-			    	//parent.window.location.reload();
+			    	parent.window.location.reload();
 			    	/* var zTree = $.fn.parent.zTree.getZTreeObj("treeDemo");  
 			    	var treeNode = [{"id":data.pTreeNode.id,"pid":data.pTreeNode.id,"name",data.pTreeNode.name}]
 			    	 zTree.addNodes(treeNode, { 
@@ -110,6 +87,15 @@
 						<div class="input-append">
 							<input class="span2 w180" name="maxScore" type="text" id="maxScore"> <span
 								class="add-on">i</span>
+						</div></li>
+					<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型:</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select name="typeName">
+								<option value="">-请选择-</option>
+								<option value="0">商务</option>
+								<option value="1">技术</option>
+							</select>
 						</div></li>
 				</ul>
 			</div>

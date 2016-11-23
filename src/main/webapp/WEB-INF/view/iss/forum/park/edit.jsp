@@ -64,39 +64,35 @@
      <div class="container container_box">
       <form action="${ pageContext.request.contextPath }/park/update.html" method="post">  
     <div>
-    <div class="headline-v2">
-	    <h2 class="count_flow">
-	   		修改版块
-	   </h2>
-	   </div>
+	    <h2 class="list_title">修改版块</h2>
 	    <input class="span2" name ="parkId" type="hidden" value = '${park.id}'>
 	    <input class="span2" name ="oldUserId" type="hidden" value = '${park.user.id }'>
 	    <input class="span2" name ="oldParkName" type="hidden" value = '${park.name }'>
 	   
 	   <ul class="ul_list">
 	   		  
-	   		   <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5 "><div class="red star_red">*</div>版块名称：</span>
-			   <div class="input-append">
-		        <input class="span2"  type="text" name="name" value = '${park.name}'>
+	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>版块名称：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="name" value = '${park.name}'>
 		        <div class="cue">${ERR_name}</div>
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0 ">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 ">版主：</span>
-			   <div class="select_common">
-                 <select id="user"  class="w220" onchange="change(this.options[this.selectedIndex].value)">
-                    <input class="span2" id="userId" type="hidden" name="userId" value =""/>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                 <select id="user" onchange="change(this.options[this.selectedIndex].value)" class="col-md-12 col-sm-12 col-xs-12 p0">
+                    <input id="userId" type="hidden" name="userId" value =""/>
                 </select>
                 </div>
 			 </li>
 			 
-			  <li class="col-md-3 margin-0 padding-0 ">
+			  <li class="col-md-3 col-sm-6 col-xs-12">
                <span class="col-md-12 padding-left-5 ">热门：</span>
-               <div class="select_common">
-                <select id="isHoT" name="isHot" class="w220">
+               <div class="select_common col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <select id="isHoT" name="isHot" class="col-md-12 col-sm-12 col-xs-12 p0">
                 <option value="0" selected="selected">不是热门</option>
                 <option value="1">热门</option>
                 </select> 
@@ -104,23 +100,19 @@
                 </div>       
              </li>
              
-			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5 "> 版块介绍：</span>
-				<div class="">
-					<textarea  class="col-md-12 h130" title="不超过800个字" name="content">${park.content}</textarea>		
+			<li class="col-md-12 col-sm-12 col-xs-12">	  	 			
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "> 版块介绍：</span>
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
+					<textarea  class="col-md-12 col-sm-12 col-xs-12 h130" title="不超过800个字" name="content">${park.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
 	</div>  	
-	<!-- 底部按钮 -->			          
-    <div class="padding-top-10 clear">                
-      <div  class="col-md-12 pl185 ">
-	     <div class="mt40 tc mb50">
+	<!-- 底部按钮 -->			                        
+      <div  class="col-md-12 col-sm-12 col-xs-12 tc">
 	    <button class="btn btn-windows save" type="submit">更新</button>
 	    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-		</div>
-	  </div>
-  </div>
+      </div>
      </form>
      </div>
      </div>

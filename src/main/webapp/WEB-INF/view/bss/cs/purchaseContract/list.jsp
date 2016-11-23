@@ -199,8 +199,10 @@
 				});
 			}
 			//layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
-		}else{
+		}else if(ids.length==0){
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
+		}else if(ids.length==1){
+			layer.alert("请至少选择两条",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
   </script>
@@ -225,9 +227,9 @@
 <!-- 项目戳开始 -->
      <h2 class="search_detail">
     	<ul class="demand_list">
-          <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="" id="projectName" class=""/></span></li>
-	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="" id="projectCode" class=""/></span></li>
-	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="" id="purchaseDep" class=""/></span></li>
+          <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
+	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
+	      <li class="fl"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>

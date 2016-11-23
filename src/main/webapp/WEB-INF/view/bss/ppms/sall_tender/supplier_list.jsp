@@ -71,17 +71,15 @@
 		$('input[name="packages"]:checked').each(function(){ 
 			packageIds.push($(this).val());
 		}); 
-        if(id.length==1){
+        if(id.length>=1){
             $.post("${pageContext.request.contextPath}/saleTender/save.do",{ids:id.toString(),packages:packageIds.toString(),projectId:"${projectId}"},
                     function(data){
             	if(data=="error"){
-            		layer.alert("请添加包",{offset: ['100px', '200px'], shade:0.01});
+            		layer.alert("请选择包",{offset: ['100px', '200px'], shade:0.01});
             	}else{
             		 parent.location.reload();
             	}
                     },"json");
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['100px', '200px'], shade:0.01});
         }else{
             layer.alert("请选择一个供应商",{offset: ['100px', '200px'], shade:0.01});
         }
@@ -161,6 +159,10 @@
 	         <c:forEach items="${listPackage}" var="lp" varStatus="vs">
 	         	<input type="checkbox" name="packages" value="${lp.id }" />	<span>${lp.name }</span>
 	         </c:forEach>
+	         <c:if test="${empty listPackage }">
+	         	<span class="red">该项目没有分包</span>
+	         </c:if>
+	         
 			<table class="table table-bordered table-condensed" >
 				<thead>
 					<tr>

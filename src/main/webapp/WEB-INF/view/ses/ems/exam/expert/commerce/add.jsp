@@ -138,12 +138,10 @@
 	   
      <div class="container container_box">
      	<form action="${pageContext.request.contextPath }/expertExam/saveToCom.html" method="post" id="form">
-		    <div class="headline-v2">
-		    	<h2 class="count_flow">新增商务类题目</h2>
-		    </div>
+		    <h2 class="list_title">新增商务类题目</h2>
 		    <div class="ul_list">
-  				<ul class="list-unstyled col-md-6">
-			     <li class="col-md-12 col-sm-12 col-xs-12 p0">
+  				<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
+			     <li class="col-md-12 col-sm-12 col-xs-12 pl15">
 		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
 		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
 			  		  	<select id="queType" name="queType" onchange="changeType()" class="">
@@ -170,21 +168,21 @@
 		  			</div>
 	  			</li>
   		
-			    <li class="col-md-12 col-sm-12 col-xs-12 p0">
+			    <li class="col-md-12 col-sm-12 col-xs-12">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			        	<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
+			        	<textarea class="col-md-10 col-sm-10 col-xs-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
 			       		<div class="clear red">${ERR_topic}</div>
 			       </div>
 				</li> 
 			</ul>
 
 		
-			<ul class="list-unstyled col-md-6 p0">
+			<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6 p0">
 			  				<option value="">请选择</option>
 				  			<c:if test="${errData['options']=='three' }">
 				  				<option value="three" selected>3</option>
