@@ -40,12 +40,10 @@
 			method="post">
 			<input class="span2" name="id" type="hidden" value="${templet.id}">
 			<div>
-				<div class="headline-v2">
-                 <h2>修改模板</h2>
-               </div>
+                <h2 class="list_title">修改模板</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板名称</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板名称</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="name" type="text"
 								value="${templet.name}">
@@ -54,7 +52,7 @@
 						<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板类型</span>
+                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
 							<select id="temType" name=temType class="w220">
 								<option value="-请选择-">-请选择-</option>
 								<option value="采购公告">采购公告</option>
@@ -66,7 +64,7 @@
 							<div id="contractCodeErr" class="clear red">${ERR_temType}</div>
 					</li>
 					<li class="col-md-12 col-sm-12 col-xs-12">
-                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">＊</i>模板内容</span>
+                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板内容</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0">
 							<script id="editor" name="content" type="text/plain" class=""></script>
 							<div id="contractCodeErr" class="clear red">${ERR_content}</div>
@@ -75,8 +73,8 @@
 
 
 				</ul>
-				<div class="col-md-12 tc">
-					<button class="btn btn-windows git" type="submit">更新</button>
+				<div class="col-md-12 col-sm-12 col-xs-12 tc">
+					<button class="btn btn-windows save" type="submit">保存</button>
 					<button class="btn btn-windows back" onclick="history.go(-1)"
 						type="button">返回</button>
 				</div>

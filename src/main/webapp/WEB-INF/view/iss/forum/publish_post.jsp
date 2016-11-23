@@ -49,7 +49,7 @@
               <li class="col-md-12  p0  mb10">
                <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
                <div class="select_common col-md-9 p0">
-                <textarea class="col-md-12"  name="name"></textarea>
+                <input class="col-md-12"  name="name" type="text"/>
                 <div class="cue">${ERR_name}</div>
                </div>
                 <%--<span class="add-on">i</span>--%>
