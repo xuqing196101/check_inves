@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -54,6 +55,7 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
+import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -457,7 +459,7 @@ public class ExpExtractRecordController extends BaseController {
     public String resetPwd(Model model, String eid){
         User user = new User();
         user.setTypeId(eid);
-        user.setTypeName(5);
+        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         List<User> queryByList = userServiceI.queryByList(user);
         if (queryByList != null && queryByList.size() != 0){
             user = queryByList.get(0);
