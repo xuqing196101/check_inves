@@ -91,14 +91,16 @@ public class SaleTenderController {
     	saleTender.setProjectId(projectId);
     	List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
     	List<String> stsupplierIds=new ArrayList<String>();
-    	for(SaleTender st:list){
-    		stsupplierIds.add(st.getSuppliers().getId());
+    	if(list.size()>0){
+	    	for(SaleTender st:list){
+	    		stsupplierIds.add(st.getSuppliers().getId());
+	    	}
+	    	supplier.setStsupplierIds(stsupplierIds);
     	}
-    	supplier.setStsupplierIds(stsupplierIds);
         List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         //当前项目的所有包
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", "51B2054556F845D39187387FC39005AF");
+        map.put("projectId", "projectId");
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
         model.addAttribute("listPackage", listPackage);
         model.addAttribute("list", new PageInfo<>(allSupplier));
