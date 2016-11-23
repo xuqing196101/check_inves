@@ -335,7 +335,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同金额：</span>
 		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		          <input class=" contract_name" name="money" value="${purCon.money}" type="text">
+		          <input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">
        			  <div class="cue">${ERR_money}</div>
        			</div>
 			 </li>
@@ -363,7 +363,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>预算：</span>
 		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		          <input class=" contract_name" id="budget" name="budget" value="${purCon.budget}" type="text">
+		          <input class=" contract_name" id="budget" name="budget_string" value="${purCon.budget_string}" type="text">
        			  <div class="cue">${ERR_budget}</div>
        			</div>
 			 </li>
@@ -456,7 +456,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>甲方银行账号：</span>
 		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-		         <input class=" supplier_name" name="purchaseBankAccount" value="${purCon.purchaseBankAccount}" type="text">
+		         <input class=" supplier_name" name="purchaseBankAccount_string" value="${purCon.purchaseBankAccount_string}" type="text">
 		         <div class="cue">${ERR_purchaseBankAccount}</div>
 		        </div>
 			 </li>
@@ -531,7 +531,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>乙方银行账号：</span>
 		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-		         <input class=" supplier_name" name="supplierBankAccount" value="${purCon.supplierBankAccount}" type="text">
+		         <input class=" supplier_name" name="supplierBankAccount_string" value="${purCon.supplierBankAccount_string}" type="text">
 		         <div class="cue">${ERR_supplierBankAccount}</div>
 		        </div>
 		        
