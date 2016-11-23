@@ -158,7 +158,6 @@ public class OpenBiddingController {
         }
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
-        FirstAuditController.getType(project,model);
         model.addAttribute("ope", "add");
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
@@ -177,7 +176,6 @@ public class OpenBiddingController {
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("project", project);
         model.addAttribute("ope", "view");
-        FirstAuditController.getType(project,model);
         return "bss/ppms/open_bidding/bid_file/add_file";
     }
     
@@ -474,7 +472,6 @@ public class OpenBiddingController {
             model.addAttribute("projectId", projectId);
             model.addAttribute("flowDefineId", flowDefineId);
             Project project=projectService.selectById(projectId);
-            FirstAuditController.getType(project,model);
             model.addAttribute("project", project);
         } catch (Exception e) {
             e.printStackTrace();
@@ -522,7 +519,6 @@ public class OpenBiddingController {
             model.addAttribute("projectId", projectId);
             model.addAttribute("flowDefineId", flowDefineId);
             Project project=projectService.selectById(projectId);
-            FirstAuditController.getType(project,model);
             model.addAttribute("project", project);
         } catch (Exception e) {
             e.printStackTrace();

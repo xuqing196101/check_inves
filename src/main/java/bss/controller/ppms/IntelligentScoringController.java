@@ -87,7 +87,6 @@ public class IntelligentScoringController {
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
 		model.addAttribute("flowDefineId", flowDefineId);
-		FirstAuditController.getType(project,model);
 		return "bss/ppms/open_bidding/scoring_rubric";
 	}
 	
@@ -112,7 +111,6 @@ public class IntelligentScoringController {
         model.addAttribute("projectId", packages.getProjectId());
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("ope", "view");
-        FirstAuditController.getType(project,model);
         return "bss/ppms/open_bidding/scoring_rubric";
     }
 	/**

@@ -1,10 +1,8 @@
 package bss.model.ppms;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.concurrent.TimedSemaphore;
-
+import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
@@ -117,7 +115,17 @@ public class Project {
 
     private List<Packages> packagesList;
     
-    public List<Packages> getPackagesList() {
+    private DictionaryData dictionary;
+    
+    public DictionaryData getDictionary() {
+		return dictionary;
+	}
+
+	public void setDictionary(DictionaryData dictionary) {
+		this.dictionary = dictionary;
+	}
+
+	public List<Packages> getPackagesList() {
 		return packagesList;
 	}
 
