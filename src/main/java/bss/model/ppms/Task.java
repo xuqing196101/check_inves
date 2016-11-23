@@ -2,13 +2,18 @@ package bss.model.ppms;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Task {
+    
 	private String id;
-
-    private String name;
-
-    private String purchaseId;
-
+	
+	@NotBlank(message = "任务名称不能为空") 
+    private String name; //任务名称
+	
+    private String purchaseId; //采购部门
+	
+	@NotBlank(message = "计划编号不能为空") 
     private String documentNumber;
 
     private Date giveTime;

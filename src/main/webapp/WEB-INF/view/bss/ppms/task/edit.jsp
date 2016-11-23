@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <%@ taglib uri="/tld/upload" prefix="f"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -153,14 +154,14 @@
         
         
         function edit(){
-          var fileName = $("input[name='fileName']").val();
-            var planNo = $("input[name='planNo']").val();
+          var fileName = $("#fileName").val();
+            var planNo = $("#planNo").val();
             if(fileName==""){
                 layer.tips("计划名称不能为空","#fileName");
             }else if(planNo==""){
                 layer.tips("计划编号不能为空","#planNo");
             }else{
-                layer.open({
+                /* layer.open({
                       type: 1, //page层
                       area : [ '400px', '200px' ],
                       title: '请上传更改附件',
@@ -170,7 +171,8 @@
                       offset: ['220px', '630px'],
                       shadeClose: true,
                       content:$("#file")
-                 });
+                 }); */
+                  $("#form1").submit();
             }
             
     }
@@ -205,23 +207,25 @@
   
 <!-- 录入采购计划开始-->
  <div class="container container_box">
-    <form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
-        <input type="hidden" id="ide" name="ide" value="${queryById.id}"/>
+    <sf:form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
+        <%-- <input type="hidden" id="ide" name="ide" value="${queryById.id}"/> --%>
         <div>
             <h2 class="count_flow"><i>1</i>采购计划调整</h2>
             <ul class="ul_list">
-			     <li class="col-md-3 margin-0 padding-0 ">
-			       <span class="col-md-12 padding-left-5">计划名称</span>
-			       <div class="input-append">
-			        <input type="text" id="fileName" name="fileName" class="span5" value="${queryById.fileName}"/>
+			    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+			       <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			        <input type="text" id="fileName" name="name" class="input_group" value="${task.name}"/>
 			        <span class="add-on">i</span>
+			        <div class="cue">${ERR_name}</div>
 			       </div>
 			     </li>
-			     <li class="col-md-3 margin-0 padding-0 ">
-                   <span class="col-md-12 padding-left-5">计划编号</span>
-                   <div class="input-append">
-                    <input type="text" id="planNo" name="planNo" class="span5" value="${queryById.planNo}"/> 
+			     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input type="text" id="planNo" name="documentNumber" class="input_group" value="${task.documentNumber}"/> 
                     <span class="add-on">i</span>
+                    <div class="cue">${ERR_documentNumber}</div>
                    </div>
                  </li>
 			</ul>
@@ -355,7 +359,7 @@
 			         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
 		         </div>
              </div> 
-   </form>
+   </sf:form>
  </div>
    
      </body>
