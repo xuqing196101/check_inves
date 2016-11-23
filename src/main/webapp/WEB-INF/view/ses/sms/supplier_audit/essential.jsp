@@ -404,7 +404,7 @@ function nextStep(){
                         </c:if>
                         <div class="b f18 ml10 fl hand red">×</div>
                       </div> --%>
-                      <up:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+                      <up:show showId="business_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
                     </li>
                     <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessScope2">经营范围：</span>
                       <div class="col-md-9 mt5">

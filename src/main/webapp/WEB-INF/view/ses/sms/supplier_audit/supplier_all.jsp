@@ -131,15 +131,17 @@
 		                    <label class="fl">审核状态：</label> 
 		                    <select name="status" class="w178" id="status">
 			                   <option value="">全部</option>
-			                   <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
-			                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
-			                   <%-- <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>
-			                   <option <c:if test="${state == 6 }">selected</c:if> value="6">复审中</option> --%>
-			                   <option <c:if test="${state == 7 }">selected</c:if> value="7">初审退回</option>
-			                   <option <c:if test="${state == 8 }">selected</c:if> value="8">复审退回</option>
-			                   <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
-			                   <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
-			                   <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
+			                   <c:if test="${sign == 1}">
+			                       <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
+			                       <option <c:if test="${state == 7 }">selected</c:if> value="7">初审退回</option>
+			                       <option <c:if test="${state == 8 }">selected</c:if> value="8">复审退回</option>
+			                       <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
+			                   </c:if>
+			                   <c:if test="${sign == 2}">
+                                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
+                                   <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
+                                   <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
+                               </c:if>
 		                    </select> 
 		               </li>
 			           <%-- <li class="fl">

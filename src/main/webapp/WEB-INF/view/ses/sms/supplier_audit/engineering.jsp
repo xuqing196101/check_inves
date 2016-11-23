@@ -249,7 +249,7 @@ function nextStep(url){
 		                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
 		                          <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
 		                        </td>
-		                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certStatus }
+		                        <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
 		                           <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
 		                           <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
 		                        </td>
