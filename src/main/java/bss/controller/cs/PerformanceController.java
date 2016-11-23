@@ -86,8 +86,14 @@ public class PerformanceController {
 		String draftAt = request.getParameter("draftSignedAt");
 		String formalAt = request.getParameter("formalSignedAt");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date draftTime = sdf.parse(draftAt);
-		Date formalTime = sdf.parse(formalAt);
+		Date draftTime = null;
+		Date formalTime = null;
+		if(!draftAt.equals("")){
+			draftTime = sdf.parse(draftAt);
+		}
+		if(!formalAt.equals("")){
+			formalTime = sdf.parse(formalAt);
+		}
 		performance.setDraftSignedAt(draftTime);
 		performance.setFormalSignedAt(formalTime);
 		performanceService.insertSelective(performance);
@@ -194,12 +200,18 @@ public class PerformanceController {
 		String draftAt = request.getParameter("draftSignedAt");
 		String formalAt = request.getParameter("formalSignedAt");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date draftTime = sdf.parse(draftAt);
-		Date formalTime = sdf.parse(formalAt);
+		Date draftTime = null;
+		Date formalTime = null;
+		if(!draftAt.equals("")){
+			draftTime = sdf.parse(draftAt);
+		}
+		if(!formalAt.equals("")){
+			formalTime = sdf.parse(formalAt);
+		}
 		performance.setDraftSignedAt(draftTime);
 		performance.setFormalSignedAt(formalTime);
 		performanceService.updateSelective(performance);
-		return "redirect:/purchaseContract/selectFormalContract.html";
+		return "redirect:selectAll.html";
 	}
 	
 	/**

@@ -12,12 +12,18 @@ public class PurchaseContract {
 	private String name;//合同名称
 
 	private BigDecimal money;//合同金额
+	
+	private String money_string;
 
 	private String demandSector;//需求部门
 
 	private BigDecimal budget;//预算
+	
+	private String budget_string;
 
 	private BigDecimal year;//年度
+	
+	private String year_string;
 
 	private String budgetSubjectItem;//项级预算科目
 
@@ -48,6 +54,8 @@ public class PurchaseContract {
 	private String purchaseBank;//甲方开户银行
 
 	private BigDecimal purchaseBankAccount;//甲方银行账号
+	
+	private String purchaseBankAccount_string;
 
 	private String supplierDepName;//乙方单位
 
@@ -66,6 +74,8 @@ public class PurchaseContract {
 	private String supplierBank;//乙方开户银行
 
 	private BigDecimal supplierBankAccount;//乙方银行账号
+	
+	private String supplierBankAccount_string;
 
 	private String supplierBankName;//乙方开户名称
 
@@ -108,6 +118,46 @@ public class PurchaseContract {
 	private String projectId;//项目id
 
 	private BigDecimal finallyClosed;//最终结算金额
+
+	public String getMoney_string() {
+		return money_string;
+	}
+
+	public void setMoney_string(String money_string) {
+		this.money_string = money_string;
+	}
+
+	public String getBudget_string() {
+		return budget_string;
+	}
+
+	public void setBudget_string(String budget_string) {
+		this.budget_string = budget_string;
+	}
+
+	public String getYear_string() {
+		return year_string;
+	}
+
+	public void setYear_string(String year_string) {
+		this.year_string = year_string;
+	}
+
+	public String getPurchaseBankAccount_string() {
+		return purchaseBankAccount_string;
+	}
+
+	public void setPurchaseBankAccount_string(String purchaseBankAccount_string) {
+		this.purchaseBankAccount_string = purchaseBankAccount_string;
+	}
+
+	public String getSupplierBankAccount_string() {
+		return supplierBankAccount_string;
+	}
+
+	public void setSupplierBankAccount_string(String supplierBankAccount_string) {
+		this.supplierBankAccount_string = supplierBankAccount_string;
+	}
 
 	public BigDecimal getFinallyClosed() {
 		return finallyClosed;
