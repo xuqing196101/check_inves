@@ -509,46 +509,6 @@
 	
 </script>
 
-
-    <link href="css/page_job.css" media="screen" rel="stylesheet">
-	<style>
-	 .sevice_list h2{
-	  padding-left:40px;
-	  height:35px;
-	  line-height:35px;
-	  font-size:17px;
-	  background:url(images/reg_icon1.png) no-repeat 5px #e0e0e0;
-	 }
-	 .sevice_list h2 span{
-	  font-size:15px;
-	  margin-right:10px;
-	 }
-	 .sevice_list .title{
-	  height:30px;
-	  line-height:30px;
-	 }
-	 .service_list span{
-	  height:30px;
-	  line-height:30px;
-	  float:left;
-	  display:block;
-	  margin-right:10px;
-	 }
-	 .service_list span input{
-	 margin-right:5px;
-	 }
-	 .service_desc{
-	  background-color:#f8f8f8;
-	  padding:10px;
-	 }
-	 .service_kind h2{
-	 font-size:16px;
-	 font-weight:bold;
-	 height:30px;
-	 line-height:30px;
-	 border-bottom:1px solid #dddddd;
-	}
-	</style>
 	
 	
 </head>
@@ -584,37 +544,7 @@
 			  </div>
 		    </div>
 	 </div>
-	 
-<!-- <div class="col-md-12 service_kind">
-  <h2 class="m0 col-md-12">已选产品/服务分类：</h2>
-  <div class="col-md-12 service_desc bgwhite">
-	  <div class="col-md-12 service_list p0">
-	    <span class="col-md-3 m0"><input type="checkbox"/>安保服务类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>白蚁防治及四害消杀白蚁防治及四害消杀</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>材料设备类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>规划设计类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>文商旅类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>信息类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>营销类</span>
-	  </div>
-  </div>
-</div> -->
-<div class="sevice_list col-md-12">
-  <h2 class="m0">服务类：
 
-  </h2>
-  <div class="col-md-12 service_desc">
-	  <div class="col-md-12 service_list p0">
-	    <span class="col-md-3 m0"><input type="checkbox"/>安保服务类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>白蚁防治及四害消杀白蚁防治及四害消杀</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>材料设备类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>规划设计类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>文商旅类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>信息类</span>
-		<span class="col-md-3 m0"><input type="checkbox"/>营销类</span>
-	  </div>
-  </div>
-</div>
 
 
 	<div style="margin-top: 100px;">

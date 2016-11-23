@@ -41,6 +41,7 @@ import ses.service.sms.SupplierExtPackageServicel;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierExtractsService;
+import ses.util.DictionaryDataUtil;
 
 /**
  * @Description:供应商抽取记录
@@ -498,7 +499,7 @@ public class SupplierExtractsController extends BaseController {
     public String showSupervise(Model model, Integer page){
         User user = new User();
         //8监督人员
-        user.setTypeName(7);
+        user.setTypeName(DictionaryDataUtil.get("SUPERVISER_U").getId());
         List<User> users = userServicl.selectUser(user, page == null ? 1 : page);
         model.addAttribute("list", new PageInfo<User>(users));
         return "ses/sms/supplier_extracts/supervise_list";
