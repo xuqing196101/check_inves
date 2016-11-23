@@ -85,11 +85,11 @@
     
     //修改包名
     function edit(obj){
-    	var name = $(obj).prev().html();
+    	var name = $(obj).parent().prev().find($("span[name='packageName']")).html();
     	var packageId = $(obj).next().next().next().val();
-    	var content = "<input type='text' id='pack' value='"+name+"'/>";
-    	$(obj).prev().html(content);
-    	$("#pack").focus();
+    	var content = "<input type='text' name='pack' value='"+name+"'/>";
+    	$(obj).parent().prev().find($("span[name='packageName']")).html(content);
+    	$(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).focus();
     	$(obj).next().show();
     	$(obj).hide();
     }
@@ -97,14 +97,14 @@
     //确定按钮
     function sure(obj){
     	var projectId = $("#projectId").val();
-    	var name = $("#pack").val();
+    	var name = $(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).val();
     	var packageId = $(obj).next().next().val();
     	$.ajax({
             url:"${pageContext.request.contextPath }/project/editPackName.do?name="+name+"&id="+packageId,
             type:"post",
             dataType:"json",
             success:function(data){
-            	layer.msg('修改成功',{offset: ['222px', '390px']});
+            	layer.msg('修改成功',{offset: ['70%', '40%']});
 				window.setTimeout(function(){
 				    window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 				}, 1000);
@@ -113,17 +113,17 @@
     }
     
     //删除包
-    function deletePackage(obj,e){
+    function deletePackage(obj){
     	var projectId = $("#projectId").val();
     	var packageId = $(obj).next().val();
-    	layer.confirm('您确定要删除这个包吗?', {title:'提示',offset: [e.pageX+'px',e.pageY+'px'],shade:0.01}, function(index){
+    	layer.confirm('您确定要删除这个包吗?', {title:'提示',offset: ['70%', '40%'],shade:0.01}, function(index){
 			layer.close(index);
 			$.ajax({
 				type:"POST",
 				dataType:"json",
 				url:"${pageContext.request.contextPath }/project/deletePackageById.do?id="+packageId,
 		       	success:function(data){
-		       		layer.msg('删除成功',{offset: ['222px', '390px']});
+		       		layer.msg('删除成功',{offset: ['70%', '40%']});
 			       	window.setTimeout(function(){
 			       	 	window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 			       	}, 1000);
@@ -144,7 +144,7 @@
 			}
 		}
 		if(count == 0){
-			layer.alert("请选择明细",{offset: ['222px', '390px']});
+			layer.alert("请选择明细",{offset: ['20%', '40%']});
 			$(".layui-layer-shade").remove();
 			return;
 		}
@@ -161,7 +161,7 @@
 			if($(info[i]).prop("disabled")==false){
 				break;
 			}else if(i==info.length-1){
-				layer.alert("项目中已经没有明细可以用于分包",{offset: ['222px', '390px']});
+				layer.alert("项目中已经没有明细可以用于分包",{offset: ['30%', '40%']});
 				$(".layui-layer-shade").remove();
 				return;
 			}
@@ -171,7 +171,7 @@
 			dataType:"json",
 			url:"${pageContext.request.contextPath }/project/addPack.do?id="+ids+"&projectId="+projectId,
 		    success:function(data){
-		    layer.msg('添加成功',{offset: ['222px', '390px']});
+		    	layer.msg('添加成功',{offset: ['40%', '45%']});
 				window.setTimeout(function(){
 				    window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 				}, 1000);
@@ -187,37 +187,31 @@
   </head>
   
   <body>
-		<!--面包屑导航开始-->
-	 	<div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
-	           <ul class="breadcrumb margin-left-0">
-	           </ul>
-	        <div class="clear"></div>
-	      </div>
-	   </div>
+	<!--面包屑导航开始-->
+	<div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#">首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">题库管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 
 	<div class="container">
-    	<span>项目名称：${project.name}</span>
-     	<span>项目编号：${project.projectNumber}</span> 
+		<h2 class="tc dangan_file">项目名称：${project.name}</h2>
      	<input type="hidden" id="projectId" value="${project.id }"/>
-   	</div>
-     
-    <!-- 按钮开始-->
-   	<div class="container">
-   		<div class="col-md-12">
-		    <button class="btn btn-windows add" type="button" onclick="addPack()">添加分包</button>
-		    
+		<div class="headline-v2">
+		   <h2>明细列表</h2>
 		</div>
-    </div>
-     
-     <div class="container">
-	   <div class="headline-v2">
-	      <h2>明细列表</h2>
-	   </div>
-	 </div>
+     	
+    	<!-- 按钮开始-->
+   		<div class="col-md-12 pl20 mt10">
+		    <button class="btn btn-windows add" type="button" onclick="addPack()">添加分包</button>
+		    <span class="fr mt10">项目编号：${project.projectNumber}</span>
+    	</div>
 	 
-	  <div class="container clear margin-top-30" id="package">
-	  	<table class="table table-bordered table-condensed mt5">
+	  <div class="content table_box" id="package">
+	  	<table class="table table-bordered table-condensed table-hover">
         	<thead>
         		<tr class="info">
         			<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -273,16 +267,20 @@
 	  </div>
 	  
 	  
-   <div class="container clear margin-top-30">
-	   <c:forEach items="${packageList }" var="pack" varStatus="p">
-	   		<span>包名:<span>${pack.name }</span>
-	   		<input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名"/>
-	   		<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定"/>
-	   		<input class="btn btn-windows delete" type="button" onclick="deletePackage(this,event)" value="删除分包"/>
-	   		<input type="hidden" value="${pack.id }"/>
-	   		</span>
+   	<div class="content table_box">
+	   	<c:forEach items="${packageList }" var="pack" varStatus="p">
+	   		<div class="col-md-6 col-sm-6 col-xs-12 p0">
+	   		  	<span class="f16 b">包名:</span>
+	   		  	<span class="f14 blue" name="packageName">${pack.name }</span>
+	   		</div>
+	   		<div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5">
+	   		    <input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名"/>
+	   			<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定"/>
+	   			<input class="btn btn-windows delete" type="button" onclick="deletePackage(this)" value="删除分包"/>
+	   			<input type="hidden" value="${pack.id }"/>
+	   		</div>
 	   		
-	   		<table class="table table-bordered table-condensed mt5">
+	   		<table class="table table-bordered table-condensed table-hover">
         	<thead>
         		<tr class="info">
           			<th class="w50">序号</th>
@@ -326,18 +324,12 @@
             </tr>
          </c:forEach> 
       </table>
-	   		
-	   		
 	   </c:forEach>
         
    </div>
    	<!-- 按钮 -->
-  	<div class="padding-top-10 clear">
-		<div class="col-md-12 pl200 ">
-			<div class="mt40 tc mb50">
-	    		<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-			</div>
-	  	</div>
-	 </div>	
+  	<div class="col-md-12 mt10 tc">
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+	</div>	
   </body>
 </html>
