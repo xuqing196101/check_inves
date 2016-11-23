@@ -153,9 +153,9 @@
 				  				<option value="ten">10</option>
 				  			</c:if>
 		  				</select>
-					<div class="col-md-9 clear p0" id="items"></div>
-				</div>
-			 </li> 
+						<div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
+					</div>
+			 	</li> 
 		   
 		  		<li class="col-md-12 col-sm-12 col-xs-12 mt25">
 					<span class="fl"><div class="red fl">*</div>答案：</span>

@@ -103,19 +103,18 @@
 		<div class="clear"></div>
 	  	</div>
    	</div>
-   <div class="container container_box">
-   <form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
-	   	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
-	    <input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-	    <div class="headline-v2">
-   			<h2 class="count_flow">新增规则</h2>
-   		</div>
-   <ul class="ul_list">
+   	
+   	<div class="container container_box">
+   	<form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
+	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
+	<input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
+	<h2 class="list_title">新增规则</h2>
+  	<div class="ul_list">
 	  	<ul class="list-unstyled p0_20">
-	    	<li class="col-md-12 p0 mb20">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="col-md-12 p0">
-	  			   	<div class="col-md-6 p0 input-append">
+	    	<li class="col-md-12 col-sm-12 col-xs-12 pl15 mb20">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		  			   	<label class="fl">单选题：</label>
 		  			   	<div class="fl">
 		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0" value="有"/>有
@@ -126,7 +125,7 @@
 		  			   	</div>
 		  			   	<div class="cue">${ERR_single }</div>
 	  			   	</div>
-	  			   	<div class="col-md-6 p0 input-append">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	    <label class="fl">多选题：</label>
 		    	   	    <div class="fl">
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0" value="有"/>有
@@ -140,38 +139,38 @@
 	  		    </div>
 	  		</li>
 	  		
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷分值：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷分值：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 	  				<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly"/>分
 	    		</div>
 	    	</li>
 	    	
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
+	  			<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }"/>分</div>
 	  				<div class="cue">${ERR_passStandard }</div>
 	  			</div>
 	    	</li>
 	    	
-	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
-	  			<div class="col-md-12 input-append p0">
+	  		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['startTime'] }"/>
 		  			<div class="cue">${ERR_time }</div>
 	  			</div>
 	  		</li>
 	    	
-	    	<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
-	  			<div class="col-md-12 input-append p0">
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${errorData['offTime'] }"/>
 		  			<div class="cue">${ERR_offTime }</div>
 	  			</div>
 	    	</li>
 	    </ul>
-	    </ul>
+	    </div>
 	    
 	    <div class="col-md-12 mt10 tc ">
 			<button class="btn btn-windows save" type="submit">保存</button>

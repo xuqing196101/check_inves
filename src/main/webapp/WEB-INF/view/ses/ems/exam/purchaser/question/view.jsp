@@ -161,7 +161,7 @@
 				  				<option value="ten">10</option>
 				  			</c:if>
 		  				</select>
-						<div class="col-md-9 clear p0" id="item"></div>
+						<div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="item"></div>
 			    	</div>
 			 	</li> 
   		
@@ -173,7 +173,7 @@
   		</div>
   		
   		<!-- 底部按钮 -->
-	  	<div class="col-md-12 mt10 tc ">
+	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 		  	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>	
 	  	</div>
   </body>

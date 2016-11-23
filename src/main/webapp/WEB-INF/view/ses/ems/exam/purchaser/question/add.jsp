@@ -156,15 +156,13 @@
 	   
 	<div class="container container_box">
    	<form action="${pageContext.request.contextPath }/purchaserExam/saveToPurPool.html" method="post" id="form">
-    	<div class="headline-v2">
-    		<h2 class="count_flow">新增题目</h2>
-    	</div>
+    	<h2 class="list_title">新增题目</h2>
    		<div class="ul_list">
-  			<ul class="list-unstyled col-md-6">
-			    <li class="col-md-12 col-sm-12 col-xs-12 p0">
+  			<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
+			    <li class="col-md-12 col-sm-12 col-xs-12 pl15">
 		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
-		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
-			  		  	<select id="queType" name="queType" onchange="changeType()" class="">
+		  			<div class="select_common col-md-6 col-sm-6 col-xs-6 p0">
+			  		  	<select id="queType" name="queType" onchange="changeType()">
 				  			<c:if test="${errData['type']==null }">
 				  				<option value="" selected>请选择</option>
 				  			</c:if>
@@ -194,20 +192,20 @@
 		  			</div>
 	  			</li>
 	  		
-  				<li class="col-md-12 col-sm-12 col-xs-12 p0">
+  				<li class="col-md-12 col-sm-12 col-xs-12">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-		        		<textarea class="col-md-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
+		        		<textarea class="col-md-10 col-sm-10 col-xs-10 h80 p0" name="topic" id="queTopic">${errData["topic"] }</textarea>
 		       			<div class="clear red">${ERR_topic}</div>
 		       		</div>
 				</li> 
 			</ul>
 			
-  			<ul class="list-unstyled col-md-6 p0">
+  			<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15" id="items">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6">
 			  				<option value="">请选择</option>
 			  				<c:if test="${errData['options']=='three' }">
 			  					<option value="three" selected>3</option>
@@ -259,7 +257,7 @@
 				  			</c:if>
 		  				</select>
 						<div class="red fl clear">${ERR_option }</div> 
-						<div class="col-md-9 clear p0" id="item"></div>
+						<div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="item"></div>
 			    	</div>
 			 	</li> 
   		
@@ -272,7 +270,7 @@
   		</div>
   		
   		<!-- 按钮 -->
-  		<div class="col-md-12 mt10 tc ">
+  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 	    	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 		</div>

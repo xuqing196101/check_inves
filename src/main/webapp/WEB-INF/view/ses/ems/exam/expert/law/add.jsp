@@ -122,19 +122,19 @@
   
   <body>
   		<!--面包屑导航开始-->
-	   <div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
-			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
-			   </ul>
-			<div class="clear"></div>
-		  </div>
-	   </div>
+	   	<div class="margin-top-10 breadcrumbs ">
+	      	<div class="container">
+			   	<ul class="breadcrumb margin-left-0">
+			   		<li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
+			   	</ul>
+				<div class="clear"></div>
+		  	</div>
+	   	</div>
 	 
-	   <c:forEach items="${errData['option'] }" var="opt">
+	   	<c:forEach items="${errData['option'] }" var="opt">
 	   		<input type="hidden" name="errorOption" value="${opt }"/>
-	   </c:forEach>
-	   <input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
+	   	</c:forEach>
+	   	<input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
 	   
      <div class="container container_box">
      	<form action="${pageContext.request.contextPath }/expertExam/saveToLaw.html" method="post" id="form">
@@ -182,7 +182,7 @@
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6 p0">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6">
 			  			<option value="">请选择</option>
 				  			<c:if test="${errData['options']=='three' }">
 				  				<option value="three" selected>3</option>
@@ -234,7 +234,7 @@
 				  			</c:if>
 		  			   	</select>
 			         	<div class="red fl clear">${ERR_option }</div> 
-					    <div class="col-md-9 clear p0" id="items"></div>
+					    <div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
 			         </div>
 				 </li> 
 			
@@ -246,7 +246,7 @@
   			</ul>
   	   </div>
   		<!-- 按钮 -->
-  		<div class="col-md-12 mt10 tc ">
+  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 	    	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 	  	</div>

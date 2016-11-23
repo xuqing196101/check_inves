@@ -50,27 +50,25 @@
   
   <body>
   	<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
+   	<div class="margin-top-10 breadcrumbs ">
+	    <div class="container">
+			<ul class="breadcrumb margin-left-0">
+			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+   	</div>
    
    	<c:forEach items="${optContent }" var="opt">
 	   	<input type="hidden" name="errorOption" value="${opt }"/>
 	</c:forEach>
    	<input type="hidden" value="${lawAnswer }" id="queAnswer"/>
    	
-   <div class="container container_box">
-   		<div class="headline-v2">
-       		<h2 class="count_flow">查看法律类题目</h2>
-       	</div>
+   	<div class="container container_box">
+   		<h2 class="list_title">查看法律类题目</h2>
     	<div class="ul_list">
-  			<ul class="list-unstyled col-md-6">
-			     <li class="col-md-12 col-sm-12 col-xs-12 p0">
+  			<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
+			     <li class="col-md-12 col-sm-12 col-xs-12 pl15">
 		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
 		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
 			  		  	<select id="queType" name="queType" onchange="changeType()" class="" disabled="disabled">
@@ -89,19 +87,19 @@
 		  			</div>
 	  			</li>
 		
-				<li class="col-md-12 col-sm-12 col-xs-12 p0">
+				<li class="col-md-12 col-sm-12 col-xs-12">
 					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-		        		<textarea class="col-md-10 h80 p0" name="topic" id="queTopic" disabled="disabled">${lawQue.topic }</textarea>
+		        		<textarea class="col-md-10 col-sm-10 col-xs-10 h80 p0" name="topic" id="queTopic" disabled="disabled">${lawQue.topic }</textarea>
 		      		</div>
 				</li> 
 		   	</ul>
 	  	
-	  		<ul class="list-unstyled col-md-6 p0">
+	  		<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0" disabled="disabled">
+					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 col-sm-6 col-xs-6" disabled="disabled">
 				  			<option value="">请选择</option>
 				  			<c:if test="${optNum==3 }">
 				  				<option value="three" selected>3</option>
@@ -152,7 +150,7 @@
 				  				<option value="ten">10</option>
 				  			</c:if>
 		  				</select>
-						<div class="col-md-9 clear p0" id="items"></div>
+						<div class="col-md-12 col-sm-12 col-xs-12 clear p0" id="items"></div>
 					</div>
 			 	</li> 
 		   
@@ -163,7 +161,7 @@
   			</ul>
   		</div>
   		<!-- 底部按钮 -->
-	  	<div class="col-md-12 mt10 tc ">
+	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc ">
 		  	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  	</div>
   </body>
