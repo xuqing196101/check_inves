@@ -139,15 +139,8 @@ public class ParkManageController extends BaseSupplierController {
 	 */
 	@RequestMapping("/save")
 	public String save(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {
-		
-		BigDecimal i = parkService.checkParkName(park.getName());
 		Boolean flag = true;
 		String url = "";
-		BigDecimal j = new BigDecimal(0);
-		if(i.compareTo(j) != 0){
-			flag = false;
-			model.addAttribute("ERR_name", "版块名称不能重复");
-		}
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
@@ -156,6 +149,14 @@ public class ParkManageController extends BaseSupplierController {
 			
 			flag = false;
 		}
+		if(park.getName()!=""&&park.getName()!= null){
+			BigDecimal i = parkService.checkParkName(park.getName());	
+			BigDecimal j = new BigDecimal(0);
+			if(i.compareTo(j) != 0){
+				flag = false;
+				model.addAttribute("ERR_name", "版块名称不能重复");
+			}
+		}		
 		if(flag == false){
 			String userId = request.getParameter("userId");
 			if(!(userId.equals(null) || userId.equals(""))){
@@ -212,16 +213,17 @@ public class ParkManageController extends BaseSupplierController {
 	@RequestMapping("/update")
 	public String update(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {	
 		String parkId = request.getParameter("parkId");
-		BigDecimal i = parkService.checkParkName(park.getName());
 		Boolean flag = true;
 		String url = "";
-		BigDecimal j = new BigDecimal(0);
-		String oldParkName =request.getParameter("oldParkName");
-		if(!oldParkName.equals(park.getName())&& i.compareTo(j) != 0){			
-			flag = false;
-			model.addAttribute("ERR_name", "版块名称不能重复");			
-		}
-		
+		if(park.getName()!=""&&park.getName()!= null){
+			BigDecimal i = parkService.checkParkName(park.getName());
+			BigDecimal j = new BigDecimal(0);
+			String oldParkName =request.getParameter("oldParkName");
+			if(!oldParkName.equals(park.getName())&& i.compareTo(j) != 0){			
+				flag = false;
+				model.addAttribute("ERR_name", "版块名称不能重复");			
+			}
+		}		
 		int k = parkService.queryHotParks().size();		
 		Park p = parkService.selectByPrimaryKey(parkId);
 		if(p.getIsHot() == 0&& !(k < 4)){
