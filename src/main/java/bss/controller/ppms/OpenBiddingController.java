@@ -35,7 +35,6 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
-import bss.controller.prms.FirstAuditController;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
@@ -49,7 +48,6 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
-import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 
@@ -134,6 +132,20 @@ public class OpenBiddingController {
      */
     private AjaxJsonData jsonData = new AjaxJsonData();
     
+    /** 采购类型 - 公开招标*/
+    private static final String OPEN_BID = "open";
+    /** 采购类型 - 邀请招标 */
+    private static final String INVITE_BID = "invite";
+    /** 采购类型 - 询价采购*/
+    private static final String ENQUIRY_BID = "enquiry";
+    /** 采购类型 - 单一来源 */
+    private static final String SINGLE_SOURCE_BID = "single_source";
+    /** 采购类型 - 竞争性谈判*/
+    private static final String  COMPETITIVE_NEGOTIATION= "competitive_negotiation";
+    /** 公告类型 - 采购公告*/
+    private static final String  PURCHASE_NOTICE= "purchase";
+    /** 公告类型 - 中标公告*/
+    private static final String  WIN_NOTICE= "win";
     
     /**
      *〈简述〉 进入招标文件页面
@@ -149,7 +161,7 @@ public class OpenBiddingController {
     public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
         Project project = projectService.selectById(id);
         //判断是否上传招标文件
-        String typeId = DictionaryDataUtil.getId("zbwj");
+        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
@@ -166,7 +178,7 @@ public class OpenBiddingController {
     public String bidFileView(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
         Project project = projectService.selectById(id);
         //判断是否上传招标文件
-        String typeId = DictionaryDataUtil.getId("zbwj");
+        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
@@ -202,7 +214,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("/bidNotice")
     public String bidNotice(String projectId, Model model, String flowDefineId){
-          return makeNotice(projectId, "cggg", model, flowDefineId);
+          return makeNotice(projectId, PURCHASE_NOTICE, model, flowDefineId);
     }
     
     /**
@@ -215,7 +227,7 @@ public class OpenBiddingController {
      */
     @RequestMapping("/winNotice")
     public String winNotice(String projectId, Model model, String flowDefineId){
-          return makeNotice(projectId, "zbgg", model, flowDefineId);
+          return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
     }
     
     @RequestMapping("/showTime")
@@ -376,11 +388,11 @@ public class OpenBiddingController {
      */
     @RequestMapping("/publishEdit")
     public String publishEdit(Model model, String id, String noticeType, String flowDefineId){
-        if ("zbgg".equals(noticeType)) {
-            model.addAttribute("typeId", DictionaryDataUtil.getId("win_notice_aduit"));
+        if (WIN_NOTICE.equals(noticeType)) {
+            model.addAttribute("typeId", DictionaryDataUtil.getId("WIN_BID_ADUIT"));
         }
-        if ("cggg".equals(noticeType)) {
-            model.addAttribute("typeId", DictionaryDataUtil.getId("zbggbpwj"));
+        if (PURCHASE_NOTICE.equals(noticeType)) {
+            model.addAttribute("typeId", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
         }
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("articleId", id);
@@ -439,7 +451,7 @@ public class OpenBiddingController {
     public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws IOException{
         String result = "保存失败";
         //判断该项目是否上传过招标文件
-        String typeId = DictionaryDataUtil.getId("zbwj");
+        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
             //删除 ,表中数据假删除
@@ -666,7 +678,7 @@ public class OpenBiddingController {
         ArticleType articleType = new ArticleType();
         Article article = new Article();
         //如果是拟制招标公告
-        if ("cggg".equals(noticeType)) {
+        if (PURCHASE_NOTICE.equals(noticeType)) {
             //货物/物资
             if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
@@ -679,7 +691,7 @@ public class OpenBiddingController {
             }
         }
         //如果是拟制中标公告
-        if ("zbgg".equals(noticeType)) {
+        if (WIN_NOTICE.equals(noticeType)) {
             //货物/物资
             if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
