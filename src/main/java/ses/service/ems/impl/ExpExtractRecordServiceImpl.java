@@ -21,6 +21,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
+import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
 /**
@@ -113,7 +114,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         User user = new User();
         user.setLoginName(loginName);
         user.setPassword(pwd);
-        user.setTypeName(5);
+        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         user.setTypeId(uuId);
         userServiceI.save(user, null);
         //查询条件
