@@ -14,7 +14,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}wagesPayable/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/wagesPayable/userGetAllCheck.do?productId="+proId;
 }
 
 </script>
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">制造费用明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">制造费用明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -42,7 +42,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="${pageContext.request.contextPath}manufacturingCost/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}/manufacturingCost/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -53,6 +53,7 @@ function onStep(){
 						<th class="info">报价前1年</th>
 						<th class="info">报价当年</th>
 						<th class="info">审核核准数</th>
+						<th class="info">复审核准数</th>
 						<th class="info">备   注</th>
 					</tr>
 				</thead>
@@ -64,7 +65,8 @@ function onStep(){
 						<td class="tc">${mc.tyaQuoteprice }</td>
 						<td class="tc">${mc.oyaQuoteprice }</td>
 						<td class="tc">${mc.newQuoteprice }</td>
-						<td class="tc"><input type="text" value='${mc.auditApproval }' name="manufacturingCosts['${vs.index }'].auditApproval"></td>
+						<td class="tc">${mc.auditApproval }</td>
+						<td class="tc"><input type="text" value='${mc.checkApproval }' name="manufacturingCosts['${vs.index }'].checkApproval"></td>
 						<td class="tc">${mc.remark }</td>
 					</tr>
 				</c:forEach>

@@ -14,7 +14,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}productQuota/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/userGetAllCheck.do?productId="+proId;
 }
 
 </script>
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">综合费用汇总分配计算明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">综合费用汇总分配计算明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -39,7 +39,7 @@ function onStep(){
 	 	
    </div>
 	
-	<form id="formID" name="form1" action="${pageContext.request.contextPath}comCostDis/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	<form id="formID" name="form1" action="${pageContext.request.contextPath}/comCostDis/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
@@ -52,9 +52,12 @@ function onStep(){
 						<th colspan="2" class="info">报价前1年</th>
 						<th colspan="2" class="info">报价当年</th>
 						<th colspan="2" class="info">审核核准数</th>
+						<th colspan="2" class="info">复审核准数</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
+						<th class="info">发生额</th>
+						<th class="info">费用率(元/小时)</th>
 						<th class="info">发生额</th>
 						<th class="info">费用率(元/小时)</th>
 						<th class="info">发生额</th>
@@ -84,8 +87,10 @@ function onStep(){
 						<td class="tc">${ccd.oyaFee }</td>
 						<td class="tc">${ccd.newAmount }</td>
 						<td class="tc">${ccd.newFee }</td>
-						<td class="tc"><input type="text" name="plccd[${(vs.index)}].subtractWentDutch" value="${ccd.subtractWentDutch }" class="border0 mb0"/></td>
-						<td class="tc"><input type="text" name="plccd[${(vs.index)}].subtractFee" value="${ccd.subtractFee }" class="border0 mb0"/></td>
+						<td class="tc">${ccd.subtractWentDutch }</td>
+						<td class="tc">${ccd.subtractFee }</td>
+						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkWentDutch" value="${ccd.checkWentDutch }" class="border0 mb0"/></td>
+						<td class="tc"><input type="text" name="plccd[${(vs.index)}].checkFee" value="${ccd.checkFee }" class="border0 mb0"/></td>
 						<td class="tc">${ccd.remark }</td>
 					</tr>
 					</c:if>
@@ -107,6 +112,7 @@ function onStep(){
 						<th class="info">报价前1年</th>
 						<th class="info">报价当年</th>
 						<th class="info">审核核准数</th>
+						<th class="info">复审核准数</th>
 						<th class="info">备   注</th>
 					</tr>
 				</thead>
@@ -125,7 +131,8 @@ function onStep(){
 						<td class="tc">${ccd.tyaActual }</td>
 						<td class="tc">${ccd.oyaActual }</td>
 						<td class="tc">${ccd.newActual }</td>
-						<td class="tc"><input type="text" name="plccd[${(vss.index)}].subtractActual" value="${ccd.subtractActual }" class="border0 mb0"/></td>
+						<td class="tc">${ccd.subtractActual }</td>
+						<td class="tc"><input type="text" name="plccd[${(vss.index)}].checkActual" value="${ccd.checkActual }" class="border0 mb0"/></td>
 						<td class="tc">${ccd.remark }</td>
 					</tr>
 					</c:if>

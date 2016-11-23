@@ -265,4 +265,27 @@ public class SpecialCostController {
 		model.addAttribute("proId",productId);
 		return "redirect:/burningPower/userGetAll.html?productId="+productId;
 	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		SpecialCost specialCost = new SpecialCost();
+		specialCost.setContractProduct(contractProduct);
+		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/specialCost_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,SpecialCostList SpecialCostList,String productId){
+		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
+		for (SpecialCost specialCost : SpecialCosts) {
+			specialCost.setUpdatedAt(new Date());
+			specialCostService.update(specialCost);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/burningPower/userGetAll.html?productId="+productId;
+	}
 }

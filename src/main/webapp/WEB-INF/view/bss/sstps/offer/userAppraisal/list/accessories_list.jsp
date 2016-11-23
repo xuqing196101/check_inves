@@ -13,7 +13,7 @@
 
 function onStep(){
 	var productId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}offer/userSelectProductInfo.do?productId="+productId;
+	window.location.href="${pageContext.request.contextPath}/offer/userSelectProductInfo.do?productId="+productId;
 }
 </script>
 
@@ -39,7 +39,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-		<form action="${pageContext.request.contextPath}accessoriesCon/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+		<form action="${pageContext.request.contextPath}/accessoriesCon/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">	
    			<table class="table table-bordered table-condensed">
 				<thead>

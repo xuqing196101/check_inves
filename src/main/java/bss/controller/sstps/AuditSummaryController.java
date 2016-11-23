@@ -164,4 +164,60 @@ public class AuditSummaryController {
 		String url = "bss/sstps/offer/userAppraisal/list";
 		return url;
 	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+
+			ContractProduct contractProduct = new ContractProduct();
+			contractProduct.setId(productId);
+			
+			AuditOpinion ap = new AuditOpinion();
+			ap.setContractProduct(contractProduct);
+			ap = auditOpinionService.selectProduct(ap);
+			
+			ComprehensiveCost comprehensiveCost = new ComprehensiveCost();
+			comprehensiveCost.setContractProduct(contractProduct);
+			
+			List<ComprehensiveCost> list = comprehensiveCostService.select(comprehensiveCost);
+			model.addAttribute("list", list);
+		
+			
+			model.addAttribute("ap", ap);
+			model.addAttribute("proId", productId);
+			
+			return "bss/sstps/offer/checkAppraisal/list/productOffer_list";
+	}
+
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,String productId,PlComprehensiveCost plcc,AuditOpinion auditOpinion){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		
+		auditOpinion.setUpdatedAt(new Date());
+		auditOpinionService.update(auditOpinion);
+		
+		List<ComprehensiveCost> csc = plcc.getPlcc();
+		for(ComprehensiveCost cd:csc){
+			cd.setUpdatedAt(new Date());
+			cd.setContractProduct(contractProduct);
+			comprehensiveCostService.update(cd);
+		}
+		
+		contractProduct.setAuditOffer(2);
+		contractProductService.update(contractProduct);
+		contractProduct = contractProductService.selectById(productId);
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractProduct.getAppraisalContract().getId());
+		appraisalContract.setAppraisal(2);
+		appraisalContract.setUpdatedAt(new Date());
+		appraisalContractService.update(appraisalContract);
+		
+		Integer page=1;
+		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		
+		String url = "bss/sstps/offer/checkAppraisal/list";
+		return url;
+	}
 }

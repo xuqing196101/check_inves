@@ -14,12 +14,12 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}periodCost/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/periodCost/userGetAll.do?productId="+proId;
 }
 
 function nextStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}productQuota/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/productQuota/userGetAll.do?productId="+proId;
 }
 
 </script>
@@ -32,7 +32,7 @@ function nextStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">年度计划任务总工时明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">年度计划任务总工时明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>

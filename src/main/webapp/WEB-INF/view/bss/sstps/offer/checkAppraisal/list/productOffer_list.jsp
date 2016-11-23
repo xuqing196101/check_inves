@@ -7,16 +7,16 @@
 <html>
   <head>
     
-    <title>产 品 报 价(审价)详 细 情 况</title>
+    <title>产 品 复审详 细 情 况</title>
    
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}comCostDis/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/comCostDis/userGetAllCheck.do?productId="+proId;
 }
 
 function cancel(){
-	window.location.href="${pageContext.request.contextPath}auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}/auditSummary/cancel.html";
 }
 
 </script>
@@ -29,7 +29,7 @@ function cancel(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产 品 报 价(审价)详 细 情 况</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">产 品 复审详 细 情 况</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -37,11 +37,11 @@ function cancel(){
    
    <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>产 品 报 价(审价)详 细 情 况</h2>
+	  		 <h2>产 品 复审详 细 情 况</h2>
 	 	</div>
    </div>
    
-   <form action="${pageContext.request.contextPath}auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/auditSummary/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="apid" name="id" value="${ap.id }" />
@@ -54,28 +54,40 @@ function cancel(){
 					<th class="info" rowspan="5">审核结果</th>
 					<th class="info">企业报价</th>
 					<td class="tc"><input type="text" name="companyPrice"  class="" value="${ap.companyPrice }"/></td>
+					<th class="info" rowspan="5">复审结果</th>
+					<th class="info">企业报价</th>
+					<td class="tc"><input type="text" name="checkCompanyPrice"  class="" value="${ap.checkCompanyPrice }"/></td>
+					
 				</tr>
 				<tr>
 					<th class="info">生产单位</th>
 					<td class="tc"><input type="text" name="produceUnit"  class="" value="${ap.produceUnit }"></td>
 					<th class="info">审核意见</th>
 					<td class="tc"><input type="text" name="auditOpinion"  class="" value="${ap.auditOpinion }"/></td>
+					<th class="info">审核意见</th>
+					<td class="tc"><input type="text" name="checkAuditOpinion"  class="" value="${ap.checkAuditOpinion }"/></td>
 				</tr>
 				<tr>
 					<th class="info">订货数量</th>
 					<td class="tc"><input type="text" name="orderAcount"  class="" value="${ap.orderAcount }"/></td>
 					<th class="info">单位核减</th>
 					<td class="tc"><input type="text" name="unitSubtract"  class="" value="${ap.unitSubtract }"/></td>
+					<th class="info">单位核减</th>
+					<td class="tc"><input type="text" name="checkUnitSubtract"  class="" value="${ap.checkUnitSubtract }"/></td>
 				</tr>
 				<tr>
 					<th class="info">计量单位</th>
 					<td class="tc"><input type="text" name="measuringUnit"  class="" value="${ap.measuringUnit }"/></td>
 					<th class="info">总量核减</th>
 					<td class="tc"><input type="text" name="acountSubtract"  class="" value="${ap.acountSubtract}"/></td>
+					<th class="info">总量核减</th>
+					<td class="tc"><input type="text" name="checkAcountSubtract"  class="" value="${ap.checkAcountSubtract}"/></td>
 				</tr>
 				<tr>
 					<th class="info">审核人员</th>
 					<td class="tc"><input type="text" name="auditUser"  class="" value="${ap.auditUser }"/></td>
+					<th class="info"></th>
+					<td class="tc"></td>
 					<th class="info"></th>
 					<td class="tc"></td>
 				</tr>
@@ -95,6 +107,9 @@ function cancel(){
 						<th class="info">审核结果</th>
 						<th class="info">审核差额</th>
 						<th class="info">审减率</th>
+						<th class="info">复审结果</th>
+						<th class="info">复审差额</th>
+						<th class="info">复审减率</th>
 						<th class="info">备注</th>
 					</tr>
 				</tobdy>
@@ -107,9 +122,12 @@ function cancel(){
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].projectName" value="${cc.projectName }"/ readonly></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].secondProject" value="${cc.secondProject }" readonly/></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].singleOffer" value="${cc.singleOffer }" readonly/></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].additResult" value="${cc.additResult}" /></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].difference" value="${cc.difference }" /></td>
-						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].reduce" value="${cc.reduce }" /></td>
+						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].additResult" value="${cc.additResult}" readonly/></td>
+						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].difference" value="${cc.difference }" readonly/></td>
+						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].reduce" value="${cc.reduce }" readonly/></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkResult" value="${cc.checkResult}" /></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkDifference" value="${cc.checkDifference }" /></td>
+						<td class="tc"><input type="text" class="" name="plcc[${(vs.index)}].checkReduce" value="${cc.checkReduce }" /></td>
 						<td class="tc"><input type="text" class="border0" name="plcc[${(vs.index)}].remark" value="${cc.remark }" readonly/></td>
 					</tr>
 				</c:forEach>

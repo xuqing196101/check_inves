@@ -29,7 +29,7 @@
 	  </div>
    </div>
   
-  <form action="${pageContext.request.contextPath}offerProduct/userSave.html" method="post" enctype="multipart/form-data">
+  <form action="${pageContext.request.contextPath}/offerProduct/userSave.html" method="post" enctype="multipart/form-data">
    
 	<div class="container">
 	 	<div class="headline-v2">

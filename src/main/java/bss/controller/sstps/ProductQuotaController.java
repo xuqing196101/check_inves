@@ -255,4 +255,27 @@ public class ProductQuotaController {
 		return "redirect:/comCostDis/userGetAll.html?productId="+productId;
 	}
 	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		ProductQuota productQuota = new ProductQuota();
+		productQuota.setContractProduct(contractProduct);
+		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/productQuota_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,ProductQuotaList ProductQuotaList,String productId){
+		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
+		for (ProductQuota productQuota : ProductQuotas) {
+			productQuota.setUpdatedAt(new Date());
+			productQuotaService.update(productQuota);
+		}
+		model.addAttribute("proId",productId);
+		return "redirect:/comCostDis/userGetAllCheck.html?productId="+productId;
+	}
+	
 }

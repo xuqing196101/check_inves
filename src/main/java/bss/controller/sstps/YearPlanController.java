@@ -249,4 +249,16 @@ public class YearPlanController {
 		return "bss/sstps/offer/userAppraisal/list/yearPlan_list";
 	}
 	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		YearPlan yearPlan = new YearPlan();
+		yearPlan.setContractProduct(contractProduct);
+		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/yearPlan_list";
+	}
+	
 }

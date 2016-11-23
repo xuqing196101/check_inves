@@ -213,5 +213,29 @@ public class OutproductConController {
 		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		OutproductCon outproductCon=new OutproductCon();
+		outproductCon.setContractProduct(contractProduct);
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/checkAppraisal/list/outproduct_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,OutproductConList OutproductConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<OutproductCon> outproductCons = OutproductConList.getOutproductCons();
+		for (OutproductCon outproductCon : outproductCons) {
+			outproductCon.setUpdatedAt(new Date());
+			outproductConService.update(outproductCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/outsourcingCon/userGetAllCheck.html?productId="+proID;
+	}
 
 }
