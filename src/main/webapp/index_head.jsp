@@ -68,7 +68,7 @@ function importAdd(){
         <div class="navbar-header">
           <div class="row container margin-bottom-10">
             <div class="col-md-8 m20_0">
-              <a href="">
+              <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" id="logo-header">
               </a>
             </div>

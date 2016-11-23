@@ -113,9 +113,9 @@
 <body class="sign_bg">
 	<div class="container content">
 		<div class="row">
-			<div class="col-md-8">
+			<a href="${pageContext.request.contextPath}/index/selectIndexNews.html" class="col-md-8">
 				<img src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="50%" height="90%" />
-			</div>
+			</a>
 			<div class="col-md-4"></div>
 			<div class="container content">
 				<div class="row">
