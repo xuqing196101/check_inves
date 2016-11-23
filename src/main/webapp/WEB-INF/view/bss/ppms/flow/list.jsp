@@ -75,7 +75,7 @@
 			var currPage = ${list.pageNum};
 			layer.open({
 			  type: 2, //page层
-			  area: ['400px', '250px'],
+			  area: ['500px', '300px'],
 			  title: '修改流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -111,7 +111,7 @@
 		var typeId = $("#typeId").val();
 		layer.open({
 			  type: 2, //page层
-			  area: ['400px', '250px'],
+			  area: ['500px', '300px'],
 			  title: '新增流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度

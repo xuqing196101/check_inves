@@ -41,42 +41,38 @@
 </head>
 <body>
 
-    <div >
+    <div class="layui-layer-wrap" >
         <form action="${pageContext.request.contextPath}/flow/update.html" method="post" id="form1">
-            <div>
+            <div class="drop_window">
             	<input type="hidden" name="purchaseTypeId" id="typeId" value="${fd.purchaseTypeId }">
             	<input type="hidden" name="id"  value="${fd.id }">
             	<input type="hidden" name="currpage" id="currpage"  value="${currpage }">
-				<ul class="list-unstyled mt10">
-				    <li class="col-md-12 ml20">
-				     	<span class="fl mt5 red">*</span>
-					   	<span class="fl mt5">流程环节名称：</span>
-					   	<div class="input-append">
-					        <input class="w140" name="name" value="${fd.name }" maxlength="30" type="text">
-					        <span class="add-on">i</span>
-				       	</div>
+				<ul class="list-unstyled">
+                    <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                        <label class="col-md-12 padding-left-5 col-xs-12"><i class="red">*</i>流程环节名称</label>
+                        <span class="col-md-12 col-xs-12">
+                            <input class="title col-md-12" name="name" value="${fd.name }" maxlength="30" type="text">
+                        </span>
 					</li>
-					<li class="col-md-12 ml5">
-				     	<span class="fl mt5 red">*</span>
-					   	<span class="fl mt5">流程环节步骤：</span>
-					   	<div class="input-append">
-					        <input class="w140" name="step" value="${fd.step }" maxlength="10" type="text">
-					        <span class="add-on">i</span>
-				       	</div>
-					</li>
-					<li class="col-md-12 ml10">
-					   	<span class="fl mt5">流程跳转路径：</span>
-					   	<div class="input-append">
-					        <input class="w140" name="url" value="${fd.url }" maxlength="200" type="text">
-					        <span class="add-on">i</span>
-				       	</div>
-					</li>
-					<li class="tc col-md-12 mt20">
+					<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                        <label class="col-md-12 padding-left-5 col-xs-12"><i class="red">*</i>流程环节步骤</label>
+                        <span class="col-md-12 col-xs-12">
+                            <input  class="title col-md-12" name="step" value="${fd.step }" maxlength="10" type="text">
+                        </span>
+                    </li>
+                    <li class="mt10 col-md-12 p0 col-xs-12">
+                        <label class="col-md-12 pl20 col-xs-12">流程跳转路径</label>
+                        <span class="col-md-12 col-xs-12">
+                        <input class="col-xs-12 h80 mt6" name="url" value="${fd.url }" maxlength="300" type="text">
+                        </span>
+                    </li>
+                    <div class="clear"></div>
+                    </ul>
+                </div> 
+                <div class="tc mt10 col-md-12 col-xs-12">
 					 <input type="button" class="btn" id="update" value="更新"/>
 					 <input type="button" class="btn" id="backups" value="取消"/>
-					</li>
-			 	</ul>
-            </div>
+			     </div>
         </form>
     </div>
 </body>
