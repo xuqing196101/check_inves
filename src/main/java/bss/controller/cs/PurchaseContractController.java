@@ -160,6 +160,9 @@ public class PurchaseContractController extends BaseSupplierController{
 //			proList.add(pro);
 //		}
 		model.addAttribute("packageList", pacList);
+		model.addAttribute("projectName", projectName);
+		model.addAttribute("projectCode", projectCode);
+		model.addAttribute("purchaseDep", purchaseDep);
 		return "bss/cs/purchaseContract/list";
 	}
 	
@@ -261,10 +264,13 @@ public class PurchaseContractController extends BaseSupplierController{
 		String flag = "true";
 		String news = "";
 		List<String> supIdList = new ArrayList<String>();
+		List<Project> proList = new ArrayList<Project>();
 		for(int i=0;i<ids.length;i++){
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", ids[i]);
 			Packages pack = packageService.findPackageById(map).get(0);
+			Project pro = projectService.selectById(pack.getProjectId());
+			proList.add(pro);
 			SupplierCheckPass suchp = new SupplierCheckPass();
 			suchp.setPackageId(pack.getId());
 			suchp.setIsWonBid((short)1);
@@ -279,13 +285,28 @@ public class PurchaseContractController extends BaseSupplierController{
 			}
 		}
 		
-		if(!supIdList.isEmpty()){
-			for(int j=0;j<supIdList.size()-1;j++){
-				for(int m=j+1;m<supIdList.size();m++){
-					if(!supIdList.get(j).equals(supIdList.get(m))){
+		if(flag.equals("true")){
+			out:for(int i=0;i<proList.size()-1;i++){
+				for(int j=i+1;j<proList.size();j++){
+					if(!proList.get(i).getId().equals(proList.get(j))){
 						flag="false";
 						news = "";
-						news+="供应商不一致";
+						news+="不是同一个项目";
+						break out;
+					}
+				}
+			}
+		}
+		
+		if(flag.equals("true")){
+			if(!supIdList.isEmpty()){
+				for(int j=0;j<supIdList.size()-1;j++){
+					for(int m=j+1;m<supIdList.size();m++){
+						if(!supIdList.get(j).equals(supIdList.get(m))){
+							flag="false";
+							news = "";
+							news+="供应商不一致";
+						}
 					}
 				}
 			}
@@ -718,7 +739,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getSupplierUnitpostCode())){
 			flag = false;
 			model.addAttribute("ERR_supplierUnitpostCode", "乙方邮编不能为空");
-		}else if(!ValidateUtils.Zipcode(purCon.getPurchaseUnitpostCode())){
+		}else if(!ValidateUtils.Zipcode(purCon.getSupplierUnitpostCode())){
 			flag = false;
 			model.addAttribute("ERR_supplierUnitpostCode", "请输入正确的邮编");
 		}
