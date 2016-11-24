@@ -105,7 +105,9 @@
     <include refid="Article_BlOB_Column_List" />
     from T_ISS_PS_ARTICLE
     where IS_DELETED = 0
-    	AND NAME LIKE #{name}
+    	<if test="name != null">
+	  	  AND NAME LIKE #{name}
+	  	</if>
 	  	<if test="status != null">
 	  	  AND STATUS = #{status}
 	  	</if>

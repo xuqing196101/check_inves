@@ -32,6 +32,7 @@ import ses.model.bms.User;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.ValidateUtils;
 
 
 import com.alibaba.fastjson.JSON;
@@ -140,27 +141,28 @@ public class ArticleController extends BaseSupplierController{
 	public String save(String[] ranges,HttpServletRequest request, HttpServletResponse response,Article article,Model model){
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
-		String name = article.getName();
-		if(name.equals("")){
+		
+		String url = "";
+		boolean flag = true;
+		
+		if(ValidateUtils.isNull(article.getName())){
 			model.addAttribute("ERR_name", "标题名称不能为空");
-			model.addAttribute("article", article);
-			return "iss/ps/article/add";
+			flag = false;
 		}
 		List<Article> art = articleService.selectAllArticle(null,1);
 		if(art!=null){
 			for(Article ar:art){
 				if(ar.getName().equals(article.getName())){
-					model.addAttribute("article", article);
+					flag = false;
 					model.addAttribute("ERR_name", "标题名称不能重复");
-					return "iss/ps/article/add";
+					//return "iss/ps/article/add";
 				}
 			}
 		}
 		String contype = request.getParameter("articleType.id");
-		if(contype.equals("")){
-			model.addAttribute("article", article);
+		if(ValidateUtils.isNull(contype)){
+			flag = false;
 			model.addAttribute("ERR_typeId", "信息类型不能为空");
-			return "iss/ps/article/add";
 		}
 		String isPicShow = request.getParameter("isPicShow");
 		if(isPicShow!=null&&!isPicShow.equals("")){
@@ -175,21 +177,26 @@ public class ArticleController extends BaseSupplierController{
 				}
 			}
 		}else{
-			model.addAttribute("article", article);
-			model.addAttribute("ERR_range", "复选框不能为空");
-			return "iss/ps/article/add";
+			flag = false;
+			model.addAttribute("ERR_range", "发布范围不能为空");
 		}
 		
-		User user = (User) request.getSession().getAttribute("loginUser");
-		article.setUser(user);
-		article.setCreatedAt(new Date());
-		article.setUpdatedAt(new Date());
-		article.setIsDeleted(0);
-		article.setStatus(0);
-		article.setShowCount(0);
-		article.setDownloadCount(0);
-		articleService.addArticle(article);
-		return "redirect:getAll.html";
+		if(flag==false){
+			model.addAttribute("article", article);
+			url = "iss/ps/article/add";
+		}else{
+			User user = (User) request.getSession().getAttribute("loginUser");
+			article.setUser(user);
+			article.setCreatedAt(new Date());
+			article.setUpdatedAt(new Date());
+			article.setIsDeleted(0);
+			article.setStatus(0);
+			article.setShowCount(0);
+			article.setDownloadCount(0);
+			articleService.addArticle(article);
+			url = "redirect:getAll.html";
+		}
+		return url;
 	}
 	
 	/**
@@ -305,7 +312,7 @@ public class ArticleController extends BaseSupplierController{
 				articleAttachmentsService.softDeleteAtta(id);
 			}
 		}
-		if(name.equals("")){
+		if(ValidateUtils.isNull(article.getName())){
 			model.addAttribute("ERR_name", "标题名称不能为空");
 			model.addAttribute("article.id", article.getId());
 			Article artc = articleService.selectArticleById(article.getId());
@@ -342,7 +349,7 @@ public class ArticleController extends BaseSupplierController{
 				}
 			}
 		}else{
-			model.addAttribute("ERR_range", "复选框不能为空");
+			model.addAttribute("ERR_range", "发布范围不能为空");
 			model.addAttribute("article.id", article.getId());
 			Article artc = articleService.selectArticleById(article.getId());
 			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
@@ -562,7 +569,9 @@ public class ArticleController extends BaseSupplierController{
 	@RequestMapping("/serch")
 	public String serch(String kname,Integer page,Integer status,Model model){
 		Article article = new Article();
-		article.setName("%"+kname+"%");
+		if(kname!=null){
+			article.setName("%"+kname+"%");
+		}
 		if(status!=null){
 			if(status==0){
 				article.setStatus(status);
