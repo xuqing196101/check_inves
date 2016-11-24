@@ -602,6 +602,7 @@
 	</div>
    	<div class="mt10">
        <script id="editor" name="content" type="text/plain" class= ""></script>
+       <div class="red f12 clear">${ERR_content}</div>
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>

@@ -11,8 +11,6 @@
 </head>
 
 <body>
-  <div class="wrapper">
-    <div class="header-v4">
 <!--底部代码开始-->
 <div class="footer-v2" id="footer-v2">
 
@@ -30,7 +28,6 @@
      
 <!--/footer--> 
     </div>
-</div>
-</div>
+
 </body>
 </html>
