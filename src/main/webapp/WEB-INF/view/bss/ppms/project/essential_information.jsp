@@ -111,7 +111,7 @@
                             <li class=""><a aria-expanded="false" href="#tab-3"
                             data-toggle="tab" class="f18">项目表单</a></li>
                         <li class=""><a aria-expanded="false" href="#tab-4"
-                            data-toggle="tab" class="f18">打印报批文件</a></li>
+                            data-toggle="tab" class="f18">下载报批文件</a></li>
                         <li class=""><a aria-expanded="false" href="#tab-5"
                             data-toggle="tab" class="f18">附件上传</a></li>
                     </ul>
@@ -179,7 +179,6 @@
                                     </tr>
                                     <tr>
                                         <td class="bggrey">开标时间:</td>
-                                        <%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
                                         <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                                         <td class="bggrey">开标地点:</td>
                                         <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
@@ -312,14 +311,12 @@
                         <div class="tab-pane fade " id="tab-4" >
                             <div class="margin-bottom-0  categories">
                             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                                        <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
-                                        <div class="col-md-12 tc">
-                                        <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
-                                        </div>
+                                        <f:show showId="upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
                          </form>
                             </div>
                         </div>
                         <div class="tab-pane fade " id="tab-5" >
+                             <div>上传附件：</div>
                             <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
                             <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
                         </div>

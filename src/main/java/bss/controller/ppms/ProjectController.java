@@ -63,51 +63,36 @@ import com.github.pagehelper.PageInfo;
 @Scope("prototype")
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
-    /**
-     * 
-     */
+  
     @Autowired
     private ProjectService projectService;
 
-    /**
-     * 
-     */
     @Autowired
     private TaskService taskservice;
 
-    /**
-     * 
-     */
     @Autowired
     private PurchaseRequiredService purchaseRequiredService;
-
-    /**
-     * 
-     */
+ 
     @Autowired
     private ProjectDetailService detailService;
 
-    /**
-     * 
-     */
     @Autowired
     private PackageService packageService;
 
-
-    /**
-     * 
-     */
     @Autowired
     private PurchaseServiceI purchaseService;
+  
     @Autowired
     private CollectPurchaseService conllectPurchaseService;
+  
     @Autowired
     private ProjectTaskService projectTaskService;
+  
     @Autowired
     private FlowMangeService flowMangeService;
 
     /**
-     * 〈简述〉 〈详细描述〉
+     * 〈简述〉 〈详细描述〉.
      * 
      * @author FengTian
      * @param page 分页
@@ -117,10 +102,10 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(Integer page, Model model, Project project, HttpServletRequest request) {
-        request.getSession().removeAttribute("idr");
+        request.getSession().removeAttribute("idr");//返回展示页面删掉session
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
-        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
@@ -307,7 +292,16 @@ public class ProjectController extends BaseController {
         return "redirect:list.html";
     }
     
-    
+    /**
+     * 
+     *〈跳转添加明细页面〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param id
+     * @param checkedIds
+     * @return
+     */
     @RequestMapping("/addDeatil")
     public String addDeatil(Model model, String id, String checkedIds) {
         Task task = taskservice.selectById(id);
@@ -325,6 +319,15 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/saveDetail";
     }
     
+    /**
+     * 
+     *〈递归选中〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param response
+     * @param id
+     * @throws IOException
+     */
     @RequestMapping("/viewIds")
     public void viewIds(HttpServletResponse response,String id) throws IOException {
             HashMap<String, Object> map = new HashMap<String, Object>();
@@ -338,8 +341,8 @@ public class ProjectController extends BaseController {
     }
 
     /**
-     * 〈简述〉 〈详细描述〉
-     * 
+     * 〈递归选中〉 
+     * 〈详细描述〉
      * @author FengTian
      * @param response 内置对象
      * @param id 需求明细id
@@ -372,7 +375,7 @@ public class ProjectController extends BaseController {
 
     /**
      * 
-     *〈简述〉
+     *〈查看明细〉
      *〈详细描述〉
      * @author Administrator
      * @param id 項目id
@@ -531,7 +534,7 @@ public class ProjectController extends BaseController {
     public void SameNameCheck(Project project, HttpServletResponse response) throws IOException {
         response.reset();
         response.setContentType("text/html;charset=UTF-8");
-        response.getWriter().print(projectService.SameNameCheck(project.getName(), project));
+        response.getWriter().print(projectService.SameNameCheck(project));
     }
     
 

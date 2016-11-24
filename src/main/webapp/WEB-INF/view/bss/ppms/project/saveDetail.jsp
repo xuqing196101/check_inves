@@ -69,8 +69,9 @@
     } 
     
     function cancel(){
-     var index=parent.layer.getFrameIndex(window.name);
-     parent.layer.close(index);
+    /*  var index=parent.layer.getFrameIndex(window.name);
+     parent.layer.close(index); */
+     window.location.href = "${pageContext.request.contextPath}/project/add.html";
      
     }
   </script>
@@ -92,7 +93,7 @@
 <!-- 项目戳开始 -->
      <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
-        <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+        <button class="btn btn-windows back" type="button" onclick="cancel();">返回</button>
       </div>
     <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
@@ -150,8 +151,6 @@
          </tbody>
 
       </table>
-      
-      <div id="pagediv" align="right"></div>
    </div>
  </div>
 

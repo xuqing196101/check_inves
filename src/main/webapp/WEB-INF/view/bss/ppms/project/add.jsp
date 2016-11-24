@@ -51,13 +51,26 @@
 										}
 									}
 								},
-
+                                projectNumber : {
+                                    remote : {
+                                        type : "post",
+                                        url : "${pageContext.request.contextPath}/project/SameNameCheck.html",
+                                        dataType : "json",
+                                        data : {
+                                            projectNumber : function() {
+                                                return $("#pc").val();
+                                            }
+                                        }
+                                    }
+                                },
 							},
 							messages : {
 								name : {
-									remote : "<span class='spredm'>*该项目名称已存在</span>"
+									remote : "<span class='red'>*该项目名称已存在</span>"
 								},
-
+								projectNumber : {
+                                    remote : "<span class='red'>*该项目编号已存在</span>"
+                                },
 							}
 						});
 
@@ -150,13 +163,13 @@
 				%>
 				<input type="hidden" name="token2" value="<%=tokenValue%>">
 				<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目名称</span>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 项目名称</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input id="pic" type="text" class="input_group" name="name" /> <span
 								class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 项目编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input id="pc" type="text" class="input_group" name="projectNumber" />
 							<span class="add-on">i</span>
