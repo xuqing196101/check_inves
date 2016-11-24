@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import common.bean.ResBean;
+import common.constant.StaticVariables;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
@@ -46,8 +47,19 @@ public class CategoryServiceImpl implements CategoryService {
     private static final String OPERA_ADD = "add";
     /** 操作类型 - 编辑 */
     private static final String OPERA_EDIT = "edit";
+    /** 品目名称不能为空 **/
+    private static final String CATEGORY_ISNOTNULL = "品目名称不能为空";
+    /** 品目名称已经存在 **/
+    private static final String CATEGORY_EXIST = "品目名称已经存在";
+    /** 序号不能为空 **/
+    private static final String CATEGORY_CODE_ISNUOTNUll = "序号不能为空";
+    /** 序号不能为空 **/
+    private static final String CATEGORY_CODE_ISINTEGER = " 序号只能输入正整数";
+    /** 最大输入值 **/
+    private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
-
+   
+    
     public void insertSelective(Category category) {
         categoryMapper.insertSelective(category);
     }
@@ -101,25 +113,25 @@ public class CategoryServiceImpl implements CategoryService {
         ResBean res = new ResBean();
         if (StringUtils.isEmpty(name)) {
             res.setSuccess(false);
-            res.setMsg("品目名称不能为空");
+            res.setMsg(CATEGORY_ISNOTNULL);
            return  res;
         }
         
         if (StringUtils.isEmpty(position)) {
             res.setSuccess(false);
-            res.setError("序号不能为空");
+            res.setError(CATEGORY_CODE_ISNUOTNUll);
            return  res;
         }
         
         if (!StringUtils.isNumeric(position)) {
             res.setSuccess(false);
-            res.setError("序号只能输入正整数");
+            res.setError(CATEGORY_CODE_ISINTEGER);
             return  res;
         }
         
         if (!StringUtil.validateStrByLength(desc,400)) {
             res.setSuccess(false);
-            res.setLenTxt("最多只能输入200个汉字");
+            res.setLenTxt(CATEGORY_MAX_VALUE);
             return  res;
         }
         
@@ -132,7 +144,7 @@ public class CategoryServiceImpl implements CategoryService {
             
             if (count != null && count > 0) {
                 res.setSuccess(false);
-                res.setMsg("品目名称已经存在");
+                res.setMsg(CATEGORY_EXIST);
                return  res;
             }
             
@@ -145,6 +157,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setDescription(desc);
             category.setCreatedAt(new Date());
             category.setIsDeleted(0);
+            category.setParamStatus(StaticVariables.CATEGORY_NEW_STATUS);
             insertSelective(category);
             res.setSuccess(true);
         }
@@ -166,7 +179,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
     
     
-
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#listByKeyword(java.util.Map)
+     */
     @Override
     public List<Category> listByKeyword(Map<String, Object> map) {
         PropertiesUtil config = new PropertiesUtil("config.properties");

@@ -21,6 +21,7 @@ import ses.service.bms.CategoryParameterService;
  * 
  * 版权：(C) 版权所有 
  * <简述>
+ *  产品参数管理
  * <详细描述>
  * @author   myc
  * @version  
@@ -45,13 +46,17 @@ public class CategoryParameterController {
      */
     @RequestMapping("/list")
     public String list(HttpServletRequest request, Model model){
+        
         User user = (User)request.getSession().getAttribute("loginUser");
         if (user != null && user.getOrg() != null) {
             model.addAttribute("orgId", user.getOrg().getId());
         }
-        
         List<DictionaryData> list = paramService.initTypes();
         model.addAttribute("dictionary", list);
+        
+        List<DictionaryData> dictList = paramService.initSmallTypes();
+        model.addAttribute("smallType", dictList);
+        
        return "/ses/ppms/categoryparam/cateParameter";
     }
     
@@ -68,7 +73,9 @@ public class CategoryParameterController {
     @ResponseBody
     @RequestMapping("/initTree")
     public List<CategoryTree> initTree(HttpServletRequest request){
+        
         List<CategoryTree> list = paramService.initTree(request);
+        
         return list;
     }
     
@@ -84,6 +91,7 @@ public class CategoryParameterController {
     @ResponseBody
     @RequestMapping("/edit")
     public CategoryParameter findById(String id){
+        
         return paramService.findById(id);
     }
     

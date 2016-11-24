@@ -40,10 +40,25 @@
 	    </div>
    	  </div>
 	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
-	    <ul id="uListId" class="list-unstyled" />
+	    <ul id="uListId" class="list-unstyled" ></ul>
+	    <div class="col-md-12">
+	      <div class="col-md-6  fl">
+	                    是否公开:
+	         <div>
+	           <input type="radio" name="isOPen" value="0"/>是      <input type="radio"  name="isOPen" value="1" />否    
+	         </div>
+	      </div>
+	      <div class="col-md-6  fl dnone"  id="typeId">
+	      	类型:
+	        <c:forEach items="${smallType}" var="type">
+	      	  <input name="smallClass" type="checkbox" value="${type.id}" />${type.name}
+	        </c:forEach>
+	      </div>
+	    </div>
+	    
 	  </div>
 	  <div class="textc">
-	    <button class="btn btn-windows save" onclick="saveParams();" type="button">保存</button>
+	    <button class="btn btn-windows git" onclick="saveParams();" type="button">提交</button>
 	  </div>
 	 </div>
     </div>
@@ -57,13 +72,13 @@
       		    <span><input type="text" name="paramName" /></span>
       		</li>
 			<li class="col-md-6">
-				<label class="col-md-12 padding-left-5">参数类型<span class="red">*</span></label>
-				<span>
-					<select  name="paramTypeId" class="w180">
-						<c:forEach items="${dictionary}" var="dict">
-								<option value="${dict.id}">${dict.name}</option>
-						</c:forEach>
-				 	</select>
+			  <label class="col-md-12 padding-left-5">参数类型<span class="red">*</span></label>
+			    <span>
+			      <select  name="paramTypeId" class="w180">
+				    <c:forEach items="${dictionary}" var="dict">
+					  <option value="${dict.id}">${dict.name}</option>
+					</c:forEach>
+				  </select>
 				</span>
 			</li>
       	</ul>
