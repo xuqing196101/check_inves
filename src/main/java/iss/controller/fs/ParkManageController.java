@@ -176,7 +176,10 @@ public class ParkManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");
 			}
-		}				
+		}		
+		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
+			park.setIsHot(0);
+		}
 		if(park.getIsHot() == 1){
 			int k = parkService.queryHotParks().size();	
 			if(!(k<4)){
