@@ -38,7 +38,7 @@
 
 	<div class="container container_box">
      <div>
-   <h2 class="list_title">新增履约情况</h2>
+   <h2 class="list_title">修改履约情况</h2>
   	<form action="${pageContext.request.contextPath}/performance/updatePerformance.html" method="post" id="form">
   	<input type="hidden" name="contractId" value="${performance.contractId}"/>
   	<input type="hidden" name="id" value="${performance.id}"/>
