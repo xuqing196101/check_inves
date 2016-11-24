@@ -42,7 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private SupplierItemMapper supplierItemMapper;
     
-    
     /** 操作类型 - 添加 */
     private static final String OPERA_ADD = "add";
     /** 操作类型 - 编辑 */
@@ -179,6 +178,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
     
     
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#updateStatus(java.lang.Integer, java.lang.String)
+     */
+    @Override
+    public String updateStatus(Integer status, String categoryId) {
+            
+        Category  category = selectByPrimaryKey(categoryId);
+        if (category != null){
+            category.setParamStatus(status);
+            category.setUpdatedAt(new Date());
+            updateByPrimaryKeySelective(category);
+            return StaticVariables.SUCCESS;
+        }
+        return StaticVariables.FAILED;
+    }
+
     /**
      * 
      * @see ses.service.bms.CategoryService#listByKeyword(java.util.Map)

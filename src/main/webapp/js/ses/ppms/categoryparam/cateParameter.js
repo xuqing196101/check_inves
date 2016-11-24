@@ -27,7 +27,11 @@ $(function(){
 					pIdKey:"pId",
 					rootPId:"0",
 				}
-		    }
+		    },
+		    view:{
+		        selectedMulti: false,
+		        showTitle: false,
+		   }
 	};
 	//初始化tree
     $.fn.zTree.init($("#ztree"),setting,datas); 
@@ -46,13 +50,16 @@ var itemId = "";
 /**
  * 点击tree
  */
+var classified = false;
 function zTreeOnClick(event,treeId,treeNode){
 	if (treeNode.pId !=0) {
 		var root = getCurrentRoot(treeNode);
 		if (root.classify != null && root.classify == 'GOODS'){
 			$("#typeId").show();
+			classified = true;
 		} else {
 			$("#typeId").hide();
+			classified = false;
 		}
 		selectedTreeId = treeNode.id;
 		findParams(selectedTreeId);
@@ -148,6 +155,27 @@ function cancel(){
 }
 
 /**
+ * 提交
+ */
+function submitParams(){
+	var isOpen = "";
+	var smallClassify = [];
+	$("input[name='isOPen']:checked").each(function(){
+		isOpen = $(this).val();
+	});
+	if (classified){
+		$("input[name='smallClass']:checked").each(function(){
+			smallClassify.push($(this).val());
+		});
+		if (smallClassify.length == 0){
+			layer.msg("类型不能为空");
+			return false;
+		}
+	}
+	submit(isOpen,smallClassify,selectedTreeId);
+}
+
+/**
  * 删除方法调用
  */
 function delParameter(id){
@@ -182,6 +210,24 @@ function getCategory(id){
 			 $('input[name="paramName"]').val(data.paramName);
 			 $('select[name="paramTypeId"]').val(data.paramTypeId);
 			 openDiv();
+		}
+	});
+}
+
+/**
+ * 提交
+ */
+function submit(isOpen,smallClassify, id){
+	$.ajax({
+		type:"post",
+		data:{'open':isOpen,'classify':smallClassify.toString(),'id':id},
+		url: globalPath + "/cateParam/submitParams.do" ,
+		success:function(msg){
+			if (msg == 'ok'){
+				layer.msg("保存成功");
+			} else {
+				layer.msg(msg);
+			}
 		}
 	});
 }
@@ -261,5 +307,7 @@ function getCurrentRoot(treeNode){
 		return treeNode;
 	}
 }
+
+
 
 

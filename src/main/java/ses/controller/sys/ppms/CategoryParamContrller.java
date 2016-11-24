@@ -99,7 +99,6 @@ public class CategoryParamContrller extends BaseSupplierController {
             CategoryTree ct=new CategoryTree();
             if(!cList.isEmpty()){
                 ct.setIsParent("true");
-                cate.setIsEnd(1);
             }else{
                 ct.setIsParent("false");
             }

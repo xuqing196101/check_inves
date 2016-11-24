@@ -18,6 +18,8 @@ import ses.model.bms.CategoryAssigned;
 import ses.service.bms.CategoryAssignedService;
 import ses.service.bms.CategoryService;
 
+import common.constant.StaticVariables;
+
 /**
  * 
  * 版权：(C) 版权所有 
@@ -108,7 +110,7 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
     @Override
     public String assigned(String orgIds, String cateIds, String cateNames) {
         
-        String resMsg = "";
+        String resMsg = SUCCESS;
         
         if (!StringUtils.isNotBlank(orgIds)){
             resMsg = ORG_TIPS;
@@ -168,12 +170,20 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
             batchSave(caList, batchSqlSession);
         } catch (Exception e) {
             e.printStackTrace();
+            resMsg = FAILED;
         } finally {
             if (batchSqlSession != null){
                 batchSqlSession.close();
             }
         }
-        return SUCCESS;
+        
+        //更新品目的状态
+        if (resMsg.equals(SUCCESS)) {
+            for (String id : cateList) {
+                categoryService.updateStatus(StaticVariables.CATEGORY_ASSIGNED_STATUS, id);
+            }
+        }
+        return resMsg;
     }
     
     
@@ -225,6 +235,12 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
                  batchSqlSession.close();
              }  
         }
+        //更新品目的状态
+        if (res.equals(SUCCESS)) {
+            for (String id : cateList) {
+                categoryService.updateStatus(StaticVariables.CATEGORY_NEW_STATUS, id);
+            }
+        }
         return res;
     }
 
@@ -261,6 +277,5 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
         }
         batchSqlSession.commit();
     }
-    
-
+  
 }

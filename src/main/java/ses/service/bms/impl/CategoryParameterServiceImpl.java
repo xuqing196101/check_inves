@@ -15,6 +15,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.constant.StaticVariables;
+
 import ses.dao.bms.CategoryParameterMapper;
 import ses.formbean.ResponseBean;
 import ses.model.bms.Category;
@@ -22,6 +24,7 @@ import ses.model.bms.CategoryParameter;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.service.bms.CategoryParameterService;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.StringUtil;
 
@@ -54,6 +57,9 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     /** 物资类编码 */
     private static final String GOODS_CODE = "GOODS";
     
+    /** 提交操作 **/
+    private static final String OPERA_SUBMIT = "提交";
+    
     /** 产品参数管理 */
     @Autowired
     private CategoryParameterMapper cateParamterMapper;
@@ -61,6 +67,10 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     /** 数据字典 */
     @Autowired
     private DictionaryDataServiceI directionService;
+    
+    /** 品目service */
+    @Autowired
+    private CategoryService categoryService;
     
     /** 注册 SqlSessionFactory */
     @Autowired
@@ -286,6 +296,56 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     }
 
     
+    
+    @Override
+    public String submit(String open, String classify, String cateId) {
+        
+        String msg  = StaticVariables.SUCCESS;
+        
+        if (StringUtils.isBlank(open)){
+           return StaticVariables.FAILED;
+        }
+        
+        //校验
+        Integer classified = null;
+        if (StringUtils.isNotBlank(classify)){
+            
+            if (classify.contains(StaticVariables.COMMA_SPLLIT)){
+                classified = StaticVariables.GOODS_PS_STATUS;
+            } 
+            
+            if (classify.equals(StaticVariables.GOODS_PRODUCT)){
+                classified = StaticVariables.GOODS_PRODUCT_STATUS;
+            }
+            
+            if (classify.equals(StaticVariables.GOODS_SALES)){
+                classified = StaticVariables.GOODS_SALES_STATUS;
+            }
+        }
+        
+        //提交
+        if (StringUtils.isNotBlank(cateId)){
+            Category category = categoryService.selectByPrimaryKey(cateId);
+            if (category != null){
+                
+                Integer status = category.getParamStatus();
+                if (status == StaticVariables.CATEGORY_AUDIT_STATUS){
+                    msg = StaticVariables.CATEGORY_AUDIT_MSG + OPERA_SUBMIT;
+                    return msg;
+                }
+                
+                if (classified != null){
+                    category.setClassify(classified);
+                }
+                category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
+                category.setUpdatedAt(new Date());
+                categoryService.updateByPrimaryKeySelective(category);
+            }
+        }
+        return msg;
+    }
+
+
     /**
      * 
      *〈简述〉

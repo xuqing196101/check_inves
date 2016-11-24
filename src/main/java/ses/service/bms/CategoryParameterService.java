@@ -111,4 +111,17 @@ public interface CategoryParameterService {
      * @return 
      */
     public List<DictionaryData> initSmallTypes();
+
+    /**
+     * 
+     *〈简述〉
+     *  提交参数
+     *〈详细描述〉
+     * @author myc
+     * @param open 是否公开,0:公开,1:不公开
+     * @param classify 物资的类型
+     * @param cateId 品目ID
+     * @return 成功返回ok,否则返回false
+     */
+    public String submit(String open, String classify, String cateId);
 }

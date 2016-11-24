@@ -216,4 +216,16 @@ import ses.model.sms.SupplierTypeTree;
      */
 
     public ResBean saveCategory(HttpServletRequest request);
+    
+    /**
+     * 
+     *〈简述〉
+     *  更新品目状态
+     *〈详细描述〉
+     * @author myc
+     * @param status 状态
+     * @param categoryId 品目ID
+     * @return 成功返回ok,否则返回false
+     */
+    public String updateStatus(Integer status, String categoryId);
 }

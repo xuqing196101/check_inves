@@ -43,22 +43,22 @@
 	    <ul id="uListId" class="list-unstyled" ></ul>
 	    <div class="col-md-12">
 	      <div class="col-md-6  fl">
-	                    是否公开:
+	                    是否公开<span class="red">*</span>:
 	         <div>
-	           <input type="radio" name="isOPen" value="0"/>是      <input type="radio"  name="isOPen" value="1" />否    
+	           <input type="radio" name="isOPen" checked="checked" value="0"/>是      <input type="radio"  name="isOPen" value="1" />否    
 	         </div>
 	      </div>
 	      <div class="col-md-6  fl dnone"  id="typeId">
-	      	类型:
+	      	类型<span class="red">*</span>:
 	        <c:forEach items="${smallType}" var="type">
-	      	  <input name="smallClass" type="checkbox" value="${type.id}" />${type.name}
+	      	  <input name="smallClass" type="checkbox" value="${type.code}" />${type.name}
 	        </c:forEach>
 	      </div>
 	    </div>
 	    
 	  </div>
 	  <div class="textc">
-	    <button class="btn btn-windows git" onclick="saveParams();" type="button">提交</button>
+	    <button class="btn btn-windows git" onclick="submitParams();" type="button">提交</button>
 	  </div>
 	 </div>
     </div>

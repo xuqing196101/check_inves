@@ -75,7 +75,6 @@ public class CategoryParameterController {
     public List<CategoryTree> initTree(HttpServletRequest request){
         
         List<CategoryTree> list = paramService.initTree(request);
-        
         return list;
     }
     
@@ -145,5 +144,22 @@ public class CategoryParameterController {
     public List<CategoryParameter> findParamsByTreeId(String cateId){
        
         return  paramService.getParamsByCateId(cateId);
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param open 是否公开
+     * @param classify 分类,只有物资才有次参数
+     * @param cateId 品目Id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/submitParams")
+    public String submitParams(String open, String classify , String cateId){
+        
+        return  paramService.submit(open, classify, cateId);
     }
 }

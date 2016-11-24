@@ -49,11 +49,6 @@
 			   },
 	     };
 	        $.fn.zTree.init($("#ztree"),setting,datas); 
-	        var treeObj = $.fn.zTree.getZTreeObj("ztree");
-	        var nodes = treeObj.getNodes();
-	        if (nodes.paramStatus=="已分配") {
-	        	treeObj.updateNode(nodes);
-	        }
 	 }); 
 
     /**点击事件*/

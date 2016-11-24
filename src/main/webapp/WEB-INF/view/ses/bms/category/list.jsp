@@ -140,14 +140,15 @@
 			dataType:"json",
 			type:"POST",
 			success:function(cate){
-				$("#uploadId_businessId").val(cate.id);
-				$("#fileId_downBsId").val(cate.id);
-				$("#pid").val(cate.parentId);
-				$("#parentNameId").text(nodeName);
-				$("#cateId").val(cate.name);
-				$("#posId").val(cate.position);
-				$("#descId").val(cate.description);
-				 showInit();
+					var cate = obj.obj;
+					$("#uploadId_businessId").val(cate.id);
+					$("#fileId_downBsId").val(cate.id);
+					$("#pid").val(cate.parentId);
+					$("#parentNameId").text(nodeName);
+					$("#cateId").val(cate.name);
+					$("#posId").val(cate.position);
+					$("#descId").val(cate.description);
+					showInit();
 		      }
             });
         }
