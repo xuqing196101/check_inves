@@ -96,7 +96,7 @@
                 <option value="0" selected="selected">不是热门</option>
                 <option value="1">热门</option>
                 </select> 
-                <div class="validate">${ERR_isHot}</div>           
+                <div class="cue">${ERR_isHot}</div>           
                 </div>       
              </li>
              

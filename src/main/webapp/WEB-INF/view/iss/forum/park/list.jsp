@@ -32,7 +32,9 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '${ pageContext.request.contextPath }/park/getlist.do?page='+e.curr;
+		        	var parkNameForSerach ="${parkNameForSerach}";
+		        	var parkContentForSerach ="${parkContentForSerach}";
+		            location.href = "${ pageContext.request.contextPath }/park/getlist.do?page="+e.curr+"&parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
 		        }
 		    }
 		});
@@ -125,6 +127,16 @@
 		layer.closeAll();//关闭消息框
 	}
 }
+ 	function search(){
+	    var parkNameForSerach = $("#parkNameForSerach").val();
+		var parkContentForSerach = $("#parkContentForSerach").val();
+	    location.href = "${ pageContext.request.contextPath }/park/getlist.do?parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
+
+	 }
+	 function reset(){
+	 	$("#parkNameForSerach").val("");
+		$("#parkContentForSerach").val("");
+	 }
   </script>
   </head>
   
@@ -139,6 +151,22 @@
 	  </div>
    </div>
 <div class="container">
+<h2 class="search_detail">
+     <ul class="demand_list ">
+       <li class="fl">
+       <label class="fl">版块名称：</label>
+       <span><input type="text" id="parkNameForSerach" class="" value="${parkNameForSerach }"/></span>
+       </li>
+        
+        <li class="fl">
+       <label class="fl">版块介绍：</label>
+       <span><input type="text" id="parkContentForSerach" class="" value="${parkContentForSerach }"/></span>
+       </li>
+         <button class="btn  " onclick="search()">查询</button>
+         <button class="btn  " onclick="reset()">重置</button>
+     </ul>
+     <div class="clear"></div>
+  </h2>
 
 <!-- 表格开始-->
 

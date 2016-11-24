@@ -13,7 +13,6 @@
         var flag = $(ele).prop("checked");
         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).children().val();
         purchaseType = $.trim(purchaseType);
-        alert(purchaseType);
         var goodUse = $("input[name='chkItem']:checked").parents("tr").find("td").eq(13).text();
         goodUse = $.trim(goodUse);
         if (!goodUse) {
@@ -132,9 +131,10 @@
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">
-              <input type="hidden" name="ttype" value="${obj.purchaseType }">
                      <c:forEach items="${kind}" var="kind" >
-                                                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                                 <c:if test="${kind.id == obj.purchaseType}">
+                                                 <input type="hidden" name="ttype" value="${kind.id }">
+                                                 ${kind.name}</c:if>
                                             </c:forEach>
                                     
               </td>

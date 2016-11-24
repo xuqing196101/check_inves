@@ -131,6 +131,7 @@ public class IndexNewsController extends BaseSupplierController{
 			}
 		}
 		model.addAttribute("indexMapper", indexMapper);
+		model.addAttribute("isIndex", "true");
 		return "iss/ps/index/index";
 	};
 	
@@ -150,6 +151,20 @@ public class IndexNewsController extends BaseSupplierController{
 	public String selectIndexNewsByTypeId(Model model,Integer page,HttpServletRequest request) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> countMap = new HashMap<String, Object>();
+		Map<String,Object> indexMapper = new HashMap<String, Object>();
+		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
+		for(int i=0;i<26;i++){
+			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+			if(!indexNewsList.isEmpty()){
+				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
+			}else{
+				List<Article> indexNews = new ArrayList<Article>();
+				Article article = new Article();
+				article.setArticleType(articleTypeList.get(i));
+				indexNews.add(article);
+				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
+			}
+		}
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		String pageSize = config.getString("pageSize");
 		if(page==null){
@@ -175,6 +190,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("indexList", indexNewsList);
 		model.addAttribute("typeName", articleTypeOne.getName());
 		model.addAttribute("articleTypeId", articleTypeId);
+		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_two";
 	}
 	
@@ -196,7 +212,20 @@ public class IndexNewsController extends BaseSupplierController{
 		Integer showCount = articleDetail.getShowCount();
 		articleDetail.setShowCount(showCount+1);
 		articleService.update(articleDetail);
-		
+		Map<String,Object> indexMapper = new HashMap<String, Object>();
+		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
+		for(int i=0;i<26;i++){
+			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+			if(!indexNewsList.isEmpty()){
+				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
+			}else{
+				List<Article> indexNews = new ArrayList<Article>();
+				Article articless = new Article();
+				articless.setArticleType(articleTypeList.get(i));
+				indexNews.add(articless);
+				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
+			}
+		}
 		model.addAttribute("articleId", article.getId());
 		DictionaryData da=new DictionaryData();
 		da.setCode("GGWJ");
@@ -208,6 +237,7 @@ public class IndexNewsController extends BaseSupplierController{
 //		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
 //		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("articleDetail", articleDetail);
+		model.addAttribute("indexMapper", indexMapper);
 		return "iss/ps/index/index_details";
 	}
 	

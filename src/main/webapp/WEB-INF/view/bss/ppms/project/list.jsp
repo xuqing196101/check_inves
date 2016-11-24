@@ -85,7 +85,6 @@
 		status = $.trim(status);
 		var currPage = ${info.pageNum};
 		if (id.length == 1) {
-		  debugger;
 			if (status == "实施中") {
 				window.location.href = "${pageContext.request.contextPath}/project/excute.html?id="
 						+ id + "&page=" + currPage;

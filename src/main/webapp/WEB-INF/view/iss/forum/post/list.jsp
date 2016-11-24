@@ -178,6 +178,10 @@
          var tipics = document.getElementById("topicId").options;
          tipics[0].selected = true;
      }
+     function viewDetail(id){
+     	 $("#formForViewDetail").attr("action","${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+id);   
+         $("#formForViewDetail").submit();
+     }
   </script>
   </head>
   
@@ -252,6 +256,7 @@
 			    <th class="info">最后回复人</th>
 			    <th class="info">回复数</th>
 			    <th class="info">创建人</th>
+			    <th class="info">操作</th>
 			</tr>
 		</thead>
 		
@@ -285,7 +290,12 @@
 				<td class="tc pointer" onclick="view('${post.id}')">${post.lastReplyer.relName}</td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.replycount}</td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.user.relName}</td>
-
+				<td class="tc pointer">
+				<form  id ="formForViewDetail" action="" target="_parent" method="post">
+				 <input type="button" class ="btn" value="查看回复" onclick="viewDetail('${post.id}')">
+				 </input>
+				 </form>
+				 </td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -32,7 +32,7 @@ public interface ParkMapper {
 	* @param park
 	* @return List<Park>     
 	*/
-	List<Park> queryByList(Park park,Integer page);
+	List<Park> queryByList(Map<String,Object> map);
 	/**
 	 * 
 	* @Title: getAll
