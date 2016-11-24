@@ -127,40 +127,46 @@
 				</div>
 				<input type="hidden" name="typeName" value="2"/>
 				<input type="hidden" name="id" value="${orgnization.id}"/>
-				<ul class="list-unstyled list-flow p0_20">
-					<li class="col-md-6 p0"><span class="">名称：</span>
-						<div class="input-append">
-							<input class="span2" name="name" type="text" value="${orgnization.name}"> <span
+				<ul class="list-unstyled list-flow">
+					<li class="col-md-3 col-sm-6 col-xs-12 ">
+					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称：</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group ">
+							<input name="name" type="text" value="${orgnization.name}"> <span
 								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-6  p0 "><span class="">地址：</span>
-						<div class="input-append">
-							<input class="span2" name="address" type="text" value="${orgnization.address}"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-6  p0 "><span class="">手机号：</span>
-						<div class="input-append">
-							<input class="span2" name="mobile" value="${orgnization.mobile}"
-								type="text"> <span class="add-on">i</span>
-						</div></li>
-					<li class="col-md-6  p0 "><span class="">邮编：</span>
-						<div class="input-append">
-							<input class="span2" name="postCode" type="text" value="${orgnization.postCode}"> <span
-								class="add-on">i</span>
-						</div></li>
+						</div>
 					</li>
-					<li class="col-md-6  p0 "><span class="">上级：</span>
-						<div class="input-append">
+					<li class="col-md-3 col-sm-6 col-xs-12 ">
+					   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址：</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
+							<input name="address" type="text" value="${orgnization.address}"> <span
+								class="add-on">i</span>
+						</div></li>
+					<li class="col-md-3 col-sm-6 col-xs-12 ">
+					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机号：</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
+							<input name="mobile" value="${orgnization.mobile}"
+								type="text"> <span class="add-on">i</span>
+						</div>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 ">
+					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
+							<input name="postCode" type="text" value="${orgnization.postCode}"> <span
+								class="add-on">i</span>
+						</div>
+					</li>
+					</li>
+					<li class="col-md-3 col-sm-6 col-xs-12 ">
+					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级：</span>
+						<div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
 							<input id="proSec" type="text" readonly value="${orgnization.parentName }" name="parentName" style="width:120px;" onclick="showMenu(); "/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
-						</div></li>
+						</div>
 					</li>
 				</ul>
 			</div>
-			<div class="col-md-12">
-				<div class="mt40 tc mb50">
-					<button type="submit" class="btn  padding-right-20 btn_back margin-5">保存</button>
-				</div>
+			<div class="col-md-12 col-sm-12 col-xs-12 tc mt20">
+					<button type="submit" class="btn btn-windows save">保存</button>
 			</div>
 		</form>
 		<!-- tree -->
