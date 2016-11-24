@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -237,20 +239,17 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier,String flag) throws IOException {
 		// this.setSupplierUpload(request, supplier);
-		supplierService.perfectBasic(supplier);// 保存供应商详细信息
-		supplier = supplierService.get(supplier.getId());
-
-//		if ("basic_info".equals(jsp))
-//			request.getSession().setAttribute("defaultPage", defaultPage);
-//		else
-//			request.getSession().removeAttribute("defaultPage");
+	//	supplierService.perfectBasic(supplier);// 保存供应商详细信息
+//		supplier = supplierService.get(supplier.getId());
 		boolean info = validateBasicInfo(request,model,supplier);
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		request.getSession().setAttribute("relate", relate);
-		request.getSession().setAttribute("currSupplier", supplier);
-		info=true;
+//		request.getSession().setAttribute("currSupplier", supplier);
+//		info=true;
 //		request.getSession().setAttribute("jump.page", jsp);
 		if(flag.equals("1")&&info==true){
+			supplierService.perfectBasic(supplier);
+			supplier = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -259,9 +258,12 @@ public class SupplierController extends BaseSupplierController {
 			dd2.setKind(8);
 			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 			request.getSession().setAttribute("wlist", wlist);
+			request.getSession().setAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/supplier_type";
 			
 		}else{
+//			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/basic_info";
 		}
 //		return "redirect:page_jump.html";
@@ -316,7 +318,7 @@ public class SupplierController extends BaseSupplierController {
 		else if(flag.equals("2")){
 			return "ses/sms/supplier_register/supplier_type";	
 		}else{
-			return "ses/sms/supplier_register/items";
+			return "ses/sms/supplier_register/products";
 		}
 		
 
@@ -561,7 +563,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_password", "密码由6-20位字母数字和下划线组成 !");
 			count++;
 		}
-		if (!supplier.getPassword().equals(supplier.getConfirmPassword())) {
+		if (supplier.getConfirmPassword()==null||!supplier.getPassword().equals(supplier.getConfirmPassword())) {
 			model.addAttribute("err_msg_ConfirmPassword", "密码和重复密码不一致 !");
 			count++;
 		}
@@ -600,7 +602,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		if (supplier.getAddress() == null || supplier.getAddress().split(",").length != 2) {
 			model.addAttribute("err_msg_address", "不能为空!");
-			count++;
+//			count++;
 		}
 		if (supplier.getBankName() == null || !supplier.getBankName().trim().matches("^.{1,80}$")) {
 			model.addAttribute("err_msg_bankName", "不能为空 !");
@@ -626,18 +628,46 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalCard", "身份证号码格式不正确 !");
 			count++;
 		}
-		if(supplier.getLegalTelephone()==null){
-			model.addAttribute("err_legalPhone", "不能为空 !");
+		if(supplier.getLegalMobile()==null){
+			model.addAttribute("err_legalMobile", "不能为空 !");
 			count++;
 		}
-		if(supplier.getLegalTelephone()!=null&&!supplier.getLegalTelephone().matches("^(0[1-9]{2})-\\d{8}$|^(0[1-9]{3}-(\\d{7,8}))$")){
-			model.addAttribute("err_legalPhone", "固话格式不正确 !");
+	/*	if(supplier.getLegalMobile()!=null&&!supplier.getLegalMobile().matches("^(0[1-9]{2})-\\d{8}$|^(0[1-9]{3}-(\\d{7,8}))$")){
+			model.addAttribute("err_legalMobile", "固话格式不正确 !");
+			count++;
+		}*/
+		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("1[0-9]{10}$")){
+			model.addAttribute("err_legalPhone", "格式不正确 !");
 			count++;
 		}
 		if(supplier.getContactName()==null){
 			model.addAttribute("err_conName", "不能为空 !");
 			count++;
 		}
+		
+		if(supplier.getContactFax()==null){
+			model.addAttribute("err_fax", "格式不正确 !");
+			count++;
+		}
+		
+		if(supplier.getContactMobile()==null){
+			model.addAttribute("err_catMobile", "格式不正确 !");
+			count++;
+		}
+		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("1[0-9]{10}$")){
+			model.addAttribute("err_catTelphone", "格式不正确 !");
+			count++;
+		}
+		if(supplier.getContactEmail()==null||!supplier.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")){
+			model.addAttribute("err_catEmail", "格式不正确 !");
+			count++;
+		}
+		if(supplier.getContactAddress()==null){
+			model.addAttribute("err_conAddress", "不能为空!");
+			count++;
+		}
+		
+		
 		if(supplier.getRegistAuthority()==null){
 			model.addAttribute("err_reAuthoy", "不能为空 !");
 			count++;
@@ -646,7 +676,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_fund", "不能为空 !");
 			count++;
 		}
-		if(supplier.getRegistFund()!=null&&supplier.getRegistFund().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplier.getRegistFund()!=null&&supplier.getRegistFund().toString().matches("^[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*$")){
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
@@ -670,9 +700,37 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_bCode", "邮编格式不正确!");
 			count++;
 		}
-		List<UploadFile> list = uploadService.getFilesOther(supplier.getId(), null, Constant.SUPPLIER_SYS_KEY.toString());
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		//* 近三个月完税凭证
+		List<UploadFile> tlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierTaxCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(tlist!=null&&tlist.size()>0){
+			//count++;
+			model.addAttribute("err_taxCert", "请上传文件!");
+		}
+		//* 近三年银行基本账户年末对账单
+		List<UploadFile> blist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBillCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(blist!=null&&blist.size()>0){
+			// count++;
+			model.addAttribute("err_bil", "请上传文件!");
+		}
+		//近三个月缴纳社会保险金凭证
+		List<UploadFile> slist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierSecurityCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(slist!=null&&slist.size()>0){
+		// 	count++;
+			model.addAttribute("err_security", "请上传文件!");
+		}
+		//近三年内无重大违法记录声明
+		List<UploadFile> bearlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(bearlist!=null&&bearlist.size()>0){
+			// count++;
+			model.addAttribute("err_bearch", "请上传文件!");
+		}
+		
+		//供应商执照
+		List<UploadFile> list = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(list!=null&&list.size()>0){
-			
+			// count++;
+			model.addAttribute("err_business", "请上传文件!");
 		}
 		if (count > 0) {
 			return false;
@@ -905,12 +963,33 @@ public class SupplierController extends BaseSupplierController {
 		
 		return bool;
 	}
+	
+	/**
+	 * 
+	* @Title: queryByPid
+	* @Description: TODO 
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @param model
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
 	@RequestMapping("/category")
-	public String  queryByPid(String id,Model model){
-		String pid = DictionaryDataUtil.getId("GC");
-		List<Category> list = categoryService.listByParent(pid);
-		model.addAttribute("list", list);
-		return "";
+	public String  queryByPid(String id,Model model,String sid){
+		List<Category> cateList=new LinkedList<Category>();
+		String[] str = id.split(",");
+		if(str.length>0){
+			for(String s:str){
+				String pid = DictionaryDataUtil.getId(s);
+				List<Category> list = categoryService.listByParent(pid);
+				cateList.addAll(list);
+			}
+		}
+		model.addAttribute("list", cateList);
+		model.addAttribute("sid", sid);
+		
+		return "ses/sms/supplier_register/category";	
 	}
 	
 	

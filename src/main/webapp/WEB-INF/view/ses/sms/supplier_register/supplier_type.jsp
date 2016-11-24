@@ -449,6 +449,10 @@
 			if ("${currSupplier.status}" == 7) {
 				showReason();
 			}
+			
+			 $("#seach").val(name());
+			 $("#hseach").val(valus());
+			 
 		  }
 	});
 	
@@ -505,16 +509,21 @@
 	function seach(){
 		var id=$("#hseach").val();
 		var sid=$("#sid").val();
-		layer.open({
-			type : 2,
-			title : '查询产品分类',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '500px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier/category.html?id=' + id+'&&sid='+sid , //url
-			closeBtn : 1, //不显示关闭按钮
-		});
+		if(id.length>0){
+			layer.open({
+				type : 2,
+				title : '查询产品分类',
+				// skin : 'layui-layer-rim', //加上边框
+				area : [ '800px', '500px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier/category.html?id=' + id+'&&sid='+sid , //url
+				closeBtn : 1, //不显示关闭按钮
+			});
+		}else{
+			layer.alert("请至少勾选一条记录 !", { offset : '200px', scrollbar : false,
+			});	
+		}
 	}
 	
  	
@@ -546,23 +555,25 @@
 		<!-- 项目戳开始 -->
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
-		<div class="sevice_list col-md-12 container">
+		<div class="sevice_list container">
 		  <h2>产品服务/类型</h2>
-		  <div class="col-md-12 p0">
-		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/类型：</div>
-			  <div class="col-md-7 service_list">
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+	 
+		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/类型：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" /><input type="hidden" value="${obj.name }" >${obj.name } </span>
 			      </c:forEach>
 			  </div>
+			 
 		    </div>
 		  </div>
 		
-	<div class="sevice_list col-md-12 container" class="dnone" id="wz" >
+	<div class="sevice_list container" class="dnone" id="wz" >
 		  <h2>产品服务/分类</h2>
-		  <div class="col-md-12 p0">
-		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
-			  <div class="col-md-7 service_list">
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/分类：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				    <c:forEach items="${wlist }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code}" /> <input type="hidden" value="${obj.name }" > ${obj.name }</span>
 			      </c:forEach>
@@ -570,25 +581,27 @@
 		    </div>
 	 </div>
 
-  <div class="sevice_list col-md-12 container"  >
+  <div class="sevice_list container"  >
 		  <h2>产品服务/品目</h2>
-		  <div class="col-md-12 p0">
-		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/品目：</div>
-			  <div class="col-md-7 service_list">
-					    <span><input type="text" name="chkItem" id="seach" value="" /> <input type="hidden"   id="hseach" value="" /> </span>
-					    <input type="button" onclick="seach()" class="btn" value="搜搜">
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/品目：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+					    <div class="fl">
+					    <input type="text" readonly="readonly" name="chkItem" id="seach" value="" /> <input type="hidden"   id="hseach" value="" />
+					    <input type="button" onclick="seach()" class="btn" value="添加品目">
+					   </div>
 			  </div>
 		    </div>
-	<!-- 	    <div class="col-md-12 tc"></div> -->
+ 
 	 </div>
 
 
-	<div style="margin-top: 100px;">
+	<div style="margin-top: 40px;">
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
-				<div style="margin-top: 260px;">
+				<div>
 								<!-- 物资生产型专业信息 -->
 			              <div class="dnone" id="sc">
 			              <div class="container container_box">
