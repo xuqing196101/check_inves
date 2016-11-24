@@ -50,23 +50,28 @@
 						<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 							<div class="login_item col-md-12">
 								<label class="col-md-3 p0"> <i class="red mr5">*</i>用户名：</label> <input id="login_input_id" type="text" name="loginName" value="${supplier.loginName}" class="fl">
-								<div class="clear"></div>
+								 <span class="red">${err_msg_loginName }</span> 
+								<div class="clear"> </div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>登录密码：</label> <input type="password" name="password" value="${supplier.password}" class="fl">
-								<div class="clear"></div>
+								 <span class="red">${err_msg_loginName }</span> 
+								<div class="clear">  </div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>确认密码：</label> <input type="password" name="confirmPassword" value="${supplier.confirmPassword}" class="fl">
+									 <span class="red">${err_msg_ConfirmPassword }</span> 
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> <input type="text" name="mobile" value="${supplier.mobile}" class="fl">
 								<button type="button" class="btn ml10">发送验证码</button>
+								 <span class="red">${err_msg_mobile }</span> 
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>手机验证码：</label> <input type="text" name="mobileCode" value="${supplier.mobileCode}" class="fl">
+							 <span class="red">${err_msg_mobileCode }</span> 
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12">
@@ -77,6 +82,7 @@
 									</div>
 									<button class="btn ml10 fl" onclick="getIdentityCode()">换一张</button>
 								</div>
+								 <span class="red">${err_msg_code }</span> 
 								<div class="clear"></div>
 							</div>
 							<div class="tc mt10 clear col-md-12">

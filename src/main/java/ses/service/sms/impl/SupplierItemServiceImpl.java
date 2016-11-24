@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,8 +52,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	}
 
 	@Override
-	public List<String> getSupplierId() {
-		return supplierItemMapper.getSupplierId();
+	public List<SupplierItem> getSupplierId(String supplierId) {
+		return supplierItemMapper.getSupplierItem(supplierId);
 	}
 
 	@Override
@@ -62,7 +63,20 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public void saveOrUpdate(SupplierItem supplierItem) {
-		String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};
+		
+		String id = supplierItem.getSupplierId();
+		supplierItemMapper.deleteBySupplierId(id);
+		String ids[] = supplierItem.getCategoryId().split(",");
+		for(String i:ids){
+			SupplierItem si = new SupplierItem();
+			String cid = UUID.randomUUID().toString().replaceAll("-", "");
+			si.setId(cid);
+			si.setSupplierId(supplierItem.getSupplierId());
+			supplierItem.setCategoryId(i);
+			supplierItem.setCreatedAt(new Date());
+			supplierItemMapper.insertSelective(supplierItem);
+		}
+	/*	String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};
 		for(int i = 0; i < addIds.length; i++) {
 			String str = addIds[i];
 			if (str != null && !"".equals(str)) {
@@ -97,6 +111,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 					supplierItemMapper.deleteByMap(param);// 最后删除品目
 				}
 			}
-		}
+		}*/
 	}
 }

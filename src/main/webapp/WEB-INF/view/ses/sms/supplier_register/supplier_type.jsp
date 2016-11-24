@@ -10,26 +10,30 @@
 	 var val=$(obj).val();
  /*     var id=[];
      var code=[]; */
-	 if(bool==true&&val=='GC'){
+	 if(bool==true&&val=='PROJECT'){
 	/* 	 id.push($(obj).next().val());
 		 code.push(val); */
-		 $("#gc").show();
-	 }else if(bool!=true&&val=='GC'){
-		 $("#gc").hide();
+		 $("#project_div").show();
+		 $("#project").show();
+	 }else if(bool!=true&&val=='PROJECT'){
+		 $("#project_div").hide();
+		 $("#project").show();
 	 }
-	 if(bool==true&&val=='FW'){
+	 if(bool==true&&val=='SERVICE'){
 		/*  code.push(val);
 		 id.push($(obj).next().val()); */
-		 $("#fw").show();
-	 }else if(bool!=true&&val=='FW'){
-		 $("#fw").hide();
+		 $("#server_div").show();
+		 $("#server").show();
+	 }else if(bool!=true&&val=='SERVICE'){
+		 $("#server_div").hide();
+		 $("#server").show();
 	 }
 	  
-	 if(bool==true&&val=='HW'){
+	 if(bool==true&&val=='GOODS'){
 		/*  code.push(val);
 		 id.push($(obj).next().val()); */
-		 $("#wz").show();  
-	 }else if(bool!=true&&val=='HW'){
+		 $("#material").show();  
+	 }else if(bool!=true&&val=='GOODS'){
 	/* 	 $('input[name="chkItem"]:checked').each(function(){ 
 			var val= $(this).val();
 			
@@ -42,36 +46,39 @@
 			 for(var i=0;i<checklist.length;i++)
 			   {
 		 			var vals=checklist[i].value;
-		 			if(vals=='XS'){
+		 			if(vals=='SALES'){
 		 				checklist[i].checked = false;
 		 			}
-		 			if(vals=='SC'){
+		 			if(vals=='PRODUCT'){
 		 				checklist[i].checked = false;
 		 			} 
-			 
-			     
 			   }  
-			
- 	 	$("#wz").hide();
- 	 	$("#sc").hide();
- 	 	$("#xs").hide();  
+ 	 	$("#material").hide();
+ 	 	$("#production_div").hide();
+ 	 	$("#production").hide();
+ 	 	$("#sale_div").hide();  
+ 	 	$("#sale").hide();  
 	 }
-	 if(bool==true&&val=='SC'){
+	 if(bool==true&&val=='PRODUCT'){
 	/* 	 code.push(val);
 		 id.push($(obj).next().val()); */
-		 $("#sc").show();  
-	 }else if(bool!=true&&val=='SC'){
-	 	 $("#sc").hide();  
+		 $("#production_div").show();  
+			$("#production").show();
+	 }else if(bool!=true&&val=='PRODUCT'){
+	 	 $("#production_div").hide();  
+	 	 $("#production").hide();
 	 }
-	 if(bool==true&&val=='XS'){
+	 if(bool==true&&val=='SALES'){
 		/*  code.push(val);
 		 id.push($(obj).next().val()); */
-		 $("#xs").show();  
-	 }else if(bool!=true&&val=='XS'){
-	 	 $("#xs").hide();  
+		 $("#sale_div").show();  
+		 $("#sale").show(); 
+	 }else if(bool!=true&&val=='SALES'){
+	 	 $("#sale_div").hide();
+	 	 $("#sale").hide(); 
 	 }
-	 $("#seach").val(name());
-	 $("#hseach").val(valus());
+/* 	 $("#seach").val(name());
+	 $("#hseach").val(valus()); */
  }
  
  function prev(obj){
@@ -94,10 +101,10 @@
 	 	var bool=false;
 	 	var boo=false;
 		 for(var i=0;i<id.length;i++){
-			if(id[i]=='HW'){
+			if(id[i]=='GOODS'){
 				bool=true;
 			}
-			if(id[i]=='XS'||id[i]=='SC'){
+			if(id[i]=='SALES'||id[i]=='PRODUCT'){
 				boo=true;
 			} 
 		 }
@@ -128,10 +135,10 @@
 	 	var bool=false;
 	 	var boo=false;
 		 for(var i=0;i<id.length;i++){
-			if(id[i]=='HW'){
+			if(id[i]=='GOODS'){
 				bool=true;
 			}
-			if(id[i]=='XS'||id[i]=='SC'){
+			if(id[i]=='SALES'||id[i]=='PRODUCT'){
 				boo=true;
 			} 
 		 }
@@ -430,19 +437,21 @@
 					      var checkValue=$(checkbox).val();
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
-				                      if(arrays[i]=='SC'){
-				                    	  $("#sc").show();
+				                      if(arrays[i]=='PRODUCT'){
+				                    	  $("#production_div").show();
+				                    	   $("#production").show();
 				                      }
-				                      if(arrays[i]=='XS'){
-				                    	  $("#xs").show();
+				                      if(arrays[i]=='SALES'){
+				                    	  $("#sale_div").show();
 				                      }
-				                      if(arrays[i]=='FW'){
-				                    	  $("#fw").show();
+				                      if(arrays[i]=='SERVICE'){
+				                    	  $("#server_div").show();
+				                    	  $("#server").show();
 				                      }
-				                      if(arrays[i]=='GC'){
-				                    	  $("#gc").show();
+				                      if(arrays[i]=='PROJECT'){
+				                    	  $("#project_div").show();
+				                    	  $("#project").show();
 				                      }
-				                      
 				               }
 				      });
 			  }
@@ -542,8 +551,6 @@
 		return id;
     }
 </script>
-
-	
 	
 </head>
 
@@ -555,22 +562,20 @@
 		<!-- 项目戳开始 -->
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
-		<div class="sevice_list container mt60">
-		  <h2>产品服务/类型</h2>
+	 <div class="sevice_list container mt60">
+		  <h2>产品服务/分类</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
-	 
 		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/类型：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" /><input type="hidden" value="${obj.name }" >${obj.name } </span>
 			      </c:forEach>
 			  </div>
-			 
 		    </div>
-		  </div>
+	 </div>
 		
-	<div class="sevice_list container" class="dnone" id="wz" >
-		  <h2>产品服务/分类</h2>
+	 <div class="sevice_list container" class="dnone" id="material" >
+		  <h2>产品服务/类型</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
 		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
@@ -579,21 +584,55 @@
 			      </c:forEach>
 			  </div>
 		    </div>
-	 </div>
+	  </div>
 
-  <div class="sevice_list container"  >
-		  <h2>产品服务/品目</h2>
+      <div class="sevice_list container" class="dnone" id="server" >
+		  <h2>产品/服务类</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/品目：</div>
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <input type="text" readonly="readonly" name="chkItem" id="seach" value="" class="fl"/> 
+					    <input type="text" readonly="readonly" name="chkItem" id="server_seach" value="" class="fl"/> 
 					    <input type="hidden"   id="hseach" value="" />
-					    <input type="button" onclick="seach()" class="btn h30" value="添加品目">
+					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
 			  </div>
 		    </div>
- 
 	 </div>
 
+      <div class="sevice_list container" class="dnone" id="project"  >
+		  <h2>产品/工程类</h2>
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+					    <input type="text" readonly="readonly" name="chkItem" id="project_seach" value="" class="fl"/> 
+					    <input type="hidden"   id="hseach" value="" />
+					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
+			  </div>
+		    </div>
+	  </div>
+	 
+	  <div class="sevice_list container"  class="dnone" id="sale" >
+		  <h2>产品/货物销售类</h2>
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+					    <input type="text" readonly="readonly" name="chkItem" id="sale_seach" value="" class="fl"/> 
+					    <input type="hidden"   id="hseach" value="" />
+					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
+			  </div>
+		    </div>
+	  </div>
+	 
+	<div class="sevice_list container"  class="dnone" id="production">
+		  <h2>产品/货物生产</h2>
+		  <div class="col-md-12 col-sm-12 col-xs-12">
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
+			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+					    <input type="text" readonly="readonly" name="chkItem" id="production_seach" value="" class="fl"/> 
+					    <input type="hidden"   id="hseach" value="" />
+					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
+			  </div>
+		    </div>
+	 </div>
 
 	<div style="margin-top: 40px;">
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
@@ -602,7 +641,7 @@
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
 				<div>
 								<!-- 物资生产型专业信息 -->
-			              <div class="dnone" id="sc">
+			              <div class="dnone" id="production_div">
 			              <div class="container container_box">
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-生产型专业信息</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
@@ -803,7 +842,7 @@
 								</div>
 								
 								<!-- 物资销售型专业信息 -->
-							 <div class="dnone" id="xs">
+							 <div class="dnone" id="sale_div">
 							 
 					<!-- 		   <h2> 物资-销售信息：</h2> -->
 						 
@@ -904,7 +943,7 @@
 								
 								
 								<!-- 工程专业信息 -->
-		 			<div  class="dnone" id="gc">
+		 			<div  class="dnone" id="project_div">
 		 							  
    						<div class="container container_box">
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >工程专业信息:</h3>
@@ -1130,7 +1169,7 @@
 							 </div>
 								
 								<!-- 服务专业信息 -->
-							 <div class="dnone" id="fw">
+							 <div class="dnone" id="server_div">
 							 
 									<div class="container container_box">
 					              	  <h3 class="headline-v2" style="background-color: #FBFBFB ">服务专业信息:</h3>
@@ -1269,8 +1308,8 @@
 	</form> --%>
 	
 	<!-- footer -->
-	<%-- <c:if test="${currSupplier.status != 7}">
+	<c:if test="${currSupplier.status != 7}">
 		<jsp:include page="../../../../../index_bottom.jsp" />
-	</c:if> --%> 
+	</c:if> 
 </body>
 </html>

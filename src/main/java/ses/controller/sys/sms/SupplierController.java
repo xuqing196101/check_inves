@@ -244,10 +244,6 @@ public class SupplierController extends BaseSupplierController {
 		boolean info = validateBasicInfo(request,model,supplier);
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		request.getSession().setAttribute("relate", relate);
-//		request.getSession().setAttribute("currSupplier", supplier);
-//		info=true;
-//		request.getSession().setAttribute("jump.page", jsp);
-		info=true;
 		if(flag.equals("1")&&info==true){
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
@@ -285,23 +281,36 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_professional")
-	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag) throws IOException {
+	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag,Model model) throws IOException {
 	 
 		String[] str = supplier.getSupplierTypeIds().trim().split(",");
-		for(String s:str){
-			if (supplier.getSupplierMatPro() != null) {
-				supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-			}
+		boolean info=true;
+		 
+			if (supplier.getSupplierMatPro()!=null) {
+				  info = validatePro(request, supplier.getSupplierMatPro(), model);
+				  if(info==true){
+					  supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+				  }
+			} 
 			if (supplier.getSupplierMatSell() != null) {
-				supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+				 info = validateSale(request, supplier.getSupplierMatSell(), model);
+				  if(info==true){
+					  supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+				  }
 			}
 			if (supplier.getSupplierMatEng() != null) {
-				supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+				 info = validateEng(request, supplier.getSupplierMatEng(), model);
+				  if(info==true){
+					  supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+				  }
 			}
 			if (supplier.getSupplierMatSe() != null) {
-				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+				 info = validateServer(request, supplier.getSupplierMatSe(), model);
+				  if(info==true){
+					  supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+				  }
 			}
-		}
+	 
 		
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		supplier = supplierService.get(supplier.getId());
@@ -601,9 +610,9 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_foundDate", "不能为空 !");
 			count++;
 		}
-		if (supplier.getAddress() == null || supplier.getAddress().split(",").length != 2) {
+		if (supplier.getAddress() == null) {
 			model.addAttribute("err_msg_address", "不能为空!");
-//			count++;
+			count++;
 		}
 		if (supplier.getBankName() == null || !supplier.getBankName().trim().matches("^.{1,80}$")) {
 			model.addAttribute("err_msg_bankName", "不能为空 !");
@@ -704,33 +713,33 @@ public class SupplierController extends BaseSupplierController {
 		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
 		//* 近三个月完税凭证
 		List<UploadFile> tlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierTaxCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(tlist!=null&&tlist.size()>0){
-			//count++;
+		if(tlist!=null&&tlist.size()<=0){
+			count++;
 			model.addAttribute("err_taxCert", "请上传文件!");
 		}
 		//* 近三年银行基本账户年末对账单
 		List<UploadFile> blist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBillCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(blist!=null&&blist.size()>0){
-			// count++;
+		if(blist!=null&&blist.size()<=0){
+			 count++;
 			model.addAttribute("err_bil", "请上传文件!");
 		}
 		//近三个月缴纳社会保险金凭证
 		List<UploadFile> slist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierSecurityCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(slist!=null&&slist.size()>0){
-		// 	count++;
+		if(slist!=null&&slist.size()<=0){
+		 	count++;
 			model.addAttribute("err_security", "请上传文件!");
 		}
 		//近三年内无重大违法记录声明
 		List<UploadFile> bearlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(bearlist!=null&&bearlist.size()>0){
-			// count++;
+		if(bearlist!=null&&bearlist.size()<=0){
+			 count++;
 			model.addAttribute("err_bearch", "请上传文件!");
 		}
 		
 		//供应商执照
 		List<UploadFile> list = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(list!=null&&list.size()>0){
-			// count++;
+		if(list!=null&&list.size()<=0){
+			 count++;
 			model.addAttribute("err_business", "请上传文件!");
 		}
 		if (count > 0) {
@@ -750,7 +759,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("person", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalPerson()!=null&&!supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
 			model.addAttribute("person", "人员必须是整数");
 			bool=false;
 		}
@@ -758,7 +767,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("mange", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalMange()!=null&&!supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
 			model.addAttribute("mange", "人员必须是整数");
 			bool=false;
 		}
@@ -766,7 +775,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tech", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalTech()!=null&&!supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
 			model.addAttribute("tech", "格式不正确");
 			bool=false;
 		}
@@ -774,7 +783,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("work", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalWorker()!=null&&!supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
 			model.addAttribute("work", "格式不正确");
 			bool=false;
 		}
@@ -782,7 +791,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("stech", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getScaleTech()==null&&supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
+		if(supplierMatPro.getScaleTech()==null&&!supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
 			model.addAttribute("stech", "格式不正确");
 			bool=false;
 		}
@@ -790,7 +799,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("height", "格式不正确");
 			bool=false;
 		}
-		if(supplierMatPro.getScaleHeightTech()!=null&&supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
+		if(supplierMatPro.getScaleHeightTech()!=null&&!supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
 			model.addAttribute("height", "格式不正确");
 			bool=false;
 		}
@@ -803,7 +812,7 @@ public class SupplierController extends BaseSupplierController {
 			bool=false;
 		}
 		
-		if(supplierMatPro.getTotalResearch()!=null&&supplierMatPro.getTotalResearch().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalResearch()!=null&&!supplierMatPro.getTotalResearch().toString().matches("^[0-9]*$")){
 			model.addAttribute("tRe", "只能输入整数");
 			bool=false;
 		}
@@ -823,7 +832,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("line", "不能为空");
 			bool=false;	
 		}
-		if(supplierMatPro.getTotalBeltline()!=null&&supplierMatPro.getTotalBeltline().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalBeltline()!=null&&!supplierMatPro.getTotalBeltline().toString().matches("^[0-9]*$")){
 			model.addAttribute("line", "只能输入整数");
 			bool=false;	
 		}
@@ -831,7 +840,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("device", "不能为空");
 			bool=false;	
 		}
-		if(supplierMatPro.getTotalDevice()!=null&&supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalDevice()!=null&&!supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
 			model.addAttribute("device", "格式正确");
 			bool=false;	
 		}
@@ -843,7 +852,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tQc", "不能为空");
 			bool=false;	
 		}
-		if(supplierMatPro.getTotalQc()!=null&&supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalQc()!=null&&!supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
 			model.addAttribute("tQc", "格式不正确");
 			bool=false;	
 		}
@@ -870,7 +879,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_person", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalPerson()!=null&&!supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
 			model.addAttribute("sale_person", "人员必须是整数");
 			bool=false;
 		}
@@ -878,7 +887,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_mange", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalMange()!=null&&!supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
 			model.addAttribute("sale_mange", "人员必须是整数");
 			bool=false;
 		}
@@ -886,7 +895,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_tech", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalTech()!=null&&!supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
 			model.addAttribute("sale_tech", "格式不正确");
 			bool=false;
 		}
@@ -894,7 +903,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_work", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalWorker()!=null&&!supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
 			model.addAttribute("sale_work", "格式不正确");
 			bool=false;
 		}
@@ -908,16 +917,23 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("eng_org", "不能为空");
 			bool=false;
 		}
-	   if(supplierMatPro.getTotalTech()==null){
-			model.addAttribute("eng_tech", "不能为空");
+	   if(supplierMatPro.getTotalTech()==null||!supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+			model.addAttribute("eng_tech", "不能为空或者不是数字类型");
 			bool=false;
 	   }
-	   if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
-			model.addAttribute("eng_tech", "不能为空");
+	   if(supplierMatPro.getTotalGlNormal()==null||!supplierMatPro.getTotalGlNormal().toString().matches("^[0-9]*$")){
+		   model.addAttribute("eng_normal", "不能为空或者不是数字类型");
 			bool=false;
 	   }
 	   
-		
+	   if(supplierMatPro.getTotalMange()==null||!supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+		   model.addAttribute("eng_manage", "不能为空或者不是数字类型");
+			bool=false;
+	   }
+	   if(supplierMatPro.getTotalTechWorker()==null||!supplierMatPro.getTotalTechWorker().toString().matches("^[0-9]*$")){
+		   model.addAttribute("eng_worker", "不能为空或者不是数字类型");
+			bool=false;
+	   }
 		
 		return bool;
 	}
@@ -932,7 +948,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("fw_person", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalPerson()!=null&&supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalPerson()!=null&&!supplierMatPro.getTotalPerson().toString().matches("^[0-9]*$")){
 			model.addAttribute("fw_person", "人员必须是整数");
 			bool=false;
 		}
@@ -940,7 +956,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("fw_mange", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalMange()!=null&&supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalMange()!=null&&!supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")){
 			model.addAttribute("fw_mange", "人员必须是整数");
 			bool=false;
 		}
@@ -948,7 +964,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("fw_tech", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalTech()!=null&&supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalTech()!=null&&!supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
 			model.addAttribute("fw_tech", "格式不正确");
 			bool=false;
 		}
@@ -956,7 +972,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("fw_work", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getTotalWorker()!=null&&supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
+		if(supplierMatPro.getTotalWorker()!=null&&!supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")){
 			model.addAttribute("fw_work", "格式不正确");
 			bool=false;
 		}

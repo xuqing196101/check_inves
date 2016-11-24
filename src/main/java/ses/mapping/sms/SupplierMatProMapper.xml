@@ -6,7 +6,7 @@
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="ORG_NAME" property="orgName" />
 		<result column="TOTAL_PERSON" property="totalPerson" />
-		<result column="TOTAL_MANGE" property="totalMange" />
+		<result column="TOTAL_MANAGE" property="totalMange" />
 		<result column="TOTAL_TECH" property="totalTech" />
 		<result column="TOTAL_WORKER" property="totalWorker" />
 		<result column="SCALE_TECH" property="scaleTech" />
@@ -26,7 +26,7 @@
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH, TOTAL_WORKER, SCALE_TECH,
+		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH, TOTAL_WORKER, SCALE_TECH,
 		SCALE_HEIGHT_TECH, RESEARCH_NAME, TOTAL_RESEARCH, RESEARCH_LEAD, COUNTRY_PRO, COUNTRY_REWARD,
 		TOTAL_BELTLINE, TOTAL_DEVICE, QC_NAME, TOTAL_QC, QC_LEAD, QC_DEVICE, CREATED_AT,
 		UPDATED_AT
@@ -43,7 +43,7 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierMatPro">
 		insert into T_SES_SMS_SUPPLIER_MAT_PRO (ID, SUPPLIER_ID, ORG_NAME,
-		TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH,
+		TOTAL_PERSON, TOTAL_MANAGE, TOTAL_TECH,
 		TOTAL_WORKER, SCALE_TECH, SCALE_HEIGHT_TECH,
 		RESEARCH_NAME, TOTAL_RESEARCH, RESEARCH_LEAD,
 		COUNTRY_PRO, COUNTRY_REWARD, TOTAL_BELTLINE,
@@ -75,7 +75,7 @@
 				TOTAL_PERSON,
 			</if>
 			<if test="totalMange != null">
-				TOTAL_MANGE,
+				TOTAL_MANAGE,
 			</if>
 			<if test="totalTech != null">
 				TOTAL_TECH,
@@ -197,9 +197,9 @@
 				#{updatedAt},
 			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+	<!-- 	<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
-		</selectKey>
+		</selectKey> -->
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierMatPro">
 		update T_SES_SMS_SUPPLIER_MAT_PRO
@@ -214,7 +214,7 @@
 				TOTAL_PERSON = #{totalPerson},
 			</if>
 			<if test="totalMange != null">
-				TOTAL_MANGE = #{totalMange},
+				TOTAL_MANAGE = #{totalMange},
 			</if>
 			<if test="totalTech != null">
 				TOTAL_TECH = #{totalTech},
@@ -275,7 +275,7 @@
 		set SUPPLIER_ID = #{supplierId},
 		ORG_NAME = #{orgName},
 		TOTAL_PERSON = #{totalPerson},
-		TOTAL_MANGE = #{totalMange},
+		TOTAL_MANAGE = #{totalMange},
 		TOTAL_TECH = #{totalTech},
 		TOTAL_WORKER = #{totalWorker},
 		SCALE_TECH = #{scaleTech},

@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 			supplier.getSupplierMatPro().setUpdatedAt(new Date());
 			supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 		} else {
+			String mid = UUID.randomUUID().toString().replaceAll("-", "");
+			supplier.setId(mid);
 			supplier.getSupplierMatPro().setCreatedAt(new Date());
 			supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
 		}

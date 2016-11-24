@@ -125,8 +125,6 @@
 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">6</i>
 						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
 						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
 						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
@@ -148,65 +146,24 @@
 							<div class="tab-content padding-top-20">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<c:forEach items="${currSupplier.listSupplierItems}" var="item" varStatus="vs">
-											<h2 class="f16 jbxx mt40">
-												<i>${vs.index + 1}</i>${item.categoryName}产品信息表
-											</h2>
-											<div class="overflow_h">
+										<c:forEach items="${currSupplier.listSupplierItems}" var="category" varStatus="cs">
+											 <h2 class="f16 jbxx mt40"> <i>${vs.index + 1}</i>${item.categoryName}产品信息表 </h2>
+											 <div class="overflow_h">
 											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr mr0" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
 											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
 											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addProductsMsg('${item.id}')">添加产品信息</button>
 											</div>
 											<table class="table table-bordered table-condensed mt5">
-												<thead>
-													<tr>
-														<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id_${vs.index + 1}')" /></th>
-														<th class="info">所属类别</th>
-														<th class="info">产品名称</th>
-														<th class="info">品牌</th>
-														<th class="info">规格型号</th>
-														<th class="info">尺寸</th>
-														<th class="info">生产产地</th>
-														<th class="info">保质期</th>
-														<th class="info">生产商</th>
-														<th class="info">参考价格</th>
-														<%--<th class="info">产品图片</th>
-														<th class="info">商品二维码</th>--%>
-													</tr>
-												</thead>
-												<tbody id="products_tbody_id_${vs.index + 1}">
-													<c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
+											  <c:forEach items="${currSupplier.categoryParam}" var="item" varStatus="vs"> 
+										  	    <c:if test="${category.categoryId==categoryParam.cateId }">
+													<thead>
 														<tr>
-															<td class="tc"><input name="checkbox" type="checkbox" value="${products.id}" /></td>
-															<td id="${item.categoryId}" class="tc">${item.categoryName}</td>
-															<td class="tc">${products.name}</td>
-															<td class="tc">${products.brand}</td>
-															<td class="tc">${products.models}</td>
-															<td class="tc">${products.proSize}</td>
-															<td class="tc">${products.orgin}</td>
-															<td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-															<td class="tc">${products.producer}</td>
-															<td class="tc">${products.referencePrice}</td>
-															<%--<td class="tc">
-																<c:if test="${products.productPic != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
-																</c:if>
-																<c:if test="${products.productPic == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>
-															<td class="tc">
-																<c:if test="${products.qrCode != null}">
-																	<a class="color7171C6 fz11" href="javascript:void(0)"  onclick="downloadFile('${products.qrCode}')">下载附件</a>
-																</c:if>
-																<c:if test="${products.qrCode == null}">
-																	<span class="fz11">无附件下载</span>
-																</c:if>
-															</td>--%>
+															<th class="info">${category.paramName}</th>
 														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
+													</thead>
+												</c:if>
+										    </c:forEach> 
+										  </table>
 										</c:forEach>
 									</div>
 								</div>

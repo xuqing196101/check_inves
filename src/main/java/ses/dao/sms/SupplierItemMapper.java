@@ -3,6 +3,8 @@ package ses.dao.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierItem;
 
 public interface SupplierItemMapper {
@@ -58,4 +60,7 @@ public interface SupplierItemMapper {
     List<SupplierItem> findByMap(Map<String, String> param);
     
     int deleteByMap(Map<String, String> param);
+    
+    List<SupplierItem> getSupplierItem(@Param("supplierId")String supplierId);
+    
 }

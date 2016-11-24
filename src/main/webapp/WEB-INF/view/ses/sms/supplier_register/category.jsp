@@ -16,9 +16,7 @@
  
 	function cloase(){
 		 var index=parent.layer.getFrameIndex(window.name);
-
-		    parent.layer.close(index);
-
+		     parent.layer.close(index);
 	}
 	
 	function add(){
@@ -39,17 +37,32 @@
 	              error: function(result){
 	                  layer.msg("添加失败",{offset: ['150px', '180px']});
 	              }
-	              
-	              
 			 });
 			
 		}else{
 			layer.alert("至少选择一项",{offset: ['222px', '390px'], shade:0.01});
 		}
+	}
 	
-		 
-		 
-		 
+	function chsoe(obj){
+		var bool=$(obj).is(':checked');
+		var name=$(obj).next().val();
+		var val=$(obj).val();
+		if(bool==true){
+			$("#chose").append("<span class='col-md-3 col-sm-4 col-xs-12 m0'><input type='checkbox' checked=checked'' name='checks' value='"+val+"'/>"+name+"</span>")
+		}else{
+			$('input[name="checks"]:checked').each(function(){ 
+				 var chec=$(this).val();
+			 
+				 if(val==chec){
+						$(this).parent().remove();
+					}
+			}); 
+		}
+		
+  
+	
+		
 	}
 </script>
 
@@ -99,10 +112,11 @@
 </head>
 
 <body>
-	 <div class="service_kind container p0 mt20">
-	  <h2 class="m0 col-md-12 col-sm-12 col-xs-12">已选品目：</h2>
+	 <div class="service_kind container p0 p0">
+	  <h2 class="m0 m0 col-md-12 col-sm-12 col-xs-12">已选品目：</h2>
 	  <div class="col-md-12 col-sm-12 col-xs-12 service_desc bgwhite">
-		  <div class="col-md-3 col-sm-4 col-xs-12 p0" id="chose">
+		  <div class="col-md-12 col-sm-12 col-xs-12 service_list p0" id="chose">
+		   
 		  </div>
 	  </div>
 	</div>
@@ -112,7 +126,7 @@
 	  <div class="col-md-12 col-sm-12 col-xs-12 service_desc bgwhite">
 		  <div class="col-md-12 col-sm-12 col-xs-12 service_list p0">
 		     <c:forEach items="${list }" var="obj" varStatus="vs">
-		        <span class="col-md-3 col-sm-4 col-xs-12 m0"><input type="checkbox" onclick="chsoe()" name="chkItem" value="${obj.id }"/>${obj.name }</span>
+		        <span class="col-md-3 col-sm-4 col-xs-12 m0"><input type="checkbox" onclick="chsoe(this)" name="chkItem" value="${obj.id }"/> <input type="hidden" value="${obj.name }"> ${obj.name }</span>
 		 	  </c:forEach>
 		  </div>
 	  </div>

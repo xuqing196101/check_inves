@@ -9,6 +9,6 @@ public interface SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem);
 	
 	public void saveSupplierItem(Supplier supplier);
-	public List<String> getSupplierId();
+	public List<SupplierItem> getSupplierId(String supplierId);
 	public List<String> getItemSupplierId();
 }

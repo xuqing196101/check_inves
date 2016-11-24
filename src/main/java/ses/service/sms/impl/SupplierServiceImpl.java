@@ -2,8 +2,10 @@ package ses.service.sms.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,17 @@ import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.CategoryParameter;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.CategoryParameterService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
@@ -55,6 +61,13 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Autowired
 	private SupplierTypeRelateMapper supplierTypeRelateMapper;
+	
+	@Autowired
+	private SupplierItemService supplierItemService;
+	
+	@Autowired
+	private CategoryParameterService categoryParameterService;
+	
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
@@ -110,8 +123,16 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		}
 		
-		
-		
+		List<SupplierItem> itemList = supplierItemService.getSupplierId(id);
+		List<CategoryParameter> categoryList=new LinkedList<CategoryParameter>();
+		if(itemList!=null&&itemList.size()>0){
+			supplier.setListSupplierItems(itemList);
+			for(SupplierItem s:itemList){
+				List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getId());
+				categoryList.addAll(cateList);
+			}
+		}
+		supplier.setCategoryParam(categoryList);
 		return supplier;
 	}
 	
@@ -127,7 +148,8 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public Supplier register(Supplier supplier) {
 		String pwd = supplier.getPassword();
-		
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		supplier.setId(id);
 		supplier.setPassword(Encrypt.e(pwd));// 密码 md5 加密
 		supplier.setCreatedAt(new Date());
 		supplier.setStatus(-1);
@@ -145,6 +167,8 @@ public class SupplierServiceImpl implements SupplierService {
         user.setPassword(pwd);
         user.setTypeName(DictionaryDataUtil.getId("SUPPLIER_U"));
         user.setIsDeleted(0);
+        user.setCreatedAt(new Date());
+        user.setTypeId(supplier.getId());
         userMapper.insertSelective(user);
         
 		return supplier;
