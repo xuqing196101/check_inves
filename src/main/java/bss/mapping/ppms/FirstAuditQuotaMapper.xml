@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.FirstAuditQuotaMapper">
+  <resultMap id="FirstAuditQuotaResult" type="bss.model.ppms.FirstAuditQuota">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PACK_FIRST_ID" jdbcType="VARCHAR" property="packFirstId" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="VALUE" jdbcType="DECIMAL" property="value" />
+    <result column="PAGE" jdbcType="DECIMAL" property="page" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PACK_FIRST_ID, PACKAGE_ID, PROJECT_ID, SUPPLIER_ID, VALUE, PAGE, CREATED_AT, 
+    UPDATED_AT, IS_DELETED
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where faq.IS_DELETED = 0 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and faq.ID = #{id} 
+      </if>
+      <if test="projectId != null and projectId != ''">
+        and faq.PROJECT_ID = #{projectId} 
+      </if>
+      <if test="packageId != null and packageId != ''">
+        and faq.PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+        and faq.SUPPLIER_ID = #{supplierId} 
+      </if>
+      <if test="packFirstId != null and packFirstId != ''">
+        and faq.PACK_FIRST_ID = #{packFirstId} 
+      </if>
+      <if test="value != null">
+        and faq.VALUE = #{value} 
+      </if>
+      <if test="createdAt != null">
+        and faq.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="updatedAt != null">
+        and faq.UPDATED_AT = #{updatedAt} 
+      </if>
+      <if test="page != null">
+        and faq.PAGE = #{page} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据主键id查询 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="FirstAuditQuotaResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FIRST_AUDIT_QUOTA
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据主键id删除 -->
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_FIRST_AUDIT_QUOTA
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.ppms.FirstAuditQuota">
+    insert into T_BSS_PPMS_FIRST_AUDIT_QUOTA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="packFirstId != null">
+        PACK_FIRST_ID,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="value != null">
+        VALUE,
+      </if>
+      <if test="page != null">
+        PAGE,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="packFirstId != null">
+        #{packFirstId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.更新数据 -->
+  <update id="update" parameterType="bss.model.ppms.FirstAuditQuota">
+    update T_BSS_PPMS_FIRST_AUDIT_QUOTA
+    <set>
+      <if test="packFirstId != null">
+        PACK_FIRST_ID = #{packFirstId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        VALUE = #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="page != null">
+        PAGE = #{page,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 5.根据条件查询 -->
+  <select id="findList" parameterType="java.lang.String" resultMap="FirstAuditQuotaResult">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_FIRST_AUDIT_QUOTA faq
+    <include refid="Example_Where_Clause"/>
+    ORDER BY faq.CREATED_AT DESC
+  </select>
+</mapper>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bss.dao.ppms.AduitQuotaMapper;
+import bss.dao.ppms.FirstAuditQuotaMapper;
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.model.ppms.AduitQuota;
@@ -31,11 +32,13 @@ public class AduitQuotaServiceImpl implements AduitQuotaService {
 	
     @Autowired
 	private AduitQuotaMapper aduitQuotaMapper;
+    
     @Autowired
     private ExpertScoreMapper expertScoreMapper;
+    
     @Autowired
     private PackageExpertMapper packageExpertMapper;
-
+    
     @Override
     public List<AduitQuota> find(AduitQuota aq) {
         return aduitQuotaMapper.findList(aq);

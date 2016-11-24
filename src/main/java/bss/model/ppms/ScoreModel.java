@@ -1,6 +1,7 @@
 package bss.model.ppms;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -65,8 +66,8 @@ public class ScoreModel implements Serializable{
 	private String markType;
 	private String markName;
 	
+	private BigDecimal value;
 	
-
 	public String getId() {
 		return id;
 	}
@@ -318,6 +319,14 @@ public class ScoreModel implements Serializable{
         this.markTerm = markTerm;
     }
 
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
    /* public String getMarkType() {
         return this.markTerm.getTypeName();
     }
@@ -334,4 +343,5 @@ public class ScoreModel implements Serializable{
         this.markName = markName;
     }*/
 	
+    
 }

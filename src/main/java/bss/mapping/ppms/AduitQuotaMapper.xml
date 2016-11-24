@@ -4,7 +4,7 @@
   <resultMap id="AduitQuotaResult" type="bss.model.ppms.AduitQuota">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
-    <result column="PACKEAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="SCORE_MODEL_ID" jdbcType="VARCHAR" property="scoreModelId" />
     <result column="SUPPLIER_VALUE" jdbcType="DECIMAL" property="supplierValue" />
@@ -19,7 +19,7 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, PROJECT_ID, PACKEAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, SUPPLIER_VALUE, INIT_SCORE, 
+    ID, PROJECT_ID, PACKAGE_ID, SUPPLIER_ID, SCORE_MODEL_ID, SUPPLIER_VALUE, INIT_SCORE, 
     EXPERT_VALUE, FINAL_SCORE, CREATED_AT, UPDATED_AT, IS_DELETED, ROUND, PAGE
   </sql>
   
@@ -34,7 +34,7 @@
         and aq.PROJECT_ID = #{projectId} 
       </if>
       <if test="packageId != null and packageId != ''">
-        and aq.PACKEAGE_ID = #{packageId} 
+        and aq.PACKAGE_ID = #{packageId} 
       </if>
       <if test="supplierId != null and supplierId != ''">
         and aq.SUPPLIER_ID = #{supplierId} 
@@ -73,19 +73,19 @@
   <select id="get" parameterType="java.lang.String" resultMap="AduitQuotaResult">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_ADUIT_QUOTA
+    from T_BSS_PPMS_AUDIT_QUOTA
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
   <!-- 2.根据主键删除 -->
   <delete id="delete" parameterType="java.lang.String">
-    delete from T_BSS_PPMS_ADUIT_QUOTA
+    delete from T_BSS_PPMS_AUDIT_QUOTA
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   
   <!-- 3.插入数据 -->
   <insert id="insert" parameterType="bss.model.ppms.AduitQuota">
-    insert into T_BSS_PPMS_ADUIT_QUOTA
+    insert into T_BSS_PPMS_AUDIT_QUOTA
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -94,7 +94,7 @@
         PROJECT_ID,
       </if>
       <if test="packageId != null">
-        PACKEAGE_ID,
+        PACKAGE_ID,
       </if>
       <if test="supplierId != null">
         SUPPLIER_ID,
@@ -178,13 +178,13 @@
   
   <!-- 4.根据主键更新数据 -->
   <update id="update" parameterType="bss.model.ppms.AduitQuota">
-    update T_BSS_PPMS_ADUIT_QUOTA
+    update T_BSS_PPMS_AUDIT_QUOTA
     <set>
       <if test="projectId != null">
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
       <if test="packageId != null">
-        PACKEAGE_ID = #{packageId,jdbcType=VARCHAR},
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
       </if>
       <if test="supplierId != null">
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
@@ -227,13 +227,13 @@
   <select id="findList" parameterType="java.lang.String" resultMap="AduitQuotaResult">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PPMS_ADUIT_QUOTA aq
+    from T_BSS_PPMS_AUDIT_QUOTA aq
     <include refid="Example_Where_Clause"/>
     ORDER BY aq.CREATED_AT DESC
   </select>
   <!-- 6.表连接查询评分需要的数据 -->
   <select id="findAllByMap" resultType="bss.model.prms.ext.AuditModelExt">
-    select q.ID AS quotaId,q.PROJECT_ID AS projectId,q.PACKEAGE_ID AS packageId,q.SUPPLIER_ID AS supplierId,
+    select q.ID AS quotaId,q.PROJECT_ID AS projectId,q.PACKAGE_ID AS packageId,q.SUPPLIER_ID AS supplierId,
            q.SCORE_MODEL_ID AS scoreModelId,q.SUPPLIER_VALUE AS supplierValue,q.INIT_SCORE AS initScore,
            q.EXPERT_VALUE AS expertValue,q.FINAL_SCORE AS finalScore,q.CREATED_AT AS createdAt,
            q.UPDATED_AT AS updatedAt,q.IS_DELETED AS isDeleted,q.ROUND AS round,q.PAGE AS page,
@@ -245,13 +245,13 @@
 	       s.MAX_SCORE AS maxScore,s.MIN_SCORE AS minScore,s.SCORE AS score,s.INTERVAL_TYPE_NAME AS intervalTypeName,
 	       s.DEADLINE_NUMBER AS deadlineNumber,s.INTERVAL_NUMBER AS intervalNumber,
 	       mt.NAME AS markTermName
-    from T_BSS_PPMS_ADUIT_QUOTA  q 
+    from T_BSS_PPMS_AUDIT_QUOTA  q 
     LEFT JOIN T_BSS_PPMS_SCORE_MODEL s ON q.SCORE_MODEL_ID = s.ID 
     LEFT JOIN T_BSS_PPMS_MARK_TERM mt ON s.MARK_TERM_ID = mt.ID 
   
       where 1=1 AND q.IS_DELETED != 1
      <if test="packageId != null and packageId != ''">
-      AND q.PACKEAGE_ID = #{packageId} 
+      AND q.PACKAGE_ID = #{packageId} 
      </if>
      <if test="projectId != null and projectId != ''">
       AND q.PROJECT_ID=#{projectId} 
