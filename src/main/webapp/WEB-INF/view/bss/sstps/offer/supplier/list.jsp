@@ -107,7 +107,7 @@ function resetQuery(){
 	   </div>
 	   
      <h2 class="search_detail">
-       <form action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
+       <form id="form1" action="${pageContext.request.contextPath }/offer/search.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
