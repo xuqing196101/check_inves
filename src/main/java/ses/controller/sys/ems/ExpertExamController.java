@@ -2285,7 +2285,7 @@ public class ExpertExamController extends BaseSupplierController{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		String type = user.getTypeName();
 		String str = null;
-		if(type.equals(5)){
+		if(type.equals(DictionaryDataUtil.getId("EXPERT_U"))){
 			List<ExamRule> examRule = examRuleService.selectById(null);
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("ruleId", examRule.get(0).getId());

@@ -291,7 +291,7 @@
 				<td class="tc pointer" onclick="view('${post.id}')">${post.replycount}</td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.user.relName}</td>
 				<td class="tc pointer">
-				<form  id ="formForViewDetail" action="" target="_parent" method="post">
+				<form  id ="formForViewDetail" action="" target="_parent" method="post" class="m0">
 				 <input type="button" class ="btn" value="查看回复" onclick="viewDetail('${post.id}')">
 				 </input>
 				 </form>

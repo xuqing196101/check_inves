@@ -3438,7 +3438,7 @@ img.image-md {
 .margin-right-10 { margin-right: 10px;}
 
 .padding-top-5 { padding-top: 5px;}
-.padding-left-5 { padding-left: 5px;}
+.padding-left-5 { padding-left: 5px!important;}
 .padding-left-10 { padding-left: 10px;}
 .padding-left-50 { padding-left: 50px;}
 
