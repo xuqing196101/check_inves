@@ -19,19 +19,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
-import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.util.FloatUtil;
 
-import bss.controller.prms.FirstAuditController;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
@@ -39,7 +36,6 @@ import bss.model.ppms.ParamInterval;
 import bss.model.ppms.Project;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
-import bss.model.ppms.TreeNode;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
@@ -426,6 +422,7 @@ public class IntelligentScoringController {
 			
 			model.addAttribute("scoreModel", scoreModelList.get(0));
 		}
+		model.addAttribute("projectId", markTerm.getProjectId());
 		return "bss/ppms/open_bidding/treebody";
 	}
 	@RequestMapping("quantizateScore")

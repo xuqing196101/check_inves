@@ -39,16 +39,25 @@
 			});
 		}
 	}
+	function reBack(){
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); 
+	}
 	function check(){
 		var name = $("#name").val();
 		var maxScore = $("#maxScore").val();
 		var remain_score = $("#remain_score").val();
+		var typeName = $("#typeName").val();
 		if(name==null ||name==undefined || name==""){
 			layer.msg("打分项名称不可以为空");
 			return false;
 		}
 		if(maxScore==null ||maxScore==undefined || maxScore==""){
 			layer.msg("最高分不可以为空");
+			return false;
+		}
+		if(typeName==null || typeName==undefined || typeName==""){
+			layer.msg("类型不可以为空");
 			return false;
 		}
 		if(maxScore!=null && maxScore!=undefined && maxScore!=""){
@@ -67,11 +76,10 @@
 </head>
 <body>
 	<!-- 修改订列表开始-->
-	<div class="container">
+	<%-- <div class="container">
 		<form action="" method="post"  id="formID">
 			<input type="hidden" name="method" value="${method }">
 			<input type="hidden" name="pid" value="${pid }">
-			<%-- <input type="hidden" name="bidMethodId" value="${bidMethodId }"> --%>
 			<input type="hidden" name="packageId" value="${packageId }">
 			<input type="hidden" name="projectId" value="${projectId }">
 			<input type="hidden" id="remain_score" value="${remainScore }">
@@ -105,6 +113,45 @@
 				</div>
 			</div>
 		</form>
+	</div> --%>
+
+	<div class="layui-layer-wrap">
+		<form action="" id="formID" method="post">
+			<div class="drop_window">
+				<input type="hidden" name="method" value="${method }">
+				<input type="hidden" name="pid" value="${pid }">
+				<input type="hidden" name="packageId" value="${packageId }">
+				<input type="hidden" name="projectId" value="${projectId }">
+				<input type="hidden" id="remain_score" value="${remainScore }">
+				<input type="hidden" id="id" value="${markTerm.id }">
+				<ul class="list-unstyled">
+					<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><label
+						class="col-md-12 pl20 col-xs-12">打分项名称:</label> <span
+						class="col-md-12 col-xs-12"> <input class="title col-md-12"
+							name="name" maxlength="30" type="text" id="name"> </span></li>
+					<li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6"><label
+						class="col-md-12 pl20 col-xs-12">类型</label> <span
+						class="col-md-12 col-xs-12"> <select name="typeName" id="typeName"
+							class="w180 mt5">
+								<option value="">-请选择-</option>
+								<option value="0">商务</option>
+								<option value="1">技术</option>
+						</select> </span></li>
+					<li class="mt10 col-md-12 p0 col-xs-12"><label
+						class="col-md-12 pl20 col-xs-12">分值:</label> <span
+						class="col-md-12 col-xs-12"> <input
+							class="col-xs-12 h80 mt6" name="maxScore" maxlength="300" id="maxScore" type="text">
+					</span></li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+
+			<div class="tc mt10 col-md-12 col-xs-12">
+				<input type="button" class="btn  padding-right-20 btn_back margin-5" value="保存" onclick="save();"></input>
+				<input type="button" class="btn btn-windows back" id="backups" value="返回" onclick="reBack();"></input>
+			</div>
+		</form>
 	</div>
+</body>
 </body>
 </html>
