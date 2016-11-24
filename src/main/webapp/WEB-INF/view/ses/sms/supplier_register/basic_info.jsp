@@ -270,6 +270,7 @@ function showReason() {
 					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
 				        <span class="add-on cur_point">i</span>
+				        <div class="cue"> ${err_msg_supplierName } </div>
 				     </div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -277,6 +278,7 @@ function showReason() {
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="website" value="${currSupplier.website}">
 			        <span class="add-on cur_point">i</span>
+			         <div class="cue"> ${err_msg_website } </div>
 			       </div>
 				 </li>
 				 
@@ -286,6 +288,7 @@ function showReason() {
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
 			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
 			        <span class="add-on cur_point">i</span>
+			         <div class="cue"> ${err_msg_foundDate } </div>
 			       </div>
 				 </li> 
 				 
@@ -299,14 +302,16 @@ function showReason() {
 						<option>股份制企业</option>
 						<option>私营企业</option>
 					</select>
+					 
+					  
 			       </div>
 				 </li>
-				 
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren()" name="address"></select></div> 
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" ></select></div>
+				         <div class="cue"> ${err_msg_address } </div>
 			        </div>		        
 				 </li>  
 				 
@@ -315,6 +320,7 @@ function showReason() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankName" value="${currSupplier.bankName}" />
 			        <span class="add-on cur_point">i</span>
+			        <div class="cue"> ${err_msg_bankName } </div>
 			       </div>
 				 </li> 
 						 
@@ -323,6 +329,7 @@ function showReason() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
 			        <span class="add-on cur_point">i</span>
+			        <div class="cue"> ${err_msg_bankAccount } </div>
 			       </div>
 				 </li> 
 				 
@@ -331,6 +338,7 @@ function showReason() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 			        <span class="add-on cur_point">i</span>
+			         <div class="cue"> ${err_msg_postCode } </div>
 			       </div>
 				 </li>  
 	       </fieldset>
@@ -375,14 +383,16 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalName" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_legalName } </div>
 	       	   </div>
 		    </li> 
 		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>身份证号</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="legalIdCard" value="${currSupplier.legalName}" />
+		        <input type="text" name="legalIdCard" value="${currSupplier.legalIdCard}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_legalCard } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -391,6 +401,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_legalMobile } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -399,6 +410,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}"  />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_legalPhone } </div>
 	       	   </div>
 		    </li> 
 	    </fieldset>
@@ -409,6 +421,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactName" value="${currSupplier.contactName}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_conName } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -417,6 +430,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactFax" value="${currSupplier.contactFax}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_fax } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -425,14 +439,17 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_catMobile } </div>
 	       	   </div>
 		    </li> 
 		    
+ 
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
 		        <span class="add-on cur_point">i</span>
+			    <div class="cue"> ${err_catTelphone } </div>		        
 	       	   </div>
 		    </li> 
 		    
@@ -441,6 +458,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactEmail" value="${currSupplier.contactEmail}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_catEmail } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -449,6 +467,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
 		        <span class="add-on cur_point">i</span>
+		         <div class="cue"> ${err_conAddress } </div>
 	       	   </div>
 		    </li> 
 	    </fieldset>
@@ -467,6 +486,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="registAuthority" value="${currSupplier.registAuthority}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_reAuthoy } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -475,6 +495,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="registFund" value="${currSupplier.registFund}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_fund } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -484,6 +505,7 @@ function showReason() {
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_sDate } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -493,6 +515,7 @@ function showReason() {
 			   	<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
 		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_eDate } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -501,6 +524,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_bAddress } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -509,7 +533,9 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			      <input type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
 			      <span class="add-on cur_point">i</span>
+			       <div class="cue"> ${err_bCode } </div>
 	       	   </div>
+	       	 
 		    </li> 
 		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
