@@ -263,35 +263,35 @@ function showReason() {
 		<div>
     	  <h2 class="count_flow"><i>01</i>基本信息</h2>
     	  <ul class="list-unstyled" style="font-size: 14">
-    	  	<fieldset class="col-md-12 border_font">
+    	  	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			<legend>企业信息</legend>
-				<li class="col-md-3 margin-0 padding-0 ">
-					<span class="col-md-12 padding-left-5"><i class="red">*</i> 公司名称</span>
-					<div class="input-append">
-				        <input class="span5" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
+					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
 				        <span class="add-on cur_point">i</span>
 				     </div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 公司网址</span>
-				    <div class="input-append">
-			        <input class="span5" type="text" name="website" value="${currSupplier.website}">
+				<li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司网址</span>
+				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			        <input type="text" name="website" value="${currSupplier.website}">
 			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li>
 				 
-				 <li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><i class="red">*</i> 成立日期</span>
-				    <div class="input-append">
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 成立日期</span>
+				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				    <fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-			        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
+			        <input type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
 			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 				 
-				  <li class="col-md-3 margin-0 padding-0 ">
-				    <span class="col-md-12 padding-left-5"><i class="red">*</i> 营业执照类型</span>
-				    <div class="select_common">
+				  <li class="col-md-3 col-sm-6 col-xs-12">
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照类型</span>
+				    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			       	<select  name="businessType" id="business_select_id">
 						<option>国有企业</option>
 						<option>外资企业</option>
@@ -302,261 +302,267 @@ function showReason() {
 			       </div>
 				 </li>
 				 
-				  <li class="col-md-3 margin-0 padding-0">
-				    <span class="col-md-12 padding-left-5"><i class="red">*</i> 公司地址</span>
-				    <div class="select_min">
-				         <select style="width:110px;"  id="root_area_select_id" onchange="loadChildren()" name="address"></select> 
-				         <select style="width:110px"   id="children_area_select_id" name="address" ></select>
+				  <li class="col-md-3 col-sm-6 col-xs-12">
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
+				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren()" name="address"></select></div> 
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" ></select></div>
 			        </div>		        
 				 </li>  
 				 
-				  <li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 开户行名称</span>
-				   <div class="input-append">
-			        <input class="span5" type="text" name="bankName" value="${currSupplier.bankName}" />
+				  <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 开户行名称</span>
+				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			        <input type="text" name="bankName" value="${currSupplier.bankName}" />
 			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 						 
-				 <li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><i class="red">*</i> 开户行账号</span>
-				   <div class="input-append">
-			        <input class="span5" type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 开户行账号</span>
+				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			        <input type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
 			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li> 
 				 
-				 <li class="col-md-3 margin-0 padding-0 ">
-				   <span class="col-md-12 padding-left-5"><i class="red">*</i>邮编</span>
-				   <div class="input-append">
-			        <input class="span5" type="text" name="postCode" value="${currSupplier.postCode}" />
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i>邮编</span>
+				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 			        <span class="add-on cur_point">i</span>
 			       </div>
 				 </li>  
 	       </fieldset>
-	       <fieldset class="col-md-12 border_font mt20">
+	       <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
 	 			<legend>资质资信</legend>
-				<li class="col-md-6 p0 mb25">
-				    <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
-		    		<u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
-		        	<u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+				<li class="col-md-6 col-sm-12 col-xs-12 mb25">
+				    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
+				    <div class="col-md-6 col-sm-12 col-xs-12 p0">
+		    		  <u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
+		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+			        </div>
 			    </li> 
 				
-				<li id="bill_li_id" class="col-md-6 p0 mb25">
-				   <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
-				   <div style="margin-bottom: 25px">
+				<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
+				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
 					   <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
 					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 				   </div>
 				</li>
 												
-			   <li id="security_li_id" class="col-md-6 p0 mt10 mb25">
-			      <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
-			      <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
-			      <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+			   <li id="security_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+			      <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
+			      <div class="col-md-6 col-sm-12 col-xs-12 p0">
+			        <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
+			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+			      </div>
 			   </li>
 												
-			 <li id="breach_li_id" class="col-md-6 p0 mt10 mb25">
-			   <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
-			   <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
-			   <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+			   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
+			   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+			     <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
+			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			   </div>
 			</li>						
 		</fieldset>
-		<fieldset class="col-md-12 border_font mt20">
+		<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	  <legend>法人代表信息</legend>
-		  <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 姓名</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="legalName" value="${currSupplier.legalName}" />
+		  <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="legalName" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i>身份证号</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="legalIdCard" value="${currSupplier.legalName}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>身份证号</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="legalIdCard" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		     <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 固定电话</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		     <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 手机</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="legalMobile" value="${currSupplier.legalMobile}"  />
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}"  />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 	    </fieldset>
 	    <fieldset class="col-md-12 border_font mt20">
 	 	    <legend>联系人信息</legend>
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 联系人姓名</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactName" value="${currSupplier.contactName}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 联系人姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactName" value="${currSupplier.contactName}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 传真电话</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactFax" value="${currSupplier.contactFax}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真电话</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactFax" value="${currSupplier.contactFax}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 固定电话</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 手机</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 邮箱</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactEmail" value="${currSupplier.contactEmail}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮箱</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactEmail" value="${currSupplier.contactEmail}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 地址</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 地址</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 	    </fieldset>
 	    <fieldset class="col-md-12 border_font mt20">
 	 	    <legend>营业执照</legend>
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 统一信用代码</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="creditCode" value="${currSupplier.creditCode}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一信用代码</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="creditCode" value="${currSupplier.creditCode}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 登记机关</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="registAuthority" value="${currSupplier.registAuthority}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 登记机关</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="registAuthority" value="${currSupplier.registAuthority}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 注册资本</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="registFund" value="${currSupplier.registFund}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="registFund" value="${currSupplier.registFund}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		     <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 营业开始时间</span>
-			   <div class="input-append">
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业开始时间</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
-		        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
+		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 营业截止时间</span>
-			   <div class="input-append">
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业截止时间</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			   	<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
-		        <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
+		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
-			   <div class="input-append">
-		        <input class="span5" type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
 		        <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="red">*</i> 邮编</span>
-			   <div class="input-append">
-			      <input class="span5" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮编</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			      <input type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
 			      <span class="add-on cur_point">i</span>
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-5 padding-left-5"><i class="red">*</i> 营业执照:</span>
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span>
 			   <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	   <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 		    </li> 
 		    
-		    <li class="col-md-11  margin-0 padding-0 mb25">
-		    	<span class="col-md-12 padding-left-5"> 营业范围</span>
-		    	<div>
-			       <textarea class="col-md-12" style="height:130px" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
+		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
+		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
+		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h130" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
 			</li> 
 		</fieldset>
 		 <fieldset class="col-md-12 border_font mt20">
 	 	    <legend>境外分支</legend>
-			<li class="col-md-3 margin-0 padding-0 ">
-				<span class="col-md-12 padding-left-5">境外分支结构</span>
-		    	<div class="select_common">
+			<li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支结构</span>
+		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		    	   <select  name="overseasBranch" id="overseas_branch_select_id">
 						<option value="1">有</option>
 						<option value="0">无</option>
 					</select>
 	       	    </div>
 			</li>
-			<li class="col-md-3 margin-0 padding-0 ">
-				<span class="col-md-12 padding-left-5">境外分支所在国家</span>
-		    	 <div class="input-append">
-		    	 	<input class="span5" name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
+			<li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支所在国家</span>
+		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		    	 	<input name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			
-			<li class="col-md-3 margin-0 padding-0 ">
-				<span class="col-md-12 padding-left-5">分支地址</span>
-		    	 <div class="input-append">
-		    	 	<input class="span5" type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
+			<li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支地址</span>
+		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		    	 	<input type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
-			<li class="col-md-3 margin-0 padding-0 ">
-				<span class="col-md-12 padding-left-5">机构名称</span>
-		    	 <div class="input-append">
-		    	 	<input class="span5" type="text" name="branchName" value="${currSupplier.branchName}" />
+			<li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">机构名称</span>
+		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		    	 	<input type="text" name="branchName" value="${currSupplier.branchName}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			
-			<li class="col-md-3 margin-0 padding-0 ">
-				<span class="col-md-12 padding-left-5">分支生产经营范围</span>
-		    	 <div class="input-append">
-		    	 	<input class="span5" type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
+			<li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支生产经营范围</span>
+		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		    	 	<input type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
@@ -565,14 +571,14 @@ function showReason() {
 	  <!-- 财务信息 -->
 	  <div class="padding-top-10 clear">
 	    	<h2 class="count_flow"><i>2</i>财务信息</h2>
-	    	<fieldset class="col-md-12 border_font">
+	    	<fieldset class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	    <legend>列表</legend>
-			<div  class="col-md-12 p0" >
-				<div class="fl">
+			<div  class="col-md-12 col-sm-12 col-xs-12 p0" >
+				<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
 					<button type="button" class="btn btn-windows add" onclick="openFinance()">新增</button>
 					<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button>
 				</div>
-				<div class="mt40">
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
 					  <table class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>

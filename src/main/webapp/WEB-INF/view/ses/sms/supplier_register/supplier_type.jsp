@@ -555,11 +555,11 @@
 		<!-- 项目戳开始 -->
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
-		<div class="sevice_list container">
+		<div class="sevice_list container mt60">
 		  <h2>产品服务/类型</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
 	 
-		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/类型：</div>
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/类型：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" /><input type="hidden" value="${obj.name }" >${obj.name } </span>
@@ -572,7 +572,7 @@
 	<div class="sevice_list container" class="dnone" id="wz" >
 		  <h2>产品服务/分类</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/分类：</div>
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				    <c:forEach items="${wlist }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code}" /> <input type="hidden" value="${obj.name }" > ${obj.name }</span>
@@ -584,12 +584,11 @@
   <div class="sevice_list container"  >
 		  <h2>产品服务/品目</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-12 title tr"><span class="star_red">*</span>产品服务/品目：</div>
+		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/品目：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <div class="fl">
-					    <input type="text" readonly="readonly" name="chkItem" id="seach" value="" /> <input type="hidden"   id="hseach" value="" />
-					    <input type="button" onclick="seach()" class="btn" value="添加品目">
-					   </div>
+					    <input type="text" readonly="readonly" name="chkItem" id="seach" value="" class="fl"/> 
+					    <input type="hidden"   id="hseach" value="" />
+					    <input type="button" onclick="seach()" class="btn h30" value="添加品目">
 			  </div>
 		    </div>
  

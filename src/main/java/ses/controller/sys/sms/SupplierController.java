@@ -247,6 +247,7 @@ public class SupplierController extends BaseSupplierController {
 //		request.getSession().setAttribute("currSupplier", supplier);
 //		info=true;
 //		request.getSession().setAttribute("jump.page", jsp);
+		info=true;
 		if(flag.equals("1")&&info==true){
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());

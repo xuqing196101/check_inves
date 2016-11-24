@@ -75,10 +75,11 @@
 	  line-height:30px;
 	  float:left;
 	  display:block;
-	  margin-right:10px;
+	  margin-right:0px;
 	 }
 	 .service_list span input{
 	 margin-right:5px;
+	 margin-bottom:4px;
 	 }
 	 .service_desc{
 	  background-color:#f8f8f8;
@@ -90,6 +91,7 @@
 	 height:30px;
 	 line-height:30px;
 	 border-bottom:1px solid #dddddd;
+	 background-color:#eeeeee; 
 	}
 	</style>
 	
@@ -97,18 +99,18 @@
 </head>
 
 <body>
-	 <div class="service_kind container">
+	 <div class="service_kind container p0 mt20">
 	  <h2 class="m0 col-md-12 col-sm-12 col-xs-12">已选品目：</h2>
 	  <div class="col-md-12 col-sm-12 col-xs-12 service_desc bgwhite">
-		  <div class="col-md-3 col-sm-4 col-xs-12" id="chose">
+		  <div class="col-md-3 col-sm-4 col-xs-12 p0" id="chose">
 		  </div>
 	  </div>
 	</div>
 	
-	<div class="service_kind container">
+	<div class="service_kind container p0">
 	  <h2 class="m0 m0 col-md-12 col-sm-12 col-xs-12">品目信息 </h2>
 	  <div class="col-md-12 col-sm-12 col-xs-12 service_desc bgwhite">
-		  <div class="col-md-12 col-sm-12 col-xs-12 service_list">
+		  <div class="col-md-12 col-sm-12 col-xs-12 service_list p0">
 		     <c:forEach items="${list }" var="obj" varStatus="vs">
 		        <span class="col-md-3 col-sm-4 col-xs-12 m0"><input type="checkbox" onclick="chsoe()" name="chkItem" value="${obj.id }"/>${obj.name }</span>
 		 	  </c:forEach>
@@ -116,7 +118,10 @@
 	  </div>
 	</div>
 	
-	<div class="col-md-12 col-sm-12 col-xs-12 tc"><input type="button" class="btn" value="确定"><input type="button" class="btn" value="关闭"></div>
+	<div class="col-md-12 col-sm-12 col-xs-12 tc">
+	  <input type="button" class="btn" value="确定">
+	  <input type="button" class="btn" value="关闭">
+	</div>
 	 
 	<form class="dnone" action="" id="category_id">
 			<input type="hidden" name="categoryId" id="cid">

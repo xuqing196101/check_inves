@@ -180,7 +180,6 @@ button, input, select, textarea {
     font-size: 0;
     white-space: nowrap;
     vertical-align: middle;
-	min-width:249px;
 	position:relative;
 }
 .bround4{
