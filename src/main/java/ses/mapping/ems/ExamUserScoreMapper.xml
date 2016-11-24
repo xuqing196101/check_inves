@@ -247,19 +247,13 @@
 			AND d.USER_ID = U.ID
 			AND s.IS_MAX = 1
 			<if test="relName != null and '' != relName">
-	           <![CDATA[
 	           	AND U.REL_NAME LIKE #{relName}
-	           ]]>  
 	        </if>
 	        <if test="status != null and '' != status">
-	           <![CDATA[
 	           	AND s.STATUS = #{status}
-	           ]]>
 	        </if>
 	        <if test="code != null and '' != code">
-	           <![CDATA[
-	           	AND P.CODE LIKE #{code} 
-	           ]]>
+	           	AND D.CODE LIKE #{code} 
 	        </if>
 			ORDER BY
 				testDate nulls last
