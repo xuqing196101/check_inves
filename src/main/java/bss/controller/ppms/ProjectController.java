@@ -25,9 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseInfo;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
@@ -106,9 +104,6 @@ public class ProjectController extends BaseController {
     @Autowired
     private ProjectTaskService projectTaskService;
     @Autowired
-    private DictionaryDataServiceI dictionaryDataService;
-    
-    @Autowired
     private FlowMangeService flowMangeService;
 
     /**
@@ -125,8 +120,7 @@ public class ProjectController extends BaseController {
         request.getSession().removeAttribute("idr");
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
-        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-        model.addAttribute("kind", kind);
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("info", info);
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
@@ -163,8 +157,7 @@ public class ProjectController extends BaseController {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
                 lists.add(purchaseRequired);
             }
-            List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-            model.addAttribute("kind", kind);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
             model.addAttribute("lists", lists);
             model.addAttribute("ids", ide);
             model.addAttribute("checkedIds", checkedIds);
@@ -190,78 +183,6 @@ public class ProjectController extends BaseController {
         model.addAttribute("info", list);
         return "bss/ppms/project/addDetail";
     }
-    
-    @RequestMapping("/save")
-    public String save(String id, String name, String projectNumber, Model model){
-        Project project = new Project();
-        if(name != null && projectNumber != null){
-            project.setName(name);
-            project.setProjectNumber(projectNumber);
-            project.setCreateAt(new Date());
-            project.setStatus(3);
-            project.setIsRehearse(1);
-            String[] ids = id.split(",");
-            PurchaseRequired required = purchaseRequiredService.queryById(ids[0]);
-            if(required.getGoodsUse() != null){
-                project.setIsImport(1);
-            }else{
-                project.setIsImport(0);
-            }
-            project.setPurchaseType(required.getPurchaseType());
-            projectService.add(project); 
-            for (int i = 0; i < ids.length; i++ ) {
-                ProjectDetail projectDetail = new ProjectDetail();
-                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-                projectDetail.setRequiredId(purchaseRequired.getId());
-                projectDetail.setSerialNumber(purchaseRequired.getSeq());
-                projectDetail.setDepartment(purchaseRequired.getDepartment());
-                projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-                projectDetail.setStand(purchaseRequired.getStand());
-                projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-                projectDetail.setItem(purchaseRequired.getItem());
-                projectDetail.setCreatedAt(new Date());
-                projectDetail.setProject(new Project(project.getId()));
-                if (purchaseRequired.getPurchaseCount() != null) {
-                    projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-                }
-                if (purchaseRequired.getPrice() != null) {
-                    projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-                }
-                if (purchaseRequired.getBudget() != null) {
-                    projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-                }
-                if (purchaseRequired.getDeliverDate() != null) {
-                    projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-                }
-                if (purchaseRequired.getPurchaseType() != null) {
-                    projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-                }
-                if (purchaseRequired.getSupplier() != null) {
-                    projectDetail.setSupplier(purchaseRequired.getSupplier());
-                }
-                if (purchaseRequired.getIsFreeTax() != null) {
-                    projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-                }
-                if (purchaseRequired.getGoodsUse() != null) {
-                    projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-                }
-                if (purchaseRequired.getUseUnit() != null) {
-                    projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-                }
-                if (purchaseRequired.getParentId() != null) {
-                    projectDetail.setParentId(purchaseRequired.getParentId());
-                }
-                if (purchaseRequired.getDetailStatus() != null) {
-                    projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-                }
-                projectDetail.setPosition(i);
-                i++;
-                detailService.insert(projectDetail);
-            }
-        }
-        return null;
-    }
-    
     
     /**
      * 
@@ -398,8 +319,7 @@ public class ProjectController extends BaseController {
             List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
             lists.addAll(list2);
         }
-        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-        model.addAttribute("kind", kind);
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", lists);
         model.addAttribute("checkedIds", checkedIds);
         return "bss/ppms/project/saveDetail";
@@ -465,11 +385,22 @@ public class ProjectController extends BaseController {
     @RequestMapping("/view")
     public String view(String id, String ids, Model model, Integer page, HttpServletRequest request) {
             HashMap<String, Object> map = new HashMap<String, Object>();
-            map.put("id", id);
-            List<ProjectDetail> detail = detailService.selectById(map);
-            List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-            model.addAttribute("kind", kind);
-            model.addAttribute("lists", detail);
+            map.put("projectId", id);
+            List<Packages> list = packageService.findPackageById(map);
+            if(list != null && list.size()>0){
+                for(Packages ps:list){
+                    HashMap<String,Object> packageId = new HashMap<String,Object>();
+                    packageId.put("packageId", ps.getId());
+                    List<ProjectDetail> detailList = detailService.selectById(packageId);
+                    ps.setProjectDetails(detailList);
+                }
+            }else{
+                map.put("id", id);
+                List<ProjectDetail> detail = detailService.selectById(map);
+                model.addAttribute("lists", detail);
+            }
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("packageList", list);
             return "bss/ppms/project/viewDetail";
 
     }
@@ -491,8 +422,7 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         map.put("id", id);
         List<ProjectDetail> detail = detailService.selectById(map);
-        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-        model.addAttribute("kind", kind);
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", detail);
         model.addAttribute("project", project);
         return "bss/ppms/project/editDetail";
@@ -534,12 +464,9 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(id);
         map.put("purchaseDepName", project.getPurchaseDepName());
         List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
-        DictionaryData dictionaryData=new DictionaryData();
-        dictionaryData.setCode("PROJECT_IMPLEMENT");
-        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
         model.addAttribute("purchaseInfo", purchaseInfo);
         model.addAttribute("project", project);
-        model.addAttribute("dataId", dataId);
+        model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         return "bss/ppms/project/upload";
     }
 
@@ -570,11 +497,6 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         Project project = projectService.selectById(projectId);
-        DictionaryData dictionaryData=new DictionaryData();
-        dictionaryData.setCode("PROJECT_IMPLEMENT");
-        String dataId = dictionaryDataService.find(dictionaryData).get(0).getId();
-        dictionaryData.setCode("PROJECT_APPROVAL_DOCUMENTS");
-        String dataIds = dictionaryDataService.find(dictionaryData).get(0).getId();
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
@@ -587,15 +509,21 @@ public class ProjectController extends BaseController {
             Task task = taskservice.selectById(number);
             model.addAttribute("task", task);
         }
-        map.put("id", projectId);
-        // 查看明细
-        List<ProjectDetail> detail = detailService.selectById(map);
-        List<DictionaryData> kind = dictionaryDataService.findByKind("5");
-        model.addAttribute("kind", kind);
-        model.addAttribute("lists", detail);
+        map.put("projectId", projectId);
+        List<Packages> list = packageService.findPackageById(map);
+        if(list != null && list.size()>0){
+            for(Packages ps:list){
+                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                packageId.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = detailService.selectById(packageId);
+                ps.setProjectDetails(detailList);
+            }
+        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        model.addAttribute("packageList", list);
         model.addAttribute("project", project);
-        model.addAttribute("dataId", dataId);
-        model.addAttribute("dataIds", dataIds);
+        model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
+        model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/essential_information";
     }
     
