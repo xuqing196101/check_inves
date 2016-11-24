@@ -16,6 +16,7 @@ import ses.dao.bms.CategoryAssignedMapper;
 import ses.formbean.CategotyBean;
 import ses.model.bms.CategoryAssigned;
 import ses.service.bms.CategoryAssignedService;
+import ses.service.bms.CategoryService;
 
 /**
  * 
@@ -49,6 +50,9 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
     /** 产品分配持久层 */
     @Autowired
     private CategoryAssignedMapper mapper;
+    /** 品目service **/
+    @Autowired
+    private CategoryService categoryService;
     
     /** 注册 SqlSessionFactory */
     @Autowired
@@ -257,5 +261,6 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
         }
         batchSqlSession.commit();
     }
+    
 
 }

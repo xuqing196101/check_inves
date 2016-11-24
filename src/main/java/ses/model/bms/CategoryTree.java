@@ -28,6 +28,9 @@ public class CategoryTree {
 	
 	private String paramStatus;
 	
+	/** 类型,物资类:1,其他为空 **/
+	private transient String classify;
+	
 	
 	
 	public String getParamStatus() {
@@ -79,8 +82,14 @@ public class CategoryTree {
 	public void setpId(String pId) {
 		this.pId = pId;
 	}
+    public String getClassify() {
+        return classify;
+    }
+    public void setClassify(String classify) {
+        this.classify = classify;
+    }
+    
 	
-
 	
 	
 	

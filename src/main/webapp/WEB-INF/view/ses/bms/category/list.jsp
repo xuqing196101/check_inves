@@ -61,8 +61,6 @@
 		return childNodes;
 	 }
 	 
-    
-   
     /**点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
     	treeid = treeNode.id;
@@ -81,6 +79,8 @@
     		$("#tableDivId").addClass("dis_none");
     	}
     }
+
+    
     /** 判断是否为根节点 */
     function isRoot(node){
     	if (node.pId == 0){

@@ -48,12 +48,19 @@ var itemId = "";
  */
 function zTreeOnClick(event,treeId,treeNode){
 	if (treeNode.pId !=0) {
+		var root = getCurrentRoot(treeNode);
+		if (root.classify != null && root.classify == 'GOODS'){
+			$("#typeId").show();
+		} else {
+			$("#typeId").hide();
+		}
 		selectedTreeId = treeNode.id;
 		findParams(selectedTreeId);
 	} else {
 		selectedTreeId = null;
 	}
 }
+
 
 /**
  * 新增
@@ -70,7 +77,9 @@ function addParams(){
 	}
 }
 
-
+/**
+ * 编辑
+ */
 function editParams(){
 	var chekedId = "";
 	itemId = "";
@@ -237,6 +246,20 @@ function loadHtml(id,paramName, paramTypeName){
 	        + "  <div class=\"clear\"></div> " 
 	        +"</li>"
 	$("#uListId").append(html);
+}
+
+/**
+ * 获取当前节点的根节点
+ * @param treeNode treeNode节点
+ * @returns 当前节点
+ */
+function getCurrentRoot(treeNode){  
+	if(treeNode.getParentNode()!=null){  
+		var parentNode = treeNode.getParentNode(); 
+		return getCurrentRoot(parentNode);
+	} else {
+		return treeNode;
+	}
 }
 
 

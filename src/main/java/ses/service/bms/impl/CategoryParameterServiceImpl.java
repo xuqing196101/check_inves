@@ -43,12 +43,16 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     private static final String ROOT_PID = "0";
     /** 字典类型-品目根节点 */
     private static final String  KIND_TYPE = "6";
+    /** 字典类型-小类别 */
+    private static final String  KIND_SMALL_TYPE = "8";
     /** 字典类型-品目参数类型 */
     private static final String KIND_PARAM_TYPE = "14";
     /** 分隔符 */
     private static final String SPLIT_SYMBOL = ",";
     /** 未删除状态 */
     private static final Integer UNDELETED_STATUS = 0;
+    /** 物资类编码 */
+    private static final String GOODS_CODE = "GOODS";
     
     /** 产品参数管理 */
     @Autowired
@@ -107,6 +111,18 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     }
     
     
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryParameterService#initSmallTypes()
+     */
+    @Override
+    public List<DictionaryData> initSmallTypes() {
+        
+        return directionService.findByKind(KIND_SMALL_TYPE);
+    }
+
+
     /**
      * 
      * @see ses.service.bms.CategoryParameterService#saveParameter
@@ -338,7 +354,11 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
              tree.setId(data.getId());
              tree.setName(data.getName());
              tree.setpId(ROOT_PID);
-             
+             if (data.getCode().equals(GOODS_CODE)){
+                 tree.setClassify(GOODS_CODE);
+             }else {
+                 tree.setClassify(null);
+             }
              if (!treeList.contains(tree)){
                  if (dupMap.containsKey(data.getId())) {
                      treeList.add(tree);
