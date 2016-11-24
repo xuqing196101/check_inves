@@ -252,4 +252,29 @@ public class OutsourcingConController {
 		model.addAttribute("proId",proID);
 		return "redirect:/specialCost/userGetAll.html?productId="+proID;
 	}
+	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		OutsourcingCon outsourcingCon = new OutsourcingCon();
+		outsourcingCon.setContractProduct(contractProduct);
+		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		
+		return "bss/sstps/offer/checkAppraisal/list/outsourcing_list";
+	}
+	
+	@RequestMapping("/userUpdateCheck")
+	public String userUpdateCheck(Model model,OutsourcingConList OutsourcingConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<OutsourcingCon> outsourcingCons = OutsourcingConList.getOutsourcingCons();
+		for (OutsourcingCon outsourcingCon : outsourcingCons) {
+			outsourcingCon.setUpdatedAt(new Date());
+			outsourcingConService.update(outsourcingCon);
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/specialCost/userGetAllCheck.html?productId="+proID;
+	}
 }

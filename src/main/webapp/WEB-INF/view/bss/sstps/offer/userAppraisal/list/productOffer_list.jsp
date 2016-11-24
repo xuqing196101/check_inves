@@ -12,11 +12,11 @@
 <script type="text/javascript">
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}comCostDis/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/comCostDis/userGetAll.do?productId="+proId;
 }
 
 function cancel(){
-	window.location.href="${pageContext.request.contextPath}auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}/auditSummary/cancel.html";
 }
 
 </script>
@@ -29,7 +29,7 @@ function cancel(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产 品 报 价(审价)详 细 情 况</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">产 品 审 价 详 细 情 况</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -37,11 +37,11 @@ function cancel(){
    
    <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>产 品 报 价(审价)详 细 情 况</h2>
+	  		 <h2>产 品 审 价 详 细 情 况</h2>
 	 	</div>
    </div>
    
-   <form action="${pageContext.request.contextPath}auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/auditSummary/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="apid" name="id" value="${ap.id }" />

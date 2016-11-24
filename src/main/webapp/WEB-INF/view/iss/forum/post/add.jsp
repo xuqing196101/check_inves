@@ -153,8 +153,7 @@
 	        	<option value="1">锁定 </option>
 	  			</select>
 	  			</div>	 	
-			 </li>		
-			 <input type="hidden" name="id" value='${id}'></input>	 
+			 </li>			 
 			<li class="col-md-12 col-sm-12 col-xs-12">
 	   			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div> 帖子内容：</span>
 	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -162,14 +161,13 @@
        			</div>
        			<div class="red clear f12">${ERR_content}</div>
 			 </li>  
-			 <input type="hidden" name="id" value='${id}'></input>
+			 <input type="hidden" name="id" value='${post.id}'></input>
+
 	   		  <li class="col-md-12 col-sm-12 col-xs-12 mt10">
 		       <span class="fl">上传附件：</span>
-		          <up:upload id="post_attach_up"  multiple="true" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-                  <up:show showId="post_attach_show" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
+		          <up:upload id="post_attach_up"  multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
-
-
 
 	  	 </ul>
 	<!-- 底部按钮 -->			       

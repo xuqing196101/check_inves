@@ -257,4 +257,15 @@ public class WagesPayableController {
 	}
 	
 	
+	@RequestMapping("/userGetAllCheck")
+	public String userGetAllCheck(Model model,HttpServletRequest request,String productId){ 
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(productId);
+		WagesPayable wagesPayable = new WagesPayable();
+		wagesPayable.setContractProduct(contractProduct);
+		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", productId);
+		return "bss/sstps/offer/checkAppraisal/list/wagesPayable_list";
+	}	
 }

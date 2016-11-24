@@ -238,8 +238,17 @@ public class SupplierQueryController extends BaseSupplierController{
 		
 		supplier = supplierAuditService.supplierById(supplierId);
 		try {
-			Area area=areaService.listById(areaService.listById(supplier.getAddress()).getParentId());
-			supplier.setAddress(area.getName());
+			String provinceName="";
+			String cityName="";
+			Area area=areaService.listById(supplier.getAddress());
+			if(area!=null){
+				cityName=area.getName();
+				Area area1=areaService.listById(area.getParentId());
+				if(area1!=null){
+					provinceName=area1.getName();
+				}
+			}
+			supplier.setAddress(provinceName+cityName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

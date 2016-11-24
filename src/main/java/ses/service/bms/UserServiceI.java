@@ -171,4 +171,20 @@ public interface UserServiceI {
      * @param u
      */
     void resetPwd(User u);
+
+    /**
+     *〈简述〉批量插入用户-权限
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param userPreMenus
+     */
+    void saveUserMenuBatch(List<UserPreMenu> userPreMenus);
+
+    /**
+     *〈简述〉批量删除用户-权限
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param ups
+     */
+    void deleteUserMenuBatch(List<UserPreMenu> ups);
 }

@@ -14,7 +14,7 @@
 
 function onStep(){
 	var proId = $("#proId").val();
-	window.location.href="${pageContext.request.contextPath}yearPlan/userGetAll.do?productId="+proId;
+	window.location.href="${pageContext.request.contextPath}/yearPlan/userGetAllCheck.do?productId="+proId;
 }
 
 </script>
@@ -27,7 +27,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品工时定额明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">审价人员复审</a></li><li><a href="#">产品工时定额明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -42,7 +42,7 @@ function onStep(){
 	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
-	 	<form action="${pageContext.request.contextPath}productQuota/userUpdate.html?productId=${proId }" method="post" enctype="multipart/form-data">
+	 	<form action="${pageContext.request.contextPath}/productQuota/userUpdateCheck.html?productId=${proId }" method="post" enctype="multipart/form-data">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
 				<thead>
@@ -51,41 +51,50 @@ function onStep(){
 						<th rowspan="3" class="info">零组部件名称</th>
 						<th rowspan="3" class="info">零组部件图号</th>
 						<th rowspan="3" class="info">工序名称</th>
-						<th colspan="14" class="info">单位产品工时定额</th>
+						<th colspan="21" class="info">单位产品工时定额</th>
 						<th rowspan="3" class="info">计量单位</th>
-						<th rowspan="2" colspan="2" class="info">配套数量</th>
-						<th rowspan="2" colspan="3" class="info">单位产品工时审核核定数</th>
+						<th rowspan="2" colspan="3" class="info">配套数量</th>
+						<th rowspan="2" colspan="4" class="info">单位产品工时审核核定数</th>
 						<th rowspan="3" class="info">备   注</th>
 					</tr>
 					<tr>
-						<th colspan="2" class="info">准结工时</th>
-						<th colspan="2" class="info">加工工时</th>
-						<th colspan="2" class="info">装配工时</th>
-						<th colspan="2" class="info">调试工时</th>
-						<th colspan="2" class="info">试验工时</th>
-						<th colspan="2" class="info">其他工时</th>
-						<th colspan="2" class="info">小计</th>
+						<th colspan="3" class="info">准结工时</th>
+						<th colspan="3" class="info">加工工时</th>
+						<th colspan="3" class="info">装配工时</th>
+						<th colspan="3" class="info">调试工时</th>
+						<th colspan="3" class="info">试验工时</th>
+						<th colspan="3" class="info">其他工时</th>
+						<th colspan="3" class="info">小计</th>
 					</tr>
 					<tr>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
+						<th class="info">复核</th>
 						<th class="info">报价</th>
 						<th class="info">核定</th>
 						<th class="info">核减</th>
+						<th class="info">复核</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -97,27 +106,36 @@ function onStep(){
 						<td class="tc">${yp.processName }</td>
 						
 						<td class="tc">${yp.offer }</td>
-						<td class="tc"><input type="text" value='${yp.ratify }' name="productQuotaList['${vs.index }'].ratify"></td>
+						<td class="tc">${yp.ratify }</td>
+						<td class="tc"><input type="text" value='${yp.check }' name="productQuotaList['${vs.index }'].check"></td>
 						<td class="tc">${yp.processingOffer }</td>
-						<td class="tc"><input type="text" value='${yp.processingRatify }' name="productQuotaList['${vs.index }'].processingRatify"></td>
+						<td class="tc">${yp.processingRatify }</td>
+						<td class="tc"><input type="text" value='${yp.processingCheck }' name="productQuotaList['${vs.index }'].processingCheck"></td>
 						<td class="tc">${yp.assemblyOffer }</td>
-						<td class="tc"><input type="text" value='${yp.assemblyRatify }' name="productQuotaList['${vs.index }'].assemblyRatify"></td>
+						<td class="tc">${yp.assemblyRatify }</td>
+						<td class="tc"><input type="text" value='${yp.assemblyCheck }' name="productQuotaList['${vs.index }'].assemblyCheck"></td>
 						<td class="tc">${yp.debuggingOffer }</td>
-						<td class="tc"><input type="text" value='${yp.debuggingRatify }' name="productQuotaList['${vs.index }'].debuggingRatify"></td>
+						<td class="tc">${yp.debuggingRatify }</td>
+						<td class="tc"><input type="text" value='${yp.debuggingCheck }' name="productQuotaList['${vs.index }'].debuggingCheck"></td>
 						<td class="tc">${yp.testOffer }</td>
-						<td class="tc"><input type="text" value='${yp.testRatify }' name="productQuotaList['${vs.index }'].testRatify"></td>
+						<td class="tc">${yp.testRatify }</td>
+						<td class="tc"><input type="text" value='${yp.testCheck }' name="productQuotaList['${vs.index }'].testCheck"></td>
 						<td class="tc">${yp.otherOffer }</td>
-						<td class="tc"><input type="text" value='${yp.otherRatify }' name="productQuotaList['${vs.index }'].otherRatify"></td>
+						<td class="tc">${yp.otherRatify }</td>
+						<td class="tc"><input type="text" value='${yp.otherCheck }' name="productQuotaList['${vs.index }'].otherCheck"></td>
 						<td class="tc">${yp.subtotalOffer }</td>
-						<td class="tc"><input type="text" value='${yp.subtotalRatify }' name="productQuotaList['${vs.index }'].subtotalRatify"></td>
+						<td class="tc">${yp.subtotalRatify }</td>
+						<td class="tc"><input type="text" value='${yp.subtotalCheck }' name="productQuotaList['${vs.index }'].subtotalCheck"></td>
 						
 						<td class="tc">${yp.measuringUnit }</td>
 						
 						<td class="tc">${yp.assortOffer }</td>
-						<td class="tc"><input type="text" value='${yp.assortRatify }' name="productQuotaList['${vs.index }'].assortRatify"></td>
+						<td class="tc">${yp.assortRatify }</td>
+						<td class="tc"><input type="text" value='${yp.assortCheck }' name="productQuotaList['${vs.index }'].assortCheck"></td>
 						<td class="tc">${yp.approvedOffer }</td>
-						<td class="tc"><input type="text" value='${yp.approvedRatify }' name="productQuotaList['${vs.index }'].approvedRatify"></td>
-						<td class="tc"><input type="text" value='${yp.approvedSubtract }' name="productQuotaList['${vs.index }'].approvedSubtract"></td>
+						<td class="tc">${yp.approvedRatify }</td>
+						<td class="tc">${yp.approvedSubtract }</td>
+						<td class="tc"><input type="text" value='${yp.approvedCheck }' name="productQuotaList['${vs.index }'].approvedCheck"></td>
 						<td class="tc">${yp.remark }</td>
 					</tr>
 				</c:forEach>

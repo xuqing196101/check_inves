@@ -17,6 +17,7 @@
    			mt.PROJECT_ID as projectId,
    			mt.PACKAGE_ID as packageId,
    			mt.REMAIN_SCORE as remainScore,
+   			mt.TYPE_NAME as typeName,
    			b.id  as bidMethodId,
    			b.name as bidMethodName,
    			b.TYPE_NAME as bidMethodTypeName,
@@ -36,6 +37,9 @@
       	</if>
       	<if test="name != null">
         	and mt.name = #{name}
+      	</if>
+      	<if test="typeName != null">
+        	and mt.TYPE_NAME = #{typeName}
       	</if>
       	<if test="pname != null">
         	and mt.pname = #{pname}
@@ -70,6 +74,7 @@
    			mt.PROJECT_ID as projectId,
    			mt.PACKAGE_ID as packageId,
    			mt.REMAIN_SCORE as remainScore,
+   			mt.TYPE_NAME as typeName,
    			b.id  as bidMethodId,
    			b.name as bidMethodName,
    			b.TYPE_NAME as bidMethodTypeName,
@@ -119,6 +124,9 @@
        <if test="remainScore != null">
         REMAIN_SCORE,
       </if>
+       <if test="typeName != null">
+        TYPE_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       sysdate,
@@ -148,6 +156,9 @@
       </if>
       <if test="remainScore != null">
          #{remainScore},
+      </if>
+      <if test="typeName != null">
+         #{typeName},
       </if>
     </trim>
   </insert>
@@ -187,6 +198,9 @@
       </if>
       <if test="remainScore != null">
         ,REMAIN_SCORE = #{remainScore}
+      </if>
+      <if test="typeName != null">
+        ,TYPE_NAME = #{typeName}
       </if>
     where ID = #{id}
   </update>

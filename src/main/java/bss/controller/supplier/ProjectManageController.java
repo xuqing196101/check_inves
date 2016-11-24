@@ -98,7 +98,7 @@ public class ProjectManageController {
      */
     @RequestMapping("/bidIndex")
     public String bidIndex(HttpServletRequest request, String projectId, Model model){
-        SaleTender std = getProSupplier(request, projectId);
+        SaleTender std = getProSupplier(request, projectId, model);
         if (std != null) {
             if (std.getBidFinish() == 0) {
                 //未保存标书，进入编辑标书页面
@@ -131,12 +131,12 @@ public class ProjectManageController {
     public String bidDocument(HttpServletRequest request, String projectId, Model model){
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
-        SaleTender std = getProSupplier(request, projectId);
+        SaleTender std = getProSupplier(request, projectId, model);
         if (std != null) {
             String businessId = std.getId();
             model.addAttribute("std", std);
             //判断是否上传投标文件
-            String typeId = DictionaryDataUtil.getId("tbwj");
+            String typeId = DictionaryDataUtil.getId("SUPPLIER_BID");
             List<UploadFile> files = uploadService.getFilesOther(businessId, typeId, Constant.TENDER_SYS_KEY+"");
             if (files != null && files.size() > 0){
                 model.addAttribute("fileId", files.get(0).getId());
@@ -172,11 +172,11 @@ public class ProjectManageController {
      */
     @RequestMapping("/toBindingIndex")
     public String toBindingIndex(HttpServletRequest request, String projectId, Model model){
-        SaleTender std = getProSupplier(request, projectId);
+        SaleTender std = getProSupplier(request, projectId, model);
         if (std != null) {
             model.addAttribute("std", std);
         }
-        String typeId = DictionaryDataUtil.getId("tbwj");
+        String typeId = DictionaryDataUtil.getId("SUPPLIER_BID");
         List<UploadFile> files = uploadService.getFilesOther(std.getId(), typeId, Constant.TENDER_SYS_KEY+"");
         if (files != null && files.size() > 0){
             model.addAttribute("fileId", files.get(0).getId());
@@ -252,11 +252,11 @@ public class ProjectManageController {
     @RequestMapping("/saveBidFile")
     public void saveBidFile(HttpServletRequest req, String projectId, Model model) throws IOException{
         String result = "保存失败";
-        SaleTender std = getProSupplier(req, projectId);
+        SaleTender std = getProSupplier(req, projectId, model);
         if (std != null) {
             String businessId = std.getId();
             //判断该项目是否上传过招标文件
-            String typeId = DictionaryDataUtil.getId("tbwj");
+            String typeId = DictionaryDataUtil.getId("SUPPLIER_BID");
             List<UploadFile> files = uploadService.getFilesOther(businessId, typeId, Constant.TENDER_SYS_KEY+"");
             if (files != null && files.size() > 0){
                 //删除 ,表中数据假删除
@@ -285,14 +285,14 @@ public class ProjectManageController {
      */
     @RequestMapping("/isExistFile")
     @ResponseBody
-    public void isExistFile(HttpServletResponse response, HttpServletRequest req, String projectId) throws IOException{
+    public void isExistFile(HttpServletResponse response, HttpServletRequest req, String projectId, Model model) throws IOException{
         try {
             String isExist = "1";
-            SaleTender std = getProSupplier(req, projectId);
+            SaleTender std = getProSupplier(req, projectId, model);
             if (std != null) {
                 String businessId = std.getId();
                 //判断该项目是否上传过招标文件
-                String typeId = DictionaryDataUtil.getId("tbwj");
+                String typeId = DictionaryDataUtil.getId("SUPPLIER_BID");
                 List<UploadFile> files = uploadService.getFilesOther(businessId, typeId, Constant.TENDER_SYS_KEY+"");
                 //如果该项目没有上传过招标文件
                 if (files == null || files.size() <= 0){
@@ -359,7 +359,7 @@ public class ProjectManageController {
      */
     @RequestMapping("/result")
     public String result(HttpServletRequest req, String projectId, Model model){
-        SaleTender std = getProSupplier(req, projectId);
+        SaleTender std = getProSupplier(req, projectId, model);
         if (std != null) {
             model.addAttribute("std", std);
         }
@@ -374,11 +374,12 @@ public class ProjectManageController {
      * @param projectId 项目id
      * @return 供应商与项目的关联对象
      */
-    public SaleTender getProSupplier(HttpServletRequest req, String projectId){
+    public SaleTender getProSupplier(HttpServletRequest req, String projectId, Model model){
         //供应商与项目的关联的关联作为投标文件的业务id
         SaleTender saleTender = new SaleTender();
         saleTender.setProjectId(projectId);
         Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+        model.addAttribute("supplier", supplier);
         saleTender.setSupplierId(supplier.getId());
         List<SaleTender> sts = saleTenderService.find(saleTender);
         if (sts != null && sts.size() > 0) {

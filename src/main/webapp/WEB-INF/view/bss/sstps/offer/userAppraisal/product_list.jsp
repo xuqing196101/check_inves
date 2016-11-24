@@ -7,7 +7,7 @@
 <html>
   <head>
     <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}public/laypage-v1.3/laypage/laypage.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
     <title>产品审价</title>
     
 <script type="text/javascript">
@@ -29,7 +29,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '${pageContext.request.contextPath}offer/selectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});
@@ -78,7 +78,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="${pageContext.request.contextPath}offer/userSelectProductInfo.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}/offer/userSelectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -105,32 +105,30 @@ function offer(){
 	   <div class="headline-v2">
 	   		<h2>查询条件</h2>
 	   </div>
-   </div>
-    <div class="container ">
-     <div class="p10_25">
-     <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
-    	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">产品名称：</label><span><input type="text" id="topic" class=""/></span>
-	      </li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
-    	</ul>
-    	  <div class="clear"></div>
-       </form>
-     </h2>
-   </div>
-</div>
-	<div class="container">	
-		<div class="col-md-8 mt10 ml10">
-	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
+   <!-- 查询 -->
+		<h2 class="search_detail">
+			<form action="${pageContext.request.contextPath}/templet/search.html"
+				method="post" enctype="multipart/form-data" class="mb0">
+				<ul class="demand_list">
+					<li><label class="fl">产品名称：</label>
+						<span>
+							<input type="text" name="name" id="tname" class="mb0" />
+						</span>
+					</li>
+					<button class="btn" type="submit">查询</button>
+					<button type="reset" class="btn">重置</button>
+				</ul>
+
+				<div class="clear"></div>
+			</form>
+		</h2>
+
+		<!-- 表格开始-->
+		<div class="col-md-12 pl20 mt10">
+	   		<button class="btn" type="button" onclick="offer()">产品审价</button>
 		</div>
-	</div>
-	
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+		<div class="content table_box">
+             <table class="table table-bordered table-condensed table-hover table-striped">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -150,7 +148,6 @@ function offer(){
 	  			</c:if>
 	  		</c:forEach>
 		  </table>
-	  	</div>  
 	  	<div id="pagediv" align="right"></div>
   </div>
 	

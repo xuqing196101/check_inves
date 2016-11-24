@@ -26,10 +26,13 @@ public class CategoryParameter {
     private Date createdAt;
     /** 修改日期 */
     private Date updatedAt;
-    /** 状态,0:未审核,1:审核通过,2:已发布 */
-    private Integer status;
-    /** 分配ID */
-    private String orgCateId;
+    /** 采购机构ID */
+    private String orgId;
+    /** 是否删除,1:删除,0:未删除 */
+    private Integer isDeleted;
+    
+    /** 参数类型名称 */
+    private transient String paramTypeName;
 
     public String getId() {
         return id;
@@ -79,21 +82,30 @@ public class CategoryParameter {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getStatus() {
-        return status;
+    public String getOrgId() {
+        return orgId;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
-    public String getOrgCateId() {
-        return orgCateId;
+    public Integer getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setOrgCateId(String orgCateId) {
-        this.orgCateId = orgCateId;
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
+
+    public String getParamTypeName() {
+        return paramTypeName;
+    }
+
+    public void setParamTypeName(String paramTypeName) {
+        this.paramTypeName = paramTypeName;
+    }
+    
     
     
 }

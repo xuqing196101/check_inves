@@ -25,15 +25,42 @@
                 dataType:"json",   //返回格式为json
                 type:"POST",   //请求方式           
                 success : function(topics) {     
-                    if (topics) {           
-                        $("#topics").html("");               
-                      $.each(topics, function(i, topic) {  
-                          $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
-                      });                             
-                    }
+                    if (topics) {                            	  
+                    	if(topics.length != 0){       
+                    	$("#topics").html("");           	                 
+	                      $.each(topics, function(i, topic) {  
+	                          $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
+	                      });
+                    	}else{
+                    		$("#topics").empty();
+                    		 $("#topics").val("");
+                    		layer.alert("该版块下无主题，请重新选择版块。",{offset: ['222px', '390px'], shade:0.01});
+                    	}                                             
+                    }                   
                 }
             });
       }
+      $(function(){
+      		var parkId ="${parkId}";
+      		
+	        $("#parkId").val(parkId);	        
+	        $.ajax({
+	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
+	            contentType: "application/json;charset=UTF-8", 
+	            dataType:"json",   //返回格式为json
+	            type:"POST",   //请求方式           
+	            success : function(topics) {     
+	                if (topics) {           
+	                  $("#topics").html("<option></option>");                
+	                  $.each(topics, function(i, topic) {  
+	                      $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
+	                  });  
+	                  $("#topics").val("${topicId}"); 
+	                }
+	            }
+	        });
+	        
+      })
  </script>
   </head>
   
@@ -49,7 +76,7 @@
               <li class="col-md-12  p0  mb10">
                <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
                <div class="select_common col-md-9 p0">
-                <textarea class="col-md-12"  name="name"></textarea>
+                <input class="col-md-12"  id ="name" name="name" type="text" value='${post.name }'/>
                 <div class="cue">${ERR_name}</div>
                </div>
                 <%--<span class="add-on">i</span>--%>
@@ -59,7 +86,7 @@
              <li class="col-md-6 p0">
                <span class="fl"><div class="red star_red">*</div>所属版块：</span>
                <div class="select_common">
-                <select name ="parkId" onchange="change(this.options[this.selectedIndex].value)">
+                <select id ="parkId" name ="parkId" onchange="change(this.options[this.selectedIndex].value)">
                     <option></option>
                     <c:forEach items="${parks}" var="park">
                         <option  value="${park.id}">${park.name}</option>
@@ -81,22 +108,22 @@
                         
             <li class="col-md-12 p0">
                 <span class="fl"><div class="red star_red">*</div>帖子内容：</span>
-                <div class="fl mt5 col-md-9 p0">
+                <div class="fl mt5 col-md-9 col-sm-9 col-xs-9 p0 cengdie">
                      <script id="editor" name="content" type="text/plain" class= ""></script>
                       <div class="red clear f12">${ERR_content}</div>
                 </div>
              </li>   
-              <input type="hidden" name="id" value='${id}'></input> 
-              <li class="col-md-12 p0">
+              <input type="hidden" name="id" value='${post.id}'></input> 
+              <li class="col-md-12 col-sm-12 col-xs-12 p0">
                <span>上传附件：</span>
                <div class="fl f14">
-                  <up:upload id="post_attach_up" multiple="true" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-                  <up:show showId="post_attach_show"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}"/>
+                  <up:upload id="post_attach_up" multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+                  <up:show showId="post_attach_show"  businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
                </div>
               </li>            
          </ul>
         <!-- 底部按钮 -->                     
-      <div  class="mt20 tc">   
+      <div  class="mt20 tc col-md-12 col-sm-12 col-xs-12">   
         <button class="btn" type="submit">发布</button>
         <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
       </div>
@@ -121,7 +148,9 @@
 
     }
     var ue = UE.getEditor('editor',option);
-        
+        ue.ready(function(){
+	        	ue.setContent("${post.content}");   
+	        });
     </script>
     </div>
     <!-- footer -->

@@ -309,7 +309,6 @@
 					        </div>
 					        <div class="cue"><sf:errors path="roleId"/></div>
 				        </div>
-				        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
 					 </li>
 				     <li class="col-md-12 col-sm-12 col-xs-12 col-lg-12 ">
 				 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>

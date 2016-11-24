@@ -294,7 +294,7 @@ public class OfferController {
 		ContractProduct contractProduct = contractProductService.selectById(productId);
 		model.addAttribute("contractProduct", contractProduct);
 		
-		String url="bss/sstps/offer/userAppraisal/list/list";
+		String url="bss/sstps/offer/checkAppraisal/list/list";
 		
 //		ProductInfo ProductI = new ProductInfo();
 //		ProductI.setContractProduct(contractProduct);

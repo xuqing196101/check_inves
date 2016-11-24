@@ -8,34 +8,26 @@
  function checks(obj){
 	 var bool=$(obj).is(':checked');
 	 var val=$(obj).val();
-	var id=$("sid").val();
+ /*     var id=[];
+     var code=[]; */
 	 if(bool==true&&val=='GC'){
-	
-			layer.open({
-				type : 2,
-				title : '添加工程证书信息',
-				// skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_cert_eng/add_cert_eng.html?id=GC&&sid'+sid, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-			
-			
+	/* 	 id.push($(obj).next().val());
+		 code.push(val); */
 		 $("#gc").show();
 	 }else if(bool!=true&&val=='GC'){
 		 $("#gc").hide();
 	 }
 	 if(bool==true&&val=='FW'){
-			
+		/*  code.push(val);
+		 id.push($(obj).next().val()); */
 		 $("#fw").show();
 	 }else if(bool!=true&&val=='FW'){
 		 $("#fw").hide();
 	 }
 	  
 	 if(bool==true&&val=='HW'){
-			
+		/*  code.push(val);
+		 id.push($(obj).next().val()); */
 		 $("#wz").show();  
 	 }else if(bool!=true&&val=='HW'){
 	/* 	 $('input[name="chkItem"]:checked').each(function(){ 
@@ -65,17 +57,21 @@
  	 	$("#xs").hide();  
 	 }
 	 if(bool==true&&val=='SC'){
+	/* 	 code.push(val);
+		 id.push($(obj).next().val()); */
 		 $("#sc").show();  
 	 }else if(bool!=true&&val=='SC'){
 	 	 $("#sc").hide();  
 	 }
 	 if(bool==true&&val=='XS'){
+		/*  code.push(val);
+		 id.push($(obj).next().val()); */
 		 $("#xs").show();  
 	 }else if(bool!=true&&val=='XS'){
 	 	 $("#xs").hide();  
 	 }
-	 
-	 
+	 $("#seach").val(name());
+	 $("#hseach").val(valus());
  }
  
  function prev(obj){
@@ -158,7 +154,7 @@
 	    	    	
 	    	    }
 	    }
-		$("#save_pro_form_id").submit();
+	// 	$("#save_pro_form_id").submit();
 }
  
 	function openRegPerson() {
@@ -446,6 +442,7 @@
 				                      if(arrays[i]=='GC'){
 				                    	  $("#gc").show();
 				                      }
+				                      
 				               }
 				      });
 			  }
@@ -505,8 +502,36 @@
 		}
 	}
 	
+	function seach(){
+		var id=$("#hseach").val();
+		var sid=$("#sid").val();
+		layer.open({
+			type : 2,
+			title : '查询产品分类',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier/category.html?id=' + id+'&&sid='+sid , //url
+			closeBtn : 1, //不显示关闭按钮
+		});
+	}
 	
-	
+ 	
+    function name(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).next().val());
+		});
+		return id;
+    }
+    function valus(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		return id;
+    }
 </script>
 
 	
@@ -522,29 +547,40 @@
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
 		<div class="sevice_list col-md-12 container">
-		  <h2>产品服务/分类</h2>
+		  <h2>产品服务/类型</h2>
 		  <div class="col-md-12 p0">
-		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/类型：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
-					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" />${obj.name }</span>
+					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" /><input type="hidden" value="${obj.name }" >${obj.name } </span>
 			      </c:forEach>
 			  </div>
 		    </div>
 		  </div>
 		
-		<div class="sevice_list col-md-12 container" class="dnone" id="wz" >
-		  <h2>产品服务/分类/属性</h2>
+	<div class="sevice_list col-md-12 container" class="dnone" id="wz" >
+		  <h2>产品服务/分类</h2>
 		  <div class="col-md-12 p0">
-		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类/属性：</div>
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				    <c:forEach items="${wlist }" var="obj" >
-					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code }" />${obj.name }</span>
+					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code}" /> <input type="hidden" value="${obj.name }" > ${obj.name }</span>
 			      </c:forEach>
 			  </div>
 		    </div>
 	 </div>
 
+  <div class="sevice_list col-md-12 container"  >
+		  <h2>产品服务/品目</h2>
+		  <div class="col-md-12 p0">
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/品目：</div>
+			  <div class="col-md-7 service_list">
+					    <span><input type="text" name="chkItem" id="seach" value="" /> <input type="hidden"   id="hseach" value="" /> </span>
+					    <input type="button" onclick="seach()" class="btn" value="搜搜">
+			  </div>
+		    </div>
+	<!-- 	    <div class="col-md-12 tc"></div> -->
+	 </div>
 
 
 	<div style="margin-top: 100px;">
@@ -552,7 +588,7 @@
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
-				<div style="margin-top: 200px;">
+				<div style="margin-top: 260px;">
 								<!-- 物资生产型专业信息 -->
 			              <div class="dnone" id="sc">
 			              <div class="container container_box">

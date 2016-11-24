@@ -153,17 +153,7 @@ public class TopicManageController extends BaseSupplierController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("name", topic.getName());
 		map.put("parkId", parkId);
-		BigDecimal i = topicService.checkTopicName(map);
-		BigDecimal j = new BigDecimal(0);
-		if( !i .equals(j)){
-			flag = false;
-			model.addAttribute("ERR_name", "主题名称不能重复");
-		}
-		
-		if(parkId.equals(null) ||parkId.equals("") ){
-			flag = false;
-			model.addAttribute("ERR_park", "所属版块不能为空");
-		}	
+
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
@@ -171,6 +161,21 @@ public class TopicManageController extends BaseSupplierController {
 			}
 			flag = false;
 		}
+		if(topic.getName()!=""&&topic.getName()!= null){
+			BigDecimal i = topicService.checkTopicName(map);
+			BigDecimal j = new BigDecimal(0);
+			if( !i .equals(j)){
+				flag = false;
+				model.addAttribute("ERR_name", "主题名称不能重复");
+			}
+		}
+		
+		
+		if(parkId.equals(null) ||parkId.equals("") ){
+			flag = false;
+			model.addAttribute("ERR_park", "所属版块不能为空");
+		}	
+		
 		
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
@@ -231,16 +236,18 @@ public class TopicManageController extends BaseSupplierController {
 		String url = "";
 		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
-		String oldTopicName = topicService.selectByPrimaryKey(topicId).getName();
-		
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("name", topic.getName());
-		map.put("parkId", parkId);
-		BigDecimal i = topicService.checkTopicName(map);
-		BigDecimal j = new BigDecimal(0);
-		if( !oldTopicName.equals(topic.getName())&&!i .equals(j)){
-			flag = false;
-			model.addAttribute("ERR_name", "主题名称不能重复");
+		if(topic.getName()!=""&&topic.getName()!= null){
+			String oldTopicName = topicService.selectByPrimaryKey(topicId).getName();
+			
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("name", topic.getName());
+			map.put("parkId", parkId);
+			BigDecimal i = topicService.checkTopicName(map);
+			BigDecimal j = new BigDecimal(0);
+			if( !oldTopicName.equals(topic.getName())&&!i .equals(j)){
+				flag = false;
+				model.addAttribute("ERR_name", "主题名称不能重复");
+			}
 		}
 	
 		if(parkId.equals(null) ||parkId.equals("") ){

@@ -101,7 +101,7 @@ public class SaleTenderController {
         List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         //当前项目的所有包
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", "projectId");
+        map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
         model.addAttribute("listPackage", listPackage);
         model.addAttribute("list", new PageInfo<>(allSupplier));
