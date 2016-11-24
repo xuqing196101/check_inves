@@ -163,7 +163,9 @@ public class PostManageController {
 	public String add(Model model,HttpServletRequest request) throws IOException{
 		//附件上传
 		String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("id", id);
+		Post post = new Post();
+		post.setId(id);
+		model.addAttribute("post", post);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -218,7 +220,13 @@ public class PostManageController {
 				Topic topic = topicService.selectByPrimaryKey(topicId);				
 				post.setTopic(topic);
 			}
-			
+			DictionaryData dd=new DictionaryData();
+			dd.setCode("POST_ATTACHMENT");
+			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("sysKey", Constant.FORUM_SYS_KEY);
+			if(list.size()>0){
+				model.addAttribute("typeId", list.get(0).getId());
+			}
 			model.addAttribute("post", post);
 			url ="iss/forum/post/add";
 		}else{
@@ -328,6 +336,7 @@ public class PostManageController {
 			model.addAttribute("parks", parks);
 			List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
 			model.addAttribute("topics", topics);
+			
 			url="iss/forum/post/edit";
 			
 		}else{
@@ -513,7 +522,9 @@ public class PostManageController {
 	@RequestMapping("/publish")
 	public String indexpublish(Model model,HttpServletRequest request){
 		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("id", uuid);
+		Post post = new Post();
+		post.setId(uuid);
+		model.addAttribute("post", post);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("POST_ATTACHMENT");
 		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -546,9 +557,9 @@ public class PostManageController {
 			model.addAttribute("ERR_park", "版块不能为空");			
 		}
 		if(topicId == null ||topicId=="" ){
+			flag = false;
 			model.addAttribute("ERR_topic", "主题不能为空");
-		}
-				
+		}				
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
@@ -559,6 +570,9 @@ public class PostManageController {
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
+			model.addAttribute("parkId", parkId);
+			model.addAttribute("topicId", topicId);
+			model.addAttribute("post", post);
 			url ="iss/forum/publish_post";
 		}else{
 			Timestamp ts = new Timestamp(new Date().getTime());
@@ -570,10 +584,8 @@ public class PostManageController {
 			post.setIsLocking(0);
 			post.setIsTop(0);
 			User user = (User)request.getSession().getAttribute("loginUser");
-			post.setUser(user);
-			
+			post.setUser(user);			
 			postService.insertSelective(post);	
-
 			url ="redirect:/park/getIndex.html";
 		}
 		return url;

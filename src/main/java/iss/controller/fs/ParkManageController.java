@@ -34,7 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
+import ses.util.PropertiesUtil;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
@@ -70,8 +72,23 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/getlist")
-	public String getParkList(Model model, Park park,Integer page) {
-		List<Park> parklist = parkService.queryByList(park,page==null?1:page);
+	public String getParkList(HttpServletRequest request,Model model, Park park,Integer page) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		String parkNameForSerach = request.getParameter("parkNameForSerach");
+		String parkContentForSerach = request.getParameter("parkContentForSerach");	
+		if(page == null){
+			page=1;
+		}
+		if(parkNameForSerach!=null && parkNameForSerach!=""){
+			map.put("parkNameForSerach", parkNameForSerach);
+		}
+		if(parkContentForSerach !=null && parkContentForSerach!=""){
+			map.put("parkContentForSerach", parkContentForSerach);
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Park> parklist = parkService.queryByList(map);
 		for (Park park2 : parklist) {
 			Topic topic = new Topic();
 			topic.setPark(park2);
@@ -84,7 +101,10 @@ public class ParkManageController extends BaseSupplierController {
 			park2.setPostcount(postcount);
 			park2.setReplycount(replycount);
 		}	
+		
 		model.addAttribute("list", new PageInfo<Park>(parklist));
+		model.addAttribute("parkNameForSerach", parkNameForSerach);
+		model.addAttribute("parkContentForSerach", parkContentForSerach);
 		return "iss/forum/park/list";
 	}
 
@@ -156,7 +176,16 @@ public class ParkManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");
 			}
-		}		
+		}				
+		if(park.getIsHot() == 1){
+			int k = parkService.queryHotParks().size();	
+			if(!(k<4)){
+				flag = false;
+				model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
+			}
+		}
+	
+		
 		if(flag == false){
 			String userId = request.getParameter("userId");
 			if(!(userId.equals(null) || userId.equals(""))){

@@ -24,6 +24,7 @@
     <script src="${ pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	<script type="text/javascript">
 	$(function () {
+			 $("#isHoT").val("${park.isHot}");
 			 $.ajax({
 	                url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
 	                contentType: "application/json;charset=UTF-8", 
@@ -85,6 +86,16 @@
 			    	    <select id="user"  class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select> 
 			    	</div>
 			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+               <span class="col-md-12 padding-left-5 ">热门：</span>
+               <div class="select_common col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <select id="isHoT" name="isHot" class="col-md-12 col-sm-12 col-xs-12 p0">
+                <option value="0" selected="selected">不是热门</option>
+                <option value="1">热门</option>
+                </select> 
+                <div class="cue">${ERR_isHot}</div>           
+                </div>       
+             </li>
 			
              <input  type ="hidden" id="userId" name="userId"></input>
              

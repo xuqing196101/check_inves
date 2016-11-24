@@ -46,13 +46,20 @@
 		  </select>
 		  		
 		  <!-- 3.1查询版块列表分页 -->
-		    <select id="queryByList" parameterType="Object" resultMap="ParkTopicPostMap">
+		    <select id="queryByList" parameterType="Map" resultMap="ParkTopicPostMap">
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
-
-		   WHERE IS_DELETED = 0
-		   ORDER BY CREATED_AT ASC 
+		    WHERE IS_DELETED = 0
+		    <trim suffixOverrides=",">
+                  <if test="parkNameForSerach!= null">
+                    and NAME Like concat(concat('%', '${parkNameForSerach}'), '%')
+                  </if> 
+                   <if test="parkContentForSerach!= null">
+                    and CONTENT Like concat(concat('%', '${parkContentForSerach}'), '%')
+                  </if>         
+                </trim>
+			 ORDER BY CREATED_AT DESC
 		  </select>	
 		  	  
 		  <!-- 4.根据ID删除 逻辑删除-->
@@ -90,8 +97,11 @@
 		      <if test="creater != null">
 		        CREATER_ID,
 		      </if>
+		      <if test="isHot != null">
+		        IS_HOT,
+		      </if>
 		       IS_DELETED,
-		       IS_HOT,
+		      
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
@@ -115,7 +125,9 @@
 		      <if test="creater != null">
 		        #{creater.id},
 		      </if>
-		       0,
+		       <if test="isHot != null">
+		        #{isHot},
+		      </if>
 		       0,
 		    </trim>
 		  </insert>

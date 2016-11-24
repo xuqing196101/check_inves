@@ -39,11 +39,10 @@ public class ParkServiceImpl implements ParkService{
 	}
 
 	@Override
-	public List<Park> queryByList(Park park,Integer page) {
+	public List<Park> queryByList(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return parkMapper.queryByList(park,page);
+
+		return parkMapper.queryByList(map);
 	}
 	
 
