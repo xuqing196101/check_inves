@@ -69,7 +69,7 @@ function sub(){
        </div>
 	 </li>
      <li class="col-md-3 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">信息类型：</span>
+	   <span class="col-md-12 padding-left-5">信息栏目：</span>
 	   <div class="mb5">
        <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>

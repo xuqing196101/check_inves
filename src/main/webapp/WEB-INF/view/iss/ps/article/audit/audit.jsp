@@ -86,7 +86,7 @@ function goBack(){
        </div>
 	 </li>
      <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息类型：</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息栏目：</span>
       <select id="articleTypeId" name="articleType.id" class="select_common col-md-12 col-sm-12 col-xs-12" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">

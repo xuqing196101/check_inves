@@ -832,8 +832,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @param request {@link HttpServletRequest}
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/assignedRes",produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/assignedRes",produces= {"application/json;charset=UTF-8"})
     public List<CategotyBean> categoryResult(HttpServletRequest request){
        String orgIds = request.getParameter("orgIds");
        List<CategotyBean> list = cateAssignService.getCateAssignedRes(orgIds);

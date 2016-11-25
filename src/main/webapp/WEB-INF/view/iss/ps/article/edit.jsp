@@ -119,7 +119,7 @@ $(function(){
 	 </li>
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="star_red">*</div>信息类型：</span>
+	   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><div class="star_red">*</div>信息栏目：</span>
 	   <div class="select_common col-md-12 col-xs-12 col-sm-12 input_group p0" >
        <select id="articleTypes" name="articleType.id" class="p0 select col-md-12 col-xs-12 col-sm-12 " onchange="typeInfo()">
           </select>

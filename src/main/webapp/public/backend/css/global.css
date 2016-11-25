@@ -983,3 +983,24 @@ li:first-child {
 	height: 420px !important;
 	overflow-y:auto !important;
 }
+
+
+/** ul仿制表格 */
+.ul_table{
+	width:100%;
+	display: table;
+	border:1px solid #dddddd;
+	border-top:0px;
+	height:auto;
+	margin-bottom:0px!important; 	
+}
+.ul_table li.bt_none{
+	border-top:0px;
+}
+.ul_table li{
+	width: 100%;
+	display: table;
+	border-top:1px solid #dddddd;
+	height:33px;
+	line-height: 33px;
+}
