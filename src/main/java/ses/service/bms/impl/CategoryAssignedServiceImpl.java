@@ -17,7 +17,6 @@ import ses.formbean.CategotyBean;
 import ses.model.bms.CategoryAssigned;
 import ses.service.bms.CategoryAssignedService;
 import ses.service.bms.CategoryService;
-
 import common.constant.StaticVariables;
 
 /**
@@ -243,7 +242,17 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
         }
         return res;
     }
+    
 
+    /**
+     * 
+     * @see ses.service.bms.CategoryAssignedService#getAllocationItemIds(java.lang.String)
+     */
+    @Override
+    public List<String> getAllocationItemIds(String orgId) {
+        
+        return mapper.findAllocationIds(orgId);
+    }
 
 
     /**
@@ -251,6 +260,7 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
      * @see ses.service.bms.CategoryAssignedService#findCaListByOrgId(java.lang.String)
      */
     public List<CategoryAssigned> findCaListByOrgId(String orgId){
+        
         return mapper.findCateListByOrg(orgId);
     }
     

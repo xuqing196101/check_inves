@@ -833,7 +833,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/assignedRes")
+    @RequestMapping(value = "/assignedRes",produces= "application/json;charset=UTF-8")
     public List<CategotyBean> categoryResult(HttpServletRequest request){
        String orgIds = request.getParameter("orgIds");
        List<CategotyBean> list = cateAssignService.getCateAssignedRes(orgIds);
@@ -877,6 +877,23 @@ public class CategoryParamContrller extends BaseSupplierController {
         String cateIds = request.getParameter("cateId");
         return cateAssignService.unassigned(orgIds, cateIds);
     }
+    
+    /**
+     * 
+     *〈简述〉
+     *  获取已分配的品目Id
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 组织机构
+     * @return 已分配的组织机构id
+     */
+    @ResponseBody
+    @RequestMapping(value = "/allocaItemIds",produces="application/json;charset=UTF-8")
+    public List<String> getAssignedItemIds(String orgId){
+        
+        return cateAssignService.getAllocationItemIds(orgId);
+    }
+    
     
     /**
      * @Title: abrogate_allocate

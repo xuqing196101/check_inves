@@ -64,4 +64,16 @@ public interface CategoryAssignedService {
     * @return
     */
    public List<CategotyBean> getCateAssignedRes(String orgIds);
+   
+   /**
+    * 
+    *〈简述〉
+    *  获取已经分配的品目Id
+    *〈详细描述〉
+    * @author myc
+    * @return
+    */
+   public List<String> getAllocationItemIds(String orgId);
+   
+   
 }
