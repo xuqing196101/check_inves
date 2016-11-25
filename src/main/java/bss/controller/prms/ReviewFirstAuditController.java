@@ -201,7 +201,6 @@ public class ReviewFirstAuditController {
 						}
 					}
 					if(flag==0){
-						//List<SaleTender> list2 = saleTenderService.list(new SaleTender(auditModelExt.getSupplierId()), 0);
 						Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
 						supplierList.add(supplier);
 					}
@@ -226,6 +225,7 @@ public class ReviewFirstAuditController {
 	  * @return void
 	 */
 	private static void removeSupplier(List<Supplier> list)   { 
+	   
 	   for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
 	    for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
 	      if  (list.get(j).getId(). equals(list.get(i).getId()))   { 

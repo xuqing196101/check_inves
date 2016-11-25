@@ -91,11 +91,17 @@
 		<if test="name != null">
 			and o.name like '%'||#{name}||'%'
 		</if>
-		<if test="areaName != null">
+		<!-- <if test="areaName != null">
 			and o.areaName like '%'||#{areaName}||'%'
-		</if>  
+		</if>  --> 
 		 <if test="quaStatus != null">
 			and o.QUA_STATUS= #{quaStatus}
+		</if>
+		 <if test="provinceId != null">
+			and o.PROVINCE_ID= #{provinceId}
+		</if>
+		 <if test="cityId != null">
+			and o.CITY_ID= #{cityId}
 		</if>
 		<!-- <if test="quaEdndate != null">
 			and o.QUA_EDNDATE <= #{quaEdndate}

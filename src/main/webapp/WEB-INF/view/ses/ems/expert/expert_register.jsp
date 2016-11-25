@@ -3,12 +3,10 @@
 <jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <%
 	//表单标示
-	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
+String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
+session.setAttribute("tokenSession", tokenValue);
 %>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
  <script type="text/javascript">
@@ -78,11 +76,8 @@
 <!-- 修改订列表开始-->
    <div class="container">
    <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="form1">
-   		<%
-			session.setAttribute("tokenSession", tokenValue);
-		 %>
-		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
-		 <input type="hidden" id="message" value="${message }"/>
+	 <input type="hidden"  name="token2" value="<%=tokenValue%>">
+	 <input type="hidden" id="message" value="${message }"/>
    <div>
 	<br/><br/>
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">

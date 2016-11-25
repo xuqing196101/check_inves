@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.Packages;
@@ -44,7 +45,6 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
-import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.service.bms.AreaServiceI;
@@ -65,9 +65,9 @@ import ses.util.WordUtil;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController {
-	@Autowired
-	private UserServiceI userService;//用户管理
-	@Autowired
+    @Autowired
+    private UserServiceI userService;//用户管理
+    @Autowired
 	private ExpertService service;//专家管理
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;//采购机构管理
@@ -114,8 +114,8 @@ public class ExpertController {
 	  * @author ShaoYangYang
 	  * @date 2016年9月29日 上午11:03:50  
 	  * @Description: TODO 查看专家信息
-	  * @param @param id
-	  * @param @param model
+	  * @param id
+	  * @param model
 	  * @param @return      
 	  * @return String
 	 */
@@ -132,6 +132,27 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		}
+		//查询数据字典中的证件类型配置数据
+        List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+        model.addAttribute("idTypeList", idTypeList);
+        //查询数据字典中的政治面貌配置数据
+        List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+        model.addAttribute("zzList", zzList);
+        //查询数据字典中的最高学历配置数据
+        List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+        model.addAttribute("xlList", xlList);
+        //查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        model.addAttribute("lyTypeList", lyTypeList);
+        //查询数据字典中的性别配置数据
+        List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+        model.addAttribute("sexList", sexList);
+        //产品类型数据字典
+        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+        model.addAttribute("spList", spList);
+        //货物类型数据字典
+        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+        model.addAttribute("hwList", hwList);
 		//专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		Map<String, Object> typeMap = getTypeId();
@@ -166,13 +187,12 @@ public class ExpertController {
 	
 	/**
 	 * 
-	  * @Title: add
+	  * @Title: register
 	  * @author lkzx 
 	  * @date 2016年8月31日 下午6:36:19  
 	  * @Description: TODO 注册评审专家用户
-	  * @param @param expert
-	  * @param @param model
-	  * @param @return      
+	  * @param  expert
+	  * @param  model
 	  * @return String
 	 */
 	@RequestMapping("/register")
@@ -199,14 +219,13 @@ public class ExpertController {
 				return "ems/expert/expert_register";
 			}
 			user.setId(WfUtil.createUUID());
-		request.setAttribute("user", user);
-		//model.addAttribute("expert", expert);
-		//查找用户类型
-		String userType = DictionaryDataUtil.getId("EXPERT_U");
-		user.setTypeName(userType);
-		userService.save(user, null);
-		attr.addAttribute("userId", user.getId());
-		return "redirect:toAddBasicInfo.html";
+			request.setAttribute("user", user);
+			//查找用户类型
+			String userType = DictionaryDataUtil.getId("EXPERT_U");
+			user.setTypeName(userType);
+			userService.save(user, null);
+			attr.addAttribute("userId", user.getId());
+			return "redirect:toAddBasicInfo.html";
 		} 
 		//重复提交
 		else{
@@ -216,20 +235,20 @@ public class ExpertController {
 	}
 	/**
 	 * 
-	  * @Title: toBasicInfo
-	  * @author lkzx 
-	  * @date 2016年9月1日 上午11:12:55  
-	  * @Description: TODO 跳转到填写 个人信息
-	  * @param @param model
-	  * @param @return      
+	  * @Title: toAddBasicInfo
+	  * @author ShaoYangYang
+	  * @date 2016年11月23日 下午7:27:29  
+	  * @Description: TODO 
+	  * @param  userId
+	  * @param  request
+	  * @param  response
+	  * @param  model
 	  * @return String
 	 */
+	
 	@RequestMapping("/toAddBasicInfo")
-	public String toAddBasicInfo(@RequestParam("userId")String userId,Map<String,Object> errorMap,HttpServletRequest request,HttpServletResponse response,  Model model){
+	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
-	/*	if(user==null){
-			throw new RuntimeException("该用户没有注册！");
-		}*/
 		String typeId = user.getTypeId();
 		//生成专家id
 		String expertId = "";
@@ -243,13 +262,15 @@ public class ExpertController {
 				//已提交未审核数据
 				flag=1;
 			}
+			Map<String, Object> errorMap = service.Validate(expert, 3);
 			model.addAttribute("expert", expert);
+			model.addAttribute("errorMap", errorMap);
 		}else{
 			expertId=WfUtil.createUUID();
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("typeName", "0");
-		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(map);
+		List<PurchaseDep> purchaseDepList =  purchaseOrgnizationService.findPurchaseDepList(map);
 		  //专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		//获取各个附件类型id集合
@@ -287,21 +308,31 @@ public class ExpertController {
 		model.addAttribute("expertKey", expertKey);
 		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
-		model.addAttribute("errorMap", errorMap);
 		if(flag==1){
 			return "ses/ems/expert/basic_info_view";
 		}else{
 			return "ses/ems/expert/basic_info";
 		}
 	}
+	@RequestMapping(value="showJiGou",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String showJiGou(String pId,String zId){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("typeName", "0");
+		map.put("provinceId", pId);
+		map.put("cityId", zId);
+		List<PurchaseDep> purchaseDepList =  purchaseOrgnizationService.findPurchaseDepList(map);
+		return JSON.toJSONString(purchaseDepList);
+	}
+	
 	/**
 	 * 
 	  * @Title: isAttachment
 	  * @author ShaoYangYang
 	  * @date 2016年11月9日 下午3:02:58  
 	  * @Description: TODO 判断是否有合同书和申请表的附件
-	  * @param @param expertId
-	  * @param @param typeMap
+	  * @param  expertId
+	  * @param  typeMap
 	  * @param @return      
 	  * @return String
 	 */
@@ -393,7 +424,7 @@ public class ExpertController {
 	  * @author lkzx 
 	  * @date 2016年9月1日 上午11:12:55  
 	  * @Description: TODO 跳转到修改个人信息
-	  * @param @param model
+	  * @param  model
 	  * @param @return      
 	  * @return String
 	 */
@@ -407,6 +438,28 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
+		//查询数据字典中的证件类型配置数据
+		List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+		model.addAttribute("idTypeList", idTypeList);
+		//查询数据字典中的政治面貌配置数据
+		List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+		model.addAttribute("zzList", zzList);
+		//查询数据字典中的最高学历配置数据
+		List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+		model.addAttribute("xlList", xlList);
+		//查询数据字典中的专家来源配置数据
+		List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+		model.addAttribute("lyTypeList", lyTypeList);
+		//查询数据字典中的性别配置数据
+		List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+		model.addAttribute("sexList", sexList);
+		//产品类型数据字典
+		List<DictionaryData> spList = DictionaryDataUtil.find(6);
+		model.addAttribute("spList", spList);
+		//货物类型数据字典
+		List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+		model.addAttribute("hwList", hwList);
+		
 		  //专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		Map<String, Object> typeMap = getTypeId();
@@ -425,8 +478,7 @@ public class ExpertController {
 	  * @author lkzx 
 	  * @date 2016年9月1日 上午11:12:55  
 	  * @Description: TODO 跳转到审核页面
-	  * @param @param model
-	  * @param @return      
+	  * @param  model
 	  * @return String
 	 */
 	@RequestMapping("/toShenHe")
@@ -441,7 +493,28 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
-		//专家系统key
+		    //查询数据字典中的证件类型配置数据
+	        List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+	        model.addAttribute("idTypeList", idTypeList);
+	        //查询数据字典中的政治面貌配置数据
+	        List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+	        model.addAttribute("zzList", zzList);
+	        //查询数据字典中的最高学历配置数据
+	        List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+	        model.addAttribute("xlList", xlList);
+	        //查询数据字典中的专家来源配置数据
+	        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+	        model.addAttribute("lyTypeList", lyTypeList);
+	        //查询数据字典中的性别配置数据
+	        List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+	        model.addAttribute("sexList", sexList);
+	        //产品类型数据字典
+	        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+	        model.addAttribute("spList", spList);
+	        //货物类型数据字典
+	        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+	        model.addAttribute("hwList", hwList);
+		  	//专家系统key
 			Integer expertKey = Constant.EXPERT_SYS_KEY;
 			Map<String, Object> typeMap = getTypeId();
 			//typrId集合
@@ -450,7 +523,7 @@ public class ExpertController {
 			model.addAttribute("sysId", id);
 			//Constant.EXPERT_SYS_VALUE;
 			model.addAttribute("expertKey", expertKey);
-		request.setAttribute("expert", expert);
+			request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit";
 	}
 	/**
@@ -507,6 +580,27 @@ public class ExpertController {
 					   model.addAttribute("purchase", purchaseDep);
 				      }
 				    }
+				 	//查询数据字典中的证件类型配置数据
+		            List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+		            model.addAttribute("idTypeList", idTypeList);
+		            //查询数据字典中的政治面貌配置数据
+		            List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+		            model.addAttribute("zzList", zzList);
+		            //查询数据字典中的最高学历配置数据
+		            List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+		            model.addAttribute("xlList", xlList);
+		            //查询数据字典中的专家来源配置数据
+		            List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+		            model.addAttribute("lyTypeList", lyTypeList);
+		            //查询数据字典中的性别配置数据
+		            List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+		            model.addAttribute("sexList", sexList);
+		            //产品类型数据字典
+		            List<DictionaryData> spList = DictionaryDataUtil.find(6);
+		            model.addAttribute("spList", spList);
+		            //货物类型数据字典
+		            List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+		            model.addAttribute("hwList", hwList);
 				 	//专家系统key
 					Integer expertKey = Constant.EXPERT_SYS_KEY;
 					Map<String, Object> typeMap = getTypeId();
@@ -516,7 +610,7 @@ public class ExpertController {
 					model.addAttribute("sysId", expert.getId());
 					//Constant.EXPERT_SYS_VALUE;
 					model.addAttribute("expertKey", expertKey);
-				model.addAttribute("expert", expert);
+					model.addAttribute("expert", expert);
 			    }
 		    }
 		}
@@ -564,10 +658,10 @@ public class ExpertController {
 			if(expert.getExpertsTypeId().equals("1")){
 				expertCategoryService.save(expert, categoryId);
 			}
-		return "redirect:findAllExpert.html";
+		    return "redirect:findAllExpert.html";
 		}else{
 			//重复提交  这里未做重复提醒，只是不重复修改
-		return "redirect:findAllExpert.html";
+			return "redirect:findAllExpert.html";
 		}
 	}
 	/**
@@ -595,11 +689,8 @@ public class ExpertController {
 				Map<String, Object> map = service.saveOrUpdate(expert, expertId, categoryId);
 				if(map!=null && !map.isEmpty()){
 					attr.addAttribute("userId", userId);
-					 attr.addAllAttributes(map);
 					return "redirect:toAddBasicInfo.html";
 				}
-			}else{
-				//重复提交  这里未做重复提醒，只是不重复增加
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -646,17 +737,38 @@ public class ExpertController {
 	  * @Title: getCategoryByExpertId
 	  * @author ShaoYangYang
 	  * @date 2016年9月28日 下午5:14:00  
-	  * @Description: TODO 根据专家id查询该专家关联的品目id
+	  * @Description: TODO 根据专家id查询该专家关联的品目code
 	  * @param @param id
 	  * @param @return      
 	  * @return List<ExpertCategory>
 	 */
 	@RequestMapping("/getCategoryByExpertId")
 	@ResponseBody
-	public List<ExpertCategory> getCategoryByExpertId(@RequestParam("expertId")String id){
-		List<ExpertCategory> list = expertCategoryService.getListByExpertId(id);
+	public List<String> getCategoryByExpertId(@RequestParam("expertId")String id){
+		List<String> list = expertCategoryService.getListByExpertId(id);
 		return list;
 	}
+	
+	/**
+	 * 
+	 * @Title: getCategoryByExpertId
+	 * @author ShaoYangYang
+	 * @date 2016年9月28日 下午5:14:00  
+	 * @Description: TODO 根据专家id查询该专家的采购机构id
+	 * @param @param id
+	 * @param @return      
+	 * @return List<ExpertCategory>
+	 */
+	@RequestMapping("/getPurDepIdByExpertId")
+	@ResponseBody
+	public String getPurDepIdByExpertId(@RequestParam("expertId")String id){
+		Expert expert = service.selectByPrimaryKey(id);
+		if(expert!=null){
+			return expert.getPurchaseDepId();
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	  * @Title: deleteAll
@@ -692,10 +804,14 @@ public class ExpertController {
 	@RequestMapping("/findAllExpert")
 	public String findAllExpert(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?0:page,expert);
+		//查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
 		request.setAttribute("result", new PageInfo<Expert>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/list";
 	}
+	
 	/**
 	 * 
 	  * @Title: findAllExpertShenHe
@@ -729,64 +845,6 @@ public class ExpertController {
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit_list";
 	}
-	
-	/**
-	 * 
-	  * @Title: toShenHeExpert2
-	  * @author lkzx 
-	  * @date 2016年9月2日 下午5:44:37  
-	  * @Description: TODO 跳转到审核通过专家
-	  * @param @return      
-	  * @return String
-	 */
-	@RequestMapping("/toShenHeExpert2")
-	public String toShenHeExpert2( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
-		expert.setStatus("1");
-		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<Expert>(allExpert));
-		request.setAttribute("expert", expert);
-		return "ses/ems/expert/audit_list";
-	}
-	/**
-	 * 
-	  * @Title: toShenHeExpert3
-	  * @author lkzx 
-	  * @date 2016年9月2日 下午5:44:37  
-	  * @Description: TODO 跳转到审核未通过专家
-	  * @param @return      
-	  * @return String
-	 */
-	@RequestMapping("/toShenHeExpert3")
-	public String toShenHeExpert3( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
-		expert.setStatus("2");
-		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		request.setAttribute("result", new PageInfo<Expert>(allExpert));
-		request.setAttribute("expert", expert);
-		return "ses/ems/expert/audit_list";
-	}
-	 /**
-	  * 
-	   * @Title: to
-	   * @author ShaoYangYang
-	   * @date 2016年9月12日 下午4:01:22  
-	   * @Description: TODO 跳转到待办页面
-	   * @param @param model
-	   * @param @return      
-	   * @return String
-	  */
-	 @RequestMapping("/toBackLog")
-	 public String toBackLog(Expert expert,Model model){
-		 expert.setStatus("0");
-		 Integer weishenhe = service.getCount(expert);
-		 expert.setStatus("1");
-		 Integer tongguo = service.getCount(expert);
-		 expert.setStatus("2");
-		 Integer pass = service.getCount(expert);
-		  model.addAttribute("weishenhe", weishenhe);
-		  model.addAttribute("tongguo", tongguo);
-		  model.addAttribute("pass", pass);
-		 return "ses/ems/expert/backlog";
-	 }
 	
 	 /**
 	  * 
@@ -822,13 +880,16 @@ public class ExpertController {
 	   */
 	  @RequestMapping("findAttachment")
 	  @ResponseBody
-	  public List<ExpertAttachment> findAttachment(String sysId,String typeId){
+	  public String findAttachment(String sysId,String typeId){
 		  
 		  Map<String, Object> map = new HashMap<>();
 		  map.put("businessId", sysId);
+		  map.put("isDeleted", "0");
 		  map.put("typeId", typeId);
-		return attachmentService.selectListByMap(map);
+		  List<ExpertAttachment> list = attachmentService.selectListByMap(map);
+		  return JSON.toJSONString(list);
 	  }
+	  
 	  /**
 	   * 
 	    * @Title: toProjectList
@@ -877,7 +938,7 @@ public class ExpertController {
 								projectExt.setPackageName(packages.getName());
 								projectExtList.add(projectExt);
 							}
-						model.addAttribute("projectExtList", projectExtList);
+							model.addAttribute("projectExtList", projectExtList);
 						}
 					}
 		} catch (Exception e) {
@@ -886,6 +947,7 @@ public class ExpertController {
 		  
 		  return "bss/prms/audit/list";
 	  }
+	  
 	  /**
 	   * 
 	    * @Title: toFirstAudit
@@ -932,7 +994,6 @@ public class ExpertController {
 		  reviewProgressService.saveProgress(projectId, packageId, expertId);
 		  attr.addAttribute("projectId", projectId);
 		  attr.addAttribute("packageId", packageId);
-		  
 		  return "redirect:toFirstAudit.html";
 	  }
 	  
@@ -950,20 +1011,19 @@ public class ExpertController {
 		  User user = (User)session.getAttribute("loginUser");
 		  String expertId = user.getTypeId();
 		  reviewProgressService.saveGrade(projectId, packageId, expertId);
-		  
 		  attr.addAttribute("projectId", projectId);
 		  attr.addAttribute("packageId", packageId);
-		  
 		  return "redirect:toFirstAudit.html";
 	  }
+	  
 	  /**
 	   * 
 	    * @Title: supplierQuote
 	    * @author ShaoYangYang
 	    * @date 2016年11月11日 下午2:46:47  
 	    * @Description: TODO 查看供应商报价
-	    * @param @param packageId
-	    * @param @param supplierId
+	    * @param packageId
+	    * @param supplierId
 	    * @param @return      
 	    * @return String
 	   */

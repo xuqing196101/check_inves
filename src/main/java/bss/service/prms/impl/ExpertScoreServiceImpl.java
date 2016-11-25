@@ -1,6 +1,7 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,16 +9,32 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.ppms.AduitQuotaMapper;
+import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
+import bss.dao.prms.ReviewFirstAuditMapper;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
+import bss.model.prms.ReviewFirstAudit;
+import bss.model.prms.ext.AuditModelExt;
 import bss.service.prms.ExpertScoreService;
+import ses.dao.sms.SupplierMapper;
+import ses.model.sms.Supplier;
 import ses.util.WfUtil;
 @Service
 public class ExpertScoreServiceImpl implements ExpertScoreService {
 
 	@Autowired
 	private ExpertScoreMapper mapper;
+	@Autowired
+	private AduitQuotaMapper aduitQuotaMapper;
+	@Autowired
+	private SupplierMapper supplierMapper;
+	@Autowired
+	private ReviewFirstAuditMapper reviewFirstAuditMapper;
+	@Autowired
+	private SupplierCheckPassMapper supplierCheckPassMapper;
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -125,5 +142,100 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 			}
 		}
 	}
-
+	 /**
+     * 
+     *〈简述〉
+     *〈详细描述〉评分汇总
+     * @author ShaoYangYang
+     * @param packageId
+     * @param projectId
+     * @return
+     */
+    public String gather(String packageId, String projectId,String expertId){
+       
+        Map<String, Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        //查询评分信息
+        List<AuditModelExt> findAllByMap = aduitQuotaMapper.findAllByMap(map);
+        removeAuditModelExt(findAllByMap);
+        //查询供应商信息
+        List<Supplier> supplierList = new ArrayList<>();
+        Map<String,Object> supplierMap = new HashMap<>();
+        supplierMap.put("projectId", projectId);
+        supplierMap.put("packageId", packageId);
+        if(findAllByMap!=null && findAllByMap.size()>0){
+            for (AuditModelExt auditModelExt : findAllByMap) {
+                supplierMap.put("supplierId", auditModelExt.getSupplierId());
+                List<ReviewFirstAudit> list = reviewFirstAuditMapper.selectList(supplierMap);
+                if(list!=null && list.size()>0){
+                    //如果有一项不合格 那么就不参加评分
+                    int flag = 0;
+                    for (ReviewFirstAudit reviewFirstAudit : list) {
+                        if(reviewFirstAudit.getIsPass()==1){
+                            //证明有不合格的数据
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if(flag==0){
+                        //List<SaleTender> list2 = saleTenderService.list(new SaleTender(auditModelExt.getSupplierId()), 0);
+                        Supplier supplier = supplierMapper.selectByPrimaryKey(auditModelExt.getSupplierId());
+                        supplierList.add(supplier);
+                    }
+                }
+            }
+        }   
+        //去重复后的供应商集合
+        removeSupplier(supplierList);
+        
+         Map<String, Object> mapScore = new HashMap<>();
+         mapScore.put("packageId", packageId);
+         mapScore.put("projectId", projectId);
+         mapScore.put("expertId", expertId);
+         for (Supplier supplier : supplierList) {
+             BigDecimal zero = BigDecimal.ZERO;
+             mapScore.put("supplierId", supplier.getId());
+             //查询改包下的供应商所有评审项的评分信息
+             List<ExpertScore> list = mapper.selectByMap(map);
+             for (ExpertScore expertScore : list) {
+                zero.add(expertScore.getScore());
+            }
+             SupplierCheckPass record = new SupplierCheckPass();
+             record.setPackageId(packageId);
+             record.setProjectId(projectId);
+             record.setSupplierId(supplier.getId());
+             record.setTotalScore(zero);
+            supplierCheckPassMapper.insert(record );
+        }
+       
+        return "success";
+    }
+    /**
+     * 
+      * @Title: removeDuplicate
+      * @author ShaoYangYang
+      * @date 2016年11月16日 下午3:31:52  
+      * @Description: TODO 去重复
+      * @param @param list      
+      * @return void
+     */
+    private static void removeSupplier(List<Supplier> list)   { 
+       for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+        for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+          if  (list.get(j).getId(). equals(list.get(i).getId()))   { 
+            list.remove(j); 
+          } 
+        } 
+      } 
+    } 
+    private static void removeAuditModelExt(List<AuditModelExt> list)   { 
+        for  ( int  i  =   0 ; i  <  list.size()  -   1 ; i ++ )   { 
+            for  ( int  j  =  list.size()  -   1 ; j  >  i; j -- )   { 
+                if  (list.get(j).getScoreModelId(). equals(list.get(i).getScoreModelId())){ 
+                    list.remove(j); 
+                } 
+            } 
+        } 
+    } 
 }

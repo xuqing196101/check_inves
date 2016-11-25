@@ -15,7 +15,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <title>各包分配专家</title>
     <script type="text/javascript">
-    var result;
     $(function(){
     	var packageId=	$("input[name='packageId']").val();
     	var flag=$("#flag").val();
@@ -114,6 +113,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        }
 	 //符合汇总
 		function gather(obj){
+			//得到点击坐标。
+		    var x,y;  
+		    oRect = obj.getBoundingClientRect();  
+			 x=oRect.left-400;  
+			 y=oRect.top-100;  
 		    var table = obj.parentNode.parentNode.parentNode.parentNode;
 		    var checkbox = $(table).find("input[name='chkItem']");
 			var id; 
@@ -126,29 +130,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}); 
 			if(count==1){
-				var index = layer.confirm('确定汇总吗?', {icon: 3, title:'提示'}, function(index){
+				var index = layer.confirm('确定汇总吗?', {icon: 3, title:'提示'},function(index){
 				var value = id.split(",");
 				var projectId = "${project.id}";
 				$.ajax({
 					url:"${pageContext.request.contextPath}/packageExpert/gather.html?projectId="+projectId+"&expertId="+value[0]+"&packageId="+value[1],
 					success:function(data){
-						layer.msg(data);
-					},
-					error:function(){
-						
+						layer.alert(data,{offset: [y, x], shade:0.01});
 					}
 				});
 				  layer.close(index);
 				});
 			}else if(count>1){
-				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只能选择一个",{offset: [y, x], shade:0.01});
 			}else{
-				layer.alert("请选择一条",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("请选择一条",{offset: [y, x], shade:0.01});
 			}
 			
 		}
 		 //退回
 		function isBack(obj){
+			//得到点击坐标。
+		    var x,y;  
+		    oRect = obj.getBoundingClientRect();  
+			 x=oRect.left-400;  
+			 y=oRect.top-100;  
 		    var table = obj.parentNode.parentNode.parentNode.parentNode;
 		    var checkbox = $(table).find("input[name='chkItem']");
 			var id; 
@@ -168,25 +174,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					url:"${pageContext.request.contextPath}/packageExpert/isBack.html?projectId="+projectId+"&expertId="+value[0]+"&packageId="+value[1],
 					success:function(data){
 						if(data=='0'){
-							layer.msg("不能退回！");
+							layer.alert("不能退回！",{offset: [y, x], shade:0.01});
 						}else{
-							layer.msg("已退回！");
+							layer.alert("已退回！",{offset: [y, x], shade:0.01});
 							setTimeout(function(){  //使用  setTimeout（）方法设定定时2000毫秒
 								window.location.reload();//页面刷新
 								},1000);
 						}
-						
-					},
-					error:function(){
 						
 					}
 				});
 				layer.close(index);
 				});
 			}else if(count>1){
-				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只能选择一个",{offset: [y, x], shade:0.01});
 			}else{
-				layer.alert("请选择一条",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("请选择一条",{offset: [y, x], shade:0.01});
 			}
 			
 		}
@@ -266,8 +269,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 }
 		 //查看供应商报价
 		 function supplierView(supplierId){
-				    var projectId=$("#projectId").val();
-					location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="+projectId+"&supplierId="+supplierId;
+		    var projectId=$("#projectId").val();
+			location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?projectId="+projectId+"&supplierId="+supplierId;
 		 }
 		
 		 //评分确认或退回
@@ -296,6 +299,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							 
 						 }
 					 });
+		 }
+		
+		 //汇总判断每一个table中的每一行每一列的值是否相等
+		 function scoreTotal(obj,packageId,projectId){
+			 var expertId = $("#expertId").val();
+			 //得到点击坐标。
+			    var x,y;  
+			    oRect = obj.getBoundingClientRect();  
+				 x=oRect.left-400;  
+				 y=oRect.top-100;  
+			 //查询form下的所有table
+			var flag= false;
+			 var count;
+			 var coun = 0;
+			var table =  $("#formTable").find("table");
+			 $.each(table,function(a,result){
+				 var tr = $(result).find("tr:not(:first)");
+				 $.each(tr,function(b,trResult){
+					 var td = $(trResult).find("td");
+					  $.each(td,function(i,tdResult){
+						  i=i+1;
+						  if(i != 1 && i != td.length){
+							  if(i==2){
+								  count = tdResult.text;
+								  if(count != null){
+									 
+								  }else{
+									  coun++;
+									   return false;
+								  }
+							  }else{
+								  var tdValue = tdResult.text;
+								  if(tdValue != null){
+									  
+								  }else{
+									   coun++;
+									   return false;
+								  }
+								  if( count == tdResult.text){
+									  
+								  }else{
+									  coun++;
+									  $(this).css('color','red');
+								  }
+							  }
+						  }
+					 }); 
+				 });
+			 });
+			 if(coun>0){
+				 layer.alert("还有未评审项不能汇总",{offset: [y, x], shade:0.01});
+			 }else{
+				 $.ajax({
+					 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
+					 data:{"packageId":packageId,"projectId":projectId,"expertId":expertId},
+					 success:function(){
+						 layer.alert("已汇总",{offset: [y, x], shade:0.01});
+					 }
+				 });
+			 }
 		 }
  </script>
 </head>
@@ -381,7 +444,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	    	</option>
 	      	    	</c:forEach>
 	      	      </select>&nbsp;&nbsp;
-	      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add">
+	      			<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add">
 	      	  </th>
 	      	</tr>
 		   </table>
@@ -389,27 +452,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </form>
    </c:forEach>
    <table class="table table-bordered table-condensed table-hover table-striped">
-           <h1 class="f16 count_flow"><i>03</i>供应商报价</h1>
-		    <thead>
-		      <tr>
-		      	<th class="info w50">序号</th>
-		        <th class="info">供应商名称</th>
-		        <th class="info">联系人</th>
-		        <th class="info">联系电话</th>
-		        <th class="info">报价</th>
+          <h1 class="f16 count_flow"><i>03</i>供应商报价</h1>
+	    <thead>
+	      <tr>
+	      	<th class="info w50">序号</th>
+	        <th class="info">供应商名称</th>
+	        <th class="info">联系人</th>
+	        <th class="info">联系电话</th>
+	        <th class="info">报价</th>
+	      </tr>
+	     </thead>
+	      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		       <tr>
+		        <td class="tc w30">${vs.count } </td>
+		        <td align="center">${supplier.suppliers.supplierName } </td>
+		        <td align="center">${supplier.suppliers.contactName }</td>
+		        <td align="center">${supplier.suppliers.contactTelephone }</td>
+		        <td align="center">
+		          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
+		        </td>
 		      </tr>
-		     </thead>
-		      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			       <tr>
-			        <td class="tc w30">${vs.count } </td>
-			        <td align="center">${supplier.suppliers.supplierName } </td>
-			        <td align="center">${supplier.suppliers.contactName }</td>
-			        <td align="center">${supplier.suppliers.contactTelephone }</td>
-			        <td align="center">
-			          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
-			        </td>
-			      </tr>
-	      	  </c:forEach>
+      	  </c:forEach>
   </table>
       <h1 class="f16 count_flow"><i>04</i>评审进度</h1>
    <c:forEach items="${packageList }" var="pack" varStatus="vs">
@@ -542,27 +605,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	 </c:forEach>
   		  </table>
 	</c:forEach>
-	  <h1 class="f16 count_flow"><i>06</i>评分汇总</h1>
-									  <!-- 循环包 -->
+	  <h1 class="f16 count_flow"><i>06</i>详细审查</h1>
+	  <!-- 循环包 -->
+	  <form id="formTable">
    	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+   	 <h3>包名称：${pack.name }</h3>
+   	  <div align="right">
+   	    <button class="btn btn-windows git" onclick="scoreTotal(this,'${pack.id}','${project.id}');" type="button">评分汇总</button>
+ 	    <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
+   	  </div>
    	 <!--循环供应商  -->
    	   <c:forEach items="${supplierList }" var="supplier" varStatus="vs" >
-   	   		<h4>供应商名称：${supplier.suppliers.supplierName }</h4>
+   	   	   <h4>供应商名称：${supplier.suppliers.supplierName }</h4>
    		   <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>
-	    <tr align="right">
-  		   		<td align="right" colspan="${2+packExpertExtList.size() }">
-  		   		   <button class="btn btn-windows back" type="button">评分汇总</button>
- 	               <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
- 	            </td>
-  		   </tr>
-	      <tr>
+	   
+	      <%-- <tr>
 	      	<th colspan="${packExpertExtList.size()+2 }">${pack.name }评分汇总</th>
-	      </tr>
+	      </tr> --%>
 	      <tr>
 	        <th class="info">评审项</th>
 	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-	        <th class="info">${ext.expert.relName }</th>
+	        <th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th>
 	        </c:forEach>
 	        <th class="info">操作</th>
 	      </tr>
@@ -580,12 +644,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                 	${score.score }
 	                 	<c:set var="TOTAL" value="${TOTAL+score.score }"></c:set>
 	                 	</c:if>
-	                 	
 	                 </c:forEach>
 	               </td>
 	            </c:forEach>
 	            <td width="150px">
-	                 <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',2)" value="确认">
 	                 <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="退回">
 	            </td>
 		      </tr>
@@ -594,6 +656,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		  </table>
    		  </c:forEach>
 	</c:forEach>
+	</form>
  			</div> 
 		</div>
 	</div>
