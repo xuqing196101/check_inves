@@ -55,14 +55,17 @@
         function pre_back(){
         	$("#preview").addClass("dnone");
         	$("#form").removeClass("dnone");
+        	$("#pre_content").empty();
+        	$("#pre_name").empty();
         }
         
         //发布
         function publish(){
         	var articleId = $("#articleId").val();
+        	var saveStatus = $("#is_saveNotice").val();
         	var noticeType = $("#noticeType").val();
         	var flowDefineId = $("#flowDefineId").val();
-        	if(articleId == null || articleId == ""){
+        	if(saveStatus != 'isok'){
         		layer.alert("请先保存公告",{offset: '222px', shade:0.01});
         	}else{
 	        	var iframeWin;
@@ -94,7 +97,7 @@
 			    	if(!data.success){
                         layer.msg(data.message,{offset: ['220px']});
                     }else{
-				    	$("#articleId").val(data.obj.id);
+				    	$("#is_saveNotice").val("isok");
 				        layer.msg(data.message,{offset: '222px'});
                     }
 			    }
@@ -125,6 +128,7 @@
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
 	    </div>
+	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId }">
 	    <input type="hidden" id="noticeType" value="${noticeType }">
 	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${articleType.id }">

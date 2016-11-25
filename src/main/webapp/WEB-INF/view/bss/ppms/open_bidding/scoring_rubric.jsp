@@ -81,6 +81,23 @@
 	   function jump(url){
        	 $("#open_bidding_main").load(url);
 	   }
+	   
+	   function confirmOk(obj, id, flowDefineId){
+	      	   layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
+		 			layer.close(index);
+		 			$.ajax({
+		 				url:"${pageContext.request.contextPath}/open_bidding/confirmOk.html?projectId="+id+"&flowDefineId="+flowDefineId,
+		 				dataType: 'json',
+		 	       		success:function(result){
+		                   $("#queren").after("<a href='javascript:volid(0);' >05、已确认</a>");
+		                    $("#queren").remove();
+		                },
+		                error: function(result){
+		                    layer.msg("确认失败",{offset: '222px'});
+		                }
+		 	       	});
+		 		});
+	      }
 </script>
   </head>
   

@@ -491,7 +491,7 @@
 				              		</select>
 				              	</c:when>
 				              	<c:otherwise>
-				              		<input maxlength="17" value="${sm.value}" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]"/>
+				              		<input maxlength="30" value="${sm.value}" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]"/>
 				              	</c:otherwise>
 				              	</c:choose>
 				              </td>
