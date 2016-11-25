@@ -276,4 +276,12 @@
 			from dual
 		</foreach>
 	</insert>
+	<!-- 关联 -->
+	<select id="getBuyConId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> FROM
+        T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
+		 SUPPLIER_CONDITION_ID=#{supplierId}
+	</select>
+
 </mapper>

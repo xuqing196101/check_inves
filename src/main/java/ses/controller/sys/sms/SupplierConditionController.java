@@ -83,7 +83,7 @@ public class SupplierConditionController {
         sq.setAttribute("typeclassId", typeclassId);
         Map<String, String> map = new HashMap<String, String>();
         Integer count=0;
-        if(sids==null || sids.length==0 || "".equals(sids)){
+        if (sids==null || sids.length==0 || "".equals(sids)){
             map.put("supervise", "请选择监督人员");
             count=1;
         }

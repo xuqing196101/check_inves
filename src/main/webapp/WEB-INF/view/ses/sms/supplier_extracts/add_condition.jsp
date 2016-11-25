@@ -22,10 +22,8 @@
 
 <script type="text/javascript">
     $(function (){
-    	
     	 $("#area").empty();
     	 var city="";
-    	 var city1="";
     	//所在地区回显
          var address="${ExpExtCondition.address}";
          if(address != null && address != ''){
@@ -46,24 +44,6 @@
             </c:forEach> 
          }
          
-    	   $("#area1").empty();   
-    	   //抽取地址回显    
-    	    var extractAddress="${extractionSites}";
-            if(extractAddress != null && extractAddress != ''){
-                var extractAddressArray=extractAddress.split(","); 
-                city1=extractAddressArray[1];
-                <c:forEach items="${listArea}" var="item" varStatus="status" >  
-                if("${item.name}" == extractAddressArray[0]){
-                       $("#area1").append("<option selected='selected' value='${item.id}'>${item.name}</option>");
-                }else{
-                $("#area1").append("<option  value='${item.id}'>${item.name}</option>");
-                }
-                </c:forEach> 
-            }else{
-            	   <c:forEach items="${listArea}" var="item" varStatus="status" >  
-                   $("#area1").append("<option value='${item.id}'>${item.name}</option>");
-                   </c:forEach>   
-            } 
             
         var areas=$("#area option:selected").val();
          $.ajax({
@@ -82,24 +62,8 @@
                    }
               }
           });
-
-         var areas1=$("#area1 option:selected").val();
-         $.ajax({
-              type:"POST",
-              url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
-              data:{area:areas1},
-              dataType:"json",
-              success: function(data){
-                   var list = data;
-                   $("#city1").empty();
-                   for(var i=0;i<list.length;i++){
-                	   if(list[i].name==city1){
-                           $("#city1").append("<option selected='selected' value="+list[i].id+">"+list[i].name+"</option>");
-                       }
-                        $("#city1").append("<option  value="+list[i].id+">"+list[i].name+"</option>");
-                   }
-              }
-          }); 
+      
+         
          
     });
     
@@ -120,23 +84,6 @@
           }
       });
     }
-    //专家地区
-    function areas1(){
-        var areas1=$("#area1").find("option:selected").val();
-        $.ajax({
-            type:"POST",
-            url:"${pageContext.request.contextPath}/SupplierExtracts/city.do",
-            data:{area:areas1},
-            dataType:"json",
-            success: function(data){
-                 var list = data;
-                 $("#city1").empty();
-                 for(var i=0;i<list.length;i++){
-                      $("#city1").append("<option value="+list[i].id+">"+list[i].name+"</option>");
-                 }
-            }
-        });
-      }
     
     /** 全选全不选 */
     function selectAll(){
@@ -171,6 +118,52 @@
                        }
                  }
            }
+    }
+    
+    //添加按钮
+    function condition(){
+    	var html="";
+    	var names =$("#extCategoryName").val();
+    	var copynames =$("#extCategoryName").val();
+    	var count=$('#eCount').val();
+    	var sum=0;
+    	if(names==null || names==''){
+    		$("#dCategoryName").text("不能为空");
+    		sum=1;
+    	}
+    	
+    	if(count==null || count==''){
+            $("#dCount").text("不能为空");
+            sum=1;
+        }
+    	if(sum!=1){
+    		  html+="<tr>"+
+              "<input class='hide' name='extCategoryId' id='ids'  type='hidden' value='"+$('#extCategoryId').val()+"'>"+
+              "<input class='hide' name='isSatisfy'  type='hidden' value='"+$('#isSatisfy').val()+"'>"+
+              "<input class='hide' name='extCategoryName' id='names'  readonly='readonly' type='hidden' value='"+names+"'>"+
+              "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+$("#expertsTypeName").val()+"'>"+
+                "<td class='tc w30'><input type='checkbox' value=''"+
+                    "name='chkItem' onclick='check()'></td>"+  
+                "<td class='tc'>";
+                     html+="<input class='hide' readonly='readonly' id='expTypeName' type='text' value='"+$("#expertsTypeName").val()+"'>";
+                   html+="</td>"+
+                "<td class='tc'><input class='hide' name='extCount'  type='text' value='"+$('#eCount').val()+"'></td>"+
+                  
+                "<td class='tc'><input class='hide' name='' readonly='readonly' onclick='opens(this);' title='"+copynames.substring(0,copynames.length-1)+"' type='text' value='"+copynames.substring(0,copynames.length-1)+"'></td>"+
+               "</tr>";
+               $("#tbody").append(html);
+               
+               $("#extCategoryName").val("");
+               $("#extCategoryId").val("");
+               $("#expertsTypeId").val("");
+               $("#expertsTypeName").val("");
+               $("#isSatisfy").val("");
+               $("#eCount").val("");
+               $("#dCategoryName").text("");
+               $("#dCount").text("");
+    	}
+    	
+		     
     }
     
     function updates(){
@@ -224,7 +217,6 @@
     function cityt(){
         $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
         $("#expertId").val($("#city option:selected").val());
-        $("#extAddress").val($("#area1 option:selected").text()+","+$("#city1 option:selected").text());
         $.ajax({
             cache: true,
             type: "POST",
@@ -239,7 +231,7 @@
             	$("#supervise").text(map.supervise);
             	$("#array").text(map.array);
             	if(map.sccuess=="sccuess"){
-            		  window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.do?projectId=${projectId}&&typeclassId=${typeclassId}';
+            		  window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/Extraction.do?id=${projectId}&&typeclassId=${typeclassId}';
             	}
             }
         });
@@ -247,32 +239,8 @@
 return false;
 }
     
-    function supervise(){
-    //  iframe层
-    var iframeWin;
-        layer.open({
-          type: 2,
-          title:"选择监督人员",
-          shadeClose: true,
-          shade: 0.01,
-          offset: '20px',
-          move: false,
-          area: ['90%', '50%'],
-          content: '${pageContext.request.contextPath}/SupplierExtracts/showSupervise.do',
-          success: function(layero, index){
-              iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-            },
-          btn: ['保存', '关闭'] 
-              ,yes: function(){
-                  iframeWin.add();
-              
-              }
-              ,btn2: function(){
-                layer.closeAll();
-              }
-        }); 
-    }
-        function opens(){
+    
+        function opens(cate){
         //  iframe层
           var iframeWin;
             layer.open({
@@ -282,13 +250,13 @@ return false;
               shade: 0.01,
               area: ['430px', '400px'],
               offset: '20px',
-              content: '${pageContext.request.contextPath}/SupplierExtracts/addHeading.do', //iframe的url
+              content: '${pageContext.request.contextPath}/SupplierExtracts/addHeading.do?projectId=${projectId}', //iframe的url
               success: function(layero, index){
                   iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                 },
               btn: ['保存', '重置'] 
                   ,yes: function(){
-                      iframeWin.getChildren();
+                      iframeWin.getChildren(cate);
                   
                   }
                   ,btn2: function(){
@@ -395,114 +363,123 @@ return false;
 			</div>
 		</div>
 	</c:if>
-	<div class="container">
-		<div class="headline-v2">
-			<h2>抽取条件</h2>
-		</div>
-	</div>
-	<div class="container">
-	<div id="menuContent" class="menuContent"
-            style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
-            <ul id="treeDemo" class="ztree" style="width: 220px"></ul>
-        </div>
-       <h2>
+	<div class="container container_box">
 		<form id="form1" method="post">
-		  <div class="mlr container search_detail">
-				<!--         条件id-->
+				<!--        条件id-->
 				<input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
-				<!--         专家所在地区 -->
+				<!--        专家所在地区 -->
 				<input type="hidden" name="address" id="address" value="">
-				<!--          项目id -->
+				<!--        项目id -->
 				<input type="hidden" name="projectId" id="pid" value="${projectId}">
                 <!-- 		抽取地区 -->
 				<input type="hidden" name="extAddress" id="extAddress"  value="${extractionSites}">
-				<!--          监督人员 -->
-				<input type="hidden" name="sids" id="sids" value="${userId}" />
-					<ul class="demand_list">
-					<li><label class="fl"><span class="red">*</span>抽取地区：</label><span>
-                                <select class="w150" id="area1" onchange="areas1();">
-                            </select> <select name="extractionSites" class="w93" id="city1"></select>
-                              <div class="b f14 red tip w150 fl"></div>
-                         </span>
-                       </li>
-						<li><label class="fl"><span class="red">*</span>所在地区：</label><span>
-								<select class="w150" id="area" onchange="areas();">
-<%-- 									<c:forEach items="${listArea }" var="area" varStatus="index"> --%>
-<%-- 										<option value="${area.id }">${area.name }</option> --%>
-<%-- 									</c:forEach> --%>
-							</select> <select name="extractionSites" class="w93" id="city"></select>
-							  <div class="b f14 red tip w150 fl"></div>
-						 </span>
-					   </li>
-						<li><label class="fl"><span class="red">*</span>监督人员：</label><span>
-								<input class="w250 fl mt5" readonly id="supervises" title="${userName}"
-								value="${userName}" onclick="supervise();" type="text">
-								<div class="b f14 red tip w150 fl" id="supervise"></div>
-	
-						</span></li>
-	
-					</ul>
-				</div>
-			<div align="right" >
-				<button class="btn padding-left-10 padding-right-10 btn_back"
-					id="save" onclick="opens();" type="button">添加</button>
-				<!--                 <button class="btn padding-left-10 padding-right-10 btn_back" -->
-				<!--                     id="update" onclick="updates();" type="button">修改</button> -->
-				<button class="btn padding-left-10 padding-right-10 btn_back"
-					id="backups" onclick="del();" type="button">删除</button>
-				<table class="table table-bordered table-condensed mt5">
-					<thead>
-						<tr>
-							<th class="info w30"><input type="checkbox" id="checkAll"
-								onclick="selectAll()" alt=""></th>
-							<th class="info">供应商类型</th>
-							<th class="info">供应商抽取数量</th>
-							<th class="info">产品类别</th>
-						</tr>
-					</thead>
-					<tbody id="tbody">
-						<c:forEach items="${ExpExtCondition.conTypes}" var="conTypes">
-							<tr>
-								<input class="hide" type="hidden" name="typeId"
-									value="${conTypes.id}">
-								<input class="hide" type="hidden" name="expertsTypeId"
-									value="${conTypes.supplieTypeId }">
-								<input class="hide" type="hidden" name="extCategoryId"
-									value="${conTypes.categoryId }">
-								<input class="hide" type="hidden" name="isSatisfy"
-									value="${conTypes.isMulticondition }">
-								<td class='tc w30'><input type="checkbox"
-									value="${conTypes.categoryId}" name="chkItem" onclick="check()"></td>
-								<td class="tc"><c:if
-										test="${conTypes.supplieTypeId=='1^2^' }">
-										<input readonly="readonly" class="hide" type="text"
-											value="生产型,销售型">
-									</c:if> <c:if test="${conTypes.supplieTypeId=='1^'}">
-										<input readonly="readonly" class="hide" type="text"
-											value="生产型">
-									</c:if> <c:if test="${conTypes.supplieTypeId=='2^' }">
-										<input readonly="readonly" class="hide" type="text"
-											value="销售型">
-									</c:if></td>
-								<td class="tc"><input class="hide" readonly="readonly"
-									name="extCount" type="text" value="${conTypes.supplieCount }"></td>
-								<td class="tc"><c:set value="${fn:substring(conTypes.categoryName, 0, conTypes.categoryName.length()-1)}" var="category" ></c:set>
-                                <input class="hide" readonly="readonly"
-                                    name="extCategoryName" type="text"
-                                    value="${fn:replace(category,'^',',')}"></td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<div align="right" class="padding-10">
-					<div class="col-md-12 b f14 red tip" id="array"></div>
-					<button class="btn btn-windows add" id="save" onclick="cityt();"
-						type="button">保存抽取条件</button>
-				</div>
-			</div>
+                <!--		 品目id -->
+				<input class='hide' name='' id='extCategoryId'  type='hidden'>
+                <!-- 类型id -->
+				<input class="hide" type="hidden" name="" value="${conTypes.supplieTypeId }"  value="">
+				<!-- 类型Name -->
+                <input class="hide" type="hidden" name="" id="expertsTypeName" value="" >
+                <!-- 	满足多个条件 -->
+                <input class="hide" type="hidden" name="" id="isSatisfy"  value="${conTypes.isMulticondition }">
+					 <div>
+					    <h2 class="count_flow"><i>1</i>抽取条件</h2>
+					      <ul class="ul_list">
+					        <li class="col-md-4 col-sm-6 col-xs-12">
+					         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>所在地区：</span>
+					           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+					           <select class="w93 input_group fl" id="area" onchange="areas();">
+                            </select> <select name="extractionSites" class=" w93 input_group fl" id="city"></select>
+					       </div>
+					     </li>
+					     <li class="col-md-4 col-sm-6 col-xs-12">
+					       <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>品目：</span>
+					       <div class="input-append input_group col-sm-12 col-xs-12 p0">
+					         <input class="input_group " readonly id="extCategoryName" onclick="opens(this);" type="text">
+					         <span class="add-on">i</span>
+					         <div class=" f12 red tip w150 fl" id="dCategoryName"></div>
+					       </div>
+					     </li>
+					     <li class="col-md-4 col-sm-6 col-xs-12">
+                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
+                           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                             <input class="input_group" id="eCount" type="text">
+                             <span class="add-on">i</span>
+                             <div class=" f12 red tip w150 fl" id="dCount"></div>
+                           </div>
+                         </li>  
+								<button class="btn btn-windows add"
+									id="save" onclick="condition();" type="button">添加</button>
+								<button class="btn btn-windows delete"
+									id="backups" onclick="del();" type="button">删除</button>
+									   <button class="btn btn-windows add" id="save" onclick="cityt();"
+				                        type="button">保存条件</button>
+								<table class="table table-bordered table-condensed mt5">
+									<thead>
+										<tr>
+											<th class="info w30"><input type="checkbox" id="checkAll"
+												onclick="selectAll()" alt=""></th>
+											<th class="info">供应商类型</th>
+											<th class="info">供应商抽取数量</th>
+											<th class="info">产品类别</th>
+										</tr>
+									</thead>
+									<tbody id="tbody">
+										<c:forEach items="${ExpExtCondition.conTypes}" var="conTypes">
+											<tr>
+												<input class="hide" type="hidden" name="typeId"
+													value="${conTypes.id}">
+												<input class="hide" type="hidden" name="expertsTypeId"
+													value="${conTypes.supplieTypeId }">
+												<input class="hide" type="hidden" name="extCategoryId"
+													value="${conTypes.categoryId }">
+												<input class="hide" type="hidden" name="isSatisfy"
+													value="${conTypes.isMulticondition }">
+												<td class='tc w30'><input type="checkbox"
+													value="${conTypes.categoryId}" name="chkItem" onclick="check()"></td>
+												<td class="tc">
+												<c:set value="${ fn:split(conTypes.supplieTypeId, '^') }" var="typeId" />
+												
+												<c:forEach var="type" items="${typeId}">
+				                                                
+<%-- 												     <c:if test="${type=='SC' }"> --%>
+				                                        <input readonly="readonly" id="expTypeName" class="hide" type="text"  value="${conTypes.supplieTypeId}">
+<%-- 				                                     </c:if> --%>
+<%-- 				                                     <c:if test="${type=='XS' }"> --%>
+<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
+<!-- 				                                            value="销售型"> -->
+<%-- 				                                    </c:if> --%>
+<%-- 				                                     <c:if test="${type=='GC' }"> --%>
+<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
+<!-- 				                                            value="工程"> -->
+<%-- 				                                    </c:if> --%>
+<%-- 				                                     <c:if test="${type=='FW' }"> --%>
+<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
+<!-- 				                                            value="服务"> -->
+<%-- 				                                    </c:if> --%>
+												
+												</c:forEach>
+													 
+												</td>
+												<td class="tc"><input class="hide" 
+													name="extCount" type="text"  value="${conTypes.supplieCount }"></td>
+												<td class="tc">
+												
+												<c:set value="${fn:substring(conTypes.categoryName, 0, conTypes.categoryName.length()-1 )}" var="category" ></c:set>
+				                                <input class="hide" readonly onclick="opens(this);"
+				                                    name="extCategoryName" type="text"
+				                                    value="${fn:replace(category,'^',',')}"></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<div align="right" class="padding-10">
+									<div class="col-md-12  f12 red tip" id="array"></div>
+								
+								</div>
+						</ul>
+                      </div>
 
 		</form>
-		</h2>
 	</div>
 </body>
 </html>

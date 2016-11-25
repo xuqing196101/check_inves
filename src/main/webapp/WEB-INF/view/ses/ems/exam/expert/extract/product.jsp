@@ -80,7 +80,6 @@
        }else if(ids==''&&expertstypeid==1){
            layer.msg('请选择品目');
        }else{
-         
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
           if(issatisfy==null){

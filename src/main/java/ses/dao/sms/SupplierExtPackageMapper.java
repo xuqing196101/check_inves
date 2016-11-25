@@ -63,4 +63,15 @@ public interface SupplierExtPackageMapper {
      * @return
      */
     List<SupplierExtPackage> list(SupplierExtPackage record);
+    
+    /**
+     * 
+     *〈简述〉抽取记录
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param record
+     * @return 集合
+     */
+    List<SupplierExtPackage> extractsList(SupplierExtPackage record);
+    
 }

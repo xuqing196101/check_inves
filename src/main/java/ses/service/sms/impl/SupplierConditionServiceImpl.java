@@ -82,4 +82,17 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
 	public SupplierCondition show(String id) {
 		return conditionMapper.selectByPrimaryKey(id);
 	}
+	
+	/**
+     * 
+     *〈简述〉更具关联包id查询是否有未抽取的条件
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer getCount(String packId) {
+        return conditionMapper.getCount(packId);
+    }
 }

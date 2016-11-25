@@ -1,12 +1,12 @@
 package ses.model.sms;
 
 import java.util.Date;
+import java.util.List;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 
 public class SupplierExtPackage {
-    
     
     
     
@@ -32,7 +32,10 @@ public class SupplierExtPackage {
      */
     private Packages  packages;
     
-    
+    /**
+     * 抽取条件关联
+     */
+    private List<SupplierCondition> conditionList;
     
     /**
      * <pre>
@@ -361,6 +364,24 @@ public class SupplierExtPackage {
      */
     public void setProject(Project project) {
         this.project = project;
+    }
+
+
+
+    /**
+     * @return Returns the conditionList.
+     */
+    public List<SupplierCondition> getConditionList() {
+        return conditionList;
+    }
+
+
+
+    /**
+     * @param conditionList The conditionList to set.
+     */
+    public void setConditionList(List<SupplierCondition> conditionList) {
+        this.conditionList = conditionList;
     }
     
     
