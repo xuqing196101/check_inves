@@ -44,21 +44,22 @@
 	    </ul>
 	    <ul class="list-unstyled ul_table" >
 	      <li class="bt_none">
-		      <div class="col-md-4 col-sm-4 col-xs-6 tr">
-		                   <span class="red">*</span>是否公开:
-		      </div>
-		       <div class="col-md-8 col-sm-8 col-xs-6">
-		           <input type="radio" name="isOPen" checked="checked" value="0"/>是      <input type="radio"  name="isOPen" value="1" />否    
-		       </div>
+		    <div class="col-md-4 col-sm-4 col-xs-6 tr">
+		         <span class="red">*</span>是否公开:
+		    </div>
+		    <div class="col-md-8 col-sm-8 col-xs-6">
+		       <input type="radio" name="isOPen" checked="checked" value="0"/>是     
+		       <input type="radio"  name="isOPen" value="1" /> 否    
+		    </div>
 		   </li>
 	       <li class="dnone" id="typeId">
 	         <div class="col-md-4 col-sm-4 col-xs-5 tr">
-	      	    <span class="red">*</span>类型:
+	      	   <span class="red">*</span>类型:
 	      	 </div>
 	      	 <div class="col-md-8 col-sm-8 col-xs-7">
-	          <c:forEach items="${smallType}" var="type">
-	      	    <input name="smallClass" type="checkbox" value="${type.code}" />${type.name}
-	          </c:forEach>
+	           <c:forEach items="${smallType}" var="type">
+	      	     <input name="smallClass" type="checkbox" value="${type.code}" />${type.name}
+	           </c:forEach>
 	         </div>
 	      </li>
 	    </ul>
