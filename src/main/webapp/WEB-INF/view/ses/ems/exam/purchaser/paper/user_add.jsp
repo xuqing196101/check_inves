@@ -338,7 +338,7 @@
 				<tbody id="refResult">
 				</tbody>
 			</table>
-			<div class="col-md-12 mt10 tc ">
+			<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 				<button class="btn btn-windows add" type="button" onclick="sure()">确定</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 			</div>

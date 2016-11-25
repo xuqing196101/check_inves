@@ -276,7 +276,7 @@
         </ul>
    
 	  		<!-- 按钮 -->
-	  		<div class="col-md-12 mt10 tc ">
+	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 				<button class="btn btn-windows save" type="submit">保存</button>
 		    	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 		  	 </div>

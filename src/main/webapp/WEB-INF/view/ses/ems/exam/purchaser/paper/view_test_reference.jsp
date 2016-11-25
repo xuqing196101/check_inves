@@ -83,12 +83,8 @@
   	</div>
   	
   		<!-- 返回按钮 -->
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-	    			<input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
-				</div>
-	  		</div>
+  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+	    	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 	  	</div>
 	  	
 	  	

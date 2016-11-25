@@ -94,7 +94,7 @@
   	</div>
   	
   		<!-- 返回按钮 -->
-  		<div class="mt20 clear tc">
+  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 	    	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">	
 	  	</div>
 	  	

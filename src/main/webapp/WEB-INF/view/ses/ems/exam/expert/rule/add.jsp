@@ -172,7 +172,7 @@
 	    </ul>
 	    </div>
 	    
-	    <div class="col-md-12 mt10 tc ">
+	    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			<button class="btn btn-windows save" type="submit">保存</button>
 			<button class="btn btn-windows back" type="button" onclick="back()">返回</button>
 	  	</div>

@@ -240,7 +240,7 @@
   		</div>
   		
   		<!-- 底部按钮 -->
-      	<div class="col-md-12 mt10 tc ">
+      	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 	       	<button class="btn btn-windows save" onclick="save()">保存</button>
 	        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	    </div>
