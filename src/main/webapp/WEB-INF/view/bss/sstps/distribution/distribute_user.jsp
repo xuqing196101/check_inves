@@ -78,8 +78,8 @@
   		<input type="hidden" value="${id }" name="id" id="id">
   		
 	 	<ul class="list-unstyled mb20 over_hideen">
-	 		<li class="col-md-4 col-sm-4 col-xs-4 pl15">
-			   <div class="col-md-12 padding-left-5"><div class="star_red">*</div>审价员：</div>
+	 		<li class="col-md-6 col-sm-6 col-xs-6 pl15">
+			   <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>审价员：</div>
 			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		       	 <select id="users" name="user.id">
 				 </select>
@@ -88,7 +88,7 @@
 			 </li>
 			 <li class="col-md-12 col-sm-12 col-xs-12">
 			 	<div class="col-sm-12 col-xs-12 padding-left-5">审价任务：</div>
-			 	<div class="col-md-12 padding-left-5 col-md-12 col-sm-12 col-xs-12 p0">
+			 	<div class="col-md-12 p0 col-md-12 col-sm-12 col-xs-12">
 		          <textarea class="col-md-12 h80 col-xs-12 col-sm-12" id="appraisalTask" name="appraisalTask" title="不超过250个字" placeholder="不超过250个字"></textarea>
 			    </div>
 			 </li>
