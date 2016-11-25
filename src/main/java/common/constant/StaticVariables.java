@@ -46,6 +46,9 @@ public class StaticVariables {
     /** 品目分类的发布状态  */
     public static final String CATEGORY_PUBLISH_MSG = "已发布,无法";
     
+    /** 品目已经提交提示 */
+    public static final String CATEGORY_SUBMITED_MSG = "已经提交,请等待审核";
+    
     
     /** 成功状态  */
     public static final String SUCCESS = "ok";

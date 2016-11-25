@@ -14,8 +14,6 @@
     <meta http-equiv="expires" content="0">    
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
-        <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
   <script type="text/javascript">
       //2级联动
       function change(id){
@@ -43,7 +41,10 @@
       $(function(){
       		var parkId ="${parkId}";
       		
-	        $("#parkId").val(parkId);	        
+	        $("#parkId").val(parkId);	  
+	        alert(parkId);
+	        if(parkId!=null &&parkId !=""){
+	        alert("sadasd");
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
@@ -59,6 +60,8 @@
 	                }
 	            }
 	        });
+	        }      
+	        
 	        
       })
  </script>

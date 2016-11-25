@@ -140,7 +140,6 @@
 			dataType:"json",
 			type:"POST",
 			success:function(cate){
-					var cate = obj.obj;
 					$("#uploadId_businessId").val(cate.id);
 					$("#fileId_downBsId").val(cate.id);
 					$("#pid").val(cate.parentId);
@@ -232,6 +231,15 @@
 		  layer.msg(nodes[0].name + '不能被编辑');
 		  return;
 	  }
+	  
+	  var msg = determine();
+	  if (msg != null){
+		  if (msg != "ok"){
+			  layer.msg(msg);
+			  return false;
+		  }
+	  }
+	  
 	  $("#operaId").val('edit');
 	  $("#mainId").val(treeid);
 	  $("#fileId_showdel").val("true");
@@ -261,6 +269,24 @@
 	    }
   	  );
   }
+  
+  
+  /** 获取状态 **/
+  
+  function  determine(){
+	  var res = null;
+	  $.ajax({
+		  type:"post",
+		  data:{'id':treeid},
+		  async: false,
+	  	  url:"${pageContext.request.contextPath}/category/calledStatus.do",
+	      success:function(msg){
+	    	  res = msg;
+	  	  }
+	  });
+	  return res;
+  }
+  
   
   /** 删除节点 */
   function delNode(){

@@ -158,8 +158,8 @@ public class CategoryParameterController {
      */
     @ResponseBody
     @RequestMapping("/submitParams")
-    public String submitParams(String open, String classify , String cateId){
+    public String submitParams(String open, String classify , String id){
         
-        return  paramService.submit(open, classify, cateId);
+        return  paramService.submit(open, classify, id);
     }
 }

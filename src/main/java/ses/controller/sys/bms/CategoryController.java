@@ -35,7 +35,6 @@ import ses.util.WfUtil;
 import com.alibaba.fastjson.JSON;
 import common.bean.ResBean;
 import common.constant.Constant;
-import common.constant.StaticVariables;
 
 /**
  * 
@@ -183,23 +182,17 @@ public class CategoryController extends BaseSupplierController {
     /**
      * 
      *〈简述〉
+     *  判断是否可以删除
      *〈详细描述〉
      * @author myc
-     * @param id
-     * @return
+     * @param id 品目Id
+     * @return 成功返回ok,否则返回错误信息
      */
     @ResponseBody
-    @RequestMapping("/isEdit")
-    public String isEdit(String id){
+    @RequestMapping(value = "/calledStatus", produces = "text/html;charset=UTF-8")
+    public String calledStatus(String id){
         
-        String msg = StaticVariables.SUCCESS;
-        Category cate = categoryService.selectByPrimaryKey(id);
-        if (cate != null){
-            if (cate.getParamStatus() == StaticVariables.CATEGORY_ASSIGNED_STATUS){
-                msg = StaticVariables.CATEGORY_ASSIGNED_MSG + StaticVariables.OPER_EDIT_MSG;
-            } 
-        }
-        return msg;
+        return  categoryService.estimate(id);
     }
 
     /**
