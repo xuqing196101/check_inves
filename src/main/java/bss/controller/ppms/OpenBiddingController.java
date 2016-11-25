@@ -686,12 +686,12 @@ public class OpenBiddingController {
         //如果是拟制招标公告
         if (PURCHASE_NOTICE.equals(noticeType)) {
             //货物/物资
-            if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
+            if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_pro_notice_matarials");
-            } else if (DictionaryDataUtil.getId("GC").equals(project.getPlanType())){
+            } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_engineering");
-            } else if (DictionaryDataUtil.getId("FW").equals(project.getPlanType())){
+            } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro__pronotice_service");
             }
@@ -699,12 +699,12 @@ public class OpenBiddingController {
         //如果是拟制中标公告
         if (WIN_NOTICE.equals(noticeType)) {
             //货物/物资
-            if (DictionaryDataUtil.getId("HW").equals(project.getPlanType())) { 
+            if (DictionaryDataUtil.getId("GOODS").equals(project.getPlanType())) { 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_matarials");
-            } else if (DictionaryDataUtil.getId("GC").equals(project.getPlanType())){
+            } else if (DictionaryDataUtil.getId("PROJECT").equals(project.getPlanType())){
                 //工程  
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_engineering");
-            } else if (DictionaryDataUtil.getId("FW").equals(project.getPlanType())){
+            } else if (DictionaryDataUtil.getId("SERVICE").equals(project.getPlanType())){
                 //服务 
                 articleType = articelTypeService.selectArticleTypeByCode("centralized_pro_deal_notice_service");
             }
@@ -718,12 +718,14 @@ public class OpenBiddingController {
             //判断该项目的公告是否发布
             if (articles.get(0).getPublishedAt() != null && articles.get(0).getPublishedName() != null && !"".equals(articles.get(0).getPublishedName())){
                 //已发布公告
+                model.addAttribute("saveStatus", "isok");
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
                 model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
                 return "bss/ppms/open_bidding/bid_notice/view";
             } else {
                 //未发布
+                model.addAttribute("saveStatus", "isok");
                 model.addAttribute("article", articles.get(0));
                 model.addAttribute("articleId", articles.get(0).getId());
                 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);

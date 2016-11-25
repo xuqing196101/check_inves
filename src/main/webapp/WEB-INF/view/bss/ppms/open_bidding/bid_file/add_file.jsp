@@ -62,6 +62,24 @@
 	function jump(url){
       	$("#open_bidding_main").load(url);
     }
+    
+    function confirmOk(obj, id, flowDefineId){
+      	   layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
+	 			layer.close(index);
+	 			$.ajax({
+	 				url:"${pageContext.request.contextPath}/open_bidding/confirmOk.html?projectId="+id+"&flowDefineId="+flowDefineId,
+	 				dataType: 'json',  
+	 	       		success:function(result){
+	                   	layer.msg(result.msg,{offset: '222px'});
+	                   	$("#queren").after("<a href='javascript:volid(0);' >05、已确认</a>");
+	                    $("#queren").remove();
+	                },
+	                error: function(result){
+	                    layer.msg("确认失败",{offset: '222px'});
+	                }
+	 	       	});
+	 		});
+      }
 </script>
 
 <!-- 打开文档后只读 -->
@@ -159,7 +177,7 @@
 	      	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-	     	<input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
 	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
 	    </div>
 	 </c:if>

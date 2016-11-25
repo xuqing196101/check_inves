@@ -163,9 +163,9 @@
         	   var status=id.toString().split("^");
         	   if(status[1]==1){
         		    layer.alert("请先缴纳保证金",{offset: ['222px', '390px'], shade:0.01});
-        	   }else if(status[2]==1){
+        	   }else{
         		     layer.confirm('是否已缴纳标书费',{offset: ['222px', '390px'], shade:0.01}, function(){
-                           window.location.href="${pageContext.request.contextPath}/saleTender/download.do?id="+status[0]+"&&projectId=${projectId}";
+                           window.location.href="${pageContext.request.contextPath}/saleTender/download.do?id="+status[0]+"&projectId=${projectId}";
                        }, function(index){
                            layer.closeAll();
                        });      
