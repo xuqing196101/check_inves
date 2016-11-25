@@ -204,7 +204,7 @@
 			</span>
 		    <span>
 		    	<c:if test="${std.bidFinish == 3 }">
-			  		<a href="javascript:void(0);" class="img-v2  orange_link">完成</a>
+			  		<a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}" class="img-v2  orange_link">完成</a>
 		    	</c:if>
 		    	<c:if test="${std.bidFinish == 0}">
 				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">完成</a>
@@ -216,7 +216,7 @@
 				  <a href="javascript:void(0);" onclick="tishi('请先填写报价');" class="img-v3">完成</a>
 				</c:if>
 				<c:if test="${std.bidFinish == 4}">
-				  <a href="javascript:void(0);"  class="img-v1">完成</a>
+				  <a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}"  class="img-v1">完成</a>
 				</c:if>
 			</span>
    		</div>

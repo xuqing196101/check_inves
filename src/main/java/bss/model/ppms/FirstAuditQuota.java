@@ -19,7 +19,7 @@ public class FirstAuditQuota implements Serializable{
     private String id;
 
     /**
-     * @Fields packFirstId : TODO(目的和意义)初审项与包关联id
+     * @Fields packFirstId : TODO(目的和意义)初审项id
      */
     private String packFirstId;
 
