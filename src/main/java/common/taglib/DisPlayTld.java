@@ -45,7 +45,8 @@ public class DisPlayTld extends TagSupport {
         JspWriter out = pageContext.getOut();
         String path = pageContext.getServletConfig().getServletContext().getContextPath();
         try {
-            out.println("<script src='" + path + "/public/webupload/js/display.js'></script>");
+            out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+            out.println("<script src='" + path + "/public/webupload/js/display.js?v='"+System.currentTimeMillis()+"'></script>");
         } catch (IOException e) {
             e.printStackTrace();
         }
