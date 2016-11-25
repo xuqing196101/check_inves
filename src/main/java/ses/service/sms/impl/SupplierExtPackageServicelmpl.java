@@ -102,6 +102,21 @@ public class SupplierExtPackageServicelmpl implements SupplierExtPackageServicel
     public List<SupplierExtPackage> extractsList(SupplierExtPackage record){
         return extPackageMapper.extractsList(record);
     }
+
+    /**
+     * 
+     *〈简述〉 getbyid
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id id
+     * @return 对象
+     */
+    @Override
+    public SupplierExtPackage getById(String id) {
+        
+        return extPackageMapper.selectByPrimaryKey(id);
+        
+    }
     
 
 }

@@ -460,9 +460,11 @@ public class SupplierExtractsController extends BaseController {
         }
         if( "1".equals(ids[2])){
             SupplierExtRelate supplierExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
-            SaleTender saleTender=new SaleTender();
+            SaleTender saleTender = new SaleTender();
             saleTender.setProjectId(supplierExtRelate.getProjectId());
             saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
+            SupplierExtPackage byId = supplierExtPackageServicel.getById(supplierExtRelate.getProjectId());
+            saleTender.setPackages(byId.getPackageId());
             saleTenderService.insert(saleTender);
         }
         List<SupplierExtRelate> projectExtractListYes = resultProjectExtract(sq, ids);  
@@ -667,7 +669,9 @@ public class SupplierExtractsController extends BaseController {
         //获取字典表中的根数据
         if (category.getId() == null || "0".equals(category.getId())){
             if (projectId != null && !"".equals(projectId)){
-                Project project = projectService.selectById(projectId);
+                //获取关联包id
+                SupplierExtPackage byId = supplierExtPackageServicel.getById(projectId); 
+                Project project = projectService.selectById(byId.getProjectId());
                 DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(project.getPlanType());
                 CategoryTree ct = new CategoryTree();
                 ct.setId(dictionaryData.getId());
@@ -685,7 +689,7 @@ public class SupplierExtractsController extends BaseController {
                     ct.setId(dictionaryData.getId());
                     ct.setName(dictionaryData.getName());
                     ct.setCode(dictionaryData.getCode());
-                    ct.setIsParent("true");
+                    ct.setIsParent("true"); 
                     jList.add(ct);
                 }
 

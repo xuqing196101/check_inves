@@ -92,7 +92,6 @@
                $("#projectNumber").attr("readonly",false);
                $("#packageName").attr("readonly",false);
            }
-           
           
       });
   
@@ -159,8 +158,8 @@
 //     	var projectName = $("#projectName").val();
 //     	var projectNumber = $("#projectNumber").val();
     	  $("#extAddress").val($("#area1 option:selected").text()+","+$("#city1 option:selected").text());
-    	  var projectId="${projectId}";
-    	  alert(projectId);
+//     	  var projectId="${projectId}";
+//     	  alert(projectId);
         $.ajax({
             cache: true,
             type: "POST",
@@ -275,7 +274,7 @@
 	           <div>
 	            <h2 class="count_flow"><i>1</i>必填项</h2>
 	           <ul class="ul_list">
-	             <li class="col-md-4 margin-0 padding-0 ">
+	             <li class="col-md-4 col-sm-6 col-xs-12">
 	               <span class="col-md-12 padding-left-5"><i class="red">*</i>抽取地区:</span>
 	               <div class="input-append">
 	                <select class="w133" id="area1" onchange="areas1();">

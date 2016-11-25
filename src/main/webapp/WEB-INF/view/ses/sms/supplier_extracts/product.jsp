@@ -161,29 +161,32 @@
 	       $('input[name="expertstypeid"]:checked').each(function(){ 
 	        	  expertstypeid+=$(this).val()+"^";
 	        	  
-	        	  if($(this).val()=='SC'){
-	                  expertsTypeName+="生产型,";
+	        	  if($(this).val()=='PRODUCT'){
+	                  expertsTypeName+="生产型^";
 	              }
 	        	  
-	        	  if($(this).val()=='XS'){
-	            	  expertsTypeName+="销售型,";
+	        	  if($(this).val()=='SALES'){
+	            	  expertsTypeName+="销售型^";
 	              }
 	              
-	        	  if($(this).val()=='GC'){
+	        	  if($(this).val()=='PROJECT'){
 	                 
-	                    expertsTypeName+="工程,";
+	                    expertsTypeName+="工程^";
 	              }
-	        	  if($(this).val()=='FW'){
-	        		  expertsTypeName+="服务,";
+	        	  if($(this).val()=='SERVICE'){
+	        		  expertsTypeName+="服务^";
 	              }
 	        	  
 	       }); 
-	       $(cate).parent().parent().parent().parent().find("#expertsTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
+	       $(cate).parent().parent().parent().parent().parent().find("#expertsTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
            $(cate).val(copynames.substring(0,copynames.length-1));
-           $(cate).parent().parent().parent().parent().find("#expTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
-           $(cate).parent().parent().parent().parent().find("#extCategoryId").val(ids);
-           $(cate).parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
-           $(cate).parent().parent().parent().parent().find("#expertsTypeId").val(expertstypeid);
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names);
+           $(cate).parent().parent().parent().parent().parent().find("#expTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids);
+           $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
+           $(cate).parent().parent().parent().parent().parent().find("#expertsTypeId").val(expertstypeid);
+           alert(expertsTypeName);
+           alert($(cate).parent().parent().parent().parent().html());
            
        }
          

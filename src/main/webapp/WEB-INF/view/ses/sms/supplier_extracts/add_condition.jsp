@@ -123,7 +123,7 @@
     //添加按钮
     function condition(){
     	var html="";
-    	var names =$("#extCategoryName").val();
+    	var names =$("#extCategoryNames").val();
     	var copynames =$("#extCategoryName").val();
     	var count=$('#eCount').val();
     	var sum=0;
@@ -141,7 +141,7 @@
               "<input class='hide' name='extCategoryId' id='ids'  type='hidden' value='"+$('#extCategoryId').val()+"'>"+
               "<input class='hide' name='isSatisfy'  type='hidden' value='"+$('#isSatisfy').val()+"'>"+
               "<input class='hide' name='extCategoryName' id='names'  readonly='readonly' type='hidden' value='"+names+"'>"+
-              "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+$("#expertsTypeName").val()+"'>"+
+              "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+$("#expertsTypeId").val()+"'>"+
                 "<td class='tc w30'><input type='checkbox' value=''"+
                     "name='chkItem' onclick='check()'></td>"+  
                 "<td class='tc'>";
@@ -376,11 +376,13 @@ return false;
                 <!--		 品目id -->
 				<input class='hide' name='' id='extCategoryId'  type='hidden'>
                 <!-- 类型id -->
-				<input class="hide" type="hidden" name="" value="${conTypes.supplieTypeId }"  value="">
+				<input class="hide" type="hidden" name="" id="expertsTypeId" value="${conTypes.supplieTypeId }"  value="">
 				<!-- 类型Name -->
                 <input class="hide" type="hidden" name="" id="expertsTypeName" value="" >
                 <!-- 	满足多个条件 -->
                 <input class="hide" type="hidden" name="" id="isSatisfy"  value="${conTypes.isMulticondition }">
+                <!-- 品目Name ， -->
+                <input class="hide" type="hidden" name="" id="extCategoryNames" value="" >
 					 <div>
 					    <h2 class="count_flow"><i>1</i>抽取条件</h2>
 					      <ul class="ul_list">

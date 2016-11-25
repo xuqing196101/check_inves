@@ -50,5 +50,14 @@ public interface SupplierExtPackageServicel {
      */
     List<SupplierExtPackage> extractsList(SupplierExtPackage record);
     
+    /**
+     * 
+     *〈简述〉 getbyid
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id id
+     * @return 对象
+     */
+    SupplierExtPackage getById(String  id);
 }
 

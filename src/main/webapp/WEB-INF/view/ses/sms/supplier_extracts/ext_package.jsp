@@ -91,9 +91,16 @@
             id.push($(this).val());
         }); 
         if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("只能选择一个",{ shade:0.01});
+        }else if(id.length<=0){
+         var	typeclassId="${typeclassId}";
+        	if(typeclassId != null && typeclassId != ''){
+        		window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";	
+        	}else{
+        		layer.alert("请选择一个",{shade:0.01});
+        	}
         }else{
-        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=1";
+        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";
         }
     }
     
