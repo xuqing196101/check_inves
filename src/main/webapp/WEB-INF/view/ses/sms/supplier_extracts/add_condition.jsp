@@ -386,7 +386,7 @@ return false;
 					 <div>
 					    <h2 class="count_flow"><i>1</i>抽取条件</h2>
 					      <ul class="ul_list">
-					        <li class="col-md-4 col-sm-6 col-xs-12">
+					        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 					         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>所在地区：</span>
 					           <div class="input-append input_group col-sm-12 col-xs-12 p0">
 					           <select class="w93 input_group fl" id="area" onchange="areas();">
@@ -409,13 +409,25 @@ return false;
                              <div class=" f12 red tip w150 fl" id="dCount"></div>
                            </div>
                          </li>  
+                         <li class="col-md-4 col-sm-6 col-xs-12 dhidden ">
+                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
+                           <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                             <input class="input_group" >
+                             <span class="add-on">i</span>
+                             <div class=" f12 red tip w150 fl" id="dCount"></div>
+                           </div>
+                         </li> 
+                         
+                            <div class=" pl20 mt10">
 								<button class="btn btn-windows add"
 									id="save" onclick="condition();" type="button">添加</button>
 								<button class="btn btn-windows delete"
 									id="backups" onclick="del();" type="button">删除</button>
 									   <button class="btn btn-windows add" id="save" onclick="cityt();"
 				                        type="button">保存条件</button>
-								<table class="table table-bordered table-condensed mt5">
+				                        </div>
+				                        <div class="content table_box">
+								<table class="table table-bordered table-condensed table-hover table-striped">
 									<thead>
 										<tr>
 											<th class="info w30"><input type="checkbox" id="checkAll"
@@ -474,6 +486,7 @@ return false;
 										</c:forEach>
 									</tbody>
 								</table>
+								</div>
 								<div align="right" class="padding-10">
 									<div class="col-md-12  f12 red tip" id="array"></div>
 								

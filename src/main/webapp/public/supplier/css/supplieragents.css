@@ -97,3 +97,7 @@
 .w230 {
 	width: 230px !important;
 }
+
+.dhidden {
+	visibility: hidden;
+}

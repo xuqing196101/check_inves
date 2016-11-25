@@ -185,8 +185,6 @@
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids);
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);
            $(cate).parent().parent().parent().parent().parent().find("#expertsTypeId").val(expertstypeid);
-           alert(expertsTypeName);
-           alert($(cate).parent().parent().parent().parent().html());
            
        }
          
