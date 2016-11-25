@@ -31,6 +31,9 @@ public class CategoryTree {
 	/** 类型,物资类:1,其他为空 **/
 	private transient String classify;
 	
+	/** 公开状态 **/
+	private transient Integer pubStatus;
+	
 	
 	
 	public String getParamStatus() {
@@ -87,6 +90,12 @@ public class CategoryTree {
     }
     public void setClassify(String classify) {
         this.classify = classify;
+    }
+    public Integer getPubStatus() {
+        return pubStatus;
+    }
+    public void setPubStatus(Integer pubStatus) {
+        this.pubStatus = pubStatus;
     }
     
 	

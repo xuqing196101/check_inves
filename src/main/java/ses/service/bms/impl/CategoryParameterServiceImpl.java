@@ -329,6 +329,12 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
             if (category != null){
                 
                 Integer status = category.getParamStatus();
+                
+                if (status == StaticVariables.CATEGORY_SUBMIT_STATUS){
+                    msg = category.getName() + StaticVariables.CATEGORY_SUBMITED_MSG;
+                    return msg;
+                }
+                
                 if (status == StaticVariables.CATEGORY_AUDIT_STATUS){
                     msg = StaticVariables.CATEGORY_AUDIT_MSG + OPERA_SUBMIT;
                     return msg;
@@ -390,6 +396,11 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
              tree.setId(cate.getId());
              tree.setName(cate.getName());
              tree.setpId(cate.getParentId());
+             tree.setPubStatus(cate.getIsPublish());
+             
+             if (cate.getClassify() != null) {
+                 tree.setClassify(cate.getClassify().toString());
+             }
              treeList.add(tree);
              dupMap.put(cate.getParentId(),"");
        }

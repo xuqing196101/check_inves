@@ -196,6 +196,23 @@ public class CategoryServiceImpl implements CategoryService {
         return StaticVariables.FAILED;
     }
 
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#estimate(java.lang.String)
+     */
+    @Override
+    public String estimate(String id) {
+        String msg = StaticVariables.SUCCESS;
+        Category cate = selectByPrimaryKey(id);
+        if (cate != null){
+            if (cate.getParamStatus() == StaticVariables.CATEGORY_ASSIGNED_STATUS){
+                msg = cate.getName() + StaticVariables.CATEGORY_ASSIGNED_MSG + StaticVariables.OPER_EDIT_MSG;
+            } 
+        }
+        return msg;
+    }
+
     /**
      * 
      * @see ses.service.bms.CategoryService#listByKeyword(java.util.Map)

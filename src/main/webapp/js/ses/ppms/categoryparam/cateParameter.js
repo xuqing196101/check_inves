@@ -61,6 +61,17 @@ function zTreeOnClick(event,treeId,treeNode){
 			$("#typeId").hide();
 			classified = false;
 		}
+		
+		var pubStatus = treeNode.pubStatus ;
+		if (pubStatus != null && pubStatus !=""){
+			$("input[name='isOPen']").each(function(){
+				var value = $(this).val();
+				if (pubStatus == value){
+					$(this).attr('checked','checked');
+				}
+			});
+		}
+		
 		selectedTreeId = treeNode.id;
 		findParams(selectedTreeId);
 	} else {
@@ -224,7 +235,7 @@ function submit(isOpen,smallClassify, id){
 		url: globalPath + "/cateParam/submitParams.do" ,
 		success:function(msg){
 			if (msg == 'ok'){
-				layer.msg("保存成功");
+				layer.msg("提交成功");
 			} else {
 				layer.msg(msg);
 			}

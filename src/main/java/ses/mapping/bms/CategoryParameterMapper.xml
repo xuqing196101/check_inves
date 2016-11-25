@@ -7,6 +7,8 @@
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
 		<result column="PARENT_ID" property="parentId" />
+		<result column="IS_PUBLISH" property="isPublish" />
+		<result column="CLASSIFY_STATUS" property="classify" />
 	</resultMap>
 	
 	<!-- 分类参数 -->
@@ -25,7 +27,8 @@
 	
 	<!-- 查询tree -->
 	<select id="findCategoryTree" resultMap="CategoryMap">
-		SELECT A.ID AS id, A.NAME AS name, A.PARENT_ID AS parentId
+		SELECT A.ID AS id, A.NAME AS name, A.PARENT_ID AS parentId, A.IS_PUBLISH AS IS_PUBLISH, 
+			   A.CLASSIFY_STATUS AS CLASSIFY_STATUS
 		FROM T_SES_BMS_CATEGORY A, T_SES_BMS_CATEGORY_ORG B
 		WHERE A.ID = B.CATEGORY_ID
 		   AND A.IS_DELETED = '0'

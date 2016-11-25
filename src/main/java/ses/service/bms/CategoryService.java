@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import common.bean.ResBean;
-
 import ses.model.bms.Category;
 import ses.model.sms.SupplierTypeTree;
 
@@ -228,4 +227,15 @@ import ses.model.sms.SupplierTypeTree;
      * @return 成功返回ok,否则返回false
      */
     public String updateStatus(Integer status, String categoryId);
+    
+    /**
+     * 
+     *〈简述〉
+     *  判断是否可以编辑或者删除
+     *〈详细描述〉
+     * @author myc
+     * @param id {@link java.lang.string} 主键
+     * @return
+     */
+    public String estimate(String id);
 }
