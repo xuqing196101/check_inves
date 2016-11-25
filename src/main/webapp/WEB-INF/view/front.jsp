@@ -11,6 +11,8 @@
 <link href="${pageContext.request.contextPath}/public/front/css/btn.css" rel="stylesheet"  type="text/css" />
 <link href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" rel="stylesheet" >
 <link href="${pageContext.request.contextPath}/public/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<!-- 前端论坛Css颜色样式 -->
+<link href="${pageContext.request.contextPath}/public/front/css/forum.css" rel="stylesheet" type="text/css">
 <script>
 	var globalPath = "${pageContext.request.contextPath}";
 </script>

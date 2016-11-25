@@ -1657,7 +1657,7 @@ img.img-mouse {
 	color: #555;
 }
 
-/*��Ӧ����֪��ʼ*/ 
+/*锟斤拷应锟斤拷锟斤拷知锟斤拷始*/ 
  .download{
   padding:12px 24px;
   background:url(../images/download.png) no-repeat 0px;
@@ -1668,7 +1668,7 @@ img.img-mouse {
    margin:0px;
   }
   
-/*��д��Ϣ��ʼ*/
+/*锟斤拷写锟斤拷息锟斤拷始*/
 .list-flow span {
     width: 135px;
     float: left;
@@ -1739,9 +1739,6 @@ img.img-mouse {
    display:block;
    margin-bottom: 0px;
  }
-.login_item input{
-  width:250px;
-}
 .warning{
   height:20px;
   line-height:20px;
@@ -1758,11 +1755,6 @@ img.img-mouse {
   float:left;
   
  }
-.input-yzm{
- width:120px!important;
- margin-right:10px;
- float:left;
-}
 .new_step{
  position:relative;
  width:11%;
@@ -1986,12 +1978,12 @@ img.img-mouse {
 
     }
 
-/*�¼���ʽ*/
-/*�ֲ�ͼ��ʽ*/
+/*锟铰硷拷锟斤拷式*/
+/*锟街诧拷图锟斤拷式*/
 .section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
 .section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:354px;list-style-type:none;}
 .section-focus-pic .pages{width:100%;height:354px;}
-.section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"΢���ź�";}
+.section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"微锟斤拷锟脚猴拷";}
 .section-focus-pic ul li div{position:absolute;bottom:0;left:0;height:50px;background-color:#000;width:100%;opacity: 0.6;filter: alpha(opacity=60);}
 .section-focus-pic .controler{position:absolute;bottom:20px;right:20px;}
 .section-focus-pic .controler b{cursor:pointer;width:20px;height:20px;display:block;overflow:hidden;border-radius:20px!important; float:left;margin:0 0 0 5px;background:#157c82;color:#ffffff;text-align:center;line-height: 20px;border:1px  solid #157c82;}
@@ -2209,7 +2201,7 @@ a.yjfk{
   text-align:center;
 }
 
-/*��������ƶ���ʽ��ʼ*/
+/*锟斤拷锟斤拷锟斤拷锟斤拷贫锟斤拷锟绞斤拷锟绞�/
 
 .drop_hover .supp_login{
   padding-right:30px!important;
@@ -2262,7 +2254,7 @@ a.yjfk{
  padding-top:5px;
  overflow:hidden;
 }
-/*头部登录入口*/
+/*澶撮儴鐧诲綍鍏ュ彛*/
 .head_top{
   background:#f7f7f7;
   height:34px;
@@ -2274,7 +2266,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*登录页面样式开始*/
+/*鐧诲綍椤甸潰鏍峰紡寮�*/
 .sky-form header {
     color: inherit;
     display: block;
@@ -2377,7 +2369,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*登录页面样式结束*/
+/*鐧诲綍椤甸潰鏍峰紡缁撴潫*/
 /*li_square*/
 .li_square li{
   border-bottom:1px dashed #e2e2e2!important;

@@ -12,10 +12,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
-
+ 
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");

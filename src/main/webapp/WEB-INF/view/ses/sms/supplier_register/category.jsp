@@ -65,50 +65,6 @@
 		
 	}
 </script>
-
-
-	<style>
-	 .sevice_list h2{
-	  padding-left:40px;
-	  height:35px;
-	  line-height:35px;
-	  font-size:17px;
-	  background:url(images/reg_icon1.png) no-repeat 5px #e0e0e0;
-	 }
-	 .sevice_list h2 span{
-	  font-size:15px;
-	  margin-right:10px;
-	 }
-	 .sevice_list .title{
-	  height:30px;
-	  line-height:30px;
-	 }
-	 .service_list span{
-	  height:30px;
-	  line-height:30px;
-	  float:left;
-	  display:block;
-	  margin-right:0px;
-	 }
-	 .service_list span input{
-	 margin-right:5px;
-	 margin-bottom:4px;
-	 }
-	 .service_desc{
-	  background-color:#f8f8f8;
-	  padding:10px;
-	 }
-	 .service_kind h2{
-	 font-size:16px;
-	 font-weight:bold;
-	 height:30px;
-	 line-height:30px;
-	 border-bottom:1px solid #dddddd;
-	 background-color:#eeeeee; 
-	}
-	</style>
-	
-	
 </head>
 
 <body>
@@ -122,7 +78,7 @@
 	</div>
 	
 	<div class="service_kind container p0">
-	  <h2 class="m0 m0 col-md-12 col-sm-12 col-xs-12">品目信息 </h2>
+	  <h2 class="m0 col-md-12 col-sm-12 col-xs-12">品目信息 </h2>
 	  <div class="col-md-12 col-sm-12 col-xs-12 service_desc bgwhite">
 		  <div class="col-md-12 col-sm-12 col-xs-12 service_list p0">
 		     <c:forEach items="${list }" var="obj" varStatus="vs">
@@ -143,3 +99,4 @@
 	</form>
 </body>
 </html>
+

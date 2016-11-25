@@ -15,10 +15,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" >
-
   <script type="text/javascript">
   $(function(){
   		var replyLength ="${replyLength}";

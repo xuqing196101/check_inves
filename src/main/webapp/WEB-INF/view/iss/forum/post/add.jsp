@@ -43,7 +43,8 @@
 	<script type="text/javascript">
 	$(function(){		  
 		    var parkId = "${post.park.id}";
-	        $("#park").val(parkId);	        
+	        $("#park").val(parkId);	      
+	        if(parkId!=null &&parkId !=""){  
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
@@ -59,6 +60,7 @@
 	                }
 	            }
 	        });
+	        }
 	        $("#isTop").val("${post.isTop}");
 	        $("#isLocking").val("${post.isLocking}");
 	        
