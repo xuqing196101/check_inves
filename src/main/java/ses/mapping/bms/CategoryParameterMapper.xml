@@ -12,7 +12,7 @@
 	<!-- 分类参数 -->
 	<resultMap id="categoryParams" type="ses.model.bms.CategoryParameter">
 		<id column="ID" property="id" />
-		<result column="CATE_ID"  property="cateId"/>
+		<result column="CATEGORY_ID"  property="cateId"/>
 		<result column="PARAM_NAME"  property="paramName"/>
 		<result column="PARAM_TYPE_ID"  property="paramTypeId"/>
 		<result column="IS_DELETED" property="isDeleted"/>
@@ -20,14 +20,14 @@
 	
 	<!-- 基础sql -->
 	<sql id="parameter_sql" >
-		ID, CATE_ID, PARAM_NAME,PARAM_TYPE_ID,IS_DELETED
+		ID, CATEGORY_ID, PARAM_NAME,PARAM_TYPE_ID,IS_DELETED
 	</sql>
 	
 	<!-- 查询tree -->
 	<select id="findCategoryTree" resultMap="CategoryMap">
 		SELECT A.ID AS id, A.NAME AS name, A.PARENT_ID AS parentId
-		FROM T_SES_BMS_CATEGORY A, T_SES_BMS_CATE_ORG B
-		WHERE A.ID = B.CATE_ID
+		FROM T_SES_BMS_CATEGORY A, T_SES_BMS_CATEGORY_ORG B
+		WHERE A.ID = B.CATEGORY_ID
 		   AND A.IS_DELETED = '0'
 		   AND B.ORG_ID = #{orgId}
 	</select>
@@ -37,7 +37,7 @@
 		<selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
         	select sys_guid() from dual
     	</selectKey>
-		INSERT INTO T_SES_BMS_CATEPARAMETER (ID,CATE_ID,ORG_ID,PARAM_NAME,PARAM_TYPE_ID,
+		INSERT INTO T_SES_BMS_CATEGORY_PARAMETER (ID,CATEGORY_ID,ORG_ID,PARAM_NAME,PARAM_TYPE_ID,
 			 IS_DELETED,CREATED_AT,UPDATED_AT) values 
 			(#{id}, #{cateId,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR}, #{paramName,jdbcType=VARCHAR},
 			#{paramTypeId,jdbcType=VARCHAR},#{isDeleted,jdbcType=SMALLINT},#{createdAt,jdbcType=TIMESTAMP},
@@ -46,7 +46,7 @@
 	
 	<!-- 更新 -->
 	<update id="update" parameterType="ses.model.bms.CategoryParameter"> 
-		UPDATE T_SES_BMS_CATEPARAMETER 
+		UPDATE T_SES_BMS_CATEGORY_PARAMETER 
 		SET UPDATED_AT = #{updatedAt}
 		<if test="paramName != null and paramName !=''">
 			,PARAM_NAME = #{paramName}
@@ -63,24 +63,24 @@
 	
 	<!-- 删除 -->
 	<delete id="delParameter">
-		DELETE FROM T_SES_BMS_CATEPARAMETER
-		where CATE_ID = #{cateId}
+		DELETE FROM T_SES_BMS_CATEGORY_PARAMETER
+		where CATEGORY_ID = #{cateId}
 	</delete>
 	
 	<!-- 查询对应的参数 -->
 	<select id="getParamsByCateId" resultMap="categoryParams">
 		SELECT 
 		<include refid="parameter_sql" />
-		FROM  T_SES_BMS_CATEPARAMETER
+		FROM  T_SES_BMS_CATEGORY_PARAMETER
 		WHERE IS_DELETED = 0
-		AND CATE_ID = #{cateId} ORDER BY CREATED_AT
+		AND CATEGORY_ID = #{cateId} ORDER BY CREATED_AT
 	</select>
 	
 	<!-- 根据主键查询 -->
 	<select id="getParameterById" resultMap="categoryParams">
 		SELECT 
 		<include refid="parameter_sql" />
-		FROM T_SES_BMS_CATEPARAMETER
+		FROM T_SES_BMS_CATEGORY_PARAMETER
 		WHERE IS_DELETED = 0
 		AND ID= #{id}
 	</select>

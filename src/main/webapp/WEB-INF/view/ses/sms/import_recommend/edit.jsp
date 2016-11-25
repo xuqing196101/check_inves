@@ -107,7 +107,7 @@
   <ul class="ul_list">
     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>登录名：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	    <input type="hidden" name="id" value="${ir.id }" />
         <input class="input_group" id="loginName" readonly name="loginName" value="${ir.loginName }" type="text">
         <span class="add-on">i</span>
@@ -117,7 +117,7 @@
 	 
     <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>登录密码：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
          <input class="input_group" id="password" name="password" value="${ir.password }" type="text">
         <span class="add-on">i</span>
         <div class="cue">${ERR_password}</div>
@@ -126,7 +126,7 @@
 	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业名称：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
          <input class="input_group" id="name" name="name"  value="${ir.name }" type="text"> 
         <span class="add-on">i</span>
         <div class="cue">${ERR_name}</div>
@@ -135,7 +135,7 @@
   
   	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>法定代表人：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
          <input class="input_group" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
         <span class="add-on">i</span>
         <div class="cue">${ERR_legalName}</div>
@@ -167,7 +167,7 @@
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>推荐单位：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
          <input class="input_group" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
          <span class="add-on">i</span>
          <div class="cue">${ERR_recommendDep}</div>

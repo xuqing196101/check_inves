@@ -172,7 +172,7 @@
 				            <ul class="ul_list">
 				    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业名称</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="name" name="name" value="${is.name }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_name}</div>
@@ -181,7 +181,7 @@
 							 
 							 <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业类别</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_supplierType}</div>
@@ -190,7 +190,7 @@
 							 
 							  <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>中文译名</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_chinesrName}</div>
@@ -199,7 +199,7 @@
 							 
 				            <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>法定代表人</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="legalName" name="legalName" value="${is.legalName }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_legalName}</div>
@@ -221,7 +221,7 @@
 									
 							 <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>邮政编码</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="postCode" name="postCode" value="${is.postCode }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_postCode}</div>
@@ -230,7 +230,7 @@
 							 		
 							<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>经营产品大类</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="productType" name="productType" value="${is.productType }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_productType}</div>
@@ -239,7 +239,7 @@
 							 
 							 <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>主营产品</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_majorProduct}</div>
@@ -248,7 +248,7 @@
 							 
 							  <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>兼营产品</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_byproduct}</div>
@@ -257,7 +257,7 @@
 							 	
 							<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>生产商名称</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="producerName" name="producerName" value="${is.producerName }"   type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_producerName}</div>
@@ -266,7 +266,7 @@
 							 
 								<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系人</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_contactPerson}</div>
@@ -275,7 +275,7 @@
 	
 								<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>电话</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="telephone" name="telephone" value="${is.telephone }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_telephone}</div>
@@ -284,7 +284,7 @@
 										
 								<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>传真</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="fax" name="fax" value="${is.fax }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_fax}</div>
@@ -293,7 +293,7 @@
 							 		
 								<li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>电子邮件</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="email" name="email" value="${is.email }" type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_email}</div>
@@ -302,7 +302,7 @@
 							 
 							 <li class="col-md-3 col-sm-6 col-xs-12"> 
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业网址</span>
-							  <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <input class="input_group" id="website" name="website" value="${is.website }"  type="text">
 						        <span class="add-on">i</span>
 						        <div class="cue">${ERR_website}</div>
@@ -311,14 +311,14 @@
 							 	
 							  <li class="col-md-12 col-sm-12 col-xs-12">
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国内供货业绩</span>
-							   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"  id="civilAchievement" name="civilAchievement" class="h130"  title="不超过800个字">${is.civilAchievement }</textarea>
 						       </div>
 							 </li> 
 							 
 							  <li class="col-md-12 col-sm-12 col-xs-12">
 							   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">企业简介</span>
-							   <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+							   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 						        <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" id="remark" name="remark"  class="h130" title="不超过800个字">${is.remark }</textarea>
 						       </div>
 							 </li> 

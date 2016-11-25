@@ -69,6 +69,7 @@ public interface AduitQuotaService {
       * @return List<AuditModelExt>
      */
     List<AuditModelExt> findAllByMap(Map<String,Object> map);
+    
     /**
      * 
       * @Title: updateStatus

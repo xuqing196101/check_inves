@@ -114,7 +114,7 @@
 	    </div>
 	    
 	    <!-- 底部按钮 -->
-	    <div class="col-md-12 mt10 tc ">
+	    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			<button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
 	  	</div>
 	</div>

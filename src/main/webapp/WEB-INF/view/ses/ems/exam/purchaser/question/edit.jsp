@@ -17,6 +17,10 @@
 			opt = ${opt};
 			obj = eval(opt);
 			var queType = $("#queType").val();
+			if(queType==""){
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
+			}
 			var queAnswer = $("#queAnswer").val();
 			var ohtml="";
 			var ahtml="";

@@ -16,12 +16,16 @@
 		$(function(){
 			opt = ${opt};
 			obj = eval(opt);
+			var queType = $("#queType").val();
+			if(queType==""){
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
+			}
 			var options = $("#options").val();
 			if(options==""){
 				return;
 			}
 			var array = obj[options].split(",");
-			var queType = $("#queType").val();
 			var errorOption = document.getElementsByName("errorOption");
 			var queAnswer = $("#queAnswer").val();
 			var ohtml="";
@@ -236,7 +240,7 @@
   		</div>
   		
   		<!-- 底部按钮 -->
-      	<div class="col-md-12 mt10 tc ">
+      	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 	       	<button class="btn btn-windows save" onclick="save()">保存</button>
 	        <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	    </div>

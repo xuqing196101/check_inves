@@ -324,9 +324,15 @@ public class AppraisalContractController extends BaseSupplierController{
 		String name = appraisalContract.getName();
 		String code = appraisalContract.getCode();
 		String supplierName = appraisalContract.getSupplierName();
-		sib.setName("%"+name+"%");
-		sib.setCode("%"+code+"%");
-		sib.setSupplierName("%"+supplierName+"%");
+		if(name!=null){
+			sib.setName("%"+name+"%");
+		}
+		if(code!=null){
+			sib.setCode("%"+code+"%");
+		}
+		if(supplierName!=null){
+			sib.setSupplierName("%"+supplierName+"%");
+		}
 		if(like==0){
 			List<AppraisalContract> list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
 			model.addAttribute("list", new PageInfo<AppraisalContract>(list));

@@ -35,6 +35,7 @@ import ses.util.WfUtil;
 import com.alibaba.fastjson.JSON;
 import common.bean.ResBean;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 
 /**
  * 
@@ -109,7 +110,6 @@ public class CategoryController extends BaseSupplierController {
             ct.setName(cate.getName());
             ct.setpId(cate.getParentId());
             ct.setKind(cate.getKind());
-            ct.setIsEnd(cate.getIsEnd());
             ct.setStatus(cate.getStatus());
             jList.add(ct);
         }
@@ -172,12 +172,34 @@ public class CategoryController extends BaseSupplierController {
      * @param @return
      * @return String
      */
-    @RequestMapping("/update")
-    public void update(HttpServletResponse response, String id,Model model) {
+    @ResponseBody
+    @RequestMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Category update(HttpServletResponse response, String id,Model model) {
+        
         Category cate = categoryService.selectByPrimaryKey(id);
-        //		CategoryAttachment attchment = categoryAttachmentService.selectByCategoryId(cate.getId());
-        //		cate.setCategoryAttchment(attchment);
-        super.writeJson(response, cate);
+        return cate;
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/isEdit")
+    public String isEdit(String id){
+        
+        String msg = StaticVariables.SUCCESS;
+        Category cate = categoryService.selectByPrimaryKey(id);
+        if (cate != null){
+            if (cate.getParamStatus() == StaticVariables.CATEGORY_ASSIGNED_STATUS){
+                msg = StaticVariables.CATEGORY_ASSIGNED_MSG + StaticVariables.OPER_EDIT_MSG;
+            } 
+        }
+        return msg;
     }
 
     /**

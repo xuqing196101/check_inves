@@ -23,34 +23,43 @@
     
     var controldate;
     function checkDate(){
+        var flag = true;
         controldate= $("#bidDate").val();
         var linkmanIpone = $("#linkmanIpone").val();
         var linkman = $("#linkman").val();
+         linkman = $.trim(linkman);
         var bidAddress = $("#bidAddress").val();
          var supplierNumber = $("#supplierNumber").val();
          supplierNumber = $.trim(supplierNumber);
         var purchaseType = $("#purchaseType").val();
         if(linkman==""){
            layer.tips("请填写联系人姓名","#linkman");
+           flag = false;
         }else if(!(/^1[34578]\d{9}$/.test(linkmanIpone))){
             layer.tips("请输入正确的电话","#linkmanIpone");
-        }else if(purchaseType=="jzxtp" || purchaseType == "yqzb" || purchaseType == "xjcg" || purchaseType == "gkzb"){
+            flag = false;
+        }   else if(purchaseType=="JZXTP" || purchaseType == "YQZB" || purchaseType == "XJCG" || purchaseType == "GKZB"){
             if(supplierNumber< 3){
                 layer.tips("供应商人数不能小于3人","#supplierNumber");
-            }else if(!(/^\d+$/.test(supplierNumber))){
+                flag = false;
+            }else if(!(/^[0-9]+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
+                flag = false;
             }
-        }else if(purchaseType=="dyly"){
+        }else if(purchaseType=="DYLY"){
             if(supplierNumber != 1){
                 layer.tips("供应商人数只能为1人","#supplierNumber");
-            }else if(!(/^\d+$/.test(supplierNumber))){
+                flag = false;
+            }else if(!(/^[0-9]+$/.test(supplierNumber))){
                 layer.tips("请输入数字","#supplierNumber");
+                flag = false;
             }
-        }else if(bidAddress==""){
+        }   else if(bidAddress==""){
            layer.tips("请填写开标地点","#bidAddress");
+           flag = false;
         }else if(controldate==""){
             layer.tips("时间不能为空","#bidDate");
-            return false;
+            flag = false;
         }else{
            //验证时间不能小于当前时间
             var day = new Date();
@@ -78,11 +87,13 @@
             var endDate = new Date(controldate.replace("-",",")).getTime() ; 
             if( startDate > endDate ) {
                 layer.tips("选择日期不能小于当前日期!","#bidDate");
-                return false;
-            }else{
-                   $("#save_form_id").submit();
-            }
+                flag = false;
+            } 
         }
+     if(flag == true){
+         $("#save_form_id").submit();
+     }   
+        
     }
     
 </script>
@@ -100,7 +111,7 @@
                             <li class=""><a aria-expanded="false" href="#tab-3"
                             data-toggle="tab" class="f18">项目表单</a></li>
                         <li class=""><a aria-expanded="false" href="#tab-4"
-                            data-toggle="tab" class="f18">打印报批文件</a></li>
+                            data-toggle="tab" class="f18">下载报批文件</a></li>
                         <li class=""><a aria-expanded="false" href="#tab-5"
                             data-toggle="tab" class="f18">附件上传</a></li>
                     </ul>
@@ -155,9 +166,12 @@
                                     <tr>
                                         <td class="bggrey">采购方式:</td>
                                         <td>
-                                        <input type="hidden" id="purchaseType" value="${project.purchaseType}"/>
+                                        
                                             <c:forEach items="${kind}" var="kind" >
-                                                 <c:if test="${kind.id == project.purchaseType}">${kind.name}</c:if>
+                                                 <c:if test="${kind.id == project.purchaseType}">
+                                                  <input type="hidden" id="purchaseType" value="${kind.code}"/>
+                                                 ${kind.name}
+                                                 </c:if>
                                             </c:forEach>
                                         </td>
                                         <td class="bggrey">投标截止时间:</td>
@@ -165,7 +179,6 @@
                                     </tr>
                                     <tr>
                                         <td class="bggrey">开标时间:</td>
-                                        <%-- <td>${project.bidDate}<input name="bidDate"/></td> --%>
                                         <td><input  readonly="readonly" value="<fmt:formatDate type='date' value='${project.bidDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm:ss"/>" name="bidDate" id="bidDate" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"></td>
                                         <td class="bggrey">开标地点:</td>
                                         <td><input name="bidAddress" id="bidAddress" value="${project.bidAddress}"/></td>
@@ -231,50 +244,63 @@
                         </div>
                         <div class="tab-pane fade " id="tab-2">
                             <table class="table table-bordered table-condensed mt5">
-
-                                <thead>
-                                    <tr>
-                                        <th class="info w50">序号</th>
-                                        <th class="info">需求部门</th>
-                                        <th class="info">物资名称</th>
-                                        <th class="info">规格型号</th>
-                                        <th class="info">质量技术标准</th>
-                                        <th class="info">计量单位</th>
-                                        <th class="info">采购数量</th>
-                                        <th class="info">单价（元）</th>
-                                        <th class="info">预算金额（万元）</th>
-                                        <th class="info">交货期限</th>
-                                        <th class="info">采购方式建议</th>
-                                        <th class="info">供应商名称</th>
-                                        <th class="info">是否申请办理免税</th>
-                                        <th class="info">物资用途（进口）</th>
-                                        <th class="info">使用单位（进口）</th>
-                                    </tr>
-                                </thead>
-                                <c:forEach items="${lists}" var="obj" varStatus="vs">
-                                    <tr style="cursor: pointer;">
-                                        <td class="tc w50">${obj.serialNumber}</td>
-                                        <td class="tc">${obj.department}</td>
-                                        <td class="tc">${obj.goodsName}</td>
-                                        <td class="tc">${obj.stand}</td>
-                                        <td class="tc">${obj.qualitStand}</td>
-                                        <td class="tc">${obj.item}</td>
-                                        <td class="tc">${obj.purchaseCount}</td>
-                                        <td class="tc">${obj.price}</td>
-                                        <td class="tc">${obj.budget}</td>
-                                        <td class="tc">${obj.deliverDate}</td>
-                                        <td class="tc">
-                                           <c:forEach items="${kind}" var="kind" >
-                                                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                                            </c:forEach>
-                                        </td>
-                                        <td class="tc">${obj.supplier}</td>
-                                        <td class="tc">${obj.isFreeTax}</td>
-                                        <td class="tc">${obj.goodsUse}</td>
-                                        <td class="tc">${obj.useUnit}</td>
-                                    </tr>
-
-                                </c:forEach>
+                                 <c:forEach items="${packageList }" var="pack" varStatus="p">
+            <div class="col-md-6 col-sm-6 col-xs-12 p0">
+                <span class="f16 b">包名:</span>
+                <span class="f14 blue">${pack.name }</span>
+            </div>
+                <input type="hidden" value="${pack.id }"/>
+            <table class="table table-bordered table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                      <th class="info w50">序号</th>
+                      <th class="info">需求部门</th>
+                      <th class="info">物资名称</th>
+                      <th class="info">规格型号</th>
+                      <th class="info">质量技术标准</th>
+                      <th class="info">计量单位</th>
+                      <th class="info">采购数量</th>
+                      <th class="info">单价（元）</th>
+                      <th class="info">预算金额（万元）</th>
+                      <th class="info">交货期限</th>
+                      <th class="info">采购方式建议</th>
+                      <th class="info">供应商名称</th>
+                      <c:if test="${pack.isImport==1 }">
+                        <th class="info">是否申请办理免税</th>
+                        <th class="info">物资用途（进口）</th>
+                        <th class="info">使用单位（进口）</th>
+                      </c:if>
+                      <th class="info">备注</th>
+                </tr>
+		            </thead>
+		          <c:forEach items="${pack.projectDetails}" var="obj">
+		              <tr style="cursor: pointer;">
+		              <td class="tc w50">${obj.serialNumber}</td>
+		              <td class="tc">${obj.department}</td>
+		              <td class="tc">${obj.goodsName}</td>
+		              <td class="tc">${obj.stand}</td>
+		              <td class="tc">${obj.qualitStand}</td>
+		              <td class="tc">${obj.item}</td>
+		              <td class="tc">${obj.purchaseCount}</td>
+		              <td class="tc">${obj.price}</td>
+		              <td class="tc">${obj.budget}</td>
+		              <td class="tc">${obj.deliverDate}</td>
+		              <td class="tc">
+		                               <c:forEach items="${kind}" var="kind" >
+		                                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+		                                   </c:forEach>
+		              </td>
+		              <td class="tc">${obj.supplier}</td>
+		              <c:if test="${pack.isImport==1 }">
+		                     <td class="tc">${obj.isFreeTax}</td>
+		                     <td class="tc">${obj.goodsUse}</td>
+		                    <td class="tc">${obj.useUnit}</td>
+		                </c:if>
+		              <td class="tc">${obj.memo}</td>
+		            </tr>
+		         </c:forEach> 
+		      </table>
+		       </c:forEach>
 
 
                             </table>
@@ -285,14 +311,12 @@
                         <div class="tab-pane fade " id="tab-4" >
                             <div class="margin-bottom-0  categories">
                             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-                                        <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
-                                        <div class="col-md-12 tc">
-                                        <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
-                                        </div>
+                                        <f:show showId="upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
                          </form>
                             </div>
                         </div>
                         <div class="tab-pane fade " id="tab-5" >
+                             <div>上传附件：</div>
                             <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
                             <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
                         </div>

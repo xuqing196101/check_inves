@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import ses.model.sms.Supplier;
 import ses.util.DictionaryDataUtil;
@@ -27,6 +31,7 @@ import common.service.DownloadService;
 import common.service.UploadService;
 
 import bss.model.ppms.AduitQuota;
+import bss.model.ppms.FirstAuditQuota;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -35,6 +40,7 @@ import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.FirstAuditQuotaService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
@@ -86,6 +92,9 @@ public class ProjectManageController {
     
     @Autowired
     private AduitQuotaService aduitQuotaService;
+    
+    @Autowired
+    private FirstAuditQuotaService firstAuditQuotaService;
     
     /**
      *〈简述〉投标管理进入
@@ -169,9 +178,10 @@ public class ProjectManageController {
      * @param projectId
      * @param model
      * @return
+     * @throws Exception 
      */
     @RequestMapping("/toBindingIndex")
-    public String toBindingIndex(HttpServletRequest request, String projectId, Model model){
+    public String toBindingIndex(HttpServletRequest request, String projectId, Model model) throws Exception{
         SaleTender std = getProSupplier(request, projectId, model);
         if (std != null) {
             model.addAttribute("std", std);
@@ -184,7 +194,7 @@ public class ProjectManageController {
             model.addAttribute("fileId", "0");
         }
         //获取评审项
-        getBinding(std, projectId, model);
+        getBinding(request, std, projectId, model);
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         return "bss/supplier/bid/binding_index";
@@ -197,18 +207,32 @@ public class ProjectManageController {
      * @param saleTender 供应商与项目关联对象
      * @param projectId 项目id
      * @param model
+     * @throws Exception 
      */
-    private void getBinding(SaleTender saleTender, String projectId, Model model) {
+    private void getBinding(HttpServletRequest req, SaleTender saleTender, String projectId, Model model) throws Exception {
         //初审项
-        List<FirstAudit> firstAudits = new ArrayList<FirstAudit>();
+        List<FirstAudit> firstAudits = firstAuditService.getListByProjectId(projectId);
         String[] packageIds = saleTender.getPackages().split(",");
         Map<String, Object> map =new HashMap<String, Object>();
         map.put("packageIds", packageIds);
         map.put("projectId", projectId);
         List<PackageFirstAudit> packageFirstAudits = packageFirstAuditService.findByProAndPackage(map);
         for (PackageFirstAudit packageFirstAudit : packageFirstAudits) {
-            FirstAudit firstAudit = firstAuditService.get(packageFirstAudit.getFirstAuditId());
-            firstAudits.add(firstAudit);
+            String firstAuditId = packageFirstAudit.getFirstAuditId();
+            FirstAudit firstAudit = firstAuditService.get(firstAuditId);
+            packageFirstAudit.setFirstAuditName(firstAudit.getName());
+            packageFirstAudit.setFirstAuditKind(firstAudit.getKind());
+            //回显该供应商当前包下初审项的值
+            FirstAuditQuota faq = new FirstAuditQuota();
+            faq.setPackageId(packageFirstAudit.getPackageId());
+            faq.setProjectId(projectId);
+            faq.setPackFirstId(packageFirstAudit.getFirstAuditId());
+            Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+            faq.setSupplierId(supplier.getId());
+            List<FirstAuditQuota> faqs = firstAuditQuotaService.find(faq);
+            if (faqs != null && faqs.size() > 0) {
+                packageFirstAudit.setIs_pass(faqs.get(0).getValue());
+            }
         }
         //评审模型关联
         List<ScoreModel> scoreModels = new ArrayList<ScoreModel>();
@@ -226,6 +250,17 @@ public class ProjectManageController {
             if (markTerms != null && markTerms.size() > 0) {
                 scoreModel2.setMarkTerm(markTerms.get(0));
             }
+            //用于回显供应商在当前包下详细评审项的值
+            AduitQuota aq = new AduitQuota();
+            aq.setPackageId(scoreModel2.getPackageId());
+            aq.setProjectId(projectId);
+            aq.setScoreModelId(scoreModel2.getId());
+            Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+            aq.setSupplierId(supplier.getId());
+            List<AduitQuota> aqs = aduitQuotaService.find(aq);
+            if (aqs != null && aqs.size() > 0) {
+                scoreModel2.setValue(aqs.get(0).getSupplierValue());
+            }
         }
         List<Packages> packages = new ArrayList<Packages>();
         for (String packageId : packageIds) {
@@ -236,8 +271,21 @@ public class ProjectManageController {
                 packages.add(pg.get(0));
             }
         }
+        //判断供应商是否保存指标值
+        AduitQuota aq = new AduitQuota();
+        aq.setProjectId(projectId);
+        Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+        aq.setSupplierId(supplier.getId());
+        List<AduitQuota> aqs = aduitQuotaService.find(aq);
+        if (aqs != null && aqs.size() > 0) {
+            model.addAttribute("saveFirst", "ok");
+        } else {
+            model.addAttribute("saveFirst", "no");
+        }
+        
         model.addAttribute("packages", packages);
         model.addAttribute("scoreModels", scoreModels);
+        model.addAttribute("packageFirstAudits", packageFirstAudits);
         model.addAttribute("firstAudits", firstAudits);
     }
 
@@ -313,14 +361,31 @@ public class ProjectManageController {
     
     @RequestMapping("/saveIndex")
     @ResponseBody
-    public void saveIndex(String datas, HttpServletResponse response, HttpServletRequest req) throws IOException{
+    public void saveIndex(String data1, String data2, HttpServletResponse response, HttpServletRequest req) throws IOException{
         try {
-            AduitQuota aq = new AduitQuota();
-            //解析datas
-            String[] data = datas.split(",");
-            for (String values : data) {
+            
+            //解析data
+            String[] dataArr1 = data1.split(",");
+            String[] dataArr2 = data2.split(",");
+            for (String values : dataArr1) {
                 String value = values.substring(1, values.length()-1);
                 String[] v = value.split("_");
+                FirstAuditQuota faq = new FirstAuditQuota();
+                faq.setCreatedAt(new Date());
+                faq.setId(WfUtil.createUUID());
+                faq.setIsDeleted((short)0);
+                faq.setPackageId(v[2]);
+                faq.setProjectId(v[0]);
+                faq.setPackFirstId(v[1]);
+                Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+                faq.setSupplierId(supplier.getId());
+                faq.setValue(Integer.parseInt(v[3]));
+                firstAuditQuotaService.save(faq);
+            }
+            for (String values : dataArr2) {
+                String value = values.substring(1, values.length()-1);
+                String[] v = value.split("_");
+                AduitQuota aq = new AduitQuota();
                 aq.setCreatedAt(new Date());
                 aq.setId(WfUtil.createUUID());
                 aq.setIsDeleted((short)0);
@@ -330,8 +395,12 @@ public class ProjectManageController {
                 aq.setScoreModelId(v[1]);
                 Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
                 aq.setSupplierId(supplier.getId());
-                BigDecimal bd = new BigDecimal(v[3]);
-                aq.setSupplierValue(bd);
+                if ("null".equals(v[3])) {
+                    aq.setSupplierValue(null);
+                } else {
+                    BigDecimal bd = new BigDecimal(v[3]);
+                    aq.setSupplierValue(bd);
+                }
                 aduitQuotaService.save(aq);
             }
             String msg = "保存成功";

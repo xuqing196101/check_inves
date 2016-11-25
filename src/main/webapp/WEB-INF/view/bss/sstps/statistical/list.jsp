@@ -27,6 +27,7 @@ $(function(){
 		        }
 		    }
 		});
+	  
 });
 
 function showCharts(){
@@ -99,8 +100,8 @@ function resetQuery(){
 							<th class="info">合同名称</th>
 							<th class="info">合同编号</th>
 							<th class="info">合同金额(万元)</th>
-							<th class="info">审价金额</th>
-							<th class="info">审减百分比</th>
+							<th class="info">审价金额(万元)</th>
+							<th class="info">审减百分比(%)</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -112,7 +113,7 @@ function resetQuery(){
 								<td>${statis.code }</td>
 								<td class="tc">${statis.money }</td>
 								<td class="tc">${statis.auditMoney }</td>
-								<td class="tc">${statis.subtract }</td>
+								<td class="tc">${(statis.money-statis.auditMoney)*100/statis.money}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

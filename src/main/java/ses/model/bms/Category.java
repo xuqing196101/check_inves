@@ -49,9 +49,9 @@ public class Category {
      */
     private String description;
     /**
-     * @Fields isEnd : 是否为末级
+     *  物资分类
      */
-    private Integer isEnd;
+    private Integer classify;
     /**
      * @Fields code : 编码
      */
@@ -91,7 +91,7 @@ public class Category {
 
    private String paramPublishRange;
 
-private CategoryAttachment categoryAttchment;
+   private CategoryAttachment categoryAttchment;
 
    private List<CategoryAptitude> categoryAptitudes;
 	
@@ -101,7 +101,9 @@ private CategoryAttachment categoryAttchment;
    
    private Orgnization orgnization;
    
-	public Orgnization getOrgnization() {
+   
+   
+public Orgnization getOrgnization() {
 	return orgnization;
 }
 
@@ -210,15 +212,17 @@ public void setOrgnization(Orgnization orgnization) {
         this.description = description == null ? null : description.trim();
     }
 
-    public Integer getIsEnd() {
-		return isEnd;
-	}
+    
 
-	public void setIsEnd(Integer isEnd) {
-		this.isEnd = isEnd;
-	}
+	public Integer getClassify() {
+        return classify;
+    }
 
-	public String getCode() {
+    public void setClassify(Integer classify) {
+        this.classify = classify;
+    }
+
+    public String getCode() {
         return code;
     }
 

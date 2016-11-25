@@ -40,7 +40,7 @@ public class SupplierItemController {
 	@ResponseBody
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String jsp, String defaultPage) {
 		supplierItemService.saveOrUpdate(supplierItem);
-	/*	Supplier supplier = supplierService.get(supplierItem.getSupplierId());
+/*		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 		
 		if ("items".equals(jsp))
 			request.getSession().setAttribute("defaultPage", defaultPage);
@@ -49,6 +49,6 @@ public class SupplierItemController {
 		
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);*/
-		return "";
+		return  "redirect:../supplier/page_jump.html";
 	}
 }

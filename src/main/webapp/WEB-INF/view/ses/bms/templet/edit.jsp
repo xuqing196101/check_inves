@@ -53,7 +53,7 @@
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
-							<select id="temType" name=temType class="w220">
+							<select id="temType" name=temType>
 								<option value="-请选择-">-请选择-</option>
 								<option value="采购公告">采购公告</option>
 								<option value="中标公告">中标公告</option>

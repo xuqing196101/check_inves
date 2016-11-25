@@ -271,7 +271,7 @@
 			              <input type="hidden" name="ss"   value="${obj.parentId }">
 			              </c:if>
 			              <c:if test="${obj.purchaseCount==null }">
-			              <input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+			              <input  class="border0"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 			              </c:if>
 			              </td>
 			              <td class="tc">
@@ -281,7 +281,7 @@
 			              <input type="hidden" name="ss"   value="${obj.parentId }">
 			              </c:if>
 			              <c:if test="${obj.price==null}">
-			              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+			              <input class="border0"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
 			              </c:if>
 			              </td>
 			              <td class="tc">
@@ -292,11 +292,6 @@
 			             
 			              <td class="tc">${obj.deliverDate}</td>
 			              <td class="tc">
-			                               <%--  <c:if test="${'JZXTP'==obj.purchaseType}">竞争性谈判</c:if>
-			                                <c:if test="${'YQZB'==obj.purchaseType}">邀请招标</c:if>
-			                                <c:if test="${'XJCG'==obj.purchaseType}">询价采购</c:if>
-			                                <c:if test="${'GKZB'==obj.purchaseType}">公开招标</c:if>
-			                                <c:if test="${'DYLY'==obj.purchaseType}">单一来源</c:if> --%>
 			                                <c:forEach items="${kind}" var="kind" >
 			                                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 			                                </c:forEach>

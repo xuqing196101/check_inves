@@ -71,5 +71,5 @@ public interface ProjectService {
 	   
 	   List<Project> selectSuccessProject(Map<String,Object> map);
 	   
-	   boolean SameNameCheck(String name, Project project);
+	   boolean SameNameCheck( Project project);
 }

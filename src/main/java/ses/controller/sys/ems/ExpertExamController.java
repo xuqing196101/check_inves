@@ -2285,14 +2285,14 @@ public class ExpertExamController extends BaseSupplierController{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		String type = user.getTypeName();
 		String str = null;
-		if(type.equals(5)){
+		if(type.equals(DictionaryDataUtil.getId("EXPERT_U"))){
 			List<ExamRule> examRule = examRuleService.selectById(null);
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("ruleId", examRule.get(0).getId());
 			map.put("userId", user.getId());
 			List<ExpertPaperUser> userList = expertPaperUserService.findAll(map);
 			if(userList.size()==0){
-				str = "4";
+				str = "4";//未被添加到今年的考试中
 			}else{
 				Date endDate = examRule.get(0).getOffTime();
 				Date startDate = examRule.get(0).getStartTime();

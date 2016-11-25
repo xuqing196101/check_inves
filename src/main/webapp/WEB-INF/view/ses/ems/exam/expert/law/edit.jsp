@@ -16,12 +16,16 @@
 		$(function(){
 			opt = ${opt};
 			obj = eval(opt);
+			var queType = $("#queType").val();
+			if(queType==""){
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
+			}
 			var options = $("#options").val();
 			if(options==""){
 				return;
 			}
 			var array = obj[options].split(",");
-			var queType = $("#queType").val();
 			var errorOption = document.getElementsByName("errorOption");
 			var queAnswer = $("#queAnswer").val();
 			var ohtml="";

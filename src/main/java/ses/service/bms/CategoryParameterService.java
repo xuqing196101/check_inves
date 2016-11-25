@@ -69,14 +69,13 @@ public interface CategoryParameterService {
      */
     public List<CategoryParameter> getParamsByCateId(String cateId);
     
-    
     /**
      * 
      *〈简述〉
      * 根据品目id查询参数
      *〈详细描述〉
      * @author myc
-     * @param itemId
+     * @param itemId 品目Id
      * @return
      */
     public List<CategoryParameter> getParametersByItemId(String itemId);
@@ -99,7 +98,30 @@ public interface CategoryParameterService {
      *〈详细描述〉
      * @author myc
      * @param ids 选中的所有id
-     * @return 成功返回ok
+     * @return 成功返回ok,否则为failed
      */
     public String deleteParamters(String ids);
+
+    /**
+     * 
+     *〈简述〉
+     *  初始化小类型
+     *〈详细描述〉
+     * @author myc
+     * @return 
+     */
+    public List<DictionaryData> initSmallTypes();
+
+    /**
+     * 
+     *〈简述〉
+     *  提交参数
+     *〈详细描述〉
+     * @author myc
+     * @param open 是否公开,0:公开,1:不公开
+     * @param classify 物资的类型
+     * @param cateId 品目ID
+     * @return 成功返回ok,否则返回false
+     */
+    public String submit(String open, String classify, String cateId);
 }

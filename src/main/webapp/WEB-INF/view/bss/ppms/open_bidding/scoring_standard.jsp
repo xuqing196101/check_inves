@@ -63,7 +63,7 @@
         return childNodes;  
     }  
     function beforeRemove(treeId, treeNode) {  
-    	var content = "您确认删除节点--" + treeNode.name + "--吗?";
+    	var content = "您确认删除节点" + treeNode.name + "吗?";
     	var packageId = $("#packageId").val();
     	layer.confirm(content, {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				$.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,method:"delnode",packageId:packageId}); 
@@ -84,7 +84,17 @@
         $.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,name:newName,method:"updatenode",packageId:packageId,projectId:projectId,remainScore:remainScore});  
         return true;  
     }  
-  
+  	function  beforeEditName(){
+  		layer.open({
+					  type: 2,
+					  title: '修改评分项',
+					  shadeClose: true,
+					  shade: 0.4,
+					  area: ['500px', '20%'],
+					  offset: '100px',
+					  content: "${pageContext.request.contextPath}/intelligentScore/addNode.do?pid="+treeNode.id+"&method=addnode"+"&packageId="+packageId+"&projectId="+projectId+"&remainScore="+remainScore //iframe的url
+				}); 
+  	}
     function addHoverDom(treeId, treeNode) { 
     	
     	if(treeId==null || treeId==undefined || treeId==""){
@@ -176,7 +186,7 @@
 			$("#show_content_div").hide();
 			$("#bid_method_form").show();
 		}else if(!treeNode.isParent && treeNode.id!=""){
-			$("#treebody").attr("src","${pageContext.request.contextPath}/intelligentScore/gettreebody.do?id="+treeNode.id+"&packageId="+id+"&name="+encodeURI(encodeURI(treeNode.name)));
+			$("#treebody").attr("src","${pageContext.request.contextPath}/intelligentScore/gettreebody.do?id="+treeNode.id+"&packageId="+id+"&name="+encodeURI(encodeURI(treeNode.name))+"&projectId=${projectId}");
 			$("#show_content_div").show();
 			$("#bid_method_form").hide();
 		}else if (treeNode.id==""){

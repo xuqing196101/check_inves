@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.CategoryParameter;
+
 /**
  * @Title: Supplier
  * @Description: 供应商实体类
@@ -508,7 +510,19 @@ public class Supplier implements Serializable {
 	
 	/**投标文件状态*/
 	private String bidFinish;
+	//品目参数
+	private List<CategoryParameter>  categoryParam= new ArrayList<CategoryParameter>();
 	
+	
+	
+	public List<CategoryParameter> getCategoryParam() {
+		return categoryParam;
+	}
+
+	public void setCategoryParam(List<CategoryParameter> categoryParam) {
+		this.categoryParam = categoryParam;
+	}
+
 	public String getBidFinish() {
 		return bidFinish;
 	}

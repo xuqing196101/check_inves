@@ -46,7 +46,6 @@ import ses.model.oms.PurchaseOrg;
 import ses.model.oms.PurchaseRoom;
 import ses.model.oms.PurchaseUnit;
 import ses.model.oms.util.AjaxJsonData;
-import ses.model.oms.util.CommUtils;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.service.bms.AreaServiceI;
@@ -58,23 +57,30 @@ import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.service.sms.SupplierAuditService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 
 /**
  * 
- * @Title: PurchaseManageController
- * @Description: 
- * @author: Tian Kunfeng
- * @date: 2016-9-13娑撳﹤宕�0:58:02
+ * 版权：(C) 版权所有 
+ * <简述>
+ * <详细描述>
+ * @author   tiankf
+ * @version  1.0
+ * @since
+ * @see
  */
 @Controller
 @Scope("prototype")
 @RequestMapping("/purchaseManage")
 public class PurchaseManageController {
-	@Autowired
-	private DepartmentServiceI departmentServiceI;
+    /**
+     * 部门service
+     */
+    @Autowired
+    private DepartmentServiceI departmentServiceI;
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	@Autowired
@@ -601,6 +607,7 @@ public class PurchaseManageController {
 			System.out.println(purchaseInfo.getId());
 			user.setTypeId(purchaseInfo.getId());
 		}
+		user.setTypeName(DictionaryDataUtil.getId("PURCHASER_U"));
 		userServiceI.save(user, currUser);
 		jsonData.setSuccess(true);
 		jsonData.setMessage("保存成功");
@@ -639,7 +646,7 @@ public class PurchaseManageController {
 	@ResponseBody
 	public AjaxJsonData updateUser(@ModelAttribute User user,HttpServletRequest request){
 		User currUser = (User) request.getSession().getAttribute("loginUser");
-		
+		user.setTypeName(DictionaryDataUtil.getId("PURCHASER_U"));
 		userServiceI.update(user);
 		jsonData.setSuccess(true);
 		jsonData.setMessage("更新成功");

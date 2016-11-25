@@ -254,8 +254,8 @@ System.out.print(scoreModel);
 	function gerneratorOne(){
 		var judgeContent = $("#judgeContent").val();
 		var standardScore = $("#standardScore").val();
-		var judgeNumber = $("#judgeNumber").val();
-		var str = judgeContent + judgeNumber + " "+"是"+standardScore+"分 "+"否0分";
+		//var judgeNumber = $("#judgeNumber").val();
+		var str = judgeContent  + " "+"是"+standardScore+"分 "+"否0分";
 		$("#easyUnderstandContent1").val(str);
 	}
 	function gerneratorTwo(){
@@ -591,6 +591,7 @@ System.out.print(scoreModel);
 				</select>
 			</div>
 			<input id="packageId" name="packageId" type="hidden" value="${packageId }">
+			<input id="projectId" name="projectId" type="hidden" value="${projectId }">
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<input id="id" type="hidden" name="id" value="${scoreModel.id }">
 			<input id ="" type="hidden" name="name" value="${markTermName }">

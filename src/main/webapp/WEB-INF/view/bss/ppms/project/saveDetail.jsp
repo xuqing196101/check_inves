@@ -13,7 +13,6 @@
         var flag = $(ele).prop("checked");
         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).children().val();
         purchaseType = $.trim(purchaseType);
-        alert(purchaseType);
         var goodUse = $("input[name='chkItem']:checked").parents("tr").find("td").eq(13).text();
         goodUse = $.trim(goodUse);
         if (!goodUse) {
@@ -70,8 +69,9 @@
     } 
     
     function cancel(){
-     var index=parent.layer.getFrameIndex(window.name);
-     parent.layer.close(index);
+    /*  var index=parent.layer.getFrameIndex(window.name);
+     parent.layer.close(index); */
+     window.location.href = "${pageContext.request.contextPath}/project/add.html";
      
     }
   </script>
@@ -93,7 +93,7 @@
 <!-- 项目戳开始 -->
      <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
-        <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+        <button class="btn btn-windows back" type="button" onclick="cancel();">返回</button>
       </div>
     <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover">
@@ -132,9 +132,10 @@
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">
-              <input type="hidden" name="ttype" value="${obj.purchaseType }">
                      <c:forEach items="${kind}" var="kind" >
-                                                 <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                                 <c:if test="${kind.id == obj.purchaseType}">
+                                                 <input type="hidden" name="ttype" value="${kind.id }">
+                                                 ${kind.name}</c:if>
                                             </c:forEach>
                                     
               </td>
@@ -150,8 +151,6 @@
          </tbody>
 
       </table>
-      
-      <div id="pagediv" align="right"></div>
    </div>
  </div>
 

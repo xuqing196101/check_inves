@@ -157,13 +157,35 @@ button, input, select, textarea {
     font-size:14px;
     white-space: nowrap;
     vertical-align: middle;
-	min-width:249px;
 	position:relative;
 }
 .bround4{
   border-radius:4px!important;}
-
-/*�޸ĺ����ҳ��ʽ*/
+.input_group {
+	position: relative;
+	display: table;
+}
+.input_group input{
+	width:100%;
+	display:table-cell;
+}
+.input_group .add-on{
+    display:table-cell;
+    padding:0 10px 0 10px;
+    width:1%;
+	text-align:center;
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: 0 1px 0 #fff;
+    background-color: #ffffff;
+	font-family:"americantypewritercondensed";
+    border: 1px solid #ccc;
+	color:#777777;
+	vertical-align: middle;
+	margin-left: -1px;
+	border-left:0px;
+}
+/*锟睫改猴拷锟斤拷锟揭筹拷锟绞�/
 .form-horizontal .controls {
     *display: inline-block;
     *padding-left: 20px;

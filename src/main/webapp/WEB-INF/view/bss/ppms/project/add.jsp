@@ -51,13 +51,26 @@
 										}
 									}
 								},
-
+                                projectNumber : {
+                                    remote : {
+                                        type : "post",
+                                        url : "${pageContext.request.contextPath}/project/SameNameCheck.html",
+                                        dataType : "json",
+                                        data : {
+                                            projectNumber : function() {
+                                                return $("#pc").val();
+                                            }
+                                        }
+                                    }
+                                },
 							},
 							messages : {
 								name : {
-									remote : "<span class='spredm'>*该项目名称已存在</span>"
+									remote : "<span class='red'>*该项目名称已存在</span>"
 								},
-
+								projectNumber : {
+                                    remote : "<span class='red'>*该项目编号已存在</span>"
+                                },
 							}
 						});
 
@@ -150,17 +163,15 @@
 				%>
 				<input type="hidden" name="token2" value="<%=tokenValue%>">
 				<ul class="ul_list">
-					<li class="col-md-3 margin-0 padding-0 "><span
-						class="col-md-12 padding-left-5">项目名称</span>
-						<div class="input-append">
-							<input id="pic" type="text" class="span5" name="name" /> <span
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 项目名称</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input id="pic" type="text" class="input_group" name="name" /> <span
 								class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 margin-0 padding-0 "><span
-						class="col-md-12 padding-left-5">项目编号</span>
-						<div class="input-append">
-							<input id="pc" type="text" class="span5" name="projectNumber" />
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 项目编号</span>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0">
+							<input id="pc" type="text" class="input_group" name="projectNumber" />
 							<span class="add-on">i</span>
 						</div>
 					</li>
@@ -181,7 +192,7 @@
 									<th class="info">下达文件编号</th>
 									<th class="info">状态</th>
 									<th class="info">下达时间</th>
-									<th class="info"><i class="spredm">*</i>&nbsp;操作</th>
+									<th class="info"><i class="red">*</i> 操作</th>
 								</tr>
 							</thead>
 							<tbody id="task_id">

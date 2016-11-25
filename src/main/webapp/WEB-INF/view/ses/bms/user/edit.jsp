@@ -209,7 +209,7 @@
 	   				<li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 					   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>用户名</span>
 					   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input class="span5" name="loginName" readonly="readonly" value="${user.loginName }" maxlength="30" type="text">
+				        <input name="loginName" readonly="readonly" value="${user.loginName }" maxlength="30" type="text">
 				        <span class="add-on">i</span>
 				       	<div class="cue"><sf:errors path="loginName"/></div>
 				       	<div class="cue">${exist }</div>
@@ -218,7 +218,7 @@
 					<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
 					    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-					        <input class="span5" name="relName" value="${user.relName }" maxlength="30" type="text">
+					        <input name="relName" value="${user.relName }" maxlength="30" type="text">
 					        <span class="add-on">i</span>
 					        <div class="cue"><sf:errors path="relName"/></div>
 				       	</div>
@@ -318,7 +318,7 @@
 				 	</li>
 	   			</ul>
 	  	  </div> 
-	  	   <div class="col-md-12 tc mt20" >
+	  	   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12  tc mt20" >
 		    	<button class="btn btn-windows reset" type="submit">更新</button>
 		    	<button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
 		   </div>

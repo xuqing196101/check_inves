@@ -65,7 +65,7 @@
   <body>
   <div class="container">
     <div class="col-md-12 mb10 border1 bggrey mt10">
-  	  <div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
+  	  	<div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
   	</div>
   	<div class="col-md-12 f18 b p0">
   		<c:if test="${singlePoint!=0&&multiplePoint!=0 }">
@@ -78,17 +78,16 @@
   			本次考试题型包括：多选题，共${multipleNum }题，每题${multiplePoint }分。
   		</c:if>
   	</div>
-  <form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form" class="clear mt10">
-  <c:choose>
-  	<c:when test="${pageSize==1 }">
-	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
-	    <tbody>
-		    <c:forEach items="${queRandom }" var="que" varStatus="l">
-		      <tr>
-		        <td class="col-md-1 tc info">${l.index+1 }</td>
-		        <td class="col-md-11">
-		          <div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
-		          
+  	<form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form" class="clear mt10">
+  	<c:choose>
+  		<c:when test="${pageSize==1 }">
+	  	<table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
+	    	<tbody>
+		    	<c:forEach items="${queRandom }" var="que" varStatus="l">
+		      		<tr>
+		        		<td class="col-md-1 tc info">${l.index+1 }</td>
+		        		<td class="col-md-11">
+		          		<div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
 		          		<c:if test="${que.examQuestionType.name=='单选题' }">
 				    		<c:forEach items="${fn:split(que.items,';')}" var="it">
 				    		<div class="mt10 clear fl">
@@ -103,12 +102,12 @@
 				    		</div>
 				    		</c:forEach>
 				    	</c:if>
-		        </td>
-		      </tr>
-		    </c:forEach>
-	    </tbody>
-	  </table>
-	  	<div class="col-md-12 tc">
+		        		</td>
+		      		</tr>
+		    	</c:forEach>
+	    	</tbody>
+	  	</table>
+	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 	    	<button class="btn" type="button" onclick="save()">提交</button>
 	  	</div>
   </c:when>
@@ -118,71 +117,66 @@
   		<c:when test="${p.first}">
   		<div id="pageNum${p.index+1 }" name="exam">
   			<table class="clear table table-bordered table-condensed">
-		  	
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
 		       			<td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
-					        <div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
-					        
-					    		<c:if test="${que.examQuestionType.name=='单选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		   <div class="mt10 clear fl">
-						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
-						    		    </div>
-						    		</c:forEach>
-						    	</c:if>
-						    	<c:if test="${que.examQuestionType.name=='多选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		  <div class="mt10 clear fl">
-						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
-						    		  </div>
-						    		</c:forEach>
-						    	</c:if>
+					    <div><span class="mr10">【${que.examQuestionType.name}】</span><span>${que.topic }</span></div>
+					    	<c:if test="${que.examQuestionType.name=='单选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    	<div class="mt10 clear fl">
+						    		<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
+						    	</div>
+						    	</c:forEach>
+						    </c:if>
+						    <c:if test="${que.examQuestionType.name=='多选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    	<div class="mt10 clear fl">
+						    		<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
+						    	</div>
+						    	</c:forEach>
+						    </c:if>
 		        		</td>
-		     		 </tr>
+		     		</tr>
 			    </c:forEach>
-			    
 		    </table>
-		    <div class="col-md-12 tc">
+		 	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
     			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
   			</div>
-		   </div>
-		    </c:when>
+		</div>
+		</c:when>
 		    
 		    <c:when test="${p.last}">
 		    <div id="pageNum${p.index+1 }" name="exam">
 		    <table class="clear table table-bordered table-condensed">
-		  	
 			    <c:forEach items="${queRandom }" var="que" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				     <tr>
-		       			 <td class="col-md-1 tc info">${l.index+1 }</td>
+		       			<td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
-				    			<c:if test="${que.examQuestionType.name=='单选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		  <div class="mt10 clear fl">
+				        	<div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
+				    		<c:if test="${que.examQuestionType.name=='单选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    		<div class="mt10 clear fl">
 						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
-						    		  </div>
-						    		</c:forEach>
-						    	</c:if>
-						    	<c:if test="${que.examQuestionType.name=='多选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		   <div class="mt10 clear fl">
+						    		</div>
+						    	</c:forEach>
+						    </c:if>
+						    <c:if test="${que.examQuestionType.name=='多选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    		<div class="mt10 clear fl">
 						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
-						    		   </div>
-						    		</c:forEach>
-						    	</c:if>
+						    		</div>
+						    	</c:forEach>
+						    </c:if>
 		        		</td>
 		     		 </tr>
 			    </c:forEach>
-			   
 		    </table>
-		     	<div class="col-md-12 tc">
+		    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			    	<button class="btn" type="button" onclick="setTab(${p.index})">上一页</button>
     				<button class="btn" type="button" onclick="save()">提交</button>
-  				</div>
-  				</div>
+  			</div>
+  			</div>
 		    </c:when>
 		    
 		    <c:otherwise>
@@ -192,26 +186,26 @@
 				    <tr>
 		       			<td class="col-md-1 tc info">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
-				    			<c:if test="${que.examQuestionType.name=='单选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		  <div class="mt10 clear fl">
+				          	<div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
+				    		<c:if test="${que.examQuestionType.name=='单选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    		<div class="mt10 clear fl">
 						    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it }
-						    		  </div>
-						    		</c:forEach>
-						    	</c:if>
-						    	<c:if test="${que.examQuestionType.name=='多选题' }">
-						    		<c:forEach items="${fn:split(que.items,';')}" var="it">
-						    		  <div class="mt10 clear fl">
+						    		</div>
+						    	</c:forEach>
+						    </c:if>
+						    <c:if test="${que.examQuestionType.name=='多选题' }">
+						    	<c:forEach items="${fn:split(que.items,';')}" var="it">
+						    		<div class="mt10 clear fl">
 						    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0 mr5"/>${it}
-						    		  </div>
-						    		</c:forEach>
-						    	</c:if>
+						    		</div>
+						    	</c:forEach>
+						    </c:if>
 		        		</td>
-		     		 </tr>
+		     		</tr>
 			    </c:forEach>
 		    </table>
-		    <div class="col-md-12 tc">
+		    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 		    	<button class="btn" onclick="setTab(${p.index})" type="button">上一页</button>
     			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
   			</div>
@@ -222,9 +216,9 @@
   </c:otherwise>
   
   </c:choose>
-    <input type="hidden" name="queAnswer" value="${queAnswer}"/>
-    <input type="hidden" name="queType" value="${queType}"/>
-    <input type="hidden" name="queId" value="${queId }"/>
+	    <input type="hidden" name="queAnswer" value="${queAnswer}"/>
+	    <input type="hidden" name="queType" value="${queType}"/>
+	    <input type="hidden" name="queId" value="${queId }"/>
     </form>
     </div>
   </body>

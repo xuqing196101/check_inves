@@ -118,11 +118,36 @@
 	function savefirst(){
 		var projectId = $("#projectId").val();
 		var pagNum = $("#pagNum").val();//分包数量
-		var subData2 = "";
+		var subData1 = "";//初审项值
+		var subData2 = "";//详细评审项值
 	    var count = 0;
-	    var msg = "";
+	    var msg = "";//提示信息
 		for (var i = 1; i < pagNum+1; i++) {
 			var num = 0;
+			//取初审项的值
+			var indexTr0 = 0;
+			$("#tbody_1_"+i).find("tr").each(function(){
+				var tdArr = $(this).children();
+				var pfaId = tdArr.eq(0).find("input").val();//初审项与包关联id
+				var v = tdArr.eq(3).find("select").val();
+		    	var pId = tdArr.eq(5).find("input").val();//包id
+				if(indexTr0 == 0 && i == 1){
+			    	subData1 += "[";
+		    	}
+		    	if(indexTr0 > 0 || i > 1){
+			    	subData1 += ",[";
+		    	}
+		    	subData1 += projectId;
+	    		subData1 += "_";
+	    		subData1 += pfaId;
+	    		subData1 += "_";
+	    		subData1 += pId;
+	    		subData1 += "_";
+	    		subData1 += v;
+	    		subData1 += "]";
+	    		indexTr0 += 1;
+			});
+			//取详细评审项的值
 			var indexTr = 0;
 	    	$("#tbody_2_"+i).find("tr").each(function(){
 		    	var tdArr = $(this).children();
@@ -148,14 +173,15 @@
 		    				msg +=smName;
 		    				msg +="】";
 		    			}
+		    			v = "null";//未填写项为空值
 		    			count +=1;
 		    			num +=1;
 		    		}
 		    	}
-		    	if(indexTr == 0){
+		    	if(indexTr == 0 && i == 1){
 			    	subData2 += "[";
 		    	}
-		    	if(indexTr > 0){
+		    	if(indexTr > 0 || i > 1){
 			    	subData2 += ",[";
 		    	}
 		    	subData2 += projectId;
@@ -174,27 +200,30 @@
 				layer.close(index);
 				$.ajax({  
 	               type: "POST",  
-	               url: "${pageContext.request.contextPath}/supplierProject/saveIndex.html?datas="+subData2,  
+	               url: "${pageContext.request.contextPath}/supplierProject/saveIndex.html?data1="+subData1+"&data2="+subData2,  
 	               dataType: 'json',  
 	               success:function(result){
-	               		alert(result);
-	                    layer.msg(result.msg,{offset: '222px'});
+	                    layer.msg(result.msg,{offset: '300px'});
+	                    $("#saveFirstPage").addClass("dnone");
+	                    $("#nextStep").removeClass("dnone");
 	                },
 	                error: function(result){
-	                    layer.msg("操作失败",{offset: '222px'});
+	                    layer.msg("操作失败",{offset: '300px'});
 	                }
 	            });
 			});
     	}else{
     		$.ajax({  
 	               type: "POST",  
-	               url: "${pageContext.request.contextPath}/supplierProject/saveIndex.html?datas="+subData2,  
+	               url: "${pageContext.request.contextPath}/supplierProject/saveIndex.html?data1="+subData1+"&data2="+subData2,  
 	               dataType: 'json',  
 	               success:function(result){
-	                    layer.msg(result.msg,{offset: '222px'});
+	                    layer.msg(result.msg,{offset: '300px'});
+	                   	$("#saveFirstPage").addClass("dnone");
+	                    $("#nextStep").removeClass("dnone");
 	                },
 	                error: function(result){
-	                    layer.msg("操作失败",{offset: '222px'});
+	                    layer.msg("操作失败",{offset: '300px'});
 	                }
 	            });
     	}
@@ -319,9 +348,9 @@
 		      </c:if>
 		  </c:forEach>
         </ul>
-       <c:forEach items="${packages }"  var="pas" varStatus="vs">
        <div class="tab-content padding-top-20">
-       		<c:if test="${vs.index==0 }">
+       <c:forEach items="${packages }"  var="pas" varStatus="vs">
+       		<c:if test="${vs.index == 0 }">
         		<div class="tab-pane fade active in" id="tab-${vs.index+1 }">
        		</c:if>
        		<c:if test="${vs.index > 0 }">
@@ -336,22 +365,28 @@
 					          <th class="info">名称</th>
 					          <th class="info">类型</th>
 					          <th class="info">是否满足</th>
+					          <th class="dnone"></th>
+					          <th class="dnone"></th>
 					        </tr>
 				        </thead>
-				        <tbody id="tbody_1">
-		 				<c:forEach items="${firstAudits }"  var="fa" varStatus="vs" >
-				            <tr class="hand">
-				              <td class="tc w50">${vs.index+1}<input type="hidden" value="${fa.id }" /></td>
-				              <td class="tc">${fa.name}</td>
-				              <td class="tc">${fa.kind}</td>
-				              <td class="tc">
-				              	<span class="red mr10">*</span>
-			              		<select name="" class="w150">
-			              			<option value="1">满足</option>
-			              			<option value="0">不满足</option>
-			              		</select>
-				              </td>
-				            </tr>
+				        <tbody id="tbody_1_${vs.index+1}">
+		 				<c:forEach items="${packageFirstAudits }"  var="pfa" varStatus="vf" >
+		 					<c:if test="${pfa.packageId == pas.id }">
+					            <tr class="hand">
+					              <td class="tc w50">${vf.index+1}<input type="hidden" value="${pfa.firstAuditId }" /></td>
+					              <td class="tc">${pfa.firstAuditName}</td>
+					              <td class="tc">${pfa.firstAuditKind}</td>
+					              <td class="tc">
+					              	<span class="red mr10">*</span>
+				              		<select name="" class="w150">
+				              			<option value="0" <c:if test="${pfa.is_pass == 0}">selected</c:if>>不满足</option>
+				              			<option value="1" <c:if test="${pfa.is_pass == 1}">selected</c:if>>满足</option>
+				              		</select>
+					              </td>
+					              <td class="dnone"><input type="hidden" value="${pas.name }" /></td>
+				              	  <td class="dnone"><input type="hidden" value="${pas.id }" /></td>
+					            </tr>
+		 					</c:if>
 		 				</c:forEach>
 		 				</tbody>
 			      	</table>
@@ -365,44 +400,54 @@
 					          <th class="info w50">序号</th>
 					          <th class="info">名称</th>
 					          <th class="info">类型</th>
-					          <th class="info">是否满足</th>
+					          <th class="info">指标值</th>
 					          <th class="dnone"></th>
 					          <th class="dnone"></th>
 					        </tr>
 				        </thead>
 				        <tbody id="tbody_2_${vs.index+1}">
-		 				<c:forEach items="${scoreModels }"  var="sm" varStatus="vs" >
+		 				<c:forEach items="${scoreModels }"  var="sm" varStatus="vss" >
+		 					<c:if test="${sm.packageId == pas.id }">
 				            <tr class="hand">
 				              <td class="dnone"><input type="hidden" value="${sm.typeName }" /></td>
-				              <td class="tc w50">${vs.index+1}<input type="hidden" value="${sm.id }" /></td>
+				              <td class="tc w50">${vss.index+1}<input type="hidden" value="${sm.id }" /></td>
 				              <td class="tc">${sm.markTerm.name}<input type="hidden" value="${sm.markTerm.name}" /></td>
-				              <td class="tc">${sm.markTerm.typeName}</td>
+				              <td class="tc">
+				              	<c:if test="${sm.markTerm.typeName==0}">商务</c:if>
+				              	<c:if test="${sm.markTerm.typeName==1}">技术</c:if>
+				              </td>
 				              <td class="tc">
 				              	<c:choose>
 				              	<c:when test="${sm.typeName == '0'}">
 				              		<select name="" class="w150">
-				              			<option value="0">不满足</option>
-				              			<option value="1">满足</option>
+				              			<option value="0" <c:if test="${sm.value == 0}">selected</c:if>>不满足</option>
+				              			<option value="1" <c:if test="${sm.value == 1}">selected</c:if>>满足</option>
 				              		</select>
 				              	</c:when>
 				              	<c:otherwise>
-				              		<input maxlength="17" />
+				              		<input maxlength="17" value="${sm.value}" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]"/>
 				              	</c:otherwise>
 				              	</c:choose>
 				              </td>
 				              <td class="dnone"><input type="hidden" value="${pas.name }" /></td>
 				              <td class="dnone"><input type="hidden" value="${pas.id }" /></td>
 				            </tr>
+				            </c:if>
 		 				</c:forEach>
 		 				</tbody>
 			      	</table>
 		    	</ul>
 		    </div>
-        </div>
         </c:forEach>
+        </div>
     	<div class="mt40 tc mb50">
-		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="savefirst();">保存</button>
-		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" id="nestStep" onclick="nextStep();">下一步</button>
+    	 <c:if test="${'no' eq saveFirst}">
+		 	<button class="btn padding-left-20 padding-right-20 btn_back margin-5" id="saveFirstPage" onclick="savefirst();">保存</button>
+    		<button class="btn padding-left-20 padding-right-20 btn_back margin-5 dnone" id="nextStep" onclick="nextStep();">下一步</button>
+    	 </c:if>
+    	 <c:if test="${'ok' eq saveFirst}">
+		 	<button class="btn padding-left-20 padding-right-20 btn_back margin-5" id="nextStep" onclick="nextStep();">下一步</button>
+    	 </c:if>
 		 <!-- <button class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</button> -->
 		</div>
     </div>
@@ -523,7 +568,7 @@
 	   </div>
 	   <div class="mt40 tc mb50">
 		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prevStep();">上一步</button>
-		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" id="nestStep" onclick="saveSecond();">保存</button>
+		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveSecond();">保存</button>
 		 <!-- <button class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</button> -->
 		</div>
 	</div>

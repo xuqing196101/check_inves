@@ -9,7 +9,7 @@
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
 		<result column="DESCRIPTION" property="description" />
-		<result column="IS_END" property="isEnd" />
+		<result column="CLASSIFY_STATUS" property="classify" />
 		<result column="CODE" property="code" />
 		<result column="POSITION" property="position" />
 		<result column="IS_DELETED" property="isDeleted" />
@@ -36,7 +36,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
-		DESCRIPTION, IS_END,
+		DESCRIPTION, CLASSIFY_STATUS,
 		CODE,
 		POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,ATTCHMENT_ID,ORGNIZATION_ID
 	</sql>
@@ -138,13 +138,13 @@
 		(ID, NAME, STATUS,
 		PARENT_ID, CREATED_AT, UPDATED_AT,
 		ATTCHMENT_ID,
-		DESCRIPTION, IS_END,
+		DESCRIPTION, CLASSIFY_STATUS,
 		CODE,
 		POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
 		values (#{id}, #{name}, #{status},
 		#{parentId}, #{createdAt},
 		#{updatedAt},
-		#{description}, #{isEnd},
+		#{description}, #{classify},
 		#{code},
 		#{position},#{is_deleted},#{isPublish},#{kind},#{paramStatus},#{acceptRange},#{paramPublishRange})
 	</insert>
@@ -173,8 +173,8 @@
 			<if test="description != null">
 				DESCRIPTION,
 			</if>
-			<if test="isEnd != null">
-				IS_END,
+			<if test="classify != null">
+				CLASSIFY_STATUS,
 			</if>
 			<if test="code != null">
 				CODE,
@@ -229,8 +229,8 @@
 			<if test="description != null">
 				#{description},
 			</if>
-			<if test="isEnd != null">
-				#{isEnd},
+			<if test="classify != null">
+				#{classify},
 			</if>
 			<if test="code != null">
 				#{code},
@@ -288,8 +288,8 @@
 			<if test="description != null">
 				DESCRIPTION = #{description},
 			</if>
-			<if test="isEnd != null">
-				IS_END = #{isEnd},
+			<if test="classify != null">
+				CLASSIFY_STATUS = #{classify},
 			</if>
 			<if test="code != null">
 				CODE = #{code},

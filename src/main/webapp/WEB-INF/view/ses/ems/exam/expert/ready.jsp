@@ -54,7 +54,7 @@
 		  	           <h2 class="red tc">请在读完下面内容之后,点击“开始考试”进入考试界面！</h2>
 		  		考生须知：本次考试需要在<fmt:formatDate value="${offTime }" pattern="yyyy-MM-dd HH:mm"/>之前完成，并且答题及格才生效，具体考试详情请查看自己的考试安排。如果未在规定时间内完成题目，一律取消专家资格！
 		  	</div>
-		  	<div class="col-md-12 p0 tc mt20">
+		  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 		  		<input type="button" value="开始考试" onclick="test()" class="btn"/>
 		  	</div>
    		</div>

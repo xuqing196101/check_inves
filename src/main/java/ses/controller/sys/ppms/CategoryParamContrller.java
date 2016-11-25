@@ -99,7 +99,6 @@ public class CategoryParamContrller extends BaseSupplierController {
             CategoryTree ct=new CategoryTree();
             if(!cList.isEmpty()){
                 ct.setIsParent("true");
-                cate.setIsEnd(1);
             }else{
                 ct.setIsParent("false");
             }
@@ -137,44 +136,6 @@ public class CategoryParamContrller extends BaseSupplierController {
     @RequestMapping("/save")
     public String save(CategoryParam categoryParam,CategoryAptitude categoryAptitude,Category category,
                        Model model,HttpServletRequest request,HttpServletResponse response){
-        /*Category category=categoryService.selectByPrimaryKey(request.getParameter("id"));
-		category.setCreatedAt(new Date());
-		categoryParam.setCategory(category);
-		categoryAptitude.setCategory(category);
-		category.setIsPublish(Integer.parseInt(request.getParameter("ispublish")));
-		if (category.getIsPublish().equals("0")) {
-		category.setIsPublish(0);
-	    }else if (category.getIsPublish().equals("1")) {
-		category.setIsPublish(1);
-	    }
-		String kinds=request.getParameter("kinds");
-		category.setKind(kinds);
-		category.setAcceptRange(request.getParameter("acceptRange"));
-	    category.setParamStatus(0);
-	    categoryService.updateByPrimaryKeySelective(category);
-	    String name = request.getParameter("names");
-	    String[] names = name.split(",");
-	    String value = request.getParameter("values");
-	    String[] values = value.split(",");
-	    for (int i = 0; i < names.length; i++) {
-			categoryParam.setName(names[i]);
-			categoryParam.setValueType(values[i]);
-			categoryParam.setCreatedAt(new Date());
-			categoryParamService.insertSelective(categoryParam);
-		}
-	    String product = request.getParameter("products");
-	    String[] productname = product.split(",");
-	    String sale = request.getParameter("sales");
-	    String[] salename = sale.split(",");
-	    for (int i = 0; i < productname.length; i++) {
-			categoryAptitude.setProductName(productname[i]);
-			categoryAptitude.setCreatedAt(new Date());
-		}
-	    for (int i = 0; i < salename.length; i++) {
-			categoryAptitude.setSaleName(salename[i]);
-			categoryAptitude.setCreatedAt(new Date());
-		}
-	    categoryAptitudeService.insertSelective(categoryAptitude);*/
         Boolean flag = true;
         String name = request.getParameter("names");
         String[] names = name.split(",");
@@ -389,43 +350,6 @@ public class CategoryParamContrller extends BaseSupplierController {
     @RequestMapping("/edit")
     public String edit( CategoryAptitude categoryAptitude,CategoryParam categoryParam,Category category,
                         HttpServletRequest request,Model model,String id,HttpServletResponse response){
-        /* Category category = categoryService.selectByPrimaryKey(request.getParameter("categoryId"));
-    	category.setUpdatedAt(new Date());
-    	categoryParam.setCategory(category);
-    	categoryAptitude.setCategory(category);
-    	category.setIsPublish(Integer.parseInt(request.getParameter("ispublish")));
-		if (category.getIsPublish().equals("0")) {
-		category.setIsPublish(0);
-	    }else if (category.getIsPublish().equals("1")) {
-		category.setIsPublish(1);
-	    }
-		String kinds=request.getParameter("kinds");
-		category.setKind(kinds);
-		category.setAcceptRange(request.getParameter("acceptRange"));
-	    categoryService.updateByPrimaryKeySelective(category);
-	    String name = request.getParameter("names");
-	    String[] names = name.split(",");
-	    String value = request.getParameter("values");
-	    String[] values = value.split(",");
-	    for (int i = 0; i < names.length; i++) {
-			categoryParam.setName(names[i]);
-			categoryParam.setValueType(values[i]);
-			categoryParam.setCreatedAt(new Date());
-			categoryParamService.insertSelective(categoryParam);
-		}
-	    String product = request.getParameter("products");
-	    String[] productname = product.split(",");
-	    String sale = request.getParameter("sales");
-	    String[] salename = sale.split(",");
-	    for (int i = 0; i < productname.length; i++) {
-			categoryAptitude.setProductName(productname[i]);
-			categoryAptitude.setCreatedAt(new Date());
-		}
-	    for (int i = 0; i < salename.length; i++) {
-			categoryAptitude.setSaleName(salename[i]);
-			categoryAptitude.setCreatedAt(new Date());
-		}
-	    categoryAptitudeService.updateByPrimaryKeySelective(categoryAptitude);*/
         Boolean flag = true;
         String name = request.getParameter("names");
         String[] names = name.split(",");
