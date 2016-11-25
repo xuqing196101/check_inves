@@ -33,14 +33,12 @@
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">栏目名称：</span>
 			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
 		        <input class="input_group"  type="text" value = '${articletype.name}' readonly="readonly">
-		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">栏目编码：</span>
                <div class="input-append input_group col-sm-12 col-xs-12 p0">
                 <input class="input_group"  type="text" value = '${articletype.code}' readonly="readonly">
-                <span class="add-on">i</span>
                </div>
              </li>
 
@@ -48,21 +46,18 @@
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">创建人：</span>				 	
 	  			<div class="input-append input_group col-sm-12 col-xs-12 p0">
 		        <input class="input_group"  type="text" value = '${articletype.creater.relName}' readonly="readonly">
-		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">创建时间：</span>				 	
 	  			<div class="input-append input_group col-sm-12 col-xs-12 p0">
 		         <input class="input_group"  type="text" value = "<fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">更新时间：</span>				 	
                <div class="input-append input_group col-sm-12 col-xs-12 p0">
 		         <input class="input_group"  type="text" value = "<fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
 		       </div>
 			 </li>
 			<li class="col-md-12 col-sm-12 col-xs-12 ">	  	 			
