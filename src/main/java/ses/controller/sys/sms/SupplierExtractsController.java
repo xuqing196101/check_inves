@@ -460,10 +460,11 @@ public class SupplierExtractsController extends BaseController {
         }
         if( "1".equals(ids[2])){
             SupplierExtRelate supplierExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
-            SaleTender saleTender = new SaleTender();
-            saleTender.setProjectId(supplierExtRelate.getProjectId());
-            saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
+           
             SupplierExtPackage byId = supplierExtPackageServicel.getById(supplierExtRelate.getProjectId());
+            SaleTender saleTender = new SaleTender();
+            saleTender.setProjectId(byId.getProjectId());
+            saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
             saleTender.setPackages(byId.getPackageId());
             saleTenderService.insert(saleTender);
         }
