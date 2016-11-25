@@ -34,7 +34,7 @@
 			   <ul class="ul_list">
 			   	 	<li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 			   	 		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>编码</span>
-					   	<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+					   	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 					        <input class="input_group" name="code" value="${dd.code }" maxlength="40" type="text">
 					        <span class="add-on">i</span>
 					        <div class="cue"><sf:errors path="code"/></div>
@@ -43,7 +43,7 @@
 				 	</li>
 				 	<li class="col-md-3 col-sm-6 col-xs-12">
 					   	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
-					   	<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+					   	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 					        <input class="input_group" name="name" value="${dd.name }"  type="text">
 					        <span class="add-on">i</span>
 					        <div class="cue"><sf:errors path="name"/></div>
