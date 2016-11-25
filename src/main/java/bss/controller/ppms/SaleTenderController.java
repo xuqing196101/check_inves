@@ -90,7 +90,7 @@ public class SaleTenderController {
     	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
     	SaleTender saleTender=new SaleTender();
     	saleTender.setProjectId(projectId);
-    	List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
+    	List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
     	List<String> stsupplierIds=new ArrayList<String>();
     	if(list.size()>0){
 	    	for(SaleTender st:list){
