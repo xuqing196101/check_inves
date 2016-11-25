@@ -3,98 +3,187 @@ package ses.model.sms;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-
+/**
+ * 版权：(C) 版权所有 
+ * <简述>供应商修改实体类
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
+ */
 public class SupplierEdit {
+    /**
+     * 主键
+     */
     private String id;
-
+    /**
+     * 供应商id
+     */
     private String recordId;
-
+    /**
+     * 供应商名称
+     */
     private String supplierName;
-
+    /**
+     * 企业网址
+     */
     private String website;
-
+    /**
+     * 成立日期
+     */
     private Date foundDate;
-
+    /**
+     * 营业类型
+     */
     private String businessType;
-
+    /**
+     * 注册地址
+     */
     private String address;
-
+    /**
+     * 开户行名称
+     */
     private String bankName;
-
+    /**
+     * 开户行账号
+     */
     private String bankAccount;
-
+    /**
+     * 邮编
+     */
     private String postCode;
-
+    /**
+     * 附件
+     */
     private String taxCert;
-
+    /**
+     * 附件
+     */
     private String billCert;
-
+    /**
+     * 附件
+     */
     private String securityCert;
-
+    /**
+     * 附件
+     */
     private String breachCert;
-
+    /**
+     * 法人姓名
+     */
     private String legalName;
-
+    /**
+     * 法人身份证号码
+     */
     private String legalIdCard;
-
+    /**
+     * 法人电话
+     */
     private String legalTelephone;
-
+    /**
+     * 法人手机
+     */
     private String legalMobile;
-
+    /**
+     * 联系人姓名
+     */
     private String contactName;
-
+    /**
+     * 联系人手机
+     */
     private String contactTelephone;
-
+    /**
+     * 传真
+     */
     private String contactFax;
-
+    /**
+     * 联系人电话
+     */
     private String contactMobile;
-
+    /**
+     * 联系人邮箱
+     */
     private String contactEmail;
-
+    /**
+     * 联系人地址
+     */
     private String contactAddress;
-
+    /**
+     * 统一社会唯一编码
+     */
     private String creditCode;
-
+    /**
+     * 
+     */
     private String registAuthority;
-
+    /**
+     * 注册资本
+     */
     private BigDecimal registFund;
-
+    /**
+     * 营业开始日期
+     */
     private Date businessStartDate;
-
+    /**
+     * 营业截止日期
+     */
     private Date businessEndDate;
-
+    /**
+     * 营业范围
+     */
     private String businessScope;
-
+    /**
+     * 营业地址
+     */
     private String businessAddress;
-
+    /**
+     * 邮编
+     */
     private Integer businessPostCode;
-
+    /**
+     * 是否为境外分支
+     */
     private Short overseasBranch;
-
+    /**
+     * 国家
+     */
     private String branchCountry;
-
+    /**
+     * 分支地址
+     */
     private String branchAddress;
-
+    /**
+     * 分支名称
+     */
     private String branchName;
-
+    /**
+     * 附件
+     */
     private String businessCert;
-
+    /**
+     * 分值经营范围
+     */
     private String branchBusinessScope;
-
+    /**
+     * 创建时间
+     */
     private Timestamp createDate;
-    
+    /**
+     *状态 
+     */   
     private short status;
     
 
     public short getStatus() {
-		return status;
-	}
+        return status;
+    }
 
-	public void setStatus(short status) {
-		this.status = status;
-	}
+    public void setStatus(short status) {
+        this.status = status;
+    }
 
-	public String getId() {
+    public String getId() {
         return id;
     }
 

@@ -9,79 +9,69 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 
 /**
- * @Title: SupplierQuoteService
- * @Description: 供应商报价服务层
- * @author: Song Biaowei
- * @date: 2016-10-28上午10:35:54
+ * 版权：(C) 版权所有 
+ * <简述>供应商报价服务层
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
  */
 public interface SupplierQuoteService {
-	
-	/**
-	 * @Title: getAllQuote
-	 * @author Song Biaowei
-	 * @date 2016-10-28 上午10:35:24  
-	 * @Description:获取所有的报价信息 
-	 * @param @param quote
-	 * @param @param page
-	 * @param @return      
-	 * @return List<Quote>
-	 */
-	List<Quote> getAllQuote(Quote quote,Integer page);
-	
-	/**
-	 * @Title: insert
-	 * @author Song Biaowei
-	 * @date 2016-10-28 上午10:35:40  
-	 * @Description: 保存报价
-	 * @param @param quote      
-	 * @return void
-	 */
-	void insert(List<Quote> listQuote);
-	
-	/**
-	 * @Title: selectByCondition
-	 * @author Song Biaowei
-	 * @date 2016-11-3 上午10:19:02  
-	 * @Description: 可以报价的项目
-	 * @param @param map
-	 * @param @param page
-	 * @param @return      
-	 * @return List<ProjectDetail>
-	 */
-	List<Project> selectByCondition(HashMap<String,Object> map,Integer page);
-	
-	/**
-	 * @Title: selectByPrimaryKey
-	 * @author Song Biaowei
-	 * @date 2016-11-3 下午3:30:14  
-	 * @Description: 查询项目的所有包
-	 * @param @param map
-	 * @param @param page
-	 * @param @return      
-	 * @return List<Package>
-	 */
-	List<Packages> selectByPrimaryKey(HashMap<String,Object> map,Integer page);
-	
-	/**
-	 * @Title: selectQuoteCount
-	 * @author Song Biaowei
-	 * @date 2016-11-7 下午1:48:50  
-	 * @Description: 报价的时候显示报价历史次数
-	 * @param @param quote
-	 * @param @return      
-	 * @return List<Date>
-	 */
-	List<Date> selectQuoteCount(Quote quote);
-	
-	/**
-	 * @Title: selectQuoteHistoryList
-	 * @author Song Biaowei
-	 * @date 2016-11-7 下午2:31:20  
-	 * @Description: 查看报价历史
-	 * @param @param quote
-	 * @param @return      
-	 * @return List<Quote>
-	 */
-	List<Quote> selectQuoteHistoryList(Quote quote);
 
+    /**
+     *〈简述〉获取所有的报价信息
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param quote 实体类
+     * @param page 当前页
+     * @return List<Quote>
+     */
+    List<Quote> getAllQuote(Quote quote, Integer page);
+
+    /**
+     *〈简述〉保存报价
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param listQuote 保存多个包报价
+     */
+    void insert(List<Quote> listQuote);
+
+    /**
+     *〈简述〉可以报价的项目
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param map 条件
+     * @param page 当前页
+     * @return List<Project> 
+     */
+    List<Project> selectByCondition(HashMap<String, Object> map, Integer page);
+
+    /**
+     *〈简述〉查询项目的所有包
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param map 条件
+     * @param page 当前页
+     * @return List<Packages>
+     */
+    List<Packages> selectByPrimaryKey(HashMap<String, Object> map, Integer page);
+
+    /**
+     *〈简述〉查询报价次数
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param quote 实体类
+     * @return List<Date> 
+     */
+    List<Date> selectQuoteCount(Quote quote);
+
+    /**
+     *〈简述〉查询报价历史记录
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param quote 实体
+     * @return List<Quote>
+     */
+    List<Quote> selectQuoteHistoryList(Quote quote);
 }

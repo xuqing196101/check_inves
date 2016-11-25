@@ -581,29 +581,35 @@ public class OpenBiddingController {
      */
     @RequestMapping("/changbiao")
     public String changbiao(String projectId, Model model ){
-        //项目信息
-    	 //参与项目的所有供应商
+        //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";
         for(Supplier sup:listSupplier){
-        	supplierStr+=sup.getId()+",";
+            supplierStr+=sup.getId()+",";
         }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
-        map.put("purchaseType", "gkzb");
+        map.put("purchaseType",DictionaryDataUtil.getId("GKZB"));
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
         List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
         if(listsupplierId.get(0).length()>30){
-	        for(String str:listsupplierId){
+            for(String str:listsupplierId){
+                Quote quotes = new Quote();
+                quotes.setProjectId(projectId);
+	            quotes.setSupplierId(str);
+	            List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
 	            Quote quote=new Quote();
 	            quote.setSupplierId(str);
+	            quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
 	            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
 	            BigDecimal totalMoney=new BigDecimal(0);
 	            for(Quote q: listQuote){
 	            	totalMoney=totalMoney.add(q.getTotal());
-	            	q.setTotalMoney(totalMoney);
-	            	q.setTotalMoneyNames(new CnUpperCaser(totalMoney.toString()).getCnString());
+	            }
+	            if(listQuote != null && listQuote.size() > 0){
+	                listQuote.get(0).setTotalMoney(totalMoney);
+                    listQuote.get(0).setTotalMoneyNames(new CnUpperCaser(totalMoney.toString()).getCnString());
 	            }
 	            listQuoteList.add(listQuote);
 	        }
@@ -624,27 +630,27 @@ public class OpenBiddingController {
      */
     @RequestMapping("/toubiao")
     public String toubiao(String projectId, Model model ){
-       //项目信息
-    	Project project=projectService.selectById(projectId);
-    	 //参与项目的所有供应商
+        //项目信息
+        Project project=projectService.selectById(projectId);
+        //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         if(listSupplier.size()>0){
-        	for(Supplier sup:listSupplier){
-        		 SaleTender saleTender=new SaleTender();
-                 saleTender.setSupplierId(sup.getId());
-                 List<SaleTender> st=saleTenderService.list(saleTender, 1);
-                 if(st!=null){
-                	 if(st.get(0).getBidFinish()==1){
-                		 sup.setBidFinish("已上传");
-                	 }else{
-                		 sup.setBidFinish("未上传");
-                	 }
-                 }
-        	}
+            for(Supplier sup:listSupplier){
+                SaleTender saleTender=new SaleTender();
+                saleTender.setSupplierId(sup.getId());
+                List<SaleTender> st=saleTenderService.list(saleTender, 1);
+                if(st!=null){
+                    if(st.get(0).getBidFinish()==0||st.get(0).getBidFinish()==1){
+                        sup.setBidFinish("未上传");
+                    }else{
+                        sup.setBidFinish("已上传");
+                    }
+                }
+            }
         }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
-        map.put("purchaseType", "gkzb");
+        map.put("purchaseType", DictionaryDataUtil.getId("GKZB"));
         List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
         model.addAttribute("listSupplier", listSupplier);
         model.addAttribute("listPd", listPd);

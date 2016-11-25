@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -28,362 +27,258 @@ import ses.util.ValidateUtils;
 import com.github.pagehelper.PageInfo;
 
 /**
- * @Title: ImportSupplierController
- * @Description: 进口供应商注册审核控制层
- * @author: Song Biaowei
- * @date: 2016-9-7下午6:09:03
+ * 版权：(C) 版权所有 
+ * <简述>进口供应商控制层
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
  */
 @Controller
 @Scope("prototype")
 @RequestMapping("/importSupplier")
 public class ImportSupplierController {
-	@Autowired
-	private ImportSupplierService importSupplierService;
-	@Autowired
-	private TodosService todosService;
+    /**
+     * 进口供应商服务层
+     */
+    @Autowired
+    private ImportSupplierService importSupplierService;
+    /**
+     * 待办任务服务层
+     */
+    @Autowired
+    private TodosService todosService;
 
-	/**
-	* @Title: beforeRegister
-	* @author Song Biaowei
-	* @date 2016-9-6 上午11:31:17  
-	* @Description:点击进口供应商注册 
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("list")
-	public String registerStart(ImportSupplierWithBLOBs is,String supName,String supType,HttpServletRequest request,Integer page,Model model){
-		if(supName!=null&&!supName.equals("")){
-			is.setName(supName);
-		}
-		if(supType!=null&&!supType.equals("")){
-			is.setSupplierType(supType);
-		}
-		List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,page==null?1:page);
-		request.setAttribute("isList", new PageInfo<>(isList));
-		model.addAttribute("name", is.getName());
-		model.addAttribute("supplierType", is.getSupplierType());
-		return "ses/sms/import_supplier/list";
-	}
-	
-	/**
-	 * @Title: edit
-	 * @author Song Biaowei
-	 * @date 2016-9-27 下午4:35:59  
-	 * @Description: 进入新增页面
-	 * @param @param is
-	 * @param @param model
-	 * @param @param request
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("edit")
-	public String edit(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
-		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		model.addAttribute("is", importSupplierWithBLOBs);	
-		return "ses/sms/import_supplier/edit";
-	}
-	
-	@RequestMapping(value="auditShow")
-	public String auditShow(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
-		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		model.addAttribute("is", importSupplierWithBLOBs);
-		return "ses/sms/import_supplier/audit";
-	}
-	
-	@RequestMapping(value="audit")
-	public String audit(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
-		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		model.addAttribute("is", importSupplierWithBLOBs);
-		importSupplierService.updateRegisterInfo(is);
-		if(is.getStatus()!=0){
-			todosService.updateIsFinish("importSupplier/auditShow.html?id="+is.getId());
-		}
-		return "redirect:/login/home.html";
-	}
-	
-	/**
-	 * @Title: show
-	 * @author Song Biaowei
-	 * @date 2016-9-27 下午4:36:12  
-	 * @Description: 查看页面
-	 * @param @param is
-	 * @param @param model
-	 * @param @param request
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("show")
-	public String show(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
-		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		model.addAttribute("is", importSupplierWithBLOBs);	
-		return "ses/sms/import_supplier/show";
-	}
-	
-	/**
-	 * @Title: delete_soft
-	 * @author Song Biaowei
-	 * @date 2016-9-27 下午4:36:23  
-	 * @Description: 删除 
-	 * @param @param ids
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("delete")
-	public String delete_soft(String ids) {
-		String[] id = ids.split(",");
-		for (String str : id) {
-			importSupplierService.delete(str);
-		}
-		return "redirect:list.html";
-	}
-	
-	/**
-	 * @Title: update
-	 * @author Song Biaowei
-	 * @date 2016-9-27 下午4:36:35  
-	 * @Description: 更新到数据库
-	 * @param @param is
-	 * @param @param files
-	 * @param @param model
-	 * @param @param request
-	 * @param @return
-	 * @param @throws IOException      
-	 * @return String
-	 */
-	@RequestMapping("update")
-	public String update(@Valid ImportSupplierWithBLOBs is, BindingResult result, Model model,HttpServletRequest request) throws IOException{
-		if(result.hasErrors()){
-			List<FieldError> errors=result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			model.addAttribute("is", is);
-			if(!ValidateUtils.Zipcode(is.getPostCode()+"")){
-				model.addAttribute("ERR_postCode", "请输入正确的邮编");
-			}
-			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
-				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
-			}
-			if("-请选择-".equals(is.getAddress())){
-				model.addAttribute("is", is);
-				model.addAttribute("ERR_address", "请输入地址");
-				return "ses/sms/import_supplier/edit";
-			}
-			return "ses/sms/import_supplier/edit";
-		}
-		if("-请选择-".equals(is.getAddress())){
-			model.addAttribute("is", is);
-			model.addAttribute("ERR_address", "请输入地址");
-			return "ses/sms/import_supplier/edit";
-		}
-		
-		is.setUpdatedAt(new Timestamp(new Date().getTime()));
-		importSupplierService.updateRegisterInfo(is);
-		return "redirect:list.html";
-	}
-	
-	/**
-	 * @Title: register
-	 * @author Song Biaowei
-	 * @date 2016-9-9 下午5:15:47  
-	 * @Description:注册第一步 
-	 * @param @param user
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("register")
-	public String register(ImportSupplierWithBLOBs is,HttpServletRequest request,Model model){
-		//保存基本信息返回 id作为外键保存到user用户表里面去
-		return "ses/sms/import_supplier/register";
-	}
-	
-	/**
-	 * @Title: registerEnd
-	 * @author Song Biaowei
-	 * @date 2016-9-8 上午10:25:06  
-	 * @Description: 注册 0代表登记成功，1代表审核通过，2代表审核退回
-	 * @param @param is
-	 * @param @return      
-	 * @return String
-	 * @throws IOException 
-	 */
-	@RequestMapping("registerEnd")
-	public String registerEnd(@Valid ImportSupplierWithBLOBs is, BindingResult result,HttpServletRequest request,Model model) throws IOException{
-		if(result.hasErrors()){
-			List<FieldError> errors=result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			model.addAttribute("is", is);
-			if(!ValidateUtils.Zipcode(is.getPostCode()+"")){
-				model.addAttribute("ERR_postCode", "请输入正确的邮编");
-			}
-			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
-				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
-			}
-			if("-请选择-".equals(is.getAddress())){
-				model.addAttribute("is", is);
-				model.addAttribute("ERR_address", "请输入地址");
-				return "ses/sms/import_supplier/edit";
-			}
-			return "ses/sms/import_supplier/register";
-		}
-		if("-请选择-".equals(is.getAddress())){
-			model.addAttribute("is", is);
-			model.addAttribute("ERR_address", "请输入地址");
-			return "ses/sms/import_supplier/register";
-		}
-		
-		is.setStatus((short)0);
-		is.setCreatedAt(new Timestamp(new Date().getTime()));
-		User user1=(User) request.getSession().getAttribute("loginUser");
-		is.setCreatorId(user1.getId());
-		is.setOrgId(user1.getOrg().getId());
-		importSupplierService.register(is);
-		Todos todo=new Todos();
-		//自己的id
-		todo.setSenderId(user1.getId());
-		//代办人id
-		todo.setOrgId(user1.getOrg().getId());
-		//权限Id
-		todo.setPowerId(PropUtil.getProperty("gysdb"));
-		//待办类型 供应商
-		//待办类型 供应商
-		todo.setUndoType((short)1);
-		//标题
-		todo.setName("进口供应商审核");
-		//逻辑删除 0未删除 1已删除
-		todo.setIsDeleted((short)0);
-		todo.setCreatedAt(new Date());
-		todo.setUrl("importSupplier/auditShow.html?id="+is.getId());
-		todosService.insert(todo);
-		return "redirect:list.html";
-	}
-	
+    /**
+     *〈简述〉进口供应商列表
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 进口供应商实体
+     * @param supName 名称查询条件 
+     * @param supType 类型查询条件
+     * @param request request
+     * @param page 当前页
+     * @param model 模型
+     * @return String
+     */
+    @RequestMapping("list")
+    public String registerStart(ImportSupplierWithBLOBs is, String supName, String supType, HttpServletRequest request, Integer page, Model model){
+        if (supName != null && !supName.equals("")) {
+            is.setName(supName);
+        }
+        if (supType != null && !supType.equals("")) {
+            is.setSupplierType(supType);
+        }
+        List<ImportSupplierWithBLOBs> isList = importSupplierService.selectByFsInfo(is, page == null ? 1 : page);
+        request.setAttribute("isList", new PageInfo<>(isList));
+        model.addAttribute("name", is.getName());
+        model.addAttribute("supplierType", is.getSupplierType());
+        return "ses/sms/import_supplier/list";
+    }
+    
+    /**
+     *〈简述〉修改进口供应商信息
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 进口供应商实体
+     * @param model 模型
+     * @param request request
+     * @return String
+     */
+    @RequestMapping("edit")
+    public String edit(ImportSupplierWithBLOBs is, Model model, HttpServletRequest request){
+        ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+        model.addAttribute("is", importSupplierWithBLOBs);
+        return "ses/sms/import_supplier/edit";
+    }
+    
+    /**
+     *〈简述〉进口供应商审核页面
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 进口供应商实体
+     * @param model 模型
+     * @param request request
+     * @return String
+     */
+    @RequestMapping(value = "auditShow")
+    public String auditShow(ImportSupplierWithBLOBs is, Model model, HttpServletRequest request){
+        ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+        model.addAttribute("is", importSupplierWithBLOBs);
+        return "ses/sms/import_supplier/audit";
+    }
 
+    /**
+     *〈简述〉进口供应商审核完成通过或者退回
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 进口供应商实体
+     * @param model 模型
+     * @param request request
+     * @return String
+     */
+    @RequestMapping(value = "audit")
+    public String audit(ImportSupplierWithBLOBs is, Model model, HttpServletRequest request){
+        ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+        model.addAttribute("is", importSupplierWithBLOBs);
+        importSupplierService.updateRegisterInfo(is);
+        if (is.getStatus() != 0){
+            todosService.updateIsFinish("importSupplier/auditShow.html?id=" + is.getId());
+        }
+        return "redirect:/login/home.html";
+    }
+    
+    /**
+     *〈简述〉供应商详细信息展示
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 实体类
+     * @param model 模型
+     * @param request request
+     * @return String
+     */
+    @RequestMapping("show")
+    public String show(ImportSupplierWithBLOBs is, Model model, HttpServletRequest request){
+        ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+        model.addAttribute("is", importSupplierWithBLOBs);
+        return "ses/sms/import_supplier/show";
+    }
+    
+    /**
+     *〈简述〉软删除
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param ids 主键字符串，为了批量删除
+     * @return String
+     */
+    @RequestMapping("delete")
+    public String delete(String ids) {
+        String[] id = ids.split(",");
+        for (String str : id) {
+            importSupplierService.delete(str);
+        }
+        return "redirect:list.html";
+    }
+    
+    /**
+     *〈简述〉金扣供应商更新
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 实体类
+     * @param result 校验
+     * @param model 模型
+     * @param request request
+     * @return Stirng
+     * @throws IOException 异常处理
+     */
+    @RequestMapping("update")
+    public String update(@Valid ImportSupplierWithBLOBs is, BindingResult result, Model model, HttpServletRequest request) throws IOException{
+        if (result.hasErrors()) {
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError fieldError : errors) {
+                model.addAttribute("ERR_" + fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            model.addAttribute("is", is);
+            if (!ValidateUtils.Zipcode(is.getPostCode() + "")) {
+                model.addAttribute("ERR_postCode", "请输入正确的邮编");
+            }
+            if (!ValidateUtils.Mobile(is.getTelephone() + "")) {
+                model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+            }
+            if ("-请选择-".equals(is.getAddress())) {
+                model.addAttribute("is", is);
+                model.addAttribute("ERR_address", "请输入地址");
+                return "ses/sms/import_supplier/edit";
+            }
+            return "ses/sms/import_supplier/edit";
+        }
+        if ("-请选择-".equals(is.getAddress())) {
+            model.addAttribute("is", is);
+            model.addAttribute("ERR_address", "请输入地址");
+            return "ses/sms/import_supplier/edit";
+        }
 
-	/**
-	 * @Title: checkLoginName
-	 * @author Song Biaowei
-	 * @date 2016-9-9 上午9:04:40  
-	 * @Description: 验证用户名
-	 * @param @param is
-	 * @param @return
-	 * @param @throws Exception      
-	 * @return boolean
-	 */
-	@RequestMapping("checkLoginName")
-	@ResponseBody
-	public boolean checkLoginName(ImportSupplierWithBLOBs is) throws Exception {
-		boolean flag=false;
-		if(is.getId()!=null){
-			List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-			//isList==null 说明没有重复
-			if(isList.size()==0){
-				flag=true;
-			//如果isList!=null 并且查出来的id和条件id一样说明没有修改
-			}else if(isList!=null&&isList.size()==1&&is.getId().equals(isList.get(0).getId())){
-				flag=true;
-			}else{
-				for(ImportSupplierWithBLOBs iswbs :isList){
-					//这种情况说明搜索出来了不止一条，名字相同id相同则是本身
-					if(iswbs.getName().equals(is.getName())&&is.getId().equals(isList.get(0).getId())){
-						flag=true;
-						continue;
-					}else if(iswbs.getName().equals(is.getName())&&!is.getId().equals(isList.get(0).getId())){
-						flag=false;
-						break;
-					}else{
-						flag=true;
-					}
-				}
-			}
-				return flag;
-		}else{
-			List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-			for(ImportSupplierWithBLOBs iswbs :isList){
-				if(!iswbs.getName().equals(is.getName())){
-					flag=true;
-					continue;
-				}else{
-					flag=false;
-					break;
-				}
-			}
-			if(isList.size()==0){
-				flag=true;
-			}
-		}
-		return flag;	
-	}
-	/**
-	 * @Title: checkSupName
-	 * @author Song Biaowei
-	 * @date 2016-9-27 下午5:48:09  
-	 * @Description: TODO 
-	 * @param @param is
-	 * @param @return
-	 * @param @throws Exception      
-	 * @return boolean
-	 */
-	@RequestMapping("checkSupName")
-	@ResponseBody
-	public boolean checkSupName(ImportSupplierWithBLOBs is) throws Exception {
-		boolean flag=false;
-		if(is.getId()!=null){
-			List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-			//isList==null 说明没有重复
-			if(isList.size()==0){
-				flag=true;
-			//如果isList!=null 并且查出来的id和条件id一样说明没有修改
-			}else if(isList!=null&&isList.size()==1&&is.getId().equals(isList.get(0).getId())){
-				flag=true;
-			}else{
-				for(ImportSupplierWithBLOBs iswbs :isList){
-					//这种情况说明搜索出来了不止一条，名字相同id相同则是本身
-					if(iswbs.getName().equals(is.getName())&&is.getId().equals(isList.get(0).getId())){
-						flag=true;
-						continue;
-					}else if(iswbs.getName().equals(is.getName())&&!is.getId().equals(isList.get(0).getId())){
-						flag=false;
-						break;
-					}else{
-						flag=true;
-					}
-				}
-			}
-				return flag;
-		}else{
-			List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-			for(ImportSupplierWithBLOBs iswbs :isList){
-				if(!iswbs.getName().equals(is.getName())){
-					flag=true;
-					continue;
-				}else{
-					flag=false;
-					break;
-				}
-			}
-			if(isList.size()==0){
-				flag=true;
-			}
-		}
-		return flag;
-	}
-	/*@RequestMapping("dayin")
-	public ResponseEntity<byte[]> guidang(ImportSupplierAud cmt,HttpServletRequest request) throws Exception{
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		//文件名称
-		String fileName =new String(("进口供应商注册信息表.docx").getBytes("UTF-8"), "UTF-8");
-		String name = WordUtil.createWord(dataMap, "importSupplier.ftl",fileName, request);
-		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-		File file=new File(filePath+"/"+name);  
-        HttpHeaders headers = new HttpHeaders(); 
-        String downFileName=new String("进口供应商注册信息表.doc".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
-        headers.setContentDispositionFormData("attachment", downFileName);   
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-        ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
-        file.delete();
-        return entity;
-	} */
+        is.setUpdatedAt(new Timestamp(new Date().getTime()));
+        importSupplierService.updateRegisterInfo(is);
+        return "redirect:list.html";
+    }
+    
+    /**
+     *〈简述〉供应商登记
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 实体类
+     * @param request request
+     * @param model 模型
+     * @return String
+     */
+    @RequestMapping("register")
+    public String register(ImportSupplierWithBLOBs is, HttpServletRequest request, Model model){
+        //保存基本信息返回 id作为外键保存到user用户表里面去
+        return "ses/sms/import_supplier/register";
+    }
+    
+    /**
+     *〈简述〉供应商保存
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param is 实体类
+     * @param result 校验
+     * @param request request
+     * @param model 模型
+     * @return String
+     * @throws IOException 异常处理
+     */
+    @RequestMapping("registerEnd")
+    public String registerEnd(@Valid ImportSupplierWithBLOBs is, BindingResult result, HttpServletRequest request, Model model) throws IOException{
+        if (result.hasErrors()){
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError fieldError:errors){
+                model.addAttribute("ERR_" + fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            model.addAttribute("is", is);
+            if (!ValidateUtils.Zipcode(is.getPostCode() + "")){
+                model.addAttribute("ERR_postCode", "请输入正确的邮编");
+            }
+            if (!ValidateUtils.Mobile(is.getTelephone() + "")){
+                model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+            }
+            if ("-请选择-".equals(is.getAddress())){
+                model.addAttribute("is", is);
+                model.addAttribute("ERR_address", "请输入地址");
+                return "ses/sms/import_supplier/edit";
+            }
+            return "ses/sms/import_supplier/register";
+        }
+        if ("-请选择-".equals(is.getAddress())){
+            model.addAttribute("is", is);
+            model.addAttribute("ERR_address", "请输入地址");
+            return "ses/sms/import_supplier/register";
+        }
+        
+        is.setStatus((short) 0);
+        is.setCreatedAt(new Timestamp(new Date().getTime()));
+        User user1 = (User) request.getSession().getAttribute("loginUser");
+        is.setCreatorId(user1.getId());
+        is.setOrgId(user1.getOrg().getId());
+        importSupplierService.register(is);
+        Todos todo = new Todos();
+        //自己的id
+        todo.setSenderId(user1.getId());
+        //代办人id
+        todo.setOrgId(user1.getOrg().getId());
+        //权限Id
+        todo.setPowerId(PropUtil.getProperty("gysdb"));
+        //待办类型 供应商
+        todo.setUndoType((short) 1);
+        //标题
+        todo.setName("进口供应商审核");
+        //逻辑删除 0未删除 1已删除
+        todo.setIsDeleted((short) 0);
+        todo.setCreatedAt(new Date());
+        todo.setUrl("importSupplier/auditShow.html?id=" + is.getId());
+        todosService.insert(todo);
+        return "redirect:list.html";
+    }
 }
