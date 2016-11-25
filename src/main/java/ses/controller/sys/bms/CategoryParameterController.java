@@ -71,7 +71,7 @@ public class CategoryParameterController {
      * @return tree 对应的list
      */
     @ResponseBody
-    @RequestMapping("/initTree")
+    @RequestMapping(value = "/initTree",produces = "application/json;charset=UTF-8")
     public List<CategoryTree> initTree(HttpServletRequest request){
         
         List<CategoryTree> list = paramService.initTree(request);
@@ -88,7 +88,7 @@ public class CategoryParameterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/edit")
+    @RequestMapping(value= "/edit",produces = "application/json;charset=UTF-8")
     public CategoryParameter findById(String id){
         
         return paramService.findById(id);
@@ -108,7 +108,7 @@ public class CategoryParameterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/save" , produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/save" , produces = "application/json;charset=UTF-8")
     public ResponseBean save(String name, String type, String orgId , String cateId , String id){
         
         return paramService.saveParameter(name, type ,orgId ,cateId ,id);
@@ -124,7 +124,7 @@ public class CategoryParameterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/delParamters")
+    @RequestMapping(value = "/delParamters",produces="text/html;charset=UTF-8")
     public String delParamters(String ids){
         
         return  paramService.deleteParamters(ids);
@@ -140,7 +140,7 @@ public class CategoryParameterController {
      * @return 品目参数list
      */
     @ResponseBody
-    @RequestMapping("/params")
+    @RequestMapping(value = "/params" ,produces = "application/json;charset=UTF-8")
     public List<CategoryParameter> findParamsByTreeId(String cateId){
        
         return  paramService.getParamsByCateId(cateId);
@@ -157,7 +157,7 @@ public class CategoryParameterController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/submitParams")
+    @RequestMapping(value = "/submitParams", produces ="text/html;charset=UTF-8")
     public String submitParams(String open, String classify , String id){
         
         return  paramService.submit(open, classify, id);

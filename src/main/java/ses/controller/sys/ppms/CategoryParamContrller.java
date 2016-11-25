@@ -833,7 +833,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/assignedRes",produces= "application/json;charset=UTF-8")
+    @RequestMapping(value = "/assignedRes",produces = "application/json;charset=UTF-8")
     public List<CategotyBean> categoryResult(HttpServletRequest request){
        String orgIds = request.getParameter("orgIds");
        List<CategotyBean> list = cateAssignService.getCateAssignedRes(orgIds);
@@ -850,7 +850,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/assigned")
+    @RequestMapping(value = "/assigned",produces="text/html;charset=UTF-8")
     public String  assigned(HttpServletRequest request){
         
         String orgIds = request.getParameter("orgId");
@@ -871,7 +871,7 @@ public class CategoryParamContrller extends BaseSupplierController {
      * @return 
      */
     @ResponseBody
-    @RequestMapping("/unassigned")
+    @RequestMapping(value="/unassigned",produces="text/html;charset=UTF-8")
     public String unassigned(HttpServletRequest request){
         String orgIds = request.getParameter("orgId");
         String cateIds = request.getParameter("cateId");
