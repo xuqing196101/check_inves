@@ -15,6 +15,12 @@
 			<!--搜索开始-->
             <div class="col-md-8 topbar-v1 col-md-12 padding-0">
               <ul class="top-v1-data padding-0">
+              	<li class="dropdown wdxx">
+					<a href="${pageContext.request.contextPath}/login/home.html"  target="home">
+					  <div class="top_icon wdxx_icon"></div>
+					  <span>我的信息</span>
+					</a>
+				</li>
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
 						 <li class="dropdown ${resource.icon}">
@@ -45,6 +51,18 @@
 						</li>
 					</c:if>
 				</c:forEach>
+				<li class="dropdown htsy">
+					<a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
+					  <div class="top_icon htsy_icon"></div>
+					  <span>回到门户</span>
+					</a>
+				</li>
+				<li class="dropdown aqtc">
+					<a href="${pageContext.request.contextPath}/login/loginOut.html">
+					  <div class="top_icon aqtc_icon"></div>
+					  <span>安全退出</span>
+					</a>
+				</li>
 			    <li class="dropdown">
 				    <a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);">
 					  <span>页面样式帮助</span>
