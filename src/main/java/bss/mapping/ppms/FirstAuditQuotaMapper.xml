@@ -155,9 +155,7 @@
       <if test="value != null">
         VALUE = #{value,jdbcType=DECIMAL},
       </if>
-      <if test="page != null">
         PAGE = #{page,jdbcType=DECIMAL},
-      </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>

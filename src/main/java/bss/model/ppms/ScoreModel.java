@@ -66,7 +66,10 @@ public class ScoreModel implements Serializable{
 	private String markType;
 	private String markName;
 	
+	//该打分项的值，不做数据存储
 	private BigDecimal value;
+	//该打分项所在在页码， 不做数据存储
+	private Integer page;
 	
 	public String getId() {
 		return id;
@@ -325,6 +328,14 @@ public class ScoreModel implements Serializable{
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
    /* public String getMarkType() {

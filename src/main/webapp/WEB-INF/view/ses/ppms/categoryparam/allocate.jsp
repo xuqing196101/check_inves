@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*,ses.util.StringUtil" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -20,6 +20,7 @@
 				},
 				callback:{
 			    	onClick:zTreeOnClick,//点击节点触发的事件
+			    	onExpand: expandNode
 			    }, 
 				data:{
 					keep:{
@@ -148,10 +149,11 @@
 			return;
 		}
 		if (cateId.length == 0) {
-			layer.confirm('您确认要全部取消吗？', {
+			layer.confirm('您确认要取消吗？', {
 				  btn: ['确认','取消']
 			    },function (){
 			    	unassigned(orgId,'');
+			    	
 			    }
 		  	  );
 		} else {
@@ -162,6 +164,7 @@
      
      /** 取消  */
      function unassigned(orgId, cateId){
+    	var  ids = getCheckedItems(orgId);
  		$.ajax({
      		type:"post",
      		url:"${pageContext.request.contextPath}/categoryparam/unassigned.do?orgId= "+ orgId + "&cateId=" +cateId ,
@@ -169,6 +172,7 @@
      			if (data == "ok"){
      				layer.msg('取消成功');
      				getResult(orgId);
+     				disableChekbox(ids,false);
      			} else {
      				layer.msg('取消失败');
      			}
@@ -179,7 +183,7 @@
 	//获取选中节点 
 	
 	function allocate(){
-		var cateId=[];
+		var cateId =[];
 		var cateName = [];
 		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
 	    var nodes=treeObj.getCheckedNodes(true);  
@@ -204,6 +208,11 @@
 			return ;
 		}
 		
+		if (orgId.length  > 1){
+			layer.msg("只能选择一个需求部门");
+			return;
+		}
+		
 		assigned(orgId,cateId,cateName);
 		
 	  }
@@ -217,6 +226,7 @@
     			if (data == "ok"){
     				layer.msg('分配成功');
     				getResult(orgId);
+    				disableChekbox(cateId,true);
     			} else {
     				layer.msg(data);
     			}
@@ -260,6 +270,58 @@
 				$(this).parents('tr').find('td').eq(5).attr("onmouseover","titleMouseOver('"+obj.cateNames+"',this)");
 			}
 		});
+	}
+	
+	/** 展开tree */
+	function expandNode(){
+		allocaItemIds('',true);
+	}
+	
+	/** 禁用,启用 */
+	function disableChekbox(cateIds,opera){
+		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
+		for (var i = 0;i<cateIds.length;i++){
+			var node = treeObj.getNodeByParam("id",$.trim(cateIds[i]), null);
+			if (node != null){
+				treeObj.setChkDisabled(node,opera);
+			}
+		}
+	}
+	
+	/** 获取已分配的组织机构 */
+	function allocaItemIds(orgIds, opera){
+		$.ajax({
+			type:"post",
+    		dataType:"json",
+    		data:{'orgId':orgIds},
+    		async:false,
+    		url:"${pageContext.request.contextPath}/categoryparam/allocaItemIds.do",
+    		success:function(data){
+    			if (data != null && data != ""){
+    				disableChekbox(data,opera);
+    			}
+    		}
+		});
+	}
+	
+	/**
+	  获取取消的参数Id
+	*/
+	function getCheckedItems(orgIds){
+		var checkedObj = null;
+		$.ajax({
+			type:"post",
+    		dataType:"json",
+    		data:{'orgId':orgIds},
+    		async:false,
+    		url:"${pageContext.request.contextPath}/categoryparam/allocaItemIds.do",
+    		success:function(data){
+    			if (data != null && data != ""){
+    				checkedObj = data;
+    			}
+    		}
+		});
+		return checkedObj;
 	}
 	
 	

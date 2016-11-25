@@ -21,26 +21,30 @@
   
   /*分页  */
   $(function(){
-      laypage({
-            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-            pages: "${info.pages}", //总页数
-            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            skip: true, //是否开启跳页
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
-            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
-                return "${info.pageNum}";
-            }(), 
-            jump: function(e, first){ //触发分页后的回调
-                    if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
-                    
-                 location.href = '${pageContext.request.contextPath}/project/list.do?page='+e.curr;
-                }  
-            }
-        });
+	  
+	  laypage({
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${info.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          total : "${info.total}",
+          startRow : "${info.startRow}",
+          endRow : "${info.endRow}",
+          groups: "${info.pages}">=5?5:"${info.pages}", //连续显示分页数
+          curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+//                var page = location.search.match(/page=(\d+)/);
+//                return page ? page[1] : 1;
+              return "${info.pageNum}";
+          }(), 
+          jump: function(e, first){ //触发分页后的回调
+                  if(!first){ //一定要加此判断，否则初始时会无限刷新
+               $("#page").val(e.curr);
+                  $("#form1").submit();
+                  
+              }  
+          }
+      });
+	  
   });
   
   
@@ -104,6 +108,7 @@
 
 <body>
 	<!--面包屑导航开始-->
+	<c:if test="${typeclassId!=null && typeclassId !='' }">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -115,19 +120,23 @@
 			<div class="clear"></div>
 		</div>
 	</div>
+	</c:if>
 	<!-- 录入采购计划开始-->
 	<div class="container">
 		<div class="headline-v2">
-			<h2>立项列表</h2>
+			<h2>包列表</h2>
 		</div>
      <h2 class="search_detail">
-     <form  action="${pageContext.request.contextPath}/SupplierExtracts/projectList.html" id="form1" method="post" class="mb0">
+     <form  action="${pageContext.request.contextPath}/SupplierExtracts/packageList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
      <li class="fl">
-       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
-       </li>
-       <li class="fl">
-      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
+       <label class="fl">包名称：
+        <span>
+	        <input type="hidden" name="page" id="page">
+	        <input type="text" name="packName" id="proName" value="${packName}"/>
+	        <input type="hidden" name="projectId"  value="${projectId}"  > 
+        </span>
+        </label>
        </li>
          <button class="btn" type="submit">查询</button>
          <button type="button" class="btn" onclick="resetQuery();">重置</button> 
@@ -150,21 +159,21 @@
           <th class="info w50">序号</th>
           <th class="info">包名称</th>
           <th class="info">抽取次数</th>
-          <th class="info">已抽取数量</th>
+<!--           <th class="info">已抽取数量</th> -->
         </tr>
         </thead>
         
         <tbody id="tbody_id">
 
-                        <c:forEach items="${list.list}" var="obj" varStatus="vs">
+                        <c:forEach items="${info.list}" var="obj" varStatus="vs">
                             <tr style="cursor: pointer;">
                                 <td class="tc w30"><input type="checkbox"
                                     value="${obj.id}" name="chkItem" onclick="check()" alt="">
                                 </td>
-                                <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+                                <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                                 <td class="tc " onclick="view('${obj.id}');">${obj.packages.name}</td>
                                 <td class="tc " onclick="view('${obj.id}');">${obj.count}</td>
-                                <td class="tc " onclick="view('${obj.id}');">${obj.number}</td>
+<%--                                 <td class="tc " onclick="view('${obj.id}');">${obj.number}</td> --%>
                             </tr>
                         </c:forEach>
                     </tbody>

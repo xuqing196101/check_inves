@@ -55,4 +55,15 @@ public interface SupplierConditionMapper {
      * @return List<SupplierCondition>
      */
     List<SupplierCondition> list(SupplierCondition record);
+    
+    
+    /**
+     * 
+     *〈简述〉根据关联包id查询是否有未抽取的条件
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param packid 包id 
+     * @return 数量
+     */
+    Integer getCount(String packId);
 }

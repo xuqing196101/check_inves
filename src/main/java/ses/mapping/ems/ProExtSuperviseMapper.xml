@@ -7,7 +7,7 @@
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="EXPERT_EXTRACT_RECORD_ID" jdbcType="VARCHAR"
 			property="expertExtractRecordId" />
-		<result column="SUPVISE_ID" jdbcType="VARCHAR" property="supviseId" />
+		<result column="SUPERVISOR_ID" jdbcType="VARCHAR" property="supviseId" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 	</resultMap>
@@ -39,7 +39,7 @@
 	
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, SUPVISE_ID, CREATED_AT,
+		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, SUPERVISOR_ID, CREATED_AT,
 		UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -47,20 +47,20 @@
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_EMS_PRO_EXT_SUPERVISE
+		from T_SES_EMS_PRO_EXT_SUPERVISOR
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
-		delete from T_SES_EMS_PRO_EXT_SUPERVISE
+		delete from T_SES_EMS_PRO_EXT_SUPERVISOR
 		where ID =
 		#{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
-		insert into T_SES_EMS_PRO_EXT_SUPERVISE ( PROJECT_ID,
+		insert into T_SES_EMS_PRO_EXT_SUPERVISOR ( PROJECT_ID,
 		EXPERT_EXTRACT_RECORD_ID,
-		SUPVISE_ID, CREATED_AT, UPDATED_AT
+		SUPERVISOR_ID, CREATED_AT, UPDATED_AT
 		)
 		values
 		(#{projectId,jdbcType=VARCHAR},
@@ -71,7 +71,7 @@
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
-		insert into T_SES_EMS_PRO_EXT_SUPERVISE
+		insert into T_SES_EMS_PRO_EXT_SUPERVISOR
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="projectId != null">
 				PROJECT_ID,
@@ -80,7 +80,7 @@
 				EXPERT_EXTRACT_RECORD_ID,
 			</if>
 			<if test="supviseId != null">
-				SUPVISE_ID,
+				SUPERVISOR_ID,
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT,
@@ -109,7 +109,7 @@
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
-		update T_SES_EMS_PRO_EXT_SUPERVISE
+		update T_SES_EMS_PRO_EXT_SUPERVISOR
 		<set>
 			<if test="projectId != null">
 				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
@@ -119,7 +119,7 @@
 				#{expertExtractRecordId,jdbcType=VARCHAR},
 			</if>
 			<if test="supviseId != null">
-				SUPVISE_ID = #{supviseId,jdbcType=VARCHAR},
+				SUPERVISOR_ID = #{supviseId,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=DATE},
@@ -132,12 +132,12 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ProExtSupervise">
 		<!-- @mbggenerated -->
-		update T_SES_EMS_PRO_EXT_SUPERVISE
+		update T_SES_EMS_PRO_EXT_SUPERVISOR
 		set PROJECT_ID =
 		#{projectId,jdbcType=VARCHAR},
 		EXPERT_EXTRACT_RECORD_ID =
 		#{expertExtractRecordId,jdbcType=VARCHAR},
-		SUPVISE_ID =
+		SUPERVISOR_ID =
 		#{supviseId,jdbcType=VARCHAR},
 		CREATED_AT = #{createdAt,jdbcType=DATE},
 		UPDATED_AT = #{updatedAt,jdbcType=DATE}
@@ -148,18 +148,18 @@
 		SELECT
 		bu.*
 		FROM
-		T_SES_EMS_PRO_EXT_SUPERVISE es
+		T_SES_EMS_PRO_EXT_SUPERVISOR es
 		LEFT JOIN
 		T_SES_BMS_USER bu
 		ON
-		ES.SUPVISE_ID = BU."ID"
+		ES.SUPERVISOR_ID = BU."ID"
 		WHERE
 		PROJECT_ID =
 		#{projectId}
 	</select>
 	<!-- 根据项目id 删除监督人员 -->
 	<delete id="deleteProjectId" parameterType="java.lang.String">
-        delete from T_SES_EMS_PRO_EXT_SUPERVISE
+        delete from T_SES_EMS_PRO_EXT_SUPERVISOR
         where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 	</delete>
 </mapper>

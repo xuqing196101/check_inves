@@ -27,8 +27,10 @@
 			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
-
 		</collection>
+		<!-- 关联抽取过的供应商 -->
+		<collection property="extRelatesList" column="ID"
+			ofType="ses.model.sms.SupplierExtRelate" select="ses.dao.sms.SupplierExtRelateMapper.getBuyConId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -71,9 +73,9 @@
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIE_CONDITION
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-		  <if test="id != null">
-                ID,
-            </if>
+			<if test="id != null">
+				ID,
+			</if>
 			<if test="projectId != null">
 				PROJECT_ID,
 			</if>
@@ -100,9 +102,9 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-		<if test="id != null">
-                #{id,jdbcType=VARCHAR},
-            </if>
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
 			<if test="projectId != null">
 				#{projectId,jdbcType=VARCHAR},
 			</if>
@@ -128,9 +130,9 @@
 				#{extractAddress,jdbcType=VARCHAR},
 			</if>
 		</trim>
-		       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-            select sys_guid() from dual
-        </selectKey>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCondition">
 		<!-- @mbggenerated -->
@@ -193,13 +195,14 @@
 				AND SC."ID"=#{id}
 			</if>
 		</trim>
-		ORDER BY SC.CREATED_AT 
+		ORDER BY SC.CREATED_AT
 	</sql>
 	<select id="list" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="BaseResultListMap">
 		SELECT
 		sc.*, CT."ID" AS ctid,
-		CT.CATEGORY_NAME,CT.SUPPLIE_COUNT,CT.SUPPLIE_QUALIFICATION,CT.SUPPLIE_TYPE_ID,CT.CATEGORY_ID ,CT.IS_MULTICONDITION
+		CT.CATEGORY_NAME,CT.SUPPLIE_COUNT,CT.SUPPLIE_QUALIFICATION,CT.SUPPLIE_TYPE_ID,CT.CATEGORY_ID
+		,CT.IS_MULTICONDITION
 		FROM
 		T_SES_SMS_SUPPLIE_CONDITION sc
 		LEFT JOIN
@@ -207,4 +210,19 @@
 		SC."ID"=CT.CONDITION_ID
 		<include refid="condition" />
 	</select>
+
+	<!--根据关联包id查询是否有未抽取的条件 -->
+	<select id="getCount" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT "COUNT"(*) FROM T_SES_SMS_SUPPLIE_CONDITION WHERE
+		PROJECT_ID=#{projectId} AND STATUS=1 OR STATUS =2
+	</select>
+
+	<!-- 关联 -->
+	<select id="getExtractsByProjectId" parameterType="java.lang.String"
+		resultMap="BaseResultListMap">
+		select * from T_SES_SMS_SUPPLIE_CONDITION where PROJECT_ID =
+		#{projectId}
+	</select>
+
 </mapper>

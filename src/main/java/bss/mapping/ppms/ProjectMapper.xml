@@ -802,4 +802,23 @@
       PURCHASE_DEP_NAME = #{purchaseDepName}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 获取临时项目 -->
+    <select id="provisionalList" parameterType="bss.model.ppms.Project"
+        resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_BSS_PPMS_PROJECTS
+        where 1=1 and IS_PROVISIONAL=1
+        <if test="name != null and name != ''">
+            and NAME like '%${name}%'
+        </if>
+        <if test="projectNumber != null and projectNumber != ''">
+            and PROJECT_NUMBER like '%${projectNumber}%'
+        </if>
+        <if test="status != null">
+            and STATUS like '%${status}%'
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
 </mapper>

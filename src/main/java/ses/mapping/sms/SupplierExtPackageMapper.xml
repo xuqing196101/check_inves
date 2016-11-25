@@ -14,23 +14,33 @@
 		<result column="NUMBER" jdbcType="DECIMAL" property="number" />
 		<association property="packages" column="PACKAGE_ID"
 			select="bss.dao.ppms.PackageMapper.selectByPrimaryKeyId" />
-			 <association property="project" column="PROJECT_ID"
-            select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
+		<association property="project" column="PROJECT_ID"
+			select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
+
+	<resultMap id="BaseResultMapList" type="ses.model.sms.SupplierExtPackage"
+		extends="BaseResultMap">
+		<collection property="conditionList" ofType="ses.model.sms.SupplierCondition"
+			column="ID" select="ses.dao.sms.SupplierConditionMapper.getExtractsByProjectId" />
+	</resultMap>
+
+
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
-		ID, CREATED_AT, UPDATED_AT, IS_DELETED, PROJECT_ID, PACKAGE_ID,
-		"COUNT",
-		IS_FINISH,
-		"NUMBER"
+		EP.ID, EP.CREATED_AT, EP.UPDATED_AT, EP.IS_DELETED, EP.PROJECT_ID,
+		EP.PACKAGE_ID,
+		EP."COUNT",
+		EP.IS_FINISH,
+		EP."NUMBER"
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		<!-- @mbggenerated -->
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_EXT_PACKAGE
-		where ID = #{id,jdbcType=VARCHAR}
+		from T_SES_SMS_SUPPLIER_EXT_PACKAGE EP
+		where EP.ID =
+		#{id,jdbcType=VARCHAR}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
@@ -114,6 +124,9 @@
 				#{number,jdbcType=DECIMAL},
 			</if>
 		</trim>
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierExtPackage">
 		<!-- @mbggenerated -->
@@ -181,17 +194,41 @@
 		SELECT
 
 		<include refid="Base_Column_List" />
+		, PP."NAME"
 
-		FROM T_SES_SMS_SUPPLIER_EXT_PACKAGE
+
+		FROM T_SES_SMS_SUPPLIER_EXT_PACKAGE ep INNER JOIN
+
+		T_BSS_PPMS_PACKAGE pp ON
+		EP.PACKAGE_ID=PP."ID"
 
 		WHERE 1=1
-		
+
 		<if test="projectId != null and projectId != ''">
-			AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+			AND EP.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 		</if>
 		<if test="id != null and id != ''">
-			AND ID = #{id,jdbcType=VARCHAR}
+			AND EP.ID = #{id,jdbcType=VARCHAR}
 		</if>
+		<if test="packageId != null and packageId != ''">
+			AND EP.PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+		</if>
+		<if test="packages != null">
+			<if test="packages.name != null and packages.name != ''">
+				AND PP."NAME" LIKE '%${packages.name}%'
+			</if>
+		</if>
+	</select>
+
+	<!-- 抽取关联 -->
+	<select id="extractsList" parameterType="ses.model.sms.SupplierExtPackage"
+		resultMap="BaseResultMapList">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_SMS_SUPPLIER_EXT_PACKAGE ep
+		WHERE
+		EP.PROJECT_ID =#{projectId}
 	</select>
 
 </mapper>

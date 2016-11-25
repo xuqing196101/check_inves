@@ -216,9 +216,7 @@
       <if test="round != null">
         ROUND = #{round,jdbcType=DECIMAL},
       </if>
-      <if test="page != null">
-        PAGE = #{page},
-      </if>
+        PAGE = #{page,jdbcType=INTEGER},
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>

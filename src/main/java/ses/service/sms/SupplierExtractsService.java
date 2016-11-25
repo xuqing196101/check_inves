@@ -37,13 +37,11 @@ public interface SupplierExtractsService {
 	List<SupplierExtracts> listExtractRecord(SupplierExtracts expExtractRecord,Integer pageNum);
 	
 	/**
-	 * @Description:单个记录
-	 *
+	 * 
+	 *〈简述〉修改
+	 *〈详细描述〉
 	 * @author Wang Wenshuai
-	 * @version 2016年9月29日 下午2:19:50  
-	 * @param @param expExtractRecordService
-	 * @param @return      
-	 * @return ExpExtractRecord
 	 */
-	SupplierExtracts showExpExtractRecord(SupplierExtracts expExtractRecordService);
+	void update(SupplierExtracts extracts);
+	
 }

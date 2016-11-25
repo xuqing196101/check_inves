@@ -87,5 +87,21 @@ public class ProjectServiceImpl implements ProjectService {
         
         return lists;
     }
+    
+    /**
+     * 
+     *〈简述〉查询临时项目
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param project
+     * @return
+     */
+    @Override
+    public List<Project>  provisionalList(Integer page, Project project){
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        List<Project> lists = projectMapper.provisionalList(project);
+        return lists;
+    }
 
 }

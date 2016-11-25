@@ -66,7 +66,7 @@ import bss.service.ppms.ProjectService;
 
 /**
  * @Description:专家抽取
- *	 
+ *   
  * @author Wang Wenshuai
  * @version 2016年9月27日下午4:34:37
  * @since  JDK 1.7
@@ -94,7 +94,7 @@ public class ExpExtractRecordController extends BaseController {
     @Autowired
     UserServiceI userServiceI;//用户管理
     /**
-     * @Description:	获取项目集合
+     * @Description:    获取项目集合
      *
      * @author Wang Wenshuai
      * @version 2016年9月27日 下午4:38:31  
@@ -106,7 +106,7 @@ public class ExpExtractRecordController extends BaseController {
      */
     @RequestMapping("/projectlist")
     public String list(Integer page,Model model,Project project){
-        List<Project> list = projectService.list(page==null?1:page, project);
+        List<Project> list = projectService.list(page == null?1:page, project);
         PageInfo<Project> info = new PageInfo<>(list);
         model.addAttribute("info", info);
         return "ses/ems/exam/expert/extract/project_list";
@@ -120,7 +120,7 @@ public class ExpExtractRecordController extends BaseController {
      * @param @return      
      * @return String
      */
-    @RequestMapping("/Extraction")	
+    @RequestMapping("/Extraction")  
     public String listExtraction(Model model,String projectId,String page,String typeclassId){
         model.addAttribute("typeclassId",typeclassId);
         if (projectId != null && !"".equals(projectId)){
@@ -146,33 +146,33 @@ public class ExpExtractRecordController extends BaseController {
     @RequestMapping("/addExtraction")
     public String addExtraction(Model model,String projectId,String projectName, String projectNumber,String typeclassId){
         model.addAttribute("typeclassId", typeclassId);
-        List<Area> listArea = areaService.findTreeByPid("1",null);
+        List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("projectId",projectId);
         if(projectId != null && !"".equals(projectId)){
-        //获取监督人员
-        List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
-        model.addAttribute("listUser", listUser);
-        String userName="";
-        String userId="";
-        if(listUser!=null &&listUser.size()!=0){
-            for (User user : listUser) {
-                if(user!=null&&user.getId()!=null){
-                    userName += user.getLoginName()+",";
-                    userId += user.getId()+",";
+            //获取监督人员
+            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
+            model.addAttribute("listUser", listUser);
+            String userName="";
+            String userId="";
+            if(listUser!=null &&listUser.size()!=0){
+                for (User user : listUser) {
+                    if(user!=null&&user.getId()!=null){
+                        userName += user.getLoginName()+",";
+                        userId += user.getId()+",";
+                    }
                 }
             }
-        }
-        
-        //专家抽取地址
-        ExpExtractRecord er = new ExpExtractRecord();
-        er.setProjectId(projectId);
-        List<ExpExtractRecord> listRe = expExtractRecordService.listExtractRecord(er,0);
-        if (listRe != null && listRe.size() != 0){
-            model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
-        }
-        model.addAttribute("userName", userName);
-        model.addAttribute("userId", userId);
+
+            //专家抽取地址
+            ExpExtractRecord er = new ExpExtractRecord();
+            er.setProjectId(projectId);
+            List<ExpExtractRecord> listRe = expExtractRecordService.listExtractRecord(er,0);
+            if (listRe != null && listRe.size() != 0){
+                model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
+            }
+            model.addAttribute("userName", userName);
+            model.addAttribute("userId", userId);
         }else{
             //后台数据校验
             int count=0;
@@ -193,7 +193,7 @@ public class ExpExtractRecordController extends BaseController {
             if(count==1){
                 return "ses/ems/exam/expert/extract/condition_list";
             }else{
-//                创建一个临时项目
+                //                创建一个临时项目
                 Project project = new Project();
                 project.setProjectNumber(projectNumber);
                 project.setName(projectName);
@@ -201,7 +201,7 @@ public class ExpExtractRecordController extends BaseController {
                 projectService.add(project);
                 model.addAttribute("projectId", project.getId());
             }
-        
+
         }
         return "ses/ems/exam/expert/extract/add_condition";
     }
@@ -292,7 +292,7 @@ public class ExpExtractRecordController extends BaseController {
     @ResponseBody
     @RequestMapping("/resultextract")
     public Object resultextract(Model model,String id,String reason,HttpServletRequest sq){
-        //		修改状态
+        //      修改状态
         String[] ids = id.split(",");
         if (reason != null && !"".equals(reason)){
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2]), reason));
@@ -388,7 +388,7 @@ public class ExpExtractRecordController extends BaseController {
                 projectExtractListNo.add(projectExtract);
             }
         }
-    }	
+    }   
 
     /**
      * @Description:专家抽取记录集合

@@ -12,7 +12,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->	
@@ -20,6 +19,10 @@
     $(function(){ 
         $("#oldName").val($("#typeName").val());
     }); 
+    
+    function gotoList(){
+    	window.location.href="${pageContext.request.contextPath}/articletype/getAll.html";
+    }
 	</script>
   </head>
   <body>
@@ -46,7 +49,7 @@
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>栏目名称：</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input id="typeName" type="text" name="name" value = '${articletype.name}'>
-		        <div class="validate">${ERR_name}</div>
+		        <div class="cue">${ERR_name}</div>
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
@@ -60,7 +63,7 @@
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 tc ">
     <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="gotoList()" type="button">返回</button>
   </div>
      </div>
      </form>

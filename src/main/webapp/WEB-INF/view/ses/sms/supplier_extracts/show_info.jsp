@@ -53,7 +53,7 @@
 	<div class="container">
 		<div>
 			<div class="headline-v2">
-				<h2>专家抽取表</h2>
+				<h2>供应商抽取表</h2>
 			</div>
 			<div>
 				<table style="width: 70%"
@@ -64,43 +64,47 @@
 					</tr>
 					<tr>
 						<td class="bggrey">抽取时间:</td>
-						<td colspan="3" align="center"><fmt:formatDate
+						<td colspan="3" ><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td class="bggrey">抽取地点:</td>
-						<td colspan="3" align="center">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
+						<td colspan="3">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
-						<td  class="bggrey" height="300px;">抽取条件<br>抽取数量
+						<td  class="bggrey" height="300px;">抽取条件:<br>抽取数量:
+						
 						</td>
 						<td colspan="7" height="300px;">
 							<div class="margin-left-100">
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
-									<span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
-									<br />
-                                                                                                             供应商所在地区【${con.address}】 <br />
-									<ol>
-										<c:forEach items="${con.conTypes }" var="contypes">
-											<li><c:choose>
-													<c:when
-														test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
-                                                                                                                                                           ，  供应商类型【 生产型,销售型 】
-                                                          </c:when>
-													<c:when
-														test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
-                                                                                                                                                               ，  供应商类型【生产型】
-                                                  </c:when>
-													<c:when
-														test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
-                                                                                                                                                     ， 供应商类型【销售型】
-                                                 </c:when>
-												</c:choose> ， 
-												<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
-												
-												采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 }</li>
-										</c:forEach>
-									</ol>
-
+								  <c:if test="${con.conditionList != null && fn:length(con.conditionList) != 0}">
+								    <span style="font-size: 16px;">包名：${con.packages.name}<br></span>
+									    <c:forEach items="${ con.conditionList}" var="conlist" varStatus="vs">
+										    <span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
+		                                    <br />
+		                                                                                                             供应商所在地区【${conlist.address}】 <br />
+		                                    <ol>
+		                                        <c:forEach items="${conlist.conTypes }" var="contypes">
+		                                            <li><c:choose>
+		                                                    <c:when
+		                                                        test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
+		                                                                                                                                                           ，  供应商类型【 生产型,销售型 】
+		                                                          </c:when>
+		                                                    <c:when
+		                                                        test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
+		                                                                                                                                                               ，  供应商类型【生产型】
+		                                                  </c:when>
+		                                                    <c:when
+		                                                        test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
+		                                                                                                                                                     ， 供应商类型【销售型】
+		                                                 </c:when>
+		                                                </c:choose> ， 
+		                                                <c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
+		                                                                                                                                               采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 }</li>
+		                                        </c:forEach>
+	                                    </ol>
+									    </c:forEach>
+								    </c:if>
 								</c:forEach>
 
 							</div>
@@ -119,8 +123,9 @@
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
-					<c:forEach items="${ProjectExtract}" var="pe" varStatus="vse">
-						<c:forEach items="${pe}" var="ext" varStatus="vs">
+					<c:forEach items="${conditionList}" var="con" varStatus="vs">
+						<c:forEach items="${con.conditionList}" var="conlist" varStatus="vs">
+						  <c:forEach items="${conlist.extRelatesList}" var="ext" varStatus="vs">
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${ext.supplier.supplierName}</td>
@@ -137,6 +142,7 @@
                             </c:if></td>
 								<td align="center">${ext.reason}</td>
 							</tr>
+							</c:forEach>
 						</c:forEach>
 					</c:forEach>
 					<tr>

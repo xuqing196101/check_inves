@@ -26,47 +26,49 @@ import ses.service.sms.SupplierExtractsService;
  */
 @Service
 public class SupplierExtractsServiceImpl implements SupplierExtractsService {
-	@Autowired
-	SupplierExtractsMapper supplierExtractsMapper;
+    @Autowired
+    SupplierExtractsMapper supplierExtractsMapper;
 
-	/**
-	 * @Description:插入记录
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月27日 下午4:32:28  
-	 * @param @param record      
-	 * @return void
-	 */
-	@Override
-	public void insert(SupplierExtracts record) {
-		supplierExtractsMapper.insert(record);
-	}
+    /**
+     * @Description:插入记录
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月27日 下午4:32:28  
+     * @param @param record      
+     * @return void
+     */
+    @Override
+    public void insert(SupplierExtracts record) {
+        supplierExtractsMapper.insertSelective(record);
+    }
 
-	/**
-	 * @Description:集合
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月27日 下午4:32:28  
-	 * @param @param record      
-	 * @return void
-	 */
-	@Override
-	public List<SupplierExtracts> listExtractRecord(
-			SupplierExtracts expExtractRecord,Integer pageNum) {
-		if(pageNum!=0){
-			PageHelper.startPage(pageNum, 10);
-		}
-		return supplierExtractsMapper.list(expExtractRecord);
-	}
+    /**
+     * @Description:集合
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月27日 下午4:32:28  
+     * @param @param record      
+     * @return void
+     */
+    @Override
+    public List<SupplierExtracts> listExtractRecord(
+        SupplierExtracts expExtractRecord,Integer pageNum) {
+        if(pageNum!=0){
+            PageHelper.startPage(pageNum, 10);
+        }
+        return supplierExtractsMapper.list(expExtractRecord);
+    }
 
-	/* (non-Javadoc)
-	 * @see ses.service.sms.SupplierExtractsService#showExpExtractRecord(ses.model.sms.SupplierExtracts)
-	 */
-	@Override
-	public SupplierExtracts showExpExtractRecord(
-			SupplierExtracts expExtractRecordService) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     * 
+     *〈简述〉修改
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    @Override
+    public void update(SupplierExtracts extracts) {
+        supplierExtractsMapper.updateByPrimaryKeySelective(extracts);
+    }
+
 
 }

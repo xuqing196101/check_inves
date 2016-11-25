@@ -48,7 +48,7 @@ public class SupplierExtPackageServicelmpl implements SupplierExtPackageServicel
         }
         List<SupplierExtPackage> list = extPackageMapper.list(sExtPackage);
         //如果为空插入数据后重新查询
-        if(list==null || list.size()==0){
+        if (list==null || list.size() == 0){
             HashMap<String, Object> map=new HashMap<String, Object>();
             map.put("projectId",sExtPackage.getProjectId());
             List<Packages> listPackages = mapper.findPackageById(map);
@@ -63,15 +63,45 @@ public class SupplierExtPackageServicelmpl implements SupplierExtPackageServicel
             if(listExt.size()!=0){
                 extPackageMapper.insertList(listExt);
             }
-
             PageHelper.startPage(Integer.valueOf(page), PropUtil.getIntegerProperty("pageSize"));
             list = extPackageMapper.list(sExtPackage);
         }
 
-
         return list;
     }
+    
+    /**
+     * 
+     *〈简述〉修改
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    public void update(SupplierExtPackage sExtPackage) {
+        extPackageMapper.updateByPrimaryKeySelective(sExtPackage);
+    }
 
-
+    /**
+     * 
+     *〈简述〉插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    @Override
+    public void insert(SupplierExtPackage sExtPackage) {
+        extPackageMapper.insertSelective(sExtPackage);
+        
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    @Override
+    public List<SupplierExtPackage> extractsList(SupplierExtPackage record){
+        return extPackageMapper.extractsList(record);
+    }
+    
 
 }

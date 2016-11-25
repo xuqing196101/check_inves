@@ -26,7 +26,10 @@
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
             skip: true, //是否开启跳页
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
+            total : "${info.total}",
+            startRow : "${info.startRow}",
+            endRow : "${info.endRow}",
+            groups: "${info.pages}">=5?5:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //                  var page = location.search.match(/page=(\d+)/);
 //                  return page ? page[1] : 1;
@@ -34,10 +37,9 @@
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
+                 $("#page").val(e.curr);
+                    $("#form1").submit();
                     
-                 location.href = '${pageContext.request.contextPath}/project/list.do?page='+e.curr;
                 }  
             }
         });
@@ -45,8 +47,7 @@
   
 //查看明细
   function view(id) {
-      window.location.href = "${pageContext.request.contextPath}/project/view.html?id="
-              + id;
+      window.location.href = "${pageContext.request.contextPath}/project/view.html?id=" + id;
   }
   
   
@@ -94,7 +95,7 @@
         if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=1";
+        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/packageList.html?projectId="+id+"&&typeclassId=1";
         }
     }
     function record(){
@@ -156,9 +157,9 @@
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
           <th class="info">采购方式</th>
-          <th class="info">项目状态</th>
         </tr>
         </thead>
+        
         
         <tbody id="tbody_id">
 
@@ -171,18 +172,11 @@
                                 <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                                 <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
                                 </td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber
-                                        }</a></td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">
-                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
-                                </a></td>
-                                <td class="tc"><c:if test="${'1'==obj.status}">实施中</c:if> <c:if
-                                        test="${'2'==obj.status}">已成交</c:if> <c:if
-                                        test="${'3'==obj.status}">已立项</c:if>
+                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+                                <td class="tc">
+                                <c:forEach items="${kind}" var="kind" >
+                                        <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                     </c:forEach>
                                 </td>
                             </tr>
 

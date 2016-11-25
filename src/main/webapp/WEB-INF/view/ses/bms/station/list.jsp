@@ -6,7 +6,12 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
+<link rel="stylesheet"
+    href="${pageContext.request.contextPath}/public/supplier/css/supplieragents.css"
+    type="text/css">
+
 <head>
+
 </head>
 <script type="text/javascript">
   $(function(){

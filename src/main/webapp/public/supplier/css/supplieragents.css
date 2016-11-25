@@ -12,6 +12,10 @@
 	width: 119px;
 }
 
+.w133 {
+	width: 133px !important;
+}
+
 .w93 {
 	width: 93px;
 }
@@ -73,18 +77,23 @@
 }
 
 .mlr {
-	margin-left: auto!important;
-	margin-right: auto!important;
-	 width: auto!important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	width: auto !important;
 }
 
 .w75 {
-    width: 75px !important;
+	width: 75px !important;
 }
 
-.w118{
+.w118 {
 	width: 118px;
 }
-.w113{
+
+.w113 {
 	width: 113px;
+}
+
+.w230 {
+	width: 230px !important;
 }
