@@ -94,7 +94,8 @@ function resetQuery(){
 		  <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
-	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	  				<%--<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	  				--%>
 	  				<th class="info">序号</th>
 	  				<th class="info">合同名称</th>
 	  				<th class="info">合同编号</th>
@@ -105,8 +106,9 @@ function resetQuery(){
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="contract" varStatus="vs">
 	  			<tr>
-	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
-	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+	  				<%--<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
+	  				--%>
+	  				<td class="tc"><input type="hidden" value="${contract.id }" />${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	  				<td class="tc">${contract.name }</td>
 	  				<td class="tc">${contract.code }</td>
 	  				<td class="tc">${contract.money }</td>
