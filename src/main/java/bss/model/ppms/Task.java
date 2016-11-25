@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import ses.model.oms.PurchaseDep;
+
 public class Task {
     
 	private String id;
@@ -11,7 +13,7 @@ public class Task {
 	@NotBlank(message = "任务名称不能为空") 
     private String name; //任务名称
 	
-    private String purchaseId; //采购部门
+    private PurchaseDep purchaseId; //采购部门
 	
 	@NotBlank(message = "计划编号不能为空") 
     private String documentNumber;
@@ -61,15 +63,15 @@ public class Task {
 		this.name = name;
 	}
 
-	public String getPurchaseId() {
-		return purchaseId;
-	}
+	public PurchaseDep getPurchaseId() {
+        return purchaseId;
+    }
 
-	public void setPurchaseId(String purchaseId) {
-		this.purchaseId = purchaseId;
-	}
+    public void setPurchaseId(PurchaseDep purchaseId) {
+        this.purchaseId = purchaseId;
+    }
 
-	public String getDocumentNumber() {
+    public String getDocumentNumber() {
 		return documentNumber;
 	}
 

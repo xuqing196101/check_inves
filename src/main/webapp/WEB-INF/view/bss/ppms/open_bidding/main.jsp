@@ -24,8 +24,8 @@
 	    });
 	}); 
 	
-	function back(page){
-		location.href = '${pageContext.request.contextPath}/project/list.html?page='+page;
+	function back(){
+		location.href = '${pageContext.request.contextPath}/project/list.html';
 	}
 	
 	function jumpLoad(url, projectId, flowDefineId){
@@ -118,7 +118,7 @@
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
 					  <div class="col-md-12 tc mt20" >
-					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
+					  		<button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
        	   			  </div>
 				  </div>
                 </div>

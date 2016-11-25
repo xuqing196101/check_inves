@@ -321,7 +321,7 @@
 							<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.name}</a>
 							</td>
-							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.purchaseId
+							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.purchaseId.name
 									}</a>
 							</td>
 							<td class="tc"><a href="javascript:void(0)" onclick="viewd('${obj.id}');">${obj.documentNumber

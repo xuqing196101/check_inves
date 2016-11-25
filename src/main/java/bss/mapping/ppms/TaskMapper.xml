@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="bss.model.ppms.Task">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
-    <result column="PURCHASE_ID"  property="purchaseId" />
     <result column="DOCUMENT_NUMBER" property="documentNumber" />
     <result column="GIVE_TIME" property="giveTime" />
     <result column="STATUS"  property="status" />
@@ -16,6 +15,7 @@
     <result column="COLLECT_ID" property="collectId" />
     <result column="ACCEPT_TIME" property="acceptTime" />
     <result column="PASS_WORD" property="passWord" />
+    <association property="purchaseId" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
   </resultMap>
   
   <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
@@ -57,7 +57,7 @@
         and GIVE_TIME like  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId}%'
+        and PURCHASE_ID like '%${purchaseId.id}%'
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER like '%${documentNumber}%'
@@ -91,7 +91,7 @@
         and GIVE_TIME like  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
-        and PURCHASE_ID like '%${purchaseId}%'
+        and PURCHASE_ID like '%${purchaseId.id}%'
       </if> 
       <if test="documentNumber != null and documentNumber !=''">
         and DOCUMENT_NUMBER like '%${documentNumber}%'
@@ -186,6 +186,9 @@
       <if test="passWord != null">
         PASS_WORD,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -227,6 +230,9 @@
       <if test="passWord != null">
         #{passWord},
       </if>
+       <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
@@ -267,6 +273,9 @@
       </if>
       <if test="passWord != null">
         PASS_WORD = #{passWord},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
       </if>
     </set>
     where ID = #{id}
