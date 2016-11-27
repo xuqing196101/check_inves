@@ -514,6 +514,7 @@ public class Supplier implements Serializable {
 	private List<CategoryParameter>  categoryParam= new ArrayList<CategoryParameter>();
 	
 	
+	private List<ProductParam> paramVleu=new   ArrayList<ProductParam>();
 	
 	public List<CategoryParameter> getCategoryParam() {
 		return categoryParam;
@@ -1207,6 +1208,14 @@ public class Supplier implements Serializable {
 
 	public void setRows(Integer rows) {
 		this.rows = rows;
+	}
+
+	public List<ProductParam> getParamVleu() {
+		return paramVleu;
+	}
+
+	public void setParamVleu(List<ProductParam> paramVleu) {
+		this.paramVleu = paramVleu;
 	}
 	
 	

@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.ProductParam;
 
 public interface ProductParamMapper {
@@ -48,4 +50,6 @@ public interface ProductParamMapper {
     List<ProductParam> findProductParamByProductId(String supplierProductsId);
     
     int deleteByProductId(String productsId);
+    
+    List<ProductParam> querySupplierIdCateoryId(@Param("supplierId")String supplierId,@Param("categoryId")String categoryId);
 }

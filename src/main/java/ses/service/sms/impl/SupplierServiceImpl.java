@@ -12,15 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import common.model.UploadFile;
+import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.sms.ProductParam;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -33,6 +36,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
+import common.model.UploadFile;
 
 
 /**
@@ -67,6 +71,12 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Autowired
 	private CategoryParameterService categoryParameterService;
+	
+	@Autowired
+	private CategoryMapper  categoryMapper;
+	
+	@Autowired
+	private ProductParamMapper productParamMapper;
 	
 	@Override
 	public Supplier get(String id) {
@@ -125,14 +135,23 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		List<SupplierItem> itemList = supplierItemService.getSupplierId(id);
 		List<CategoryParameter> categoryList=new LinkedList<CategoryParameter>();
+		List<ProductParam>  paramList=new LinkedList<ProductParam>();
 		if(itemList!=null&&itemList.size()>0){
-			supplier.setListSupplierItems(itemList);
+		
 			for(SupplierItem s:itemList){
-				List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getId());
+				Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+				s.setCategoryName(category.getName());
+				List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getCategoryId());
+				List<ProductParam> paramValue = productParamMapper.querySupplierIdCateoryId(s.getSupplierId(), s.getCategoryId());
+				paramList.addAll(paramValue);
 				categoryList.addAll(cateList);
 			}
 		}
+		supplier.setListSupplierItems(itemList);
 		supplier.setCategoryParam(categoryList);
+		
+		supplier.setParamVleu(paramList);
+		
 		return supplier;
 	}
 	

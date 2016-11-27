@@ -49,7 +49,7 @@
 	}
 	
 	function addParam(id) {
-		var checkbox = $("#" + id).find("input:checkbox:checked");
+/* 		var checkbox = $("#" + id).find("input:checkbox:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
 				offset : '300px',
@@ -57,8 +57,8 @@
 			return;
 		}
 		var productsId = checkbox.val();
-		var categoryId = checkbox.parents("tr").find("td").eq(1).attr("id");
-		
+		var categoryId = checkbox.parents("tr").find("td").eq(1).attr("id"); */
+		var supplierId=$("#supplier").val();
 		layer.open({
 			type : 2,
 			title : '添加技术参数',
@@ -66,7 +66,7 @@
 			area : [ '600px', '350px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/categoryparam/list_by_category_id_and_products_id.html?productsId=' + productsId + '&categoryId=' + categoryId, //url
+			content : '${pageContext.request.contextPath}/categoryparam/category_param.html?categoryId='+id+'&&supplierId='+supplierId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
@@ -141,48 +141,66 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<form id="products_form_id" action="${pageContext.request.contextPath}/supplier_products/perfect_products.html" method="post">
-							<input name="id" value="${currSupplier.id}" type="hidden" /> 
+						 
 							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
+									<!--这是所有品目  -->
 										<c:forEach items="${currSupplier.listSupplierItems}" var="category" varStatus="cs">
-											 <h2 class="f16 jbxx mt40"> <i>${vs.index + 1}</i>${item.categoryName}产品信息表 </h2>
+											 <h2 class="f16 jbxx mt40">${category.categoryName} </h2>
 											 <div class="overflow_h">
-											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr mr0" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
-											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
-											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addProductsMsg('${item.id}')">添加产品信息</button>
+											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam('${category.categoryId}')">添加产品信息</button>
 											</div>
 											<table class="table table-bordered table-condensed mt5">
-											  <c:forEach items="${currSupplier.categoryParam}" var="item" varStatus="vs"> 
-										  	    <c:if test="${category.categoryId==categoryParam.cateId }">
-													<thead>
-														<tr>
-															<th class="info">${category.paramName}</th>
-														</tr>
-													</thead>
-												</c:if>
-										    </c:forEach> 
+											
+												<thead>
+													 <tr>
+													 <!--这是所有的品目参数  -->
+													 <c:forEach items="${currSupplier.categoryParam}" var="item" varStatus="vs"> 
+										  	  				  <c:if test="${category.categoryId==item.cateId }">
+															    <th class="info">${item.paramName}</th>
+															 </c:if>
+													  </c:forEach> 
+													 </tr>
+												</thead>
+											 	 <tr>
+													 <!--这是所有的品目参数值  -->
+													  <c:forEach items="${currSupplier.categoryParam}" var="cate" varStatus="vs"> 
+														  <c:forEach items="${currSupplier.paramVleu}" var="obj"  > 
+										  	  				  <c:if test="${category.categoryId==cate.cateId and obj.categoryParamId==cate.id }"> 
+															    <td  align="center" >${obj.paramValue}</td>
+													 	      </c:if>
+										 			     </c:forEach> 
+										 			   </c:forEach>  
+												 </tr>  
 										  </table>
-										</c:forEach>
+									</c:forEach>
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+						<!-- 	<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('items')">上一步</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('products')">暂存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('procurement_dep')">下一步</button>
-							</div>
+							</div> -->
+							<input type="hidden" name="id" value="${currSupplier.id}">
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
-		<input type="hidden" name="fileName" />
-	</form>
-	<!-- footer -->
+	
+		<div class="btmfix">
+	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('items')">上一步</button>
+						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('products')">暂存</button>
+						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('procurement_dep')">下一步</button>
+	  	  </div>
+	  </div>
+	
+	<input type="hidden" value="${currSupplier.id}" id="supplier">
 	<c:if test="${currSupplier.status != 7}">
 		<jsp:include page="/index_bottom.jsp" />
 	</c:if>

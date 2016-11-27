@@ -73,14 +73,12 @@
 			<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
 					<span class="new_step current fl"><i class="">1</i>
-						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
-						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step current fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">1</i>
+						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
+						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
+						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">6</i> 
 						<span class="step_desc_01">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
@@ -137,44 +135,23 @@
 											</c:forEach>
 										</tbody>
 									</table>
-									<h2 class="f16 jbxx mt40">
-										<i>02</i>其他采购机构
-									</h2>
-									<table class="table table-bordered table-condensed">
-										<thead>
-											<tr>
-												<th class="info">选择</th>
-												<th class="info">序号</th>
-												<th class="info">采购机构名称</th>
-												<th class="info">机构代称</th>
-												<th class="info">所在城市</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${listOrgnizations2}" var="org2" varStatus="vs">
-												<tr>
-													<td class="tc"><input type="radio" value="${org2.id}" name="radio" /></td>
-													<td class="tc">${vs.index + 1}</td>
-													<td class="tc">${org2.name}</td>
-													<td class="tc">${org2.shortName}</td>
-													<td class="tc">${org2.provinceName}</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
 								</div>
 							</div>
-						</div>
-						<div class="mt40 tc mb50">
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('products')">上一步</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('procurement_dep')">暂存</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('template_download')">下一步</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	  <div class="btmfix">
+	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('products')">上一步</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('procurement_dep')">暂存</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('template_download')">下一步</button>
+	  	  </div>
+	  </div>
+	  
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}">
 		<jsp:include page="/index_bottom.jsp" />

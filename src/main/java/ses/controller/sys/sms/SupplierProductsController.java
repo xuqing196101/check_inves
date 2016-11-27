@@ -129,30 +129,30 @@ public class SupplierProductsController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_products")
-	public String perfectProducts(HttpServletRequest request, Supplier supplier, String jsp) throws IOException {
+	public String perfectProducts(HttpServletRequest request, Supplier supplier, String jsp,String flag) throws IOException {
 		supplier = supplierService.get(supplier.getId());
 		
-		if ("procurement_dep".equals(jsp)) {
+//		if ("procurement_dep".equals(jsp)) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if (supplier.getAddress() != null && !"".equals(supplier.getAddress()) && !",".equals(supplier.getAddress())) {
 				map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
 			}
 			List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-			map.clear();
-			if (supplier.getAddress() != null && !"".equals(supplier.getAddress()) && !",".equals(supplier.getAddress())) {
-				map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
-			}
-			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
+//			map.clear();
+//			if (supplier.getAddress() != null && !"".equals(supplier.getAddress()) && !",".equals(supplier.getAddress())) {
+//				map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+//			}
+//			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
 			request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
-			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
-		}
+//			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
+//		}
 
 		// 页面跳转
 		request.getSession().setAttribute("currSupplier", supplier);
 		
-		request.getSession().setAttribute("jump.page", jsp);
+//		request.getSession().setAttribute("jump.page", jsp);
 		
-		return "redirect:../supplier/page_jump.html";
+		return "ses/sms/supplier_register/procurement_dep";
 	}
 	
 	public void setUpload(HttpServletRequest request, SupplierProducts supplierProducts) throws IOException {

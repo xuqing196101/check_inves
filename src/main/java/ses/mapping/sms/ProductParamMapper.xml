@@ -3,17 +3,21 @@
 <mapper namespace="ses.dao.sms.ProductParamMapper">
 	<resultMap id="BaseResultMap" type="ses.model.sms.ProductParam">
 		<id column="ID" property="id" />
-		<result column="SUPPLIER_PRODUCTS_ID" property="supplierProductsId" />
+		<result column="CATEGORY_ID" property="categoryId" />
 		<result column="CATEGORY_PARAM_ID" property="categoryParamId" />
+	
 		<result column="PARAM_VALUE" property="paramValue" />
 		<result column="IS_DELETED" property="isDeleted" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
 		<result column="PARAM_NAME" property="paramName" />
+		
+		<result column="SUPPLIER_ID" property="supplierId" />
+			
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_PRODUCTS_ID, CATEGORY_PARAM_ID, PARAM_VALUE, IS_DELETED, CREATED_AT,
-		UPDATED_AT
+		ID, CATEGORY_ID, CATEGORY_PARAM_ID, PARAM_VALUE, IS_DELETED, CREATED_AT,
+		UPDATED_AT,SUPPLIER_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -26,12 +30,12 @@
 		where ID = #{id}
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.ProductParam">
-		insert into T_SES_SMS_PRODUCT_PARAM (ID, SUPPLIER_PRODUCTS_ID, CATEGORY_PARAM_ID,
+		insert into T_SES_SMS_PRODUCT_PARAM (ID, CATEGORY_ID, CATEGORY_PARAM_ID,
 		PARAM_VALUE, IS_DELETED, CREATED_AT,
-		UPDATED_AT)
-		values (#{id}, #{supplierProductsId}, #{categoryParamId},
+		UPDATED_AT,SUPPLIER_ID)
+		values (#{id}, #{categoryId}, #{categoryParamId},
 		#{paramValue}, #{isDeleted}, #{createdAt},
-		#{updatedAt})
+		#{updatedAt},#{supplierId})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.ProductParam">
 		insert into T_SES_SMS_PRODUCT_PARAM
@@ -39,8 +43,8 @@
 			<if test="id != null">
 				ID,
 			</if>
-			<if test="supplierProductsId != null">
-				SUPPLIER_PRODUCTS_ID,
+			<if test="categoryId != null">
+				CATEGORY_ID,
 			</if>
 			<if test="categoryParamId != null">
 				CATEGORY_PARAM_ID,
@@ -57,13 +61,17 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id},
 			</if>
-			<if test="supplierProductsId != null">
-				#{supplierProductsId},
+			<if test="categoryId != null">
+				#{categoryId},
 			</if>
 			<if test="categoryParamId != null">
 				#{categoryParamId},
@@ -80,16 +88,19 @@
 			<if test="updatedAt != null">
 				#{updatedAt},
 			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
 		</trim>
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		<!-- <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
-		</selectKey>
+		</selectKey> -->
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ProductParam">
 		update T_SES_SMS_PRODUCT_PARAM
 		<set>
-			<if test="supplierProductsId != null">
-				SUPPLIER_PRODUCTS_ID = #{supplierProductsId},
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId},
 			</if>
 			<if test="categoryParamId != null">
 				CATEGORY_PARAM_ID = #{categoryParamId},
@@ -106,17 +117,22 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt},
 			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			
 		</set>
 		where ID = #{id}
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.ProductParam">
 		update T_SES_SMS_PRODUCT_PARAM
-		set SUPPLIER_PRODUCTS_ID = #{supplierProductsId},
+		set CATEGORY_ID = #{categoryId},
 		CATEGORY_PARAM_ID = #{categoryParamId},
 		PARAM_VALUE = #{paramValue},
 		IS_DELETED = #{isDeleted},
 		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		UPDATED_AT = #{updatedAt},
+		SUPPLIER_ID = #{supplierId},
 		where ID = #{id}
 	</update>
 	
@@ -128,11 +144,25 @@
 			T_SES_SMS_PRODUCT_PARAM t1 
 			join T_SES_PPMS_CATEGORY_PARAM t2 
 			on t1.CATEGORY_PARAM_ID = t2.ID
-		where t1.SUPPLIER_PRODUCTS_ID = #{supplierProductsId}
+		where t1.CATEGORY_ID = #{categoryId}
 	</select>
 	
 	<delete id="deleteByProductId" parameterType="java.lang.String">
-		delete from T_SES_SMS_PRODUCT_PARAM where SUPPLIER_PRODUCTS_ID = #{productId}
+		delete from T_SES_SMS_PRODUCT_PARAM where CATEGORY_ID = #{productId}
 	</delete>
+	
+	<select id="querySupplierIdCateoryId"   resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_PRODUCT_PARAM
+     	where 1=1
+		<if test="categoryId!=null">
+	       and   CATEGORY_ID = #{categoryId} 
+		</if>
+	   <if test="supplierId!=null">
+	       and  SUPPLIER_ID = #{supplierId}
+		</if>
+		
+	</select>
 	
 </mapper>

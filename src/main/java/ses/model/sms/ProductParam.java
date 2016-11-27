@@ -20,7 +20,7 @@ public class ProductParam implements Serializable {
 	 * 表字段 : T_SES_SMS_PRODUCT_PARAM.SUPPLIER_PRODUCTS_ID
 	 * </pre>
 	 */
-	private String supplierProductsId;
+	private String categoryId;
 
 	/**
 	 * <pre>
@@ -29,6 +29,11 @@ public class ProductParam implements Serializable {
 	 * </pre>
 	 */
 	private String categoryParamId;
+
+	private String supplierId;
+
+	
+
 
 	/**
 	 * <pre>
@@ -72,12 +77,12 @@ public class ProductParam implements Serializable {
 		this.id = id;
 	}
 
-	public String getSupplierProductsId() {
-		return supplierProductsId;
+	public String getCategoryId() {
+		return categoryId;
 	}
 
-	public void setSupplierProductsId(String supplierProductsId) {
-		this.supplierProductsId = supplierProductsId;
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getCategoryParamId() {
@@ -126,5 +131,13 @@ public class ProductParam implements Serializable {
 
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
+	}
+	
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 }

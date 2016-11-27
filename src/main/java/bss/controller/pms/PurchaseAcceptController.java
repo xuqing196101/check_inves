@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -47,6 +49,9 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private StationMessageService stationMessageService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * 
@@ -91,7 +96,10 @@ public class PurchaseAcceptController extends BaseController{
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("org", org);
-		
+		DictionaryData dd2=new DictionaryData();
+		dd2.setKind(5);
+		List<DictionaryData> list2 = dictionaryDataServiceI.find(dd2);
+		model.addAttribute("list2", list2);
     	return "bss/pms/collect/view";
     }
 	

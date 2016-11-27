@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.formbean.CategoryParamValue;
 import ses.model.sms.ProductParam;
 import ses.model.sms.Supplier;
 import ses.service.sms.ProductParamService;
@@ -25,12 +27,18 @@ public class ProductParamController {
 	
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息
+ 
 	
 	@RequestMapping(value = "save_or_update_param")
-	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String productsId, String categoryId) {
-		productParam.setSupplierProductsId(productsId);
-		productParamService.saveOrUpdateParam(productParam);
-		return "redirect:../categoryparam/list_by_category_id_and_products_id.html?categoryId=" + categoryId + "&productsId=" + productsId;
+	@ResponseBody
+	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String productsId, String categoryId,CategoryParamValue pramValue) {
+//		productParam.setSupplierProductsId(productsId);
+		List<ProductParam> list = pramValue.getList();
+		for(ProductParam param:list){
+			productParamService.saveOrUpdateParam(param);
+		}
+		
+		return "";
 	}
 	
 	@RequestMapping(value = "back_to_products")

@@ -313,7 +313,7 @@ function showReason() {
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" ></select></div>
 				         <div class="cue"> ${err_msg_address } </div>
 			        </div>		        
-				  </li>  
+				 </li>  
 				 
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 开户行名称</span>
@@ -547,7 +547,7 @@ function showReason() {
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h130" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
 			</li> 
 		</fieldset>
@@ -642,8 +642,9 @@ function showReason() {
 				 </div>
 			    </div>
 			   </fieldset>
-			   <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font">
+			   <fieldset class="col-md-12 border_font mt20">
 	 	    	   <legend>附件</legend>
+	 	    	   <div>
 					  <table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>
@@ -677,16 +678,17 @@ function showReason() {
 							</c:forEach>
 						  </tbody>
 					  </table>
+				</div>
 			</fieldset>
-			<div class="padding-top-10 clear col-md-12 col-sm-12 col-xs-12 p0">
+			<div class="padding-top-10 clear">
 			    <h2 class="count_flow"><i>3</i>股东信息</h2>
-				<div  class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
-				   <div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
-						<div class="col-md-12 col-sm-12 col-xs-12 tl p0">
+				<div  class="col-md-12 p0 ul_list mb50">
+				   <div class="col-md-12 p15 mt20">
+						<div class="fl">
 						    <button class="btn btn-windows add" type="button" onclick="openStockholder()" >新增</button>
 							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
 						</div>
-						<div class="mt10 col-md-12 col-sm-12 col-xs-12 p0">
+						<div class="mt40">
 							<table id="share_table_id" class="table table-bordered table-condensed mt5">
 								<thead>
 									<tr>

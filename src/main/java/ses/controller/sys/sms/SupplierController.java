@@ -350,14 +350,15 @@ public class SupplierController extends BaseSupplierController {
 	public String perfectDep(HttpServletRequest request, Supplier supplier, String jsp) {
 		supplierService.updateSupplierProcurementDep(supplier);
 		supplier = supplierService.get(supplier.getId());
-		
-		if ("template_download".equals(jsp)) {
-			// 这里查询模板信息...
-		}
+//		
+//		if ("template_download".equals(jsp)) {
+//			// 这里查询模板信息...
+//		}
 		
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);
-		return "redirect:page_jump.html";
+//		request.getSession().setAttribute("jump.page", jsp);
+		
+		return "ses/sms/supplier_register/template_download";
 	}
 	
 	/**
@@ -1005,7 +1006,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		model.addAttribute("list", cateList);
 		model.addAttribute("sid", sid);
-		
+		model.addAttribute("code", id);
 		return "ses/sms/supplier_register/category";	
 	}
 	

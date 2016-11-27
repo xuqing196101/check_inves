@@ -22,9 +22,25 @@
 	function add(){
 		 var index=parent.layer.getFrameIndex(window.name);
 		   var id =[]; 
+		   var name=[];
 			$('input[name="chkItem"]:checked').each(function(){ 
 				id.push($(this).val()); 
-			}); 
+				name.push($(this).next().val());
+			});
+			var flag=$("#flag").val();
+			if(flag=='SERVICE'){
+				parent.$('#server_seach').val(name);
+			}
+			if(flag=='PROJECT'){
+				parent.$('#project_seach').val(name);
+			}
+			if(flag=='SALES'){
+				parent.$('#sale_seach').val(name);
+			}
+			if(flag=='PRODUCT'){
+				parent.$('#production_seach').val(name);
+			}
+			
 		 $("#cid").val(id);	
 		if(id.length>0){
 			 $.ajax({
@@ -89,9 +105,11 @@
 	</div>
 	
 	<div class="col-md-12 col-sm-12 col-xs-12 tc">
-	  <input type="button" class="btn" value="确定">
-	  <input type="button" class="btn" value="关闭">
+	  <input type="button" class="btn" onclick="add()" value="确定">
+	  <input type="button" class="btn" onclick="cloase()" value="关闭">
 	</div>
+	 
+	 <input type="hidden" value="${code}" id="flag" >
 	 
 	<form class="dnone" action="" id="category_id">
 			<input type="hidden" name="categoryId" id="cid">

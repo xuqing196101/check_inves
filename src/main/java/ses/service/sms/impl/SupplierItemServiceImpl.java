@@ -72,9 +72,9 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			String cid = UUID.randomUUID().toString().replaceAll("-", "");
 			si.setId(cid);
 			si.setSupplierId(supplierItem.getSupplierId());
-			supplierItem.setCategoryId(i);
-			supplierItem.setCreatedAt(new Date());
-			supplierItemMapper.insertSelective(supplierItem);
+			si.setCategoryId(i);
+			si.setCreatedAt(new Date());
+			supplierItemMapper.insertSelective(si);
 		}
 	/*	String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};
 		for(int i = 0; i < addIds.length; i++) {

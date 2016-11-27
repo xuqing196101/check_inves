@@ -35,11 +35,13 @@ import ses.formbean.CategotyBean;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
 import ses.model.bms.CategoryAssigned;
+import ses.model.bms.CategoryParameter;
 import ses.model.bms.CategoryTree;
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
 import ses.service.bms.CategoryAssignedService;
+import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
@@ -65,7 +67,8 @@ public class CategoryParamContrller extends BaseSupplierController {
     @Autowired
     private CategoryAssignedService cateAssignService;
 
-
+    @Autowired
+    private CategoryParameterService categoryParameterService;
 
     private Map<String, Object> allListNews=new HashMap<String, Object>();
 
@@ -1002,12 +1005,17 @@ public class CategoryParamContrller extends BaseSupplierController {
     } 
 
     /***********************************************************************************************************************************/
-    @RequestMapping(value = "list_by_category_id_and_products_id")
-    public String listByCategoryIdAndProductsId(Model model, String categoryId, String productsId) {
-        List<CategoryParam> list = categoryParamService.findParamByCategoryIdAndProductsId(categoryId, productsId);
-        model.addAttribute("list", list);
-        model.addAttribute("categoryId", categoryId);
-        model.addAttribute("productsId", productsId);
+    @RequestMapping(value = "category_param")
+    public String listByCategoryIdAndProductsId(Model model, String categoryId, String supplierId) {
+//        List<CategoryParam> list = categoryParamService.findParamByCategoryIdAndProductsId(categoryId, productsId);
+//        model.addAttribute("list", list);
+//        model.addAttribute("categoryId", categoryId);
+//        model.addAttribute("productsId", productsId);
+    	
+    	List<CategoryParameter> list = categoryParameterService.getParametersByItemId(categoryId);
+    	model.addAttribute("list", list);
+    	model.addAttribute("categoryId", categoryId);
+    	model.addAttribute("supplierId", supplierId);
         return "ses/sms/supplier_register/add_param";
     }
 

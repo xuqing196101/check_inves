@@ -10,27 +10,58 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-
+<%@ include file="/WEB-INF/view/front.jsp" %>
 </head>
 
+
+<script type="text/javascript">
+		function saveOrBack(sign) {
+		$.ajax({
+		    type: "POST",  
+		    url: "${pageContext.request.contextPath}/product_param/save_or_update_param.html",  
+		    data: $("#products_form_id").serialize(), 
+		    success:function(result){
+		/*  	   var boo=result.bool;
+		      if(boo==false){
+		     	 $("#cert_type").text(result.type);
+		           $("#cert_code").text(result.code);
+		           $("#cert_seq").text(result.sequence);
+		           $("#cert_proType").text(result.proType);
+		           $("#cert_level").text(result.level);
+		           $("#cert_content").text(result.content);
+		           $("#cert_ap_code").text(result.aptituteCode);
+		           $("#cert_sdate").text(result.aDate);
+		           $("#cert_way").text(result.way);
+		           $("#cert_change_date").text(result.changeAt);
+		           $("#cert_change_reason").text(result.reason);
+		           $("#cert_file").text(result.file);
+		         
+		     	 
+		      } else{ */
+		   	     parent.location.reload(); 
+		       
+		   	 
+		  /*     } */
+		 	   
+		     },
+		     error: function(result){
+		         layer.msg("添加失败",{offset: ['150px', '180px']});
+		     }
+		     
+		     
+			 });
+		
+		
+		}
+	function cancels(){
+		var index=parent.layer.getFrameIndex(window.name);
+		
+		 parent.layer.close(index);
+	
+	}
+
+
+</script>
 <body>
 <div class="wrapper">
 
@@ -39,20 +70,20 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" action="${pageContext.request.contextPath}/product_param/save_or_update_param.html" method="post">
-							<input name="productsId" value="${productsId}" type="hidden" />
-							<input name="categoryId" value="${categoryId}" type="hidden" />
+						<form id="products_form_id" action="" method="post">
+						
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-100" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
-											<c:forEach items="${list}" var="categoryParam">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> ${categoryParam.name}：</span>
+											<c:forEach items="${list}" var="obj" varStatus="vs">
+												<li class="col-md-6 p0"><span class=""><i class="red">*</i> ${obj.paramName}</span>
 													<div class="input-append">
-														<input name="id" value="${categoryParam.paramValueId}" type="hidden" />
-														<input name="categoryParamId" value="${categoryParam.id}" type="hidden" />
-														<input class="span3" type="text" name="paramValue" value="${categoryParam.paramValue}" />
+														<input name="list[${vs.index}].supplierId" value="${supplierId}" type="hidden" />
+														<input name="list[${vs.index}].categoryParamId" value="${obj.id}" type="hidden" />
+														<input name="list[${vs.index}].categoryId" value="${categoryId}" type="hidden" />
+														<input  type="text" name="list[${vs.index}].paramValue" value="" />
 													</div>
 												</li>
 											</c:forEach>
@@ -62,7 +93,8 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">保存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>
 						</form>
 					</div>
