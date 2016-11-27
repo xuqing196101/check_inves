@@ -202,12 +202,13 @@ public class CategoryServiceImpl implements CategoryService {
      * @see ses.service.bms.CategoryService#estimate(java.lang.String)
      */
     @Override
-    public String estimate(String id) {
+    public String estimate(String id, String opera, Integer status) {
         String msg = StaticVariables.SUCCESS;
         Category cate = selectByPrimaryKey(id);
         if (cate != null){
-            if (cate.getParamStatus() == StaticVariables.CATEGORY_ASSIGNED_STATUS){
-                msg = cate.getName() + StaticVariables.CATEGORY_ASSIGNED_MSG + StaticVariables.OPER_EDIT_MSG;
+            if (cate.getParamStatus() >= status){
+                msg = cate.getName() + StaticVariables.CATEGORY_ASSIGNED_MSG;
+                msg = msg + getOperaStatusMsg(opera);
             } 
         }
         return msg;
@@ -367,6 +368,28 @@ public class CategoryServiceImpl implements CategoryService {
     
     public Integer findByName(String name){
        return  categoryMapper.findByName(name);
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *  根据操作类型获取对应的操作提示
+     *〈详细描述〉
+     * @author myc
+     * @param opera 操作类型
+     * @return 操作类型对应的提示
+     */
+    private String getOperaStatusMsg(String opera){
+        String msg = "";
+        switch(opera){
+            case StaticVariables.OPER_EDIT_TYPE: 
+                msg = StaticVariables.OPER_EDIT_MSG;  break;
+            case StaticVariables.OPER_DEL_TYPE:
+                msg = StaticVariables.OPER_DEL_MSG;   break;
+            case StaticVariables.OPER_CANCEL_TYPE:
+                msg = StaticVariables.OPER_CANCEL_MSG; break;
+        }
+        return msg;
     }
 
 }

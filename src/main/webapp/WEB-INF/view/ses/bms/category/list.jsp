@@ -232,7 +232,7 @@
 		  return;
 	  }
 	  
-	  var msg = determine();
+	  var msg = determine('edit');
 	  if (msg != null){
 		  if (msg != "ok"){
 			  layer.msg(msg);
@@ -262,6 +262,14 @@
 		  return;
 	  }
 	  
+	  var msg = determine('del');
+	  if (msg != null){
+		  if (msg != "ok"){
+			  layer.msg(msg);
+			  return false;
+		  }
+	  }
+	  
 	  layer.confirm('您确认要删除吗？', {
 		  btn: ['确认','取消']
 	    },function (){
@@ -273,11 +281,11 @@
   
   /** 获取状态 **/
   
-  function  determine(){
+  function  determine(operaType){
 	  var res = null;
 	  $.ajax({
 		  type:"post",
-		  data:{'id':treeid},
+		  data:{'id':treeid,'opera':operaType},
 		  async: false,
 	  	  url:"${pageContext.request.contextPath}/category/calledStatus.do",
 	      success:function(msg){

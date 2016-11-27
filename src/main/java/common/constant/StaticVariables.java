@@ -13,10 +13,22 @@ package common.constant;
  */
 public class StaticVariables {
     
+    /** 添加操作类型 */
+    public static final String OPER_ADD_TYPE = "add";
+    /** 编辑操作类型 */
+    public static final String OPER_EDIT_TYPE = "edit";
+    /** 删除操作类型 */
+    public static final String OPER_DEL_TYPE = "del";
+    /** 取消操作类型 */
+    public static final String OPER_CANCEL_TYPE = "cancel";
+    
+    
     /** 修改操作 */
     public static final String OPER_EDIT_MSG ="修改";
     /** 删除操作 */
     public static final String OPER_DEL_MSG ="删除";
+    /** 取消操作 */
+    public static final String OPER_CANCEL_MSG ="取消";
     
     
     /** 品目分类的新建状态  */

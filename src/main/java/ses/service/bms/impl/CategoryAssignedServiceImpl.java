@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.CategoryAssignedMapper;
+import ses.dao.bms.CategoryParameterMapper;
 import ses.formbean.CategotyBean;
+import ses.model.bms.Category;
 import ses.model.bms.CategoryAssigned;
 import ses.service.bms.CategoryAssignedService;
 import ses.service.bms.CategoryService;
@@ -51,6 +53,11 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
     /** 产品分配持久层 */
     @Autowired
     private CategoryAssignedMapper mapper;
+    
+    /** 品目参数mapper **/
+    @Autowired
+    private CategoryParameterMapper parameterMapper;
+    
     /** 品目service **/
     @Autowired
     private CategoryService categoryService;
@@ -203,26 +210,23 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
             orgList.add(orgIds);
         }
         
-        List<String> cateList = new ArrayList<String>();
-        if (cateIds.indexOf(SPLIT_SYMBOL) != -1) {
-            String [] cateArry = cateIds.split(SPLIT_SYMBOL);
-            cateList.addAll(Arrays.asList(cateArry));
-        } else {
-            cateList.add(cateIds);
-        }
-        
         SqlSession batchSqlSession = null;
         try {
             batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
             int index = 0;
-            for (int i = 0; i<cateList.size(); i++) {
-                for (String orgId : orgList) {
-                    batchSqlSession.getMapper(CategoryAssignedMapper.class).batchaDelete(cateList.get(i).trim(), orgId.trim());
-                    index ++ ;
-                    
-                    if (index % COUNT_COMMIT == 0) {
-                        batchSqlSession.commit();
-                    }
+            for (String orgId : orgList) {
+                 
+                //判断是否可以取消
+                 String msg = estimate(orgId);
+                 if (!msg.equals(SUCCESS)){
+                     return msg;
+                 }
+                
+                batchSqlSession.getMapper(CategoryAssignedMapper.class).batchaDelete("", orgId.trim());
+                index ++ ;
+                
+                if (index % COUNT_COMMIT == 0) {
+                    batchSqlSession.commit();
                 }
             }
             batchSqlSession.commit();
@@ -233,12 +237,6 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
              if(batchSqlSession != null){
                  batchSqlSession.close();
              }  
-        }
-        //更新品目的状态
-        if (res.equals(SUCCESS)) {
-            for (String id : cateList) {
-                categoryService.updateStatus(StaticVariables.CATEGORY_NEW_STATUS, id);
-            }
         }
         return res;
     }
@@ -286,6 +284,35 @@ public class CategoryAssignedServiceImpl implements CategoryAssignedService {
              }
         }
         batchSqlSession.commit();
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据组织机构获取已分配品目的状态
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 组织机构Id
+     * @return 成功返回ok
+     */
+    private String estimate(String orgId){
+        String msg = SUCCESS;
+        List<String> ids = mapper.findAllocationIds(orgId.trim());
+        if (ids != null && ids.size() > 0){
+            for (String cateId : ids){
+                Integer count = parameterMapper.exsitByCateId(cateId);
+                if (count > 0){
+                    Category cg = categoryService.selectByPrimaryKey(cateId);
+                    if (cg != null){
+                        msg =  cg.getName() + StaticVariables.CATEGORY_USED_MSG;
+                        break;
+                    }
+                } else {
+                    categoryService.updateStatus(StaticVariables.CATEGORY_NEW_STATUS, cateId);
+                }
+            }
+        } 
+        return msg;
     }
   
 }

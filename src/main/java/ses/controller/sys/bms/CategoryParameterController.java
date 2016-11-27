@@ -54,12 +54,22 @@ public class CategoryParameterController {
         List<DictionaryData> list = paramService.initTypes();
         model.addAttribute("dictionary", list);
         
-        List<DictionaryData> dictList = paramService.initSmallTypes();
-        model.addAttribute("smallType", dictList);
-        
        return "/ses/ppms/categoryparam/cateParameter";
     }
     
+    /**
+     * 
+     *〈简述〉
+     *  初始化类型
+     *〈详细描述〉myc
+     * @return  类型集合
+     */
+    @ResponseBody
+    @RequestMapping(value = "/initTypes" ,produces="application/json;charset=UTF-8")
+    public List<DictionaryData> initTypes(){
+        
+        return paramService.initSmallTypes();
+    }
     
     /**
      * 

@@ -174,7 +174,7 @@
      				getResult(orgId);
      				disableChekbox(ids,false);
      			} else {
-     				layer.msg('取消失败');
+     				layer.msg(data);
      			}
      		}
      	});
@@ -387,7 +387,7 @@
 		                <tr>
 			                <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
 			                <th class="info w80">序号</th>
-			                <th class="info w180">需求部门</th>
+			                <th class="info w150">需求部门</th>
 			                <th class="info w100">负责人</th>
 			                <th class="info w120">电话</th>
 			                <th class="info">品目名称</th>

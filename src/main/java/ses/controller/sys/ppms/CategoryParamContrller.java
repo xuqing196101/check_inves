@@ -48,6 +48,7 @@ import ses.service.ppms.CategoryParamService;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import common.constant.StaticVariables;
 
 @Controller
 @Scope("prototype")
@@ -1078,6 +1079,7 @@ public class CategoryParamContrller extends BaseSupplierController {
     public String parameter(){
         return "ses/ppms/categoryparam/parameter";
     }
+    
 
 
 }
