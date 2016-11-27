@@ -32,89 +32,87 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
      	<div>
-     	<div class="headline-v2">
-	   		<h2 class="count_flow">
+	   		<h2 class="list_title">
 					版块详情
 			</h2>
-			</div>
 	   <ul class="ul_list mb20">	   		  
-	   		 <li class="col-md-3 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5">版块名称：</span>
-			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${park.name}' readonly="readonly">
-		        <span class="add-on">i</span>
+	   		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">版块名称：</span>
+			   <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${park.name}' readonly="readonly">
+		        
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-3 margin-0 padding-0  ">
-			   <span class="col-md-12 padding-left-5">版主：</span>				 	
-	  			<div class="input-append">
-		        	<input class="span2"  type="text" value = '${park.user.relName}' readonly="readonly">
-		        	<span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">版主：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        	<input type="text" value = '${park.user.relName}' readonly="readonly">
+		        	
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0  ">
-			   <span class="col-md-12 padding-left-5">创建人：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${park.creater.relName}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建人：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${park.creater.relName}' readonly="readonly">
+		        
 		       </div>
 			 </li>
-			  <li class="col-md-3 margin-0 padding-0">
-               <span class="col-md-12 padding-left-5">是否热门：</span>                 
-                <div class="input-append">
+			  <li class="col-md-3 col-sm-6 col-xs-12 ">
+               <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">是否热门：</span>                 
+                <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
                  <c:choose>
                  <c:when test="${park.isHot == 0}">             
-                    <input class="span2"  type="text" value = '不是热门' readonly="readonly" >
+                    <input type="text" value = '不是热门' readonly="readonly" >
                  </c:when>
                  <c:otherwise >             
-                    <input class="span2"  type="text" value = '热门' readonly="readonly"  >
+                    <input type="text" value = '热门' readonly="readonly"  >
                  </c:otherwise>
                  </c:choose>
-                 <span class="add-on">i</span>
+                 
                </div>
              </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">主题数：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${park.topiccount}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">主题数：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${park.topiccount}' readonly="readonly">
+		        
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">帖子数：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${park.postcount}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">帖子数：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${park.postcount}' readonly="readonly">
+		        
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">回复数：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${park.replycount}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 ">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">回复数：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${park.replycount}' readonly="readonly">
+		        
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">创建时间：</span>				 	
-	  			<div  class="input-append">
-		        <input class="span2"  type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建时间：</span>				 	
+	  			<div  class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
+		        
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">更新时间：</span>				 	
-	  			<div class="input-append">
-		         <input class="span2"  type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">更新时间：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		         <input type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
+		        
 		       </div>
 			 </li>
 			 
 			 
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> 版块介绍：</span>
-				<div class="col-md-9 mt5 p0">
-				<textarea  class="h130 col-md-12"  title="不超过800个字" readonly="readonly">${park.content}</textarea>		
+			<li class="col-md-12 col-xs-12 col-sm-12 ">	  	 			
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 版块介绍：</span>
+				<div class="col-md-12 col-xs-12 col-sm-12 mt5 p0">
+				<textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${park.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>

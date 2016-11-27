@@ -28,41 +28,38 @@
    <!-- 新增页面开始 -->
      <div class="container container_box">
     <div>
-    <div class="headline-v2">
-	   	<h2 class="count_flow">回复详情</h2>
-	   	</div>
+  
+	   	<h2 class="list_title">回复详情</h2>
+
 	   <ul class="ul_list mb20">
-	   		  
-
-
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">发布人：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${reply.user.relName}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发布人：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = '${reply.user.relName}' readonly="readonly">
+		       
 		       </div>
 			 </li>
 
 
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">发布时间：</span>				 	
-	  			<div class="input-append">
-		       <input class="span2"  type="text" value = "<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发布时间：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		       <input type="text" value = "<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
+		       
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">更新时间：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = "<fmt:formatDate value='${reply.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">更新时间：</span>				 	
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
+		        <input type="text" value = "<fmt:formatDate value='${reply.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
+		       
 		       </div>
 			 </li>
 			 
 			 
-			<li class="col-md-12  p0 ">	  	 			
-				<span class="col-md-12 padding-left-5"> 回复内容：</span>
-				<div class="col-md-9 mt5 p0 border1">
+			<li class="col-md-12 col-xs-12 col-sm-12 ">	  	 			
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 回复内容：</span>
+				<div class="col-md-12 col-xs-12 col-sm-12 mt5 border1">
 				${reply.content}
 				</div>			
 	  	 	</li>
