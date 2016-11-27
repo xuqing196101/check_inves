@@ -262,13 +262,13 @@
 		<h2 class="search_detail">
 			<form action="${pageContext.request.contextPath}/project/list.html" id="form1" method="post" class="mb0">
 				<ul class="demand_list">
-					<li><label class="fl">项目名称：<span><input
+					<li><label class="fl">项目名称： </label><span><input
 								type="hidden" name="page" id="page"><input type="text"
-								name="name" id="proName" value="${projects.name }" /> </span> </label>
+								name="name" id="proName" value="${projects.name }" /> </span>
 					</li>
-					<li><label class="fl">项目编号：<input type="text"
+					<li><label class="fl">项目编号：</label><span><input type="text"
 							name="projectNumber" id="projectNumber"
-							value="${projects.projectNumber }" /> </label>
+							value="${projects.projectNumber }" /> </span>
 					</li>
 					<button class="btn" type="submit">查询</button>
 					<button type="reset" class="btn" onclick="clearSearch();">重置</button>

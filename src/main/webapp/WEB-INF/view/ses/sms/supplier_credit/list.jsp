@@ -37,7 +37,7 @@
 			type : 2,
 			title : '添加形式名称',
 			// skin : 'layui-layer-rim', //加上边框
-			area : [ '550px', '230px' ], //宽高
+			area : [ '450px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
 			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html', //url
@@ -168,7 +168,7 @@
 			</div>
 		<!-- 表格开始-->
 			 <h2 class="search_detail">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
+				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li>
