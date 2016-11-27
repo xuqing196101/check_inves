@@ -68,8 +68,8 @@
           </ul>
             <div class="tab-content">
              <c:forEach items="${listQuote }" var="listQuote1" varStatus="vs" >
-                  <c:choose>
-                  		<c:when test="${vs.index==0 }">
+             <c:set var="total" value="0"></c:set>
+                  		<c:if test="${vs.index==0 }">
 	                  		<div class="tab-pane fade active in height-450" id="tab-${vs.index+1 }">
 									<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
 							        <thead>
@@ -86,7 +86,7 @@
 							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
-							        <c:set var="total" value="0"></c:set>
+							        
 							          <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
 							            <tr class="hand">
 							              <td class="tc w50">${lq.projectDetail.serialNumber }</td>
@@ -108,8 +108,9 @@
 							         </tr>
 							      </table>
 		                    </div>
-                  		</c:when>
-                  		<c:otherwise>
+                  		</c:if>
+                  		<c:if test="${vs.index!=0 }">
+                  		  <c:set var="total2" value="0"></c:set>
                   		  <div class="tab-pane fade in height-450" id="tab-${vs.index+1 }">
 									<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
 							        <thead>
@@ -126,7 +127,7 @@
 							          <th class="info">备注</th>
 							        </tr>
 							        </thead>
-							        <c:set var="total2" value="0"></c:set>
+							       
 							           <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
 							            <tr class="hand">
 							              <td class="tc w50">${lq.projectDetail.serialNumber }</td>
@@ -137,19 +138,18 @@
 							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
 							              <td class="tc">${lq.quotePrice }</td>
 							              <td class="tc">${lq.total }</td>
-							              <c:set var="total" value="${total2+lq.total }"></c:set>
+							              <c:set var="total2" value="${total2+lq.total }"></c:set>
 							              <td class="tc"><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd"/></td>
 							              <td class="tc">${lq.remark }</td>
 							            </tr>
 							         </c:forEach>  
 							         <tr>
-							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
+							         	<td class="tr" colspan="2"><b>总金额(元):${total2}</b></td>
 							         	<td class="tl" colspan="8"></td>
 							         </tr>
 							      </table>
 	                 	  </div>
-                  		</c:otherwise>
-                  </c:choose>
+	                 </c:if>
 		     </c:forEach>
               </div>
           </div>
