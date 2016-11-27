@@ -87,7 +87,7 @@
 			 </li>
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发表人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0 col-md-12 col-xs-12 col-sm-12 p0">
+	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
 		        <input type="text" value = '${post.user.relName}' readonly="readonly">
 		       </div>
 			 </li>

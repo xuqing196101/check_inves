@@ -124,16 +124,16 @@
            <div>
                <input type="hidden" name="id" id="pid" value="${area.id }">
                <ul class="ul_list">
-                 <li class="col-md-6 p0">
-                   <span class="col-md-12 padding-left-5">上级</span>
-                   <div class="input-append">
+                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
+                   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                     <input id="citySel" class="span5" name="pname" type="text" readonly value="${area1.name}"  onclick="showMenu();" />
                     <span class="add-on">i</span>
                    </div>
                  </li>
-                 <li class="col-md-6 p0">
-                   <span class="col-md-12 padding-left-5">名称</span>
-                   <div class="input-append">
+                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
+                   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                     <input class="span5" name="name" value="${area.name }"   maxlength="30" type="text">
                     <span class="add-on">i</span>
                    </div>
@@ -141,7 +141,7 @@
                </ul>
           </div> 
        
-          <div class="col-md-12 tc">
+          <div class="col-md-12 col-sm-12 col-xs-12 tc">
                 <button class="btn btn-windows save" id="save" type="button">修改</button>
                 <button class="btn btn-windows back" id="backups" type="button" onclick="history.go(-1)">返回</button>
           </div>

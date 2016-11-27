@@ -258,39 +258,44 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
                     <ul class="ul_list">
-                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
-                          <div class="input-append">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="orgName2">组织机构：</span>
+                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                             <input id="orgName" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'supplierMatSe.orgName')"/>
                             <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalPerson2">人员总数：</span>
-                          <div class="input-append">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalPerson2">人员总数：</span>
+                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                             <input id="totalPerson" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'supplierMatSe.totalPerson')" />
                           <div id="totalPerson3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalMange2">管理人员：</span>
-                          <div class="input-append">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalMange2">管理人员：</span>
+                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                             <input id="totalMange" class="span5" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'supplierMatSe.totalMange')" />
                           <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTech2">技术人员：</span>
-                          <div class="input-append">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalTech2">技术人员：</span>
+                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                             <input id="totalTech" class="span5" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'supplierMatSe.totalTech')" />
                           <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalWorker2">工人(职员)：</span>
-                          <div class="input-append">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
+                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0 ">
                             <input id="totalWorker" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'supplierMatSe.totalWorker')" />
                             <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
                           </div>
                         </li>
                       </ul>
                     </div>
-                <div class="col-md-12 add_regist tc">
+                <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
                   <!--  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                    <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
                 </div>

@@ -159,7 +159,7 @@ function nextStep(url){
 	                    </c:forEach>
 	                  </table>
                   </ul>
-                  <div class="col-md-12 add_regist tc">
+                  <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
                     <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <input class="btn btn-windows"  type="button" onclick="nextStep('${url}');" value="下一步">
 				  </div>
