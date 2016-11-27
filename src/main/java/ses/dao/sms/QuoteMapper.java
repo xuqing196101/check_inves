@@ -70,7 +70,7 @@ public interface QuoteMapper {
      * @param quote 实体类
      * @return List<Date>
      */
-    List<Timestamp> selectQuoteCount(Quote quote);
+    List<Date> selectQuoteCount(Quote quote);
     /**
      *〈简述〉获取报价历史
      *〈详细描述〉

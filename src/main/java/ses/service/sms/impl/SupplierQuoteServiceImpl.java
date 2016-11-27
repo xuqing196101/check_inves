@@ -118,8 +118,8 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
      * @see ses.service.sms.SupplierQuoteService#selectQuoteCount(ses.model.sms.Quote)
      */
     @Override
-    public List<Timestamp> selectQuoteCount(Quote quote) {
-        List<Timestamp> listDate = quoteMapper.selectQuoteCount(quote);
+    public List<Date> selectQuoteCount(Quote quote) {
+        List<Date> listDate = quoteMapper.selectQuoteCount(quote);
         return listDate;
     }
     

@@ -65,7 +65,7 @@ public interface SupplierQuoteService {
      * @param quote 实体类
      * @return List<Date> 
      */
-    List<Timestamp> selectQuoteCount(Quote quote);
+    List<Date> selectQuoteCount(Quote quote);
 
     /**
      *〈简述〉查询报价历史记录

@@ -598,7 +598,7 @@ public class OpenBiddingController {
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
 	            quotes.setSupplierId(str);
-	            List<Timestamp> listDate = supplierQuoteService.selectQuoteCount(quotes);
+	            List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
 	            Quote quote=new Quote();
 	            quote.setSupplierId(str);
 	            quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
