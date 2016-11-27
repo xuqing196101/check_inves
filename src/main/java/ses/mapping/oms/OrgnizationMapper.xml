@@ -116,8 +116,7 @@
     <select id="findOrgPartByParam" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization" >
     	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
     	FROM T_SES_OMS_ORG
-    	WHERE TYPE_NAME ='2'
-    	AND IS_DELETED = '0'
+    	WHERE IS_DELETED = '0'
     	<if test="name != null and name != ''">
     	  AND NAME like '%'||#{name}||'%' 
     	</if>
