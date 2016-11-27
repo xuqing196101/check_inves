@@ -143,7 +143,7 @@ $(function(){
 		<c:forEach items="${result.list }" var="e" varStatus="vs">
 		<tr style="cursor: pointer; ">
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
-		  <td  class="tc w50">${vs.index+1}</td>
+		  <td  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 		  <td class="tc" title="${e.badBehavior}">
 		     <c:if test="${fn:length(e.badBehavior)>5}">${fn:substring(e.badBehavior, 0, 5)}...</c:if> 
 		     <c:if test="${fn:length(e.badBehavior)<6}">${e.badBehavior}</c:if>
