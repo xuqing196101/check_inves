@@ -596,6 +596,7 @@ public class PackageExpertController {
 			model.addAttribute("listPackage", listPackageEach);
 			model.addAttribute("listQuote", listQuote);
 			model.addAttribute("listDate", listDate);
+			model.addAttribute("length", listDate.size());
 			model.addAttribute("projectId", projectId);
 			model.addAttribute("supplierId", supplierId);
 			if (timestamp != null) {

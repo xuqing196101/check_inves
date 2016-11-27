@@ -37,7 +37,7 @@
 						  	    	<option <c:if test="${timestamp eq ld}">selected</c:if> value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${vs.index+1 }次报价</option>
 					  	    	</c:if>
 					  	    	<c:if test="${timestamp eq null or timestamp eq ''}">
-						  	    	<option <c:if test="${vs.index+1 eq 2}">selected</c:if> value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${vs.index+1 }次报价</option>
+						  	    	<option <c:if test="${vs.index+1 eq length}">selected</c:if> value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${vs.index+1 }次报价</option>
 					  	    	</c:if>
 					  	    </c:forEach>
 					  	</select>
