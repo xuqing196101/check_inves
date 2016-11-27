@@ -569,9 +569,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("purCon", purCon);
 			model.addAttribute("requList", requList);
-			for(int i=0;i<requList.size();i++){
-				if(requList.get(i).getPlanNo()==null){
-					requList.remove(i);
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
 				}
 			}
 			model.addAttribute("planNos", purCon.getDocumentNumber());
@@ -589,9 +591,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			purchaseContractService.insertSelective(purCon);
 			String id = purCon.getId();
 			List<ContractRequired> requList = proList.getProList();
-			for(int i=0;i<requList.size();i++){
-				if(requList.get(i).getPlanNo()==null){
-					requList.remove(i);
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
 				}
 			}
 			for(ContractRequired conRequ:requList){
@@ -631,9 +635,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("draftCon", purCon);
 			model.addAttribute("requList", requList);
-			for(int i=0;i<requList.size();i++){
-				if(requList.get(i).getPlanNo()==null){
-					requList.remove(i);
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
 				}
 			}
 			model.addAttribute("ids", ids);
@@ -655,9 +661,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			String id = purCon.getId();
 			contractRequiredService.deleteByContractId(id);
 			List<ContractRequired> requList = proList.getProList();
-			for(int i=0;i<requList.size();i++){
-				if(requList.get(i).getPlanNo()==null){
-					requList.remove(i);
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
 				}
 			}
 			for(ContractRequired conRequ:requList){

@@ -270,11 +270,11 @@
    <div id="pagediv" align="right"></div>
    <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
   		    <li class="col-md-12">
-			   <span class="col-md-12 fl"><div class="red star_red">*</div>成交供应商：</span>
+			   <span class="fl mt5"><div class="red star_red">*</div>成交供应商：</span>
 			   <div class="select_common">
-			     <select name="delsupplier" id="delSele" class="mb0 ml15 w220">
+			     <select name="delsupplier" id="delSele">
 			     </select>
-			     <div id='delsuperr' class="cue col-md-12"></div>
+			     <div id='delsuperr' class="cue"></div>
 			   </div>
 			</li>
 			<li class="tc col-md-12 tl pl50 pb20">
