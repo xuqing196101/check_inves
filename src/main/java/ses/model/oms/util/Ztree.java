@@ -43,8 +43,14 @@ public class Ztree implements Serializable {
 	private String menuurl;
 	private List<String> priList;
 	
+	/**
+	 * @Fields checked : TODO(目的和意义)是否被选中
+	 */
 	private boolean checked = false;
-	
+	/**
+	 * @Fields nocheck : TODO(目的和意义)是否可被选择
+	 */
+	private boolean nocheck;
 	private boolean open;
 	private Date createdAt;
 	private String bidMethodId;
@@ -127,5 +133,11 @@ public class Ztree implements Serializable {
 	public void setBidMethodId(String bidMethodId) {
 		this.bidMethodId = bidMethodId;
 	}
+    public boolean isNocheck() {
+        return nocheck;
+    }
+    public void setNocheck(boolean nocheck) {
+        this.nocheck = nocheck;
+    }
 	
 }

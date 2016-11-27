@@ -30,6 +30,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.oms.util.Ztree;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
@@ -64,6 +65,9 @@ public class UserManageController extends BaseController{
 	
 	@Autowired
 	private PreMenuServiceI preMenuService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataService;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
@@ -526,12 +530,24 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping(value = "getOrgTree",produces={"application/json;charset=UTF-8"})
 	@ResponseBody    
-	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId){
+	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId, String typeNameId){
 		User user =null;
 		if(userId != null && !"".equals(userId) ){
 			user = userService.getUserById(userId);
 		}
+		String ddCode = dictionaryDataService.getDictionaryData(typeNameId).getCode();
+		String typeName = "";
+		if ("SUPERVISER_U".equals(ddCode) || "PUR_MG_U".equals(ddCode)) {
+		    typeName = "0";
+        }
+		if ("NEED_U".equals(ddCode)) {
+            typeName = "2";
+        }
+		if ("PURCHASER_U".equals(ddCode)) {
+            typeName = "1";
+        }
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("typeName", typeName);
 		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o : oList){
@@ -545,6 +561,7 @@ public class UserManageController extends BaseController{
 			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
 			if(chiildList != null && chiildList.size() > 0){
 				z.setIsParent("true");
+				z.setNocheck(true);
 			} else {
 				z.setIsParent("false");
 			}

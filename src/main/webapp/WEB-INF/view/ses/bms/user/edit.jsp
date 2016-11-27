@@ -40,6 +40,7 @@
 			hideOrg();
 		}
 		function showOrg() {
+			var typeName_id = $("#typeName_id").val();
 			var userId = $("#uId").val();
 			var setting = {
 				check: {
@@ -63,7 +64,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId,
+             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId+"&typeNameId="+typeName_id,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -74,7 +75,7 @@
 			            }  
 			        }  
 			        tree = $.fn.zTree.init($("#treeOrg"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
+			       // tree.expandAll(true);//全部展开
                }
          	});
 			var cityObj = $("#orgSel");
@@ -262,7 +263,7 @@
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
 					    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-					        <select name="typeName" >
+					        <select name="typeName" id="typeName_id">
 					        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
 					        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
 						        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
