@@ -569,6 +569,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("purCon", purCon);
 			model.addAttribute("requList", requList);
+			for(int i=0;i<requList.size();i++){
+				if(requList.get(i).getPlanNo()==null){
+					requList.remove(i);
+				}
+			}
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("ids", ids);
 			url = "bss/cs/purchaseContract/textErrContract";
@@ -584,6 +589,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			purchaseContractService.insertSelective(purCon);
 			String id = purCon.getId();
 			List<ContractRequired> requList = proList.getProList();
+			for(int i=0;i<requList.size();i++){
+				if(requList.get(i).getPlanNo()==null){
+					requList.remove(i);
+				}
+			}
 			for(ContractRequired conRequ:requList){
 				conRequ.setContractId(id);
 				contractRequiredService.insertSelective(conRequ);
@@ -621,6 +631,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("draftCon", purCon);
 			model.addAttribute("requList", requList);
+			for(int i=0;i<requList.size();i++){
+				if(requList.get(i).getPlanNo()==null){
+					requList.remove(i);
+				}
+			}
 			model.addAttribute("ids", ids);
 			return "bss/cs/purchaseContract/draftContract";
 		}else{
@@ -640,10 +655,12 @@ public class PurchaseContractController extends BaseSupplierController{
 			String id = purCon.getId();
 			contractRequiredService.deleteByContractId(id);
 			List<ContractRequired> requList = proList.getProList();
-			for(ContractRequired conRequ:requList){
-				if(conRequ.getGoodsName()==null){
-					break;
+			for(int i=0;i<requList.size();i++){
+				if(requList.get(i).getPlanNo()==null){
+					requList.remove(i);
 				}
+			}
+			for(ContractRequired conRequ:requList){
 				if(conRequ.getId()==null){
 					conRequ.setContractId(id);
 					contractRequiredService.insertSelective(conRequ);

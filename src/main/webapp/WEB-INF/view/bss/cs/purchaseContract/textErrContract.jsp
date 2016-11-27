@@ -22,54 +22,76 @@
 	
   </head>
     <script type="text/javascript">
-   	 	var datas;
-   	 $(document).ready(function(){
-   		 var setting={
-   			async:{
-   						autoParam:["id","name"],
-   						enable:true,
-   						url:"${pageContext.request.contextPath}/category/createtree.do",
-   						dataType:"json",
-   						type:"post",
-   					},
-   					callback:{
-   				    	onClick:zTreeOnClick,//点击节点触发的事件
-   	       			  /*    onNodeCreated: zTreeOnNodeCreated, */
-   	       			   
-   				    }, 
-   					data:{
-   						keep:{
-   							parent:true
-   						},
-   						key:{
-   							title:"title"
-   						},
-   						simpleData:{
-   							enable:true,
-   							idKey:"id",
-   							pIdKey:"pId",
-   							rootPId:"a",
-   						}
-   				    },
-   				
-   	  };
-   	    $.fn.zTree.init($("#treeDemo"),setting,datas);
-   	   // $("#treeDemo").hide();
-   	 var conTy = "${purCon.contractType}";
- 	   $("#contractType").val(conTy);
-   	});
+    var treeid = null , nodeName=null;
+	var datas;
+	 $(document).ready(function(){  
+          $.fn.zTree.init($("#treeDemo"),setting,datas);
+	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
+	      for(var i=0 ;i<nodes.length;i++){
+		     if (nodes[i].status==1) {
+				 check==true;
+		      }
+	       }
+	      var conTy = "${purCon.contractType}";
+	 	   $("#contractType").val(conTy);
+	 }); 
+	 var setting={
+		   async:{
+					autoParam:["id"],
+					enable:true,
+					url:"${pageContext.request.contextPath}/category/createtree.do",
+					otherParam:{"otherParam":"zTreeAsyncTest"},  
+					dataType:"json",
+					datafilter:filter,
+					type:"get",
+				},
+				callback:{
+			    	onClick:zTreeOnClick,//点击节点触发的事件
+       			    
+			    }, 
+				data:{
+					keep:{
+						parent:true
+					},
+					key:{
+						title:"title"
+					},
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"pId",
+						rootPId:"0",
+					}
+			    },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
+			   },
+         };
+	
+	 
+	 function filter(treeId,parentNode,childNode){
+		 if (!childNodes) return null;
+			for(var i = 0; i<childNodes.length;i++){
+				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
+			}
+		return childNodes;
+	 }
+	 
+	 /*点击事件*/
+	    function zTreeOnClick(event,treeId,treeNode){
+	    	 if (treeNode) {
+	            $("#citySel4").val(treeNode.name);
+	            $("#categorieId4").val(treeNode.id);
+	            hideMenu();
+	    	 }
+	    } 	
+    
    	function next(){
    		var ids = "${ids}";
    		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
    	}
-   	/*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-    	 if (treeNode) {
-            $("#citySel4").val(treeNode.name);
-            $("#categorieId4").val(treeNode.id);
-            hideMenu();
-    	 }
-    }
    	
     /** 全选全不选 */
 	function selectAll(){
@@ -709,7 +731,7 @@
     		//实例化编辑器
     		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     		var ue = UE.getEditor('editor');
-    		var content='${draftCon.content}';
+    		var content='${purCon.content}';
     		ue.ready(function(){
     	  		ue.setContent(content);    
     		});

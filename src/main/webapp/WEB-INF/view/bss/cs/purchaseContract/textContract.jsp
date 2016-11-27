@@ -22,52 +22,75 @@
 	-->
   </head>
     <script type="text/javascript">
-   	 	var datas;
-   	 $(document).ready(function(){
-   		 var setting={
-   			async:{
-   						autoParam:["id","name"],
-   						enable:true,
-   						url:"${pageContext.request.contextPath}/category/createtree.do",
-   						dataType:"json",
-   						type:"post",
-   					},
-   					callback:{
-   				    	onClick:zTreeOnClick,//点击节点触发的事件
-   	       			  /*    onNodeCreated: zTreeOnNodeCreated, */
-   	       			   
-   				    }, 
-   					data:{
-   						keep:{
-   							parent:true
-   						},
-   						key:{
-   							title:"title"
-   						},
-   						simpleData:{
-   							enable:true,
-   							idKey:"id",
-   							pIdKey:"pId",
-   							rootPId:"a",
-   						}
-   				    },
-   				
-   	  };
-   	    $.fn.zTree.init($("#treeDemo"),setting,datas);
-   	   // $("#treeDemo").hide();
-   	});
+    var treeid = null , nodeName=null;
+	var datas;
+	 $(document).ready(function(){  
+          $.fn.zTree.init($("#treeDemo"),setting,datas);
+	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
+	      for(var i=0 ;i<nodes.length;i++){
+		     if (nodes[i].status==1) {
+				 check==true;
+		      }
+	       }
+	 }); 
+	 var setting={
+		   async:{
+					autoParam:["id"],
+					enable:true,
+					url:"${pageContext.request.contextPath}/category/createtree.do",
+					otherParam:{"otherParam":"zTreeAsyncTest"},  
+					dataType:"json",
+					datafilter:filter,
+					type:"get",
+				},
+				callback:{
+			    	onClick:zTreeOnClick,//点击节点触发的事件
+       			    
+			    }, 
+				data:{
+					keep:{
+						parent:true
+					},
+					key:{
+						title:"title"
+					},
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"pId",
+						rootPId:"0",
+					}
+			    },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
+			   },
+         };
+	
+	 
+	 function filter(treeId,parentNode,childNode){
+		 if (!childNodes) return null;
+			for(var i = 0; i<childNodes.length;i++){
+				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
+			}
+		return childNodes;
+	 }
+	 
+	 /*点击事件*/
+	    function zTreeOnClick(event,treeId,treeNode){
+	    	 if (treeNode) {
+	            $("#citySel4").val(treeNode.name);
+	            $("#categorieId4").val(treeNode.id);
+	            hideMenu();
+	    	 }
+	    }
+   	 
    	function next(){
    		var ids = "${ids}";
    		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
    	}
-   	/*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-    	 if (treeNode) {
-            $("#citySel4").val(treeNode.name);
-            $("#categorieId4").val(treeNode.id);
-            hideMenu();
-    	 }
-    }
+   	
    	
     /** 全选全不选 */
 	function selectAll(){
@@ -147,6 +170,7 @@
 		if(sumAll>sumbudget){
 			layer.close(index);
 			layer.alert("明细总价不得超过预算",{offset: ['50%', '40%'], shade:0.01});
+			return;
 		}
 		
 		$.ajax({

@@ -11,7 +11,7 @@
 <!--导航js-->
 <jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
-var user = "${sessionScope.loginUser.loginName}";
+var user = "${sessionScope.loginUser.relName}";
 $(function(){
 	if(user!=null && user!=''){
 		$("#welcome").html(user+"你好，欢迎来到中国军队采购网！");
