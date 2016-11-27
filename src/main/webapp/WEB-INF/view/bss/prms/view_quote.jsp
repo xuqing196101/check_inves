@@ -9,7 +9,7 @@
 	function showQuoteHistory(data){
 	    var projectId="${projectId}";
 	    var supplierId = "${supplierId}";
-	    location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?timestamp="+data+"&projectId="+projectId+"&supplierId="+supplierId;
+	    location.href="${pageContext.request.contextPath}/packageExpert/supplierQuote.html?timestamp="+data.value+"&projectId="+projectId+"&supplierId="+supplierId;
 	}
 </script>
 <head>
@@ -28,13 +28,17 @@
   <div class="container clear">
   <div class="col-md-12 tc">
 			  	<span >报价历史查看：</span>
-					  	<select>
+					  	<select onchange="showQuoteHistory(this)">
 					  	    <c:if test="${empty listDate }">
 					  	    <option value=''>暂无报价历史</option>
 					  	    </c:if>
-					  	    <c:set var="ld1" value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'></c:set>
 					  	    <c:forEach items="${listDate }" var="ld" varStatus="vs">
-					  	    	<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>')" <c:if test="${timestamp eq 'ld1'}">checked</c:if> >第${vs.index+1 }次报价</option>
+					  	    	<c:if test="${timestamp ne null and timestamp ne ''}">
+						  	    	<option <c:if test="${timestamp eq ld}">selected</c:if> value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${vs.index+1 }次报价</option>
+					  	    	</c:if>
+					  	    	<c:if test="${timestamp eq null or timestamp eq ''}">
+						  	    	<option <c:if test="${vs.index+1 eq 2}">selected</c:if> value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${vs.index+1 }次报价</option>
+					  	    	</c:if>
 					  	    </c:forEach>
 					  	</select>
 			 </div>

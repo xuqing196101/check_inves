@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,8 +65,9 @@ public interface SupplierQuoteService {
      * @author Song Biaowei
      * @param quote 实体类
      * @return List<Date> 
+     * @throws ParseException 
      */
-    List<Date> selectQuoteCount(Quote quote);
+    List<Date> selectQuoteCount(Quote quote) throws ParseException;
 
     /**
      *〈简述〉查询报价历史记录
