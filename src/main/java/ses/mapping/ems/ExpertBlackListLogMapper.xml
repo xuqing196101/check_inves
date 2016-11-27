@@ -82,7 +82,7 @@
   
   <select id="findBlackListLog" resultMap="BaseResultMap">
     SELECT
-      t1.*,t2.REL_NAME as expertName
+      t1.*,t2.REAL_NAME as expertName
     FROM 
       T_SES_EMS_EXPERT_BLACKLIST_LOG t1
     JOIN

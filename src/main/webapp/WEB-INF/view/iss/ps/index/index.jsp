@@ -94,7 +94,6 @@ function login(){
 			}
 		});
 	}
-
 }
 function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
@@ -112,11 +111,21 @@ function kaptcha(){
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
-		  	<%--<c:forEach items="${indexMapper['picList']}" var="pic">
+		  	<%--<c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
+		  	<c:choose>
+		  	 <c:when test="${vs.index==0}">
+			   <li class="item" style="left:0px;">
+					<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
+			   </li>
+			 </c:when>
+			 <c:otherwise>
 			   <li class="item">
 					<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${pic.id}" target="_blank"><img src="${pageContext.request.contextPath}/file/viewFile.html?path=${pic.pic}" width="100%" height="100%"></a>
 			   </li>
+			 </c:otherwise>
+			 </c:choose>
 			</c:forEach>
+			
 			--%><li class="item" style="left:0px;">
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
@@ -127,6 +136,7 @@ function kaptcha(){
 				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
 		   </ul>
+			</ul>
 	      </div>
 	      <div class="controler" data-scro="controler">
 		   <b class="down">1</b>
@@ -583,10 +593,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>

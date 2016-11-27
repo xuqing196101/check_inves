@@ -40,6 +40,18 @@ public interface IndexNewsService {
 	
 	/**
 	 * 
+	* @Title: selectNewsForJob
+	* @author QuJie 
+	* @date 2016-9-20 下午1:56:03  
+	* @Description: 查询工作动态的首页数据
+	* @param @param id
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectNewsForJob(String id);
+	
+	/**
+	 * 
 	* @Title: selectCount
 	* @author QuJie 
 	* @date 2016-9-20 下午3:10:50  

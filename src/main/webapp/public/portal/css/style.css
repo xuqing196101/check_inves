@@ -2407,3 +2407,19 @@ a.yjfk{
 .login_box{
 	position: relative;
 }
+.job-content .categories{
+	width:100%;
+}
+.job-content .categories li {
+    padding: 4px 0;
+    font-size: 14px;
+}
+span.list_squre {
+    display: block;
+    float: left;
+    font-size: 8px;
+    height: 30px;
+    line-height: 20px;
+    color:#ef0000;
+    margin-right:5px;
+}
