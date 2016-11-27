@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../common.jsp"%>
 <%
 	 List jsList = (List) request.getAttribute("strlist"); 
@@ -234,25 +235,28 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container">
-		<form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID">
+		<sf:form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
 			<div>
 			     <h2 class="count_flow"><i>1</i>修改基本信息</h2>
 				<input type="hidden" name="depIds" id="depIds"/>
 				<input type="hidden" name="id" value="${orgnization.id }"/>
 				<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="name" type="text" value="${orgnization.name }"> <span
 								class="add-on">i</span>
+								<div class="cue"><sf:errors path="name"/></div>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">简称</span>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>简称</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="shortName" type="text" value="${orgnization.shortName }"> <span
 								class="add-on">i</span>
+								<div class="cue"><sf:errors path="shortName"/></div>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>类型</span>
 							<select class="input_group" name="typeName" id="typeName" type="text" onchange="show();"> 
-								<option value="2">需求部门</option>
+								<!-- <option value="2">需求部门</option> -->
+								<!-- <option value="">请选择</option> -->
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
@@ -284,20 +288,7 @@
 							<input class="input_group" name="fax" type="text" value="${orgnization.fax }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型1</span>
-							<select class="input_group" name="provinceId" type="text"> 
-								<option value="2">需求部门</option>
-								<option value="1">采购机构</option>
-								<option value="0">管理部门</option>
-							</select>
-					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型2</span>
-							<select class="input_group" name="cityId" type="text"> 
-								<option value="2">需求部门</option>
-								<option value="1">采购机构</option>
-								<option value="0">管理部门</option>
-							</select>
-					</li>
+					
 					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
@@ -358,9 +349,10 @@
 			<div class="col-md-12">
 				<div class="mt40 tc mb50">
 					<button type="submit" class="btn btn-windows git">更新</button>
+					 <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
 				</div>
 			</div>
-		</form>
+		</sf:form>
 		<!-- tree -->
 		<div id="menuContent" class="menuContent divpopups menutree">
 			<ul id="treeDemo" class="ztree"></ul>

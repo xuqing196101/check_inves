@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -205,8 +207,12 @@ public class PurchaseManageController {
 	 * @return: String
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
-	public String create(@ModelAttribute Orgnization orgnization,HttpServletRequest request){
+	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 		//User currUser=(User) request.getSession().getAttribute("loginUser");
+	    if(result.hasErrors()){
+            model.addAttribute("orgnization", orgnization);
+            return "ses/oms/require_dep/add";
+        }
 		HashMap<String, Object> orgmap = new HashMap<String, Object>();
 		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
 		String depIds= request.getParameter("depIds");
@@ -272,7 +278,11 @@ public class PurchaseManageController {
 	 * @return: String
 	 */
 	@RequestMapping(value="update",method= RequestMethod.POST)
-	public String update(@ModelAttribute Orgnization orgnization,HttpServletRequest request){
+	public String update(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
+	    if(result.hasErrors()){
+            model.addAttribute("orgnization", orgnization);
+            return "ses/oms/require_dep/edit";
+        }
 		//User currUser=(User) request.getSession().getAttribute("loginUser");
 		HashMap<String, Object> orgmap = new HashMap<String, Object>();
 		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
@@ -401,9 +411,11 @@ public class PurchaseManageController {
 	 */
 	@RequestMapping(value = "saveOrg")
 	@ResponseBody    
-	public AjaxJsonData saveOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
+	public AjaxJsonData saveOrg(@Valid Orgnization orgnization,BindingResult result,Model model,HttpServletRequest request,HttpSession session,HttpServletResponse response) {
 		model.addAttribute("orgnization", orgnization);
 		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
+		//后台校验
+		
 		HashMap<String, Object> orgMap = new HashMap<String, Object>();
 		HashMap<String, Object> purMap = new HashMap<String, Object>();
 		orgMap.put("type_name", orgnization.getTypeName()==null?0:orgnization.getTypeName());
@@ -707,7 +719,7 @@ public class PurchaseManageController {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("typeName", 0);
+		map.put("typeName", 1);
 		if(purchaseDep!=null){
 		    map.put("name", purchaseDep.getName());
 		}
@@ -992,7 +1004,7 @@ public class PurchaseManageController {
 	@RequestMapping("purchaseDepMapList")
 	public String PurchaseDepMapList(Model model,@ModelAttribute PurchaseDep purchaseDep){
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
-		condtionmap.put("typeName", 0);
+		condtionmap.put("typeName", 1);
 		condtionmap.put("name", purchaseDep.getName());
 		StringBuffer sb = new StringBuffer("");
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
@@ -1048,7 +1060,7 @@ public class PurchaseManageController {
 			e.printStackTrace();
 		}
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
-		condtionmap.put("typeName", 0);
+		condtionmap.put("typeName", 1);
 		condtionmap.put("name", purchaseDep.getName());
 		condtionmap.put("quaStartDate", purchaseDep.getQuaStartDate());
 		condtionmap.put("quaEdndate", purchaseDep.getQuaEdndate());
@@ -1064,7 +1076,7 @@ public class PurchaseManageController {
 	@RequestMapping("/purchaseDepMapShow")
 	public String PurchaseDepMapShow(Model model, Integer page, PurchaseDep purchaseDep) {
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
-		condtionmap.put("typeName", 0);
+		condtionmap.put("typeName", 1);
 		condtionmap.put("orgId", purchaseDep.getOrgId());
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
 		model.addAttribute("list", new PageInfo<PurchaseDep>(oList));

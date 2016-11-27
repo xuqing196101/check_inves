@@ -228,9 +228,15 @@
         //$("div.panel-collapse").addClass("in");
         
     }
+    //添加场所
+    function dynamicaddTwo(){
+        var typeName = $("#typeName").val();
+        showiframe("添加场所",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPosition.do?typeName="+typeName,"-4");
+    }
+    //添加采购管理部门
     function dynamicaddThree(){
         var typeName = $("#typeName").val();
-        showiframe("添加机构",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
+        showiframe("添加采购管理部门",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
     }
     function showiframe(titles,width,height,url,top){
          if(top == null || top == "underfined"){
@@ -238,7 +244,7 @@
          }
         layer.open({
             type: 2,
-            title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+            title: [titles,"background-color:#eee;color:#fff;font-size:16px;text-align:center;"],
             maxmin: true,
             shade: [0.3, '#000'],
             offset: top+"px",
@@ -934,7 +940,8 @@
                                     <h2 class="count_flow"><i>2</i>添加场所</h2>
                                     <ul class="ul_list">
 	                                    <div class="col-md-12 pl20 mt10">
-	                                       <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="addOffice();">新增</button>
+	                                    	<!--  onclick= addOffice()-->
+	                                       <button class="btn btn-windows add" type="button" id="dynamicAdd" onclick="dynamicaddTwo();">添加场所</button>
 	                                    </div>
 	                                    <div class="content table_box">
                                             <table class="table table-bordered table-condensed table-hover table-striped" id="tab-position">
@@ -974,7 +981,7 @@
                                     <div class="col-md-12 pl20 mt10">
                                         <button type="button"
                                             class="btn btn-windows add"
-                                            id="dynamicAdd" onclick="dynamicaddThree();">添加</button>
+                                            id="dynamicAdd" onclick="dynamicaddThree();">添加采购管理部门</button>
                                     </div>
                                     <div class="content table_box">
                                         <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
@@ -1000,7 +1007,7 @@
                                 
                             <div class="mt40 tc mb50">
                                         <input type="button" class="btn btn-windows git" onclick="update();" value="确认"/>
-                                        <input type="button" class="btn" onclick="stash();"  value="暂存" /> 
+                                        <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
                                         <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
                                     </div>
                         </form>

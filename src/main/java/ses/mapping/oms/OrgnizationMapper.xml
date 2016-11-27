@@ -165,7 +165,7 @@
 			and d.PARENT_ID= #{pid}
 		</if>
 		<if test="isroot != null and isroot != ''">
-			and nvl(d.IS_ROOT,'0')= 1
+			and d.PARENT_ID is null
 		</if>
 		<if test="typeName != null and typeName != ''">
 			and d.TYPE_NAME= #{typeName}

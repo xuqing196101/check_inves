@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
+<html class=" js cssanimations csstransitions" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script type="text/javascript">
@@ -119,8 +120,19 @@
 			    }
 			});
 		}
+		
+		function pageOnLoad(){
+			var type = $("#type_name").val(); 
+			if(type!=null && type!='' && type!=undefined && type==1){
+			
+			}else if(type==0){
+			
+			}
+		}
     </script>
     </head>
+<body onload="pageOnLoad();">
+<input id="type_name" value="${orgnization.typeName }" type="hidden">
 <div class="tab-content">
 	<div class="tab-pane fade active in" id="show_ztree_content">
 		<div class="panel-heading overflow-h margin-bottom-20 no-padding"
@@ -175,7 +187,7 @@
 						<div class="panel-heading overflow-h margin-bottom-20 no-padding"
 							id="ztree_title">
 							<h2 class="panel-title heading-sm pull-left">
-								<i class="fa fa-bars"></i> 需求部门人员信息 <span
+								<i class="fa fa-bars"></i> ${orgnization.name }人员信息 <span
 									class="label rounded-2x label-u">正常</span>
 							</h2>
 							<div class="pull-right">
@@ -192,7 +204,7 @@
 						<div class="panel panel-grey clear mt5">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-users"></i> 部门人员列表
+									<i class="fa fa-users"></i> ${orgnization.name }人员列表
 								</h3>
 							</div>
 							<div class="panel-body">
@@ -239,14 +251,31 @@
 						<div class="panel-heading overflow-h margin-bottom-20 no-padding"
 							id="ztree_title">
 							<h2 class="panel-title heading-sm pull-left">
-								<i class="fa fa-bars"></i> 采购管理部门信息 <span
+								<i class="fa fa-bars"></i> 
+								<c:choose>
+									<c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">
+										采购机构单位信息
+									</c:when>
+									<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
+										采购管理部门信息
+									</c:when>
+							     </c:choose> 
+								<span
 									class="label rounded-2x label-u">正常</span>
 							</h2>
 						</div>
 						<div class="panel panel-grey clear mt5">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-users"></i> 采购管理部门列表
+									<i class="fa fa-users"></i> 
+									<c:choose>
+										<c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">
+											采购机构单位信息
+										</c:when>
+										<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
+											采购管理部门信息
+										</c:when>
+							    	 </c:choose> 
 								</h3>
 							</div>
 							<div class="panel-body">
@@ -325,3 +354,5 @@
 		</div>
 	</div>
 </div>
+</body>
+</html>
