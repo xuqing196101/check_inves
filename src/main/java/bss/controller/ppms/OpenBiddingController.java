@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -578,9 +579,10 @@ public class OpenBiddingController {
      * @param @param model
      * @param @return      
      * @return String
+     * @throws ParseException 
      */
     @RequestMapping("/changbiao")
-    public String changbiao(String projectId, Model model ){
+    public String changbiao(String projectId, Model model ) throws ParseException{
         //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";

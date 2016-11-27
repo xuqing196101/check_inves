@@ -313,6 +313,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var flag= false;
 			 var count;
 			 var coun = 0;
+			 var trFlag=0;
 			var table =  $("#formTable").find("table");
 			if(table.length<=0){
 				layer.alert("不能汇总",{offset: [y, x], shade:0.01});
@@ -320,11 +321,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			 $.each(table,function(a,result){
 				 var tr = $(result).find("tr:not(:first)");
+				  if(tr.length==0){
+				  trFlag++;
+				  }
+				  
 				 $.each(tr,function(b,trResult){
-					 if(tr.length<=0){
-						 layer.alert("不能汇总",{offset: [y, x], shade:0.01});
-							return ;
-					 }
 					 var td = $(trResult).find("td");
 					  $.each(td,function(i,tdResult){
 						  i=i+1;
@@ -358,6 +359,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 });
 			 if(coun>0){
 				 layer.alert("还有未评审项,或评审结果不统一",{offset: [y, x], shade:0.01});
+			 }else if(trFlag>0){
+			  layer.alert("不能汇总",{offset: [y, x], shade:0.01});
 			 }else{
 				 $.ajax({
 					 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',

@@ -77,9 +77,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      * @param model 模型
      * @param projectId 项目id
      * @return String
+     * @throws ParseException 
      */
     @RequestMapping(value = "/list")
-    public String list(HttpServletRequest req, Model model, String projectId){
+    public String list(HttpServletRequest req, Model model, String projectId) throws ParseException{
         SaleTender std = getProSupplier(req, projectId);
         model.addAttribute("std", std);
         Quote quote = new Quote();
