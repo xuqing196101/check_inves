@@ -16,15 +16,15 @@
 <title>标书管理</title>
 </head>
 <body>
-	<div class="margin-top-10 breadcrumbs ">
+	<%--<div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">我的项目</a></li><li><a href="javascript:void(0)">标书管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
-    </div>
-     <!-- 项目戳开始 -->
+    </div> --%>
+    <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="col-md-12 tc">
 			  	<span >报价历史查看：</span>
@@ -32,8 +32,9 @@
 					  	    <c:if test="${empty listDate }">
 					  	    <option value=''>暂无报价历史</option>
 					  	    </c:if>
+					  	    <c:set var="ld1" value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'></c:set>
 					  	    <c:forEach items="${listDate }" var="ld" varStatus="vs">
-					  	    	<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>')" >第${vs.index+1 }次报价</option>
+					  	    	<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>')" <c:if test="${timestamp eq 'ld1'}">checked</c:if> >第${vs.index+1 }次报价</option>
 					  	    </c:forEach>
 					  	</select>
 			 </div>

@@ -538,6 +538,7 @@ public class PackageExpertController {
 		    model.addAttribute("listDate", listDate);
 		    model.addAttribute("projectId", projectId);
 		    model.addAttribute("supplierId", supplierId);
+		    model.addAttribute("timestamp", timestamp);
 		  } catch (Exception e) {
 				e.printStackTrace();
 			}
