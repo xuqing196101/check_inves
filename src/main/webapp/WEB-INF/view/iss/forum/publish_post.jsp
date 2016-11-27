@@ -42,9 +42,9 @@
       		var parkId ="${parkId}";
       		
 	        $("#parkId").val(parkId);	  
-	        alert(parkId);
+	       // alert(parkId);
 	        if(parkId!=null &&parkId !=""){
-	        alert("sadasd");
+	       // alert("sadasd");
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
