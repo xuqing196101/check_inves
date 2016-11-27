@@ -7,41 +7,35 @@
 <script type="text/javascript">
  function checks(obj){
 	 var bool=$(obj).is(':checked');
-	 var val=$(obj).val();
- /*     var id=[];
-     var code=[]; */
+	 var val=$(obj).val();	 
+	 var name=$(obj).next().val();
+ 
 	 if(bool==true&&val=='PROJECT'){
-	/* 	 id.push($(obj).next().val());
-		 code.push(val); */
 		 $("#project_div").show();
 		 $("#project").show();
+  /* 		 $("#project_seach").val(name); */
+		 $("#project_seach").next().val(val); 
 	 }else if(bool!=true&&val=='PROJECT'){
 		 $("#project_div").hide();
-		 $("#project").show();
+		 $("#project").hide();
+	  	 $("#project_seach").val();
+		 $("#project_seach").next().val();  
 	 }
 	 if(bool==true&&val=='SERVICE'){
-		/*  code.push(val);
-		 id.push($(obj).next().val()); */
 		 $("#server_div").show();
 		 $("#server").show();
+	/* 	 $("#server_seach").val(name); */
+		 $("#server_seach").next().val(val); 
 	 }else if(bool!=true&&val=='SERVICE'){
 		 $("#server_div").hide();
-		 $("#server").show();
+		 $("#server").hide();
+		 $("#server_seach").val();
+		 $("#server_seach").next().val();
 	 }
-	  
 	 if(bool==true&&val=='GOODS'){
-		/*  code.push(val);
-		 id.push($(obj).next().val()); */
 		 $("#material").show();  
 	 }else if(bool!=true&&val=='GOODS'){
-	/* 	 $('input[name="chkItem"]:checked').each(function(){ 
-			var val= $(this).val();
-			
-			 if(val=='xs'){
-				 alert(val);
-				 $(this).checked = false;
-			 }
-			});  */
+ 
  	 var checklist = document.getElementsByName ("chkItem");
 			 for(var i=0;i<checklist.length;i++)
 			   {
@@ -58,27 +52,36 @@
  	 	$("#production").hide();
  	 	$("#sale_div").hide();  
  	 	$("#sale").hide();  
+ 	 	 $("#sale_seach").val();
+		 $("#sale_seach").next().val();
+		 $("#production_seach").val();
+		 $("#production_seach").next().val();
 	 }
 	 if(bool==true&&val=='PRODUCT'){
-	/* 	 code.push(val);
-		 id.push($(obj).next().val()); */
+ 
 		 $("#production_div").show();  
-			$("#production").show();
+		 $("#production").show();
+/* 		 $("#production_seach").val(name); */
+		 $("#production_seach").next().val(val);
 	 }else if(bool!=true&&val=='PRODUCT'){
 	 	 $("#production_div").hide();  
 	 	 $("#production").hide();
+	 	 $("#production_seach").val();
+		 $("#production_seach").next().val();
 	 }
 	 if(bool==true&&val=='SALES'){
-		/*  code.push(val);
-		 id.push($(obj).next().val()); */
+	 
 		 $("#sale_div").show();  
 		 $("#sale").show(); 
+	/* 	 $("#sale_seach").val(name); */
+		 $("#sale_seach").next().val(val);
 	 }else if(bool!=true&&val=='SALES'){
 	 	 $("#sale_div").hide();
 	 	 $("#sale").hide(); 
+	  	 $("#sale_seach").val();
+		 $("#sale_seach").next().val();
 	 }
-/* 	 $("#seach").val(name());
-	 $("#hseach").val(valus()); */
+ 
  }
  
  function prev(obj){
@@ -142,27 +145,18 @@
 				boo=true;
 			} 
 		 }
-		 
-		 
-		
 		$("input[name='supplierTypeIds']").val(id);
-		
-		
 	    $("input[name='flag']").val(obj);
-	    
 	    if(bool==true&&boo!=true){
 	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
 	    }else{
 	    	 if(id.length>1){
-	    		 
 	    		 $("#save_pro_form_id").submit();
 	    	    }else{
 	    	    	layer.alert("请选择供应商类型",{offset: ['222px', '390px'], shade:0.01});
-	    	    	
 	    	    }
-	    }
-	// 	$("#save_pro_form_id").submit();
-}
+	   		 }
+    }
  
 	function openRegPerson() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
@@ -515,8 +509,8 @@
 		}
 	}
 	
-	function seach(){
-		var id=$("#hseach").val();
+	function seach(obj){
+		var id=$(obj).next().val();
 		var sid=$("#sid").val();
 		if(id.length>0){
 			layer.open({
@@ -568,7 +562,7 @@
 		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/类型：</div>
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 				  <c:forEach items="${supplieType }" var="obj" >
-					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" /><input type="hidden" value="${obj.name }" >${obj.name } </span>
+					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" />${obj.name } </span>
 			      </c:forEach>
 			  </div>
 		    </div>
@@ -586,60 +580,27 @@
 		    </div>
 	  </div>
 
-      <div class="sevice_list container" class="dnone" id="server" >
-		  <h2>产品/服务类</h2>
-		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
-			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <input type="text" readonly="readonly" name="chkItem" id="seach" value="" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach()"/> 
-					    <input type="hidden"   id="hseach" value="" />
-			  </div>
-		    </div>
-	 </div>
-
-      <div class="sevice_list container" class="dnone" id="project"  >
-		  <h2>产品/工程类</h2>
-		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
-			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <input type="text" readonly="readonly" name="chkItem" id="project_seach" value="" class="fl"/> 
-					    <input type="hidden"   id="hseach" value="" />
-					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
-			  </div>
-		    </div>
-	  </div>
-	 
-	  <div class="sevice_list container"  class="dnone" id="sale" >
-		  <h2>产品/货物销售类</h2>
-		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
-			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <input type="text" readonly="readonly" name="chkItem" id="sale_seach" value="" class="fl"/> 
-					    <input type="hidden"   id="hseach" value="" />
-					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
-			  </div>
-		    </div>
-	  </div>
-	 
-	<div class="sevice_list container"  class="dnone" id="production">
-		  <h2>产品/货物生产</h2>
-		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
-			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					    <input type="text" readonly="readonly" name="chkItem" id="production_seach" value="" class="fl"/> 
-					    <input type="hidden"   id="hseach" value="" />
-					    <input type="button" onclick="seach()" class="btn h30" value="搜索">
-			  </div>
-		    </div>
-	 </div>
-
 	<div style="margin-top: 40px;">
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
 				<div>
-								<!-- 物资生产型专业信息 -->
+				
+				<div class="sevice_list container"  class="dnone" id="production">
+					  <h2>产品/货物生产</h2>
+					  <div class="col-md-12 col-sm-12 col-xs-12">
+					      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
+						  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+								    <input type="text" readonly="readonly" name="chkItem" id="production_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
+								    <input type="hidden"   value="" />
+								<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+						  </div>
+					    </div>
+				 </div>
+						
+						<!-- 物资生产型专业信息 -->
+			              
 			              <div class="dnone" id="production_div">
 			              <div class="container container_box">
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-生产型专业信息</h3>
@@ -837,9 +798,21 @@
 									<!-- </div> -->
 								</div>
 								</div>
+				
+		 <div class="sevice_list container"  class="dnone" id="sale" >
+			  <h2>产品/货物销售类</h2>
+			  <div class="col-md-12 col-sm-12 col-xs-12">
+			      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
+				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+						    <input type="text" readonly="readonly" name="chkItem" id="sale_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+						    <input type="hidden"    value="" />
+						 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+				  </div>
+			    </div>
+		  </div>
 								
 								<!-- 物资销售型专业信息 -->
-							 <div class="dnone" id="sale_div">
+				<div class="dnone" id="sale_div">
 							 
 					<!-- 		   <h2> 物资-销售信息：</h2> -->
 						 
@@ -931,13 +904,21 @@
 											</table>
 										</div>
 									 </div>
-								 
 									 </fieldset>
-								 
-									</div> 
+								</div> 
 							 </div>
 								
-								
+					  <div class="sevice_list container" class="dnone" id="project"  >
+						  <h2>产品/工程类</h2>
+						  <div class="col-md-12 col-sm-12 col-xs-12">
+						      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
+							  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+									    <input type="text" readonly="readonly" name="chkItem" id="project_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+									    <input type="hidden"   value="" />
+									  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+							  </div>
+						    </div>
+					  </div>				
 								
 								<!-- 工程专业信息 -->
 		 			<div  class="dnone" id="project_div">
@@ -1160,9 +1141,20 @@
 									 </div>
 								<!-- 	 </div> -->
 									 </fieldset>
-									
-								
 								</div>	 
+							 </div>
+						
+						
+						    <div class="sevice_list container" class="dnone" id="server" >
+								  <h2>产品/服务类</h2>
+								  <div class="col-md-12 col-sm-12 col-xs-12">
+								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
+									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+											    <input type="text" readonly="readonly" name="chkItem" id="server_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+											    <input type="hidden"   value="" />
+											    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+									  </div>
+								    </div>
 							 </div>
 								
 								<!-- 服务专业信息 -->
@@ -1276,8 +1268,16 @@
 				</div>		
 						
 		
+	 <div class="btmfix">
+	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev(3)">上一步</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="store(2)">暂存</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+	  	  </div>
+	</div>
+	
 		
-		
+<!-- 		
 		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
@@ -1296,7 +1296,7 @@
 				</div>
 			</div>
 		</div> 
-	</div>
+	</div> -->
 <%-- 	
 	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier_type_relate/perfect_type.html" method="post">
 		<input name="id" type="hidden" value="${currSupplier.id}" />
