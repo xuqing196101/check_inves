@@ -162,6 +162,71 @@ public class OfferController {
 		return "bss/sstps/offer/supplier/product_list";
 	}
 	
+	/**
+	 * 
+	 * @Title: selectProductUser
+	 * @author Liyi 
+	 * @date 2016-11-27 下午3:34:20  
+	 * @Description:审价人员审价查询条目
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/selectProductUser")
+	public String selectProductUser(Model model,String contractId,ContractProduct contractProduct,Integer page){
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractId);
+		contractProduct.setAppraisalContract(appraisalContract);
+		String name = contractProduct.getName();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(name!=null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		map.put("appraisalContractId",contractId);
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ContractProduct> list = contractProductService.select(map);
+		model.addAttribute("list", new PageInfo<ContractProduct>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("id", contractId);
+		return "bss/sstps/offer/userAppraisal/product_list";
+	}
+	
+	/**
+	 * 
+	 * @Title: selectProductCheck
+	 * @author Liyi 
+	 * @date 2016-11-27 下午3:34:43  
+	 * @Description:审价人员复审查询条目
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/selectProductCheck")
+	public String selectProductCheck(Model model,String contractId,ContractProduct contractProduct,Integer page){
+		AppraisalContract appraisalContract = new AppraisalContract();
+		appraisalContract.setId(contractId);
+		contractProduct.setAppraisalContract(appraisalContract);
+		String name = contractProduct.getName();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(name!=null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		map.put("appraisalContractId",contractId);
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ContractProduct> list = contractProductService.select(map);
+		model.addAttribute("list", new PageInfo<ContractProduct>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("id", contractId);
+		return "bss/sstps/offer/checkAppraisal/product_list";
+	}
 	
 	/**
 	* @Title: selectProductInfo
@@ -302,5 +367,57 @@ public class OfferController {
 		model.addAttribute("productInfo", productInfo);
 		
 		return url;
+	}
+	
+	/**
+	 * 
+	 * @Title: userSearch
+	 * @author Liyi 
+	 * @date 2016-11-27 下午2:25:45  
+	 * @Description:审价人员审价查询
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSearch")
+	public String userSearch(Model model,Integer page,AppraisalContract appraisalContract){
+		AppraisalContract sib = new AppraisalContract();
+		String name = appraisalContract.getName();
+		String code = appraisalContract.getCode();
+		String supplierName = appraisalContract.getSupplierName();
+		sib.setName("%"+name+"%");
+		sib.setCode("%"+code+"%");
+		sib.setSupplierName("%"+supplierName+"%");
+		List<AppraisalContract> list = appraisalContractService.selectDistribution(sib,page==null?1:page);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		model.addAttribute("name",name);
+		model.addAttribute("code",code);
+		model.addAttribute("supplierName",supplierName);
+		return "bss/sstps/offer/userAppraisal/list";
+	}
+	
+	/**
+	 * 
+	 * @Title: userSearchCheck
+	 * @author Liyi 
+	 * @date 2016-11-27 下午2:26:04  
+	 * @Description:审价人员复审查询
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/userSearchCheck")
+	public String userSearchCheck(Model model,Integer page,AppraisalContract appraisalContract){
+		AppraisalContract sib = new AppraisalContract();
+		String name = appraisalContract.getName();
+		String code = appraisalContract.getCode();
+		String supplierName = appraisalContract.getSupplierName();
+		sib.setName("%"+name+"%");
+		sib.setCode("%"+code+"%");
+		sib.setSupplierName("%"+supplierName+"%");
+		List<AppraisalContract> list = appraisalContractService.selectDistributionCheck(sib,page==null?1:page);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		model.addAttribute("name",name);
+		model.addAttribute("code",code);
+		model.addAttribute("supplierName",supplierName);
+		return "bss/sstps/offer/checkAppraisal/list";
 	}
 }

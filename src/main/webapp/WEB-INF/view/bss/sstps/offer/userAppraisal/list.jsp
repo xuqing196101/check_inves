@@ -13,6 +13,9 @@
 <script type="text/javascript">
 
 $(function(){
+	$("#name").val('${name }');
+	$("#code").val('${code }');
+	$("#supplierName").val('${supplierName }');
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -28,7 +31,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '${pageContext.request.contextPath}/offer/appraisalList.html?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/offer/userAppraisalList.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -104,22 +107,22 @@ function add(){
 	   </div>
    		<!-- 查询 -->
 		<h2 class="search_detail">
-			<form action="${pageContext.request.contextPath}/templet/search.html"
+			<form action="${pageContext.request.contextPath}/offer/userSearch.html"
 				method="post" enctype="multipart/form-data" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">合同名称：</label>
 						<span>
-							<input type="text" name="name" id="tname" class="mb0" />
+							<input type="text" name="name" id="name" class="mb0" />
 						</span>
 					</li>
 					<li><label class="fl">合同编号：</label>
 						<span>
-							<input type="text" name="name" id="tname" class="mb0" />
+							<input type="text" name="code" id="code" class="mb0" />
 						</span>
 					</li>
 					<li><label class="fl">供应商名称：</label>
 						<span>
-							<input type="text" name="name" id="tname" class="mb0" />
+							<input type="text" name="supplierName" id="supplierName" class="mb0" />
 						</span>
 					</li>
 					<button class="btn" type="submit">查询</button>

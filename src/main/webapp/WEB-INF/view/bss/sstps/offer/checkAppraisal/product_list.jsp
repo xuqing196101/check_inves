@@ -11,6 +11,7 @@
 <script type="text/javascript">
 
 $(function(){
+	$("#name").val('${name }');
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -80,7 +81,7 @@ function offer(){
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
-		layer.alert("请选择需要报价的产品",{offset: ['222px', '390px'], shade:0.01});
+		layer.alert("请选择需要复审的产品",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
 
@@ -105,12 +106,11 @@ function offer(){
 	   </div>
    <!-- 查询 -->
 		<h2 class="search_detail">
-			<form action="${pageContext.request.contextPath}/templet/search.html"
-				method="post" enctype="multipart/form-data" class="mb0">
+			<form id="form1" action="${pageContext.request.contextPath}/offer/selectProductCheck.html?contractId=${id}" method="post" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">产品名称：</label>
 						<span>
-							<input type="text" name="name" id="tname" class="mb0" />
+							<input type="text" name="name" id="name" class="mb0" />
 						</span>
 					</li>
 					<button class="btn" type="submit">查询</button>
