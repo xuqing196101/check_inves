@@ -108,8 +108,8 @@
      <h2 class="search_detail"">
    	<form action="${pageContext.request.contextPath}/pqinfo/searchReasult.html" method="post" enctype="multipart/form-data" class="mb0">
 	 <ul class="demand_list">
-	   <li class="fl"><label class="fl">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
-	   <li class="fl"><label class="fl">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
+	   <li class="fl"><label class="fl">合同名称：</label><span><input type="text" id="contractName" name="contract.name" class="mb0"/></span></li>
+	   <li class="fl"><label class="fl">合同编号：</label><span><input type="text" id="contractCode" name="contract.code" class="mb0"/></span></li>
 	   <li class="fl"><label class="fl">验收类型：</label>
 	   		<span>
 	   			<select id="searchType" name =type class="w150" >

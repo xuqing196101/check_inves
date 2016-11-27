@@ -25,13 +25,13 @@ Version: 3.5.3 Timestamp: Wed Aug 19 21:55:46 EDT 2015
 
 .select2-container .select2-choice {
     display: block;
-    height: 32px;
+    height: 30px;
     overflow: hidden;
     position: relative;
     border: 1px solid #ccc;
     padding: 0px 3px;
     white-space: nowrap;
-    line-height:32px;
+    line-height:28px;
     text-decoration: none;
     background-clip: padding-box;
     -webkit-touch-callout: none;
