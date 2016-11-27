@@ -207,7 +207,7 @@
 	  				<th class="info">信息标题</th>
 	  				<th class="info">发布范围</th>
 	  				<th class="info">发布时间</th>
-	  				<th class="info">信息类型</th>
+	  				<th class="info">信息栏目</th>
 	  				<th class="info">是否发布</th>
 	  				<th class="info">浏览量</th>
 	  			</tr>

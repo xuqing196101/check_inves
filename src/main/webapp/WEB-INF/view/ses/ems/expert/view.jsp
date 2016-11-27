@@ -15,194 +15,72 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>专家查看</title>
 <script type="text/javascript">
-var treeObj;
-var datas;
-
-var parentId ;
-var addressId="${expert.address}"
-//alert(addressId);
-
-
-   var setting={
-			async:{
-						//autoParam:["id"],
-						enable:true,
-						url:"${pageContext.request.contextPath}/category/createtree.do",
-						autoParam:["id", "name=n", "level=lv"],  
-			            otherParam:{"otherParam":"zTreeAsyncTest"},  
-			            dataFilter: filter,  
-						dataType:"json",
-						type:"post",
-					},
-					callback:{
-				    	onClick:zTreeOnClick,//点击节点触发的事件
-				    	//onAsyncSuccess: zTreeOnAsyncSuccess
-				    	beforeAsync: beforeAsync,  
-		                onAsyncSuccess: onAsyncSuccess,
-		                beforeCheck: zTreeBeforeCheck
-				    }, 
-					data:{
-						keep:{
-							parent:true,
-						},					
-						simpleData:{
-							enable:true,
-							idKey:"id",
-							pIdKey:"pId",
-							rootPId:0,
-						}
-				    },
-				   check:{
-						enable: true,
-						chkStyle:"checkbox"
-				   }
-	  };
-   var listId;
    $(function(){
-	 //地区回显和数据显示
-	   $.ajax({
-			url : "${pageContext.request.contextPath}/area/find_by_id.do",
-			data:{"id":addressId},
-			success:function(obj){
-				//alert(JSON.stringify(obj));
-				//var data = eval('(' + obj+ ')');
-				$.each(obj,function(i,result){
-					if(addressId == result.id){
-						parentId = result.parentId;
-					$("#add").append(result.name);
+	   var expertsTypeId = $("#expertsTypeId").val();
+	 //回显已选产品
+	   var id="${expert.id}";
+	   var count=0;
+	 //控制品目树的显示和隐藏
+	   if(expertsTypeId==1 || expertsTypeId=="1"){
+		  $.ajax({
+			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+			  success:function(code){
+				  var checklist = document.getElementsByName ("chkItem");
+				  for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						 if(code.length>0){
+								$.each(code,function(i,result){
+									if(vals==result){
+					 				checklist[i].checked=true;
+					 			    }
+									if("GOODS"==result){
+										count++;
+									}
+								});
+						} 
+					   } 
+				    if(count>0){
+						$("#hwType").show(); 
+					}else{
+						$("#hwType").hide(); 
 					}
-					
-				});
-				//alert(JSON.stringify(data));
-				//alert(parentId);
-				
-			},
-			error:function(obj){
-				
-			}
-			
-		});
-	   
-	   $.ajax({
+			  }
+		  }); 
+			 $("#ztree").show();
+		}else{
+			 $("#ztree").hide();
+		}
+}); 
+    var parentId ;
+	var addressId="${expert.address}";
+	window.onload=function(){
+		//地区回显和数据显示
+		 $.ajax({
+		url : "${pageContext.request.contextPath}/area/find_by_id.do",
+		data:{"id":addressId},
+		success:function(obj){
+			$.each(obj,function(i,result){
+				if(addressId == result.id){
+					parentId = result.parentId;
+				$("#add").append(result.name);
+				}
+			});
+		}
+	}); 
+		//地区
+		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
 			success:function(obj){
-				//var data = eval('(' + obj + ')');
 				$.each(obj,function(i,result){
-					if(parentId == result.id){
+					 if(parentId == result.id){
 						$("#addr").append(result.name+",");
 					}
 				});
-				
-				//alert(JSON.stringify(obj));
-			},
-			error:function(obj){
-				
 			}
-			
 		});
-		
-	   
-	   var id="${expert.id}";
-	   
-		  $.ajax({
-			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			  success:function(result){
-				  listId=result;
-			  },
-			  error:function(result){
-				  alert("出错啦！");
-			  }
-		  }); 
-	  var expertsTypeId = $("#expertsTypeId").val();
-	 if(expertsTypeId==1 || expertsTypeId=="1"){
-	 //treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-	treeObj = $.fn.zTree.init($("#ztree"), setting);  
-     setTimeout(function(){  
-         expandAll("ztree");  
-     },500);//延迟加载  
-		 $("#ztree").show();
-	 }else{
-		 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-		 $("#ztree").hide();
-	 }
-}); 
-   function zTreeBeforeCheck(treeId, treeNode) {
-	    return false;
-	};
-   
-   function filter(treeId, parentNode, childNodes) {  
-       if (!childNodes) return null;  
-       for (var i=0, l=childNodes.length; i<l; i++) {  
-           childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');  
-       }  
-       return childNodes;  
-   }  
-
-   function beforeAsync() {  
-       curAsyncCount++;  
-   }  
-     
-   function onAsyncSuccess(event, treeId, treeNode, msg) {  
-       curAsyncCount--;  
-       if (curStatus == "expand") {  
-           expandNodes(treeNode.children);  
-       } else if (curStatus == "async") {  
-           asyncNodes(treeNode.children);  
-       }  
-
-       if (curAsyncCount <= 0) {  
-           curStatus = "";  
-       }  
-   }  
-
-   var curStatus = "init", curAsyncCount = 0, goAsync = false;  
-   function expandAll() {  
-       if (!check()) {  
-           return;  
-       }  
-       var zTree = $.fn.zTree.getZTreeObj("ztree");  
-       expandNodes(zTree.getNodes());  
-       if (!goAsync) {  
-           curStatus = "";  
-       }  
-   }  
-   function expandNodes(nodes) {  
-       if (!nodes) return;  
-       curStatus = "expand";  
-       var zTree = $.fn.zTree.getZTreeObj("ztree");  
-       for (var i=0, l=nodes.length; i<l; i++) {
-    	   for(var a=0;a<listId.length;a++){
-    		   if(listId[a].categoryId==nodes[i].id){
-    			   zTree.checkNode(nodes[i], true, true); 
-    		   }
-    	   }
-           zTree.expandNode(nodes[i], true, false, false);//展开节点就会调用后台查询子节点 
-            if (nodes[i].isParent && nodes[i].zAsync) {  
-               expandNodes(nodes[i].children);//递归  
-           } else {  
-               goAsync = true;  
-           }  
-       }  
-   }  
-
-   function check() {  
-       if (curAsyncCount > 0) {  
-           return false;  
-       }  
-       return true;  
-   }  
-
-function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
-    var nodes = treeNode.children;
-    for(var i=0;i<nodes.length;i++){
-        treeObj.expandNode(nodes[i],true,false,true,true);
-    }
-
-} 	
-
-function zTreeOnClick(event,treeId,treeNode){
-	treeid=treeNode.id
-}
+		validateBase();
+		showJiGou();
+	}
 </script>
 </head>
 <body>
@@ -227,13 +105,9 @@ function zTreeOnClick(event,treeId,treeNode){
 						<ul class="nav nav-tabs bgdd">
 							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
 							<li class="">	   <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">专家类型</a></li>
-							<!-- <li class="">	   <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18"></a></li> -->
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
-   	<%-- <div style="margin-left: 1000px;">
-   		<img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
-    </div> --%>
    <form action=""  method="post" id="form1" class="registerform"> 
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
@@ -257,22 +131,34 @@ function zTreeOnClick(event,treeId,treeNode){
 				  <tr>
 				    <td width="25%" class="info">性别：</td>
 				    <td width="25%"> 
-				      <c:if test="${expert.gender eq 'M' }">男</c:if>
-	     			  <c:if test="${expert.gender eq 'F' }">女</c:if>
+				      <c:forEach items="${sexList}" var="sex">
+				        <c:if test="${expert.gender eq sex.id }">${sex.name}</c:if>
+				      </c:forEach>
 	     			</td>
 				    <td width="25%" class="info">出生日期：：</td>
 				    <td width="25%"><fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 				  </tr>
 				  <tr>
 				    <td width="25%" class="info">政治面貌：</td>
-				    <td width="25%">${expert.politicsStatus }</td>
+				    <td width="25%">
+				      <c:forEach items="${zzList}" var="zz">
+				         <c:if test="${expert.politicsStatus eq zz.id }">${zz.name}</c:if>
+				      </c:forEach>
+				    </td>
 				    <td width="25%" class="info">专家来源：</td>
-				    <td width="25%">${expert.expertsFrom }</td>
-				    
+				    <td width="25%">
+				      <c:forEach items="${lyTypeList}" var="ly">
+				         <c:if test="${expert.expertsFrom eq ly.id }">${ly.name}</c:if>
+				      </c:forEach>
+				    </td>
 				  </tr>
 				  <tr>
 				    <td width="25%" class="info">证件类型：</td>
-				    <td width="25%">${expert.idType }</td>
+				    <td width="25%">
+				       <c:forEach items="${idTypeList}" var="id">
+				         <c:if test="${expert.idType eq id.id }">${id.name}</c:if>
+				       </c:forEach>
+				    </td>
 				    <td width="25%" class="info">证件号码：</td>
 				    <td width="25%">${expert.idNumber}</td>
 				  </tr>
@@ -294,7 +180,11 @@ function zTreeOnClick(event,treeId,treeNode){
 				    <td width="25%" class="info">参加工作时间：</td>
 				    <td width="25%"><fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 				    <td width="25%" class="info">最高学历：</td>
-				    <td width="25%">${expert.hightEducation}</td>
+				    <td width="25%">
+				      <c:forEach items="${xlList }" var="xl">
+				          <c:if test="${expert.hightEducation eq xl.id }">${xl.name}</c:if>
+				      </c:forEach>
+				    </td>
 				  </tr>
 				   <tr>
 				    <td width="25%" class="info">专业：</td>
@@ -390,10 +280,11 @@ function zTreeOnClick(event,treeId,treeNode){
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">
 		<div class="margin-bottom-0  categories">
-		 <ul class="list-unstyled list-flow" style="margin-left: 250px;">
-		  <table>
-	           <tbody>
-	              <tr>
+		  <ul class="list-unstyled list-flow" style="margin-left: 250px;">
+			  <table>
+			    <input type="hidden" id="expertsTypeId" value="${expert.expertsTypeId }" >
+		        <tbody>
+		          <tr>
 				    <td width="90px;" class="info"> <h4>专家类型：</h4></td> 
 				    <td width="100px;">
 				      <h4>
@@ -402,25 +293,28 @@ function zTreeOnClick(event,treeId,treeNode){
 				      <c:if test="${expert.expertsTypeId eq '3' }">商务</c:if>
 				      </h4>
 				    </td>
-				   
 				  </tr>
 				</tbody>
-		    </table> 
-		 
-		 <div style="display: none;">
-     		<li class="p0">
-			   <span class="">专家类型：</span>
-			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
-			   <select name="expertsTypeId" id="expertsTypeId" disabled="disabled">
-			   		<option value="0">-请选择-</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '1' }">selected="selected"</c:if> value="1">技术</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '2' }">selected="selected"</c:if> value="2">法律</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '3' }">selected="selected"</c:if> value="3">商务</option>
-			   </select>
-			 </li>
-		</div>
-        </ul>
-        <div id="ztree" class="ztree" style="margin-left: 240px;"></div>
+		      </table> 
+          </ul>
+            <ul class="ul_list dnone" id="ztree" >
+		      <div>
+		        <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
+		          <div class="col-md-7 service_list">
+		            <c:forEach items="${spList}" var="obj" >
+		              <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${obj.code}" />${obj.name} </span>
+		            </c:forEach>
+		          </div>
+		       </div>
+		       <div id="hwType" class="dnone">
+		         <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
+		          <div class="col-md-7 service_list">
+		            <c:forEach items="${hwList}" var="hw" >
+		            <span><input type="checkbox" name="chkItem" disabled="disabled"   value="${hw.code}" />${hw.name} </span>
+		            </c:forEach>
+		          </div>
+		        </div>
+    		 </ul>
 		</div>
 	</div>
 	

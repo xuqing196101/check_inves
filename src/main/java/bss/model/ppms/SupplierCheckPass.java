@@ -1,5 +1,6 @@
 package bss.model.ppms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import ses.model.sms.Supplier;
@@ -63,7 +64,7 @@ public class SupplierCheckPass {
      * 表字段 : T_BSS_PPMS_SUPPLIER_CHECK_PASS.TOTAL_SCORE
      * </pre>
      */
-    private Short totalScore;
+    private BigDecimal totalScore;
 
     /**
      * <pre>
@@ -258,7 +259,7 @@ public class SupplierCheckPass {
      *
      * @return T_BSS_PPMS_SUPPLIER_CHECK_PASS.TOTAL_SCORE：null
      */
-    public Short getTotalScore() {
+    public BigDecimal getTotalScore() {
         return totalScore;
     }
 
@@ -268,11 +269,11 @@ public class SupplierCheckPass {
      * 表字段：T_BSS_PPMS_SUPPLIER_CHECK_PASS.TOTAL_SCORE
      * </pre>
      *
-     * @param totalScore
+     * @param zero
      *            T_BSS_PPMS_SUPPLIER_CHECK_PASS.TOTAL_SCORE：null
      */
-    public void setTotalScore(Short totalScore) {
-        this.totalScore = totalScore;
+    public void setTotalScore(BigDecimal zero) {
+        this.totalScore = zero;
     }
 
     /**

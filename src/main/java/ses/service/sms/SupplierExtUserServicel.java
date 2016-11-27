@@ -27,4 +27,22 @@ public interface SupplierExtUserServicel {
 	 * @return List<ProjectSupervisor>
 	 */
 	List<User> list(SupplierExtUser extSupervise);
+	
+    /**
+     * @Description:根据项目id删除监督信息
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月15日 下午7:05:15  
+     * @param       
+     * @return void
+     */
+    void deleteProjectId(String prjectId);
+    
+    /**
+     * 
+     *〈简述〉插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    void insert(SupplierExtUser record);
 }

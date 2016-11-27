@@ -5,36 +5,95 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class ImportRecommend implements Serializable{
+/**
+ * 版权：(C) 版权所有 
+ * <简述>进口代理商实体类
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
+ */
+public class ImportRecommend implements Serializable {
     /**
-	 * @Fields serialVersionUID : 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String id;
+     * 序列化
+     */
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * 主键
+     */
+    private String id;
+    
+    /**
+     * 企业名称
+     */
     @NotBlank(message = "企业名称不能为空") 
     private String name;
+    
+    /**
+     * 企业地址
+     */
     @NotBlank(message = "企业地址不能为空") 
     private String address;
+    
+    /**
+     * 法定代表人
+     */
     @NotBlank(message = "法定代表人不能为空") 
     private String legalName;
+    
+    /**
+     * 推荐单位
+     */
     @NotBlank(message = "推荐单位不能为空") 
     private String recommendDep;
+    
+    /**
+     * 代理商类型
+     */
     private Short type;
-
+    
+    /**
+     * 使用次数
+     */
     private Long useCount;
-
+    
+    /**
+     * 代理商状态
+     */
     private Short status;
+    
+    /**
+     * 登陆名
+     */
     @NotBlank(message = "登录名不能为空") 
     private String loginName;
+    
+    /**
+     * 登录密码
+     */
     @NotBlank(message = "登录密码不能为空") 
     private String password;
-
+    
+    /**
+     * 创建时间
+     */
     private Date createdAt;
-
+    
+    /**
+     * 修改时间
+     */
     private Date updatedAt;
-
+    
+    /**
+     * 创建人
+     */
     private String creator;
 
+    /**
+     * 激活附件
+     */
     private String attachment;
 
     public String getId() {

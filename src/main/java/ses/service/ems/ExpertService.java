@@ -209,4 +209,16 @@ public interface ExpertService {
 		 * @return void
 		 */
 		List<Expert> listExtractionExpert(ExpExtCondition conType);
+		/**
+		 * 
+		  * @Title: Validate
+		  * @author ShaoYangYang
+		  * @date 2016年11月23日 上午9:39:56  
+		  * @Description: TODO 数据校验
+		  * @param @param expert
+		  * @param @param flag
+		  * @param @return      
+		  * @return Map<String,Object>
+		 */
+		Map<String,Object> Validate(Expert expert,int flag);
 }

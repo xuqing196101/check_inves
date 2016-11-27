@@ -212,6 +212,18 @@ public class ProjectManageController {
     private void getBinding(HttpServletRequest req, SaleTender saleTender, String projectId, Model model) throws Exception {
         //初审项
         List<FirstAudit> firstAudits = firstAuditService.getListByProjectId(projectId);
+        for (FirstAudit firstAudit : firstAudits) {
+            //set每个初审项的page，用于控制绑定页面的回显
+            FirstAuditQuota faq = new FirstAuditQuota();
+            faq.setProjectId(projectId);
+            faq.setPackFirstId(firstAudit.getId());
+            Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+            faq.setSupplierId(supplier.getId());
+            List<FirstAuditQuota> faqs = firstAuditQuotaService.find(faq);
+            if (faqs != null && faqs.size() > 0) {
+                firstAudit.setPage(faqs.get(0).getPage());
+            }
+        }
         String[] packageIds = saleTender.getPackages().split(",");
         Map<String, Object> map =new HashMap<String, Object>();
         map.put("packageIds", packageIds);
@@ -222,7 +234,7 @@ public class ProjectManageController {
             FirstAudit firstAudit = firstAuditService.get(firstAuditId);
             packageFirstAudit.setFirstAuditName(firstAudit.getName());
             packageFirstAudit.setFirstAuditKind(firstAudit.getKind());
-            //回显该供应商当前包下初审项的值
+            //回显该供应商当前项目包下初审项的值
             FirstAuditQuota faq = new FirstAuditQuota();
             faq.setPackageId(packageFirstAudit.getPackageId());
             faq.setProjectId(projectId);
@@ -231,6 +243,7 @@ public class ProjectManageController {
             faq.setSupplierId(supplier.getId());
             List<FirstAuditQuota> faqs = firstAuditQuotaService.find(faq);
             if (faqs != null && faqs.size() > 0) {
+                
                 packageFirstAudit.setIs_pass(faqs.get(0).getValue());
             }
         }
@@ -260,6 +273,7 @@ public class ProjectManageController {
             List<AduitQuota> aqs = aduitQuotaService.find(aq);
             if (aqs != null && aqs.size() > 0) {
                 scoreModel2.setValue(aqs.get(0).getSupplierValue());
+                scoreModel2.setPage(aqs.get(0).getPage());
             }
         }
         List<Packages> packages = new ArrayList<Packages>();
@@ -298,7 +312,7 @@ public class ProjectManageController {
      * @throws IOException
      */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId, Model model) throws IOException{
+    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String kind) throws IOException{
         String result = "保存失败";
         SaleTender std = getProSupplier(req, projectId, model);
         if (std != null) {
@@ -310,13 +324,25 @@ public class ProjectManageController {
                 //删除 ,表中数据假删除
                 uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
-                //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
-                std.setBidFinish((short)1);
+                if (kind == null || "".equals(kind)) {
+                    //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
+                    std.setBidFinish((short)1);
+                }
+                if ("1".equals(kind)) {
+                    //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 2：投标文件绑定指标完成
+                    std.setBidFinish((short)2);
+                }
                 saleTenderService.update(std);
             } else {
                 result = uploadService.saveOnlineFile(req, businessId, typeId, Constant.TENDER_SYS_KEY+"");
-                //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
-                std.setBidFinish((short)1);
+                if (kind == null || "".equals(kind)) {
+                    //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 1：投标文件保存服务器完成
+                    std.setBidFinish((short)1);
+                }
+                if ("1".equals(kind)) {
+                    //设置投标状态 表：T_BSS_PPMS_SALE_TENDER 2：投标文件绑定指标完成
+                    std.setBidFinish((short)2);
+                }
                 saleTenderService.update(std);
             }
             System.out.println(result);
@@ -359,11 +385,20 @@ public class ProjectManageController {
         }
     }
     
+    /**
+     *〈简述〉保存供应商填写的初审项、详细评审项的值
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param data1
+     * @param data2
+     * @param response
+     * @param req
+     * @throws IOException
+     */
     @RequestMapping("/saveIndex")
     @ResponseBody
     public void saveIndex(String data1, String data2, HttpServletResponse response, HttpServletRequest req) throws IOException{
         try {
-            
             //解析data
             String[] dataArr1 = data1.split(",");
             String[] dataArr2 = data2.split(",");
@@ -418,6 +453,117 @@ public class ProjectManageController {
     }
     
     /**
+     *〈简述〉保存供应商绑定的指标页码
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param response
+     * @param firstAuditId  初审项id
+     * @param smId 详细评审项与模型关联id
+     * @param projecId 项目id
+     * @param page 指标页码
+     * @throws IOException 
+     */
+    @RequestMapping("/saveBindingIndex")
+    @ResponseBody
+    public void saveBindingIndex(HttpServletRequest request, HttpServletResponse response, String firstAuditId, String smId, String projectId, Integer page) throws IOException{
+        try{ 
+            Supplier supplier = (Supplier)request.getSession().getAttribute("loginSupplier");
+            if (firstAuditId != null && !"".equals(firstAuditId)) {
+                FirstAuditQuota faq = new FirstAuditQuota();
+                faq.setProjectId(projectId);
+                faq.setPackFirstId(firstAuditId);
+                faq.setSupplierId(supplier.getId());
+                List<FirstAuditQuota> faqs = firstAuditQuotaService.find(faq);
+                //更新该供应商下该项目下该初审项在标书的页码
+                for (FirstAuditQuota firstAuditQuota : faqs) {
+                    firstAuditQuota.setPage(page);
+                    firstAuditQuota.setUpdatedAt(new Date());
+                    firstAuditQuotaService.update(firstAuditQuota);
+                }
+            }
+            if (smId != null && !"".equals(smId)) {
+                AduitQuota aq = new AduitQuota();
+                aq.setProjectId(projectId);
+                aq.setScoreModelId(smId);
+                aq.setSupplierId(supplier.getId());
+                List<AduitQuota> aqs = aduitQuotaService.find(aq);
+                //更新该供应商下该项目下该详细评审项在标书的页码
+                for (AduitQuota aduitQuota : aqs) {
+                    aduitQuota.setPage(page);
+                    aduitQuota.setUpdatedAt(new Date());
+                    aduitQuotaService.update(aduitQuota);
+                }
+            }
+            String msg = "保存成功";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ",  \"msg\": \"" + msg
+                            + "\"}");
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+    }
+    
+    /**
+     *〈简述〉
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param response
+     * @param firstAuditId  初审项id
+     * @param smId 详细评审项与模型关联id
+     * @param projecId 项目id
+     * @throws IOException
+     */
+    @RequestMapping("/deletedBindingIndex")
+    @ResponseBody
+    public void deletedBindingIndex(HttpServletRequest request, HttpServletResponse response, String firstAuditId, String smId, String projectId) throws IOException{
+        try{ 
+            Supplier supplier = (Supplier)request.getSession().getAttribute("loginSupplier");
+            if (firstAuditId != null && !"".equals(firstAuditId)) {
+                FirstAuditQuota faq = new FirstAuditQuota();
+                faq.setProjectId(projectId);
+                faq.setPackFirstId(firstAuditId);
+                faq.setSupplierId(supplier.getId());
+                List<FirstAuditQuota> faqs = firstAuditQuotaService.find(faq);
+                //更新该供应商下该项目下该初审项在标书的页码为空
+                for (FirstAuditQuota firstAuditQuota : faqs) {
+                    firstAuditQuota.setPage(null);
+                    firstAuditQuota.setUpdatedAt(new Date());
+                    firstAuditQuotaService.update(firstAuditQuota);
+                }
+            }
+            if (smId != null && !"".equals(smId)) {
+                AduitQuota aq = new AduitQuota();
+                aq.setProjectId(projectId);
+                aq.setScoreModelId(smId);
+                aq.setSupplierId(supplier.getId());
+                List<AduitQuota> aqs = aduitQuotaService.find(aq);
+                //更新该供应商下该项目下该详细评审项在标书的页码为空
+                for (AduitQuota aduitQuota : aqs) {
+                    aduitQuota.setPage(null);
+                    aduitQuota.setUpdatedAt(new Date());
+                    aduitQuotaService.update(aduitQuota);
+                }
+            }
+            String msg = "删除成功";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter()
+                    .print("{\"success\": " + true + ",  \"msg\": \"" + msg
+                            + "\"}");
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+    }
+    
+    /**
      *〈简述〉结果页面
      *〈详细描述〉
      * @author Ye MaoLin
@@ -432,6 +578,8 @@ public class ProjectManageController {
         if (std != null) {
             model.addAttribute("std", std);
         }
+        Project project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
         return "bss/supplier/bid/result";
     }
     

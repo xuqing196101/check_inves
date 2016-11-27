@@ -33,11 +33,13 @@ import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ExtConTypeArray;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierConTypeService;
 import ses.service.sms.SupplierConditionService;
+import ses.service.sms.SupplierExtPackageServicel;
 import ses.service.sms.SupplierExtUserServicel;
 
 /**
@@ -67,6 +69,8 @@ public class SupplierConditionController {
     private SupplierExtUserServicel extUserServicl;
     @Autowired
     private ProjectService projectService;//项目
+    @Autowired
+    private SupplierExtPackageServicel  supplierExtPackageServicel;
     /**
      * @Description:保存查询条件
      *
@@ -83,11 +87,7 @@ public class SupplierConditionController {
         sq.setAttribute("typeclassId", typeclassId);
         Map<String, String> map = new HashMap<String, String>();
         Integer count=0;
-        if(sids==null || sids.length==0 || "".equals(sids)){
-            map.put("supervise", "请选择监督人员");
-            count=1;
-        }
-        if(extConTypeArray == null || extConTypeArray.getExtCount() == null || extConTypeArray.getExtCategoryId()==null){
+        if (extConTypeArray == null || extConTypeArray.getExtCount() == null || extConTypeArray.getExtCategoryId()==null){
             map.put("array", "请添加供应商抽取数量，产品类型等条件");
             count=1;
         }
@@ -96,14 +96,14 @@ public class SupplierConditionController {
         }
 
         //给专家记录表set信息并且插入到记录表(查询是否存在)
-        SupplierExtracts record=new SupplierExtracts();
+        SupplierExtracts record = new SupplierExtracts();
         record.setProjectId(condition.getProjectId());
         PageHelper.startPage(1, 1);
         List<SupplierExtracts> list = supplierExtractsMapper.list(record);
 
 
         if (condition.getId() != null && !"".equals(condition.getId())){
-            conditionService.update(condition);	
+            conditionService.update(condition); 
             //删除关联数据重新添加
             conTypeService.delete(condition.getId());
         }else{
@@ -113,7 +113,7 @@ public class SupplierConditionController {
 
             }else{
                 //给专家记录表set信息并且插入到记录表
-                SupplierExtracts expExtractRecord=new SupplierExtracts();
+                SupplierExtracts expExtractRecord = new SupplierExtracts();
                 expExtractRecord.setExtractionTime(new Date());
                 Project selectById = projectService.selectById(condition.getProjectId());
                 if (selectById != null){
@@ -128,21 +128,14 @@ public class SupplierConditionController {
             }
         }
 
-        //抽取地址
-        if (extAddress != null && !"".equals(extAddress)){
-            SupplierExtracts supplierExtracts = new SupplierExtracts();
-            supplierExtracts.setId(list.get(0).getId());
-            supplierExtracts.setExtractionSites(extAddress);
-            supplierExtractsMapper.updateByPrimaryKeySelective(supplierExtracts);
-        }  
 
-        SupplierConType conType=null;
+        SupplierConType conType = null;
 
-        if(extConTypeArray!=null&&extConTypeArray.getExtCount()!=null&&extConTypeArray.getExtCount().length!=0){
+        if (extConTypeArray != null && extConTypeArray.getExtCount() != null && extConTypeArray.getExtCount().length!=0){
             for (int i = 0; i < extConTypeArray.getExtCount().length; i++) {
-                conType=new SupplierConType();
+                conType = new SupplierConType();
                 conType.setSupplieCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
-                if(extConTypeArray.getExpertsTypeId().length!=0){
+                if (extConTypeArray.getExpertsTypeId().length != 0){
                     conType.setSupplieTypeId(extConTypeArray.getExpertsTypeId()[i]);
                 }
                 if (extConTypeArray.getExtCategoryId().length != 0){
@@ -150,27 +143,24 @@ public class SupplierConditionController {
                     conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
                 }
                 conType.setConditionId(condition.getId());
-                if(extConTypeArray.getIsSatisfy().length!=0){
+                if (extConTypeArray.getIsSatisfy().length != 0){
                     conType.setIsMulticondition(new Short(extConTypeArray.getIsSatisfy()[i]));
                 }
                 //如果有id就修改没有就新增
-                conTypeService.insert(conType);	
+                conTypeService.insert(conType); 
             }
         }
 
-        //监督人员
-        if(sids!=null&&sids.length!=0){
-            userServicl.deleteProjectId(condition.getProjectId());
-            for (String id : sids) {
-                if(!"".equals(id)){
-                    SupplierExtUser  record1=new SupplierExtUser();
-                    record1.setProjectId(condition.getProjectId());
-                    record1.setUserId(id);
-                    userServicl.insertSelective(record1);
-                }
-            }
-        }
         map.put("sccuess", "sccuess");
+        //添加一条记录
+        SupplierExtPackage extP = new  SupplierExtPackage();
+        extP.setId(condition.getProjectId());
+        List<SupplierExtPackage> listExtPackage = supplierExtPackageServicel.list(extP, "0");
+        if (listExtPackage != null && listExtPackage.size() != 0){
+            extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
+            supplierExtPackageServicel.update(extP);
+        }
+
         return JSON.toJSONString(map);
     }
 

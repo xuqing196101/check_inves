@@ -24,7 +24,40 @@ public interface SupplierExtPackageServicel {
      */
     List<SupplierExtPackage> list(SupplierExtPackage sExtPackage, String page);
 
-
+    /**
+     * 
+     *〈简述〉插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    void update(SupplierExtPackage sExtPackage);
     
+    /**
+     * 
+     *〈简述〉插入
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param sExtPackage 对象
+     */
+    void insert(SupplierExtPackage sExtPackage);
+    
+    /**
+     * 
+     *〈简述〉返回抽取记录集合
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param SupplierExtPackage
+     */
+    List<SupplierExtPackage> extractsList(SupplierExtPackage record);
+    
+    /**
+     * 
+     *〈简述〉 getbyid
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id id
+     * @return 对象
+     */
+    SupplierExtPackage getById(String  id);
 }
 

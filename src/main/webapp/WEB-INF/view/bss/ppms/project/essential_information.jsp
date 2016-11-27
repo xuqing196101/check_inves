@@ -24,6 +24,8 @@
     var controldate;
     function checkDate(){
         var flag = true;
+        var id = $("#id").val();
+        var flowDefineId = $("#flowDefineId").val();
         controldate= $("#bidDate").val();
         var linkmanIpone = $("#linkmanIpone").val();
         var linkman = $("#linkman").val();
@@ -92,6 +94,16 @@
         }
      if(flag == true){
          $("#save_form_id").submit();
+         /*  $.ajax({
+                url:"${pageContext.request.contextPath}/project/addProject.html?id="+id+"&bidAddress="+bidAddress+"&flowDefineId="+flowDefineId+"&bidDate="+controldate+"&linkman="+linkman+"&linkmanIpone="+linkmanIpone+"&supplierNumber="+supplierNumber,
+                type:"post",
+                dataType:"json",
+                success:function(data){
+                    
+                    },
+                    error: function(data){
+                    }
+                });  */
      }   
         
     }
@@ -123,9 +135,9 @@
                                 <tbody>
                                     <tr>
                                         <td class="bggrey">项目编号:</td>
-                                        <td>${project.projectNumber}<input type="hidden" name="id" value="${project.id}"/></td>
+                                        <td>${project.projectNumber}<input type="hidden" name="id" id="id" value="${project.id}"/></td>
                                         <td class="bggrey">项目名称:</td>
-                                        <td>${project.name}</td>
+                                        <td>${project.name}<input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}"/></td>
                                     </tr>
                                     <tr>
                                         <td class="bggrey">负责人姓名:</td>
@@ -274,7 +286,7 @@
                 </tr>
 		            </thead>
 		          <c:forEach items="${pack.projectDetails}" var="obj">
-		              <tr style="cursor: pointer;">
+		              <tr>
 		              <td class="tc w50">${obj.serialNumber}</td>
 		              <td class="tc">${obj.department}</td>
 		              <td class="tc">${obj.goodsName}</td>

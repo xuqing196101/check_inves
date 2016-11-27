@@ -62,9 +62,9 @@ public class BidMethodServiceImpl implements BidMethodService{
 		int updFlag = -1;
 		BidMethod oldBidMethod = bidMethodMapper.findListByBidMethod(b).get(0);
 		if(!bidMethod.getMaxScore().equals(oldBidMethod.getMaxScore())){
-			float oldMaxScore = Float.parseFloat(oldBidMethod.getMaxScore());
-			float oldRemainScore = Float.parseFloat(oldBidMethod.getRemainScore());
-			float maxScore = Float.parseFloat(bidMethod.getMaxScore());
+			float oldMaxScore = Float.parseFloat(oldBidMethod.getMaxScore()==null?"0":oldBidMethod.getMaxScore());
+			float oldRemainScore = Float.parseFloat(oldBidMethod.getRemainScore() ==null ? "0" :oldBidMethod.getRemainScore());
+			float maxScore = Float.parseFloat(bidMethod.getMaxScore() ==null ? "0" : bidMethod.getMaxScore());
 			//float remainScore = Float.parseFloat(oldBidMethod.getRemainScore());
 			
 			BigDecimal oldb1 = new BigDecimal(Float.toString(oldMaxScore));
@@ -78,7 +78,7 @@ public class BidMethodServiceImpl implements BidMethodService{
 				System.out.println("最大值太小");
 			}
 		}
-		bidMethod.setMaxScore(oldBidMethod.getMaxScore());//不更新
+		//bidMethod.setMaxScore(oldBidMethod.getMaxScore());//不更新
 		 a = bidMethodMapper.updateBidMethod(bidMethod);
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("id", bidMethod.getPackageId());
@@ -99,9 +99,9 @@ public class BidMethodServiceImpl implements BidMethodService{
 				m.setMaxScore(bidMethod.getMaxScore());
 				m.setRemainScore(bidMethod.getRemainScore());
 			}
-			if(!bidMethod.getMaxScore().equals(m.getMaxScore())){
+			/*if(!bidMethod.getMaxScore().equals(m.getMaxScore())){
 				
-			}
+			}*/
 			m.setBidMethodId(bidMethod.getId());
 			m.setPackageId(bidMethod.getPackageId());
 			m.setProjectId(bidMethod.getProjectId());

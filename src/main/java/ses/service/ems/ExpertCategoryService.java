@@ -36,7 +36,7 @@ public interface ExpertCategoryService {
       * @param @return      
       * @return List<ExpertCategory>
      */
-    List<ExpertCategory> getListByExpertId(String expertId);
+    List<String> getListByExpertId(String expertId);
 
     /**
      * 

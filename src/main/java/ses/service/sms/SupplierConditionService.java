@@ -57,4 +57,14 @@ public interface SupplierConditionService {
 	 * @return ExpExtCondition
 	 */
 	SupplierCondition show(String id);
+	
+	/**
+	 * 
+	 *〈简述〉更具关联包id查询是否有未抽取的条件
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param id
+	 * @return
+	 */
+	Integer getCount(String packId);
 }

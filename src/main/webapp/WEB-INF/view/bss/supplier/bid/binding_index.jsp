@@ -41,7 +41,8 @@
 	}
 	 
 	//标记
-	function mark(e,target){
+	function mark(e, target, kind, id){
+		var projectId = $("#projectId").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//obj.ShowTipMessage("提示","绑定指标时请把光标停在选中内容的起始处");
 		if(typeof(obj.ActiveDocument) == "undefined"){
@@ -52,11 +53,30 @@
 		var page = obj.ActiveDocument.Application.Selection.information(1);
 		if(confirm("确定【"+target+"】指标的绑定内容从第"+page+"页开始吗？")){
 			obj.ActiveDocument.BookMarks.Add(target);
-			var html = "<div class='shanchu light_icon'><a href='javascript:void(0)' onclick='delMark(this,"+'"'+target+'"'+");'>删除</a></div>";
-			html+= "<div class='dinwei light_icon'><a href='javascript:void(0)' onclick='searchMark("+'"'+target+'"'+");'>定位</a></div>";
-			$(e).parent().after(html);
-			$(e).parent().remove();
-			obj.ShowTipMessage("提示","【"+target+"】"+"指标内容绑定成功，请在 刷新 或者 关闭 页面前保存文件");
+			var idType="";
+			if(kind == 'first'){
+				//初审项id
+				idType = "firstAuditId";
+			}
+			if(kind == 'second'){
+				//初审项id
+				idType = "smId";
+			}
+			$.ajax({  
+               type: "POST",  
+               url: "${pageContext.request.contextPath}/supplierProject/saveBindingIndex.html?projectId="+projectId+"&page="+page+"&"+idType+"="+id,  
+               dataType: 'json',  
+               success:function(result){
+               		var html = "<div class='shanchu light_icon'><a href='javascript:void(0)' onclick='delMark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>删除</a></div>";
+					html+= "<div class='dinwei light_icon'><a href='javascript:void(0)' onclick='searchMark("+'"'+target+'"'+");'>定位</a></div>";
+					$(e).parent().after(html);
+					$(e).parent().remove();
+					obj.ShowTipMessage("提示","【"+target+"】"+"指标内容绑定成功，请在刷新或者关闭页面前点击下方的保存");
+                },
+                error: function(result){
+                    layer.msg("操作失败",{offset: '222px'});
+                }
+            });
 		}
 	}	
 	
@@ -73,16 +93,37 @@
 	}
 	
 	//删除标记
-	function delMark(e,target){
+	function delMark(e,target, kind, id){
+		var projectId = $("#projectId").val();
 		var obj = document.getElementById("TANGER_OCX");
 		//判断标记是否存在
 		if(obj.ActiveDocument.Bookmarks.Exists(target)){
-			obj.ActiveDocument.BookMarks.Item(target).Delete();
-			obj.ShowTipMessage("提示","删除绑定成功！",false);
-			var html = "<div class='bdzb light_icon'><a href='javascript:void(0)' onclick='mark(this,"+'"'+target+'"'+");'>定位</a></div>";
-			$(e).parent().next().remove();
-			$(e).parent().after(html);
-			$(e).parent().remove();
+			var idType="";
+			if(kind == 'first'){
+				//初审项id
+				idType = "firstAuditId";
+			}
+			if(kind == 'second'){
+				//初审项id
+				idType = "smId";
+			}
+			$.ajax({  
+               type: "POST",  
+               url: "${pageContext.request.contextPath}/supplierProject/deletedBindingIndex.html?projectId="+projectId+"&"+idType+"="+id,  
+               dataType: 'json',  
+               success:function(result){
+               		obj.ActiveDocument.BookMarks.Item(target).Delete();
+					obj.ShowTipMessage("提示","删除绑定成功！",false);
+					var html = "<div class='bdzb light_icon'><a href='javascript:void(0)' onclick='mark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>绑定指标</a></div>";
+					$(e).parent().next().remove();
+					$(e).parent().after(html);
+					$(e).parent().remove();
+                },
+                error: function(result){
+                    layer.msg("操作失败",{offset: '222px'});
+                }
+            });
+			
 		}else{
 			obj.ShowTipMessage("提示","删除失败，该指标未被绑定！",true);
 		}
@@ -241,6 +282,31 @@
 		$("#firstPage").removeClass("dnone");
 		$("#secodPage").addClass("dnone");
 	}
+	
+	//保存绑定文件 kind=0时代表暂存，下次进来还是该环节
+	function saveSecond(kind){
+		var projectId = $("#projectId").val();
+		var supplierName = $("#supplierName").val();
+		var obj = document.getElementById("TANGER_OCX");
+		if(kind == '0'){
+			if(confirm("您确定暂存下次继续绑定吗？")){
+				//参数说明
+				//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+				var s = obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId+"&kind="+kind, "ntko", "", supplierName+"_投标文件.doc", "MyFile");
+				obj.ShowTipMessage("提示","投标文件已暂存");
+			}
+		}
+		if(kind == '1'){
+			if(confirm("保存后将不能修改！")){
+				//参数说明
+				//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+				var s = obj.SaveToURL("${pageContext.request.contextPath}/supplierProject/saveBidFile.html?projectId="+projectId+"&kind="+kind, "ntko", "", supplierName+"_投标文件.doc", "MyFile");
+				obj.ShowTipMessage("提示","投标文件已上传至服务器");
+				//跳转下一个环节
+				window.location.href = "${pageContext.request.contextPath}/mulQuo/list.html?projectId="+projectId;
+			}
+		}
+	}
 </script>
 
 </head>
@@ -302,7 +368,7 @@
 			</span>
 		    <span>
 		    	<c:if test="${std.bidFinish == 3 }">
-			  		<a href="javascript:void(0);" class="img-v2  orange_link">完成</a>
+			  		<a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}" class="img-v2  orange_link">完成</a>
 		    	</c:if>
 		    	<c:if test="${std.bidFinish == 0}">
 				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">完成</a>
@@ -314,7 +380,7 @@
 				  <a href="javascript:void(0);" onclick="tishi('请先填写报价');" class="img-v3">完成</a>
 				</c:if>
 				<c:if test="${std.bidFinish == 4}">
-				  <a href="javascript:void(0);"  class="img-v1">完成</a>
+				  <a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}"  class="img-v1">完成</a>
 				</c:if>
 			</span>
    		</div>
@@ -425,7 +491,7 @@
 				              		</select>
 				              	</c:when>
 				              	<c:otherwise>
-				              		<input maxlength="17" value="${sm.value}" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]"/>
+				              		<input maxlength="30" value="${sm.value}" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]"/>
 				              	</c:otherwise>
 				              	</c:choose>
 				              </td>
@@ -496,7 +562,12 @@
 							    	</c:if>
 							    </span>
 							    <div class='bdzb light_icon'>
-							    	<a href='javascript:void(0)' onclick="mark(this,'${fa.name }');">绑定指标</a>
+							    	<c:if test="${fa.page != null}">
+							    		<a href='javascript:void(0)' onclick="searchMark('${fa.name }');">定位</a>
+							    	</c:if>
+							    	<c:if test="${fa.page == null}">
+							    		<a href='javascript:void(0)' onclick="mark(this,'${fa.name }','first','${fa.id }');">绑定指标</a>
+							    	</c:if>
 							    </div>
 							</li>
 				    	</c:forEach>
@@ -537,7 +608,12 @@
 							    	</c:if>
 							    </span>
 							    <div class='bdzb light_icon'>
-							    	<a href='javascript:void(0)' onclick="mark(this,'${sm.markTerm.name}');">绑定指标</a>
+							    	<c:if test="${sm.page != null}">
+							    		<a href='javascript:void(0)' onclick="searchMark('${sm.markTerm.name}');">定位</a>
+							    	</c:if>
+							    	<c:if test="${sm.page == null}">
+							    		<a href='javascript:void(0)' onclick="mark(this,'${sm.markTerm.name}','second','${sm.id }');">绑定指标</a>
+							    	</c:if>
 							    </div>
 							</li>
 				    	</c:forEach>
@@ -556,19 +632,22 @@
 			        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->
 			        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
 			        	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-					     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-				         <input type="button" class="btn btn-windows save" onclick="saveFile();" value="保存绑定操作"></input>
+				         <!-- <input type="button" class="btn btn-windows save" onclick="saveFile();" value="保存绑定操作"></input> -->
 				    </div>
 				</c:if>
 				<input type="hidden" id="status" value="${status }">
 				 <input type="hidden" id="fileId" value="${fileId }">
+				 <input type="hidden" id="supplierName" value="${supplier.supplierName }">
 				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</form>
 		  </div>
 	   </div>
 	   <div class="mt40 tc mb50">
 		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prevStep();">上一步</button>
-		 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveSecond();">保存</button>
+		 <c:if test="${std.bidFinish == 1}">
+			 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveSecond('0');">暂存</button>
+			 <button class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveSecond('1');">保存</button>
+		 </c:if>
 		 <!-- <button class="btn padding-left-20 padding-right-20 btn_back margin-5">返回</button> -->
 		</div>
 	</div>

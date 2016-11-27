@@ -209,10 +209,10 @@
 		            <label class="fl">来源：</label>
 		            <span class="fl">
 		              <select  name="expertsFrom" id="expertsFrom" >
-                            <option selected="selected" value=''>-请选择-</option>
-                            <option <c:if test="${expert.expertsFrom =='军队' }">selected</c:if> value="军队">军队</option>
-                            <option <c:if test="${expert.expertsFrom =='地方' }">selected</c:if> value="地方">地方</option>
-                            <option <c:if test="${expert.expertsFrom =='其他' }">selected</c:if> value="其他">其他</option>
+                            <option selected="selected" value="">-请选择-</option>
+							<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
+						     <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+							</c:forEach>
                            </select>
 		            </span>
 		          </li>

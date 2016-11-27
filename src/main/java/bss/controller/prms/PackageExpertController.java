@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import bss.model.ppms.AduitQuota;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -432,6 +431,7 @@ public class PackageExpertController {
 		}
 		
 	}
+	private static int ONE = 1;
 	/**
 	 * 
 	  * @Title: isBackScore
@@ -452,7 +452,7 @@ public class PackageExpertController {
 				map.put("projectId", projectId);
 				map.put("packageId", packageId);
 				//1为退回
-				if(flag == 1){
+				if(flag == ONE){
 					//判断能不能退回
 					Map<String,Object> map2 = new HashMap<String,Object>();
 					map2.put("projectId", projectId);
@@ -542,4 +542,19 @@ public class PackageExpertController {
 			}
 		return "bss/prms/view_quote";
 	  }
+	  /**
+	   * 
+	   *〈简述〉评分汇总
+	   *〈详细描述〉
+	   * @author this'me
+	   * @param packageId
+	   * @param projectId
+	   * @return
+	   */
+	  @RequestMapping("scoreTotal")
+	  @ResponseBody
+	  public void scoreTotal(String packageId,String projectId,String expertId){
+	     expertScoreService.gather(packageId,projectId,expertId);
+	  }
+	  
 }

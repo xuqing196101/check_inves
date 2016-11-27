@@ -7,124 +7,177 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 
-
-
-
-
+/**
+ * 版权：(C) 版权所有 
+ * <简述>供应商报价实体类
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
+ */
 public class Quote {
+    /**
+     * 主键
+     */
     private String id;
 
+    /**
+     * 创建时间
+     */
     private Timestamp createdAt;
-
+    
+    /**
+     * 报价
+     */
     private BigDecimal quotePrice;
-
+    
+    /**
+     * 包ID
+     */
     private String packageId;
 
+    /**
+     * 项目ID
+     */
     private String projectId;
-
+    
+    /**
+     * 供应商ID
+     */
     private String supplierId;
     
+    /**
+     * 产品ID
+     */
     private String productId;
     
+    /**
+     * 包报价总金额
+     */
     private BigDecimal total;
     
+    /**
+     * 成交时间
+     */
     private Timestamp deliveryTime;
     
+    /**
+     * 备注
+     */
     private String remark;
     
+    /**
+     * 关联项目实体
+     */
     private Project project;
     
+    /**
+     * 关联包实体
+     */
     private Packages packages;
     
+    /**
+     * 关联项目明细实体
+     */
     private ProjectDetail projectDetail;
     
+    /**
+     * 关联供应商实体
+     */
     private Supplier supplier;
     
+    /**
+     * 总金额
+     */
     private BigDecimal totalMoney;
     
+    /**
+     * 总金额转为大写中文
+     */
     private String totalMoneyNames;
     
     public String getTotalMoneyNames() {
-		return totalMoneyNames;
-	}
+        return totalMoneyNames;
+    }
 
-	public void setTotalMoneyNames(String totalMoneyNames) {
-		this.totalMoneyNames = totalMoneyNames;
-	}
+    public void setTotalMoneyNames(String totalMoneyNames) {
+        this.totalMoneyNames = totalMoneyNames;
+    }
 
-	public BigDecimal getTotalMoney() {
-		return totalMoney;
-	}
+    public BigDecimal getTotalMoney() {
+        return totalMoney;
+    }
 
-	public void setTotalMoney(BigDecimal totalMoney) {
-		this.totalMoney = totalMoney;
-	}
+    public void setTotalMoney(BigDecimal totalMoney) {
+        this.totalMoney = totalMoney;
+    }
 
-	public Supplier getSupplier() {
-		return supplier;
-	}
+    public Supplier getSupplier() {
+        return supplier;
+    }
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 
-	public Timestamp getDeliveryTime() {
-		return deliveryTime;
-	}
+    public Timestamp getDeliveryTime() {
+        return deliveryTime;
+    }
 
-	public void setDeliveryTime(Timestamp deliveryTime) {
-		this.deliveryTime = deliveryTime;
-	}
+    public void setDeliveryTime(Timestamp deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public ProjectDetail getProjectDetail() {
-		return projectDetail;
-	}
+    public ProjectDetail getProjectDetail() {
+        return projectDetail;
+    }
 
-	public void setProjectDetail(ProjectDetail projectDetail) {
-		this.projectDetail = projectDetail;
-	}
+    public void setProjectDetail(ProjectDetail projectDetail) {
+        this.projectDetail = projectDetail;
+    }
 
-	public String getProductId() {
-		return productId;
-	}
+    public String getProductId() {
+        return productId;
+    }
 
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
-	public BigDecimal getTotal() {
-		return total;
-	}
+    public BigDecimal getTotal() {
+        return total;
+    }
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
-	public Packages getPackages() {
-		return packages;
-	}
+    public Packages getPackages() {
+        return packages;
+    }
 
-	public void setPackages(Packages packages) {
-		this.packages = packages;
-	}
+    public void setPackages(Packages packages) {
+        this.packages = packages;
+    }
 
-	public String getId() {
+    public String getId() {
         return id;
     }
 

@@ -18,6 +18,8 @@ public class FirstAudit {
     private String projectId;
 
     private Short isConfirm;
+    
+    private Integer page;
 
     public String getId() {
         return id;
@@ -82,4 +84,13 @@ public class FirstAudit {
     public void setIsConfirm(Short isConfirm) {
         this.isConfirm = isConfirm;
     }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+    
 }

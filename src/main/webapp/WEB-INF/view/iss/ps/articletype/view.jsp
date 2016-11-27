@@ -28,52 +28,47 @@
      <div class="container container_box">
     <div>
 	   <h2 class="list_title">查看栏目</h2>
-	   <ul class="ul_list mb20">
-	   		   <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">栏目名称：</span>
-			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${articletype.name}' readonly="readonly">
-		        <span class="add-on">i</span>
+	   <ul class="ul_list">
+	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">栏目名称：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+		        <input class="input_group"  type="text" value = '${articletype.name}' readonly="readonly">
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-               <span class="col-md-12 padding-left-5">栏目编码：</span>
-               <div class="input-append">
-                <input class="span2"  type="text" value = '${articletype.code}' readonly="readonly">
-                <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">栏目编码：</span>
+               <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                <input class="input_group"  type="text" value = '${articletype.code}' readonly="readonly">
                </div>
              </li>
 
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">创建人：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${articletype.creater.relName}' readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">创建人：</span>				 	
+	  			<div class="input-append input_group col-sm-12 col-xs-12 p0">
+		        <input class="input_group"  type="text" value = '${articletype.creater.relName}' readonly="readonly">
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">创建时间：</span>				 	
-	  			<div class="input-append">
-		         <input class="span2"  type="text" value = "<fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">创建时间：</span>				 	
+	  			<div class="input-append input_group col-sm-12 col-xs-12 p0">
+		         <input class="input_group"  type="text" value = "<fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
 		       </div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">更新时间：</span>				 	
-               <div class="input-append">
-		         <input class="span2"  type="text" value = "<fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        <span class="add-on">i</span>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">更新时间：</span>				 	
+               <div class="input-append input_group col-sm-12 col-xs-12 p0">
+		         <input class="input_group"  type="text" value = "<fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
 		       </div>
 			 </li>
-			<li class="col-md-11 margin-0 padding-0 ">	  	 			
-				<span class="col-md-12 padding-left-5">栏目介绍：</span>
-				<div class="mb5">
-				<textarea  class="h130 col-md-12" readonly="readonly">${articletype.describe}</textarea>		
+			<li class="col-md-12 col-sm-12 col-xs-12 ">	  	 			
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">栏目介绍：</span>
+				<div class="col-md-12 col-sm-12 col-xs-12 p0">
+				<textarea  class="h130 col-md-12 col-sm-12 col-xs-12" readonly="readonly">${articletype.describe}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 tc">
+  <div  class="col-md-12 col-sm-12 col-xs-12 tc mt20">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
      </div>

@@ -4,35 +4,38 @@ import java.util.Date;
 import java.util.List;
 
 public class SupplierCondition {
-	
-	
+
+
     public SupplierCondition() {
-		super();
-	}
+        super();
+    }
 
-	public SupplierCondition(String id,String s) {
-		super();
-		this.id = id;
-	}
+    public SupplierCondition(String id, String s) {
+        super();
+        this.id = id;
+    }
 
 
 
-	public SupplierCondition(String id, Short status) {
-		super();
-		this.id = id;
-		this.status = status;
-	}
+    public SupplierCondition(String id, Short status) {
+        super();
+        this.id = id;
+        this.status = status;
+    }
 
-	
-	public SupplierCondition(String projectId) {
-		super();
-		this.projectId = projectId;
-	}
-	
-	
 
-    
-	/**
+    public SupplierCondition(String projectId) {
+        super();
+        this.projectId = projectId;
+    }
+
+    /**
+     * 关联供应商
+     */
+    private List<SupplierExtRelate> extRelatesList;
+
+
+    /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
      * </pre>
@@ -86,12 +89,12 @@ public class SupplierCondition {
      * </pre>
      */
     private String responseTime;
-    
+
     /**
      * 类型
      */
     private List<SupplierConType> conTypes;
-    
+
     /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
@@ -282,7 +285,7 @@ public class SupplierCondition {
         this.responseTime = responseTime == null ? null : responseTime.trim();
     }
 
-   
+
 
     /**
      * <pre>
@@ -334,27 +337,41 @@ public class SupplierCondition {
         this.extractAddress = extractAddress == null ? null :extractAddress.trim();
     }
 
-	public List<SupplierConType> getConTypes() {
-		return conTypes;
-	}
+    public List<SupplierConType> getConTypes() {
+        return conTypes;
+    }
 
-	public void setConTypes(List<SupplierConType> conTypes) {
-		this.conTypes = conTypes;
-	}
-	private String expertsFrom;
+    public void setConTypes(List<SupplierConType> conTypes) {
+        this.conTypes = conTypes;
+    }
+    private String expertsFrom;
 
-	public String getExpertsFrom() {
-		return expertsFrom;
-	}
+    public String getExpertsFrom() {
+        return expertsFrom;
+    }
 
-	public void setExpertsFrom(String expertsFrom) {
-		this.expertsFrom = expertsFrom;
-	}
+    public void setExpertsFrom(String expertsFrom) {
+        this.expertsFrom = expertsFrom;
+    }
 
-	public void setExtractAddress(String extractAddress) {
-		this.extractAddress = extractAddress;
-	}
+    public void setExtractAddress(String extractAddress) {
+        this.extractAddress = extractAddress;
+    }
+
+    /**
+     * @return Returns the extRelatesList.
+     */
+    public List<SupplierExtRelate> getExtRelatesList() {
+        return extRelatesList;
+    }
+
+    /**
+     * @param extRelatesList The extRelatesList to set.
+     */
+    public void setExtRelatesList(List<SupplierExtRelate> extRelatesList) {
+        this.extRelatesList = extRelatesList;
+    }
 
 
-    
+
 }

@@ -41,7 +41,7 @@ public class AduitQuota implements Serializable{
      * @Fields scoreModelId : 评分细则与模型关联id
      */
     private String scoreModelId;
-
+    
     /**
      * @Fields supplierValue : 供应商绑定值
      */

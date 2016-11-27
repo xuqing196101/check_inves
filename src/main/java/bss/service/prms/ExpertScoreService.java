@@ -91,4 +91,15 @@ public interface ExpertScoreService {
 	      * @return void
 	     */
 	    void saveScore(ExpertScore expertScore,List<SupplyMark> supplyMarkList,String scoreModelId);
+	    /**
+	     * 
+	     *〈简述〉
+	     *〈详细描述〉评分汇总
+	     * @author ShaoYangYang
+	     * @param packageId
+	     * @param projectId
+	     * @param expertId 
+	     * @return
+	     */
+        String gather(String packageId, String projectId, String expertId);
 }

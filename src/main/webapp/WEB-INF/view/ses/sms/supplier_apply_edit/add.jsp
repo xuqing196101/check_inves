@@ -116,6 +116,7 @@ function save(){
 	                       <div class="input-append">
 	                           <input class="span5" id="supplierName" name="supplierName"  value="${suppliers.supplierName } " type="text">
 	                           <span class="add-on cur_point">i</span>
+	                           <div class="cue">${err_msg_supplierName}</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
@@ -123,6 +124,7 @@ function save(){
 	                       <div class="input-append">
 	                           <input class="span5 " id="website" name="website" value="${suppliers.website } " type="text">
 	                           <span class="add-on cur_point">i</span>
+	                           <div class="cue">${err_msg_website}</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
@@ -131,6 +133,7 @@ function save(){
 	                           <fmt:formatDate value="${suppliers.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
 			                   <input class="span5" type="text" name="foundDate" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
 			                   <span class="add-on cur_point">i</span>
+			                   <div class="cue">${err_msg_foundDate}</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
@@ -150,13 +153,15 @@ function save(){
 	                           <div class="select_min">
 							         <select class="w110"  id="root_area_select_id" onchange="loadChildren()" name="address"></select> 
 							         <select class="w110"  id="children_area_select_id" name="address" ></select>
-						        </div>	
+						       </div>
+						       <div class="cue">${err_msg_address}</div>	
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
 	                       <span class="col-md-12 padding-left-5" id="bankName2">开户行名称：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="bankName" name="bankName" value="${suppliers.bankName } "  type="text"  >
 	                           <span class="add-on cur_point">i</span>
+	                           <div class="cue">${err_msg_bankName}</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 ">
@@ -164,12 +169,14 @@ function save(){
 	                       <div class="input-append">
 	                           <input class="span5" id="bankAccount" name="bankAccount" value="${suppliers.bankAccount } " type="text"  >
 	                           <span class="add-on cur_point">i</span>
+	                           <div class="cue">${err_msg_bankAccount}</div>
 	                       </div>
 	                    </li>
 	                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="postCode2">邮编：</span>
 	                       <div class="input-append">
 	                           <input class="span5" id="postCode" name="postCode" value="${suppliers.postCode }" type="text"  >
 	                           <span class="add-on cur_point">i</span>
+	                           <div class="cue">${err_msg_postCode}</div>
 	                       </div>
 	                   </li>
                    </ul>
@@ -180,27 +187,29 @@ function save(){
 						 <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
 				         <u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
 				         <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+						 <div class="cue">${err_taxCert}</div>
 					</li> 
 						
 					<li id="bill_li_id" class="col-md-6 p0 mb25">
 						 <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
-						 <div style="margin-bottom: 25px">
-						    <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
-						    <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
-						 </div>
+						 <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
+						 <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+						 <div class="cue">${err_bil}</div>
 					</li>
 														
 					<li id="security_li_id" class="col-md-6 p0 mt10 mb25">
 					      <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
 					      <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
 					      <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+						  <div class="cue">${err_security}</div>
 					</li>
 														
 					<li id="breach_li_id" class="col-md-6 p0 mt10 mb25">
 					   <span class="col-md-5 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
 					   <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
 					   <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
-					</li>					
+					   <div class="cue">${err_bearch}</div>
+					</li>
                   </ul>
                 
                   <h2 class="count_flow"><i>3</i>法人代表人信息</h2>
@@ -210,24 +219,28 @@ function save(){
                         <div class="input-append">
                             <input class="span5" id="legalName" name="legalName" value="${suppliers.legalName } " type="text">
                             <span class="add-on cur_point">i</span>
+                            <div class="cue">${err_legalName}</div>
                         </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legaIdCard2">身份证号：</span>
                         <div class="input-append">
                            <input class="span5" id="legalIdCard" name="legalIdCard" value="${suppliers.legalIdCard } "  type="text" >
                            <span class="add-on cur_point">i</span>
+                           <div class="cue">${err_legalCard}</div>
                         </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalTelephone2">固定电话：</span>
                       <div class="input-append">
                         <input class="span5" id="legalTelephone" name="legalTelephone" value="${suppliers.legalTelephone } " type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_legalPhone}</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="legalMobile" name="legalMobile" value="${suppliers.legalMobile } " type="text">
                         <span class="add-on cur_point">i</span>
+                        <div class="cue"></div>
                       </div>
                     </li>
                   </ul>
@@ -238,36 +251,42 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="contactName" name="contactName" value="${suppliers.contactName } " type="text"  >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_conName}</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactFax2">传真：</span>
                       <div class="input-append">
                         <input class="span5" id="contactFax" name="contactFax" value="${suppliers.contactFax } "  type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_fax }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactTelephone1">固定电话：</span>
                       <div class="input-append">
                         <input class="span5" id="contactTelephone" name="contactTelephone" value="${suppliers.contactTelephone } " type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_catTelphone }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="contactMobile" name="contactMobile"  value="${suppliers.contactMobile } " type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_catMobile }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactEmail2">邮箱：</span>
                       <div class="input-append">
                         <input class="span5" id="contactEmail" name="contactEmail" value="${suppliers.contactEmail } " type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_catEmail }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactAddress2">地址：</span>
                       <div class="input-append">
                         <input class="span5" id="contactAddress" name="contactAddress" value="${suppliers.contactAddress } " type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_conAddress }</div>
                       </div>
                     </li>
                   </ul>
@@ -278,18 +297,21 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="creditCode" name="creditCode" value="${suppliers.creditCode } " type="text"  >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue"></div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registAuthority2">登记机关：</span>
                       <div class="input-append">
                         <input class="span5" id="registAuthority" name="registAuthority" value="${suppliers.registAuthority } "  type="text" >
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_reAuthoy }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registFund2">注册资本：</span>
                       <div class="input-append">
                         <input class="span5" id="registFund" name="registFund" value="${suppliers.registFund } " type="text">
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_fund }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessEndDate2">营业开始时间：</span>
@@ -297,6 +319,7 @@ function save(){
                         <fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 		                <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
                       	<span class="add-on cur_point">i</span>
+                      	<div class="cue">${err_sDate }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessStartDate2">营业截止时间：</span>
@@ -304,29 +327,34 @@ function save(){
                          <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
 		                 <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
                          <span class="add-on cur_point">i</span>
+                         <div class="cue">${err_eDate }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="fl" id="businessAddress2">生产或经营地址：</span>
                       <div class="input-append">
                         <input class="span5" id="businessAddress" name="businessAddress" value="${suppliers.businessAddress } " type="text">
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_bAddress }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessPostCode2">邮编：</span>
                       <div class="input-append">
                         <input class="span5" id="businessPostCode" name="businessPostCode" value="${suppliers.businessPostCode } " type="text">
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_bCode }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 ">
                        <span class="col-md-5 padding-left-5"><i class="red">*</i> 营业执照:</span>
 			           <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	           <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" /> 
+                       <div>${err_business }</div>
                     </li>
                     <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessScope2">经营范围：</span>
                       <div class="col-md-9 mt5">
                         <div class="row">
                           <textarea class="col-md-12 h130" name="businessScope"  id="businessScope">${suppliers.businessScope }</textarea>
+                          <div class="cue"></div>
                         </div>
                       </div>
                     </li>
@@ -341,9 +369,8 @@ function save(){
 				    	   <select  name="overseasBranch" id="overseas_branch_select_id">
 								<option value="1">有</option>
 								<option value="0">无</option>
-							</select>
+						   </select>
 			       	    </div>
-                        
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchCountry2">境外分支所在国家：</span>
                       <div class="input-append">

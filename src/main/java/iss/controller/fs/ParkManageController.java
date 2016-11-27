@@ -256,11 +256,16 @@ public class ParkManageController extends BaseSupplierController {
 				model.addAttribute("ERR_name", "版块名称不能重复");			
 			}
 		}		
-		int k = parkService.queryHotParks().size();		
+		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
+			park.setIsHot(0);
+		}
 		Park p = parkService.selectByPrimaryKey(parkId);
-		if(p.getIsHot() == 0&& !(k < 4)){
-			flag = false;
-			model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
+		if(park.getIsHot() == 1){
+			int k = parkService.queryHotParks().size();				
+			if(p.getIsHot() == 0&&!(k < 4)){
+				flag = false;
+				model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
+			}
 		}
 		
 		if(result.hasErrors()){

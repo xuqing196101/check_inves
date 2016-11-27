@@ -295,12 +295,11 @@ function openDiv(){
 function loadHtml(id,paramName, paramTypeName){
 	
 	var html ="<li>"
-	        + "  <div class=\"col-md-1 padding-10  fl\">"
-	        + "   <div class=\"col-md-3 tc h60 fl\"><input name='chkItem' value='"+id+"' type=\"checkbox\"/></div>"
+	        + "  <div class=\"col-md-1 col-xs-6 col-sm-4 tc\">"
+	        + "    <input name='chkItem' value='"+id+"' type=\"checkbox\" class=\"mt10\"/>"
 	        + "  </div>"
-	        + "  <div class=\"col-md-6 fl\">" + paramName +"</div>"
-	        + "  <div class=\"col-md-5 fl\"> 参数类型: " + paramTypeName + "</div>" 
-	        + "  <div class=\"clear\"></div> " 
+	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
+	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
 	        +"</li>"
 	$("#uListId").append(html);
 }

@@ -51,5 +51,16 @@ public interface CategoryAssignedMapper {
      */
     List<CategoryAssigned> findCateListByOrg(String orgId);
     
+    /**
+     * 
+     *〈简述〉
+     *  获取组织机构下的已分配的品目,如果组织机构Id为空,返回所有的已分配的品目
+     *〈详细描述〉
+     * @author myc
+     * @param orgId 组织机构Id
+     * @return
+     */
+    List<String> findAllocationIds(String orgId);
+    
     
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,6 +25,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierQuoteService;
+import ses.util.DictionaryDataUtil;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.SaleTenderService;
@@ -31,6 +33,9 @@ import bss.service.ppms.SaleTenderService;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.DownloadService;
+import common.service.UploadService;
 
 /**
  * @Description: 发售标书
@@ -53,6 +58,10 @@ public class SaleTenderController {
     private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
     @Autowired
     private SupplierQuoteService supplierQuoteService;
+    @Autowired
+    private UploadService uploadService;
+    @Autowired
+    private DownloadService downloadService;
 
     /**
      * @Description:展示发售标书列表
@@ -90,7 +99,7 @@ public class SaleTenderController {
     	//查询list方法里面的供应商id 为了过滤供应商 已经有的就不显示了
     	SaleTender saleTender=new SaleTender();
     	saleTender.setProjectId(projectId);
-    	List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
+    	List<SaleTender> list = saleTenderService.list(saleTender,page==null||"".equals(page)?1:Integer.valueOf(page));
     	List<String> stsupplierIds=new ArrayList<String>();
     	if(list.size()>0){
 	    	for(SaleTender st:list){
@@ -207,7 +216,12 @@ public class SaleTenderController {
      * @return String
      */
     @RequestMapping("/download")
-    public String download(String projectId,String id){
+    public String download(HttpServletRequest request, HttpServletResponse response, String projectId,String id){
+        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        if (files != null && files.size() > 0) {
+            downloadService.downloadOther(request, response, files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+        }
         saleTenderService.download(projectId,id);
         return "redirect:list.html?projectId="+projectId;
     }

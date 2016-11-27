@@ -96,6 +96,9 @@
 				}); 
   	}
     function addHoverDom(treeId, treeNode) { 
+    	//最低评标法  不需要添加打分项了
+    	var projectWay = $("#projectWay").val();
+    	
     	
     	if(treeId==null || treeId==undefined || treeId==""){
     		layer.msg("请先完善根节点评标办法");
@@ -116,6 +119,11 @@
             btn.bind("click", function() {  
                 //var Ppname = prompt("请输入新节点名称");  
                 //alert(treeNode.id=="");
+                if(projectWay !=null && projectWay != undefined && projectWay !='' && projectWay == 'XJCG' ){
+                	alert("询价采购不需要添加节点");
+    				//layer.msg("询价采购不需要添加节点");
+    				return;
+    			}
                 if(treeNode.id==null || treeNode.id==undefined || treeNode.id==""){
     				alert("请先完善根节点评标办法");
     				return;
@@ -276,12 +284,16 @@
 		var projectName = $("#projectName").val();
 		projectName = projectName + "_评分细则";
 		var name = $("#name").val();
+		var projectWay = $("#projectWay").val();
 		$("#typeName").val($("#type").val());
 		if(name==null ||name==undefined || name==""){
 		
 			$("#name").val(projectName);
 		}
-		
+		if(projectWay !=null && projectWay != undefined && projectWay !='' && projectWay == 'XJCG' ){
+			$("#typeName").empty();
+			$("#typeName").append("<option value='1'>最低评标法</option>");
+		}
 	}
 	function save(){
 		//$("#formID").attr("action","${pageContext.request.contextPath}/intelligentScore/operatorBidMethod");
@@ -314,6 +326,7 @@
 	
 	<input id="bidMethodId" type="hidden" value="${bidMethodId }">
 	<input id="projectName" type="hidden" value="${project.name }">
+	<input id="projectWay" type="hidden" value="${project.dictionary.code }">
 	<input id="remainScore" type="hidden" value="${bidMethod.remainScore }">
 	<c:if test="${bidMethod.typeName!=null && bidMethod.typeName!='' && bidMethod.typeName!='1' }">
 		<div>

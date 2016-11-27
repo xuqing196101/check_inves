@@ -6,50 +6,137 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * 版权：(C) 版权所有 
+ * <简述>进口供应商实体类
+ * <详细描述>
+ * @author   Song Biaowei
+ * @version  
+ * @since
+ * @see
+ */
 public class ImportSupplier implements Serializable {
     /**
-	 * @Fields serialVersionUID : 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private String id;
-	@NotBlank(message="企业名称不能为空")
+     * 序列化
+     */
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * 主键
+     */
+    private String id;
+    
+    /**
+     * 企业名称
+     */
+    @NotBlank(message = "企业名称不能为空")
     private String name;
-	@NotBlank(message="企业类型不能为空")
+    
+    /**
+     * 企业类型
+     */
+    @NotBlank(message = "企业类型不能为空")
     private String supplierType;
-	@NotBlank(message="中文名称不能为空")
+    
+    /**
+     * 中文名称
+     */
+    @NotBlank(message = "中文名称不能为空")
     private String chinesrName;
-	@NotBlank(message="法人姓名不能为空")
+    
+    /**
+     * 法人姓名
+     */
+    @NotBlank(message = "法人姓名不能为空")
     private String legalName;
-	@NotBlank(message="企业地址不能为空")
+    
+    /**
+     * 企业地址
+     */
+    @NotBlank(message = "企业地址不能为空")
     private String address;
+    
+    /**
+     * 邮编
+     */
     private Integer postCode;
-	@NotBlank(message="产品大类不能为空")
+    
+    /**
+     * 产品大类
+     */
+    @NotBlank(message = "产品大类不能为空")
     private String productType;
-	@NotBlank(message="主营产品不能为空")
+    
+    /**
+     * 主营产品
+     */
+    @NotBlank(message = "主营产品不能为空")
     private String majorProduct;
-	@NotBlank(message="兼营产品不能为空")
+    
+    /**
+     * 兼营产品
+     */
+    @NotBlank(message = "兼营产品不能为空")
     private String byproduct;
-	@NotBlank(message="成产商不能为空")
+    
+    /**
+     * 生产商
+     */
+    @NotBlank(message = "生产商不能为空")
     private String producerName;
-	@NotBlank(message="联系人姓名不能为空")
+    
+    /**
+     * 联系人姓名
+     */
+    @NotBlank(message = "联系人姓名不能为空")
     private String contactPerson;
+    
+    /**
+     * 手机
+     */
     private Long telephone;
-	@NotBlank(message="传真不能为空")
+    
+    /**
+     * 传真
+     */
+    @NotBlank(message = "传真不能为空")
     private String fax;
-	@NotBlank(message="邮件不能为空")
+    
+    /**
+     * 邮件
+     */
+    @NotBlank(message = "邮件不能为空")
     private String email;
-	@NotBlank(message="企业网址不能为空")
+    
+    /**
+     * 企业网址
+     */
+    @NotBlank(message = "企业网址不能为空")
     private String website;
 
+    /**
+     * 状态
+     */
     private Short status;
-
+    
+    /**
+     * 机构Id
+     */
     private String orgId;
 
+    /**
+     * 创建时间
+     */
     private Timestamp createdAt;
 
+    /**
+     * 修改时间
+     */
     private Timestamp updatedAt;
     
+    /**
+     * 创建人ID
+     */
     private String creatorId;
 
     public String getId() {
@@ -62,14 +149,14 @@ public class ImportSupplier implements Serializable {
     
   
     public String getCreatorId() {
-		return creatorId;
-	}
+        return creatorId;
+    }
 
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 

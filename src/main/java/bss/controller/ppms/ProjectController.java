@@ -25,9 +25,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.WfUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
@@ -448,7 +450,7 @@ public class ProjectController extends BaseController {
             e.printStackTrace();   
         }  
         projectService.update(project);
-       // flowExe(request, flowDefineId, project.getId(), 2);
+        flowExe(request, flowDefineId, project.getId(), 2);
         return "redirect:excute.html?id="+id;
     }
 
@@ -495,7 +497,7 @@ public class ProjectController extends BaseController {
     }
     
     @RequestMapping("/mplement")
-    public String starts(String projectId, Model model, Integer page) {
+    public String starts(String projectId, String flowDefineId, Model model, Integer page) {
         String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
@@ -525,6 +527,7 @@ public class ProjectController extends BaseController {
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
         model.addAttribute("project", project);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/essential_information";
@@ -569,12 +572,6 @@ public class ProjectController extends BaseController {
         }
         return "redirect:list.html";
     }     
-    @RequestMapping("/print")
-    public String print(String id, Model model) {
-        Project project = projectService.selectById(id);
-        model.addAttribute("project", project);
-        return "bss/ppms/project/print";
-    }
     
     /**
      * 
@@ -774,17 +771,6 @@ public class ProjectController extends BaseController {
     }
     
     
-    /*@RequestMapping("/file")
-    @ResponseBody
-    public String file(@RequestParam("attach") MultipartFile[] attach, 
-                        String id, HttpServletRequest request) {
-          Project project = projectService.selectById(id);
-          upfile(attach, request, project);
-          String msg = "{\"msg\":\"success\"}";
-          return msg;
-    }*/
-
-    
     /**
      * Description: 根据项目的采购方式进入不同的实施页面
      * 
@@ -859,5 +845,56 @@ public class ProjectController extends BaseController {
         }
         map.put("fds", fds);
         return map;
+    }
+    
+    
+    
+    /**
+     *〈简述〉添加一条流程执行记录
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param flowDefineId 流程环节定义
+     * @param projectId 项目id
+     * @param status 执行状态
+     */
+    public void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status){
+        FlowExecute temp = new FlowExecute();
+        temp.setFlowDefineId(flowDefineId);
+        temp.setProjectId(projectId);
+        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(temp);
+        //如果该项目该环节流程已经执行过
+        if (flowExecutes != null && flowExecutes.size() > 0) {
+            //执行记录设置为假删除状态
+            FlowExecute oldFlowExecute = flowExecutes.get(0); 
+            oldFlowExecute.setIsDeleted(1);
+            oldFlowExecute.setUpdatedAt(new Date());
+            flowMangeService.updateExecute(oldFlowExecute);
+            //新增一条相同环节记录
+            oldFlowExecute.setCreatedAt(new Date());
+            oldFlowExecute.setStatus(status);
+            oldFlowExecute.setId(WfUtil.createUUID());
+            oldFlowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            oldFlowExecute.setOperatorId(currUser.getId());
+            oldFlowExecute.setOperatorName(currUser.getRelName());
+            oldFlowExecute.setStatus(status);
+            flowMangeService.saveExecute(oldFlowExecute);
+        } else {
+            //如果该项目该环节流程没有执行过
+            FlowDefine flowDefine = flowMangeService.getFlowDefine(flowDefineId);
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setCreatedAt(new Date());
+            flowExecute.setFlowDefineId(flowDefineId);
+            flowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            flowExecute.setOperatorId(currUser.getId());
+            flowExecute.setOperatorName(currUser.getRelName());
+            flowExecute.setProjectId(projectId);
+            flowExecute.setStatus(status);
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setStep(flowDefine.getStep());
+            flowMangeService.saveExecute(flowExecute);
+        }
     }
 }

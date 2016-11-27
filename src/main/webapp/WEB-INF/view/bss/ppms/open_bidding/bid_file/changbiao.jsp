@@ -31,6 +31,7 @@
 		<thead>
 		<tr>
 		  <th class="w50 info">序号</th>
+		  <th class="info">包名</th>
 		  <th class="info">货物名称</th>
 		  <th class="info">品牌</th>
 		  <th class="info">规格型号</th>
@@ -45,6 +46,7 @@
 		<c:forEach items="${listQuote }" var="lq" varStatus="vs">
 			<tr>
 			    <td>${vs.index+1 }</td>
+			    <td>${lq.packages.name}</td>
 				<td>${lq.projectDetail.goodsName }</td>
 				<td>${lq.projectDetail.brand }</td>
 				<td>${lq.projectDetail.stand }</td>

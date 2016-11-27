@@ -31,7 +31,7 @@
 	</div>
 	   
 	   <!-- right -->
-    <div class="tag-box tag-box-v4 col-md-9" >
+    <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
    	  <div class="col-md-12 col-sm-12 col-xs-12">
    	    <div class="pull-left">
  		  <button class="btn btn-windows add" onclick="addParams();" type="button">新增</button>
@@ -40,24 +40,32 @@
 	    </div>
    	  </div>
 	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
-	    <ul id="uListId" class="list-unstyled" ></ul>
-	    <div class="col-md-12">
-	      <div class="col-md-6  fl">
-	                    是否公开<span class="red">*</span>:
-	         <div>
-	           <input type="radio" name="isOPen" checked="checked" value="0"/>是      <input type="radio"  name="isOPen" value="1" />否    
+	    <ul id="uListId" class="list-unstyled ul_table" >
+	    </ul>
+	    <ul class="list-unstyled ul_table" >
+	      <li class="bt_none">
+		    <div class="col-md-4 col-sm-4 col-xs-6 tr">
+		         <span class="red">*</span>是否公开:
+		    </div>
+		    <div class="col-md-8 col-sm-8 col-xs-6">
+		       <input type="radio" name="isOPen" checked="checked" value="0"/>是     
+		       <input type="radio"  name="isOPen" value="1" /> 否    
+		    </div>
+		   </li>
+	       <li class="dnone" id="typeId">
+	         <div class="col-md-4 col-sm-4 col-xs-5 tr">
+	      	   <span class="red">*</span>类型:
+	      	 </div>
+	      	 <div class="col-md-8 col-sm-8 col-xs-7">
+	           <c:forEach items="${smallType}" var="type">
+	      	     <input name="smallClass" type="checkbox" value="${type.code}" />${type.name}
+	           </c:forEach>
 	         </div>
-	      </div>
-	      <div class="col-md-6  fl dnone"  id="typeId">
-	      	类型<span class="red">*</span>:
-	        <c:forEach items="${smallType}" var="type">
-	      	  <input name="smallClass" type="checkbox" value="${type.code}" />${type.name}
-	        </c:forEach>
-	      </div>
-	    </div>
+	      </li>
+	    </ul>
 	    
 	  </div>
-	  <div class="textc">
+	  <div class="textc col-md-12 col-xs-12 col-sm-12 mt20">
 	    <button class="btn btn-windows git" onclick="submitParams();" type="button">提交</button>
 	  </div>
 	 </div>

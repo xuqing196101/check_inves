@@ -46,9 +46,9 @@
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			            <input class="input_group"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
 			            <input name="expertId" value="${expert.expertId }" type="hidden"/>
-			            <span class="add-on">i</span>
+			            <span class="add-on cur_point cur_point">i</span>
+			            <div class="cue"> ${err_relName } </div>
                     </div>
-                    <span class="padding-left-5 padding-left-5 red">${err_relName}</span>
 		        </li>
 		        <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚方式：</span>
@@ -59,8 +59,8 @@
                             <option value="2" <c:if test="${'2' eq expert.punishType}">selected</c:if>>严重警告</option>
                             <option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
                         </select>
+                        <div class="cue"> ${err_punishType } </div>
                     </div>
-                    <span class="padding-left-5 red">${err_punishType}</span>
                  </li>   
 		          <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚时限：</span>
@@ -73,24 +73,22 @@
 						  		<option value="两年" <c:if test="${'两年' eq expert.punishDate}">selected</c:if>>两年</option>
 						  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>
 					      </select>
+					      <div class="cue"> ${err_punishDate } </div>
 					</div>
-					<span class="padding-left-5 red">${err_punishDate}</span>
 			      </li>
 			      <li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>处罚日期：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="input_group"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
-                        <font id="nameFont2"></font>
+                        <div class="cue"> ${err_dateOfPunishment } </div>
                     </div>
-                    <span class="padding-left-5 red">${err_dateOfPunishment}</span>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15 pl15">
                      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class=" red">＊</i>入库时间：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
                         <input class="input_group"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
-                        <font id="nameFont2"></font>
+                        <div class="cue"> ${err_storageTime } </div>
                     </div>
-                    <span class="padding-left-5 red">${err_storageTime}</span>
                 </li>  
 				<li class="col-md-12 col-sm-12 col-xs-12">
                     <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12padding-left-5"><i class=" red">＊</i>处罚理由：</span>
