@@ -53,7 +53,8 @@ import ses.service.sms.SupplierQuoteService;
 @Controller
 @RequestMapping("packageExpert")
 public class PackageExpertController {
-
+    private final static int ONE = 1;
+    private final static short SONE = 1;
 	@Autowired
 	private PackageExpertService service;
 	@Autowired
@@ -164,7 +165,7 @@ public class PackageExpertController {
 			List<PackageExpert> selectList = service.selectList(map );
 				int count = 0;
 				for (PackageExpert packageExpert2 : selectList) {
-					if(packageExpert2.getIsAudit()==1){
+					if(packageExpert2.getIsAudit()==SONE){
 						count++;
 					}
 				}
@@ -184,7 +185,7 @@ public class PackageExpertController {
 					if(selectList2!=null && selectList2.size()>0){
 						int count2 = 0;
 						for (ReviewFirstAudit reviewFirstAudit : selectList2) {
-							if(reviewFirstAudit.getIsPass()==1){
+							if(reviewFirstAudit.getIsPass()==SONE){
 								count2++;
 								break;
 							}
@@ -324,7 +325,7 @@ public class PackageExpertController {
 		if(selectList!=null && selectList.size()>0){
 			PackageExpert packageExpert = selectList.get(0);
 			//判断为审核过的 和未汇总的 才执行汇总
-			if(packageExpert.getIsAudit()==1 && packageExpert.getIsGather()!=1){
+			if(packageExpert.getIsAudit()==SONE && packageExpert.getIsGather()!=SONE){
 				record.setIsGather((short) 1);
 				service.updateByBean(record );
 				response.getWriter().print("已汇总！");
@@ -360,7 +361,7 @@ public class PackageExpertController {
 			if(selectList!= null && selectList.size()>0){
 				PackageExpert packageExpert = selectList.get(0);
 				//必须是已评审 但未评分的数据才能退回
-				if(packageExpert.getIsAudit() != 1 || packageExpert.getIsGrade() == 1){
+				if(packageExpert.getIsAudit() != SONE || packageExpert.getIsGrade() == SONE){
 					
 				  response.getWriter().print("0");
 				}else{
@@ -370,7 +371,7 @@ public class PackageExpertController {
 					int count=0;
 					for (ReviewFirstAudit reviewFirstAudit : reviewFIrstAuditList) {
 						//为1 证明有不合格数据
-						if(reviewFirstAudit.getIsPass()==1){
+						if(reviewFirstAudit.getIsPass()==SONE){
 							count++;
 						}
 					}
@@ -386,7 +387,7 @@ public class PackageExpertController {
 					  List<PackageExpert> packageExpertList = packageExpertService.selectList(map2);
 					  //判断是否为全部已评审状态
 					  for (PackageExpert packageExpert2 : packageExpertList) {
-						if(packageExpert2.getIsAudit()==1){
+						if(packageExpert2.getIsAudit()==SONE){
 								//查询改项目的进度信息
 								  List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map2);
 								  //更新项目进度
@@ -431,7 +432,7 @@ public class PackageExpertController {
 		}
 		
 	}
-	private static int ONE = 1;
+	
 	/**
 	 * 
 	  * @Title: isBackScore
@@ -548,7 +549,7 @@ public class PackageExpertController {
 	   *〈详细描述〉
 	   * @author this'me
 	   * @param packageId
-	   * @param projectId
+	   * @param projectId 
 	   * @return
 	   */
 	  @RequestMapping("scoreTotal")

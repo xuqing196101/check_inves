@@ -314,9 +314,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 var count;
 			 var coun = 0;
 			var table =  $("#formTable").find("table");
+			if(table.length<=0){
+				layer.alert("不能汇总",{offset: [y, x], shade:0.01});
+				return ;
+			}
 			 $.each(table,function(a,result){
 				 var tr = $(result).find("tr:not(:first)");
 				 $.each(tr,function(b,trResult){
+					 if(tr.length<=0){
+						 layer.alert("不能汇总",{offset: [y, x], shade:0.01});
+							return ;
+					 }
 					 var td = $(trResult).find("td");
 					  $.each(td,function(i,tdResult){
 						  i=i+1;
@@ -349,7 +357,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 });
 			 });
 			 if(coun>0){
-				 layer.alert("还有未评审项不能汇总",{offset: [y, x], shade:0.01});
+				 layer.alert("还有未评审项,或评审结果不统一",{offset: [y, x], shade:0.01});
 			 }else{
 				 $.ajax({
 					 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
@@ -429,7 +437,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      	    	  checked
 		      	    	  </c:if>
 		      	    	</c:forEach>
-	      	>${expert.expert.relName }&nbsp;
+	      	>${expert.expert.relName }
 	      	</c:forEach>
 	      	        组长：<select name="groupId" onchange="selectClick(this);">
 	      	    	<option value="0">-请选择-</option>
@@ -486,7 +494,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <th class="info">评分进度</th>
 		      </tr>
 		      <tr>
-	            <td align="center">&nbsp;
+	            <td align="center">
 	            <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">未评审</c:if>
 	            <c:forEach items="${reviewProgressList }" var="progress">
 		           <c:if test="${progress.packageId eq pack.id }">
@@ -569,7 +577,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	 	         <button class="btn btn-windows back" onclick="isBack(this);" type="button">退回重审</button>
    		   		</td>
    		   </tr>
-		    
 		      <tr>
 		      	<th colspan="${3+supplierList.size() }">${pack.name }初审情况</th>
 		      </tr>
@@ -606,6 +613,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		  </table>
 	</c:forEach>
 	  <h1 class="f16 count_flow"><i>06</i>详细审查</h1>
+	<c:if test="${packExpertExtList.size()>0 }">
 	  <!-- 循环包 -->
 	  <form id="formTable">
    	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
@@ -619,10 +627,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   	   <h4>供应商名称：${supplier.suppliers.supplierName }</h4>
    		   <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>
-	   
-	      <%-- <tr>
-	      	<th colspan="${packExpertExtList.size()+2 }">${pack.name }评分汇总</th>
-	      </tr> --%>
 	      <tr>
 	        <th class="info">评审项</th>
 	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
@@ -657,6 +661,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		  </c:forEach>
 	</c:forEach>
 	</form>
+   	   </c:if> 
  			</div> 
 		</div>
 	</div>

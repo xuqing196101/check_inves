@@ -20,7 +20,7 @@ function validateType(){
 			}
 		}
 		for(var i=0;i<array.length;i++){
-				if(array[i]=="SC" || array[i]=="XS" ){
+				if(array[i]=="SALES" || array[i]=="PRODUCT" ){
 					flag=true;
 				}
 		}

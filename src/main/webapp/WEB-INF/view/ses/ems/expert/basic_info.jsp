@@ -1013,13 +1013,13 @@ session.setAttribute("tokenSession", tokenValue);
 				 <table class="table table-bordered">
 				  <tbody>
 				  	<tr>
-				  	   <td class="bggrey" width="100px;"><i class="red">*</i>身份证</td>
-				  	   <td width="500px;">
+				  	   <td class="bggrey w100"><i class="red">*</i>身份证</td>
+				  	   <td class="w500">
 				  	      <u:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"   auto="true"/>
 				          <u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
 				  	   </td>
-				  	   <td class="bggrey" width="100px;"><i class="red">*</i>学历证书</td>
-				  	   <td width="500px;">
+				  	   <td class="bggrey w100"><i class="red">*</i>学历证书</td>
+				  	   <td class="w500">
 				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
 				          <u:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
 				  	   </td>
@@ -1358,13 +1358,13 @@ session.setAttribute("tokenSession", tokenValue);
 			</div>  
 	   	  <table class="table table-bordered">
 	   	    <tr>
-	   	      <td class="bggrey" width="150px;"><i class="red">*</i>专家申请表：</td>
-	   	      <td width="500px">
+	   	      <td class="bggrey w150" ><i class="red">*</i>专家申请表：</td>
+	   	      <td class="w500">
 	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
 			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
 	   	      </td>
-	   	      <td class="bggrey"  width="150px;"><i class="red">*</i>专家合同书：</td>
-	   	      <td width="500px">
+	   	      <td class="bggrey w150" ><i class="red">*</i>专家合同书：</td>
+	   	      <td class="w500">
 	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }" auto="true"/>
 			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 	   	      </td>

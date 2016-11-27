@@ -186,7 +186,7 @@ public class ExpertCredibleController {
 		for (ExpertCredible expertCredible : list) {
 			sum+=expertCredible.getScore();
 		}
-		//跟新专家诚信
+		//更新专家诚信
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		expert.setHonestyScore(expert.getHonestyScore()+sum);
 		expertService.updateByPrimaryKeySelective(expert);
