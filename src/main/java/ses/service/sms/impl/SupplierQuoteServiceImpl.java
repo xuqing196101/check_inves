@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,8 +118,8 @@ public class SupplierQuoteServiceImpl implements SupplierQuoteService {
      * @see ses.service.sms.SupplierQuoteService#selectQuoteCount(ses.model.sms.Quote)
      */
     @Override
-    public List<Date> selectQuoteCount(Quote quote) {
-        List<Date> listDate = quoteMapper.selectQuoteCount(quote);
+    public List<Timestamp> selectQuoteCount(Quote quote) {
+        List<Timestamp> listDate = quoteMapper.selectQuoteCount(quote);
         return listDate;
     }
     

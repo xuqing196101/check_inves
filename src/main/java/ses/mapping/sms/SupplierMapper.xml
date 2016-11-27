@@ -754,7 +754,7 @@
         select * from T_SES_SMS_SUPPLIER where ID = #{id}
     </select>
   <select id="getAllSupplier" parameterType="java.lang.String"
-        resultMap="supplierMap">
+        resultMap="BaseResultMap">
         <!--select * from T_SES_SMS_SUPPLIER where 1=1如果出错 这是之前的代码2016/11/22  -->
         select * from(
         select t3.name||T2."NAME" as addressName,T1.* from T_SES_SMS_SUPPLIER T1

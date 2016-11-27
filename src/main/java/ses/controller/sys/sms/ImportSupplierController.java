@@ -186,6 +186,11 @@ public class ImportSupplierController {
             if (!ValidateUtils.Mobile(is.getTelephone() + "")) {
                 model.addAttribute("ERR_telephone", "请输入正确的手机号码");
             }
+            if (!ValidateUtils.Mobile(is.getTelephone() + "")){
+                model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+                model.addAttribute("is", is);
+                return "ses/sms/import_supplier/edit";
+            }
             if ("-请选择-".equals(is.getAddress())) {
                 model.addAttribute("is", is);
                 model.addAttribute("ERR_address", "请输入地址");
@@ -198,7 +203,11 @@ public class ImportSupplierController {
             model.addAttribute("ERR_address", "请输入地址");
             return "ses/sms/import_supplier/edit";
         }
-
+        if (!ValidateUtils.Mobile(is.getTelephone() + "")){
+            model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+            model.addAttribute("is", is);
+            return "ses/sms/import_supplier/edit";
+        }
         is.setUpdatedAt(new Timestamp(new Date().getTime()));
         importSupplierService.updateRegisterInfo(is);
         return "redirect:list.html";
@@ -249,6 +258,9 @@ public class ImportSupplierController {
                 model.addAttribute("ERR_address", "请输入地址");
                 return "ses/sms/import_supplier/edit";
             }
+            if (!ValidateUtils.Mobile(is.getTelephone() + "")){
+                model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+            }
             return "ses/sms/import_supplier/register";
         }
         if ("-请选择-".equals(is.getAddress())){
@@ -256,7 +268,11 @@ public class ImportSupplierController {
             model.addAttribute("ERR_address", "请输入地址");
             return "ses/sms/import_supplier/register";
         }
-        
+        if (!ValidateUtils.Mobile(is.getTelephone() + "")){
+            model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+            model.addAttribute("is", is);
+            return "ses/sms/import_supplier/register";
+        }
         is.setStatus((short) 0);
         is.setCreatedAt(new Timestamp(new Date().getTime()));
         User user1 = (User) request.getSession().getAttribute("loginUser");
@@ -267,7 +283,7 @@ public class ImportSupplierController {
         //自己的id
         todo.setSenderId(user1.getId());
         //代办人id
-        todo.setOrgId(user1.getOrg().getId());
+        todo.setOrgId(user1.getId());
         //权限Id
         todo.setPowerId(PropUtil.getProperty("gysdb"));
         //待办类型 供应商

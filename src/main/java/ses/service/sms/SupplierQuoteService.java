@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +65,7 @@ public interface SupplierQuoteService {
      * @param quote 实体类
      * @return List<Date> 
      */
-    List<Date> selectQuoteCount(Quote quote);
+    List<Timestamp> selectQuoteCount(Quote quote);
 
     /**
      *〈简述〉查询报价历史记录

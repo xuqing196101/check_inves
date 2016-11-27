@@ -148,9 +148,9 @@ public class SupplierEditController extends BaseSupplierController {
      * @throws IOException 异常处理
      */
     @RequestMapping(value = "save")
-    public String registerEnd(SupplierEdit se, HttpServletRequest request, Model model) throws IOException{
+    public String registerEnd(SupplierEdit se, String procurementDepId, HttpServletRequest request, Model model) throws IOException{
         User user1 = (User) request.getSession().getAttribute("loginUser");
-        if (validateBasicInfo(request, model, se)){
+        /*if (validateBasicInfo(request, model, se)){*/
             se.setRecordId(se.getId());
             se.setId(null);
             se.setCreateDate(new Timestamp(new Date().getTime()));
@@ -158,9 +158,7 @@ public class SupplierEditController extends BaseSupplierController {
             supplierEditService.insertSelective(se);
             Todos todo = new Todos();
             todo.setSenderId(user1.getId());
-            if (user1.getOrg() != null){
-                todo.setOrgId(user1.getOrg().getId());
-            }
+            todo.setOrgId(procurementDepId);
             todo.setPowerId(PropUtil.getProperty("gysdb"));
             todo.setUndoType((short) 1);
             todo.setName("供应商变更审核");
@@ -169,13 +167,13 @@ public class SupplierEditController extends BaseSupplierController {
             todo.setUrl("supplier_edit/audit.html?id=" + se.getId());
             todosService.insert(todo);
             return "redirect:list.html";
-        }
+       /* }
         Supplier supplier = supplierAuditService.supplierById(se.getId());
         supplier.setAddress(getAddressName(supplier.getAddress()));
         request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         model.addAttribute("suppliers", supplier);
-        return "ses/sms/supplier_apply_edit/add";
+        return "ses/sms/supplier_apply_edit/add";*/
     }
 
     /**
@@ -220,6 +218,7 @@ public class SupplierEditController extends BaseSupplierController {
         se.setStatus(auditStatus);
         if (auditStatus == 1){
             this.copyToSupplier(se.getId());
+            se.setCreateDate(new Timestamp(new Date().getTime()));
             supplierEditService.updateByPrimaryKey(se);
         } else {
             supplierEditService.updateByPrimaryKey(se);
@@ -300,6 +299,17 @@ public class SupplierEditController extends BaseSupplierController {
         supplierEdit2.setStatus((short) 4);
         //如果是第一次审核通过的时候要给原始数据保存下来（没有保存状态）
         if (supplierEditService.getAllbySupplierId(supplierEdit2).size() == 0){
+            String provinceName = "";
+            String cityName = "";
+            Area areaSe = areaService.listById(supplierEdit1.getAddress());
+            if (areaSe != null) {
+                cityName = areaSe.getName();
+                Area area1 = areaService.listById(areaSe.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplierEdit1.setAddress(provinceName + cityName);
             supplierEdit1.setStatus((short) 4);
             supplierEdit1.setCreateDate(new Timestamp(new Date().getTime()));
             supplierEditService.insertSelective(supplierEdit1);

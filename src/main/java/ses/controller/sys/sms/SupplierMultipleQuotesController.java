@@ -86,7 +86,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         User user = (User) req.getSession().getAttribute("loginUser");
         quote.setProjectId(projectId);
         quote.setSupplierId(user.getTypeId());
-        List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
+        List<Timestamp> listDate = supplierQuoteService.selectQuoteCount(quote);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);

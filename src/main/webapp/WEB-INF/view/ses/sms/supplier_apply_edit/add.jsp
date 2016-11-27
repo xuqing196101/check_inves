@@ -107,6 +107,7 @@ function save(){
         <div class="container container_box">
             <div class=" content height-350">
             <form id="form_id" action="${pageContext.request.contextPath}/supplier_edit/save.html" method="post">
+                <input name="procurementDepId" type="hidden" value="${suppliers.procurementDepId }" />
                 <div class="col-md-12 tab-v2 job-content">
                         <input name=id value="${suppliers.id }" type="hidden">
                     <h2 class="count_flow"><i>1</i>企业基本信息</h2>

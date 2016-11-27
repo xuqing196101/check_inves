@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public interface QuoteMapper {
      * @param quote 实体类
      * @return List<Date>
      */
-    List<Date> selectQuoteCount(Quote quote);
+    List<Timestamp> selectQuoteCount(Quote quote);
     /**
      *〈简述〉获取报价历史
      *〈详细描述〉

@@ -209,10 +209,10 @@
 							   <li class="col-md-3 col-sm-6 col-xs-12"> 
 								   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>企业地址</span>
 						     	   <div class="select_common">
-						     		    <select id="choose1" class="w100 mr25" onchange="fun();">
+						     		    <select id="choose1" class="w100" onchange="fun();">
 											<option  class="w100" >-请选择-</option>
 										</select>
-										<select name="address" class="w100" id="choose2">
+										<select name="address" class="w100 ml40" id="choose2">
 											<option class="w100">-请选择-</option>
 										</select>
 										<div class="red">${ERR_address}</div>
