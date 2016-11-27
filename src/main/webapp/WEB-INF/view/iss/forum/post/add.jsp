@@ -43,8 +43,10 @@
 	<script type="text/javascript">
 	$(function(){		  
 		    var parkId = "${post.park.id}";
-	        $("#park").val(parkId);	      
+	        $("#park").val(parkId);	  
+	        alert(parkId);   
 	        if(parkId!=null &&parkId !=""){  
+	        alert(32423423);
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
