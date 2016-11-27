@@ -147,16 +147,32 @@ public class AuditSummaryController {
 			cd.setContractProduct(contractProduct);
 			comprehensiveCostService.update(cd);
 		}
-		
-		contractProduct.setAuditOffer(1);
-		contractProductService.update(contractProduct);
-		contractProduct = contractProductService.selectById(productId);
-		AppraisalContract appraisalContract = new AppraisalContract();
-		appraisalContract.setId(contractProduct.getAppraisalContract().getId());
-		appraisalContract.setAppraisal(2);
-		appraisalContract.setUpdatedAt(new Date());
-		appraisalContractService.update(appraisalContract);
-		
+		//更改条目为已审核
+				contractProduct.setAuditOffer(1);
+				contractProductService.update(contractProduct);
+				contractProduct = contractProductService.selectById(productId);
+				//遍历项目所有条目是否已审核
+				List<ContractProduct> ContractProducts = contractProductService.selectList(contractProduct);
+				boolean flag = true;
+				for (ContractProduct cp : ContractProducts) {
+					if(cp.getOffer()==1){
+						if (cp.getAuditOffer()!=1&&cp.getAuditOffer()!=2) {
+							flag=false;
+							break;
+						}
+					}else {
+						flag = false;
+						break;
+					}
+				}
+				if (flag) {
+					AppraisalContract appraisalContract = new AppraisalContract();
+					appraisalContract.setId(contractProduct.getAppraisalContract().getId());
+					appraisalContract.setAppraisal(2);
+					appraisalContract.setUpdatedAt(new Date());
+					appraisalContractService.update(appraisalContract);
+				}
+				
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
@@ -207,11 +223,7 @@ public class AuditSummaryController {
 		contractProduct.setAuditOffer(2);
 		contractProductService.update(contractProduct);
 		contractProduct = contractProductService.selectById(productId);
-		AppraisalContract appraisalContract = new AppraisalContract();
-		appraisalContract.setId(contractProduct.getAppraisalContract().getId());
-		appraisalContract.setAppraisal(2);
-		appraisalContract.setUpdatedAt(new Date());
-		appraisalContractService.update(appraisalContract);
+
 		
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);

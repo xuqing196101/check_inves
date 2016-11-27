@@ -63,6 +63,24 @@
     ORDER BY UPDATED_AT DESC
   </select>
   
+  <!--3 根据条件查询 -->
+  <select id="selectByObjectCheck" parameterType="Object" resultMap="AppraisalContractResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    where APPRAISAL = 2
+    <if test="name != null and name != ''">
+        AND NAME LIKE #{name} 
+    </if>
+    <if test="code != null and code != ''">
+        AND CODE LIKE #{code} 
+    </if>
+    <if test="supplierName != null and supplierName != ''">
+        AND SUPPLIER_NAME LIKE #{supplierName} 
+    </if>
+    ORDER BY UPDATED_AT DESC
+  </select>
+  
   <!-- 7 根据条件模糊查询 -->
   <select id="selectByObjectLike" parameterType="Object" resultMap="AppraisalContractResultMap">
   	select
