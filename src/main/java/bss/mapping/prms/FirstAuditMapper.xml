@@ -133,4 +133,11 @@
       IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="find" parameterType="bss.model.prms.FirstAudit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_FIRST_AUDIT
+    where ID = #{id,jdbcType=VARCHAR}
+	and KIND=#{kind,jdbcType=VARCHAR}
+  </select>
 </mapper>

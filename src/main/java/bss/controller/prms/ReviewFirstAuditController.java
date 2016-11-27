@@ -123,8 +123,22 @@ public class ReviewFirstAuditController {
 		if(packageAuditList!=null && packageAuditList.size()>0){
 			for (PackageFirstAudit packageFirst : packageAuditList) {
 				//根据初审项的id 查询出初审项的信息放入集合
-				FirstAudit firstAudit = firstAuditService.get(packageFirst.getFirstAuditId());
-				firstAuditList.add(firstAudit);
+			    Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
+			    FirstAudit firstAudit = new FirstAudit();
+			    firstAudit.setId(packageFirst.getFirstAuditId());
+			    if ("1".equals(expert.getExpertsTypeId())) {
+			        firstAudit.setKind("技术");
+                }
+			    if ("2".equals(expert.getExpertsTypeId())) {
+                    firstAudit.setKind("法律");
+                }
+			    if ("3".equals(expert.getExpertsTypeId())) {
+                    firstAudit.setKind("商务");
+                }
+				List<FirstAudit> firstAudits = firstAuditService.findBykind(firstAudit);
+				if (firstAudits != null && firstAudits.size() > 0) {
+				    firstAuditList.add(firstAudits.get(0));
+                }
 			}
 		}
 	    //放入初审项集合

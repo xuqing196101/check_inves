@@ -972,6 +972,8 @@ public class ExpertController {
 			}
 		  //供应商信息
 		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+		  Expert expert = service.selectByPrimaryKey(expertId);
+		  model.addAttribute("expert", expert);
 		  model.addAttribute("supplierList", supplierList);
 		  model.addAttribute("projectId", projectId);
 		  model.addAttribute("packageId", packageId);
@@ -1041,7 +1043,7 @@ public class ExpertController {
 			}
 		}
 		Date date = new Date(create);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String formatDate = sdf.format(date);
 		Timestamp timestamp = Timestamp.valueOf(formatDate);
 		quote.setCreatedAt(timestamp);

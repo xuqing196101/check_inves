@@ -134,4 +134,11 @@ public class FirstAuditServiceImpl implements FirstAuditService {
 		List<FirstAudit> list = mapper.selectListByProjectId(projectId);
 		return list;
 	}
+
+
+    @Override
+    public List<FirstAudit> findBykind(FirstAudit record) {
+        List<FirstAudit> list = mapper.find(record);
+        return list;
+    }
 }

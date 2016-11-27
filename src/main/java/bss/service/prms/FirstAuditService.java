@@ -85,4 +85,6 @@ public interface FirstAuditService {
 	  * @return List<FirstAudit>
 	 */
 	List<FirstAudit> getListByProjectId(String projectId) throws Exception;
+	
+	List<FirstAudit> findBykind(FirstAudit record);
 }

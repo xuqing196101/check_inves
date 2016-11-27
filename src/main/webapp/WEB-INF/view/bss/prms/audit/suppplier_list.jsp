@@ -123,18 +123,20 @@
         </tr>
         </thead>
         <tbody id="tbody_id">
-        
+        <c:set var="count" value="0"> </c:set>
         <c:forEach items="${supplierList}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem"   alt=""></td>
-              <td class="tc w50">${vs.count}</td>
-              <td class="tc">${obj.suppliers.supplierName }</td>
-              <td class="tc">${obj.suppliers.contactName }</td>
-              <td class="tc">${obj.suppliers.contactTelephone }</td>
-              <td class="tc">${obj.suppliers.contactAddress }</td>
-              <td class="tc"></td>
-            </tr>
-     
+        	<c:if test="${fn:contains(obj.packages,packageId)}">
+        		<c:set var="count" value="${count+1}"></c:set>
+	            <tr style="cursor: pointer;">
+	              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem"   alt=""></td>
+	              <td class="tc w50">${count}</td>
+	              <td class="tc">${obj.suppliers.supplierName }</td>
+	              <td class="tc">${obj.suppliers.contactName }</td>
+	              <td class="tc">${obj.suppliers.contactTelephone }</td>
+	              <td class="tc">${obj.suppliers.contactAddress }</td>
+	              <td class="tc"></td>
+	            </tr>
+     		</c:if>
          </c:forEach> 
         </tbody>
       </table>
