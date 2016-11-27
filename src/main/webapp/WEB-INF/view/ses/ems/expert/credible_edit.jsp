@@ -131,7 +131,7 @@
                 <div class="clear"></div>
                </ul>
                <div class="tc mt10 col-md-12 col-xs-12">
-				    <input type="button" onclick="submit1();"  value="修改"class="btn btn-windows add"/>
+				    <input type="button" onclick="submit1();"  value="修改"class="btn btn-windows edit"/>
 				    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
 			     </div>
   </form>
