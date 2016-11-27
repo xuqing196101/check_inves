@@ -25,7 +25,7 @@ session.setAttribute("tokenSession", tokenValue);
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
 					$("#addr2").val(parentId);
-					func2();
+					//func2();
 				}
 			});
 			
