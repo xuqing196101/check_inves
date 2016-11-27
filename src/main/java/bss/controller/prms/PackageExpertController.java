@@ -509,13 +509,26 @@ public class PackageExpertController {
 		  try { HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("projectId", projectId);
 		    List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+		    List<Packages> listPackageEach = new ArrayList<Packages>();
+	        SaleTender saleTender = new SaleTender();
+	        saleTender.setProjectId(projectId);
+	        saleTender.setSupplierId(supplierId);
+	        List<SaleTender> sts = saleTenderService.find(saleTender);
+	        if (sts != null && sts.size() > 0) {
+	            String packageStr = sts.get(0).getPackages();
+	            for (Packages packages : listPackage) {
+	                if (packageStr.indexOf(packages.getId()) != -1) {
+	                    listPackageEach.add(packages);
+	                }
+	            }
+	        }
 		    List<List<Quote>> listQuote=new ArrayList<List<Quote>>();
 		    //查询时间
 		    Quote quote2 = new Quote();
 		    quote2.setSupplierId(supplierId);
 		    quote.setProjectId(projectId);
 		    List<Date> listDate=supplierQuoteService.selectQuoteCount(quote2);
-		    for(Packages pk:listPackage){
+		    for(Packages pk:listPackageEach){
 		    	if(StringUtils.isNotEmpty(timestamp)){
 		    		//如果传递时间 就按照时间查询
 		    		quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
@@ -523,9 +536,9 @@ public class PackageExpertController {
 		    		if(listDate!=null && listDate.size()>0){
 		    		//否则就查询最后一次报价
 		    		Date date = listDate.get(listDate.size()-1);
-		    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		    		String formatDate = sdf.format(date);
-		    		Timestamp timestamp2 = Timestamp.valueOf(formatDate);
+		    		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		    		//String formatDate = sdf.format(date);
+		    		Timestamp timestamp2 = new Timestamp(date.getTime());
 		    		quote.setCreatedAt(timestamp2);
 		    		}
 		    	}
@@ -533,7 +546,7 @@ public class PackageExpertController {
 		    	List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
 		    	listQuote.add(quoteList);
 		    }
-		    model.addAttribute("listPackage",listPackage);
+		    model.addAttribute("listPackage",listPackageEach);
 		    model.addAttribute("listQuote",listQuote);
 		    model.addAttribute("listDate", listDate);
 		    model.addAttribute("projectId", projectId);

@@ -1,7 +1,9 @@
 package bss.service.prms.impl;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.QuoteMapper;
+import ses.dao.sms.SupplierMapper;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.util.WfUtil;
 import bss.dao.ppms.AduitQuotaMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
@@ -19,9 +26,6 @@ import bss.model.prms.ExpertScore;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ext.AuditModelExt;
 import bss.service.prms.ExpertScoreService;
-import ses.dao.sms.SupplierMapper;
-import ses.model.sms.Supplier;
-import ses.util.WfUtil;
 @Service
 public class ExpertScoreServiceImpl implements ExpertScoreService {
 
@@ -35,6 +39,10 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 	private ReviewFirstAuditMapper reviewFirstAuditMapper;
 	@Autowired
 	private SupplierCheckPassMapper supplierCheckPassMapper;
+	
+	@Autowired
+	private QuoteMapper quoteMapper;
+	
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -194,18 +202,38 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
          mapScore.put("projectId", projectId);
          mapScore.put("expertId", expertId);
          for (Supplier supplier : supplierList) {
-             BigDecimal zero = BigDecimal.ZERO;
+             BigDecimal totalScore = BigDecimal.ZERO;
              mapScore.put("supplierId", supplier.getId());
              //查询改包下的供应商所有评审项的评分信息
              List<ExpertScore> list = mapper.selectByMap(map);
              for (ExpertScore expertScore : list) {
-                zero.add(expertScore.getScore());
-            }
+                 totalScore.add(expertScore.getScore());
+             }
              SupplierCheckPass record = new SupplierCheckPass();
              record.setPackageId(packageId);
              record.setProjectId(projectId);
              record.setSupplierId(supplier.getId());
-             record.setTotalScore(zero);
+             record.setTotalScore(totalScore);
+             //增加供应商报价-start
+             Quote quote = new Quote();
+             quote.setProjectId(projectId);
+             quote.setSupplierId(supplier.getId());
+             List<Date> listDate = quoteMapper.selectQuoteCount(quote);
+             if(listDate!=null && listDate.size()>0){
+                 Date date = listDate.get(listDate.size()-1);
+                 Timestamp timestamp2 = new Timestamp(date.getTime());
+                 quote.setCreatedAt(timestamp2);
+             }
+             quote.setPackageId(packageId);
+             List<Quote> listQuote = quoteMapper.selectQuoteHistory(quote);
+             BigDecimal total=BigDecimal.ZERO;
+             if(listQuote!=null){
+                 for(Quote q : listQuote){
+                     total=total.add(q.getTotal());
+                 }
+             }
+             record.setTotalPrice(total.longValue());
+             //end
             supplierCheckPassMapper.insert(record );
         }
        
