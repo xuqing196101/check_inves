@@ -21,19 +21,20 @@
 	<div class="wrapper mt50">
 	<div class="container">
 			<div class="p10_25">
-				<form target="_parent" id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit/save_or_update_supplier_credit.html" method="post">
+				<form target="_parent" id="search_form_id" class="" action="${pageContext.request.contextPath}/supplier_credit/save_or_update_supplier_credit.html" method="post">
 					<input name="id" type="hidden" value="${supplierCredit.id}">
 					<ul class="demand_list">
 						<li class="fl">
 							<label class="fl mt5">诚信形式名称：</label>
 							<span><input name="name" type="text" value="${supplierCredit.name}" /></span>
 						</li>
-						<li class="fl mt1">
-							<input class="btn" type="submit" value="保存" />
-							<a target="_parent" class="btn" href="${pageContext.request.contextPath}/supplier_credit/list.html">返回</a>
-						</li>
+							<div class="clear"></div>
 					</ul>
-					<div class="clear"></div>
+					<div class="tc mt10 col-md-12 col-xs-12">
+					   <br>
+					   <input class="btn" type="submit" value="保存" />
+                            <a target="_parent" class="btn" href="${pageContext.request.contextPath}/supplier_credit/list.html">返回</a>
+					</div>
 				</form>
 			</div>
 		</div>

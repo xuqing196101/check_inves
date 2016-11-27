@@ -175,24 +175,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <h2 class="count_flow"><i>1</i>修改个人信息</h2>
          <ul class="ul_list">
 		   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  专家姓名</span>
-			 <div class="input-append col-sm-12 col-xs-12 p0">
+			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 				<input class="input_group" id="relName" name="relName" value="${expert.relName}"   type="text">
 			    <span class="add-on">i</span>
 			 </div>
 		   </li>
 		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 出生日期</span>
-			 <div class="input-append col-sm-12 col-xs-12 p0">
+			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 				<input class="input_group"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
 			 </div>
 		   </li>
 		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  证件号码</span>
-			 <div class="input-append">
+			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 				 <input class="input_group" maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text">
 				 <span class="add-on">i</span>
 			 </div>
 		   </li>
 		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  民族</span>
-			 <div class="input-append">
+			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			 <input class="input_group" maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text">
 			 <span class="add-on">i</span>
 			 </div>
@@ -262,88 +262,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 毕业院校</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 专家技术职称</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 参加工作时间</span>
-		  <div class="input-append col-sm-12 col-xs-12 p0">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 专业</span>
-		  <div class="input-append">
+		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="20" value="${expert.major}"  name="major" id="major" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 从事专业起始年度</span>
-		  <div class="input-append col-sm-12 col-xs-12 p0">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			 <input class="input_group" value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
 	      </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工作单位</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 单位地址</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			 <input class="input_group" maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text">
 			 <span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 联系电话（固话）</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 手机</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="15" value="${expert.mobile}"  name="mobile" id="mobile" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 传真</span>
-		  <div class="input-append">
+		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="10"  value="${expert.fax}"  name="fax" id="fax" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li> 
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 邮编</span>
-		  <div class="input-append">
+		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 获得技术时间</span>
-		  <div class="input-append col-sm-12 col-xs-12 p0">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 学位</span>
-		  <div class="input-append">
+		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 健康状态</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text">
 			<span class="add-on">i</span>
 		  </div>
 		</li>
 		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 现任职务</span>
-		  <div class="input-append">
+		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			<input class="input_group" maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text">
 			<span class="add-on">i</span>
 		  </div>
@@ -392,7 +392,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	 </tr>
 	  	 <tr>
 	   	    <td  class="info"><i class="red">*</i> 专家合同书：</td>
-	   	    <td colspan="3">
+	   	    <td colspan="5">
 	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	    </td>
@@ -416,16 +416,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </tbody>
 	 </table>
 	</ul>
-    <div class="col-md-12 tc">
-      <input class="btn btn-windows edit" type="button" onclick="submitForm();" value="修改">
-	  <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-    </div>
+    
   </div>
+  <div class="col-md-12 tc">
+      <input class="btn btn-windows edit" type="button" onclick="submitForm();" value="修改">
+      <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+    </div>
 </div> 
    <div class="tab-pane fade height-450" id="tab-2">   
-     <div class="headline-v2">
-       <h2>评标专家类型</h2>
-     </div>      
+       <h2 class="list_title">评标专家类型</h2>
     <ul class="ul_list">
 	  <div class="margin-bottom-0  categories">
 		<ul class="list-unstyled list-flow" style="margin-left: 250px;">
@@ -440,7 +439,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </select>
 		   </li>
          </ul>
-         <ul class="ul_list" id="ztree" >
+         <ul class="" id="ztree" >
   			<div>
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
@@ -460,12 +459,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		  </ul>
         </div>
        </ul>
- <div  class="col-md-12">
-   <div class="col-md-12 tc">
-      <input class="btn btn-windows edit" type="button" onclick="submitForm();" value="修改">
-	  <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-   </div>
-          </div>
+		   <div class="col-md-12 tc">
+		      <input class="btn btn-windows edit" type="button" onclick="submitForm();" value="修改">
+			  <a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+		   </div>
         </div>
       </div>
     </div>

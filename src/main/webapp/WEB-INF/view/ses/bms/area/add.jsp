@@ -117,24 +117,22 @@
             <ul id="treeDemo" class="ztree"  style="width: 220px"></ul>
        </div>
        <div>
-       <div class="headline-v2">
-         <h2>添加地区</h2>
-       </div>
+         <h2 class="list_title">添加地区</h2>
        <form action="" id="form1" method="post">
            <div>
                <input type="hidden" name="id" id="pid" value="${area.id }">
                <ul class="ul_list">
-                 <li class="col-md-6 p0">
-                   <span class="col-md-12 padding-left-5">上级</span>
-                   <div class="input-append">
-                    <input id="citySel" class="span5" name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
+                 <li class="col-md-3 col-sm-6 col-xs-12">
+                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
+                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input id="citySel" class="input_group" name="pname" type="text" readonly value="${area.name }"  onclick="showMenu();" />
                     <span class="add-on">i</span>
                    </div>
                  </li>
-                 <li class="col-md-6 p0">
-                   <span class="col-md-12 padding-left-5">名称</span>
-                   <div class="input-append">
-                    <input class="span5" name="name" maxlength="30" type="text">
+                 <li class="col-md-3 col-sm-6 col-xs-12">
+                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
+                   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+                    <input class="input_group" name="name" maxlength="30" type="text">
                     <span class="add-on">i</span>
                    </div>
                  </li>

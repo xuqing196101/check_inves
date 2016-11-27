@@ -5,8 +5,6 @@
 <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>专家诚信列表</title>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -104,13 +102,13 @@ $(function(){
 </script>
 </head>
 <body>
-  <div class="wrapper">
 <!-- 我的订单页面开始-->
+<div class="container">
    <div class="headline-v2">
    <h2>专家诚信登记</h2>
    </div>
   <h2 class="search_detail"> 
-   <form action="${pageContext.request.contextPath}/credible/findAll.html" id="form1" method="post"   class="registerform"> 
+   <form action="${pageContext.request.contextPath}/credible/findAll.html" id="form1" method="post"   class="mb0"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
                   <ul class="demand_list">
@@ -122,20 +120,15 @@ $(function(){
                          <input class="btn btn-windows reset" id="button" onclick="clearSearch();" value="重置" type="reset">
    </form>
   </h2>
- </div>
 <form action="${pageContext.request.contextPath}/credible/list.html"  method="post"   class="registerform"> 
-   <div class="container">
-   <div class="col-md-8">
+   <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows git" type="button" onclick="submit1();">提交</button>
 	<button class="btn btn-windows cancel" type="button" onclick="cancel();">关闭</button>
-	</div>
     </div>
 <!-- 表格开始-->
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-     
+   <div class="content table_box">
         <input type="hidden" name="expertId" value="${expertId }">
-        <table class="table table-bordered table-condensed">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
@@ -169,8 +162,7 @@ $(function(){
         </table>
         <div id="pagediv" align="right"></div>
      </div>
-   </div>
    </form>
- </div>
+</div>
 </body>
 </html>

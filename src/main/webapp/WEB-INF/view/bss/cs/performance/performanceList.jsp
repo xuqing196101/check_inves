@@ -151,7 +151,7 @@
 							    shade:0.01, //遮罩透明度
 								type : 1,
 								skin : 'layui-layer-rim', //加上边框
-								area : [ '40%', 'auto' ], //宽高
+								area : [ '40%', '200px' ], //宽高
 								content : $('#numberWin'),
 								offset: ['10%', '25%']
 							});
@@ -291,14 +291,14 @@
      <form id="finForm" action="${pageContext.request.contextPath}/performance/updateFinalClosed.html" method="post">
      	 <input id="pId" type="hidden" name="id" value=""/>
 	     <ul class="list-unstyled mt10 dnone col-xs-offset-3" id="numberWin">
-	  		    <li class="col-md-12">
-				   <span class="col-md-12 fl"><div class="red star_red">*</div>最终结算金额：</span>
-				   <div class="input-append col-md-12">
-				     <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0 w220"/>
-				     <div id='cue' class="cue col-md-12"></div>
+	  		    <li class="col-md-12 col-md-12 col-sm-12 col-xs-12">
+				   <span class="fl mt5"><div class="red star_red">*</div>最终结算金额：</span>
+				   <div class="fl">
+				     <input type="text" id="finalClosed" name="finallyClosed" value="" class="mb0" />
+				     <div id='cue' class="red f14"></div>
 				   </div>
 				</li>	
-				<li class="tc col-md-12 tl pl50 pb20">
+				<li class="tl col-md-12 col-xs-12 col-sm-12 mt20 pl50">
 			       <input type="button" class="btn" onclick="save()" value="确定"/>
 			       <input type="button" class="btn" onclick="cancel()" value="取消"/>
 		        </li>

@@ -96,7 +96,7 @@
         <button class="btn btn-windows back" type="button" onclick="cancel();">返回</button>
       </div>
     <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table id="table" class="table table-bordered table-condensed table-hover">
         <thead>
         <tr>
           <th class="info w50">序号</th>

@@ -111,7 +111,7 @@
 		<!-- 表格开始-->
 			
 			<h2 class="search_detail">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="get">
+				<form id="search_form_id" class="mb0" action="${pageContext.request.contextPath}/supplier_level/list.html" method="get">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li>

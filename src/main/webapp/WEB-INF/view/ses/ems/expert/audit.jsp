@@ -290,11 +290,11 @@ session.setAttribute("tokenSession", tokenValue);
 	</ul>
   </div>
   <div class="padding-top-10 clear">
-    <ul  class="list-unstyled list-flow p0_20">
-	  <li class="col-md-12 p0">
-	    <span class="fl">审核意见：</span>
-	    <div class="col-md-12 pl200 fn mt5 pwr9">
-          <textarea class="text_area col-md-12 " maxlength="200" id="remark" name="remark"  placeholder="不超过200个字"></textarea>
+    <ul class="ul_list">
+	  <li class="col-md-12 col-sm-12 col-xs-12">
+	    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">审核意见</span>
+	    <div class="col-md-12 col-sm-12 col-xs-12 p0">
+          <textarea class="col-md-12 col-sm-12 col-xs-12 " style="height:130px" maxlength="200" id="remark" name="remark"  placeholder="不超过200个字"></textarea>
         </div>
 	  </li> 
     </ul>
@@ -322,7 +322,7 @@ session.setAttribute("tokenSession", tokenValue);
 			  </select>
 		   </li>
          </ul>
-         <ul class="ul_list" id="ztree" >
+         <ul class="" id="ztree" >
   			<div>
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
