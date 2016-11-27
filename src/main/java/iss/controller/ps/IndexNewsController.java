@@ -119,7 +119,12 @@ public class IndexNewsController extends BaseSupplierController{
 		}
 		indexMapper.put("picList", indexPics);
 		for(int i=0;i<articleTypeList.size();i++){
-			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+			List<Article> indexNewsList = null;
+			if(articleTypeList.get(i).getName().equals("工作动态")){
+				indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+			}else{
+				indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+			}
 			if(!indexNewsList.isEmpty()){
 				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
 			}else{

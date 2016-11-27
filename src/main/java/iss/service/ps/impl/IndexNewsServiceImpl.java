@@ -58,4 +58,9 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 	public Integer selectCount(Map<String,Object> countMap) {
 		return indeNewsMapper.selectCount(countMap);
 	}
+
+	@Override
+	public List<Article> selectNewsForJob(String id) {
+		return indeNewsMapper.selectNews(id);
+	}
 }
