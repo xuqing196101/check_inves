@@ -115,7 +115,7 @@ public class CategoryAuditServiceImpl implements CategoryAuditService {
                 
                 if (category.getParamStatus() >= StaticVariables.CATEGORY_AUDIT_STATUS){
                     rb.setResult(false);
-                    rb.setErrorMsg(category.getName() + StaticVariables.CATEGORY_AUDIT_MSG);
+                    rb.setErrorMsg(category.getName() + StaticVariables.CATEGORY_AUDIT_MSG + StaticVariables.OPERA_SUBMIT_MSG);
                     return rb;
                     
                 } else if (category.getParamStatus() == StaticVariables.CATEGORY_ASSIGNED_STATUS){

@@ -6,7 +6,7 @@ $(function(){
 		    async:{
 					autoParam:["id","name"],
 					enable:true,
-					url: globalPath + "/auditParams/initTree.do",
+					url: globalPath + "/publish/initTree.do",
 					dataType:"json",
 					type:"post",
 				},
@@ -28,6 +28,12 @@ $(function(){
 						rootPId:"0",
 					}
 			    },
+			    check:{
+				    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+	       		    chkStyle:"checkbox",
+	       		    nocheckInherit: false,
+					enable: true
+			   },
 			    view:{
 			        selectedMulti: false,
 			        showTitle: false,
@@ -35,13 +41,10 @@ $(function(){
 		};
 		//初始化tree
 	    $.fn.zTree.init($("#ztree"),setting,datas); 
-	    $("#uListId").hide();
 	    //初始化类型
 	    typesObj = initTypes();
-	    //控制按钮
-	    hiddenParams();
+	    $("#uListId").hide();
 });
-
 /**
  * 点击tree
  * @param event
@@ -55,11 +58,43 @@ function zTreeOnClick(event,treeId,treeNode){
 		getTreeNodeData(treeNode.id,treeNode);
 	} else {
 		$("#uListId").hide();
-		selectedTreeId = null;
-		hiddenParams();
 	}
-	
 }
+
+/**
+ * 发布
+ */
+function publishParam(){
+	var cateId = [];
+	var treeObj = $.fn.zTree.getZTreeObj("ztree");  
+    var nodes = treeObj.getCheckedNodes(true);  
+    for(var i=0; i<nodes.length; i++){ 
+    	if (nodes[i].pId != '0'){
+    		cateId.push(nodes[i].id);
+    	}
+    }
+    
+    if (cateId.length == 0){
+    	layer.msg("请选择品目");
+    	return;
+    }
+    
+    $.ajax({
+		  type:"POST",
+		  data:{'ids':cateId.toString()},
+		  async: false,
+	  	  url:  globalPath + "/publish/published.do",
+	      success:function(msg){
+	    	  if (msg == 'ok'){
+	    		  layer.msg("发布成功");
+	    	  } else{
+	    		  layer.msg("发布失败");
+	    	  }
+	  	  }
+	});
+    
+}
+
 
 /**
  *  获取treeNode集合
@@ -80,24 +115,23 @@ function getTreeNodeData(cateId,treeNode){
 		success:calledback
 	});
 	
+	//加载是否公开
 	var publishStatus = treeNode.pubStatus;
 	if (publishStatus != null){
 		loadRadioHtml(publishStatus);
 	}
 	
+	//加载类型
 	var root = getCurrentRoot(treeNode);
 	if (root.classify != null && root.classify == 'GOODS'){
 		loadcheckbox(treeNode.classify);
 	} 
-	if (treeNode.status >= 2){
-		showParams();
-	} else {
-		hiddenParams();
+	
+	//加载发布状态
+	if (treeNode.status !=null && treeNode.status !=""){
+		loadPublishHtml(treeNode.status);
 	}
-	loadAuditValue(treeNode);
 }
-
-
 
 /**
  * 初始化数据类型
@@ -210,138 +244,25 @@ function getCurrentRoot(treeNode){
 }
 
 /**
- * 审核参数
+ * 加载发布
+ * @param auditStatus
  */
-function auditParams(){
-	var status = $("select[name='auditStatus']").val();
-	var text  = $("#textId").val();
-	
-	if (status == 1){
-		if (text == ''){
-			layer.msg("审核意见不能为空");
-			return ;
-		}
+function loadPublishHtml(auditStatus){
+	var statusText = "";
+	if (auditStatus == 3){
+		statusText = "未发布";
+	}
+	if (auditStatus == 4){
+		statusText = "已发布";
 	}
 	
-	if (selectedTreeId == null){
-		layer.msg("请选择需要审核的品目");
-		return ;
-	}
-	audit(status,text);
-}
-
-/**
- * 审核请求
- * @param status 状态
- * @param advise 意见
- */
-function audit(status,advise){
-	if (selectedTreeId != null){
-		$.ajax({
-			  dataType:"json",
-			  type:"POST",
-			  data:{'id':selectedTreeId,'status':status,'advise':advise},
-			  async: false,
-		  	  url:  globalPath + "/auditParams/audit.do",
-		      success:function(data){
-		    	  getResult(data);
-		  	  }
-		});
-	}
-}
-
-/**
- * 获取更新状态
- * @param data 返回数据
- */
-function getResult(data){
-	if (data.result){
-		layer.msg("提交成功");
-		updateTreeNode(data.obj);
-	} else {
-		layer.msg(data.errorMsg);
-	}
-}
-
-/**
- * 更新选中的treeNode
- * @param obj
- */
-function updateTreeNode(obj){
-	if (obj != null){
-		var zTree = $.fn.zTree.getZTreeObj("ztree");
-		var nodes = zTree.getSelectedNodes();
-		if (nodes!= null){
-			var node = nodes[0];
-			node.status = obj.paramStatus;
-			
-			if (obj.paramStatus == 1){
-				refreshParentNode();
-				hiddenParams();
-			}
-		}
-	}
-}
-
-
-/**
- * 刷新父级节点
- */
-function refreshParentNode() {  
-	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
-	   type = "refresh", 
-	   silent = false,  
-	   nodes = zTree.getSelectedNodes();  
-	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   zTree.reAsyncChildNodes(parentNode, type, silent);  
-}
-
-/**
- * 加载选中的值
- * @param treeNode
- */
-function loadAuditValue (treeNode){
-	if (treeNode.status == 1 || treeNode.status == 3){
-		$("select[name='auditStatus']").val(treeNode.status);
-	} else {
-		$("select[name='auditStatus'] option:first").prop("selected","selected");
-	}
-	
-	if (treeNode.auditAdvise != null && treeNode.auditAdvise != ""){
-		$("#textId").val(treeNode.auditAdvise);
-	} else {
-		$("#textId").val("");
-	}
-}
-
-/**
- * 
- * @param obj 当前对象
- */
-function loadAuditText(obj){
-	var status = $(obj).val();
-	if (status == 1){
-		$("#markId").show();
-	} else {
-		$("#markId").hide();
-	}
-}
-
-/**
- * 隐藏
- */
-function hiddenParams(){
-	$("#baseParamId").hide();
-	$("#auditParamId").hide();
-	$("#auditBtnId").hide();
-	$("#markId").hide();
-}
-
-/**
- * 显示
- */
-function showParams(){
-	$("#baseParamId").show();
-	$("#auditParamId").show();
-	$("#auditBtnId").show();
+	var html = "<li>"
+		     + " <div class='col-md-2 col-sm-4 col-xs-5 tr'>"
+		     + "  发布状态: " 
+		     + " </div>"
+		     + " <div class='col-md-10 col-sm-8 col-xs-7'>"
+		     + statusText ;
+		  	 + " </div>"
+		  	 + "</li>";
+	$("#uListId").append(html);  
 }

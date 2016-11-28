@@ -57,8 +57,6 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
     /** 物资类编码 */
     private static final String GOODS_CODE = "GOODS";
     
-    /** 提交操作 **/
-    private static final String OPERA_SUBMIT = "提交";
     
     /** 产品参数管理 */
     @Autowired
@@ -336,7 +334,7 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
                 }
                 
                 if (status == StaticVariables.CATEGORY_AUDIT_STATUS){
-                    msg = StaticVariables.CATEGORY_AUDIT_MSG + OPERA_SUBMIT;
+                    msg = StaticVariables.CATEGORY_AUDIT_MSG + StaticVariables.OPERA_SUBMIT_MSG;
                     return msg;
                 }
                 

@@ -18,6 +18,7 @@
 		<result column="PARAM_STATUS" property="paramStatus" />
 		<result column="ACCEPT_RANGE" property="acceptRange" />
 		<result column="PARAM_PUBLISH_RANGE" property="paramPublishRange" />
+		<result column="AUDIT_DATE" property="auditDate"/>
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
 
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
@@ -38,7 +39,8 @@
 	<sql id="Base_Column_List">
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
-		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_ADVISE
+		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE
 	</sql>
 
 	<!-- 根据id查询 -->
