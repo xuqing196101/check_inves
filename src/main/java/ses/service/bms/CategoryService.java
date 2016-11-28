@@ -236,8 +236,9 @@ import ses.model.sms.SupplierTypeTree;
      * @author myc
      * @param id {@link java.lang.string} 主键
      * @param opera {@link java.lang.string} 操作类型
+     * @param stepMsg 步骤提示
      * @param status 状态
      * @return 
      */
-    public String estimate(String id, String opera,Integer status);
+    public String estimate(String id, String opera,String stepMsg ,Integer status);
 }

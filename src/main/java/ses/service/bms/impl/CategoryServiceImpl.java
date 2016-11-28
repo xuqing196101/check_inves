@@ -202,12 +202,12 @@ public class CategoryServiceImpl implements CategoryService {
      * @see ses.service.bms.CategoryService#estimate(java.lang.String)
      */
     @Override
-    public String estimate(String id, String opera, Integer status) {
+    public String estimate(String id, String opera,String stepMsg ,Integer status) {
         String msg = StaticVariables.SUCCESS;
         Category cate = selectByPrimaryKey(id);
         if (cate != null){
             if (cate.getParamStatus() >= status){
-                msg = cate.getName() + StaticVariables.CATEGORY_ASSIGNED_MSG;
+                msg = cate.getName() + stepMsg;
                 msg = msg + getOperaStatusMsg(opera);
             } 
         }
@@ -382,6 +382,8 @@ public class CategoryServiceImpl implements CategoryService {
     private String getOperaStatusMsg(String opera){
         String msg = "";
         switch(opera){
+            case StaticVariables.OPER_ADD_TYPE: 
+                msg = StaticVariables.OPER_ADD_MSG;  break;
             case StaticVariables.OPER_EDIT_TYPE: 
                 msg = StaticVariables.OPER_EDIT_MSG;  break;
             case StaticVariables.OPER_DEL_TYPE:

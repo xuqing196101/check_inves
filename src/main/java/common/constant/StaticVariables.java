@@ -24,6 +24,8 @@ public class StaticVariables {
     
     
     /** 修改操作 */
+    public static final String OPER_ADD_MSG ="新增";
+    /** 修改操作 */
     public static final String OPER_EDIT_MSG ="修改";
     /** 删除操作 */
     public static final String OPER_DEL_MSG ="删除";

@@ -78,6 +78,13 @@ function zTreeOnClick(event,treeId,treeNode){
 function addParams(){
 	if (selectedTreeId != null){
 		itemId = "";
+		var msg = getStatus('add');
+		if (msg !=null){
+		  if (msg != "ok"){
+			  layer.msg(msg);
+			  return false;
+		  }
+		}
 		$('input[name="paramName"]').val("");
 		$('select[name="paramTypeId"]').find("option:eq(0)").attr('selected',true);
 		openDiv();
@@ -93,6 +100,15 @@ function editParams(){
 	var chekedId = "";
 	itemId = "";
 	var count = 0;
+	
+	var msg = getStatus('edit');
+	if (msg != null){
+	  if (msg != "ok"){
+		  layer.msg(msg);
+		  return false;
+	  }
+	}
+	
 	$('input[name="chkItem"]:checked').each(function(){ 
 		count ++;
 		chekedId = $(this).val();
@@ -110,6 +126,15 @@ function editParams(){
  * 删除
  */
 function delParams(){
+	
+	var msg = getStatus('del');
+	if (msg != null){
+	  if (msg != "ok"){
+		  layer.msg(msg);
+		  return false;
+	  }
+	}
+	
 	var ids = [];
 	$('input[name="chkItem"]:checked').each(function(){ 
 		ids.push($(this).val());
@@ -467,6 +492,25 @@ function reloadCurrentNode(id){
 	  	  }
 	  });
 	return currentNode;
+}
+
+/**
+ * 获取当前的状态
+ * @param opera 操作类型
+ * @returns {String}
+ */
+function getStatus(opera){
+	var statusMsg = null;
+	$.ajax({
+		  type:"POST",
+		  data:{'id':selectedTreeId,'opera':opera},
+		  async: false,
+	  	  url:  globalPath + "/cateParam/getStatus.do",
+	      success:function(msg){
+	    	  statusMsg = msg;
+	  	  }
+	  });
+	return statusMsg;
 }
 
 

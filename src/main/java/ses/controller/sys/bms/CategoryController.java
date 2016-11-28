@@ -194,7 +194,7 @@ public class CategoryController extends BaseSupplierController {
     @RequestMapping(value = "/calledStatus", produces = "text/html;charset=UTF-8")
     public String calledStatus(String id, String opera){
         
-        return  categoryService.estimate(id, opera,StaticVariables.CATEGORY_ASSIGNED_STATUS);
+        return  categoryService.estimate(id, opera,StaticVariables.CATEGORY_ASSIGNED_MSG,StaticVariables.CATEGORY_ASSIGNED_STATUS);
     }
 
     /**

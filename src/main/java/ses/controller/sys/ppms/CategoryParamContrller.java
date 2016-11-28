@@ -48,7 +48,6 @@ import ses.service.ppms.CategoryParamService;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
-import common.constant.StaticVariables;
 
 @Controller
 @Scope("prototype")
