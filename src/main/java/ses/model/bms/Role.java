@@ -45,6 +45,16 @@ public class Role implements Serializable{
      */
     private Integer isDeleted;
     
+    /**
+     * @Fields code : TODO(目的和意义)角色唯一编码
+     */
+    private String code;
+    
+    /**
+     * @Fields kind : TODO(目的和意义)角色所属系统后台
+     */
+    private String kind;
+    
     /** 包含用户 */
     private List<User> users;
     
@@ -122,5 +132,21 @@ public class Role implements Serializable{
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
     
 }

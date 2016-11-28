@@ -27,7 +27,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '${pageContext.request.contextPath}/user/list.html?page='+e.curr;
+			            location.href = '${pageContext.request.contextPath}/role/list.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -118,7 +118,7 @@
 		if(id.length==1){
 			layer.open({
 			  type: 2, //page层
-			  area: ['580px','350px'],
+			  area: ['500px','400px'],
 			  title: '修改角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -168,22 +168,30 @@
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
+			var trObj = $(this).parent().parent();
+			var tdArr = trObj.children("td");
+		    var roleCode = tdArr.eq(4).text();
+		    if (roleCode == 'SUPPLIER_R' || roleCode == 'IMPORT_AGENT_R' || roleCode == 'PURCHASE_ORG_R' || roleCode == 'MODERATOR_R' || roleCode == 'PURCHASE_R' || roleCode == 'IMPORT_SUPPLIER_R' || roleCode == 'ADMIN_R' || roleCode == 'EXPERT_R') {
+				layer.msg("系统初始角色请找管理员确认删除",{offset: ['222px']});
+			} else {
+				ids.push($(this).val()); 
+				if(ids.length>0){
+					layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+					layer.close(index);
+					window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
+				});
+				}else{
+					layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
+				}
+			}
 		}); 
-		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
-			});
-		}else{
-			layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
-		}
+		
     }
     
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['580px','350px'],
+			  area: ['500px','400px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -259,6 +267,8 @@
 						<th class="info w50">序号</th>
 						<th class="info">名称</th>
 						<th class="info">状态</th>
+						<th class="info">唯一编码</th>
+						<th class="info">所属后台</th>
 						<th class="info">描述</th>
 					</tr>
 				</thead>
@@ -274,7 +284,20 @@
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
 									<span class="label rounded-2x label-dark">禁用</span>
-								</c:if></td>
+								</c:if>
+							</td>
+							<td class="tc">${role.code}</td>
+							<td>
+								<c:forEach items="${dds}" var="dd" varStatus="vs">
+		                   			<c:if test="${dd.id eq role.kind}">
+			                   			<c:if test="${'PURCHASE_BACK' eq dd.code}">采购后台</c:if>
+			                   			<c:if test="${'EXPERT_BACK' eq dd.code}">专家后台</c:if>
+			                   			<c:if test="${'SUPPLIER_BACK' eq dd.code}">供应商后台</c:if>
+			                   			<c:if test="${'IMPORT_SUPPLIER_BACK' eq dd.code}">进口供应商后台</c:if>
+			                   			<c:if test="${'IMPORT_AGENT_BACK' eq dd.code}">进口代理商后台</c:if>
+			                   		</c:if>
+		                   		</c:forEach>
+							</td>
 							<td class="tc">${role.description}</td>
 						</tr>
 					</c:forEach>

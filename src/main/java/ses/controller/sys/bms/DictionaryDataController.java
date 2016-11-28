@@ -44,6 +44,7 @@ public class DictionaryDataController extends BaseController{
     public String save(@Valid DictionaryData dd, BindingResult result, HttpServletRequest request, Model model){
         
         if (result.hasErrors()) {
+            model.addAttribute("kind", dd.getKind());
             model.addAttribute("dd", dd);
             return "ses/bms/dictionaryData/add";
         }

@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 
@@ -42,11 +44,14 @@ public class RoleManageController {
 	
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataService;
 
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 
 	/**
-	 * Description: 获取角色列表（包括关联数据）
+	 * Description: 获取角色列表
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-14
@@ -61,6 +66,8 @@ public class RoleManageController {
 		model.addAttribute("role", role);
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
 				"yyyy-MM-dd HH:mm:ss"));
+		List<DictionaryData> dds = dictionaryDataService.findByKind("16");
+        model.addAttribute("dds", dds);
 		return "ses/bms/role/list";
 	}
 
@@ -73,7 +80,9 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/add")
-	public String toAdd() {
+	public String toAdd(Model model) {
+	    List<DictionaryData> dds = dictionaryDataService.findByKind("16");
+	    model.addAttribute("dds", dds);
 		return "ses/bms/role/add";
 	}
 
@@ -89,17 +98,32 @@ public class RoleManageController {
 	@RequestMapping("/save")
 	public void save(HttpServletResponse response, Role r) throws IOException {
 		try {
+		    String msg = "";
+		    int count = 0;
 			if ("".equals(r.getName()) || r.getName() == null) {
-				String msg = "请填写角色名称";
-				response.setContentType("text/html;charset=utf-8");
-				response.getWriter().print(
-						"{\"success\": " + false + ", \"msg\": \"" + msg
-								+ "\"}");
-			} else {
+				msg = "请填写角色名称";
+				count ++;
+			} 
+			if ("".equals(r.getKind()) || r.getKind() == null) {
+			    if (count > 0) {
+                    msg += "和选择所属后台";
+                    count ++;
+                } else {
+                    msg = "请选择所属后台";
+                    count ++;
+                }
+            }
+			if (count > 0) {
+			    response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print(
+                        "{\"success\": " + false + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+			if (count == 0) {
 				r.setCreatedAt(new Date());
 				r.setIsDeleted(0);
 				roleService.save(r);
-				String msg = "添加成功";
+				msg = "添加成功";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter()
 						.print("{\"success\": " + true + ", \"msg\": \"" + msg
@@ -127,6 +151,8 @@ public class RoleManageController {
 	public String edit(Role r, Model model) {
 		Role role = roleService.get(r.getId());
 		model.addAttribute("role", role);
+		List<DictionaryData> dds = dictionaryDataService.findByKind("16");
+        model.addAttribute("dds", dds);
 		return "ses/bms/role/edit";
 	}
 
@@ -142,19 +168,35 @@ public class RoleManageController {
 	@RequestMapping("/update")
 	public void update(HttpServletResponse response, Role r) throws IOException {
 		try {
-			if ("".equals(r.getName()) || r.getName() == null) {
-				String msg = "请填写角色名称";
-				response.setContentType("text/html;charset=utf-8");
-				response.getWriter().print(
-						"{\"success\": " + false + ", \"msg\": \"" + msg
-								+ "\"}");
-			} else {
+		    String msg = "";
+            int count = 0;
+            if ("".equals(r.getName()) || r.getName() == null) {
+                msg = "请填写角色名称";
+                count ++;
+            } 
+            if ("".equals(r.getKind()) || r.getKind() == null) {
+                if (count > 0) {
+                    msg += "和选择所属后台";
+                    count ++;
+                } else {
+                    msg = "请选择所属后台";
+                    count ++;
+                }
+            }
+            if (count > 0) {
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print(
+                        "{\"success\": " + false + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+            if (count == 0) {
 				Role role = roleService.get(r.getId());
 				role.setDescription(r.getDescription());
 				role.setName(r.getName());
+				role.setKind(r.getKind());
 				role.setUpdatedAt(new Date());
 				roleService.update(role);
-				String msg = "更新成功";
+				msg = "更新成功";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter()
 						.print("{\"success\": " + true + ", \"msg\": \"" + msg
