@@ -197,74 +197,89 @@
 						 </div>
 <div class="tab-content clear step_cont">
 	<!--第一个  -->
-	<div class="col-md-12 tab-pane active"  id="tab-1">
-	 <div class="headline-v2">
-   <h2>初审项定义</h2>
-   </div>
-	  <form action="">
-	  <c:if test="${project.confirmFile != 1}">
-	  <input type="button" value="选择模板" onclick="openTemplat();" class="btn btn-windows add"/>
-	  <input type="button" value="添加" onclick="openWindow();" class="btn btn-windows add"/>
-	  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
-	  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
-	  </c:if>
-	    <table class="table table-bordered table-condensed table-hover table-striped">
-	    <thead>
-	      <tr>
-	      <c:if test="${project.confirmFile != 1}">
-	      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-	      </c:if>
-	        <th class="info">初审项名称</th>
-	        <th class="info">要求类型</th>
-	        <th class="info">创建人</th>
-	        <th class="info">创建时间</th>
-	      </tr>
-	     </thead>
-	      <c:forEach items="${list }" var="l" varStatus="vs">
-	       <tr>
-	       <c:if test="${project.confirmFile != 1}">
-	       	<td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
-	       </c:if>
-	        <td align="center">${l.name }</td>
-	        <td align="center">${l.kind }</td>
-	        <td align="center">${l.creater }</td>
-	        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-	      </tr>
-	      </c:forEach>
-	    </table>
-	  </form>
-	<!-- 按钮 -->
-	  	<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-				</div>
-		  	</div>
-		 </div>	
-		 <!--打开的窗口  -->
-			<div id="openWindow"  style="display: none;">
-				<form action="${pageContext.request.contextPath}/firstAudit/add.html" method="post" id="form1">
-				   <ul class="list-unstyled">
-	                <li class="mt10 col-md-12 p0">
-	                  <label class="col-md-12 pl20">初审项名称</label>
-	                  <span class="col-md-12">
-	                    <input type="text" required="true" maxlength="30" name="name" id="name">
-	                  </span>
-	                </li>
-	                <li class="mt10 col-md-12 p0">
-	                  <label class="col-md-12 pl20">要求类型</label>
-	                  <span class="col-md-12">
-	                   <input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术
-	                  </span>
-	                </li>
-                <div class="clear"></div>
-                 <input name="creater" required="true" maxlength="10" id="creater" type="hidden" value="${sessionScope.loginUser.relName}">
-			      <input type="hidden" name="projectId" id="projectId" value="${projectId }">
-               </ul>
-			    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
-			    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
-			  </form>
+		<div class="container" id="tab-1">
+			<div class="headline-v2">
+				<h2>初审项定义</h2>
 			</div>
-	  </div>
-    </div>
+			<form action="">
+			<div class="col-md-12 pl20 mt10">
+				<c:if test="${project.confirmFile != 1}">
+					<input type="button" value="选择模板" onclick="openTemplat();"
+						class="btn btn-windows add" />
+					<input type="button" value="添加" onclick="openWindow();"
+						class="btn btn-windows add" />
+					<input type="button" value="修改" class="btn btn-windows edit"
+						onclick="edit();">
+					<input type="button" value="删除" class="btn btn-windows delete"
+						onclick="remove();">
+				</c:if>
+			</div>
+			<div class="content table_box">
+				<table
+					class="table table-bordered table-condensed table-hover table-striped">
+					<thead>
+						<tr>
+							<c:if test="${project.confirmFile != 1}">
+								<th class="info w30"><input type="checkbox" id="checkAll"
+									onclick="selectAll()" alt="">
+								</th>
+							</c:if>
+							<th class="info">初审项名称</th>
+							<th class="info">要求类型</th>
+							<th class="info">创建人</th>
+							<th class="info">创建时间</th>
+						</tr>
+					</thead>
+					<c:forEach items="${list }" var="l" varStatus="vs">
+						<tr>
+							<c:if test="${project.confirmFile != 1}">
+								<td class="tc w30"><input type="checkbox" value="${l.id }"
+									name="chkItem" alt="">
+								</td>
+							</c:if>
+							<td align="center">${l.name }</td>
+							<td align="center">${l.kind }</td>
+							<td align="center">${l.creater }</td>
+							<td align="center"><fmt:formatDate type='date'
+									value='${l.createdAt }' dateStyle="default"
+									pattern="yyyy-MM-dd" />
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+			</form>
+			<!-- 按钮 -->
+			<div class="padding-top-10 clear">
+				<div class="col-md-12 pl200 ">
+					<div class="mt40 tc mb50"></div>
+				</div>
+			</div>
+			<!--打开的窗口  -->
+			<div id="openWindow" style="display: none;">
+				<form
+					action="${pageContext.request.contextPath}/firstAudit/add.html"
+					method="post" id="form1">
+					<ul class="list-unstyled">
+						<li class="mt10 col-md-12 p0"><label class="col-md-12 pl20">初审项名称</label>
+							<span class="col-md-12"> <input type="text"
+								required="true" maxlength="30" name="name" id="name"> </span></li>
+						<li class="mt10 col-md-12 p0"><label class="col-md-12 pl20">要求类型</label>
+							<span class="col-md-12"> <input type="radio" name="kind"
+								value="商务">商务&nbsp;<input type="radio" name="kind"
+								id="kind" value="技术">技术 </span></li>
+						<div class="clear"></div>
+						<input name="creater" required="true" maxlength="10" id="creater"
+							type="hidden" value="${sessionScope.loginUser.relName}">
+						<input type="hidden" name="projectId" id="projectId"
+							value="${projectId }">
+					</ul>
+					<input type="button" value="添加" onclick="submit1();"
+						class="btn btn-windows add" /> <input type="button" value="取消"
+						onclick="cancel();" class="btn btn-windows cancel" />
+				</form>
+			</div>
+		</div>
+	</div>
   </body>
 </html>

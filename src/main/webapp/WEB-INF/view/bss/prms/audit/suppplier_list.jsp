@@ -94,7 +94,7 @@
 <!-- 录入采购计划开始-->
  <div class="container">
 <!-- 项目戳开始 -->
-     <div class="clear"></div>
+     <div class="container"></div>
    <div class="headline-v2 fl">
       <h2>供应商信息</h2>
    </div> 

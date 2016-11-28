@@ -190,7 +190,7 @@ public class AreaController {
 	  * @return List<Area>
 	 */
 	@ResponseBody
-	@RequestMapping(value = "find_by_parent_id")
+	@RequestMapping(value = "find_by_parent_id",produces = "application/json;charset=UTF-8")
 	public List<Area> findAreaByParentId2(HttpServletResponse response, String id) throws IOException {
 		List<Area> list = areaService.findAreaByParentId(id);
 		return list;

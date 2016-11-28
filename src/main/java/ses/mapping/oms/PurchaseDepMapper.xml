@@ -112,6 +112,13 @@
 	</select>
 	
 	   <!-- 根据id查询 -->
+    <select id="findPIDandCIDByOrgId" parameterType="java.lang.String" resultType="java.util.HashMap">
+               select city_id cityId,province_id provinceId
+          from T_SES_OMS_ORG
+         where id= #{_parameter}
+    </select>
+	
+	   <!-- 根据id查询 -->
     <select id="findByOrgId" parameterType="java.lang.String" resultType="ses.model.oms.PurchaseDep">
                select o.id  as id,
                d.LEVEL_DEP       as levelDep,

@@ -2,6 +2,7 @@ package ses.service.oms.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,18 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
 		return purchaseDepMapper.findPurchaseDepList(map);
+	}
+
+	@Override
+	public Map<String, String> findPIDandCIDByOrgId(String purDepId) {
+		// TODO Auto-generated method stub
+		return purchaseDepMapper.findPIDandCIDByOrgId(purDepId);
+	}
+
+	@Override
+	public PurchaseDep findByOrgId(String id) {
+		// TODO Auto-generated method stub
+		return purchaseDepMapper.findByOrgId(id);
 	}
 
 	@Override
