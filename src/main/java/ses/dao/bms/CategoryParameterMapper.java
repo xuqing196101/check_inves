@@ -2,6 +2,8 @@ package ses.dao.bms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Category;
 import ses.model.bms.CategoryParameter;
 
@@ -81,5 +83,16 @@ public interface CategoryParameterMapper {
      * @param cp CategoryParameter 对象
      */
     public void update(CategoryParameter cp);
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据品目Id查询该品目是否存在参数
+     *〈详细描述〉
+     * @author myc
+     * @param categoryId 品目ID
+     * @return 存在返回大于0,不存在返回0
+     */
+    public Integer exsitByCateId(@Param("cateId")String categoryId);
     
 }

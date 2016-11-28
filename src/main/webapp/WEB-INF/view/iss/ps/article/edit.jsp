@@ -103,7 +103,7 @@ $(function(){
    <div class="container container_box">
     <form id="newsForm" action="${pageContext.request.contextPath }/article/update.html" enctype="multipart/form-data" method="post">
     <input type="hidden" id="ids" name="ids"/>
-	   <h2 class="count_flow">修改信息</h2>
+	   <h2 class="list_title">修改信息</h2>
 	  
 	   <ul class="ul_list mb20">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">

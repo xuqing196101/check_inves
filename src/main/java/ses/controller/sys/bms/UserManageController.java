@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,6 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.oms.util.Ztree;
-import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
@@ -65,9 +65,6 @@ public class UserManageController extends BaseController{
 	
 	@Autowired
 	private PreMenuServiceI preMenuService;
-	
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataService;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
@@ -224,15 +221,13 @@ public class UserManageController extends BaseController{
 			}
 			//保存用户与角色多对应权限的关联id
 			List<String> mids = preMenuService.findByRids(roleIds);
-			List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 			for (String mid : mids) {
 				UserPreMenu userPreMenu = new UserPreMenu();
 				PreMenu menu = preMenuService.get(mid);
 				userPreMenu.setPreMenu(menu);
 				userPreMenu.setUser(user);
-				userPreMenus.add(userPreMenu);
+				userService.saveUserMenu(userPreMenu);
 			}
-            userService.saveUserMenuBatch(userPreMenus);
 		}
 		return "redirect:list.html";
 	}
@@ -325,6 +320,8 @@ public class UserManageController extends BaseController{
 		List<User> users = userService.find(temp);
 		if (users != null && users.size() > 0) {
 			User olduser = users.get(0);
+
+			
 			List<Role> oldRole = olduser.getRoles();
 			if(oldRole != null && oldRole.size() > 0){
 				// 先删除之前的与角色的关联关系
@@ -334,23 +331,22 @@ public class UserManageController extends BaseController{
 					userrole.setRoleId(role);
 					roleService.deleteRoelUser(userrole);
 				}
+				
 				//删除用户之前的与角色下权限菜单的关联关系
 				String[] oldrIds = new String[oldRole.size()];
 				for (int i = 0; i < oldRole.size(); i++) {
 					oldrIds[i] = oldRole.get(i).getId();
 				}
 				List<String> oldmids = preMenuService.findByRids(oldrIds);
-				List<UserPreMenu> ups = new ArrayList<UserPreMenu>();
 				for (String mid : oldmids) {
 					UserPreMenu userPreMenu = new UserPreMenu();
 					PreMenu menu = preMenuService.get(mid);
 					userPreMenu.setPreMenu(menu);
 					userPreMenu.setUser(olduser);
-					ups.add(userPreMenu);
-				//	userService.deleteUserMenu(userPreMenu);
+					userService.deleteUserMenu(userPreMenu);
 				}
-				userService.deleteUserMenuBatch(ups);
 			}
+			
 			//机构
 			if(orgId != null && !"".equals(orgId)){
 				HashMap<String, Object> orgMap = new HashMap<String, Object>();
@@ -366,6 +362,7 @@ public class UserManageController extends BaseController{
 			userService.update(u);
 
 			if(roleId != null && !"".equals(roleId)){
+				
 				String[] roleIds = roleId.split(",");
 				for (int i = 0; i < roleIds.length; i++) {
 					Userrole userrole = new Userrole();
@@ -376,16 +373,15 @@ public class UserManageController extends BaseController{
 				}
 				//保存用户与角色多对应权限的关联id
 				List<String> mids = preMenuService.findByRids(roleIds);
-				List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 				for (String mid : mids) {
 					UserPreMenu userPreMenu = new UserPreMenu();
 					PreMenu menu = preMenuService.get(mid);
 					userPreMenu.setPreMenu(menu);
 					userPreMenu.setUser(u);
-					userPreMenus.add(userPreMenu);
+					userService.saveUserMenu(userPreMenu);
 				}
-	            userService.saveUserMenuBatch(userPreMenus);
 			}
+			
 		} else {
 
 		}
@@ -497,15 +493,13 @@ public class UserManageController extends BaseController{
 			userService.deleteUserMenu(um);
 			if (ids != null && !"".equals(ids)) {
 			    String[] mIds = ids.split(",");
-			    List<UserPreMenu> userPreMenus = new ArrayList<UserPreMenu>();
 			    for (String str : mIds) {
 			        UserPreMenu up = new UserPreMenu();
 			        PreMenu preMenu = preMenuService.get(str);
 			        up.setPreMenu(preMenu);
 			        up.setUser(user);
-			        userPreMenus.add(up);
+			        userService.saveUserMenu(up);
 			    }
-			    userService.saveUserMenuBatch(userPreMenus);
             }
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
@@ -530,24 +524,12 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping(value = "getOrgTree",produces={"application/json;charset=UTF-8"})
 	@ResponseBody    
-	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId, String typeNameId){
+	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId){
 		User user =null;
 		if(userId != null && !"".equals(userId) ){
 			user = userService.getUserById(userId);
 		}
-		String ddCode = dictionaryDataService.getDictionaryData(typeNameId).getCode();
-		String typeName = "";
-		if ("SUPERVISER_U".equals(ddCode) || "PUR_MG_U".equals(ddCode)) {
-		    typeName = "0";
-        }
-		if ("NEED_U".equals(ddCode)) {
-            typeName = "2";
-        }
-		if ("PURCHASER_U".equals(ddCode)) {
-            typeName = "1";
-        }
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("typeName", typeName);
 		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o : oList){
@@ -561,7 +543,6 @@ public class UserManageController extends BaseController{
 			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
 			if(chiildList != null && chiildList.size() > 0){
 				z.setIsParent("true");
-				z.setNocheck(true);
 			} else {
 				z.setIsParent("false");
 			}

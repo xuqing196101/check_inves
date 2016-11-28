@@ -45,14 +45,15 @@
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板名称</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="name" type="text"
+							<input name="name" type="text"
 								value="${templet.name}">
 								<span class="add-on">i</span>
+						<div id="contractCodeErr" class="cue">${ERR_name}</div>
 						</div>
-						<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
+                        <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
 							<select id="temType" name=temType>
 								<option value="-请选择-">-请选择-</option>
 								<option value="采购公告">采购公告</option>
@@ -61,7 +62,8 @@
 								<option value="招标公告">招标公告</option>
 								<option value="合同模板">合同模板</option>
 							</select>
-							<div id="contractCodeErr" class="clear red">${ERR_temType}</div>
+							<div id="contractCodeErr" class="cue">${ERR_temType}</div>
+						</div>
 					</li>
 					<li class="col-md-12 col-sm-12 col-xs-12">
                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板内容</span>

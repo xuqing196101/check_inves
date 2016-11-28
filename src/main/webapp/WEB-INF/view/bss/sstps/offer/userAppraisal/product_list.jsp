@@ -112,7 +112,7 @@ function offer(){
 				<ul class="demand_list">
 					<li><label class="fl">产品名称：</label>
 						<span>
-							<input type="text" name="name" id="tname" class="mb0" />
+							<input type="text" name="name" id="name" class="mb0" />
 						</span>
 					</li>
 					<button class="btn" type="submit">查询</button>

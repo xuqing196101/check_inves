@@ -29,7 +29,7 @@ input {
       $(this).parent("div").find("div").hide();
       
       var onmouseover = "this.style.border='solid 1px #FF0000'";
-      var onmouseout = "this.style.border='solid 1px #EBEBEB'";
+      var onmouseout = "this.style.border='solid 1px #D3D3D3'";
        $(this).attr("onmouseover",onmouseover);
        $(this).attr("onmouseout",onmouseout);
     });
@@ -179,7 +179,7 @@ function nextStep(url){
         <div class="container container_box">
             <div class="content height-350">
                 <div class="col-md-12 tab-v2 job-content">
-                    <ul class="nav nav-tabs bgdd">
+                    <%-- <ul class="nav nav-tabs bgdd">
 		              <li class=""><a >详细信息</a></li>
 		              <li class=""><a >财务信息</a></li>
 		              <li class=""><a >股东信息</a></li>
@@ -199,6 +199,56 @@ function nextStep(url){
 		              <li class=""><a >产品信息</a></li>
 		              <li class=""><a >申请表</a></li>
 		              <li class=""><a >审核汇总</a></li>
+                    </ul> --%>
+                    
+                    <ul class="flow_step">
+                        <li >
+                            <a aria-expanded="false" href="#tab-1" >详细信息</a>
+                            <i></i>
+                        </li>
+                        <li >
+                            <a aria-expanded="false" href="#tab-2" >财务信息</a>
+                            <i></i>                            
+                        </li>
+                        <li >
+                            <a aria-expanded="false" href="#tab-3" >股东信息</a>
+                            <i></i>
+                        </li>
+                        <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4">生产信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+                            <li class="active">
+                                <a aria-expanded="true" href="#tab-4" data-toggle="tab">销售信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >工程信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >服务信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >产品信息</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >申请表</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        </li>
                     </ul>
 
                     <form id="form_id" action="" method="post" >
@@ -251,38 +301,38 @@ function nextStep(url){
 	                  
 	                  <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
                       <ul class="ul_list">
-	                      <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-	                        <span class="col-sm-12 col-md-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
-	                        <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-	                          <input id="orgName" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this.id,'supplierMatSell.orgName')"/>
+	                      <li class="col-md-3 margin-0 padding-0 ">
+	                        <span class="col-md-12 padding-left-5" id="orgName2">组织机构：</span>
+	                        <div class="input-append">
+	                          <input id="orgName" class="span5" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this.id,'supplierMatSell.orgName')"/>
 	                          <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
-	                      <li class="col-md-3 col-sm-6 col-xs-12">
-	                        <span class="col-sm-12 col-md-12 col-xs-12 padding-left-5" id="totalPerson2">人员总数：</span>
-	                        <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-	                          <input id="totalPerson" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this.id,'supplierMatSell.totalPerson')"/>
+	                      <li class="col-md-3 margin-0 padding-0 ">
+	                        <span class="col-md-12 padding-left-5" id="totalPerson2">人员总数：</span>
+	                        <div class="input-append">
+	                          <input id="totalPerson" class="span5" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this.id,'supplierMatSell.totalPerson')"/>
 	                          <div id="totalPerson3"  class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
-	                      <li class="col-md-3 col-sm-6 col-xs-12">
-	                        <span class="col-sm-12 col-md-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
-	                        <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-	                          <input id="totalMange" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this.id,'supplierMatSell.totalMange')"/>
+	                      <li class="col-md-3 margin-0 padding-0 ">
+	                        <span class="col-md-12 padding-left-5" id="totalMange2">管理人员：</span>
+	                        <div class="input-append">
+	                          <input id="totalMange" class="span5" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this.id,'supplierMatSell.totalMange')"/>
 	                        <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
-	                      <li class="col-md-3 col-sm-6 col-xs-12">
-	                        <span class="col-sm-12 col-md-12 col-xs-12 padding-left-5" id="totalTech2">技术人员：</span>
-	                        <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0 input_group col-sm-12 col-md-12 col-xs-12 p0">
-	                          <input id="totalTech" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this.id,'supplierMatSell.totalTech')"/>
+	                      <li class="col-md-3 margin-0 padding-0 ">
+	                        <span class="col-md-12 padding-left-5" id="totalTech2">技术人员：</span>
+	                        <div class="input-append">
+	                          <input id="totalTech" class="span5" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this.id,'supplierMatSell.totalTech')"/>
 	                        <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
-	                      <li class="col-md-3 col-sm-6 col-xs-12">
-	                        <span class="col-sm-12 col-md-12 col-xs-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
-	                        <div class="input-append input_group col-sm-12 col-md-12 col-xs-12 p0">
-	                          <input id="totalWorker" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this.id,'supplierMatSell.totalWorker')"/>
+	                      <li class="col-md-3 margin-0 padding-0 ">
+	                        <span class="col-md-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
+	                        <div class="input-append">
+	                          <input id="totalWorker" class="span5" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this.id,'supplierMatSell.totalWorker')"/>
 	                        <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>

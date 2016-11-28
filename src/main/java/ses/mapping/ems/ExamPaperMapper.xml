@@ -12,14 +12,13 @@
     <result column="TEST_TIME" property="testTime" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
-    <result column="IS_ALLOW_RETAKE" property="isAllowRetake" />
     <result column="PASS_STANDARD" property="passStandard" />
     <result column="OFF_TIME" property="offTime" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, NAME, CODE, SCORE, START_TIME, YEAR, 
-    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE,PASS_STANDARD,OFF_TIME
+    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT,PASS_STANDARD,OFF_TIME
   </sql>
   
   <!-- 根据主键ID查找考卷 -->
@@ -73,9 +72,6 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      <if test="isAllowRetake != null">
-        IS_ALLOW_RETAKE,
-      </if>
       <if test="passStandard != null">
         PASS_STANDARD,
       </if>
@@ -113,9 +109,6 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
-      </if>
-      <if test="isAllowRetake != null">
-        #{isAllowRetake},
       </if>
       <if test="passStandard != null">
         #{passStandard},
@@ -156,9 +149,6 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
-      </if>
-      <if test="isAllowRetake != null">
-        IS_ALLOW_RETAKE = #{isAllowRetake},
       </if>
       <if test="passStandard != null">
         PASS_STANDARD = #{passStandard},

@@ -33,37 +33,37 @@
         and ID = #{id}
       </if>
       <if test="name != null and name !=''">
-        and NAME = #{name},
+        and NAME = #{name}
       </if>
       <if test="type != null and type !=''">
-        and MENU_TYPE = #{type},
+        and MENU_TYPE = #{type}
       </if>
       <if test="status != null">
-        and STATUS = #{status},
+        and STATUS = #{status}
       </if>
       <if test="url != null and url !=''">
-        and URL = #{url},
+        and URL = #{url}
       </if>
       <if test="createdAt != null">
-        and CREATED_AT = #{createdAt},
+        and CREATED_AT = #{createdAt}
       </if>
       <if test="position != null and position != ''">
-        and POSITION = #{position},
+        and POSITION = #{position}
       </if>
       <if test="menulevel != null">
-        and MENU_LEVEL = #{menulevel},
+        and MENU_LEVEL = #{menulevel}
       </if>
       <if test="parentId != null">
         and PARENT_ID = #{parentId.id}
       </if>
       <if test="updatedAt != null">
-        and UPDATED_AT = #{updatedAt},
+        and UPDATED_AT = #{updatedAt}
       </if>
       <if test="kind != null">
-        and KIND = #{kind},
+        and KIND = #{kind}
       </if>
       <if test="icon != null and icon != ''">
-        and ICON = #{icon},
+        and ICON = #{icon}
       </if>
     </trim>
   </sql>

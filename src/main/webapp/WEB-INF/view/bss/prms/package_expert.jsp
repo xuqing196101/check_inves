@@ -116,8 +116,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//得到点击坐标。
 		    var x,y;  
 		    oRect = obj.getBoundingClientRect();  
-			 x=oRect.left-400;  
-			 y=oRect.top-100;  
+			 x=oRect.left;  
+			 y=oRect.top;  
 		    var table = obj.parentNode.parentNode.parentNode.parentNode;
 		    var checkbox = $(table).find("input[name='chkItem']");
 			var id; 
@@ -153,8 +153,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//得到点击坐标。
 		    var x,y;  
 		    oRect = obj.getBoundingClientRect();  
-			 x=oRect.left-400;  
-			 y=oRect.top-100;  
+			 x=oRect.left;  
+			 y=oRect.top;  
 		    var table = obj.parentNode.parentNode.parentNode.parentNode;
 		    var checkbox = $(table).find("input[name='chkItem']");
 			var id; 
@@ -321,10 +321,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 			 $.each(table,function(a,result){
 				 var tr = $(result).find("tr:not(:first)");
-				  if(tr.length==0){
-				  trFlag++;
-				  }
-				  
+ 				 if(tr.length==0){
+ 				  trFlag++;
+ 				 }
 				 $.each(tr,function(b,trResult){
 					 var td = $(trResult).find("td");
 					  $.each(td,function(i,tdResult){
@@ -360,7 +359,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 if(coun>0){
 				 layer.alert("还有未评审项,或评审结果不统一",{offset: [y, x], shade:0.01});
 			 }else if(trFlag>0){
-			  layer.alert("不能汇总",{offset: [y, x], shade:0.01});
+ 			  layer.alert("不能汇总",{offset: [y, x], shade:0.01});
 			 }else{
 				 $.ajax({
 					 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
@@ -572,23 +571,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </c:forEach>
    <h1 class="f16 count_flow"><i>05</i>符合性审查</h1>
    	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+   	 		<h4>${pack.name }初审情况</h4>
+   	 		<span>
+   	 			<button  class="btn btn-windows git" onclick="gather(this);" type="button">符合汇总</button>
+   	 	        <button class="btn btn-windows back" onclick="isBack(this);" type="button">退回重审</button>
+   	 		</span>
   		   <table class="table table-bordered table-condensed table-hover table-striped">
   		   <thead>
-   		   <tr align="right">
-   		   		<td align="right" colspan="${3+supplierList.size() }">
-   		   		<button  class="btn btn-windows git" onclick="gather(this);" type="button">符合汇总</button>
-   	 	         <button class="btn btn-windows back" onclick="isBack(this);" type="button">退回重审</button>
-   		   		</td>
-   		   </tr>
-		      <tr>
-		      	<th colspan="${3+supplierList.size() }">${pack.name }初审情况</th>
-		      </tr>
 		      <tr>
 		        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
 		        <th class="info">评委</th>
 		        <th class="info">符合性审查完成</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-		        <th class="info">${supplier.suppliers.supplierName }</th>
+		        	<c:if test="${fn:contains(supplier.packages,pack.id)}">
+		        		<th class="info">${supplier.suppliers.supplierName }</th>
+		        	</c:if>
 		        </c:forEach>
 		      </tr>
 		      </thead>
@@ -598,18 +595,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
 			        <td align="center">${ext.expert.relName } </td>
 			        <td align="center">${ext.isPass } </td>
-			       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-		        	<td align="center">
-		        	<c:if test="${ext.isPass eq '已评审'}">
-		        	  <c:forEach items="${supplierExtList }" var="supplierExt">
-		        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId && supplierExt.packageId eq pack.id}">
-		        	  	${supplierExt.suppIsPass }
-		        	  	</c:if>
-		        	  </c:forEach>
-		        	 </c:if>
-		        	 <c:if test="${ext.isPass eq '未评审'}">未评审 </c:if>
-		        	</td>
-		        	</c:forEach>
+			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
+				        	<td align="center">
+				        	<c:if test="${ext.isPass eq '已评审'}">
+				        	  <c:forEach items="${supplierExtList }" var="supplierExt">
+				        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId && supplierExt.packageId eq pack.id}">
+				        	  	${supplierExt.suppIsPass }
+				        	  	</c:if>
+				        	  </c:forEach>
+				        	 </c:if>
+				        	 <c:if test="${ext.isPass eq '未评审'}">未评审 </c:if>
+				        	</td>
+			        	</c:if>
+		            </c:forEach>
 			      </tr>
 		        </c:if>
 	      	 </c:forEach>

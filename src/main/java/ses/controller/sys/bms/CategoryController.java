@@ -33,8 +33,10 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+
 import common.bean.ResBean;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 
 /**
  * 
@@ -173,7 +175,7 @@ public class CategoryController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Category update(HttpServletResponse response, String id,Model model) {
+    public Category update (String id) {
         
         Category cate = categoryService.selectByPrimaryKey(id);
         return cate;
@@ -190,9 +192,9 @@ public class CategoryController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/calledStatus", produces = "text/html;charset=UTF-8")
-    public String calledStatus(String id){
+    public String calledStatus(String id, String opera){
         
-        return  categoryService.estimate(id);
+        return  categoryService.estimate(id, opera,StaticVariables.CATEGORY_ASSIGNED_MSG,StaticVariables.CATEGORY_ASSIGNED_STATUS);
     }
 
     /**

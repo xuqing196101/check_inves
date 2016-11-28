@@ -92,7 +92,7 @@
    <div class="container container_box">
     <form action="${pageContext.request.contextPath }/article/save.html" method="post">
      <div class="">
-	   <h2 class="count_flow">新增信息</h2>
+	   <h2 class="list_title">新增信息</h2>
 	 
 	  <ul class="ul_list mb20">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">

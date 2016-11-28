@@ -939,7 +939,7 @@
    <select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
         resultMap="findSupplierMap">
         select * from(
-        select T4.NAME  , t1.typeId,t1.categoryId,t2.* from(
+        select "NVL"(T4. NAME, T3. NAME) as NAME  , t1.typeId,t1.categoryId,t2.* from(
         select id,
         wm_concat(DISTINCT(categoryId)) as
         categoryId,wm_concat(DISTINCT(typeId)) as typeId from (

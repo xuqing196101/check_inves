@@ -175,10 +175,13 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("address", sup.getAddress());
         String address = supplierEditService.getProvince(sup.getAddress());
         if ("".equals(address)) {
-            if (address.length() > 2) {
-                sup.setAddress(URLDecoder.decode(sup.getAddress(), "UTF-8").substring(0, 3).replace(",", ""));
+            String addressName=URLDecoder.decode(sup.getAddress(), "UTF-8");
+            if (addressName.length() > 2) {
+                sup.setAddress(addressName.substring(0, 3).replace(",", ""));
+                model.addAttribute("address", sup.getAddress());
             } else {
-                sup.setAddress(URLDecoder.decode(sup.getAddress(), "UTF-8").substring(0, 2).replace(",", ""));
+                sup.setAddress(addressName.substring(0, 2).replace(",", ""));
+                model.addAttribute("address", sup.getAddress());
             }
         } else {
             sup.setAddress(address);

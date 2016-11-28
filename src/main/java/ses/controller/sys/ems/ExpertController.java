@@ -1005,6 +1005,7 @@ public class ExpertController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 
 		return "bss/prms/audit/list";
 	}
@@ -1116,6 +1117,113 @@ public class ExpertController {
 			List<Quote> historyList2 = supplierQuoteService
 					.selectQuoteHistoryList(quote);
 			model.addAttribute("historyList", historyList2);
+=======
+		  
+		  return "bss/prms/audit/list";
+	  }
+	  
+	  /**
+	   * 
+	    * @Title: toFirstAudit
+	    * @author ShaoYangYang
+	    * @date 2016年10月22日 下午3:50:09  
+	    * @Description: TODO 去往项目初审 供应商详情页
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("toFirstAudit")
+	  public String toFirstAudit(String projectId,String packageId,Model model,HttpSession session){
+		  //是否已评审
+		  User user = (User)session.getAttribute("loginUser");
+		  String expertId = user.getTypeId();
+		  Map<String, Object> map = new HashMap<>();
+			map.put("expertId", expertId);
+			map.put("packageId", packageId);
+			map.put("projectId", projectId);
+			List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
+			if(packageExpertList!=null && packageExpertList.size()>0){
+				model.addAttribute("packageExpert", packageExpertList.get(0));
+			}
+		  //供应商信息
+		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+		  Expert expert = service.selectByPrimaryKey(expertId);
+		  model.addAttribute("expert", expert);
+		  model.addAttribute("supplierList", supplierList);
+		  model.addAttribute("projectId", projectId);
+		  model.addAttribute("packageId", packageId);
+		  return"bss/prms/audit/suppplier_list";
+	  }
+	  /**
+	   * 
+	    * @Title: saveProgress
+	    * @author ShaoYangYang
+	    * @date 2016年10月27日 下午2:17:47  
+	    * @Description: TODO 保存审核信息
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("saveProgress")
+	  public String saveProgress(String projectId,String packageId,HttpSession session,RedirectAttributes attr){
+		  User user = (User)session.getAttribute("loginUser");
+		  String expertId = user.getTypeId();
+		  //更新进度 保存审核信息
+		  reviewProgressService.saveProgress(projectId, packageId, expertId);
+		  attr.addAttribute("projectId", projectId);
+		  attr.addAttribute("packageId", packageId);
+		  return "redirect:toFirstAudit.html";
+	  }
+	  
+	  /**
+	   * 
+	    * @Title: saveProgress
+	    * @author ShaoYangYang
+	    * @date 2016年10月27日 下午2:17:47  
+	    * @Description: TODO 保存评分信息 更新评分进度
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("saveGrade")
+	  public String saveGrade(String projectId,String packageId,HttpSession session,RedirectAttributes attr){
+		  User user = (User)session.getAttribute("loginUser");
+		  String expertId = user.getTypeId();
+		  reviewProgressService.saveGrade(projectId, packageId, expertId);
+		  attr.addAttribute("projectId", projectId);
+		  attr.addAttribute("packageId", packageId);
+		  return "redirect:toFirstAudit.html";
+	  }
+	  
+	  /**
+	   * 
+	    * @Title: supplierQuote
+	    * @author ShaoYangYang
+	    * @date 2016年11月11日 下午2:46:47  
+	    * @Description: TODO 查看供应商报价
+	    * @param packageId
+	    * @param supplierId
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("supplierQuote")
+	  public String supplierQuote(String packageId,String supplierId,Model model){
+		  Quote quote = new Quote();
+		  quote.setPackageId(packageId);
+		  quote.setSupplierId(supplierId);
+		List<Quote> historyList = supplierQuoteService.selectQuoteHistoryList(quote);
+		if(historyList!=null && historyList.size()>0){
+		long create = historyList.get(0).getCreatedAt().getTime();
+		for (Quote quote2 : historyList) {
+			if(quote2.getCreatedAt().getTime()>create){
+				create=quote2.getCreatedAt().getTime();
+			}
+		}
+		Date date = new Date(create);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String formatDate = sdf.format(date);
+		Timestamp timestamp = Timestamp.valueOf(formatDate);
+		quote.setCreatedAt(timestamp);
+		List<Quote> historyList2 = supplierQuoteService.selectQuoteHistoryList(quote);
+		model.addAttribute("historyList", historyList2);
+>>>>>>> c0eb3553447082ce72c5ac50a42046120e2e3564
 		}
 		return "bss/prms/audit/quote_history_record";
 	}

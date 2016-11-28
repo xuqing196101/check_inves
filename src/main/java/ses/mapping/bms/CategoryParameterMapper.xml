@@ -88,4 +88,10 @@
 		AND ID= #{id}
 	</select>
 	
+	<select id="exsitByCateId" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM T_SES_BMS_CATEGORY_PARAMETER
+		WHERE CATEGORY_ID = #{cateId,jdbcType=VARCHAR}
+	</select>
+	
 </mapper>

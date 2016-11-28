@@ -15,17 +15,21 @@ import net.sf.json.JsonConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.UserPreMenu;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.JsonDateValueProcessor;
 
 
@@ -51,6 +55,9 @@ public class PreMenuController {
 
 	@Autowired
 	private RoleServiceI roleService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataService;
 	
 	private final static String NAV_MENU = "0";
 
@@ -84,6 +91,23 @@ public class PreMenuController {
 		menu.setStatus(0);
 		//如果是给角色配置权限
 		if(userId != null && !"".equals(userId)){
+		    ses.model.bms.User user = userService.getUserById(userId);
+		    String typeNameCode = dictionaryDataService.getDictionaryData(user.getTypeName()).getCode();
+		    if ("NEED_U".equals(typeNameCode) || "PURCHASER_U".equals(typeNameCode) || "PUR_MG_U".equals(typeNameCode) || "OTHER_U".equals(typeNameCode) || "SUPERVISER_U".equals(typeNameCode)) {
+                menu.setKind(0);
+            }
+		    if ("SUPPLIER_U".equals(typeNameCode)) {
+                menu.setKind(1);
+            }
+		    if ("EXPERT_U".equals(typeNameCode)) {
+                menu.setKind(2);
+            }
+		    if ("IMP_SUPPLIER_U".equals(typeNameCode)) {
+                menu.setKind(3);
+            }
+		    if ("IMP_AGENT_U".equals(typeNameCode)) {
+                menu.setKind(4);
+            }
 			list = preMenuService.find(menu);
 			//给用户配置权限
 			String[] userIds = userId.split(",");
@@ -177,6 +201,7 @@ public class PreMenuController {
 				menu.setParentId(pmenu);
 				menu.setCreatedAt(new Date());
 				menu.setIsDeleted(0);
+				menu.setKind(pmenu.getKind());
 				preMenuService.save(menu);
 				String msg = "添加成功";
 				response.setContentType("text/html;charset=utf-8");
@@ -267,6 +292,7 @@ public class PreMenuController {
 				PreMenu old = preMenuService.get(menu.getId());
 				menu.setCreatedAt(old.getCreatedAt());
 				menu.setParentId(pmenu);
+				menu.setKind(pmenu.getKind());
 				menu.setUpdatedAt(new Date());
 				preMenuService.update(menu);
 				//如果是将可用改为暂停,删除相应的关联关系
@@ -317,4 +343,33 @@ public class PreMenuController {
 		return "redirect:list.html";
 	}
 	
+	/**
+	 *〈简述〉验证是否是根节点
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param response
+	 * @param id 菜单id
+	 * @throws IOException
+	 */
+	@RequestMapping("/validate")
+	@ResponseBody
+	public void validate(HttpServletResponse response, String id) throws IOException{
+	    try {
+	        String msg = "";
+	        Boolean is_root = false;
+	        PreMenu preMenu = preMenuService.get(id);
+	        if (preMenu.getParentId() == null || "0".equals(preMenu.getParentId())) {
+	            msg = "根节点不允许修改或删除";
+	            is_root = true;
+            }
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print("{\"is_root\": " + is_root + ", \"msg\": \"" + msg + "\"}");
+            response.getWriter().flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+	    
+	}
 }

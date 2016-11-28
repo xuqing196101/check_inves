@@ -27,4 +27,13 @@ public interface FirstAuditMapper {
       * @return List<FirstAudit>
      */
     List<FirstAudit> selectListByProjectId(String projectId);
+    
+    /**
+     *〈简述〉根据项目id和初审项种类查询
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param record
+     * @return
+     */
+    List<FirstAudit> find(FirstAudit record);
 }

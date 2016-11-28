@@ -60,7 +60,7 @@ public interface CategoryAssignedMapper {
      * @param orgId 组织机构Id
      * @return
      */
-    List<String> findAllocationIds(String orgId);
+    List<String> findAllocationIds(@Param("orgId")String orgId);
     
     
 }

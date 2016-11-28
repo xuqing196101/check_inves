@@ -84,7 +84,7 @@
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的须知文档",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function del(){
@@ -98,7 +98,7 @@
 				window.location.href="${ pageContext.request.contextPath }/noticeDocument/delete.do?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的须知文档",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
@@ -122,6 +122,7 @@
 		  }else{
 			  $("#searchType").val("-请选择-"); 
 		  }
+		 $("#tname").val('${noticeDocument.name}');
 	 });
   </script>
   <body>
@@ -148,7 +149,7 @@
     	  <li>
 	    	<label class="fl">须知文档名称：</label>
 	    	<span>
-	    		<input type="text" id="tname" name="name" value="${noticeDocument.name}"/>
+	    		<input type="text" id="tname" name="name" />
 	    	</span>
 	      </li>
 	      <li>

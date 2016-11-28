@@ -2,6 +2,15 @@ package ses.model.oms;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+
 public class Orgnization implements Serializable {
     /**
 	 * @Fields serialVersionUID : 
@@ -9,10 +18,12 @@ public class Orgnization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-
+	@NotNull(message = "名称不能为空") 
+	@NotEmpty(message="名称不能为空")
+	@Length(min=1,max=50,message="长度不可超过50")
     private String name;
 
-    private String typeName;//部门类型，0:采购管理部门、1:采购机构、2:需求部门
+    private String typeName;//部门类型，0:采购管理部门、1:采购机构
 
     private String address;
 
@@ -54,7 +65,9 @@ public class Orgnization implements Serializable {
     private String depId;
 
     private String isRoot;
-
+    @NotNull(message = "简称不能为空") 
+    @NotEmpty(message="简称不能为空")
+    @Length(min=1,max=20,message="长度不可超过20")
     private String shortName;
 
     private String describtion;

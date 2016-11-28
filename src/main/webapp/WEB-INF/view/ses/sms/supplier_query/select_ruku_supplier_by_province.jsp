@@ -22,7 +22,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
+			             location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address"+encodeURI(encodeURI('${address}'));
 			        }
 			    }
 			});
@@ -186,7 +186,7 @@ $(function() {
 		}
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownOrg);
+			$("body").unbind("mousedown", onBodyDownSupplierType);
 			
 		}
 		function onBodyDownOrg(event) {

@@ -54,7 +54,7 @@
 	            		if(data[0].status == 0){
 	            			state = "<span class='label rounded-2x label-u'>可用</span>";
 	            		}else if(data[0].status == 1){
-	            			state = "<span class='label rounded-2x label-dark'>暂停</span>";
+	            			state = "<span class='label rounded-2x label-dark'>冻结</span>";
 	            		}
 	            		if(data[0].kind == 0){
 	            			kind = "采购管理后台";
@@ -64,6 +64,9 @@
 	            			kind = "专家后台";
 	            		}else if(data[0].kind == 3){
 	            			kind = "进口供应商后台";
+	            		}
+	            		else if(data[0].kind == 4){
+	            			kind = "进口代理商后台";
 	            		}
 	            		if(data[0].parentId == null){
 	            			pName = "";
@@ -79,8 +82,9 @@
 						tabhtml +='<td class="bggrey tr">菜单级别：</td><td>'+data[0].menulevel+'</td></tr>';
 						tabhtml +='<tr><td class="bggrey tr">菜单状态：</td><td>'+state+'</td>';
 						tabhtml +='<td class="bggrey tr">菜单图标：</td><td>'+data[0].icon+'</td>';
-						tabhtml +='<td class="bggrey tr">创建时间：</td><td>'+data[0].createdAt+'</td></tr>';
-						tabhtml +='<tr><td class="bggrey tr">修改时间：</td><td colspan="5">'+data[0].updatedAt+'</td></tr>';
+						tabhtml +='<td class="bggrey tr">所属后台：</td><td>'+kind+'</td></tr>';
+						tabhtml +='<tr><td class="bggrey tr">创建时间：</td><td>'+data[0].createdAt+'</td>';
+						tabhtml +='<td class="bggrey tr">修改时间：</td><td colspan="5">'+data[0].updatedAt+'</td></tr>';
 						tabhtml +='</tbody></table>';
 		            	$("#show_content_div").html("");
 		            	$("#show_content_div").append(tabhtml);
@@ -96,18 +100,29 @@
     function edit(){
     	var mid = $("#mid").val();
 		if(mid != null && mid != '' ){
-			layer.open({
-			  type: 2, //page层
-			  area: ['550px','400px'],
-			  title: '修改菜单',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: '120px',
-			  shadeClose: false,
-			  content: '${pageContext.request.contextPath}/preMenu/edit.html?id='+mid
-			});
+			$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/preMenu/validate.do?id="+mid,        
+			    dataType:'json',
+			    success:function(result){
+			    	if(result.is_root){
+                    	layer.msg(result.msg,{offset: ['150px']});
+			    	}else{
+			    		layer.open({
+						  type: 2, //page层
+						  area: ['550px','400px'],
+						  title: '修改菜单',
+						  closeBtn: 1,
+						  shade:0.01, //遮罩透明度
+						  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+						  shift: 1, //0-6的动画形式，-1不开启
+						  offset: '120px',
+						  shadeClose: false,
+						  content: '${pageContext.request.contextPath}/preMenu/edit.html?id='+mid
+						});
+			    	}
+                }
+	     	});
 		}else{
 			layer.alert("请选择一个节点",{offset: '222px', shade:0.01});
 		}
@@ -115,11 +130,22 @@
     
     function del(){
     	var mid = $("#mid").val();
-		if(mid != null && mid != '' ){
-			layer.confirm('您确定要删除该菜单吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/preMenu/delete.html?ids="+mid;
-			});
+		if(mid != null && mid != ''){
+			$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/preMenu/validate.do?id="+mid,        
+			    dataType:'json',
+			    success:function(result){
+			    	if(result.is_root){
+                    	layer.msg(result.msg,{offset: ['150px']});
+			    	}else{
+			    		layer.confirm('您确定要删除该菜单吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+							layer.close(index);
+							window.location.href="${pageContext.request.contextPath}/preMenu/delete.html?ids="+mid;
+						});
+			    	}
+                }
+	     	});
 		}else{
 			layer.alert("请选择要删除的菜单",{offset: '222px', shade:0.01});
 		}

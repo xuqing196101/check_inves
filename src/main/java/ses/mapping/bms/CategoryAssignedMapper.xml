@@ -40,7 +40,7 @@
 		SELECT CATEGORY_ID AS cateId
 		from T_SES_BMS_CATEGORY_ORG 
 		<if test="orgId != null and orgId !=''">
-			WHERE ORG_ID = #{orgId}
+			WHERE ORG_ID = #{orgId,jdbcType=VARCHAR}
 		</if>
 	</select>
 	

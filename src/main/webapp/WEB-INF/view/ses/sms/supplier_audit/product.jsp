@@ -109,89 +109,139 @@ function nextStep(){
             </div>
         </div> 
         <div class="container container_box">
-        <div class="content height-350">
-        <div class="col-md-12 tab-v2 job-content">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a >详细信息</a></li>
-              <li class=""><a >财务信息</a></li>
-              <li class=""><a >股东信息</a></li>
-              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-                <li class=""><a>物资-生产专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-                <li class=""><a>物资-销售专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-                <li class=""><a >工程-专业信息</a></li>
-              </c:if>
-              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-                <li class=""><a >服务-专业信息</a></li>
-              </c:if>
-              <li class=""><a>品目信息</a></li>
-              <li class="active"><a >产品信息</a></li>
-              <li class=""><a>申请表</a></li>
-              <li class=""><a>审核汇总</a></li>
-            </ul>
-
-            <form id="form_id" action="" method="post">
-                <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
-            </form>
+            <div class="content height-350">
+                <div class="col-md-12 tab-v2 job-content">
+	            <%-- <ul class="nav nav-tabs bgdd">
+	              <li class=""><a >详细信息</a></li>
+	              <li class=""><a >财务信息</a></li>
+	              <li class=""><a >股东信息</a></li>
+	              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+	                <li class=""><a>物资-生产专业信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+	                <li class=""><a>物资-销售专业信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	                <li class=""><a >工程-专业信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+	                <li class=""><a >服务-专业信息</a></li>
+	              </c:if>
+	              <li class=""><a>品目信息</a></li>
+	              <li class="active"><a >产品信息</a></li>
+	              <li class=""><a>申请表</a></li>
+	              <li class=""><a>审核汇总</a></li>
+	            </ul> --%>
             
-            <c:forEach items="${listItem}" var="item" varStatus="vs">
-              <h2 class="count_flow"><i>${vs.index + 1}</i>${item.categoryName}产品信息表</h2>
-              <ul class="ul_list">
-                <table class="table table-bordered table-condensed table-hover">
-                <thead>
-                  <tr>
-                    <th class="info w50">序号</th>
-                    <th class="info">所属类别</th>
-                    <th class="info">产品名称</th>
-                    <th class="info">品牌</th>
-                    <th class="info">规格型号</th>
-                    <th class="info">尺寸</th>
-                    <th class="info">生产产地</th>
-                    <th class="info">保质期</th>
-                    <th class="info">生产商</th>
-                    <th class="info">参考价格</th>
-                    <th class="info">产品图片</th>
-                    <th class="info">商品二维码</th>
-                    <th class="info w50"></th>
-                  </tr>
-                </thead>
-                <tbody >
-                  <c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
-                    <tr>
-                      <td class="tc w50">${vs.index + 1}</td>
-                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}">${item.categoryName}</td>
-                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}_name">${products.name}</td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
-                      <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
-                      <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
-                      <td class="tc">
-                        <c:if test="${products.productPic != null}">
-                          <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
-                        </c:if>
-                        <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
-                      </td>
-                      <td class="tc" >
-                        <c:if test="${products.qrCode != null}">
-                          <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
-                        </c:if>
-                        <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
-                      </td>
-                      <td class="tc">
-                        <a  id="${products.id }_show" class="b f18 fl ml10 hand red">×</a>
-                      </td>
-                    </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
-              </ul>
-            </c:forEach>
+                <ul class="flow_step">
+                    <li >
+                        <a aria-expanded="false" href="#tab-1" >详细信息</a>
+                        <i></i>
+                    </li>
+                    <li >
+                        <a aria-expanded="false" href="#tab-2" >财务信息</a>
+                        <i></i>                            
+                    </li>
+                    <li >
+                        <a aria-expanded="false" href="#tab-3" >股东信息</a>
+                        <i></i>
+                    </li>
+                    <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4">生产信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+                        <li >
+                            <a aria-expanded="false" href="#tab-4" >销售信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >工程信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >服务信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <li class="active">
+                        <a aria-expanded="true" href="#tab-4" data-toggle="tab">产品信息</a>
+                        <i></i>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" href="#tab-4" >申请表</a>
+                        <i></i>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                    </li>
+                </ul>
+
+	            <form id="form_id" action="" method="post">
+	                <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+	            </form>
+            
+	            <c:forEach items="${listItem}" var="item" varStatus="vs">
+	              <h2 class="count_flow"><i>${vs.index + 1}</i>${item.categoryName}产品信息表</h2>
+	              <ul class="ul_list">
+	                <table class="table table-bordered table-condensed table-hover">
+	                <thead>
+	                  <tr>
+	                    <th class="info w50">序号</th>
+	                    <th class="info">所属类别</th>
+	                    <th class="info">产品名称</th>
+	                    <th class="info">品牌</th>
+	                    <th class="info">规格型号</th>
+	                    <th class="info">尺寸</th>
+	                    <th class="info">生产产地</th>
+	                    <th class="info">保质期</th>
+	                    <th class="info">生产商</th>
+	                    <th class="info">参考价格</th>
+	                    <th class="info">产品图片</th>
+	                    <th class="info">商品二维码</th>
+	                    <th class="info w50"></th>
+	                  </tr>
+	                </thead>
+	                <tbody >
+	                  <c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
+	                    <tr>
+	                      <td class="tc w50">${vs.index + 1}</td>
+	                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}">${item.categoryName}</td>
+	                      <td class="tc" onclick="reason('${products.id}');" id="${products.id}_name">${products.name}</td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
+	                      <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
+	                      <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
+	                      <td class="tc">
+	                        <c:if test="${products.productPic != null}">
+	                          <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
+	                        </c:if>
+	                        <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
+	                      </td>
+	                      <td class="tc" >
+	                        <c:if test="${products.qrCode != null}">
+	                          <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
+	                        </c:if>
+	                        <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
+	                      </td>
+	                      <td class="tc">
+	                        <a  id="${products.id }_show" class="b f18 fl ml10 hand red">×</a>
+	                      </td>
+	                    </tr>
+	                  </c:forEach>
+	                </tbody>
+	              </table>
+	              </ul>
+	            </c:forEach>
                <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
                       <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
                     <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">

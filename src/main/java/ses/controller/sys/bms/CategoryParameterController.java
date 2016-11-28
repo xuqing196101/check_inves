@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.constant.StaticVariables;
 import ses.formbean.ResponseBean;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.CategoryParameterService;
+import ses.service.bms.CategoryService;
 
 /**
  * 
@@ -36,6 +38,10 @@ public class CategoryParameterController {
     @Autowired
     private CategoryParameterService paramService;
     
+    /** 品目service */
+    @Autowired
+    private CategoryService categoryService;
+    
     /**
      * 
      *〈简述〉
@@ -54,12 +60,22 @@ public class CategoryParameterController {
         List<DictionaryData> list = paramService.initTypes();
         model.addAttribute("dictionary", list);
         
-        List<DictionaryData> dictList = paramService.initSmallTypes();
-        model.addAttribute("smallType", dictList);
-        
        return "/ses/ppms/categoryparam/cateParameter";
     }
     
+    /**
+     * 
+     *〈简述〉
+     *  初始化类型
+     *〈详细描述〉myc
+     * @return  类型集合
+     */
+    @ResponseBody
+    @RequestMapping(value = "/initTypes" ,produces="application/json;charset=UTF-8")
+    public List<DictionaryData> initTypes(){
+        
+        return paramService.initSmallTypes();
+    }
     
     /**
      * 
@@ -161,5 +177,22 @@ public class CategoryParameterController {
     public String submitParams(String open, String classify , String id){
         
         return  paramService.submit(open, classify, id);
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     * 获取当前当前的状态
+     *〈详细描述〉
+     * @author myc
+     * @param id 品目Id
+     * @param opera 操作类型
+     * @return 返回各个状态提示
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getStatus", produces = "text/html;charset=UTF-8")
+    public String getStatus(String id, String opera){
+        
+        return  categoryService.estimate(id, opera,StaticVariables.CATEGORY_SUBMIT_MSG,StaticVariables.CATEGORY_SUBMIT_STATUS);
     }
 }

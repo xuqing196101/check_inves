@@ -536,7 +536,7 @@ public class ArticleController extends BaseSupplierController{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/audit")
-	public String audit(String id,Article article,HttpServletRequest request) throws Exception{
+	public String audit(String id,Article article,HttpServletRequest request,Model model,Integer page) throws Exception{
 		article.setUpdatedAt(new Date());
 		if(article.getStatus()==2){
 			article.setReason("");
@@ -545,13 +545,17 @@ public class ArticleController extends BaseSupplierController{
 			article.setPublishedAt(new Date());
 	//		solrNewsService.addIndex(article);
 			articleService.update(article);
-		}else if(article.getStatus()==3){
+		}
+		if(article.getStatus()==3){
 			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
 			article.setReason(reason);
 			articleService.update(article);
 		}
 		
-		return "redirect:getAll.html";
+		List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
+		model.addAttribute("list", new PageInfo<Article>(list));
+		
+		return "iss/ps/article/list";
 	}
 	
 	/**

@@ -129,6 +129,9 @@ public class ValidateUtils {
     
     /**电话和手机*/
     private static final String V_PHONE = "^((0\\d{2,3}-\\d{7,8})|(1[3584]\\d{9}))$";
+    
+    /**只能输入数字和英文*/
+    private static final String V_NUMVER_CODE = "^[0-9a-zA_Z]+$";
       
     private ValidateUtils(){}  
     
@@ -469,7 +472,21 @@ public class ValidateUtils {
     public static boolean Un_negative_float(String value){  
         return match(V_UN_NEGATIVE_FLOAT,value);  
     }  
-  
+    
+    /**
+     * 
+    * @Title: Number_code
+    * @author ZhaoBo
+    * @date 2016-11-27 下午1:47:03  
+    * @Description: 验证只能输入数字和英文 
+    * @param @param value
+    * @param @return      
+    * @return boolean
+     */
+    public static boolean Number_code(String value){  
+        return match(V_NUMVER_CODE,value);  
+    } 
+    
     /** 
      * 验证非负浮点数 
      * @param value 要验证的字符串 
@@ -645,4 +662,42 @@ public class ValidateUtils {
         return matcher.matches();  
     } 
     
+    /**
+     * 
+    * @Title: isLetter
+    * @author ZhaoBo
+    * @date 2016-11-27 下午9:44:40  
+    * @Description: 转换为十六进制 
+    * @param @param c
+    * @param @return      
+    * @return boolean
+     */
+    public static boolean isLetter(char c) {   
+        int k = 0x80;   
+        return c / k == 0 ? true : false;   
+    }
+    
+    /**
+     * 
+    * @Title: length
+    * @author ZhaoBo
+    * @date 2016-11-27 下午9:45:14  
+    * @Description: 获取字符串的长度 
+    * @param @param s
+    * @param @return      
+    * @return int
+     */
+    public static int length(String s) {  
+        if (s == null)  
+            return 0;  
+        char[] c = s.toCharArray();  
+        int len = 0;  
+        for (int i = 0; i < c.length; i++) {  
+            len++;  
+            if (!isLetter(c[i])) {  
+                len++;  
+            }  
+        }  
+        return len;  
+    }  
 }

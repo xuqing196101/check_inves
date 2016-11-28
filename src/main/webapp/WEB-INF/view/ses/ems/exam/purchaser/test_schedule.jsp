@@ -48,7 +48,6 @@
 			    		<th>考试开始时间</th>
 			    		<th>考试截止时间</th>
 			    		<th>答题用时</th>
-			    		<th>是否可以重考</th>
 		    		</tr>
 		    	</thead>
 		    	<tbody>
@@ -59,20 +58,7 @@
 		    				<td>${test.code }</td>
 		    				<td>${test.startDate }</td>
 		    				<td>${test.offDate }</td>
-		    				<c:choose>
-		    					<c:when test="${test.testTime==null }">
-		    						<td></td>
-		    					</c:when>
-		    					<c:otherwise>
-		    						<td>${test.testTime }分钟</td>
-		    					</c:otherwise>
-		    				</c:choose>
-		    				<c:if test="${test.isAllowRetake==1 }">
-		    					<td>是</td>
-		    				</c:if>
-		    				<c:if test="${test.isAllowRetake==0 }">
-		    					<td>否</td>
-		    				</c:if>
+		    				<td>${test.testTime }分钟</td>
 		    			</tr>
 		    		</c:forEach>
 		    	</tbody>
@@ -84,9 +70,8 @@
     <div class="pl20 mt10 red container">
     	<div class="ml15">*注意</div>
 		<div class="ml15">1.考卷开始时间到了才能登录考试系统考试</div>
-		<div class="ml15">2.设置可以重考的考卷的考卷才有答题用时,不允许重考的考卷的答题用时为当前时间和考试截止时间的时间差</div>
-		<div class="ml15">3.如果该考卷允许重考,重考次数不限,重考时间为30分钟</div>
-		<div class="ml15">4.过了考试截止时间考生无法登录考试系统考试,在规定时间内考生如果没有登录考试系统考试,计为0分</div>
+		<div class="ml15">2.考生必须在答题时间内做题，答题时间过了系统会自动提交</div>
+		<div class="ml15">3.过了考试截止时间考生无法登录考试系统考试,成绩计为0分</div>
     </div>
   </body>
 </html>
