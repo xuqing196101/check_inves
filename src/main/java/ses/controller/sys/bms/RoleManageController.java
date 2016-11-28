@@ -240,8 +240,9 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/openPreMenu")
-	public String openPreMenu(Model model, String id) {
+	public String openPreMenu(Model model, String id, String kind) {
 		model.addAttribute("rid", id);
+		model.addAttribute("kind", kind);
 		return "ses/bms/role/add_menu";
 	}
 
