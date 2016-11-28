@@ -106,12 +106,12 @@ public class ExamUserScore {
      *@Fields isMax : 是否是该用户的最高分数
      */
     private Integer isMax;
-    
-    /**
-	 * @Fields year : 考试年份
-	 */
-	private Integer year;
 	
+    /**
+     *@Fields unitName : 单位名称
+     */
+    private String unitName;
+    
 	/**
 	 * @Fields ruleId : 规则ID
 	 */
@@ -268,13 +268,13 @@ public class ExamUserScore {
 	public void setIsMax(Integer isMax) {
 		this.isMax = isMax;
 	}
-
-	public Integer getYear() {
-		return year;
+	
+	public String getUnitName() {
+		return unitName;
 	}
 
-	public void setYear(Integer year) {
-		this.year = year;
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 
 	public String getRuleId() {
