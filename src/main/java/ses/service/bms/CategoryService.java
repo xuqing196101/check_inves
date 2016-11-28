@@ -66,6 +66,18 @@ import ses.model.sms.SupplierTypeTree;
 	* @param @return
 	 */
 	public List<Category> findTreeByPid(String id);
+	
+	/**
+	 * 
+	 *〈简述〉
+	 * 查询状态大于当状态的数据
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 父节点Id
+	 * @param status  状态
+	 * @return 返回 Category 集合
+	 */
+	public List<Category> findTreeByStatus(String id, Integer status);
 	/**
 	 * 
 	* @Title: updateByPrimaryKey

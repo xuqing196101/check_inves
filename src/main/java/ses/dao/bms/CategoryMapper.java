@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Category;
 
 
@@ -193,4 +195,16 @@ public interface CategoryMapper {
       * @return 数量
       */
      public Integer findByName(String name);
+
+     /**
+      * 
+      *〈简述〉
+      * 查询大于当前状态的数据
+      *〈详细描述〉
+      * @author myc
+      * @param id 父节点Id
+      * @param status 状态
+      * @return Category 集合
+      */
+     public List<Category> findTreeByStatus(@Param("id")String id, @Param("status")Integer status);
 }

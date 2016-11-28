@@ -397,7 +397,9 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
              tree.setName(cate.getName());
              tree.setpId(cate.getParentId());
              tree.setPubStatus(cate.getIsPublish());
-             
+             tree.setStatus(cate.getParamStatus());
+             tree.setAuditDate(cate.getAuditDate());
+             tree.setAuditAdvise(cate.getAuditAdvise());
              if (cate.getClassify() != null) {
                  tree.setClassify(cate.getClassify().toString());
              }

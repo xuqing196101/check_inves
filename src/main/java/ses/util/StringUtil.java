@@ -26,7 +26,7 @@ public class StringUtil {
      * @author myc
      * @param strParameter 字符串
      * @param limitLength  长度
-     * @return
+     * @return 合法返回true,不合法返回false
      */
     public static boolean validateStrByLength(String strParameter , int limitLength)
     {

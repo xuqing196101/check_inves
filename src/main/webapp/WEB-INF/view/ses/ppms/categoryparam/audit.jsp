@@ -17,7 +17,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container content height-350">
+  <div class="container content height-350 container_box">
 	  <!-- left tree -->
     <div class="col-md-3">
 	  <div class="tag-box tag-box-v3">
@@ -29,15 +29,33 @@
 	   
 	<!-- right -->
     <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
-	  <div class="col-md-12 col-sm-12 col-xs-12 clear">
+	  <div class="col-md-12 col-sm-12 col-xs-12 clear" id="baseParamId">
+	    <h2 class="count_flow"><i>1</i>产品参数</h2>
 	    <ul id="uListId" class="list-unstyled ul_table" >
 	    </ul>
 	  </div>
-	  <div>
-	  	
+	  <div class="col-md-12 col-sm-12 col-xs-12  padding-top-10 clear" id="auditParamId">
+	    <h2 class="count_flow"><i>2</i>审核信息</h2>
+	    <ul class="ul_list">
+	      <li class="col-md-6">
+	        <label class="col-md-12 padding-left-5">审核<span class="red">*</span></label>
+	          <span>
+	    		<select name="auditStatus" onchange="loadAuditText(this)">
+	    			<option value="3">通过</option>
+	    			<option value="1">不通过</option>
+	    		</select>
+	    	  </span>
+	      </li>
+	      <li class="col-md-6">
+			  <label class="col-md-12 padding-left-5">审核意见<span class="red" id="markId">*</span></label>
+			  <span>
+			  	<textarea class="col-md-12 col-sm-12 col-xs-12" id="textId"></textarea>
+			  </span>
+		  </li>
+	    </ul>
 	  </div>
-	  <div id="submitId" class="textc col-md-12 col-xs-12 col-sm-12 mt20">
-	    <button class="btn btn-windows git" onclick="submitParams();" type="button">审核</button>
+	  <div id="auditBtnId" class="textc col-md-12 col-xs-12 col-sm-12 mt20">
+	    <button class="btn btn-windows git" onclick="auditParams();" type="button">提交</button>
 	  </div>
 	 </div>
     </div>

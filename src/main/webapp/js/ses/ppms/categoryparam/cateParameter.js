@@ -305,6 +305,10 @@ function findParams(cateId, treeNode){
 	} else {
 		classified = false;
 	}
+	//加载审核信息
+	if (treeNode.auditDate != null){
+		loadAuditHtml(treeNode.status,treeNode.auditAdvise);
+	}
 	
 }
 
@@ -456,6 +460,37 @@ function loadCheckbox(checkedVal){
 	 }
 	    html+= "</div></li>";
 	  $("#uListId").append(html);
+}
+
+/**
+ * 审核信息
+ * @param auditStatus
+ * @param auditAdvise
+ */
+function loadAuditHtml(auditStatus,auditAdvise){
+	var statusText = "";
+	if (auditStatus == 1){
+		statusText = "不通过";
+	}
+	if (auditStatus == 3){
+		statusText = "通过";
+	}
+	var html = "<li>"
+			  + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
+			  + "  审核状态: " 
+			  + " </div>"
+			  + " <div class='col-md-8 col-sm-8 col-xs-7'>"
+	          + statusText ;
+			  + " </div>"
+			  + "</li>";
+	 if (auditAdvise !=null && auditAdvise != ""){
+		 html += "<li>";
+		   html += "<div class='col-md-12 col-sm-4 col-xs-5 tr'>";
+		   html	+= "  审核意见: "  + auditAdvise ;
+		   html += "</div>"
+	     html += "<li>"
+	 }
+	$("#uListId").append(html);
 }
 
 
