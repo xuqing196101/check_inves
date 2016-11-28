@@ -82,7 +82,8 @@
             enabled: true,
             buttonOptions: {
                 verticalAlign: 'bottom'
-            }
+            },
+            enableMouseWheelZoom:false,
         },
 
         plotOptions: {
@@ -356,7 +357,7 @@ $(function() {
 		}
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownOrg);
+			$("body").unbind("mousedown", onBodyDownSupplierType);
 			
 		}
 		function onBodyDownOrg(event) {

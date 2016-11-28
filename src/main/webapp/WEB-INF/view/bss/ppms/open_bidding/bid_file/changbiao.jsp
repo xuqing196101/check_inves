@@ -62,7 +62,7 @@
 				<td colspan="2"><b>合计</b></td>
 				<td colspan="2">投标总价</td>
 				<td colspan="3">${listQuote[0].totalMoneyNames }</td>
-				<td>(小写)¥：</td>
+				<td colspan="2">(小写)¥：</td>
 				<td colspan="2">${listQuote[0].totalMoney }</td>
 			</tr>
         </table>

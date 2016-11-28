@@ -80,7 +80,8 @@
             enabled: true,
             buttonOptions: {
                 verticalAlign: 'bottom'
-            }
+            },
+            enableMouseWheelZoom:false,
         },
 
         plotOptions: {
@@ -297,7 +298,7 @@ $(function() {
 		}
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownOrg);
+			$("body").unbind("mousedown", onBodyDownSupplierType);
 			
 		}
 		function onBodyDownOrg(event) {
@@ -306,7 +307,7 @@ $(function() {
 			}
 		}
 		function onBodyDownSupplierType(event) {
-			if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
+			if (!(event.target.id == "menuBtn" ||  event.target.id == "supplierTypeContent" || $(event.target).parents("#supplierTypeContent").length>0)) {
 				hideSupplierType();
 			}
 		}
@@ -324,7 +325,7 @@ $(function() {
    	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	   </div>
-	    <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+	   <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	   </div>
   <body>
@@ -350,8 +351,8 @@ $(function() {
 		            <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
 		          </li> 
 		          <li>
-                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-                              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
+                         <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+                         <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
                   </li>
                   <li>
 		            <label class="fl">供应商状态:</label>
