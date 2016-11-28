@@ -21,6 +21,7 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
 import ses.model.sms.ImportRecommend;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
@@ -175,6 +176,10 @@ public class ImportRecommendController extends BaseSupplierController {
         user.setTypeId(ir.getId());
         user.setAddress(ir.getAddress());
         user.setTypeId(ir.getId());
+        //采购管理部门的id
+        Orgnization org = new Orgnization();
+        org.setId(user1.getOrg().getId());
+        user.setOrg(org);
         user.setTypeName(DictionaryDataUtil.getId("IMP_AGENT_U"));
         userService.save(user, null);
         Role role = new Role();
