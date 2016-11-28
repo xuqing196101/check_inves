@@ -182,6 +182,9 @@
 		<if test="isName != null and isName != ''">
 			and a.name like #{isName}
 		</if>
+		<if test="provinceId != null and provinceId != ''">
+			and d.PROVINCE_ID = #{provinceId}
+		</if>
 		ORDER BY d.CREATED_AT DESC
 	</select>
 	<!-- 多对多关联查询    org_id 1的一方   purchase_dep_id 关联多的一方 -->

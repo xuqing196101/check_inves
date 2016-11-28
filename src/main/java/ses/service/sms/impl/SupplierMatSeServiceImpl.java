@@ -1,12 +1,14 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMatServeMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierMatServe;
 import ses.service.sms.SupplierMatSeService;
 
 @Service(value = "supplierMatSeService")
@@ -22,8 +24,14 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 			supplier.getSupplierMatSe().setUpdatedAt(new Date());
 			supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
 		} else {
+			String sid = UUID.randomUUID().toString().replaceAll("-", "");
+			supplier.getSupplierMatSe().setId(sid);
 			supplier.getSupplierMatSe().setCreatedAt(new Date());
-			supplierMatSeMapper.insertSelective(supplier.getSupplierMatSe());
+			SupplierMatServe server = supplierMatSeMapper.getMatSeBySupplierId(supplier.getId());
+			if(server==null){
+				supplierMatSeMapper.insertSelective(supplier.getSupplierMatSe());
+			}
+			
 		}
 	}
 

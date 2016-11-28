@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierTypeRelate;
 
 /**
@@ -77,7 +79,7 @@ public interface SupplierTypeRelateMapper {
      */
     int updateByPrimaryKey(SupplierTypeRelate record);
     
-    List<SupplierTypeRelate> findSupplierTypeIdBySupplierId(String supplierId);
+    List<SupplierTypeRelate> findSupplierTypeIdBySupplierId(@Param("supplierId")String supplierId);
     
     int deleteBySupplierId(String supplierId);
     

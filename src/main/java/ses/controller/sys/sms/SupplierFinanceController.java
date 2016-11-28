@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierFinanceService;
@@ -41,6 +45,9 @@ public class SupplierFinanceController extends BaseSupplierController {
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	@Autowired
+	private UploadService uploadService;
+	
 	@RequestMapping(value = "add_finance")
 	public String addCertEng(Model model, SupplierFinance supplierFinance) {
 		model.addAttribute("supplierFinance", supplierFinance);
@@ -59,12 +66,12 @@ public class SupplierFinanceController extends BaseSupplierController {
 //		request.getSession().setAttribute("defaultPage", "tab-2");
 		request.getSession().setAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", "basic_info");
-//		boolean flag=validate(request, supplierFinance, supplierId, model);
-//		 if(flag==false){
-//			 return "0";
-//		 }else{
+		boolean flag=validate(request, supplierFinance, supplierId, model);
+		 if(flag==false){
+			 return "0";
+		 }else{
 			 return "1";
-//		 }
+		 }
 		
 	}
 	
@@ -153,7 +160,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			model.addAttribute("assets", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalAssets()!=null&&supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalAssets()!=null&&!supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
 			model.addAttribute("assets", "不能为空");
 			bool=false;
 		}
@@ -161,7 +168,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			model.addAttribute("bilit", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalLiabilities()!=null&&supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalLiabilities()!=null&&!supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
 			model.addAttribute("bilit", "金额错误");
 			bool=false;
 		}
@@ -169,7 +176,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			model.addAttribute("noAssets", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalNetAssets()!=null&&supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalNetAssets()!=null&&!supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
 			model.addAttribute("noAssets", "金额错误");
 			bool=false;
 		}
@@ -177,10 +184,44 @@ public class SupplierFinanceController extends BaseSupplierController {
 			model.addAttribute("taking", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTaking()!=null&&supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTaking()!=null&&!supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
 			model.addAttribute("taking", "金额格式错误");
 			bool=false;
 		}
+		
+		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
+		//* 财务审计报告意见
+		List<UploadFile> tlist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(tlist!=null&&tlist.size()<=0){
+			model.addAttribute("err_taxCert", "请上传文件!");
+		}
+		//* 资产负债表
+		List<UploadFile> blist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(blist!=null&&blist.size()<=0){
+ 
+			model.addAttribute("err_bil", "请上传文件!");
+		}
+		//利润表：
+		List<UploadFile> slist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(slist!=null&&slist.size()<=0){
+ 
+			model.addAttribute("err_security", "请上传文件!");
+		}
+		//现金流量表:
+		List<UploadFile> bearlist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(bearlist!=null&&bearlist.size()<=0){
+ 
+			model.addAttribute("err_bearch", "请上传文件!");
+		}
+		
+		//所有者权益变动表：
+		List<UploadFile> list = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString());
+		if(list!=null&&list.size()<=0){
+	 
+			model.addAttribute("err_business", "请上传文件!");
+		}
+		
+		
 		
 		return bool;
 		

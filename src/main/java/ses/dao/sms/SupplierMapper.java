@@ -3,6 +3,8 @@ package ses.dao.sms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 
@@ -90,7 +92,7 @@ public interface SupplierMapper {
      */
     String selectLastInsertId();
 
-    Supplier getSupplier(String id);
+    Supplier getSupplier(@Param("id")String id);
 
     List<Supplier> findSupplier(Supplier record);
 

@@ -99,7 +99,12 @@
 		select 
 		<include refid="Base_Column_List"/>
 		
-		from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
+		from T_SES_SMS_SUPPLIER_TYPE_RELATE 
+		<where>
+		<if test="supplierId!=null">
+	     	SUPPLIER_ID = #{supplierId}
+		</if>
+		</where>
 	</select>
 
 	<select id="findSupplierTypeBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">

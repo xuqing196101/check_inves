@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
-				<li><a href="#">障碍作业系统</a></li>
+				<li><a href="#">保障作业系统</a></li>
 				<li><a href="#">采购计划管理</a></li>
 				<li class="active"><a href="#">采购需求管理</a></li>
 			</ul>
@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option> --%>
 	                            
 	                               <c:forEach items="${list2 }" var="purtype">
-										<option value="${obj.id }" <c:if test="${purtype.id==obj.purchaseType}">selected="selected"</c:if> >${obj.name }</option>
+										<option value="${obj.id }" <c:if test="${purtype.id==obj.purchaseType}">selected="selected"</c:if> >${purtype.name }</option>
 									 </c:forEach>
 									 
 									 

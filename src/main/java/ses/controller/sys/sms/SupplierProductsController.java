@@ -20,6 +20,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierProducts;
+import ses.service.bms.AreaServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierProductsService;
 import ses.service.sms.SupplierService;
@@ -39,6 +40,9 @@ public class SupplierProductsController extends BaseSupplierController {
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;// 机构
+	
+	@Autowired
+	private AreaServiceI  areaService;
 	
 	
 	/**
@@ -130,29 +134,28 @@ public class SupplierProductsController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_products")
 	public String perfectProducts(HttpServletRequest request, Supplier supplier, String jsp,String flag) throws IOException {
-		supplier = supplierService.get(supplier.getId());
-		
-//		if ("procurement_dep".equals(jsp)) {
+		  supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			if (supplier.getAddress() != null && !"".equals(supplier.getAddress()) && !",".equals(supplier.getAddress())) {
-				map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+			if(supplier.getProcurementDepId()!=null){
+				map.put("id", supplier.getProcurementDepId());
+				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+				request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+	
 			}
-			List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-//			map.clear();
-//			if (supplier.getAddress() != null && !"".equals(supplier.getAddress()) && !",".equals(supplier.getAddress())) {
-//				map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
-//			}
-//			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
-			request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
-//			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
-//		}
-
+			
 		// 页面跳转
 		request.getSession().setAttribute("currSupplier", supplier);
 		
-//		request.getSession().setAttribute("jump.page", jsp);
+		if(flag.equals("prev")){
+			return "ses/sms/supplier_register/supplier_type";	
+		}else if(flag.equals("stroe")){
+			return "ses/sms/supplier_register/products";	
+		}else{
+			return "ses/sms/supplier_register/procurement_dep";	
+		}
 		
-		return "ses/sms/supplier_register/procurement_dep";
+		
+		
 	}
 	
 	public void setUpload(HttpServletRequest request, SupplierProducts supplierProducts) throws IOException {

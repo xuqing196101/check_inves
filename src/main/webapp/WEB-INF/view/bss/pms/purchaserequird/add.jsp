@@ -82,13 +82,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    success: function (data)  //服务器成功响应处理函数
 		                    { 
 		                    	if(data=="ERROR"){
-		                    		 alert("文件名错误");
+		                    		layer.alert("文件名错误",{offset: ['222px', '390px'], shade:0.01});
 		                    	}else if(data=="exception"){
-		                    		alert("格式出错");
+		                    		layer.alert("格式错误",{offset: ['222px', '390px'], shade:0.01});
 		                    	}
 		                    	
 		                    	else{
-		                    		alert("上传成功");
+		                    		
+		                    		layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+		                    		window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
 		                    	}
 		                   
 		                    },

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -39,6 +41,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
@@ -100,6 +103,9 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private UploadService uploadService;
 	
+	@Autowired
+	private SupplierItemService supplierItemService;
+	
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -144,11 +150,12 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping("register_page")
 	public String registerPage(HttpServletRequest request) {
-//		boolean flag = this.checkReferer(request, "/supplier/registration_page.html");
-//		if (flag) {
-			return "ses/sms/supplier_register/register";
-//		}
-//		return "redirect:registration_page.html";
+ 
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		request.setAttribute("id",id);
+		
+		return "ses/sms/supplier_register/register";
+ 
 	}
 
 	/**
@@ -163,16 +170,29 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "register")
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
-		if (this.validateRegister(request, model, supplier)) {
+		Supplier sup = supplierService.selectById(supplier.getId());
+		boolean bool = validateRegister(request, model, supplier);
+		if (bool==true&&sup==null) {
 			supplier = supplierService.register(supplier);
-			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-//			request.getSession().setAttribute("jump.page", "basic_info");
-			request.getSession().setAttribute("currSupplier", supplier);
+			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+ 
+			request.setAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/basic_info";
 		}
-		model.addAttribute("supplier", supplier);
-		return "ses/sms/supplier_register/register";
+		if(sup!=null){
+			request.setAttribute("currSupplier", sup);
+			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+			return "ses/sms/supplier_register/basic_info";
+		}
+		else{
+			request.setAttribute("id",supplier.getId());
+			Supplier supp = supplierService.get(supplier.getId());
+			model.addAttribute("currSupplier", supp);
+			return "ses/sms/supplier_register/register";
+		}
+	
 	}
 
 	/**
@@ -186,19 +206,20 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "search_org")
-	public String searchOrg(HttpServletRequest request, String isName) {
+	public String searchOrg(HttpServletRequest request, String id) {
 		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+//		map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+		map.put("provinceId",id);
 		List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-		map.clear();
-		map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
-		map.put("isName", "%" + isName + "%");
-		List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
+//		map.clear();
+//		map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+//		map.put("isName", "%" + isName + "%");
+//		List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
 		request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
-		request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
-		request.getSession().setAttribute("jump.page", "procurement_dep");
-		return "redirect:page_jump.html";
+//		request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
+//		request.getSession().setAttribute("jump.page", "procurement_dep");
+		return "ses/sms/supplier_register/procurement_dep";
 	}
 
 	/**
@@ -244,6 +265,9 @@ public class SupplierController extends BaseSupplierController {
 		boolean info = validateBasicInfo(request,model,supplier);
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		request.getSession().setAttribute("relate", relate);
+		if(flag==null){
+			flag="3";
+		}
 		if(flag.equals("1")&&info==true){
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
@@ -258,12 +282,41 @@ public class SupplierController extends BaseSupplierController {
 			request.getSession().setAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/supplier_type";
 			
-		}else{
+		}else if(flag.equals("2")){
+			supplierService.perfectBasic(supplier);
 //			supplier = supplierService.get(supplier.getId());
+			supplier = supplierService.get(supplier.getId());
+			DictionaryData dd=new DictionaryData();
+			dd.setKind(6);
+			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("supplieType", list);
+			DictionaryData dd2=new DictionaryData();
+			dd2.setKind(8);
+			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
+			request.getSession().setAttribute("wlist", wlist);
 			request.getSession().setAttribute("currSupplier", supplier);
+			
+			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+			
+			return "ses/sms/supplier_register/basic_info";
+		}else{
+			supplier = supplierService.get(supplier.getId());
+			DictionaryData dd=new DictionaryData();
+			dd.setKind(6);
+			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("supplieType", list);
+			DictionaryData dd2=new DictionaryData();
+			dd2.setKind(8);
+			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
+			request.getSession().setAttribute("wlist", wlist);
+			request.getSession().setAttribute("currSupplier", supplier);
+			
+			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			return "ses/sms/supplier_register/basic_info";
 		}
-//		return "redirect:page_jump.html";
+ 
 
 	}
 
@@ -283,53 +336,69 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_professional")
 	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag,Model model) throws IOException {
 	 
-		String[] str = supplier.getSupplierTypeIds().trim().split(",");
+	
 		boolean info=true;
-		 
-			if (supplier.getSupplierMatPro()!=null) {
-				  info = validatePro(request, supplier.getSupplierMatPro(), model);
+		boolean sale=true;
+		boolean pro=true;
+		boolean server=true;
+		boolean project=true;
+		if(flag==null){
+			flag="refesh";
+		}
+		if(flag.equals("3")){
+			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "ses/sms/supplier_register/basic_info";
+		}
+			
+		
+		String[] str = supplier.getSupplierTypeIds().trim().split(",");
+		for(String s:str){
+			if (s.equals("PRODUCT")) {
+				pro = validatePro(request, supplier.getSupplierMatPro(), model);
 				  if(info==true){
 					  supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
 				  }
 			} 
-			if (supplier.getSupplierMatSell() != null) {
-				 info = validateSale(request, supplier.getSupplierMatSell(), model);
+			if (s.equals("SALES")) {
+				sale = validateSale(request, supplier.getSupplierMatSell(), model);
 				  if(info==true){
 					  supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
 				  }
 			}
-			if (supplier.getSupplierMatEng() != null) {
-				 info = validateEng(request, supplier.getSupplierMatEng(), model);
+			if (s.equals("PROJECT")) {
+				project = validateEng(request, supplier.getSupplierMatEng(), model);
 				  if(info==true){
 					  supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
 				  }
 			}
-			if (supplier.getSupplierMatSe() != null) {
-				 info = validateServer(request, supplier.getSupplierMatSe(), model);
+			if (s.equals("SERVICE")) {
+				server = validateServer(request, supplier.getSupplierMatSe(), model);
 				  if(info==true){
 					  supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 				  }
 			}
-	 
-		
+		}
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		supplier = supplierService.get(supplier.getId());
-		
-	/*	if ("professional_info".equals(jsp))
-			request.getSession().setAttribute("defaultPage", defaultPage);
-		else
-			request.getSession().removeAttribute("defaultPage");*/
+ 
 
 		request.getSession().setAttribute("currSupplier", supplier);
-	/*	request.getSession().setAttribute("jump.page", jsp);*/
-		if(flag.equals("3")){
-			return "ses/sms/supplier_register/basic_info";
-		}
-		else if(flag.equals("2")){
-			return "ses/sms/supplier_register/supplier_type";	
+ 
+		if(pro==true&&server==true&&project==true&&sale==true){
+			if(flag.equals("3")){
+				return "ses/sms/supplier_register/basic_info";
+			}
+			else if(flag.equals("2")){
+				return "ses/sms/supplier_register/supplier_type";	
+			}else{
+				return "ses/sms/supplier_register/products";
+			}
 		}else{
-			return "ses/sms/supplier_register/products";
+			return "ses/sms/supplier_register/supplier_type";	
 		}
+		
+		
 		
 
 	}
@@ -347,18 +416,25 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_dep")
-	public String perfectDep(HttpServletRequest request, Supplier supplier, String jsp) {
-		supplierService.updateSupplierProcurementDep(supplier);
-		supplier = supplierService.get(supplier.getId());
-//		
-//		if ("template_download".equals(jsp)) {
-//			// 这里查询模板信息...
-//		}
-		
-		request.getSession().setAttribute("currSupplier", supplier);
+	public String perfectDep(HttpServletRequest request, Supplier supplier, String flag) {
+	
 //		request.getSession().setAttribute("jump.page", jsp);
+		if(flag.equals("next")){
+			supplierService.updateSupplierProcurementDep(supplier);
+			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "ses/sms/supplier_register/template_download";
+		}else if(flag.equals("store")){
+			supplierService.updateSupplierProcurementDep(supplier);
+			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "ses/sms/supplier_register/procurement_dep";
+		}else{
+			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "ses/sms/supplier_register/products";
+		}
 		
-		return "ses/sms/supplier_register/template_download";
 	}
 	
 	/**
@@ -373,10 +449,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_download")
-	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp) {
+	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp,String flag) {
 		supplier = supplierService.get(supplier.getId());
 		
-		if ("template_upload".equals(jsp)) {
+		if ("next".equals(flag)) {
 			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
 			String typeId = "";
 			DictionaryData dictionaryData = new DictionaryData();
@@ -387,11 +463,12 @@ public class SupplierController extends BaseSupplierController {
 			}
 			request.getSession().setAttribute("sysKey", sysKey);
 			request.getSession().setAttribute("typeId", typeId);
+			return "ses/sms/supplier_register/template_upload";
+		} else{
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "ses/sms/supplier_register/procurement_dep";
 		}
 		
-		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", jsp);
-		return "redirect:page_jump.html";
 	}
 	
 	/**
@@ -407,18 +484,17 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "perfect_upload")
-	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp) throws IOException {
+	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag) throws IOException {
 		this.setSupplierUpload(request, supplier);
 		if (!"commit".equals(jsp)) {
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
 			request.getSession().setAttribute("currSupplier", supplier);
 			request.getSession().setAttribute("jump.page", jsp);
-			return "redirect:page_jump.html";
+			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
 		request.getSession().removeAttribute("currSupplier");
-		request.getSession().removeAttribute("jump.page");
 		request.getSession().removeAttribute("sysKey");
 		request.getSession().removeAttribute("supplierDictionaryData");
 		request.getSession().removeAttribute("listOrgnizations1");
@@ -620,11 +696,11 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 		if (supplier.getBankAccount() == null || !supplier.getBankAccount().matches("^\\d{16}||\\d{19}$")) {
-			model.addAttribute("err_msg_bankAccount", "不能为空 !");
+			model.addAttribute("err_msg_bankAccount", "格式不正确 !");
 			count++;
 		}
 		if (supplier.getPostCode() == null || !ValidateUtils.Zipcode(supplier.getPostCode())) {
-			model.addAttribute("err_msg_postCode", "不能为空 !");
+			model.addAttribute("err_msg_postCode", "格式不正确 !");
 			count++;
 		}
 		if(supplier.getLegalName()==null){
@@ -647,7 +723,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalMobile", "固话格式不正确 !");
 			count++;
 		}*/
-		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("1[0-9]{10}$")){
+		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("^1[0-9]{10}$")){
 			model.addAttribute("err_legalPhone", "格式不正确 !");
 			count++;
 		}
@@ -665,7 +741,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_catMobile", "格式不正确 !");
 			count++;
 		}
-		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("1[0-9]{10}$")){
+		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")){
 			model.addAttribute("err_catTelphone", "格式不正确 !");
 			count++;
 		}
@@ -677,7 +753,10 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_conAddress", "不能为空!");
 			count++;
 		}
-		
+		if(supplier.getCreditCode()==null){
+			model.addAttribute("err_creditCide", "不能为空!");
+			count++;
+		}
 		
 		if(supplier.getRegistAuthority()==null){
 			model.addAttribute("err_reAuthoy", "不能为空 !");
@@ -687,7 +766,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_fund", "不能为空 !");
 			count++;
 		}
-		if(supplier.getRegistFund()!=null&&supplier.getRegistFund().toString().matches("^[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*$")){
+		if(supplier.getRegistFund()!=null&&!supplier.getRegistFund().toString().matches("^[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*$")){
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
@@ -792,7 +871,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("stech", "不能为空");
 			bool=false;
 		}
-		if(supplierMatPro.getScaleTech()==null&&!supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
+		if(supplierMatPro.getScaleTech()!=null&&!supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")){
 			model.addAttribute("stech", "格式不正确");
 			bool=false;
 		}
@@ -858,11 +937,11 @@ public class SupplierController extends BaseSupplierController {
 			bool=false;	
 		}
 		if(supplierMatPro.getQcLead()==null){
-			model.addAttribute("tQc", "不能为空");
+			model.addAttribute("tqcLead", "不能为空");
 			bool=false;	
 		}
 		if(supplierMatPro.getQcDevice()==null){
-			model.addAttribute("tQc", "不能为空");
+			model.addAttribute("tqcDevice", "不能为空");
 			bool=false;	
 		}
 		
@@ -1004,9 +1083,18 @@ public class SupplierController extends BaseSupplierController {
 				cateList.addAll(list);
 			}
 		}
+		List<SupplierItem> itemList = supplierItemService.getSupplierId(sid);
+		List<Category> chose=new LinkedList<Category>();
+		if(itemList!=null&&itemList.size()>0){
+			for(SupplierItem s:itemList){
+				Category category = categoryService.selectByPrimaryKey(s.getCategoryId());
+				chose.add(category);
+			}
+		}
 		model.addAttribute("list", cateList);
 		model.addAttribute("sid", sid);
 		model.addAttribute("code", id);
+		model.addAttribute("chose", chose);
 		return "ses/sms/supplier_register/category";	
 	}
 	
@@ -1016,6 +1104,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
+ 
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

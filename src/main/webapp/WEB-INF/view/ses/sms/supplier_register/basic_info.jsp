@@ -350,6 +350,7 @@ function showReason() {
 		    		  <u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
 		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 			        </div>
+			        <div class="cue"> ${err_taxCert } </div>
 			    </li> 
 				
 				<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
@@ -358,6 +359,7 @@ function showReason() {
 					   <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
 					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 				   </div>
+				    <div class="cue"> ${err_bil } </div>
 				</li>
 												
 			   <li id="security_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
@@ -366,6 +368,7 @@ function showReason() {
 			        <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
 			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 			      </div>
+			      <div class="cue"> ${err_security } </div>
 			   </li>
 												
 			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
@@ -374,6 +377,7 @@ function showReason() {
 			     <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
 			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 			   </div>
+			   <div class="cue"> ${err_bearch } </div>
 			</li>						
 		</fieldset>
 		<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
@@ -399,7 +403,7 @@ function showReason() {
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
+		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalMobile } </div>
 	       	   </div>
@@ -408,7 +412,7 @@ function showReason() {
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="legalMobile" value="${currSupplier.legalMobile}"  />
+		        <input type="text" name="legalTelephone" value="${currSupplier.legalTelephone}"  />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalPhone } </div>
 	       	   </div>
@@ -437,7 +441,7 @@ function showReason() {
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
+		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_catMobile } </div>
 	       	   </div>
@@ -447,7 +451,7 @@ function showReason() {
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
+		        <input type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
 		        <span class="add-on cur_point">i</span>
 			    <div class="cue"> ${err_catTelphone } </div>		        
 	       	   </div>
@@ -478,6 +482,7 @@ function showReason() {
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="creditCode" value="${currSupplier.creditCode}" />
 		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_creditCide} </div>
 	       	   </div>
 		    </li> 
 		    
@@ -539,9 +544,12 @@ function showReason() {
 		    </li> 
 		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span>
-			   <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
-		   	   <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+		     <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
+				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+				   </div>
+				   <div class="cue"> ${err_business } </div>
 		    </li> 
 		    
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">

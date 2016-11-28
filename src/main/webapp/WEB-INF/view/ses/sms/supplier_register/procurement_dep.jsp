@@ -36,7 +36,7 @@
 				var html = "";
 				html += "<option value=''>请选择</option>";
 				for(var i = 0; i < result.length; i++) {
-					html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" +  result[i].name + "</option>";
+					html += "<option id='" + result[i].id + "' value='" + result[i].id + "'>" +  result[i].name + "</option>";
 				}
 				$("#root_area_select_id").append(html);
 			},
@@ -44,18 +44,26 @@
 	}
 	
 	/** 保存基本信息 */
-	function saveProcurementDep(jsp) {
+	function saveProcurementDep(flag) {
 		var size = $(":radio:checked").size();
-		if (!size) {
-			layer.msg("请选择一个初审采购机构", {
-				offset : '300px',
-			});
-			return;
+		if(flag==='prev'){
+			  $("input[name='flag']").val(flag);
+			$("#procurement_dep_form_id").submit();
+		}else{
+			if (!size) {
+				layer.msg("请选择一个初审采购机构", {
+					offset : '300px',
+				});
+				return;
+			}
+			var procurementDepId = $("input[name='radio']:checked").val();
+	 
+			$("input[name='procurementDepId']").val(procurementDepId);
+			  $("input[name='flag']").val(flag);
+			  $("#procurement_dep_form_id").submit();
 		}
-		var procurementDepId = $("input[name='radio']:checked").val();
-		$("input[name='procurementDepId']").val(procurementDepId);
-		$("input[name='jsp']").val(jsp);
-		$("#procurement_dep_form_id").submit();
+		
+		
 
 	}
 </script>
@@ -95,6 +103,7 @@
 							<input name="id" value="${currSupplier.id}" type="hidden" />
 							<input name="procurementDepId" type="hidden" />
 							<input name="jsp" type="hidden" />
+							<input name="flag" type="hidden" />
 						</form>
 						<div class="tab-content padding-top-20">
 							<!-- 物资生产型 -->
@@ -104,14 +113,14 @@
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="input-append">
-													<select class="w200 fz13" id="root_area_select_id" name="isName"></select>
+													<select class="w200 fz13" id="root_area_select_id" name="id"></select>
 													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
 												</div>
 											</form>
 										</li>
 									</ul><br />
 									<h2 class="f16 jbxx mt40">
-										<i>01</i>可选择采购机构
+										选择采购机构
 									</h2>
 									<table class="table table-bordered table-condensed">
 										<thead>
@@ -126,7 +135,8 @@
 										<tbody>
 											<c:forEach items="${listOrgnizations1}" var="org1" varStatus="vs">
 												<tr>
-													<td class="tc"><input type="radio" value="${org1.id}" name="radio" /></td>
+												
+													<td class="tc"><input type="radio" value="${org1.id}" name="radio" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
 													<td class="tc">${org1.shortName}</td>
@@ -146,9 +156,9 @@
 	
 	  <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('products')">上一步</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('procurement_dep')">暂存</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('template_download')">下一步</button>
+	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('prev')">上一步</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('store')">暂存</button>
+					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
 	  	  </div>
 	  </div>
 	  

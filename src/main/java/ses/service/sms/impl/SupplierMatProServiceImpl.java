@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMatProMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierMatPro;
 import ses.service.sms.SupplierMatProService;
 
 @Service(value = "supplierMatProService")
@@ -24,9 +25,13 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 			supplierMatProMapper.updateByPrimaryKeySelective(supplier.getSupplierMatPro());
 		} else {
 			String mid = UUID.randomUUID().toString().replaceAll("-", "");
-			supplier.setId(mid);
+			supplier.getSupplierMatPro().setId(mid);
 			supplier.getSupplierMatPro().setCreatedAt(new Date());
-			supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+			SupplierMatPro pro = supplierMatProMapper.getMatProBySupplierId(supplier.getId());
+			if(pro==null){
+				supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
+			}
+			
 		}
 
 	}

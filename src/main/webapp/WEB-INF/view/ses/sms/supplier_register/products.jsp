@@ -14,8 +14,8 @@
 	});
 	
 	/** 保存基本信息 */
-	function saveProducts(jsp) {
-		$("input[name='jsp']").val(jsp);
+	function saveProducts(flag) {
+		$("input[name='flag']").val(flag);
 		$("#products_form_id").submit();
 
 	}
@@ -125,9 +125,9 @@
 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">5</i>
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">7</i> 
 						<span class="step_desc_01">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
@@ -143,6 +143,7 @@
 						<form id="products_form_id" action="${pageContext.request.contextPath}/supplier_products/perfect_products.html" method="post">
 						 
 							<input name="jsp" type="hidden" />
+						    <input name="flag" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
@@ -194,9 +195,9 @@
 	
 		<div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('items')">上一步</button>
-						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('products')">暂存</button>
-						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('procurement_dep')">下一步</button>
+	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('prev')">上一步</button>
+						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('store')">暂存</button>
+						<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('next')">下一步</button>
 	  	  </div>
 	  </div>
 	

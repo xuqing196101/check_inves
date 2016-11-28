@@ -119,7 +119,7 @@
 	    if(bool==true&&boo!=true){
 	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
 	    }else{
-	    	 if(id.length>1){
+	    	 if(id.length>0){
 	    		 
 	    		 $("#save_pro_form_id").submit();
 	    	    }else{
@@ -150,7 +150,7 @@
 	    if(bool==true&&boo!=true){
 	    	layer.alert("请勾选产品货物类属性",{offset: ['222px', '390px'], shade:0.01});
 	    }else{
-	    	 if(id.length>1){
+	    	 if(id.length>0){
 	    		 $("#save_pro_form_id").submit();
 	    	    }else{
 	    	    	layer.alert("请选择供应商类型",{offset: ['222px', '390px'], shade:0.01});
@@ -422,9 +422,12 @@
 			
 	$(function() {
 		  window.onload=function(){
-			  var checkeds = $("#st").val();
+			  var checkeds = $("#supplierTypes").val();
 	 		  var arrays =checkeds.split(",");
 	 		   var checkBoxAll = $("input[name='chkItem']"); 
+	 		   if(arrays.length>0){
+	 			   
+	 		  
 			  for(var i=0;i<arrays.length;i++){
 				  $.each(checkBoxAll,function(j,checkbox){
 					    //获取复选框的value属性
@@ -434,27 +437,32 @@
 				                      if(arrays[i]=='PRODUCT'){
 				                    	  $("#production_div").show();
 				                    	   $("#production").show();
+				                    	   $("#production_seach").next().val(arrays[i]);
 				                      }
 				                      if(arrays[i]=='SALES'){
+				                    	  $("#sale").show();
 				                    	  $("#sale_div").show();
+				                    	  $("#sale_seach").next().val(arrays[i]);
 				                      }
 				                      if(arrays[i]=='SERVICE'){
 				                    	  $("#server_div").show();
 				                    	  $("#server").show();
+				                    	  $("#server_seach").next().val(arrays[i]);
 				                      }
 				                      if(arrays[i]=='PROJECT'){
 				                    	  $("#project_div").show();
 				                    	  $("#project").show();
-				                      }
+				                    	  $("#project_seach").next().val(arrays[i]);
+				                      } 
 				               }
 				      });
 			  }
+	 		 }
 			if ("${currSupplier.status}" == 7) {
 				showReason();
 			}
 			
-			 $("#seach").val(name());
-			 $("#hseach").val(valus());
+		 
 			 
 		  }
 	});
@@ -568,7 +576,7 @@
 		    </div>
 	 </div>
 		
-	 <div class="sevice_list container" class="dnone" id="material" >
+	 <div class="sevice_list container" style="display: none;"  id="material" >
 		  <h2>产品服务/类型</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
 		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/分类：</div>
@@ -587,12 +595,12 @@
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
 				<div>
 				
-				<div class="sevice_list container"  class="dnone" id="production">
+				<div class="sevice_list container" style="display: none;" id="production">
 					  <h2>产品/货物生产</h2>
 					  <div class="col-md-12 col-sm-12 col-xs-12">
 					      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
 						  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-								    <input type="text" readonly="readonly" name="chkItem" id="production_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
+								    <input type="text" readonly="readonly"   id="production_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
 								    <input type="hidden"   value="" />
 								<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 						  </div>
@@ -613,6 +621,7 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
 														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
 													   <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${org } </div>
 													</div>
 												</li>
 												
@@ -620,6 +629,7 @@
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalPerson" value="${currSupplier.supplierMatPro.totalPerson}" />
 													   <span class="add-on cur_point">i</span>
+													   <div class="cue"> ${person } </div>
 													</div>
 												</li>
 												
@@ -627,6 +637,7 @@
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalMange" value="${currSupplier.supplierMatPro.totalMange}" />
 												     	<span class="add-on cur_point">i</span>
+												     	<div class="cue"> ${mange } </div>
 													</div>
 												</li>
 												
@@ -634,12 +645,14 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalTech" value="${currSupplier.supplierMatPro.totalTech}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${tech } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalWorker" value="${currSupplier.supplierMatPro.totalWorker}" />
 													   <span class="add-on cur_point">i</span>
+													   <div class="cue"> ${work } </div>
 													</div>
 												</li>
 												<!-- <div class="clear"></div> -->
@@ -653,12 +666,14 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${stech } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>高级技术人员比例：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" />
 													   <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${height } </div>
 													</div>
 												</li>
 												
@@ -666,30 +681,35 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchName" value="${currSupplier.supplierMatPro.researchName}" />
 													   <span class="add-on cur_point">i</span>
+													   <div class="cue"> ${reName } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>研发部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalResearch" value="${currSupplier.supplierMatPro.totalResearch}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${tRe } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>研发部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.researchLead" value="${currSupplier.supplierMatPro.researchLead}" />
 													   <span class="add-on cur_point">i</span>
+													   <div class="cue"> ${leader } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>国家军队科研项目：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.countryPro" value="${currSupplier.supplierMatPro.countryPro}" />
 													   <span class="add-on cur_point">i</span>
+													   <div class="cue"> ${contry } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>国家军队科技奖项：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.countryReward" value="${currSupplier.supplierMatPro.countryReward}" />
 													   <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${reward } </div>
 													</div>
 												</li>
 												<!-- <div class="clear"></div> -->
@@ -704,12 +724,14 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalBeltline" value="${currSupplier.supplierMatPro.totalBeltline}" />
 														   <span class="add-on cur_point">i</span>
+														   <div class="cue"> ${line } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产设备名称数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalDevice" value="${currSupplier.supplierMatPro.totalDevice}" />
 													  	   <span class="add-on cur_point">i</span>
+													  	   <div class="cue"> ${device } </div>
 													</div>
 												</li>
 										 
@@ -723,24 +745,31 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.qcName" value="${currSupplier.supplierMatPro.qcName}" />
 													    <span class="add-on cur_point">i</span>
+													     <div class="cue"> ${qcName } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>质量部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 													 	<input type="text" name="supplierMatPro.totalQc" value="${currSupplier.supplierMatPro.totalQc}" />
 													  <span class="add-on cur_point">i</span>
+													  <div class="cue"> ${tQc } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>质监部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.qcLead" value="${currSupplier.supplierMatPro.qcLead}" />
+														 <span class="add-on cur_point">i</span>
+														 	 <div class="cue"> ${tqcLead } </div>
 													</div>
+												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>质量检测设备名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}" />
 												     <span class="add-on cur_point">i</span>
+												     	 <div class="cue"> ${tqcDevice } </div>
 													</div>
+												
 												</li>
 											 
 											 
@@ -799,12 +828,12 @@
 								</div>
 								</div>
 				
-		 <div class="sevice_list container"  class="dnone" id="sale" >
+		 <div class="sevice_list container"  style="display: none;" id="sale" >
 			  <h2>产品/货物销售类</h2>
 			  <div class="col-md-12 col-sm-12 col-xs-12">
 			      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-						    <input type="text" readonly="readonly" name="chkItem" id="sale_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+						    <input type="text" readonly="readonly"  id="sale_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 						    <input type="hidden"    value="" />
 						 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 				  </div>
@@ -828,31 +857,41 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
 														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
 														 <span class="add-on cur_point">i</span>
+														 <div class="cue"> ${sale_org } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalPerson" value="${currSupplier.supplierMatSell.totalPerson}" />
 														 <span class="add-on cur_point">i</span>
+														 	<div class="cue"> ${sale_person } </div>
 													</div>
+												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalMange" value="${currSupplier.supplierMatSell.totalMange}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${sale_mange } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalTech" value="${currSupplier.supplierMatSell.totalTech}" />
 														   <span class="add-on cur_point">i</span>
+														   	<div class="cue"> ${sale_tech } </div>
 													</div>
+												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.totalWorker" value="${currSupplier.supplierMatSell.totalWorker}" />
 														   <span class="add-on cur_point">i</span>
+														   <div class="cue"> ${sale_work } </div>
 													</div>
+													
 												</li>
 										 </fieldset>
 										</ul>
@@ -908,12 +947,12 @@
 								</div> 
 							 </div>
 								
-					  <div class="sevice_list container" class="dnone" id="project"  >
+					  <div class="sevice_list container" style="display: none;"   id="project"  >
 						  <h2>产品/工程类</h2>
 						  <div class="col-md-12 col-sm-12 col-xs-12">
 						      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
 							  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-									    <input type="text" readonly="readonly" name="chkItem" id="project_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+									    <input type="text" readonly="readonly"   id="project_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 									    <input type="hidden"   value="" />
 									  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 							  </div>
@@ -939,31 +978,40 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${eng_org } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalTech" value="${currSupplier.supplierMatEng.totalTech}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${eng_tech } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>中级以上职称人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalGlNormal" value="${currSupplier.supplierMatEng.totalGlNormal}" />
 												        <span class="add-on cur_point">i</span>
+												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>现场管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalMange" value="${currSupplier.supplierMatEng.totalMange}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${eng_manage } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术和工人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatEng.totalTechWorker" value="${currSupplier.supplierMatEng.totalTechWorker}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${eng_worker } </div>
 													</div>
+												
 												</li>
 												
 										</fieldset>
@@ -1145,12 +1193,12 @@
 							 </div>
 						
 						
-						    <div class="sevice_list container" class="dnone" id="server" >
+						    <div class="sevice_list container" style="display: none;"  id="server" >
 								  <h2>产品/服务类</h2>
 								  <div class="col-md-12 col-sm-12 col-xs-12">
 								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
 									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-											    <input type="text" readonly="readonly" name="chkItem" id="server_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+											    <input type="text" readonly="readonly"  id="server_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 											    <input type="hidden"   value="" />
 											    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 									  </div>
@@ -1173,31 +1221,41 @@
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
 													   <span class="add-on cur_point">i</span>
+													     <div class="cue"> ${fw_org } </div>
 													</div>
+												  
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalPerson" value="${currSupplier.supplierMatSe.totalPerson}" />
 													     <span class="add-on cur_point">i</span>
+													     <div class="cue"> ${fw_person } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalMange" value="${currSupplier.supplierMatSe.totalMange}" />
 													    <span class="add-on cur_point">i</span>
+													    <div class="cue"> ${fw_mange } </div>
 													</div>
+													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalTech" value="${currSupplier.supplierMatSe.totalTech}" />
 													     <span class="add-on cur_point">i</span>
+													     	<div class="cue"> ${fw_tech } </div>
 													</div>
+												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSe.totalWorker" value="${currSupplier.supplierMatSe.totalWorker}" />
 													    <span class="add-on cur_point">i</span>
+													    	<div class="cue"> ${fw_work } </div>
 													</div>
+												
 												</li>
 										 	</fieldset>
 										 </ul>
@@ -1262,7 +1320,7 @@
 							</div>
 						  <input name="supplierTypeIds" type="hidden" />
 						  
-						  <input type="hidden" value="${currSupplier.supplierTypeIds }" id="st">	 
+						  <input type="hidden" value="${currSupplier.supplierTypeIds }" id="supplierTypes">	 
 						</form>
 						
 				</div>		

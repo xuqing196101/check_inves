@@ -22,7 +22,7 @@
 		}
 		$("#cert_se_form_id").attr("action", action);
 		$("#cert_se_form_id").submit(); */
-		
+		var id=$("input[name='supplierId']").val();
 		 $.ajax({
 			   type: "POST",  
              url: "${pageContext.request.contextPath}/supplier_cert_se/save_or_update_cert_se.html",  
@@ -39,7 +39,9 @@
                   $("#cert_file").text(result.file);
                  /*    $("#cert_name").text(result.name); */
                } else{
-            	   parent.location.reload(); 
+            	  parent.location.reload();   
+	            	 /*  parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_professional.html?id="+id; */
+
                }  
           	   
               },

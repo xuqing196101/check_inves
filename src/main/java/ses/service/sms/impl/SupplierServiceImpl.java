@@ -167,8 +167,7 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public Supplier register(Supplier supplier) {
 		String pwd = supplier.getPassword();
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		supplier.setId(id);
+	
 		supplier.setPassword(Encrypt.e(pwd));// 密码 md5 加密
 		supplier.setCreatedAt(new Date());
 		supplier.setStatus(-1);
