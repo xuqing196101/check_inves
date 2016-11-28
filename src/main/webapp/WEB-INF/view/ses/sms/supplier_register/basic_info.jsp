@@ -611,6 +611,7 @@ function showReason() {
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
 					<button type="button" class="btn btn-windows add" onclick="openFinance()">新增</button>
 					<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button>
+					<span class="red">${finace }</span>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 p0">
 					  <table class="table table-bordered table-condensed mt5">
@@ -695,6 +696,7 @@ function showReason() {
 						<div class="fl">
 						    <button class="btn btn-windows add" type="button" onclick="openStockholder()" >新增</button>
 							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
+							<span class="red">${stock }</span>
 						</div>
 						<div class="mt40">
 							<table id="share_table_id" class="table table-bordered table-condensed mt5">
