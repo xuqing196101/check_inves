@@ -105,7 +105,7 @@
 						</form>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12">
-						<img src="${pageContext.request.contextPath}/public/ZHQ/images/sup_login.jpg" />
+						<img src="${pageContext.request.contextPath}/public/front/images/sup_login.jpg" />
 					</div>
 				</div>
 				
