@@ -1,8 +1,10 @@
 package ses.controller.sys.sms;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +44,8 @@ import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+
+import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -108,7 +112,6 @@ public class SupplierQueryController extends BaseSupplierController {
     @RequestMapping("/highmaps")
     public String highmaps(Supplier sup, Model model, Integer status, Integer judge, String supplierTypeIds
                            , String supplierType, String categoryNames, String categoryIds){
-        //调用供应商查询方法 List<Supplier>
         if (judge != null){
             status = judge;
         }
@@ -126,18 +129,24 @@ public class SupplierQueryController extends BaseSupplierController {
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
         //开始循环 判断地址是否
         Map<String, Integer> map = supplierEditService.getMap();
-        Map<String, Object> mapProvince = supplierEditService.getAllProvince();
         for (Supplier supplier:listSupplier) {
-            for (Map.Entry<String, Object> entry:mapProvince.entrySet()) {   
+            for (Map.Entry<String, Integer> entry:map.entrySet()) {   
                 if (supplier.getName() != null && !"".equals(supplier.getName())) {
                     if (supplier.getName().indexOf(entry.getKey()) != -1){
-                        map.put((String) entry.getValue(), (Integer) map.get(entry.getValue()) + 1);
+                        map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
                         break;
                     }
                 }
             }
         }
-        String json = JSON.toJSONString(map);
+        List<Maps> listMap = new LinkedList<Maps>();
+        for (Map.Entry<String, Integer> entry:map.entrySet()) {   
+            Maps mp = new Maps();
+            mp.setValue(new BigDecimal(entry.getValue()));
+            mp.setName(entry.getKey());
+            listMap.add(mp);
+        }   
+        String json = JSON.toJSONString(listMap);
         model.addAttribute("data", json);
         model.addAttribute("sup", sup);
         model.addAttribute("categoryNames", categoryNames);
@@ -175,7 +184,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("address", sup.getAddress());
         String address = supplierEditService.getProvince(sup.getAddress());
         if ("".equals(address)) {
-            String addressName=URLDecoder.decode(sup.getAddress(), "UTF-8");
+            String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
             if (addressName.length() > 2) {
                 sup.setAddress(addressName.substring(0, 3).replace(",", ""));
                 model.addAttribute("address", sup.getAddress());
