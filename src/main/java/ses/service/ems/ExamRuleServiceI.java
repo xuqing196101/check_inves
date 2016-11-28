@@ -50,4 +50,15 @@ public interface ExamRuleServiceI {
 	* @return ExamRule
 	 */
 	List<ExamRule> selectById(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: selectInUseRule
+	* @author ZhaoBo
+	* @date 2016-11-27 下午4:38:15  
+	* @Description: 查找使用中的考试规则 
+	* @param @return      
+	* @return List<ExamRule>
+	 */
+	List<ExamRule> selectInUseRule();
 }

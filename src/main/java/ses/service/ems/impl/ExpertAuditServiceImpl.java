@@ -1,6 +1,7 @@
 package ses.service.ems.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,5 +166,10 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
     public List<ExpertAudit> getListByExpertId(String expertId){
 		List<ExpertAudit> list = mapper.selectByExpertId(expertId);
 		return list;
+	}
+	
+	@Override
+	public List<ExpertAudit> findResultByExpertId(String expertId) {
+		return mapper.findResultByExpertId(expertId);
 	}
 }

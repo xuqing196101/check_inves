@@ -8,7 +8,7 @@
     <result column="AUDIT_USER_NAME" jdbcType="VARCHAR" property="auditUserName" />
     <result column="AUDIT_REASON" jdbcType="VARCHAR" property="auditReason" />
     <result column="AUDIT_RESULT" jdbcType="VARCHAR" property="auditResult" />
-    <result column="AUDIT_AT" jdbcType="DATE" property="auditAt" />
+    <result column="AUDIT_AT" property="auditAt" />
     <result column="IS_HISTORY" jdbcType="VARCHAR" property="isHistory" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
   </resultMap>
@@ -17,7 +17,7 @@
     IS_HISTORY, IS_DELETE
   </sql>
   <!-- 根据专家id查询 -->
-   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT
@@ -28,6 +28,15 @@
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}
+  </select>
+  <!--根据专家ID查询审核通过的专家  -->
+  <select id="findResultByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT
+    where EXPERT_ID = #{expertId}
+    and AUDIT_RESULT = '1'
+    and nvl(IS_DELETE,0) = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_AUDIT

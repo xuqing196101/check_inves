@@ -69,7 +69,7 @@
   	</div>
   	<div class="col-md-12 f18 b p0">
   		<c:if test="${singlePoint!=0&&multiplePoint!=0 }">
-  			本次考试题型包括：单选题和多选题，其中：单选题${singleNum }题，每题${singlePoint }分，多选题${multipleNum }题，每题${multiplePoint }分。
+  			本次考试题型包括：单选题和多选题，其中：单选题${singleNum }题，每题${singlePoint }分；多选题${multipleNum }题，每题${multiplePoint }分。
   		</c:if>
   	  	<c:if test="${singlePoint!=0&&multiplePoint==0 }">
   			本次考试题型包括：单选题，共${singleNum }题，每题${singlePoint }分。

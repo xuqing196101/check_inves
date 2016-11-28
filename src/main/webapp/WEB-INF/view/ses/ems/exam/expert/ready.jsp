@@ -17,7 +17,7 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"${pageContext.request.contextPath }/expertExam/judgeQualy.html",
+				url:"${pageContext.request.contextPath }/expertExam/judgeTest.html",
 				success:function(data){
 	       			if(data==0){
 	       				layer.alert("很抱歉,考试时间已截止",{offset: ['30%','40%']});
@@ -26,12 +26,6 @@
 	       				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
 	       			}else if(data==2){
 	       				layer.alert("很抱歉,您不是专家,无法参加考试",{offset: ['30%','40%']});
-						$(".layui-layer-shade").remove();
-	       			}else if(data==3){
-	       				layer.alert("考试时间尚未开始",{offset: ['30%','40%']});
-						$(".layui-layer-shade").remove();
-	       			}else if(data==4){
-	       				layer.alert("很抱歉，您未被添加到今年的考试中",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 	       			}
 	       		}
@@ -52,7 +46,7 @@
   		<div class="container mt10">
 		  	<div class="col-md-12 f22">
 		  	           <h2 class="red tc">请在读完下面内容之后,点击“开始考试”进入考试界面！</h2>
-		  		考生须知：本次考试需要在<fmt:formatDate value="${offTime }" pattern="yyyy-MM-dd HH:mm"/>之前完成，并且答题及格才生效，具体考试详情请查看自己的考试安排。如果未在规定时间内完成题目，一律取消专家资格！
+		  		考生须知：本次考试需要在<fmt:formatDate value="${offTime }" pattern="yyyy-MM-dd HH:mm"/>之前完成，并且答题及格才生效。如果未在规定时间内完成题目，一律取消专家资格！
 		  	</div>
 		  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 		  		<input type="button" value="开始考试" onclick="test()" class="btn"/>

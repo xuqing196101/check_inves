@@ -112,11 +112,6 @@ public class ExamUserScore {
      */
     private String unitName;
     
-	/**
-	 * @Fields ruleId : 规则ID
-	 */
-	private String ruleId;
-    
 	public String getId() {
 		return id;
 	}
@@ -275,14 +270,6 @@ public class ExamUserScore {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
-	}
-
-	public String getRuleId() {
-		return ruleId;
-	}
-
-	public void setRuleId(String ruleId) {
-		this.ruleId = ruleId;
 	}
 	
 }

@@ -96,22 +96,8 @@
 	  				<div class="fl"><input type="text" disabled="disabled" name="passStandard" id="passStandard" value="${examRule.passStandard }"/>分</div>
 	  			</div>
 	    	</li>
-	    	
-	  		<li class="col-md-3 col-sm-6 col-xs-12">
-	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
-	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
-			  		<input type="text" disabled="disabled" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${startTime }"/>
-	  			</div>
-	  		</li>
-	    	
-	    	<li class="col-md-3 col-sm-6 col-xs-12">
-	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
-	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
-		  			<input type="text" disabled="disabled" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${offTime }"/>
-	  			</div>
-	    	</li>
 	    </ul>
-	    </div>
+	</div>
 	    
 	    <!-- 底部按钮 -->
 	    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
