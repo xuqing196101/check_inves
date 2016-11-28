@@ -813,7 +813,8 @@ public class ExpertController {
 	public String getPurDepIdByExpertId(@RequestParam("expertId") String id) {
 		Expert expert = service.selectByPrimaryKey(id);
 		if (expert != null) {
-			return expert.getPurchaseDepId();
+			String purDepId = expert.getPurchaseDepId();
+			return purDepId;
 		}
 		return null;
 	}
@@ -1231,7 +1232,7 @@ public class ExpertController {
 	@ResponseBody
 	@RequestMapping(value = "getPIdandCIdByPurDepId")
 	public String getPIdandCIdByPurDepId(String purDepId) {
-		if (purDepId != null && !"".equals(purDepId)) {
+ 		if (purDepId != null && !"".equals(purDepId)) {
 			Map<String, String> purchaseDep = purchaseOrgnizationService
 					.findPIDandCIDByOrgId(purDepId);
 			return JSON.toJSONString(purchaseDep);

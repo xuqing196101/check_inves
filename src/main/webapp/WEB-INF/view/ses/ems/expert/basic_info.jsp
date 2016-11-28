@@ -572,8 +572,6 @@ session.setAttribute("tokenSession", tokenValue);
 	
 	function showJiGou(){
 		$("#thead").empty();
-		var shengId = $("#addr2").val();
-		var shiId = $("#add2").val();
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		var purDepId="";
@@ -601,10 +599,25 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(data){
 				if(data != null){
 					$("#addr2").val(data.PROVINCEID);
+					$.ajax({
+						url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
+						data:{"id":data.PROVINCEID},
+						async:false,
+						dataType:"json",
+						success:function(response,status,request){
+							$("#add2").empty();
+							$("#add2").append("<option  value=''>-请选择-</option>");
+							$.each(response,function(i,result){
+								$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+							});
+						}
+					});
 					$("#add2").val(data.CITYID);
 				}
 			}
 		});
+		var shengId = $("#addr2").val();
+		var shiId = $("#add2").val();
 		$.ajax({
 			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
 			data:{"pId":shengId,"zId":shiId},
