@@ -92,7 +92,7 @@
 				shade : 0.01
 			});
 		} else {
-			layer.alert("请选择需要修改的用户", {
+			layer.alert("请选择需要修改的模板", {
 				offset : [ '222px', '390px' ],
 				shade : 0.01
 			});
@@ -118,7 +118,7 @@
 										+ ids;
 							});
 		} else {
-			layer.alert("请选择要删除的用户", {
+			layer.alert("请选择要删除的模板", {
 				offset : [ '222px', '390px' ],
 				shade : 0.01
 			});
