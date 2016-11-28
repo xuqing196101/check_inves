@@ -194,6 +194,7 @@ public class RoleManageController {
 				role.setDescription(r.getDescription());
 				role.setName(r.getName());
 				role.setKind(r.getKind());
+				role.setStatus(r.getStatus());
 				role.setUpdatedAt(new Date());
 				roleService.update(role);
 				msg = "更新成功";

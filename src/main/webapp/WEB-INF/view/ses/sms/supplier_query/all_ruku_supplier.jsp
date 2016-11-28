@@ -292,7 +292,7 @@ $(function() {
                     <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
                   </li> 
                   <li>
-                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
+                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2 mt5" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
                              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
                   </li>
                   <li>
