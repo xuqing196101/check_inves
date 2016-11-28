@@ -335,7 +335,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/items.html";
+			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_sales";
@@ -448,7 +448,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		if(status==1){
 			supplier.setStatus(4); //复审不通过
-			supplierAuditService.updateStatus(supplier);
+			supplierAuditService.updateStatus(supplier);af
 		}*/
 		
 		//唯一检验

@@ -106,7 +106,7 @@ function nextStep(url){
         <div class="container container_box">
             <div class="content height-350">
                 <div class="col-md-12 tab-v2 job-content">
-                    <ul class="nav nav-tabs bgdd">
+                    <%-- <ul class="nav nav-tabs bgdd">
 		              <li class=""><a>详细信息</a></li>
 		              <li class=""><a>财务信息</a></li>
 		              <li class="active"><a>股东信息</a></li>
@@ -126,6 +126,56 @@ function nextStep(url){
 		              <li class=""><a >产品信息</a></li>
 		              <li class=""><a >申请表</a></li>
 		              <li class=""><a >审核汇总</a></li>
+                    </ul> --%>
+                    
+                    <ul class="flow_step">
+                        <li >
+                            <a aria-expanded="false" href="#tab-1" >详细信息</a>
+                            <i></i>
+                        </li>
+                        <li >
+                            <a aria-expanded="false" href="#tab-2" >财务信息</a>
+                            <i></i>                            
+                        </li>
+                        <li class="active">
+                            <a aria-expanded="true" href="#tab-3" data-toggle="tab">股东信息</a>
+                            <i></i>
+                        </li>
+                        <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >生产信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >销售信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >工程信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                            <li>
+                                <a aria-expanded="false" href="#tab-4" >服务信息</a>
+                                <i></i>
+                            </li>
+                        </c:if>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >产品信息</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >申请表</a>
+                            <i></i>
+                        </li>
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        </li>
                     </ul>
 
                     <form id="form_id" action="" method="post" >
