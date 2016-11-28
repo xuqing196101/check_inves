@@ -221,11 +221,11 @@ alert(supplierInspectListFile);
 		                     <c:if test="${list.auditType == 'basic_page'}">详细信息</c:if>
 		                     <c:if test="${list.auditType == 'finance_page'}">财务信息</c:if>
 		                     <c:if test="${list.auditType == 'stockholder_page'}">股东信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_pro_page'}">物资-生产专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_sell_page'}">物资-销售专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_eng_page'}">工程-专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务-专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_pro_page'}">生产信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_sell_page'}">销售信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_eng_page'}">工程信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务信息</c:if>
+		                     <%-- <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if> --%>
 		                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
 		                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
 		                   </td>
