@@ -19,6 +19,14 @@ function tijiao() {
 	var oldPassword = $("#oldPassword").val();
 	var newPassword1 = $("#newPassword1").val();
 	var newPassword2 = $("#newPassword2").val();
+	if(!newPassword1){
+		layer.tips("请输入新密码.", "#newPassword1");
+		return;
+	}
+	if(!newPassword2){
+		layer.tips("请确认新密码.", "#newPassword2");
+		return;
+	}
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplierInfo/udpate_password.do",
 			type : "post",

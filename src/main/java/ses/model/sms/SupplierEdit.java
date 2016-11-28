@@ -174,6 +174,18 @@ public class SupplierEdit {
      */   
     private short status;
     
+    /**
+     * 机构ID
+     */
+    private String procurementDepId;
+    
+    public String getProcurementDepId() {
+        return procurementDepId;
+    }
+
+    public void setProcurementDepId(String procurementDepId) {
+        this.procurementDepId = procurementDepId;
+    }
 
     public short getStatus() {
         return status;

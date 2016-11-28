@@ -32,6 +32,10 @@ public class SupplierInfoController extends BaseSupplierController {
      */
     public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /**
+     * 定义常量15
+     */
+    public static final int NUMBER_FIFTING = 15;
+    /**
      * 用户服务层
      */
     @Autowired
@@ -69,7 +73,7 @@ public class SupplierInfoController extends BaseSupplierController {
         String flag = "1";
         User user = (User) request.getSession().getAttribute("loginUser");
         //生成15位随机码
-        String randomCode = generateString(15);
+        String randomCode = generateString(NUMBER_FIFTING);
         Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
         // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
         md5.setEncodeHashAsBase64(false);     

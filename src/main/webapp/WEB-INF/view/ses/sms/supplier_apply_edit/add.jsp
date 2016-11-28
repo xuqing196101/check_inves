@@ -234,15 +234,15 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="legalTelephone" name="legalTelephone" value="${suppliers.legalTelephone } " type="text" >
                         <span class="add-on cur_point">i</span>
-                        <div class="cue">${err_legalPhone}</div>
+                        <div class="cue">${err_legalMobile }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="legalMobile" name="legalMobile" value="${suppliers.legalMobile } " type="text">
                         <span class="add-on cur_point">i</span>
-                        <div class="cue"></div>
                       </div>
+                      <div class="cue">${err_legalPhone}</div>
                     </li>
                   </ul>
 
@@ -266,14 +266,14 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="contactTelephone" name="contactTelephone" value="${suppliers.contactTelephone } " type="text" >
                         <span class="add-on cur_point">i</span>
-                        <div class="cue">${err_catTelphone }</div>
+                        <div class="cue">${err_catMobile }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="contactMobile" name="contactMobile"  value="${suppliers.contactMobile } " type="text" >
                         <span class="add-on cur_point">i</span>
-                        <div class="cue">${err_catMobile }</div>
+                        <div class="cue">${err_catTelphone }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactEmail2">邮箱：</span>
@@ -298,7 +298,7 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="creditCode" name="creditCode" value="${suppliers.creditCode } " type="text"  >
                         <span class="add-on cur_point">i</span>
-                        <div class="cue"></div>
+                        <div class="cue">${err_creditCide }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registAuthority2">登记机关：</span>
