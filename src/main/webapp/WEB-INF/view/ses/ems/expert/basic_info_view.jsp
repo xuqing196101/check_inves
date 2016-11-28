@@ -269,7 +269,7 @@ $(function() {
 	  <div class="padding-left-30 padding-right-20 clear">
 	    <table class="table table-bordered">
 	  	  <tr>
-	  	    <td width="25%" class="info"><i class="red">*</i>身份证:</td>${sysId},,${expertKey}......${typeMap.EXPERT_IDNUMBER_TYPEID}
+	  	    <td width="25%" class="info"><i class="red">*</i>身份证:</td>
 	  	    <td>
 	          <up:show  delete="false" showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
 	  	    </td>

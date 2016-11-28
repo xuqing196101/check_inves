@@ -28,7 +28,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.oms.PurchaseDep;
@@ -36,6 +40,8 @@ import ses.model.sms.Quote;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
@@ -94,6 +100,10 @@ public class ExpertController {
 	private NoticeDocumentService noticeDocumentService;
 	@Autowired
 	private AreaServiceI areaServiceI;// 地区查询
+	@Autowired
+	private PreMenuServiceI menuService;// 地区查询
+	@Autowired
+	private RoleServiceI roleService;// 地区查询
 
 	/**
 	 * 
@@ -108,7 +118,7 @@ public class ExpertController {
 	public String toExpert() {
 		return "ses/ems/expert/expert_register";
 	}
-	
+
 	/**
 	 * 
 	 * @Title: view
@@ -229,6 +239,26 @@ public class ExpertController {
 			String userType = DictionaryDataUtil.getId("EXPERT_U");
 			user.setTypeName(userType);
 			userService.save(user, null);
+			Role role = new Role();
+			role.setCode("IMPORT_AGENT_R");
+			List<Role> listRole = roleService.find(role);
+			if (listRole != null && listRole.size() > 0) {
+				Userrole userrole = new Userrole();
+				userrole.setRoleId(listRole.get(0));
+				userrole.setUserId(user);
+				/** 给该用户初始化进口代理商角色 */
+				userService.saveRelativity(userrole);
+				String[] roleIds = listRole.get(0).getId().split(",");
+				List<String> listMenu = menuService.findByRids(roleIds);
+				/** 给用户初始化进口代理商菜单权限 */
+				for (String menuId : listMenu) {
+					UserPreMenu upm = new UserPreMenu();
+					PreMenu preMenu = menuService.get(menuId);
+					upm.setPreMenu(preMenu);
+					upm.setUser(user);
+					userService.saveUserMenu(upm);
+				}
+			}
 			attr.addAttribute("userId", user.getId());
 			return "redirect:toAddBasicInfo.html";
 		}
@@ -1232,7 +1262,7 @@ public class ExpertController {
 	@ResponseBody
 	@RequestMapping(value = "getPIdandCIdByPurDepId")
 	public String getPIdandCIdByPurDepId(String purDepId) {
- 		if (purDepId != null && !"".equals(purDepId)) {
+		if (purDepId != null && !"".equals(purDepId)) {
 			Map<String, String> purchaseDep = purchaseOrgnizationService
 					.findPIDandCIDByOrgId(purDepId);
 			return JSON.toJSONString(purchaseDep);

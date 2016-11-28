@@ -1002,7 +1002,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</li>
 				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>手机</span>
 					<div class="input-append">
-					<input class="span5" maxlength="15" value="${expert.mobile}"  name="mobile" id="mobile" type="text"/>
+					<input class="span5" maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
