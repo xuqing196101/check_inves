@@ -49,7 +49,7 @@ public class ExamPaper {
     private String typeDistribution;
     
     /**
-     * @Fields testTime :考试答题时间(只有设置重考的考卷才会有)
+     * @Fields testTime :考试答题时间
      */
     private String testTime;
     
@@ -62,11 +62,6 @@ public class ExamPaper {
      * @Fields updatedAt :更新日期
      */
     private Date updatedAt;
-    
-    /**
-     * @Fields isAllowRetake :是否允许重考
-     */
-    private Integer isAllowRetake;
     
     /**
      * @Fields passStandard :及格标准
@@ -174,14 +169,6 @@ public class ExamPaper {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}
-
-	public Integer getIsAllowRetake() {
-		return isAllowRetake;
-	}
-
-	public void setIsAllowRetake(Integer isAllowRetake) {
-		this.isAllowRetake = isAllowRetake;
 	}
 
 	public String getPassStandard() {
