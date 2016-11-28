@@ -78,16 +78,24 @@
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
+			var trObj = $(this).parent().parent();
+			var tdArr = trObj.children("td");
+		    var typeNameCode = tdArr.eq(6).find("input").val();
+		    if (typeNameCode == 'SUPPLIER_U' || typeNameCode == 'EXPERT_U' || typeNameCode == 'IMP_SUPPLIER_U' || typeNameCode == 'IMP_AGENT_U') {
+				layer.msg("该类型用户信息不能修改",{offset: ['222px']});
+			} else {
+				id.push($(this).val());
+				if(id.length==1){
+					var currPage = ${list.pageNum};
+					window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
+				}else if(id.length>1){
+					layer.alert("只能选择一个",{offset: '222px', shade:0.01});
+				}else{
+					layer.alert("请选择需要修改的用户",{offset: '222px', shade:0.01});
+				}
+			}
 		}); 
-		if(id.length==1){
-			var currPage = ${list.pageNum};
-			window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的用户",{offset: '222px', shade:0.01});
-		}
+		
     }
     
     function del(){
@@ -220,10 +228,10 @@
 		       		<input type="hidden" name="page" id="page">
 			    	<ul class="demand_list">
 			    	  <li>
-				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName }" name="loginName" class=""/></span>
+				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName}" name="loginName" class=""/></span>
 				      </li>
 			    	  <li>
-				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName }" name="relName" class=""/></span>
+				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class=""/></span>
 				      </li>
 			    	  <li>
 				    	<label class="fl">用户类型：</label>
@@ -231,7 +239,7 @@
 					        <select id="typeName" name="typeName">
 					        	<option value="">请选择</option>
 					        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
-					        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
+					        		<option value="${t.id}" <c:if test="${t.id eq user.typeName}">selected</c:if>>
 										<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
 										<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
 										<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
@@ -287,6 +295,7 @@
 					  <td class="tc">
 					  	<c:forEach items="${typeNames}" var="t" varStatus="vs">
 					  		<c:if test="${t.id eq user.typeName}">
+					  			<c:set var="typeNameCode" value="${t.code}"></c:set>
 					  			<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
 								<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
 								<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
@@ -298,6 +307,7 @@
 								<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
 					  		</c:if>
 			        	</c:forEach>
+			        	<input type="hidden" id="typeName_code" value="${typeNameCode}">
 					  </td>
 					</tr>
 				</c:forEach>

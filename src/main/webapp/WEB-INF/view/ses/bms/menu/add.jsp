@@ -148,7 +148,7 @@
 				 	<span class="col-md-12 col-xs-12">
 					<select  name="status" class="w180 mt5" >
 					   	<option value="0">可用</option>
-					   	<option value="1">暂停</option>
+					   	<option value="1">冻结</option>
 				    </select>
 				    </span>
 				</li>
