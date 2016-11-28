@@ -105,7 +105,7 @@ function add(){
 	   </div>
    		<!-- 查询 -->
 		<h2 class="search_detail">
-			<form action="${pageContext.request.contextPath}/templet/search.html"
+			<form action="${pageContext.request.contextPath}/offer/userSearchCheck.html"
 				method="post" enctype="multipart/form-data" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">合同名称：</label>

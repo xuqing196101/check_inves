@@ -50,8 +50,8 @@
                             <input name="name" type="text"
                                 value="${templet.name}">
                             <span class="add-on">i</span>
+                            <div id="contractCodeErr" class="cue">${ERR_name}</div>
                         </div>
-                            <div id="contractCodeErr" class="clear red">${ERR_name}</div>
                     </li>
                      <li class="col-md-3 col-sm-6 col-xs-12">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板类型</span>
@@ -64,7 +64,7 @@
                                 <option value="招标公告">招标公告</option>
                                 <option value="合同模板">合同模板</option>
                             </select>
-                            <div id="contractCodeErr" class="clear red">${ERR_temType}</div>
+                            <div id="contractCodeErr" class="cue">${ERR_temType}</div>
                        </div>
                     </li>
 
@@ -72,8 +72,8 @@
                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板内容</span>
                         <div class="col-md-12 col-sm-12 col-xs-12 p0">
                             <script id="editor" name="content" type="text/plain"></script>
-                            <div id="contractCodeErr" class="clear red">${ERR_content}</div>
                             <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
+                        <div id="contractCodeErr" class="red clear">${ERR_content}</div>
                         </div>
                     </li>
 

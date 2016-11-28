@@ -42,8 +42,8 @@
                <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 		        	<input class="input_group" name="name" type="text" value="${noticeDocument.name}">
 		        	 <span class="add-on">i</span>
+		        	<div id="contractCodeErr" class="cue">${ERR_name}</div>
 		       </div>
-		        	<div id="contractCodeErr" class="clear red">${ERR_name}</div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>须知文档类型</span>
@@ -53,7 +53,7 @@
                         <option value="供应商须知文档">供应商须知文档</option>
                         <option value="专家须知文档">专家须知文档</option>
                     </select>
-                    <div id="contractCodeErr" class="clear red">${ERR_docType}</div>
+                    <div id="contractCodeErr" class="cue">${ERR_docType}</div>
                   </div>
              </li>
 		       <li class="col-md-12 col-sm-12 col-xs-12">

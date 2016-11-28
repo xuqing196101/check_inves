@@ -164,7 +164,7 @@
 	   <li><label class="fl">合同编号：</label><span><input type="text" name="contract.code" id="contractCode" class="mb0" /></span></li>
 	   <li><label class="fl">验收类型：</label>
 	   		<span>
-	   			<select id="searchType" name =type class="w150" >
+	   			<select id="searchType" name =type class="w100" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="首件检验">首件检验</option>
 			  	 	<option value="生产验收">生产验收</option>
@@ -175,7 +175,7 @@
 	  </li>
 	  <li><label class="fl">质检结论：</label>
 	   		<span>
-	   			<select id="searchConclusion" name =conclusion class="w150" >
+	   			<select id="searchConclusion" name =conclusion class="w80" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="合格">合格</option>
 			  	 	<option value="不合格">不合格</option>
