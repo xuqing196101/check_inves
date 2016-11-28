@@ -64,7 +64,7 @@ function goBack(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">信息服务</a></li><li><a href="javascript:void(0)">信息管理</a></li><li class="active"><a href="javascript:void(0)">修改</a></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">信息服务</a></li><li><a href="javascript:void(0)">信息管理</a></li><li class="active"><a href="javascript:void(0)">信息审核</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -82,7 +82,6 @@ function goBack(){
 	   <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
 	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" type="text" name="name" value="${article.name }" readonly>
-        <span class="add-on">i</span>
        </div>
 	 </li>
      <li class="col-md-3 col-sm-6 col-xs-12">
@@ -105,21 +104,18 @@ function goBack(){
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text" readonly>
-       <span class="add-on">i</span>
        </div>
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">链接来源：</span>
        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
-        <span class="add-on">i</span>
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
 	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
         <input class="span2" id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" readonly>
-       	<span class="add-on">i</span>
        </div>
 	 </li> 
      <li class="col-md-12 col-sm-12 col-xs-12">
