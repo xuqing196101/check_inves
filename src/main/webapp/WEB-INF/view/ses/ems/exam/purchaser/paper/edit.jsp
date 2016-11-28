@@ -13,11 +13,9 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			var errorIsAllow = $("#errorIsAllow").val();
 			var single = document.getElementsByName("single");
 			var multiple = document.getElementsByName("multiple");
 			var judge = document.getElementsByName("judge");
-			var isAllow = document.getElementsByName("isAllow");
 			var singleNum = $("#singleNum").val();
 			var multipleNum = $("#multipleNum").val();
 			var judgeNum = $("#judgeNum").val();
@@ -51,15 +49,6 @@
 				$(judge[0]).attr("checked","checked");
 				$("#ju").show();
 			}
-			if(errorIsAllow==null||errorIsAllow==""){
-				$("#time").hide();
-			}else if(errorIsAllow=="否"){
-				$(isAllow[1]).attr("checked","checked");
-				$("#time").hide();
-			}else if(errorIsAllow=="是"){
-				$(isAllow[0]).attr("checked","checked");
-				$("#time").show();
-			}
 		})
 		
 		//自动计算总分
@@ -75,21 +64,6 @@
 			if(paperScore=="NaN"){
 				$("#paperScore").val("0");
 			}
-		}
-		
-		//勾选重考
-		function checkTrue(obj){
-			if($(obj).prop("checked")){
-				$("#time").show();
-			}
-		}
-		
-		//勾选不重考
-		function checkFalse(obj){
-			if($(obj).prop("checked")){
-				$("#time").hide();
-			}
-			$("#testTime").val("");
 		}
 		
 		//勾选单选题的有
@@ -161,8 +135,7 @@
 			<div class="clear"></div>
 		  </div>
 	   </div>
-	   
-	<input type="hidden" value="${errorIsAllow }" id="errorIsAllow"/>
+	
 	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
@@ -264,15 +237,6 @@
 	  		</li>
 	  		
 	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>允许30分钟内重考：</span>
-	  			<div class="input-append col-md-12 p0">
-			  		<input class="mt0" type="radio" name="isAllow" id="isAllowTrue" value="是" onclick="checkTrue(this)">是
-	    			<input class="mt0" type="radio" name="isAllow" id="isAllowFalse" value="否" onclick="checkFalse(this)"/>否
-	  				<div class="cue">${ERR_isAllow }</div>
-	  			</div>
-	  		</li>
-	  		
-	  		<li class="col-md-3 p0" id="time">
 	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
 		  		<div class="input-append col-md-12 p0">
 		  			<input class="w50 mt5" type="text" name="testTime" id="testTime" value="${examPaper.testTime }"/>分钟

@@ -12,14 +12,12 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			var errorIsAllow = $("#errorIsAllow").val();
 			var errorSingle = $("#errorSingle").val();
 			var errorMultiple = $("#errorMultiple").val();
 			var errorJudge = $("#errorJudge").val();
 			var single = document.getElementsByName("single");
 			var multiple = document.getElementsByName("multiple");
 			var judge = document.getElementsByName("judge");
-			var isAllow = document.getElementsByName("isAllow");
 			if(errorSingle==null||errorSingle==""){
 				$("#sin").hide();
 			}else if(errorSingle=="无"){
@@ -47,15 +45,6 @@
 				$(judge[0]).attr("checked","checked");
 				$("#ju").show();
 			}
-			if(errorIsAllow==null||errorIsAllow==""){
-				$("#time").hide();
-			}else if(errorIsAllow=="否"){
-				$(isAllow[1]).attr("checked","checked");
-				$("#time").hide();
-			}else if(errorIsAllow=="是"){
-				$(isAllow[0]).attr("checked","checked");
-				$("#time").show();
-			}
 		})
 		
 		//自动计算总分
@@ -71,21 +60,6 @@
 			if(paperScore=="NaN"){
 				$("#paperScore").val("0");
 			}
-		}
-		
-		//勾选重考
-		function checkTrue(obj){
-			if($(obj).prop("checked")){
-				$("#time").show();
-			}
-		}
-		
-		//勾选不重考
-		function checkFalse(obj){
-			if($(obj).prop("checked")){
-				$("#time").hide();
-			}
-			$("#testTime").val("");
 		}
 		
 		//勾选单选题的有
@@ -161,7 +135,6 @@
 	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
   	<input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
 	<input type="hidden" value="${errorData['judge'] }" id="errorJudge"/>
-	<input type="hidden" value="${errorData['isAllow'] }" id="errorIsAllow"/>
 	
      <div class="container container_box">
      <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
@@ -257,15 +230,6 @@
 	  		</li>
   
 	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>允许30分钟内重考：</span>
-	  			<div class="input-append col-md-12 p0">
-			  		<input type="radio" name="isAllow" id="isAllowTrue" value="是" onclick="checkTrue(this)" class="mr5">是
-	    			<input type="radio" name="isAllow" id="isAllowFalse" value="否" onclick="checkFalse(this)" class="mr5"/>否
-	  			    <div class="cue">${ERR_isAllow }</div>
-	  			</div>
-	  		</li>
-	  		
-	  		<li class="col-md-3 p0" id="time">
 	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
 		  		<div class="input-append col-md-12 p0">
 		  			<input type="text" name="testTime" id="testTime" value="${errorData['testTime'] }" class="mr5"/>分钟
@@ -275,11 +239,11 @@
 	  		</ul>
         </ul>
    
-	  		<!-- 按钮 -->
-	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-				<button class="btn btn-windows save" type="submit">保存</button>
-		    	<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-		  	 </div>
+	  	<!-- 按钮 -->
+	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+			<button class="btn btn-windows save" type="submit">保存</button>
+		    <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+		</div>
       </form>
     </div>
   </body>

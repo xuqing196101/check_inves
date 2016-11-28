@@ -12,39 +12,27 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		var retake;
-		var isAllow = "${examPaper.isAllowRetake}";
 		window.onload = function(){
 			$("#submitNoResult").hide();
 			$("#submitYesResult").hide();
-			if("${time}"){
-				retake = $("#retake").val();
-			}
-			if(isAllow==0){
+			var offTime = "${examPaper.offTime}";
+			var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
+			var test = "${examPaper.testTime}";
+			var date3 = off.getTime()-new Date().getTime();
+			var days = Math.floor(date3/(24*3600*1000));
+			var leave1 = date3%(24*3600*1000);
+			var hours = Math.floor(leave1/(3600*1000));
+			var leave2 = leave1%(3600*1000);
+			var minutes = Math.floor(leave2/(60*1000));
+			if(minutes<test){
 				document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
 				document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
 				document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
 			}else{
-				var offTime = "${examPaper.offTime}";
-				var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
-				var test = "${examPaper.testTime}";
-				var date3 = off.getTime()-new Date().getTime();
-				var days = Math.floor(date3/(24*3600*1000));
-				var leave1 = date3%(24*3600*1000);
-				var hours = Math.floor(leave1/(3600*1000));
-				var leave2 = leave1%(3600*1000);
-				var minutes = Math.floor(leave2/(60*1000));
-				if(minutes<test){
-					document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
-					document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
-					document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
-				}else{
-					document.getElementById("second").innerHTML = test+"分钟"+0+"秒"; 
-					document.getElementById("surplusNo").innerHTML = test+"分钟"+0+"秒";  
-					document.getElementById("surplusYes").innerHTML = test+"分钟"+0+"秒"; 
-				}
+				document.getElementById("second").innerHTML = test+"分钟"+0+"秒"; 
+				document.getElementById("surplusNo").innerHTML = test+"分钟"+0+"秒";  
+				document.getElementById("surplusYes").innerHTML = test+"分钟"+0+"秒"; 
 			}
-			
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
        			if(i==1){
@@ -53,13 +41,9 @@
        				$("#pageNum"+i).hide();
        			}
        		}
-       		if("${time}"){
-       			countReTakeTime();
-       		}
        		countSurPlusNo();
        		countSurPlusYes();
 		}
-		
 		
 		//答题时上一页下一页切换
         function setTab(index){
@@ -74,29 +58,23 @@
         }
 		
 		//考试倒计时
-		if(isAllow==0){
+		var offTime = "${examPaper.offTime}";
+		var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
+		var test = "${examPaper.testTime}";
+		var date3 = off.getTime()-new Date().getTime();
+		var days = Math.floor(date3/(24*3600*1000));
+		var leave1 = date3%(24*3600*1000);
+		var hours = Math.floor(leave1/(3600*1000));
+		var leave2 = leave1%(3600*1000);
+		var minutes = Math.floor(leave2/(60*1000));
+		if(minutes<test){
 			var timeLeft = "${second}"*60*1000-1000+"${minute}"*1000;
-	        var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
-	        var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
+		    var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
+		    var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
 		}else{
-			var offTime = "${examPaper.offTime}";
-			var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
-			var test = "${examPaper.testTime}";
-			var date3 = off.getTime()-new Date().getTime();
-			var days = Math.floor(date3/(24*3600*1000));
-			var leave1 = date3%(24*3600*1000);
-			var hours = Math.floor(leave1/(3600*1000));
-			var leave2 = leave1%(3600*1000);
-			var minutes = Math.floor(leave2/(60*1000));
-			if(minutes<test){
-				var timeLeft = "${second}"*60*1000-1000+"${minute}"*1000;
-		        var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
-		        var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
-			}else{
-				var timeLeft = test*60*1000-1000;
-		        var timeYes = test*60*1000-1000;
-		        var timeNo = test*60*1000-1000;
-			}
+			var timeLeft = test*60*1000-1000;
+		    var timeYes = test*60*1000-1000;
+		    var timeNo = test*60*1000-1000;
 		}
         
 		function countTime(){ 
@@ -130,12 +108,6 @@
 		     document.getElementById("surplusYes").innerHTML = startMinutes + "分钟" + startSec + "秒"; 
 		     timeYes = timeYes - 1000; 
 		     setTimeout('countSurPlusYes()',1000); 
-        }
-        
-        //计时重考的时间
-        function countReTakeTime(){
-    		retake = parseInt(retake,10) - 1000; 
-    		setTimeout('countReTakeTime()',1000);
         }
         
         //提交方法
@@ -194,14 +166,12 @@
         	layer.closeAll();
         }
 	</script>
-	
-	
   </head>
   
   <body onload="countTime()">
   	<div id="submitNoResult">
   		<div class="red tc mt20">您还有题目未作答,确定交卷吗?</div>
-  		<div class="tc mt10">剩余时间：<span id="surplusNo"></span></div>
+  		<div class="tc mt10">答题剩余时间：<span id="surplusNo"></span></div>
   		<div class="col-md-12 tc mt20">
   		  <button class="btn" type="button" onclick="sure()">确定</button>
   		  <button class="btn" type="button" onclick="cancel()">取消</button>
@@ -210,7 +180,7 @@
   	
   	<div id="submitYesResult">
   		<div class="red tc mt20">确定交卷吗?</div>
-  		<div class="tc mt10">剩余时间：<span id="surplusYes"></span></div>
+  		<div class="tc mt10">答题剩余时间：<span id="surplusYes"></span></div>
   		<div class="col-md-12 tc mt20">
 	  		<button class="btn" type="button" onclick="sure()">确定</button>
 	  		<button class="btn" type="button" onclick="cancel()">取消</button>
@@ -220,7 +190,7 @@
    	<div class="container mt10">
   		<div class="col-md-12 mb10 border1 bggrey">
 	  	 	<div class="fl f18">考生姓名：<span class="blue b">${user.relName }</span></div>
-	  		<div class="fr red mt5" id="time">考试剩余时间：<span id="second"></span></div>
+	  		<div class="fr red mt5" id="time">答题剩余时间：<span id="second"></span></div>
   		</div>
   		<div class="col-md-12 f18 b p0">
 	  		<c:if test="${singlePoint!=0&&multiplePoint!=0&&judgePoint!=0 }">

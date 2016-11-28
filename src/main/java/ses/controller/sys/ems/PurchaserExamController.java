@@ -693,18 +693,12 @@ public class PurchaserExamController extends BaseSupplierController{
 			sb_questionIds.append(purchaserQue.get(i).getId()+",");
 		}
 		Date offTime = examPaper.getOffTime();
-		if(examPaper.getIsAllowRetake()==0){
+		if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
 			model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
 			model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
 		}else{
-			if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
-				model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
-				model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
-			}else{
-				model.addAttribute("testTime", examPaper.getTestTime());
-			}
+			model.addAttribute("testTime", examPaper.getTestTime());
 		}
-		
 		model.addAttribute("user", user);
 		model.addAttribute("purQueType",sb_queTypes);
 		model.addAttribute("purQueAnswer", sb_answers);
@@ -798,6 +792,12 @@ public class PurchaserExamController extends BaseSupplierController{
 			if(paper.size()!=0){
 				error="error";
 				model.addAttribute("ERR_name", "试卷名称已存在");
+			}else{
+				int len = ValidateUtils.length(name);
+				if(len>20||len<6){
+					error="error";
+					model.addAttribute("ERR_name", "试卷名称由6-20个字符组成，一个中文计2个字符");
+				}
 			}
 		}
 		String code = request.getParameter("code");
@@ -805,37 +805,32 @@ public class PurchaserExamController extends BaseSupplierController{
 			error="error";
 			model.addAttribute("ERR_code", "试卷编号不能为空");
 		}else{
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("code",code);
-			List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
-			if(paper.size()!=0){
+			if(!ValidateUtils.Number_code(code)){
 				error="error";
-				model.addAttribute("ERR_code", "试卷编号已存在");
+				model.addAttribute("ERR_code", "试卷编号只能是由数字、英文和下划线组成");
+			}else if(code.trim().length()<6||code.trim().length()>20){
+				error="error";
+				model.addAttribute("ERR_code", "试卷编号由6-20个字符组成");
+			}else{
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("code",code);
+				List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
+				if(paper.size()!=0){
+					error="error";
+					model.addAttribute("ERR_code", "试卷编号已存在");
+				}
 			}
 		}
-		String[] isAllow = request.getParameterValues("isAllow");
-		if(isAllow==null){
+		String testTime = request.getParameter("testTime");
+		if(testTime.trim().isEmpty()){
 			error="error";
-			model.addAttribute("ERR_isAllow", "请选择");
+			model.addAttribute("ERR_testTime", "答题时间不能为空");
 		}else{
-			errorData.put("isAllow", isAllow[0]);
-			if(isAllow[0].equals("是")){
-				String testTime = request.getParameter("testTime");
-				if(testTime.trim().isEmpty()){
-					error="error";
-					model.addAttribute("ERR_testTime", "答题时间不能为空");
-				}else{
-					if(!ValidateUtils.Z_index(testTime)){
-						error="error";
-						model.addAttribute("ERR_testTime", "答题用时必须为正整数");
-					}else{
-						examPaper.setTestTime(testTime);
-						examPaper.setIsAllowRetake(1);
-					}
-				}
-				errorData.put("testTime", testTime);
+			if(!ValidateUtils.Z_index(testTime)){
+				error="error";
+				model.addAttribute("ERR_testTime", "答题用时必须为正整数");
 			}else{
-				examPaper.setIsAllowRetake(0);
+				examPaper.setTestTime(testTime);
 			}
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1022,10 +1017,10 @@ public class PurchaserExamController extends BaseSupplierController{
 			errorData.put("score", paperScore);
 			errorData.put("startTime", startTime);
 			errorData.put("offTime", offTime);
+			errorData.put("testTime", testTime);
 			model.addAttribute("errorData", errorData);
 			return "ses/ems/exam/purchaser/paper/add";
 		}
-		
 		examPaper.setCreatedAt(new Date());
 		examPaper.setName(name);
 		examPaper.setCode(code);
@@ -1110,12 +1105,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		}else{
 			model.addAttribute("errorJudge", "无");
 		}
-		int isAllow = examPaper.getIsAllowRetake();
-		if(isAllow==0){
-			model.addAttribute("errorIsAllow", "否");
-		}else{
-			model.addAttribute("errorIsAllow", "是");
-		}
 		model.addAttribute("judgePoint", object.get("judgePoint"));
 		return "ses/ems/exam/purchaser/paper/edit";
 	}
@@ -1151,6 +1140,12 @@ public class PurchaserExamController extends BaseSupplierController{
 				if(paper.size()!=0){
 					error="error";
 					model.addAttribute("ERR_name", "试卷名称已存在");
+				}else{
+					int len = ValidateUtils.length(name);
+					if(len>20||len<6){
+						error="error";
+						model.addAttribute("ERR_name", "试卷名称由6-20个字符组成，一个中文计2个字符");
+					}
 				}
 			}
 		}
@@ -1159,43 +1154,37 @@ public class PurchaserExamController extends BaseSupplierController{
 			error="error";
 			model.addAttribute("ERR_code", "试卷编号不能为空");
 		}else{
-			if(!paperCode.equals(code)){
-				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put("code",code);
-				List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
-				if(paper.size()!=0){
-					error="error";
-					model.addAttribute("ERR_code", "试卷编号已存在");
+			if(!ValidateUtils.Number_code(code)){
+				error="error";
+				model.addAttribute("ERR_code", "试卷编号只能是由数字、英文和下划线组成");
+			}else if(code.trim().length()<6||code.trim().length()>20){
+				error="error";
+				model.addAttribute("ERR_code", "试卷编号由6-20个字符组成");
+			}else{
+				if(!paperCode.equals(code)){
+					HashMap<String,Object> map = new HashMap<String,Object>();
+					map.put("code",code);
+					List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
+					if(paper.size()!=0){
+						error="error";
+						model.addAttribute("ERR_code", "试卷编号已存在");
+					}
 				}
 			}
 		}
 		examPaper.setName(name);
 		examPaper.setCode(code);
-		String[] isAllow = request.getParameterValues("isAllow");
-		if(isAllow==null){
+		String testTime = request.getParameter("testTime");
+		if(testTime.isEmpty()){
 			error="error";
-			model.addAttribute("ERR_isAllow","请选择");
+			model.addAttribute("ERR_testTime", "答题用时不能为空");
 		}else{
-			if(isAllow[0].equals("是")){
-				String testTime = request.getParameter("testTime");
-				if(testTime.isEmpty()){
-					error="error";
-					model.addAttribute("ERR_testTime", "答题用时不能为空");
-				}else{
-					if(!ValidateUtils.Z_index(testTime)){
-						error="error";
-						model.addAttribute("ERR_testTime", "答题用时必须为正整数");
-					}else{
-						examPaper.setTestTime(testTime);
-						examPaper.setIsAllowRetake(1);
-					}
-				}
-				model.addAttribute("errorIsAllow", "是");
-			}else{
-				examPaper.setIsAllowRetake(0);
-				model.addAttribute("errorIsAllow", "否");
+			if(!ValidateUtils.Z_index(testTime)){
+				error="error";
+				model.addAttribute("ERR_testTime", "答题用时必须为正整数");
 			}
 		}
+		examPaper.setTestTime(testTime);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = request.getParameter("startTime");
 		Date sTime = null;
@@ -1529,99 +1518,29 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 			}
 		}
-		HashMap<String,Object> isFirst = new HashMap<String,Object>();
-		isFirst.put("userId", user.getId());
-		isFirst.put("paperId", paperId);
-		List<ExamPaperUser> userDo = examPaperUserService.findIsExamByCondition(isFirst);
-		if(userDo.get(0).getIsDo()==0){
-			Date offTime = paper.getOffTime();
-			if(paper.getIsAllowRetake()==1){
-				if((offTime.getTime()-new Date().getTime())/1000/60>=30){
-					model.addAttribute("thirty", "大于30分钟");
-				}
-			}
-		}
-		String thirty = request.getParameter("thirty");
-		if(thirty!=null&&!thirty.equals("")){
-			model.addAttribute("thirty", "大于30分钟");
-		}
-		HashMap<String,Object> userId = new HashMap<String,Object>();
-		userId.put("userId", user.getId());
-		userId.put("paperId", paperId);
-		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
-		if(userScores.size()==0){
-			ExamUserScore examUserScore = new ExamUserScore();
-			examUserScore.setCreatedAt(new Date());
-			examUserScore.setTestDate(new Date());
-			examUserScore.setIsMax(1);
-			examUserScore.setUserId(user.getId());
-			examUserScore.setUserType(2);
-			examUserScore.setScore(String.valueOf(score));
-			examUserScore.setPaperId(paperId);
-			if(score<pass){
-				examUserScore.setStatus("不及格");
-			}else{
-				examUserScore.setStatus("及格");
-			}
-			examUserScoreService.insertSelective(examUserScore);
-			ExamPaperUser examPaperUser = new ExamPaperUser();
-			examPaperUser.setUserId(user.getId());
-			examPaperUser.setPaperId(paperId);
-			examPaperUser.setIsDo(1);
-			examPaperUserService.updateByPaperIdAndUserID(examPaperUser);
+		ExamUserScore examUserScore = new ExamUserScore();
+		examUserScore.setCreatedAt(new Date());
+		examUserScore.setTestDate(new Date());
+		examUserScore.setIsMax(1);
+		examUserScore.setUserId(user.getId());
+		examUserScore.setUserType(2);
+		examUserScore.setScore(String.valueOf(score));
+		examUserScore.setPaperId(paperId);
+		if(score<pass){
+			examUserScore.setStatus("不及格");
 		}else{
-			for(int i=0;i<userScores.size();i++){
-				Integer currentUserScore = Integer.parseInt(userScores.get(i).getScore());
-				if(score<currentUserScore){
-					ExamUserScore examUserScore = new ExamUserScore();
-					examUserScore.setCreatedAt(new Date());
-					examUserScore.setTestDate(new Date());
-					examUserScore.setIsMax(0);
-					examUserScore.setUserId(user.getId());
-					examUserScore.setUserType(2);
-					examUserScore.setScore(String.valueOf(score));
-					examUserScore.setPaperId(paperId);
-					if(score<pass){
-						examUserScore.setStatus("不及格");
-					}else{
-						examUserScore.setStatus("及格");
-					}
-					examUserScoreService.insertSelective(examUserScore);
-					break;
-				}else if(i==userScores.size()-1){
-					for(int j=0;j<userScores.size();j++){
-						ExamUserScore examUserScoreTwo = new ExamUserScore();
-						examUserScoreTwo.setUserId(user.getId());
-						examUserScoreTwo.setPaperId(paperId);
-						examUserScoreTwo.setIsMax(0);
-						examUserScoreService.updateIsMaxById(examUserScoreTwo);
-					}
-					ExamUserScore examUserScore = new ExamUserScore();
-					examUserScore.setCreatedAt(new Date());
-					examUserScore.setTestDate(new Date());
-					examUserScore.setIsMax(1);
-					examUserScore.setUserId(user.getId());
-					examUserScore.setUserType(2);
-					examUserScore.setScore(String.valueOf(score));
-					examUserScore.setPaperId(paperId);
-					if(score<pass){
-						examUserScore.setStatus("不及格");
-					}else{
-						examUserScore.setStatus("及格");
-					}
-					examUserScoreService.insertSelective(examUserScore);
-				}
-			}
+			examUserScore.setStatus("及格");
 		}
+		examUserScoreService.insertSelective(examUserScore);
+		ExamPaperUser examPaperUser = new ExamPaperUser();
+		examPaperUser.setUserId(user.getId());
+		examPaperUser.setPaperId(paperId);
+		examPaperUser.setIsDo(1);
+		examPaperUserService.updateByPaperIdAndUserID(examPaperUser);
 		model.addAttribute("examPaper", paper);
-		model.addAttribute("isAllowRetake", paper.getIsAllowRetake());
 		model.addAttribute("score", score);
 		model.addAttribute("paperId", paperId);
 		model.addAttribute("pass", paper.getPassStandard());
-		String time = request.getParameter("time");
-		if(time!=null&&!time.equals("")){
-			model.addAttribute("time", request.getParameter("time"));
-		}
 		return "ses/ems/exam/purchaser/score";
 	}
 	
@@ -1717,106 +1636,6 @@ public class PurchaserExamController extends BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: reTake
-	* @author ZhaoBo
-	* @date 2016-9-14 下午2:56:38  
-	* @Description: 采购人重考方法 
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/reTake")
-	public String reTake(Model model,HttpServletRequest request){
-		User user = (User) request.getSession().getAttribute("loginUser");
-		String paperId = request.getParameter("paperId");
-		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
-		String typeDistribution = examPaper.getTypeDistribution();
-		JSONObject obj = JSONObject.fromObject(typeDistribution);
-		String singleN =  (String) obj.get("singleNum");
-		Integer singleNum = Integer.parseInt(singleN);
-		String multipleN = (String) obj.get("multipleNum");
-		Integer multipleNum = Integer.parseInt(multipleN);
-		String judgeN = (String) obj.get("judgeNum");
-		Integer judgeNum = Integer.parseInt(judgeN);
-		String singleP =  (String) obj.get("singlePoint");
-		Integer singlePoint = Integer.parseInt(singleP);
-		String multipleP = (String) obj.get("multiplePoint");
-		Integer multiplePoint = Integer.parseInt(multipleP);
-		String judgeP = (String) obj.get("judgePoint");
-		Integer judgePoint = Integer.parseInt(judgeP);
-		HashMap<String,Object> smap = new HashMap<String,Object>();
-		smap.put("questionTypeId", 1);
-		smap.put("queNum", singleNum);
-		List<ExamQuestion> singleQue = examQuestionService.selectPurchaserQuestionRandom(smap);
-		HashMap<String,Object> mmap = new HashMap<String,Object>();
-		mmap.put("questionTypeId", 2);
-		mmap.put("queNum", multipleNum);
-		List<ExamQuestion> multipleQue = examQuestionService.selectPurchaserQuestionRandom(mmap);
-		HashMap<String,Object> jmap = new HashMap<String,Object>();
-		jmap.put("questionTypeId", 3);
-		jmap.put("queNum", judgeNum);
-		List<ExamQuestion> judgeQue = examQuestionService.selectPurchaserQuestionRandom(jmap);
-		List<ExamQuestion> purchaserQue = new ArrayList<ExamQuestion>();
-		purchaserQue.addAll(singleQue);
-		purchaserQue.addAll(multipleQue);
-		purchaserQue.addAll(judgeQue);
-		List<Integer> pageNum = new ArrayList<Integer>();
-		if(purchaserQue.size()%5==0){
-			for(int i=0;i<purchaserQue.size()/5;i++){
-				pageNum.add(i);
-			}
-		}else{
-			for(int i=0;i<purchaserQue.size()/5+1;i++){
-				pageNum.add(i);
-			}
-		}
-		StringBuffer sb_answers = new StringBuffer();
-		StringBuffer sb_queTypes = new StringBuffer();
-		StringBuffer sb_questionIds =  new StringBuffer();
-		for(int i=0;i<purchaserQue.size();i++){
-			sb_answers.append(purchaserQue.get(i).getAnswer()+",");
-			sb_queTypes.append(purchaserQue.get(i).getExamQuestionType().getName()+",");
-			sb_questionIds.append(purchaserQue.get(i).getId()+",");
-		}
-		Date offTime = examPaper.getOffTime();
-		if(examPaper.getIsAllowRetake()==0){
-			model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
-			model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
-		}else{
-			if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
-				model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
-				model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
-			}else{
-				model.addAttribute("testTime", examPaper.getTestTime());
-			}
-		}
-		model.addAttribute("user", user);
-		model.addAttribute("purQueType",sb_queTypes);
-		model.addAttribute("purQueAnswer", sb_answers);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("purchaserQue",purchaserQue);
-		model.addAttribute("paperId", paperId);
-		model.addAttribute("purQueId", sb_questionIds);
-		model.addAttribute("time",request.getParameter("time"));
-		model.addAttribute("pageSize", pageNum.size());
-		model.addAttribute("examPaper", examPaper);
-		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
-		model.addAttribute("singlePoint", singlePoint);
-		model.addAttribute("multiplePoint", multiplePoint);
-		model.addAttribute("judgePoint", judgePoint);
-		model.addAttribute("singleNum", singleNum);
-		model.addAttribute("multipleNum", multipleNum);
-		model.addAttribute("judgeNum", judgeNum);
-		String thirty = request.getParameter("thirty");
-		if(thirty!=null&&!thirty.equals("")){
-			model.addAttribute("thirty", thirty);
-		}
-		return "ses/ems/exam/purchaser/test";
-	}
-	
-	/**
-	 * 
 	* @Title: view
 	* @author ZhaoBo
 	* @date 2016-9-18 下午5:18:00  
@@ -1874,12 +1693,6 @@ public class PurchaserExamController extends BaseSupplierController{
 			model.addAttribute("errorJudge", "有");
 		}else{
 			model.addAttribute("errorJudge", "无");
-		}
-		int isAllow = examPaper.getIsAllowRetake();
-		if(isAllow==0){
-			model.addAttribute("errorIsAllow", "否");
-		}else{
-			model.addAttribute("errorIsAllow", "是");
 		}
 		model.addAttribute("judgePoint", object.get("judgePoint"));
 		return "ses/ems/exam/purchaser/paper/view";
