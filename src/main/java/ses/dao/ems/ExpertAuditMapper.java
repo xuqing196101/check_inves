@@ -1,6 +1,5 @@
 package ses.dao.ems;
 
-import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExpertAudit;
@@ -95,4 +94,15 @@ public interface ExpertAuditMapper {
     * @return List<ExpertAudit>
      */
     List<ExpertAudit> findResultByExpertId(String expertId);
+    
+    /**
+     * 
+    * @Title: findAllPassExpert
+    * @author ZhaoBo
+    * @date 2016-11-28 下午3:08:25  
+    * @Description: 查找所有审核通过的专家 
+    * @param @return      
+    * @return List<ExpertAudit>
+     */
+    List<ExpertAudit> findAllPassExpert();
 }

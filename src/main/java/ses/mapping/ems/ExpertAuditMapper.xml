@@ -38,6 +38,14 @@
     and AUDIT_RESULT = '1'
     and nvl(IS_DELETE,0) = 0
   </select>
+  <!-- 查找所有审核通过的专家 -->
+  <select id="findAllPassExpert" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT
+    where AUDIT_RESULT = '1'
+    and nvl(IS_DELETE,0) = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}

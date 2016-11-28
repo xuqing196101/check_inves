@@ -18,7 +18,7 @@ import ses.service.ems.ExamUserScoreServiceI;
 /**
  * @Title:ExamUserScoreServiceImpl 
  * @Description:用户成绩ServiceImpl类
- * @author zb
+ * @author ZhaoBo
  * @date 2016-8-30下午1:31:49
  */
 @Service("examUserScoreService")
@@ -63,13 +63,11 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 		return examUserScoreMapper.selectPurchaserResultByCondition(map);
 	}
 
-
 	
 	@Override
 	public List<ExamUserScore> findByUserId(HashMap<String,Object> map) {
 		return examUserScoreMapper.findByUserId(map);
 	}
-
 
 	
 	@Override
@@ -77,20 +75,11 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 		return examUserScoreMapper.updateIsMaxById(examUserScore);
 	}
 
-
-	
-	@Override
-	public int updateIsMaxByUserId(ExamUserScore examUserScore) {
-		return examUserScoreMapper.updateIsMaxByUserId(examUserScore);
-	}
-
-
 	
 	@Override
 	public List<Expert> findAllExpert() {
 		return expertMapper.selectAllExpert(null);
 	}
-
 
 	
 	@Override
@@ -98,21 +87,15 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 		return examUserScoreMapper.findByUserIdAndCode(map);
 	}
 
-
-	
-	@Override
-	public List<ExamUserScore> findExpertScore(HashMap<String, Object> map) {
-		return examUserScoreMapper.findExpertScore(map);
-	}
-
-
 	
 	@Override
 	public List<ExamUserScore> findPurchaserScore(HashMap<String, Object> map) {
 		return examUserScoreMapper.findPurchaserScore(map);
 	}
 
-
 	
-	
+	@Override
+	public List<ExamUserScore> findMaxScoreOfUser(String userId) {
+		return examUserScoreMapper.findMaxScoreOfUser(userId);
+	}
 }

@@ -74,18 +74,6 @@ public interface ExamUserScoreMapper {
     
     /**
      * 
-    * @Title: updateIsMaxByUserId
-    * @author ZhaoBo
-    * @date 2016-9-28 下午3:17:40  
-    * @Description: 根据用户ID和考卷ID更新专家考试成绩的ISMAx状态 
-    * @param @param examUserScore
-    * @param @return      
-    * @return int
-     */
-    int updateIsMaxByUserId(ExamUserScore examUserScore);
-    
-    /**
-     * 
     * @Title: selectExpertResultByCondition
     * @author ZhaoBo
     * @date 2016-9-23 下午4:08:14  
@@ -124,18 +112,6 @@ public interface ExamUserScoreMapper {
     
     /**
      * 
-    * @Title: findExpertScore
-    * @author ZhaoBo
-    * @date 2016-11-17 下午9:54:57  
-    * @Description: 查看专家已考成绩 
-    * @param @param map
-    * @param @return      
-    * @return List<ExamUserScore>
-     */
-    List<ExamUserScore> findExpertScore(HashMap<String,Object> map);
-    
-    /**
-     * 
     * @Title: findPurchaserScore
     * @author ZhaoBo
     * @date 2016-11-17 下午11:45:08  
@@ -145,4 +121,16 @@ public interface ExamUserScoreMapper {
     * @return List<ExamUserScore>
      */
     List<ExamUserScore> findPurchaserScore(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findMaxScoreOfUser
+    * @author ZhaoBo
+    * @date 2016-11-28 下午2:17:13  
+    * @Description: 根据userId查找当前专家最高成绩 
+    * @param @param userId
+    * @param @return      
+    * @return List<ExamUserScore>
+     */
+    List<ExamUserScore> findMaxScoreOfUser(String userId);
 }

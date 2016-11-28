@@ -162,17 +162,6 @@
     AND PAPER_ID = #{paperId}
   </update>
   
-  <!-- 根据用户ID和考卷ID更新专家考试成绩的ISMAx状态 -->
-  <update id="updateIsMaxByUserId" parameterType="ses.model.ems.ExamUserScore">
-    update T_SES_EMS_EXAM_USER_SCORE
-    <set>
-      <if test="isMax != null">
-        IS_MAX = #{isMax},
-      </if>
-    </set>
-    where USER_ID = #{userId}
-  </update>
-  
   <!-- 专家成绩按条件查询 -->
   <select id="selectExpertResultByCondition" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   	SELECT
@@ -189,23 +178,16 @@
 	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
 	LEFT JOIN T_SES_EMS_EXPERT E ON U.type_id = E.ID
 	WHERE
-		U.TYPE_NAME = 5
-		AND s.USER_TYPE = 1
+		s.USER_TYPE = 1
     	AND s.IS_MAX=1  
         <if test="relName != null and '' != relName">
-           <![CDATA[
            AND U.REL_NAME LIKE #{relName}
-           ]]>  
         </if> 
         <if test="status != null and '' != status">
-           <![CDATA[
            AND s.STATUS = #{status}
-           ]]>
         </if> 
         <if test="userDuty != null and '' != userDuty">
-           <![CDATA[
            AND s.USER_DUTY = #{userDuty} 
-           ]]>
         </if>
         ORDER BY
 			testDate nulls last
@@ -259,6 +241,16 @@
 	    	CREATED_AT DESC
   </select>
   
+  <!-- 根据userId查找用户最高的成绩 -->
+  <select id="findMaxScoreOfUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM T_SES_EMS_EXAM_USER_SCORE
+	    WHERE 1=1
+	    AND USER_ID = #{userId}
+	    AND IS_MAX = 1
+  </select>
+  
   <!-- 采购人按条件查询自己的考试成绩 -->
   <select id="findByUserIdAndCode" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   		SELECT
@@ -279,23 +271,6 @@
         </if> 
         ORDER BY
     	s.CREATED_AT DESC
-  </select>
-  
-  <!-- 查询专家已考人员信息 -->
-  <select id="findExpertScore" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
-  	SELECT
-		U.REL_NAME AS relName,
-		s.SCORE AS score,
-		P.ID_NUMBER AS idNumber,
-		s.USER_DUTY AS userDuty,
-		s.STATUS AS status
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s
-	LEFT JOIN T_SES_EMS_EXPERT_PAPER_USER P ON s.USER_ID = P.USER_ID
-	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
-	WHERE
-		s.IS_MAX = 1
-	AND p.RULE_ID = #{ruleId}
   </select>
   
   <!-- 查询采购人已考人员信息 -->
