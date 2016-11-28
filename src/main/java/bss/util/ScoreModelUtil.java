@@ -67,7 +67,7 @@ public class ScoreModelUtil {
      */
     public static double getScoreByModelOne(ScoreModel scoreModel,Integer flag){
         double sc = 0 ;
-        if(flag!=null && flag.equals(1)){
+        if(flag!=null && flag.equals(1) && scoreModel.getStandardScore()!=null && !scoreModel.getStandardScore().equals("")){
             sc = FloatUtil.round(Double.parseDouble(scoreModel.getStandardScore()), 4);
         }
         return sc;
@@ -88,17 +88,24 @@ public class ScoreModelUtil {
     public static double getScoreByModelTwo(ScoreModel scoreModel,Integer number){
         double sc = 0 ;
         double reviewStandScore = (scoreModel.getReviewStandScore()!=null && !scoreModel.getReviewStandScore().equals("") )? Double.parseDouble(scoreModel.getReviewStandScore()):0;
-        double unitScore = Double.parseDouble(scoreModel.getUnitScore());
+        double unitScore = (scoreModel.getUnitScore()!=null && !scoreModel.getUnitScore().equals("") )? Double.parseDouble(scoreModel.getUnitScore()):0;
         //int maxScore  0加分      1减分
+        if(number==null){
+            return sc;
+        }
         if( scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
             if(number!=null && isNumber(number+"")){
                 double score = FloatUtil.add(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
-                score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMaxScore()), 0);
+                if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
+                    score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMaxScore()), 0);
+                }
             }
             
         }else if (scoreModel.getAddSubtractTypeName().equals("1")) {
             double score = FloatUtil.sub(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
-            score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMinScore()), 1);
+            if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
+                score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMinScore()), 1);
+            }
         }
         return sc;
     }
@@ -128,11 +135,16 @@ public class ScoreModelUtil {
                     if(new Double(supplyMarkList.get(i).getPrarm()).compareTo(new Double(supplyMarkList.get(i-1).getPrarm())) ==0){
                         supplyMarkList.get(i).setScore(supplyMarkList.get(i-1).getScore());
                     }else {
-                        double subScore = FloatUtil.mul(Double.parseDouble(scoreModel.getUnitScore()), unit);
+                        double subScore = FloatUtil.mul(Double.parseDouble( (scoreModel.getUnitScore()!=null && !scoreModel.getUnitScore().equals("") )?scoreModel.getUnitScore():"0"), unit);
                         //不能低于最低分     两个不等的得分始终差一个步长 
-                        double sc = getDeadlineScore(FloatUtil.sub(supplyMarkList.get(i-1).getScore(), subScore),Double.parseDouble(scoreModel.getMinScore()), 1);
-                        sc = FloatUtil.round(sc, 4);
-                        supplyMarkList.get(i).setScore(sc);
+                        double s = 0;
+                        if(scoreModel.getMinScore()!=null && !scoreModel.getMinScore().equals("")){
+                            s = getDeadlineScore(FloatUtil.sub(supplyMarkList.get(i-1).getScore(), subScore),Double.parseDouble(scoreModel.getMinScore()), 1);
+                        }else {
+                            s = FloatUtil.sub(supplyMarkList.get(i-1).getScore(), subScore);
+                        }
+                        s = FloatUtil.round(s, 4);
+                        supplyMarkList.get(i).setScore(s);
                         //unit++;
                     }
                     //supplyMarkList.get(i).setScore(getDeadlineScore(FloatUtil.sub(maxScore, subScore), Double.parseDouble(scoreModel.getMinScore()), 1));
@@ -172,10 +184,15 @@ public class ScoreModelUtil {
                         supplyMarkList.get(i).setScore(supplyMarkList.get(i-1).getScore());
                     }else {
                         double addScore = FloatUtil.mul(Double.parseDouble(scoreModel.getUnitScore()), unit);
+                        double s = 0;
                         //不能低于最低分     两个不等的得分始终差一个步长 
-                        double sc = getDeadlineScore(FloatUtil.add(supplyMarkList.get(i-1).getScore(), addScore),Double.parseDouble(scoreModel.getMaxScore()), 0);
-                        sc = FloatUtil.round(sc, 4);
-                        supplyMarkList.get(i).setScore(sc);
+                        if(scoreModel.getMaxScore()!=null && ! scoreModel.getMaxScore().equals("")){
+                             s = getDeadlineScore(FloatUtil.add(supplyMarkList.get(i-1).getScore(), addScore),Double.parseDouble(scoreModel.getMaxScore()), 0);
+                        }else {
+                            s = FloatUtil.add(supplyMarkList.get(i-1).getScore(), addScore);
+                        }
+                        s = FloatUtil.round(s, 4);
+                        supplyMarkList.get(i).setScore(s);
                         //unit++;
                     }
                 }

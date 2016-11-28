@@ -29,6 +29,14 @@ import com.github.pagehelper.PageHelper;
 @Service
 public class SupplierEditServiceImpl implements SupplierEditService {
     /**
+     * 定义常量5
+     */
+    private static final int NUMBER_FIVE = 5;
+    /**
+     * 定义常量分割符
+     */
+    private static final String FEN_GE_FU = "^-^";
+    /**
      * 供应商变更持久层
      */
     @Autowired
@@ -525,8 +533,8 @@ public class SupplierEditServiceImpl implements SupplierEditService {
             }
             String str = sb.toString();
             //大于5说明有修改否则无修改
-            if (str.length() > 5) {
-                list.add(str + "^-^" + new SimpleDateFormat("HH:mm:ss YYYY-MM-dd").format(listEdit.get(i + 1).getCreateDate()));
+            if (str.length() > NUMBER_FIVE) {
+                list.add(str + FEN_GE_FU + new SimpleDateFormat("HH:mm:ss YYYY-MM-dd").format(listEdit.get(i + 1).getCreateDate()));
             }
         }
         return list;
@@ -651,7 +659,7 @@ public class SupplierEditServiceImpl implements SupplierEditService {
     
     @Override
     public Map<String, Integer> getMap() {
-        Map<String, Integer> map = new HashMap<String, Integer>(40);
+        Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("安徽", 0);
         map.put("湖南", 0);
         map.put("湖北", 0);
@@ -682,11 +690,11 @@ public class SupplierEditServiceImpl implements SupplierEditService {
         map.put("福建", 0);
         map.put("甘肃", 0);
         map.put("河南", 0);
-        map.put("河北",0);
+        map.put("河北", 0);
         map.put("新疆", 0);
         
         map.put("山西", 0);
-        map.put("山东",0);
+        map.put("山东", 0);
         map.put("天津", 0);
         map.put("吉林", 0);
         map.put("南海诸岛", 0);

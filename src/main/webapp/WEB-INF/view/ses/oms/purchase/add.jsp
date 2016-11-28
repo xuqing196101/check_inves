@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
@@ -189,6 +190,129 @@
 			<div>
 				<h2 class="count_flow"><i>1</i>修改基本信息</h2>
 				<ul class="ul_list">
+					<%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
+				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>用户名</span>
+				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <input  name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text">
+			        <span class="add-on">i</span>
+			       	<div class="cue"><sf:errors path="loginName"/></div>
+			       	<div class="cue">${exist }</div>
+			       </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="relName" value="${purchaseInfo.relName}" maxlength="30" type="text">
+				        <span class="add-on">i</span>
+				        <div class="cue"><sf:errors path="relName"/></div>
+			       	</div>
+			 	 </li>
+			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>密码</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="password" value="${purchaseInfo.password}" maxlength="30" id="password1" type="password">
+				        <span class="add-on">i</span>
+				        <div class="cue"><sf:errors path="password"/></div>
+			        </div>
+			 	</li> 
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 col-lg-12"><span class="red">*</span>确认密码</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  id="password2" value="${purchaseInfo.password2}" maxlength="30" name="password2" type="password">
+				        <span class="add-on">i</span>
+				        <div class="cue"><sf:errors path="password2"/></div>
+				        <div class="cue">${password2_msg}</div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>性别</span>
+			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <select id="gender" name="gender">
+			        	<c:forEach items="${genders}" var="g" varStatus="vs">
+			        		<option value="${g.id }" <c:if test="${g.id eq purchaseInfo.gender}">selected</c:if>>
+			        			<c:if test="${'M' eq g.code}">男</c:if>
+			        			<c:if test="${'F' eq g.code}">女</c:if>
+			        		</option>
+			        	</c:forEach>
+			        </select>
+			        </div>
+			 	</li>
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>手机</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
+				        <input  name="mobile" value="${purchaseInfo.mobile}" maxlength="40" type="text">
+				        <span class="add-on">i</span>
+				        <div class="cue"><sf:errors path="mobile"/></div>
+			        </div>
+			 	</li>
+		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
+				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
+				        <span class="add-on">i</span>
+				        <div class="cue"><sf:errors path="email"/></div>
+			       	</div>
+			 	</li>
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="duties" value="${purchaseInfo.duties}"  maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+				 </li>
+				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
+				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        <select name="typeName" id="typeName_id">
+			        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
+			        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
+				        		<option value="${t.id}" <c:if test="${t.id eq purchaseInfo.typeName}">selected</c:if>>
+									<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+									<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+									<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+									<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+									<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+				        		</option>
+			        		</c:if>
+			        	</c:forEach>
+			        </select>
+			        </div>
+				 </li>
+			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
+				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <input id="oId" name="orgId" value="${purchaseInfo.orgId}" type="hidden">
+				        <input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+						<div class="drop_up" onclick="showOrg();">
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+				        </div>
+				        <div class="cue"><sf:errors path="orgId"/></div>
+			        </div>
+			 	</li>
+		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
+				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+			        	<input  name="telephone" value="${purchaseInfo.telephone}" maxlength="40" type="text">
+			        	<span class="add-on">i</span>
+			        </div>
+			    </li> 
+				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>角色</span>
+				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+				        <input id="rId" name="roleId"  type="hidden" value="${purchaseInfo.roleId}">
+				        <input id="roleSel"  type="text" name="roleName" readonly value="${roleName}"  onclick="showRole();" />
+						<div class="drop_up" onclick="showRole();">
+						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
+				        </div>
+				        <div class="cue"><sf:errors path="roleId"/></div>
+			        </div>
+			 	</li>
+			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>
+				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+			        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="height:130px" name="address" title="不超过100个字">${purchaseInfo.address}</textarea>
+			       </div>
+			 	</li> --%>
 				    <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
 				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名</span>
 				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">

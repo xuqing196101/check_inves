@@ -442,6 +442,10 @@ public class ExpertServiceImpl implements ExpertService {
 				throw new RuntimeException("该用户不存在！");
 			}
 			u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
+			u.setAddress(expert.getAddress());
+			u.setRelName(expert.getRelName());
+			u.setTelephone(expert.getTelephone());
+			u.setGender(expert.getGender());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				u.setTypeId(expertId);
 			}else{
@@ -450,6 +454,10 @@ public class ExpertServiceImpl implements ExpertService {
 			userMapper.updateByPrimaryKeySelective(u);
 		}else{
 			//注册完账号  过段时间又填写个人信息
+			user.setAddress(expert.getAddress());
+			user.setRelName(expert.getRelName());
+			user.setTelephone(expert.getTelephone());
+			user.setGender(expert.getGender());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				user.setTypeId(expertId);
 			}else{
