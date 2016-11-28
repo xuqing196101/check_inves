@@ -189,8 +189,11 @@ public class ReviewFirstAuditController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", projectId);
 		map.put("packageId", packageId);
-		if(expert.getExpertsTypeId().equals("1") || expert.getExpertsTypeId().equals("3"))
+		if(expert.getExpertsTypeId().equals("1"))
 		map.put("typeName",expert.getExpertsTypeId());
+		if(expert.getExpertsTypeId().equals("3"))
+			map.put("typeName",0);
+		
 		//查询评分信息
 		List<AuditModelExt> findAllByMap = aduitQuotaService.findAllByMap(map);
 		removeAuditModelExt(findAllByMap);
