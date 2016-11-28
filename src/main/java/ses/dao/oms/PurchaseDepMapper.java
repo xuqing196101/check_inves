@@ -2,6 +2,7 @@ package ses.dao.oms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.oms.PurchaseDep;
 
@@ -11,4 +12,5 @@ public interface PurchaseDepMapper {
 	int  savePurchaseDep(PurchaseDep purchaseDep);
 	PurchaseDep selectPurchaseById(String id);
 	int update(PurchaseDep purchaseDep);
+	Map<String,String> findPIDandCIDByOrgId(String purDepId);
 }

@@ -96,6 +96,15 @@ public class Category {
    
    private Orgnization orgnization;
    
+   /** 审核日期 **/
+   private Date auditDate;
+   
+   /** 审核人Id **/
+   private String auditPersonId;
+   
+   /** 审核意见 */
+   private String auditAdvise;
+   
    
    
 public Orgnization getOrgnization() {
@@ -284,7 +293,31 @@ public void setOrgnization(Orgnization orgnization) {
 		this.paramPublishRange = paramPublishRange;
 	}
 
+    public Date getAuditDate() {
+        return auditDate;
+    }
 
+    public void setAuditDate(Date auditDate) {
+        this.auditDate = auditDate;
+    }
+
+    public String getAuditPersonId() {
+        return auditPersonId;
+    }
+
+    public void setAuditPersonId(String auditPersonId) {
+        this.auditPersonId = auditPersonId;
+    }
+
+    public String getAuditAdvise() {
+        return auditAdvise;
+    }
+
+    public void setAuditAdvise(String auditAdvise) {
+        this.auditAdvise = auditAdvise;
+    }
+
+	
 	
 
 	

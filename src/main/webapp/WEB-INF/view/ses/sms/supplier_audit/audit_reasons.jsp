@@ -122,29 +122,80 @@ alert(supplierInspectListFile);
             </div>
         </div> 
         <div class="container container_box">
-        <div class="content">
-        <div class="col-md-12 tab-v2 job-content">
-            <ul class="nav nav-tabs bgdd">
-              <li class=""><a >详细信息</a></li>
-              <li class=""><a >财务信息</a></li>
-              <li class=""><a >股东信息</a></li>
-              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-	            <li class=""><a >物资-生产专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-	            <li class=""><a >物资-销售专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a >工程-专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class=""><a >服务-专业信息</a></li>
-	            </c:if>
-              <li class=""><a >品目信息</a></li>
-              <li class=""><a >产品信息</a></li>
-              <li class=""><a >申请表</a></li>
-              <li class="active"><a >审核汇总</a></li>
-            </ul>
+            <div class="content">
+                <div class="col-md-12 tab-v2 job-content">
+	            <%-- <ul class="nav nav-tabs bgdd">
+	              <li class=""><a >详细信息</a></li>
+	              <li class=""><a >财务信息</a></li>
+	              <li class=""><a >股东信息</a></li>
+	              <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+		            <li class=""><a >物资-生产专业信息</a></li>
+		            </c:if>
+		            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+		            <li class=""><a >物资-销售专业信息</a></li>
+		            </c:if>
+		            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+		            <li class=""><a >工程-专业信息</a></li>
+		            </c:if>
+		            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+		            <li class=""><a >服务-专业信息</a></li>
+		            </c:if>
+	              <li class=""><a >品目信息</a></li>
+	              <li class=""><a >产品信息</a></li>
+	              <li class=""><a >申请表</a></li>
+	              <li class="active"><a >审核汇总</a></li>
+	            </ul> --%>
+	            
+                <ul class="flow_step">
+                    <li >
+                        <a aria-expanded="false" href="#tab-1" >详细信息</a>
+                        <i></i>
+                    </li>
+                    <li >
+                        <a aria-expanded="false" href="#tab-2" >财务信息</a>
+                        <i></i>                            
+                    </li>
+                    <li >
+                        <a aria-expanded="false" href="#tab-3" >股东信息</a>
+                        <i></i>
+                    </li>
+                    <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4">生产信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+                        <li >
+                            <a aria-expanded="false" href="#tab-4" >销售信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >工程信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                        <li>
+                            <a aria-expanded="false" href="#tab-4" >服务信息</a>
+                            <i></i>
+                        </li>
+                    </c:if>
+                    <li>
+                        <a aria-expanded="false" href="#tab-4" >产品信息</a>
+                        <i></i>
+                    </li>
+                    <li>
+                        <a aria-expanded="false" href="#tab-4" >申请表</a>
+                        <i></i>
+                    </li>
+                    <li class="active">
+                        <a aria-expanded="true" href="#tab-4" data-toggle="tab">审核汇总</a>
+                    </li>
+                </ul>
+            
 	            <form id="form_id" action="" method="post"  enctype="multipart/form-data">
 	                <input name="supplierId" value="${supplierId}" type="hidden">
 	            </form>
@@ -170,11 +221,11 @@ alert(supplierInspectListFile);
 		                     <c:if test="${list.auditType == 'basic_page'}">详细信息</c:if>
 		                     <c:if test="${list.auditType == 'finance_page'}">财务信息</c:if>
 		                     <c:if test="${list.auditType == 'stockholder_page'}">股东信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_pro_page'}">物资-生产专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_sell_page'}">物资-销售专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_eng_page'}">工程-专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务-专业信息</c:if>
-		                     <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_pro_page'}">生产信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_sell_page'}">销售信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_eng_page'}">工程信息</c:if>
+		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务信息</c:if>
+		                     <%-- <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if> --%>
 		                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
 		                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
 		                   </td>

@@ -888,8 +888,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getDocumentNumber()!=null){
 			map.put("documentNumber", purCon.getDocumentNumber());
 		}
-		if(purCon.getYear()!=null){
-			map.put("year", purCon.getYear());
+		if(purCon.getYear_string()!=null){
+			if(ValidateUtils.Integer(purCon.getYear_string())){
+				map.put("year", new BigDecimal(purCon.getYear_string()));
+			}else{
+				map.put("year", 1234);
+			}
 		}
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
@@ -1116,8 +1120,12 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getDocumentNumber()!=null){
 			map.put("documentNumber", purCon.getDocumentNumber());
 		}
-		if(purCon.getYear()!=null){
-			map.put("year", purCon.getYear());
+		if(purCon.getYear_string()!=null){
+			if(ValidateUtils.Integer(purCon.getYear_string())){
+				map.put("year", new BigDecimal(purCon.getYear_string()));
+			}else{
+				map.put("year", 1234);
+			}
 		}
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());

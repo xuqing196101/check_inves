@@ -80,7 +80,7 @@
 					<c:forEach items="${paperUserList.list }" varStatus="vs" var="paper">
 						<tr class="tc">
 							<td>${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
-							<td>${paper.userName }</td>
+							<td>${paper.relName }</td>
 							<td>${paper.card }</td>
 							<td>${paper.code }</td>
 							<td>${paper.unitName }</td>

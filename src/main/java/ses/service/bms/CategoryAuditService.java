@@ -2,6 +2,7 @@ package ses.service.bms;
 
 import java.util.List;
 
+import ses.formbean.ResponseBean;
 import ses.model.bms.CategoryTree;
 
 /**
@@ -27,4 +28,17 @@ public interface CategoryAuditService {
      * @return CategoryTree对象集合
      */
     public List<CategoryTree> initTree(String treeId);
+    
+    /**
+     * 
+     *〈简述〉
+     *  审核
+     *〈详细描述〉
+     * @author myc
+     * @param id
+     * @param status 状态值
+     * @param advise 意见
+     * @return ResponseBean 对象
+     */
+    public ResponseBean audit(String id, String status, String advise);
 }

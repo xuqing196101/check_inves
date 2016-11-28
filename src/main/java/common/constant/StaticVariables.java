@@ -54,8 +54,11 @@ public class StaticVariables {
     /** 品目分类的提交提示  */
     public static final String CATEGORY_SUBMIT_MSG = "已提交,无法";
     
-    /** 品目分类的审核提示  */
-    public static final String CATEGORY_AUDIT_MSG = "已审核,无法";
+    /** 品目分类的审核提示 - 通过  */
+    public static final String CATEGORY_AUDIT_MSG = "已审核完成,不能重复提交";
+    
+    /** 品目分类的审核提示 - 驳回  */
+    public static final String CATEGORY_REJECT_MSG = "已经驳回";
     
     /** 品目分类的发布状态  */
     public static final String CATEGORY_PUBLISH_MSG = "已发布,无法";

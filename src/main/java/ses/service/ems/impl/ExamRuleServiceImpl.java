@@ -41,13 +41,8 @@ public class ExamRuleServiceImpl implements ExamRuleServiceI {
 	}
 
 	
-	
-
-
-
-
-
-	
-	
-
+	@Override
+	public List<ExamRule> selectInUseRule() {
+		return examRuleMapper.selectInUseRule();
+	}
 }

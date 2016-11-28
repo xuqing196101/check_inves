@@ -151,7 +151,7 @@
 				 	<span class="col-md-12 col-xs-12">
 					<select  name="status" class="w180 mt5" >
 					   	<option value="0" <c:if test="${'0' eq menu.status}">selected</c:if>>可用</option>
-					   	<option value="1" <c:if test="${'1' eq menu.status}">selected</c:if>>暂停</option>
+					   	<option value="1" <c:if test="${'1' eq menu.status}">selected</c:if>>冻结</option>
 				    </select>
 				    </span>
 				</li>

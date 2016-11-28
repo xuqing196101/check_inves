@@ -4,16 +4,14 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.ExamRule">
     <id column="ID" property="id" />
     <result column="PASS_STANDARD" property="passStandard" />
-    <result column="START_TIME" property="startTime" />
     <result column="PAPER_SCORE" property="paperScore" />
-    <result column="OFF_TIME" property="offTime" />
     <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
-    <result column="YEAR" property="year" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
+    <result column="STATUS" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,OFF_TIME,TYPE_DISTRIBUTION,YEAR,CREATED_AT,UPDATED_AT
+    ID, PASS_STANDARD,PAPER_SCORE,TYPE_DISTRIBUTION,CREATED_AT,UPDATED_AT,STATUS
   </sql>
   
   <!-- 根据主键ID查询考试规则 -->
@@ -25,11 +23,16 @@
     <if test="id != null and id !=''">
         AND ID = #{id}
     </if>
-    <if test="year != null and year !=''">
-        AND YEAR = #{year}
-    </if>
     ORDER BY
-    CREATED_AT DESC
+    STATUS DESC
+  </select>
+  
+  <!-- 查找使用中的考试规则 -->
+  <select id="selectInUseRule" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_RULE
+    WHERE STATUS=1
   </select>
   
   <!-- 设置考试规则,可插入null -->
@@ -45,26 +48,20 @@
       <if test="passStandard != null">
         PASS_STANDARD,
       </if>
-      <if test="startTime != null">
-        START_TIME,
-      </if>
       <if test="paperScore != null">
         PAPER_SCORE,
       </if>
-      <if test="offTime != null">
-        OFF_TIME,
-      </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION,
-      </if>
-      <if test="year != null">
-        YEAR,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -74,26 +71,20 @@
       <if test="passStandard != null">
         #{passStandard},
       </if>
-      <if test="startTime != null">
-        #{startTime},
-      </if>
       <if test="paperScore != null">
         #{paperScore},
       </if>
-      <if test="offTime != null">
-        #{offTime},
-      </if>
       <if test="typeDistribution != null">
         #{typeDistribution},
-      </if>
-      <if test="year != null">
-        #{year},
       </if>
       <if test="createdAt != null">
         #{createdAt},
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="status != null">
+        #{status},
       </if>
     </trim>
   </insert>
@@ -105,20 +96,11 @@
       <if test="passStandard != null">
         PASS_STANDARD = #{passStandard},
       </if>
-      <if test="startTime != null">
-        START_TIME = #{startTime},
-      </if>
       <if test="paperScore != null">
         PAPER_SCORE = #{paperScore},
       </if>
-      <if test="offTime != null">
-        OFF_TIME = #{offTime},
-      </if>
       <if test="typeDistribution != null">
         TYPE_DISTRIBUTION = #{typeDistribution},
-      </if>
-      <if test="year != null">
-        YEAR = #{year},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},
@@ -126,6 +108,10 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
     </set>
+    where ID = #{id}
   </update>
 </mapper>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.formbean.ResponseBean;
 import ses.model.bms.CategoryTree;
 import ses.service.bms.CategoryAuditService;
 
@@ -43,6 +44,24 @@ public class AuditParameterController {
     public List<CategoryTree> list(String id){
         
         return auditService.initTree(id);
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *  审核
+     *〈详细描述〉
+     * @author myc
+     * @param id 品目Id
+     * @param status 审核状态
+     * @param advise 审核意见
+     * @return ResponseBean 对象
+     */
+    @ResponseBody
+    @RequestMapping(value="/audit", produces = "application/json;charset=UTF-8")
+    public ResponseBean audit(String id, String status, String advise){
+        
+        return auditService.audit(id, status, advise);
     }
     
 }

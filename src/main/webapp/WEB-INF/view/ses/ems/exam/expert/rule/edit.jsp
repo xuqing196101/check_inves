@@ -141,7 +141,7 @@
 	  		</li>
 	  		
 	    	<li class="col-md-3 col-sm-6 col-xs-12">
-	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷分值：</span>
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>总分值：</span>
 	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 	  				<input type="text" name="paperScore" id="paperScore" value="${examRule.paperScore }" readonly="readonly"/>分
 	    		</div>
@@ -152,22 +152,6 @@
 	  			<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 	  				<div class="fl"><input type="text" name="passStandard" id="passStandard" value="${examRule.passStandard }"/>分</div>
 	  				<div class="cue">${ERR_passStandard }</div>
-	  			</div>
-	    	</li>
-	    	
-	  		<li class="col-md-3 col-sm-6 col-xs-12">
-	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
-	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
-			  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${startTime }"/>
-		  			<div class="cue">${ERR_time }</div>
-	  			</div>
-	  		</li>
-	    	
-	    	<li class="col-md-3 col-sm-6 col-xs-12">
-	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
-	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
-		  			<input type="text" name="offTime" id="offTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate fl" value="${offTime }"/>
-		  			<div class="cue">${ERR_offTime }</div>
 	  			</div>
 	    	</li>
 	    </ul>

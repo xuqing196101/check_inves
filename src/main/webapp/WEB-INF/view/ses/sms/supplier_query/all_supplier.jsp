@@ -6,136 +6,82 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+<script src="${pageContext.request.contextPath}/public/echarts/china.js"></script>
+<link href="${pageContext.request.contextPath}/public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
 <script type="text/javascript">
-	$(function () {
-	var address;
-    Highcharts.setOptions({
-        lang:{
-            drillUpText:"返回 > {series.name}"
-        }
-    });
-
-    var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#mapsId').width() < 400;
-     // 给城市设置随机数据
-  	var serverData=${data};
-    $.each(data, function (i) {
-        this.drilldown = this.properties['drill-key'];
-        this.value = serverData[this.properties['drill-key']];
-    });
-   
-	function getPoint(e){
-		console.log(e.point.name);
-	}
-	function getShow(e){
-		alert(1);
-	}
-    //初始化地图
-    $('#mapsId').highcharts('Map', {
-
-        chart : {
-					spacingBottom:30,
-            events: {
-               
-            },
-        },
-        credits:{
-					href:"javascript:goHome()",
-            text:"",
-        },
-        title : {
-            text : '',
-        },
-
-        subtitle: {
-            text: '中国',
-            floating: true,
-            align: 'right',
-            y: 50,
-            style: {
-                fontSize: '16px',
-            }
-        },
-
-        legend: small ? {} : {
-					 // enabled: false,
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-        tooltip:{
-        pointFormat:"{point.properties.cn-name}:{point.value}"
-        },
-        colorAxis: {
-            min: 0,
-            minColor: '#E6E7E8',
-            maxColor: '#005645',
-					labels:{
-						style:{
-								"color":"red","fontWeight":"bold"
-						}
-					}
-        },
-
-        mapNavigation: {
-            enabled: true,
-            buttonOptions: {
-                verticalAlign: 'bottom'
-            }
-        },
-
-        plotOptions: {
-            map: {
-                states: {
-                    hover: {
-                        color: '#EEDD66'
-                    }
-                }
-            }
-        },
-
-        series : [{
-            data : data,
-            name: '中国',
-            dataLabels: {
-                enabled: true,
-                format: '{point.properties.cn-name}'
-            },
-            point: {
-               events: {
-                   click: function (e) { 
-                   address=this.name;
-                   window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address;
-                    }
-                  }
-           }
-        }],
-
-        drilldown: {
-					
-            activeDataLabelStyle: {
-                color: '#FFFFFF',
-                textDecoration: 'none',
-                textShadow: '0 0 3px #000000'
-            },
-            drillUpButton: {
-                relativeTo: 'spacingBox',
-                position: {
-                    x: 0,
-                    y: 60
-                }
-            }
-        }
-    });
-});
-function goHome(){
-	window.open("http://www.peng8.net/");
-}
-/* function getGithub()
-	{
-		$.getJSON("https://api.github.com/repos/peng8/GeoMap/contents/json/bei_jing.geo.json", function(data){
-		console.log(base64decode(data.content));
-		}); 
-	}*/
+	$(function(){
+		 option = {
+				    title : {
+				        text: '供应商数量统计',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item'
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        x:'left',
+				        data:['']
+				    },
+				    dataRange: {
+				        min: 0,
+				        max: 2500,
+				        x: 'left',
+				        y: 'bottom',
+				        text:['高','低'],           // 文本，默认为数值文本
+				        calculable : true
+				    },
+				    toolbox: {
+				        show: true,
+				        orient : 'vertical',
+				        x: 'right',
+				        y: 'center',
+				        feature : {
+				            mark : {show: true},
+				            dataView : {show: true, readOnly: false},
+				            restore : {show: true},
+				            saveAsImage : {show: true}
+				        }
+				    },
+				    roamController: {
+				        show: true,
+				        x: 'right',
+				        mapTypeControl: {
+				            'china': true
+				        }
+				    },
+				    series : [
+				        {
+				            name: '中国',
+				            type: 'map',
+				            mapType: 'china',
+				            roam: false,
+				            itemStyle:{
+				                normal:{label:{show:true}},
+				                emphasis:{label:{show:true}}
+				            },
+				            data:${data}
+				        }
+				    ]
+				};
+			
+	 	var myChart = echarts.init(document.getElementById("container"));
+			myChart.setOption(option);
+			myChart.hideLoading(); 
+			myChart.on('click', function (params) {
+				var address=encodeURI(params.name);
+				address=encodeURI(address);
+    			window.location.href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address="+address;
+			});
+			
+	 }) ;
 function submit(){
 	form1.submit();
 }
@@ -297,7 +243,7 @@ $(function() {
 		}
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownOrg);
+			$("body").unbind("mousedown", onBodyDownSupplierType);
 			
 		}
 		function onBodyDownOrg(event) {
@@ -306,7 +252,7 @@ $(function() {
 			}
 		}
 		function onBodyDownSupplierType(event) {
-			if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
+			if (!(event.target.id == "menuBtn" ||  event.target.id == "supplierTypeContent" || $(event.target).parents("#supplierTypeContent").length>0)) {
 				hideSupplierType();
 			}
 		}
@@ -324,7 +270,7 @@ $(function() {
    	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	   </div>
-	    <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+	   <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
 	   </div>
   <body>
@@ -350,8 +296,8 @@ $(function() {
 		            <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
 		          </li> 
 		          <li>
-                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-                              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
+                         <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+                         <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
                   </li>
                   <li>
 		            <label class="fl">供应商状态:</label>
@@ -379,7 +325,7 @@ $(function() {
 	            <div class="clear"></div>
 		     </form>
      </h2>
-  <div id="mapsId"></div>
+  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>  
   </div>
   </body>
 </html>

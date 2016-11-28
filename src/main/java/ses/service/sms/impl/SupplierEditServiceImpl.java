@@ -645,48 +645,51 @@ public class SupplierEditServiceImpl implements SupplierEditService {
         map.put("山东", "shan_dong");
         map.put("天津", "tian_jin");
         map.put("吉林", "ji_lin");
+        map.put("南海诸岛", "nan_hai_zhu_dao");
         return map;
     }
     
     @Override
     public Map<String, Integer> getMap() {
         Map<String, Integer> map = new HashMap<String, Integer>(40);
-        map.put("an_hui", 0);
-        map.put("hu_nan", 0);
-        map.put("hu_bei", 0);
-        map.put("jiang_xi", 0);
-        map.put("qing_hai", 0);
-        map.put("ning_xia", 0);
-        map.put("tai_wan", 0);
-        map.put("hai_nan", 0);
-        map.put("si_chuan", 0);
-        //陕西
-        map.put("shan_xi_1", 0);
-        map.put("xi_zang", 0);
-        map.put("ao_men", 0);
-        map.put("guang_dong", 0);
-        map.put("bei_jing", 0);
-        map.put("shang_hai", 0);
-        map.put("zhe_jiang", 0);
-        map.put("xiang_gang", 0);
-        map.put("liao_ning", 0);
-        map.put("yun_nan", 0);
-        map.put("hei_long_jiang", 0);
-        map.put("guang_xi", 0);
-        map.put("nei_meng_gu", 0);
-        map.put("jiang_su", 0);
-        map.put("chong_qing", 0);
-        map.put("gui_zhou", 0);
-        map.put("fu_jian", 0);
-        map.put("gan_su", 0);
-        map.put("he_nan", 0);
-        map.put("he_bei", 0);
-        map.put("xin_jiang", 0);
-        //山西
-        map.put("shan_xi_2", 0);
-        map.put("shan_dong", 0);
-        map.put("tian_jin", 0);
-        map.put("ji_lin", 0);
+        map.put("安徽", 0);
+        map.put("湖南", 0);
+        map.put("湖北", 0);
+        map.put("江西", 0);
+        map.put("青海", 0);
+        map.put("宁夏", 0);
+        map.put("台湾", 0);
+        map.put("海南", 0);
+        map.put("四川", 0);
+        map.put("陕西", 0);
+        
+        map.put("西藏", 0);
+        map.put("澳门", 0);
+        map.put("广东", 0);
+        map.put("北京", 0);
+        map.put("上海", 0);
+        map.put("浙江", 0);
+        map.put("香港", 0);
+        map.put("辽宁", 0);
+        map.put("云南", 0);
+        map.put("黑龙江", 0);
+        
+        map.put("广西", 0);
+        map.put("内蒙古", 0);
+        map.put("江苏", 0);
+        map.put("重庆", 0);
+        map.put("贵州", 0);
+        map.put("福建", 0);
+        map.put("甘肃", 0);
+        map.put("河南", 0);
+        map.put("河北",0);
+        map.put("新疆", 0);
+        
+        map.put("山西", 0);
+        map.put("山东",0);
+        map.put("天津", 0);
+        map.put("吉林", 0);
+        map.put("南海诸岛", 0);
         return map;
     }
 }

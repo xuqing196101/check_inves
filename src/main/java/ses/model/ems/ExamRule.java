@@ -29,14 +29,9 @@ public class ExamRule {
 	private String paperScore;
 	
 	/**
-	 * @Fields startTime : 考试开始时间
+	 * @Fields discribution : 题型描述
 	 */
-	private Date startTime;
-	
-	/**
-	 * @Fields offTime : 考试截止时间
-	 */
-	private Date offTime;
+	private String discribution;
 	
 	/**
 	 * @Fields typeDistribution : 题型分布
@@ -59,19 +54,9 @@ public class ExamRule {
 	private String formatDate;
 	
 	/**
-	 * @Fields year : 考卷年度
+	 * @Fields status : 规则状态
 	 */
-	private Integer year;
-	
-	/**
-	 * @Fields formatYear : 预备考卷年度
-	 */
-	private Integer formatYear;
-	
-	/**
-	 * @Fields status : 考卷状态
-	 */
-	private String status;
+	private Integer status;
 	
 	public String getId() {
 		return id;
@@ -120,21 +105,13 @@ public class ExamRule {
 	public void setFormatDate(String formatDate) {
 		this.formatDate = formatDate;
 	}
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
 	
-	public Date getOffTime() {
-		return offTime;
+	public String getDiscribution() {
+		return discribution;
 	}
 
-	public void setOffTime(Date offTime) {
-		this.offTime = offTime;
+	public void setDiscribution(String discribution) {
+		this.discribution = discribution;
 	}
 
 	public String getTypeDistribution() {
@@ -144,29 +121,14 @@ public class ExamRule {
 	public void setTypeDistribution(String typeDistribution) {
 		this.typeDistribution = typeDistribution;
 	}
-	
-	public Integer getYear() {
-		return year;
-	}
 
-	public void setYear(Integer year) {
-		this.year = year;
-	}
-	
-	public Integer getFormatYear() {
-		return formatYear;
-	}
-
-	public void setFormatYear(Integer formatYear) {
-		this.formatYear = formatYear;
-	}
-
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
 	
 }

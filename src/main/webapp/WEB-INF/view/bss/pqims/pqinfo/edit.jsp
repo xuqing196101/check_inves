@@ -126,10 +126,10 @@ function change(){
    			<input type="hidden" class="id" name="id" value = '${pqinfo.id}'>
    			<input type="hidden" id="contractId" class="contract_id" name="contract.id" value = '${pqinfo.contract.id}'>
    			
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>项目类别：</span>
-			   <div class="select_common">
-		        	<select id="purchaseType" name="projectType" class="w230" onchange="contractType(this.options[this.selectedIndex].value)">
+			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="star_red">*</i>项目类别：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		        	<select id="purchaseType" name="projectType" onchange="contractType(this.options[this.selectedIndex].value)">
 						<option value="-请选择-">请选择</option>
 						<option value="询价">询价</option>
 						<option value="单一来源">单一来源</option>
@@ -141,49 +141,49 @@ function change(){
 	  			</div>
 			 </li>
 			 
-		     <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>合同名称：</span>
-			   <div class="select_common">
-			   		<select id="contract" class="w230" onchange="change()"></select>
+		     	<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>合同名称：</span>
+			   		<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			   		<select id="contract" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change()"></select>
 			   		<input type="hidden" id="contractName" name="contract.name" value="${pqinfo.contract.name }">
 		       		<div id="contractCodeErr" class="cue">${ERR_contract_name}</div>
 		       </div>
 			 </li>
 			 
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">合同编号：</span>
-		        <div class="input-append ">
+		    	<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同编号：</span>
+			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        	<input class="span5 contractCode" id="contractCode" name="contract.code" value = '${pqinfo.contract.code}'  type="text"  readonly="readonly">
 		        	<span class="add-on">i</span>
        			</div>
 			 </li>
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">供应商组织机构代码：</span>
-		        <div class="input-append ">
+    		 	<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商组织机构代码：</span>
+		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        	<input class="span5 procurementId" id="procurementId" name="procurementId"  value = '${pqinfo.contract.supplierPurId}' type="text"  readonly="readonly">
 		        	<span class="add-on">i</span>
        			</div>
 			 </li>
 			 
-		     <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5">供应商名称：</span>
-			   <div class="input-append">
+		    	<li class="col-md-3 col-sm-6 col-xs-12">
+			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商名称：</span>
+			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input class="span5 supplier_name" id="supplierName" name="supplier_name" value = '${pqinfo.contract.supplierDepName}' type="text"  readonly="readonly">
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检单位：</span>
-		        <div class="input-append">
-		        	<input class="span5" name="unit" value = '${pqinfo.unit}'  type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检单位：</span>
+		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
+		        	<input name="unit" value = '${pqinfo.unit}'  type="text">
 		        	<span class="add-on">i</span>
-		        <div class="cue">${ERR_unit}</div>
+		        	<div class="cue">${ERR_unit}</div>
        			</div>
 			 </li>
-		     <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检类型：</span>
-			   <div class="select_common">
-		        	<select id="type" name =type class="w230" >
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检类型：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		        	<select id="type" name =type  >
 						<option value="-请选择-">请选择</option>
 						<option value="首件检验">首件检验</option>
 						<option value="生产验收">生产验收</option>
@@ -193,41 +193,41 @@ function change(){
 	  				<div class="cue">${ERR_type}</div>
 	  			</div>
 			 </li>
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检地点：</span>
-		        <div class="input-append ">
-		        	<input class="span5" name="place" value = '${pqinfo.place}'  type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检地点：</span>
+		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
+		        	<input name="place" value = '${pqinfo.place}'  type="text">
 		        	<span class="add-on">i</span>
 		        <div class="cue">${ERR_place}</div>
        			</div>
 			 </li>
-			<li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检日期：</span>
-			   <div class="input-append">
-		        <input class="w230 Wdate" name="date" value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>"  type="text">
+			<li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检日期：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input class="Wdate" name="date" value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>"  type="text">
 		       <div class="cue">${ERR_pqdate}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检人员：</span>
-		        <div class="input-append ">
-		        	<input class="span5" name="inspectors" value = '${pqinfo.inspectors}'  type="text">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检人员：</span>
+		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
+		        	<input name="inspectors" value = '${pqinfo.inspectors}'  type="text">
 		        	<span class="add-on">i</span>
 		        <div class="cue">${ERR_inspectors}</div>
        			</div>
 			 </li>
-			 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检情况：</span>
-			   <div class="input-append">
-		        <input class="span5" name="condition" value = '${pqinfo.condition}'  type="text">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检情况：</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input name="condition" value = '${pqinfo.condition}'  type="text">
 		        <span class="add-on">i</span>
 		       <div class="cue">${ERR_condition}</div>
 		       </div>
 			 </li>
-    		 <li class="col-md-3 margin-0 padding-0">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>质检结论：</span>
-			   <div class="select_common">
-		        	<select id="conclusion" name ="conclusion" class="w230" >
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>质检结论：</span>
+			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		        	<select id="conclusion" name ="conclusion">
 						<option value="-请选择-" >请选择</option>
 						<option value="合格">合格</option>
 						<option value="不合格">不合格</option>
@@ -235,15 +235,15 @@ function change(){
 	  			<div class="cue">${ERR_conclusion}</div>
 	  			</div>
 			 </li>
-			 <li class="col-md-11 margin-0 padding-0 ">
-			   <span class="col-md-12 padding-left-5"><i class="star_red">＊</i>详细情况：</span>
-			   <div class="">
-		         	<textarea class="h130 col-md-12 " name="detail" title="不超过800个字" placeholder="不超过800个字" >${pqinfo.detail}</textarea>
+			 <li class="col-md-12 col-sm-12 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>详细情况：</span>
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+		         	<textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" title="不超过800个字" placeholder="不超过800个字" >${pqinfo.detail}</textarea>
 		       </div>
 		       <div class="clear red">${ERR_detail}</div>
 			 </li>
 			 	 
-		<li class="col-md-12 p0 mt10" id="picNone" >
+			 <li class="col-md-12 col-sm-12 col-xs-12 mt10" id="picNone" >
 	   			<span class="fl">图片上传：</span>
 	    		<div class="fl">
 	        		<up:upload id="artice_up"  businessId="${pqinfoID }" sysKey="${pqinfoKey}" typeId="${attachtypeId }" auto="true" />
@@ -252,7 +252,7 @@ function change(){
 	 		</li>
    		</ul>
 
-  		<div  class="col-md-12 tc mt20">
+  		<div  class="col-md-12 col-sm-12 col-xs-12 tc mt20">
     			<button class="btn btn-windows save" type="submit">更新</button>
     			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   		</div>

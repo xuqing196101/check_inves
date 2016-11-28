@@ -38,6 +38,8 @@ $(function(){
 	    $("#uListId").hide();
 	    //初始化类型
 	    typesObj = initTypes();
+	    //控制按钮
+	    hiddenParams();
 });
 
 /**
@@ -46,11 +48,15 @@ $(function(){
  * @param treeId
  * @param treeNode
  */
+var selectedTreeId = null;
 function zTreeOnClick(event,treeId,treeNode){
 	if (treeNode.pId !=0) {
+		selectedTreeId = treeNode.id;
 		getTreeNodeData(treeNode.id,treeNode);
 	} else {
 		$("#uListId").hide();
+		selectedTreeId = null;
+		hiddenParams();
 	}
 	
 }
@@ -64,6 +70,7 @@ function zTreeOnClick(event,treeId,treeNode){
 function getTreeNodeData(cateId,treeNode){
 	$("#uListId").show();
 	$("#uListId").empty();
+	
 	$.ajax({
 		type:"post",
 		dataType:"json",
@@ -82,7 +89,11 @@ function getTreeNodeData(cateId,treeNode){
 	if (root.classify != null && root.classify == 'GOODS'){
 		loadcheckbox(treeNode.classify);
 	} 
-	
+	if (treeNode.status >= 2){
+		showParams();
+	} else {
+		hiddenParams();
+	}
 }
 
 /**
@@ -161,19 +172,19 @@ function loadRadioHtml(checked){
 function loadcheckbox(checkedVal){
 	
 	var html = "<li  id='typeId'>"
-        + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
-     	 + "  <span class='red'>*</span>类型: "
-     	 + " </div>"
-		 + " <div class='col-md-8 col-sm-8 col-xs-7'>";
+             + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
+     	     + "  <span class='red'>*</span>类型: "
+     	     + " </div>"
+		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";
 	for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
 		 } else if (checkedVal == 2 && typesObj[i].code == 'SALES'){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
 		 }else if (checkedVal == 3){
-			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
 		 } else {
-			 html+="<input name='smallClass' type='checkbox'  value='"+typesObj[i].code+"' />" +typesObj[i].name;
+			 html+="<input name='smallClass' type='checkbox' disabled='disabled' value='"+typesObj[i].code+"' />" +typesObj[i].name;
 		 }
 		
 	}
@@ -193,4 +204,123 @@ function getCurrentRoot(treeNode){
 	} else {
 		return treeNode;
 	}
+}
+
+/**
+ * 审核参数
+ */
+function auditParams(){
+	var status = $("select[name='auditStatus']").val();
+	var text  = $("#textId").val();
+	
+	if (status == 1){
+		if (text == ''){
+			layer.msg("审核意见不能为空");
+			return ;
+		}
+	}
+	
+	if (selectedTreeId == null){
+		layer.msg("请选择需要审核的品目");
+		return ;
+	}
+	audit(status,text);
+}
+
+/**
+ * 审核请求
+ * @param status 状态
+ * @param advise 意见
+ */
+function audit(status,advise){
+	if (selectedTreeId != null){
+		$.ajax({
+			  dataType:"json",
+			  type:"POST",
+			  data:{'id':selectedTreeId,'status':status,'advise':advise},
+			  async: false,
+		  	  url:  globalPath + "/auditParams/audit.do",
+		      success:function(data){
+		    	  getResult(data);
+		  	  }
+		});
+	}
+}
+
+/**
+ * 获取更新状态
+ * @param data 返回数据
+ */
+function getResult(data){
+	if (data.result){
+		layer.msg("提交成功");
+		updateTreeNode(data.obj);
+	} else {
+		layer.msg(data.errorMsg);
+	}
+}
+
+/**
+ * 更新选中的treeNode
+ * @param obj
+ */
+function updateTreeNode(obj){
+	if (obj != null){
+		var zTree = $.fn.zTree.getZTreeObj("ztree");
+		var nodes = zTree.getSelectedNodes();
+		if (nodes!= null){
+			var node = nodes[0];
+			node.status = obj.paramStatus;
+			
+			if (obj.paramStatus == 1){
+				refreshParentNode();
+				hiddenParams();
+			}
+		}
+	}
+}
+
+
+/**
+ * 刷新父级节点
+ */
+function refreshParentNode() {  
+	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
+	   type = "refresh", 
+	   silent = false,  
+	   nodes = zTree.getSelectedNodes();  
+	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
+	   zTree.reAsyncChildNodes(parentNode, type, silent);  
+}
+
+/**
+ * 
+ * @param obj 当前对象
+ */
+function loadAuditText(obj){
+	var status = $(obj).val();
+	if (status == 1){
+		$("#markId").show();
+	} else {
+		$("#markId").hide();
+	}
+}
+
+/**
+ * 隐藏
+ */
+function hiddenParams(){
+	$("#baseParamId").hide();
+	$("#auditParamId").hide();
+	$("#auditBtnId").hide();
+	$("#markId").hide();
+}
+
+/**
+ * 显示
+ */
+function showParams(){
+	$("#baseParamId").show();
+	$("#auditParamId").show();
+	$("#auditBtnId").show();
 }

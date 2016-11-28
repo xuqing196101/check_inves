@@ -66,6 +66,17 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findTreeByPid(String id) {
         return categoryMapper.findTreeByPid(id);
     }
+    
+    
+    /**
+     * 
+     * @see ses.service.bms.CategoryService#findTreeByStatus(java.lang.String, java.lang.Integer)
+     */
+    @Override
+    public List<Category> findTreeByStatus(String id, Integer status) {
+        
+        return categoryMapper.findTreeByStatus(id, status);
+    }
 
     public void updateByPrimaryKey(Category category) {
         categoryMapper.updateByPrimaryKey(category);

@@ -26,12 +26,6 @@
 					status_options[i].selected=true;
 				}
 			}
-			var year_options = document.getElementById("year").options;
-			for(var i=0;i<year_options.length;i++){
-				if($(year_options[i]).attr("value")=="${year}"){
-					year_options[i].selected=true;
-				}
-			}
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${expertResultList.pages}", //总页数
@@ -50,7 +44,6 @@
 			        	var userName = "${userName}";
 						var userType = "${userType}";
 						var status = "${status}";
-						var year = "${year}";
 			            location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&page="+e.curr;
 			        }
 			    }
@@ -62,12 +55,11 @@
 			var userName = $("#userName").val().trim();
 			var userType = $("#userType").val();
 			var status = $("#status").val();
-			var year = $("#year").val();
-			if((userName==""||userName==null)&&(userType==""||userType==null)&&(status==""||status==null)&&(year==""||year==null)){
+			if((userName==""||userName==null)&&(userType==""||userType==null)&&(status==""||status==null)){
 				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do";
 				return;
 			}else{
-				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&year="+year;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status;
 			}
 			
 		}
@@ -79,8 +71,6 @@
 			userType[0].selected=true;
 			var status = document.getElementById("status").options;
 			status[0].selected=true;
-			var year = document.getElementById("year").options;
-			year[0].selected=true;
 		}
 	</script>
   </head>
@@ -123,17 +113,6 @@
 			  			<option value="">请选择</option>
 			  			<option value="及格">及格</option>
 			  			<option value="不及格">不及格</option>
-			  		</select>
-			   	</span>
-			</li>
-			<li>
-			    <label class="fl">考试年份：</label>
-			    <span>
-				   	<select id="year" class="w80">
-			  			<option value="">请选择</option>
-			  			<c:forEach items="${ruleList }" var="rule">
-			  				<option value="${rule.formatYear }">${rule.formatYear }</option>
-			  			</c:forEach>
 			  		</select>
 			   	</span>
 			</li>

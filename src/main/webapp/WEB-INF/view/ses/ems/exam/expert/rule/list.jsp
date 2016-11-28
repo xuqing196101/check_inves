@@ -34,6 +34,11 @@
 			});
 		})
 		
+		//新增
+		function add(){
+	       	window.location.href = "${pageContext.request.contextPath }/expertExam/createRule.html";
+		}
+		
 		//全选方法
 		function selectAll(){
 			var info = document.getElementsByName("info");
@@ -47,23 +52,6 @@
 					info[i].checked = false;
 				}
 			}
-		}
-		
-		//新增
-		function add(){
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"${pageContext.request.contextPath }/expertExam/judgeAdd.html",
-				success:function(data){
-	       			if(data==0){
-	       				window.location.href = "${pageContext.request.contextPath }/expertExam/createRule.html";
-	       			}else if(data==1){
-	       				layer.alert("专家考试规则一年只能设置一次，请仔细检查",{offset: ['30%','40%']});
-						$(".layui-layer-shade").remove();
-	       			}
-	       		}
-	       	});
 		}
 		
 		//修改
@@ -90,22 +78,7 @@
 						str = info[i].value;
 					}
 				}
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"${pageContext.request.contextPath }/expertExam/judgeEdit.html?id="+str,
-					success:function(data){
-		       			if(data==0){
-		       				window.location.href = "${pageContext.request.contextPath }/expertExam/editRule.html?id="+str;
-		       			}else if(data==1){
-		       				layer.alert("考试时间已结束，不能编辑",{offset: ['30%','40%']});
-							$(".layui-layer-shade").remove();
-		       			}else if(data==2){
-		       				layer.alert("正在考试中，请勿编辑",{offset: ['30%','40%']});
-							$(".layui-layer-shade").remove();
-		       			}
-		       		}
-		       	});
+		       	window.location.href = "${pageContext.request.contextPath }/expertExam/editRule.html?id="+str;	
 			}
 		}
 		
@@ -135,8 +108,8 @@
 			window.location.href = "${pageContext.request.contextPath }/expertExam/viewRule.html?id="+obj;
 		}
 		
-		//设置参考人员
-		function setReference(){
+		//启用
+		function startRule(){
 			var count = 0;
 			var info = document.getElementsByName("info");
 			var str = "";
@@ -159,66 +132,12 @@
 						str = info[i].value;
 					}
 				}
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"${pageContext.request.contextPath }/expertExam/setReference.do?id="+str,
-			       	success:function(data){
-				    	if(data==1){
-				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
-							$(".layui-layer-shade").remove();
-				    	}else if(data==2){
-				    		window.location.href = "${pageContext.request.contextPath }/expertExam/viewReference.do?id="+str;
-				    	}else if(data==3){
-				    		layer.alert("考试时间已结束,请选择其它考卷",{offset: ['30%', '40%']});
-							$(".layui-layer-shade").remove();
-				    	}
-			       	}
-			    });
-				
-			}
-		}
-		
-		//查看成绩
-		function viewScore(){
-			var count = 0;
-			var info = document.getElementsByName("info");
-			var str = "";
-			for(var i = 0;i<info.length;i++){
-				if(info[i].checked == true){
-					count++;
-				}
-			}
-			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['30%', '40%']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['30%', '40%']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else{
-				for(var i = 0;i<info.length;i++){
-					if(info[i].checked == true){
-						str = info[i].value;
-					}
-				}
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"${pageContext.request.contextPath }/expertExam/setReference.do?id="+str,
-			       	success:function(data){
-				    	if(data==1){
-				    		layer.alert("考卷正在考试中,请选择其它考卷",{offset: ['30%', '40%']});
-							$(".layui-layer-shade").remove();
-				    	}else if(data==2){
-				    		layer.alert("考试时间未结束,请选择其它考卷",{offset: ['30%', '40%']});
-							$(".layui-layer-shade").remove();
-				    	}else if(data==3){
-				    		window.location.href = "${pageContext.request.contextPath }/expertExam/viewReference.do?id="+str;
-				    	}
-			       	}
-			    });
+				layer.confirm('您确定要使用这个规则吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
+					layer.close(index);
+					window.setTimeout(function(){
+						window.location.href = "${pageContext.request.contextPath }/expertExam/startRule.do?id="+str;
+					}, 1000);
+				});
 			}
 		}
 	</script>
@@ -244,8 +163,7 @@
    		<div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		    <button class="btn" type="button" onclick="setReference()">设置参考人员</button>
-		    <button class="btn" type="button" onclick="viewScore()">查看成绩</button>
+		    <button class="btn" type="button" onclick="startRule()">启用</button>
 		</div>
 		
 		<div class="content table_box">
@@ -254,10 +172,10 @@
 				<tr class="info">
 					<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
 					<th class="w50">序号</th>
-				    <th>考试开始日期</th>
-					<th>考试截止日期</th>
-					<th>考卷年度</th>
-					<th>考卷状态</th>
+					<th>题型分布</th>
+					<th>总分值</th>
+					<th>及格标准</th>
+					<th>状态</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -265,10 +183,15 @@
 					<tr class="pointer tc">
 						<td><input type="checkbox" name="info" value="${rule.id }" onclick="check()"/></td>
 						<td onclick="view('${rule.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td onclick="view('${rule.id }')"><fmt:formatDate value="${rule.startTime }" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td onclick="view('${rule.id }')"><fmt:formatDate value="${rule.offTime }" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td onclick="view('${rule.id }')">${rule.year }</td>
-						<td onclick="view('${rule.id }')">${rule.status }</td>
+						<td onclick="view('${rule.id }')">${rule.discribution }</td>
+						<td onclick="view('${rule.id }')">${rule.paperScore }分</td>
+						<td onclick="view('${rule.id }')">${rule.passStandard }分</td>
+						<c:if test="${rule.status==0 }">
+							<td onclick="view('${rule.id }')">停用中</td>
+						</c:if>
+						<c:if test="${rule.status==1 }">
+							<td onclick="view('${rule.id }')">启用中</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</tbody>

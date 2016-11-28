@@ -48,8 +48,15 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/register.*" />
  			<mvc:exclude-mapping path="/expert/toAddBasicInfo.*" />
  			<mvc:exclude-mapping path="/expert/add.*" />
- 			<mvc:exclude-mapping path="/expert/zancun.*" />
+ 			<mvc:exclude-mapping path="/expert/zanCun.*" />
  			<mvc:exclude-mapping path="/expert/findAllLoginName.*" />
+ 			<mvc:exclude-mapping path="/expert/findAttachment.*" />
+ 			<mvc:exclude-mapping path="/expert/getCategoryByExpertId.*" />
+ 			<mvc:exclude-mapping path="/expert/getPurDepIdByExpertId.*" />
+ 			<mvc:exclude-mapping path="/expert/showJiGou.*" />
+ 			<mvc:exclude-mapping path="/expert/findAllLoginName.*" />
+ 			<mvc:exclude-mapping path="/expert/getPIdandCIdByPurDepId.*" />
+ 			<mvc:exclude-mapping path="/expert/download.*" />
  			<mvc:exclude-mapping path="/area/find_by_parent_id.*" />
 			<mvc:exclude-mapping path="/area/find_by_id.*" />
 			<mvc:exclude-mapping path="/area/listByOne.*" />

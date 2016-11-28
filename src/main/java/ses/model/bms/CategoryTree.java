@@ -1,5 +1,7 @@
 package ses.model.bms;
 
+import java.util.Date;
+
 public class CategoryTree {
     /*
      * 节点的id
@@ -33,6 +35,12 @@ public class CategoryTree {
 
     /** 公开状态 **/
     private transient Integer pubStatus;
+    
+    /** 审核日期 */
+    private transient Date auditDate;
+    
+    /** 审核意见 */
+    private transient String auditAdvise;
 
     /** 父类的code **/
     private String code;
@@ -112,9 +120,21 @@ public class CategoryTree {
     public void setCode(String code) {
         this.code = code;
     }
+    public Date getAuditDate() {
+        return auditDate;
+    }
+    public void setAuditDate(Date auditDate) {
+        this.auditDate = auditDate;
+    }
+    public String getAuditAdvise() {
+        return auditAdvise;
+    }
+    public void setAuditAdvise(String auditAdvise) {
+        this.auditAdvise = auditAdvise;
+    }
 
 
-
+    
 
 
 }

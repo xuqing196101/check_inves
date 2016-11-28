@@ -491,14 +491,16 @@ public class UserManageController extends BaseController{
 			UserPreMenu um = new UserPreMenu();
 			um.setUser(user);
 			userService.deleteUserMenu(um);
-			String[] mIds = ids.split(",");
-			for (String str : mIds) {
-				UserPreMenu up = new UserPreMenu();
-				PreMenu preMenu = preMenuService.get(str);
-				up.setPreMenu(preMenu);
-				up.setUser(user);
-				userService.saveUserMenu(up);
-			}
+			if (ids != null && !"".equals(ids)) {
+			    String[] mIds = ids.split(",");
+			    for (String str : mIds) {
+			        UserPreMenu up = new UserPreMenu();
+			        PreMenu preMenu = preMenuService.get(str);
+			        up.setPreMenu(preMenu);
+			        up.setUser(user);
+			        userService.saveUserMenu(up);
+			    }
+            }
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
 			response.getWriter().flush();
