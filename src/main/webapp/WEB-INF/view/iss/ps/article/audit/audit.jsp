@@ -29,7 +29,7 @@ function sub(){
 	var id = $("#id").val();
 	layer.confirm('您确定需要审核通过吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
-		window.location.href="${ pageContext.request.contextPath }/article/audit.html?id="+id+"&status=2";
+		window.location.href="${pageContext.request.contextPath }/article/audit.html?id="+id+"&status=2";
 	});
 }
 
@@ -38,16 +38,16 @@ function back(){
 	var reason = $("#reason").val();
 	layer.confirm('您确定需要退回吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
-		$.ajax({
-			type:"post",
+		window.location.href="${pageContext.request.contextPath }/article/audit.html?id="+id+"&reason="+reason+"&status=3";
+		//$.ajax({
+		//	type:"post",
 			//contentType: "application/json;charset=UTF-8",
-			dataType:"json",
-			url:"${pageContext.request.contextPath }/article/audit.html?id="+id+"&reason="+reason+"&status=3",
-			
-			success:function(){
-				window.location.href="${pageContext.request.contextPath }/article/getAll.html";
-			}
-		});
+		//	dataType:"json",
+		//	url:"${pageContext.request.contextPath }/article/audit.html?id="+id+"&reason="+reason+"&status=3",
+		//	success:function(){
+		//		window.location.href="${pageContext.request.contextPath }/article/getAll.html";
+		//	}
+		//});
 	});
 }
 
