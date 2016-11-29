@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;    
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,161 +84,162 @@ public class PackageExpertController {
 	private AduitQuotaService aduitQuotaService;// 评分
 
 	/**
-	 * 
-	 * @Title: toPackageExpert
-	 * @author ShaoYangYang
-	 * @date 2016年10月18日 下午3:05:52
-	 * @Description: TODO 跳转到组织专家评审页面
-	 * @param @param projectId
-	 * @param @return
-	 * @return String
-	 */
-	@RequestMapping("toPackageExpert")
-	public String toPackageExpert(String projectId, String flag, Model model) {
-		// 项目分包信息
-		HashMap<String, Object> pack = new HashMap<String, Object>();
-		pack.put("projectId", projectId);
-		List<Packages> packages = packageService.findPackageById(pack);
-		Map<String, Object> list = new HashMap<String, Object>();
-		// 关联表集合
-		List<PackageExpert> expertIdList = new ArrayList<>();
-		// 进度集合
-		List<ReviewProgress> reviewProgressList = new ArrayList<>();
-		List<ExpertSuppScore> expertScoreAll = new ArrayList<>();
-		List<AuditModelExt> auditModelListAll = new ArrayList<>();
-		Map<String, Object> mapSearch = new HashMap<String, Object>();
-		for (Packages ps : packages) {
-			list.put("pack" + ps.getId(), ps);
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("packageId", ps.getId());
-			List<ProjectDetail> detailList = detailService.selectById(map);
-			ps.setProjectDetails(detailList);
-			// 设置查询条件
-			mapSearch.put("projectId", projectId);
-			mapSearch.put("packageId", ps.getId());
-			// 查询出该项目下的包关联的信息集合
-			List<PackageExpert> selectList = service.selectList(mapSearch);
-			// 查询评审项
-			List<AuditModelExt> auditModelExtList = aduitQuotaService
-					.findAllByMap(mapSearch);
-			auditModelListAll.addAll(auditModelExtList);
-			// 查询评分信息
-			//List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
-			// 查询评分信息(由按项目查改为按供应商和包查)
-			List<ExpertSuppScore> expertList = expertScoreService.getScoreByMap(mapSearch);
-			for (ExpertSuppScore expertSuppScore : expertList) {
+     * 
+     * @Title: toPackageExpert
+     * @author ShaoYangYang
+     * @date 2016年10月18日 下午3:05:52
+     * @Description: TODO 跳转到组织专家评审页面
+     * @param @param projectId
+     * @param @return
+     * @return String
+     */
+    @RequestMapping("toPackageExpert")
+    public String toPackageExpert(String projectId, String flag, Model model) {
+        // 项目分包信息
+        //HashMap<String, Object> pack = new HashMap<String, Object>();
+        //pack.put("projectId", projectId);
+        //List<Packages> packages = packageService.findPackageById(pack);
+        List<Packages> packages = packageService.listResultExpert(projectId);
+        Map<String, Object> list = new HashMap<String, Object>();
+        // 关联表集合
+        List<PackageExpert> expertIdList = new ArrayList<>();
+        // 进度集合
+        List<ReviewProgress> reviewProgressList = new ArrayList<>();
+        List<ExpertSuppScore> expertScoreAll = new ArrayList<>();
+        List<AuditModelExt> auditModelListAll = new ArrayList<>();
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        for (Packages ps : packages) {
+            list.put("pack" + ps.getId(), ps);
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("packageId", ps.getId());
+            List<ProjectDetail> detailList = detailService.selectById(map);
+            ps.setProjectDetails(detailList);
+            // 设置查询条件
+            mapSearch.put("projectId", projectId);
+            mapSearch.put("packageId", ps.getId());
+            // 查询出该项目下的包关联的信息集合
+            List<PackageExpert> selectList = service.selectList(mapSearch);
+            // 查询评审项
+            List<AuditModelExt> auditModelExtList = aduitQuotaService
+                    .findAllByMap(mapSearch);
+            auditModelListAll.addAll(auditModelExtList);
+            // 查询评分信息
+            //List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
+            // 查询评分信息(由按项目查改为按供应商和包查)
+            List<ExpertSuppScore> expertList = expertScoreService.getScoreByMap(mapSearch);
+            for (ExpertSuppScore expertSuppScore : expertList) {
                 System.out.println(expertSuppScore.getScore());
             }
-			expertScoreAll.addAll(expertList);
-			model.addAttribute("expertIdList", expertIdList);
-			// 查询进度
-			List<ReviewProgress> selectByMap = reviewProgressService
-					.selectByMap(map); 
-			expertIdList.addAll(selectList);
-			reviewProgressList.addAll(selectByMap);
-		}
-		// 进度
-		model.addAttribute("reviewProgressList", reviewProgressList);
-		// 供应商信息
-		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
-				projectId), 0);
-		model.addAttribute("supplierList", supplierList);
-		// 查询条件
-		ProjectExtract projectExtract = new ProjectExtract();
-		projectExtract.setProjectId(projectId);
-		projectExtract.setReason("1");
-		// 项目抽取的专家信息
-		List<ProjectExtract> expertList = projectExtractService
-				.list(projectExtract);
-		model.addAttribute("expertList", expertList);
-		// 包信息
-		model.addAttribute("packageList", packages);
-		Project project = projectService.selectById(projectId);
-		// 项目实体
-		model.addAttribute("project", project);
-		// 关联信息集合
-		// 封装实体
-		List<PackExpertExt> packExpertExtList = new ArrayList<>();
-		// 供应商封装实体
-		List<SupplierExt> supplierExtList = new ArrayList<>();
-		PackExpertExt packExpertExt;
-		for (PackageExpert packageExpert : expertIdList) {
-			packExpertExt = new PackExpertExt();
-			Expert expert = expertService.selectByPrimaryKey(packageExpert
-					.getExpertId());
-			packExpertExt.setExpert(expert);
-			packExpertExt.setPackageId(packageExpert.getPackageId());
-			packExpertExt.setProjectId(packageExpert.getProjectId());
-			Map<String, Object> map = new HashMap<>();
-			// 根据专家id和包id查询改包的这个专家是否评审完成
-			map.put("expertId", packageExpert.getExpertId());
-			map.put("packageId", packageExpert.getPackageId());
-			// 根据专家id查询关联表 确定该专家是否都已评审
-			List<PackageExpert> selectList = service.selectList(map);
-			int count = 0;
-			for (PackageExpert packageExpert2 : selectList) {
-				if (packageExpert2.getIsAudit() == SONE) {
-					count++;
-				}
-			}
-			if (count > 0) {
-				packExpertExt.setIsPass("已评审");
-			} else {
-				packExpertExt.setIsPass("未评审");
-			}
-			// 根据供应商id 和包id查询审核表 确定该供应商是否通过评审
-			for (SaleTender saleTender : supplierList) {
-				SupplierExt supplierExt = new SupplierExt();
-				Map<String, Object> map2 = new HashMap<>();
-				map2.put("supplierId", saleTender.getSuppliers().getId());
-				map2.put("packageId", packageExpert.getPackageId());
-				map2.put("expertId", packageExpert.getExpertId());
-				List<ReviewFirstAudit> selectList2 = reviewFirstAuditService
-						.selectList(map2);
-				if (selectList2 != null && selectList2.size() > 0) {
-					int count2 = 0;
-					for (ReviewFirstAudit reviewFirstAudit : selectList2) {
-						if (reviewFirstAudit.getIsPass() == SONE) {
-							count2++;
-							break;
-						}
-					}
-					// 如果变量大于0 说明有不合格的数据
-					if (count2 > 0) {
-						supplierExt.setSupplierId(saleTender.getSuppliers()
-								.getId());
-						supplierExt.setExpertId(packageExpert.getExpertId());
-						supplierExt.setPackageId(packageExpert.getPackageId());
-						supplierExt.setSuppIsPass("不合格");
-					} else {
-						supplierExt.setSupplierId(saleTender.getSuppliers()
-								.getId());
-						supplierExt.setExpertId(packageExpert.getExpertId());
-						supplierExt.setPackageId(packageExpert.getPackageId());
-						supplierExt.setSuppIsPass("合格");
-					}
-				} else {
-					supplierExt
-							.setSupplierId(saleTender.getSuppliers().getId());
-					supplierExt.setPackageId(packageExpert.getPackageId());
-					supplierExt.setExpertId(packageExpert.getExpertId());
-					supplierExt.setSuppIsPass("未评审");
-				}
+            expertScoreAll.addAll(expertList);
+            model.addAttribute("expertIdList", expertIdList);
+            // 查询进度
+            List<ReviewProgress> selectByMap = reviewProgressService
+                    .selectByMap(map); 
+            expertIdList.addAll(selectList);
+            reviewProgressList.addAll(selectByMap);
+        }
+        // 进度
+        model.addAttribute("reviewProgressList", reviewProgressList);
+        // 供应商信息
+        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
+                projectId), 0);
+        model.addAttribute("supplierList", supplierList);
+        // 查询条件
+        ProjectExtract projectExtract = new ProjectExtract();
+        projectExtract.setProjectId(projectId);
+        projectExtract.setReason("1");
+        // 项目抽取的专家信息
+        List<ProjectExtract> expertList = projectExtractService
+                .list(projectExtract);
+        model.addAttribute("expertList", expertList);
+        // 包信息
+        model.addAttribute("packageList", packages);
+        Project project = projectService.selectById(projectId);
+        // 项目实体
+        model.addAttribute("project", project);
+        // 关联信息集合
+        // 封装实体
+        List<PackExpertExt> packExpertExtList = new ArrayList<>();
+        // 供应商封装实体
+        List<SupplierExt> supplierExtList = new ArrayList<>();
+        PackExpertExt packExpertExt;
+        for (PackageExpert packageExpert : expertIdList) {
+            packExpertExt = new PackExpertExt();
+            Expert expert = expertService.selectByPrimaryKey(packageExpert
+                    .getExpertId());
+            packExpertExt.setExpert(expert);
+            packExpertExt.setPackageId(packageExpert.getPackageId());
+            packExpertExt.setProjectId(packageExpert.getProjectId());
+            Map<String, Object> map = new HashMap<>();
+            // 根据专家id和包id查询改包的这个专家是否评审完成
+            map.put("expertId", packageExpert.getExpertId());
+            map.put("packageId", packageExpert.getPackageId());
+            // 根据专家id查询关联表 确定该专家是否都已评审
+            List<PackageExpert> selectList = service.selectList(map);
+            int count = 0;
+            for (PackageExpert packageExpert2 : selectList) {
+                if (packageExpert2.getIsAudit() == SONE) {
+                    count++;
+                }
+            }
+            if (count > 0) {
+                packExpertExt.setIsPass("已评审");
+            } else {
+                packExpertExt.setIsPass("未评审");
+            }
+            // 根据供应商id 和包id查询审核表 确定该供应商是否通过评审
+            for (SaleTender saleTender : supplierList) {
+                SupplierExt supplierExt = new SupplierExt();
+                Map<String, Object> map2 = new HashMap<>();
+                map2.put("supplierId", saleTender.getSuppliers().getId());
+                map2.put("packageId", packageExpert.getPackageId());
+                map2.put("expertId", packageExpert.getExpertId());
+                List<ReviewFirstAudit> selectList2 = reviewFirstAuditService
+                        .selectList(map2);
+                if (selectList2 != null && selectList2.size() > 0) {
+                    int count2 = 0;
+                    for (ReviewFirstAudit reviewFirstAudit : selectList2) {
+                        if (reviewFirstAudit.getIsPass() == SONE) {
+                            count2++;
+                            break;
+                        }
+                    }
+                    // 如果变量大于0 说明有不合格的数据
+                    if (count2 > 0) {
+                        supplierExt.setSupplierId(saleTender.getSuppliers()
+                                .getId());
+                        supplierExt.setExpertId(packageExpert.getExpertId());
+                        supplierExt.setPackageId(packageExpert.getPackageId());
+                        supplierExt.setSuppIsPass("不合格");
+                    } else {
+                        supplierExt.setSupplierId(saleTender.getSuppliers()
+                                .getId());
+                        supplierExt.setExpertId(packageExpert.getExpertId());
+                        supplierExt.setPackageId(packageExpert.getPackageId());
+                        supplierExt.setSuppIsPass("合格");
+                    }
+                } else {
+                    supplierExt
+                            .setSupplierId(saleTender.getSuppliers().getId());
+                    supplierExt.setPackageId(packageExpert.getPackageId());
+                    supplierExt.setExpertId(packageExpert.getExpertId());
+                    supplierExt.setSuppIsPass("未评审");
+                }
 
-				supplierExtList.add(supplierExt);
-			}
-			packExpertExtList.add(packExpertExt);
-		}
-		// 评审项信息
-		removeAuditModelExt(auditModelListAll);
-		model.addAttribute("auditModelListAll", auditModelListAll);
-		model.addAttribute("packExpertExtList", packExpertExtList);
-		model.addAttribute("supplierExtList", supplierExtList);
-		model.addAttribute("expertScoreList", expertScoreAll);
-		// 成功标示
-		model.addAttribute("flag", flag);
-		return "bss/prms/package_expert";
-	}
+                supplierExtList.add(supplierExt);
+            }
+            packExpertExtList.add(packExpertExt);
+        }
+        // 评审项信息
+        removeAuditModelExt(auditModelListAll);
+        model.addAttribute("auditModelListAll", auditModelListAll);
+        model.addAttribute("packExpertExtList", packExpertExtList);
+        model.addAttribute("supplierExtList", supplierExtList);
+        model.addAttribute("expertScoreList", expertScoreAll);
+        // 成功标示
+        model.addAttribute("flag", flag);
+        return "bss/prms/package_expert";
+    }
 
 	/**
 	 * 
@@ -635,5 +636,23 @@ public class PackageExpertController {
         
         model.addAttribute("expert", expert);
         return "bss/prms/first_audit_expert_view";
+    }
+	
+	/**
+     *〈简述〉
+     * 更新专家编号查看明细
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageId
+     * @param expertId
+     * @return
+     */
+    @RequestMapping("showViewByExpertId")
+    public String showViewByExpertId(String packageId,String expertId) {
+        // 查询专家名称
+        // 查询该包内的所有供应商(一行一个)
+        // 查询供应商的审查项
+        // 查询专家给供应商每项所评分的成绩
+        return "bss/prms/view_expert_score";
     }
 }

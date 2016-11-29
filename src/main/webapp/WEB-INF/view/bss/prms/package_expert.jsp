@@ -267,6 +267,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		           content: '${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?projectId=${project.id}'
 		         });
 		 }
+		 function showViewByExpertId(packageId,obj){
+			 var x,y;  
+			 oRect = obj.getBoundingClientRect();  
+			 x=oRect.left;  
+			 y=oRect.top;  
+			 var expertId;
+			 $("input[name='expertView']").each(function(i,result){
+				 if(result.checked == true){
+					 expertId = result.value;
+				 }
+			 }); 
+			 layer.open({
+		           type: 2, //page层
+		         area: ['600px', '350px'],
+		           title: '查看明细',
+		           closeBtn: 1,
+		           shade:0.01, //遮罩透明度
+		           shadeClose: true,
+		           offset: [y-300, x],
+		           move:true,
+		           content: '${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?expertId='+expertId+'&packageId='+packageId
+		         });
+		 }
 		 //查看供应商报价
 		 function supplierView(supplierId){
 		    var projectId=$("#projectId").val();
@@ -688,10 +711,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       	  </c:forEach>
       	  <tr>
       	    <td class="tc">
-      	       <input type="button" class="btn" onclick="" value="查看明细">
+      	       <input type="button" class="btn" onclick="showViewByExpertId('${pack.id}',this)" value="查看明细">
       	    </td>
       	    <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-		         <c:if test="${ext.packageId eq pack.id }"><td class="info tc"><input type="radio" value="" name="expertView"></td></c:if>
+		         <c:if test="${ext.packageId eq pack.id }"><td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView"></td></c:if>
 		    </c:forEach>
 		    <td></td>
       	  </tr>
