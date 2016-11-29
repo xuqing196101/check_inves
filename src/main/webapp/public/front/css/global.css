@@ -1005,3 +1005,11 @@ li:first-child {
 .done{
   display: none;
 }
+
+/** 隐藏div */ 
+.dis_none{
+ 	position: absolute; 
+ 	opacity: 0; 
+ 	filter:Alpha(opacity=0);
+ 	display: none;
+ }
