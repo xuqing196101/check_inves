@@ -652,8 +652,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       <tr class="tc">
 		       <td>${supplier.suppliers.supplierName }</td>
 		       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-		         <c:if test="${ext.packageId eq pack.id }">
-		           <td class="tc">15</td>
+		         <c:if test="${ext.packageId eq pack.id}">
+		           <c:forEach items="${expertScoreList }" var="sco">
+		             <c:if test="${sco.expertId eq ext.expert.expertId and supplier.suppliers.supplierId eq sco.supplierId}">
+		               <td class="tc">${sco.score }</td>
+		             </c:if>
+		           </c:forEach>
 		         </c:if>
 		       </c:forEach>
 	            <td width="150px">

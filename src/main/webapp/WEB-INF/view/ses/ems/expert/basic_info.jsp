@@ -321,6 +321,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#tExpertsTypeId").text("商务");
 		}
 		showJiGou();
+		purDepBack();
 	}
 	//下载
 	function downloadTable(){

@@ -124,6 +124,7 @@ public class PackageExpertController {
 			auditModelListAll.addAll(auditModelExtList);
 			// 查询评分信息
 			//List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
+			// 查询评分信息(由按项目查改为按供应商和包查)
 			List<ExpertSuppScore> expertList = expertScoreService.getScoreByMap(mapSearch);
 			expertScoreAll.addAll(expertList);
 			// 查询进度
