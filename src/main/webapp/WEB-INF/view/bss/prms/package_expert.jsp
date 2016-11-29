@@ -614,6 +614,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      	 </c:forEach>
   		  </table>
 	</c:forEach>
+	<!-- 6详细审查 -->
 	  <h1 class="f16 count_flow"><i>06</i>详细审查</h1>
 	<c:if test="${packExpertExtList.size()>0 }">
 	  <!-- 循环包 -->
@@ -632,7 +633,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <tr>
 	        <th class="info">评审项</th>
 	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-	        <th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th>
+	        <c:if test="${ext.packageId eq pack.id }"><th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th></c:if>
 	        </c:forEach>
 	        <th class="info">操作</th>
 	      </tr>
@@ -643,7 +644,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       <tr align="center">
 		       <td>${model.markTermName }</td>
 		        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-	               
+	               <c:if test="${ext.packageId eq pack.id }">
 	               <td align="center">
 	                 <c:forEach items="${expertScoreList }" var="score" varStatus="vs">
 	                 	<c:if test="${score.expertId eq ext.expert.id && score.packageId eq pack.id && score.supplierId eq supplier.suppliers.id && score.scoreModelId eq model.scoreModelId }">
@@ -652,6 +653,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                 	</c:if>
 	                 </c:forEach>
 	               </td>
+	               </c:if>
 	            </c:forEach>
 	            <td width="150px">
 	                 <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="退回">

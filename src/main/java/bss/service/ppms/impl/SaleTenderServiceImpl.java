@@ -115,3 +115,4 @@ public class SaleTenderServiceImpl implements SaleTenderService {
         saleTenderMapper.updateByPrimaryKeySelective(std);
     }
 }
+
