@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -80,17 +81,16 @@ public class PostManageController {
 		String topicId = request.getParameter("topicId");	
 		User user = (User)request.getSession().getAttribute("loginUser");
 		String userId = user.getId();
-		
 		if(page==null){
 			page=1;
 		}
-		if(postName !=null && postName!=""){
+		if(postName !=null && !postName.equals("")){
 			map.put("postName", postName);
 		}
-		if(parkId != null && parkId!=""){
+		if(parkId != null && !parkId.equals("")){
 			map.put("parkId", parkId);
 		}
-		if(topicId != null && topicId!=""){
+		if(topicId != null && !topicId.equals("")){
 			map.put("topicId", topicId);
 			String topicName = topicService.selectByPrimaryKey(topicId).getName();
 			model.addAttribute("topicName", topicName);
@@ -589,5 +589,53 @@ public class PostManageController {
 		return url;
 	}
 
-
+	/**   
+	* @Title: publish
+	* @author Peng Zhongjun
+	* @date 2016-8-31下午19:58:43   
+	* @Description:前台查询自己创建的帖子
+	* @param @param request
+	* @return String     
+	*/
+	@RequestMapping("/mypost")
+	public String mypost(HttpServletRequest request,Model model,Integer page)throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();	
+		User user = (User)request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
+		if(page==null){
+			page=1;
+		}
+		if(userId != null && !userId.equals("")){
+			map.put("userId", userId);
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.queryMyPost(map);		
+		model.addAttribute("list", new PageInfo<Post>(list));
+		model.addAttribute("userId", userId);
+		return "iss/forum/my_post_list";
+	}
+	
+	/**
+	 * 
+	* @Title: delMyPost
+	* @author ZhaoBo
+	* @date 2016-11-24 下午3:01:06  
+	* @Description: 删除当前登录人的帖子 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/delMyPost")
+	@ResponseBody
+	public void delMyPost(HttpServletRequest request){
+		String id = request.getParameter("id");		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("postId", id);
+		List<Reply> replies = replyService.selectByPostID(map);
+		for (Reply reply : replies) {
+			replyService.deleteByPrimaryKey(reply.getId());
+		}
+		postService.deleteByPrimaryKey(id);
+	}
 }

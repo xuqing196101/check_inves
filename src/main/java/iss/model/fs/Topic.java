@@ -3,7 +3,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 import ses.model.bms.User;
 
@@ -21,7 +20,6 @@ public class Topic {
     /**
      * @Fields name : 主题名称
      */
-    @NotBlank(message = "主题名称不能为空")
     private String name;
     
     /**

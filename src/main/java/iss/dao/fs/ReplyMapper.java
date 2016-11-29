@@ -106,4 +106,15 @@ public interface ReplyMapper {
 	* @return List<reply>     
 	*/
 	List<Reply> selectByReplyId(Map<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: findAllUnReadReply
+	* @author ZhaoBo
+	* @date 2016-11-28 下午5:02:20  
+	* @Description: 获取所有未读回复的帖子 
+	* @param @return      
+	* @return List<Reply>
+	 */
+	List<Reply> findAllUnReadReply();
 }

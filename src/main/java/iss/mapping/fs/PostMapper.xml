@@ -58,17 +58,16 @@
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
 		    where IS_DELETED = 0
-                 <trim suffixOverrides=",">
-                  <if test="postName!= null">
+                  <if test="postName!= null and postName != ''">
                     and NAME Like concat(concat('%', '${postName}'), '%')
-                  </if>                  
-                  <if test="parkId!= null">
+                  </if>                
+                  <if test="parkId!= null and  parkId!=''">
                     and PARK_ID = #{parkId}
                   </if> 
-                    <if test="topicId!= null">
+                  <if test="topicId!= null and topicId!=''">
                     and TOPIC_ID = #{topicId}
                   </if>
-                  <if test="userId != null ">
+                  <if test="userId != null and userId!=''">
                     and PARK_ID IN (
                             SELECT ID FROM T_ISS_FS_PARK 
                                 <if test="userId != ''and userId != null">
@@ -86,10 +85,6 @@
                 <if test="searchType == 'retime' ">
                 ORDER BY LAST_RE_At DESC
                 </if>
-                                            
-                </trim>
-               
-		    
 		  </select>
 		  
 		  <!-- 3.根据ID查询 -->
@@ -252,5 +247,19 @@
                 from T_ISS_FS_POST
                 where PARK_ID = #{parkID} AND IS_TOP = 1 AND IS_DELETED = 0
           </select>
+          
+          <!-- 查询自己发表的帖子-->
+		  <select id="queryMyPost" parameterType="Map" resultMap="PostReplyMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_POST
+		    where IS_DELETED = 0
+                 <trim suffixOverrides=",">                   
+                  <if test="userId!= null">
+                    and USER_ID = #{userId}
+                  </if>                 
+                ORDER BY PUBLISHED_At DESC                                          
+                </trim>		    
+		  </select>
 
 </mapper>
