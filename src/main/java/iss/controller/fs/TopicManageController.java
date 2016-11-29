@@ -271,17 +271,18 @@ public class TopicManageController extends BaseSupplierController {
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
 			url="iss/forum/topic/edit";
-			
 		}else{
 			Park park = parkService.selectByPrimaryKey(parkId);
 			topic.setPark(park);
 			Timestamp ts = new Timestamp(new Date().getTime());
-			topic.setUpdatedAt(ts);			
+			topic.setUpdatedAt(ts);	
+			if(topic.getContent()==null){
+				topic.setContent("");
+			}
 			topic.setId(topicId);
 			topicService.updateByPrimaryKeySelective(topic);
 			url="redirect:getlist.html";
 		}
-		
 		return url;
 	}
 	
@@ -321,12 +322,22 @@ public class TopicManageController extends BaseSupplierController {
 	* @return Map<String, Object>     
 	*/
 	@RequestMapping("/getListForSelect")
-	 
 	public void getListForSelect(HttpServletResponse response,String parkId) {
-
 		List<Topic> topics = topicService.selectByParkID(parkId);
-		
 		super.writeJson(response, topics);
-
+	}
+	
+	/**
+	 * 
+	* @Title: backTopic
+	* @author ZhaoBo
+	* @date 2016-11-29 下午2:43:12  
+	* @Description: 返回到主题列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backTopic")
+	public String backTopic(){
+		return "redirect:getlist.html";
 	}
 }

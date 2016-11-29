@@ -146,9 +146,7 @@
 		      <if test="updatedAt != null">
 		        UPDATED_AT = #{updatedAt},
 		      </if>
-		      <if test="content != null">
-		        CONTENT = #{content},
-		      </if>
+		      CONTENT = #{content},
 		      <if test="park != null">
 		        PARK_ID = #{park.id},
 		      </if>		      

@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title></title>  
+    <title>修改版块</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -15,42 +15,40 @@
     <link href="${ pageContext.request.contextPath }/public/select2/css/select2.css"  rel="stylesheet">
     <script src="${ pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script src="${ pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<script type="text/javascript">    
-	$(function(){ 
-		 $("#isHoT").val("${park.isHot}");
-         $.ajax({
-             url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
-             contentType: "application/json;charset=UTF-8", 
-             dataType:"json",   //返回格式为json
-             type:"POST",   //请求方式           
-             success : function(users) {     
-                 if (users) {           
-                   $("#user").html("<option></option>");                
-                   $.each(users, function(i, user) {  
-                	   if(user.relName != null && user.relName!=''){
-                           $("#user").append("<option  value="+user.id+">"+user.relName+"</option>"); 
-                       }                    
-                   });  
-                 }
-                 $("#user").select2();
-                 $("#user").select2("val", "${park.user.id}"); 
-             }
-         });          
-         
+		$(function(){ 
+		 	$("#isHoT").val("${park.isHot}");
+         	$.ajax({
+             	url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
+             	contentType: "application/json;charset=UTF-8", 
+             	dataType:"json",   //返回格式为json
+             	type:"POST",   //请求方式           
+             	success : function(users) {     
+                	if (users) {           
+                   		$("#user").html("<option></option>");                
+                   		$.each(users, function(i, user) {  
+	                	   	if(user.relName != null && user.relName!=''){
+	                           $("#user").append("<option  value="+user.id+">"+user.relName+"</option>"); 
+	                       	}                    
+                   		});  
+                	}
+                 	$("#user").select2();
+                 	$("#user").select2("val", "${park.user.id}"); 
+             	}
+         	}); 
 		}); 
-	   function change(id){
-	        $("#userId").val(id);
-	    }
-
+		
+	   	function change(id){
+	      	$("#userId").val(id);
+	   	}
+		
+	   	//返回到版块列表
+	   	function backPark(){
+	   		window.location.href = "${pageContext.request.contextPath }/park/backPark.html";
+	   	}
 	</script>
-
-
   </head>
   <body>
-
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -111,7 +109,7 @@
 	<!-- 底部按钮 -->			                        
       <div  class="col-md-12 col-sm-12 col-xs-12 tc">
 	    <button class="btn btn-windows save" type="submit">更新</button>
-	    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+	    <button class="btn btn-windows back" onclick="backPark()" type="button">返回</button>
       </div>
      </form>
      </div>

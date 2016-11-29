@@ -7,29 +7,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title></title>  
+    <title>修改帖子</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->	
-
 	<script type="text/javascript">    
-	$(function(){ 
-		$("#parks").val("${post.park.id}");
-		$("#topics").val("${post.topic.id}");
-		$("#isTop").val("${post.isTop}");
-		$("#isLocking").val("${post.isLocking}");
-		
-	
-		
+		$(function(){ 
+			$("#parks").val("${post.park.id}");
+			$("#topics").val("${post.topic.id}");
+			$("#isTop").val("${post.isTop}");
+			$("#isLocking").val("${post.isLocking}");
 		});
-	//2级联动
-	  function change(id){
+		
+		//2级联动
+	  	function change(id){
 			$.ajax({
 			    url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+id,   
 			    contentType: "application/json;charset=UTF-8", 
@@ -44,8 +37,12 @@
 		            }
 		        }
 			});
-	  }
-
+	  	}
+		
+	  	//返回到帖子列表
+		function back(){
+			window.location.href = "${pageContext.request.contextPath }/post/backPost.html";
+		}
 	</script>
   </head>
   <body>
@@ -138,7 +135,7 @@
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 col-sm-12 col-xs-12 tc">        
     	<button class="btn btn-windows save" type="submit">更新</button>
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    	<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	</div>
   </div>
      </form>

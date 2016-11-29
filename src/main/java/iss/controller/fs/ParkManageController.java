@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
-import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 
@@ -143,7 +142,6 @@ public class ParkManageController extends BaseSupplierController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model, HttpServletRequest request) {
-
 		return "iss/forum/park/add";
 	}
 
@@ -299,10 +297,12 @@ public class ParkManageController extends BaseSupplierController {
 			Timestamp ts = new Timestamp(new Date().getTime());
 			park.setUpdatedAt(ts);		
 			park.setId(parkId);
+			if(park.getContent()==null){
+				park.setContent("");
+			}
 			parkService.updateByPrimaryKeySelective(park);
 			url="redirect:getlist.html";
 		}
-		
 		return url;
 	}
 
@@ -414,11 +414,25 @@ public class ParkManageController extends BaseSupplierController {
 	* @param @param userName      
 	* @return void
 	 */
-	@RequestMapping( value="/getUserForSelect" )	
+	@RequestMapping(value="/getUserForSelect" )	
 	public void getUserForSelect(HttpServletResponse response) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("code", "MODERATOR_R");
 		List<User> users = userService.queryParkManagers(map);		
 		super.writeJson(response, users);
+	}
+	
+	/**
+	 * 
+	* @Title: backPark
+	* @author ZhaoBo
+	* @date 2016-11-29 下午2:29:50  
+	* @Description: 返回版块列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backPark")
+	public String backPark(){
+		return "redirect:getlist.html";
 	}
 }

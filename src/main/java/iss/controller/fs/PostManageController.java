@@ -641,4 +641,18 @@ public class PostManageController {
 		}
 		postService.deleteByPrimaryKey(id);
 	}
+	
+	/**
+	 * 
+	* @Title: backPost
+	* @author ZhaoBo
+	* @date 2016-11-29 下午2:59:45  
+	* @Description: 返回到帖子列表
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backPost")
+	public String backPost(){
+		return "redirect:getlist.html";
+	}
 }

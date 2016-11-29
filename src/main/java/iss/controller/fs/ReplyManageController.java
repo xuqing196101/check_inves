@@ -266,8 +266,21 @@ public class ReplyManageController {
 			post.setReplycount(replycount);
 			postService.updateByPrimaryKeySelective(post);
 			replyService.deleteByPrimaryKey(str);
-			
 		}
+		return "redirect:getlist.html";
+	}
+	
+	/**
+	 * 
+	* @Title: backReply
+	* @author ZhaoBo
+	* @date 2016-11-29 下午3:07:33  
+	* @Description: 返回到回复列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backReply")
+	public String backReply(){
 		return "redirect:getlist.html";
 	}
 }

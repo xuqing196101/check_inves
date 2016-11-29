@@ -3,52 +3,49 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>    
-    <title>My JSP 'add.jsp' starting page</title>
-    
+    <title>新增版块</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	
-    <link href="${ pageContext.request.contextPath }/public/select2/css/select2.css"  rel="stylesheet">
-
-    <script src="${ pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-    <script src="${ pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css"  rel="stylesheet">
+    <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+    <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	<script type="text/javascript">
-	$(function () {
+		$(function () {
 			 $("#isHoT").val("${park.isHot}");
 			 $.ajax({
-	                url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
-	                contentType: "application/json;charset=UTF-8", 
-	                dataType:"json",   //返回格式为json
-	                type:"POST",   //请求方式           
-	                success : function(users) {     
-	                    if (users) {           
-	                      $("#user").html("<option></option>");                
-	                      $.each(users, function(i, user) {  
-	                    	  if(user.relName != null && user.relName!=''){
-	                    		  $("#user").append("<option  value="+user.id+">"+user.relName+"</option>"); 
-	                    	  }	                                              
-	                      });  
-	                    }
-	                    $("#user").select2();
-	                    $("#user").select2("val", "${park.user.id}"); 
-	                }
-	            });			 
-
-	});
-	function change(id){
-		$("#userId").val(id);
-	}
-	 		 
+	             url:"${ pageContext.request.contextPath }/park/getUserForSelect.do",   
+	             contentType: "application/json;charset=UTF-8", 
+	             dataType:"json",   //返回格式为json
+	             type:"POST",   //请求方式           
+	             success : function(users) {     
+	                 if (users) {           
+	                    $("#user").html("<option></option>");                
+	                    $.each(users, function(i, user) {  
+		                    if(user.relName != null && user.relName!=''){
+		                    	$("#user").append("<option  value="+user.id+">"+user.relName+"</option>"); 
+		                    }	                                              
+	                    });  
+	                 }
+	                 $("#user").select2();
+	                 $("#user").select2("val", "${park.user.id}"); 
+	             }
+	         });
+		});
+	
+		function change(id){
+			$("#userId").val(id);
+		}
+	
+		//返回
+		function back(){
+			window.location.href = "${pageContext.request.contextPath }/park/backPark.html";
+		}
 	</script>
 
   </head>
@@ -111,7 +108,7 @@
 	<!-- 底部按钮 -->
 			<div class="col-md-12 col-sm-12 col-xs-12 tc">		
 	    		<button class="btn btn-windows save " type="submit">保存</button>
-	    		<button class="btn btn-windows back " onclick="history.go(-1)" type="button">返回</button>
+	    		<button class="btn btn-windows back " onclick="back()" type="button">返回</button>
 		
 	  		</div>
     		</div>    
