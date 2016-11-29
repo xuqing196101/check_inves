@@ -11,9 +11,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 <style type="text/css">
 td {
   cursor:pointer;
@@ -347,7 +344,7 @@ function nextStep(){
                     </div>
                 <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
                   <!--  <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                   <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
+                   <a class="btn"  type="button" onclick="nextStep();">下一步</a>
                 </div>
               </div>
             </div>   

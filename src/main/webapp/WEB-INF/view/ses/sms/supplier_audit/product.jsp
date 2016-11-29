@@ -244,7 +244,7 @@ function nextStep(){
 	            </c:forEach>
                <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
                       <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                    <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
+                    <a class="btn"  type="button" onclick="nextStep();">下一步</a>
                 </div>
             </div>
         </div>

@@ -12,9 +12,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 <script type="text/javascript">
     //只读
     $(function() {
@@ -227,7 +224,7 @@ alert(supplierInspectListFile);
 		                     <c:if test="${list.auditType == 'mat_serve_page'}">服务信息</c:if>
 		                     <%-- <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if> --%>
 		                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
-		                     <c:if test="${list.auditType == 'upload_page'}">申请表信息</c:if>
+		                     <c:if test="${list.auditType == 'upload_page'}">申请表</c:if>
 		                   </td>
 		                   <td class="tc">${list.auditFieldName }</td>
 		                   <td class="tc">${list.auditContent}</td>
