@@ -185,7 +185,7 @@ button, input, select, textarea {
 	margin-left: -1px;
 	border-left:0px;
 }
-/*锟睫改猴拷锟斤拷锟揭筹拷锟绞�/
+/** form表单 */
 .form-horizontal .controls {
     *display: inline-block;
     *padding-left: 20px;
