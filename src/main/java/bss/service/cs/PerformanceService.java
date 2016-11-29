@@ -74,4 +74,17 @@ public interface PerformanceService {
 	* @return void
 	 */
 	void updateSelective(Performance performance);
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:14:53  
+	* @Description: 根据id删除
+	* @param @param id
+	* @param @return      
+	* @return int
+	 */
+    void deleteByPrimaryKey(String id);
 }

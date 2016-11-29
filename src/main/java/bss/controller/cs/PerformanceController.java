@@ -295,4 +295,24 @@ public class PerformanceController {
 			return "1";
 		}
 	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午3:11:35  
+	* @Description: 查看一个履约情况
+	* @param @param model
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/deletePerfor")
+	public String deletePerfor(HttpServletRequest request) throws Exception{
+		String id = request.getParameter("id");
+		performanceService.deleteByPrimaryKey(id);
+		return "redirect:selectAll.html";
+	}
 }

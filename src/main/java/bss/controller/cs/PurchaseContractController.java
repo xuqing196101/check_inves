@@ -1040,6 +1040,11 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag=false;
 			model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间不可为空");
 		}
+		if(purCon.getFormalGitAt().getTime()>purCon.getFormalReviewedAt().getTime()){
+			flag=false;
+			model.addAttribute("ERR_formalGitAt", "报批时间不能早于提报时间");
+			model.addAttribute("ERR_formalReviewedAt", "报批时间不能早于提报时间");
+		}
 		if(flag){
 			purCon.setUpdatedAt(new Date());
 			List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
@@ -1275,6 +1280,11 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getDraftReviewedAt()==null){
 			flag = false;
 			map.put("reviewAt", "报批时间不能为空");
+		}
+		if(purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
+			flag=false;
+			map.put("gitAt", "报批时间不能早于提报时间");
+			map.put("reviewAt", "报批时间不能早于提报时间");
 		}
 		if(flag){
 			super.writeJson(response, 1);
