@@ -293,6 +293,7 @@ public class SupplierServiceImpl implements SupplierService {
 			todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
 		}
 		supplier.setStatus(0);
+	 
 		supplierMapper.updateByPrimaryKeySelective(supplier);
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		// 推送代办
