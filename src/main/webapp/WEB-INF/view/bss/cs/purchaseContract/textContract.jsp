@@ -747,11 +747,7 @@
 			  </ul>
 			  </form>
 			</div>
-<<<<<<< Updated upstream
-              <div class="tc mt20 col-md-12 mb10">
-=======
               <div class="tc  col-md-12 mb20">
->>>>>>> Stashed changes
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
 				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
               </div>
