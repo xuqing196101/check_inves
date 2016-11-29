@@ -899,7 +899,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			errorData.put("judge", judge[0]);
 			if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
 				error = "error";
-				model.addAttribute("ERR_single", "请至少选择一种题型");
+				model.addAttribute("ERR_judge", "请至少选择一种题型");
 			}
 		}
 		if(single==null){
@@ -1253,7 +1253,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			model.addAttribute("errorJudge", judge[0]);
 			if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
 				error = "error";
-				model.addAttribute("ERR_single", "请至少选择一种题型");
+				model.addAttribute("ERR_judge", "请至少选择一种题型");
 			}
 		}
 		if(single==null){

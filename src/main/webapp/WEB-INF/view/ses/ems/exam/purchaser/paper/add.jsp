@@ -138,9 +138,7 @@
 	
      <div class="container container_box">
      <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
-		<div class="headline-v2">
-			<h2 class="count_flow">新增考卷</h2>
-		</div>
+		<h2 class="list_title">新增考卷</h2>
        	<ul class="ul_list">
     	 	<ul class="list-unstyled p0_20">
 		     <li class="col-md-3 p0">

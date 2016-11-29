@@ -140,15 +140,13 @@
   	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	   
-    <div class="container container_box">
-     <form action="${pageContext.request.contextPath }/purchaserExam/editToExamPaper.html" method="post">
-      <input type="hidden" name="paperId" value="${examPaper.id }"/>
-      <input type="hidden" name="paperName" value="${examPaper.name }"/>
-      <input type="hidden" name="paperCode" value="${examPaper.code }"/>
-      	<div class="headline-v2">
-       		<h2 class="count_flow">修改考卷</h2>
-       	</div>
-       <ul class="ul_list">
+    	<div class="container container_box">
+     	<form action="${pageContext.request.contextPath }/purchaserExam/editToExamPaper.html" method="post">
+      	<input type="hidden" name="paperId" value="${examPaper.id }"/>
+      	<input type="hidden" name="paperName" value="${examPaper.name }"/>
+      	<input type="hidden" name="paperCode" value="${examPaper.code }"/>
+      	<h2 class="list_title">修改考卷</h2>
+       	<div class="ul_list">
     	<ul class="list-unstyled p0_20">
 		     <li class="col-md-3 p0">
 	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
@@ -245,7 +243,7 @@
 	  		</li>
 	  		
 	  		</ul>
-   		</ul>
+   		</div>
    		
   		<!-- 按钮 -->
   		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">

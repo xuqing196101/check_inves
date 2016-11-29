@@ -58,15 +58,15 @@
   </head>
   
   <body>
-  	<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
+  		<!--面包屑导航开始-->
+   		<div class="margin-top-10 breadcrumbs ">
+      		<div class="container">
+		   		<ul class="breadcrumb margin-left-0">
+		   			<li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
+		   		</ul>
+				<div class="clear"></div>
+	  		</div>
+   		</div>
    
    		<c:forEach items="${optContent }" var="opt">
 	   		<input type="hidden" name="errorOption" value="${opt }"/>
@@ -74,9 +74,7 @@
    		<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
    		
     	<div class="container container_box">
-	   		 <div class="headline-v2">
-      			<h2 class="count_flow">查看题目</h2>
-     		 </div>
+	   		 <h2 class="list_title">查看题目</h2>
      		 <div class="ul_list">
   				<ul class="list-unstyled col-md-6">
 			     	<li class="col-md-12 col-sm-12 col-xs-12 p0">
@@ -98,13 +96,13 @@
 				  		</div>
   					</li>
   		
-		  		<li class="col-md-12 col-sm-12 col-xs-12 p0">
-					<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
-					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			  			<textarea disabled="disabled" class="col-md-10 h80 p0" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
-		  			</div>
-		  		</li>
-  			</ul>
+		  			<li class="col-md-12 col-sm-12 col-xs-12 p0">
+						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
+						<div class="col-md-12 col-sm-12 col-xs-12 p0">
+			  				<textarea disabled="disabled" class="col-md-10 h80 p0" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
+		  				</div>
+		  			</li>
+  				</ul>
   		
   			<ul class="list-unstyled col-md-6 p0">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15" id="items">
