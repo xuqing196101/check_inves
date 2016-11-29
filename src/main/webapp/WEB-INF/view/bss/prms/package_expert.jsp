@@ -569,7 +569,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </thead>
   </table>
 </c:forEach>
-   <h1 class="f16 count_flow"><i>05</i>符合性审查</h1>
+<!-- 5.初审开始 -->
+   <h1 class="f16 count_flow"><i>05</i>初审</h1>
    	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
    	 		<h4>${pack.name }初审情况</h4>
    	 		<span>
@@ -580,13 +581,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		   <thead>
 		      <tr>
 		        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
-		        <th class="info">评委</th>
-		        <th class="info">符合性审查完成</th>
+		        <th class="info">评委/供应商</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		        	<c:if test="${fn:contains(supplier.packages,pack.id)}">
 		        		<th class="info">${supplier.suppliers.supplierName }</th>
 		        	</c:if>
 		        </c:forEach>
+		        <th class="tc w30"><button class="btn" onclick="" type="button">查看</button></th>
 		      </tr>
 		      </thead>
 		      <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
@@ -594,7 +595,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       <tr>
 			        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
 			        <td align="center">${ext.expert.relName } </td>
-			        <td align="center">${ext.isPass } </td>
 			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
 				        	<td align="center">
@@ -609,9 +609,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        	</td>
 			        	</c:if>
 		            </c:forEach>
+		            <td class="tc"><input type="checkbox"></td>
 			      </tr>
 		        </c:if>
 	      	 </c:forEach>
+	      	 	<tr>
+	      	 		<td></td>
+	      	 		<td class="tc"><button class="btn" onclick="" type="button">查看</button></td>
+	      	 		 <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
+				       		<td class="tc w30"><input  type="checkbox" /></td>
+				       	</c:if>
+				    </c:forEach>
+				    <td></td>
+		      	 </tr>
   		  </table>
 	</c:forEach>
 	  <h1 class="f16 count_flow"><i>06</i>详细审查</h1>
