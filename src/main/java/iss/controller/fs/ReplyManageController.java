@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -166,9 +167,13 @@ public class ReplyManageController {
     			reply.setIsRead(0);
     			replyService.insertSelective(reply);
     			StationMessage stationMessage = new StationMessage();
+    			String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+    			stationMessage.setId(id);
     			stationMessage.setCreatedAt(new Date());
     			stationMessage.setIsDeleted((short)0);
-    			stationMessage.setName("论坛有新的回复");
+    			stationMessage.setName("【论坛】"+post.getName()+"有新的回复");
+    			stationMessage.setIsFinish((short)0);
+    			stationMessage.setUrl("post/getIndexDetail.html?postId="+postId);
     			stationMessageService.insertStationMessage(stationMessage);
             	msg += "回复成功";
                 response.setContentType("text/html;charset=utf-8");
