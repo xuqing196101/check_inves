@@ -7,7 +7,7 @@
 <script type="text/javascript">
 	/** 保存基本信息 */
 	function saveTemplate(flag) {
-		$("input[name='flag']").val(flag);
+		$("input[name='jsp']").val(flag);
 		$("#template_upload_form_id").submit();
 
 	}
