@@ -81,14 +81,14 @@ public class SupplierStockholderController extends BaseController{
 			model.addAttribute("nature", "不能为空");
 			bool=false;
 		}
-		if(stockholder.getIdentity()!=null&&stockholder.getIdentity().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+		if(stockholder.getIdentity()!=null&&!stockholder.getIdentity().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
 			model.addAttribute("idCaerd", "身份证编码不正确");
 			bool=false;
 		}
 		if(stockholder.getShares()==null){
 			model.addAttribute("share", "不能为空");
 		}
-		if(stockholder.getShares()!=null&&stockholder.getShares().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(stockholder.getShares()!=null&&!stockholder.getShares().matches("^\\d+?\\d+(\\.\\d+)?$")){
 			model.addAttribute("share", "金额格式错误");
 		}
 		if(stockholder.getProportion()==null){
