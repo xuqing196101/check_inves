@@ -267,28 +267,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		           content: '${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?projectId=${project.id}'
 		         });
 		 }
-		 function showViewByExpertId(packageId,obj){
+		 function showViewByExpertId(packageId,obj,i){
 			 var x,y;  
 			 oRect = obj.getBoundingClientRect();  
 			 x=oRect.left;  
 			 y=oRect.top;  
 			 var expertId;
-			 $("input[name='expertView']").each(function(i,result){
+			 var count = 0;
+			 $("input[name='expertView_"+i+"']").each(function(i,result){
 				 if(result.checked == true){
 					 expertId = result.value;
+					 count++;
 				 }
 			 }); 
-			 layer.open({
-		           type: 2, //page层
-		         area: ['600px', '350px'],
-		           title: '查看明细',
-		           closeBtn: 1,
-		           shade:0.01, //遮罩透明度
-		           shadeClose: true,
-		           offset: [y-300, x],
-		           move:true,
-		           content: '${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?expertId='+expertId+'&packageId='+packageId
-		         });
+			 if(count>0){
+				 layer.open({
+			           type: 2, //page层
+			         area: ['800px', '400px'],
+			           title: '查看明细',
+			           closeBtn: 1,
+			           shade:0.01, //遮罩透明度
+			           shadeClose: true,
+			           offset: [y-300, x-75],
+			           move:true,
+			           content: '${pageContext.request.contextPath}/packageExpert/showViewByExpertId.html?expertId='+expertId+'&packageId='+packageId
+			         });
+			 } else {
+				 layer.alert("请先选择一项！",{offset: [y-150, x+200], shade:0.01});
+			 }
 		 }
 		 //查看供应商报价
 		 function supplierView(supplierId){
@@ -678,18 +684,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <thead>
 	      <tr>
 	        <th class="info">供应商/专家</th>
-	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+	        <c:forEach items="${packExpertExtList }" var="ext">
 	        <c:if test="${ext.packageId eq pack.id }"><th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th></c:if>
 	        </c:forEach>
 	        <th class="info"> <input type="button" class="btn" onclick="" value="查看明细"></th>
 	      </tr>
 	      </thead>
 	         <c:set var="TOTAL" value="0"></c:set>
-	       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+	       <c:forEach items="${supplierList }" var="supplier">
 		       
 		       <tr class="tc">
 		       <td>${supplier.suppliers.supplierName }</td>
-		       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+		       <c:forEach items="${packExpertExtList }" var="ext">
 		         <c:if test="${ext.packageId eq pack.id}">
 		           <c:set var="count" value="0"/>
 		           <c:forEach items="${expertScoreList }" var="sco">
@@ -711,10 +717,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       	  </c:forEach>
       	  <tr>
       	    <td class="tc">
-      	       <input type="button" class="btn" onclick="showViewByExpertId('${pack.id}',this)" value="查看明细">
+      	      <input type="button" class="btn" onclick="showViewByExpertId('${pack.id}',this,'${vs.index }')" value="查看明细">
       	    </td>
-      	    <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-		         <c:if test="${ext.packageId eq pack.id }"><td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView"></td></c:if>
+      	    <c:forEach items="${packExpertExtList }" var="ext" varStatus="varsta">
+		      <c:if test="${ext.packageId eq pack.id }"><td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }"></td></c:if>
 		    </c:forEach>
 		    <td></td>
       	  </tr>
