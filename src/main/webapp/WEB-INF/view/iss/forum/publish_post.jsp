@@ -134,6 +134,12 @@
         </form>
    </div>
    </div>
+<div class="my_post f18">
+  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
+  </div>
+  <div class="publish_post f18">
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  </div> 
    <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例

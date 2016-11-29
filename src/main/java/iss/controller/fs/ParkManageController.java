@@ -21,20 +21,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -158,25 +156,27 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {
+	public String save(Park park,HttpServletRequest request, Model model) {
 		Boolean flag = true;
 		String url = "";
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			
+		String name = request.getParameter("name");
+		if(name.trim().equals("")||name.trim()==null){
 			flag = false;
-		}
-		if(park.getName()!=""&&park.getName()!= null){
+			model.addAttribute("ERR_name", "版块名称不能为空");
+		}else{
 			BigDecimal i = parkService.checkParkName(park.getName());	
 			BigDecimal j = new BigDecimal(0);
 			if(i.compareTo(j) != 0){
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");
+			}else{
+				int len = ValidateUtils.length(park.getName());
+				if(len>20||len<6){
+					flag = false;
+					model.addAttribute("ERR_name", "版块名称由6-20个字符组成，一个中文计2个字符");
+				}
 			}
-		}		
+		}	
 		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
 			park.setIsHot(0);
 		}
@@ -243,19 +243,29 @@ public class ParkManageController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {	
+	public String update(Park park,HttpServletRequest request, Model model) {	
 		String parkId = request.getParameter("parkId");
 		Boolean flag = true;
 		String url = "";
-		if(park.getName()!=""&&park.getName()!= null){
+		String name = request.getParameter("name");
+		if(name.trim().equals("")||name.trim()==null){
+			flag = false;
+			model.addAttribute("ERR_name", "版块名称不能为空");	
+		}else{
 			BigDecimal i = parkService.checkParkName(park.getName());
 			BigDecimal j = new BigDecimal(0);
 			String oldParkName =request.getParameter("oldParkName");
 			if(!oldParkName.equals(park.getName())&& i.compareTo(j) != 0){			
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");			
+			}else{
+				int len = ValidateUtils.length(park.getName());
+				if(len>20||len<6){
+					flag = false;
+					model.addAttribute("ERR_name", "版块名称由6-20个字符组成，一个中文计2个字符");
+				}
 			}
-		}		
+		}	
 		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
 			park.setIsHot(0);
 		}
@@ -266,14 +276,6 @@ public class ParkManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
 			}
-		}
-		
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			flag = false;
 		}
 		if(flag == false){
 			p.setName(park.getName());

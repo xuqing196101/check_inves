@@ -49,4 +49,9 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public void updateSelective(Performance performance) {
 		performanceMapper.updateByPrimaryKeySelective(performance);
 	}
+
+	@Override
+	public void deleteByPrimaryKey(String id) {
+		performanceMapper.deleteByPrimaryKey(id);
+	}
 }

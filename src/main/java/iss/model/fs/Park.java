@@ -3,9 +3,6 @@ package iss.model.fs;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import ses.model.bms.User;
 
 /**
@@ -23,7 +20,6 @@ public class Park{
     /**
      * @Fields name : 版块名称
      */
-    @NotBlank(message = "版块名称不能为空")
     private String name;
 
     /**

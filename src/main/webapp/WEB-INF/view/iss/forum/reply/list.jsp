@@ -37,23 +37,36 @@
 		        }
 		    }
 		});
+	  
+	  //setInterval("getInstantReply()",1000);
   });
+  	
+  	/** 获得即时回复*/
+  	function getInstantReply(){
+  		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"${pageContext.request.contextPath }/",
+			success:function(data){
+       			
+       		}
+       	});
+  	}	
+  
   	/** 全选全不选 */
 	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
+		var checklist = document.getElementsByName ("chkItem");
+		var checkAll = document.getElementById("checkAll");
+		if(checkAll.checked){
+			for(var i=0;i<checklist.length;i++){
+				checklist[i].checked = true;
+			} 
+		}else{
+			for(var j=0;j<checklist.length;j++){
+			    checklist[j].checked = false;
+			}
 		}
+	}
 	
 	/** 单选 */
 	function check(){
@@ -153,12 +166,12 @@
     <h2 class="search_detail">
      <ul class="demand_list ">
        <li class="fl">
-       <label class="fl ">内容：</label>
+       <label class="fl">内容：</label>
        <span><input type="text" id="replyCon" class="mb0 " value="${replyCon }"/></span>
        </li>
         
-         <button class="btn  " onclick="search()">查询</button>
-         <button class="btn  " onclick="reset()">重置</button>
+         <button class="btn" onclick="search()">查询</button>
+         <button class="btn" onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
   </h2>
@@ -166,7 +179,7 @@
 
    <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 	</div>
 
    
@@ -176,7 +189,7 @@
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" >序号</th>
+			    <th class="info">序号</th>
 				<th class="info">回复内容</th>
 				<th class="info">发布时间</th>
 				<th class="info">发表人</th>

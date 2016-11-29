@@ -819,7 +819,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 </script>
 </head>
-<body>
+<body onload="func()">
  <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
@@ -1387,7 +1387,7 @@ session.setAttribute("tokenSession", tokenValue);
 		<div class="tab-content padding-top-20">
 			<div class="headline-v2">
 			  <h2>专家申请表、合同书</h2>
-			</div>  
+			</div>   
 	   	  <table class="table table-bordered">
 	   	    <tr>
 	   	      <td class="bggrey w150" ><i class="red">*</i>专家申请表：</td>

@@ -121,4 +121,15 @@ public interface PostMapper {
     * @return Post
      */
     Post selectParkTopPost(String parkId);
+    /**
+     * 
+    * @Title: queryMyPost
+    * @author Peng Zhongjun
+    * @date 2016-11-24 下午2:34:49  
+    * @Description: 查询自己发表的帖子 
+    * @param @param map
+    * @param @return      
+    * @return List<Post>
+     */
+    List<Post> queryMyPost(Map<String,Object> map);
 }

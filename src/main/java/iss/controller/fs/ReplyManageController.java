@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.StationMessage;
 import ses.model.bms.User;
+import ses.service.bms.RoleServiceI;
+import ses.service.bms.StationMessageService;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -51,6 +55,10 @@ public class ReplyManageController {
 	private ReplyService replyService;
 	@Autowired
 	private PostService postService;
+	@Autowired
+	private RoleServiceI roleService;
+	@Autowired
+	private StationMessageService stationMessageService;
 	
 	/**   
 	* @Title: getList
@@ -73,7 +81,12 @@ public class ReplyManageController {
 		if(replyCon !=null && replyCon!=""){
 			map.put("replyCon", replyCon);
 		}
-		map.put("userId", userId);
+		//如果是管理员 就获取所有帖子的回复，版主获取自己负责的版块下的帖子的回复
+		BigDecimal i = roleService.checkRolesByUserId(userId);
+		BigDecimal j = new BigDecimal(0);
+		if(i.equals(j)){	
+			map.put("userId", userId);
+		}
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
@@ -150,8 +163,18 @@ public class ReplyManageController {
     			reply.setPost(post);
     			reply.setContent(content);
     			reply.setPublishedAt(tsp);
-    			reply.setUpdatedAt(tsu);		
+    			reply.setUpdatedAt(tsu);	
+    			reply.setIsRead(0);
     			replyService.insertSelective(reply);
+    			StationMessage stationMessage = new StationMessage();
+    			String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+    			stationMessage.setId(id);
+    			stationMessage.setCreatedAt(new Date());
+    			stationMessage.setIsDeleted((short)0);
+    			stationMessage.setName("【论坛】"+post.getName()+"有新的回复");
+    			stationMessage.setIsFinish((short)0);
+    			stationMessage.setUrl("post/getIndexDetail.html?postId="+postId);
+    			stationMessageService.insertStationMessage(stationMessage);
             	msg += "回复成功";
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter()

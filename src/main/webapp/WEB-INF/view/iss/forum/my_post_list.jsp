@@ -12,7 +12,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
- 
+
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");
@@ -33,13 +36,29 @@
                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                     //var postName = "${postName}";
                     var parkId = "${parkId}";
-                    location.href = "${ pageContext.request.contextPath }/post/getHotlist.html?parkId="+parkId+"&page="+e.curr;
+                    location.href = "${ pageContext.request.contextPath }/post/mypost.html?page="+e.curr;
                 }
             }
         });
         $("#laypage_0").addClass("pt10");
   });
-  
+  		
+  	//删除我的帖子
+  	function delMyPost(obj){
+		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
+			layer.close(index);
+			$.ajax({
+				type:"POST",
+				url:"${pageContext.request.contextPath }/post/delMyPost.html?id="+obj,
+		       	success:function(data){
+		       		layer.msg('删除成功',{offset: ['40%', '45%']});
+			       	window.setTimeout(function(){
+			       		window.location.href="${pageContext.request.contextPath }/post/mypost.html";
+			       	}, 1000);
+		       	}
+	       	});
+		});
+  	}
  </script>
   </head>
     
@@ -49,7 +68,7 @@
      <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="${ pageContext.request.contextPath }/park/getIndex.html"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/getHotlist.html">社区精华帖</a></li>
+           <li><a href="${ pageContext.request.contextPath }/park/getIndex.html"> 论坛首页</a></li><li><a href="${ pageContext.request.contextPath }/post/mypost.html">我的帖子</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -96,7 +115,9 @@
         </div>
          <div class="count media-right">
          <span class="state-false" >${post.replycount }</span>
+         <button type="button" class="btn" onclick="delMyPost('${post.id}')">删除</button>
         </div>
+        
        </div>
       </div>
       </c:forEach>
@@ -104,12 +125,11 @@
     </div>
    </div>
   <div class="my_post f18">
-  <a href='${pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
+  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
   </div>
   <div class="publish_post f18">
-  <a href='${pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
-  </div> 
-
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  </div>  
 
    
 <!--底部代码开始-->

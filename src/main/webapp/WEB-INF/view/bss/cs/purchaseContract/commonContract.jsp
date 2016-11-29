@@ -202,9 +202,15 @@
 			 </li>
 			 <div class="clear"></div>
 		</ul>
-  		<div  class="col-md-12 tc mt10">
+<<<<<<< Updated upstream
+  		<div  class="col-md-12 tc mt10 mb10">
    			<button class="btn" onclick="next()">下一步</button>
    			<button class="btn btn-windows cancel" onclick="cancel()" type="button">取消</button>
+=======
+  		<div  class="col-md-12 tc mt10">
+   			<button class="btn mb20" onclick="next()">下一步</button>
+   			<button class="btn btn-windows cancel mb20" onclick="cancel()" type="button">取消</button>
+>>>>>>> Stashed changes
   		</div>
   		
   	<%--</form>

@@ -61,15 +61,16 @@ public class SupplierFinanceController extends BaseSupplierController {
 	@ResponseBody
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId,Model model) throws IOException {
 		this.setFinanceUpload(request, supplierFinance);
-		supplierFinanceService.saveOrUpdateFinance(supplierFinance);
-		Supplier supplier = supplierService.get(supplierId);
+		
+//		Supplier supplier = supplierService.get(supplierId);
 //		request.getSession().setAttribute("defaultPage", "tab-2");
-		request.getSession().setAttribute("currSupplier", supplier);
+//		request.getSession().setAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", "basic_info");
 		boolean flag=validate(request, supplierFinance, supplierId, model);
 		 if(flag==false){
 			 return "0";
 		 }else{
+			 supplierFinanceService.saveOrUpdateFinance(supplierFinance);
 			 return "1";
 		 }
 		

@@ -905,7 +905,7 @@ li:first-child {
 	width:auto!important;
 	height:auto!important;
 }
-/* 缁熻鍒楄〃銆佺粺璁″垎鏋愬浘鍥炬爣鏍峰紡 */
+/*统计的列表*/
 .total_list{
   padding-left:45px !important;
   background-image:url(../images/tjlb.png)!important;
@@ -923,7 +923,7 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
-/* 妗ｆ鏍峰紡娣诲姞 */
+/* 单个文件上传*/
 .dangan_file{
 	font-size:26px;
 	height:50px;
@@ -938,7 +938,7 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
-/** 渚涘簲鍟嗘敞鍐�*/
+/**供应商注册悬浮按钮*/
 .btmfix {
 	width: 100%;
 	position: fixed;
@@ -970,33 +970,38 @@ li:first-child {
 .cur_point{
    cursor: pointer;
 }
-/**渚涘簲鍟嗘敞鍐�/
- .sevice_list h2{
-	  padding-left:40px;
-	  height:35px;
-	  line-height:35px;
-	  font-size:17px;
-	  background:url(../images/reg_icon1.png) no-repeat 5px #e0e0e0;
-	 }
-	 .sevice_list .title{
-	  height:30px;
-	  line-height:30px;
-	 }
-	 .service_list span{
-	  height:30px;
-	  line-height:30px;
-	  float:left;
-	  display:block;
-	  margin-right:10px;
-	 }
-	 .service_list span input{
-	 margin-right:5px;
-	 }
-	 .service_desc{
-	  background-color:#f8f8f8;
-	  padding:10px;
-	 }
+
+/** 服务列表 */
+.sevice_list h2{
+  padding-left:40px;
+  height:35px;
+  line-height:35px;
+  font-size:17px;
+  background:url(../images/reg_icon1.png) no-repeat 5px #e0e0e0;
+ }
+
+.sevice_list .title{
+  height:30px;
+  line-height:30px;
+}
+
+.service_list span{
+  height:30px;
+  line-height:30px;
+  float:left;
+  display:block;
+  margin-right:10px;
+}
+
+.service_list span input{
+ margin-right:5px;
+}
+
+.service_desc{
+  background-color:#f8f8f8;
+  padding:10px;
+ }
 	 
 .done{
-	display: none;
+  display: none;
 }

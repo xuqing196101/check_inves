@@ -26,21 +26,26 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.dao.sms.SupplierFinanceMapper;
+import ses.dao.sms.SupplierStockholderMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
+import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -106,6 +111,13 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private SupplierItemService supplierItemService;
 	
+	
+	@Autowired
+	private SupplierFinanceMapper supplierFinanceMapper;// 供应商财务信息
+	
+	
+	@Autowired
+	private SupplierStockholderMapper supplierStockholderMapper;//股东信息
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -187,9 +199,17 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/basic_info";
 		}
 		else{
+			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
+			if(finace!=null&&finace.size()>0){
+				supplier.setListSupplierFinances(finace);
+			}
+			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
+			if(stock!=null&&stock.size()>0){
+				supplier.setListSupplierStockholders(stock);
+			}
 			request.setAttribute("id",supplier.getId());
-			Supplier supp = supplierService.get(supplier.getId());
-			model.addAttribute("currSupplier", supp);
+			// Supplier supp = supplierService.get(supplier.getId());
+			model.addAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/register";
 		}
 	
@@ -301,7 +321,7 @@ public class SupplierController extends BaseSupplierController {
 			
 			return "ses/sms/supplier_register/basic_info";
 		}else{
-			supplier = supplierService.get(supplier.getId());
+			// supplier = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -766,7 +786,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_fund", "不能为空 !");
 			count++;
 		}
-		if(supplier.getRegistFund()!=null&&!supplier.getRegistFund().toString().matches("^[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*$")){
+		if(supplier.getRegistFund()!=null&&!supplier.getRegistFund().toString().matches("^\\d+?\\d+(\\.\\d+)?$")){
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
@@ -822,6 +842,17 @@ public class SupplierController extends BaseSupplierController {
 			 count++;
 			model.addAttribute("err_business", "请上传文件!");
 		}
+		List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
+		if(finace!=null&&finace.size()<1){
+			    count++;
+				model.addAttribute("finace", "请添加财务信息!");
+		}
+		List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
+		if(stock!=null&&stock.size()<1){
+		    count++;
+			model.addAttribute("stock", "请添加股东信息!");
+	}
+		
 		if (count > 0) {
 			return false;
 		}
@@ -1091,9 +1122,10 @@ public class SupplierController extends BaseSupplierController {
 				chose.add(category);
 			}
 		}
+		String cid = DictionaryDataUtil.getId(id);
 		model.addAttribute("list", cateList);
 		model.addAttribute("sid", sid);
-		model.addAttribute("code", id);
+		model.addAttribute("code", cid);
 		model.addAttribute("chose", chose);
 		return "ses/sms/supplier_register/category";	
 	}

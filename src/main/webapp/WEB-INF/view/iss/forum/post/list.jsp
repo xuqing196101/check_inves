@@ -18,6 +18,7 @@
   $(function(){
 	  $("#parkId").val("${parkId}");
 	  var parkId ="${parkId}";
+	  if(parkId!=null &&parkId !=""){  
       $.ajax({
           url:"${ pageContext.request.contextPath }/topic/getListForSelect.html?parkId="+parkId,   
           contentType: "application/json;charset=UTF-8", 
@@ -33,6 +34,7 @@
               }
           }
       });
+	  }
  
 	  laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,

@@ -174,12 +174,12 @@
 		});
   		if(ids.length>0){
 			if(ids.length>1){
-				layer.alert("只可选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只可选择一条合同打印",{offset: ['380px', '395px'], shade:0.01});
 			}else{
 				window.location.href="${pageContext.request.contextPath}/purchaseContract/printFormalContract.html?ids="+ids;
 			}
 		}else{
-			layer.alert("请选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一条合同打印",{offset: ['380px', '395px'], shade:0.01});
 		}
   	}
   	
@@ -194,12 +194,12 @@
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
-				layer.alert("只可选择一条合同填写",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只可选择一条合同填写",{offset: ['380px', '395px'], shade:0.01});
 			}else{
 				window.location.href="${pageContext.request.contextPath}/performance/createPerformance.html?contractId="+ids;
 			}
 		}else{
-			layer.alert("请选择一条合同填写",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一条合同填写",{offset: ['380px', '395px'], shade:0.01});
 		}
 	}
 	
