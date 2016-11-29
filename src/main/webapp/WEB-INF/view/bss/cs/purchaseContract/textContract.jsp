@@ -622,9 +622,9 @@
     </div>
   		<div  class="col-md-12 tc mt20">
    			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
-   			--%><input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
+   			--%><input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
+   			<input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>
   		
   		<ul class="list-unstyled mt10 dnone" id="numberWin">
@@ -739,7 +739,7 @@
 	            </li> 
 			    <li class="col-md-12">
 	    	      <label class="col-md-12 padding-left-5">备注</label>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
+                  <div class="col-sm-12 col-xs-12 p0 col-md-12">
                     <textarea id="remarks" name="memo" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
 	              </div>
 	            </li> 
@@ -747,7 +747,11 @@
 			  </ul>
 			  </form>
 			</div>
+<<<<<<< Updated upstream
               <div class="tc mt20 col-md-12 mb10">
+=======
+              <div class="tc  col-md-12 mb20">
+>>>>>>> Stashed changes
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
 				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
               </div>
