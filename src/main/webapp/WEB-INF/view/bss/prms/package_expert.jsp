@@ -649,21 +649,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      </thead>
 	         <c:set var="TOTAL" value="0"></c:set>
 	       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		       
 		       <tr class="tc">
 		       <td>${supplier.suppliers.supplierName }</td>
 		       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
 		         <c:if test="${ext.packageId eq pack.id}">
+		           <c:set var="count" value="0"/>
 		           <c:forEach items="${expertScoreList }" var="sco">
-		             <c:if test="${sco.expertId eq ext.expert.expertId and supplier.suppliers.supplierId eq sco.supplierId}">
-		               <td class="tc">${sco.score }</td>
+		             <c:if test="${sco.expertId eq ext.expert.id and supplier.suppliers.id eq sco.supplierId and sco.packageId eq pack.id}">
+		             	<c:set var="count" value="1"/>
+		             	<td class="tc">${sco.score }</td>
 		             </c:if>
 		           </c:forEach>
+		           <c:if test="${count eq '0'}">
+		             <td class="tc">暂未评分</td>
+		           </c:if>
 		         </c:if>
 		       </c:forEach>
 	            <td width="150px">
 	                <input type="radio" value="" name="suppView">
 	            </td>
 		      </tr>
+		      
       	  </c:forEach>
       	  <tr>
       	    <td class="tc">
