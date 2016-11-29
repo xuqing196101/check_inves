@@ -44,7 +44,7 @@ public interface ExpExtConditionMapper {
      * @param record
      */
     int updateByPrimaryKey(ExpExtCondition record);
-    
+
     /**
      * @Description:获取集合信息
      *
@@ -55,4 +55,14 @@ public interface ExpExtConditionMapper {
      * @return List<ExpExtCondition>
      */
     List<ExpExtCondition> list(ExpExtCondition record);
+
+    /**
+     * 
+     *〈简述〉更具关联包id查询是否有未抽取的条件
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    public Integer getCount(String packId);
 }

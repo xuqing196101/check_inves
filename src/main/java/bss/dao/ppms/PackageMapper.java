@@ -101,4 +101,13 @@ public interface PackageMapper {
 	 * @return: List<Packages>
 	 */
 	List<Packages> findPackageAndBidMethodById(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	 *〈简述〉根据包返回抽取专家
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @return
+	 */
+	List<Packages> listResultExpert(String projectId);
 }

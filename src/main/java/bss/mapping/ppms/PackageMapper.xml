@@ -28,6 +28,12 @@
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.projectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
+	
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap" id="ResultExpert">
+	
+	       <collection property="listExperts" column="EPID" select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert"/>
+
+    </resultMap>
 
 	<sql id="Base_Column_List">
 		ID, NAME,
@@ -179,13 +185,13 @@
 			where PROJECT_ID = #{projectId} and IS_DELETED=0
 		</if>
 	</select>
-  
+
 	<select id="selectByPrimaryKeyId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PPMS_PACKAGE
-			where ID = #{id} and IS_DELETED=0
+		where ID = #{id} and IS_DELETED=0
 	</select>
 
 	<!-- 联合查询 -->
@@ -263,4 +269,16 @@
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1
 	</select>
+
+	<!-- 根据包信息返回抽取出的专家 -->
+	<select id="listResultExpert" parameterType="java.lang.String"
+		resultMap="ResultExpert">
+		SELECT PP.*,EP."ID" as EPID FROM T_BSS_PPMS_PACKAGE
+		pp LEFT
+		JOIN
+		T_SES_EMS_EXP_EXT_PACKAGE ep ON PP."ID"=EP.PACKAGE_ID
+		WHERE
+		EP.PROJECT_ID = #{projectId}
+	</select>
+	
 </mapper>

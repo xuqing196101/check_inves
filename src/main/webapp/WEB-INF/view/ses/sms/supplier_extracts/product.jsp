@@ -162,19 +162,19 @@
 	        	  expertstypeid+=$(this).val()+"^";
 	        	  
 	        	  if($(this).val()=='PRODUCT'){
-	                  expertsTypeName+="生产型^";
+	                  expertsTypeName+="生产型,";
 	              }
 	        	  
 	        	  if($(this).val()=='SALES'){
-	            	  expertsTypeName+="销售型^";
+	            	  expertsTypeName+="销售型,";
 	              }
 	              
 	        	  if($(this).val()=='PROJECT'){
 	                 
-	                    expertsTypeName+="工程^";
+	                    expertsTypeName+="工程,";
 	              }
 	        	  if($(this).val()=='SERVICE'){
-	        		  expertsTypeName+="服务^";
+	        		  expertsTypeName+="服务,";
 	              }
 	        	  
 	       }); 

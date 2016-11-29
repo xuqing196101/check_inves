@@ -20,6 +20,7 @@ import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierExtRelate;
 import ses.service.ems.ProjectExtractService;
 
 /**
@@ -174,5 +175,19 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     public  void  insertProjectExtract(ProjectExtract projectExtracts){
         //插入projectExtracts
         extractMapper.insertSelective(projectExtracts);
+    }
+
+    /**
+     * @Description:获取单个对象
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午8:02:39  
+     * @param @param projectExtract      
+     * @return void
+     */
+    @Override
+    public ProjectExtract getExpExtRelate(String id) {
+        // TODO Auto-generated method stub
+        return extractMapper.selectByPrimaryKey(id);
     }
 }

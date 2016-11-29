@@ -110,7 +110,7 @@
     }
     function operation(select){
     	layer.confirm('确定本次操作吗？', {
-    	  btn: ['确定','取消'],offset: ['100px', '200px'], shade:0.01
+    	  btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
     	}, function(index){
     		var strs= new Array();
     		var v=select.value;
@@ -120,6 +120,7 @@
     			layer.prompt({
     				  formType: 2,
     				  shade:0.01,
+    				  offset: ['40%', '40%'],
     				  title: '不参加理由'
     				}, function(value, index, elem){
     				     ajaxs(select.value,value);

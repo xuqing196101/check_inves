@@ -62,5 +62,16 @@ public class PackageServiceImpl implements PackageService{
 		// TODO Auto-generated method stub
 		return packageMapper.findPackageAndBidMethodById(map);
 	}
-
+	
+	 /**
+     * 
+     *〈简述〉根据包返回抽取专家
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    public List<Packages> listResultExpert(String projectId){
+        return packageMapper.listResultExpert(projectId);
+    }
 }
+

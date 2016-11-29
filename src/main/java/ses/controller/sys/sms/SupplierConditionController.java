@@ -97,7 +97,10 @@ public class SupplierConditionController {
 
         //给专家记录表set信息并且插入到记录表(查询是否存在)
         SupplierExtracts record = new SupplierExtracts();
-        record.setProjectId(condition.getProjectId());
+        //根据包id获取
+        SupplierExtPackage byId = supplierExtPackageServicel.getById(condition.getProjectId());
+        
+        record.setProjectId(byId.getProjectId());
         PageHelper.startPage(1, 1);
         List<SupplierExtracts> list = supplierExtractsMapper.list(record);
 
@@ -174,7 +177,7 @@ public class SupplierConditionController {
      */
     @RequestMapping("/showSupplierCondition")
     public String showSupplierCondition(SupplierCondition condition,Model model,String cId,String typeclassId){
-        List<Area> listArea = areaService.findTreeByPid("1",null);
+        List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId",typeclassId);
         List<SupplierCondition> list = conditionService.list(condition,0);
@@ -193,14 +196,14 @@ public class SupplierConditionController {
         }
 
         //获取监督人员
-        List<User>  listUser=extUserServicl.list(new SupplierExtUser(list.get(0).getProjectId()));
+        List<User>  listUser = extUserServicl.list(new SupplierExtUser(list.get(0).getProjectId()));
         model.addAttribute("listUser", listUser);
         String userName="";
         String userId="";
         if (listUser != null && listUser.size() != 0){
             for (User user : listUser) {
-                userName+=user.getLoginName()+",";
-                userId+=user.getId()+",";
+                userName += user.getLoginName() + ",";
+                userId += user.getId() + ",";
             }
         }
 
@@ -234,7 +237,7 @@ public class SupplierConditionController {
 
     @RequestMapping("/dels")	
     public String dels(@RequestParam(value="delids",required = false)String delids){
-        String[] id=delids.split(",");
+        String[] id = delids.split(",");
         for (String str : id) {
             conTypeService.delete(str);
         }

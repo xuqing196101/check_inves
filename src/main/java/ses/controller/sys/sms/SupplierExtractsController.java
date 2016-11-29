@@ -176,7 +176,7 @@ public class SupplierExtractsController extends BaseController {
             List<SupplierExtPackage> list = supplierExtPackageServicel.list(supplierExtPackage,"0");
             if (list != null && list.size() != 0 && list.get(0) != null && list.get(0).getProject() != null ){
                 //获取监督人员
-                List<User>  listUser=extUserServicl.list(new SupplierExtUser(id));
+                List<User>  listUser = extUserServicl.list(new SupplierExtUser(id));
                 model.addAttribute("listUser", listUser);
                 String userName = "";
                 String userId = "";
@@ -191,7 +191,7 @@ public class SupplierExtractsController extends BaseController {
                 //供应商抽取地址
                 SupplierExtracts record = new SupplierExtracts();
                 //存放包id
-                record.setProjectId(id);
+                record.setProjectId(list.get(0).getProjectId());
                 //                PageHelper.startPage(1, 1);
                 List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(record,0);
                 if (listSe != null && listSe.size() != 0){
@@ -222,6 +222,7 @@ public class SupplierExtractsController extends BaseController {
 
         return "ses/sms/supplier_extracts/condition_list";
     }
+
     /**
      * @Description:跳转到抽取条件
      *
@@ -285,7 +286,8 @@ public class SupplierExtractsController extends BaseController {
 
         } else{
             //真实的项目id
-            String projectId="";
+            String projectId = project.getId();
+            String packageId = "";
             if (project.getId() == null || "".equals(project.getId())){
                 // 创建一个临时项目临时包
                 project.setIsProvisional(1);
@@ -296,7 +298,7 @@ public class SupplierExtractsController extends BaseController {
                 packages.setProjectId(project.getId());
                 packages.setIsDeleted(0);
                 packagesService.insertSelective(packages);
-
+                packageId=packages.getId();
                 SupplierExtPackage sExtPackage = new SupplierExtPackage();
                 sExtPackage.setPackageId(packages.getId());
                 sExtPackage.setProjectId(project.getId());
@@ -305,16 +307,16 @@ public class SupplierExtractsController extends BaseController {
                 project.setId(sExtPackage.getId());
             }
             //抽取地址
+            SupplierExtPackage byId=null;
             if (extAddress != null && !"".equals(extAddress)){
 
                 SupplierExtracts supplierExtracts = new SupplierExtracts();
                 //包id
-                if (projectId == null || "".equals(projectId)){
-                    SupplierExtPackage sExtPackage = new SupplierExtPackage();
-                    sExtPackage.setPackageId(projectId);
-                    List<SupplierExtPackage> list = supplierExtPackageServicel.list(sExtPackage, "0");
-                    if (list != null && list.size() != 0 && list.get(0).getProjectId() != null){
-                        projectId = list.get(0).getProjectId();
+                if (projectId != null && !"".equals(projectId)){
+                    byId = supplierExtPackageServicel.getById(projectId);
+                    if (byId != null && byId.getProjectId() != null){
+                        projectId = byId.getProjectId();
+                        packageId = byId.getPackageId();
                     }
                 }
                 supplierExtracts.setProjectId(projectId);
@@ -376,7 +378,7 @@ public class SupplierExtractsController extends BaseController {
         }
         //        List<DictionaryData> find = DictionaryDataUtil.find(8);
         model.addAttribute("extConType", extConType);
-//        supplierExtPackageServicel.list(sExtPackage, page);
+        //        supplierExtPackageServicel.list(sExtPackage, page);
         model.addAttribute("projectId", projectId);
         return "ses/sms/supplier_extracts/product";
     }
@@ -458,14 +460,19 @@ public class SupplierExtractsController extends BaseController {
         }else{
             extRelateService.update(new SupplierExtRelate(ids[0],new Short(ids[2])));
         }
-        if( "1".equals(ids[2])){
+        if ("1".equals(ids[2])){
             SupplierExtRelate supplierExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
-           
+
             SupplierExtPackage byId = supplierExtPackageServicel.getById(supplierExtRelate.getProjectId());
             SaleTender saleTender = new SaleTender();
             saleTender.setProjectId(byId.getProjectId());
             saleTender.setSupplierId(supplierExtRelate.getSupplier().getId());
-            saleTender.setPackages(byId.getPackageId());
+            List<SaleTender> find = saleTenderService.find(saleTender);
+            if (find != null && find.size() !=0 ){
+                saleTender.setPackages(find.get(0).getPackages() + "," + byId.getPackageId());
+            }else{
+                saleTender.setPackages(byId.getPackageId());    
+            }
             saleTenderService.insert(saleTender);
         }
         List<SupplierExtRelate> projectExtractListYes = resultProjectExtract(sq, ids);  
@@ -592,10 +599,20 @@ public class SupplierExtractsController extends BaseController {
      * @return String
      */
     @RequestMapping("/showRecord")
-    public String showRecord(Model model, String id){
-        //获取抽取记录
-        SupplierExtracts showExpExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtracts(id),0).get(0);
-        model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+    public String showRecord(Model model, String id,String projectId){
+        SupplierExtracts showExpExtractRecord=null;
+        if (projectId != null && projectId != null){
+            //获取抽取记录
+            SupplierExtracts extracts = new SupplierExtracts();
+            extracts.setProjectId(projectId);
+            showExpExtractRecord = expExtractRecordService.listExtractRecord(extracts,0).get(0);
+            model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+        }else{
+            //获取抽取记录
+            showExpExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtracts(id),0).get(0);
+            model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+        }
+
         //抽取条件
         SupplierExtPackage extPackage = new SupplierExtPackage();
         extPackage.setProjectId(showExpExtractRecord.getProjectId());

@@ -11,7 +11,7 @@ import ses.model.sms.SupplierExtUser;
 
 
 /**
- * @Description:
+ * @Description: 监督人员
  *	 
  * @author Wang Wenshuai
  * @version 2016年10月14日下午7:33:27

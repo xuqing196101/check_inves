@@ -297,4 +297,27 @@
 		EC."ID"=CT.CONDITION_ID
 		<include refid="condition" />
 	</select>
+	
+	<!--根据关联包id查询是否有未抽取的条件 -->
+    <select id="getCount" resultType="java.lang.Integer"
+        parameterType="java.lang.String">
+        SELECT "COUNT"(*) FROM T_SES_EMS_EXP_EXT_CONDITION WHERE
+        PROJECT_ID=#{projectId} AND ( STATUS=1 OR STATUS =2 )
+    </select>
+
+    <!-- 关联 -->
+    <select id="getExtractsByProjectId" parameterType="java.lang.String"
+        resultMap="BaseResultListMap">
+         SELECT
+        EC.*, CT."ID" AS ctid,
+        CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID
+        as cttypeid,CT.CATEGORY_ID AS gid ,CT.IS_MULTICONDITION
+        FROM
+        T_SES_EMS_EXP_EXT_CONDITION ec
+        LEFT JOIN
+        T_SES_EMS_EXP_EXT_CON_TYPE ct
+        ON
+        EC."ID"=CT.CONDITION_ID where
+           sc.PROJECT_ID =#{projectId}
+    </select>
 </mapper>

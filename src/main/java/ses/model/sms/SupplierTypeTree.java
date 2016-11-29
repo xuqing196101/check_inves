@@ -16,7 +16,7 @@ public class SupplierTypeTree implements Serializable {
 	private boolean checked = false;
 	private boolean open = true;
 	private boolean chkDisabled = false;
-	
+	private boolean isParent = false;
 
 	public boolean isChkDisabled() {
 		return chkDisabled;
@@ -65,4 +65,20 @@ public class SupplierTypeTree implements Serializable {
 	public void setOpen(boolean open) {
 		this.open = open;
 	}
+
+    /**
+     * @return Returns the isParent.
+     */
+    public boolean isParent() {
+        return isParent;
+    }
+
+    /**
+     * @param isParent The isParent to set.
+     */
+    public void setParent(boolean isParent) {
+        this.isParent = isParent;
+    }
+	
+	
 }

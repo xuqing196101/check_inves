@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -95,23 +95,17 @@
         }else if(id.length<=0){
          var	typeclassId="${typeclassId}";
         	if(typeclassId != null && typeclassId != ''){
-        		window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";	
+        		window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";	
         	}else{
         		layer.alert("请选择一个",{shade:0.01});
         	}
         }else{
-        	window.location.href="${pageContext.request.contextPath}/SupplierExtracts/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";
+        	window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?id="+id+"&&typeclassId=${typeclassId}";
         }
     }
     
     function record(){
-    	var  typeclassId ="${typeclassId}";
-    	if(typeclassId != null && typeclassId != ''){
-    		 location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
-    	}else{
-    		   location.href = '${pageContext.request.contextPath}/SupplierExtracts/showRecord.do?projectId=${projectId}';
-    	}
-    	  
+    	   location.href = '${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do';
     }
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -133,16 +127,16 @@
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="container">
+	  <div class="container">
         <div class="headline-v2">
             <h2>包列表</h2>
         </div>
-    </div>
+        </div>
 	</c:if>
 	<!-- 录入采购计划开始-->
 	<div class="container">
      <h2 class="search_detail">
-     <form  action="${pageContext.request.contextPath}/SupplierExtracts/packageList.html" id="form1" method="post" class="mb0">
+     <form  action="${pageContext.request.contextPath}/ExpExtract/packageList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
      <li class="fl">
        <label class="fl">包名称：

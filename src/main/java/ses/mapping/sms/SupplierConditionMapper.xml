@@ -215,14 +215,22 @@
 	<select id="getCount" resultType="java.lang.Integer"
 		parameterType="java.lang.String">
 		SELECT "COUNT"(*) FROM T_SES_SMS_SUPPLIE_CONDITION WHERE
-		PROJECT_ID=#{projectId} AND STATUS=1 OR STATUS =2
+		PROJECT_ID=#{projectId} AND  ( STATUS=1 OR STATUS =2 )
 	</select>
 
 	<!-- 关联 -->
 	<select id="getExtractsByProjectId" parameterType="java.lang.String"
 		resultMap="BaseResultListMap">
-		select * from T_SES_SMS_SUPPLIE_CONDITION where PROJECT_ID =
-		#{projectId}
+		  SELECT
+        sc.*, CT."ID" AS ctid,
+        CT.CATEGORY_NAME,CT.SUPPLIE_COUNT,CT.SUPPLIE_QUALIFICATION,CT.SUPPLIE_TYPE_ID,CT.CATEGORY_ID
+        ,CT.IS_MULTICONDITION
+        FROM
+        T_SES_SMS_SUPPLIE_CONDITION sc
+        LEFT JOIN
+        T_SES_SMS_SUPPLIE_CON_TYPE ct ON
+        SC."ID"=CT.CONDITION_ID where
+           sc.PROJECT_ID =#{projectId}
 	</select>
 
 </mapper>

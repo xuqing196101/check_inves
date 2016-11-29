@@ -19,6 +19,7 @@ public class ExtConTypeArray {
 	String[] extCategoryName;//品目name
 	String[] extCategoryId;//品目id
 	String[] isSatisfy;//是否满足
+	String[] expertsFrom;//专家来源
 	
 	
 	
@@ -64,5 +65,17 @@ public class ExtConTypeArray {
 	public void setIsSatisfy(String[] isSatisfy) {
 		this.isSatisfy = isSatisfy;
 	}
+    /**
+     * @return Returns the expertsFrom.
+     */
+    public String[] getExpertsFrom() {
+        return expertsFrom;
+    }
+    /**
+     * @param expertsFrom The expertsFrom to set.
+     */
+    public void setExpertsFrom(String[] expertsFrom) {
+        this.expertsFrom = expertsFrom;
+    }
 	
  }

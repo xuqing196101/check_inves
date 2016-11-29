@@ -87,7 +87,7 @@
 }
 
 .w118 {
-	width: 118px;
+	width: 118px!important;
 }
 
 .w113 {
@@ -100,4 +100,12 @@
 
 .dhidden {
 	visibility: hidden;
+}
+
+.w108 {
+	width: 108px;
+}
+
+.w224 {
+	width: 224px!important;
 }

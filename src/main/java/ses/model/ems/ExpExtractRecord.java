@@ -84,7 +84,7 @@ public class ExpExtractRecord {
 
     /**
      * <pre>
-     * 抽取条件
+     * 存放响应时间
      * 表字段 : T_SES_EMS_EXP_EXTRACT_RECORD.EXTRACTING_CONDITIONS
      * </pre>
      */
@@ -121,6 +121,14 @@ public class ExpExtractRecord {
      * </pre>
      */
     private String projectId;
+    
+    /**
+     * <pre>
+     * 响应时间
+     * 表字段 : T_SES_EMS_EXP_EXTRACT_RECORD.RESPONSE_TIME
+     * </pre>
+     */
+    private String responseTime;
 
     /**
      * <pre>
@@ -457,4 +465,22 @@ public class ExpExtractRecord {
   	public void setPerpleUser(User perpleUser) {
   		this.perpleUser = perpleUser;
   	}
+
+
+    /**
+     * @return Returns the responseTime.
+     */
+    public String getResponseTime() {
+        return responseTime;
+    }
+
+
+    /**
+     * @param responseTime The responseTime to set.
+     */
+    public void setResponseTime(String responseTime) {
+        this.responseTime = responseTime;
+    }
+  	
+  	
 }

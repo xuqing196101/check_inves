@@ -13,6 +13,7 @@ import ses.dao.ems.ProjectExtractMapper;
 import ses.model.bms.User;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierExtUser;
 import ses.service.ems.ProjectSupervisorServicel;
 
 /**
@@ -39,5 +40,32 @@ public class ProjectSupervisorServicelmpl implements ProjectSupervisorServicel {
 	public List<User> list(ProExtSupervise extSupervise) {
 		return extSuperviseMapper.list(extSupervise);
 	}
+	
+	/**
+     * @Description:根据项目id删除监督信息
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月15日 下午7:05:15  
+     * @param       
+     * @return void
+     */
+    @Override
+    public void deleteProjectId(String prjectId) {
+        extSuperviseMapper.deleteProjectId(prjectId);
+    }
+
+    /**
+     * @Description:inesrt
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月15日 下午7:05:15  
+     * @param       
+     * @return void
+     */
+    @Override
+    public void insert(ProExtSupervise record) {
+        extSuperviseMapper.insertSelective(record);
+    }
+
 
 }

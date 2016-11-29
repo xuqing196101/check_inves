@@ -17,12 +17,19 @@ import java.util.List;
 
 
 
+
+
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import bss.dao.ppms.PackageMapper;
+import bss.model.ppms.Packages;
+import bss.service.ppms.PackageService;
 
 import com.github.pagehelper.PageInfo;
 
@@ -44,6 +51,9 @@ public class ToDoController {
 
     @Autowired
     private TodosService todosService;
+    
+    @Autowired
+    private PackageService packageService;  
  
     /**
      * 
@@ -54,7 +64,8 @@ public class ToDoController {
      */
     @RequestMapping("/todos")
     public String todos(HttpServletRequest req, String type, String id){
-
+        
+        
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null && user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
             //代办事项
