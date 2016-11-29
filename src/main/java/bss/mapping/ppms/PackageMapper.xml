@@ -28,12 +28,21 @@
 		<association property="project" column="PROJECT_ID"
 			select="bss.dao.ppms.projectMapper.selectProjectByPrimaryKey" />
 	</resultMap>
-	
-	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap" id="ResultExpert">
-	
-	       <collection property="listExperts" column="EPID" select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert"/>
 
-    </resultMap>
+	<!-- 专家 -->
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+		id="ResultExpert">
+		<collection property="listExperts" column="EPID"
+			select="ses.dao.ems.ExpertMapper.getByExpertProjectId" ofType="ses.model.ems.Expert" />
+	</resultMap>
+	<!-- 供应商 -->
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+		id="ResultSupplier">
+
+		<collection property="listSupplier" column="EPID"
+			select="ses.dao.sms.SupplierMapper.getByExtRelateProjectId" ofType="ses.model.sms.Supplier" />
+
+	</resultMap>
 
 	<sql id="Base_Column_List">
 		ID, NAME,
@@ -280,5 +289,18 @@
 		WHERE
 		EP.PROJECT_ID = #{projectId}
 	</select>
-	
+
+	<!-- 根据包信息返回抽取出的专家 -->
+	<select id="listResultSupplier" parameterType="java.lang.String"
+		resultMap="ResultSupplier">
+		SELECT
+		PP.*, EP."ID" AS EPID
+		FROM
+		T_BSS_PPMS_PACKAGE pp
+		LEFT
+		JOIN T_SES_SMS_SUPPLIER_EXT_PACKAGE ep ON PP."ID" = EP.PACKAGE_ID
+		WHERE
+		EP.PROJECT_ID = #{projectId}
+	</select>
+
 </mapper>

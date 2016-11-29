@@ -8,6 +8,7 @@ import java.util.List;
 
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.Supplier;
 
 
 
@@ -21,6 +22,8 @@ public class Packages {
     
     
     private List<Expert> listExperts;
+    
+    private List<Supplier> listSupplier;
     
 	private String id;
 	
@@ -216,6 +219,20 @@ public class Packages {
      */
     public void setListExperts(List<Expert> listExperts) {
         this.listExperts = listExperts;
+    }
+
+    /**
+     * @return Returns the listSupplier.
+     */
+    public List<Supplier> getListSupplier() {
+        return listSupplier;
+    }
+
+    /**
+     * @param listSupplier The listSupplier to set.
+     */
+    public void setListSupplier(List<Supplier> listSupplier) {
+        this.listSupplier = listSupplier;
     }
 
 

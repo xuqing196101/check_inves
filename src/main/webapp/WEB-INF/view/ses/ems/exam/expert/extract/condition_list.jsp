@@ -372,10 +372,10 @@
                                                 【技术】
                               </c:when>
                               <c:when test="${contypes.expertsTypeId==2}">
-                                                【商务】
+                                                【法律】
                               </c:when>
                               <c:when test="${contypes.expertsTypeId==3}">
-                                               【法律】
+                                               【商务】
                               </c:when>
                           </c:choose>
                            <c:if test="${contypes.categoryName!=null}">

@@ -390,4 +390,5 @@ public class SupplierServiceImpl implements SupplierService {
 	public String selectSupplierTypes(Supplier supplier) {
 		return supplierMapper.selectSupplierTypes(supplier);
 	}
+	
 }

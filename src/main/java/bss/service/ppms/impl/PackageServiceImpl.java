@@ -73,5 +73,16 @@ public class PackageServiceImpl implements PackageService{
     public List<Packages> listResultExpert(String projectId){
         return packageMapper.listResultExpert(projectId);
     }
+    
+    /**
+     * 
+     *〈简述〉根据包返回抽取供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    public List<Packages> listResultSupplier(String projectId){
+       return  packageMapper.listResultSupplier(projectId);
+    }
 }
 

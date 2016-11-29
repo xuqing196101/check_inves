@@ -95,4 +95,13 @@ public interface PackageService {
      * @return
      */
     List<Packages> listResultExpert(String projectId);
+    
+    /**
+     * 
+     *〈简述〉根据包返回抽取供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<Packages> listResultSupplier(String projectId);
 }

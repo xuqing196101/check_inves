@@ -32,8 +32,8 @@
        //所在地区回显
         var address="${ExpExtCondition.address}";
         if(address != null && address != ''){
-               var addressArray=address.split(",");  
-               city=addressArray[1];
+          var addressArray=address.split(",");  
+            city=addressArray[1];
                <c:forEach items="${listArea}" var="item" varStatus="status" >  
                if("${item.name}" == addressArray[0]){
                       $("#area").append("<option selected='selected' value='${item.id}'>${item.name}</option>");
@@ -306,7 +306,7 @@
     }
     //ajax提交表单
     function cityt(){
-//         $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
+        $("#address").val($("#area option:selected").text()+","+$("#city option:selected").text());
 //         $("#extAddress").val($("#area1 option:selected").text()+","+$("#city1 option:selected").text());
 //         $("#addressId").val($("#city option:selected").val());
 //         $("#areaId").val($("#area option:selected").val());
@@ -547,7 +547,8 @@ return true;
                         <h2 class="count_flow"><i>1</i>抽取条件</h2>
                           <ul class="ul_list">
                             <li class="col-md-4 col-sm-6 col-xs-12  pl15">
-                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>专家地区：</span>
+                             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+                              <span class="red">*</span>专家地区：</span>
 			                               <div class="input-append input_group col-sm-12 col-xs-12 p0">
 			                              <select class=" w150 fl"
 			                        id="area" onchange="areas();">
@@ -579,7 +580,7 @@ return true;
                              <select class="w250" name="expertsFromcopy" id="expertsFrom">
                            <c:forEach items="${find}" var="item" varStatus="status" >
                
-                            <option value='${item.id}'>${item.name}</option>";
+                            <option value='${item.id}'>${item.name}</option>
                 
                             </c:forEach> 
                        </select>
@@ -634,8 +635,6 @@ return true;
 		                                    value="${conTypes.id}">
 		                                <input class="hide" type="hidden" name="extCategoryId"
 		                                    value="${conTypes.categoryId }">
-		                                <input class="hide" type="hidden" name="extCategoryId"
-		                                    value="${conTypes.categoryId }">
 		                                <td class='tc w30'><input type="checkbox"
 		                                    value="${conTypes.categoryId},${conTypes.expertsTypeId},${conTypes.expertsCount},${conTypes.expertsQualification}"
 		                                    name="chkItem" onclick="check()"></td>
@@ -661,8 +660,11 @@ return true;
 		                                <td class="tc"><input class="hide" readonly="readonly"
 		                                    name="extCount" type="text" value="${conTypes.expertsCount }"></td>
 		                                <td class="tc">
-		                                    <select>
+		                                    <select >
 		                                        <c:forEach items="${find}" var="item">
+			                                      <c:if test="${item.id == conTypes.expertsFrom}">
+			                                        <option selected="selected" value="${item.id}">${item.name}</option>
+			                                      </c:if>
 		                                            <option value="${item.id}">${item.name}</option>
 		                                        </c:forEach>
 		                                   </select>
