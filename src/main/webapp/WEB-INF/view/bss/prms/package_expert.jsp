@@ -402,20 +402,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td class="tc w30"><input type="checkbox"
 					value="${expert.expert.id}" name="chkItemExp" onclick="checkExp()"></td>
 				<td class="tc w30">${vs.count }</td>
-				<td align="center">${expert.expert.relName }</td>
+				<td class="tc">${expert.expert.relName }</td>
 				<c:if test="${expert.expert.expertsTypeId eq '1' }">
-					<td align="center">技术</td>
+					<td class="tc">技术</td>
 				</c:if>
 				<c:if test="${expert.expert.expertsTypeId eq '2' }">
-				<td align="center">法律</td>
+				<td class="tc">法律</td>
 				</c:if>
 				<c:if test="${expert.expert.expertsTypeId eq '3' }">
-					<td align="center">商务</td>
+					<td class="tc">商务</td>
 				</c:if>
-				<td align="center">${expert.expert.idNumber }</td>
-				<td align="center">${expert.expert.atDuty }</td>
-				<td align="center">${expert.expert.unitAddress }</td>
-				<td align="center">${expert.expert.mobile }</td>
+				<td class="tc">${expert.expert.idNumber }</td>
+				<td class="tc">${expert.expert.atDuty }</td>
+				<td class="tc">${expert.expert.unitAddress }</td>
+				<td class="tc">${expert.expert.mobile }</td>
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -475,10 +475,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		       <tr>
 		        <td class="tc w30">${vs.count } </td>
-		        <td align="center">${supplier.suppliers.supplierName } </td>
-		        <td align="center">${supplier.suppliers.contactName }</td>
-		        <td align="center">${supplier.suppliers.contactTelephone }</td>
-		        <td align="center">
+		        <td class="tc">${supplier.suppliers.supplierName } </td>
+		        <td class="tc">${supplier.suppliers.contactName }</td>
+		        <td class="tc">${supplier.suppliers.contactTelephone }</td>
+		        <td class="tc">
 		          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
 		        </td>
 		      </tr>
@@ -496,7 +496,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <th class="info">评分进度</th>
 		      </tr>
 		      <tr>
-	            <td align="center">
+	            <td class="tc">
 	            <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">未评审</c:if>
 	            <c:forEach items="${reviewProgressList }" var="progress">
 		           <c:if test="${progress.packageId eq pack.id }">
@@ -511,7 +511,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	               </c:if>
 	              </c:forEach>
 	            </td>
-		        <td align="center">
+		        <td class="tc">
 		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
 		          <c:forEach items="${reviewProgressList }" var="progress">
 		          <c:choose>
@@ -529,7 +529,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	               </c:choose>
 	              </c:forEach>
 		        </td>
-		        <td align="center">
+		        <td class="tc">
 		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
 		         <c:forEach items="${reviewProgressList }" var="progress">
 		          <c:choose>
@@ -547,7 +547,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	               </c:choose>
 	              </c:forEach>
 		        </td>
-		        <td align="center">
+		        <td class="tc">
 		        <c:if test="${reviewProgressList == null || reviewProgressList.size()<1 }">0%</c:if>
 		        <c:forEach items="${reviewProgressList }" var="progress">
 		          <c:choose>
@@ -594,10 +594,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <c:if test="${ext.packageId eq pack.id }">
 			       <tr>
 			        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
-			        <td align="center">${ext.expert.relName } </td>
+			        <td class="tc">${ext.expert.relName } </td>
 			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
-				        	<td align="center">
+				        	<td class="tc">
 				        	<c:if test="${ext.isPass eq '已评审'}">
 				        	  <c:forEach items="${supplierExtList }" var="supplierExt">
 				        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId && supplierExt.packageId eq pack.id}">
@@ -632,48 +632,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <form id="formTable">
    	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
    	 <h3>包名称：${pack.name }</h3>
-   	  <div align="right">
+   	  <div align="left">
    	    <button class="btn btn-windows git" onclick="scoreTotal(this,'${pack.id}','${project.id}');" type="button">评分汇总</button>
  	    <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
    	  </div>
    	 <!--循环供应商  -->
-   	   <c:forEach items="${supplierList }" var="supplier" varStatus="vs" >
-   	   	   <h4>供应商名称：${supplier.suppliers.supplierName }</h4>
    		   <table class="table table-bordered table-condensed table-hover table-striped">
 	    <thead>
 	      <tr>
-	        <th class="info">评审项</th>
+	        <th class="info">供应商/专家</th>
 	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
 	        <c:if test="${ext.packageId eq pack.id }"><th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th></c:if>
 	        </c:forEach>
-	        <th class="info">操作</th>
+	        <th class="info"> <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="查看明细"></th>
 	      </tr>
 	      </thead>
 	         <c:set var="TOTAL" value="0"></c:set>
-	       <c:forEach items="${auditModelListAll }" var="model" varStatus="vs">
-	         <c:if test="${model.packageId eq pack.id }">
-		       <tr align="center">
-		       <td>${model.markTermName }</td>
-		        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-	               <c:if test="${ext.packageId eq pack.id }">
-	               <td align="center">
-	                 <c:forEach items="${expertScoreList }" var="score" varStatus="vs">
-	                 	<c:if test="${score.expertId eq ext.expert.id && score.packageId eq pack.id && score.supplierId eq supplier.suppliers.id && score.scoreModelId eq model.scoreModelId }">
-	                 	${score.score }
-	                 	<c:set var="TOTAL" value="${TOTAL+score.score }"></c:set>
-	                 	</c:if>
-	                 </c:forEach>
-	               </td>
-	               </c:if>
-	            </c:forEach>
+	       <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		       <tr class="tc">
+		       <td>${supplier.suppliers.supplierName }</td>
+		       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+		         <c:if test="${ext.packageId eq pack.id }"><td class="info"></td></c:if>
+		       </c:forEach>
 	            <td width="150px">
-	                 <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="退回">
+	                <input type="radio" value="">
 	            </td>
 		      </tr>
-		     </c:if>
       	  </c:forEach>
+      	  <tr>
+      	    <td class="tc">
+      	       <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="查看明细">
+      	    </td>
+      	    <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+		         <c:if test="${ext.packageId eq pack.id }"><td class="info tc"><input type="radio" value=""></td></c:if>
+		    </c:forEach>
+		    <td></td>
+      	  </tr>
    		  </table>
-   		  </c:forEach>
 	</c:forEach>
 	</form>
    	   </c:if> 
