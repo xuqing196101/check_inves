@@ -193,7 +193,15 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/basic_info";
 		}
 		if(sup!=null){
-			request.setAttribute("currSupplier", sup);
+			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
+			if(finace!=null&&finace.size()>0){
+				supplier.setListSupplierFinances(finace);
+			}
+			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
+			if(stock!=null&&stock.size()>0){
+				supplier.setListSupplierStockholders(stock);
+			}
+			request.setAttribute("currSupplier", supplier);
 			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			return "ses/sms/supplier_register/basic_info";
@@ -1135,7 +1143,7 @@ public class SupplierController extends BaseSupplierController {
 	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
+		Supplier supplier = supplierService.get("46131978161b491d9f7816ddd034dfd6");
  
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());

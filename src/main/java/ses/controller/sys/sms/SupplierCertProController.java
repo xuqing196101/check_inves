@@ -69,7 +69,7 @@ public class SupplierCertProController extends BaseSupplierController {
 		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = valudatePro(supplierCertPro);
 		boolean bool = (boolean) map.get("bool");
-		if(bool==false){
+		if(bool==true){
 			supplierCertProService.saveOrUpdateCertPro(supplierCertPro);
 		} 
 			return JSON.toJSONString(map);

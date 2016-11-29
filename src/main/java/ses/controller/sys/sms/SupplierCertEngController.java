@@ -73,7 +73,7 @@ public class SupplierCertEngController extends BaseSupplierController {
 		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = validateEng(supplierCertEng);
 		boolean bool = (boolean) map.get("bool");
-		if(bool==false){
+		if(bool==true){
 			supplierCertEngService.saveOrUpdateCertEng(supplierCertEng);
 		} 
 			return JSON.toJSONString(map);

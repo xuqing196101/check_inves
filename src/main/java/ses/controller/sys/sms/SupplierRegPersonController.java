@@ -46,7 +46,7 @@ public class SupplierRegPersonController extends BaseController{
 		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = validateRegPerson(supplierRegPerson);
 		boolean bool = (boolean) map.get("bool");
-		if(bool==false){
+		if(bool==true){
 			 
 			supplierRegPersonService.saveOrUpdateRegPerson(supplierRegPerson);
 		}
