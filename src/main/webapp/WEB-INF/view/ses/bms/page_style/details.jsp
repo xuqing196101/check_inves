@@ -299,7 +299,7 @@
 	 <div class="col-md-9 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
-         <img src="<%=basePath%>public/backend/images/suolue.jpg" class="suolue"/>
+         <img src="${pageContext.request.contextPath}/public/backend/images/suolue.jpg" class="suolue"/>
         </a>
 	   </div>
 	 </div>
@@ -316,7 +316,7 @@
 	 <div class="col-md-9 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
-         <img src="<%=basePath%>public/backend/images/suolue.jpg" class="suolue"/>
+         <img src="${pageContext.request.contextPath}/public/backend/images/suolue.jpg" class="suolue"/>
         </a>
 	   </div>
 	 </div>
