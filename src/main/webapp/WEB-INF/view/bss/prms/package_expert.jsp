@@ -370,6 +370,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 });
 			 }
 		 }
+		 
+		 //查看专家对所有供应商的初审明细
+		function viewByExpert(){
+			var expertId = $('input:radio[name="firstAuditByExpert"]:checked').val();
+			layer.open({
+			  type: 2, //page层
+			  area: ['500px','400px'],
+			  title: '修改角色',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset : '180px',
+			  shadeClose: false,
+			  content: '${pageContext.request.contextPath}/packageExpert/viewByExpert.html?id='+expertId
+			});
+		}
  </script>
 </head>
 <body>
@@ -580,20 +597,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		   <table class="table table-bordered table-condensed table-hover table-striped">
   		   <thead>
 		      <tr>
-		        <th class="info w30"><input value="" name="checkAll" id="checkAll" type="checkbox" onclick="selectAll(this)" /></th>
 		        <th class="info">评委/供应商</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		        	<c:if test="${fn:contains(supplier.packages,pack.id)}">
 		        		<th class="info">${supplier.suppliers.supplierName }</th>
 		        	</c:if>
 		        </c:forEach>
-		        <th class="tc w30"><button class="btn" onclick="" type="button">查看</button></th>
+		        <th class="tc w30"><button class="btn" onclick="viewByExpert();" type="button">查看明细</button></th>
 		      </tr>
 		      </thead>
-		      <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
+		      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		        <c:if test="${ext.packageId eq pack.id }">
 			       <tr>
-			        <td class="tc opinter"><input  type="checkbox" name="chkItem" value="${ext.expert.id},${pack.id}" /></td>
 			        <td class="tc">${ext.expert.relName } </td>
 			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
@@ -609,16 +624,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        	</td>
 			        	</c:if>
 		            </c:forEach>
-		            <td class="tc"><input type="checkbox"></td>
+		            <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td>
 			      </tr>
 		        </c:if>
 	      	 </c:forEach>
 	      	 	<tr>
-	      	 		<td></td>
-	      	 		<td class="tc"><button class="btn" onclick="" type="button">查看</button></td>
+	      	 		<td class="tc"><button class="btn" onclick="" type="button">查看明细</button></td>
 	      	 		 <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 				       	<c:if test="${fn:contains(supplier.packages,pack.id)}">
-				       		<td class="tc w30"><input  type="checkbox" /></td>
+				       		<td class="tc w30"><input  type="radio" /></td>
 				       	</c:if>
 				    </c:forEach>
 				    <td></td>

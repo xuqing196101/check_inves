@@ -629,4 +629,11 @@ public class PackageExpertController {
 		expertScoreService.gather(packageId, projectId, expertId);
 	}
 
+	@RequestMapping("/viewByExpert")
+    public String viewByExpert(String id, Model model){
+        Expert expert = expertService.selectByPrimaryKey(id);
+        
+        model.addAttribute("expert", expert);
+        return "bss/prms/first_audit_expert_view";
+    }
 }

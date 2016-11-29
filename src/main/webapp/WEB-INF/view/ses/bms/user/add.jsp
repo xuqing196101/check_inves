@@ -204,7 +204,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="relName" value="${user.relName}" maxlength="30" type="text">
+				        <input  name="relName" value="${user.relName}" maxlength="10" type="text">
 				        <span class="add-on">i</span>
 				        <div class="cue"><sf:errors path="relName"/></div>
 			       	</div>
@@ -312,7 +312,7 @@
 			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>
 				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-			        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="height:130px" name="address" title="不超过100个字">${user.address}</textarea>
+			        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="height:130px" maxlength="100" name="address" title="不超过100个字">${user.address}</textarea>
 			       </div>
 			 	</li>
 			   </ul>

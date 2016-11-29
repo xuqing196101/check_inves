@@ -2,7 +2,6 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -543,6 +542,7 @@ public class UserManageController extends BaseController{
 			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
 			if(chiildList != null && chiildList.size() > 0){
 				z.setIsParent("true");
+				z.setNocheck(true);
 			} else {
 				z.setIsParent("false");
 			}
