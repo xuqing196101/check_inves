@@ -189,7 +189,7 @@ alert(supplierInspectListFile);
                         <i></i>
                     </li>
                     <li class="active">
-                        <a aria-expanded="true" href="#tab-4" data-toggle="tab">审核汇总</a>
+                        <a aria-expanded="true" href="#tab-4" data-toggle="tab">汇总</a>
                     </li>
                 </ul>
             

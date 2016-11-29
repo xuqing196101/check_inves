@@ -239,7 +239,7 @@ function download(id,key){
                             <i></i>
                         </li>
                         <li>
-                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                            <a aria-expanded="false" href="#tab-4" >汇总</a>
                         </li>
                     </ul>
 
@@ -262,7 +262,7 @@ function download(id,key){
 			                       <th class="info">负债总额</th>
 			                       <th class="info">净资产总额</th>
 			                       <th class="info">营业收入</th>
-			                       <th class="info w50"></th>
+			                       <th class="info"></th>
                                 </tr>
                              </thead>
                              <c:forEach items="${financial}" var="f" varStatus="vs">
@@ -278,7 +278,7 @@ function download(id,key){
 		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalNetAssets}</td>
 		                          <td class="tc" onclick="reason('${f.id}','财务信息');">${f.taking}</td>
 		                          <td class="tc" >
-		                              <p id="${f.id}_show" class="b f18 fl ml10 hand red" >×</p>
+		                              <p id="${f.id}_show" class="b f18 fl ml10 hand red">×</p>
 		                          </td>
 		                       </tr>
                             </c:forEach>
@@ -296,7 +296,7 @@ function download(id,key){
                                 <th class="info">资产负债表</th>
                                 <th class="info">现金流量表</th>
                                 <th class="info">所有者权益变动表</th>
-                                <th class="info w50"></th>
+                                <th class="info"></th>
                             </tr>
                         </thead>
                         <tbody id="finance_attach_list_tbody_id">

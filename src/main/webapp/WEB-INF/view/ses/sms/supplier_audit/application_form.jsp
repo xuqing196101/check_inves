@@ -22,6 +22,14 @@
       $(this).find("p").hide();
     });
     
+    $("li").find("span").each(function() {
+      var onmouseover = "this.style.border='solid 1px #FF0000'";
+      var onmouseout = "this.style.border='solid 1px #FFFFFF'";
+       $(this).attr("onmouseover",onmouseover);
+       $(this).attr("onmouseout",onmouseout);
+    });
+    
+    
   });
 
 
@@ -181,7 +189,7 @@ function nextStep(){
                         <i></i>
                     </li>
                     <li>
-                        <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        <a aria-expanded="false" href="#tab-4" >汇总</a>
                     </li>
                 </ul>
             

@@ -179,7 +179,7 @@ function nextStep(){
                         <i></i>
                     </li>
                     <li>
-                        <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        <a aria-expanded="false" href="#tab-4" >汇总</a>
                     </li>
                 </ul>
 
@@ -205,7 +205,7 @@ function nextStep(){
 	                    <th class="info">参考价格</th>
 	                    <th class="info">产品图片</th>
 	                    <th class="info">商品二维码</th>
-	                    <th class="info w50"></th>
+	                    <th class="info"></th>
 	                  </tr>
 	                </thead>
 	                <tbody >

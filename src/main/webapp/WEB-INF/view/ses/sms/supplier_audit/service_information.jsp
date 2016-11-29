@@ -117,6 +117,7 @@ function reason1(id,auditField){
       }
       });
 	     $("#"+id3+"").show();
+	     $("#"+id3+"").parents("li").find("input").css("padding-right","30px");
        layer.close(index);
     });
 }
@@ -250,7 +251,7 @@ function nextStep(){
                             <i></i>
                         </li>
                         <li>
-                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                            <a aria-expanded="false" href="#tab-4" >汇总</a>
                         </li>
                     </ul>
                     
@@ -270,7 +271,7 @@ function nextStep(){
                           <th class="info">有效期(起止时间)</th>
                           <th class="info">是否年检</th>
                           <th class="info">附件</th>
-                          <th class="info w50"></th>
+                          <th class="info"></th>
                         </tr>
                       </thead>
                       <c:forEach items="${supplierCertSes}" var="s" varStatus="vs">
@@ -296,7 +297,7 @@ function nextStep(){
                              <a class="red">无附件下载</a>
                             </c:if>
                           <td class="tc">
-                            <a  id="${s.id}_show" class="b f18 fl ml10 hand red">×</a>
+                            <a  id="${s.id}_show" class="abolish">×</a>
                           </td>
                         </tr>
                       </c:forEach>
@@ -305,39 +306,39 @@ function nextStep(){
 
                   <h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
                     <ul class="ul_list">
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="orgName2">组织机构：</span>
-                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
+                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="orgName" class="span5" type="text" value="${supplierMatSes.orgName }" onclick="reason1(this.id,'supplierMatSe.orgName')"/>
-                            <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
+                            <div id="orgName3"  class="abolish">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalPerson2">人员总数：</span>
-                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalPerson2">人员总数：</span>
+                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="totalPerson" class="span5" type="text" value="${supplierMatSes.totalPerson }" onclick="reason1(this.id,'supplierMatSe.totalPerson')" />
-                          <div id="totalPerson3" class="b f18 fl ml10 hand red">×</div>
+                          <div id="totalPerson3" class="abolish">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalMange2">管理人员：</span>
-                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
+                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="totalMange" class="span5" type="text"  value="${supplierMatSes.totalMange }" onclick="reason1(this.id,'supplierMatSe.totalMange')" />
-                          <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
+                          <div id="totalMange3" class="abolish">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalTech2">技术人员：</span>
-                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTech2">技术人员：</span>
+                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="totalTech" class="span5" type="text"  value="${supplierMatSes.totalTech }" onclick="reason1(this.id,'supplierMatSe.totalTech')" />
-                          <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
+                          <div id="totalTech3" class="abolish">×</div>
                           </div>
                         </li>
-                        <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                          <span class="col-sm-12 col-xs-12 col-md-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
-                          <div class="input-append col-sm-12 col-xs-12 col-md-12 p0 ">
+                        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                          <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalWorker2">工人(职员)：</span>
+                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                             <input id="totalWorker" class="span5" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'supplierMatSe.totalWorker')" />
-                            <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
+                            <div id="totalWorker3" class="abolish">×</div>
                           </div>
                         </li>
                       </ul>
