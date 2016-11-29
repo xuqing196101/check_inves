@@ -32,6 +32,7 @@ import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.model.prms.ext.AuditModelExt;
+import bss.model.prms.ext.ExpertSuppScore;
 import bss.model.prms.ext.PackExpertExt;
 import bss.model.prms.ext.SupplierExt;
 import bss.service.ppms.AduitQuotaService;
@@ -103,7 +104,7 @@ public class PackageExpertController {
 		List<PackageExpert> expertIdList = new ArrayList<>();
 		// 进度集合
 		List<ReviewProgress> reviewProgressList = new ArrayList<>();
-		List<ExpertScore> expertScoreAll = new ArrayList<>();
+		List<ExpertSuppScore> expertScoreAll = new ArrayList<>();
 		List<AuditModelExt> auditModelListAll = new ArrayList<>();
 		Map<String, Object> mapSearch = new HashMap<String, Object>();
 		for (Packages ps : packages) {
@@ -122,12 +123,12 @@ public class PackageExpertController {
 					.findAllByMap(mapSearch);
 			auditModelListAll.addAll(auditModelExtList);
 			// 查询评分信息
-			List<ExpertScore> expertList = expertScoreService
-					.selectByMap(mapSearch);
+			//List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
+			List<ExpertSuppScore> expertList = expertScoreService.getScoreByMap(mapSearch);
 			expertScoreAll.addAll(expertList);
 			// 查询进度
 			List<ReviewProgress> selectByMap = reviewProgressService
-					.selectByMap(map);
+					.selectByMap(map); 
 			expertIdList.addAll(selectList);
 			reviewProgressList.addAll(selectByMap);
 		}

@@ -31,6 +31,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#addr2").val(parentId);
 			func2();
 		}
+		
 		//第一个字地区事件
 		function copySel(){
 			$("#add2").val($("#add").val());
@@ -410,8 +411,8 @@ session.setAttribute("tokenSession", tokenValue);
 		if(classname3 != "new_step current fl"){
 		jg3.setAttribute("class", "new_step current fl"); 
 		}
-		
 		showJiGou();
+		purDepBack();
 		$("#reg_box_id_3").hide();
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").show();
@@ -419,6 +420,82 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_7").hide();
 		$("#reg_box_id_8").hide();
 	}
+	
+	function purDepBack(){
+		$("#thead").empty();
+		var purDepId = "${expert.purchaseDepId}";
+		$.ajax({
+			url:'${pageContext.request.contextPath}/expert/getPIdandCIdByPurDepId.do',
+			data:{"purDepId":purDepId},
+			type:"post",
+			dataType:"json",
+			cache: false,
+			async: false,
+			success:function(data){
+				if(data != null){
+					$("#addr2").val(data.PROVINCEID);
+					alert(data.PROVINCEID);
+					$.ajax({
+						url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
+						data:{"id":data.PROVINCEID},
+						async:false,
+						dataType:"json",
+						success:function(response,status,request){
+							$("#add2").empty();
+							$("#add2").append("<option  value=''>-请选择-</option>");
+							$.each(response,function(i,result){
+								$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+							});
+						}
+					});
+					$("#add2").val(data.CITYID);
+				}
+			}
+		});
+		var shengId = $("#addr2").val();
+		var shiId = $("#add2").val();
+		$.ajax({
+			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
+			data:{"pId":shengId,"zId":shiId},
+			//type:"post",
+			dataType:"json",
+			cache: false,
+	        async: false,
+			success:function(obj){
+				$.each(obj,function(i,result){
+					i=i+1;
+					var name=result.name;
+					var princinpal=result.princinpal;
+					var detailAddr=result.detailAddr;
+					var mobile = result.mobile;
+					if(name==null)name="";
+					if(princinpal==null)princinpal="";
+					if(detailAddr==null)detailAddr="";
+					if(mobile==null)mobile="";
+					if(purDepId==result.id){
+						$("#thead").append(
+								"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
+								"<td>"+i+"</td>"+
+								"<td>"+name+"</td>"+
+								"<td>"+princinpal+"</td>"+
+								"<td>"+detailAddr+"</td>"+
+								"<td>"+mobile+"</td></tr>"
+							);
+					}else{
+						$("#thead").append(
+								"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='"+result.id+"' /></td>"+
+								"<td>"+i+"</td>"+
+								"<td>"+name+"</td>"+
+								"<td>"+princinpal+"</td>"+
+								"<td>"+detailAddr+"</td>"+
+								"<td>"+mobile+"</td></tr>"
+							);
+					}
+				});
+			}
+		});
+	}
+	
 	function tab4(){
 		if (!validateForm1()){
 			return;
@@ -589,33 +666,6 @@ session.setAttribute("tokenSession", tokenValue);
 		}else{
 			purDepId=sup;
 		}
-		$.ajax({
-			url:'${pageContext.request.contextPath}/expert/getPIdandCIdByPurDepId.do',
-			data:{"purDepId":purDepId},
-			type:"post",
-			dataType:"json",
-			cache: false,
-			async: false,
-			success:function(data){
-				if(data != null){
-					$("#addr2").val(data.PROVINCEID);
-					$.ajax({
-						url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
-						data:{"id":data.PROVINCEID},
-						async:false,
-						dataType:"json",
-						success:function(response,status,request){
-							$("#add2").empty();
-							$("#add2").append("<option  value=''>-请选择-</option>");
-							$.each(response,function(i,result){
-								$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
-							});
-						}
-					});
-					$("#add2").val(data.CITYID);
-				}
-			}
-		});
 		var shengId = $("#addr2").val();
 		var shiId = $("#add2").val();
 		$.ajax({

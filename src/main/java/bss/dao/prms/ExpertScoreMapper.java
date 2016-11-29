@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.prms.ExpertScore;
+import bss.model.prms.ext.ExpertSuppScore;
 
 public interface ExpertScoreMapper {
     int deleteByPrimaryKey(String id);
@@ -27,5 +28,13 @@ public interface ExpertScoreMapper {
       * @param @return      
       * @return List<ExpertScore>
      */
-    List<ExpertScore> selectByMap(Map<String,Object> map);
+    List<ExpertScore> selectByMap(Map<String,Object> map);/**
+     * 
+     *〈简述〉
+     *〈详细描述〉专家详细审核界面的分值展示
+     * @author WangHuijie
+     * @param map
+     * @return
+     */
+    List<ExpertSuppScore> getScoreByMap(Map<String, Object> map);
 }

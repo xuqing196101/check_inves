@@ -6,6 +6,7 @@ import java.util.Map;
 
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
+import bss.model.prms.ext.ExpertSuppScore;
 
 public interface ExpertScoreService {
 	/**
@@ -102,4 +103,14 @@ public interface ExpertScoreService {
 	     * @return
 	     */
         String gather(String packageId, String projectId, String expertId);
+        
+        /**
+         * 
+         *〈简述〉
+         *〈详细描述〉专家详细审核界面的分值展示
+         * @author WangHuijie
+         * @param map
+         * @return
+         */
+        List<ExpertSuppScore> getScoreByMap(Map<String, Object> map);
 }
