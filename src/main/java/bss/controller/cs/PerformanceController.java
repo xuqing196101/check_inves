@@ -82,22 +82,102 @@ public class PerformanceController {
 	* @return String
 	 */
 	@RequestMapping("/addPerformance")
-	public String addPerformance(Performance performance,HttpServletRequest request) throws Exception{
-		String draftAt = request.getParameter("draftSignedAt");
-		String formalAt = request.getParameter("formalSignedAt");
+	public String addPerformance(Performance performance,HttpServletRequest request,Model model) throws Exception{
+		boolean flag = true;
+		String url = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date draftTime = null;
 		Date formalTime = null;
-		if(!draftAt.equals("")){
+		Date deliveryTime = null;
+		String delivery = request.getParameter("delivery");
+		String draftAt = request.getParameter("draftSignedAt");
+		String formalAt = request.getParameter("formalSignedAt");
+		if(ValidateUtils.isNull(delivery)){
+			flag = false;
+			model.addAttribute("ERR_delivery", "交付期不能为空");
+		}
+		if(ValidateUtils.isNull(draftAt)){
+			flag = false;
+			model.addAttribute("ERR_draftSignedAt", "合同草稿签订时间不能为空");
+		}
+		if(ValidateUtils.isNull(formalAt)){
+			flag = false;
+			model.addAttribute("ERR_formalSignedAt", "正式合同签订时间不能为空");
+		}
+		if(!ValidateUtils.isNull(delivery)&&!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(formalAt)){
 			draftTime = sdf.parse(draftAt);
-		}
-		if(!formalAt.equals("")){
 			formalTime = sdf.parse(formalAt);
+			deliveryTime = sdf.parse(delivery);
+			if(draftTime.getTime()>formalTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+			}
+			if(draftTime.getTime()>deliveryTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+			}
+			if(deliveryTime.getTime()<formalTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_formalSignedAt", "应早于交付时间");
+			}
+		}else {
+			if(!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(formalAt)){
+				draftTime = sdf.parse(draftAt);
+				formalTime = sdf.parse(formalAt);
+				if(draftTime.getTime()>formalTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+				}
+			}
+			if(!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(delivery)){
+				draftTime = sdf.parse(draftAt);
+				deliveryTime = sdf.parse(delivery);
+				if(draftTime.getTime()>deliveryTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+				}
+			}
+			if(!ValidateUtils.isNull(formalAt)&&!ValidateUtils.isNull(delivery)){
+				formalTime = sdf.parse(formalAt);
+				deliveryTime = sdf.parse(delivery);
+				if(formalTime.getTime()>deliveryTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_formalSignedAt", "应早于交付时间");
+				}
+			}
 		}
-		performance.setDraftSignedAt(draftTime);
-		performance.setFormalSignedAt(formalTime);
-		performanceService.insertSelective(performance);
-		return "redirect:/purchaseContract/selectFormalContract.html";
+		if(ValidateUtils.isNull(performance.getDeliverySchedule())){
+			flag = false;
+			model.addAttribute("ERR_deliverySchedule", "交货进度不能为空");
+		}
+		if(ValidateUtils.isNull(performance.getFundsPaid())){
+			flag = false;
+			model.addAttribute("ERR_fundsPaid", "资金支付百分比不能为空");
+		}else if(!ValidateUtils.Number(performance.getFundsPaid())){
+			flag = false;
+			model.addAttribute("ERR_fundsPaid", "请输入正确数字");
+		}
+		if(ValidateUtils.isNull(performance.getCheckMass())){
+			flag = false;
+			model.addAttribute("ERR_checkMass", "质量检验结果不能为空");
+		}
+		if(performance.getCompletedStatus()==null){
+			flag = false;
+			model.addAttribute("ERR_completedStatus", "合同执行状态不能为空");
+		}
+		if(flag){
+			performance.setDraftSignedAt(draftTime);
+			performance.setFormalSignedAt(formalTime);
+			performance.setDelivery(deliveryTime);
+			performanceService.insertSelective(performance);
+			url="redirect:/purchaseContract/selectFormalContract.html";
+		}else{
+			model.addAttribute("performance", performance);
+			model.addAttribute("contractId", performance.getContractId());
+			url="bss/cs/performance/addPerformance";
+		}
+		
+		return url;
 	}
 	
 	/**
@@ -193,22 +273,101 @@ public class PerformanceController {
 	* @return String
 	 */
 	@RequestMapping("/updatePerformance")
-	public String updatePerformance(Performance performance,HttpServletRequest request) throws Exception{
-		String draftAt = request.getParameter("draftSignedAt");
-		String formalAt = request.getParameter("formalSignedAt");
+	public String updatePerformance(Performance performance,HttpServletRequest request,Model model) throws Exception{
+		boolean flag = true;
+		String url = "";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date draftTime = null;
 		Date formalTime = null;
-		if(!draftAt.equals("")){
+		Date deliveryTime = null;
+		String delivery = request.getParameter("delivery");
+		String draftAt = request.getParameter("draftSignedAt");
+		String formalAt = request.getParameter("formalSignedAt");
+		if(ValidateUtils.isNull(delivery)){
+			flag = false;
+			model.addAttribute("ERR_delivery", "交付期不能为空");
+		}
+		if(ValidateUtils.isNull(draftAt)){
+			flag = false;
+			model.addAttribute("ERR_draftSignedAt", "合同草稿签订时间不能为空");
+		}
+		if(ValidateUtils.isNull(formalAt)){
+			flag = false;
+			model.addAttribute("ERR_formalSignedAt", "正式合同签订时间不能为空");
+		}
+		if(!ValidateUtils.isNull(delivery)&&!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(formalAt)){
 			draftTime = sdf.parse(draftAt);
-		}
-		if(!formalAt.equals("")){
 			formalTime = sdf.parse(formalAt);
+			deliveryTime = sdf.parse(delivery);
+			if(draftTime.getTime()>formalTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+			}
+			if(draftTime.getTime()>deliveryTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+			}
+			if(deliveryTime.getTime()<formalTime.getTime()){
+				flag = false;
+				model.addAttribute("ERR_formalSignedAt", "应早于交付时间");
+			}
+		}else {
+			if(!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(formalAt)){
+				draftTime = sdf.parse(draftAt);
+				formalTime = sdf.parse(formalAt);
+				if(draftTime.getTime()>formalTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+				}
+			}
+			if(!ValidateUtils.isNull(draftAt)&&!ValidateUtils.isNull(delivery)){
+				draftTime = sdf.parse(draftAt);
+				deliveryTime = sdf.parse(delivery);
+				if(draftTime.getTime()>deliveryTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_draftSignedAt", "应早于正式合同签订时间或交付时间");
+				}
+			}
+			if(!ValidateUtils.isNull(formalAt)&&!ValidateUtils.isNull(delivery)){
+				formalTime = sdf.parse(formalAt);
+				deliveryTime = sdf.parse(delivery);
+				if(formalTime.getTime()>deliveryTime.getTime()){
+					flag = false;
+					model.addAttribute("ERR_formalSignedAt", "应早于交付时间");
+				}
+			}
 		}
-		performance.setDraftSignedAt(draftTime);
-		performance.setFormalSignedAt(formalTime);
-		performanceService.updateSelective(performance);
-		return "redirect:selectAll.html";
+		if(ValidateUtils.isNull(performance.getDeliverySchedule())){
+			flag = false;
+			model.addAttribute("ERR_deliverySchedule", "交货进度不能为空");
+		}
+		if(ValidateUtils.isNull(performance.getFundsPaid())){
+			flag = false;
+			model.addAttribute("ERR_fundsPaid", "资金支付百分比不能为空");
+		}else if(!ValidateUtils.Number(performance.getFundsPaid())){
+			flag = false;
+			model.addAttribute("ERR_fundsPaid", "请输入正确数字");
+		}
+		if(ValidateUtils.isNull(performance.getCheckMass())){
+			flag = false;
+			model.addAttribute("ERR_checkMass", "质量检验结果不能为空");
+		}
+		if(performance.getCompletedStatus()==null){
+			flag = false;
+			model.addAttribute("ERR_completedStatus", "合同执行状态不能为空");
+		}
+		if(flag){
+			performance.setDraftSignedAt(draftTime);
+			performance.setFormalSignedAt(formalTime);
+			performance.setDelivery(deliveryTime);
+			performanceService.insertSelective(performance);
+			url="redirect:/performance/selectAll.html";
+		}else{
+			model.addAttribute("performance", performance);
+			model.addAttribute("contractId", performance.getContractId());
+			url="bss/cs/performance/updatePerformance";
+		}
+		return url;
 	}
 	
 	/**

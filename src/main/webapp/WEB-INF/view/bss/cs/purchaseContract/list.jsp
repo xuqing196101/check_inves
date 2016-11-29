@@ -270,7 +270,7 @@
    <div id="pagediv" align="right"></div>
    <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
   		    <li class="col-md-12">
-			   <span class="fl mt15"><div class="red star_red">*</div>成交供应商：</span>
+			   <span class="fl mt20"><div class="red star_red">*</div>成交供应商：</span>
 			   <div class="select_common mt15">
 			     <select name="delsupplier" id="delSele">
 			     </select>
