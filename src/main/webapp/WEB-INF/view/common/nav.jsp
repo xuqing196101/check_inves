@@ -63,26 +63,6 @@
 					  <span>安全退出</span>
 					</a>
 				</li>
-			    <li class="dropdown">
-				    <a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);">
-					  <span>页面样式帮助</span>
-					</a>
-					<ul class="dropdown-menu">
-						<li class="line-block">
-							<a href="${pageContext.request.contextPath}/static/details.jsp" target="home" class="son-menu"><span class="mr5">◇</span>上下结构表单页面</a>
-					    	<a href="${pageContext.request.contextPath}/static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
-							<a href="${pageContext.request.contextPath}/static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
-							<a href="${pageContext.request.contextPath}/static/table_special.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右结构表格页面</a>
-							<a href="${pageContext.request.contextPath}/static/manage.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右布局页面</a>
-							<a href="${pageContext.request.contextPath}/static/evaluation.jsp" target="home" class="son-menu"><span class="mr5">◇</span>实施页面</a>
-					    	<a href="${pageContext.request.contextPath}/static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
-							<a href="${pageContext.request.contextPath}/static/left.jsp" target="home" class="son-menu"><span class="mr5">◇</span>投标左侧页面</a>
-							<a href="${pageContext.request.contextPath}/static/tab.jsp" target="home" class="son-menu"><span class="mr5">◇</span>切换标签页面</a>
-							<a href="${pageContext.request.contextPath}/static/openLayer.jsp" target="home" class="son-menu"><span class="mr5">◇</span>弹出框页面</a>
-							<a href="${pageContext.request.contextPath}/static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
-						</li>
-					</ul>
-				</li>
 			  </ul>
 			</div>
     </div>
