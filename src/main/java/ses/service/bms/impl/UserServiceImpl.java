@@ -2,6 +2,7 @@ package ses.service.bms.impl;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -155,8 +156,8 @@ public class UserServiceImpl implements UserServiceI {
 
 
 	@Override
-	public List<User> queryParkManagers() {
-		return userMapper.queryParkManagers();
+	public List<User> queryParkManagers(HashMap<String,Object> map) {
+		return userMapper.queryParkManagers(map);
 	}
 
     @Override

@@ -96,7 +96,10 @@ public class PostManageController {
 			model.addAttribute("topicName", topicName);
 		}
 		//如果是管理员 就获取所有帖子，版主获取自己负责的版块下的帖子
-		BigDecimal i = roleService.checkRolesByUserId(userId);
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", userId);
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
 		BigDecimal j = new BigDecimal(0);
 		if(i.equals(j)){	
 			map.put("userId", userId);

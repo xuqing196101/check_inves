@@ -496,7 +496,7 @@
 		ORDER BY pm.MENU_LEVEL ,pm.POSITION ASC
   </select>
            <!-- 15.查询拥有版主权限的角色 （彭仲俊）-->
-     <select id="queryParkManagers" resultMap="UserBaseMap">
+     <select id="queryParkManagers" parameterType="java.util.Map" resultMap="UserBaseMap">
           SELECT   
           <include refid="Base_Column_List" />
           FROM T_SES_BMS_USER 
@@ -506,7 +506,7 @@
                     WHERE ROLE_ID = (
                             SELECT ID FROM T_SES_BMS_ROLE
                             WHERE STATUS = 0 
-                            AND NAME = '版主'
+                            AND CODE = #{code}
                             )
                      )
            ORDER BY CREATED_AT DESC

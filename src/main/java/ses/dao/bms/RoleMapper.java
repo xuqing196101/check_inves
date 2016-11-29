@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.bms.Role;
@@ -137,6 +138,6 @@ public interface RoleMapper {
 	* @param @return      
 	* @return BigDecimal
 	 */
-	BigDecimal checkRolesByUserId(String userId);
+	BigDecimal checkRolesByUserId(HashMap<String,Object> map);
 
 }
