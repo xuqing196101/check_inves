@@ -644,7 +644,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
 	        <c:if test="${ext.packageId eq pack.id }"><th class="info">${ext.expert.relName }<input type="hidden" id="expertId" value="${ext.expert.id }"> </th></c:if>
 	        </c:forEach>
-	        <th class="info"> <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="查看明细"></th>
+	        <th class="info"> <input type="button" class="btn" onclick="" value="查看明细"></th>
 	      </tr>
 	      </thead>
 	         <c:set var="TOTAL" value="0"></c:set>
@@ -652,19 +652,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       <tr class="tc">
 		       <td>${supplier.suppliers.supplierName }</td>
 		       <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-		         <c:if test="${ext.packageId eq pack.id }"><td class="info"></td></c:if>
+		         <c:if test="${ext.packageId eq pack.id }">
+		           <td class="tc">15</td>
+		         </c:if>
 		       </c:forEach>
 	            <td width="150px">
-	                <input type="radio" value="">
+	                <input type="radio" value="" name="suppView">
 	            </td>
 		      </tr>
       	  </c:forEach>
       	  <tr>
       	    <td class="tc">
-      	       <input type="button" class="btn" onclick="querenOrTuiHUi(this,'${pack.id}','${supplier.suppliers.id }','${model.scoreModelId }',1)" value="查看明细">
+      	       <input type="button" class="btn" onclick="" value="查看明细">
       	    </td>
       	    <c:forEach items="${packExpertExtList }" var="ext" varStatus="vs">
-		         <c:if test="${ext.packageId eq pack.id }"><td class="info tc"><input type="radio" value=""></td></c:if>
+		         <c:if test="${ext.packageId eq pack.id }"><td class="info tc"><input type="radio" value="" name="expertView"></td></c:if>
 		    </c:forEach>
 		    <td></td>
       	  </tr>
