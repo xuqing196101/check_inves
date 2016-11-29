@@ -110,11 +110,12 @@ public class TodosServiceImpl implements TodosService {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         String gyscs = config.getString("gyscs");
         String gysfs = config.getString("gysfs");
+        String gysjk = config.getString("gysjk");
         String zjdb = config.getString("zjdb");
         Map<String, Object> pMap = new HashMap<String, Object>();
         List<String> listUserPermission=null;
         if (gyscs != null && zjdb != null && gysfs != null){
-            String[] db = {gyscs, gysfs, zjdb};
+            String[] db = {gyscs, gysfs, zjdb,gysjk};
             pMap.put("id", userId);
             pMap.put("db", db);
             listUserPermission = mapper.listUserPermission(pMap);

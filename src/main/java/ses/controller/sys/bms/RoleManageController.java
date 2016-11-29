@@ -194,6 +194,7 @@ public class RoleManageController {
 				role.setDescription(r.getDescription());
 				role.setName(r.getName());
 				role.setKind(r.getKind());
+				role.setStatus(r.getStatus());
 				role.setUpdatedAt(new Date());
 				roleService.update(role);
 				msg = "更新成功";
@@ -240,8 +241,9 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/openPreMenu")
-	public String openPreMenu(Model model, String id) {
+	public String openPreMenu(Model model, String id, String kind) {
 		model.addAttribute("rid", id);
+		model.addAttribute("kind", kind);
 		return "ses/bms/role/add_menu";
 	}
 

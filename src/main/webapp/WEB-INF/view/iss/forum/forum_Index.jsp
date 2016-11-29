@@ -187,8 +187,11 @@
   </div>
   </body>
   <div class="my_post f18">
-  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
   </div>
+  <div class="publish_post f18">
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  </div> 
    <jsp:include page="/index_bottom.jsp"></jsp:include>
 </html>
 

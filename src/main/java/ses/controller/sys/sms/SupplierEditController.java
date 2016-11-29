@@ -49,6 +49,14 @@ import common.service.UploadService;
 @Scope("prototype")
 @RequestMapping("/supplier_edit")
 public class SupplierEditController extends BaseSupplierController {
+    /**
+     * 定义常量2
+     */
+    private static final int NUMBER_TWO = 2;
+    /**
+     * 定义常量4
+     */    
+    private static final int NUMBER_FOUR = 4;
     
     /**
      * 供应商信息修改服务层
@@ -144,13 +152,14 @@ public class SupplierEditController extends BaseSupplierController {
      * @param se 实体
      * @param request request
      * @param model 模型
+     * @param procurementDepId 采购机构ID
      * @return String
      * @throws IOException 异常处理
      */
     @RequestMapping(value = "save")
     public String registerEnd(SupplierEdit se, String procurementDepId, HttpServletRequest request, Model model) throws IOException{
         User user1 = (User) request.getSession().getAttribute("loginUser");
-        /*if (validateBasicInfo(request, model, se)){*/
+        if (validateBasicInfo(request, model, se)){
             se.setRecordId(se.getId());
             se.setId(null);
             se.setCreateDate(new Timestamp(new Date().getTime()));
@@ -167,13 +176,13 @@ public class SupplierEditController extends BaseSupplierController {
             todo.setUrl("supplier_edit/audit.html?id=" + se.getId());
             todosService.insert(todo);
             return "redirect:list.html";
-       /* }
+        }
         Supplier supplier = supplierAuditService.supplierById(se.getId());
         supplier.setAddress(getAddressName(supplier.getAddress()));
         request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-        model.addAttribute("suppliers", supplier);
-        return "ses/sms/supplier_apply_edit/add";*/
+        model.addAttribute("suppliers", se);
+        return "ses/sms/supplier_apply_edit/add";
     }
 
     /**
@@ -296,7 +305,7 @@ public class SupplierEditController extends BaseSupplierController {
         supplier1.setId(supplier.getId());
         SupplierEdit supplierEdit2 = new SupplierEdit();
         supplierEdit2.setRecordId(supplier.getId());
-        supplierEdit2.setStatus((short) 4);
+        supplierEdit2.setStatus((short) NUMBER_FOUR);
         //如果是第一次审核通过的时候要给原始数据保存下来（没有保存状态）
         if (supplierEditService.getAllbySupplierId(supplierEdit2).size() == 0){
             String provinceName = "";
@@ -310,7 +319,7 @@ public class SupplierEditController extends BaseSupplierController {
                 }
             }
             supplierEdit1.setAddress(provinceName + cityName);
-            supplierEdit1.setStatus((short) 4);
+            supplierEdit1.setStatus((short) NUMBER_FOUR);
             supplierEdit1.setCreateDate(new Timestamp(new Date().getTime()));
             supplierEditService.insertSelective(supplierEdit1);
         }
@@ -361,7 +370,7 @@ public class SupplierEditController extends BaseSupplierController {
             model.addAttribute("err_msg_foundDate", "不能为空 !");
             count++;
         }
-        if (se.getAddress() == null || se.getAddress().split(",").length != 2) {
+        if (se.getAddress() == null) {
             model.addAttribute("err_msg_address", "不能为空!");
             count++;
         }
@@ -370,51 +379,54 @@ public class SupplierEditController extends BaseSupplierController {
             count++;
         }
         if (se.getBankAccount() == null || !se.getBankAccount().matches("^\\d{16}||\\d{19}$")) {
-            model.addAttribute("err_msg_bankAccount", "不能为空 !");
+            model.addAttribute("err_msg_bankAccount", "格式不正确 !");
             count++;
         }
         if (se.getPostCode() == null || !ValidateUtils.Zipcode(se.getPostCode())) {
-            model.addAttribute("err_msg_postCode", "不能为空 !");
+            model.addAttribute("err_msg_postCode", "格式不正确 !");
             count++;
         }
-        if (se.getLegalName() == null){
+        if (se.getLegalName() == null) {
             model.addAttribute("err_legalName", "不能为空 !");
             count++;
         }
-        if (se.getLegalIdCard() == null){
+        if (se.getLegalIdCard() == null) {
             model.addAttribute("err_legalCard", "不能为空 !");
             count++;
         }
-        if (se.getLegalIdCard() != null && !se.getLegalIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+        if (se.getLegalIdCard() != null && !se.getLegalIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")) {
             model.addAttribute("err_legalCard", "身份证号码格式不正确 !");
             count++;
         }
-        if (se.getLegalTelephone() == null){
-            model.addAttribute("err_legalPhone", "不能为空 !");
+        if (se.getLegalMobile() == null) {
+            model.addAttribute("err_legalMobile", "不能为空 !");
             count++;
         }
-        if (se.getLegalTelephone() != null && !se.getLegalTelephone().matches("^(0[1-9]{2})-\\d{8}$|^(0[1-9]{3}-(\\d{7,8}))$")){
-            model.addAttribute("err_legalPhone", "固话格式不正确 !");
+
+        if (se.getLegalTelephone() == null || !se.getLegalTelephone().matches("^1[0-9]{10}$")) {
+            model.addAttribute("err_legalPhone", "格式不正确 !");
             count++;
         }
-        if (se.getContactName() == null){
+        if (se.getContactName() == null) {
             model.addAttribute("err_conName", "不能为空 !");
             count++;
         }
+        
         if (se.getContactFax() == null) {
             model.addAttribute("err_fax", "格式不正确 !");
             count++;
         }
+        
         if (se.getContactMobile() == null) {
             model.addAttribute("err_catMobile", "格式不正确 !");
             count++;
         }
-        if (se.getContactTelephone() == null || !se.getContactTelephone().matches("1[0-9]{10}$")) {
+        if (se.getContactTelephone() == null || !se.getContactTelephone().matches("^1[0-9]{10}$")){
             model.addAttribute("err_catTelphone", "格式不正确 !");
             count++;
         }
         if (se.getContactEmail() == null
-            || !se.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")) {
+            || !se.getContactEmail().matches("^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$")){
             model.addAttribute("err_catEmail", "格式不正确 !");
             count++;
         }
@@ -422,32 +434,36 @@ public class SupplierEditController extends BaseSupplierController {
             model.addAttribute("err_conAddress", "不能为空!");
             count++;
         }
-        if (se.getRegistAuthority() == null){
+        if (se.getCreditCode() == null) {
+            model.addAttribute("err_creditCide", "不能为空!");
+            count++;
+        }
+        
+        if (se.getRegistAuthority() == null) {
             model.addAttribute("err_reAuthoy", "不能为空 !");
             count++;
         }
-        if (se.getRegistFund() == null){
+        if (se.getRegistFund() == null) {
             model.addAttribute("err_fund", "不能为空 !");
             count++;
         }
-        if (se.getRegistFund() != null 
-            && se.getRegistFund().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+        if (se.getRegistFund() != null && !se.getRegistFund().toString().matches("^[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*$")){
             model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
             count++;
         }
-        if (se.getBusinessStartDate() == null){
+        if (se.getBusinessStartDate() == null) {
             model.addAttribute("err_sDate", "营业开始时间不能为空 !");
             count++;
         }
-        if (se.getBusinessEndDate() == null){
+        if (se.getBusinessEndDate() == null) {
             model.addAttribute("err_eDate", "营业截至时间不能为空 !");
             count++;
         }
-        if (se.getBusinessAddress() == null){
+        if (se.getBusinessAddress() == null) {
             model.addAttribute("err_bAddress", "经营地址不能为空!");
             count++;
         }
-        if (se.getBusinessPostCode() == null){
+        if (se.getBusinessPostCode() == null) {
             model.addAttribute("err_bCode", "不能为空!");
             count++;
         }
@@ -457,35 +473,32 @@ public class SupplierEditController extends BaseSupplierController {
         }
         SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
         //* 近三个月完税凭证
-        List<UploadFile> tlist = uploadService.getFilesOther(se.getRecordId(), supplierDictionary.getSupplierTaxCert(), Constant.SUPPLIER_SYS_KEY.toString());
+        List<UploadFile> tlist = uploadService.getFilesOther(se.getId(), supplierDictionary.getSupplierTaxCert(), Constant.SUPPLIER_SYS_KEY.toString());
         if (tlist != null && tlist.size() <= 0){
             count++;
             model.addAttribute("err_taxCert", "请上传文件!");
         }
         //* 近三年银行基本账户年末对账单
-        List<UploadFile> blist = uploadService.getFilesOther(se.getRecordId(), supplierDictionary.getSupplierBillCert(), Constant.SUPPLIER_SYS_KEY.toString());
-        if (blist != null && blist.size() <= 0){
+        List<UploadFile> blist = uploadService.getFilesOther(se.getId(), supplierDictionary.getSupplierBillCert(), Constant.SUPPLIER_SYS_KEY.toString());
+        if (blist != null && blist.size() <= 0) {
             count++;
             model.addAttribute("err_bil", "请上传文件!");
         }
         //近三个月缴纳社会保险金凭证
-        List<UploadFile> slist = 
-            uploadService.getFilesOther(se.getRecordId(), supplierDictionary.getSupplierSecurityCert(), Constant.SUPPLIER_SYS_KEY.toString());
-        if (slist != null && slist.size() <= 0){
+        List<UploadFile> slist = uploadService.getFilesOther(se.getId(), supplierDictionary.getSupplierSecurityCert(), Constant.SUPPLIER_SYS_KEY.toString());
+        if (slist != null && slist.size() <= 0) {
             count++;
             model.addAttribute("err_security", "请上传文件!");
         }
         //近三年内无重大违法记录声明
-        List<UploadFile> bearlist = 
-            uploadService.getFilesOther(se.getRecordId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
+        List<UploadFile> bearlist = uploadService.getFilesOther(se.getId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
         if (bearlist != null && bearlist.size() <= 0){
             count++;
             model.addAttribute("err_bearch", "请上传文件!");
         }
         
         //供应商执照
-        List<UploadFile> list = 
-            uploadService.getFilesOther(se.getRecordId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
+        List<UploadFile> list = uploadService.getFilesOther(se.getId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
         if (list != null && list.size() <= 0) {
             count++;
             model.addAttribute("err_business", "请上传文件!");

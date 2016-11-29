@@ -77,7 +77,7 @@
           <c:if test="${length>15}">
              <a  href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
           </c:if>
-          <c:if test="${length<15}">
+          <c:if test="${length<=15}">
              <a href='${ pageContext.request.contextPath }/post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
           </c:if>
          </div>
@@ -104,8 +104,13 @@
     </div>
    </div>
   <div class="my_post f18">
-  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
-  </div>  
+  <a href='${pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
+  </div>
+  <div class="publish_post f18">
+  <a href='${pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  </div> 
+
+
    
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>

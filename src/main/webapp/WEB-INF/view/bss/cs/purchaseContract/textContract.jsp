@@ -77,13 +77,25 @@
 		return childNodes;
 	 }
 	 
+	 /** 判断是否为根节点 */
+	    function isRoot(node){
+	    	if (node.pId == 0){
+	    		return true;
+	    	} 
+	    	return false;
+	    }
+	 
 	 /*点击事件*/
 	    function zTreeOnClick(event,treeId,treeNode){
-	    	 if (treeNode) {
-	            $("#citySel4").val(treeNode.name);
-	            $("#categorieId4").val(treeNode.id);
-	            hideMenu();
-	    	 }
+	  	  if (isRoot(treeNode)){
+	  		  layer.msg("不可选择根节点");
+	  		  return;
+	  	  }
+    	  if (treeNode) {
+            $("#citySel4").val(treeNode.name);
+            $("#categorieId4").val(treeNode.id);
+            hideMenu();
+    	  }
 	    }
    	 
    	function next(){
@@ -620,14 +632,14 @@
 				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草稿合同上报时间：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
 				     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='gitTime' class="cue col-md-12"></div>
+				     <div id='gitTime' class="cue"></div>
 				   </div>
 				</li>
 				<li class="col-md-6 col-sm-12 col-xs-12">
 				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草稿合同批复时间：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
 				     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='reviewTime' class="cue col-md-12"></div>
+				     <div id='reviewTime' class="cue"></div>
 				   </div>
 				</li>
 				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
@@ -673,14 +685,14 @@
 	    	      <label class="col-md-12 padding-left-5">
 	    	        <div class="red star_red">*</div>编号：</label>
 	    	        <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                      <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+                      <input id="planNo" name="planNo" type="text" class="col-md-12 p0">
                       <div class="cue" id="bh"></div>
                     </div>
 	            </li>
 			    <li class="col-md-6">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>交付时间</label>
 	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
+                   <input id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
                    <div class="cue" id="jfsj"></div>
                    </div>
                   </span>
@@ -688,41 +700,41 @@
 			    <li class="col-md-6">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>品牌商标</label>
 	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                    <input maxlength="11" id="bra" name="brand" value="" type="text" class="col-md-12 p0">
+                    <input id="bra" name="brand" value="" type="text" class="col-md-12 p0">
                     <div class="cue" id="ppsb"></div>
                   </div>
 	            </li>
 			    <li class="col-md-6">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>规格型号</label>
 	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="model" name="stand" value="" type="text" class="col-md-12 p0">
+                   <input id="model" name="stand" value="" type="text" class="col-md-12 p0">
                    <div class="cue" id="ggxh"></div>
 	            </li> 
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>计量单位</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="unit" name="item" value="" type="text" class="col-md-12 p0">
+                   <input id="unit" name="item" value="" type="text" class="col-md-12 p0">
                    <div class="cue" id="jldw"></div>
                   </div>
 	            </li>
 				<li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>数量</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="purNum" name="purchaseCount_string" onblur="sum1()" type="text"class="col-md-12 p0">
+                   <input id="purNum" name="purchaseCount_string" onblur="sum1()" type="text"class="col-md-12 p0">
                    <div class="cue" id="sl"></div>
 	              </div>
 	            </li>
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
+                   <input id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
                    <div class="cue" id="dj"></div>
 	              </div>
 	            </li>
 			    <li class="col-md-3">
 	    	      <label class="col-md-12 padding-left-5">合计</label>
                   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input maxlength="11" id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
+                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
 	              </div>
 	            </li> 
 			    <li class="col-md-12">
@@ -735,7 +747,7 @@
 			  </ul>
 			  </form>
 			</div>
-              <div class="tc mt20 col-md-12">
+              <div class="tc mt20 col-md-12 mb10">
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
 				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
               </div>

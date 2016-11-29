@@ -16,9 +16,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
 import ses.model.sms.ImportRecommend;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
 import ses.util.DictionaryDataUtil;
@@ -40,6 +47,18 @@ import common.constant.Constant;
 @RequestMapping("/importRecommend")
 public class ImportRecommendController extends BaseSupplierController {
     /**
+     * 定义常量2
+     */
+    private static final int NUMBER_TWO = 2;
+    /**
+     * 定义常量3
+     */
+    private static final int NUMBER_THREE = 3;
+    /**
+     * 定义常量5
+     */
+    private static final int NUMBER_FIVE = 5;
+    /**
      * 进口代理商service层
      */
     @Autowired
@@ -55,6 +74,18 @@ public class ImportRecommendController extends BaseSupplierController {
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
 
+    /**
+     * 角色服务层
+     */
+    @Autowired
+    private RoleServiceI roleService;
+    
+    /**
+     * 菜单服务层
+     */
+    @Autowired
+    private PreMenuServiceI menuService;
+    
     /**
      *〈简述〉进口代理商登记列表
      *〈详细描述〉
@@ -129,9 +160,9 @@ public class ImportRecommendController extends BaseSupplierController {
         }
         User user1 = (User) request.getSession().getAttribute("loginUser");
         ir.setCreatedAt(new Date());
-        ir.setCreator(user1.getRelName());
+        ir.setCreator(user1.getId());
         if (ir.getType() == 1){
-            ir.setStatus((short) 3);
+            ir.setStatus((short) NUMBER_THREE);
         } else {
             ir.setStatus((short) 0);
         }
@@ -139,10 +170,38 @@ public class ImportRecommendController extends BaseSupplierController {
         //存到user表里面
         User user = new User();
         user.setLoginName(ir.getLoginName());
+        user.setCreatedAt(new Date());
+        user.setIsDeleted(0);
         user.setPassword(ir.getPassword());
         user.setTypeId(ir.getId());
+        user.setAddress(ir.getAddress());
+        user.setTypeId(ir.getId());
+        //采购管理部门的id
+        Orgnization org = new Orgnization();
+        org.setId(user1.getOrg().getId());
+        user.setOrg(org);
         user.setTypeName(DictionaryDataUtil.getId("IMP_AGENT_U"));
         userService.save(user, null);
+        Role role = new Role();
+        role.setCode("IMPORT_AGENT_R");
+        List<Role> listRole = roleService.find(role);
+        if (listRole != null && listRole.size() > 0) {
+            Userrole userrole = new Userrole();
+            userrole.setRoleId(listRole.get(0));
+            userrole.setUserId(user);
+            /**给该用户初始化进口代理商角色*/
+            userService.saveRelativity(userrole);
+            String[] roleIds = listRole.get(0).getId().split(",");
+            List<String> listMenu = menuService.findByRids(roleIds);
+            /**给用户初始化进口代理商菜单权限*/
+            for (String menuId : listMenu) {
+                UserPreMenu upm = new UserPreMenu();
+                PreMenu preMenu = menuService.get(menuId);
+                upm.setPreMenu(preMenu);
+                upm.setUser(user);
+                userService.saveUserMenu(upm);
+            }
+        }
         return "redirect:list.html";
     }
 
@@ -207,7 +266,7 @@ public class ImportRecommendController extends BaseSupplierController {
         String[] id = ids.split(",");
         for (String str : id) {
             ImportRecommend ir = importRecommendService.findById(str);
-            ir.setStatus((short) 5);
+            ir.setStatus((short) NUMBER_FIVE);
             importRecommendService.update(ir);
         }
         return "redirect:list.html";
@@ -240,7 +299,7 @@ public class ImportRecommendController extends BaseSupplierController {
     public String zanting(String id, Model model){
         ImportRecommend ir = importRecommendService.findById(id);
         if (ir.getType() == 1) {
-            ir.setStatus((short) 2);
+            ir.setStatus((short) NUMBER_TWO);
         }
         importRecommendService.update(ir);
         model.addAttribute("ir", ir);
@@ -259,7 +318,7 @@ public class ImportRecommendController extends BaseSupplierController {
     public String qiyong(String id, Model model){
         ImportRecommend ir = importRecommendService.findById(id);
         if (ir.getType() == 1) {
-            ir.setStatus((short) 3);
+            ir.setStatus((short) NUMBER_THREE);
         }
         importRecommendService.update(ir);
         model.addAttribute("ir", ir);

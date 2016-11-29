@@ -91,6 +91,12 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyMapper.selectByReplyId(map);
 	}
 	
+	@Override
+	public List<Reply> findAllUnReadReply() {
+		// TODO Auto-generated method stub
+		return replyMapper.findAllUnReadReply();
+	}
+	
 	
 
 }

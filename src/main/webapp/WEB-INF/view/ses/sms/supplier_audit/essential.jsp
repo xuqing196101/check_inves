@@ -341,8 +341,9 @@ function nextStep(){
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legaIdCard2">身份证号：</span>
                         <div class="input-append">
-                        <input id="legaIdCard" class="span5 " value="${suppliers.legalIdCard } "  type="text" onclick="reason(this.id,'legalIdCard')">
-                        <div id="legaIdCard3"  class="b f18 fl ml10 hand red">×</div>
+	                        <input id="legaIdCard" class="span5 " value="${suppliers.legalIdCard } "  type="text" onclick="reason(this.id,'legalIdCard')">
+	                        <div id="legaIdCard3"  class="b f18 fl ml10 hand red">×</div>
+                        </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalTelephone2">固定电话：</span>
                       <div class="input-append">

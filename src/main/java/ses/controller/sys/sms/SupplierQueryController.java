@@ -65,6 +65,14 @@ import common.model.UploadFile;
 @RequestMapping("/supplierQuery")
 public class SupplierQueryController extends BaseSupplierController {
     /**
+     * 定义常量2
+     */
+    private static final int NUMBER_TWO = 2;
+    /**
+     * 定义常量3
+     */
+    private static final int NUMBER_THREE = 3;
+    /**
      * 供应商审核服务层
      */
     @Autowired
@@ -153,7 +161,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierType", supplierType);
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
-        if (judge != null && judge == 3) {
+        if (judge != null && judge == NUMBER_THREE) {
             return "ses/sms/supplier_query/all_ruku_supplier";
         } else {
             return "ses/sms/supplier_query/all_supplier";
@@ -185,11 +193,11 @@ public class SupplierQueryController extends BaseSupplierController {
         String address = supplierEditService.getProvince(sup.getAddress());
         if ("".equals(address)) {
             String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
-            if (addressName.length() > 2) {
-                sup.setAddress(addressName.substring(0, 3).replace(",", ""));
+            if (addressName.length() > NUMBER_TWO) {
+                sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
                 model.addAttribute("address", sup.getAddress());
             } else {
-                sup.setAddress(addressName.substring(0, 2).replace(",", ""));
+                sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
                 model.addAttribute("address", sup.getAddress());
             }
         } else {
@@ -212,10 +220,10 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
         //等于3说明是入库供应商
-        if (judge != null && judge == 3) {
+        if (judge != null && judge == NUMBER_THREE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
-            if (sup.getStatus() != null && sup.getStatus() == 3) {
+            if (sup.getStatus() != null && sup.getStatus() == NUMBER_TWO) {
                 return "ses/sms/supplier_query/select_ruku_supplier_by_province";
             } else {
                 return "ses/sms/supplier_query/select_supplier_by_province";
@@ -307,7 +315,7 @@ public class SupplierQueryController extends BaseSupplierController {
         if (isRuku != null && isRuku == 1) {
             model.addAttribute("status", supplier.getStatus());
         }
-        if (isRuku != null && isRuku == 2) {
+        if (isRuku != null && isRuku == NUMBER_TWO) {
             model.addAttribute("category", 1);
         }
         model.addAttribute("person", person);

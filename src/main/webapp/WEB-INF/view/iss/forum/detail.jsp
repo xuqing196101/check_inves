@@ -89,7 +89,9 @@
 			 }	
 	     }
   }
-  function publishForReply(replyId){
+  
+  
+ 	 function publishForReply(replyId){
 		 var ue = UE.getEditor('editor');
 		 var text = ue.getContent();
 		 var postId = "${post.id}";
@@ -114,7 +116,7 @@
               }
 	           
 	     });      
-  }
+  	}
  </script>
   </head>
   <body>
@@ -194,7 +196,7 @@
      </div>
      
       <!-- 我要评论Div -->
-     <div class="col-md-12 p30_40 border1" id="publish">
+     <div class="col-md-12 p30_40 border1 mt10" id="publish">
          <div class="clear col-md-12 p0">
           <span class="f18 b">我要回复</span> 
          </div>
@@ -209,8 +211,11 @@
      </div>
    </div>
   <div class="my_post f18">
-  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
   </div>
+  <div class="publish_post f18">
+  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  </div>  
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">

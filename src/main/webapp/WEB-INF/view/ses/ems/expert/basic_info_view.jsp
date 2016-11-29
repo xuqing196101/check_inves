@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/tld/upload" prefix="up"%>
 <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
+<%--<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>

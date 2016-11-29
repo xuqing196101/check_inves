@@ -6,7 +6,8 @@
 			     <result column="CONTENT"  property="content" />
 			     <result column="PUBLISHED_AT"  property="publishedAt" />
 			     <result column="UPDATED_AT"  property="updatedAt" />
-			     <result column="IS_DELETED"  property="isDeleted" />  
+			     <result column="IS_DELETED"  property="isDeleted" />
+			     <result column="IS_READ"  property="isRead" />    
 			      <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
 			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>		
 			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>			    			    
@@ -18,12 +19,12 @@
 			  			  			  
 	  			<!-- 表名 -->
 			  	<sql id="Tabel_Name">
-					T_iss.fs_REPLY
+					T_ISS.FS_REPLY
 				</sql>
 				
 		  	  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID,  CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT,IS_DELETED  
+			    ID,CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT,IS_DELETED,IS_READ  
 			  </sql>
 			  
 	  			  <!-- 查询条件 -->
@@ -82,7 +83,7 @@
                             SELECT ID FROM T_ISS_FS_POST    
 	                        WHERE PARK_ID IN (
 	                            SELECT ID FROM T_ISS_FS_PARK 		                                                           
-                                <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+                                 <if test="userId != ''and userId != null">
                                 WHERE USER_ID = #{userId} 
                                 </if>	 	                                                           
 	                                         )                                     
@@ -96,7 +97,7 @@
               <!-- 4.删除一条记录 -->
 	          <update id="deleteByPrimaryKey" parameterType="Object">
 	            update T_ISS_FS_REPLY
-	            set is_deleted = 1
+	            set IS_DELETED = 1
 	            where ID = #{id}
 	          </update>
   
@@ -129,6 +130,9 @@
 			      <if test="reply != null">
 			        REPLY_ID,
 			      </if>
+			      <if test="isRead != null">
+			        IS_READ,
+			      </if>
 			      IS_DELETED,
 			    </trim>
 			    <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -152,6 +156,9 @@
 			      </if>
 			      <if test="reply != null">
 			        #{reply.id},
+			      </if>
+			      <if test="isRead != null">
+			        #{isRead},
 			      </if>
 			      0,
 			    </trim>
@@ -197,5 +204,29 @@
                 </trim>
                 ORDER BY PUBLISHED_AT ASC
 		  </select>	  
- 
+ 	  		  <!-- 获取当前登录人所有未读的回复量 -->
+			  <select id="queryUnReadCount" resultType="Object" parameterType="Object">
+			    select count(1) from T_ISS_FS_REPLY
+			    WHERE POST_ID IN(
+			    SELECT * FROM T_ISS_FS_POST 
+			    WHERE IS_DELETED = 0
+			    <if test="userId != null">
+                    and USER_ID = #{userId}
+                  </if> ) 
+			    AND IS_READ = 0
+			  </select>
+			  
+			  <!-- 获取所有帖子未读的回复 -->
+			  <select id="findAllUnReadReply" resultType="iss.model.fs.Reply">
+				SELECT
+					COUNT (POST_ID) AS num,
+					POST_ID AS postId
+				FROM
+					T_ISS_FS_REPLY
+				WHERE
+					IS_DELETED = 0
+				AND IS_READ = 0
+				GROUP BY
+					POST_ID
+			  </select>
 </mapper>

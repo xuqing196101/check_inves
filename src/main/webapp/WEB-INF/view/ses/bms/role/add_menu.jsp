@@ -23,11 +23,12 @@
 			}
 		};
         $(document).ready(function(){
-        	var roleId=$("#id").val();
+        	var roleId = $("#id").val();
+        	var kind = $("#kind").val();
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/preMenu/treedata.do?id="+roleId,
+             url: "${pageContext.request.contextPath}/preMenu/treedata.do?id="+roleId+"&kind="+kind,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -72,6 +73,7 @@
   
   <body>
   	<input id="id" type="hidden" value="${rid}">
+  	<input id="kind" type="hidden" value="${kind}">
     <!-- 菜单树-->
    <div id="menu">
 	   <div id="menuTree" class="ztree"></div>

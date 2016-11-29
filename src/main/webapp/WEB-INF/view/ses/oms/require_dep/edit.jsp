@@ -138,7 +138,24 @@
     });
     function dynamicadd(){
     	var typeName = $("#typeName").val();
-        	showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
+    	var title = "";
+    	if(typeName!=undefined && typeName==0){
+    		title = "添加采购机构";
+    	}else{
+    		title = "添加监管部门";
+    	}
+    	layer.open({
+			type : 2, //page层
+			area : [ '900px', '550px' ],
+			title : title,
+			shade : 0.01, //遮罩透明度
+			moveType : 1, //拖拽风格，0是默认，1是传统拖动
+			shift : 1, //0-6的动画形式，-1不开启
+			offset : [ '120px', '130px' ],
+			shadeClose : true,
+			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
+		 });
+        //showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
     }
     function deltr1(a){
     	//var str = a;
@@ -321,7 +338,12 @@
 						</div></li>
 				</ul>
 				<div class="padding-top-10 clear">
-                    <h2 class="count_flow"><i>2</i>新增机构</h2>
+                    <h2 class="count_flow"><i>2</i><c:choose>
+                    	<c:when test="${orgnization.typeName==0 }">添加采购机构</c:when>
+                    	<c:when test="${orgnization.typeName==1 }">添加监管部门</c:when>
+                    	<c:when test="${orgnization.typeName==2 }">添加监管部门</c:when>
+                    	<c:otherwise></c:otherwise>
+                    </c:choose></h2>
                        <ul class="ul_list">
                            <div class="col-md-12 pl20 mt10">
                                <button type="button" class="btn btn-windows add"  id="dynamicAdd" onclick="dynamicadd();">添加</button>

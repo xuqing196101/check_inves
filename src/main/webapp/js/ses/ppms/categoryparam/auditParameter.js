@@ -1,4 +1,4 @@
-
+//类型初始化
 var typesObj;
 $(function(){
 	var datas;
@@ -81,7 +81,7 @@ function getTreeNodeData(cateId,treeNode){
 	});
 	
 	var publishStatus = treeNode.pubStatus;
-	if (publishStatus != null && publishStatus != ""){
+	if (publishStatus != null){
 		loadRadioHtml(publishStatus);
 	}
 	
@@ -94,7 +94,10 @@ function getTreeNodeData(cateId,treeNode){
 	} else {
 		hiddenParams();
 	}
+	loadAuditValue(treeNode);
 }
+
+
 
 /**
  * 初始化数据类型
@@ -291,6 +294,24 @@ function refreshParentNode() {
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
 	   zTree.reAsyncChildNodes(parentNode, type, silent);  
+}
+
+/**
+ * 加载选中的值
+ * @param treeNode
+ */
+function loadAuditValue (treeNode){
+	if (treeNode.status == 1 || treeNode.status == 3){
+		$("select[name='auditStatus']").val(treeNode.status);
+	} else {
+		$("select[name='auditStatus'] option:first").prop("selected","selected");
+	}
+	
+	if (treeNode.auditAdvise != null && treeNode.auditAdvise != ""){
+		$("#textId").val(treeNode.auditAdvise);
+	} else {
+		$("#textId").val("");
+	}
 }
 
 /**

@@ -63,6 +63,9 @@ function zTreeOnClick(event,treeId,treeNode){
 		if (currentObj != null){
 			treeNode.classify = currentObj.classify +  "";
 			treeNode.pubStatus = currentObj.isPublish;
+			treeNode.status = currentObj.paramStatus;
+			treeNode.auditDate = currentObj.auditDate;
+			treeNode.auditAdvise = currentObj.auditAdvise;
 		}
 		findParams(selectedTreeId,treeNode);
 	} else {
@@ -269,6 +272,7 @@ function submit(isOpen,smallClassify, id){
 		success:function(msg){
 			if (msg == 'ok'){
 				layer.msg("提交成功");
+				hiddenAudit();
 			} else {
 				layer.msg(msg);
 			}
@@ -475,7 +479,9 @@ function loadAuditHtml(auditStatus,auditAdvise){
 	if (auditStatus == 3){
 		statusText = "通过";
 	}
-	var html = "<li>"
+	
+	if (statusText !=""){
+		var html = "<li id='auditId'>"
 			  + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
 			  + "  审核状态: " 
 			  + " </div>"
@@ -483,16 +489,28 @@ function loadAuditHtml(auditStatus,auditAdvise){
 	          + statusText ;
 			  + " </div>"
 			  + "</li>";
-	 if (auditAdvise !=null && auditAdvise != ""){
-		 html += "<li>";
-		   html += "<div class='col-md-12 col-sm-4 col-xs-5 tr'>";
-		   html	+= "  审核意见: "  + auditAdvise ;
-		   html += "</div>"
-	     html += "<li>"
-	 }
-	$("#uListId").append(html);
+		 if (auditAdvise !=null && auditAdvise != ""){
+			 html += "<li id='adviseId'>";
+			   html += "<div class='col-md-12 col-sm-4 col-xs-5 tr'>";
+			   html	+= "  审核意见: "  + auditAdvise ;
+			   html += "</div>"
+		     html += "</li>"
+		 }
+		$("#uListId").append(html);
+	}
 }
 
+/**
+ * 隐藏审核信息
+ */
+function hiddenAudit(){
+	if ($("#auditId")){
+		$("#auditId").hide();
+	}
+	if ($("#adviseId")){
+		$("#adviseId").hide();
+	}
+}
 
 /**
  * 默认隐藏的项
