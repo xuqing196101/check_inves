@@ -263,7 +263,7 @@ function nextStep(url){
                     </form>
                   
                     <h2 class="count_flow"><i>1</i>供应商资质证书信息</h2>
-                    <ul class="ul_list count_flow">
+                    <div class="ul_list count_flow">
                         <table class="table table-bordered table-condensed table-hover">
 		                    <thead>
 		                      <tr>
@@ -322,7 +322,7 @@ function nextStep(url){
 		                       </tr>
 		                     </c:forEach>
 		                   </table>
-	 	                 </ul>
+	 	                 </div>
 
 	                     <h2 class="count_flow"><i>2</i>供应商资质资格信息</h2>
 	                     <ul class="ul_list count_flow">
