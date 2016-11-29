@@ -2,6 +2,7 @@ package ses.service.bms.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.ExecutorType;
@@ -97,9 +98,9 @@ public class RoleServiceImpl implements RoleServiceI {
 
 
 	@Override
-	public BigDecimal checkRolesByUserId(String userId) {
+	public BigDecimal checkRolesByUserId(HashMap<String,Object> map) {
 
-		return roleMapper.checkRolesByUserId(userId);
+		return roleMapper.checkRolesByUserId(map);
 	}
 
     @Override

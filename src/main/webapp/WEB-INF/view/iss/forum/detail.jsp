@@ -138,7 +138,7 @@
      <div class="p15_0" >
 	     <div class="fr"><span>作者：${post.user.relName }</span>
 	     <span class="ml15"><i class="mr5">
-	     <img src="${ pageContext.request.contextPath }/public/ZHQ/images/block.png"/></i>
+	     <img src="${ pageContext.request.contextPath }/public/front/images/block.png"/></i>
 	     <fmt:formatDate value='${post.publishedAt}' pattern="yyyy.MM.dd" />
 	     </span>
 	     <span class="ml15">回复数：<span class="red">${post.replycount }</span></span>
@@ -162,7 +162,7 @@
             <!--左半部分  -->
             
 	            <div class="comment_flow ">
-		            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png"/></div>
+		            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/front/images/boy.png"/></div>
 		            <div class="clear">
 		              <p class="b f18 mb0 tc">${reply.user.relName }</p>
 		              

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 
@@ -415,7 +416,9 @@ public class ParkManageController extends BaseSupplierController {
 	 */
 	@RequestMapping( value="/getUserForSelect" )	
 	public void getUserForSelect(HttpServletResponse response) {
-		List<User> users = userService.queryParkManagers();		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("code", "MODERATOR_R");
+		List<User> users = userService.queryParkManagers(map);		
 		super.writeJson(response, users);
 	}
 }

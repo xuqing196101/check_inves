@@ -1,8 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -18,15 +14,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="author" content="">
 	
 	<jsp:include page="backend_common.jsp"></jsp:include>	
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script></head>
 </head>
 
 <body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		<ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">后台管理</a></li>
+		   <li class="active"><a href="#">页面样式列表</a></li><li class="active"><a href="#">切换标签页面</a></li> 
+		</ul>
+	  </div>
+   </div>
  <div class="container">
+  <div class="mt10">
+	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div>
 	   <div class="tab-content">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">

@@ -12,9 +12,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/front/css/forum.css" media="screen" rel="stylesheet">
 
   <script type="text/javascript">
   $(function(){
@@ -85,7 +83,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/front/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
