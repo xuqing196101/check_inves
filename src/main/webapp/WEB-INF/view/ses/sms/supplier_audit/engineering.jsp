@@ -30,7 +30,6 @@ input {
     
     $(":input").each(function() {
       $(this).parent("div").find("div").hide();
-      
       var onmouseover = "this.style.border='solid 1px #FF0000'";
       var onmouseout = "this.style.border='solid 1px #D3D3D3'";
        $(this).attr("onmouseover",onmouseover);
@@ -410,31 +409,31 @@ function nextStep(url){
                             
                             <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
                             <ul class="ul_list count_flow">
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="orgName2">组织机构：</span>
 		                          <div class="input-append">
 		                            <input id="orgName" class="span5" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
 		                            <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTech2">技术负责人：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalTech2">技术负责人：</span>
 		                          <div class="input-append">
 		                            <input id="totalTech" class="span5" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
 		                            <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
 		                          <div class="input-append">
 		                            <input id="totalGlNormal" class="span5" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
 		                          <div id="totalGlNormal3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalMange2">管理人员：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalMange2">管理人员：</span>
 		                          <div class="input-append">
 		                            <input id="totalMange" class="span5" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
 		                          <div id="totalMange3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTechWorker2">技术工人：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalTechWorker2">技术工人：</span>
 		                          <div class="input-append">
 		                            <input id="totalMange" class="span5" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
 		                          <div id="totalTechWorker3"  class="b f18 fl ml10 hand red">×</div>

@@ -12,21 +12,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<<<<<<< HEAD
-<style type="text/css">
-input {
-  cursor:pointer;
-  
-}
-textarea {
-  cursor:pointer;
-}
-</style>
-=======
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
->>>>>>> 7060232a8bf2f615d3652a57f931e8c71009a747
 <script type="text/javascript">
 $(function(){
   layer.alert('点击审核项,弹出不通过理由框！', {

@@ -260,7 +260,7 @@ function nextStep(url){
                     </form>
                     
                     <h2 class="count_flow"><i>1</i>供应商资质证书</h2>
-                    <ul class="ul_list count_flow">
+                    <div class="ul_list count_flow">
                         <table class="table table-bordered table-condensed table-hover">
 		                    <thead>
 		                      <tr>
@@ -302,15 +302,15 @@ function nextStep(url){
 		                        </tr>
 		                      </c:forEach>
 		                  </table>
-                      </ul>
+                      </div>
                       
                       <h2 class="count_flow"><i>2</i>组织结构和人员</h2>
                       <ul class="ul_list count_flow">
-                      <li class="col-md-3 margin-0 padding-0 ">
-                        <span class="col-md-12 padding-left-5" id="orgName2">组织机构：</span>
-                        <div class="input-append">
-                          <input id="orgName" class="span5" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'supplierMatPro.orgName')"/>
-                          <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
+                      <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
+                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                          <input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'supplierMatPro.orgName')"/>
+                          <span class="add-on hand red" id="orgName3">×</span>
                         </div>
                       </li>
                       <li class="col-md-3 margin-0 padding-0 ">

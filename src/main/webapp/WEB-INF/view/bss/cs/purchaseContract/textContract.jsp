@@ -747,6 +747,7 @@
 			  </ul>
 			  </form>
 			</div>
+
               <div class="tc  col-md-12 mb20">
                 <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
 				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
