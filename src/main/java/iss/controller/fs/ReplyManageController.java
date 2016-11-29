@@ -168,7 +168,8 @@ public class ReplyManageController {
     			StationMessage stationMessage = new StationMessage();
     			stationMessage.setCreatedAt(new Date());
     			stationMessage.setIsDeleted((short)0);
-    			
+    			stationMessage.setName("论坛有新的回复");
+    			stationMessageService.insertStationMessage(stationMessage);
             	msg += "回复成功";
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter()

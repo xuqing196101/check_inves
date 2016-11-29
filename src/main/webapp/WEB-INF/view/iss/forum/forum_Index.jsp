@@ -35,7 +35,7 @@
       <div class="icon">
         <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[0].id}">
         <i class="fa fa-comments-o">
-        <img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_02.png"/>
+        <img src="${ pageContext.request.contextPath }/public/front/images/icon_02.png"/>
         </i></a>
       </div>
       <div class="text">
@@ -50,7 +50,7 @@
     <div class="item item2">
     
       <div class="icon">
-        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[1].id}"><i class="fa fa-support"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_04.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[1].id}"><i class="fa fa-support"><img src="${ pageContext.request.contextPath }/public/front/images/icon_04.png"/></i></a>
       </div>
       <div class="text">
         <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[1].id}">      
@@ -64,7 +64,7 @@
     <div class="item item3">
     
       <div class="icon">
-        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[2].id}"><i class="fa fa-users"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_03.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[2].id}"><i class="fa fa-users"><img src="${ pageContext.request.contextPath }/public/front/images/icon_03.png"/></i></a>
       </div>
       <div class="text">
         <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[2].id}" >          
@@ -77,7 +77,7 @@
     <div class="item item4">
    
       <div class="icon">
-        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[3].id}"><i class="fa fa-diamond"> <img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_08.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[3].id}"><i class="fa fa-diamond"> <img src="${ pageContext.request.contextPath }/public/front/images/icon_08.png"/></i></a>
       </div>
       <div class="text">
         <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[3].id}">
@@ -100,7 +100,7 @@
       
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/front/images/boy.png" alt="196"></a>
         </div>
         
         <!-- 右边内容 -->
@@ -149,7 +149,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/front/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
