@@ -434,7 +434,6 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(data){
 				if(data != null){
 					$("#addr2").val(data.PROVINCEID);
-					alert(data.PROVINCEID);
 					$.ajax({
 						url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 						data:{"id":data.PROVINCEID},
