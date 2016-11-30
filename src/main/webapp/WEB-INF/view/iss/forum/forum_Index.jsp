@@ -3,23 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../front.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-   
     <title></title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+  	<script type="text/javascript">
 
-    
-
-  <script type="text/javascript">
-
- </script>
+ 	</script>
   </head>
   
   <body> 
@@ -137,12 +132,12 @@
     </div>
    </div>
    
-   <!-- 版块列表 -->
-
-   <c:forEach items="${list }" var="park"> 
-      <div class="home_suggest_topics panel panel-default">
-    <div class="panel-heading panel-title">${park.name }<span class="fr"><a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
-    <div class="panel-body topics row">
+   	<!-- 版块列表 -->
+   	<c:forEach items="${list }" var="park">
+   		<c:if test="${!empty park.posts}">
+      	<div class="home_suggest_topics panel panel-default">
+    	<div class="panel-heading panel-title">${park.name }<span class="fr"><a href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
+    	<div class="panel-body topics row">
       <!-- 帖子div -->
   <c:forEach items="${park.posts }" var="post">
     <div class="col-md-6 topics-group">
@@ -183,6 +178,7 @@
       </c:forEach>
     </div>
       </div>
+      </c:if> 
   </c:forEach>  
   </div>
   </body>

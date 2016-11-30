@@ -12,9 +12,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-    <link href="${ pageContext.request.contextPath }/public/select2/css/select2.css"  rel="stylesheet">
-    <script src="${ pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-    <script src="${ pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+    <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	<script type="text/javascript">    
 		$(function(){ 
 		 	$("#isHoT").val("${park.isHot}");
@@ -82,9 +82,9 @@
 			   	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>版主：</span>
 			   	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                  	<select id="user" name="parker" onchange="change(this.options[this.selectedIndex].value)" class="col-md-12 col-sm-12 col-xs-12 p0">
-                    	<input id="userId" type="hidden" name="userId" value =""/>
                 	</select>
                 	<div class="cue">${ERR_parker}</div>
+                	<input id="userId" type="hidden" name="userId" value =""/>
                 </div>
 			 </li>
 			 

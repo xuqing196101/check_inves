@@ -39,8 +39,8 @@
 				 <trim suffixOverrides=",">
 			      <if test="park!= null">
 			        and PARK_ID = #{park.id}
-			      </if>	
-			      	<if test="topic!= null">
+			      </if>
+			      <if test="topic!= null">
 			        and TOPIC_ID = #{topic.id}
 			      </if>			
 				</trim>

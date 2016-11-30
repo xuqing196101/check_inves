@@ -98,8 +98,7 @@ public class ParkManageController extends BaseSupplierController {
 			park2.setTopiccount(topiccount);
 			park2.setPostcount(postcount);
 			park2.setReplycount(replycount);
-		}	
-		
+		}
 		model.addAttribute("list", new PageInfo<Park>(parklist));
 		model.addAttribute("parkNameForSerach", parkNameForSerach);
 		model.addAttribute("parkContentForSerach", parkContentForSerach);
@@ -176,7 +175,6 @@ public class ParkManageController extends BaseSupplierController {
 				}
 			}
 		}
-		
 		if(park.getIsHot() == null ||park.getIsHot().equals("")){
 			park.setIsHot(0);
 		}
@@ -232,7 +230,6 @@ public class ParkManageController extends BaseSupplierController {
 	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
 		model.addAttribute("park", p);
-
 		return "iss/forum/park/edit";
 	}
 
