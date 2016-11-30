@@ -191,7 +191,6 @@
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id
-		  and d.IS_DELETED = 0
 		 <!-- LEFT JOIN T_SES_OMS_ORG dd on d.PARENT_ID=DD.id-->
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
@@ -519,5 +518,6 @@
 		<include refid="baseSearchSql"/>
 		FROM T_SES_OMS_ORG
 		WHERE ID = #{id}
+		AND IS_DELETED = 0
 	</select>
 </mapper>

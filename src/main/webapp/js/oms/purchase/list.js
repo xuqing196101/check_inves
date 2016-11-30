@@ -48,9 +48,18 @@ var selectedTreeId = null;
  */
 function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 	var zTree = $.fn.zTree.getZTreeObj("departTree");
-	var nodes = zTree.getNodes();
-	zTree.selectNode(nodes[0]);
-	zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);
+	
+	var  srcOrgId = $("#srcOrgId").val();
+	
+	if (srcOrgId != null && srcOrgId !=""){
+		var treeNode = zTree.getNodeByParam("id",srcOrgId, null);
+		zTree.selectNode(treeNode);
+		zTree.setting.callback.onClick(null, zTree.setting.treeId, treeNode);
+	} else {
+		var nodes = zTree.getNodes();
+		zTree.selectNode(nodes[0]);
+		zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);
+	}
 }
 
 /**

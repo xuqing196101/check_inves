@@ -7,10 +7,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script type="text/javascript">
     	function addUser(){
-    		var depid = $("#defaultid").val();
-    		var typeName = $("#typeName").val();
-    		//$("#hform").submit();
-    		parent.showiframe("添加机构人员",550,400,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
+    		window.location.href= "${pageContext.request.contextPath}/purchaseManage/addUser.do?orgId="+selectedTreeId;
     	}
     	function editUser(){
     		var ids = getSelectIds();
@@ -141,22 +138,9 @@
 				<i class="fa fa-bars"></i> ${orgnization.name } <span
 					class="label rounded-2x label-u">正常</span>
 			</h2>
-			<!-- <div class="pull-right">
-				<a class="btn btn-sm btn-default" href="javascript:void(0)"
-					onClick=""><i class="fa fa-search-plus"></i> 详细</a> <a
-					class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i
-					class="fa fa-wrench"></i> 修改</a> <a class="btn btn-sm btn-default"
-					href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i>
-					增加下属单位</a> <a class="btn btn-sm btn-default" data-toggle="modal"
-					href=""><i class="fa fa-plus"></i> 增加人员</a>
-			</div> -->
 		</div>
 		<div id="ztree_content">
 			<div class="tab-v2">
-				<!-- <ul class="nav nav-tabs bgwhite">
-					<li class="active"><a href="#dep_tab-0" data-toggle="tab"
-						class="s_news"><h4>详细信息</h4> </a></li>
-				</ul> -->
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="dep_tab-0">
 						<div class="show_obj">
@@ -254,14 +238,12 @@
 								<i class="fa fa-bars"></i> 
 								<c:choose>
 									<c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">
-										采购机构单位信息
+										管理部门信息
 									</c:when>
 									<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
-										采购管理部门信息
+										采购机构信息
 									</c:when>
-									<c:when test="${ orgnization.typeName!=null && orgnization.typeName==2 }">
-										采购管理部门信息
-									</c:when>
+									<c:otherwise>管理部门信息</c:otherwise>
 							     </c:choose> 
 								<span
 									class="label rounded-2x label-u">正常</span>
@@ -273,13 +255,13 @@
 									<i class="fa fa-users"></i> 
 									<c:choose>
 										<c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">
-											采购机构单位信息
+											管理部门信息
 										</c:when>
-										<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
-											采购管理部门信息
+										<c:when test="${orgnization.typeName!=null && orgnization.typeName==1 }">
+											采购机构信息
 										</c:when>
-										<c:when test="${ orgnization.typeName!=null && orgnization.typeName==2 }">
-											采购管理部门信息
+										<c:when test="${orgnization.typeName!=null && orgnization.typeName==2}">
+											管理部门信息
 										</c:when>
 							    	 </c:choose> 
 								</h3>

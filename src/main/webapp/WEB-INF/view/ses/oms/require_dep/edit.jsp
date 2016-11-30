@@ -206,9 +206,9 @@
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
 							<select  class="input_group" name="typeName"  id="typeName" type="text" onchange="show();"> 
-							    <option value="">请选择</option>
+							    <option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>请选择</option>
 								<option value="1" <c:if test="${orgnization.typeName == '1' }">selected="true"</c:if>>采购机构</option>
-								<option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>管理部门</option>
+								<option value="2" <c:if test="${orgnization.typeName == '2' }">selected="true"</c:if>>管理部门</option>
 							</select>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
@@ -272,8 +272,8 @@
 				<div class="padding-top-10 clear">
                     <h2 class="count_flow"><i>2</i><c:choose>
                     	<c:when test="${orgnization.typeName==1}">关联采购机构</c:when>
-                    	<c:when test="${orgnization.typeName==0}">关联监管部门</c:when>
-                    	<c:otherwise>关联监管部门</c:otherwise>
+                    	<c:when test="${orgnization.typeName==2}">关联管理部门</c:when>
+                    	<c:when test="${orgnization.typeName==0}">关联管理部门</c:when>
                     </c:choose></h2>
                        <ul class="ul_list">
                            <div class="col-md-12 pl20 mt10">

@@ -166,20 +166,29 @@
 		}
 		
 		function back(){
-			window.location.href = '${pageContext.request.contextPath}/user/list.html?page=1';
+			var origin = $("input[name='origin']").val();
+			var srcOrgId = $("input[name='orgId']").val();
+			if (origin != null && origin != ""){
+				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId;
+			} else {
+				window.location.href = '${pageContext.request.contextPath}/user/list.html?page=1';
+			}
+			
 		}
 	</script>
 </head>
 <body>
    <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
+   <c:if test="${empty origin}">
+   	  <div class="margin-top-10 breadcrumbs ">
 	   <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   	<li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户管理</a></li><li class="active"><a href="#">增加用户</a></li>
 		   </ul>
 		   <div class="clear"></div>
 	   </div>
-   </div>
+      </div>
+   </c:if>
    <!-- 表单内容开始-->
    <div class="container container_box">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -189,6 +198,10 @@
 			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	   </div>
    	   <sf:form action="${pageContext.request.contextPath}/user/save.html" method="post" modelAttribute="user">
+		  <input type="hidden"  name="origin" value="${origin}" />
+		  <input type="hidden" name="personTypeId" value="${personTypeId}" />
+		  <input type="hidden" name="personTypeName" value="${personTypeName}" />
+		  <input type="hidden" name="orgId" value="${orgId}" />
 		   <div>
 			   <h2 class="count_flow">新增用户</h2>
 			   <ul class="ul_list">
@@ -265,7 +278,15 @@
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
 				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <select name="typeName" id="typeName_id">
+			       
+			       <c:choose> 
+				     <c:when  test="${not empty origin}">
+			        	<select name="typeName" id="typeName_id">
+			        	  	  <option value="${personTypeId}">${personTypeName}</option>
+			        	</select>
+			         </c:when>
+			         <c:otherwise>
+			           <select name="typeName" id="typeName_id">
 			        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
 			        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
 				        		<option value="${t.id}" <c:if test="${t.id eq user.typeName}">selected</c:if>>
@@ -276,15 +297,24 @@
 									<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
 				        		</option>
 			        		</c:if>
-			        	</c:forEach>
-			        </select>
-			        </div>
+			        	  </c:forEach>
+			            </select>
+			         </c:otherwise>
+			       </c:choose>
+			      </div>
 				 </li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input id="oId" name="orgId" value="${user.orgId}" type="hidden">
-				        <input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+				        <c:choose> 
+					        <c:when  test="${not empty origin}">
+					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  />
+					        </c:when >
+					        <c:otherwise>
+					        	<input id="oId" name="orgId" value="${user.orgId}" type="hidden" />
+					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
+					        </c:otherwise>
+					    </c:choose>
 						<div class="drop_up" onclick="showOrg();">
 						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
 				        </div>

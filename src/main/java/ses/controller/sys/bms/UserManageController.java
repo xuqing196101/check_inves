@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,7 +36,6 @@ import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
-
 import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
@@ -161,7 +161,10 @@ public class UserManageController extends BaseController{
 	@RequestMapping("/save")
 	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
 		//校验字段
-		if(result.hasErrors()){
+		String origin = request.getParameter("origin");
+		String orgId = request.getParameter("orgId");
+		
+	    if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
 	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 	        model.addAttribute("typeNames", typeNames);
@@ -169,6 +172,10 @@ public class UserManageController extends BaseController{
 			model.addAttribute("user", user);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+			    addAtt(request, model);
+			}
 			return "ses/bms/user/add";
 		}
 		//校验用户名是否存在
@@ -182,6 +189,11 @@ public class UserManageController extends BaseController{
 	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+                addAtt(request, model);
+            }
+			
 			return "ses/bms/user/add";
 		}
 		//校验确认密码
@@ -194,15 +206,20 @@ public class UserManageController extends BaseController{
 	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
+			
+			if (StringUtils.isNotBlank(origin)){
+                addAtt(request, model);
+            }
+			
 			return "ses/bms/user/add";
 		}
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		//机构
 		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
-			HashMap<String, Object> orgMap = new HashMap<String, Object>();
-			orgMap.put("id", user.getOrgId());
-			List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
-			user.setOrg(olist.get(0));
+			Orgnization org = orgnizationService.getOrgByPrimaryKey(user.getOrgId());
+			if (org != null){
+			    user.setOrg(org);
+			}
 		}else{
 			user.setOrg(null);
 		}
@@ -228,7 +245,35 @@ public class UserManageController extends BaseController{
 				userService.saveUserMenu(userPreMenu);
 			}
 		}
-		return "redirect:list.html";
+		
+		//不为空转到组织机构添加人员页面
+		if (StringUtils.isNotBlank(origin)){
+		    model.addAttribute("srcOrgId", orgId);
+		    return "ses/oms/require_dep/list";
+		} else {
+	        return "redirect:list.html";
+		}
+	}
+	
+	/**
+	 * 
+	 *〈简述〉
+	 * 添加属性
+	 *〈详细描述〉
+	 * @author myc
+	 * @param request {@link HttpServletRequest}
+	 * @param model {@link Model}
+	 */
+	private void addAtt(HttpServletRequest request ,Model model){
+	    String personTypeId = request.getParameter("personTypeId");
+        String personTypeName = request.getParameter("personTypeName");
+        String origin = request.getParameter("origin");
+        String orgId = request.getParameter("orgId");
+        
+        model.addAttribute("personTypeId", personTypeId);
+        model.addAttribute("personTypeName", personTypeName);
+        model.addAttribute("origin", origin);
+        model.addAttribute("orgId", orgId);
 	}
 	
 	/**

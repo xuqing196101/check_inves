@@ -207,9 +207,9 @@
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
 					    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="typeName" id="typeName"  onchange="show();"> 
-								<option value="">请选择</option> 
+								<option value="0">请选择</option> 
 								<option value="1">采购机构</option>
-								<option value="0">管理部门</option>
+								<option value="2">管理部门</option>
 							</select>
 					   </div>
 					</li>

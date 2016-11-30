@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ import bss.model.ppms.ScoreModel;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 
 
@@ -108,20 +110,10 @@ public class PurchaseManageController {
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
 	
 	
-	/*@InitBinder    
-	   protected void initBinder(WebDataBinder binder) {    
-	       binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));    
-	       binder.registerCustomEditor(int.class, new CustomNumberEditor(int.class, true));    
-	      // binder.registerCustomEditor(int.class, new IntegerEditor());    
-	        binder.registerCustomEditor(long.class, new CustomNumberEditor(long.class, true)); 
-	        binder.registerCustomEditor(double.class, new CustomNumberEditor(double.class, true));
-	       //binder.registerCustomEditor(long.class, new LongEditor());    
-	       //binder.registerCustomEditor(double.class, new DoubleEditor());    
-	      // binder.registerCustomEditor(float.class, new FloatEditor());    
-	   }   */
-	
 	@RequestMapping("list")
-	public String list() {
+	public String list(Model model,HttpServletRequest request) {
+	    String orgId = request.getParameter("srcOrgId");
+	    model.addAttribute("srcOrgId", orgId);
 		return "ses/oms/require_dep/list";
 	}
 	/**
@@ -551,29 +543,39 @@ public class PurchaseManageController {
 	 * @return: String
 	 */
 	@RequestMapping("addUser")
-	public String addUser(@ModelAttribute User user,Model model,HttpServletRequest request) {
-		model.addAttribute("typeName", user.getTypeName());
-		model.addAttribute("orgId", user.getOrg().getId());
-		//校验用户名   密码  
-		String loginNameTip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_loginName");
-		String passwordTip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_password");
-		String password2Tip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_password2");
-		if (loginNameTip != null && !"".equals(loginNameTip)) {
-			model.addAttribute("loginName_msg", loginNameTip);
+	public String addUser(Model model,HttpServletRequest request) {
+		String orgId = request.getParameter("orgId");
+		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgId);
+		List<DictionaryData> genders = DictionaryDataUtil.find(13);
+        model.addAttribute("genders", genders);
+		if (org != null){
+		    
+		    String typeName = org.getTypeName();
+		    
+		    model.addAttribute("typeName", typeName);
+		    model.addAttribute("orgName", org.getName());
+		    model.addAttribute("orgId", org.getId());
+		    
+		    String typeCodeName = "";
+		    if (StringUtils.isNotBlank(typeName)){
+		        if (typeName.equals("0")){
+		            typeCodeName = "NEED_U";
+		        }
+		        if (typeName.equals("1")){
+		            typeCodeName = "PURCHASER_U";
+		        }
+		        if (typeName.equals("2")){
+		            typeCodeName = "SUPERVISER_U";
+		        }
+		        DictionaryData dd = DictionaryDataUtil.get(typeCodeName);
+		        if (dd != null){
+		            model.addAttribute("personTypeId", dd.getId());
+		            model.addAttribute("personTypeName", dd.getName());
+		        }
+		    }
 		}
-		if (passwordTip != null && !"".equals(passwordTip)) {
-			model.addAttribute("password_msg", passwordTip);
-		}
-		if (password2Tip != null && !"".equals(password2Tip)) {
-			model.addAttribute("password2_msg", password2Tip);
-		}
-		request.getSession().removeAttribute("userSaveTipMsg_loginName");
-		request.getSession().removeAttribute("userSaveTipMsg_password");
-		request.getSession().removeAttribute("userSaveTipMsg_password2");
-		return "ses/oms/require_dep/add-user";
+		model.addAttribute("origin", "org");
+		return "ses/bms/user/add";
 	}
 	/**
 	 * 

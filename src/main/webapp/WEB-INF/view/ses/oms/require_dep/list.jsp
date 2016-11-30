@@ -6,6 +6,12 @@
 </head>
 
 <body>
+   
+   <!-- 获取回传的OrgId -->
+   <form>
+   	 <input type="hidden" id="srcOrgId" name="srcOrgId" value="${srcOrgId}">
+   </form>
+   
    <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
