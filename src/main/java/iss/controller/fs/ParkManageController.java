@@ -175,8 +175,9 @@ public class ParkManageController extends BaseSupplierController {
 					model.addAttribute("ERR_name", "版块名称由6-20个字符组成，一个中文计2个字符");
 				}
 			}
-		}	
-		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
+		}
+		
+		if(park.getIsHot() == null ||park.getIsHot().equals("")){
 			park.setIsHot(0);
 		}
 		if(park.getIsHot() == 1){
@@ -186,8 +187,11 @@ public class ParkManageController extends BaseSupplierController {
 				model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
 			}
 		}
-	
-		
+		String parker = request.getParameter("parker");
+		if(parker==null||parker.equals("")){
+			flag = false;
+			model.addAttribute("ERR_parker", "版主不能为空");	
+		}
 		if(flag == false){
 			String userId = request.getParameter("userId");
 			if(!(userId.equals(null) || userId.equals(""))){
@@ -265,6 +269,11 @@ public class ParkManageController extends BaseSupplierController {
 				}
 			}
 		}	
+		String parker = request.getParameter("parker");
+		if(parker==null||parker.equals("")){
+			flag = false;
+			model.addAttribute("ERR_parker", "版主不能为空");	
+		}
 		if(park.getIsHot() ==null ||park.getIsHot().equals("")){
 			park.setIsHot(0);
 		}
@@ -287,7 +296,6 @@ public class ParkManageController extends BaseSupplierController {
 			p.setContent(park.getContent());
 			model.addAttribute("park", p);
 			url = "iss/forum/park/edit";
-			
 		}else{
 			String userId = request.getParameter("userId");
 			if(!(userId.equals(null) || userId.equals(""))){

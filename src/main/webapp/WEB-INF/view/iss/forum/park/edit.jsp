@@ -79,16 +79,17 @@
 			 </li>
 			 
 			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 padding-left-5 ">版主：</span>
-			   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                 <select id="user" onchange="change(this.options[this.selectedIndex].value)" class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <input id="userId" type="hidden" name="userId" value =""/>
-                </select>
+			   	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>版主：</span>
+			   	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+                 	<select id="user" name="parker" onchange="change(this.options[this.selectedIndex].value)" class="col-md-12 col-sm-12 col-xs-12 p0">
+                    	<input id="userId" type="hidden" name="userId" value =""/>
+                	</select>
+                	<div class="cue">${ERR_parker}</div>
                 </div>
 			 </li>
 			 
 			  <li class="col-md-3 col-sm-6 col-xs-12">
-               <span class="col-md-12 padding-left-5 ">热门：</span>
+               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">热门：</span>
                <div class="select_common col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <select id="isHoT" name="isHot" class="col-md-12 col-sm-12 col-xs-12 p0">
                 <option value="0" selected="selected">不是热门</option>
