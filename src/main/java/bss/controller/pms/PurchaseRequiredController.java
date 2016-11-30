@@ -96,6 +96,7 @@ public class PurchaseRequiredController extends BaseController{
 		PurchaseRequired p=new PurchaseRequired();
 		p.setPlanNo(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
 		model.addAttribute("list", list);
 		
 		if(type.equals("1")){

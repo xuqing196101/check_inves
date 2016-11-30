@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,10 +55,12 @@ import com.github.pagehelper.PageInfo;
 
 
 /**
- * 版权：(C) 版权所有 <简述> <详细描述>
  * 
- * @author Administrator
- * @version
+ * 版权：(C) 版权所有 
+ * <简述>
+ * <详细描述>
+ * @author   Administrator
+ * @version  
  * @since
  * @see
  */
@@ -94,8 +97,8 @@ public class ProjectController extends BaseController {
     private FlowMangeService flowMangeService;
 
     /**
-     * 〈简述〉 〈详细描述〉.
-     * 
+     * 〈简述〉 
+     * 〈详细描述〉.
      * @author FengTian
      * @param page 分页
      * @param model 内置对象
@@ -112,6 +115,7 @@ public class ProjectController extends BaseController {
         model.addAttribute("projects", project);
         return "bss/ppms/project/list";
     }
+    
     /**
      * 〈简述〉 〈详细描述〉
      * 
@@ -124,9 +128,10 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/add")
     public String add(Integer page, Model model, String id, String checkedIds,
-                      HttpServletRequest request) {
+                      HttpServletRequest request,PurchaseRequiredFormBean listBean) {
         List<Task> list = taskservice.listByTask(null, page==null?1:page);
         PageInfo<Task> info = new PageInfo<Task>(list);
+        HashMap<String, Object> map = new HashMap<String, Object>();
         model.addAttribute("info", info);
         //显示项目明细
         if(id != null){
@@ -138,14 +143,45 @@ public class ProjectController extends BaseController {
                 request.getSession().setAttribute("idr", id);
             }
             String ide = (String) request.getSession().getAttribute("idr");
-            List<PurchaseRequired> lists = new ArrayList<>();
+            List<PurchaseRequired> lists  = new ArrayList<>();
             String[] ids = ide.split(",");
+            //BigDecimal zero = BigDecimal.ZERO;
+            int bud = 0;
             for (int i = 0; i < ids.length; i++ ) {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-                lists.add(purchaseRequired);
+                map.put("id", purchaseRequired.getId());
+                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(map);
+                if(lis.size() == 1){
+                    for (PurchaseRequired purchaseRequired2 : lis) {
+                        bud+=purchaseRequired2.getBudget().intValue();
+                    }
+                }
+                    lists.add(purchaseRequired);
+            }
+            Map<String,Object> mapTwo = new HashMap<>();
+            List<PurchaseRequired> list1 = new ArrayList<>();
+            for (PurchaseRequired pur : lists) {
+                mapTwo.put("id", pur.getId());
+                List<PurchaseRequired> lis = purchaseRequiredService.selectByParentId(mapTwo);
+                if(lis.size()>1){
+                    pur.setBudget(new BigDecimal(bud));
+                }
+                list1.add(pur);
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));
-            model.addAttribute("lists", lists);
+            
+               
+           /* for(PurchaseRequired p:listBean.getList()){
+                for(PurchaseRequired s:lists){
+                     if(p.getId().equals(s.getId())){
+                         s.setBudget(p.getBudget());
+                         
+                     }
+                }
+            }*/
+            model.addAttribute("lists", list1);
+            
+            
             model.addAttribute("ids", ide);
             model.addAttribute("checkedIds", checkedIds);
         }

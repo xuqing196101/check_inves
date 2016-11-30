@@ -2,24 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -60,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	function view(no){
   		
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
   	}
   	
     function edit(){
@@ -70,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
+			window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -86,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>park/delete.html?id="+id;
+				window.location.href="${pageContext.request.contextPath}/park/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
@@ -127,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function closeLayer(){
 		var val=$("input[name='goods']:checked").val();
 		
-		window.location.href="<%=basePath%>purchaser/add.html?type=" + val;
+		window.location.href="${pageContext.request.contextPath}/purchaser/add.html?type=" + val;
 		layer.close(index);
 	}
 </script>
@@ -151,8 +137,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h2>计划明细</h2>
 		</div>
 		<div class="container clear margin-top-30">
-
-			<form action="<%=basePath%>purchaser/update.html" method="post">
+            <input class="btn btn-windows reset" value="返回" type="button"
+                    onclick="location.href='javascript:history.go(-1);'">
+			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -188,7 +175,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
-							<td>${obj.purchaseType }</td>
+							<td> <c:forEach items="${kind}" var="kind" >
+                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                </c:forEach></td>
 							<td class="tc">${obj.supplier }</td>
 							<td class="tc">${obj.isFreeTax }</td>
 							<td class="tc">${obj.goodsUse }</td>
@@ -200,9 +189,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					</c:forEach>
 				</table>
-				<!-- <input class="btn btn-windows save" type="submit" value="提交"> -->
-				<input class="btn btn-windows reset" value="返回" type="button"
-					onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>
 	</div>

@@ -2,39 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>版块管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
-
-
  <jsp:include page="/WEB-INF/view/common.jsp"/> 
- 
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
-
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
-
 <script type="text/javascript">
  	//跳转到增加页面
     function add(){
-    	window.location.href="<%=basePath%>purchaser/add.html";
+    	window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
     }
     
     
@@ -134,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	  function aadd(){
  		 var id=null;
   		 $.ajax({
- 			 url:"<%=basePath%>purchaser/getId.html",
+ 			 url:"${pageContext.request.contextPath}/purchaser/getId.html",
  			 type:"post",
  			 
  			 success:function(data){
@@ -202,12 +178,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			 
  		 
  		 $.ajax({
- 			 url:"<%=basePath%>purchaser/adddetail.html",
+ 			 url:"${pageContext.request.contextPath}/purchaser/adddetail.html",
  			 type:"post",
  			 data:$("#add_form").serialize(),
  			 success:function(){
  				 alert("添加成功");
- 				 window.location.href="<%=basePath%>purchaser/list.html";
+ 				 window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
  			 },error:function(){
  				 
  			 }
@@ -222,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
  	 
  	 function down(){
- 		 window.location.href="<%=basePath%>purchaser/download.html?filename=模板.xlsx";
+ 		 window.location.href="${pageContext.request.contextPath}/purchaser/download.html?filename=模板.xlsx";
  	 }
  	 
  	 function delets(){
@@ -238,7 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					async:{
 								autoParam:["id"],
 								enable:true,
-								url:"<%=basePath%>category/createtree.do",
+								url:"${pageContext.request.contextPath}/category/createtree.do",
 								dataType:"json",
 								type:"post",
 							},
@@ -299,7 +275,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     function same(){
     	 $.ajax({
- 			 url:"<%=basePath%>purchaser/getId.html",
+ 			 url:"${pageContext.request.contextPath}/purchaser/getId.html",
  			 type:"post",
  			 
  			 success:function(data){
@@ -384,28 +360,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="clear"></div>
 		</div>
 	</div>
-
-
-	<div class="container clear margin-top-30">
-		 <ul class="ul_list padding-left-20">
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 计划名称</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input type="text"  class="span5 col-md-8 padding-0 " name="name" id="jhmc" >
-        <span class="add-on col-md-4">i</span>
+    <div class="container container_box">
+    <div>
+    <h2 class="count_flow"><i>1</i>添加计划信息</h2>
+		 <ul class="ul_list">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划名称</span>
+	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+        <input type="text"  class="input_group" name="name" id="jhmc" >
+        <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 计划编号</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input type="text"  class="span5 col-md-8 padding-0 " name="no" id="jhbh" >
-        <span class="add-on col-md-4">i</span>
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划编号</span>
+	    <div class="input-append input_group col-sm-12 col-xs-12 p0">
+        <input type="text"  class="input_group" name="no" id="jhbh" >
+        <span class="add-on">i</span>
        </div>
 	 </li> 
-     <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5">物资类别</span>
-		  <div style="width: 200px;">
-		      <select style="width: 200px;" name="planType" id="wtype">
+     <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">物资类别</span>
+		  <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		      <select name="planType" id="wtype">
 		      <c:forEach items="${list }" var="obj">
 				<option value="${obj.id }">${obj.name }</option>
 			 </c:forEach>
@@ -454,8 +430,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 	<!-- 	</div> -->
 	</div>
-	<div class="container clear">
-
+	<div class="padding-top-10 clear">
+    <h2 class="count_flow"><i>2</i>计划明细</h2>
+        <ul class="ul_list">
+	<div class="col-md-12 pl20 mt10">
 	<button style="margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子节点</button>
 	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级节点</button>
 	<button  style="margin-top: 20px;" class="btn btn-windows output" onclick="down()">下载Excel模板</button>
@@ -465,13 +443,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
 
 
-	<div style="overflow: scroll;" class="container clear" id="add_div" >
+	<div style="overflow: scroll;" class="content table_box" id="add_div" >
 
 		<form id="add_form"  action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 		<!-- 	<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="planType" value="" id="ptype"> -->
-			<table class="table table-bordered table-condensed mt5" style="white-space: nowrap;overflow: hidden;word-spacing:keep-all;" >
+			<table class="table table-bordered table-condensed table-hover" style="white-space: nowrap;overflow: hidden;word-spacing:keep-all;" >
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -631,10 +609,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!--  <input class="btn btn-windows reset" value="取消"
 				type="button" onclick="hide()"> -->
 		</form>
-					<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> <button  class="btn padding-left-20 padding-right-20 btn_back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+					<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> 
+					<button  class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
 		
 	</div>
-
+    </ul>
+    </div>
 
 	<div id="content" class="dnone">
 		<p align="center">编制说明
@@ -670,11 +650,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <button id="bt" style="display: none;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typehide()">取消</button>
 	  </div> 
 	  
-	  <form id="" action="<%=basePath%>purchaser/ztree.html" method="post">
+	  <form id="" action="${pageContext.request.contextPath}/purchaser/ztree.html" method="post">
 			<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="type" value="" id="ptype">
 			
 			</form>
+			</div>
 </body>
 </html>

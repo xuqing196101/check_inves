@@ -580,13 +580,13 @@
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
-				and CREATED_AT=#{createdAt}
+				and CREATED_AT like '%${createdAt}%'
 			</if>
 			<if test="planName!=null">
-				and PLAN_NAME=#{planName}
+				and PLAN_NAME like '%${planName}%'
 			</if>
 			<if test="planNo !=null">
-				and PLAN_NO=#{planNo}
+				and PLAN_NO like '%${planNo}%'
 			</if>
 			
 			<if test="isMaster != null">
@@ -609,7 +609,7 @@
 			</if>
 			
 			<if test="department != null">
-			   and DEPARTMENT = #{department}
+			   and DEPARTMENT like '%${department}%'
 			</if>
 			<if test="budget != null">
 				and BUDGET = #{budget}

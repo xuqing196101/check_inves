@@ -2,29 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>采购需求管理</title>  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	
- 
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
- 
-
- 
   <script type="text/javascript">
   
   /*分页  */
@@ -48,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	$("#page").val(e.curr);
 		        	  $("#add_form").submit();
 		        	
-		       <%--  location.href = '<%=basePath%>purchaser/list.do?page='+e.curr; --%>
+		       <%--  location.href = '${pageContext.request.contextPath}/purchaser/list.do?page='+e.curr; --%>
 		        }  
 		    }
 		});
@@ -93,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	function view(no){
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no+"&&type=1";
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&&type=1";
   	}
   	
     function edit(){
@@ -103,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id+"&&type=2";;
+			window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+id+"&&type=2";;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -120,7 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				 $.ajax({
-		 			 url:"<%=basePath%>purchaser/delete.html",
+		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html",
 		 			 type:"post",
 		 			 data:{
 		 				 planNo:$('input[name="chkItem"]:checked').val()
@@ -152,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  content: $('#content'),
 			}); */
 			
-    	window.location.href="<%=basePath%>purchaser/add.html";
+    	window.location.href="${pageContext.request.contextPath}/purchaser/add.html";
     	
    
     }
@@ -174,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function closeLayer(){
 		var val=$("input[name='goods']:checked").val();
 		
-		window.location.href="<%=basePath%>purchaser/add.html?type="+val;
+		window.location.href="${pageContext.request.contextPath}/purchaser/add.html?type="+val;
 		layer.close(index);	
 	}
 	
@@ -185,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/exports.html?planNo="+id+"&&type=2";
+			window.location.href="${pageContext.request.contextPath}/purchaser/exports.html?planNo="+id+"&&type=2";
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -201,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/submit.html?planNo="+id;
+			window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -275,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </h2>
 	   	  
    	  <div class="col-md-12 pl20 mt10">
-	    <button class="btn btn-windows add" onclick="add()">需求计划录入</button>
+	    <button class="btn btn-windows add" onclick="add()">计划录入</button>
 	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
 		<button class="btn btn-windows output" onclick="exports()">下载</button>
 	    <button class="btn btn-windows delete" onclick="del()">删除</button>
@@ -340,19 +321,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
-
-<!--  <div id="content" class="div_show">
-	 <p align="center" class="type">
-	         请选择类别
-	<br>
-	
-	 <input type="radio" name="goods" value="1">:货物<br>
-	 <input type="radio" name="goods" value="2">:工程<br>
-	 <input type="radio" name="goods" value="3">:服务<br>
-	    </p>
-	     <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
-	    
- </div> -->
  
 	 </body>
 </html>

@@ -10,42 +10,40 @@
 <html>
 <head>
 <script type="text/javascript">
-function cancel(){
-     var index=parent.layer.getFrameIndex(window.name);
-     parent.layer.close(index);
-     
-}
-function delTask(id){
-            var upload_id = $("#upload_id").val();
-            if(upload_id){
-                $("#myForm").submit();
-            }else{
-                layer.tips("请上传附件", "#uuId");
-            } 
-                  
- }
+  function cancel(){
+    var index=parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+  }
+  
+  
+  function delTask(id){
+    var upload_id = $("#upload_id").val();
+    if(upload_id){
+      $("#myForm").submit();
+    }else{
+      layer.tips("请上传附件", "#uuId");
+    } 
+  }
 </script>  
 </head>
 
 <body>
-    <form  action="${pageContext.request.contextPath}/task/deleteTask.html" id="myForm"
-        method="post" name="form1" class="" target="_parent">
-        <input type="hidden" name="id" value="${task.id}"/>
-        <div class="drop_window" id="delTask">
-              <ul class="list-unstyled">
-                 <li class="mt10 col-md-12 p0">
-                    <span id="uuId"></span>
-                   <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
-                    <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
-                </li>
-		        <div class="clear"></div>
-              </ul>
-         </div>
-        
-         <div class="tc mt10 col-md-12">
-                <input class="btn btn-windows save" type="button" value="确认" onclick="delTask();"/>
-                <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
-         </div>
-    </form>
+  <form  action="${pageContext.request.contextPath}/task/deleteTask.html" id="myForm"  method="post" name="form1" class="" target="_parent">
+    <input type="hidden" name="id" value="${task.id}"/>
+    <div class="drop_window" id="delTask">
+      <ul class="list-unstyled">
+        <li class="mt10 col-md-12 p0">
+          <span id="uuId"></span>
+          <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+          <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+        </li>
+	    <div class="clear"></div>
+      </ul>
+    </div>
+    <div class="tc mt10 col-md-12">
+      <input class="btn btn-windows save" type="button" value="确认" onclick="delTask();"/>
+      <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+    </div>
+  </form>
 </body>
 </html>
