@@ -149,6 +149,15 @@ public class BurningPowerController {
 			model.addAttribute("burningPower", burningPower);
 			url = "bss/sstps/offer/supplier/burningPower/add";
 		}else{
+			if(ValidateUtils.isNull(burningPower.getTyaMoney())){
+				burningPower.setTyaMoney(0);
+			}
+			if(ValidateUtils.isNull(burningPower.getOyaMoney())){
+				burningPower.setOyaMoney(0);
+			}
+			if(ValidateUtils.isNull(burningPower.getNewMoney())){
+				burningPower.setNewMoney(0);
+			}
 			burningPower.setCreatedAt(new Date());
 			burningPower.setUpdatedAt(new Date());
 			burningPowerService.insert(burningPower);

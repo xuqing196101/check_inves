@@ -147,6 +147,15 @@ public class ManufacturingCostController {
 			model.addAttribute("mc", manufacturingCost);
 			url = "bss/sstps/offer/supplier/manufacturingCost/add";
 		}else{
+			if(ValidateUtils.isNull(manufacturingCost.getTyaQuoteprice())){
+				manufacturingCost.setTyaQuoteprice(0);
+			}
+			if(ValidateUtils.isNull(manufacturingCost.getOyaQuoteprice())){
+				manufacturingCost.setOyaQuoteprice(0);
+			}
+			if(ValidateUtils.isNull(manufacturingCost.getNewQuoteprice())){
+				manufacturingCost.setNewQuoteprice(0);
+			}
 			manufacturingCost.setCreatedAt(new Date());
 			manufacturingCost.setUpdatedAt(new Date());
 			manufacturingCostService.insert(manufacturingCost);

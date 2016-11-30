@@ -159,6 +159,15 @@ public class WagesPayableController {
 			model.addAttribute("wp", wagesPayable);
 			url = "bss/sstps/offer/supplier/wagesPayable/add";
 		}else{
+			if(ValidateUtils.isNull(wagesPayable.getTyaTotal())){
+				wagesPayable.setTyaTotal(0);
+			}
+			if(ValidateUtils.isNull(wagesPayable.getOyaTotal())){
+				wagesPayable.setOyaTotal(0);
+			}
+			if(ValidateUtils.isNull(wagesPayable.getNewTotal())){
+				wagesPayable.setNewTotal(0);
+			}
 			wagesPayable.setCreatedAt(new Date());
 			wagesPayable.setUpdatedAt(new Date());
 			wagesPayableService.insert(wagesPayable);

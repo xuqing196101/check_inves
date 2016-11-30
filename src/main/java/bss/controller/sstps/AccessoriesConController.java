@@ -113,6 +113,12 @@ public class AccessoriesConController {
 			model.addAttribute("acc", accessoriesCon);
 			url="bss/sstps/offer/supplier/accessories/add";
 		}else{
+			if(ValidateUtils.isNull(accessoriesCon.getWorkMoney())){
+				accessoriesCon.setWorkMoney(0);
+			}
+			if(ValidateUtils.isNull(accessoriesCon.getConsumeMoney())){
+				accessoriesCon.setConsumeMoney(0);
+			}
 			accessoriesCon.setCreatedAt(new Date());
 			accessoriesCon.setUpdatedAt(new Date());
 			accessoriesConService.insert(accessoriesCon);

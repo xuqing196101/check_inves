@@ -149,6 +149,12 @@ public class OutsourcingConController {
 			model.addAttribute("out", outsourcingCon);
 			url = "bss/sstps/offer/supplier/outsourcing/add";
 		}else{
+			if(ValidateUtils.isNull(outsourcingCon.getWorkMoney())){
+				outsourcingCon.setWorkMoney(0);
+			}
+			if(ValidateUtils.isNull(outsourcingCon.getConsumeMoney())){
+				outsourcingCon.setConsumeMoney(0);
+			}
 			outsourcingCon.setCreatedAt(new Date());
 			outsourcingCon.setUpdatedAt(new Date());
 			outsourcingConService.insert(outsourcingCon);

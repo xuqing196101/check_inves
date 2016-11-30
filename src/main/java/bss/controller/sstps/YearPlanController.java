@@ -153,6 +153,15 @@ public class YearPlanController {
 			model.addAttribute("yp", yearPlan);
 			url = "bss/sstps/offer/supplier/yearPlan/add";
 		}else{
+			if(ValidateUtils.isNull(yearPlan.getTyaHourTotal())){
+				yearPlan.setTyaHourTotal(0);
+			}
+			if(ValidateUtils.isNull(yearPlan.getOyaHourTotal())){
+				yearPlan.setOyaHourTotal(0);
+			}
+			if(ValidateUtils.isNull(yearPlan.getNewHourTotal())){
+				yearPlan.setNewHourTotal(0);
+			}
 			yearPlan.setCreatedAt(new Date());
 			yearPlan.setUpdatedAt(new Date());
 			yearPlanService.insert(yearPlan);

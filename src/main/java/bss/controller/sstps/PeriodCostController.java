@@ -153,6 +153,15 @@ public class PeriodCostController {
 			model.addAttribute("pc", periodCost);
 			url = "bss/sstps/offer/supplier/periodCost/add";
 		}else{
+			if(ValidateUtils.isNull(periodCost.getTyaQuoteprice())){
+				periodCost.setTyaQuoteprice(0);
+			}
+			if(ValidateUtils.isNull(periodCost.getOyaQuoteprice())){
+				periodCost.setOyaQuoteprice(0);
+			}
+			if(ValidateUtils.isNull(periodCost.getNewQuoteprice())){
+				periodCost.setNewQuoteprice(0);
+			}
 			periodCost.setCreatedAt(new Date());
 			periodCost.setUpdatedAt(new Date());
 			periodCostService.insert(periodCost);

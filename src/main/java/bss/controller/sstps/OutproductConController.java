@@ -139,6 +139,12 @@ public class OutproductConController {
 			model.addAttribute("out", outproductCon);
 			url = "bss/sstps/offer/supplier/outproduct/add";
 		}else{
+			if(ValidateUtils.isNull(outproductCon.getWorkMoney())){
+				outproductCon.setWorkMoney(0);
+			}
+			if(ValidateUtils.isNull(outproductCon.getConsumeMoney())){
+				outproductCon.setConsumeMoney(0);
+			}
 			outproductCon.setCreatedAt(new Date());
 			outproductCon.setUpdatedAt(new Date());
 			outproductConService.insert(outproductCon);

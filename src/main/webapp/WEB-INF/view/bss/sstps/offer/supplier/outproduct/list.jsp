@@ -90,6 +90,9 @@ function onStep(){
 function nextStep(){
 	var proId = $("#proId").val();
 	var total = $("#total").val();
+	if(total=="NaN"){
+		total=0;
+	}
 	window.location.href="${pageContext.request.contextPath}/outsourcingCon/select.do?proId="+proId+"&total="+total;
 }
 

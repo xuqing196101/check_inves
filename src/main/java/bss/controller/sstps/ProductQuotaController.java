@@ -154,6 +154,12 @@ public class ProductQuotaController {
 			model.addAttribute("pq", productQuota);
 			url = "bss/sstps/offer/supplier/productQuota/add";
 		}else{
+			if(ValidateUtils.isNull(productQuota.getSubtotalOffer())){
+				productQuota.setSubtotalOffer(0);
+			}
+			if(ValidateUtils.isNull(productQuota.getApprovedOffer())){
+				productQuota.setApprovedOffer(0);
+			}
 			productQuota.setCreatedAt(new Date());
 			productQuota.setUpdatedAt(new Date());
 			productQuotaService.insert(productQuota);

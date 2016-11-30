@@ -160,6 +160,9 @@ public class SpecialCostController {
 			model.addAttribute("sc", specialCost);
 			url = "bss/sstps/offer/supplier/specialCost/add";
 		}else{
+			if(ValidateUtils.isNull(specialCost.getMoney())){
+				specialCost.setMoney(0);
+			}
 			specialCost.setCreatedAt(new Date());
 			specialCost.setUpdatedAt(new Date());
 			specialCostService.insert(specialCost);
