@@ -355,5 +355,7 @@
   	from T_SES_BMS_ATTACHMENT
   	WHERE 
 		BUSINESS_ID = #{id}
+		AND
+		IS_DELETED = 0
   </select>
 </mapper>
