@@ -220,7 +220,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container clear tc mt60">Copyright 2016 版权所有：中央军委后勤保障部</div>
+		<div class="container clear tc mt60 footer-fixed">Copyright 2016 版权所有：中央军委后勤保障部</div>
 	</div>
 </body>
 </html>
