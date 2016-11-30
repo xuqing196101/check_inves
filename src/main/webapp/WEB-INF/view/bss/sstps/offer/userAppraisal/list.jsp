@@ -6,10 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>审价人员审价</title>
-    
+
 <script type="text/javascript">
 
 $(function(){

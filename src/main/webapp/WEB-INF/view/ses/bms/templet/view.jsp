@@ -30,12 +30,12 @@
 
 	<div class="container content pt0">
  	<div class="row magazine-page">
-	   <div class="col-md-12 tab-v2">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 				<ul class="nav nav-tabs bgwhite">
-	            	<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">须知文档详情</a></li>
+	            	<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">模板详情</a></li>
            	 	</ul>
-           	 	<div class="tab-content padding-top-20">
+           	 	<div class="tab-content padding-top-20 over_hideen">
             	<div class="tab-pane fade active in" id="tab-1">
                 	<h2 class="count_flow jbxx">基本信息</h2>
                 	<table class="table table-bordered">
@@ -55,17 +55,16 @@
                  		</tbody>
            	 		</table>
 					<h2 class="count_flow jbxx">模板内容</h2>
-                 	<div class="col-md-12  fn mt5 pwr9">
+                 <div class="col-md-12 col-sm-12 col-cs-12 p0">
                      <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
                     <!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
                 	</div>
                  </div>
+                 	<!-- 底部按钮 -->			          
+ 				 <div class="col-md-12 col-sm-12 col-cs-12 mt20 tc">
+  					<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+ 				 </div>
                 </div>
-				<!-- 底部按钮 -->
-				<div class="col-md-12 tc">
-						<button class="btn btn-windows back" onclick="history.go(-1)"
-							type="button">返回</button>
-				</div>
 			</div>  	
      	</div>
      </div>
