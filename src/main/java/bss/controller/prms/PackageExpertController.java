@@ -196,6 +196,49 @@ public class PackageExpertController {
         return "bss/prms/supplier_quote/quote_list";
     }
     
+    /**
+     *〈简述〉跳转查看评审进度
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId 项目id
+     * @param model 
+     * @param flowDefineId 流程环节id
+     * @return
+     */
+    @RequestMapping("/toAuditProgress")
+    public String toAuditProgress(String projectId, Model model, String flowDefineId) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        // 进度集合
+        List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map);
+        List<Packages> packages = packageService.listResultExpert(projectId);
+        if (reviewProgressList.size() < packages.size()) {
+            for (Packages pg : packages) {
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("projectId", projectId);
+                map2.put("packageId", pg.getId());
+                //查询该包有没有评审进度数据
+                List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
+                if (rplist == null || rplist.size() <= 0) {
+                    ReviewProgress reviewProgress = new ReviewProgress();
+                    reviewProgress.setAuditStatus("0");
+                    reviewProgress.setFirstAuditProgress(0.00);
+                    reviewProgress.setPackageId(pg.getId());
+                    reviewProgress.setPackageName(pg.getName());
+                    reviewProgress.setProjectId(projectId);
+                    reviewProgress.setScoreProgress(0.00);
+                    reviewProgress.setTotalProgress(0.00);
+                    reviewProgressList.add(reviewProgress);
+                }
+            }
+        }
+        // 包信息
+        model.addAttribute("packageList", packages);
+        // 进度
+        model.addAttribute("reviewProgressList", reviewProgressList);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/prms/bid_audit/audit_progress";
+    }
     
     /**
      * 
