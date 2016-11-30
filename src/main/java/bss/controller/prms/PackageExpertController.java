@@ -92,7 +92,37 @@ public class PackageExpertController {
     @Autowired
     private FirstAuditService firstAuditService;//初审项
 
-	/**
+    /**
+     *〈简述〉跳转分配专家
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId 项目id
+     * @param model
+     * @param flowDefineId 流程环节id
+     * @return
+     */
+    @RequestMapping("/assignedExpert")
+	public String assignedExpert(String projectId, Model model, String flowDefineId) {
+	    List<Packages> packages = packageService.listResultExpert(projectId);
+	    Project project = projectService.selectById(projectId);
+	    // 查询条件
+        ProjectExtract projectExtract = new ProjectExtract();
+        projectExtract.setProjectId(projectId);
+        projectExtract.setReason("1");
+        // 项目抽取的专家信息
+        List<ProjectExtract> expertList = projectExtractService.list(projectExtract);
+        
+        model.addAttribute("expertList", expertList);
+        // 包信息
+        model.addAttribute("packageList", packages);
+        // 项目实体
+        model.addAttribute("project", project);
+        model.addAttribute("flowDefineId", flowDefineId);
+	    return "bss/prms/assign_expert/expert_list";
+	}
+    
+    
+    /**
      * 
      * @Title: toPackageExpert
      * @author ShaoYangYang
