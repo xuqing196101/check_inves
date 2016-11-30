@@ -259,7 +259,7 @@
 	          <table class="table table-bordered  table-condensed table-hover">
 	            <thead>
 	              <tr>
-	                <th class="info w50">序号</th>
+	                <th class="info">序号</th>
 	                <th class="info">年份</th>
 	                <th class="info">会计事务所名称</th>
 	                <th class="info">事务所联系电话</th>
@@ -274,7 +274,7 @@
 	            </thead>
 	            <c:forEach items="${financial}" var="f" varStatus="vs">
 	              <tr>
-	                <td class="tc">${vs.index + 1}</td>
+	                <td class="tc" onclick="reason('${f.id}','财务信息');">${vs.index + 1}</td>
 	                <td class="tc" id="${f.id }" onclick="reason('${f.id}','财务信息');">${f.year } </td>
 	                <td class="tc" onclick="reason('${f.id}','财务信息');" >${f.name }</td>
 	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.telephone }</td>
@@ -297,7 +297,8 @@
 	            <table class="table table-bordered  table-condensed table-hover">
 	              <thead>
 	                <tr>
-	                  <th class="w50 info">年份</th>
+	                  <th class="info">序号</th>
+	                  <th class="info">年份</th>
 	                  <th class="info">财务利润表</th>
 	                  <th class="info">审计报告的审计意见</th>
 	                  <th class="info">资产负债表</th>
@@ -309,6 +310,7 @@
 	              <tbody id="finance_attach_list_tbody_id">
 	                <c:forEach items="${financial}" var="finance" varStatus="vs">
 	                  <tr>
+	                    <td class="tc" onclick="reason('${finance.id}','财务附件');">${vs.index + 1}</td>
 	                    <td class="tc" id="${finance.id }" onclick="reason('${finance.id}','财务附件');">${finance.year}</td>
 	                    <td class="tc">
 	                      <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
