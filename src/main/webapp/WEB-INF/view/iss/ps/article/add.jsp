@@ -146,10 +146,11 @@
 	 </li>
 	 
      <li class="col-md-12 col-sm-12 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red fl">*</i>信息正文：</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息正文：</span>
 	   <div class=" col-md-12 col-sm-12 col-xs-12 p0">
 	   <script id="editor" name="content" type="text/plain" class="col-md-12 col-sm-12 col-xs-12 p0"></script>
        </div>
+       <div class="red f14 clear col-ms-12 col-xs-12 col-sm-12 p0">${ERR_content}</div>
 	 </li> 
 
 	 <li class="col-md-6 col-sm-6 col-xs-12 mt10">
