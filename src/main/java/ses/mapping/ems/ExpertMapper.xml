@@ -134,15 +134,18 @@
 		IS_BLACK,
 		HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
 		)
-		values (#{id,jdbcType=VARCHAR},
+		values
+		(#{id,jdbcType=VARCHAR},
 		#{isSubmit,jdbcType=VARCHAR},
 		#{isDo,jdbcType=VARCHAR},
-		#{isDelete,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE},
+		#{isDelete,jdbcType=DECIMAL},
+		#{createdAt,jdbcType=DATE},
 		#{gender,jdbcType=CHAR},
 		#{updatedAt,jdbcType=DATE},
 		#{mobile,jdbcType=VARCHAR},
 		#{birthday,jdbcType=DATE},
-		#{idNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR},
+		#{idNumber,jdbcType=VARCHAR},
+		#{idType,jdbcType=VARCHAR},
 		#{expertsFrom,jdbcType=VARCHAR},
 		#{politicsStatus,jdbcType=VARCHAR},
 		#{NATION,jdbcType=VARCHAR},
@@ -160,7 +163,7 @@
 		#{expertsTypeId,jdbcType=VARCHAR},
 		#{purchaseDepId,jdbcType=DECIMAL}, #{status,jdbcType=CHAR},
 		#{isBlack,jdbcType=CHAR}, #{honestyScore,jdbcType=DECIMAL},
-		#{relName,jdbcType=VARCHAR}, #{isPass,jdbcType=DECIMAL},  
+		#{relName,jdbcType=VARCHAR}, #{isPass,jdbcType=DECIMAL},
 		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR}
 		)
 	</insert>
@@ -421,7 +424,7 @@
 				IS_PASS = #{isPass,jdbcType=DECIMAL},
 			</if>
 			<if test="isProvisional != null">
-				 IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=DATE},
@@ -534,15 +537,19 @@
 		#{isDo,jdbcType=VARCHAR},
 		IS_DELETE = #{isDelete,jdbcType=DECIMAL},
 		IS_PASS = #{isPass,jdbcType=DECIMAL},
-		IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
+		IS_PROVISIONAL =
+		#{isProvisional,jdbcType=DECIMAL},
+		CREATED_AT =
+		#{createdAt,jdbcType=DATE},
 		GENDER =
 		#{gender,jdbcType=CHAR},
-		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		UPDATED_AT
+		= #{updatedAt,jdbcType=DATE},
 		MOBILE = #{mobile,jdbcType=VARCHAR},
 		BIRTHDAY =
 		#{birthday,jdbcType=DATE},
-		ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+		ID_NUMBER =
+		#{idNumber,jdbcType=VARCHAR},
 		ID_TYPE = #{idType,jdbcType=VARCHAR},
 		EXPERTS_FROM =
 		#{expertsFrom,jdbcType=VARCHAR},
@@ -585,8 +592,9 @@
 		#{relName,jdbcType=VARCHAR},
 		REMARKS =
 		#{remarks,jdbcType=VARCHAR}
-		where ID = #{id,jdbcType=VARCHAR}
-		
+		where
+		ID = #{id,jdbcType=VARCHAR}
+
 	</update>
 
 	<select id="findExpertList" parameterType="java.lang.String"
@@ -594,23 +602,25 @@
 		select * from T_SES_EMS_EXPERT
 	</select>
 
-<!-- 查询专家 可条件查询 -->
-  <select id="findExpertAll" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
-    select
-      *
-    from 
-      T_SES_EMS_EXPERT
-    where 1=1
-    <if test="relName != null and relName !=''">
-      AND REAL_NAME like '%${relName}%'
-    </if>
-    <if test="ids != null">
-      <foreach collection="ids" item="id" open="and ID not in (" close=")" separator=",">
-        #{id}
-      </foreach>
-    </if>
-    ORDER BY CREATED_AT DESC
-  </select>
+	<!-- 查询专家 可条件查询 -->
+	<select id="findExpertAll" resultMap="BaseResultMap"
+		parameterType="ses.model.ems.Expert">
+		select
+		*
+		from
+		T_SES_EMS_EXPERT
+		where 1=1
+		<if test="relName != null and relName !=''">
+			AND REAL_NAME like '%${relName}%'
+		</if>
+		<if test="ids != null">
+			<foreach collection="ids" item="id" open="and ID not in ("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+		ORDER BY CREATED_AT DESC
+	</select>
 	<!-- 专家抽取集合 -->
 	<!-- AND ee.ADDRESS = #{address} -->
 	<!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
@@ -628,7 +638,8 @@
 		ee.IS_DELETE = 0
 		<foreach item="item" collection="conTypes">
 			AND (EE.EXPERTS_TYPE_ID = #{item.expertsTypeId}
-			<if test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
+			<if
+				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
 				<if test="item.isMulticondition==2">
 					AND
 					<foreach item="ids" collection="item.categorySplit"
@@ -647,10 +658,11 @@
 			)
 		</foreach>
 	</select>
-	
-	
+
+
 	<!-- 查询所有专家 可条件查询 -->
-	<select id="findAllExpert" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="findAllExpert" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_EMS_EXPERT
@@ -675,4 +687,13 @@
 		</if>
 		ORDER BY CREATED_AT DESC
 	</select>
+
+
+    <!-- 关联 -->
+	<select id="getByExpertProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN T_SES_EMS_EXPERT ee
+		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0  AND PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
+	</select>
+
+
 </mapper>

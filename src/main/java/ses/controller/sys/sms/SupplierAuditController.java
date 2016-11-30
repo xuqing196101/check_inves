@@ -255,7 +255,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/items.html";
+			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/shareholder";
@@ -297,7 +297,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else if(supplierTypeName.contains("服务") && url == null){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/items.html";
+			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_production";
@@ -384,7 +384,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplierTypeName.contains("服务")){
 			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
 		}else{
-			url=request.getContextPath()+"/supplierAudit/items.html";
+			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/engineering";
@@ -626,9 +626,12 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		
 		//审核完更新状态
-		supplierAudit.setStatus(supplier.getStatus());
-		supplierAudit.setId(supplierAudit.getId());
-		supplierAuditService.updateStatusById(supplierAudit);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		if(reasonsList.size() !=0 ){
+			supplierAudit.setStatus(supplier.getStatus());
+			supplierAudit.setId(supplierAudit.getId());
+			supplierAuditService.updateStatusById(supplierAudit);
+		}
 		return "redirect:supplierAll.html";
 	}
 	

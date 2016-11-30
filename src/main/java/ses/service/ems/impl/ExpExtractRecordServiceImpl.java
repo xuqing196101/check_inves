@@ -17,6 +17,7 @@ import ses.model.bms.User;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
@@ -52,7 +53,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
      */
     @Override
     public void insert(ExpExtractRecord record) {
-        expExtractRecordMapper.insert(record);
+        expExtractRecordMapper.insertSelective(record);
     }
 
     /**
@@ -143,4 +144,17 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         }  
         return sb.toString();  
     }
+
+    
+    /**
+     * 
+     *〈简述〉修改
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    @Override
+    public void update(ExpExtractRecord extracts) {
+        expExtractRecordMapper.updateByPrimaryKeySelective(extracts);
+    }
+
 }

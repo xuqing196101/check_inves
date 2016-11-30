@@ -25,6 +25,7 @@ import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ext.AuditModelExt;
+import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.prms.ExpertScoreService;
 @Service
 public class ExpertScoreServiceImpl implements ExpertScoreService {
@@ -265,5 +266,19 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
                 } 
             } 
         } 
+    }
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉专家详细审核界面的分值展示
+     * @author WangHuijie
+     * @param map
+     * @return
+     */
+    @Override
+    public List<ExpertSuppScore> getScoreByMap(Map<String, Object> map) {
+        //mapper.deleteByPrimaryKey(id);
+        return mapper.getScoreByMap(map);
     } 
+    
 }

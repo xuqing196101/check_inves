@@ -76,10 +76,8 @@ public class StationMessageController {
         //机构id 选填
         stationMessage.setOrgId("");
 
-
         //插入通知表
         stationMessageService.insertStationMessage(stationMessage);
-
         //发送待办
         Todos todos = new Todos();
         //发送用户id 必填  

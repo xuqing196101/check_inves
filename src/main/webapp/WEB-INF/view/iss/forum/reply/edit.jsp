@@ -12,11 +12,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->	
 	<script type="text/javascript">    
-  
+  		function back(){
+  			window.location.href = "${pageContext.request.contextPath }/reply/backReply.html";
+  		}
 	</script>
   </head>
   <body>
@@ -49,7 +48,7 @@
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 col-sm-12 col-xs-12 tc">     
     	<button class="btn btn-windows save" type="submit">更新</button>
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    	<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	</div>
 	</div>  	
 

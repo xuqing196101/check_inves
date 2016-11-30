@@ -201,10 +201,10 @@
 		pe.*
 		FROM
 		T_SES_EMS_PROJECT_EXTRACT pe
-		Where STATUS_COUNT=0  
+		Where STATUS_COUNT=0
 		<if test="id != null and id != ''">
-            AND pe.ID =#{id}
-        </if>
+			AND pe.ID =#{id}
+		</if>
 		<if test="expertConditionId != null and expertConditionId != ''">
 			AND pe.EXPERT_CONDITION_ID =#{expertConditionId}
 		</if>
@@ -235,7 +235,7 @@
 		PROJECT_ID=#{projectId}
 		AND EXPERT_CONDITION_ID=#{expertConditionId}
 	</delete>
-	<!-- 当抽取数量满足时修改还未抽取的专家状态为1-->
+	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
 	<update id="updateStatusCount" parameterType="map">
 		UPDATE
 		T_SES_EMS_PROJECT_EXTRACT
@@ -243,32 +243,31 @@
 		WHERE
 		CON_TYPE_ID =
 		#{conTypeId}
-		AND OPERATING_TYPE != 1
-		AND OPERATING_TYPE != 2
-		AND
-		OPERATING_TYPE != 3
+		AND OPERATING_TYPE = 0
 	</update>
-	   <!-- 获取专家是否存在 -->
-    <select id="getexpCount" parameterType="Map" resultType="java.lang.Integer">
-        SELECT
-        "COUNT"(EXPERT_ID) as count FROM
-        T_SES_EMS_PROJECT_EXTRACT WHERE
-        EXPERT_ID=#{expertId}
-        AND
-        PROJECT_ID=#{projectId}
-    </select>
-    <!-- 批量插入 -->
-    <insert id="insertList" parameterType="java.util.List">
-        INSERT INTO T_SES_EMS_PROJECT_EXTRACT
-        (PROJECT_ID,EXPERT_CONDITION_ID,EXPERT_ID,CON_TYPE_ID)
-        <foreach collection="list" item="item" index="index"
-            separator="union" close=")" open="(">
-            select
-            #{item.projectId,jdbcType=VARCHAR},
-            #{item.expertConditionId,jdbcType=VARCHAR},
-            #{item.expertId,jdbcType=VARCHAR},
-            #{item.conTypeId,jdbcType=VARCHAR}
-            from dual
-        </foreach>
-    </insert>
+	<!-- 获取专家是否存在 -->
+	<select id="getexpCount" parameterType="Map" resultType="java.lang.Integer">
+		SELECT
+		"COUNT"(EXPERT_ID) as count FROM
+		T_SES_EMS_PROJECT_EXTRACT WHERE
+		EXPERT_ID=#{expertId}
+		AND
+		PROJECT_ID=#{projectId}
+	</select>
+	<!-- 批量插入 -->
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO T_SES_EMS_PROJECT_EXTRACT
+		(PROJECT_ID,EXPERT_CONDITION_ID,EXPERT_ID,CON_TYPE_ID)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.expertConditionId,jdbcType=VARCHAR},
+			#{item.expertId,jdbcType=VARCHAR},
+			#{item.conTypeId,jdbcType=VARCHAR}
+			from dual
+		</foreach>
+	</insert>
+
+
 </mapper>

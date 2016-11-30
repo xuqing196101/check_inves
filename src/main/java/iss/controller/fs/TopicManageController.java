@@ -18,19 +18,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -146,37 +144,35 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(@Valid Topic topic,BindingResult result,HttpServletRequest request, Model model){		
+	public String save(Topic topic,HttpServletRequest request, Model model){		
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("name", topic.getName());
 		map.put("parkId", parkId);
-
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+		String name = request.getParameter("name");
+		if(name.trim().equals("")||name.trim()==null){
 			flag = false;
-		}
-		if(topic.getName()!=""&&topic.getName()!= null){
+			model.addAttribute("ERR_name", "主题名称不能为空");
+		}else{
 			BigDecimal i = topicService.checkTopicName(map);
 			BigDecimal j = new BigDecimal(0);
 			if( !i .equals(j)){
 				flag = false;
 				model.addAttribute("ERR_name", "主题名称不能重复");
+			}else{
+				int len = ValidateUtils.length(topic.getName());
+				if(len>20||len<6){
+					flag = false;
+					model.addAttribute("ERR_name", "主题名称由6-20个字符组成，一个中文计2个字符");
+				}
 			}
 		}
-		
-		
 		if(parkId.equals(null) ||parkId.equals("") ){
 			flag = false;
 			model.addAttribute("ERR_park", "所属版块不能为空");
-		}	
-		
-		
+		}
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
@@ -231,14 +227,17 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(@Valid Topic topic,BindingResult result,HttpServletRequest request, Model model){
+	public String update(Topic topic,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
-		if(topic.getName()!=""&&topic.getName()!= null){
+		String name = request.getParameter("name");
+		if(name.trim().equals("")||name.trim()==null){
+			flag = false;
+			model.addAttribute("ERR_name", "主题名称不能为空");
+		}else{
 			String oldTopicName = topicService.selectByPrimaryKey(topicId).getName();
-			
 			Map<String,Object> map = new HashMap<String, Object>();
 			map.put("name", topic.getName());
 			map.put("parkId", parkId);
@@ -247,19 +246,17 @@ public class TopicManageController extends BaseSupplierController {
 			if( !oldTopicName.equals(topic.getName())&&!i .equals(j)){
 				flag = false;
 				model.addAttribute("ERR_name", "主题名称不能重复");
+			}else{
+				int len = ValidateUtils.length(topic.getName());
+				if(len>20||len<6){
+					flag = false;
+					model.addAttribute("ERR_name", "主题名称由6-20个字符组成，一个中文计2个字符");
+				}
 			}
 		}
-	
 		if(parkId.equals(null) ||parkId.equals("") ){
 			flag = false;
 			model.addAttribute("ERR_park", "所属版块不能为空");
-		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			flag = false;
 		}
 		if(flag == false){
 			Topic p = topicService.selectByPrimaryKey(topicId);
@@ -274,17 +271,18 @@ public class TopicManageController extends BaseSupplierController {
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
 			url="iss/forum/topic/edit";
-			
 		}else{
 			Park park = parkService.selectByPrimaryKey(parkId);
 			topic.setPark(park);
 			Timestamp ts = new Timestamp(new Date().getTime());
-			topic.setUpdatedAt(ts);			
+			topic.setUpdatedAt(ts);	
+			if(topic.getContent()==null){
+				topic.setContent("");
+			}
 			topic.setId(topicId);
 			topicService.updateByPrimaryKeySelective(topic);
 			url="redirect:getlist.html";
 		}
-		
 		return url;
 	}
 	
@@ -324,12 +322,22 @@ public class TopicManageController extends BaseSupplierController {
 	* @return Map<String, Object>     
 	*/
 	@RequestMapping("/getListForSelect")
-	 
 	public void getListForSelect(HttpServletResponse response,String parkId) {
-
 		List<Topic> topics = topicService.selectByParkID(parkId);
-		
 		super.writeJson(response, topics);
-
+	}
+	
+	/**
+	 * 
+	* @Title: backTopic
+	* @author ZhaoBo
+	* @date 2016-11-29 下午2:43:12  
+	* @Description: 返回到主题列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backTopic")
+	public String backTopic(){
+		return "redirect:getlist.html";
 	}
 }

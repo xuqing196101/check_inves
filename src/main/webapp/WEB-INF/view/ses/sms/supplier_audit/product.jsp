@@ -179,7 +179,7 @@ function nextStep(){
                         <i></i>
                     </li>
                     <li>
-                        <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        <a aria-expanded="false" href="#tab-4" >汇总</a>
                     </li>
                 </ul>
 
@@ -205,7 +205,7 @@ function nextStep(){
 	                    <th class="info">参考价格</th>
 	                    <th class="info">产品图片</th>
 	                    <th class="info">商品二维码</th>
-	                    <th class="info w50"></th>
+	                    <th class="info"></th>
 	                  </tr>
 	                </thead>
 	                <tbody >
@@ -242,10 +242,10 @@ function nextStep(){
 	              </table>
 	              </ul>
 	            </c:forEach>
-               <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
-                      <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                    <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
-                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
+                <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
+                <a class="btn"  type="button" onclick="nextStep();">下一步</a>
             </div>
         </div>
         </div>

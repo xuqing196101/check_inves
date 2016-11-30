@@ -4,32 +4,18 @@
 package ses.controller.sys.ems;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,29 +25,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
+import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtConditionService;
+import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ExtConTypeService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.ems.ProjectSupervisorServicel;
+import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
 /**
@@ -75,6 +71,12 @@ import bss.service.ppms.ProjectService;
 @Scope("prototype")
 @RequestMapping("/ExpExtract")
 public class ExpExtractRecordController extends BaseController {
+
+    /** 包  **/
+    @Autowired
+    private PackageService packagesService; 
+
+
     @Autowired
     ProjectService projectService;
     @Autowired
@@ -93,6 +95,51 @@ public class ExpExtractRecordController extends BaseController {
     ProjectSupervisorServicel projectSupervisorServicel;
     @Autowired
     UserServiceI userServiceI;//用户管理
+    /** 关联包**/
+    @Autowired
+    private ExpExtPackageService  expExtPackageServicel;
+    /** 字典**/
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI; 
+    @Autowired
+    private DictionaryDataMapper dictionaryDataMapper; //
+    @Autowired
+    private SupplierTypeService supplierTypeService;// 供应商类型
+
+
+
+    /**
+     * 
+     *〈简述〉获取项目下的所有包。
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param model
+     * @param projectId 项目id
+     * @param page 
+     * @return 路径
+     */
+    @RequestMapping("/packageList")
+    public String packageList(Model model, String  projectId, String packName, String page,String typeclassId){
+        if (projectId != null && !"".equals(projectId)){
+            model.addAttribute("packName", packName);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("typeclassId", typeclassId);
+            ExpExtPackage extPackage = new ExpExtPackage();
+            extPackage.setProjectId(projectId);
+            Packages packages = new Packages();
+            packages.setName(packName);
+            extPackage.setPackages(packages);
+            List<ExpExtPackage> list = expExtPackageServicel.list(extPackage, page == null || "".equals(page) ? "1" : page);
+            model.addAttribute("info", new PageInfo<ExpExtPackage>(list));    
+            return "ses/ems/exam/expert/extract/ext_package";
+        } else {
+            return "redirect:Extraction.html";
+        }
+
+    }
+
+
+
     /**
      * @Description:    获取项目集合
      *
@@ -106,9 +153,12 @@ public class ExpExtractRecordController extends BaseController {
      */
     @RequestMapping("/projectlist")
     public String list(Integer page,Model model,Project project){
-        List<Project> list = projectService.list(page == null?1:page, project);
+        List<Project> list = projectService.provisionalList(page == null?1:page, project);
+        List<DictionaryData> find = DictionaryDataUtil.find(5);
         PageInfo<Project> info = new PageInfo<>(list);
         model.addAttribute("info", info);
+        model.addAttribute("projects", project);
+        model.addAttribute("kind", find);
         return "ses/ems/exam/expert/extract/project_list";
     }
     /**
@@ -121,17 +171,69 @@ public class ExpExtractRecordController extends BaseController {
      * @return String
      */
     @RequestMapping("/Extraction")  
-    public String listExtraction(Model model,String projectId,String page,String typeclassId){
+    public String listExtraction(Model model,String id,String page,String typeclassId){
+        List<Area> listArea = areaService.findTreeByPid("0",null);
+        model.addAttribute("listArea", listArea);
         model.addAttribute("typeclassId",typeclassId);
-        if (projectId != null && !"".equals(projectId)){
-            List<ExpExtCondition> list = conditionService.list(new ExpExtCondition(projectId), page == null || "".equals(page)  ? 1 : Integer.valueOf(page));
-            model.addAttribute("list", new PageInfo<>(list));
-            Project selectById = projectService.selectById(projectId); 
-            model.addAttribute("projectId", projectId);
-            model.addAttribute("projectName", selectById.getName());
-            model.addAttribute("projectNumber", selectById.getProjectNumber());
-            model.addAttribute("expExtCondition", new ExpExtCondition());
+        if (id != null && !"".equals(id)){
+            ExpExtPackage expExtPackage = new ExpExtPackage();
+            expExtPackage.setId(id);
+            List<ExpExtPackage> list = expExtPackageServicel.list(expExtPackage,"0");
+            if (list != null && list.size() != 0 && list.get(0) != null && list.get(0).getProject() != null ){
+                //获取监督人员
+                List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(id));
+                model.addAttribute("listUser", listUser);
+                String userName = "";
+                String userId = "";
+                if (listUser != null && listUser.size() != 0){
+                    for (User user : listUser) {
+                        userName += user.getLoginName() + ",";
+                        userId += user.getId() + ",";
+                    }
+                    model.addAttribute("userName", userName.substring(0, userName.length()-1));
+                    model.addAttribute("userId", userId.substring(0, userId.length()-1));
+                }
+                //供应商抽取地址
+                ExpExtractRecord record = new ExpExtractRecord();
+                //存放包id
+                record.setProjectId(list.get(0).getProjectId());
+                //                PageHelper.startPage(1, 1);
+                List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(record,0);
+                if (listSe != null && listSe.size() != 0){
+                    model.addAttribute("extractionSites", listSe.get(0).getExtractionSites());
+                    String[] atime = listSe.get(0).getResponseTime() != null ? listSe.get(0).getResponseTime().split(",") : null;
+                    if (atime != null && atime.length >= 2 ){
+                        model.addAttribute("hour", atime[0]);
+                        model.addAttribute("minute", atime[1]);
+                    }
+                }
+                //                 存放的包id
+                model.addAttribute("projectId", id);
+                model.addAttribute("projectName", list.get(0).getProject().getName());
+                model.addAttribute("projectNumber", list.get(0).getProject().getProjectNumber());
+                model.addAttribute("packageName", list.get(0).getPackages().getName());
+                model.addAttribute("bidDate", list.get(0).getProject().getBidDate());
+
+                //获取采购方式
+                List<DictionaryData>  dictionaryData = new ArrayList<DictionaryData>();
+                dictionaryData.add(dictionaryDataServiceI.getDictionaryData(list.get(0).getProject().getPurchaseType()));
+                model.addAttribute("findByMap", dictionaryData);
+            }
+
+            //条件集合
+            List<ExpExtCondition> listCon = conditionService.list(new ExpExtCondition(id), page == null ? 1 : Integer.valueOf(page));
+            model.addAttribute("list", new PageInfo<ExpExtCondition>(listCon));
+          
+        } else {
+            Map<String, Object> map = new HashMap<String, Object>();
+            String[] str = {"YQZB", "DYLY", "JZXTP", "XJCG", "GKZB"};
+            map.put("strs", str);
+            List<DictionaryData> findByMap = dictionaryDataMapper.findByMap(map);
+            model.addAttribute("findByMap", findByMap);
         }
+        List<DictionaryData> find = DictionaryDataUtil.find(12);
+        model.addAttribute("stemFrom", find);
+
         return "ses/ems/exam/expert/extract/condition_list";
     }
     /**
@@ -143,68 +245,152 @@ public class ExpExtractRecordController extends BaseController {
      * @param @return      
      * @return String
      */
-    @RequestMapping("/addExtraction")
-    public String addExtraction(Model model,String projectId,String projectName, String projectNumber,String typeclassId){
-        model.addAttribute("typeclassId", typeclassId);
+    @RequestMapping("/addExtractions")
+    public String addExtraction(Model model,String projectId,String typeclassId){
         List<Area> listArea = areaService.findTreeByPid("0",null);
         model.addAttribute("listArea", listArea);
-        model.addAttribute("projectId",projectId);
-        if(projectId != null && !"".equals(projectId)){
-            //获取监督人员
-            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(projectId));
-            model.addAttribute("listUser", listUser);
-            String userName="";
-            String userId="";
-            if(listUser!=null &&listUser.size()!=0){
-                for (User user : listUser) {
-                    if(user!=null&&user.getId()!=null){
-                        userName += user.getLoginName()+",";
-                        userId += user.getId()+",";
+        model.addAttribute("typeclassId", typeclassId);
+        model.addAttribute("projectId", projectId);
+        List<DictionaryData> find = DictionaryDataUtil.find(12);
+        model.addAttribute("find", find);
+        return "ses/ems/exam/expert/extract/add_condition";
+    }
+
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉ajax 验证必填项
+     * @author Wang Wenshuai
+     * @param model
+     * @param project
+     * @param packageName
+     * @param typeclassId
+     * @param sids
+     * @param extAddress
+     * @return
+     */
+    @SuppressWarnings("unused")
+    @ResponseBody
+    @RequestMapping("/validateAddExtraction")
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extAddress,HttpServletRequest rq){
+        Map<String, String> map = new HashMap<String, String>();
+        //后台数据校验
+        int count=0;
+        if (project.getName() == null || "".equals(project.getName())){
+            map.put("projectNameError", "不能为空");
+            count = 1;
+        }
+
+        if (project.getProjectNumber() == null || "".equals(project.getProjectNumber())){
+            map.put("projectNumberError", "不能为空");
+            count = 1;
+        }
+
+        if (packageName == null || "".equals(packageName)){
+            map.put("packageNameError", "不能为空");
+            count = 1;
+        }
+
+        if (sids == null || sids.length == 0 || "".equals(sids)){
+            map.put("supervise", "不能为空");
+            count = 1;
+        }
+        //时
+        String hour = rq.getParameter("hour");
+        //分
+        String minute = rq.getParameter("minute");
+        if (hour == null || "".equals(hour) || minute == null || "".equals(minute)){
+            map.put("responseTimeError", "不能为空");
+            count = 1;
+        }
+        String tenderTime = rq.getParameter("tenderTime");
+        if (tenderTime == null || "".equals(tenderTime)){
+            map.put("tenderTimeError", "不能为空");
+            count = 1;
+        }
+
+        if (count == 1){
+
+            return JSON.toJSONString(map);
+
+        } else{
+            //真实的项目id
+            String projectId = project.getId();
+            String packageId = "";
+            if (project.getId() == null || "".equals(project.getId())){
+                // 创建一个临时项目临时包
+                project.setIsProvisional(1);
+                projectService.add(project);
+                projectId = project.getId();
+                Packages packages = new Packages();
+                packages.setName(packageName);
+                packages.setProjectId(project.getId());
+                packages.setIsDeleted(0);
+                packagesService.insertSelective(packages);
+                packageId = packages.getId();
+                ExpExtPackage sExtPackage = new ExpExtPackage();
+                sExtPackage.setPackageId(packages.getId());
+                sExtPackage.setProjectId(project.getId());
+
+                expExtPackageServicel.insert(sExtPackage);
+                project.setId(sExtPackage.getId());
+            }
+            //抽取地址
+            if (extAddress != null && !"".equals(extAddress)){
+
+                ExpExtractRecord extractRecord = new ExpExtractRecord();
+                //包id
+                if (projectId != null && !"".equals(projectId)){
+                    ExpExtPackage byId = expExtPackageServicel.getById(projectId);
+                    if (byId != null && byId.getProjectId() != null){
+                        projectId = byId.getProjectId();
+                        packageId = byId.getPackageId();
+                    }
+                }
+                extractRecord.setProjectId(projectId);
+                PageHelper.startPage(1, 1);
+                List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(extractRecord,0);
+                extractRecord.setExtractionSites(extAddress);
+                extractRecord.setResponseTime(hour + "," + minute);
+                
+                if (listSe != null && listSe.size() != 0){
+                    extractRecord.setId(listSe.get(0).getId());
+                    expExtractRecordService.update(extractRecord);
+                } else {
+                    extractRecord.setProjectCode(project.getProjectNumber());
+                    extractRecord.setProjectName(project.getName());
+                    extractRecord.setExtractionTime(new Date());
+                    expExtractRecordService.insert(extractRecord);
+                }
+            }  
+            //监督人员
+            if (sids != null && sids.length != 0){
+                projectSupervisorServicel.deleteProjectId(project.getId());
+                for (String id : sids) {
+                    if (!"".equals(id)){
+                        ProExtSupervise  record1 = new ProExtSupervise();
+                        record1.setProjectId(project.getId());
+                        record1.setSupviseId(id);
+                        projectSupervisorServicel.insert(record1);
                     }
                 }
             }
-
-            //专家抽取地址
-            ExpExtractRecord er = new ExpExtractRecord();
-            er.setProjectId(projectId);
-            List<ExpExtractRecord> listRe = expExtractRecordService.listExtractRecord(er,0);
-            if (listRe != null && listRe.size() != 0){
-                model.addAttribute("extractionSites", listRe.get(0).getExtractionSites());
+            //获取抽取条件状态，未抽取不能在抽取
+            Integer count2 = conditionService.getCount(project.getId());
+            if (count2 != null && count2 != 0){
+                map.put("status", count2.toString());
+            } else {
+                map.put("projectId", project.getId());
+                map.put("sccuess", "SCCUESS");
             }
-            model.addAttribute("userName", userName);
-            model.addAttribute("userId", userId);
-        }else{
-            //后台数据校验
-            int count=0;
-            if(projectName == null || "".equals(projectName)){
-                model.addAttribute("projectNameError", "不能为空");
-                count=1;
-            }else{
-                model.addAttribute("projectName", projectName);
-                model.addAttribute("projectNameError", "");
-            }
-            if(projectNumber == null || "".equals(projectNumber)){
-                model.addAttribute("projectNumberError", "不能为空");
-                count=1;
-            }else{
-                model.addAttribute("projectNumber", projectNumber);
-                model.addAttribute("projectNameError", "");
-            }
-            if(count==1){
-                return "ses/ems/exam/expert/extract/condition_list";
-            }else{
-                //                创建一个临时项目
-                Project project = new Project();
-                project.setProjectNumber(projectNumber);
-                project.setName(projectName);
-                project.setIsProvisional(1);
-                projectService.add(project);
-                model.addAttribute("projectId", project.getId());
-            }
-
+            return JSON.toJSONString(map);
         }
-        return "ses/ems/exam/expert/extract/add_condition";
+
+
     }
+
+
+
     /**
      * @Description:选择品目
      *
@@ -300,6 +486,8 @@ public class ExpExtractRecordController extends BaseController {
             extractService.update(new ProjectExtract(ids[0], new Short(ids[2])));
         }
 
+
+
         List<ProjectExtract> projectExtractListYes = resultProjectExtract(sq, ids);
 
         return projectExtractListYes;
@@ -332,7 +520,7 @@ public class ExpExtractRecordController extends BaseController {
             if (count >= extConType.getExpertsCount()){
                 extractService.updateStatusCount("1",extConType.getId());
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
-            }else{
+            } else {
                 forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo,1);
             }
         }
@@ -345,6 +533,9 @@ public class ExpExtractRecordController extends BaseController {
         projectExtractListYes.get(0).setConType(conTypes);
         if (projectExtractListNo.size() != 0){
             projectExtractListYes.add(projectExtractListNo.get(0));
+        }else{
+            //已抽取
+            conditionService.update(new ExpExtCondition(ids[1],(short)3));
         }
         return projectExtractListYes;
     }
@@ -377,7 +568,7 @@ public class ExpExtractRecordController extends BaseController {
                         mapcount.put(projectExtract.getConTypeId(), 1);
                     }
                 }
-            } else if (projectExtract != null && projectExtract.getOperatingType() == 3){
+            } else if (projectExtract != null && projectExtract.getOperatingType() != null && projectExtract.getOperatingType() == 3){
                 //不参与
                 projectExtractListYes.add(projectExtract);
                 if (type == 0){
@@ -504,5 +695,47 @@ public class ExpExtractRecordController extends BaseController {
     public  Object addTemporaryExpert(Model model, Expert expert, String projectId, String loginName, String loginPwd){
         expExtractRecordService.addTemporaryExpert(expert, projectId, loginName, loginPwd);
         return "redirect:/packageExpert/toPackageExpert.html?projectId=" + projectId;
+    }
+
+
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/findType")
+    public  Object findType(HttpServletResponse response){
+
+        // 查询供应商所有类型
+        DictionaryData dictionaryData=new DictionaryData();
+        dictionaryData.setKind(6);
+        List<DictionaryData> ldlist1 = dictionaryDataServiceI.find(dictionaryData);
+        dictionaryData.setKind(8);
+        List<DictionaryData> ldlist2 = dictionaryDataServiceI.find(dictionaryData);
+
+        List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+
+        for (DictionaryData dd : ldlist1) {
+            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+            if("GOODS".equals(dd.getCode())){
+                for (DictionaryData dd1 : ldlist2) {
+                    SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
+                    supplierTypeTree1.setId(dd1.getCode());
+                    supplierTypeTree1.setName(dd1.getName());
+                    supplierTypeTree1.setParentId(dd.getCode());
+                    listSupplierTypeTrees.add(supplierTypeTree1);
+                }
+                supplierTypeTree.setParent(true);
+            }
+            supplierTypeTree.setId(dd.getCode());
+            supplierTypeTree.setName(dd.getName());
+
+            listSupplierTypeTrees.add(supplierTypeTree);
+        }
+
+        return JSON.toJSONString(listSupplierTypeTrees);
     }
 }

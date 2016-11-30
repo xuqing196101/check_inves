@@ -31,6 +31,8 @@ public class StaticVariables {
     public static final String OPER_DEL_MSG ="删除";
     /** 取消操作 */
     public static final String OPER_CANCEL_MSG ="取消";
+    /** 提交操作 **/
+    public static final String OPERA_SUBMIT_MSG = "提交";
     
     
     /** 品目分类的新建状态  */
@@ -55,7 +57,7 @@ public class StaticVariables {
     public static final String CATEGORY_SUBMIT_MSG = "已提交,无法";
     
     /** 品目分类的审核提示 - 通过  */
-    public static final String CATEGORY_AUDIT_MSG = "已审核完成,不能重复提交";
+    public static final String CATEGORY_AUDIT_MSG = "已审核完成,不能重复";
     
     /** 品目分类的审核提示 - 驳回  */
     public static final String CATEGORY_REJECT_MSG = "已经驳回";

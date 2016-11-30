@@ -33,8 +33,8 @@
               	 
                } else{
               	 
-              // 	 parent.location.reload();
-              	  parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_basic.html?id="+id;
+              parent.location.reload();
+              	  ///parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_basic.html?id="+id;
                }
           	   
               },

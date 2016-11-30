@@ -436,10 +436,12 @@
 					        </tr>
 				        </thead>
 				        <tbody id="tbody_1_${vs.index+1}">
+				        <c:set var="count" value="0"> </c:set>
 		 				<c:forEach items="${packageFirstAudits }"  var="pfa" varStatus="vf" >
 		 					<c:if test="${pfa.packageId == pas.id }">
-					            <tr class="hand">
-					              <td class="tc w50">${vf.index+1}<input type="hidden" value="${pfa.firstAuditId }" /></td>
+		 						<c:set var="count" value="${count+1}"></c:set>
+					            <tr >
+					              <td class="tc w50">${count}<input type="hidden" value="${pfa.firstAuditId }" /></td>
 					              <td class="tc">${pfa.firstAuditName}</td>
 					              <td class="tc">${pfa.firstAuditKind}</td>
 					              <td class="tc">
@@ -472,11 +474,13 @@
 					        </tr>
 				        </thead>
 				        <tbody id="tbody_2_${vs.index+1}">
+				        <c:set var="count2" value="0"> </c:set>
 		 				<c:forEach items="${scoreModels }"  var="sm" varStatus="vss" >
 		 					<c:if test="${sm.packageId == pas.id }">
-				            <tr class="hand">
+		 					<c:set var="count2" value="${count2+1}"></c:set>
+				            <tr >
 				              <td class="dnone"><input type="hidden" value="${sm.typeName }" /></td>
-				              <td class="tc w50">${vss.index+1}<input type="hidden" value="${sm.id }" /></td>
+				              <td class="tc w50">${count2}<input type="hidden" value="${sm.id }" /></td>
 				              <td class="tc">${sm.markTerm.name}<input type="hidden" value="${sm.markTerm.name}" /></td>
 				              <td class="tc">
 				              	<c:if test="${sm.markTerm.typeName==0}">商务</c:if>

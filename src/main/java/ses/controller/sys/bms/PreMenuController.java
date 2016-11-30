@@ -111,8 +111,24 @@ public class PreMenuController {
 			String[] userIds = userId.split(",");
 			menuIds = preMenuService.findByUids(userIds);
 		} else if (r.getId() != null && !"".equals(r.getId())){
+		    String rCode = dictionaryDataService.getDictionaryData(r.getKind()).getCode();
+		    if ("PURCHASE_BACK".equals(rCode)) {
+                menu.setKind(0);
+            }
+		    if ("SUPPLIER_BACK".equals(rCode)) {
+                menu.setKind(1);
+            }
+            if ("EXPERT_BACK".equals(rCode)) {
+                menu.setKind(2);
+            }
+            if ("IMPORT_SUPPLIER_BACK".equals(rCode)) {
+                menu.setKind(3);
+            }
+            if ("IMPORT_AGENT_BACK".equals(rCode)) {
+                menu.setKind(4);
+            }
 			list = preMenuService.find(menu);
-			String[] roleIds = {r.getId()};
+			String[] roleIds = r.getId().split(",");
 			menuIds = preMenuService.findByRids(roleIds);
 		} else {
 			list = preMenuService.find(null);

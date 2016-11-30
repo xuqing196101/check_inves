@@ -3,27 +3,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>    
-    <title>My JSP 'add.jsp' starting page</title>
-    
+    <title>新增主题</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<script type="text/javascript">
-	$(function(){
-		$("#parkId").val("${topic.park.id}");
-	})
+		$(function(){
+			$("#parkId").val("${topic.park.id}");
+		})
+		
+		//返回到主题列表
+		function back(){
+			window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
+		}
 	</script>
   </head>
-  
   <body>
 
   <!--面包屑导航开始-->
@@ -75,7 +74,7 @@
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 col-sm-12 col-xs-12 tc"> 
     	<button class="btn btn-windows save" type="submit">保存</button>
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    	<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
   	</div>
      </div>
      </form>

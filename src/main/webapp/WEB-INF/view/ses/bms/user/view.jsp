@@ -38,11 +38,11 @@
 	 	<table class="table table-bordered">
 		 	<tbody>
 		 		<tr>
-		 			<td class="bggrey tr">用户名：</td><td>${user.loginName}</td>
-		 			<td class="bggrey tr">真实姓名：</td><td>${user.relName}</td>
+		 			<td class="bggrey">用户名：</td><td>${user.loginName}</td>
+		 			<td class="bggrey">真实姓名：</td><td>${user.relName}</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">性别：</td>
+		 			<td class="bggrey">性别：</td>
 		 			<td>
 		 				<c:forEach items="${genders}" var="g" varStatus="vs">
 					  		<c:if test="${g.id eq user.gender}">
@@ -51,14 +51,14 @@
 					  		</c:if>
 			        	</c:forEach>
 		 			</td>
-		 			<td class="bggrey tr">手机：</td><td>${user.mobile }</td>
+		 			<td class="bggrey">手机：</td><td>${user.mobile }</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">邮箱：</td><td>${user.email }</td>
-		 			<td class="bggrey tr">职务：</td><td>${user.duties }</td>
+		 			<td class="bggrey">邮箱：</td><td>${user.email }</td>
+		 			<td class="bggrey">职务：</td><td>${user.duties }</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">类型：</td>
+		 			<td class="bggrey">类型：</td>
 		 			<td>
 		 				<c:forEach items="${typeNames}" var="t" varStatus="vs">
 					  		<c:if test="${t.id eq user.typeName}">
@@ -74,18 +74,18 @@
 					  		</c:if>
 			        	</c:forEach>
 		 			</td>
-		 			<td class="bggrey tr">所属机构：</td><td>${user.org.name }</td>
+		 			<td class="bggrey">所属机构：</td><td>${user.org.name }</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">创建日期：</td><td><fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
-		 			<td class="bggrey tr">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
+		 			<td class="bggrey">创建日期：</td><td><fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
+		 			<td class="bggrey">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">联系电话：</td><td>${user.telephone}</td>
-		 			<td class="bggrey tr">角色：</td><td colspan="5">${roleName}</td>
+		 			<td class="bggrey">联系电话：</td><td>${user.telephone}</td>
+		 			<td class="bggrey">角色：</td><td colspan="5">${roleName}</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">详细地址：</td><td colspan="3">${user.address}</td>
+		 			<td class="bggrey w160">详细地址：</td><td colspan="3">${user.address}</td>
 		 		</tr>
 		 	</tbody>
 	 	</table>

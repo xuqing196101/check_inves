@@ -324,6 +324,9 @@
                    </select>
                    </div>
                  </li>
+                
+                 
+                 
                   <div class="margin-bottom-5" >
                     <button class="btn btn-windows add" type="button" onclick="add();">添加条件</button>
                 </div>
@@ -392,15 +395,6 @@
 	      </form>
 	 </div> 
 	
-    <!-- 项目戳开始 -->
-<!--     <div class="container container_box"> -->
-<!--                <div> -->
-<!--                 <h2 class="count_flow"><i>2</i>条件列表</h2> -->
-<!--                 <ul class="ul_list"> -->
-               
-<!-- 			</ul> -->
-<!-- 		</div> -->
-<!-- 		</div> -->
 
 
 

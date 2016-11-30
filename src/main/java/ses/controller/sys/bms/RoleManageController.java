@@ -23,6 +23,7 @@ import ses.model.bms.User;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -194,6 +195,7 @@ public class RoleManageController {
 				role.setDescription(r.getDescription());
 				role.setName(r.getName());
 				role.setKind(r.getKind());
+				role.setStatus(r.getStatus());
 				role.setUpdatedAt(new Date());
 				roleService.update(role);
 				msg = "更新成功";
@@ -240,8 +242,9 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/openPreMenu")
-	public String openPreMenu(Model model, String id) {
+	public String openPreMenu(Model model, String id, String kind) {
 		model.addAttribute("rid", id);
+		model.addAttribute("kind", kind);
 		return "ses/bms/role/add_menu";
 	}
 
@@ -302,6 +305,7 @@ public class RoleManageController {
 		}
 		Role temp = new Role();
 		temp.setStatus(0);
+		temp.setKind(DictionaryDataUtil.getId("PURCHASE_BACK"));
 		List<Role> list = roleService.find(temp);
 		for (int i = 0; i < list.size(); i++) {
 			Role e = list.get(i);

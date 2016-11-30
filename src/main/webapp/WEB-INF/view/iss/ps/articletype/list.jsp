@@ -84,7 +84,7 @@
 			
 			window.location.href="${pageContext.request.contextPath}/articletype/edit.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择条栏目",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择需要修改的栏目",{offset: ['222px', '390px'], shade:0.01});
 		}

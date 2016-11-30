@@ -52,12 +52,17 @@ public class Reply {
      * @Fields user : 发布人
      */
     private User user;
+    
     /**
      * @Fields isDeleted : 是否删除标识
      */
     private Integer isDeleted;
     
- 
+    /**
+     * @Fields isRead : 是否已读
+     */
+    private Integer isRead;
+    
     public String getId() {
         return id;
     }
@@ -136,5 +141,15 @@ public class Reply {
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
- 
+
+	public Integer getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(Integer isRead) {
+		this.isRead = isRead;
+	}
+	
+	
+	
 }

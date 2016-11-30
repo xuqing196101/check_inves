@@ -23,7 +23,7 @@ public interface PerformanceMapper {
 	* @param @return      
 	* @return int
 	 */
-    int deleteByPrimaryKey(String id);
+    void deleteByPrimaryKey(String id);
     
     /**
      * 

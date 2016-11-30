@@ -223,4 +223,13 @@ public interface SupplierMapper {
      * @return String
      */
     List<Supplier> findSupplierAll (Supplier record);
+    
+    /**
+     * 
+     *〈简述〉 根据项目返回抽取供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<Supplier> listResultSupplier(String ProjectId);
 }

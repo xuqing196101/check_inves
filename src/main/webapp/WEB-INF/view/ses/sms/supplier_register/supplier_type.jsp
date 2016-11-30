@@ -439,6 +439,10 @@
 				                    	   $("#production").show();
 				                    	   $("#production_seach").next().val(arrays[i]);
 				                      }
+				                      
+				                      if(arrays[i]=='GOODS'){
+				                    	  $("#material").show();
+				                      }
 				                      if(arrays[i]=='SALES'){
 				                    	  $("#sale").show();
 				                    	  $("#sale_div").show();
@@ -776,10 +780,9 @@
 											 </fieldset>
 									</ul>					 
 											 
-		 	<fieldset class="col-md-12 border_font mt20">
-	 	    <legend>供应商物资生产资质证书</legend>
-			<!-- 	    <h2 class="count_flow">供应商物资生产资质证书 </h2> -->
-					   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+							 	<fieldset class="col-md-12 border_font mt20">
+						 	      <legend>供应商物资生产资质证书</legend>
+								       <div class="col-md-12 col-sm-12 col-xs-12 p0">
 											<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
 											  <button type="button" class="btn fr mr0" onclick="deleteCertPro()">删除</button>
 											  <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
@@ -820,13 +823,9 @@
 												</tbody>
 											</table>
 										</div>
-								 
-									 
-										</fieldset>
-								 
-									<!-- </div> -->
+									</fieldset>
 								</div>
-								</div>
+							 </div>
 				
 		 <div class="sevice_list container"  style="display: none;" id="sale" >
 			  <h2>产品/货物销售类</h2>

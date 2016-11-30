@@ -15,46 +15,57 @@ import ses.model.ems.ExpExtCondition;
  * @since  JDK 1.7
  */
 public interface ExpExtConditionService {
-	
-	/**
-	 * @Description:添加
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月28日 上午10:35:49  
-	 * @param @param condition      
-	 * @return void
-	 */
-	void insert(ExpExtCondition condition);
-	
-	/**
-	 * @Description:修改
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月28日 上午10:36:05  
-	 * @param @param condition      
-	 * @return void
-	 */
-	void update(ExpExtCondition condition);
-	
-	/**
-	 * @Description:集合查询
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月28日 上午10:36:20  
-	 * @param @param condition
-	 * @param @return      
-	 * @return List<ExpExtCondition>
-	 */
-	List<ExpExtCondition> list(ExpExtCondition condition,Integer page);
-	
-	/**
-	 * @Description:获取单个
-	 *
-	 * @author Wang Wenshuai
-	 * @version 2016年9月28日 下午3:17:07  
-	 * @param @param condition
-	 * @param @return      
-	 * @return ExpExtCondition
-	 */
-	ExpExtCondition show(String id);
+
+    /**
+     * @Description:添加
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 上午10:35:49  
+     * @param @param condition      
+     * @return void
+     */
+    void insert(ExpExtCondition condition);
+
+    /**
+     * @Description:修改
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 上午10:36:05  
+     * @param @param condition      
+     * @return void
+     */
+    void update(ExpExtCondition condition);
+
+    /**
+     * @Description:集合查询
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 上午10:36:20  
+     * @param @param condition
+     * @param @return      
+     * @return List<ExpExtCondition>
+     */
+    List<ExpExtCondition> list(ExpExtCondition condition,Integer page);
+
+    /**
+     * @Description:获取单个
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午3:17:07  
+     * @param @param condition
+     * @param @return      
+     * @return ExpExtCondition
+     */
+    ExpExtCondition show(String id);
+
+    /**
+     * 
+     *〈简述〉更具关联包id查询是否有未抽取的条件
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return
+     */
+    Integer getCount(String packId);
+    
 }

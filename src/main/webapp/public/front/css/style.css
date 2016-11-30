@@ -1978,8 +1978,7 @@ img.img-mouse {
 
     }
 
-/*锟铰硷拷锟斤拷式*/
-/*锟街诧拷图锟斤拷式*/
+/*考试样式*/
 .section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
 .section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:354px;list-style-type:none;}
 .section-focus-pic .pages{width:100%;height:354px;}
@@ -2198,7 +2197,7 @@ a.yjfk{
   text-align:center;
 }
 
-/*锟斤拷锟斤拷锟斤拷锟斤拷贫锟斤拷锟绞斤拷锟绞�*/
+/*供应商注册*/
 
 .drop_hover .supp_login{
   padding-right:30px!important;
@@ -2251,7 +2250,7 @@ a.yjfk{
  padding-top:5px;
  overflow:hidden;
 }
-/*澶撮儴鐧诲綍鍏ュ彛**/
+/*距离顶端的高度**/
 .head_top{
   background:#f7f7f7;
   height:34px;
@@ -2263,7 +2262,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*鐧诲綍椤甸潰鏍峰紡寮�*/
+/*form 头*/
 .sky-form header {
     color: inherit;
     display: block;

@@ -409,16 +409,8 @@ return false;
                              <div class=" f12 red tip w150 fl" id="dCount"></div>
                            </div>
                          </li>  
-                         <li class="col-md-4 col-sm-6 col-xs-12 dhidden ">
-                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
-                           <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                             <input class="input_group" >
-                             <span class="add-on">i</span>
-                             <div class=" f12 red tip w150 fl" id="dCount"></div>
-                           </div>
-                         </li> 
                          
-                            <div class=" pl20 mt10">
+                            <div class=" w300 pl20 mt10">
 								<button class="btn btn-windows add"
 									id="save" onclick="condition();" type="button">添加</button>
 								<button class="btn btn-windows delete"
@@ -441,47 +433,43 @@ return false;
 										<c:forEach items="${ExpExtCondition.conTypes}" var="conTypes">
 											<tr>
 												<input class="hide" type="hidden" name="typeId"
-													value="${conTypes.id}">
+													value="${conTypes.id}"/>
 												<input class="hide" type="hidden" name="expertsTypeId"
-													value="${conTypes.supplieTypeId }">
+													value="${conTypes.supplieTypeId }" id="expertsTypeId"/>
 												<input class="hide" type="hidden" name="extCategoryId"
-													value="${conTypes.categoryId }">
+													value="${conTypes.categoryId }" id="extCategoryId" />
 												<input class="hide" type="hidden" name="isSatisfy"
-													value="${conTypes.isMulticondition }">
+													value="${conTypes.isMulticondition }" id="isSatisfy"/>
 												<td class='tc w30'><input type="checkbox"
 													value="${conTypes.categoryId}" name="chkItem" onclick="check()"></td>
 												<td class="tc">
 												<c:set value="${ fn:split(conTypes.supplieTypeId, '^') }" var="typeId" />
 												
-												<c:forEach var="type" items="${typeId}">
-				                                                
-<%-- 												     <c:if test="${type=='SC' }"> --%>
-				                                        <input readonly="readonly" id="expTypeName" class="hide" type="text"  value="${conTypes.supplieTypeId}">
-<%-- 				                                     </c:if> --%>
-<%-- 				                                     <c:if test="${type=='XS' }"> --%>
-<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
-<!-- 				                                            value="销售型"> -->
-<%-- 				                                    </c:if> --%>
-<%-- 				                                     <c:if test="${type=='GC' }"> --%>
-<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
-<!-- 				                                            value="工程"> -->
-<%-- 				                                    </c:if> --%>
-<%-- 				                                     <c:if test="${type=='FW' }"> --%>
-<!-- 				                                        <input readonly="readonly" class="hide" type="text" -->
-<!-- 				                                            value="服务"> -->
-<%-- 				                                    </c:if> --%>
-												
-												</c:forEach>
-													 
+                                                 <c:forEach var="type" items="${typeId}">
+                                                     <c:if test="${type=='PRODUCT' }">
+                                                        <c:set value="${typeIdC},生产型" var="typeIdC" />                                                                            
+                                                     </c:if>
+                                                     <c:if test="${type=='SALES' }">
+                                                        <c:set value="${typeIdC},销售型" var="typeIdC" />                                                                             
+                                                    </c:if>
+                                                     <c:if test="${type=='PROJECT' }">
+                                                             <c:set value="${typeIdC},工程型" var="typeIdC" />                                                                                    
+                                                    </c:if>
+                                                     <c:if test="${type=='PROJECT' }">
+                                                              <c:set value="${typeIdC},服务" var="typeIdC" />                                                                                      
+                                                    </c:if>
+                                                
+                                                </c:forEach>
+													<input readonly="readonly" id="expTypeName" class="hide" type="text"  
+                                                 value='${fn:substring(typeIdC, 1, typeIdC.length())}'>
 												</td>
 												<td class="tc"><input class="hide" 
 													name="extCount" type="text"  value="${conTypes.supplieCount }"></td>
 												<td class="tc">
 												
-												<c:set value="${fn:substring(conTypes.categoryName, 0, conTypes.categoryName.length()-1 )}" var="category" ></c:set>
 				                                <input class="hide" readonly onclick="opens(this);"
 				                                    name="extCategoryName" type="text"
-				                                    value="${fn:replace(category,'^',',')}"></td>
+				                                    value="${fn:replace(conTypes.categoryName,'^',',')}"></td>
 											</tr>
 										</c:forEach>
 									</tbody>

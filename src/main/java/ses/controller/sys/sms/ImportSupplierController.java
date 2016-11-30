@@ -283,9 +283,9 @@ public class ImportSupplierController {
         //自己的id
         todo.setSenderId(user1.getId());
         //代办人id
-        todo.setOrgId(user1.getId());
+        todo.setOrgId(user1.getOrg().getId());
         //权限Id
-        todo.setPowerId(PropUtil.getProperty("gysdb"));
+        todo.setPowerId(PropUtil.getProperty("gysjk"));
         //待办类型 供应商
         todo.setUndoType((short) 1);
         //标题

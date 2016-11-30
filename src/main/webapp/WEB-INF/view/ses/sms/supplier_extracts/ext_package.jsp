@@ -105,7 +105,13 @@
     }
     
     function record(){
-    	   location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
+    	var  typeclassId ="${typeclassId}";
+    	if(typeclassId != null && typeclassId != ''){
+    		 location.href = '${pageContext.request.contextPath}/SupplierExtracts/resuleRecordlist.do';
+    	}else{
+    		   location.href = '${pageContext.request.contextPath}/SupplierExtracts/showRecord.do?projectId=${projectId}';
+    	}
+    	  
     }
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -127,12 +133,14 @@
 			<div class="clear"></div>
 		</div>
 	</div>
+	<div class="container">
+        <div class="headline-v2">
+            <h2>包列表</h2>
+        </div>
+    </div>
 	</c:if>
 	<!-- 录入采购计划开始-->
 	<div class="container">
-		<div class="headline-v2">
-			<h2>包列表</h2>
-		</div>
      <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/SupplierExtracts/packageList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">

@@ -11,9 +11,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 
 <style type="text/css">
 td {
@@ -33,7 +30,6 @@ input {
     
     $(":input").each(function() {
       $(this).parent("div").find("div").hide();
-      
       var onmouseover = "this.style.border='solid 1px #FF0000'";
       var onmouseout = "this.style.border='solid 1px #D3D3D3'";
        $(this).attr("onmouseover",onmouseover);
@@ -122,6 +118,7 @@ function reason1(id,auditField){
       }
       });
      $("#"+id3+"").show();
+     $("#"+id3+"").parents("li").find("input").css("padding-right","30px");
      layer.close(index);
     });
 }
@@ -254,7 +251,7 @@ function nextStep(url){
                             <i></i>
                         </li>
                         <li>
-                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                            <a aria-expanded="false" href="#tab-4" >汇总</a>
                         </li>
                     </ul>
 
@@ -263,7 +260,7 @@ function nextStep(url){
                     </form>
                   
                     <h2 class="count_flow"><i>1</i>供应商资质证书信息</h2>
-                    <ul class="ul_list count_flow">
+                    <div class="ul_list count_flow">
                         <table class="table table-bordered table-condensed table-hover">
 		                    <thead>
 		                      <tr>
@@ -281,7 +278,7 @@ function nextStep(url){
 		                        <th class="info">证书有效期截止日期</th>
 		                        <th class="info">证书状态</th>
 		                        <th class="info">附件</th>
-		                       <th class="info w50"></th>
+		                       <th class="info"></th>
 		                      </tr>
 		                    </thead>
 		                    <c:forEach items="${supplierCertEng}" var="s" >
@@ -317,12 +314,12 @@ function nextStep(url){
 	                               </c:if>
 		                        </td>
 		                        <td class="tc">
-		                          <a id="${s.id }_show" class="b f18 fl ml10 hand red">×</a>
+		                          <a id="${s.id }_show" class="abolish">×</a>
 		                        </td>
 		                       </tr>
 		                     </c:forEach>
 		                   </table>
-	 	                 </ul>
+	 	                 </div>
 
 	                     <h2 class="count_flow"><i>2</i>供应商资质资格信息</h2>
 	                     <ul class="ul_list count_flow">
@@ -343,7 +340,7 @@ function nextStep(url){
 		                        <th class="info">资质资格状态变更时间</th>
 		                        <th class="info">资质资格状态变更原因</th>
 		                        <th class="info">附件</th>
-		                        <th class="info w50"></th>
+		                        <th class="info"></th>
 		                      </tr>
 		                    </thead>
 		                    <c:forEach items="${supplierAptitutes}" var="s" >
@@ -380,7 +377,7 @@ function nextStep(url){
 		                          </c:if>
 		                        </td>
 		                        <td class="tc">
-		                          <a id="${s.id }_show1" class="b f18 fl ml10 hand red">×</a>
+		                          <a id="${s.id }_show1" class="abolish">×</a>
 		                        </td>
 		                      </tr>
 		                    </c:forEach>
@@ -395,7 +392,7 @@ function nextStep(url){
 			                       <th class="info w50">序号</th>
 			                       <th class="info">注册名称</th>
 			                       <th class="info">注册人数</th>
-			                       <th class="info w50"></th>
+			                       <th class="info"></th>
 			                     </tr>
 			                   </thead>
 			                     <c:forEach items="${listRegPerson}" var="regPrson" varStatus="vs">
@@ -404,7 +401,7 @@ function nextStep(url){
 			                         <td class="tc">${regPrson.regType}</td>
 			                         <td class="tc">${regPrson.regNumber}</td>
 			                         <td class="tc">
-			                          <a id="${regPrson.id }_show2" class="b f18 fl ml10 hand red">×</a>
+			                          <a id="${regPrson.id }_show2" class="abolish">×</a>
 			                        </td>
 			                       </tr>
 			                     </c:forEach>
@@ -413,41 +410,72 @@ function nextStep(url){
                             
                             <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
                             <ul class="ul_list count_flow">
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="orgName2">组织机构：</span>
+<<<<<<< Updated upstream
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="orgName2">组织机构：</span>
 		                          <div class="input-append">
 		                            <input id="orgName" class="span5" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
 		                            <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTech2">技术负责人：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalTech2">技术负责人：</span>
 		                          <div class="input-append">
 		                            <input id="totalTech" class="span5" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
 		                            <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
 		                          <div class="input-append">
 		                            <input id="totalGlNormal" class="span5" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
 		                          <div id="totalGlNormal3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalMange2">管理人员：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalMange2">管理人员：</span>
 		                          <div class="input-append">
 		                            <input id="totalMange" class="span5" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
 		                          <div id="totalMange3"  class="b f18 fl ml10 hand red">×</div>
 		                          </div>
 		                        </li>
-		                        <li class="col-md-3 margin-0 padding-0 "><span class="" id="totalTechWorker2">技术工人：</span>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 "><span class="" id="totalTechWorker2">技术工人：</span>
 		                          <div class="input-append">
 		                            <input id="totalMange" class="span5" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
 		                          <div id="totalTechWorker3"  class="b f18 fl ml10 hand red">×</div>
+=======
+		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
+		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                            <input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
+		                            <div id="orgName3"  class="abolish">×</div>
+		                          </div>
+		                        </li>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTech2">技术负责人：</span>
+		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                            <input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
+		                            <div id="totalTech3" class="abolish">×</div>
+		                          </div>
+		                        </li>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalGlNormal2">中级及以上职称人员：</span>
+		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                            <input id="totalGlNormal" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
+		                            <div id="totalGlNormal3"  class="abolish">×</div>
+		                          </div>
+		                        </li>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
+		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                            <input id="totalMange" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
+		                            <div id="totalMange3"  class="abolish">×</div>
+		                          </div>
+		                        </li>
+		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTechWorker2">技术工人：</span>
+		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+		                            <input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
+		                            <div id="totalTechWorker3"  class="abolish">×</div>
+>>>>>>> Stashed changes
 		                          </div>
 		                        </li>
                             </ul>
                         </div>
                     <div class="col-md-12 add_regist tc">
                         <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                        <input class="btn btn-windows"  type="button" onclick="nextStep('${url}');" value="下一步">
+                        <a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>
                     </div> 
                 </div>
             </div>

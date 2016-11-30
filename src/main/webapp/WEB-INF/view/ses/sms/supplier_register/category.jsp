@@ -118,6 +118,7 @@
 	<form class="dnone" action="" id="category_id">
 			<input type="hidden" name="categoryId" id="cid">
 			<input type="hidden" name="supplierId" id="sid" value="${sid }">
+			<input type="hidden" name="supplierTypeRelateId"  value="${code}">
 	</form>
 </body>
 </html>

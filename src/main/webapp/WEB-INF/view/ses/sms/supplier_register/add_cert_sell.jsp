@@ -40,8 +40,7 @@
 	 	                  $("#cert_edate").text(result.eDate);
 	 	                  $("#cert_file").text(result.file);
 	 	             } else{
-	 	          	     
-	 	            	  parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_professional.html?id="+id;
+	 	            	  parent.location.reload();
 	 	          	 
 	 	             }
           	   
@@ -70,67 +69,55 @@
 
 		<!--基本信息-->
 		<div class="layui-layer-wrap">
-		<!-- 	<div class="row magazine-page">
+			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10"> -->
+					<div class="padding-top-10">
 						<form id="cert_sell_form_id" method="post" target="_parent">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matSellId" value="${matSellId}" type="hidden" />
 							<input name="id" value="${uuid}" type="hidden" />
 							<div class="drop_window">
 								<!-- 详细信息 -->
-							<!-- 	<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="margin-bottom-0"> -->
-										<ul class="list-unstyled">
-										
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-											 <label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div> 资质证书名称</label>
-											 <span class="col-md-12 col-xs-12" >
-													<input class="title col-md-12" type="text" name="name" />
-													<span class="star_red"  id="cert_name"></span>
-											  </span>
+								<div class="tab-pane fade active in height-300" id="tab-1">
+									<div class="margin-bottom-0">
+										<ul class="list-unstyled list-flow">
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资质证书名称：</span>
+											 <div class="input-append">
+											 	<input class="span3" type="text" name="name" />
+											 </div>
 											</li>
 											
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-											 <label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div> 资质证书等级</label>
-											 <span class="col-md-12 col-xs-12"  >
-													<input class="title col-md-12" type="text" name="levelCert" />
-													<span class="star_red"  id="cert_level"></span>
-											 </span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资质证书等级：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="levelCert" />
+												</div>
 											</li>
 											
-											<li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
-											 <label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div>供发证机关</label>
-												 <span class="col-md-12 col-xs-12" >
-													<input class="title col-md-12" type="text" name="licenceAuthorith" />
-													 <span class="star_red"  id="cert_auth"></span>
-												 </span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 供发证机关：</span>
+											   <div class="input-append">
+												   <input class="span3" type="text" name="licenceAuthorith" />
+												</div>
 											</li>
 											
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-											 <label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div>有效开始时间 </label>
-												 <span class="col-md-12 col-xs-12" >
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 有效开始时间 ：</span>
+												 <div class="input-append">
 													<input class="title col-md-12" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
-												    <span class="star_red"  id="cert_sdate"></span>
-												 </span>
+												 </div>
 											</li>
 											
-											<li class="col-sm-6  p0 col-md-6 col-lg-6 col-xs-6">
-										      <label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div>有效结束时间 ：</label>
-											  <span class="col-md-12 col-xs-12">
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 有效结束时间 ：</span>
+										        <div class="input-append">
 													<input class="title col-md-12" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
-													<!-- <span style="color:red;"  id="cert_edate"></span> -->
-												</span>
+												 </div>
 											</li>
 											
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-											<label class="col-md-12 pl20 col-xs-12"><div class="star_red">*</div>是否年检：</label>
-										       <span class="col-md-12 col-xs-12">
-											        <select name="mot" class="w180 mt5">
-											          <option value="1">是</option>
-											          <option value="0">无</option>
-											        </select>
-											      </span>
+											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 是否年检：</span>
+												 <div class="select_common">
+												        <select name="mot" >
+												          <option value="1">是</option>
+												          <option value="0">无</option>
+												        </select>
+												  </div>
 											</li>
 											
 											<br> <br>
@@ -141,17 +128,17 @@
 											<span id="cert_file"></span>
 											<div class="clear"></div>
 										</ul>
-										</div>
-							 
-							 
+									  </div>
+							     	</div>
+								</div>
 							 <div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn btn-windows save" onclick="saveOrBack()">保存</button>
 								<button type="button" class="btn btn-windows back" onclick="cancels()">取消</button>
 							</div>
 						</form>
-	<!-- 			</div>
+				</div>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </body>
 </html>

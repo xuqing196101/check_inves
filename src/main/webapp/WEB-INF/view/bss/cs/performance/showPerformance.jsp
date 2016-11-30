@@ -67,7 +67,7 @@
        </div>
 	 </li>
      <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">资金支付百分比：</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 p0">资金支付百分比(%)：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input readonly="readonly" id="fundsPaid" value="${performance.fundsPaid}" type="text" name="fundsPaid">
        </div>

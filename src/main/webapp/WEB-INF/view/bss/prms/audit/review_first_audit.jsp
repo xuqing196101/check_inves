@@ -75,10 +75,9 @@
 	    	data:{'projectId':projectId,'packageId':packageId,'firstAuditId':ids[0],'supplierId':ids[1],'isPass':ids[2]},
 	    	type:'post',
 	    	success:function(obj){
-	    		layer.msg('审核成功');
+	    		//layer.msg('审核成功');
 	    	},
 	    	error:function(){}
-	    	
 	    });
   }
   //全部合格
@@ -164,76 +163,80 @@
   </head>
   
   <body>
-  
-						 <div class="tab-content clear step_cont">
-						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
-						 	<h1 class="f16 count_flow">专家评审</h1>
-						 	   <div class="container clear margin-top-30" id="package">
-						 	       <table>
-						 	         <thead>
-						 	            <th><h2>项目名称：</h2></th><th><h2>${extension.projectName }（${extension.packageName }）&nbsp;&nbsp;&nbsp;&nbsp;</h2></th>
-						 	            
-						 	            <th><h2>编号：</h2></th><th><h2>${extension.projectCode }</h2></th>
-						 	         </thead>
-						 	       </table>
-									   <form action="" method="post" >
-									   <!--包id  -->
-									   <input type="hidden" id="packageId" name="packageId" value=""/>
-								   	   <input type="hidden" name="projectId" id="projectId" value="${extension.projectId }">
-								   	   <input type="hidden" name="packageId" id="packageId" value="${extension.packageId }">
-										   <table class="table table-bordered table-condensed mt5" id="table2">
-										   		<thead>
-										   		  <th>评审内容</th>
-										   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
-										   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-											   		    <th>
-											   		      ${supplier.suppliers.supplierName }
-											   		    </th>
-										   		    </c:if>
-										   		  </c:forEach>
-										   		</thead>
-										 	            <c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
-													      	<tr>
-													      	  <td>${first.name }</td>
-													      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
-													      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-										   		                <td align="center">
-										   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
-										   		                    
-										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==0 }">checked</c:if>
-										   		                    </c:forEach>
-										   		                  >合格&nbsp;
-										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
-										   		                     <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
-										   		                     </c:forEach>
-										   		                  >不合格
-										   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-										   		                </td>
-										   		                </c:if>
-										   		              </c:forEach>
-													      	</tr>
-										 	            </c:forEach>
-										 	            <tr align="center">
-										 	              <td align="center"></td>
-										 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
-											 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-												 	            <td align="center">
-												 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
-												 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格
-												 	            </td>
-											 	            </c:if>
-											 	            </c:forEach>
-										 	            </tr>
-										   </table>
-													      	<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
-													      	<input type="button" onclick="window.print();"  value="打印"  class="btn btn-windows input">
-													      	<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
-									   </form>
-							   </div> 
-						</div>
-                      </div>
+  	<!--面包屑导航开始-->
+    <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   	<li><a href="#">首页</a></li><li><a href="#">项目评审</a></li><li><a href="#">项目初审</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+    </div>
+	<div class="container">
+		<div class="headline-v2">
+	     <h2>项目初审</h2>
+	    </div> 
+		<div class="container clear" id="package">
+			<h2 class="count_flow jbxx">${extension.projectName }（${extension.packageName }）</h2>
+			<form action="" method="post" >
+			   <!--包id  -->
+			   <input type="hidden" id="packageId" name="packageId" value=""/>
+		   	   <input type="hidden" name="projectId" id="projectId" value="${extension.projectId }">
+		   	   <input type="hidden" name="packageId" id="packageId" value="${extension.packageId }">
+		   	   <div class="content table_box">
+				   <table class="table table-bordered table-condensed table-hover" id="table2">
+				   		<thead>
+				   		  <th class="info">初审项</th>
+				   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
+				   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
+					   		    <th class="info">
+					   		      ${supplier.suppliers.supplierName }
+					   		    </th>
+				   		    </c:if>
+				   		  </c:forEach>
+				   		</thead>
+		 	            <c:forEach items="${extension.firstAuditList }" var="first" varStatus="vs">
+					      	<tr>
+					      	  <td>${first.name }</td>
+					      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
+					      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
+			   		                <td class="tc w200">
+			   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
+			   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
+			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==0 }">checked</c:if>
+			   		                    </c:forEach>
+			   		                  >合格&nbsp;
+			   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
+			   		                     <c:forEach items="${reviewFirstAuditList }" var="r" >
+			   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
+			   		                     </c:forEach>
+			   		                  >不合格
+			   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
+			   		                </td>
+		   		                </c:if>
+		   		              </c:forEach>
+					      	</tr>
+		 	            </c:forEach>
+		 	            <tr class="tc">
+		 	              <td class="tc"></td>
+		 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
+			 	            <c:if test="${fn:contains(supplier.packages,extension.packageId)}">
+				 	            <td class="tc">
+				 	            	<input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;
+				 	            	<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格
+				 	            </td>
+			 	            </c:if>
+			 	          </c:forEach>
+		 	           </tr>
+				   </table>
+			       <div class="col-md-12 clear tc mt10">
+				       <input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+				       <input type="button" onclick="window.print();"  value="打印"  class="btn btn-windows input">
+				       <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
+			   	   </div>
+			   </div>
+			</form>
+		</div> 
+	</div>
   </body>
-  
 </html>

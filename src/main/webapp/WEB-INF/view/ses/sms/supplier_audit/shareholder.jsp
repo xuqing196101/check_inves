@@ -11,9 +11,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 <style type="text/css">
 td {
   cursor:pointer;
@@ -174,7 +171,7 @@ function nextStep(url){
                             <i></i>
                         </li>
                         <li>
-                            <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                            <a aria-expanded="false" href="#tab-4" >汇总</a>
                         </li>
                     </ul>
 
@@ -191,7 +188,7 @@ function nextStep(url){
 	                        <th class="info">统一社会信用代码或身份证</th>
 	                        <th class="info">出资金额或股份(万元/份)</th>
 	                        <th class="info">比例(%)</th>
-	                        <th class="info w50"></th>
+	                        <th class="info"></th>
 	                      </tr>
 	                    </thead>
 	                    <c:forEach items="${shareholder}" var="s" varStatus="vs">
@@ -211,7 +208,7 @@ function nextStep(url){
                   </ul>
                   <div class="col-sm-12 col-xs-12 col-md-12 add_regist tc">
                     <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                    <input class="btn btn-windows"  type="button" onclick="nextStep('${url}');" value="下一步">
+                    <a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>
 				  </div>
                 </div>
             </div>

@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierAgentsMapper;
 import ses.dao.sms.SupplierConditionMapper;
+import ses.dao.sms.SupplierExtPackageMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.dao.sms.SupplierMapper;
@@ -23,6 +24,7 @@ import ses.model.ems.ExtConType;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierConType;
 import ses.model.sms.SupplierCondition;
+import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
 import ses.service.sms.SupplierExtRelateService;
 
@@ -43,6 +45,8 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
     SupplierMapper supplierMapper;
     @Autowired
     SupplierExtractsMapper supplierExtractsMapper;
+    @Autowired
+    private SupplierExtPackageMapper extPackageMapper;
     /**
      * @Description:insert
      *
@@ -82,7 +86,9 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 for (Supplier supplier2 : selectAllExpert) {
                     Map<String, String> map=new HashMap<String, String>();
                     map.put("supplierId", supplier2.getId());
-                    map.put("projectId",show.getProjectId());
+                    map.put("id", show.getProjectId());
+                    SupplierExtPackage selectByPrimaryKey = extPackageMapper.selectByPrimaryKey(show.getProjectId());
+                    map.put("projectId",selectByPrimaryKey.getProjectId());
                     if(supplierExtRelateMapper.getSupplierId(map)==0){
                         supplierExtRelate = new SupplierExtRelate();
                         //供应商id

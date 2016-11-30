@@ -259,6 +259,9 @@
 									<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
 										采购管理部门信息
 									</c:when>
+									<c:when test="${ orgnization.typeName!=null && orgnization.typeName==2 }">
+										采购管理部门信息
+									</c:when>
 							     </c:choose> 
 								<span
 									class="label rounded-2x label-u">正常</span>
@@ -273,6 +276,9 @@
 											采购机构单位信息
 										</c:when>
 										<c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">
+											采购管理部门信息
+										</c:when>
+										<c:when test="${ orgnization.typeName!=null && orgnization.typeName==2 }">
 											采购管理部门信息
 										</c:when>
 							    	 </c:choose> 

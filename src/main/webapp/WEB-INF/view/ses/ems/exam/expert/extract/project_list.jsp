@@ -157,7 +157,6 @@
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
           <th class="info">采购方式</th>
-          <th class="info">项目状态</th>
         </tr>
         </thead>
         
@@ -171,19 +170,13 @@
                                 <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                                 <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.name}</a>
                                 </td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber
-                                        }</a></td>
-                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">
-                                <c:if test="${'jzxtp'==obj.purchaseType}">竞争性谈判</c:if>
-                                <c:if test="${'yqzb'==obj.purchaseType}">邀请招标</c:if>
-                                <c:if test="${'xjcg'==obj.purchaseType}">询价采购</c:if>
-                                <c:if test="${'gkzb'==obj.purchaseType}">公开招标</c:if>
-                                <c:if test="${'dyly'==obj.purchaseType}">单一来源</c:if>
-                                </a></td>
-                                <td class="tc"><c:if test="${'1'==obj.status}">实施中</c:if> <c:if
-                                        test="${'2'==obj.status}">已成交</c:if> <c:if
-                                        test="${'3'==obj.status}">已立项</c:if>
+                                <td class="tc"><a href="javascript:void(0);" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+                                <td class="tc">
+                                  <c:forEach items="${kind}" var="kind" >
+                                        <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                     </c:forEach>
                                 </td>
+                            
                             </tr>
                         </c:forEach>
         </tbody>

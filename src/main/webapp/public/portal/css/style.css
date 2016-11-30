@@ -2010,7 +2010,7 @@ img.img-mouse {
 }
 .login_box h2{
  border-bottom:1px solid #eee;
- font-size:17px;
+ font-size:16px;
  background:#fafafa;
  margin:0px;
  height:39px;
@@ -2039,7 +2039,7 @@ margin-top:0px!important;
   height:31px;
   line-height:31px;
   color:#ffffff;
-  font-size:17px;
+  font-size:16px;
   border-bottom:2px solid #2c9fa6;
   font-weight:600;
 }
@@ -2064,7 +2064,7 @@ margin-top:0px!important;
   height:37px;
   line-height:37px;
   color:#2C9FA6;
-  font-weight:15px;
+  font-size:16px;
 }
 a.news_more{
   color:#555555!important;
@@ -2201,7 +2201,7 @@ a.yjfk{
   text-align:center;
 }
 
-/*锟斤拷锟斤拷锟斤拷锟斤拷贫锟斤拷锟绞斤拷锟绞�/
+/*供应商注册*/
 
 .drop_hover .supp_login{
   padding-right:30px!important;
@@ -2266,7 +2266,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*鐧诲綍椤甸潰鏍峰紡寮�*/
+/*form的头*/
 .sky-form header {
     color: inherit;
     display: block;
@@ -2369,8 +2369,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*鐧诲綍椤甸潰鏍峰紡缁撴潫*/
-/*li_square*/
+
 .li_square li{
   border-bottom:1px dashed #e2e2e2!important;
   font-size:15px!important;

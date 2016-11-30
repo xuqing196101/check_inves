@@ -181,7 +181,6 @@
 				            <th class="info">供应商名称</th>
 				             <th class="info">企业类型</th>
 				            <th class="info">企业性质</th>
-				            <!-- <th class="info">企业状态</th> -->
 				            <th class="info">审核状态</th>
 		                </tr>
 		            </thead>
@@ -199,12 +198,9 @@
 				              </c:forEach>
 				            </td>
 				            <td class="tc">${list.businessType }</td>
-				            <!-- <td class="tc"></td> -->
 				            <td class="tc" id="${list.id}">
 				               <c:if test="${list.status==0 }">待初审</c:if>
 				               <c:if test="${list.status==1 }">待复审</c:if>
-				               <%-- <c:if test="${list.status==5 }">初审中</c:if> 
-				               <c:if test="${list.status==6 }">复审中</c:if> --%>
 				               <c:if test="${list.status==7 }">初审退回</c:if>
 				               <c:if test="${list.status==8 }">复审退回</c:if>
 				               <c:if test="${list.status==3 }">已审核</c:if>

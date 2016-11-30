@@ -37,6 +37,7 @@
 </script>
 <body>
 	<!--面包屑导航开始-->
+	<c:if test="${typeclassId!=null && typeclassId !='' }">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -49,6 +50,7 @@
 			<div class="clear"></div>
 		</div>
 	</div>
+	</c:if>
 	<!-- 修改订列表开始-->
 	<div class="container">
 		<div>
@@ -60,7 +62,7 @@
 					class="table table-bordered table-condensed">
 					<tr>
 						<td class="bggrey" width="100px">项目名称:</td>
-						<td colspan="7" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
+						<td colspan="8" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
 						<td class="bggrey">抽取时间:</td>
@@ -68,13 +70,13 @@
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td class="bggrey">抽取地点:</td>
-						<td colspan="3">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
+						<td colspan="4">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
 						<td  class="bggrey" height="300px;">抽取条件:<br>抽取数量:
 						
 						</td>
-						<td colspan="7" height="300px;">
+						<td colspan="8" height="300px;">
 							<div class="margin-left-100">
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
 								  <c:if test="${con.conditionList != null && fn:length(con.conditionList) != 0}">
@@ -111,11 +113,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="8" class="bggrey" align="center">抽取记录</td>
+						<td colspan="9" class="bggrey" align="center">抽取记录</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>
-						<td align="center" >供应商名称</td>
+						<td align="center">供应商名称</td>
+						<td align="center">包名称</td>
 						<td align="center" >联系人</td>
 						<td align="center">手机号</td>
 						<td align="center" >传真</td>
@@ -129,6 +132,7 @@
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${ext.supplier.supplierName}</td>
+							      <td align="center">${con.packages.name}</td>
 								<td align="center">${ext.supplier.contactName}</td>
 								<td align="center">${ext.supplier.mobile}</td>
 								<td align="center">${ext.supplier.contactFax}</td>
@@ -146,7 +150,7 @@
 						</c:forEach>
 					</c:forEach>
 					<tr>
-						<td colspan="7"  class="bggrey" align="center">抽取人员</td>
+						<td colspan="9"  class="bggrey" align="center">抽取人员</td>
 					</tr>
 					<tr>
 						<td align="center" >序号</td>
@@ -167,7 +171,7 @@
 						<td colspan="2" align="center"></td>
 					</tr>
 					<tr>
-						<td colspan="7" class="bggrey" align="center">监督人员</td>
+						<td colspan="9" class="bggrey" align="center">监督人员</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>

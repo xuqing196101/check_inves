@@ -12,9 +12,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
 
 <script type="text/javascript">
   $(function() {
@@ -24,6 +21,14 @@
     $("li").each(function() {
       $(this).find("p").hide();
     });
+    
+    $("li").find("span").each(function() {
+      var onmouseover = "this.style.border='solid 1px #FF0000'";
+      var onmouseout = "this.style.border='solid 1px #FFFFFF'";
+       $(this).attr("onmouseover",onmouseover);
+       $(this).attr("onmouseout",onmouseout);
+    });
+    
     
   });
 
@@ -184,7 +189,7 @@ function nextStep(){
                         <i></i>
                     </li>
                     <li>
-                        <a aria-expanded="false" href="#tab-4" >审核汇总</a>
+                        <a aria-expanded="false" href="#tab-4" >汇总</a>
                     </li>
                 </ul>
             
@@ -295,7 +300,7 @@ function nextStep(){
               </div>
 	          <div class="col-md-12 add_regist tc">
 	                    <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-	              <input class="btn btn-windows"  type="button" onclick="nextStep();" value="下一步">
+	              <a class="btn"  type="button" onclick="nextStep();">下一步</a>
 	          </div>
             </div>
         </div> 

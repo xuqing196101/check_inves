@@ -92,7 +92,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/front/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
@@ -138,7 +138,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/front/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
@@ -176,6 +176,9 @@
     </div>
    </div>
   <div class="my_post f18">
+  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
+  </div>
+  <div class="publish_post f18">
   <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
   </div>  
    

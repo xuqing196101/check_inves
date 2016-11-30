@@ -8,6 +8,7 @@ import java.util.Map;
 
 import net.sf.jsqlparser.statement.update.Update;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierExtRelate;
 
 /**
  * @Description:抽取记录关联专家
@@ -78,4 +79,14 @@ public interface ProjectExtractService {
      * @return void
      */
     void insertProjectExtract(ProjectExtract projectExtract);
+
+    /**
+     * 
+     *〈简述〉获取单个对象
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param id
+     * @return 
+     */
+    ProjectExtract getExpExtRelate(String id);
 }

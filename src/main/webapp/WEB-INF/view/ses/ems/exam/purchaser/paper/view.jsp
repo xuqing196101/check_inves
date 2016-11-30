@@ -70,10 +70,8 @@
 	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	
 	<div class="container container_box">
-	   	<div class="headline-v2">
-       		<h2 class="count_flow">查看考卷</h2>
-       	</div>
-       	<ul class="ul_list">
+	   	<h2 class="list_title">查看考卷</h2>
+       	<div class="ul_list">
     	 	<ul class="list-unstyled p0_20">
 		     	<li class="col-md-3 p0">
 		  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
@@ -161,7 +159,7 @@
 	  		</li>
 	  		
 	  		</ul>
-        </ul>
+        </div>
    
 	  		<!-- 按钮 -->
 	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">

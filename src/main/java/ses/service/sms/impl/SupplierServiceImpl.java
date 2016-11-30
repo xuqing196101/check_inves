@@ -21,8 +21,12 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
 import ses.model.sms.ProductParam;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
@@ -31,6 +35,9 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -78,6 +85,16 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private ProductParamMapper productParamMapper;
 	
+	@Autowired
+	private UserServiceI userService;
+	
+	@Autowired
+	private RoleServiceI roleService;
+	
+	@Autowired
+	private PreMenuServiceI preMenuService;
+	
+	 
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
@@ -189,6 +206,29 @@ public class SupplierServiceImpl implements SupplierService {
         user.setTypeId(supplier.getId());
         userMapper.insertSelective(user);
         
+        
+        
+        Role role = new Role();
+        role.setCode("IMPORT_AGENT_R");
+        List<Role> listRole = roleService.find(role);
+        if (listRole != null && listRole.size() > 0) {
+            Userrole userrole = new Userrole();
+            userrole.setRoleId(listRole.get(0));
+            userrole.setUserId(user);
+            /**初始化供应商角色*/
+            userService.saveRelativity(userrole);
+            String[] roleIds = listRole.get(0).getId().split(",");
+            List<String> listMenu = preMenuService.findByRids(roleIds);
+            /**供应商初始化菜单权限*/
+            for (String menuId : listMenu) {
+                UserPreMenu upm = new UserPreMenu();
+                PreMenu preMenu = preMenuService.get(menuId);
+                upm.setPreMenu(preMenu);
+                upm.setUser(user);
+                userService.saveUserMenu(upm);
+            }
+        }
+        
 		return supplier;
 	}
 	
@@ -253,6 +293,7 @@ public class SupplierServiceImpl implements SupplierService {
 			todosMapper.updateIsFinish(new Todos("supplier/return_edit.html?id="+ supplier.getId()));
 		}
 		supplier.setStatus(0);
+	 
 		supplierMapper.updateByPrimaryKeySelective(supplier);
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		// 推送代办
@@ -278,7 +319,11 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public boolean checkLoginName(String loginName) {
 		List<String> list = supplierMapper.findLoginName();
+		List<User> user = userService.findByLoginName(loginName);
 		if (list.contains(loginName)) {
+			return false;
+		}
+		if(user!=null&&user.size()>0){
 			return false;
 		}
 		return true;
@@ -345,4 +390,5 @@ public class SupplierServiceImpl implements SupplierService {
 	public String selectSupplierTypes(Supplier supplier) {
 		return supplierMapper.selectSupplierTypes(supplier);
 	}
+	
 }

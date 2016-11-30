@@ -6,6 +6,10 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
+import ses.model.sms.Supplier;
+
 
 
 /**
@@ -15,6 +19,12 @@ import java.util.List;
  * @date 2016-10-9下午1:57:22
  */
 public class Packages {
+    
+    
+    private List<Expert> listExperts;
+    
+    private List<Supplier> listSupplier;
+    
 	private String id;
 	
 	private String name;
@@ -196,5 +206,37 @@ public class Packages {
 	public void setBidMethodMaxScore(String bidMethodMaxScore) {
 		this.bidMethodMaxScore = bidMethodMaxScore;
 	}
+
+    /**
+     * @return Returns the listExperts.
+     */
+    public List<Expert> getListExperts() {
+        return listExperts;
+    }
+
+    /**
+     * @param listExperts The listExperts to set.
+     */
+    public void setListExperts(List<Expert> listExperts) {
+        this.listExperts = listExperts;
+    }
+
+    /**
+     * @return Returns the listSupplier.
+     */
+    public List<Supplier> getListSupplier() {
+        return listSupplier;
+    }
+
+    /**
+     * @param listSupplier The listSupplier to set.
+     */
+    public void setListSupplier(List<Supplier> listSupplier) {
+        this.listSupplier = listSupplier;
+    }
+
+
+
+  
 	
 }

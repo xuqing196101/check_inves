@@ -83,7 +83,7 @@
   		window.location.href="${pageContext.request.contextPath}/performance/view.html?id="+id;
   	}
     
-  	function del(){
+  	function delEcetion(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -91,7 +91,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/downloadUser/deleteDownloadUser.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/performance/deletePerfor.html?id="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});

@@ -80,13 +80,13 @@ public class MyInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				StringBuilder builder = new StringBuilder();
 				builder.append("<HTML><HEAD>");
-				builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/ZHQ/js/jquery.min.js'></script>");
+				builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
 				builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
-				builder.append("<link href='"+basePath+"/public/ZHQ/css/style.css' media='screen' rel='stylesheet'>");
+				builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
 				builder.append("</HEAD>");
 				builder.append("<script type=\"text/javascript\">"); 
 				builder.append("$(function() {");
-				builder.append("layer.confirm('登录超时，请重新登录！',{ btn: ['确定'],title:'提示',offset: ['50px','30%'],shade:0.01 },function(){");  
+				builder.append("layer.confirm('登录超时，请重新登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
 				builder.append("window.top.location.href='"); 
 				builder.append(basePath+"index/sign.html");  
 				builder.append("';"); 

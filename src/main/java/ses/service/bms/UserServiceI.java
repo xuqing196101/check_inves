@@ -1,5 +1,6 @@
 package ses.service.bms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.bms.User;
@@ -162,7 +163,7 @@ public interface UserServiceI {
     * @param @return      
     * @return List<User>
      */
-    List<User> queryParkManagers();
+    List<User> queryParkManagers(HashMap<String,Object> map);
 
     /**
      *〈简述〉重置密码

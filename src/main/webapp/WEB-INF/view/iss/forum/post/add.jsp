@@ -4,22 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>    
-    <title>My JSP 'add.jsp' starting page</title>
-    
+    <title>新增帖子</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-	 <script type="text/javascript">
+	<script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
       var option ={
@@ -43,10 +37,8 @@
 	<script type="text/javascript">
 	$(function(){		  
 		    var parkId = "${post.park.id}";
-	        $("#park").val(parkId);	  
-	        alert(parkId);   
-	        if(parkId!=null &&parkId !=""){  
-	        alert(32423423);
+	        $("#park").val(parkId);
+	        if(parkId!=null &&parkId !=""){ 
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
@@ -87,6 +79,11 @@
 		            }
 		        }
 			});
+	  }
+	  
+	  //返回到帖子列表
+	  function back(){
+		  window.location.href = "${pageContext.request.contextPath }/post/backPost.html";
 	  }
 	</script>
   </head>
@@ -172,16 +169,16 @@
 		          <up:upload id="post_attach_up"  multiple="true" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
                   <up:show showId="post_attach_show" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
               </li>
-
 	  	 </ul>
-	<!-- 底部按钮 -->			       
-    <div class="col-md-12 tc">
-    	<button class="btn btn-windows save" type="submit">保存</button>
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
-     </form>
-     </div>
+	  	 
+		<!-- 底部按钮 -->			       
+	    <div class="col-md-12 tc">
+	    	<button class="btn btn-windows save" type="submit">保存</button>
+	    	<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
+		</div>
+  	</div>
+    </form>
+    </div>
 
   </body>
 </html>

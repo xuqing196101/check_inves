@@ -20,7 +20,7 @@ p, li, li a, label {
     color: #555;
 }
 
-/** 鎼滅储 */
+/** 查询 */
 .search_detail {
 	padding: 10px;
 	background: #e5f6f8;
@@ -72,7 +72,7 @@ p, li, li a, label {
 	color: #555;
 }
 
-/** 鍒楄〃鏍峰紡 **/
+/** 列表 **/
 .table thead>tr>th {
 	border-bottom: none;
 	color: #333;
@@ -98,7 +98,7 @@ p, li, li a, label {
 	border: 1px solid #ddd;
 }
 
-/** 闈㈠寘瀵艰埅  */
+/** 外边距  */
 .margin-top-10 {
 	margin-top: 10px;
 }
@@ -307,7 +307,7 @@ p, li, li a, label {
 .breadcrumbs-v3.breadcrumbs-lg {
 	padding: 200px 0;
 }
-/* 娴佺▼鍥惧浘鐗囧畾浣�*/
+/* 面包导航*/
 .breadcrumbs-v3 .img-v1 {
 	background-position: -38px -455px;
 	background-image:url("../images/icons.png");
@@ -378,7 +378,7 @@ p, li, li a, label {
 	}
 }
 
-/** 琛ㄥ崟鏍峰紡 **/
+/** 添加边框 **/
 .container_box{
 	margin-top:20px;
 	padding-bottom:20px;
@@ -424,7 +424,7 @@ p, li, li a, label {
    float:left;
  }
  
-/*涓婁紶涓嬭浇*/
+/*下载样式*/
 .download {
     padding: 5px 12px;
     background: url(../images/download.png) no-repeat 0px;
@@ -484,7 +484,7 @@ a.thumbnail {
     margin-bottom: 15px;
 }
 
-/*鍗曢�*/
+/*选择*/
 .select_check{
 	height:25px;
 	line-height: 25px;
@@ -495,7 +495,7 @@ a.thumbnail {
 	margin-bottom:3px!important;
 }
 
-/**涓嬫媺妗�*/
+/**select选择框*/
 .select_common{
     display: inline-block;
     white-space: nowrap;
@@ -513,7 +513,7 @@ li:first-child {
     border-left: 0px;
 }
 
-/** 璇︽儏鏍峰紡 **/
+/** 新闻 **/
 .s_news{
   padding-left:45px !important;
   background-image:url(../images/xxxi.png)!important;
@@ -558,7 +558,7 @@ li:first-child {
 	margin-right:20px;
 }
 
-/** 鍘嗗彶璁板綍-鏃堕棿杞存牱寮�**/
+/** 模板**/
 .tml_container {
     background-image:url(../images/list_line.png);
 }
@@ -705,7 +705,7 @@ li:first-child {
   background:url(../images/percent.png) no-repeat 5px;
 }
 
-/*宸︿晶鐐瑰嚮鍒囨崲鍙充晶鍒囨崲鏄剧ず鏍峰紡*/
+/*按钮*/
 .btn_list{
   list-style-type:none;
 }
@@ -786,7 +786,7 @@ li:first-child {
   background-color:#99CC33;
  }
  
-/*鎶曟爣鍒朵綔鏍峰紡寮�*/
+/*右边的list*/
 .light_list{
   height:35px;
   line-height:35px;
@@ -843,7 +843,7 @@ li:first-child {
 .tnone{
 	display: none;
 }
-/* 鎻愮ず淇℃伅鏍峰紡 */
+
 .cue{
 	position:absolute;
 	left:0px;
@@ -853,7 +853,8 @@ li:first-child {
 	color:#ef0000;
 	font-size:12px;
 }
-/** 鍦板浘鏍峰紡*/
+
+/** 地图*/
 #mapsId {
     height: 700px;
     min-width: 310px;
@@ -867,7 +868,7 @@ li:first-child {
     color: gray;
 }
 
-/**澧炲姞鐢ㄦ埛绠＄悊澧炲姞椤甸潰鏍峰紡*/
+/**检查用户*/
 .checkUser{
 	position:absolute;
 	right:0px;top:-20px;
@@ -883,7 +884,7 @@ li:first-child {
 	color:red;
 }
 
-/*鍚堝悓鏄庣粏鏍峰紡*/
+/*宽度*/
 .dw188 {
 	display:none;
 	position: absolute;
@@ -905,7 +906,7 @@ li:first-child {
 	width:auto!important;
 	height:auto!important;
 }
-/* 缁熻鍒楄〃銆佺粺璁″垎鏋愬浘鍥炬爣鏍峰紡 */
+/*统计的列表*/
 .total_list{
   padding-left:45px !important;
   background-image:url(../images/tjlb.png)!important;
@@ -923,7 +924,7 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
-/* 妗ｆ鏍峰紡娣诲姞 */
+/* 单个文件上传*/
 .dangan_file{
 	font-size:26px;
 	height:50px;
@@ -938,7 +939,7 @@ li:first-child {
 	height:40px;
 	line-height: 40px; 
 }
-/** 渚涘簲鍟嗘敞鍐�*/
+/**供应商注册悬浮按钮*/
 .btmfix {
 	width: 100%;
 	position: fixed;
@@ -970,33 +971,46 @@ li:first-child {
 .cur_point{
    cursor: pointer;
 }
-/**渚涘簲鍟嗘敞鍐�/
- .sevice_list h2{
-	  padding-left:40px;
-	  height:35px;
-	  line-height:35px;
-	  font-size:17px;
-	  background:url(../images/reg_icon1.png) no-repeat 5px #e0e0e0;
-	 }
-	 .sevice_list .title{
-	  height:30px;
-	  line-height:30px;
-	 }
-	 .service_list span{
-	  height:30px;
-	  line-height:30px;
-	  float:left;
-	  display:block;
-	  margin-right:10px;
-	 }
-	 .service_list span input{
-	 margin-right:5px;
-	 }
-	 .service_desc{
-	  background-color:#f8f8f8;
-	  padding:10px;
-	 }
+
+/** 服务列表 */
+.sevice_list h2{
+  padding-left:40px;
+  height:35px;
+  line-height:35px;
+  font-size:17px;
+  background:url(../images/reg_icon1.png) no-repeat 5px #e0e0e0;
+ }
+
+.sevice_list .title{
+  height:30px;
+  line-height:30px;
+}
+
+.service_list span{
+  height:30px;
+  line-height:30px;
+  float:left;
+  display:block;
+  margin-right:10px;
+}
+
+.service_list span input{
+ margin-right:5px;
+}
+
+.service_desc{
+  background-color:#f8f8f8;
+  padding:10px;
+ }
 	 
 .done{
-	display: none;
+  display: none;
 }
+
+/** 隐藏div */ 
+.dis_none{
+ 	position: absolute; 
+ 	opacity: 0; 
+ 	filter:Alpha(opacity=0);
+ 	display: none;
+ }

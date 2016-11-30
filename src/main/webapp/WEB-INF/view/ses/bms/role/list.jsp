@@ -70,7 +70,11 @@
 	
 	function openPreMenu(){
 		var ids =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
+		var rkind = "";
+		$('input[name="chkItem"]:checked').each(function(){
+			var trObj = $(this).parent().parent();
+			var tdArr = trObj.children("td");
+		    rkind = tdArr.eq(5).find("input").val();
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length==1){
@@ -86,7 +90,7 @@
 			  offset: '110px',
 			  shadeClose: false,
 			  //content: menucon,
-			  content: '${pageContext.request.contextPath}/role/openPreMenu.html?id='+ids,
+			  content: '${pageContext.request.contextPath}/role/openPreMenu.do?id='+ids+'&kind='+rkind,
 			  success: function(layero, index){
 			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			  },
@@ -279,7 +283,7 @@
 								name="chkItem" value="${role.id}" />
 							</td>
 							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tc">${role.name}</td>
+							<td>${role.name}</td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>
 								</c:if> <c:if test="${role.status == 1}">
@@ -290,6 +294,7 @@
 							<td>
 								<c:forEach items="${dds}" var="dd" varStatus="vs">
 		                   			<c:if test="${dd.id eq role.kind}">
+		                   				<c:set var="rkind" value="${role.kind}"></c:set>
 			                   			<c:if test="${'PURCHASE_BACK' eq dd.code}">采购后台</c:if>
 			                   			<c:if test="${'EXPERT_BACK' eq dd.code}">专家后台</c:if>
 			                   			<c:if test="${'SUPPLIER_BACK' eq dd.code}">供应商后台</c:if>
@@ -297,8 +302,9 @@
 			                   			<c:if test="${'IMPORT_AGENT_BACK' eq dd.code}">进口代理商后台</c:if>
 			                   		</c:if>
 		                   		</c:forEach>
+		                   		<input type="hidden" value="${rkind}">
 							</td>
-							<td class="tc">${role.description}</td>
+							<td>${role.description}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
