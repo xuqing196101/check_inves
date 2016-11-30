@@ -307,19 +307,11 @@ function nextStep(url){
                       
                       <h2 class="count_flow"><i>2</i>组织结构和人员</h2>
                       <ul class="ul_list count_flow">
-<<<<<<< Updated upstream
-                      <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
-                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                          <input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'supplierMatPro.orgName')"/>
-                          <span class="add-on hand red" id="orgName3">×</span>
-=======
                       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                         <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
                         <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
                           <input id="orgName" type="text" value="${supplierMatPros.orgName }" onclick="reason1(this.id,'supplierMatPro.orgName')"/>
                           <div id="orgName3"  class="abolish">×</div>
->>>>>>> Stashed changes
                         </div>
                       </li>
                       <li class="col-md-3 col-sm-6 col-xs-12 pl15">

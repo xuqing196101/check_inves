@@ -1033,3 +1033,9 @@ legend {
     font-weight: bold;
     color: #ff6600;
 }
+.footer-fixed{
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+}

@@ -162,7 +162,7 @@ public class ArticleController extends BaseSupplierController{
 		String contype = request.getParameter("articleType.id");
 		if(ValidateUtils.isNull(contype)){
 			flag = false;
-			model.addAttribute("ERR_typeId", "信息类型不能为空");
+			model.addAttribute("ERR_typeId", "信息栏目不能为空");
 		}
 		String isPicShow = request.getParameter("isPicShow");
 		if(isPicShow!=null&&!isPicShow.equals("")){
@@ -179,6 +179,10 @@ public class ArticleController extends BaseSupplierController{
 		}else{
 			flag = false;
 			model.addAttribute("ERR_range", "发布范围不能为空");
+		}
+		if(ValidateUtils.isNull(article.getContent())){
+			flag = false;
+			model.addAttribute("ERR_content", "信息正文不能为空");
 		}
 		
 		if(flag==false){
@@ -350,6 +354,17 @@ public class ArticleController extends BaseSupplierController{
 			}
 		}else{
 			model.addAttribute("ERR_range", "发布范围不能为空");
+			model.addAttribute("article.id", article.getId());
+			Article artc = articleService.selectArticleById(article.getId());
+			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+			artc.setArticleAttachments(articleAttaList);
+			model.addAttribute("article",article);
+			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+			model.addAttribute("list", list);
+			return "iss/ps/article/edit";
+		}
+		if(ValidateUtils.isNull(article.getContent())){
+			model.addAttribute("ERR_content", "信息正文不能为空");
 			model.addAttribute("article.id", article.getId());
 			Article artc = articleService.selectArticleById(article.getId());
 			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());

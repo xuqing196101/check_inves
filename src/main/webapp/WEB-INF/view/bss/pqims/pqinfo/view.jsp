@@ -39,12 +39,12 @@
    
   <div class="container content pt0">
 	 <div class="row magazine-page">
-	   <div class="col-md-12 tab-v2">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">须知文档详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">质检信息详情</a></li>
             </ul>
-            <div class="tab-content padding-top-20">
+            <div class="tab-content padding-top-20 over_hideen">
             <div class="tab-pane fade active in" id="tab-1">
                 <h2 class="count_flow jbxx">基本信息</h2>
                 <table class="table table-bordered">
@@ -106,11 +106,11 @@
                  </tbody>
                  </table>
 			</div>
-		</div>
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 tc">
+  <div  class="col-md-12 col-sm-12 col-cs-12 mt20 tc">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
+		</div>
 	  	 
 	</div>  	
      </div>

@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <div class="footer-v2" id="footer-v2">
-   <div class="footer">
+   <div class="footer footer-fixed">
       <address>
 	  	Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
       </address>
