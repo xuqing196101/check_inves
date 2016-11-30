@@ -164,14 +164,14 @@
 			layer.open({
 					  type: 1,
 					  title: '重置密码',
-					  area: ['300px', '200px'],
+					  area: ['270', '260px'],
 					  closeBtn: 1,
 					  shade:0.01, //遮罩透明度
 					  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 					  shift: 1, //0-6的动画形式，-1不开启
 					  offset: '150px',
 					  shadeClose: false,
-					  content: $("#openDiv")
+					  content: $("#openDiv"),
 					});
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
@@ -322,7 +322,7 @@
 	  	<div class="drop_window">
 	  		  <input type="hidden" name="id" id="userId" >
 			  <ul class="list-unstyled">
-			    <li class="col-md-6">
+			    <!-- <li class="col-md-6">
 	    	      <span class="col-md-12 padding-left-5"><span class="red">*</span>输入密码</span>
 				  <span class="col-md-12">
 				   <input name="password" value="" class="col-md-12" type="password">
@@ -333,10 +333,23 @@
 	    	      <span class="col-md-12">
                    <input name="password2" type="password" class="col-md-12 p0">
 				  </span>
-	            </li>
-	            <div class="clear"></div>
+	            </li> -->
+	            
+	            <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
+                <div class="col-md-7 col-xs-12 col-sm-12 p0">
+                  <input type="password" name="password" class="">
+                </div>
+              </div>
+              <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
+                <div class="col-md-7 col-xs-12 col-sm-12 p0">
+                  <input type="password" name="password2"  class="">
+                </div>
+              </div>
+
 			  </ul>
-              <div class="tc mt10 col-md-12">
+              <div class="tc">
                 <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
 				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
               </div>

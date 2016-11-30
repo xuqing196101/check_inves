@@ -123,19 +123,19 @@
 		   	   <input type="hidden" name="pid" id="pid" value="${menu.parentId.id }">
 			    <ul class="list-unstyled">
 			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12">上级</label>
+				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>上级</label>
 				   <span class="col-md-12 col-xs-12">
                        <input id="citySel" class="title col-md-12" type="text" readonly value="${menu.parentId.name }"  onclick="showMenu();" />
                     </span>
 				 </li>
 			     <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12">名称</label>
+				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>名称</label>
 				   <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="name" value="${menu.name }"  maxlength="30" type="text">
                     </span>
 				 </li>
 				 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
-				 	<label class="col-md-12 pl20 col-xs-12">类型</label>
+				 	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>类型</label>
 				 	<span class="col-md-12 col-xs-12">
 					<select name="type" class="w180 mt5" >
 					 	<option value="">-请选择-</option>
@@ -147,7 +147,7 @@
 					</span>
 				</li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				 	<label class="col-md-12 pl20 col-xs-12">状态</label>
+				 	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>状态</label>
 				 	<span class="col-md-12 col-xs-12">
 					<select  name="status" class="w180 mt5" >
 					   	<option value="0" <c:if test="${'0' eq menu.status}">selected</c:if>>可用</option>
@@ -156,19 +156,19 @@
 				    </span>
 				</li>
 				<li class="mt10 col-md-12 p0 col-xs-12">
-				  <label class="col-md-12 pl20 col-xs-12">路径</label>
+				  <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>路径</label>
 				   <span class="col-md-12 col-xs-12">
                         <input class="col-xs-12 h80 mt6" name="url" value="${menu.url }" maxlength="300" type="text">
                     </span>
 				 </li>
 				  <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">排序</label>
+                   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>排序</label>
                     <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="position" value="${menu.position }" maxlength="3" type="text">
                     </span>
                  </li>
                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                   <label class="col-md-12 pl20 col-xs-12">图标</label>
+                   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>图标</label>
                     <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="icon" value="${menu.icon }" maxlength="200" type="text">
                     </span>

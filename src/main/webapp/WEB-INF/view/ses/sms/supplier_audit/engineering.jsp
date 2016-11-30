@@ -393,49 +393,6 @@
               </c:forEach>
             </table>
           </ul>
-                            
-<<<<<<< Updated upstream
-                            <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
-                            <ul class="ul_list count_flow">
-		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="orgName2">组织机构：</span>
-		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                            <input id="orgName" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,'supplierMatEng.orgName')"/>
-		                            <div id="orgName3"  class="abolish">×</div>
-		                          </div>
-		                        </li>
-		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTech2">技术负责人：</span>
-		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                            <input id="totalTech" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'supplierMatEng.totalTech')"/>
-		                            <div id="totalTech3" class="abolish">×</div>
-		                          </div>
-		                        </li>
-		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalGlNormal2">中级及以上职称人员：</span>
-		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                            <input id="totalGlNormal" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'supplierMatEng.totalGlNormal')"/>
-		                            <div id="totalGlNormal3"  class="abolish">×</div>
-		                          </div>
-		                        </li>
-		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalMange2">管理人员：</span>
-		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                            <input id="totalMange" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'supplierMatEng.totalMange')"/>
-		                            <div id="totalMange3"  class="abolish">×</div>
-		                          </div>
-		                        </li>
-		                        <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="totalTechWorker2">技术工人：</span>
-		                          <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-		                            <input id="totalTechWorker" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'supplierMatEng.totalTechWorker')"/>
-		                            <div id="totalTechWorker3"  class="abolish">×</div>
-		                          </div>
-		                        </li>
-                            </ul>
-                        </div>
-                    <div class="col-md-12 add_regist tc">
-                        <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                        <a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>
-                    </div> 
-                </div>
-            </div>
-=======
           <h2 class="count_flow"><i>4</i>供应商组织机构</h2>
           <ul class="ul_list count_flow">
 	          
@@ -477,7 +434,6 @@
         </div> 
       </div>
     </div>
->>>>>>> Stashed changes
     <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
         <input type="hidden" name="fileName" />
     </form>

@@ -524,12 +524,13 @@
                 <div id="branchBusinessScope3" onclick="reason(this.id)" class="abolish">×</div>
               </div>
             </li>
+            <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
+              <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
+              <a class="btn"  type="button" onclick="nextStep();">下一步</a>
+            </div>
           </ul>
         </div>
-        <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-          <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-          <a class="btn"  type="button" onclick="nextStep();">下一步</a>
-        </div>
+
       </div>
 	    <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
 	      <input type="hidden" name="fileName" />
