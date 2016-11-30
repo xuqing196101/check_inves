@@ -41,8 +41,11 @@ public class MarkTermServiceImpl implements MarkTermService{
 			m1 = markTermMapper.findListByMarkTerm(m1).get(0);
 			if(m1.getBidMethodId()!=null &&! m1.getBidMethodId().equals("")){
 				BidMethod bidMethod = new BidMethod();
-				bidMethod.setId(markTerm.getBidMethodId());
+				bidMethod.setId(m1.getBidMethodId());
 				bidMethod = bidMethodMapper.findListByBidMethod(bidMethod).get(0);
+//				if (bidMethod.getRemainScore() != null && !"".equals(bidMethod.getRemainScore())) {
+//                    
+//                }
 				float oldRemainScore = Float.parseFloat(bidMethod.getRemainScore());
 				float RemainScore = Float.parseFloat(markTerm.getMaxScore());
 				BigDecimal b1 = new BigDecimal(Float.toString(oldRemainScore));

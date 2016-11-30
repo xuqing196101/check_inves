@@ -28,11 +28,14 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.prms.ExpertScore;
+import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ReviewProgress;
 import bss.model.prms.ext.AuditModelExt;
 import bss.model.prms.ext.ExpertSuppScore;
+import bss.model.prms.ext.Extension;
 import bss.model.prms.ext.PackExpertExt;
 import bss.model.prms.ext.SupplierExt;
 import bss.service.ppms.AduitQuotaService;
@@ -41,7 +44,9 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.ExpertScoreService;
+import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
+import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
 import ses.model.ems.Expert;
@@ -82,6 +87,10 @@ public class PackageExpertController {
 	private ExpertScoreService expertScoreService;// 专家评分
 	@Autowired
 	private AduitQuotaService aduitQuotaService;// 评分
+	@Autowired
+    private PackageFirstAuditService packageFirstAuditService;//包关联初审项
+    @Autowired
+    private FirstAuditService firstAuditService;//初审项
 
 	/**
      * 
@@ -630,14 +639,6 @@ public class PackageExpertController {
 		expertScoreService.gather(packageId, projectId, expertId);
 	}
 
-	@RequestMapping("/viewByExpert")
-    public String viewByExpert(String id, Model model){
-        Expert expert = expertService.selectByPrimaryKey(id);
-        
-        model.addAttribute("expert", expert);
-        return "bss/prms/first_audit_expert_view";
-    }
-	
 	/**
      *〈简述〉
      * 更新专家编号查看明细
@@ -654,5 +655,75 @@ public class PackageExpertController {
         // 查询供应商的审查项
         // 查询专家给供应商每项所评分的成绩
         return "bss/prms/view_expert_score";
+    }
+    
+    /**
+     *〈简述〉查看专家对各供应商的初审明细
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id 专家id
+     * @param model
+     * @param packageId 包id
+     * @param projectId 项目id
+     * @return
+     */
+    @RequestMapping("/viewByExpert")
+    public String viewByExpert(String id, Model model, String packageId, String projectId){
+        Expert expert = expertService.selectByPrimaryKey(id);
+        //创建封装的实体
+        Extension extension = new Extension();
+        HashMap<String ,Object> map = new HashMap<String ,Object>();
+        map.put("projectId", projectId);
+        map.put("id", packageId);
+        //查询包信息
+        List<Packages> list = packageService.findPackageById(map);
+        if(list!=null && list.size()>0){
+            Packages packages = list.get(0);
+            //放入包信息
+            extension.setPackageId(packages.getId());
+            extension.setPackageName(packages.getName());
+        }
+        //查询项目信息
+        Project project = projectService.selectById(projectId);
+        if(project!=null){
+            //放入项目信息
+            extension.setProjectId(project.getId());
+            extension.setProjectName(project.getName());
+            extension.setProjectCode(project.getProjectNumber());
+        }
+        
+        //查询改包下的初审项信息
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("projectId", projectId);
+        map2.put("packageId", packageId);
+        //查询出该包下的初审项id集合
+        List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
+        //创建初审项的集合
+        List<FirstAudit> firstAuditList = new ArrayList<FirstAudit>();
+        if(packageAuditList!=null && packageAuditList.size()>0){
+            for (PackageFirstAudit packageFirst : packageAuditList) {
+                //根据初审项的id 查询出初审项的信息放入集合
+                FirstAudit firstAudits = firstAuditService.get(packageFirst.getFirstAuditId());
+                firstAuditList.add(firstAudits);
+            }
+        }
+        //放入初审项集合
+        extension.setFirstAuditList(firstAuditList);
+        //查询供应商信息
+        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        extension.setSupplierList(supplierList);
+        
+        //查询审核过的信息用于回显
+        Map<String, Object> reviewFirstAuditMap = new HashMap<String, Object>();
+        reviewFirstAuditMap.put("projectId", projectId);
+        reviewFirstAuditMap.put("packageId", packageId);
+        reviewFirstAuditMap.put("expertId", expert.getId());
+        List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(reviewFirstAuditMap);
+        //回显信息放进去
+        model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+        //把封装的实体放入域中
+        model.addAttribute("extension", extension);
+        model.addAttribute("expert", expert);
+        return "bss/prms/first_audit_expert_view";
     }
 }

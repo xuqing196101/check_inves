@@ -400,21 +400,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 }
 		 }
 		 
-		 //查看专家对所有供应商的初审明细
-		function viewByExpert(){
-			var expertId = $('input:radio[name="firstAuditByExpert"]:checked').val();
-			layer.open({
-			  type: 2, //page层
-			  area: ['500px','400px'],
-			  title: '修改角色',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset : '180px',
-			  shadeClose: false,
-			  content: '${pageContext.request.contextPath}/packageExpert/viewByExpert.html?id='+expertId
-			});
+		//查看专家对所有供应商的初审明细
+		function viewByExpert(obj, packageId, projectId, index){
+			//得到点击坐标。
+		    var x,y;  
+		    oRect = obj.getBoundingClientRect();  
+			x=oRect.left-690;  
+			y=oRect.top-200; 
+			var expertId = $('input:radio[name="firstAuditByExpert_'+index+'"]:checked').val();
+			if (typeof(expertId) == "undefined") {
+				 layer.msg("请选择一名评委的初审记录",{offset: [y, x], shade:0.01});
+			}
+			if (typeof(expertId) != "undefined") {
+				layer.open({
+				  type: 2, //page层
+				  area: ['800','400px'],
+				  title: '初审明细',
+				  closeBtn: 1,
+				  shade:0.01, //遮罩透明度
+				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  shift: 1, //0-6的动画形式，-1不开启
+				  offset: [y, x],
+				  shadeClose: false,
+				  content: '${pageContext.request.contextPath}/packageExpert/viewByExpert.html?id='+expertId+'&packageId='+packageId+'&projectId='+projectId
+				});
+			}
 		}
  </script>
 </head>
@@ -617,7 +627,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </c:forEach>
 <!-- 5.初审开始 -->
    <h1 class="f16 count_flow"><i>05</i>初审</h1>
-   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+   	 <c:forEach items="${packageList }" var="pack" varStatus="vs0">
    	 		<h4>${pack.name }初审情况</h4>
    	 		<span>
    	 			<button  class="btn btn-windows git" onclick="gather(this);" type="button">符合汇总</button>
@@ -632,7 +642,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        		<th class="info">${supplier.suppliers.supplierName }</th>
 		        	</c:if>
 		        </c:forEach>
-		        <th class="tc w30"><button class="btn" onclick="viewByExpert();" type="button">查看明细</button></th>
+		        <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${pack.id}','${project.id}','${vs0.index+1}');" type="button">查看明细</button></th>
 		      </tr>
 		      </thead>
 		      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
@@ -653,7 +663,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        	</td>
 			        	</c:if>
 		            </c:forEach>
-		            <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td>
+		            <td class="tc"><input type="radio" name="firstAuditByExpert_${vs0.index+1}" value="${ext.expert.id}"></td>
 			      </tr>
 		        </c:if>
 	      	 </c:forEach>
