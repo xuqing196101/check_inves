@@ -121,6 +121,28 @@ public class PackageExpertController {
 	    return "bss/prms/assign_expert/expert_list";
 	}
     
+    /**
+     *〈简述〉跳转供应商报价
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param projectId 项目id
+     * @param model
+     * @param flowDefineId 
+     * @return
+     */
+    @RequestMapping("/toSupplierQuote")
+    public String toSupplierQuote(String projectId, Model model, String flowDefineId) {
+        // 供应商信息
+        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        List<Packages> packages = packageService.listResultExpert(projectId);
+        // 包信息
+        model.addAttribute("packageList", packages);
+        model.addAttribute("supplierList", supplierList);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/prms/supplier_quote/quote_list";
+    }
+    
     
     /**
      * 

@@ -99,6 +99,7 @@
 	    </div>
 	    <div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" onclick="addexp();" type="button">添加临时专家</button>
+		    <button class="btn btn-windows add" onclick="" type="button">分配组长</button>
 	   	</div>
 	   	<div class="content table_box">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
