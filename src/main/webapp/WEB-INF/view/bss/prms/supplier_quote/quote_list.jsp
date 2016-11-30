@@ -36,7 +36,7 @@
 				<tr>
 				  <th class="w50 info">序号</th>
 				  <th class="info">供应商名称</th>
-				  <th class="info">报价</th>
+				  <th class="info">报价(单位：元)</th>
 				  <th class="info">操作</th>
 				</tr>
 				</thead>
@@ -49,8 +49,8 @@
 			        	  <c:forEach items="${supplier.money}" var="sm" varStatus="vs">
 			        		<tr>
 			        			<td class="tc">${sm.packageName}： </td>
-			        		    <td class="tl w100">(${sm.totalMoney})</td>
-			        		    <td class="tl w230">${sm.upperName }</td>
+			        		    <td class="tl w100">${sm.totalMoney}</td>
+			        		    <td class="tl w230">(${sm.upperName })</td>
 			        		</tr>
 			              </c:forEach>
 			        	</table>

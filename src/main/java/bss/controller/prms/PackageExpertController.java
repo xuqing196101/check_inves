@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ses.main.CnUpperCaser;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Quote;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.sms.SupplierQuoteService;
+import ses.util.CnUpperCaser;
 import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -177,11 +177,11 @@ public class PackageExpertController {
                     }
                     money.setPackageName(pk.getName());
                     money.setTotalMoney(new BigDecimal(df.format(totalMoney)));
-                    money.setUpperName(new CnUpperCaser(String.valueOf(new BigDecimal(df.format(totalMoney)))).getCnString());
+                    money.setUpperName(CnUpperCaser.getCnString(totalMoney.doubleValue()));
                 }else{
                     money.setPackageName(pk.getName());
                     money.setTotalMoney(BigDecimal.ZERO);
-                    money.setUpperName(new CnUpperCaser(String.valueOf(BigDecimal.ZERO)).getCnString());
+                    money.setUpperName(CnUpperCaser.getCnString(0));
                 }
                 listMoney.add(money);
             }

@@ -107,8 +107,8 @@
 							            </tr>
 							         </c:forEach>  
 							         <tr>
-							         	<td class="tr" colspan="2"><b>总金额(元):${total }</b></td>
-							         	<td class="tl" colspan="8"></td>
+							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
+							         	<td class="tl" colspan="8">${total }</td>
 							         </tr>
 							      </table>
 		                    </div>
@@ -148,8 +148,8 @@
 							            </tr>
 							         </c:forEach>  
 							         <tr>
-							         	<td class="tr" colspan="2"><b>总金额(元):${total2}</b></td>
-							         	<td class="tl" colspan="8"></td>
+							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
+							         	<td class="tl" colspan="8">${total2}</td>
 							         </tr>
 							      </table>
 	                 	  </div>

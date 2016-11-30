@@ -27,13 +27,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.main.CnUpperCaser;
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
+import ses.util.CnUpperCaser;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.model.ppms.FlowDefine;
@@ -611,7 +611,7 @@ public class OpenBiddingController {
 	            }
 	            if(listQuote != null && listQuote.size() > 0){
 	                listQuote.get(0).setTotalMoney(totalMoney);
-                    listQuote.get(0).setTotalMoneyNames(new CnUpperCaser(totalMoney.toString()).getCnString());
+                    listQuote.get(0).setTotalMoneyNames(CnUpperCaser.getCnString(totalMoney.doubleValue()));
 	            }
 	            listQuoteList.add(listQuote);
 	        }

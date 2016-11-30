@@ -75,16 +75,18 @@ public class TestScore {
         //0等额区间    1不等额区间
         scoreModel.setIntervalTypeName("0");
         //加减分类型  0 加分 1减分
-        scoreModel.setAddSubtractTypeName("0");
+        scoreModel.setAddSubtractTypeName("1");
         //每个区间之间的差额，用于等额区间模型
         scoreModel.setIntervalNumber("0.5");
         //截止分数
-        scoreModel.setDeadlineNumber("5");
+        scoreModel.setDeadlineNumber("50");
+        //加减分分值
+        scoreModel.setScore("0.5");
         //最高分
-        scoreModel.setMaxScore("10");
+        scoreModel.setMaxScore("100");
         //最低分
         scoreModel.setMinScore("0");
-        Integer number=6;
+        Integer number=30;
         double score = ScoreModelUtil.getScoreByModelSeven(scoreModel,number);
         System.out.println(score);
         

@@ -20,8 +20,14 @@
 		    $('#menu li').each(function(index) {
 			    $(this).removeClass('active');  // 删除其他兄弟元素的样式
 			  });
-	        $(this).parent().addClass('active');                            // 添加当前元素的样式
+	        $(this).parent().addClass('active'); // 添加当前元素的样式
 	    });
+	    /*上面一个的问题就是 $(this).parent().addClass('active')这个a标签不是循环出来的 是自定义的它的id是as */
+	    $(document).ready(function() {
+		    $("#menu li").click(function(){
+				$(this).addClass("active").siblings().removeClass("active");
+			});
+		});
 	}); 
 	
 	function back(){
@@ -74,24 +80,24 @@
 	                       <c:forEach items="${fds}" var="fd">
 	                       	  	<c:choose> 
 								  <c:when test="${fd.status == 4}">   
-								    <li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" class="active">
-		                       			<a   class="son-menu">${fd.name }</a>
+								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" class="active">
+		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:when> 
 								  <c:when test="${fd.status == 1}">
-		                       		<li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a  class="son-menu">${fd.name }</a>
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when> 
 								  <c:when test="${fd.status == 2}">
-		                       		<li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a   class="son-menu">${fd.name }</a>
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
 								  </c:when>
 								  <c:otherwise>   
 								    <%-- <li  onclick="tips(${fd.step})"> --%>
-								    <li  onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
-		                       			<a   class="son-menu">${fd.name }</a>
+								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')">
+		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li>  
 								  </c:otherwise> 
 								</c:choose>
