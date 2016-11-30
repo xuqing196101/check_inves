@@ -62,18 +62,7 @@
   		window.location.href="${pageContext.request.contextPath}/pqinfo/view.html?id="+id;
   	}
     
-    function showPic(url,name){
-    	var pic = $("#"+url.toString());
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: '516px',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: pic
-			});
-	};
+
 	$(function(){
 		if(${pqinfo.type!=null}&&${pqinfo.type!=""}){
 			$("#searchType").val('${pqinfo.type}');			
@@ -94,7 +83,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果查询</a></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">产品质量管理</a></li><li class="active"><a href="javascript:void(0)">产品质量结果查询</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -112,7 +101,7 @@
 	   <li class="fl"><label class="fl">合同编号：</label><span><input type="text" id="contractCode" name="contract.code" class="mb0"/></span></li>
 	   <li class="fl"><label class="fl">验收类型：</label>
 	   		<span>
-	   			<select id="searchType" name =type class="w150" >
+	   			<select id="searchType" name =type class="w100" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="首件检验">首件检验</option>
 			  	 	<option value="生产验收">生产验收</option>
@@ -123,7 +112,7 @@
 	  </li>
 	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
 	   		<span>
-	   			<select id="searchConclusion" name =conclusion class="w150" >
+	   			<select id="searchConclusion" name =conclusion class="w80" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="合格">合格</option>
 			  	 	<option value="不合格">不合格</option>
@@ -159,21 +148,21 @@
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.name}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.type}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')"><fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd'/></td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')"><fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd'/></td>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
+				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
 				<td class="tc opinter">
 				<button type="button" onclick="view('${PqInfo.report}',this)" class="btn">质检报告</button>

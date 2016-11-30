@@ -16,17 +16,6 @@
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
 	
 <script type="text/javascript">
-  function showPic(url,name){
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: '516px',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: $("#photo")
-			});
-	};
 	
 
 $(function(){
@@ -111,7 +100,7 @@ function change(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   		<li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">修改质检报告</a></li>
+		   		<li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">产品质量管理</a></li><li class="active"><a href="javascript:void(0)">修改质检报告</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>

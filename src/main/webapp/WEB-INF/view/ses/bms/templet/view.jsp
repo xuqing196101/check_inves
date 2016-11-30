@@ -15,13 +15,13 @@
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a>
+				<li><a href="javascript:void(0)"> 首页</a>
 				</li>
-				<li><a href="#">论坛管理</a>
+				<li><a href="javascript:void(0)">论坛管理</a>
 				</li>
-				<li class="active"><a href="#">模板管理</a>
+				<li class="active"><a href="javascript:void(0)">模板管理</a>
 				</li>
-				<li class="active"><a href="#">模板详情</a>
+				<li class="active"><a href="javascript:void(0)">模板详情</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
@@ -33,7 +33,7 @@
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 				<ul class="nav nav-tabs bgwhite">
-	            	<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">模板详情</a></li>
+	            	<li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">模板详情</a></li>
            	 	</ul>
            	 	<div class="tab-content padding-top-20 over_hideen">
             	<div class="tab-pane fade active in" id="tab-1">

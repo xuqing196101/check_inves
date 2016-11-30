@@ -30,7 +30,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '${pageContext.request.contextPath}/offer/userSelectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = "${pageContext.request.contextPath}/offer/userSelectProduct.html?id="+id+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -79,7 +79,7 @@ function offer(){
 	}); 
 	
 	if(id.length==1){
-		window.location.href="${pageContext.request.contextPath}/offer/userSelectProduct.do?productId="+id;
+		window.location.href="${pageContext.request.contextPath}/offer/userSelectProductInfo.do?productId="+id;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -97,7 +97,7 @@ function offer(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">单一来源审价</a></li><li><a href="#">审价人员审价</a></li><li><a href="#">产品审价</a></li></ul>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">单一来源审价</a></li><li><a href="javascript:void(0)">审价人员审价</a></li><li><a href="javascript:void(0)">产品审价</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
