@@ -768,13 +768,13 @@ th.bg_tc {
 	padding:10px;
 	overflow: hidden;	
 }
-.park_manager{
+.publish_post{
     position: fixed;
     width:30px;
     height:130px;
     border:1px solid #e5e5e5;
     right:0px;
-    top:50%;
+    top:65%;
     padding:10px;
     overflow: hidden;   
 }

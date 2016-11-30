@@ -193,6 +193,76 @@ public class ReplyManageController {
 	    }
 	}
 	
+	/**
+	 * 
+	* @Title: saveReply
+	* @author ZhaoBo
+	* @date 2016-11-30 下午4:46:08  
+	* @Description: 保存回复的回复信息 
+	* @param @param request
+	* @param @param response
+	* @param @param reply
+	* @param @throws IOException      
+	* @return void
+	 */
+	@RequestMapping("/saveReply")
+	@ResponseBody
+	public void saveReply(HttpServletRequest request,HttpServletResponse response,Reply reply)throws IOException{	
+		try {
+            String msg = "";
+            int count = 0;
+            if ("".equals(reply.getContent()) || reply.getContent() == null) {
+                msg += "请填写回复内容";
+                count ++;
+            }
+            //校验失败
+            if (count > 0) {
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print(
+                        "{\"success\": " + false + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+            //检验成功
+            if (count == 0) {
+            	String postId = request.getParameter("postId");
+    			String replyId =request.getParameter("replyId");
+    			Post post = postService.selectByPrimaryKey(postId);
+    			Timestamp tsp = new Timestamp(new Date().getTime());
+    			Timestamp tsu = new Timestamp(new Date().getTime());
+    			User user = (User) request.getSession().getAttribute("loginUser");
+    			reply.setUser(user);
+    			//根据replyId来判断 是回复帖子，还是回复回复
+    			if(replyId ==null || replyId == ""){			
+    				BigDecimal replyCount =post.getReplycount();
+    				BigDecimal haha = new BigDecimal(1);
+    				post.setReplycount(replyCount.add(haha));
+    				post.setLastReplyer(user);
+    				post.setLastReplyedAt(tsp);
+    				postService.updateByPrimaryKeySelective(post);			
+    			}else{
+    				Reply supReply = replyService.selectByPrimaryKey(replyId);
+    				reply.setReply(supReply);		
+    			}		
+    			reply.setPost(post);
+    			reply.setContent(reply.getContent());
+    			reply.setPublishedAt(tsp);
+    			reply.setUpdatedAt(tsu);	
+    			reply.setIsRead(0);
+    			replyService.insertSelective(reply);
+            	msg += "回复成功";
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter()
+                        .print("{\"success\": " + true + ", \"msg\": \"" + msg
+                                + "\"}");
+            }
+					
+			response.getWriter().flush();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally{
+	        response.getWriter().close();
+	    }
+	}
 	
 	/**   
 	* @Title: edit

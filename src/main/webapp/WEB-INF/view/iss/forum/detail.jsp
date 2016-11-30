@@ -69,10 +69,10 @@
 	          error: function(result){
                     layer.msg("回复失败",{offset: ['20px']});
               }
-	          
 	      });
 	  }	  
   }
+  
   function writeHtml(id){
 	   var isLocking = "${post.isLocking}";
 	      if(isLocking == 1){
@@ -80,25 +80,25 @@
 	      }else{
 			  var pu = $("#"+id);
 			  var html = "<div class='sign_answer'>";
-			  html += $("#publish").html();
+			  html += $("#reply").html();
 			  html += "</div>";
 			  if(pu.next(".sign_answer").size() == 0 ){
 				  $("div").remove(".sign_answer");
 				  pu.after(html);  
-			      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
-			 }	
+			      $("#replyPublishButton").attr("onclick","publishForReply('"+id+"')");
+			 }
 	     }
   }
   
   
  	 function publishForReply(replyId){
-		 var ue = UE.getEditor('editor');
+		 var ue = UE.getEditor('replyEditor');
 		 var text = ue.getContent();
 		 var postId = "${post.id}";
 		   $.ajax({
-	       url:"${ pageContext.request.contextPath }/reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+	       url:"${pageContext.request.contextPath }/reply/saveReply.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
 	       contentType: "application/json;charset=UTF-8", 
-	       type:"POST",   //请求方式         
+	       type:"POST", //请求方式         
 	       dataType: 'json',   
 	       success : function(result) {    
 		          if(!result.success){
@@ -106,7 +106,7 @@
 	                    }else{ 		              		
 	                    	var postId = "${post.id}";
 		          			parent.window.setTimeout(function(){
-	                        parent.window.location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
+	                        parent.window.location.href = "${pageContext.request.contextPath }/post/getIndexDetail.html?postId="+postId;
 	                        }, 1000);
 	                        layer.msg(result.msg,{offset: ['20px']});
 	          			}
@@ -125,7 +125,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="${ pageContext.request.contextPath }/park/getIndex.html">论坛首页</a></li><li><a >帖子详情</a></li>
+           <li><a href="${pageContext.request.contextPath }/park/getIndex.html">论坛首页</a></li><li><a >帖子详情</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -133,9 +133,9 @@
 <div class="container content job-content ">
     <div class="col-md-12 p30_40 border1">
      <h3 class="tc f30">
-       <div class="title bbgrey ">${post.name }</div>
+       <div class="title bbgrey">${post.name }</div>
      </h3>
-     <div class="p15_0" >
+     <div class="p15_0">
 	     <div class="fr"><span>作者：${post.user.relName }</span>
 	     <span class="ml15"><i class="mr5">
 	     <img src="${ pageContext.request.contextPath }/public/front/images/block.png"/></i>
@@ -155,14 +155,13 @@
      </div>
 	<div id="repliesForJudge">
      <!-- 回复列表 -->
-     <div class="col-md-12 p30_40 border1 margin-top-20" >
+     <div class="col-md-12 p30_40 border1 margin-top-20">
         
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
             <div id="${reply.id}" class="col-md-12 comment_main border1">
             <!--左半部分  -->
-            
 	            <div class="comment_flow ">
-		            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/front/images/boy.png"/></div>
+		            <div class="comment_pic"><img src="${pageContext.request.contextPath }/public/front/images/boy.png"/></div>
 		            <div class="clear">
 		              <p class="b f18 mb0 tc">${reply.user.relName }</p>
 		              
@@ -192,30 +191,45 @@
      </div>
      
      <!-- 分页Div -->
-     <div id="pagediv" align="right" ></div>  
+     <div id="pagediv" align="right"></div>  
      </div>
      
-      <!-- 我要评论Div -->
+     <!-- 我要评论Div -->
      <div class="col-md-12 p30_40 border1 mt10" id="publish">
          <div class="clear col-md-12 p0">
-          <span class="f18 b">我要回复</span> 
+          	<span class="f18 b">我要回复</span> 
          </div>
          <div class="clear col-md-12 p0 mt10">
-          <span><div class="red star_red">*</div>回复内容：</span> 
-           <script id="editor" name="content" type="text/plain" class= ""></script>
+          	<span><div class="red star_red">*</div>回复内容：</span> 
+           	<script id="editor" name="content" type="text/plain" class=""></script>
             <div class="validate">${ERR_content}</div>
          </div>
          <div class="clear col-md-12 pt10 tc">
-           <button class="btn btn-windows " id ="publishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发布</button>
+           	<button class="btn btn-windows" id ="publishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发表</button>
+         </div>    
+     </div>
+     
+     
+     <div class="col-md-12 p30_40 border1 mt10 dnone" id="reply">
+         <div class="clear col-md-12 p0">
+          	<span class="f18 b">我要回复</span> 
+         </div>
+         <div class="clear col-md-12 p0 mt10">
+          	<span><div class="red star_red">*</div>回复内容：</span> 
+           	<script id="replyEditor" name="replyContent" type="text/plain" class=""></script>
+            <div class="validate">${ERR_replyContent}</div>
+         </div>
+         <div class="clear col-md-12 pt10 tc">
+           	<button class="btn btn-windows" id="replyPublishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发表</button>
          </div>    
      </div>
    </div>
-  <div class="my_post f18">
-  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
-  </div>
-  <div class="publish_post f18">
-  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
-  </div>  
+  	<div class="my_post f18">
+  		<a href='${pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
+  	</div>
+  	<div class="publish_post f18">
+  		<a href='${pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
+  	</div>  
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">
@@ -232,6 +246,7 @@
 
     };
     UE.getEditor('editor',option);
+    UE.getEditor('replyEditor',option);
     </script>
 </body>
 </html>
