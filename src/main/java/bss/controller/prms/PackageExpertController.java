@@ -790,24 +790,6 @@ public class PackageExpertController {
 	public void scoreTotal(String packageId, String projectId, String expertId) {
 		expertScoreService.gather(packageId, projectId, expertId);
 	}
-
-	/**
-     *〈简述〉
-     * 更新专家编号查看明细
-     *〈详细描述〉
-     * @author WangHuijie
-     * @param packageId
-     * @param expertId
-     * @return
-     */
-    @RequestMapping("showViewByExpertId")
-    public String showViewByExpertId(String packageId,String expertId) {
-        // 查询专家名称
-        // 查询该包内的所有供应商(一行一个)
-        // 查询供应商的审查项
-        // 查询专家给供应商每项所评分的成绩
-        return "bss/prms/view_expert_score";
-    }
     
     /**
      *〈简述〉查看专家对各供应商的初审明细

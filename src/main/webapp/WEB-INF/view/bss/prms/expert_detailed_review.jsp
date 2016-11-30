@@ -482,6 +482,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <tr class="tc">
 		           <td>${supplier.suppliers.supplierName }</td>
 		           <c:forEach items="${packExpertExtList }" var="ext">
+		        	<c:forEach items="${typeNames }" var="type">
+		        	<c:if test="${(type.TYPENAME eq '0' and packageId eq type.PACKAGEID) or (type.TYPENAME eq '1' && packageId eq type.PACKAGEID)}">
 		           <c:if test="${ext.packageId eq packageId}">
 		             <c:set var="count" value="0"/>
 		             <c:forEach items="${expertScoreList }" var="sco">
@@ -494,6 +496,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		               <td class="tc">暂未评分</td>
 		             </c:if>
 		           </c:if>
+		           </c:if>
+		           </c:forEach>
 		           </c:forEach>
 	               <td width="150px">
 	                 <input type="radio" value="${supplier.suppliers.id}" name="supplierView_${vs.index }">
