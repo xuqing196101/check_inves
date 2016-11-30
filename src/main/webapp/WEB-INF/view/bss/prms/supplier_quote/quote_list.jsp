@@ -46,10 +46,13 @@
 			        <td class="tc">${supplier.suppliers.supplierName } </td>
 			        <td>
 			        	<table>
-			        		<tr><td class="tc">包名：1111</td></tr>
-			        		<tr><td class="tc">包名：1111</td></tr>
-			        		<tr><td class="tc">包名：1111</td></tr>
-			        		<tr><td class="tc">包名：1111</td></tr>
+			        	  <c:forEach items="${supplier.money}" var="sm" varStatus="vs">
+			        		<tr>
+			        			<td class="tc">${sm.packageName}： </td>
+			        		    <td class="tl w100">(${sm.totalMoney})</td>
+			        		    <td class="tl w230">${sm.upperName }</td>
+			        		</tr>
+			              </c:forEach>
 			        	</table>
 			        </td>
 			        <td class="tc w100">

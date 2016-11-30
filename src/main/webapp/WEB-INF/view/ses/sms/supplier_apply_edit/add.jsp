@@ -140,7 +140,7 @@ function save(){
 	                    <li class="col-md-3 margin-0 padding-0 ">
 	                       <span class="col-md-12 padding-left-5" id="businessType2">营业执照登记类型：</span>
 	                       <div class="select_common">
-					       	<select name="businessType" id="business_select_id">
+					       	<select class="w230" name="businessType" id="business_select_id">
 								<option>国有企业</option>
 								<option>外资企业</option>
 								<option>民营企业</option>
@@ -234,15 +234,15 @@ function save(){
                       <div class="input-append">
                         <input class="span5" id="legalTelephone" name="legalTelephone" value="${suppliers.legalTelephone } " type="text" >
                         <span class="add-on cur_point">i</span>
-                        <div class="cue">${err_legalMobile }</div>
+                        <div class="cue">${err_legalPhone }</div>
                       </div>
                     </li>
                     <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalMobile2">手机：</span>
                       <div class="input-append">
                         <input class="span5" id="legalMobile" name="legalMobile" value="${suppliers.legalMobile } " type="text">
                         <span class="add-on cur_point">i</span>
+                        <div class="cue">${err_legalMobile}</div>
                       </div>
-                      <div class="cue">${err_legalPhone}</div>
                     </li>
                   </ul>
 
@@ -367,7 +367,7 @@ function save(){
                     <li class="col-md-3 margin-0 padding-0 ">
                         <span class="col-md-12 padding-left-5">境外分支结构</span>
 				    	<div class="select_common">
-				    	   <select  name="overseasBranch" id="overseas_branch_select_id">
+				    	   <select class="w230"  name="overseasBranch" id="overseas_branch_select_id">
 								<option value="1">有</option>
 								<option value="0">无</option>
 						   </select>

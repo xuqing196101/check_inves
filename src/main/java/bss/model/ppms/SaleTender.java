@@ -120,7 +120,18 @@ public class SaleTender {
     
     private String packages;
     
+    private List<Money> money;
     
+    public List<Money> getMoney() {
+        return money;
+    }
+
+
+    public void setMoney(List<Money> money) {
+        this.money = money;
+    }
+
+
     public Project getProject() {
 		return project;
 	}

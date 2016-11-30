@@ -3,6 +3,7 @@ package bss.controller.prms;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletResponse;    
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ses.main.CnUpperCaser;
+import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
+import ses.model.sms.Quote;
+import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
+import ses.service.sms.SupplierQuoteService;
+import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -49,12 +59,6 @@ import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
 import bss.service.prms.ReviewProgressService;
-import ses.model.ems.Expert;
-import ses.model.ems.ProjectExtract;
-import ses.model.sms.Quote;
-import ses.service.ems.ExpertService;
-import ses.service.ems.ProjectExtractService;
-import ses.service.sms.SupplierQuoteService;
 
 @Controller
 @RequestMapping("packageExpert")
@@ -129,12 +133,61 @@ public class PackageExpertController {
      * @param model
      * @param flowDefineId 
      * @return
+     * @throws ParseException 处理异常
      */
     @RequestMapping("/toSupplierQuote")
-    public String toSupplierQuote(String projectId, Model model, String flowDefineId) {
+    public String toSupplierQuote(HttpServletRequest req, String projectId, Model model, String flowDefineId) throws ParseException {
         // 供应商信息
         List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
         List<Packages> packages = packageService.listResultExpert(projectId);
+        //
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
+        java.text.DecimalFormat df=new java.text.DecimalFormat("#.00");
+        for (SaleTender stender : supplierList) {
+            Quote qt = new Quote();
+            qt.setProjectId(projectId);
+            qt.setSupplierId(stender.getSuppliers().getId());
+            List<Date> listDate = supplierQuoteService.selectQuoteCount(qt);
+            List<Packages> listPackageEach = new ArrayList<Packages>();
+            SaleTender st = new SaleTender();
+            st.setProjectId(projectId);
+            st.setSupplierId(stender.getSuppliers().getId());
+            List<SaleTender> stList = saleTenderService.find(st);
+            if (stList != null && stList.size() > 0) {
+                String packageStr = stList.get(0).getPackages();
+                for (Packages packa : listPackage) {
+                    if (packageStr.indexOf(packa.getId()) != -1) {
+                        listPackageEach.add(packa);
+                    }
+                }
+            }
+            List<Money> listMoney = new ArrayList<Money>();
+            for (Packages pk:listPackageEach) {
+                Money money = new Money();
+                Quote quote = new Quote();
+                if(listDate != null && listDate.size() > 0){
+                    quote.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+                    quote.setPackageId(pk.getId());
+                    List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+                    BigDecimal totalMoney = BigDecimal.ZERO;
+                    for (Quote q : quoteList) {
+                        totalMoney = totalMoney.add(q.getTotal());
+                    }
+                    money.setPackageName(pk.getName());
+                    money.setTotalMoney(new BigDecimal(df.format(totalMoney)));
+                    money.setUpperName(new CnUpperCaser(String.valueOf(new BigDecimal(df.format(totalMoney)))).getCnString());
+                }else{
+                    money.setPackageName(pk.getName());
+                    money.setTotalMoney(BigDecimal.ZERO);
+                    money.setUpperName(new CnUpperCaser(String.valueOf(BigDecimal.ZERO)).getCnString());
+                }
+                listMoney.add(money);
+            }
+            stender.setMoney(listMoney);
+        }
+        //----
         // 包信息
         model.addAttribute("packageList", packages);
         model.addAttribute("supplierList", supplierList);

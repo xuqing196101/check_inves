@@ -72,6 +72,7 @@ public class ScoreModelUtil {
         }
         return sc;
     }
+    
     /**
      * 
      * @Title: getScoreByModelTwo
@@ -93,11 +94,12 @@ public class ScoreModelUtil {
         if(number==null){
             return sc;
         }
-        if( scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
+        if(scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
             if(number!=null && isNumber(number+"")){
                 double score = FloatUtil.add(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
                 if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
                     score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMaxScore()), 0);
+                    sc = score;
                 }
             }
             
@@ -105,10 +107,12 @@ public class ScoreModelUtil {
             double score = FloatUtil.sub(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
             if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
                 score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMinScore()), 1);
+                sc = score;
             }
         }
         return sc;
     }
+    
     /**
      * 
      * @Title: getScoreByModelThree
@@ -121,7 +125,7 @@ public class ScoreModelUtil {
      * @param: @return
      * @return: List<SupplyMark>
      */
-    public static List<SupplyMark> getScoreByModelThree(ScoreModel scoreModel,ArrayList<SupplyMark> supplyMarkList){
+    public static List<SupplyMark> getScoreByModelThree(ScoreModel scoreModel, ArrayList<SupplyMark> supplyMarkList){
         if(supplyMarkList!=null && supplyMarkList.size()>0){
             Collections.sort(supplyMarkList, new SortByParam());
             
@@ -232,9 +236,10 @@ public class ScoreModelUtil {
             
             for(int i=0 ;i<supplyMarkList.size();i++){
                 if(new Double(supplyMarkList.get(i).getPrarm()).compareTo(new Double(reviewScore))==0){
+                    supplyMarkList.get(i).setScore(Double.parseDouble(scoreModel.getStandardScore()));
                     continue;
                 }
-                double score = FloatUtil.mul(FloatUtil.div(supplyMarkList.get(i).getPrarm(), reviewScore), standardScore) ;
+                double score = FloatUtil.div(FloatUtil.mul(supplyMarkList.get(i).getPrarm(), standardScore), reviewScore) ;
                 score = FloatUtil.round(score, 4);
                 supplyMarkList.get(i).setScore(score);
             }
@@ -263,7 +268,7 @@ public class ScoreModelUtil {
             //Collections.sort(supplyMarkList, new SortByParam());//降序排列   第一个为最高分
             double standardScore = (scoreModel.getStandardScore()!=null && !scoreModel.getStandardScore().equals(""))? Double.parseDouble(scoreModel.getStandardScore()):0;
             for(int i=0 ;i<supplyMarkList.size();i++){
-                double score = FloatUtil.mul(FloatUtil.div(supplyMarkList.get(i).getPrarm(), reviewScore), standardScore) ;
+                double score = FloatUtil.div(FloatUtil.mul(reviewScore, standardScore), supplyMarkList.get(i).getPrarm() );
                 score = FloatUtil.round(score, 4);
                 supplyMarkList.get(i).setScore(score);
             }

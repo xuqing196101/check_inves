@@ -168,7 +168,7 @@ public class SupplierEditController extends BaseSupplierController {
             Todos todo = new Todos();
             todo.setSenderId(user1.getId());
             todo.setOrgId(procurementDepId);
-            todo.setPowerId(PropUtil.getProperty("gysdb"));
+            /*todo.setPowerId(PropUtil.getProperty("gysdb"));*/
             todo.setUndoType((short) 1);
             todo.setName("供应商变更审核");
             todo.setIsDeleted((short) 0);
@@ -306,7 +306,7 @@ public class SupplierEditController extends BaseSupplierController {
         SupplierEdit supplierEdit2 = new SupplierEdit();
         supplierEdit2.setRecordId(supplier.getId());
         supplierEdit2.setStatus((short) NUMBER_FOUR);
-        //如果是第一次审核通过的时候要给原始数据保存下来（没有保存状态）
+        //如果是第一次审核通过的时候要给原始数据保存下来
         if (supplierEditService.getAllbySupplierId(supplierEdit2).size() == 0){
             String provinceName = "";
             String cityName = "";
