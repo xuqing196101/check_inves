@@ -363,9 +363,11 @@ public class PurchaseManageController {
 		departmentServiceI.saveDepartment(map);
 		return "redirect:list";
 	}
-	@RequestMapping(value = "gettree",produces={"application/json;charset=UTF-8"})
+	
+	
+	@RequestMapping(value = "gettree",produces="application/json;charset=UTF-8")
 	@ResponseBody    
-	public String gettree(HttpServletRequest request,HttpSession session){
+	public List<Ztree> gettree(HttpServletRequest request,HttpSession session){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String pid = request.getParameter("id");
 		if(pid!=null && !pid.equals("")){
@@ -392,8 +394,7 @@ public class PurchaseManageController {
 			//z.setIsParent(o.getParentId()==null?"true":"false");
 			treeList.add(z);
 		}
-		JSONArray jObject = JSONArray.fromObject(treeList);
-		return jObject.toString();
+		return treeList;
 	}
 	/**
 	 * 
@@ -455,25 +456,16 @@ public class PurchaseManageController {
 	@RequestMapping("edit")
 	public String edit(@ModelAttribute Orgnization orgnization,Model model) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("id", orgnization.getId());
-		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
-		if(oList!=null && oList.size()>0){
-			model.addAttribute("orgnization", oList.get(0));
+		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgnization.getId());
+		if(org!=null){
+			model.addAttribute("orgnization", org);
 		}
 		
 		//部门  多对多关联关系
-		map.clear();
 		map.put("orgId", orgnization.getId());
 		//需求监管部门  或者  采购机构
 		List<Orgnization> list = orgnizationServiceI.findPurchaseOrgList(map);
-		List<String> strlist = new ArrayList<String>();
-		if(list!=null && !list.equals("null") && list.size()>0){
-			for(int j=0;j<list.size();j++){
-				String string = list.get(j)==null?",":list.get(j).getId()+","+list.get(j).getName();
-				strlist.add(string);
-			}
-		}
-		model.addAttribute("strlist", strlist);
+		model.addAttribute("relaList", list);
 		return "ses/oms/require_dep/edit";
 	}
 	/**
@@ -529,33 +521,22 @@ public class PurchaseManageController {
 		}
 		return json;
 	}
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *  删除部门
+	 *〈详细描述〉
+	 * @author myc
+	 * @param request {@link HttpServletRequest}
+	 * @return 成功返回ok,失败返回failed
+	 */
 	@RequestMapping(value = "delOrg")
 	@ResponseBody    
-	public AjaxJsonData delOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
-		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
-		String ids = request.getParameter("ids");
-		ArrayList<String> list = new ArrayList<String>();
-		String[] idStrings = null;
-		if(ids!=null && !ids.equals("")){
-			idStrings = ids.split(",");
-		}
-		
-		for(int i=0;i<idStrings.length;i++){
-			list.add(idStrings[i]);
-		}
-		HashMap<String, Object> orgMap = new HashMap<String, Object>();
-		orgMap.put("list", list);
-		orgnizationServiceI.delOrgnizationByid(orgMap);
-		orgMap.clear();
-		orgMap.put("org_id", list.get(0));
-		purChaseDepOrgService.delByOrgId(orgMap);
-		AjaxJsonData json = new AjaxJsonData();
-		json.setSuccess(true);
-		json.setMessage("删除成功");
-		/*if(orgnization.getIsDeleted()!=null && orgnization.getIsDeleted().equals(1)){
-			json.setMessage("更新成功");
-		}*/
-		return json;
+	public String delOrg(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		String msg  = orgnizationServiceI.delOrg(id);
+		return msg;
 	}
 	//-------------------------------------机构下人员增删改查      采购人在purchaseController----------------------------------------------------------------------
 	/**

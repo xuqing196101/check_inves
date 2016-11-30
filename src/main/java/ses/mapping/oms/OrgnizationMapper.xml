@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.OrgnizationMapper">
+	
+	<!-- 对象转换 -->
+	<resultMap type="ses.model.oms.Orgnization" id="baseOrgnization">
+		<result column="ID" property="id"/>
+		<result column="NAME" property="name"/>
+		<result column="TYPE_NAME" property="typeName"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="MOBILE" property="mobile"/>
+		<result column="POST_CODE" property="postCode"/>
+		<result column="ORG_CODE" property="orgCode"/>
+		<result column="TELEPHONE" property="telephone"/>
+		<result column="AREA_ID" property="areaId"/>
+		<result column="FAX" property="fax"/>
+		<result column="WEBSITE" property="website"/>
+		<result column="PRINCINPAL" property="princinpal"/>
+		<result column="PRINCINPAL_ID_CARD" property="princinpalIdCard"/>
+		<result column="NATURE" property="nature"/>
+		<result column="SHORT_NAME" property="shortName"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="PARENT_NAME" property="parentName"/>
+		<result column="PROVINCE_ID" property="provinceId"/>
+		<result column="CITY_ID" property="cityId"/>
+		<result column="ORG_LEVEL" property="orgLevel"/>
+		<result column="IS_DELETED" property="isDeleted"/>
+		<result column="DEP_ID" property="depId"/>
+		<result column="IS_ROOT" property="isRoot"/>
+		<result column="EMAIL" property="email"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+	
+	<sql id="baseSearchSql">
+		ID,NAME,TYPE_NAME,ADDRESS,MOBILE,POST_CODE,ORG_CODE,TELEPHONE,AREA_ID,DETAIL_ADDR,FAX,
+		WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,NATURE,SHORT_NAME,PARENT_ID,PARENT_NAME,PROVINCE_ID,
+		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS
+	</sql>
 
    <!-- 根据id查询 -->
    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
@@ -14,7 +49,7 @@
 		       d.TELEPHONE  as telephone,
 		       d.AREA_ID    as areaId,
 		       d.DETAIL_ADDR  as detailAddr,
-		       d.fax          as fax,
+		       d.FAX          as fax,
 		       d.WEBSITE      as website,
 		       d.PRINCINPAL   as princinpal,
 		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
@@ -156,6 +191,7 @@
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id
+		  and d.IS_DELETED = 0
 		 <!-- LEFT JOIN T_SES_OMS_ORG dd on d.PARENT_ID=DD.id-->
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
@@ -470,4 +506,18 @@
 			#{id}
 		</foreach>
 	</update>
+	
+	<!-- 逻辑删除部门 -->
+	<update id="delOrgById" >
+		UPDATE  T_SES_OMS_ORG  SET  IS_DELETED = 1
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 根据主键查询 -->
+	<select id="findOrgByPrimaryKey" resultMap="baseOrgnization">
+		SELECT 
+		<include refid="baseSearchSql"/>
+		FROM T_SES_OMS_ORG
+		WHERE ID = #{id}
+	</select>
 </mapper>

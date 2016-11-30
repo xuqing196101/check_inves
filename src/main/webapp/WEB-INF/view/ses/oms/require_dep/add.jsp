@@ -45,6 +45,9 @@
 				rootPId : -1,
 			}
 		},
+		view: {
+			showLine: false
+		},
 		callback : {
 			beforeClick : beforeClick,
 			onClick : onClick
@@ -93,23 +96,14 @@
 		 console.dir(typeName);
 		 if(typeName!=null && typeName!="" && typeName=="0"){
 		 	$(".monitor").show();
-		 	$("#show_org_cont").text("添加采购机构");
+		 	$("#show_org_cont").text("关联采购机构");
 		 }else{
 		 	$(".monitor").hide();
-		 	$("#show_org_cont").text("添加监管部门");
+		 	$("#show_org_cont").text("关联监管部门");
 		 }
 	}
-</script>
-<script type="text/javascript">
-   $(document).ready(function(){
-         //<tr/>居中
-        $("#tab tr").attr("align","center");
-        //增加<tr/>
-        /* $("#dynamicAdd").click(function(){
-        	var typeName = $("#typeName").val();
-        	showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
-        })   */   
-    });
+
+ 
     function dynamicadd(){
     	var typeName = $("#typeName").val();
     	var title = "";
@@ -129,20 +123,10 @@
 			shadeClose : true,
 			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
 		 });
-        //showiframe("添加机构",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
-    }
-    function deltr1(a){
-    	//var str = a;
-    	console.dir(a);
-    	console.dir(a.id);
     }
     //删除<tr/>
     var deltr =function(index,name)
     {
-        //var _len = $("#tab tr").length;
-        //console.dir(index);
-        //console.dir(index.id);
-        //console.dir($("tr[id='" + index.id + "']"));
         var deldata = index+","+name;
         array.remove(deldata);
         $("tr[id='" + index + "']").remove();//删除当前行   
@@ -157,37 +141,14 @@
 	//提交表单前测试  获取选择机构id
 	function check(){
 		var depIds="";
-		for(var j=0;j<array.length;j++){
-			var id ="";
-			if(array[j].indexOf(",")!=-1){
-				id = array[j].substr(0,array[j].indexOf(","));
-			}
-			depIds += id;
-			depIds += ",";
-		}
+		$("input[name='selectedItem']").each(function(){
+			depIds += $(this).val() + ",";
+		});
 		depIds = depIds.substr(0,depIds.length-1);
 		$("#depIds").val(depIds);
 		return true;
 	}
-	//提交表单前测试  获取选择的id
-	function selectIds(){
-		var depIds="";
-		var num = $("#tab tbody tr").length;
-		var trs = $("#tab tbody tr");
-		console.dir(trs);
-		for (i = 0; i < num; i++) {
-		
-			$("#tab tbody tr:eq('"+i+"')").find("td:eq(2)").each(function(i) {
-				//$(this).text(i + 1);
-				console.dir($(this).text());
-				depIds += $(this).text();
-				depIds += ",";
-			});
-		}
-		depIds = depIds.substr(0,depIds.length-1);
-		$("#depIds").val(depIds);
-		return true;
-	}
+	
 	function showiframe(titles,width,height,url,top){
 		 if(top == null || top == "underfined"){
 		  top = 120;
@@ -243,10 +204,10 @@
 								class="add-on">i</span>
 								<div class="cue"><sf:errors path="shortName"/></div>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>类型</span>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
 					    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="typeName" id="typeName"  onchange="show();"> 
-								<!-- <option value="2">需求部门</option> -->
+								<option value="">请选择</option> 
 								<option value="1">采购机构</option>
 								<option value="0">管理部门</option>
 							</select>
@@ -311,7 +272,7 @@
 						</div></li>
 				</ul>
 				<div class="padding-top-10 clear">
-				    <h2 class="count_flow"><i>2</i><span id="show_org_cont">添加监管部门</span></h2>
+				    <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联监管部门</span></h2>
 					   <ul class="ul_list">
 					       <div class="col-md-12 pl20 mt10">
 					           <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="dynamicadd();">添加</button>
@@ -338,7 +299,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="mt40 tc mb50">
-					<button type="submit" class="btn btn-windows git">保存</button>
+					 <button type="submit" class="btn btn-windows git">保存</button>
 					 <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
 				</div>
 			</div>

@@ -4,21 +4,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 @Service("orgnizationService")
 public class OrgnizationServiceImpl implements OrgnizationServiceI{
-	@Autowired
+	
+    @Autowired
 	private OrgnizationMapper orgniztionMapper;
+    
+    /**关联service */
+    @Autowired
+    private PurChaseDepOrgService purChaseDepOrgService;
 
 	@Override
 	public List<Orgnization> findOrgnizationList(HashMap<String, Object> map) {
@@ -83,8 +91,20 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return orgniztionMapper.findByName(map);
 	}
-
+	
 	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#getOrgByPrimaryKey(java.lang.String)
+	 */
+	@Override
+    public Orgnization getOrgByPrimaryKey(String id) {
+        if (StringUtils.isNotBlank(id)){
+            return orgniztionMapper.findOrgByPrimaryKey(id);
+        }
+        return null;
+    }
+
+    /**
 	 * 
 	 * @see ses.service.oms.OrgnizationServiceI#getNeedOrg(java.util.Map)
 	 */
@@ -93,6 +113,29 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(PropUtil.getProperty("pageSize")));
         return orgniztionMapper.findOrgPartByParam(map);
+    }
+    
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#delOrg(java.lang.String)
+     */
+    @Override
+    public String delOrg(String id) {
+       
+        if (StringUtils.isNotBlank(id)){
+           try {
+               orgniztionMapper.delOrgById(id);
+               HashMap<String,Object> orgMap = new HashMap<String, Object>();
+               orgMap.put("org_id", id);
+               purChaseDepOrgService.delByOrgId(orgMap);
+              return StaticVariables.SUCCESS;
+           } catch (Exception e) {
+            e.printStackTrace();
+             return StaticVariables.FAILED;
+           }
+           
+       }
+        return StaticVariables.FAILED;
     }
 	
 	

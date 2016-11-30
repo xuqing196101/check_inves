@@ -30,8 +30,9 @@
 	  </div>
 	</div>
 	   
-	   <!-- right -->
+	<!-- right -->
     <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
+   	  
    	  <div class="col-md-12 col-sm-12 col-xs-12">
    	    <div class="pull-left">
  		  <button class="btn btn-windows add" onclick="addParams();" type="button">新增</button>
@@ -39,10 +40,12 @@
 		  <button class="btn btn-windows delete" onclick="delParams();" type="submit">删除</button>
 	    </div>
    	  </div>
+   	  
 	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
 	    <ul id="uListId" class="list-unstyled ul_table" >
 	    </ul>
 	  </div>
+	  
 	  <div id="submitId" class="textc col-md-12 col-xs-12 col-sm-12 mt20">
 	    <button class="btn btn-windows git" onclick="submitParams();" type="button">提交</button>
 	  </div>

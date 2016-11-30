@@ -4,17 +4,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.oms.Orgnization;
 public interface OrgnizationMapper {
-	int saveOrgnization(HashMap<String, Object> map);
+	
+    int saveOrgnization(HashMap<String, Object> map);
+	
 	List<Orgnization> findOrgnizationList(HashMap<String, Object> map);
+	
 	int updateOrgnization(HashMap<String, Object> map);
+	
 	List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
+	
 	int delOrgnizationByid(HashMap<String, Object> map);
+	
 	int updateOrgnizationById(Orgnization orgnization);
-    Orgnization  findByCategoryId(String id);
-	List<Orgnization> findByName(Map<String, Object> map);
+    
+	Orgnization  findByCategoryId(String id);
+	
+    List<Orgnization> findByName(Map<String, Object> map);
+	
 	int updateByCategoryId(Orgnization orgnization);
+	
 	List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
 	
 	/**
@@ -27,4 +39,25 @@ public interface OrgnizationMapper {
 	 * @return
 	 */
     List<Orgnization> findOrgPartByParam(Map<String, Object> map);
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据主键逻辑删除部门
+     *〈详细描述〉
+     * @author myc
+     * @param id 主键
+     */
+    void delOrgById(@Param("id")String id);
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据主键查询
+     *〈详细描述〉
+     * @author myc
+     * @param id 主键
+     * @return Orgnization 对象
+     */
+    Orgnization  findOrgByPrimaryKey(@Param("id")String id);
 }

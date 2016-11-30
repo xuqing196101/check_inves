@@ -37,28 +37,8 @@
 function chongzhi(){
 	$("#name").val('');
 }
-$(function() {
-		/* var optionNodes = $("option");
-		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-		} */
-	});
-	/** 全选全不选 */
-    Array.prototype.indexOf = function(val) {
-		for (var i = 0; i < this.length; i++) {
-			if (this[i] == val) return i;
-		}
-		return -1;
-	};
-	Array.prototype.remove = function(val) {
-		var index = this.indexOf(val);
-			if (index > -1) {
-				this.splice(index, 1);
-			}
-	};
-    var arr=[];
+
+   
 	function selectAll(){
 		//alert($("#allId").prop("checked"));
 		if ($("#allId").prop("checked")) {  
@@ -71,67 +51,51 @@ $(function() {
             });  
         }   
 	}
+	
+	/** 添加 */
 	function add(){
-		console.dir(arr);
-		console.dir(parent.array);
+		
 		var index = parent.layer.getFrameIndex(window.name);
-		//parent.$("#tab tr").remove();
-		parent.$("#tab tr:gt(0)").remove();
-		for(var i=0;i<parent.array.length;i++){
-			var id = parent.array[i].substr(0,parent.array[i].indexOf(","));
-			var name = parent.array[i].substr(parent.array[i].indexOf(",")+1,parent.array[i].length);
-			//id = "\'"+id+"\'";
-			parent.$("#tab").append("<tr id="+id+" align='center'>"
-            					+"<td><input type='checkbox'/></td>"     
-                                +"<td>"+Number(i+1)+"</td>"
-                                //+"<td><input type='text' name='desc"+_len+"' id='name"+_len+"' value='"+_len+"' /></td>"
-                                +"<td>"+name+"</td>"
-                                 +"<td class='hide'>"+id+"</td>"
-                                +"<td><a href=\'#\' onclick=\'deltr("+"\""+id+"\""+","+"\""+name+"\""+")\'>删除</a></td>"
-                            +"</tr>"); 
+		
+		var parentTabArray = [];
+		var parentIndexArray = [];
+		parent.$("input[name='selectedItem']").each(function(){
+			parentTabArray.push($(this).val());
+			parentIndexArray.push($(this).parents('tr').find('td').eq(1).text());
+		});
+		var parentIndex = 0;
+		if (parentIndexArray.length > 0){
+			parentIndex = Math.max.apply(null, parentIndexArray)
 		}
-		//var _len="dddd";
-		 
+		
+		var count = 1;
+		if (parentIndex != 0){
+			count = count + parentIndex;
+		}
+		$("input[name='items']:checked").each(function(){
+			 var id = $(this).val();
+			 var name = $(this).parents('tr').find('td').eq(2).text();
+			 if ($.inArray(id,parentTabArray) < 0){
+				 addTables(count,id,name);
+				 count ++;
+			 }
+		});
         parent.layer.close(index); //执行关闭
-		/*  var _len = arr[i];        
-            $("#tab").append("<tr id="+_len+" align='center'>"
-            					+"<td><input type='checkbox'/></td>"     
-                                +"<td>"+_len+"</td>"
-                                //+"<td><input type='text' name='desc"+_len+"' id='name"+_len+"' value='"+_len+"' /></td>"
-                                 +"<td>"+_len+"</td>"
-                                +"<td>"+_len+"</td>"
-                                +"<td><a href=\'#\' onclick=\'deltr("+_len+")\'>删除</a></td>"
-                            +"</tr>");     */
-			
 	}
-	function check(id,name){
-		var data = id+","+name;
-		//单选时间
-		if($("#"+id).prop("checked")){
-			arr.push(data);
-			//console.dir(parent.array);
-			//console.dir(data);
-			//console.dir(parent.array.indexOf(data)==0);
-			if(parent.array.indexOf(data)==-1){
-				parent.array.push(data);
-			}
-		}else{
-			arr.remove(data);
-			parent.array.remove(data);
+	
+	/** 添加table */
+	function addTables(index,id,name){
+			parent.$("#tab").append("<tr id="+id+" align='center'>"
+					+"<td><input type='checkbox' name='selectedItem' value="+id+" /></td>"     
+                    +"<td>"+index+"</td>"
+                    +"<td>"+name+"</td>"
+                     +"<td class='hide'>"+id+"</td>"
+                    +"<td><a href=\'javascript:deltr("+"\""+id+"\""+","+"\""+name+"\""+")\'>删除</a></td>"
+                +"</tr>"); 
 		}
-		//console.dir(id);
-	}
 </script>
 </head>
   <body>
-  	<div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
-			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">机构管理</a></li><li class="active"><a href="#">添加机构</a></li>
-			   </ul>
-			<div class="clear"></div>
-		  </div>
-	   </div>
   	<div class="container">
   		<div class="headline-v2">
 		     <h2>采购机构信息</h2>
@@ -172,8 +136,7 @@ $(function() {
 				<c:forEach items="${orgnizationList}" var="p" varStatus="vs">
 					<tr class="cursor">
 						<!-- 选择框 -->
-						<td class="tc"><input onclick="check('${p.id}','${p.name }')"
-							type="checkbox" name="items" id="${p.id }" value="${p.id}" />
+						<td class="tc"><input type="checkbox" name="items"  value="${p.id}" />
 						</td>
 						<!-- 序号 -->
 						<td class="tc">${vs.index+1}</td>
@@ -188,9 +151,6 @@ $(function() {
 								<c:when test="${p.typeName=='1'}">
 									采购机构
 								</c:when>
-								<c:otherwise>
-									需求部门
-								</c:otherwise>
 							</c:choose>
 						</td>
 					</tr>

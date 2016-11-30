@@ -48,6 +48,9 @@
 				rootPId : -1,
 			}
 		},
+		view: {
+			showLine: false
+		},
 		callback : {
 			beforeClick : beforeClick,
 			onClick : onClick
@@ -98,44 +101,8 @@
 		 	$(".monitor").hide();
 		 }
 	}
-</script>
-<script type="text/javascript">
-   $(document).ready(function(){
-         //<tr/>居中
-        $("#tab tr").attr("align","center");
-        //增加<tr/>
-        /* $("#dynamicAdd").click(function(){
-        	var typeName = $("#typeName").val();
-        	showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
-        })   */   
-        <%
-        if(jsList!=null){
-    		for(int i=0;i<jsList.size();i++){
-  				%>
-    			array[<%=i%>]='<%=jsList.get(i)%>';
-  				<% } 
-   		}%>
-   		for(var i=0;i<array.length;i++){
-			var id = array[i].substr(0,array[i].indexOf(","));
-			var name = array[i].substr(array[i].indexOf(",")+1,array[i].length);
-			//id = "\'"+id+"\'";
-			$("#tab").append("<tr id="+id+" align='center'>"
-            					+"<td><input type='checkbox'/></td>"     
-                                +"<td>"+Number(i+1)+"</td>"
-                                //+"<td><input type='text' name='desc"+_len+"' id='name"+_len+"' value='"+_len+"' /></td>"
-                                +"<td>"+name+"</td>"
-                                 +"<td class='hide'>"+id+"</td>"
-                                +"<td><a href=\'#\' onclick=\'deltr("+"\""+id+"\""+","+"\""+name+"\""+")\'>删除</a></td>"
-                            +"</tr>"); 
-		}
-		var type = $("#type").val();
-		$("#typeName").val(type);
-   		if(type!=null && type!="" && type=="0"){
-		 	$(".monitor").show();
-		 }else{
-		 	$(".monitor").hide();
-		 }
-    });
+
+ 
     function dynamicadd(){
     	var typeName = $("#typeName").val();
     	var title = "";
@@ -155,22 +122,12 @@
 			shadeClose : true,
 			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
 		 });
-        //showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
     }
-    function deltr1(a){
-    	//var str = a;
-    	console.dir(a);
-    	console.dir(a.id);
-    }
+    
     //删除<tr/>
     var deltr =function(index,name)
     {
-        //var _len = $("#tab tr").length;
-        //console.dir(index);
-        //console.dir(index.id);
-        //console.dir($("tr[id='" + index.id + "']"));
-        var deldata = index+","+name;
-        array.remove(deldata);
+        
         $("tr[id='" + index + "']").remove();//删除当前行   
 		var num = $("#tab tbody tr").length;
 		var trs = $("#tab tbody tr");
@@ -183,37 +140,14 @@
 	//提交表单前测试  获取选择机构id
 	function check(){
 		var depIds="";
-		for(var j=0;j<array.length;j++){
-			var id ="";
-			if(array[j].indexOf(",")!=-1){
-				id = array[j].substr(0,array[j].indexOf(","));
-			}
-			depIds += id;
-			depIds += ",";
-		}
+		$("input[name='selectedItem']").each(function(){
+			depIds += $(this).val() + ",";
+		});
 		depIds = depIds.substr(0,depIds.length-1);
 		$("#depIds").val(depIds);
 		return true;
 	}
-	//提交表单前测试  获取选择的id
-	function selectIds(){
-		var depIds="";
-		var num = $("#tab tbody tr").length;
-		var trs = $("#tab tbody tr");
-		console.dir(trs);
-		for (i = 0; i < num; i++) {
-		
-			$("#tab tbody tr:eq('"+i+"')").find("td:eq(2)").each(function(i) {
-				//$(this).text(i + 1);
-				console.dir($(this).text());
-				depIds += $(this).text();
-				depIds += ",";
-			});
-		}
-		depIds = depIds.substr(0,depIds.length-1);
-		$("#depIds").val(depIds);
-		return true;
-	}
+	
 	function showiframe(titles,width,height,url,top){
 		 if(top == null || top == "underfined"){
 		  top = 120;
@@ -256,7 +190,7 @@
 			<div>
 			     <h2 class="count_flow"><i>1</i>修改基本信息</h2>
 				<input type="hidden" name="depIds" id="depIds"/>
-				<input type="hidden" name="id" value="${orgnization.id }"/>
+				<input type="hidden" name="id" value="${orgnization.id}"/>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -270,14 +204,12 @@
 								class="add-on">i</span>
 								<div class="cue"><sf:errors path="shortName"/></div>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>类型</span>
-							<select class="input_group" name="typeName" id="typeName" type="text" onchange="show();"> 
-								<!-- <option value="2">需求部门</option> -->
-								<!-- <option value="">请选择</option> -->
-								<option value="1">采购机构</option>
-								<option value="0">管理部门</option>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
+							<select  class="input_group" name="typeName"  id="typeName" type="text" onchange="show();"> 
+							    <option value="">请选择</option>
+								<option value="1" <c:if test="${orgnization.typeName == '1' }">selected="true"</c:if>>采购机构</option>
+								<option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>管理部门</option>
 							</select>
-							<input type="hidden" id="type" value="${orgnization.typeName }"/>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -339,10 +271,9 @@
 				</ul>
 				<div class="padding-top-10 clear">
                     <h2 class="count_flow"><i>2</i><c:choose>
-                    	<c:when test="${orgnization.typeName==0 }">添加采购机构</c:when>
-                    	<c:when test="${orgnization.typeName==1 }">添加监管部门</c:when>
-                    	<c:when test="${orgnization.typeName==2 }">添加监管部门</c:when>
-                    	<c:otherwise></c:otherwise>
+                    	<c:when test="${orgnization.typeName==1}">关联采购机构</c:when>
+                    	<c:when test="${orgnization.typeName==0}">关联监管部门</c:when>
+                    	<c:otherwise>关联监管部门</c:otherwise>
                     </c:choose></h2>
                        <ul class="ul_list">
                            <div class="col-md-12 pl20 mt10">
@@ -361,7 +292,16 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                                <c:forEach  items="${relaList}" var="dept" varStatus="deptStatus">
+                                                	<tr class="tc" id="${dept.id}">
+                                                		<td>
+                                                			<input type="checkbox" name="selectedItem" value="${dept.id}" />
+                                                	    </td>
+                                                	    <td>${deptStatus.index +1}</td>
+                                                	    <td>${dept.name}</td>
+                                                	    <td><a href="javascript:deltr('${dept.id}','${dept.name}')">删除</a></td>
+                                                	</tr>
+                                                </c:forEach>
                                             </tbody>
                                     </table>
                                 </div>
@@ -370,7 +310,7 @@
 			</div>
 			<div class="col-md-12">
 				<div class="mt40 tc mb50">
-					<button type="submit" class="btn btn-windows git">更新</button>
+					<button type="submit" class="btn btn-windows save">保存</button>
 					 <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
 				</div>
 			</div>
