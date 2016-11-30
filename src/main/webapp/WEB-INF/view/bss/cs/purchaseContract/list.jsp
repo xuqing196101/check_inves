@@ -174,6 +174,7 @@
 		$('input[name="chkItem"]:checked').each(function(){
 			ids.push($(this).val()); 
 		});
+		
 		if(ids.length>0){
 			if(ids.length>1){
 				$.ajax({
@@ -197,12 +198,12 @@
 						}
 					}
 				});
+			}else if(ids.length==1){
+				layer.alert("请至少选择两条",{offset: ['222px', '390px'], shade:0.01});
 			}
 			//layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
 		}else if(ids.length==0){
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
-		}else if(ids.length==1){
-			layer.alert("请至少选择两条",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
   </script>
