@@ -155,4 +155,20 @@
       </if>
     </trim>
   </insert>
+  <select id="findMarkTypeByProId" resultType="java.util.HashMap">
+    select PACKAGE_ID packageId,TYPE_NAME typeName
+    from T_BSS_PPMS_MARK_TERM
+    where PROJECT_ID = #{_parameter} 
+  </select>
+  <select id="findScoreByMap" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+    select es.PACKAGE_ID packageId,es.EXPERT_ID expertId,
+    es.SUPPLIER_ID supplierId,
+	sd.MARK_TERM_ID marktermId,es.SCORE score
+    from T_BSS_PRMS_EXPERT_SCORE es
+    left join T_BSS_PPMS_SCORE_MODEL sd
+    on es.SCORE_MODEL_ID = sd.ID
+    where es.PROJECT_ID = #{projectId}
+    and es.PACKAGE_ID = #{packageId}
+    and es.IS_HISTORY = '0'
+  </select>
 </mapper>

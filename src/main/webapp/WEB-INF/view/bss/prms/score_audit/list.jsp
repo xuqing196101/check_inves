@@ -53,8 +53,8 @@
 				 }
 		   }
 	}
-  	function scoreView(packAgeId){
-  		
+  	function scoreView(packageId){
+  		window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
   	}
   
   </script>
@@ -80,7 +80,7 @@
 				</thead>
 				<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 			       <tr>
-			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
+			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
 			        <td class="tc w30">${vs.count} </td>
 			        <td class="tc">${rp.packageName}</td>
 				    <td class="tc">

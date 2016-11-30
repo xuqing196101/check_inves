@@ -13,33 +13,33 @@
 	<meta name="author" content="">
  <jsp:include page="../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
 <script type="text/javascript">
-	function getNumScore(){
-		var scores = document.getElementsByName("score");
-		var scoreNum = 0;
-		for (var i = 0; i < scores.length; i++) {
-			if(scores[i].innerHTML != "暂未评分"){
-				scoreNum = scoreNum + parseInt(scores[i].innerHTML);
+	function getNumScore(expertListLength){
+		for (var i = 0; i < parseInt(expertListLength); i++) { 
+			var scores = document.getElementsByName("score_"+i);
+			var scoreNum = 0;
+			for (var j = 0; j < scores.length; i++) {
+				if(scores[j].innerHTML != "暂未评分" && scores[j].innerHTML.trim() != ""){
+					scoreNum = scoreNum + parseInt(scores[j].innerHTML.trim());
+				}
 			}
+			document.getElementById("scoreNum_"+i).innerHTML = scoreNum;
 		}
-		document.getElementById("scoreNum").innerHTML = scoreNum;
 	}
 </script>
 </head>
-<body onload="getNumScore()">
+<body onload="getNumScore('${length}')">
   <!-- 我的订单页面开始-->
   <div class="container">
   <div class="headline-v2">
-    <h2>${expertName }</h2>
+    <h2>${supplierName }</h2>
   </div>   
   <!-- 表格开始-->
   <div class="content table_box">
     <table class="table table-bordered table-condensed table-hover table-striped">
 	  <tr>
-	    <th class="w150 tc">评审项/供应商</th>
-		<c:forEach items="${supplierList}" var="supplier">
-	      <c:if test="${fn:contains(supplier.packages,packageId)}">
-		    <td class="tc">${supplier.suppliers.supplierName}</td>
-		  </c:if>
+	    <th class="w150 tc">评审项/专家</th>
+		<c:forEach items="${expertList}" var="expert">
+		  <td class="tc">${expert.relName}</td>
         </c:forEach>
       </tr>
       <c:forEach items="${auditModelList}" var="auditModel">
@@ -47,28 +47,30 @@
 		  <tr>
             <th class="tc w150">${auditModel.markTermName}</td>
             <c:set var="count1" value="0"/>
-            <c:forEach items="${supplierList}" var="supplier">
+            <c:forEach items="${expertList}" var="expert" varStatus="vs">
+              <td class="tc">
               <c:forEach items="${scores}" var="score">
-                <c:if test="${fn:contains(supplier.packages,packageId) and fn:contains(supplier.packages,score.PACKAGEID) and score.EXPERTID eq expertId and supplier.suppliers.id eq score.SUPPLIERID and auditModel.markTermId eq score.MARKTERMID}">
+                <c:if test="${score.EXPERTID eq expert.id and supplierid eq score.SUPPLIERID and auditModel.markTermId eq score.MARKTERMID}">
                   <c:set var="count1" value="1"/>
-                  <td class="tc" name="score">${score.SCORE}</td>
-		        </c:if>
+                  <span name="score_${vs.index }">${score.SCORE}</span>
+                </c:if>
               </c:forEach>
+              <c:if test="${count1 ne '1'}"><span name="score_${vs.index }">暂未评分</span></c:if>
+              </td>
             </c:forEach>
-            <c:if test="${count1 ne '1'}">
-              <td class="tc" name="score">暂未评分</td>
-            </c:if>
 		  </tr>
 		</c:if>
       </c:forEach>
+      <c:forEach items="${expertList}" var="expert" varStatus="vs">
       <tr>
         <th class="tc w150">合计</th>
-        <td class="tc" id="scoreNum"></td>
+        <td class="tc" id="scoreNum_${vs.index }"></td>
       </tr>
+      </c:forEach>
 	</table>
 
    </div>
-      <div id="pagediv" align="center"><input type="button" class="btn btn-windows back" value="返回" onclick="javascript:window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?projectId=${projectId}&packageId=${packageId}'"></div>
+      <div id="pagediv" align="center"><input type="button" class="btn btn-windows back" value="返回" onclick="javascript:window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?projectId=${projectId }&packageId=${packageId}'"></div>
    </div>
 </body>
 </html>

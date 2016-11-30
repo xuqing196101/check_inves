@@ -168,7 +168,7 @@
    from T_BSS_PRMS_EXPERT_SCORE
    where PROJECT_ID = #{projectId}
    and PACKAGE_ID = #{packageId}
-   and IS_HISTORY = 0
+   and IS_HISTORY = '0'
    group by PACKAGE_ID,EXPERT_ID,SUPPLIER_ID
   </select>
 </mapper>

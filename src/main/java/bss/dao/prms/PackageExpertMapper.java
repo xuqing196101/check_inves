@@ -40,4 +40,23 @@ public interface PackageExpertMapper {
       * @return void
      */
     void updateByBean(PackageExpert record);
+    /**
+     * 
+      * @Title: findMarkTypeByProId
+      * @author WangHuijie
+      * @date 2016年11月30日 上午10:22:07  
+      * @Description: TODO 查询审查项的类型  供PackageExpertController中调用
+      * @param @param projectId      
+      * @return List<Map<String, Object>>
+     */
+    List<Map<String, Object>> findMarkTypeByProId(String projectId);
+    /**
+     *〈简述〉
+     * 根据包id和项目id查询分数
+     *〈详细描述〉
+     * @author Wang Huijie
+     * @param mapSearch
+     * @return
+     */
+    List<Map<String, Object>> findScoreByMap(Map<String, Object> mapSearch);
 }
