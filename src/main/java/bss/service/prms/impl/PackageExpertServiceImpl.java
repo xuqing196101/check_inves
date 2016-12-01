@@ -3,6 +3,7 @@ package bss.service.prms.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.omg.CORBA.MARSHAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -109,6 +110,26 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     public List<Map<String, Object>> findScoreByMap(Map<String, Object> mapSearch) {
         // TODO Auto-generated method stub
         return mapper.findScoreByMap(mapSearch);
+    }
+    /**
+     *〈简述〉
+     * 退回分数
+     *〈详细描述〉
+     * @author Wang Huijie
+     * @param mapSearch
+     */
+    @Override
+    public void backScore(Map<String, Object> mapSearch) {
+        String expertIds = (String) mapSearch.get("expertId");
+        String[] ids = expertIds.split(",");
+        mapSearch.remove("expertId");
+        for (String expertId : ids) {
+            mapSearch.remove("expertId");
+            mapSearch.put("expertId", expertId.replace("undefined", ""));
+            // 1.SALE_TENDER表中IS_HISTORY改为1
+            // 2.
+            // 3.
+        }
     }
     
 }

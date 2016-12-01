@@ -361,7 +361,7 @@
 					+ '&projectId=${project.id}';
 		} else {
 			layer.alert("请先选择一项！", {
-				offset : [ y - 150, x + 200 ],
+				offset : [ y - 100, x + 200 ],
 				shade : 0.01
 			});
 		}
@@ -369,8 +369,8 @@
 	function showViewBySupplierId(packageId, obj, i) {
 		var x, y;
 		oRect = obj.getBoundingClientRect();
-		x = oRect.left - 400;
-		y = oRect.top - 200;
+		x = oRect.left;
+		y = oRect.top;
 		var supplierId;
 		var count = 0;
 		$("input[name='supplierView_" + i + "']").each(function(i, result) {
@@ -392,7 +392,7 @@
 					+ '&projectId=${project.id}&expertIds=' + expertIds;
 		} else {
 			layer.alert("请先选择一项！", {
-				offset : [ y - 150, x + 200 ],
+				offset : [ y - 30, x - 350 ],
 				shade : 0.01
 			});
 		}
@@ -609,7 +609,6 @@
 				<c:if test="${fn:contains(supplier.packages,packageId)}">
 				<tr class="tc">
 				  <td class="tc">${supplier.suppliers.supplierName }</td>
-				  <c:set var="flag" value="0" />
 				  <c:forEach items="${packExpertExtList }" var="ext">
 					<c:forEach items="${typeNames }" var="type">
 					  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">
@@ -620,6 +619,7 @@
 					  </c:if>
 					</c:forEach>
 					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type3 eq '1'}">
+				      <c:set var="flag" value="0" />
 				      <c:forEach items="${expertScoreList }" var="sco">
 						<c:if test="${sco.expertId eq ext.expert.id && sco.supplierId eq supplier.suppliers.id && sco.packageId eq packageId}">
 						  <c:set var="flag" value="1" />
@@ -631,6 +631,7 @@
 					  </c:if>
 					</c:if>
 					<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type2 eq '1'}">
+					  <c:set var="flag" value="0" />
 					  <c:forEach items="${expertScoreList }" var="sco">
 					    <c:if test="${sco.expertId eq ext.expert.id && sco.supplierId eq supplier.suppliers.id && sco.packageId eq packageId}">
 						  <c:set var="flag" value="1" />

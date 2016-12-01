@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.ems.Expert;
@@ -1111,6 +1112,13 @@ public class PackageExpertController {
         // 查询该包内的所有供应商(一行一个)
         List<SaleTender> supplierList = saleTenderService.list(new SaleTender(
             projectId), 0);
+        int count = 0;
+        for (SaleTender sale : supplierList) {
+            if (sale.getPackages().contains(packageId)) { 
+                count++;
+            }
+        }
+        model.addAttribute("listLength", count);
         model.addAttribute("supplierList", supplierList);
         // 查询供应商的审查项
         Map<String, Object> mapSearch = new HashMap<String, Object>();
@@ -1185,5 +1193,34 @@ public class PackageExpertController {
         model.addAttribute("packageId", packageId);
         model.addAttribute("projectId", projectId);
         return "bss/prms/view_supplier_score";
+    }
+    
+    /**
+     *〈简述〉
+     * 退回分数
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageExpert
+     * @param supplierId
+     * @param model
+     * @return 跳转到
+     */
+    @RequestMapping("/backScore")
+    public String backScore(String projectId, String packageId, String expertId, String expertIds, String supplierId, Model model){
+        // 将参数存储到model中以便redirect后取值
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("expertIds", expertIds);
+        model.addAttribute("supplierId", supplierId);
+        // 封装参数到map中
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        mapSearch.put("projectId", projectId);
+        mapSearch.put("supplierId", supplierId);
+        mapSearch.put("packageId", packageId);
+        mapSearch.put("expertId", expertId);
+        // 退回分数
+        packageExpertService.backScore(mapSearch);
+        // 跳转到showViewBySupplierId.html重新查询展示
+        return "redirect:showViewBySupplierId.html";
     }
 }
