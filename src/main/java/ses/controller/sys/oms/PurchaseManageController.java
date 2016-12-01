@@ -105,7 +105,6 @@ public class PurchaseManageController {
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
-	private List<Area> privinceList = new ArrayList<Area>();
 	private List<Area> cityList = new ArrayList<Area>();
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
 	
@@ -154,7 +153,9 @@ public class PurchaseManageController {
 	 * @return: String
 	 */
 	@RequestMapping("add")
-	public String add() {
+	public String add(Model model) {
+		List<Area> areaList = areaServiceI.findRootArea();
+		model.addAttribute("areaList", areaList);
 		return "ses/oms/require_dep/add";
 	}
 	/**
@@ -339,7 +340,7 @@ public class PurchaseManageController {
 	 * 
 	 * @Title: save
 	 * @author: Tian Kunfeng
-	 * @date: 2016-9-13 娑撳﹤宕�0:57:47
+	 * @date: 2016-9-13 
 	 * @Description: TODO
 	 * @param: @param request
 	 * @param: @param deparent
@@ -459,6 +460,12 @@ public class PurchaseManageController {
 		//需求监管部门  或者  采购机构
 		List<Orgnization> list = orgnizationServiceI.findPurchaseOrgList(map);
 		model.addAttribute("relaList", list);
+		//省
+		List<Area> areaList = areaServiceI.findRootArea();
+		model.addAttribute("areaList", areaList);
+		//市
+		List<Area> cityList =  areaServiceI.findTreeByPid(org.getProvinceId(),null);
+		model.addAttribute("cityList", cityList);
 		return "ses/oms/require_dep/edit";
 	}
 	/**
@@ -977,11 +984,11 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: List<Area>
 	 */
-	@RequestMapping("getProvinceList")
 	@ResponseBody
+	@RequestMapping(value = "getProvinceList", produces="application/json;charset=UTF-8")
 	public List<Area> getProvinceList(HttpServletRequest request){
 		String pid = request.getParameter("pid");//areaType
-		privinceList =  areaServiceI.findTreeByPid(pid,null);
+		List<Area> privinceList =  areaServiceI.findTreeByPid(pid,null);
 		return  privinceList;
 	}
 	/**
@@ -1271,18 +1278,6 @@ public class PurchaseManageController {
 	}
 	public void setResultMap(HashMap<String, Object> resultMap) {
 		this.resultMap = resultMap;
-	}
-	public List<Area> getPrivinceList() {
-		return privinceList;
-	}
-	public void setPrivinceList(List<Area> privinceList) {
-		this.privinceList = privinceList;
-	}
-	public List<Area> getCityList() {
-		return cityList;
-	}
-	public void setCityList(List<Area> cityList) {
-		this.cityList = cityList;
 	}
 	
 }

@@ -13,6 +13,7 @@
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <!--<![endif]-->
 <head>
 <script type="text/javascript">
@@ -216,27 +217,50 @@
 								<div class="cue"><sf:errors path="shortName"/></div>
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
-							<select  class="input_group" name="typeName"  id="typeName" type="text" onchange="show();"> 
+					    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+					      <select   name="typeName"  id="typeName"  onchange="show();"> 
 							    <option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>请选择</option>
 								<option value="1" <c:if test="${orgnization.typeName == '1' }">selected="true"</c:if>>采购机构</option>
 								<option value="2" <c:if test="${orgnization.typeName == '2' }">selected="true"</c:if>>管理部门</option>
 							</select>
+					    </div>
 					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input id="proSec" class="input_group" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
 						</div></li>
+					
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省份</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select name="provinceId" id="provinceId"  onchange="loadCity()"> 
+								<c:forEach items="${areaList}" var="area">
+								   <option value="${area.id}" <c:if test="${orgnization.provinceId == area.id}"> selected="selected"</c:if> >${area.name}</option>
+								</c:forEach>
+							</select>
+						</div></li>	
+					
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select id="cityId" name="cityId"> 
+								<c:forEach items="${cityList}" var="city">
+								  <option value="${city.id}" <c:if test="${orgnization.cityId == city.id}"> selected="selected"</c:if>>${city.name}</option>
+								</c:forEach>
+							</select>
+						</div></li>	
+						
+				   <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="address" type="text" value="${orgnization.address }"> <span
+								class="add-on">i</span>
+						</div></li>
+					
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="mobile" type="text" value="${orgnization.mobile }"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="address" type="text" value="${orgnization.address }"> <span
-								class="add-on">i</span>
-						</div></li>
+					
 					
 					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -309,7 +333,6 @@
                                                 	    </td>
                                                 	    <td>${deptStatus.index +1}</td>
                                                 	    <td>${dept.name}</td>
-                                                	    <td><a href="javascript:deltr('${dept.id}','${dept.name}')">删除</a></td>
                                                 	</tr>
                                                 </c:forEach>
                                             </tbody>

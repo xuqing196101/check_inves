@@ -113,18 +113,12 @@ public class AreaServiceImpl implements AreaServiceI {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("pid", pid);
 		map.put("name", name);
-		List<Area> list = areaMapper.findTreeByPid(map);
-		List<Area> lists = new ArrayList<Area>();
-		if(list.isEmpty()){
-			return lists;
+		if (StringUtils.isNotBlank(pid) || StringUtils.isNotBlank(name)) {
+			List<Area> list = areaMapper.findTreeByPid(map);
+			return list;
 		}
-		for(int i = 0;i < list.size();i++){
-			String id = list.get(i).getId();
-			Area aa = areaMapper.selectById(id);
 		
-			lists.add(aa);
-		}
-		return lists;
+		return new ArrayList<Area>();
 	}
 	
 	

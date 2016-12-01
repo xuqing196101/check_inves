@@ -11,6 +11,7 @@
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <head>
 <script type="text/javascript">
 	 Array.prototype.indexOf = function(val) {
@@ -232,16 +233,34 @@
 							<input id="proSec" type="text" readonly value="${orgnization.parentName }" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
 						</div></li>
+					
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省份</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select name="provinceId" id="provinceId" onchange="loadCity()"> 
+								<c:forEach items="${areaList}" var="area">
+								   <option value="${area.id}">${area.name}</option>
+								</c:forEach>
+							</select>
+						</div></li>	
+					
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市</span>
+						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+							<select id="cityId" name="cityId"> 
+							</select>
+						</div></li>	
+						
+					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
+						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+							<input class="input_group" name="address" type="text"> <span
+								class="add-on">i</span>
+						</div></li>
+						
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 							<input class="input_group" name="mobile" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">地址</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="address" type="text"> <span
-								class="add-on">i</span>
-						</div></li>
+					
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">

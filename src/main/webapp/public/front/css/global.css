@@ -1007,10 +1007,9 @@ li:first-child {
   display: none;
 }
 
-/** 隐藏div */ 
+/** 文件上传使用隐藏div */ 
 .dis_none{
  	position: absolute; 
  	opacity: 0; 
  	filter:Alpha(opacity=0);
- 	display: none;
  }

@@ -126,7 +126,6 @@ function ajaxDelDepart(){
 		}); 
 }
 
-
 /**
  * 刷新
  */
@@ -138,6 +137,5 @@ function refreshAllTree(){
 	    treeObj.selectNode(allNodes[0]);
 	    treeObj.setting.callback.onClick(null, treeObj.setting.treeId, allNodes[0]);
 	}
-    
 }
 

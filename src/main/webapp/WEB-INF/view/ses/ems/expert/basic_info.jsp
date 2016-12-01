@@ -362,7 +362,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").hide();
-		$("#reg_box_id_7").hide();
+		$("#reg_box_id_7").addClass('dis_none');
 		$("#reg_box_id_8").hide();
 	}
 	function tab2(){
@@ -385,7 +385,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_4").show();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").hide();
-		$("#reg_box_id_7").hide();
+		$("#reg_box_id_7").addClass('dis_none');
 		$("#reg_box_id_8").hide();
 	}
 	function tab3(){
@@ -418,7 +418,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").show();
 		$("#reg_box_id_6").hide();
-		$("#reg_box_id_7").hide();
+		$("#reg_box_id_7").addClass('dis_none');
 		$("#reg_box_id_8").hide();
 	}
 	
@@ -535,7 +535,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").show();
-		$("#reg_box_id_7").hide();
+		$("#reg_box_id_7").addClass('dis_none');
 		$("#reg_box_id_8").hide();
 	}
 	function tab5(){
@@ -580,7 +580,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").hide();
-		$("#reg_box_id_7").show();
+		$("#reg_box_id_7").removeClass('dis_none');
 		$("#reg_box_id_8").hide();
 	}
 	function addPurList(){
@@ -1425,7 +1425,7 @@ session.setAttribute("tokenSession", tokenValue);
 	  </div>
 	    </div>
 	      </div>
-		<div id="reg_box_id_7" class="container clear margin-top-30 yinc" style="display: none;">
+		<div id="reg_box_id_7" class="container clear margin-top-30 dis_none" >
 		   <h2 class="padding-20 mt40">
 			 <span id="sc1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 			 <span id="sc2" class="new_step current fl" onclick='tab2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
