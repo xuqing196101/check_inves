@@ -481,24 +481,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		         <c:if test="${fn:contains(supplier.packages,packageId)}">
 				 <tr class="tc">
 		           <td>${supplier.suppliers.supplierName }</td>
+		           
+		           
+		           
+		           <c:set var="flag" value="0" scope="request"/>
 		           <c:forEach items="${packExpertExtList }" var="ext">
-		        	<c:forEach items="${typeNames }" var="type">
-		        	<c:if test="${(type.TYPENAME eq '0' and packageId eq type.PACKAGEID) or (type.TYPENAME eq '1' && packageId eq type.PACKAGEID)}">
-		           <c:if test="${ext.packageId eq packageId}">
-		             <c:set var="count" value="0"/>
-		             <c:forEach items="${expertScoreList }" var="sco">
-		               <c:if test="${sco.expertId eq ext.expert.id and supplier.suppliers.id eq sco.supplierId and sco.packageId eq packageId}">
-		                 <c:set var="count" value="1"/>
-		             	 <td class="tc">${sco.score }</td>
+		        	 <c:forEach items="${typeNames }" var="type">
+		        	   <c:if test="${(type.TYPENAME eq '0' and packageId eq type.PACKAGEID) or (type.TYPENAME eq '1' && packageId eq type.PACKAGEID)}">
+		                 <c:if test="${ext.packageId eq packageId}">
+		             	   <c:set var="flag" value="1" scope="request"/>
+		                 </c:if>
 		               </c:if>
 		             </c:forEach>
-		             <c:if test="${count eq '0'}">
-		               <td class="tc">暂未评分</td>
+		           </c:forEach>
+		           <c:if test="${flag eq '1'}">
+		           <c:forEach items="${expertScoreList }" var="sco">
+		             <c:if test="${sco.expertId eq ext.expert.id and supplier.suppliers.id eq sco.supplierId and sco.packageId eq packageId}">
+		               <c:set var="flag1" value="2" scope="request"/>
+		               <c:set var="score" value="${sco.score }" scope="request"/>
 		             </c:if>
-		           </c:if>
-		           </c:if>
 		           </c:forEach>
-		           </c:forEach>
+		           </c:if>
+		           
+		           <c:forEach items="${packExpertExtList }" var="ext">
+		        <c:forEach items="${typeNames }" var="type">
+				  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">      
+		   	        <c:set var="type2" value="1"/>
+		   	      </c:if>
+		   	      <c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">      
+		   	      	<c:set var="type3" value="1"/>
+		   	      </c:if>
+	   	        </c:forEach>
+				<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type3 eq '1'}">
+				    <c:if test="${flag1 eq '2'}">
+		             <td class="tc">${score}</td>
+			       </c:if>
+			       <c:if test="${flag1 ne '2' and flag eq '1'}">
+			         <td class="tc">暂未评分</td>
+			       </c:if>
+		   	     </c:if>
+		   	     <c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type2 eq '1'}">
+				    <c:if test="${flag1 eq '2'}">
+		             <td class="tc">${score}</td>
+			       </c:if>
+			       <c:if test="${flag1 ne '2' and flag eq '1'}">
+			         <td class="tc">暂未评分</td>
+			       </c:if>
+		   	     </c:if>
+		      </c:forEach>
+		           
+		           
+		           
+		           
+		           
+		           
+		           
+		           
 	               <td width="150px">
 	                 <input type="radio" value="${supplier.suppliers.id}" name="supplierView_${vs.index }">
 	               </td>
@@ -509,9 +547,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       	           <td class="tc">
       	             <input type="button" class="btn" onclick="showViewByExpertId('${packageId}',this,'${vs.index }')" value="查看明细">
       	           </td>
-      	           <c:forEach items="${packExpertExtList }" var="ext" varStatus="varsta">
-		             <c:if test="${ext.packageId eq packageId }"><td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }"></td></c:if>
-		           </c:forEach>
+      	           
+      	           <c:forEach items="${packExpertExtList }" var="ext">
+		        <c:forEach items="${typeNames }" var="type">
+				  <c:if test="${type.TYPENAME eq '0' && packageId eq type.PACKAGEID}">      
+		   	        <c:set var="type0" value="1"/>
+		   	      </c:if>
+		   	      <c:if test="${type.TYPENAME eq '1' && packageId eq type.PACKAGEID}">      
+		   	      	<c:set var="type1" value="1"/>
+		   	      </c:if>
+	   	        </c:forEach>
+				<c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '1' && type1 eq '1'}">
+				  <td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }"></td>
+		   	     </c:if>
+		   	     <c:if test="${ext.packageId eq packageId && ext.expert.expertsTypeId eq '3' && type0 eq '1'}">
+				  <td class="tc"><input type="radio" value="${ext.expert.id}" name="expertView_${vs.index }"></td>
+		   	     </c:if>
+		      </c:forEach>
+		           
+		           
 		           <td></td>
       	         </tr>
    		       </table>

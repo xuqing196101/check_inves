@@ -992,9 +992,6 @@ public class PackageExpertController {
             //List<ExpertScore> expertList = expertScoreService.selectByMap(mapSearch);
             // 查询评分信息(由按项目查改为按供应商和包查)
             List<ExpertSuppScore> expertList = expertScoreService.getScoreByMap(mapSearch);
-            for (ExpertSuppScore expertSuppScore : expertList) {
-                System.out.println(expertSuppScore.getScore());
-            }
             expertScoreAll.addAll(expertList);
             model.addAttribute("expertIdList", expertIdList);
             // 查询进度
