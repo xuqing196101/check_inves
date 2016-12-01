@@ -9,6 +9,7 @@
     	function addUser(){
     		window.location.href= "${pageContext.request.contextPath}/purchaseManage/addUser.do?orgId="+selectedTreeId;
     	}
+    	
     	function editUser(){
     		var ids = getSelectIds();
     		var len = ids.length;
@@ -20,11 +21,12 @@
     		}
     		window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId;  
     	}
+    	
+    	/** 删除用户 **/
     	function delUser(id){
     		var ids = getSelectIds();
     		var len = ids.length;
-    		var titles="至少选择一条记录";;
-    		//console.dir(ids);
+    		var titles="请选择需要删除的记录";;
     		if(len<=0){
     			truealert(titles,5);
     			return;
@@ -37,14 +39,15 @@
 		    idstr = idstr.substr(0,idstr.length-1);
 			$.ajax({
 				type : 'post',
-				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do?",
+				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do",
 				data : {ids:idstr},
-				//data: {'pid':pid,$("#formID").serialize()},
 				success : function(data) {
-					truealertReload(data.message, data.success == false ? 5 : 1);
+					showRes(data.success);
 				}
 			});
     	}
+    	
+    	/** 获取选择的id **/
     	function getSelectIds(){
     		var array=[];
     		var arrc = $("#user input[type=checkbox]:checked");
@@ -56,6 +59,8 @@
     		return array;
     		
     	}
+    	
+    	/** 全选 **/
     	function selectAll(){
 			if ($("#allId").prop("checked")) {  
 	            $("input[name=chkItem]").each(function() {  
@@ -67,21 +72,8 @@
 	            });  
 	        }   
 		}
-    	function showiframe(titles,width,height,url,top){
-			 if(top == null || top == "underfined"){
-			  top = 120;
-			 }
-			layer.open({
-		        type: 2,
-		        title: [titles],
-		        maxmin: true,
-		        shade: [0.3, '#000'],
-		       	offset: top+"px",
-		        shadeClose: false, //点击遮罩关闭层 
-		        area : [width+"px" , height+"px"],
-		        content: url
-		    });
-		}
+    	
+    	/** 提示 */
 		function truealert(text,iconindex){
 			if(top == null || top == "" || top == "underfined"){
 			  top = 120;
@@ -97,40 +89,36 @@
 			    }
 			});
 		}
-		function truealertReload(text,iconindex){
-			if(top == null || top == "" || top == "underfined"){
-			  top = 120;
+		
+		/** 删除成功后调用 */
+		function showRes(res){
+			if (res){
+				layer.msg("删除成功");
+				$("#user tbody input[type=checkbox]:checked").each(function(){
+					$(this).parents('tr').remove();
+				});
+				calculateIndex();
 			}
-			layer.open({
-			    content: text,
-			    icon: iconindex,
-			    offset: top+"px",
-			    shade: [0.3, '#000'],
-			    yes: function(index){
-			         parent.location.reload();
-			    	 layer.closeAll();
-			    }
-			});
 		}
 		
-		function pageOnLoad(){
-			var type = $("#type_name").val(); 
-			if(type!=null && type!='' && type!=undefined && type==1){
-			
-			}else if(type==0){
-			
-			}
+		/** 计算下标 **/
+		function calculateIndex(){
+			var count = 0;
+			$("#user tbody input[type=checkbox]").each(function(){
+				count ++;
+				$(this).parents('tr').find('td').eq(1).text(count);
+			});
 		}
     </script>
     </head>
-<body onload="pageOnLoad();">
+<body>
 <input id="type_name" value="${orgnization.typeName }" type="hidden">
 <div class="tab-content">
 	<div class="tab-pane fade active in" id="show_ztree_content">
 		<div class="panel-heading overflow-h margin-bottom-20 no-padding"
 			id="ztree_title">
 			<h2 class="panel-title heading-sm pull-left">
-				<i class="fa fa-bars"></i> ${orgnization.name } <span
+				<i class="fa fa-bars"></i> ${orgnization.name} <span
 					class="label rounded-2x label-u">正常</span>
 			</h2>
 		</div>
