@@ -187,6 +187,7 @@ public class PurchaseManageController {
 		//model.addAttribute("pagesql", pagesales);
 		return "ses/oms/require_dep/add_purchase_org";
 	}
+	
 	/**
 	 * 
 	 * @Title: create
@@ -647,10 +648,20 @@ public class PurchaseManageController {
 		jsonData.setMessage("更新成功");
 		return jsonData;
 	}
+	
+	/**
+	 * 
+	 *〈简述〉
+	 * 删除
+	 *〈详细描述〉
+	 * @author yggc
+	 * @param user
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="deleteUser",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData deleteUser(@ModelAttribute User user,HttpServletRequest request){
-		User currUser = (User) request.getSession().getAttribute("loginUser");
 		String idsString = request.getParameter("ids");
 		String[] ids = idsString.split(",");
 		if(ids!=null && !ids.equals("")){

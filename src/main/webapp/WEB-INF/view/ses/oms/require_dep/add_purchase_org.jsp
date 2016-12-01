@@ -89,8 +89,6 @@ function chongzhi(){
 					+"<td><input type='checkbox' name='selectedItem' value="+id+" /></td>"     
                     +"<td>"+index+"</td>"
                     +"<td>"+name+"</td>"
-                     +"<td class='hide'>"+id+"</td>"
-                    +"<td><a href=\'javascript:deltr("+"\""+id+"\""+","+"\""+name+"\""+")\'>删除</a></td>"
                 +"</tr>"); 
 		}
 </script>

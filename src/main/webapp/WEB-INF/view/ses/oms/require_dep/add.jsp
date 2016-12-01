@@ -53,15 +53,18 @@
 			onClick : onClick
 		}
 	};
+	
+	//初始化tree
 	$(document).ready(function() {
 		$.fn.zTree.init($("#treeDemo"), setting, datas);
 	});
+	
+	//保存
 	function save() {
 		var index = parent.layer.getFrameIndex(window.name);
 		var pid = parent.$("#parentid").val();
 		console.dir(pid);
-		$
-				.ajax({
+		$.ajax({
 					type : 'post',
 					url : "${pageContext.request.contextPath}/purchaseManage/saveOrg.do?",
 					data : $.param({
@@ -71,20 +74,20 @@
 					success : function(data) {
 						truealert(data.message, data.success == false ? 5 : 1);
 					}
-				});
+			});
 
 	}
+	
+	//提示
 	function truealert(text, iconindex) {
 		layer.open({
 			content : text,
 			icon : iconindex,
 			shade : [ 0.3, '#000' ],
 			yes : function(index) {
-				//do something
 				parent.location.reload();
 				layer.closeAll();
 				parent.layer.close(index); //执行关闭
-				//parent.location.href="${pageContext.request.contextPath}/purchaseManage/list.do";
 			}
 		});
 	}
@@ -103,8 +106,8 @@
 		 }
 	}
 
- 
-    function dynamicadd(){
+ 	/** 关联 **/
+    function dynamicAdd(){
     	var typeName = $("#typeName").val();
     	var title = "";
     	if(typeName!=undefined && typeName==0){
@@ -124,20 +127,7 @@
 			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
 		 });
     }
-    //删除<tr/>
-    var deltr =function(index,name)
-    {
-        var deldata = index+","+name;
-        array.remove(deldata);
-        $("tr[id='" + index + "']").remove();//删除当前行   
-		var num = $("#tab tbody tr").length;
-		var trs = $("#tab tbody tr");
-		for (i = 0; i < num; i++) {
-			trs.find("td:eq(1)").each(function(i) {
-				$(this).text(i + 1);
-			});
-		}
-	};
+   
 	//提交表单前测试  获取选择机构id
 	function check(){
 		var depIds="";
@@ -149,20 +139,43 @@
 		return true;
 	}
 	
-	function showiframe(titles,width,height,url,top){
-		 if(top == null || top == "underfined"){
-		  top = 120;
-		 }
-		layer.open({
-	        type: 2,
-	        title: [titles],
-	        maxmin: true,
-	        shade: [0.3, '#000'],
-	       	offset: top+"px",
-	        shadeClose: false, //点击遮罩关闭层 
-	        area : [width+"px" , height+"px"],
-	        content: url
-	    });
+	/** 取消关联 */
+	function dynamicCancel(){
+		
+		var selectedCount = $("input[name='selectedItem']:checked").length;
+		
+		if (selectedCount == 0){
+			layer.msg("请选择需要取消的记录");
+			return ;
+		}
+		
+		$("input[name='selectedItem']:checked").each(function(){
+			$(this).parents('tr').remove();
+			
+		});
+		calIndex();
+	}
+	
+	//重新计算index
+	function calIndex(){
+		var count = 0;
+		$("input[name='selectedItem']").each(function(){
+			count++;
+			$(this).parents('tr').find('td').eq(1).text(count);
+		});
+	}
+	
+	//全选
+	function selectAll(){
+		if ($("#checkAll").prop("checked")) {  
+            $("input[name=selectedItem]").each(function() {  
+                $(this).prop("checked", true);  
+            });  
+        } else {  
+            $("input[name=selectedItem]").each(function() {  
+                $(this).prop("checked", false);  
+            });  
+        }   
 	}
 </script>
 </head>
@@ -275,7 +288,8 @@
 				    <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联监管部门</span></h2>
 					   <ul class="ul_list">
 					       <div class="col-md-12 pl20 mt10">
-					           <button type="button" class="btn btn-windows add" id="dynamicAdd" onclick="dynamicadd();">添加</button>
+					           <button type="button" class="btn btn-windows add" id="dynamicAddId" onclick="dynamicAdd();">关联</button>
+					           <button type="button" class="btn btn-windows cancel"  onclick="dynamicCancel();">取消</button>
 					        </div>
 					           <div class="content table_box">
                                     <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
@@ -285,8 +299,6 @@
 					                                    onclick="selectAll()" /></th>
 					                                <th class="info w50">序号</th>
 					                                <th class="info">机构名称</th>
-					                                <th class="hide">机构id</th>
-					                                <th class="info">操作</th>
 					                            </tr>
 					                        </thead>
 					                        <tbody>
