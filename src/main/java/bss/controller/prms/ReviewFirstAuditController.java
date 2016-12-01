@@ -207,6 +207,9 @@ public class ReviewFirstAuditController {
 						Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
 						supplierList.add(supplier);
 					}
+				}else{
+				    Supplier supplier = supplierService.selectById(auditModelExt.getSupplierId());
+				    supplierList.add(supplier);
 				}
 			}
 		}	
