@@ -757,28 +757,43 @@ th.bg_tc {
 .nobgcolor{
 	background: none!important;
 }
-
 .my_post{
-	position: fixed;
-	width:30px;
+	position: absolute;
+	width:32px;
 	height:130px;
 	border:1px solid #e5e5e5;
-	right:0px;
-	top:45%;
-	padding:10px;
+	text-align:center;
 	overflow: hidden;	
+	background-color:#157c82; 
+	padding: 10px 0 10px 0;
+	right:0px;
+	top:0px;
+	display: block;
+	color:#ffffff;
+}
+.my_poster a:hover{
+	background-color:#2C9FA6;
+	color:#ffffff!important;
 }
 .publish_post{
-    position: fixed;
-    width:30px;
+    position: absolute;
+    width:32px;
     height:130px;
     border:1px solid #e5e5e5;
     right:0px;
-    top:65%;
-    padding:10px;
-    overflow: hidden;   
+    top:140;
+    text-align:center;
+	overflow: hidden;	
+	background-color:#157c82; 
+	padding: 10px 0 10px 0; 
+	display: block; 
+	color:#ffffff; 
 }
-
+.my_poster{
+	position: fixed;
+	right:0px;
+	top:45%;
+}
 a{
  cursor:pointer;
 }

@@ -2445,6 +2445,7 @@ span.list_squre {
 	position:fixed;
 	left:0;
 	right:0;
+<<<<<<< Updated upstream
 	bottom:0;
 }
 @media(min-width:1367px){
@@ -2460,5 +2461,9 @@ span.list_squre {
 .reg-page{
 	padding:60px 30px;
 }
+}
+>>>>>>> Stashed changes
+=======
+	bottom:0;
 }
 >>>>>>> Stashed changes

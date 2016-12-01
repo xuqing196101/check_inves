@@ -139,44 +139,44 @@
      <div class="container container_box">
      <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
 		<h2 class="list_title">新增考卷</h2>
-       	<ul class="ul_list">
+       	<div class="ul_list">
     	 	<ul class="list-unstyled p0_20">
-		     <li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
-		  		<div class="col-md-12 p0 input-append">
+		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷名称：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  		  	<input type="text" name="name" value="${errorData['name'] }"/>
 		  		  	<div class="cue">${ERR_name }</div>
 		  		</div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
-		  		<div class="col-md-12 p0 input-append">
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷编号：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  		  	<input type="text" name="code" value="${errorData['code'] }"/>
 		  		  	<div class="cue">${ERR_code }</div>
 		  		</div>
 	  		</li>
 	  		
-            <li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
-		  		<div class="col-md-12 p0 input-append">
+            <li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  		  	<input type="text" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['startTime'] }"/>
 		  		  	<div class="cue">${ERR_startTime }</div>
 		  		</div>
 	  		</li>
 	  		
-	  		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
-		  		<div class="col-md-12 p0 input-append">
+	  		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  		  	<input type="text" name="offTime" id="offTime" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" value="${errorData['offTime'] }"/>
 		  		  	<div class="cue">${ERR_offTime }</div>
 		  		</div>
 	  		</li>
 	  		
-    		<li class="col-md-12 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="col-md-12 p0">
-	  			   	<div class="col-md-4 p0 input-append">
+    		<li class="col-md-12 col-sm-12 col-xs-12 pl15 mb20">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		  			   	<label class="fl mt5">单选题：</label>
 		  			   	<div class="fl mt5">
 		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0 mr5" value="有"/>有
@@ -187,7 +187,7 @@
 		  			   	 </div>
 		  			     <div class="cue">${ERR_single }</div>
 	  			   	</div>
-	  			   	<div class="col-md-4 p0 input-append">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	  	<label class="fl mt5">多选题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0 mr5" value="有"/>有
@@ -198,7 +198,7 @@
 		  		        </div>
 		  		        <div class="cue">${ERR_multiple }</div>
 	  		        </div>
-	  		        <div class="col-md-4 p0 input-append">
+	  		        <div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	  	<label class="fl mt5">判断题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="judge" onclick="checkJudgeYes(this)" class="mt0 mr5" value="有"/>有
@@ -212,30 +212,30 @@
 	  		    </div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>总分值：</span>
-	  			<div class="input-append col-md-12 p0">
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>总分值：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
 		  		 	<input type="text" name="paperScore" id="paperScore" value="${errorData['score'] }" readonly="readonly" class="mr5"/>分
 	  		    </div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
-		  		<div class="input-append col-md-12 p0">
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  		  	<input type="text" name="passStandard" id="passStandard" value="${errorData['passStandard'] }" class="mr5"/>分
 		  		  	<div class="cue">${ERR_passStandard }</div>
 		  		</div>
 	  		</li>
   
-	  		<li class="col-md-3 p0">
-	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
-		  		<div class="input-append col-md-12 p0">
+	  		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>答题用时：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  			<input type="text" name="testTime" id="testTime" value="${errorData['testTime'] }" class="mr5"/>分钟
 	  			    <div class="cue">${ERR_testTime }</div>
 	  			</div>
 	  		</li>
 	  		</ul>
-        </ul>
+        </div>
    
 	  	<!-- 按钮 -->
 	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">

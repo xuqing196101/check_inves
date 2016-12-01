@@ -224,16 +224,14 @@
          </div>    
      </div>
    </div>
-   	<a href='${pageContext.request.contextPath }/post/mypost.html'>
-	  	<div class="my_post f18">
-	  		我的帖子
-	  	</div>
+   	<div class="my_poster">
+   	<a href='${ pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
+  			我的帖子
   	</a>
-  	<a href='${pageContext.request.contextPath }/post/publish.html'>
-	  	<div class="publish_post f18">
-	  		我要发帖
-	  	</div> 
-  	</a> 
+  	<a href='${ pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
+  			我要发帖 
+	</a>
+   </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">
