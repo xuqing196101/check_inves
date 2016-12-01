@@ -492,7 +492,12 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="overseasBranch2">境外分支机构：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="overseasBranch" class="hand " value="${suppliers.overseasBranch } " type="text" onclick="reason(this.id,'overseasBranch')" >
+                <c:if test="${suppliers.overseasBranch == 0}">
+                  <input id="overseasBranch" class="hand " value="无" type="text" onclick="reason(this.id,'overseasBranch')" >
+                </c:if>
+                <c:if test="${suppliers.overseasBranch == 1}">
+                  <input id="overseasBranch" class="hand " value="有" type="text" onclick="reason(this.id,'overseasBranch')" >
+                </c:if>
                 <div id="overseasBranch3" class="abolish">×</div>
               </div>
             </li>
@@ -530,7 +535,7 @@
             </div>
           </ul>
         </div>
-
+        
       </div>
 	    <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
 	      <input type="hidden" name="fileName" />

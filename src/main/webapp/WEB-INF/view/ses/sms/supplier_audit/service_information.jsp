@@ -255,7 +255,7 @@
 	                <th class="info">有效期(起止时间)</th>
 	                <th class="info">是否年检</th>
 	                <th class="info">附件</th>
-	                <th class="info"></th>
+	                <th class="info w50"></th>
 	              </tr>
 	            </thead>
 	            <c:forEach items="${supplierCertSes}" var="s" varStatus="vs">
@@ -281,7 +281,7 @@
 	                   <a class="red">无附件下载</a>
 	                  </c:if>
 	                <td class="tc">
-	                  <a  id="${s.id}_show" class="abolish">×</a>
+	                  <a  id="${s.id}_show" class="b f18 fl ml10 hand red">×</a>
 	                </td>
 	              </tr>
 	            </c:forEach>
