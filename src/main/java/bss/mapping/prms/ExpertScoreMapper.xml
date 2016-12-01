@@ -161,7 +161,7 @@
       IS_HISTORY = #{isHistory,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <!--  -->
+  <!-- 根据projectId和packageId查询分数 -->
   <select id="getScoreByMap" resultType="bss.model.prms.ext.ExpertSuppScore">
    select sum(SCORE) score,SUPPLIER_ID supplierId,
    PACKAGE_ID packageId,EXPERT_ID expertId
@@ -171,4 +171,13 @@
    and IS_HISTORY = '0'
    group by PACKAGE_ID,EXPERT_ID,SUPPLIER_ID
   </select>
+  <!-- 回退分数 -->
+  <update id="backScore" parameterType="java.util.HashMap">
+  	update T_BSS_PRMS_EXPERT_SCORE
+  	set IS_HISTORY = 1
+  	where PROJECT_ID = #{projectId}
+  	and PACKAGE_ID = #{packageId}
+  	and EXPERT_ID = #{expertId}
+  	and SUPPLIER_ID = #{supplierId}
+  </update>
 </mapper>

@@ -215,7 +215,7 @@
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
 				
-				<td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${PqInfo.id}" /></td>
+				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${PqInfo.id}" /></td>
 				
 				<td class="tc opinter" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				

@@ -346,190 +346,190 @@ public class SupplierEditServiceImpl implements SupplierEditService {
         for (int i = 0; i < listEdit.size() - 1; i++) {
             StringBuffer sb = new StringBuffer("");
             if ((listEdit.get(i).getSupplierName() == null && listEdit.get(i + 1).getSupplierName() != null)) {
-                sb.append(" 供应商姓名:" + listEdit.get(i + 1).getSupplierName() + ",");
+                sb.append("<li>供应商姓名: <span>" + listEdit.get(i + 1).getSupplierName() + "</span></li>");
             } else if ((listEdit.get(i).getSupplierName() == null && listEdit.get(i + 1).getSupplierName() == null)) {
             } else if (!listEdit.get(i).getSupplierName().equals(listEdit.get(i + 1).getSupplierName())) {
-                sb.append(" 供应商姓名:" + listEdit.get(i + 1).getSupplierName() + ",");
+                sb.append("<li>供应商姓名: <span>" + listEdit.get(i + 1).getSupplierName() + "</span></li>");
             }
             if ((listEdit.get(i).getWebsite() == null && listEdit.get(i + 1).getWebsite() != null)) {
-                sb.append(" 公司网址:" + listEdit.get(i + 1).getWebsite() + ",");
+                sb.append("<li>公司网址: <span>" + listEdit.get(i + 1).getWebsite() + "</span></li>");
             } else if ((listEdit.get(i).getWebsite() == null && listEdit.get(i + 1).getWebsite() == null)) {
             } else if (!listEdit.get(i).getWebsite().equals(listEdit.get(i + 1).getWebsite())) {
-                sb.append(" 公司网址:" + listEdit.get(i + 1).getWebsite() + ",");
+                sb.append("<li>公司网址: <span>" + listEdit.get(i + 1).getWebsite() + "</span></li>");
             }
             if ((listEdit.get(i).getFoundDate() == null && listEdit.get(i + 1).getFoundDate() != null)) {
-                sb.append(" 成立日期:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getFoundDate()) + ",");
+                sb.append("<li>成立日期: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getFoundDate()) + "</span></li>");
             } else if ((listEdit.get(i).getFoundDate() == null && listEdit.get(i + 1).getFoundDate() == null)) {
             } else if (!listEdit.get(i).getFoundDate().equals(listEdit.get(i + 1).getFoundDate())){
-                sb.append(" 成立日期:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getFoundDate()) + ",");
+                sb.append("<li>成立日期: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getFoundDate()) + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessType() == null && listEdit.get(i + 1).getBusinessType() != null)) {
-                sb.append(" 营业执照类型:" + listEdit.get(i + 1).getBusinessType() + ",");
+                sb.append("<li>营业执照类型: <span>" + listEdit.get(i + 1).getBusinessType() + "</span></li>");
             } else if ((listEdit.get(i).getBusinessType() == null && listEdit.get(i + 1).getBusinessType() == null)) {
             } else if (!listEdit.get(i).getBusinessType().equals(listEdit.get(i + 1).getBusinessType())) {
-                sb.append(" 营业执照类型:" + listEdit.get(i + 1).getBusinessType() + ",");
+                sb.append("<li>营业执照类型: <span>" + listEdit.get(i + 1).getBusinessType() + "</span></li>");
             }
             if ((listEdit.get(i).getAddress() == null && listEdit.get(i + 1).getAddress() != null)) {
-                sb.append(" 企业地址:" + listEdit.get(i + 1).getAddress() + ",");
+                sb.append("<li>企业地址: <span>" + listEdit.get(i + 1).getAddress() + "</span></li>");
             } else if ((listEdit.get(i).getAddress() == null && listEdit.get(i + 1).getAddress() == null)) {
             } else if (!listEdit.get(i).getAddress().equals(listEdit.get(i + 1).getAddress())) {
-                sb.append(" 企业地址:" + listEdit.get(i + 1).getAddress() + ",");
+                sb.append("<li>企业地址: <span>" + listEdit.get(i + 1).getAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getBankName() == null && listEdit.get(i + 1).getBankName() != null)) {
-                sb.append(" 开户行名称:" + listEdit.get(i + 1).getBankName() + ",");
+                sb.append("<li>开户行名称: <span>" + listEdit.get(i + 1).getBankName() + "</span></li>");
             } else if ((listEdit.get(i).getBankName() == null && listEdit.get(i + 1).getBankName() == null)) {
             } else if (!listEdit.get(i).getBankName().equals(listEdit.get(i + 1).getBankName())) {
-                sb.append(" 开户行名称:" + listEdit.get(i + 1).getBankName() + ",");
+                sb.append("<li>开户行名称: <span>" + listEdit.get(i + 1).getBankName() + "</span></li>");
             }
             if ((listEdit.get(i).getBankAccount() == null && listEdit.get(i + 1).getBankAccount() != null)) {
-                sb.append(" 开户行账户:" + listEdit.get(i + 1).getBankAccount() + ",");
+                sb.append("<li>开户行账户: <span>" + listEdit.get(i + 1).getBankAccount() + "</span></li>");
             } else if ((listEdit.get(i).getBankAccount() == null && listEdit.get(i + 1).getBankAccount() == null)) {
             } else if (!listEdit.get(i).getBankAccount().equals(listEdit.get(i + 1).getBankAccount())) {
-                sb.append(" 开户行账户:" + listEdit.get(i + 1).getBankAccount() + ",");
+                sb.append("<li>开户行账户: <span>" + listEdit.get(i + 1).getBankAccount() + "</span></li>");
             }
             if ((listEdit.get(i).getPostCode() == null && listEdit.get(i + 1).getPostCode() != null)) {
-                sb.append(" 邮编:" + listEdit.get(i + 1).getPostCode() + ",");
+                sb.append("<li>邮编: <span>" + listEdit.get(i + 1).getPostCode() + "</span></li>");
             } else if ((listEdit.get(i).getPostCode() == null && listEdit.get(i + 1).getPostCode() == null)) {
             } else if (!listEdit.get(i).getPostCode().equals(listEdit.get(i + 1).getPostCode())) {
-                sb.append(" 邮编:" + listEdit.get(i + 1).getPostCode() + ",");
+                sb.append("<li>邮编: <span>" + listEdit.get(i + 1).getPostCode() + "</span></li>");
             }
             if ((listEdit.get(i).getLegalName() == null && listEdit.get(i + 1).getLegalName() != null)) {
-                sb.append(" 法人姓名:" + listEdit.get(i + 1).getLegalName() + ",");
+                sb.append("<li>法人姓名: <span>" + listEdit.get(i + 1).getLegalName() + "</span></li>");
             } else if ((listEdit.get(i).getLegalName() == null && listEdit.get(i + 1).getLegalName() == null)) {
             } else if (!listEdit.get(i).getLegalName().equals(listEdit.get(i + 1).getLegalName())){
-                sb.append(" 法人姓名:" + listEdit.get(i + 1).getLegalName() + ",");
+                sb.append("<li>法人姓名: <span>" + listEdit.get(i + 1).getLegalName() + "</span></li>");
             }
             if ((listEdit.get(i).getLegalIdCard() == null && listEdit.get(i + 1).getLegalIdCard() != null)) {
-                sb.append(" 法人身份证:" + listEdit.get(i + 1).getLegalIdCard() + ",");
+                sb.append("<li>法人身份证: <span>" + listEdit.get(i + 1).getLegalIdCard() + "</span></li>");
             } else if ((listEdit.get(i).getLegalIdCard() == null && listEdit.get(i + 1).getLegalIdCard() == null)) {
             } else if (!listEdit.get(i).getLegalIdCard().equals(listEdit.get(i + 1).getLegalIdCard())) {
-                sb.append(" 法人身份证:" + listEdit.get(i + 1).getLegalIdCard() + ",");
+                sb.append("<li>法人身份证: <span>" + listEdit.get(i + 1).getLegalIdCard() + "</span></li>");
             }
             if ((listEdit.get(i).getLegalMobile() == null && listEdit.get(i + 1).getLegalMobile() != null)) {
-                sb.append(" 法人手机:" + listEdit.get(i + 1).getLegalMobile() + ",");
+                sb.append("<li>法人手机: <span>" + listEdit.get(i + 1).getLegalMobile() + "</span></li>");
             } else if ((listEdit.get(i).getLegalMobile() == null && listEdit.get(i + 1).getLegalMobile() == null)) {
             } else if (!listEdit.get(i).getLegalMobile().equals(listEdit.get(i + 1).getLegalMobile())) {
-                sb.append(" 法人手机:" + listEdit.get(i + 1).getLegalMobile() + ",");
+                sb.append("<li>法人手机: <span>" + listEdit.get(i + 1).getLegalMobile() + "</span></li>");
             }
             if ((listEdit.get(i).getLegalTelephone() == null && listEdit.get(i + 1).getLegalTelephone() != null)) {
-                sb.append(" 法人电话:" + listEdit.get(i + 1).getLegalTelephone() + ",");
+                sb.append("<li>法人电话: <span>" + listEdit.get(i + 1).getLegalTelephone() + "</span></li>");
             } else if ((listEdit.get(i).getLegalTelephone() == null && listEdit.get(i + 1).getLegalTelephone() == null)) {
             } else if (!listEdit.get(i).getLegalTelephone().equals(listEdit.get(i + 1).getLegalTelephone())) {
-                sb.append(" 法人电话:" + listEdit.get(i + 1).getLegalTelephone() + ",");
+                sb.append("<li>法人电话: <span>" + listEdit.get(i + 1).getLegalTelephone() + "</span></li>");
             }
             if ((listEdit.get(i).getContactName() == null && listEdit.get(i + 1).getContactName() != null)) {
-                sb.append(" 联系人姓名:" + listEdit.get(i + 1).getContactName() + ",");
+                sb.append("<li>联系人姓名: <span>" + listEdit.get(i + 1).getContactName() + "</span></li>");
             } else if ((listEdit.get(i).getContactName() == null && listEdit.get(i + 1).getContactName() == null)) {
             } else if (!listEdit.get(i).getContactName().equals(listEdit.get(i + 1).getContactName())) {
-                sb.append(" 联系人姓名:" + listEdit.get(i + 1).getContactName() + ",");
+                sb.append("<li>联系人姓名: <span>" + listEdit.get(i + 1).getContactName() + "</span></li>");
             }
             if ((listEdit.get(i).getContactTelephone() == null && listEdit.get(i + 1).getContactTelephone() != null)) {
-                sb.append(" 联系人手机:" + listEdit.get(i + 1).getContactTelephone() + ",");
+                sb.append("<li>联系人手机: <span>" + listEdit.get(i + 1).getContactTelephone() + "</span></li>");
             } else if ((listEdit.get(i).getContactTelephone() == null && listEdit.get(i + 1).getContactTelephone() == null)) {
             } else if (!listEdit.get(i).getContactTelephone().equals(listEdit.get(i + 1).getContactTelephone())) {
-                sb.append(" 联系人手机:" + listEdit.get(i + 1).getContactTelephone() + ",");
+                sb.append("<li>联系人手机: <span>" + listEdit.get(i + 1).getContactTelephone() + "</span></li>");
             }
             if ((listEdit.get(i).getContactMobile() == null && listEdit.get(i + 1).getContactMobile() != null)) {
-                sb.append(" 联系人电话:" + listEdit.get(i + 1).getContactMobile() + ",");
+                sb.append("<li>联系人电话: <span>" + listEdit.get(i + 1).getContactMobile() + "</span></li>");
             } else if ((listEdit.get(i).getContactMobile() == null && listEdit.get(i + 1).getContactMobile() == null)) {
             } else if (!listEdit.get(i).getContactMobile().equals(listEdit.get(i + 1).getContactMobile())) {
-                sb.append(" 联系人电话:" + listEdit.get(i + 1).getContactMobile() + ",");
+                sb.append("<li>联系人电话: <span>" + listEdit.get(i + 1).getContactMobile() + "</span></li>");
             }
             if ((listEdit.get(i).getContactFax() == null && listEdit.get(i + 1).getContactFax() != null)) {
-                sb.append(" 联系人传真:" + listEdit.get(i + 1).getContactFax() + ",");
+                sb.append("<li>联系人传真: <span>" + listEdit.get(i + 1).getContactFax() + "</span></li>");
             } else if ((listEdit.get(i).getContactFax() == null && listEdit.get(i + 1).getContactFax() == null)) {
             } else if (!listEdit.get(i).getContactFax().equals(listEdit.get(i + 1).getContactFax())) {
-                sb.append(" 联系人传真:" + listEdit.get(i + 1).getContactFax() + ",");
+                sb.append("<li>联系人传真: <span>" + listEdit.get(i + 1).getContactFax() + "</span></li>");
             }
             if ((listEdit.get(i).getContactEmail() == null && listEdit.get(i + 1).getContactEmail() != null)) {
-                sb.append(" 联系人邮箱:" + listEdit.get(i + 1).getContactEmail() + ",");
+                sb.append("<li>联系人邮箱: <span>" + listEdit.get(i + 1).getContactEmail() + "</span></li>");
             } else if ((listEdit.get(i).getContactEmail() == null && listEdit.get(i + 1).getContactEmail() == null)) {
             } else if (!listEdit.get(i).getContactEmail().equals(listEdit.get(i + 1).getContactEmail())) {
-                sb.append(" 联系人邮箱:" + listEdit.get(i + 1).getContactEmail() + ",");
+                sb.append("<li>联系人邮箱: <span>" + listEdit.get(i + 1).getContactEmail() + "</span></li>");
             }
             if ((listEdit.get(i).getContactAddress() == null && listEdit.get(i + 1).getContactAddress() != null)) {
-                sb.append(" 联系人地址:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>联系人地址: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             } else if ((listEdit.get(i).getContactAddress() == null && listEdit.get(i + 1).getContactAddress() == null)) {
             } else if (!listEdit.get(i).getContactAddress().equals(listEdit.get(i + 1).getContactAddress())){
-                sb.append(" 联系人地址:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>联系人地址: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getCreditCode() == null && listEdit.get(i + 1).getCreditCode() != null)) {
-                sb.append(" 社会信用码:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>社会信用码: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             } else if ((listEdit.get(i).getCreditCode() == null && listEdit.get(i + 1).getCreditCode() == null)) {
             } else if (!listEdit.get(i).getCreditCode().equals(listEdit.get(i + 1).getCreditCode())){
-                sb.append(" 社会信用码:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>社会信用码: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getRegistAuthority() == null && listEdit.get(i + 1).getRegistAuthority() != null)) {
-                sb.append(" 注册机关:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>注册机关: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             } else if ((listEdit.get(i).getRegistAuthority() == null && listEdit.get(i + 1).getRegistAuthority() == null)) {
             } else if (!listEdit.get(i).getRegistAuthority().equals(listEdit.get(i + 1).getRegistAuthority())) {
-                sb.append(" 注册机关:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>注册机关: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getRegistFund() == null && listEdit.get(i + 1).getRegistFund() != null)) {
-                sb.append(" 注册资本:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>注册资本: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             } else if ((listEdit.get(i).getRegistFund() == null && listEdit.get(i + 1).getRegistFund() == null)) {
             } else if (!listEdit.get(i).getRegistFund().equals(listEdit.get(i + 1).getRegistFund())) {
-                sb.append(" 注册资本:" + listEdit.get(i + 1).getContactAddress() + ",");
+                sb.append("<li>注册资本: <span>" + listEdit.get(i + 1).getContactAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessStartDate() == null && listEdit.get(i + 1).getBusinessStartDate() != null)) {
-                sb.append(" 营业期限开始时间:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessStartDate()) + ",");
+                sb.append("<li>营业期限开始时间: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessStartDate()) + "</span></li>");
             } else if ((listEdit.get(i).getBusinessStartDate() == null && listEdit.get(i + 1).getBusinessStartDate() == null)) {
             } else if (!listEdit.get(i).getBusinessStartDate().equals(listEdit.get(i + 1).getBusinessStartDate())) {
-                sb.append(" 营业期限开始时间:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessStartDate()) + ",");
+                sb.append("<li>营业期限开始时间: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessStartDate()) + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessEndDate() == null && listEdit.get(i + 1).getBusinessEndDate() != null)) {
-                sb.append(" 营业期限结束时间:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessEndDate()) + ",");
+                sb.append("<li>营业期限结束时间: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessEndDate()) + "</span></li>");
             } else if ((listEdit.get(i).getBusinessEndDate() == null && listEdit.get(i + 1).getBusinessEndDate() == null)) {
             } else if (!listEdit.get(i).getBusinessEndDate().equals(listEdit.get(i + 1).getBusinessEndDate())) {
-                sb.append(" 营业期限结束时间:" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessEndDate()) + ",");
+                sb.append("<li>营业期限结束时间: <span>" + new SimpleDateFormat("YYYY-MM-dd").format(listEdit.get(i + 1).getBusinessEndDate()) + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessScope() == null && listEdit.get(i + 1).getBusinessScope() != null)){
-                sb.append(" 营业范围:" + listEdit.get(i + 1).getBusinessScope() + ",");
+                sb.append("<li>营业范围: <span>" + listEdit.get(i + 1).getBusinessScope() + "</span></li>");
             } else if ((listEdit.get(i).getBusinessScope() == null && listEdit.get(i + 1).getBusinessScope() == null)) {
             } else if (!listEdit.get(i).getBusinessScope().equals(listEdit.get(i + 1).getBusinessScope())) {
-                sb.append(" 营业范围:" + listEdit.get(i + 1).getBusinessScope() + ",");
+                sb.append("<li>营业范围: <span>" + listEdit.get(i + 1).getBusinessScope() + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessPostCode() == null && listEdit.get(i + 1).getBusinessPostCode() != null)) {
-                sb.append(" 境外分支邮编:" + listEdit.get(i + 1).getBusinessPostCode() + ",");
+                sb.append("<li>境外分支邮编: <span>" + listEdit.get(i + 1).getBusinessPostCode() + "</span></li>");
             } else if ((listEdit.get(i).getBusinessPostCode() == null && listEdit.get(i + 1).getBusinessPostCode() == null)) {
             } else if (!listEdit.get(i).getBusinessPostCode().equals(listEdit.get(i + 1).getBusinessPostCode())) {
-                sb.append(" 境外分支邮编:" + listEdit.get(i + 1).getBusinessPostCode() + ",");
+                sb.append("<li>境外分支邮编: <span>" + listEdit.get(i + 1).getBusinessPostCode() + "</span></li>");
             }
             if ((listEdit.get(i).getBusinessAddress() == null && listEdit.get(i + 1).getBusinessAddress() != null)) {
-                sb.append(" 分支地址:" + listEdit.get(i + 1).getBusinessAddress() + ",");
+                sb.append("<li>分支地址: <span>" + listEdit.get(i + 1).getBusinessAddress() + "</span></li>");
             } else if ((listEdit.get(i).getBusinessAddress() == null && listEdit.get(i + 1).getBusinessAddress() == null)) {
             } else if (!listEdit.get(i).getBusinessAddress().equals(listEdit.get(i + 1).getBusinessAddress())) {
-                sb.append(" 分支地址:" + listEdit.get(i + 1).getBusinessAddress() + ",");
+                sb.append("<li>分支地址: <span>" + listEdit.get(i + 1).getBusinessAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getOverseasBranch() == null && listEdit.get(i + 1).getOverseasBranch() != null)) {
-                sb.append(" 是否是境外分支结构:" + listEdit.get(i + 1).getOverseasBranch() + ",");
+                sb.append("<li>是否是境外分支结构: <span>" + listEdit.get(i + 1).getOverseasBranch() + "</span></li>");
             } else if ((listEdit.get(i).getOverseasBranch() == null && listEdit.get(i + 1).getOverseasBranch() == null)) {
             } else if (!listEdit.get(i).getOverseasBranch().equals(listEdit.get(i + 1).getOverseasBranch())){
-                sb.append(" 是否是境外分支结构:" + listEdit.get(i + 1).getOverseasBranch() + ",");
+                sb.append("<li>是否是境外分支结构: <span>" + listEdit.get(i + 1).getOverseasBranch() + "</span></li>");
             }
             if ((listEdit.get(i).getBranchCountry() == null && listEdit.get(i + 1).getBranchCountry() != null)) {
-                sb.append(" 分支所在国家范围:" + listEdit.get(i + 1).getBranchCountry() + ",");
+                sb.append("<li>分支所在国家范围: <span>" + listEdit.get(i + 1).getBranchCountry() + "</span></li>");
             } else if ((listEdit.get(i).getBranchCountry() == null && listEdit.get(i + 1).getBranchCountry() == null)) {
             } else if (!listEdit.get(i).getBranchCountry().equals(listEdit.get(i + 1).getBranchCountry())) {
-                sb.append(" 分支所在国家范围:" + listEdit.get(i + 1).getBranchCountry() + ",");
+                sb.append("<li>分支所在国家范围: <span>" + listEdit.get(i + 1).getBranchCountry() + "</span></li>");
             }
             if ((listEdit.get(i).getBranchAddress() == null && listEdit.get(i + 1).getBranchAddress() != null)) {
-                sb.append(" 详细地址:" + listEdit.get(i + 1).getBranchAddress() + ",");
+                sb.append("<li>详细地址: <span>" + listEdit.get(i + 1).getBranchAddress() + "</span></li>");
             } else if ((listEdit.get(i).getBranchAddress() == null && listEdit.get(i + 1).getBranchAddress() == null)) {
             } else if (!listEdit.get(i).getBranchAddress().equals(listEdit.get(i + 1).getBranchAddress())) {
-                sb.append(" 详细地址:" + listEdit.get(i + 1).getBranchAddress() + ",");
+                sb.append("<li>详细地址: <span>" + listEdit.get(i + 1).getBranchAddress() + "</span></li>");
             }
             if ((listEdit.get(i).getBranchBusinessScope() == null && listEdit.get(i + 1).getBranchBusinessScope() != null)) {
-                sb.append(" 生产经营范围:" + listEdit.get(i + 1).getBranchBusinessScope() + ",");
+                sb.append("<li>生产经营范围: <span>" + listEdit.get(i + 1).getBranchBusinessScope() + "</span></li>");
             } else if ((listEdit.get(i).getBranchBusinessScope() == null && listEdit.get(i + 1).getBranchBusinessScope() == null)){
             } else if (!listEdit.get(i).getBranchBusinessScope().equals(listEdit.get(i + 1).getBranchBusinessScope())){
-                sb.append(" 生产经营范围:" + listEdit.get(i + 1).getBranchBusinessScope() + ",");
+                sb.append("<li>生产经营范围: <span>" + listEdit.get(i + 1).getBranchBusinessScope() + "</span></li>");
             }
             if ((listEdit.get(i).getBranchName() == null && listEdit.get(i + 1).getBranchName() != null)) {
-                sb.append(" 分支名称:" + listEdit.get(i + 1).getBranchName() + ",");
+                sb.append("<li>分支名称: <span>" + listEdit.get(i + 1).getBranchName() + "</span></li>");
             } else if ((listEdit.get(i).getBranchName() == null && listEdit.get(i + 1).getBranchName() == null)) {
             } else if (!listEdit.get(i).getBranchName().equals(listEdit.get(i + 1).getBranchName())) {
-                sb.append(" 分支名称:" + listEdit.get(i + 1).getBranchName() + ",");
+                sb.append("<li>分支名称: <span>" + listEdit.get(i + 1).getBranchName() + "</span></li>");
             }
             String str = sb.toString();
             //大于5说明有修改否则无修改

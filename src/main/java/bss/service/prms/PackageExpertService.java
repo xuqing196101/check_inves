@@ -77,4 +77,12 @@ public interface PackageExpertService {
          * @return
          */
         List<Map<String, Object>> findScoreByMap(Map<String, Object> mapSearch);
+        /**
+         *〈简述〉
+         * 退回分数
+         *〈详细描述〉
+         * @author Wang Huijie
+         * @param mapSearch
+         */
+        void backScore(Map<String, Object> mapSearch);
 }

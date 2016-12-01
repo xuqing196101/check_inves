@@ -208,7 +208,7 @@
 						<c:forEach items="${list.list}" var="templet" varStatus="vs">
 							<tr>
 
-								<td class="tc pointer"><input onclick="check()"
+								<td class="tc"><input onclick="check()"
 									type="checkbox" name="chkItem" value="${templet.id}" />
 								</td>
 

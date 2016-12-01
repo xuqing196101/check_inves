@@ -198,7 +198,10 @@
                         <table class="table table-bordered">
                         <tbody>
 						<tr>
-							<td class="bggrey">境外分支机构：</td><td>${suppliers.overseasBranch }</td>
+							<td class="bggrey">境外分支机构：</td><td>
+							<c:if test="${suppliers.overseasBranch==1 }">有</c:if>
+							<c:if test="${suppliers.overseasBranch==0 }">无</c:if>
+							</td>
 							<td class="bggrey">国家：</td><td>${suppliers.branchCountry}</td>
 						</tr>
 						<tr>

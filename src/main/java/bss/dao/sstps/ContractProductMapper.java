@@ -17,4 +17,5 @@ public interface ContractProductMapper {
     
     List<ContractProduct> selectList(ContractProduct record);
 
+    List<ContractProduct> selectProjectList(ContractProduct record);
 }

@@ -7,7 +7,7 @@
 <html>
   <head>
     
-    <title>产 品 报 价(审价)详 细 情 况</title>
+    <title>产 品 审 价 详 细 情 况</title>
    
 <script type="text/javascript">
 function onStep(){

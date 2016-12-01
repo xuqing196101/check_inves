@@ -40,11 +40,8 @@
       }
       $(function(){
       		var parkId ="${parkId}";
-      		
-	        $("#parkId").val(parkId);	  
-	       // alert(parkId);
+	        $("#parkId").val(parkId);	
 	        if(parkId!=null &&parkId !=""){
-	       // alert("sadasd");
 	        $.ajax({
 	            url:"${ pageContext.request.contextPath }/topic/getListForSelect.do?parkId="+parkId,   
 	            contentType: "application/json;charset=UTF-8", 
@@ -60,9 +57,7 @@
 	                }
 	            }
 	        });
-	        }      
-	        
-	        
+	        }  
       })
  </script>
   </head>
@@ -73,7 +68,7 @@
         <div class="container content height-350 job-content ">
            <h2 class="f30 tc">发布帖子</h2>
             <div class="col-md-12 p20 border1 margin-top-20 mb40">     
-        <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" >
+        <form id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" >
        <ul class="list-unstyled list-flow p0_20 f18">   
         
               <li class="col-md-12  p0  mb10">
@@ -126,7 +121,7 @@
               </li>            
          </ul>
         <!-- 底部按钮 -->                     
-      <div  class="mt20 tc col-md-12 col-sm-12 col-xs-12">   
+      <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">   
         <button class="btn" type="submit">发布</button>
         <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
       </div>
@@ -134,12 +129,14 @@
         </form>
    </div>
    </div>
-<div class="my_post f18">
-  <a href='${ pageContext.request.contextPath }/post/mypost.html'>我的帖子</a>
-  </div>
-  <div class="publish_post f18">
-  <a href='${ pageContext.request.contextPath }/post/publish.html'>我要发帖</a>
-  </div> 
+   	<div class="my_poster">
+   	<a href='${ pageContext.request.contextPath }/post/mypost.html' class="my_post f18">
+  			我的帖子
+  	</a>
+  	<a href='${ pageContext.request.contextPath }/post/publish.html' class="publish_post f18">
+  			我要发帖 
+	</a>
+   </div>
    <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例

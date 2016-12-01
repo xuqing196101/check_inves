@@ -89,15 +89,15 @@
 		</thead>
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
-				<td class="tc opinter">${(vs.index+1)+(page.pageNum-1)*(page.pageSize)}</td>
+				<td class="tc">${(vs.index+1)+(page.pageNum-1)*(page.pageSize)}</td>
 			
-				<td class="tc opinter">${PqInfo.supplierName}</td>
+				<td class="tc">${PqInfo.supplierName}</td>
 			
-				<td class="tc opinter">${PqInfo.successCount}</td>
+				<td class="tc">${PqInfo.successCount}</td>
 				
-				<td class="tc opinter">${PqInfo.failCount}</td>
+				<td class="tc">${PqInfo.failCount}</td>
 			
-				<td class="tc opinter">${PqInfo.avg}</td>
+				<td class="tc">${PqInfo.avg}</td>
    				
 			</tr>
 		</c:forEach>

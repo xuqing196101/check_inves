@@ -136,9 +136,9 @@
 		  </div>
 	   </div>
 	
-	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
-  	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
-	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
+		<input type="hidden" value="${errorSingle }" id="errorSingle"/>
+	  	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
+		<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	   
     	<div class="container container_box">
      	<form action="${pageContext.request.contextPath }/purchaserExam/editToExamPaper.html" method="post">
@@ -148,42 +148,42 @@
       	<h2 class="list_title">修改考卷</h2>
        	<div class="ul_list">
     	<ul class="list-unstyled p0_20">
-		     <li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷名称：</span>
-		  		<div class="col-md-12 p0 input-append">
+		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷名称：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  			<input type="text" name="name" value="${examPaper.name }"/>
 		  			<div class="cue">${ERR_name }</div>
 		  		</div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>试卷编号：</span>
-		  		<div class="col-md-12 p0 input-append">
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷编号：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  			<input type="text" name="code" value="${examPaper.code }"/>
 		  		 	<div class="cue">${ERR_code }</div>
 		  		</div>
 	  		</li>
     		
-    		 <li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试开始时间：</span>
-		  		<div class="col-md-12 p0 input-append">
+    		 <li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试开始时间：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  			<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
 	  				<div class="cue">${ERR_startTime }</div>
 		  		</div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>考试截止时间：</span>
-		  		<div class="col-md-12 p0 input-append">
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>考试截止时间：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
 		  			<input type="text" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
 	  				<div class="cue">${ERR_offTime }</div>
 	  			</div>
 	  		</li>
     		
-    		<li class="col-md-12 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>题型分布：</span>
-	  			<div class="col-md-12 p0">
-	  			   	<div class="col-md-4 p0 input-append">
+    		<li class="col-md-12 col-sm-12 col-xs-12 pl15 mb20">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 p0">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		  			   	<label class="fl mt5">单选题：</label>
 		  			   	<div class="fl mt5">
 		  			   	    <input type="radio" name="single" onclick="checkSingleYes(this)" class="mt0" value="有"/>有
@@ -194,7 +194,7 @@
 		  			   	</div>
 		  			   	<div class="cue">${ERR_single }</div>
 	  			   	</div>
-	  			   	<div class="col-md-4 p0 input-append">
+	  			   	<div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	  	<label class="fl mt5">多选题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="multiple" onclick="checkMultipleYes(this)" class="mt0" value="有"/>有
@@ -205,7 +205,7 @@
 		  		        </div>
 		  		        <div class="cue">${ERR_multiple }</div>
 	  		        </div>
-	  		        <div class="col-md-4 p0 input-append">
+	  		        <div class="col-md-6 col-sm-12 col-xs-12 input-append p0">
 		    	   	  	<label class="fl mt5">判断题：</label>
 			    	   	<div class="fl mt5">
 			    	   	    <input type="radio" name="judge" onclick="checkJudgeYes(this)" class="mt0" value="有"/>有
@@ -219,25 +219,25 @@
 	  		    </div>
 	  		</li>
 	  		
-    		<li class="col-md-3 p0">
-    			<span class="col-md-12 p0"><div class="red star_red">*</div>总分值：</span>
-	  			<div class="input-append col-md-12 p0">
-		  			<input class="w50" type="text" name="paperScore" id="paperScore" value="${examPaper.score }" readonly="readonly"/>分
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+    			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>总分值：</span>
+	  			<div class="col-md-12 col-sm-12 col-xs-12 input-append p0">
+		  			<input class="mr5" type="text" name="paperScore" id="paperScore" value="${examPaper.score }" readonly="readonly"/>分
 	  			</div>
 	  		</li>
     		
-    		<li class="col-md-3 p0">
-	  			<span class="col-md-12 p0"><div class="red star_red">*</div>及格标准：</span>
-		  		<div class="input-append col-md-12 p0">
-		  			<input class="w50" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }"/>分
+    		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>及格标准：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+		  			<input class="mr5" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }"/>分
 	  				<div class="cue">${ERR_passStandard }</div>
 	  			</div>
 	  		</li>
 	  		
-	  		<li class="col-md-3 p0">
-	  			<span class="fl"><div class="red star_red">*</div>答题用时：</span>
-		  		<div class="input-append col-md-12 p0">
-		  			<input class="w50 mt5" type="text" name="testTime" id="testTime" value="${examPaper.testTime }"/>分钟
+	  		<li class="col-md-3 col-sm-6 col-xs-12">
+	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>答题用时：</span>
+		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+		  			<input class="mr5" type="text" name="testTime" id="testTime" value="${examPaper.testTime }"/>分钟
 	  				<div class="cue">${ERR_testTime }</div>
 	  			</div>
 	  		</li>

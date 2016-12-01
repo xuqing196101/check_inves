@@ -59,4 +59,13 @@ public interface PackageExpertMapper {
      * @return
      */
     List<Map<String, Object>> findScoreByMap(Map<String, Object> mapSearch);
+    /**
+     *〈简述〉
+     * 退回分数
+     *〈详细描述〉
+     * PACKAGE_EXPERT表中的IS_GRADE改为0
+     * @author WangHuijie
+     * @param mapSearch
+     */
+    void backScore(Map<String, Object> mapSearch);
 }

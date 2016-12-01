@@ -117,7 +117,7 @@ function yincang(){
 		                       <h2 class="history_icon">修改记录</h2>
 						        <div class="padding-left-40">
 						          <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
-						 		  <span> ${fn:replace(records,"null", " ")}  </span>
+						          <ul><li></li>${fn:replace(records,"null", " ")}</ul>
 							    </div>
 		                     </div>
 					       </div>
@@ -146,7 +146,7 @@ function yincang(){
 			                       <h2 class="history_icon">修改记录</h2>
 							        <div class="padding-left-40">
 							 		  <c:set value="${fn:substringBefore(record, '^-^')}" var="records"></c:set>
-							 		  <span> ${fn:replace(records,"null", " ")}  </span>
+							 		  <ul><li></li>${fn:replace(records,"null", " ")}</ul>
 								    </div>
 			                     </div>
 							  </div>

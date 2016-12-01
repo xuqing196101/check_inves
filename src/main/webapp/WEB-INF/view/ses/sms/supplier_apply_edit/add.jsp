@@ -112,33 +112,33 @@ function save(){
                         <input name=id value="${suppliers.id }" type="hidden">
                     <h2 class="count_flow"><i>1</i>企业基本信息</h2>
                     <ul class="ul_list">
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="supplierName2">供应商名称：</span>
-	                       <div class="input-append">
-	                           <input class="span5" id="supplierName" name="supplierName"  value="${suppliers.supplierName } " type="text">
-	                           <span class="add-on cur_point">i</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="supplierName2"><i class="red">*</i>供应商名称：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+	                           <input  id="supplierName" name="supplierName"  value="${suppliers.supplierName } " type="text">
+	                           <span class="add-on">i</span>
 	                           <div class="cue">${err_msg_supplierName}</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="website2">公司网址：</span>
-	                       <div class="input-append">
-	                           <input class="span5 " id="website" name="website" value="${suppliers.website } " type="text">
-	                           <span class="add-on cur_point">i</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="website2"><i class="red">*</i>公司网址：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+	                           <input  id="website" name="website" value="${suppliers.website } " type="text">
+	                           <span class="add-on">i</span>
 	                           <div class="cue">${err_msg_website}</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="foundDate2">成立日期：</span>
-	                       <div class="input-append">
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="foundDate2"><i class="red">*</i>成立日期：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
 	                           <fmt:formatDate value="${suppliers.foundDate}" pattern="yyyy-MM-dd" var="foundDate" />
-			                   <input class="span5" type="text" name="foundDate" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
-			                   <span class="add-on cur_point">i</span>
+			                   <input  type="text" name="foundDate" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" />
+			                   <span class="add-on">i</span>
 			                   <div class="cue">${err_msg_foundDate}</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="businessType2">营业执照登记类型：</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessType2">营业执照登记类型：</span>
 	                       <div class="select_common">
 					       	<select class="w230" name="businessType" id="business_select_id">
 								<option>国有企业</option>
@@ -149,34 +149,34 @@ function save(){
 							</select>
 					       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="address2">地址：</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="address2"><i class="red">*</i>地址：</span>
 	                           <div class="select_min">
 							         <select class="w110"  id="root_area_select_id" onchange="loadChildren()" name="address"></select> 
 							         <select class="w110"  id="children_area_select_id" name="address" ></select>
 						       </div>
 						       <div class="cue">${err_msg_address}</div>	
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="bankName2">开户行名称：</span>
-	                       <div class="input-append">
-	                           <input class="span5" id="bankName" name="bankName" value="${suppliers.bankName } "  type="text"  >
-	                           <span class="add-on cur_point">i</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankName2"><i class="red">*</i>开户行名称：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+	                           <input  id="bankName" name="bankName" value="${suppliers.bankName } "  type="text"  >
+	                           <span class="add-on">i</span>
 	                           <div class="cue">${err_msg_bankName}</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 ">
-	                       <span class="col-md-12 padding-left-5" id="bankAccount2">开户行账户：</span>
-	                       <div class="input-append">
-	                           <input class="span5" id="bankAccount" name="bankAccount" value="${suppliers.bankAccount } " type="text"  >
-	                           <span class="add-on cur_point">i</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+	                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankAccount2"><i class="red">*</i>开户行账户：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+	                           <input  id="bankAccount" name="bankAccount" value="${suppliers.bankAccount } " type="text"  >
+	                           <span class="add-on">i</span>
 	                           <div class="cue">${err_msg_bankAccount}</div>
 	                       </div>
 	                    </li>
-	                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="postCode2">邮编：</span>
-	                       <div class="input-append">
-	                           <input class="span5" id="postCode" name="postCode" value="${suppliers.postCode }" type="text"  >
-	                           <span class="add-on cur_point">i</span>
+	                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="postCode2"><i class="red">*</i>邮编：</span>
+	                       <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+	                           <input  id="postCode" name="postCode" value="${suppliers.postCode }" type="text"  >
+	                           <span class="add-on">i</span>
 	                           <div class="cue">${err_msg_postCode}</div>
 	                       </div>
 	                   </li>
@@ -215,32 +215,32 @@ function save(){
                 
                   <h2 class="count_flow"><i>3</i>法人代表人信息</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 ">
-                        <span class="col-md-12 padding-left-5" id="legalName2">姓名：</span>
-                        <div class="input-append">
-                            <input class="span5" id="legalName" name="legalName" value="${suppliers.legalName } " type="text">
-                            <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="legalName2"><i class="red">*</i>姓名：</span>
+                        <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                            <input  id="legalName" name="legalName" value="${suppliers.legalName } " type="text">
+                            <span class="add-on">i</span>
                             <div class="cue">${err_legalName}</div>
                         </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legaIdCard2">身份证号：</span>
-                        <div class="input-append">
-                           <input class="span5" id="legalIdCard" name="legalIdCard" value="${suppliers.legalIdCard } "  type="text" >
-                           <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="legaIdCard2"><i class="red">*</i>身份证号：</span>
+                        <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                           <input  id="legalIdCard" name="legalIdCard" value="${suppliers.legalIdCard }"  type="text" >
+                           <span class="add-on">i</span>
                            <div class="cue">${err_legalCard}</div>
                         </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalTelephone2">固定电话：</span>
-                      <div class="input-append">
-                        <input class="span5" id="legalTelephone" name="legalTelephone" value="${suppliers.legalTelephone } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="legalTelephone2"><i class="red">*</i>固定电话：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="legalTelephone" name="legalTelephone" value="${suppliers.legalTelephone }" type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_legalPhone }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="legalMobile2">手机：</span>
-                      <div class="input-append">
-                        <input class="span5" id="legalMobile" name="legalMobile" value="${suppliers.legalMobile } " type="text">
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="legalMobile2"><i class="red">*</i>手机：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="legalMobile" name="legalMobile" value="${suppliers.legalMobile }" type="text">
+                        <span class="add-on">i</span>
                         <div class="cue">${err_legalMobile}</div>
                       </div>
                     </li>
@@ -248,45 +248,51 @@ function save(){
 
                   <h2 class="count_flow"><i>4</i>联系人信息</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactName2">姓名：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactName" name="contactName" value="${suppliers.contactName } " type="text"  >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactName2"><i class="red">*</i>姓名：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactName" name="contactName" value="${suppliers.contactName } " type="text"  >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_conName}</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactFax2">传真：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactFax" name="contactFax" value="${suppliers.contactFax } "  type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactFax2"><i class="red">*</i>传真：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactFax" name="contactFax" value="${suppliers.contactFax } "  type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_fax }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactTelephone1">固定电话：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactTelephone" name="contactTelephone" value="${suppliers.contactTelephone } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactTelephone1"><i class="red">*</i>固定电话：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactTelephone" name="contactTelephone" value="${suppliers.contactTelephone }" type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_catMobile }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactMobile2">手机：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactMobile" name="contactMobile"  value="${suppliers.contactMobile } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactMobile2"><i class="red">*</i>手机：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactMobile" name="contactMobile"  value="${suppliers.contactMobile }" type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_catTelphone }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactEmail2">邮箱：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactEmail" name="contactEmail" value="${suppliers.contactEmail } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactEmail2"><i class="red">*</i>邮箱：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactEmail" name="contactEmail" value="${suppliers.contactEmail } " type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_catEmail }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="contactAddress2">地址：</span>
-                      <div class="input-append">
-                        <input class="span5" id="contactAddress" name="contactAddress" value="${suppliers.contactAddress } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactAddress2"><i class="red">*</i>地址：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="contactAddress" name="contactAddress" value="${suppliers.contactAddress } " type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_conAddress }</div>
                       </div>
                     </li>
@@ -294,67 +300,74 @@ function save(){
 
                   <h2 class="count_flow"><i>5</i>营业执照</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="creditCode2">统一社会信用代码：</span>
-                      <div class="input-append">
-                        <input class="span5" id="creditCode" name="creditCode" value="${suppliers.creditCode } " type="text"  >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="creditCode2"><i class="red">*</i>统一社会信用代码：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="creditCode" name="creditCode" value="${suppliers.creditCode } " type="text"  >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_creditCide }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registAuthority2">登记机关：</span>
-                      <div class="input-append">
-                        <input class="span5" id="registAuthority" name="registAuthority" value="${suppliers.registAuthority } "  type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="registAuthority2"><i class="red">*</i>登记机关：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="registAuthority" name="registAuthority" value="${suppliers.registAuthority } "  type="text" >
+                        <span class="add-on">i</span>
                         <div class="cue">${err_reAuthoy }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="registFund2">注册资本：</span>
-                      <div class="input-append">
-                        <input class="span5" id="registFund" name="registFund" value="${suppliers.registFund } " type="text">
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="registFund2"><i class="red">*</i>注册资本：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="registFund" name="registFund" value="${suppliers.registFund } " type="text">
+                        <span class="add-on">i</span>
                         <div class="cue">${err_fund }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessEndDate2">营业开始时间：</span>
-                      <div class="input-append">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessEndDate2"><i class="red">*</i>营业开始时间：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
                         <fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
-		                <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
-                      	<span class="add-on cur_point">i</span>
+		                <input  type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
+                      	<span class="add-on">i</span>
                       	<div class="cue">${err_sDate }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessStartDate2">营业截止时间：</span>
-                      <div class="input-append">
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessStartDate2"><i class="red">*</i>营业截止时间：</span>
+                      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                          <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
-		                 <input class="span5" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
-                         <span class="add-on cur_point">i</span>
+		                 <input  type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
+                         <span class="add-on">i</span>
                          <div class="cue">${err_eDate }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="fl" id="businessAddress2">生产或经营地址：</span>
-                      <div class="input-append">
-                        <input class="span5" id="businessAddress" name="businessAddress" value="${suppliers.businessAddress } " type="text">
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="fl" id="businessAddress2"><i class="red">*</i>生产或经营地址：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="businessAddress" name="businessAddress" value="${suppliers.businessAddress } " type="text">
+                        <span class="add-on">i</span>
                         <div class="cue">${err_bAddress }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessPostCode2">邮编：</span>
-                      <div class="input-append">
-                        <input class="span5" id="businessPostCode" name="businessPostCode" value="${suppliers.businessPostCode } " type="text">
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
+                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessPostCode2"><i class="red">*</i>邮编：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="businessPostCode" name="businessPostCode" value="${suppliers.businessPostCode } " type="text">
+                        <span class="add-on">i</span>
                         <div class="cue">${err_bCode }</div>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 ">
+                    <li class="col-md-3 col-sm-6 col-xs-12 ">
                        <span class="col-md-5 padding-left-5"><i class="red">*</i> 营业执照:</span>
 			           <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
 		   	           <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" /> 
                        <div>${err_business }</div>
                     </li>
-                    <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="businessScope2">经营范围：</span>
-                      <div class="col-md-9 mt5">
+                    <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessScope2">经营范围：</span>
+                      <div class="col-md-12 col-sm-12 col-xs-12 p0">
                         <div class="row">
-                          <textarea class="col-md-12 h130" name="businessScope"  id="businessScope">${suppliers.businessScope }</textarea>
+                          <textarea class="col-md-12 col-sm-12 col-xs-12 hand h130" name="businessScope"  id="businessScope">${suppliers.businessScope }</textarea>
                           <div class="cue"></div>
                         </div>
                       </div>
@@ -364,8 +377,8 @@ function save(){
 
                   <h2 class="count_flow"><i>6</i>境外分支</h2>
                   <ul class="ul_list">
-                    <li class="col-md-3 margin-0 padding-0 ">
-                        <span class="col-md-12 padding-left-5">境外分支结构</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12">
+                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支结构</span>
 				    	<div class="select_common">
 				    	   <select class="w230"  name="overseasBranch" id="overseas_branch_select_id">
 								<option value="1">有</option>
@@ -373,28 +386,28 @@ function save(){
 						   </select>
 			       	    </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchCountry2">境外分支所在国家：</span>
-                      <div class="input-append">
-                        <input class="span5" id="branchCountry" name="branchCountry" value="${suppliers.branchCountry } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchCountry2">境外分支所在国家：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="branchCountry" name="branchCountry" value="${suppliers.branchCountry } " type="text" >
+                        <span class="add-on">i</span>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchAddress2">分支地址：</span>
-                      <div class="input-append">
-                        <input class="span5" id="branchAddress" name="branchAddress" value="${suppliers.branchAddress } " type="text">
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchAddress2">分支地址：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="branchAddress" name="branchAddress" value="${suppliers.branchAddress } " type="text">
+                        <span class="add-on">i</span>
                       </div>
                     </li>
-                    <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchName2">机构名称：</span>
-                      <div class="input-append">
-                        <input class="span5" id="branchName" name="branchName" value="${suppliers.branchName } " type="text" >
-                        <span class="add-on cur_point">i</span>
+                    <li class="col-md-3 col-sm-6 col-xs-12 "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchName2">机构名称：</span>
+                      <div class="input-append input_group  col-md-12 col-sm-12 col-xs-12 p0">
+                        <input  id="branchName" name="branchName" value="${suppliers.branchName } " type="text" >
+                        <span class="add-on">i</span>
                       </div>
                     </li>
-                    <li class="col-md-11 margin-0 padding-0 "><span class="col-md-12 padding-left-5" id="branchBusinessScope2">分支生产经营范围：</span>
-                      <div class="col-md-9 mt5">
+                    <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchBusinessScope2">分支生产经营范围：</span>
+                      <div class="col-md-12 col-sm-12 col-xs-12 p0">
                         <div class="row">
-                          <textarea class="col-md-12 h130" name="branchBusinessScope"  id="branchBusinessScope">${suppliers.branchBusinessScope }</textarea>
+                          <textarea class="col-md-12 col-sm-12 col-xs-12 hand h130" name="branchBusinessScope"  id="branchBusinessScope">${suppliers.branchBusinessScope }</textarea>
                         </div>
                       </div>
                     </li>
