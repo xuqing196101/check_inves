@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -65,12 +66,19 @@ public class SupplierCertProController extends BaseSupplierController {
 	@RequestMapping(value = "/save_or_update_cert_pro" ,produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String saveOrUpdateCertPro(HttpServletRequest request, SupplierCertPro supplierCertPro, String supplierId,Model model) throws IOException {
-		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("currSupplier", supplier);
+//		Supplier supplier = supplierService.get(supplierId);
+//		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = valudatePro(supplierCertPro);
 		boolean bool = (boolean) map.get("bool");
 		if(bool==true){
 			supplierCertProService.saveOrUpdateCertPro(supplierCertPro);
+			SupplierCertPro certPro = supplierCertProService.queryById(supplierCertPro.getId());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String adate = sdf.format(certPro.getExpStartDate());
+			String edate = sdf.format(certPro.getExpStartDate());
+			map.put("sdate", adate);
+			map.put("edate", edate);
+			map.put("certPro", certPro);
 		} 
 			return JSON.toJSONString(map);
  
@@ -125,15 +133,15 @@ public class SupplierCertProController extends BaseSupplierController {
 	public  Map<String,Object> valudatePro(SupplierCertPro supplierCertPro){
 		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
-		if(supplierCertPro.getName()==null){
+		if(supplierCertPro.getName()==null||supplierCertPro.getName().length()>12){
 			map.put("name", "不能为空");
 			bool=false;
 		}
-		if(supplierCertPro.getLevelCert()==null){
+		if(supplierCertPro.getLevelCert()==null||supplierCertPro.getLevelCert().length()>12){
 			map.put("level", "不能为空");
 			bool=false;
 		}
-		if(supplierCertPro.getLicenceAuthorith()==null){
+		if(supplierCertPro.getLicenceAuthorith()==null||supplierCertPro.getLicenceAuthorith().length()>12){
 			map.put("authorith", "不能为空");
 			bool=false;
 		}

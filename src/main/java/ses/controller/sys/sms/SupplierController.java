@@ -26,6 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import bss.model.pms.PurchaseRequired;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.model.bms.Category;
@@ -118,6 +123,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper;//股东信息
+	
+	@Autowired
+	private SupplierFinanceService supplierFinanceService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -186,36 +194,41 @@ public class SupplierController extends BaseSupplierController {
 		boolean bool = validateRegister(request, model, supplier);
 		if (bool==true&&sup==null) {
 			supplier = supplierService.register(supplier);
-			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
  
-			request.setAttribute("currSupplier", supplier);
+			request.getSession().setAttribute("currSupplier", supplier);
+			request.getSession().setAttribute("company", DictionaryDataUtil.find(17));
 			return "ses/sms/supplier_register/basic_info";
 		}
 		if(sup!=null){
 			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
 			if(finace!=null&&finace.size()>0){
-				supplier.setListSupplierFinances(finace);
+				List<SupplierFinance> finaceList = supplierFinanceService.getList(finace);
+				supplier.setListSupplierFinances(finaceList);
 			}
 			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
 			if(stock!=null&&stock.size()>0){
 				supplier.setListSupplierStockholders(stock);
 			}
-			request.setAttribute("currSupplier", supplier);
-			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
-			request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+			request.getSession().setAttribute("currSupplier", supplier);
+			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+			request.getSession().setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+			request.getSession().setAttribute("company", DictionaryDataUtil.find(17));
 			return "ses/sms/supplier_register/basic_info";
 		}
 		else{
 			List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
 			if(finace!=null&&finace.size()>0){
+				
 				supplier.setListSupplierFinances(finace);
 			}
 			List<SupplierStockholder> stock = supplierStockholderMapper.findStockholderBySupplierId(supplier.getId());
 			if(stock!=null&&stock.size()>0){
 				supplier.setListSupplierStockholders(stock);
 			}
-			request.setAttribute("id",supplier.getId());
+			request.getSession().setAttribute("id",supplier.getId());
+			request.getSession().setAttribute("company", DictionaryDataUtil.find(17));
 			// Supplier supp = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/register";
@@ -293,6 +306,8 @@ public class SupplierController extends BaseSupplierController {
 		boolean info = validateBasicInfo(request,model,supplier);
 		List<SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		request.getSession().setAttribute("relate", relate);
+		List<DictionaryData> company = DictionaryDataUtil.find(17);
+		request.getSession().setAttribute("company", company);
 		if(flag==null){
 			flag="3";
 		}
@@ -329,7 +344,7 @@ public class SupplierController extends BaseSupplierController {
 			
 			return "ses/sms/supplier_register/basic_info";
 		}else{
-			// supplier = supplierService.get(supplier.getId());
+			 supplier = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -731,8 +746,8 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_msg_postCode", "格式不正确 !");
 			count++;
 		}
-		if(supplier.getLegalName()==null){
-			model.addAttribute("err_legalName", "不能为空 !");
+		if(supplier.getLegalName()==null||supplier.getLegalName().length()>20){
+			model.addAttribute("err_legalName", "不能为空 或者名字过长!");
 			count++;
 		}
 		if(supplier.getLegalIdCard()==null ){
@@ -751,25 +766,25 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalMobile", "固话格式不正确 !");
 			count++;
 		}*/
-		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("^1[0-9]{10}$")){
+		if(supplier.getLegalTelephone()==null||!supplier.getLegalTelephone().matches("^1[0-9]{10}$")||supplier.getLegalName().length()>11){
 			model.addAttribute("err_legalPhone", "格式不正确 !");
 			count++;
 		}
-		if(supplier.getContactName()==null){
-			model.addAttribute("err_conName", "不能为空 !");
+		if(supplier.getContactName()==null||supplier.getContactName().length()>20){
+			model.addAttribute("err_conName", "不能为空 或者字符串过长!");
 			count++;
 		}
 		
-		if(supplier.getContactFax()==null){
+		if(supplier.getContactFax()==null||supplier.getContactFax().length()>15){
 			model.addAttribute("err_fax", "格式不正确 !");
 			count++;
 		}
 		
-		if(supplier.getContactMobile()==null){
-			model.addAttribute("err_catMobile", "格式不正确 !");
+		if(supplier.getContactMobile()==null||supplier.getContactMobile().length()>12){
+			model.addAttribute("err_catMobile", "格式不正确 或是字符过长!");
 			count++;
 		}
-		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")){
+		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){
 			model.addAttribute("err_catTelphone", "格式不正确 !");
 			count++;
 		}
@@ -777,24 +792,24 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_catEmail", "格式不正确 !");
 			count++;
 		}
-		if(supplier.getContactAddress()==null){
-			model.addAttribute("err_conAddress", "不能为空!");
+		if(supplier.getContactAddress()==null||supplier.getContactAddress().length()>35){
+			model.addAttribute("err_conAddress", "不能为空或是字符过长!");
 			count++;
 		}
-		if(supplier.getCreditCode()==null){
-			model.addAttribute("err_creditCide", "不能为空!");
+		if(supplier.getCreditCode()==null||supplier.getCreditCode().length()>36){
+			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
 			count++;
 		}
 		
-		if(supplier.getRegistAuthority()==null){
-			model.addAttribute("err_reAuthoy", "不能为空 !");
+		if(supplier.getRegistAuthority()==null||supplier.getCreditCode().length()>20){
+			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
 		}
 		if(supplier.getRegistFund()==null){
 			model.addAttribute("err_fund", "不能为空 !");
 			count++;
 		}
-		if(supplier.getRegistFund()!=null&&!supplier.getRegistFund().toString().matches("^\\d+?\\d+(\\.\\d+)?$")){
+		if(supplier.getRegistFund()!=null&&!supplier.getRegistFund().toString().matches("^[0-9].*$")){
 			model.addAttribute("err_fund", "资金不能小于0或者是格式不正确 !");
 			count++;
 		}
@@ -814,10 +829,33 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_bCode", "不能为空!");
 			count++;
 		}
-		if(supplier!=null&&supplier.getBusinessPostCode()!=null&&!ValidateUtils.Zipcode(supplier.getBusinessPostCode().toString())){
+		if(supplier.getBusinessPostCode()!=null&&!ValidateUtils.Zipcode(supplier.getBusinessPostCode().toString())){
 			model.addAttribute("err_bCode", "邮编格式不正确!");
 			count++;
 		}
+		if(supplier.getBusinessScope()!=null&&supplier.getBusinessScope().length()>80){
+			model.addAttribute("err_scope", "字符串不超过80个");
+			count++;
+		}
+		
+		if(supplier.getBranchCountry()!=null&&supplier.getBusinessScope().length()>12){
+			model.addAttribute("err_country", "字符串不超过12个");
+			count++;
+		}
+		if(supplier.getBranchAddress()!=null&&supplier.getBranchAddress().length()>80){
+			model.addAttribute("err_address", "字符串不超过80个");
+			count++;
+		}
+		if(supplier.getBranchName()!=null&&supplier.getBranchName().length()>12){
+			model.addAttribute("err_BranName", "字符串不超过12个");
+			count++;
+		}
+		if(supplier.getBranchBusinessScope()!=null&&supplier.getBranchBusinessScope().length()>80){
+			model.addAttribute("err_branchScope", "字符串不超过80个");
+			count++;
+		}
+		
+		
 		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
 		//* 近三个月完税凭证
 		List<UploadFile> tlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierTaxCert(), Constant.SUPPLIER_SYS_KEY.toString());
@@ -870,8 +908,8 @@ public class SupplierController extends BaseSupplierController {
 	//生产信息校验
 	public boolean validatePro(HttpServletRequest request,SupplierMatPro supplierMatPro,Model model){
 		boolean bool=true;
-		if(supplierMatPro.getOrgName()==null){
-			model.addAttribute("org", "不能为空");
+		if(supplierMatPro.getOrgName()==null||supplierMatPro.getOrgName().length()>12){
+			model.addAttribute("org", "不能为空或者字符串过长");
 			bool=false;
 		}
 		if(supplierMatPro.getTotalPerson()==null){
@@ -935,20 +973,20 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tRe", "只能输入整数");
 			bool=false;
 		}
-		if(supplierMatPro.getResearchLead()==null){
-			model.addAttribute("leader", "不能为空");
+		if(supplierMatPro.getResearchLead()==null||supplierMatPro.getResearchLead().length()>12){
+			model.addAttribute("leader", "不能为空或者字符串过长");
 			bool=false;
 		}
-		if(supplierMatPro.getCountryPro()==null){
-			model.addAttribute("contry", "不能为空");
+		if(supplierMatPro.getCountryPro()==null||supplierMatPro.getCountryPro().length()>80){
+			model.addAttribute("contry", "不能为空或者字符串过长");
 			bool=false;
 		}
-		if(supplierMatPro.getCountryReward()==null){
-			model.addAttribute("reward", "不能为空");
+		if(supplierMatPro.getCountryReward()==null||supplierMatPro.getCountryPro().length()>80){
+			model.addAttribute("reward", "不能为空或者字符串过长");
 			bool=false;
 		}
 		if(supplierMatPro.getTotalBeltline()==null){
-			model.addAttribute("line", "不能为空");
+			model.addAttribute("line", "不能为空或者字符串过长");
 			bool=false;	
 		}
 		if(supplierMatPro.getTotalBeltline()!=null&&!supplierMatPro.getTotalBeltline().toString().matches("^[0-9]*$")){
@@ -963,7 +1001,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("device", "格式正确");
 			bool=false;	
 		}
-		if(supplierMatPro.getQcName()==null){
+		if(supplierMatPro.getQcName()==null||supplierMatPro.getQcName().length()>12){
 			model.addAttribute("qcName", "不能为空");
 			bool=false;	
 		}
@@ -975,11 +1013,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tQc", "格式不正确");
 			bool=false;	
 		}
-		if(supplierMatPro.getQcLead()==null){
+		if(supplierMatPro.getQcLead()==null||supplierMatPro.getQcLead().length()>12){
 			model.addAttribute("tqcLead", "不能为空");
 			bool=false;	
 		}
-		if(supplierMatPro.getQcDevice()==null){
+		if(supplierMatPro.getQcDevice()==null||supplierMatPro.getQcLead().length()>12){
 			model.addAttribute("tqcDevice", "不能为空");
 			bool=false;	
 		}
@@ -990,8 +1028,8 @@ public class SupplierController extends BaseSupplierController {
 	//销售信息校验
 	public boolean validateSale(HttpServletRequest request,SupplierMatSell supplierMatPro,Model model){
 		boolean bool=true;
-		if(supplierMatPro.getOrgName()==null){
-			model.addAttribute("sale_org", "不能为空");
+		if(supplierMatPro.getOrgName()==null||supplierMatPro.getOrgName().length()>12){
+			model.addAttribute("sale_org", "不能为空或者字符串过长");
 			bool=false;
 		}
 		if(supplierMatPro.getTotalPerson()==null){
@@ -1032,8 +1070,8 @@ public class SupplierController extends BaseSupplierController {
 	//工程信息校验
 	public boolean validateEng(HttpServletRequest request,SupplierMatEng supplierMatPro,Model model){
 		boolean bool=true;
-		if(supplierMatPro.getOrgName()==null){
-			model.addAttribute("eng_org", "不能为空");
+		if(supplierMatPro.getOrgName()==null||supplierMatPro.getOrgName().length()>12){
+			model.addAttribute("eng_org", "不能为空或者字符串过长");
 			bool=false;
 		}
 	   if(supplierMatPro.getTotalTech()==null||!supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")){
@@ -1059,7 +1097,7 @@ public class SupplierController extends BaseSupplierController {
 	//服务信息校验
 	public boolean validateServer(HttpServletRequest request,SupplierMatServe supplierMatPro,Model model){
 		boolean bool=true;
-		if(supplierMatPro.getOrgName()==null){
+		if(supplierMatPro.getOrgName()==null||supplierMatPro.getOrgName().length()>12){
 			model.addAttribute("fw_org", "不能为空");
 			bool=false;
 		}
@@ -1112,29 +1150,66 @@ public class SupplierController extends BaseSupplierController {
 	* @throws
 	 */
 	@RequestMapping("/category")
-	public String  queryByPid(String id,Model model,String sid){
+	public String  queryByPid(String id,Model model,String sid,Integer page){
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("isDeleted", 0);
+		map.put("isPublish", 0);
+		map.put("paramStatus", 4);
 		List<Category> cateList=new LinkedList<Category>();
-		String[] str = id.split(",");
-		if(str.length>0){
-			for(String s:str){
-				String pid = DictionaryDataUtil.getId(s);
-				List<Category> list = categoryService.listByParent(pid);
-				cateList.addAll(list);
-			}
+		  if(id.equals("PRODUCT")){
+		     map.put("product", "s");
+		     List<Category> list = categoryService.findCategory(map,page==null?1:page);
+		     cateList.addAll(list);
 		}
+		if(id.equals("SALES")){
+			  map.put("sale", "s");
+			  List<Category> list = categoryService.findCategory(map,page==null?1:page);
+              cateList.addAll(list);
+		}  
+		if(id.equals("SERVICE")){
+			String pid = DictionaryDataUtil.getId(id);
+			  map.put("parentId", pid);
+			 List<Category> list = categoryService.findCategory(map,page==null?1:page);
+            cateList.addAll(list);
+		} 
+		if(id.equals("PROJECT")){
+			String pid = DictionaryDataUtil.getId(id);
+			map.put("parentId", pid);
+			List<Category> list = categoryService.findCategory(map,page==null?1:page);
+            cateList.addAll(list);
+		} 
+		
+//		String[] str = id.split(",");
+//		if(str.length>0){
+//			for(String s:str){
+//				String pid = DictionaryDataUtil.getId(s);
+//				 PageHelper.startPage(page==null?1:page,30);
+//				List<Category> list = categoryService.listByParent(pid);
+//				
+//				cateList.addAll(list);
+//			}
+//		}
 		List<SupplierItem> itemList = supplierItemService.getSupplierId(sid);
+		
 		List<Category> chose=new LinkedList<Category>();
+		String pid = DictionaryDataUtil.getId(id);
 		if(itemList!=null&&itemList.size()>0){
 			for(SupplierItem s:itemList){
-				Category category = categoryService.selectByPrimaryKey(s.getCategoryId());
-				chose.add(category);
+				if(s.getSupplierTypeRelateId().equals(pid)){
+					Category category = categoryService.selectByPrimaryKey(s.getCategoryId());
+					chose.add(category);
+				}
 			}
 		}
+		
+		PageInfo<Category> info = new PageInfo<>(cateList);
+		
 		String cid = DictionaryDataUtil.getId(id);
-		model.addAttribute("list", cateList);
+		model.addAttribute("info", info);
 		model.addAttribute("sid", sid);
 		model.addAttribute("code", cid);
 		model.addAttribute("chose", chose);
+		model.addAttribute("id", id);
 		return "ses/sms/supplier_register/category";	
 	}
 	
@@ -1143,8 +1218,10 @@ public class SupplierController extends BaseSupplierController {
 	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("46131978161b491d9f7816ddd034dfd6");
- 
+//		Supplier supplier = supplierService.get("46131978161b491d9f7816ddd034dfd6");
+//		Supplier supplier = supplierService.get("afc822d654b5415e9d772ff9eb01449b");
+		
+		Supplier supplier = supplierService.get("9604ccd714b342b7bf5973255db8eb94");
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

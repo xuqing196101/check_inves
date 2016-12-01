@@ -6,4 +6,6 @@ public interface SupplierCertEngService {
 	public void saveOrUpdateCertEng(SupplierCertEng supplierCertEng);
 
 	public void deleteCertEng(String certEngIds);
+	
+	public SupplierCertEng queryById(String id);
 }

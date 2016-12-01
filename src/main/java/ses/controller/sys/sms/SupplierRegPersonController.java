@@ -42,13 +42,15 @@ public class SupplierRegPersonController extends BaseController{
 	@ResponseBody
 	public String saveOrUpdateRegPerson(HttpServletRequest request, SupplierRegPerson supplierRegPerson, String supplierId,Model model) {
 	
-		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("currSupplier", supplier);
+//		Supplier supplier = supplierService.get(supplierId);
+//		request.getSession().setAttribute("currSupplier", supplier);
 		Map<String, Object> map = validateRegPerson(supplierRegPerson);
 		boolean bool = (boolean) map.get("bool");
 		if(bool==true){
-			 
 			supplierRegPersonService.saveOrUpdateRegPerson(supplierRegPerson);
+			SupplierRegPerson person = supplierRegPersonService.queryById(supplierRegPerson.getId());
+			map.put("person", person);
+			
 		}
 		return JSON.toJSONString(map);
 	}

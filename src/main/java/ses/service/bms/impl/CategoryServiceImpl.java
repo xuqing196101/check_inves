@@ -405,4 +405,11 @@ public class CategoryServiceImpl implements CategoryService {
         return msg;
     }
 
+	@Override
+	public List<Category> findCategory(Map<String, Object> map,Integer page) {
+		List<Category> list = categoryMapper.findCategory(map);
+		PageHelper.startPage(page,30);
+		return list;
+	}
+
 }

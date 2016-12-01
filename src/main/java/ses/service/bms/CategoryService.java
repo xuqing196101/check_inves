@@ -253,4 +253,15 @@ import ses.model.sms.SupplierTypeTree;
      * @return 
      */
     public String estimate(String id, String opera,String stepMsg ,Integer status);
+    /**
+     * 
+    * @Title: findCategory
+    * @Description: TODO 
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<>     
+    * @throws
+     */
+    public List<Category> findCategory(Map<String, Object> map,Integer page);
 }

@@ -1,6 +1,8 @@
 package ses.controller.sys.sms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import ses.formbean.CategoryParamValue;
 import ses.model.sms.ProductParam;
@@ -29,16 +33,20 @@ public class ProductParamController {
 	private SupplierService supplierService;// 供应商基本信息
  
 	
-	@RequestMapping(value = "save_or_update_param")
+	@RequestMapping(value = "save_or_update_param",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String productsId, String categoryId,CategoryParamValue pramValue) {
+	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String supId, String cateId,CategoryParamValue pramValue) {
 //		productParam.setSupplierProductsId(productsId);
+		Map<String, Object>  map =new HashMap<String,Object>();
+		
 		List<ProductParam> list = pramValue.getList();
 		for(ProductParam param:list){
 			productParamService.saveOrUpdateParam(param);
+			
 		}
-		
-		return "";
+		map.put("list", list);
+//		List<ProductParam> querySupplierIdCateoryId = productParamService.querySupplierIdCateoryId(supId, cateId);
+		return JSON.toJSONString(map);
 	}
 	
 	@RequestMapping(value = "back_to_products")

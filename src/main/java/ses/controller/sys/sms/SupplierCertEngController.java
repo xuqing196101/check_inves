@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -75,6 +76,13 @@ public class SupplierCertEngController extends BaseSupplierController {
 		boolean bool = (boolean) map.get("bool");
 		if(bool==true){
 			supplierCertEngService.saveOrUpdateCertEng(supplierCertEng);
+			SupplierCertEng certEng = supplierCertEngService.queryById(supplierCertEng.getId());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String sdate = sdf.format(certEng.getExpStartDate());
+			String edate = sdf.format(certEng.getExpEndDate());
+		    map.put("sdate", sdate);
+		    map.put("edate", edate);
+			map.put("certEng", certEng);
 		} 
 			return JSON.toJSONString(map);
  
@@ -138,45 +146,45 @@ public class SupplierCertEngController extends BaseSupplierController {
 	public Map<String,Object> validateEng(SupplierCertEng supplierCertEng){
 		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
-		if(supplierCertEng.getCertType()==null){
+		if(supplierCertEng.getCertType()==null||supplierCertEng.getCertType().length()>12){
 			map.put("certType", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getCertCode()==null){
-			map.put("certCode", "不能为空");
+		if(supplierCertEng.getCertCode()==null||supplierCertEng.getCertType().length()>30||!supplierCertEng.getCertCode().matches("^[0-9a-zA-Z]*$")){
+			map.put("certCode", "不允许输入非法数字或者字符串过长");
 			bool=false;
 		}
-		if(supplierCertEng.getCertMaxLevel()==null){
+		if(supplierCertEng.getCertMaxLevel()==null||supplierCertEng.getCertMaxLevel().length()>12){
 			map.put("cerLevel", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getTechName()==null){
+		if(supplierCertEng.getTechName()==null||supplierCertEng.getTechName().length()>12){
 			map.put("techName", "不能为空");
 			bool=false;
 		}
 		
-		if(supplierCertEng.getTechPt()==null){
+		if(supplierCertEng.getTechPt()==null||supplierCertEng.getTechPt().length()>12){
 			map.put("techPt", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getTechJop()==null){
+		if(supplierCertEng.getTechJop()==null||supplierCertEng.getTechJop().length()>12){
 			map.put("certJob", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getDepName()==null){
+		if(supplierCertEng.getDepName()==null||supplierCertEng.getDepName().length()>12){
 			map.put("depName", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getDepPt()==null){
+		if(supplierCertEng.getDepPt()==null||supplierCertEng.getDepPt().length()>12){
 			map.put("depPt", "不能为空");
 			bool=false;
 		}
 		
-		if(supplierCertEng.getDepJop()==null){
+		if(supplierCertEng.getDepJop()==null||supplierCertEng.getDepJop().length()>12){
 			map.put("depJob", "不能为空");
 			bool=false;
 		}
-		if(supplierCertEng.getLicenceAuthorith()==null){
+		if(supplierCertEng.getLicenceAuthorith()==null||supplierCertEng.getLicenceAuthorith().length()>12){
 			map.put("authorith", "不能为空");
 			bool=false;
 		}

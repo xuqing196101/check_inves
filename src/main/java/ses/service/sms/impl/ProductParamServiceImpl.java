@@ -56,4 +56,11 @@ public class ProductParamServiceImpl implements ProductParamService {
 		return productParamMapper.findProductParamByProductId(productsId);
 	}
 
+	@Override
+	public List<ProductParam> querySupplierIdCateoryId(String supplierId,
+			String categoryId) {
+	 
+		return productParamMapper.querySupplierIdCateoryId(supplierId, categoryId);
+	}
+ 
 }

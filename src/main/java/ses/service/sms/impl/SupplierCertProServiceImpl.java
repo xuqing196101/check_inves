@@ -30,4 +30,11 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 		}
 	}
 
+	@Override
+	public SupplierCertPro queryById(String id) {
+		SupplierCertPro certPro = supplierCertProMapper.selectByPrimaryKey(id);
+		return certPro;
+	}
+	
+
 }

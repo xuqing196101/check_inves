@@ -48,7 +48,8 @@
 		$("#download_form_id").submit();
 	}
 	
-	function addParam(id) {
+	var tr;
+	function addParam(obj,id) {
 /* 		var checkbox = $("#" + id).find("input:checkbox:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
@@ -58,6 +59,7 @@
 		}
 		var productsId = checkbox.val();
 		var categoryId = checkbox.parents("tr").find("td").eq(1).attr("id"); */
+		tr=$(obj).parent().next().children(":last").children();
 		var supplierId=$("#supplier").val();
 		layer.open({
 			type : 2,
@@ -151,7 +153,7 @@
 										<c:forEach items="${currSupplier.listSupplierItems}" var="category" varStatus="cs">
 											 <h2 class="f16 jbxx mt40">${category.categoryName} </h2>
 											 <div class="overflow_h">
-											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam('${category.categoryId}')">添加产品信息</button>
+											 <button type="button" class="btn padding-left-20 padding-right-20 btn_back fr" onclick="addParam(this,'${category.categoryId}')">添加产品信息</button>
 											</div>
 											<table class="table table-bordered table-condensed mt5">
 											
@@ -166,6 +168,7 @@
 													 </tr>
 												</thead>
 											 	 <tr>
+											 	 	<td style="display:none"></td>
 													 <!--这是所有的品目参数值  -->
 													  <c:forEach items="${currSupplier.categoryParam}" var="cate" varStatus="vs"> 
 														  <c:forEach items="${currSupplier.paramVleu}" var="obj"  > 

@@ -22,19 +22,26 @@
 		}
 		$("#stockholder_form_id").attr("action", action);
 		$("#stockholder_form_id").submit(); */
-		var id=$("input[name='supplierId']").val();
+		 var index=parent.layer.getFrameIndex(window.name);
 		 $.ajax({
-			   type: "POST",  
+		    type: "POST",  
              url: "${pageContext.request.contextPath}/supplier_stockholder/save_or_update_stockholder.html",  
              data: $("#stockholder_form_id").serialize(),  
+             dataType:"json",
              success:function(result){
-               if(result=='0'){
-              	alert(result);
-              	 
+               var boo=result.bool;
+               var obj=result.stock;
+               if(boo==false){
+            	   
                } else{
-              	 
-              parent.location.reload();
-              	  ///parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_basic.html?id="+id;
+            	   parent.$('#stockholder_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+                   		"<td class='tc'>"+obj.name+"</td>"+	
+                   		"<td class='tc'>"+obj.nature+"</td>"+	
+                   		"<td class='tc'>"+obj.identity+"</td>"+	
+                   		"<td class='tc'>"+obj.shares+"</td>"+	
+                   		"<td class='tc'>"+obj.proportion+"</td>");
+            	   parent.layer.close(index);  
+              	  
                }
           	   
               },
@@ -51,6 +58,17 @@
 		    parent.layer.close(index);
 
 	}
+	function checknums(obj){
+		var vals=$(obj).val();
+		var reg=/^[0-9].*$/;
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
+	}
 	
 </script>
 
@@ -66,32 +84,33 @@
 					<div class="padding-top-10">
 						<form id="stockholder_form_id" method="post" target="_parent">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
+							<input name="id" value="${uuid}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 出资人名称或姓名：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资人名称或姓名：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="name" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 出资人性质：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资人性质：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="nature" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 统一社会信用代码或身份证号码：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 统一社会信用代码或身份证号码：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="identity" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 出资金额或股份（万元/万份）：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资金额或股份（万元/万份）：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="shares" />
+													<input class="span3" onkeyup="checknums(this)" type="text" name="shares" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 比例：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 比例：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="proportion" />
 												</div>

@@ -29,4 +29,10 @@ public class SupplierCertSellServiceImpl implements ses.service.sms.SupplierCert
 			supplierCertSellMapper.deleteByPrimaryKey(id);
 		}
 	}
+
+	@Override
+	public SupplierCertSell queryById(String id) {
+		SupplierCertSell sell = supplierCertSellMapper.selectByPrimaryKey(id);
+		return sell;
+	}
 }

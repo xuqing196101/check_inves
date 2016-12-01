@@ -16,11 +16,15 @@
 
 <script type="text/javascript">
 		function saveOrBack(sign) {
+		 var tr=parent.tr;	
+		 var index=parent.layer.getFrameIndex(window.name);
 		$.ajax({
 		    type: "POST",  
 		    url: "${pageContext.request.contextPath}/product_param/save_or_update_param.html",  
 		    data: $("#products_form_id").serialize(), 
+		    dataType:"json",
 		    success:function(result){
+		    	var list=result.list;
 		/*  	   var boo=result.bool;
 		      if(boo==false){
 		     	 $("#cert_type").text(result.type);
@@ -38,14 +42,18 @@
 		         
 		     	 
 		      } else{ */
-		   	     parent.location.reload(); 
-		       
-		   	 
-		  /*     } */
+		   	  //   parent.location.reload(); 
+			       $(list).each(function(i){
+			    	  // alert(list[i].paramValue);
+			    	  $(tr).append("<td align='center'>"+list[i].paramValue+" </td>");
+			       });
+			  	 parent.layer.close(index);
+	 
 		 	   
 		     },
 		     error: function(result){
 		         layer.msg("添加失败",{offset: ['150px', '180px']});
+		         
 		     }
 		     
 		     
@@ -92,6 +100,8 @@
 									</div>
 								</div>
 							</div>
+							<input name="supId" value="${supplierId}" type="hidden" />
+							<input name="cateId" value="${categoryId}" type="hidden" />
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>

@@ -1,5 +1,9 @@
 package ses.controller.sys.sms;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
 
 import bss.controller.base.BaseController;
 import ses.model.sms.Supplier;
@@ -29,24 +35,22 @@ public class SupplierStockholderController extends BaseController{
 	@RequestMapping(value = "add_stockholder")
 	public String addCertEng(Model model, String supplierId) {
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		return "ses/sms/supplier_register/add_stockholder";
 	}
 	
-	@RequestMapping(value = "save_or_update_stockholder")
+	@RequestMapping(value = "save_or_update_stockholder",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierStockholder supplierStockholder, String supplierId,Model model) {
-		supplierStockholderService.saveOrUpdateStockholder(supplierStockholder);
-		Supplier supplier = supplierService.get(supplierId);
-//		request.getSession().setAttribute("defaultPage", "tab-3");
-		request.getSession().setAttribute("currSupplier", supplier);
-//		request.getSession().setAttribute("jump.page", "basic_info");
-		boolean bool = valadateStock(request, supplierStockholder, supplierId, model);
-//		if(bool==false){
-//			return "0";
-//		}else{
-			return "1";
-//		}
-		
+ 
+		Map<String, Object> map = valadateStock(supplierStockholder);
+		boolean bool = (boolean) map.get("bool");
+		if(bool==true){
+			supplierStockholderService.saveOrUpdateStockholder(supplierStockholder);
+			SupplierStockholder stock = supplierStockholderService.queryById(supplierStockholder.getId());
+			map.put("stock", stock);
+		} 
+		return JSON.toJSONString(map);
 	}
 	
 	@RequestMapping(value = "back_to_basic_info")
@@ -71,31 +75,43 @@ public class SupplierStockholderController extends BaseController{
 	
 	
 	
-	public boolean valadateStock(HttpServletRequest request, SupplierStockholder stockholder, String supplierId,Model model){
+	public Map<String,Object> valadateStock(SupplierStockholder stockholder){
+		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
-		if(stockholder.getName()==null){
-			model.addAttribute("name", "不能为空");
+		if(stockholder.getName()==null||stockholder.getName().length()>12){
+			map.put("name", "不能为空");
 			bool=false;
 		}
-		if(stockholder.getNature()==null){
-			model.addAttribute("nature", "不能为空");
+		if(stockholder.getNature()==null||stockholder.getNature().length()>12){
+			map.put("nature", "不能为空");
 			bool=false;
 		}
-		if(stockholder.getIdentity()!=null&&!stockholder.getIdentity().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
-			model.addAttribute("idCaerd", "身份证编码不正确");
+		if(stockholder.getIdentity()==null){
+			map.put("idCaerd", "身份证编码不正确");
 			bool=false;
 		}
-		if(stockholder.getShares()==null){
-			model.addAttribute("share", "不能为空");
+		if(stockholder.getIdentity()!=null){
+			if(stockholder.getIdentity().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")||stockholder.getIdentity().matches("^[1-9A-GY]{1}[1239]{1}[1-5]{1}[0-9]{5}[0-9A-Z]{10}$")){
+				bool=true;
+			}else{
+				map.put("idCaerd", "身份证编码不正确");
+				bool=false;
+			}
+		}
+		if(stockholder.getShares()==null||stockholder.getShares().length()>19){
+			bool=false;
+			map.put("share", "不能为空字符编码过长");
 		}
 		if(stockholder.getShares()!=null&&!stockholder.getShares().matches("^\\d+?\\d+(\\.\\d+)?$")){
-			model.addAttribute("share", "金额格式错误");
+			map.put("share", "金额格式错误");
+			bool=false;
 		}
-		if(stockholder.getProportion()==null){
-			model.addAttribute("portion", "不能为空");
+		if(stockholder.getProportion()==null||stockholder.getProportion().length()>35){
+			bool=false;
+			map.put("portion", "不能为空");
 		}
-		
-		return bool;
+		map.put("bool", bool);
+		return map;
 	}
 	
 }

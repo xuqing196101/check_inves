@@ -556,6 +556,20 @@
 		}); 
 		return id;
     }
+    
+    function checknums(obj){
+		var vals=$(obj).val();
+		var reg=/^[0-9].*$/;
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
+	}
+    
+    
 </script>
 	
 </head>
@@ -631,7 +645,7 @@
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalPerson" value="${currSupplier.supplierMatPro.totalPerson}" />
+														<input type="text" name="supplierMatPro.totalPerson" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalPerson}" />
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${person } </div>
 													</div>
@@ -639,7 +653,7 @@
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalMange" value="${currSupplier.supplierMatPro.totalMange}" />
+														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" />
 												     	<span class="add-on cur_point">i</span>
 												     	<div class="cue"> ${mange } </div>
 													</div>
@@ -647,14 +661,14 @@
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalTech" value="${currSupplier.supplierMatPro.totalTech}" />
+														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${tech } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalWorker" value="${currSupplier.supplierMatPro.totalWorker}" />
+														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" />
 													   <span class="add-on cur_point">i</span>
 													   <div class="cue"> ${work } </div>
 													</div>
@@ -690,7 +704,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>研发部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalResearch" value="${currSupplier.supplierMatPro.totalResearch}" />
+														<input type="text" name="supplierMatPro.totalResearch" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${tRe } </div>
 													</div>
@@ -726,14 +740,14 @@
 											 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产线名称数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalBeltline" value="${currSupplier.supplierMatPro.totalBeltline}" />
+														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" />
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${line } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>生产设备名称数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalDevice" value="${currSupplier.supplierMatPro.totalDevice}" />
+														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" />
 													  	   <span class="add-on cur_point">i</span>
 													  	   <div class="cue"> ${device } </div>
 													</div>
@@ -754,7 +768,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>质量部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-													 	<input type="text" name="supplierMatPro.totalQc" value="${currSupplier.supplierMatPro.totalQc}" />
+													 	<input type="text" name="supplierMatPro.totalQc" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" />
 													  <span class="add-on cur_point">i</span>
 													  <div class="cue"> ${tQc } </div>
 													</div>
@@ -784,8 +798,8 @@
 						 	      <legend>供应商物资生产资质证书</legend>
 								       <div class="col-md-12 col-sm-12 col-xs-12 p0">
 											<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
+											 <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
 											  <button type="button" class="btn fr mr0" onclick="deleteCertPro()">删除</button>
-											  <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
 											</div>
 					                       <table class="table table-bordered table-condensed mt5">
 												<thead>
@@ -862,7 +876,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSell.totalPerson" value="${currSupplier.supplierMatSell.totalPerson}" />
+														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" />
 														 <span class="add-on cur_point">i</span>
 														 	<div class="cue"> ${sale_person } </div>
 													</div>
@@ -870,7 +884,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSell.totalMange" value="${currSupplier.supplierMatSell.totalMange}" />
+														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${sale_mange } </div>
 													</div>
@@ -878,7 +892,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSell.totalTech" value="${currSupplier.supplierMatSell.totalTech}" />
+														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" />
 														   <span class="add-on cur_point">i</span>
 														   	<div class="cue"> ${sale_tech } </div>
 													</div>
@@ -886,7 +900,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSell.totalWorker" value="${currSupplier.supplierMatSell.totalWorker}" />
+														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" />
 														   <span class="add-on cur_point">i</span>
 														   <div class="cue"> ${sale_work } </div>
 													</div>
@@ -927,7 +941,14 @@
 															<td class="tc">${certSell.licenceAuthorith}</td>
 															<td class="tc"><fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${certSell.mot}</td>
+															<td class="tc">
+															<c:if test="${certSell.mot==1}">
+															是
+															</c:if>
+															<c:if test="${certSell.mot==0}">
+															否 
+															</c:if>
+															</td>
 															<%--<td class="tc">
 																<c:if test="${certSell.attach != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSell.attach}')">下载附件</a>
@@ -983,7 +1004,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatEng.totalTech" value="${currSupplier.supplierMatEng.totalTech}" />
+														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_tech } </div>
 													</div>
@@ -991,14 +1012,14 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>中级以上职称人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatEng.totalGlNormal" value="${currSupplier.supplierMatEng.totalGlNormal}" />
+														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" />
 												        <span class="add-on cur_point">i</span>
 												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>现场管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatEng.totalMange" value="${currSupplier.supplierMatEng.totalMange}" />
+														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_manage } </div>
 													</div>
@@ -1006,7 +1027,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术和工人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatEng.totalTechWorker" value="${currSupplier.supplierMatEng.totalTechWorker}" />
+														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${eng_worker } </div>
 													</div>
@@ -1046,21 +1067,17 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											</div>
-											</div>
-											</fieldset>
+										</div>
+									 </div>
+								</fieldset>
 										
-										 
-											
 											
 									 
 										   <!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
-										 <fieldset class="col-md-12 border_font mt20">
-	 	              						 <legend>供应商工程资质资格证书信息</legend>
-	 	               
-										  
+								<fieldset class="col-md-12 border_font mt20">
+	 	              				<legend>添加供应商工程证书信息</legend>
 											
-											   <div class="col-md-12 p0">
+										 <div class="col-md-12 p0">
 											<div class="fl">
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertEng()">新增</button>
@@ -1083,7 +1100,7 @@
 														<th class="info minw100">发证日期</th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-														<th class="info">附件</th>
+													<!-- 	<th class="info">附件</th> -->
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1102,7 +1119,15 @@
 															<td class="tc">${certEng.licenceAuthorith}</td>
 															<td class="tc"><fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd" /></td>
-															<td class="tc">${certEng.certStatus}</td>
+															<td class="tc">
+															<c:if test="${certEng.certStatus==1}">
+															  有效
+															</c:if>
+															<c:if test="${certEng.certStatus==0}">
+															  无效
+															</c:if>
+															
+															</td>
 															<%--<td class="tc">
 																<c:if test="${certEng.attachCert != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certEng.attachCert}')">下载附件</a>
@@ -1115,24 +1140,17 @@
 													</c:forEach>
 												</tbody>
 											</table>
-											</div>
-											</div>
-											 </fieldset>
+										</div>
+										</div>
+								</fieldset>
 										 
-											
-											
-											
-						 
 									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
-										     <fieldset class="col-md-12 border_font mt20">
-	 	              						 <legend>供应商资质资格信息  </legend>
-	 	              						 
-										<!-- 	<div  class="col-md-12 p0 ul_list mb50"> -->
-											   <div class="col-md-12 p0">
-											<div class="fl">
-											
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
+								<fieldset class="col-md-12 border_font mt20">
+	 	              				 <legend>供应商资质资格信息  </legend>
+									 <div class="col-md-12 p0">
+											  <div class="fl">
+												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
+												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
 											  </div>
 										   	<div class="mt40">
 						  						<table  class="table table-bordered table-condensed mt5">
@@ -1164,12 +1182,28 @@
 															<td class="tc">${aptitute.aptituteSequence}</td>
 															<td class="tc">${aptitute.professType}</td>
 															<td class="tc">${aptitute.aptituteLevel}</td>
-															<td class="tc">${aptitute.isMajorFund}</td>
+															<td class="tc"> 
+														   <c:if test="${aptitute.isMajorFund==1}">
+															    是
+															</c:if>
+															<c:if test="${aptitute.isMajorFund==0}">
+														         否
+															</c:if>
+															
+															</td>
 															<td class="tc">${aptitute.aptituteContent}</td>
 															<td class="tc">${aptitute.aptituteCode}</td>
 															<td class="tc"><fmt:formatDate value="${aptitute.aptituteDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${aptitute.aptituteWay}</td>
-															<td class="tc">${aptitute.aptituteStatus}</td>
+															<td class="tc">
+															<c:if test="${aptitute.aptituteStatus==1}">
+															   有效
+															</c:if>
+															<c:if test="${aptitute.aptituteStatus==0}">
+														             无效
+															</c:if>
+															
+															</td>
 															<td class="tc"><fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${aptitute.aptituteChangeReason}</td>
 															<%--<td class="tc">
@@ -1226,7 +1260,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSe.totalPerson" value="${currSupplier.supplierMatSe.totalPerson}" />
+														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" />
 													     <span class="add-on cur_point">i</span>
 													     <div class="cue"> ${fw_person } </div>
 													</div>
@@ -1234,7 +1268,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>管理人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSe.totalMange" value="${currSupplier.supplierMatSe.totalMange}" />
+														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" />
 													    <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${fw_mange } </div>
 													</div>
@@ -1242,7 +1276,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSe.totalTech" value="${currSupplier.supplierMatSe.totalTech}" />
+														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" />
 													     <span class="add-on cur_point">i</span>
 													     	<div class="cue"> ${fw_tech } </div>
 													</div>
@@ -1250,7 +1284,7 @@
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>工人（职员）：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
-														<input type="text" name="supplierMatSe.totalWorker" value="${currSupplier.supplierMatSe.totalWorker}" />
+														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" />
 													    <span class="add-on cur_point">i</span>
 													    	<div class="cue"> ${fw_work } </div>
 													</div>

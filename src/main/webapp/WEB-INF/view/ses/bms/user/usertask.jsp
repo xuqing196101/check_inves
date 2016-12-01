@@ -231,31 +231,38 @@ scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date
 
 
 scheduler.attachEvent("onMouseMove", function (event_id, event_object){
-	 var ev = scheduler.getEvent(event_id);  
-	 
-	if(ev!=null){
-		var id = event_id;
-		 $.ajax({
-		    	url:"${pageContext.request.contextPath}/usertask/detail.html",
-		    	type:"post",
-		    	data:{
-		    		id:id
-		    	},
-		    	success:function(data){
-		    		layer.msg(data, {
-		    		    skin: 'demo-class',
-		    			shade:false,
-		    			area: ['300px'],
-		    			time : 3000    //默认消息框不关闭
-		    		});//去掉msg图标
-		    		
-		    	},
-		    	error:function(data){
-		    	} 
-		    }); 
-	}
 	
-	return true;
+	    var x,y;  
+	    oRect = $(event_object).getBoundingClientRect();  
+		// x=oRect.clientX;  
+		y=oRect.top;  
+		alert(y);
+		var ev = scheduler.getEvent(event_id);  
+		if(ev!=null){
+			var id = event_id;
+			 $.ajax({
+			    	url:"${pageContext.request.contextPath}/usertask/detail.html",
+			    	type:"post",
+			    	data:{
+			    		id:id
+			    	},
+			    	success:function(data){
+			    		layer.msg(data, {
+			    		    skin: 'demo-class',
+			    			shade:false,
+			    			area: ['300px'],
+			    			offset : [y,x],
+			    			time : 3000    //默认消息框不关闭
+			    			
+			    		});//去掉msg图标
+			    		
+			    	},
+			    	error:function(data){
+			    	} 
+			    }); 
+		}
+		
+		return true;
 });
 
 

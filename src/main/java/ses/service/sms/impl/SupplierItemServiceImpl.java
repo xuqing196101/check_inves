@@ -74,6 +74,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			si.setSupplierId(supplierItem.getSupplierId());
 			si.setCategoryId(i);
 			si.setCreatedAt(new Date());
+			si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
 			supplierItemMapper.insertSelective(si);
 		}
 	/*	String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};

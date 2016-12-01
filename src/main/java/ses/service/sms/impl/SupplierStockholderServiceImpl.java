@@ -21,12 +21,12 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 
 	@Override
 	public void saveOrUpdateStockholder(SupplierStockholder supplierStockholder) {
-		String id = supplierStockholder.getId();
-		if (id != null && !"".equals(id)) {
-			supplierStockholderMapper.updateByPrimaryKeySelective(supplierStockholder);
-		} else {
+//		String id = supplierStockholder.getId();
+//		if (id != null && !"".equals(id)) {
+//			supplierStockholderMapper.updateByPrimaryKeySelective(supplierStockholder);
+//		} else {
 			supplierStockholderMapper.insertSelective(supplierStockholder);
-		}
+//		}
 	}
 
 	@Override
@@ -35,5 +35,13 @@ public class SupplierStockholderServiceImpl implements SupplierStockholderServic
 			supplierStockholderMapper.deleteByPrimaryKey(id);
 		}
 	}
+
+	public SupplierStockholder queryById(String id) {
+		SupplierStockholder stockholder = supplierStockholderMapper.selectByPrimaryKey(id);
+		return stockholder;
+	}
+	
+	
+	
 
 }

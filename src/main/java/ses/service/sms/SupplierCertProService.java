@@ -7,4 +7,6 @@ public interface SupplierCertProService {
 	public void saveOrUpdateCertPro(SupplierCertPro supplierCertPro);
 	
 	public void deleteCertPro(String certProIds);
+	
+	public SupplierCertPro queryById(String id);
 }

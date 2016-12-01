@@ -2,8 +2,10 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import com.alibaba.fastjson.JSON;
 
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -57,22 +61,25 @@ public class SupplierFinanceController extends BaseSupplierController {
 		return "ses/sms/supplier_register/add_finance";
 	}
 	
-	@RequestMapping(value = "save_or_update_finance")
+	@RequestMapping(value = "save_or_update_finance",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId,Model model) throws IOException {
-		this.setFinanceUpload(request, supplierFinance);
+	public String saveOrUpdateCertEng( SupplierFinance supplierFinance,Model model) throws IOException {
+	//	this.setFinanceUpload(request, supplierFinance);
 		
 //		Supplier supplier = supplierService.get(supplierId);
 //		request.getSession().setAttribute("defaultPage", "tab-2");
 //		request.getSession().setAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", "basic_info");
-		boolean flag=validate(request, supplierFinance, supplierId, model);
-		 if(flag==false){
-			 return "0";
-		 }else{
-			 supplierFinanceService.saveOrUpdateFinance(supplierFinance);
-			 return "1";
-		 }
+		Map<String, Object> map = validate(supplierFinance);
+		boolean bool = (boolean) map.get("bool");
+		if(bool==true){
+			supplierFinanceService.saveOrUpdateFinance(supplierFinance);
+			SupplierFinance finance = supplierFinanceService.queryById(supplierFinance.getId());
+			map.put("fiance", finance);
+			map.put("sysKey",  Constant.SUPPLIER_SYS_KEY);
+		}
+		return JSON.toJSONString(map);
+	 
 		
 	}
 	
@@ -131,62 +138,59 @@ public class SupplierFinanceController extends BaseSupplierController {
 	
 	
 	
-	public boolean validate(HttpServletRequest request, SupplierFinance supplierFinance, String supplierId,Model model){
+	public  Map<String,Object>  validate(SupplierFinance supplierFinance){
+		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
 		if(supplierFinance.getYear()==null){
-			model.addAttribute("year", "不能为空");
+			map.put("year", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getName()==null){
-			model.addAttribute("name", "不能为空");
+		if(supplierFinance.getName()==null||supplierFinance.getName().length()>12){
+			map.put("name", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTelephone()==null){
-			model.addAttribute("phone", "不能为空");
+		if(supplierFinance.getTelephone()==null||supplierFinance.getTelephone().length()>11||!supplierFinance.getTelephone().matches("^(1)[0-9]{10}$")){
+			map.put("phone", "不能为空或者格式不正确");
 			bool=false;
 		}
-		if(supplierFinance.getAuditors()==null){
-			model.addAttribute("auditors", "不能为空");
+		if(supplierFinance.getAuditors()==null||supplierFinance.getAuditors().length()>12){
+			map.put("auditors", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getQuota()==null){
-			model.addAttribute("quota", "不能为空");
-			bool=false;
-		}
-		if(supplierFinance.getTotalAssets()==null){
-			model.addAttribute("assets", "不能为空");
+		if(supplierFinance.getQuota()==null||supplierFinance.getQuota().length()>30){
+			map.put("quota", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTotalAssets()==null){
-			model.addAttribute("assets", "不能为空");
+			map.put("assets", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTotalAssets()!=null&&!supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
-			model.addAttribute("assets", "不能为空");
+			map.put("assets", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTotalLiabilities()==null){
-			model.addAttribute("bilit", "不能为空");
+			map.put("bilit", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTotalLiabilities()!=null&&!supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
-			model.addAttribute("bilit", "金额错误");
+			map.put("bilit", "金额错误");
 			bool=false;
 		}
 		if(supplierFinance.getTotalNetAssets()==null){
-			model.addAttribute("noAssets", "不能为空");
+			map.put("noAssets", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTotalNetAssets()!=null&&!supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
-			model.addAttribute("noAssets", "金额错误");
+			map.put("noAssets", "金额错误");
 			bool=false;
 		}
 		if(supplierFinance.getTaking()==null){
-			model.addAttribute("taking", "不能为空");
+			map.put("taking", "不能为空");
 			bool=false;
 		}
 		if(supplierFinance.getTaking()!=null&&!supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
-			model.addAttribute("taking", "金额格式错误");
+			map.put("taking", "金额格式错误");
 			bool=false;
 		}
 		
@@ -194,37 +198,36 @@ public class SupplierFinanceController extends BaseSupplierController {
 		//* 财务审计报告意见
 		List<UploadFile> tlist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(tlist!=null&&tlist.size()<=0){
-			model.addAttribute("err_taxCert", "请上传文件!");
+			map.put("err_taxCert", "请上传文件!");
+			bool=false;
 		}
 		//* 资产负债表
 		List<UploadFile> blist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(blist!=null&&blist.size()<=0){
- 
-			model.addAttribute("err_bil", "请上传文件!");
+			bool=false;
+			map.put("err_bil", "请上传文件!");
 		}
 		//利润表：
 		List<UploadFile> slist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(slist!=null&&slist.size()<=0){
- 
-			model.addAttribute("err_security", "请上传文件!");
+			bool=false;
+			map.put("err_security", "请上传文件!");
 		}
 		//现金流量表:
 		List<UploadFile> bearlist = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(bearlist!=null&&bearlist.size()<=0){
- 
-			model.addAttribute("err_bearch", "请上传文件!");
+			bool=false;
+			map.put("err_bearch", "请上传文件!");
 		}
 		
 		//所有者权益变动表：
 		List<UploadFile> list = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(list!=null&&list.size()<=0){
-	 
-			model.addAttribute("err_business", "请上传文件!");
+			bool=false;
+			map.put("err_business", "请上传文件!");
 		}
-		
-		
-		
-		return bool;
+		map.put("bool", bool);
+		return map;
 		
 		
 	}

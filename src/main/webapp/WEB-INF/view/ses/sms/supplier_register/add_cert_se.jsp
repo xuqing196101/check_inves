@@ -22,7 +22,7 @@
 		}
 		$("#cert_se_form_id").attr("action", action);
 		$("#cert_se_form_id").submit(); */
-		var id=$("input[name='supplierId']").val();
+		 var index=parent.layer.getFrameIndex(window.name);
 		 $.ajax({
 			   type: "POST",  
              url: "${pageContext.request.contextPath}/supplier_cert_se/save_or_update_cert_se.html",  
@@ -30,6 +30,7 @@
              dataType:"json",
              success:function(result){
              var boo=result.bool;
+             var obj=result.server;
               if(boo==false){
                   $("#cert_name").text(result.name);
                   $("#cert_level").text(result.level);
@@ -39,9 +40,24 @@
                   $("#cert_file").text(result.file);
                  /*    $("#cert_name").text(result.name); */
                } else{
-            	  parent.location.reload();   
-	            	 /*  parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_professional.html?id="+id; */
-
+            	     // parent.location.reload();   
+            	   var mot=obj.mot;
+	          	    if(mot==1){
+	          	    	mot='是';
+	          	    }else{
+	          	    	mot='否';
+	          	    }
+            	   parent.$('#cert_se_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+                     		"<td class='tc'>"+obj.name+"</td>"+	
+                     		"<td class='tc'>"+obj.levelCert+"</td>"+	
+                     		"<td class='tc'>"+obj.licenceAuthorith+"</td>"+	
+                     		"<td class='tc'>"+result.sdate+"</td>"+
+                     		"<td class='tc'>"+result.edate+"</td>"+	
+                     		"<td class='tc'>"+mot+"</td>"
+                     	 );
+           	    parent.layer.close(index);
+	            	 
+	            	 
                }  
           	   
               },

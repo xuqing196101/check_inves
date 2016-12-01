@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -69,6 +70,13 @@ public class SupplierCertSellController extends BaseSupplierController {
 		boolean bool=(boolean) map.get("bool");
 		if(bool==true){
 			supplierCertSellService.saveOrUpdateCertSell(supplierCertSell);
+			SupplierCertSell sell = supplierCertSellService.queryById(supplierCertSell.getId());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String sdate = sdf.format(sell.getExpStartDate());
+			String edate = sdf.format(sell.getExpEndDate());
+		    map.put("sdate", sdate);
+		    map.put("edate", edate);
+		    map.put("sell", sell);
 		}
 		return  JSON.toJSONString(map);
 	}
@@ -121,15 +129,15 @@ public class SupplierCertSellController extends BaseSupplierController {
 	public Map<String,Object> validateSale( SupplierCertSell supplierCertSell){
 		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
-		if(supplierCertSell.getName()==null){
+		if(supplierCertSell.getName()==null||supplierCertSell.getName().length()>12){
 			map.put("name", "不能为空");
 			bool=false;
 		}
-		if(supplierCertSell.getLevelCert()==null){
+		if(supplierCertSell.getLevelCert()==null||supplierCertSell.getLevelCert().length()>12){
 			map.put("lever", "不能为空");
 			bool=false;
 		}
-		if(supplierCertSell.getLicenceAuthorith()==null){
+		if(supplierCertSell.getLicenceAuthorith()==null||supplierCertSell.getLicenceAuthorith().length()>12){
 			map.put("authorith", "不能为空");
 			bool=false;
 		}

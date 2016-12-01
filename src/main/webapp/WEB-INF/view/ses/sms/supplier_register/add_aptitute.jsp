@@ -22,14 +22,15 @@
 		}
 		$("#cert_eng_form_id").attr("action", action);
 		$("#cert_eng_form_id").submit(); */
-		
+		 var index=parent.layer.getFrameIndex(window.name);
 		 $.ajax({
 		       type: "POST",  
 	           url: "${pageContext.request.contextPath}/supplier_aptitute/save_or_update_aptitute.html",  
 	           data: $("#cert_eng_form_id").serialize(), 
 	           dataType:"json",
 	           success:function(result){
-	        	   var boo=result.bool;
+	        	 var boo=result.bool;
+	        	 var obj=result.aptitute;
 	             if(boo==false){
 	            	 $("#cert_type").text(result.type);
 	                  $("#cert_code").text(result.code);
@@ -43,12 +44,41 @@
 	                  $("#cert_change_date").text(result.changeAt);
 	                  $("#cert_change_reason").text(result.reason);
 	                  $("#cert_file").text(result.file);
-	                
 	            	 
 	             } else{
-	          	     parent.location.reload(); 
-	              
+	          	    // parent.location.reload(); 
+	          	    var status=obj.certStatus;
+	          	    if(status==1){
+	          	    	status='有效';
+	          	    }else{
+	          	    	status='无效';
+	          	    }
+	          	    var master=obj.isMajorFund;
+	          	    if(master==1){
+	          	    	master='无';
+	          	    }else{
+	          	    	master='是';
+	          	    }
 	          	 
+	             	   parent.$('#aptitute_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+	                      		"<td class='tc'>"+obj.certType+"</td>"+	
+	                      		"<td class='tc'>"+obj.certCode+"</td>"+	
+	                      		"<td class='tc'>"+obj.aptituteSequence+"</td>"+	
+	                      		"<td class='tc'>"+obj.professType+"</td>"+	
+	                      		"<td class='tc'>"+obj.aptituteLevel+"</td>"+
+	                      		"<td class='tc'>"+master+"</td>"+	
+	                      		"<td class='tc'>"+obj.aptituteContent+"</td>"+	
+	                      		"<td class='tc'>"+obj.aptituteCode+"</td>"+	
+	                      		"<td class='tc'> "+result.adate+"</td>"+	
+	                      		"<td class='tc'>"+obj.aptituteWay+"</td>"+	
+	                      		"<td class='tc'>"+status+"</td>"+
+	                      		"<td class='tc'> "+result.change+" </td>"+
+	                      		"<td class='tc'>"+obj.aptituteChangeReason+"</td>"
+	                      		 
+	                      		
+	                      	 );
+	             	   
+	               	   parent.layer.close(index);  
 	             }
 	        	   
 	            },

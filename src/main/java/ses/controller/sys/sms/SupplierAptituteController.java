@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -88,12 +89,19 @@ public class SupplierAptituteController extends BaseSupplierController {
 	public String saveOrUpdateAptitute(HttpServletRequest request, SupplierAptitute supplierAptitute, String supplierId,Model model) throws IOException {
 		// this.setAptituteUpload(request, supplierAptitute);
 		
-		Supplier supplier = supplierService.get(supplierId);
+//		Supplier supplier = supplierService.get(supplierId);
+//		request.getSession().setAttribute("currSupplier", supplier);
 		 Map<String, Object> map = validateAptitute(supplierAptitute);
 		boolean bool = (boolean) map.get("bool");
-		request.getSession().setAttribute("currSupplier", supplier);
 		if(bool==true){
 			supplierAptituteService.saveOrUpdateAptitute(supplierAptitute);
+			SupplierAptitute aptitute = supplierAptituteService.queryById(supplierAptitute.getId());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String adate = sdf.format(aptitute.getAptituteDate());
+			String change = sdf.format(aptitute.getAptituteChangeAt());
+			map.put("adate", adate);
+			map.put("aptitute", aptitute);
+			map.put("change", change);
 		} 
 		String json = JSON.toJSONString(map);
 		return json;
@@ -188,31 +196,31 @@ public class SupplierAptituteController extends BaseSupplierController {
 	public Map<String,Object> validateAptitute(  SupplierAptitute aptitute){
 		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
-		if(aptitute.getCertType()==null){
+		if(aptitute.getCertType()==null||aptitute.getCertType().length()>12){
 			map.put("type", "不能为空");
 			bool=false;
 		}
-		if(aptitute.getAptituteCode()==null){
-			map.put("code", "不能为空");
+		if(aptitute.getAptituteCode()==null||aptitute.getAptituteCode().length()>30||!aptitute.getAptituteCode().matches("^[0-9a-zA-Z]*$")){
+			map.put("code", "不能为空或不允许输入汉字");
 			bool=false;
 		}
-		if(aptitute.getAptituteSequence()==null){
+		if(aptitute.getAptituteSequence()==null||aptitute.getAptituteCode().length()>200||!aptitute.getAptituteCode().matches("^[0-9a-zA-Z]*$")){
 			map.put("sequence", "不能为空");
 			bool=false;
 		}
-		if(aptitute.getProfessType()==null){
-			map.put("proType", "不能为空");
+		if(aptitute.getProfessType()==null||aptitute.getProfessType().length()>12){
+			map.put("proType", "不能为空或者字符串过长");
 			bool=false;
 		}
-		if(aptitute.getAptituteLevel()==null){
+		if(aptitute.getAptituteLevel()==null||aptitute.getAptituteLevel().length()>12){
 			map.put("level", "不能为空");
 			bool=false;
 		}
-		if(aptitute.getAptituteContent()==null){
-			map.put("content", "不能为空");
+		if(aptitute.getAptituteContent()==null||aptitute.getAptituteContent().length()>80){
+			map.put("content", "不能为空或者字符串过长");
 			bool=false;
 		}
-		if(aptitute.getAptituteCode()==null){
+		if(aptitute.getAptituteCode()==null||aptitute.getAptituteContent().length()>80){
 			map.put("aptituteCode", "不能为空");
 			bool=false;
 		}
@@ -228,8 +236,8 @@ public class SupplierAptituteController extends BaseSupplierController {
 			map.put("changeAt", "不能为空");
 			bool=false;
 		}
-		if(aptitute.getAptituteChangeReason()==null){
-			map.put("reason", "不能为空");
+		if(aptitute.getAptituteChangeReason()==null||aptitute.getAptituteContent().length()>80){
+			map.put("reason", "不能为空或者字符串过长");
 			bool=false;
 		}
 		SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();

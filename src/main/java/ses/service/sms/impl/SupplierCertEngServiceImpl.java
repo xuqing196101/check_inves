@@ -30,4 +30,9 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 		}
 	}
 
+	public SupplierCertEng queryById(String id) {
+		SupplierCertEng certEng = supplierCertEngMapper.selectByPrimaryKey(id);
+		return certEng;
+	}
+
 }

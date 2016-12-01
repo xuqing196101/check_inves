@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -69,9 +70,9 @@ public class SupplierCertSeController extends BaseSupplierController {
 	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertServe supplierCertSe, String supplierId,HttpServletResponse response) throws IOException {
 		// this.setCertSeUpload(request, supplierCertSe);
 	
-		Supplier supplier = supplierService.get(supplierId);
+//		Supplier supplier = supplierService.get(supplierId);
 //		request.getSession().setAttribute("defaultPage", "tab-4");
-		request.getSession().setAttribute("currSupplier", supplier);
+//		request.getSession().setAttribute("currSupplier", supplier);
 //		request.getSession().setAttribute("jump.page", "professional_info");
 //		return "redirect:../supplier/page_jump.html";
 //		return "ses/sms/supplier_register/supplier_type";
@@ -80,6 +81,13 @@ public class SupplierCertSeController extends BaseSupplierController {
 		boolean bool = (boolean) map.get("bool");
 		if(bool==true){
 			supplierCertSeService.saveOrUpdateCertSe(supplierCertSe);
+			SupplierCertServe server = supplierCertSeService.queryById(supplierCertSe.getId());
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String sdate = sdf.format(server.getExpStartDate());
+			String edate = sdf.format(server.getExpEndDate());
+		    map.put("sdate", sdate);
+		    map.put("edate", edate);
+			map.put("server", server);
 		} 
 //		response.getWriter().print(map);
 		String json = JSON.toJSONString(map);
@@ -135,15 +143,15 @@ public class SupplierCertSeController extends BaseSupplierController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		boolean bool=true;
 
-		if(supplierCertSe.getName()==null){
+		if(supplierCertSe.getName()==null||supplierCertSe.getName().length()>12){
 			map.put("name", "不能为空");
 			bool=false;
 		}
-		if(supplierCertSe.getLevelCert()==null){
+		if(supplierCertSe.getLevelCert()==null||supplierCertSe.getLevelCert().length()>12){
 			map.put("level", "不能为空");
 			bool=false;
 		}
-		if(supplierCertSe.getLicenceAuthorith()==null){
+		if(supplierCertSe.getLicenceAuthorith()==null||supplierCertSe.getLicenceAuthorith().length()>12){
 			map.put("authorith", "不能为空");
 			bool=false;
 		}

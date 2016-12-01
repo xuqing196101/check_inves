@@ -13,4 +13,6 @@ public interface SupplierStockholderService {
 	public void saveOrUpdateStockholder(SupplierStockholder supplierStockholder);
 
 	public void deleteStockholder(String stockholderIds);
+	
+	SupplierStockholder queryById(String id);
 }

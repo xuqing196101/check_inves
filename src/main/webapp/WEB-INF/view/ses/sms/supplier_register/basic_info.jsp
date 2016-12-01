@@ -50,7 +50,7 @@ function loadRootArea() {
 			var html = "";
 			html += "<option value=''>请选择</option>";
 			for ( var i = 0; i < result.length; i++) {
-				html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" + result[i].name + "</option>";
+				html += "<option id='" + result[i].id + "' value='" + result[i].id + "'>" + result[i].name + "</option>";
 			}
 			$("#root_area_select_id").append(html);
 
@@ -80,7 +80,7 @@ function loadChildren() {
 			success : function(result) {
 				var html = "";
 				for ( var i = 0; i < result.length; i++) {
-					html += "<option value='" + result[i].name + "'>" + result[i].name + "</option>";
+					html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
 				}
 				$("#children_area_select_id").empty();
 				$("#children_area_select_id").append(html);
@@ -208,43 +208,81 @@ function deleteFinance() {
 	}
 }
 
-function autoSelected(id, v) {
-	if (v) {
-		$("#" + id).find("option").each(function() {
-			var value = $(this).val();
-			if (value == v) {
-				$(this).prop("selected", true);
-			} else {
-				$(this).prop("selected", false);
-			}
+	function autoSelected(id, v) {
+		if (v) {
+			$("#" + id).find("option").each(function() {
+				var value = $(this).val();
+				if (value == v) {
+					$(this).prop("selected", true);
+				} else {
+					$(this).prop("selected", false);
+				}
+			});
+		}
+	}
+
+	function checkAllForFinance(ele) {
+		var flag = $(ele).prop("checked");
+		$("#finance_list_tbody_id").find("input:checkbox").prop("checked", flag);
+		$("#finance_attach_list_tbody_id").find("input:checkbox").prop("checked", flag);
+	}
+
+	function showReason() {
+		var supplierId = "${currSupplier.id}";
+		var left = document.body.clientWidth - 500;
+		var top = window.screen.availHeight / 2 - 150;
+		layer.open({
+			type : 2,
+			title : '审核反馈',
+			closeBtn : 0, //不显示关闭按钮
+			skin : 'layui-layer-lan', //加上边框
+			area : [ '500px', '300px' ], //宽高
+			offset : [ top, left ],
+			shade : 0,
+			maxmin : true,
+			shift : 2,
+			content : globalPath + '/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
 		});
 	}
-}
 
-function checkAllForFinance(ele) {
-	var flag = $(ele).prop("checked");
-	$("#finance_list_tbody_id").find("input:checkbox").prop("checked", flag);
-	$("#finance_attach_list_tbody_id").find("input:checkbox").prop("checked", flag);
-}
+	function downloadFile(obj){
+		var id=$(obj).parent().children(":last").val();
+	 	var key=1;
+	    var form = $("<form>");   
+	        form.attr('style', 'display:none');   
+	        form.attr('method', 'post');
+	        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+	        $('body').append(form); 
+	        form.submit();
+	}
 
-function showReason() {
-	var supplierId = "${currSupplier.id}";
-	var left = document.body.clientWidth - 500;
-	var top = window.screen.availHeight / 2 - 150;
-	layer.open({
-		type : 2,
-		title : '审核反馈',
-		closeBtn : 0, //不显示关闭按钮
-		skin : 'layui-layer-lan', //加上边框
-		area : [ '500px', '300px' ], //宽高
-		offset : [ top, left ],
-		shade : 0,
-		maxmin : true,
-		shift : 2,
-		content : globalPath + '/supplierAudit/showReasonsList.html?&auditType=basic_page,finance_page,stockholder_page' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
-	});
-}
-
+	function dis(obj){
+		var vals=$(obj).val();
+		if(vals==1){
+			$('#sup_country').removeAttr('disabled');
+			$('#sup_businessScope').removeAttr('disabled');
+			$('#sup_branchName').removeAttr('disabled');
+			$('#sup_branchAddress').removeAttr('disabled');
+		}else{
+			$('#sup_country').attr('disabled',"true");
+			$('#sup_businessScope').attr('disabled',"true");
+			$('#sup_branchName').attr('disabled',"true");
+			$('#sup_branchAddress').attr('disabled',"true");
+			
+		}
+	}
+	
+	function checknums(obj){
+		var vals=$(obj).val();
+		var reg=/^[0-9].*$/;
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
+	}
 </script>
 </head>
 
@@ -296,11 +334,13 @@ function showReason() {
 				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照类型</span>
 				    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			       	<select  name="businessType" id="business_select_id">
-						<option>国有企业</option>
-						<option>外资企业</option>
+			         	<c:forEach items="${company }" var="obj">
+						    <option value="${obj.id }">${obj.name }</option>
+						</c:forEach>
+						<!-- <option>外资企业</option>
 						<option>民营企业</option>
 						<option>股份制企业</option>
-						<option>私营企业</option>
+						<option>私营企业</option> -->
 					</select>
 					 
 					  
@@ -498,9 +538,9 @@ function showReason() {
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="registFund" value="${currSupplier.registFund}" />
+		        <input type="text" name="registFund" onkeyup="checknums(this)" value="${currSupplier.registFund}" />
 		        <span class="add-on cur_point">i</span>
-		        <div class="cue"> ${err_fund } </div>
+		        <div class="cue" id="err_fund"> ${err_fund } </div>
 	       	   </div>
 		    </li> 
 		    
@@ -564,7 +604,7 @@ function showReason() {
 			<li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支结构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-		    	   <select  name="overseasBranch" id="overseas_branch_select_id">
+		    	   <select  name="overseasBranch" onchange="dis(this)"  id="overseas_branch_select_id">
 						<option value="1">有</option>
 						<option value="0">无</option>
 					</select>
@@ -573,7 +613,7 @@ function showReason() {
 			<li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支所在国家</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		    	 	<input name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
+		    	 	<input name="branchCountry" id="sup_country" type="text" value="${currSupplier.branchCountry}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
@@ -581,14 +621,14 @@ function showReason() {
 			<li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支地址</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		    	 	<input type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
+		    	 	<input type="text" name="branchAddress"  id="sup_branchAddress" value="${currSupplier.branchAddress}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
 			<li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">机构名称</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		    	 	<input type="text" name="branchName" value="${currSupplier.branchName}" />
+		    	 	<input type="text" name="branchName" id="sup_branchName"  value="${currSupplier.branchName}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>
@@ -596,7 +636,7 @@ function showReason() {
 			<li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支生产经营范围</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		    	 	<input type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
+		    	 	<input type="text" name="branchBusinessScope" id="sup_businessScope"" value="${currSupplier.branchBusinessScope}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
 			</li>

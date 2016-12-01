@@ -23,7 +23,8 @@
 		$("#cert_sell_form_id").attr("action", action);
 		$("#cert_sell_form_id").submit();
 		 */
-		var id=$("input[name='supplierId']").val();
+	// 	var id=$("input[name='supplierId']").val();
+		 var index=parent.layer.getFrameIndex(window.name);
 		 
 		 $.ajax({
 			 type: "POST",  
@@ -32,6 +33,7 @@
              dataType:"json",
              success:function(result){
             	  var boo=result.bool;
+            	  var obj=result.sell;
 	 	             if(boo==false){
 	 	            	 $("#cert_name").text(result.name);
 	 	                  $("#cert_level").text(result.lever);
@@ -40,8 +42,23 @@
 	 	                  $("#cert_edate").text(result.eDate);
 	 	                  $("#cert_file").text(result.file);
 	 	             } else{
-	 	            	  parent.location.reload();
-	 	          	 
+	 	            	  // parent.location.reload();
+	 	            	   var mot=obj.mot;
+	 		          	    if(mot==1){
+	 		          	    	mot='是';
+	 		          	    }else{
+	 		          	    	mot='否';
+	 		          	    }
+	 	            	   parent.$('#cert_sell_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+	 	                     		"<td class='tc'>"+obj.name+"</td>"+	
+	 	                     		"<td class='tc'>"+obj.levelCert+"</td>"+	
+	 	                     		"<td class='tc'>"+obj.licenceAuthorith+"</td>"+	
+	 	                     		"<td class='tc'>"+result.sdate+"</td>"+
+	 	                     		"<td class='tc'>"+result.edate+"</td>"+	
+	 	                     		"<td class='tc'>"+mot+"</td>"
+	 	                     	 );
+	 	            	   
+	 	            	  parent.layer.close(index);
 	 	             }
           	   
               },

@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<title>添加工程证书信息</title>
+<title>添加供应商工程证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -24,6 +24,7 @@
 		}
 		$("#cert_eng_form_id").attr("action", action);
 		$("#cert_eng_form_id").submit(); */
+		 var index=parent.layer.getFrameIndex(window.name);
 		
 		 $.ajax({
 		       type: "POST",  
@@ -32,6 +33,7 @@
 	           dataType:"json",
 	           success:function(result){
 	        	   var boo=result.bool;
+	        	   var obj=result.certEng;
 		             if(boo==false){
 		            	 $("#cert_type").text(result.certType);
 		                  $("#cert_code").text(result.certCode);
@@ -47,7 +49,29 @@
 		                  $("#cert_edate").text(result.eDate);
 		                  $("#cert_file").text(result.file);
 		             } else{
-		          	     parent.location.reload(); 
+		          	    //  parent.location.reload(); 
+		          	    var status=obj.certStatus;
+		          	    if(status==1){
+		          	    	status='有效';
+		          	    }else{
+		          	    	status='无效';
+		          	    }
+				          	   parent.$('#cert_eng_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+			                      		"<td class='tc'>"+obj.certType+"</td>"+	
+			                      		"<td class='tc'>"+obj.certCode+"</td>"+	
+			                      		"<td class='tc'>"+obj.certMaxLevel+"</td>"+	
+			                      		"<td class='tc'>"+obj.techName+"</td>"+	
+			                      		"<td class='tc'>"+obj.techPt+"</td>"+
+			                      		"<td class='tc'>"+obj.techJop+"</td>"+	
+			                      		"<td class='tc'>"+obj.depName+"</td>"+	
+			                      		"<td class='tc'>"+obj.depPt+"</td>"+	
+			                      		"<td class='tc'> "+obj.depJop+"</td>"+	
+			                      		"<td class='tc'>"+obj.licenceAuthorith+"</td>"+	
+			                      		"<td class='tc'>"+result.sdate+"</td>"+
+			                      		"<td class='tc'> "+result.edate+" </td>"+
+			                      		"<td class='tc'>"+status+"</td>"
+			                      	 );
+				          	  parent.layer.close(index);
 		             }
 	            },
 	            error: function(result){

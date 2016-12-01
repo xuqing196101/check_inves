@@ -46,6 +46,7 @@ function tijiao(str){
   $("#form_id").submit();
 }
 function download(id,key){
+	var key=1;
     var form = $("<form>");   
         form.attr('style', 'display:none');   
         form.attr('method', 'post');

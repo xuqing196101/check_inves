@@ -5,7 +5,7 @@
 <html>
 <head>
 
-<title>添加工程证书信息</title>
+<title>注册人员信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -23,7 +23,7 @@
 		}
 		$("#cert_eng_form_id").attr("action", action);
 		$("#cert_eng_form_id").submit(); */
-		
+		 var index=parent.layer.getFrameIndex(window.name);
 		 $.ajax({
 	       type: "POST",  
            url: "${pageContext.request.contextPath}/supplier_reg_person/save_or_update_reg_person.html",  
@@ -31,12 +31,19 @@
            dataType:"json",
            success:function(result){
         	   var boo=result.bool;
+        	   var obj=result.person;
 	             if(boo==false){
 	            	 $("#cert_type").text(result.type);
 	                  $("#cert_count").text(result.regNum);
 	             } else{
-	          	     parent.location.reload(); 
+	          	    // parent.location.reload(); 
 	          	 
+	            	 parent.$('#reg_person_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+	                      		"<td class='tc'>"+obj.regType+"</td>"+	
+	                      		"<td class='tc'>"+obj.regNumber+"</td>"
+	                      	 );
+	            	   parent.layer.close(index);
+	          	    
 	             }
         	   
             },
@@ -55,6 +62,19 @@
 	 
 		    parent.layer.close(index);
 
+	}
+	
+	
+	function checknums(obj){
+		var vals=$(obj).val();
+		var reg=/^[0-9].*$/;
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
 	}
 	
 </script>
@@ -86,7 +106,7 @@
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册人数：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="regNumber" />
+													<input class="span3" type="text" onkeyup="checknums(this)" name="regNumber" />
 												</div>
 											 <div class="cue" id="cert_count"></div>
 											</li>

@@ -31,4 +31,10 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 		}
 	}
 
+	@Override
+	public SupplierAptitute queryById(String id) {
+		SupplierAptitute aptitute = supplierAptituteMapper.selectByPrimaryKey(id);
+		return aptitute;
+	}
+
 }

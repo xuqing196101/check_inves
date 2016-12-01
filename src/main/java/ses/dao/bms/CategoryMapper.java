@@ -207,4 +207,17 @@ public interface CategoryMapper {
       * @return Category 集合
       */
      public List<Category> findTreeByStatus(@Param("id")String id, @Param("status")Integer status);
+     /**
+      * 
+     * @Title: findTreeByPid
+     * @Description: TODO 
+     * author: Li Xiaoxiao 
+     * @param @param id
+     * @param @return     
+     * @return List<Category>     
+     * @throws
+      */
+     public List<Category> findCategory(Map<String,Object> map);
+     
+     
 }

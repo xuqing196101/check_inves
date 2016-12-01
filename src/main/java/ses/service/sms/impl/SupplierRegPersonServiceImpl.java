@@ -31,4 +31,10 @@ public class SupplierRegPersonServiceImpl implements SupplierRegPersonService {
 
 	}
 
+	@Override
+	public SupplierRegPerson queryById(String id) {
+		SupplierRegPerson person = supplierRegPersonMapper.selectByPrimaryKey(id);
+		return person;
+	}
+
 }

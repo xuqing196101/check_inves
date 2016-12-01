@@ -6,4 +6,6 @@ public interface SupplierRegPersonService {
 	public void saveOrUpdateRegPerson(SupplierRegPerson supplierRegPerson);
 
 	public void deleteRegPerson(String regPersonIds);
+	
+	public SupplierRegPerson queryById(String id);
 }

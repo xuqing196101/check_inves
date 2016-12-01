@@ -25,18 +25,42 @@
 		}
 		$("#finance_form_id").attr("action", action);
 		$("#finance_form_id").submit(); */
-		// var index=parent.layer.getFrameIndex(window.name);
-		var id=$("input[name='supplierId']").val();
+		 var index=parent.layer.getFrameIndex(window.name);
+ 
 		 $.ajax({
 			   type: "POST",  
                url: "${pageContext.request.contextPath}/supplier_finance/save_or_update_finance.html",  
                data: $("#finance_form_id").serialize(),  
+               dataType:"json",
                success:function(result){
-                 if(result=='0'){
+            	  var boo=result.bool;
+            	  var obj=result.fiance;
+	 	          if(boo==false){
                 	 //   layer.msg(",{offset: ['150px', '180px']});     	 
                  } else{
-                	 parent.location.reload();
+                	  //parent.location.reload();
                 	  /* parent.window.location.href = "${pageContext.request.contextPath}/supplier/perfect_basic.html?id="+id; */
+                	   parent.$('#finance_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+                		"<td class='tc'>"+obj.year+"</td>"+	   
+                		"<td class='tc'>"+obj.name+"</td>"+	
+                		"<td class='tc'>"+obj.telephone+"</td>"+	
+                		"<td class='tc'>"+obj.auditors+"</td>"+	
+                		"<td class='tc'>"+obj.quota+"</td>"+	
+                		"<td class='tc'>"+obj.totalAssets+"</td>"+	
+                		"<td class='tc'>"+obj.totalLiabilities+"</td>"+	
+                		"<td class='tc'>"+obj.totalNetAssets+"</td>"+	
+                		"<td class='tc'>"+obj.taking+"</td> </tr>");
+                	  
+                	   parent.$('#finance_attach_list_tbody_id').append(" <tr> <td class='tc'><input type='checkbox' value="+obj.id+"></td>"+
+                		    "<td class='tc'>"+obj.year+"</td>"+	
+                       		"<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+obj.auditOpinion+"</a> <input type='hidden' value="+ obj.auditOpinionId+"></td>"+	   
+                       		"<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+obj.liabilitiesList+"</a> <input type='hidden' value="+ obj.liabilitiesListId+"></td>"+	   
+                       		"<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+obj.profitList+"</a> <input type='hidden' value="+ obj.profitListId+"></td>"+	   
+                       		"<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+obj.cashFlowStatement+"</a><input type='hidden' value="+ obj.cashFlowStatementId+"> </td>"+	   
+                       		"<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+obj.changeList+"</a> <input type='hidden' value="+ obj.changeListId+"> </td> </tr>"   
+
+                       		);
+                	    parent.layer.close(index);  
                  }
             	   
                 },
@@ -54,6 +78,20 @@
 		    parent.layer.close(index);
 
 	}
+	
+	function checknums(obj){
+		var vals=$(obj).val();
+		var reg=/^[0-9].*$/;
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
+	}
+	
+	
 </script>
 
 </head>
@@ -70,6 +108,15 @@
 							<input name="id" value="${uuid}" type="hidden" />
 							<input name="supplierId" value="${supplierFinance.supplierId}" type="hidden" />
 							<input name="sign" value="${supplierFinance.sign}" type="hidden" />
+					<!-- 		<input name="auditOpinionId"  type="hidden" />
+							<input name="liabilitiesListId"  type="hidden" />
+							<input name="profitListId"  type="hidden" />
+							<input name="cashFlowStatementId"  type="hidden" />
+							<input name="changeListId"  type="hidden" />
+							<input name="createdAt"  type="hidden" />
+							<input name="updatedAt"  type="hidden" />
+							<input name="listUploadFiles"  type="hidden" /> -->
+									
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-200" id="tab-1">
@@ -102,22 +149,22 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资产总额：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="totalAssets" />
+													<input class="span3"  onkeyup="checknums(this)" type="text" name="totalAssets" />
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 负债总额：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="totalLiabilities" />
+													<input class="span3" onkeyup="checknums(this)" type="text" name="totalLiabilities" />
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 净资产总额：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="totalNetAssets" />
+													<input class="span3" onkeyup="checknums(this)" type="text" name="totalNetAssets" />
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 营业收入：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="taking" />
+													<input class="span3" onkeyup="checknums(this)" type="text" name="taking" />
 												</div>
 											</li>
 											
