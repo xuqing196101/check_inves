@@ -98,6 +98,14 @@ function login(){
 function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
 }
+
+function setting(){
+	layer.msg("正在建设中");
+}
+
+function drugs(){
+	layer.msg("正在建设中");
+}
 </script>
 </head>
 
@@ -127,13 +135,13 @@ function kaptcha(){
 			</c:forEach>
 			
 			--%><li class="item" style="left:0px;">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
+				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.jpg" width="100%" height="100%"></a>
+				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/2.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
+				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
 		   </ul>
 			</ul>
@@ -268,10 +276,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -283,10 +291,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -298,10 +306,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -328,10 +336,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -343,10 +351,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -358,10 +366,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -387,10 +395,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -402,10 +410,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -417,10 +425,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -459,10 +467,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -474,10 +482,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -489,10 +497,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -519,10 +527,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -534,10 +542,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -549,10 +557,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -578,10 +586,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -608,10 +616,10 @@ function kaptcha(){
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
 					</c:if>
 					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -653,56 +661,54 @@ function kaptcha(){
 	 
      <div class="border1 flow_btn fl">
 	   <div class="ywbl_01">
-	     <a href="#" class="wssc">
+	     <a href="javascript:void(0)" class="wssc">
           <span>网上商城</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="dxcpjj">
+	     <a href="javascript:void(0)" onclick="setting()" class="dxcpjj">
           <span>定型产品竞价</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="ypcg">
+	     <a href="javascript:void(0)" onclick="drugs()" class="ypcg">
           <span>药品采购</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="fwcg">
+	     <a href="javascript:void(0)" class="fwcg">
           <span>服务采购</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="fwrx">
+	     <a href="javascript:void(0)" class="fwrx">
           <span>服务热线</span> 
 		 </a>
 	   </div>
 	 </div>
-	 
-	 
      <div class="border1 flow_btn clear">
 	   <div class="ywbl_02">
-	     <a href="#" class="cpml">
+	     <a href="javascript:void(0)" class="cpml">
           <span>产品目录</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="jscsk">
+	     <a href="javascript:void(0)" class="jscsk">
           <span>技术参数库</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="zlxz">
+	     <a href="javascript:void(0)" class="zlxz">
           <span>资料下载</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="cpshfw">
+	     <a href="javascript:void(0)" class="cpshfw">
           <span>产品售后服务</span> 
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="zxts">
+	     <a href="javascript:void(0)" class="zxts">
           <span>在线投诉</span> 
 		 </a>
 	   </div>
@@ -712,7 +718,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_02">
-	     <a href="#" class="yjfk">
+	     <a href="javascript:void(0)" class="yjfk">
           <span>意见反馈</span> 
 		 </a>
 	   </div>
@@ -776,7 +782,7 @@ function kaptcha(){
       <div class="col-md-3 mb10 login_box">
         <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   投诉处理公告<a class="news_more">更多>></a>
+		   投诉处理公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=48">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
@@ -797,7 +803,7 @@ function kaptcha(){
       <div class="col-md-3 mb10 login_box">
         <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   处罚公告<a class="news_more">更多>></a>
+		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=49">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   

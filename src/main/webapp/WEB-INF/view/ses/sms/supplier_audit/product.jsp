@@ -22,7 +22,7 @@
 		  //默认不显示叉
 		   $(function() {
 		    $("td").each(function() {
-		    $(this).parent("tr").find("td").eq(12).find("a").hide();
+		    $(this).parent("tr").find("td").find("a").hide();
 		    });
 		  });
 
@@ -39,8 +39,8 @@
 			      offset = "200px";
 			  }
 			  var supplierId=$("#supplierId").val();
-			  var auditFieldName = $("#"+id+"_name").text()+"的产品"; //审批的字段名字
-			  var auditContent=$("#"+id).text()+"产品信息"; //审批的字段内容
+			  var auditFieldName = $("#"+id+"_name").val()+"的产品"; //审批的字段名字
+			  var auditContent= auditFieldName+"信息"; //审批的字段内容
 			  var index =  layer.prompt({
 				  title: '请填写不通过的理由：', 
 				  formType: 2, 
@@ -61,6 +61,7 @@
 			        }
 			      }
 			    });
+			        
 					    $("#"+id+"_show").show();
 					    layer.close(index);
 			    });
@@ -174,7 +175,7 @@
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
         </form>
             
-        <c:forEach items="${listItem}" var="item" varStatus="vs">
+        <%-- <c:forEach items="${listItem}" var="item" varStatus="vs">
           <h2 class="count_flow"><i>${vs.index + 1}</i>${item.categoryName}产品信息表</h2>
           <ul class="ul_list">
             <table class="table table-bordered table-condensed table-hover">
@@ -228,16 +229,52 @@
 	                </tbody>
 	              </table>
 	              </ul>
-	            </c:forEach>
+	            </c:forEach> --%>
+	            
+	            <!--这是所有品目  -->
+              <c:forEach items="${currSupplier.listSupplierItems}" var="category" varStatus="vs">
+	              <h2 class="count_flow"><i>${vs.index + 1}</i>${category.categoryName}产品信息表</h2>
+	              <ul class="ul_list">
+	                <table class="table table-bordered table-condensed table-hover">
+	                  <thead>
+	                    <tr>
+	                      <!--这是所有的品目参数  -->
+	                      <th class="info w50">序号</th>
+		                    <c:forEach items="${currSupplier.categoryParam}" var="item" varStatus="vs"> 
+		                      <c:if test="${category.categoryId==item.cateId }">
+		                        <th class="info">${item.paramName}</th>
+		                      </c:if>
+		                    </c:forEach>
+		                    <th class="info w50"></th> 
+	                    </tr>
+	                  </thead>
+	                  <tr >
+		                  <!--这是所有的品目参数值  -->
+		                  <td class="tc w50">${vs.index + 1}</td> 
+		                  <c:forEach items="${currSupplier.categoryParam}" var="cate" varStatus="vs">
+		                    <c:forEach items="${currSupplier.paramVleu}" var="obj"  > 
+		                      <c:if test="${category.categoryId==cate.cateId and obj.categoryParamId==cate.id }"> 
+		                        <td  align="center" onclick="reason('${obj.id}');">${obj.paramValue}</td>
+		                      </c:if>
+		                      <input type="hidden" id="${obj.id}_name" value="${category.categoryName}">
+		                    </c:forEach> 
+		                  </c:forEach>
+		                  <td class="tc" >
+                        <a  id="" class="b f18 fl ml10 hand red">×</a>
+                      </td>
+	                  </tr>  
+	                </table>
+                </ul>
+              </c:forEach>
             </div>
-            <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
-                <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
-                <a class="btn"  type="button" onclick="nextStep();">下一步</a>
-            </div>
+        <div class="col-sm-12 col-md-12 col-xs-12 add_regist tc">
+          <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
+          <a class="btn"  type="button" onclick="nextStep();">下一步</a>
+        </div>
       </div>
     </div>
 	  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
-	      <input type="hidden" name="fileName" />
+	    <input type="hidden" name="fileName" />
 	  </form>
   </body>
 </html>

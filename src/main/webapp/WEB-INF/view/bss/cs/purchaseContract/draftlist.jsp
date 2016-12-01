@@ -35,6 +35,11 @@
 		        }
 		    }
 		});
+	    $(document).keyup(function(event) {
+			if (event.keyCode == 13) {
+				$("#form1").submit();
+			}
+		});
   });
 	/** 全选全不选 */
 	function selectAll(){
@@ -315,23 +320,23 @@
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="tc pointer ">${code}</td>
+					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
+					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="tc pointer ">${name}</td>
+					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.supplierDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.demandSector}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.documentNumber}</td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budget}</td>

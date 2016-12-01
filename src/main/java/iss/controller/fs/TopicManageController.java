@@ -165,7 +165,7 @@ public class TopicManageController extends BaseSupplierController {
 				int len = ValidateUtils.length(topic.getName());
 				if(len>20||len<6){
 					flag = false;
-					model.addAttribute("ERR_name", "主题名称由6-20个字符组成，一个中文计2个字符");
+					model.addAttribute("ERR_name", "主题名称由6-10个字符组成");
 				}
 			}
 		}
@@ -250,7 +250,7 @@ public class TopicManageController extends BaseSupplierController {
 				int len = ValidateUtils.length(topic.getName());
 				if(len>20||len<6){
 					flag = false;
-					model.addAttribute("ERR_name", "主题名称由6-20个字符组成，一个中文计2个字符");
+					model.addAttribute("ERR_name", "主题名称由6-10个字符组成");
 				}
 			}
 		}

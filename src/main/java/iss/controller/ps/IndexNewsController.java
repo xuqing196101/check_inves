@@ -121,19 +121,19 @@ public class IndexNewsController extends BaseSupplierController{
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = null;
 			if(articleTypeList.get(i).getName().equals("工作动态")){
-				indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
+				indexNewsList = indexNewsService.selectNewsForJob(articleTypeList.get(i).getId());
 			}else{
 				indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
 			}
-			if(!indexNewsList.isEmpty()){
+//			if(!indexNewsList.isEmpty()){
 				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
-			}else{
-				List<Article> indexNews = new ArrayList<Article>();
-				Article article = new Article();
-				article.setArticleType(articleTypeList.get(i));
-				indexNews.add(article);
-				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
-			}
+//			}else{
+//				List<Article> indexNews = new ArrayList<Article>();
+//				Article article = new Article();
+//				article.setArticleType(articleTypeList.get(i));
+//				indexNews.add(article);
+//				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNews);
+//			}
 		}
 		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("isIndex", "true");

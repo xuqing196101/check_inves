@@ -813,11 +813,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
 		String supplierId = supplierAudit.getSupplierId();
 		request.setAttribute("supplierId", supplierId);
-		
+		/*
 		if(supplierId != null){
 			List<SupplierItem> listItem= supplierService.get(supplierId).getListSupplierItems();
 			request.setAttribute("listItem", listItem);
-		}
+		}*/
+		supplier = supplierService.get(supplierId);
+		request.getSession().setAttribute("currSupplier", supplier);
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);

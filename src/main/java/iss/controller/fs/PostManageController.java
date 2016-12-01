@@ -108,7 +108,6 @@ public class PostManageController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<Post> list = postService.queryByList(map);
-		
 		//如果是管理员获取所有版块，版主则获取自己负责的版块
 		List<Park> parks = null;
 		if(i.equals(j)){			
@@ -117,7 +116,6 @@ public class PostManageController {
 			parks = parkService.getAll(null);
 		}
 		model.addAttribute("parks", parks);
-		
 		model.addAttribute("list", new PageInfo<Post>(list));
 		model.addAttribute("postName", postName);
 		model.addAttribute("parkId", parkId);

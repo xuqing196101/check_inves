@@ -796,7 +796,7 @@ public class PurchaserExamController extends BaseSupplierController{
 				int len = ValidateUtils.length(name);
 				if(len>20||len<6){
 					error="error";
-					model.addAttribute("ERR_name", "试卷名称由6-20个字符组成，一个中文计2个字符");
+					model.addAttribute("ERR_name", "试卷名称由6-10个字符组成");
 				}
 			}
 		}
@@ -1144,7 +1144,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					int len = ValidateUtils.length(name);
 					if(len>20||len<6){
 						error="error";
-						model.addAttribute("ERR_name", "试卷名称由6-20个字符组成，一个中文计2个字符");
+						model.addAttribute("ERR_name", "试卷名称由6-10个字符组成");
 					}
 				}
 			}

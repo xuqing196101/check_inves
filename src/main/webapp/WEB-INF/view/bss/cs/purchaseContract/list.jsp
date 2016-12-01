@@ -12,7 +12,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
 	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
@@ -37,6 +36,11 @@
 		            location.href = "${pageContext.request.contextPath}/downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
 		        }
 		    }
+		});
+	    $(document).keyup(function(event) {
+			if (event.keyCode == 13) {
+				query();
+			}
 		});
   });
 	/** 全选全不选 */
@@ -122,6 +126,7 @@
 		  			dataType:"text",
 		  			type:"POST",
 		  			success:function(data){
+		  				$("#delSele").html("");
 		  				$("#delSele").append(data);
 		  				ind = layer.open({
 							shift: 1, //0-6的动画形式，-1不开启
@@ -132,7 +137,7 @@
 							skin : 'layui-layer-rim', //加上边框
 							area : [ '40%', '200px' ], //宽高
 							content : $('#numberWin'),
-							offset: ['10%', '25%']
+							offset: ['5%', '25%']
 						});
 		  			}
 		  		});
@@ -258,8 +263,23 @@
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer">${pack.project.name}</td>
-				<td class="tc pointer">${pack.project.projectNumber}</td>
+				<c:set value="${pack.project.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>10}">
+					<td class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,10)}...</td>
+				</c:if>
+				<c:if test="${length<=10}">
+					<td class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
+				</c:if>
+				<c:set value="${pack.project.projectNumber}" var="code"></c:set>
+				<c:set value="${fn:length(code)}" var="length"></c:set>
+				<c:if test="${length>10}">
+					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,10)}...</td>
+				</c:if>
+				<c:if test="${length<=10}">
+					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();>${code}</td>
+				</c:if>
+				<td class="pointer">${pack.project.projectNumber}</td>
 				<td class="tc pointer">${pack.name}</td>
 				<td class="tc pointer">${pack.project.amount}</td>
 				<td class="tc pointer">${pack.supplierNames}</td>
