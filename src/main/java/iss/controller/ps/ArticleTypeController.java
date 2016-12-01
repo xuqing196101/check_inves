@@ -99,6 +99,11 @@ public class ArticleTypeController {
 		String id = request.getParameter("articletypeId");
 		Boolean flag = true;
 		String url = "";
+		for(int i=0;i<articletypes.size();i++){
+			if(articletypes.get(i).getId().equals(id)){
+				articletypes.remove(i);
+			}
+		}
 		for(ArticleType ar:articletypes){
 			if(ar.getName().equals(articleType.getName())){
 				flag = false;

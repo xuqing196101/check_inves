@@ -12,7 +12,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
 	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
@@ -36,6 +35,11 @@
 					$("#form").submit();
 		        }
 		    }
+		});
+	    $(document).keyup(function(event) {
+			if (event.keyCode == 13) {
+				$("#form1").submit();
+			}
 		});
   });
 	/** 全选全不选 */
@@ -284,23 +288,23 @@
 				<c:set value="${formalCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${fn:substring(code,0,7)}...</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${code}</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
 				</c:if>
 				<c:set value="${formalCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${fn:substring(name,0,9)}...</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${formalCon.id}')" class="tc pointer ">${name}</td>
+					<td onclick="showDraftContract('${formalCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.supplierDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.demandSector}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.documentNumber}</td>
 				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>

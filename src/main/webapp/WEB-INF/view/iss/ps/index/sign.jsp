@@ -111,19 +111,19 @@
 </script>
 </head>
 <body class="sign_bg">
-	<div class="container content">
+	<div class="container content login_content">
 		<div class="row">
-			<a href="${pageContext.request.contextPath}/index/selectIndexNews.html" class="col-md-8">
+			<a href="${pageContext.request.contextPath}/index/selectIndexNews.html" class="col-md-8 col-sm-6 col-xs-12">
 				<img src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="50%" height="90%" />
 			</a>
-			<div class="col-md-4"></div>
-			<div class="container content">
+			<div class="col-md-4 col-sm-5 col-xs-12"></div>
+			<div class="container content login_content">
 				<div class="row">
-					<div class="sign_left col-md-6  ">
+					<div class="sign_left col-md-6 col-sm-12 col-xs-12">
 						<img src="${pageContext.request.contextPath}/public/portal/images/newsign_left.jpg" width="100%" height="100%" />
 					</div>
-					<div class="col-md-5  login_right  col-md-offset-1 ">
-						<div class="col-md-10 col-sm-8 clear">
+					<div class="col-md-5 col-sm-12 col-xs-12 login_right">
+						<div class="col-md-10 col-sm-12 col-xs-12 clear">
 							<div class="box-shadow shadow-effect-2 opacity-80 sign_box">
 								<header class="margin-top-10 ofh">
 									<ul class="list-unstyled sign_kinds col-md-12 p0">
@@ -135,18 +135,18 @@
 									<div class="tab-pane active in" id="tab-1">
 
 										<form accept-charset="UTF-8" class="sky-form reg-page" method="post">
-											<section class="mb5">
+											<section class="mb10">
 												<div class="row">
-													<label class="label col col-md-3">用户名</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input"> <input id="inputEmail" name="" placeholder="用户名" type="text"> </label>
 													</div>
 												</div>
 											</section>
-											<section class="mb5">
+											<section class="mb10">
 												<div class="row">
-													<label class="label col col-md-3">密 码</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input"> <input id="inputPassword" name="" placeholder="密 码" type="password"> </label>
 														<div class="note"></div>
 													</div>
@@ -154,13 +154,13 @@
 											</section>
 											<section class="mb20">
 												<div class="row">
-													<label class="label col col-md-3">验证码</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input">
-															<div class="col-md-6 pl0">
+															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
 																<input id="inputCode" type="text" placeholder="" class="fl col-md-12">
 															</div>
-															<div class="col-md-6 p0">
+															<div class="col-md-6 col-sm-6 col-xs-6 p0">
 																<img id="identity_code_img_id_0" style="border: 1px solid #2c9fa6; cursor: pointer;" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode(0)">
 															</div> </label>
 														<div class="note"></div>
@@ -174,19 +174,19 @@
 									</div>
 									<div class="tab-pane" id="tab-2">
 										<form accept-charset="UTF-8" class="sky-form reg-page" method="post">
-											<section class="mb5">
+											<section class="mb10">
 												<div class="row">
-													<label class="label col col-md-3">用户名</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input"> <input id="" name="" placeholder="用户名" type="text"> </label>
 													</div>
 												</div>
 											</section>
 
-											<section class="mb5">
+											<section class="mb10">
 												<div class="row">
-													<label class="label col col-md-3">密 码</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input"> <input id="" name="" placeholder="密 码" type="password"> </label>
 														<div class="note"></div>
 													</div>
@@ -194,13 +194,13 @@
 											</section>
 											<section class="mb20">
 												<div class="row">
-													<label class="label col col-md-3">验证码</label>
-													<div class="col col-md-8">
+													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
+													<div class="col col-md-8 col-sm-12 col-xs-12">
 														<label class="input">
-															<div class="col-md-6 pl0">
+															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
 																<input type="password" placeholder="" class="fl col-md-12">
 															</div>
-															<div class="col-md-6 p0">
+															<div class="col-md-6 col-sm-6 col-xs-6 p0">
 																<img id="identity_code_img_id_1" style="border: 1px solid #2c9fa6; cursor: pointer;" height="34px" class="hand w100p" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode(1)">
 															</div> </label>
 														<div class="note"></div>
@@ -220,7 +220,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="container clear tc mt60 footer-fixed">Copyright 2016 版权所有：中央军委后勤保障部</div>
+		<div class="container clear tc footer-fixed">Copyright 2016 版权所有：中央军委后勤保障部</div>
 	</div>
 </body>
 </html>

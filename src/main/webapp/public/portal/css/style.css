@@ -2329,6 +2329,7 @@ a.yjfk{
     border: solid 1px #eee;
     box-shadow: 0 0 3px #eee;
 }
+@media (min-width:768px){
 .login_right{
     padding-left:4%;
 	border-left:1px solid #cccccc;
@@ -2339,6 +2340,20 @@ a.yjfk{
    margin-left:4%;
    margin-top: 5%;
 }
+}
+@media (max-width:768px){
+.login_right{
+	padding-left:0%;
+	border-left:0px solid #cccccc;
+	margin-left:0;
+    margin-top:5%;
+}
+.sign_left{
+   margin-left:0%;
+   margin-top: 5%;
+}
+}
+
 .sign_bg{
    background:#e7ebee;
 }
@@ -2388,6 +2403,9 @@ a.yjfk{
 .new_content{
  line-height:30px;
 }
+.new_content p{
+ font-size:14px;
+}
 .source{
 	overflow: hidden;
 	border-bottom: 1px dashed #ddd;
@@ -2423,14 +2441,24 @@ span.list_squre {
     color:#ef0000;
     margin-right:5px;
 }
-<<<<<<< Updated upstream
 .footer-fixed{
 	position:fixed;
 	left:0;
 	right:0;
 	bottom:0;
 }
-=======
-
-
+@media(min-width:1367px){
+.login_content{
+	width:1670px!important;
+}
+.login_content section{
+	margin-bottom:35px!important;
+}
+.login_btn{
+	margin-top:20px;
+}
+.reg-page{
+	padding:60px 30px;
+}
+}
 >>>>>>> Stashed changes
