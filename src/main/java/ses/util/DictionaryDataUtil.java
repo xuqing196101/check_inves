@@ -88,4 +88,18 @@ public class DictionaryDataUtil {
         List<DictionaryData> dds= dictionaryDataUtil.dictionaryDataService.find(dictionaryData);
         return dds;
     }
+    
+    /**
+     * 
+     *〈简述〉
+     * 根据Id查询
+     *〈详细描述〉
+     * @author myc
+     * @param id 主键
+     * @return
+     */
+    public static DictionaryData findById(String id){
+        
+        return  dictionaryDataUtil.dictionaryDataService.getDictionaryData(id);
+    }
 }

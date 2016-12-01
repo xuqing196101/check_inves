@@ -171,22 +171,32 @@
 		}
 		
 		function goback(){
-			var currpage = $("#currpage").val();
-			location.href = '${pageContext.request.contextPath}/user/list.html?page='+currpage;
+			
+			var origin = $("input[name='origin']").val();
+			var srcOrgId = $("input[name='orgId']").val();
+			if (origin != null && origin != ""){
+				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId;
+			} else {
+				var currpage = $("#currpage").val();
+				location.href = '${pageContext.request.contextPath}/user/list.html?page='+currpage;
+			}
+			
 		}
 	</script>
 </head>
 <body>
-
-   <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
+   <c:if test="${empty  origin}">
+     <!--面包屑导航开始-->
+     <div class="margin-top-10 breadcrumbs ">
+       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户管理</a></li><li class="active"><a href="#">修改用户</a></li>
 		   </ul>
 		<div class="clear"></div>
-	  </div>
-   </div>
+	   </div>
+     </div>
+   </c:if>
+   
    
    <!-- 表单内容开始-->
    <div class="container container_box">
@@ -197,6 +207,7 @@
 			<ul id="treeRole" class="ztree mt0"></ul>
 	   </div>
 	   <sf:form action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
+	   	  	<input type="hidden" name="origin"  value="${origin}"/>
 	   	   <div>
 			    <h2 class="count_flow">修改用户</h2>
 			    <input type="hidden" id="currpage" name="currpage" value="${currPage}">
@@ -263,30 +274,46 @@
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
 					    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-					        <select name="typeName" id="typeName_id">
-					        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
-					        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
-						        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
-											<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
-											<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
-											<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
-											<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-											<%-- <c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
-											<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
-											<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
-											<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if> --%>
-											<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
-						        		</option>
-					        		</c:if>
-			        			</c:forEach>
-					        </select>
+					        <c:choose>
+					        	<c:when test="${not empty origin}">
+					        	  <select name="typeName" id="typeName_id">
+					        	    <option value="${personTypeId}">${personTypeName}</option>
+					        	  </select>
+					        	</c:when>
+					        	<c:otherwise>
+					        		<select name="typeName" id="typeName_id">
+					        		  <c:forEach items="${typeNames}" var="t" varStatus="vs">
+						        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
+							        		<option value="${t.id }" <c:if test="${t.id eq user.typeName}">selected</c:if>>
+												<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
+												<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
+												<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
+												<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
+												<%-- <c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
+												<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
+												<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
+												<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if> --%>
+												<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
+							        		</option>
+						        		</c:if>
+				        			</c:forEach>
+					       		  </select>
+					        	</c:otherwise>
+					        </c:choose>
 				        </div>
 			 		</li>
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
 					   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 						   	<input id="oId" name="orgId" type="hidden" value="${orgId }">
-					        <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
+						   	<c:choose>
+						   		<c:when test="${not empty origin}">
+						   		   <input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  />
+						   		</c:when>
+						   		<c:otherwise>
+						   			<input id="orgSel" class="span5" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
+						   		</c:otherwise>
+						   	</c:choose>
 					        <div class="drop_up" onclick="showOrg();">
 								   <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
 					        </div>

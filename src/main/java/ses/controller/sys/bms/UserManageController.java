@@ -287,8 +287,20 @@ public class UserManageController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/edit")
-	public String edit(User u, Integer page, Model model) {
-		List<User> users = userService.find(u);
+	public String edit(User u, Integer page, Model model, HttpServletRequest request) {
+	    
+	    String origin = request.getParameter("origin");
+	    String userId = request.getParameter("userId");
+	    List<User> users = null;
+	    if (StringUtils.isNotBlank(origin) && StringUtils.isNotBlank(userId)){
+	        User user = new User();
+	        user.setId(userId);
+	        users = userService.find(user);
+	        model.addAttribute("origin", origin);
+	    } else {
+	        users = userService.find(u);
+	    }
+	    
 		if (users != null && users.size() > 0) {
 			User user = users.get(0);
 			logger.info(JSON.toJSONStringWithDateFormat(user,
@@ -311,8 +323,17 @@ public class UserManageController extends BaseController{
 				}
 			}
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
+			
+			if (StringUtils.isNotBlank(origin)){
+			   DictionaryData dd =  DictionaryDataUtil.findById(user.getTypeName());
+			   if (dd != null){
+			       model.addAttribute("personTypeId", dd.getId());
+			       model.addAttribute("personTypeName", dd.getName());
+			   }
+			} else {
+			    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	            model.addAttribute("typeNames", typeNames);
+			}
 	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("roleId", roleId);
@@ -323,10 +344,9 @@ public class UserManageController extends BaseController{
 			}
 			model.addAttribute("user", user);
 			model.addAttribute("currPage", page);
-		} else {
-
 		}
-		return "ses/bms/user/edit";
+		
+		  return "ses/bms/user/edit";
 	}
 
 	/**
@@ -342,7 +362,8 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
-		
+        
+	    String origin = request.getParameter("origin");
 		//校验字段
 		if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -355,6 +376,15 @@ public class UserManageController extends BaseController{
 			model.addAttribute("roleId", u.getRoleId());
 			model.addAttribute("roleName", request.getParameter("roleName"));
 			model.addAttribute("currPage",request.getParameter("currpage"));
+			
+			if (StringUtils.isNotBlank(origin)){
+			    DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
+                if (dd != null){
+                   model.addAttribute("personTypeId", dd.getId());
+                   model.addAttribute("personTypeName", dd.getName());
+                }
+            }
+			
 			return "ses/bms/user/edit";
 		}
 	
@@ -425,12 +455,15 @@ public class UserManageController extends BaseController{
 					userService.saveUserMenu(userPreMenu);
 				}
 			}
-			
-		} else {
-
 		}
-		String currpage = request.getParameter("currpage");
-		return "redirect:list.html?page="+currpage;
+		
+		if (StringUtils.isNotBlank(origin)){
+		     model.addAttribute("srcOrgId", orgId);
+            return "ses/oms/require_dep/list";
+		} else {
+		    String currpage = request.getParameter("currpage");
+	        return "redirect:list.html?page="+currpage;
+		}
 	}
 
 	/**

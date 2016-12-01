@@ -13,17 +13,12 @@
     		var ids = getSelectIds();
     		var len = ids.length;
     		var titles="";
-    		if(len>1){
-    			titles="只能选择一条记录";
-    		}else if(len<=0){
-    			titles="至少选择一条记录";
-    		}
-    		if(len>1||len<=0){
+    		if(ids.length != 1){
+    			titles="请选择一条记录";
     			truealert(titles,5);
     			return;
-		    };
-    		//console.dir(array[0].defaultValue);
-    		parent.showiframe("修改机构人员",1000,600,"${pageContext.request.contextPath}/purchaseManage/editUser.do?id="+ids[0],"-4");
+    		}
+    		window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId;  
     	}
     	function delUser(id){
     		var ids = getSelectIds();
@@ -180,9 +175,7 @@
 									class="btn btn-sm btn-default" href="javascript:void(0)"
 									onClick="editUser();"><i class="fa fa-wrench"></i> 修改人员</a> <a
 									class="btn btn-sm btn-default" href="javascript:void(0)"
-									onClick="delUser();"><i class="fa fa-plus"></i> 删除人员</a> <a
-									class="btn btn-sm btn-default" data-toggle="modal" href=""><i
-									class="fa fa-plus"></i> 人员授权</a>
+									onClick="delUser();"><i class="fa fa-plus"></i> 删除人员</a>
 							</div>
 						</div>
 						<div class="panel panel-grey clear mt5">
