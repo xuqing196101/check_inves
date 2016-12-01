@@ -673,6 +673,11 @@
 			<if test="status != null">
 				and STATUS = #{status}
 			</if>
+			
+			<if test="parentId != null">
+                and PARENT_ID = #{parentId}
+            </if>
+            
 		</where>
 		ORDER BY IS_MASTER
 		

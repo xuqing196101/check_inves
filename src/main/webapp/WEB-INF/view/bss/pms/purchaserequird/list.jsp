@@ -104,7 +104,7 @@
 		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html",
 		 			 type:"post",
 		 			 data:{
-		 				 planNo:$('input[name="chkItem"]:checked').val()
+		 				 planNo:id
 		 				 },
 		 			 success:function(){
 		 				window.location.reload();

@@ -391,7 +391,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post" style="margin-top: 20px;">
 	<div style="text-align: center;"><span>计划编号：</span><input  type="text" name="cno" value=""></div>
 	  <div style="text-align: center;"><span>文件名称：</span><input  type="text" name="fileName" value=""></div>
-	       <div  style="text-align: center;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</span><input  type="password" name="password" value=""></div>
+	       <div  style="text-align: center;"><span>密码：</span><input  type="password" name="password" value=""></div>
 	       
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>

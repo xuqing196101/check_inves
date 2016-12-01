@@ -107,7 +107,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(Integer page, Model model, Project project, HttpServletRequest request) {
-        request.getSession().removeAttribute("idr");//返回展示页面删掉session
+        request.getSession().removeAttribute("listFengtian");//返回展示页面删掉session
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -126,6 +126,7 @@ public class ProjectController extends BaseController {
      * @param request 内置对象
      * @return 添加页面
      */
+    @SuppressWarnings("unchecked")
     @RequestMapping("/add")
     public String add(Integer page, Model model, String id, String checkedIds,
                       HttpServletRequest request,PurchaseRequiredFormBean listBean) {
@@ -135,16 +136,16 @@ public class ProjectController extends BaseController {
         model.addAttribute("info", info);
         //显示项目明细
         if(id != null){
-            String idr = (String) request.getSession().getAttribute("idr");
+           /* String idr = (String) request.getSession().getAttribute("idr");
             if (idr != null) {
                 idr = idr + "," + id;
                 request.getSession().setAttribute("idr", idr);
             } else {
                 request.getSession().setAttribute("idr", id);
             }
-            String ide = (String) request.getSession().getAttribute("idr");
+            String ide = (String) request.getSession().getAttribute("idr");*/
             List<PurchaseRequired> lists  = new ArrayList<>();
-            String[] ids = ide.split(",");
+            String[] ids = id.split(",");
             //BigDecimal zero = BigDecimal.ZERO;
             int bud = 0;
             for (int i = 0; i < ids.length; i++ ) {
@@ -170,19 +171,15 @@ public class ProjectController extends BaseController {
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             
-               
-           /* for(PurchaseRequired p:listBean.getList()){
-                for(PurchaseRequired s:lists){
-                     if(p.getId().equals(s.getId())){
-                         s.setBudget(p.getBudget());
-                         
-                     }
-                }
-            }*/
+            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("listFengtian");
+            if(sessionList!=null&&sessionList.size()>0){
+                list1.addAll(sessionList);
+            }
             model.addAttribute("lists", list1);
             
+            request.getSession().setAttribute("listFengtian", list1);
             
-            model.addAttribute("ids", ide);
+            model.addAttribute("ids", id);
             model.addAttribute("checkedIds", checkedIds);
         }
         
@@ -224,7 +221,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/create")
     public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
-        request.getSession().removeAttribute("idr");
+        request.getSession().removeAttribute("listFengtian");
         try {
             // 判断表单是否重复提交
             HttpSession session = request.getSession();
