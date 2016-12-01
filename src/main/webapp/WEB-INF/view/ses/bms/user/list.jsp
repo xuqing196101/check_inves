@@ -77,25 +77,26 @@
   	
     function edit(){
     	var id=[]; 
+    	var checktd;
 		$('input[name="chkItem"]:checked').each(function(){ 
-			var trObj = $(this).parent().parent();
+			id.push($(this).val());
+			checktd = $(this);
+        });
+		if(id.length==1){
+			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
 		    var typeNameCode = tdArr.eq(6).find("input").val();
 		    if (typeNameCode == 'SUPPLIER_U' || typeNameCode == 'EXPERT_U' || typeNameCode == 'IMP_SUPPLIER_U' || typeNameCode == 'IMP_AGENT_U') {
 				layer.msg("该类型用户信息不能修改",{offset: ['222px']});
 			} else {
-				id.push($(this).val());
-				if(id.length==1){
-					var currPage = ${list.pageNum};
-					window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
-				}else if(id.length>1){
-					layer.alert("只能选择一个",{offset: '222px', shade:0.01});
-				}else{
-					layer.alert("请选择需要修改的用户",{offset: '222px', shade:0.01});
-				}
+				var currPage = ${list.pageNum};
+				window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
 			}
-		}); 
-		
+		} else  if (id.length>1) {
+			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
+		} else {
+			layer.alert("请选择需要修改的用户",{offset: '222px', shade:0.01});
+		}
     }
     
     function del(){
