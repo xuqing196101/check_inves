@@ -40,7 +40,7 @@
 			       <tr>
 			        <td class="tc w30">${vs.count} </td>
 			        <td class="tc">${rp.packageName}</td>
-			        <td class="tc">
+			        <td class="tc w260">
 					  <div class="col-md-12 padding-0">
 					  	  <span class="fl padding-5">
 					  	  	<c:if test="${rp.auditStatus == '0'}">未评审</c:if>

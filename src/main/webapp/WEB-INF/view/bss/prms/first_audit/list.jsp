@@ -53,10 +53,37 @@
 				 }
 		   }
 	}
-  	function fitsrView(packAgeId){
-  		
+	
+	//进入包初审页面
+  	function fitsrView(packageId, projectId, flowDefineId){
+  		window.location.href="${pageContext.request.contextPath}/packageExpert/firstAuditView.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
   	}
   
+    //初审汇总
+  	function gather(obj){
+  	    var projectId = $("#projectId").val();
+	    var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('确定要汇总吗?', {title:'提示',offset: '80px',shade:0.01},function(index){
+				$.ajax({   
+		            type: "POST",  
+		            url: "${pageContext.request.contextPath}/packageExpert/gather.html?projectId="+projectId+"&packageIds="+ids,       
+				    dataType:'json',
+				    success:function(result){
+				    	layer.alert(data,{offset: "200px", shade:0.01});
+	                },
+	                error: function(result){
+	                    layer.msg("汇总失败",{offset: "80px"});
+	                }
+		     	});
+			});
+		}else{
+			layer.alert("请选择一条",{offset: "80px", shade:0.01});
+		}
+	}
   </script>
   <body>
   	<div class="container">
@@ -64,10 +91,11 @@
 	     	<h2>初审</h2>
 	    </div>
 	    <div class="col-md-12 pl20 mt10">
-		    <button class="btn" onclick="addexp();" type="button">初审汇总</button>
+		    <button class="btn" onclick="gather();" type="button">初审汇总</button>
 	   	</div>
 	   	<div class="content table_box">
 	   		<input type="hidden" id="projectId" value="${projectId}">
+	   		<input type="hidden" id="flowDefineId" value="${flowDefineId}">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 				<tr>
@@ -80,7 +108,7 @@
 				</thead>
 				<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 			       <tr>
-			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
+			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
 			        <td class="tc w30">${vs.count} </td>
 			        <td class="tc">${rp.packageName}</td>
 				    <td class="tc">
@@ -95,7 +123,7 @@
 					  </div>
 				    </td>
 				    <td class="tc w100">
-			          <input class="btn" type="button" value="查看" onclick="fitsrView('${rp.packageId}')">
+			          <input class="btn" type="button" value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
 			        </td>
 			      </tr>
 				</c:forEach>

@@ -399,44 +399,48 @@ public class ProjectManageController {
     @ResponseBody
     public void saveIndex(String data1, String data2, HttpServletResponse response, HttpServletRequest req) throws IOException{
         try {
-            //解析data
-            String[] dataArr1 = data1.split(",");
-            String[] dataArr2 = data2.split(",");
-            for (String values : dataArr1) {
-                String value = values.substring(1, values.length()-1);
-                String[] v = value.split("_");
-                FirstAuditQuota faq = new FirstAuditQuota();
-                faq.setCreatedAt(new Date());
-                faq.setId(WfUtil.createUUID());
-                faq.setIsDeleted((short)0);
-                faq.setPackageId(v[2]);
-                faq.setProjectId(v[0]);
-                faq.setPackFirstId(v[1]);
-                Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
-                faq.setSupplierId(supplier.getId());
-                faq.setValue(Integer.parseInt(v[3]));
-                firstAuditQuotaService.save(faq);
-            }
-            for (String values : dataArr2) {
-                String value = values.substring(1, values.length()-1);
-                String[] v = value.split("_");
-                AduitQuota aq = new AduitQuota();
-                aq.setCreatedAt(new Date());
-                aq.setId(WfUtil.createUUID());
-                aq.setIsDeleted((short)0);
-                aq.setPackageId(v[2]);
-                aq.setProjectId(v[0]);
-                aq.setRound(0);
-                aq.setScoreModelId(v[1]);
-                Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
-                aq.setSupplierId(supplier.getId());
-                if ("null".equals(v[3])) {
-                    aq.setSupplierValue(null);
-                } else {
-                    BigDecimal bd = new BigDecimal(v[3]);
-                    aq.setSupplierValue(bd);
+            if (data1 != null && !"".equals(data1)) {
+                //解析data
+                String[] dataArr1 = data1.split(",");
+                for (String values : dataArr1) {
+                    String value = values.substring(1, values.length()-1);
+                    String[] v = value.split("_");
+                    FirstAuditQuota faq = new FirstAuditQuota();
+                    faq.setCreatedAt(new Date());
+                    faq.setId(WfUtil.createUUID());
+                    faq.setIsDeleted((short)0);
+                    faq.setPackageId(v[2]);
+                    faq.setProjectId(v[0]);
+                    faq.setPackFirstId(v[1]);
+                    Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+                    faq.setSupplierId(supplier.getId());
+                    faq.setValue(Integer.parseInt(v[3]));
+                    firstAuditQuotaService.save(faq);
                 }
-                aduitQuotaService.save(aq);
+            }
+            if (data2 != null && !"".equals(data2)) {
+                String[] dataArr2 = data2.split(",");
+                for (String values : dataArr2) {
+                    String value = values.substring(1, values.length()-1);
+                    String[] v = value.split("_");
+                    AduitQuota aq = new AduitQuota();
+                    aq.setCreatedAt(new Date());
+                    aq.setId(WfUtil.createUUID());
+                    aq.setIsDeleted((short)0);
+                    aq.setPackageId(v[2]);
+                    aq.setProjectId(v[0]);
+                    aq.setRound(0);
+                    aq.setScoreModelId(v[1]);
+                    Supplier supplier = (Supplier)req.getSession().getAttribute("loginSupplier");
+                    aq.setSupplierId(supplier.getId());
+                    if ("null".equals(v[3])) {
+                        aq.setSupplierValue(null);
+                    } else {
+                        BigDecimal bd = new BigDecimal(v[3]);
+                        aq.setSupplierValue(bd);
+                    }
+                    aduitQuotaService.save(aq);
+                }
             }
             String msg = "保存成功";
             response.setContentType("text/html;charset=utf-8");
