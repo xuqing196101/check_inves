@@ -1080,8 +1080,11 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/deleteDraft")
 	public String deleteDraft(HttpServletRequest request) throws Exception{
-		String ids = request.getParameter("ids");
-		purchaseContractService.deleteDraftByPrimaryKey(ids);
+		String id = request.getParameter("ids");
+		String[] ids = id.split(",");
+		for(int i=0;i<ids.length;i++){
+			purchaseContractService.deleteDraftByPrimaryKey(ids[i]);
+		}
 		return "redirect:selectDraftContract.html";
 	}
 	

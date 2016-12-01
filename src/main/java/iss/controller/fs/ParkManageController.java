@@ -183,7 +183,7 @@ public class ParkManageController extends BaseSupplierController {
 				int len = ValidateUtils.length(park.getName());
 				if(len>20||len<6){
 					flag = false;
-					model.addAttribute("ERR_name", "版块名称由6-20个字符组成，一个中文计2个字符");
+					model.addAttribute("ERR_name", "版块名称由6-10个字符组成");
 				}
 			}
 		}
@@ -274,7 +274,7 @@ public class ParkManageController extends BaseSupplierController {
 				int len = ValidateUtils.length(park.getName());
 				if(len>20||len<6){
 					flag = false;
-					model.addAttribute("ERR_name", "版块名称由6-20个字符组成，一个中文计2个字符");
+					model.addAttribute("ERR_name", "版块名称由6-10个字符组成");
 				}
 			}
 		}	

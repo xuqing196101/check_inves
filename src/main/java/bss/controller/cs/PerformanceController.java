@@ -360,7 +360,7 @@ public class PerformanceController {
 			performance.setDraftSignedAt(draftTime);
 			performance.setFormalSignedAt(formalTime);
 			performance.setDelivery(deliveryTime);
-			performanceService.insertSelective(performance);
+			performanceService.updateSelective(performance);
 			url="redirect:/performance/selectAll.html";
 		}else{
 			model.addAttribute("performance", performance);
@@ -461,7 +461,7 @@ public class PerformanceController {
 	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午3:11:35  
-	* @Description: 查看一个履约情况
+	* @Description: 删除履约情况
 	* @param @param model
 	* @param @param request
 	* @param @return
@@ -471,7 +471,10 @@ public class PerformanceController {
 	@RequestMapping("/deletePerfor")
 	public String deletePerfor(HttpServletRequest request) throws Exception{
 		String id = request.getParameter("id");
-		performanceService.deleteByPrimaryKey(id);
+		String[] ids = id.split(",");
+		for(int i=0;i<ids.length;i++){
+			performanceService.deleteByPrimaryKey(ids[i]);
+		}
 		return "redirect:selectAll.html";
 	}
 }

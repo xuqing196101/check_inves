@@ -56,22 +56,24 @@
       <div id="openDiv" class="dnone layui-layer-wrap" >
         <div class="drop_window">
       	  <ul class="list-unstyled">
-      	    <li class="col-md-6">
-      		  <label class="col-md-12 padding-left-5">参数名称<span class="red">*</span></label>
-      		    <span><input type="text" name="paramName" /></span>
+      	    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
+      		  <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">参数名称<span class="red">*</span></label>
+      		    <div class="col-md-12 col-xs-12 col-sm-12 input_group input-append p0">
+      		    	<input type="text" name="paramName" />
+      		    </div>
       		</li>
-			<li class="col-md-6">
-			  <label class="col-md-12 padding-left-5">参数类型<span class="red">*</span></label>
-			    <span>
-			      <select  name="paramTypeId" class="w180">
+			<li class="col-md-6 col-sm-12 col-xs-12">
+			  <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">参数类型<span class="red">*</span></label>
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			      <select  name="paramTypeId">
 				    <c:forEach items="${dictionary}" var="dict">
 					  <option value="${dict.id}">${dict.name}</option>
 					</c:forEach>
 				  </select>
-				</span>
+				</div>
 			</li>
       	</ul>
-	    <div  class="tc mt20 col-md-12">
+	    <div  class="tc mt20 col-md-12 col-sm-12 col-xs-12">
           <button class="btn btn-windows save"  onclick="saveParameter();" type="button">保存</button>
           <button class="btn btn-windows cancel" onclick="cancel();" type="button">取消</button>
       	</div>

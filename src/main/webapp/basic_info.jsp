@@ -822,31 +822,33 @@ session.setAttribute("tokenSession", tokenValue);
 	    <div class="clear"></div>
 	  </h2>
 	<div class="container container_box">
-	  <div class="tab-pane fade active in height-500"  id="tab-1">
+	  <div class="tab-pane fade active in"  id="tab-1">
 	    <div>
 		  <h2 class="count_flow"><i>1</i>专家基本信息</h2>
 			<ul class="ul_list">
-				<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
-					<div class="input-append">
-						<input class="span5" id="relName" name="relName" value="${expert.relName}"   type="text"/>
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input id="relName" name="relName" value="${expert.relName}"   type="text"/>
 					    <span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 出生日期</span>
-					<div class="input-append">
- 					  <input class="span5"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+				    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 出生日期</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0 input_group col-sm-12 col-xs-12 col-md-12 p0">
+ 					  <input   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
 					  <span class="add-on">i</span>
 					</div>
 				</li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>民族</span>
-                    <div class="input-append">
-                    <input class="span5" maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
+                <li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>民族</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0 input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
                     <span class="add-on">i</span>
                     </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i> 性别</span>
-                    <div class="select_common">
-                       <select class="span5" name="gender" id="gender">
+                <li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 性别</span>
+                    <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+                       <select name="gender" id="gender">
                           <option selected="selected" value="">-请选择-</option>
                           <c:forEach items="${sexList }" var="sex" varStatus="vs">
                             <option <c:if test="${expert.gender eq sex.id}">selected="selected"</c:if> value="${sex.id}">${sex.name}</option>
@@ -854,8 +856,8 @@ session.setAttribute("tokenSession", tokenValue);
                         </select>
                     </div>
                 </li> 
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i> 证件类型</span>
-                    <div class="select_common">
+                <li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 证件类型</span>
+                    <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
                     <select  name="idType" id="idType">
                     <option selected="selected" value="">-请选择-</option>
                     <c:forEach items="${idTypeList }" var="idType" varStatus="vs">
@@ -864,28 +866,31 @@ session.setAttribute("tokenSession", tokenValue);
                    </select>
                     </div>
                 </li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>证件号码</span>
-					<div class="input-append">
-						<input class="span5" maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>证件号码</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0 ">
+						<input maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"/>
   						<span class="add-on">i</span>
   					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>省</span>
-                   <div class="select_common">
+				<li class="col-md-3 col-xs-12 col-sm-6">
+				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>省</span>
+                   <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
                     <select id="addr" onchange="func();">
                            <option value="">-请选择-</option>
                     </select>
                    </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>市</span>
-                    <div class="select_common">
+                <li class="col-md-3 col-xs-12 col-sm-6">
+                	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>市</span>
+                    <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
                      <select  name="address" id="add" onchange="copySel()">
                             <option value="">-请选择-</option>
                      </select>
                     </div>
                 </li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">政治面貌</span>
-                    <div class="select_common">
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
+                    <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
                         <select  name="politicsStatus" id="politicsStatus">
                         <option selected="selected" value="">-请选择-</option>
                         <c:forEach items="${zzList }" var="zz" varStatus="vs">
@@ -894,8 +899,9 @@ session.setAttribute("tokenSession", tokenValue);
                        </select>
                     </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>最高学历</span>
-                    <div class="select_common">
+                <li class="col-md-3 col-xs-12 col-sm-6">
+                	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>最高学历</span>
+                    <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
                      <select  name="hightEducation" id="hightEducation" >
                         <option selected="selected" value="">-请选择-</option>
                         <c:forEach items="${xlList}" var="xl" varStatus="vs">
@@ -904,26 +910,30 @@ session.setAttribute("tokenSession", tokenValue);
                       </select>
                     </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>毕业院校</span>
-                    <div class="input-append">
-                    <input class="span5" maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
+                <li class="col-md-3 col-xs-12 col-sm-6">
+                	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>毕业院校</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0 input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
                     <span class="add-on">i</span>
                     </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>专业</span>
-                    <div class="input-append">
-                    <input class="span5" maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
+                <li class="col-md-3 col-xs-12 col-sm-6">
+                	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
                     <span class="add-on">i</span>
                     </div>
                 </li>
-                <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 学位</span>
-                    <div class="input-append">
-                    <input class="span5" maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
+                <li class="col-md-3 col-xs-12 col-sm-6">
+                	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 学位</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
                     <span class="add-on">i</span>
                     </div>
                 </li>
-				<li class="col-md-3 margin-0 padding-0"><span class="col-md-12 padding-left-5"><i class="red">*</i>专家来源</span>
-					<div class="select_common">
+				<li class="col-md-3 margin-0 padding-0">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>专家来源</span>
+					<div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
 						<select  name="expertsFrom" id="expertsFrom">
 						<option selected="selected" value="">-请选择-</option>
 						<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
@@ -932,75 +942,87 @@ session.setAttribute("tokenSession", tokenValue);
 					   </select>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 专家技术职称</span>
-					<div class="input-append">
-					<input class="span5" maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 专家技术职称</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 参加工作时间</span>
-					<div class="input-append">
-					<input class="span5"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 参加工作时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 从事专业起始年度</span>
-					<div class="input-append">
-					 <input class="span5" value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 从事专业起始年度</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					 <input value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">工作单位</span>
-					<div class="input-append">
-					<input class="span5" maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工作单位</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>单位地址</span>
-					<div class="input-append" >
-					 <input class="span5" maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>单位地址</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
+					 <input maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>联系电话（固话）</span>
-					<div class="input-append">
-					<input class="span5" maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>联系电话（固话）</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>手机</span>
-					<div class="input-append">
-					<input class="span5" maxlength="15" value="${expert.mobile}"  name="mobile" id="mobile" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>手机</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="15" value="${expert.mobile}"  name="mobile" id="mobile" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 传真</span>
-					<div class="input-append">
-					<input class="span5" maxlength="10"  value="${expert.fax}"  name="fax" id="fax" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 传真</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="10"  value="${expert.fax}"  name="fax" id="fax" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li> 
-  				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 邮编</span>
-					<div class="input-append">
-					<input class="span5" maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
+  				<li class="col-md-3 col-xs-12 col-sm-6">
+  					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 邮编</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 获得技术时间</span>
-					<div class="input-append">
-					<input class="span5" value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 获得技术时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"><i class="red">*</i>健康状态</span>
-					<div class="input-append">
-					<input class="span5" maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>健康状态</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5"> 现任职务</span>
-					<div class="input-append">
-					<input class="span5" maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
+				<li class="col-md-3 col-xs-12 col-sm-6">
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 现任职务</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
@@ -1013,13 +1035,13 @@ session.setAttribute("tokenSession", tokenValue);
 				 <table class="table table-bordered">
 				  <tbody>
 				  	<tr>
-				  	   <td class="bggrey w100"><i class="red">*</i>身份证</td>
-				  	   <td class="w500">
+				  	   <td class="bggrey" width="15%"><i class="red">*</i>身份证</td>
+				  	   <td class="">
 				  	      <u:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"   auto="true"/>
 				          <u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
 				  	   </td>
-				  	   <td class="bggrey w100"><i class="red">*</i>学历证书</td>
-				  	   <td class="w500">
+				  	   <td class="bggrey" width="15%"><i class="red">*</i>学历证书</td>
+				  	   <td class="">
 				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
 				          <u:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
 				  	   </td>
@@ -1047,7 +1069,7 @@ session.setAttribute("tokenSession", tokenValue);
 				  </table>
 			    </ul>
 			   </div>
-				<div class="tc mt20 clear col-md-11">
+				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 			        <button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
 					<button class="btn btn-windows git" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 				</div>
@@ -1069,10 +1091,11 @@ session.setAttribute("tokenSession", tokenValue);
             </div>
 			<div>
 			  <ul class="ul_list" >
-     		    <li class="col-md-3 margin-0 padding-0 " >
-			      <span class="col-md-12 padding-left-5"><span class="star_red fl">*</span>专家类型</span>
+     		    <li class="col-md-3 col-xs-12 col-sm-6 pl15" >
+			      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
+			      <span class="star_red fl">*</span>专家类型</span>
 			      <input type="hidden" id="expertsTypeIds" value="" >
-			      <div class="select_common">
+			      <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
 			        <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		  <option value="">-请选择-</option>
 			   		  <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
@@ -1083,17 +1106,17 @@ session.setAttribute("tokenSession", tokenValue);
 			    </li>
    			 </ul>
    			 <div class="" id="ztree" >
-   			   <div class="sevice_list col-md-12 container" class="dnone" >
-			    <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
-				  <div class="col-md-7 service_list">
+   			   <div class="sevice_list col-md-12 col-xs-12 col-sm-12 container" class="dnone" >
+			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>产品服务/分类：</div>
+				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${spList}" var="obj" >
 						    <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.code}" />${obj.name} </span>
 				      </c:forEach>
 				  </div>
 			    </div>
-				<div class="sevice_list col-md-12 container" id="hwType">
-				  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
-				  <div class="col-md-7 service_list">
+				<div class="sevice_list col-md-12 col-xs-12 col-sm-12 container" id="hwType">
+				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>货物分类：</div>
+				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${hwList}" var="hw" >
 						    <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.code}" />${hw.name} </span>
 				      </c:forEach>
@@ -1101,7 +1124,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</div>
 				</div>
    			   
-		    <div class="tc mt20 clear col-md-11">
+		    <div class="tc mt20 clear col-md-12 col-xs-12 col-sm-12">
 				<button class="btn btn-windows back"  type="button" onclick="pre('reg_box_id', 4, 'pre')">上一步</button>
 				<button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
 				<button class="btn btn-windows git"  type="button" onclick='fun1()'>下一步</button>
@@ -1125,15 +1148,15 @@ session.setAttribute("tokenSession", tokenValue);
 			   </div>  
 			<table id="tb1"  class="table table-bordered table-condensed table-hover table-striped">
 			  <ul class="ul_list">
-				<li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">省</span>
-	                <div class="select_common">
+				<li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">省</span>
+	                <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
 	                 <select id="addr2" onchange="func2();">
 	                    <option value="">-请选择-</option>
 	                 </select>
 	                </div>
 	            </li>
-	            <li class="col-md-3 margin-0 padding-0 "><span class="col-md-12 padding-left-5">市</span>
-	                <div class="select_common">
+	            <li class="col-md-3 col-xs-12 col-sm-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">市</span>
+	                <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
 	                 <select  name="address2" id="add2" onchange="showJiGou()">
 	                    <option value="">-请选择-</option>
 	                 </select>
@@ -1157,7 +1180,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<h6>
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
-		    <div class="tc mt20 clear col-md-11">
+		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 				<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 5, 'pre')">上一步</button>
 				<button class="btn btn-windows git" onclick='submitForm1()'  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick='addPurList()'>下一步</button>
@@ -1183,123 +1206,123 @@ session.setAttribute("tokenSession", tokenValue);
       <a class="btn btn-windows git" onclick='downloadTable()' href="javascript:void(0)">下载</a>
     </div><br/>
    	<tr>
- 	  <td width="250px;" class="bggrey">姓名</td>
- 	  <td width="250px;" id="tName"></td>
- 	  <td width="250px;" class="bggrey">性别</td>
-      <td width="250px;" id="tSex" ></td>
+ 	  <td width="25%" class="bggrey">姓名</td>
+ 	  <td width="25%" id="tName"></td>
+ 	  <td width="25%" class="bggrey">性别</td>
+      <td width="25%" id="tSex" ></td>
    	</tr>
    <tr>
-	 <td width="250px;" class="bggrey">出生日期</td>
-	 <td width="250px;" id="tBirthday"></td>
-	 <td width="250px;" class="bggrey">政治面貌</td>
-	 <td width="250px;"  id="tFace"></td>
+	 <td width="25%" class="bggrey">出生日期</td>
+	 <td width="25%" id="tBirthday"></td>
+	 <td width="25%" class="bggrey">政治面貌</td>
+	 <td width="25%"  id="tFace"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">所在地区</td>
-	 <td width="250px;" id="Taddress"></td>
-	 <td width="250px;" class="bggrey">职称</td>
-	 <td width="250px;" id="tHey" ></td>
+	 <td width="25%" class="bggrey">所在地区</td>
+	 <td width="25%" id="Taddress"></td>
+	 <td width="25%" class="bggrey">职称</td>
+	 <td width="25%" id="tHey" ></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">证件号码<td>
+	 <td width="25%" class="bggrey">证件号码<td>
 	 <td id="tNumber" colspan="3"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">从事专业类别</td>
-	 <td width="250px;" id="tExpertsTypeId"></td>
-	 <td width="250px;" class="bggrey">从事年限</td>
-	 <td width="250px;" id="tTimeStartWork"></td>
+	 <td width="25%" class="bggrey">从事专业类别</td>
+	 <td width="25%" id="tExpertsTypeId"></td>
+	 <td width="25%" class="bggrey">从事年限</td>
+	 <td width="25%" id="tTimeStartWork"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">最高学历</td>
-	 <td width="250px;" id="tHight"></td>
-	 <td width="250px;" class="bggrey">最高学位</td>
-	 <td width="250px;" id="tWei"></td>
+	 <td width="25%" class="bggrey">最高学历</td>
+	 <td width="25%" id="tHight"></td>
+	 <td width="25%" class="bggrey">最高学位</td>
+	 <td width="25%" id="tWei"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">执业资格1</td>
-	 <td width="250px;" > </td>
-	 <td width="250px;" class="bggrey">注册证书编号1</td>
-	 <td width="250px;" > </td>
+	 <td width="25%" class="bggrey">执业资格1</td>
+	 <td width="25%" > </td>
+	 <td width="25%" class="bggrey">注册证书编号1</td>
+	 <td width="25%" > </td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">执业资格2</td>
-	 <td width="250px;" ></td>
-	 <td width="250px;" class="bggrey">注册证书编号2</td>
-	 <td width="250px;"></td>
+	 <td width="25%" class="bggrey">执业资格2</td>
+	 <td width="25%" ></td>
+	 <td width="25%" class="bggrey">注册证书编号2</td>
+	 <td width="25%"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">执业资格3</td>
-	 <td width="250px;"></td>
-	 <td width="250px;" class="bggrey">注册证书编号3</td>
-	 <td width="250px;" ></td>
+	 <td width="25%" class="bggrey">执业资格3</td>
+	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">注册证书编号3</td>
+	 <td width="25%" ></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">近两年是否接受过评标业务培训</td>
-	 <td width="250px;"></td>
-	 <td width="250px;" class="bggrey">是否愿意成为应急专家</td>
-	 <td width="250px;"></td>
+	 <td width="25%" class="bggrey">近两年是否接受过评标业务培训</td>
+	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">是否愿意成为应急专家</td>
+	 <td width="25%"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">所属行业</td>
-	 <td width="250px;"></td>
-	 <td width="250px;" class="bggrey">报送部门</td>
-	 <td width="250px;"></td>
+	 <td width="25%" class="bggrey">所属行业</td>
+	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">报送部门</td>
+	 <td width="25%"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">手机号码</td>
-	 <td width="250px;" id="tMobile"></td>
-	 <td width="250px;" class="bggrey">单位电话</td>
-	 <td width="250px;" id="tTelephone"></td>
+	 <td width="25%" class="bggrey">手机号码</td>
+	 <td width="25%" id="tMobile"></td>
+	 <td width="25%" class="bggrey">单位电话</td>
+	 <td width="25%" id="tTelephone"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">住宅电话</td>
-	 <td width="250px;"></td>
-	 <td width="250px;" class="bggrey">电子邮箱</td>
-	 <td width="250px;"></td>
+	 <td width="25%" class="bggrey">住宅电话</td>
+	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">电子邮箱</td>
+	 <td width="25%"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">毕业院校及专业</td>
+	 <td width="25%" class="bggrey">毕业院校及专业</td>
 	 <td id="tGraduateSchool" colspan="3"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">单位名称</td>
+	 <td width="25%" class="bggrey">单位名称</td>
 	 <td id="tWorkUnit" colspan="3"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">单位地址 </td>
-	 <td width="250px;" id="tUnitAddress"></td>
-	 <td width="250px;" class="bggrey">单位邮编</td>
-	 <td width="250px;" id="tPostCode"></td>
+	 <td width="25%" class="bggrey">单位地址 </td>
+	 <td width="25%" id="tUnitAddress"></td>
+	 <td width="25%" class="bggrey">单位邮编</td>
+	 <td width="25%" id="tPostCode"></td>
    </tr>
    <tr>
-	 <td width="250px;" class="bggrey">家庭地址 </td>
-	 <td width="250px;"></td>
-	 <td width="250px;" class="bggrey">家庭邮编</td>
-	 <td width="250px;"></td>
+	 <td width="25%" class="bggrey">家庭地址 </td>
+	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">家庭邮编</td>
+	 <td width="25%"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业一</td>
-   	 <td width="250px;" colspan="3"></td>
+   	 <td width="25%" class="bggrey">评标专业一</td>
+   	 <td width="25%" colspan="3"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业二</td>
+   	 <td width="25%" class="bggrey">评标专业二</td>
    	 <td colspan="3"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业三</td>
+   	 <td width="25%" class="bggrey">评标专业三</td>
    	 <td colspan="3"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业四</td>
+   	 <td width="25%" class="bggrey">评标专业四</td>
    	 <td colspan="3"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业五</td>
+   	 <td width="25%" class="bggrey">评标专业五</td>
    	 <td colspan="3"></td>
    </tr>
    <tr>
-   	 <td width="250px;" class="bggrey">评标专业六</td>
+   	 <td width="25%" class="bggrey">评标专业六</td>
    	 <td colspan="3"></td>
    </tr>
    <tr>
@@ -1358,21 +1381,21 @@ session.setAttribute("tokenSession", tokenValue);
 			</div>  
 	   	  <table class="table table-bordered">
 	   	    <tr>
-	   	      <td class="bggrey w150" ><i class="red">*</i>专家申请表：</td>
-	   	      <td class="w500">
+	   	      <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
+	   	      <td class="">
 	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
 			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
 	   	      </td>
-	   	      <td class="bggrey w150" ><i class="red">*</i>专家合同书：</td>
-	   	      <td class="w500">
+	   	      <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
+	   	      <td class="">
 	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }" auto="true"/>
 			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 	   	      </td>
 	   	    </tr>
 		 </table>
 		    <div class="tc mt20 clear col-md-11">
-		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 7, 'pre')">上一步</button>
-				<input  class="btn btn-windows git" type="button" onclick="addSubmitForm()" value="提交" />
+		   		<button class="btn"   type="button" onclick="pre('reg_box_id', 7, 'pre')">上一步</button>
+				<input  class="btn" type="button" onclick="addSubmitForm()" value="提交" />
 			</div>
 		</div>
 	</form>

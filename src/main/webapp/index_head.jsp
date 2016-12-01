@@ -35,12 +35,12 @@ function importAdd(){
 		layer.alert("请先登录",{offset: ['222px', '390px'], shade:0.01});
 		return;
 	}
-	var typeName = "${sessionScope.loginUser.typeName}";
+	/*var typeName = "${sessionScope.loginUser.typeName}";
 	if(typeName!='7'){
 		layer.alert("您不是进口商",{offset: ['222px', '390px'], shade:0.01});
 	}else{
 		window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
-	}
+	}*/
 }
 
 </script>

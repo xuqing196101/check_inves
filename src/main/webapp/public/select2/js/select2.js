@@ -3688,7 +3688,7 @@ the specific language governing permissions and limitations under the Apache Lic
 
     $.fn.select2.locales['en'] = {
          formatMatches: function (matches) { if (matches === 1) { return "One result is available, press enter to select it."; } return matches + " results are available, use up and down arrow keys to navigate."; },
-         formatNoMatches: function () { return "No matches found"; },
+         formatNoMatches: function () { return "没有匹配的搜索结果"; },
          formatAjaxError: function (jqXHR, textStatus, errorThrown) { return "Loading failed"; },
          formatInputTooShort: function (input, min) { var n = min - input.length; return "Please enter " + n + " or more character" + (n == 1 ? "" : "s"); },
          formatInputTooLong: function (input, max) { var n = input.length - max; return "Please delete " + n + " character" + (n == 1 ? "" : "s"); },

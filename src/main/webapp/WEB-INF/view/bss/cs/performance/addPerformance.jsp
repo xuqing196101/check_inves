@@ -17,7 +17,7 @@
 	$(document).ready(function(){  
 	   var perTy = "${performance.completedStatus}";
 	   $("#completedStatus").val(perTy);
-	)};
+	});
 	function back(){
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectFormalContract.html";
 	}
