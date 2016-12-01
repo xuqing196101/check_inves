@@ -176,7 +176,7 @@
   	update T_BSS_PRMS_PACKAGE_EXPERT
   	set IS_GRADE = 0
   	where PACKAGE_ID = #{packageId}
-  	PROJECT_ID = #{projectId}
-  	EXPERT_ID = #{expertId}
+  	and PROJECT_ID = #{projectId}
+  	and EXPERT_ID = #{expertId}
   </update>
 </mapper>
