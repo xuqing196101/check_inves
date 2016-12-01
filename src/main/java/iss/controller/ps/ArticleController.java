@@ -562,8 +562,8 @@ public class ArticleController extends BaseSupplierController{
 			articleService.update(article);
 		}
 		if(article.getStatus()==3){
-			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
-			article.setReason(reason);
+		//	String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
+		//	article.setReason(reason);
 			articleService.update(article);
 		}
 		
