@@ -22,5 +22,8 @@ public interface ContractProductService {
 	public void update(ContractProduct contractProduct);
 	
 	public List<ContractProduct> selectList(ContractProduct contractProduct);
+	
+	public List<ContractProduct> selectProjectList(ContractProduct contractProduct);
+	
 
 }

@@ -116,5 +116,11 @@
     where OFFER = 1
   </select>
   
+    <select id="selectProjectList" parameterType="java.lang.String" resultMap="ContractProductResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_CONTRACT_PRODUCT
+    where CONTRACT_ID = #{appraisalContract.id}
+  </select>
   
 </mapper>

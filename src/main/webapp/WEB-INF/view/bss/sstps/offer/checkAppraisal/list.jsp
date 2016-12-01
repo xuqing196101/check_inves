@@ -150,14 +150,14 @@ function add(){
 						</thead>
 						<c:forEach items="${list.list}" var="contract" varStatus="vs">
 							<c:if test="${contract.appraisal=='2' }">
-				  			<tr class="pointer">
+				  			<tr>
 				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
-				  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  				<td class="tc">${contract.name }</td>
-				  				<td class="tc">${contract.code }</td>
-				  				<td class="tc">${contract.money }</td>
-				  				<td class="tc">${contract.supplierName }</td>
-				  				<td class="tc">已审价</td>
+				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				  				<td class="tc pointer">${contract.name }</td>
+				  				<td class="tc pointer">${contract.code }</td>
+				  				<td class="tc pointer">${contract.money }</td>
+				  				<td class="tc pointer">${contract.supplierName }</td>
+				  				<td class="tc pointer">已审价</td>
 				  			</tr>
 				  			</c:if>
 						</c:forEach>

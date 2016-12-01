@@ -152,11 +152,11 @@ public class AuditSummaryController {
 				contractProductService.update(contractProduct);
 				contractProduct = contractProductService.selectById(productId);
 				//遍历项目所有条目是否已审核
-				List<ContractProduct> ContractProducts = contractProductService.selectList(contractProduct);
+				List<ContractProduct> ContractProducts = contractProductService.selectProjectList(contractProduct);
 				boolean flag = true;
 				for (ContractProduct cp : ContractProducts) {
-					if(cp.getOffer()==1){
-						if (cp.getAuditOffer()!=1&&cp.getAuditOffer()!=2) {
+					if(cp.getOffer()==1){ //如果已报价
+						if (cp.getAuditOffer()!=1) {//如果条目已审核
 							flag=false;
 							break;
 						}
