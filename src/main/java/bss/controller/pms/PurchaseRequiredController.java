@@ -161,16 +161,8 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/add")
 	public String add(Model model,String type) {
-//		model.addAttribute("type", type);
-		DictionaryData dd=new DictionaryData();
-		dd.setKind(6);
-		List<DictionaryData> list = dictionaryDataServiceI.find(dd);
-		DictionaryData dd2=new DictionaryData();
-		dd.setKind(5);
-		List<DictionaryData> list2 = dictionaryDataServiceI.find(dd2);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
+		model.addAttribute("list", DictionaryDataUtil.find(6));
+		model.addAttribute("list2", DictionaryDataUtil.find(5));
 		return "bss/pms/purchaserequird/add";
 	}
 	/**
@@ -248,7 +240,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setParentId("1");
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
-					p.setOrganization(user.getOrg().getName());
+					//p.setOrganization(user.getOrg().getName());
 					p.setDetailStatus(0);
 //					purchaseRequiredService.add(p);	
 			}else{
@@ -264,7 +256,7 @@ public class PurchaseRequiredController extends BaseController{
 				p.setIsMaster(count);
 				p.setCreatedAt(new Date());
 				p.setUserId(user.getId());
-				p.setOrganization(user.getOrg().getName());
+				//p.setOrganization(user.getOrg().getName());
 				p.setDetailStatus(0);
 //			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
 //					 p.setId(pid);//注释

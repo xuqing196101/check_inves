@@ -19,6 +19,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
@@ -96,10 +97,7 @@ public class PurchaseAcceptController extends BaseController{
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		model.addAttribute("org", org);
-		DictionaryData dd2=new DictionaryData();
-		dd2.setKind(5);
-		List<DictionaryData> list2 = dictionaryDataServiceI.find(dd2);
-		model.addAttribute("list2", list2);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
     	return "bss/pms/collect/view";
     }
 	

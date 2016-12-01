@@ -134,8 +134,8 @@
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
- 				       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='gkzb' >公开招标</option> "+  
- 				       "<option value='yqzb' >邀请招标</option> <option value='jzxtp' >竞争性谈判</option> <option value='xjcg' >询价采购</option> <option value='dyly'  >单一来源</option> </select></td>"+
+ 				       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:90px'> <option value='' >请选择</option>"+  
+                       " <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>"+
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
@@ -167,27 +167,6 @@
  			  $("#fjhmc").val(name);
  	 		$("#fjhbh").val(no);
  	 		$("#ptype").val(type);
- 	 		<%-- $("#add_form").find("*").each(function(){ 
- 	  			var elem = $(this); 
- 	  			if (elem.prop("name") != null&&elem.prop("name") != "") { 
- 	  			if(elem.val()==""){ 
- 	  			elem.removeAttr("name"); 
- 	  			} 
- 	  			} 
- 	  			}); 
- 			 
- 		 
- 		 $.ajax({
- 			 url:"${pageContext.request.contextPath}/purchaser/adddetail.html",
- 			 type:"post",
- 			 data:$("#add_form").serialize(),
- 			 success:function(){
- 				 alert("添加成功");
- 				 window.location.href="${pageContext.request.contextPath}/purchaser/list.html";
- 			 },error:function(){
- 				 
- 			 }
- 		 }); --%>
  		 
  	  $("#add_form").submit();   
  		 
@@ -233,11 +212,6 @@
 									rootPId:0,
 								}
 						    },
-						   check:{
-							    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-				        		chkStyle:"checkbox", 
-								enable: true
-						   }
 			  };
 		      //控制树的显示和隐藏
 			  var expertsTypeId = $("#expertsTypeId").val();
@@ -300,8 +274,8 @@
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-			       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='gkzb' >公开招标</option> "+  
-				       "<option value='yqzb' >邀请招标</option> <option value='jzxtp' >竞争性谈判</option> <option value='xjcg' >询价采购</option> <option value='dyly'  >单一来源</option> </select></td>"+
+			       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:90px'> <option value='' >请选择</option>"+  
+				       " <c:forEach items='${list2 }' var='obj'> <option value='${obj.id }'>${obj.name }</option></c:forEach>  </select></td>"+
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
@@ -389,14 +363,6 @@
 	     </div>
 	 </li> 
 	 
-	<!--  <li class="col-md-4 margin-0 padding-0 ">
-	   <span class="col-md-12 padding-left-5"><span style="color: red;">*</span> 需求计划导入（Excel表格）：</span>
-	   <div class="input-append col-md-12 padding-0 ">
-        <input  class="span5 col-md-8 padding-0 " type="file" id="fileName" name="file" />  
-        <span class="add-on col-md-4"><button class="btn padding-right-10 btn_back" onclick="upload()">导入</button></span>
-       </div>
-	 </li>  -->
-	 
 	 
 	   <div style="float: left; margin-top: 15px;">
 			<label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
@@ -404,38 +370,13 @@
 		</div>  
    </ul>
    
-	<!-- <span><span style="color: red;">*</span> 计划名称<input type="text" name="name" id="jhmc" ></span>
-		<span><span style="color: red;">*</span> 计划编号<input type="text" name="no" id="jhbh" ></span>
-		<span>物资类别
-		<select name="planType" id="wtype">
-		<option value="1">货物</option>
-		<option value="2">工程</option>
-		<option value="3">服务</option>
-		</select> </span> -->
-		
-	<%-- 	<c:if test="${type=='1' }"> <input  type="text" name="" id="hw" value="货物" readonly="readonly" > </c:if> 
-		<c:if test="${type=='2' }"><input type="text" name="" id="fw" value="工程" readonly="readonly"  ></c:if>
-		 <c:if test="${type=='3' }"><input type="text" name="" id="gc" value="服务" readonly="readonly" ></c:if> --%>
-		 
-		
-<!-- 		<div class="padding-10 border1">
-			 <label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
-			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
-			 -->
-				 <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
- -->
-			<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back"
-					onclick="adds()">录入明细</button> -->
-			 
-			
-	<!-- 	</div> -->
 	</div>
 	<div class="padding-top-10 clear">
     <h2 class="count_flow"><i>2</i>计划明细</h2>
         <ul class="ul_list">
 	<div class="col-md-12 pl20 mt10">
-	<button style="margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子节点</button>
-	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级节点</button>
+	<button style="margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子级</button>
+	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级</button>
 	<button  style="margin-top: 20px;" class="btn btn-windows output" onclick="down()">下载Excel模板</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
@@ -500,103 +441,7 @@
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
-						<!-- <td class="tc">
-							 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd(this)" value="添加子节点">
-							 <input class="btn btn-windows add" name="delt" type="button" onclick="same(this)" value="添加同级节点">
-						 	 <input class="btn btn-windows add" name="delt" type="button" onclick="news(this)" value="新加任务">
-					 
-						</td> -->
 				</tr>
-				<!-- <tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[1].seq" value=""></td>
-					<td><input style="border: 0px;" type="text" name="list[1].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[1].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[1].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[1].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[1].memo" value=""></td>
-				</tr>
-				<tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[2].seq" value=""></td>
-					<td><input style="border: 0px;" type="text" name="list[2].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[2].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[2].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[2].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[2].memo" value=""></td>
-				</tr>
-				<tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[3].seq" value=""></td>
-					<td><input style="border: 0px;" type="text" name="list[3].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[3].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[3].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[3].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[3].memo" value=""></td>
-				</tr>
-				<tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[4].seq" value=""></td>
-					<td><input style="border: 0px;" type="text" name="list[4].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[4].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[4].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[4].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[4].memo" value=""></td>
-				</tr>
-				<tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[5].seq" value=""></td>
-					<td><input style="border: 0px;" type="text" name="list[5].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[5].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[5].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[5].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].memo" value=""></td>
-				</tr>   -->
 			 <tr style="display: none">
 
 					<td class="tc" colspan="16"> <input type="hidden" name="planType" value="" id="ptype">
@@ -643,11 +488,10 @@
 
 	</div>
 
-<%-- 	<input type="hidden" id="goodsType" value="${type }"> --%>
 	<input type="hidden" id="count" value="0">
 	<div  style="margin-left: 600px;">
 	   <div id="ztree" class="ztree"></div>
-	   <button id="bt" style="display: none;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typehide()">取消</button>
+	   <button id="bt" style="display: none;" class="btn btn-windows cancel" onclick="typehide()">取消</button>
 	  </div> 
 	  
 	  <form id="" action="${pageContext.request.contextPath}/purchaser/ztree.html" method="post">

@@ -42,36 +42,7 @@
 				 }
 		   }
 	}
-	
-  	function view(no){
-  		
-  		
-  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
-  	}
   	
-  	 function aadd(){
-		  var  s=$("#count").val();
-	      	s++;
-	      	$("#count").val(s);
-	        var tr = $("input[name=dyadds]").parent().parent();
-	        $(tr).before("<tr><td class='tc'><input type='text' name='list["+s+"].seq' /></td>"+
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].department' /> </td>"+
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
-		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;'type='text' name='list["+s+"].isFreeTax' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+  
-	        +"<tr/>");
-	  }
   	 
   	 
 	
@@ -259,13 +230,11 @@
                   </td>
                   <td class="tc">${obj.deliverDate}</td>
                   <td class="tc">
-                    <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-                      <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+                      <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
                       </select> 
-                    </c:if> 
                   </td>
                   <td class="tc">${obj.supplier}</td>
                   <td class="tc">${obj.isFreeTax}</td>
@@ -279,7 +248,6 @@
                      <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
                      <input type="hidden" name="list[${vs.index }].item" value="${obj.item }">
                      <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }">
-                     <input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
                      <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }">
                      <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
                      <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
@@ -300,10 +268,6 @@
                  </tr>
 
 					</c:forEach>
-					<%-- <tr>
-
-					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${fn:length(list)}"> <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加"></td>
-				</tr> --%>
 				
 				</table>
 				</div>
