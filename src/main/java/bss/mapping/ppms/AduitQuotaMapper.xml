@@ -243,16 +243,16 @@
 	       s.MAX_SCORE AS maxScore,s.MIN_SCORE AS minScore,s.SCORE AS score,s.INTERVAL_TYPE_NAME AS intervalTypeName,
 	       s.DEADLINE_NUMBER AS deadlineNumber,s.INTERVAL_NUMBER AS intervalNumber,
 	       mt.NAME AS markTermName
-    from T_BSS_PPMS_MARK_TERM mt 
-    LEFT JOIN T_BSS_PPMS_SCORE_MODEL s ON s.MARK_TERM_ID = mt.ID
-    LEFT JOIN T_BSS_PPMS_AUDIT_QUOTA q ON q.SCORE_MODEL_ID = s.ID 
+    from T_BSS_PPMS_AUDIT_QUOTA  q 
+    LEFT JOIN T_BSS_PPMS_SCORE_MODEL s ON q.SCORE_MODEL_ID = s.ID 
+    LEFT JOIN T_BSS_PPMS_MARK_TERM mt ON s.MARK_TERM_ID = mt.ID
   
-      where q.IS_DELETED != 1
+      where 1=1 and q.IS_DELETED != 1
      <if test="packageId != null and packageId != ''">
-      AND mt.PACKAGE_ID = #{packageId} 
+      AND q.PACKAGE_ID = #{packageId} 
      </if>
      <if test="projectId != null and projectId != ''">
-      AND mt.PROJECT_ID=#{projectId} 
+      AND q.PROJECT_ID=#{projectId} 
      </if>
      <if test="typeName != null and typeName != ''">
       AND mt.TYPE_NAME=#{typeName}
