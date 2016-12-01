@@ -1039,3 +1039,10 @@ legend {
 	right:0;
 	bottom:0;
 }
+table .input_group{
+	display:flex;
+}
+table .input_group .add-on{
+	padding:0 15px 0 10px;
+	line-height: 28px;
+}

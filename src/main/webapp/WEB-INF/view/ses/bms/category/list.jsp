@@ -328,12 +328,12 @@
 	  </div>
    </div>
 	   <div class="container">
-		   <div class="col-md-3">
+		   <div class="col-md-3 col-sm-4 col-xs-12">
 		  	 <div class="tag-box tag-box-v3 mt15">
 			 	<div><ul id="ztree" class="ztree s_ztree"></ul></div>
 			 </div>
 		   </div>
-		   <div class=" tag-box tag-box-v3 mt15 col-md-8">
+		   <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
 		   		<button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
 		   		<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 		   		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
@@ -351,18 +351,20 @@
 			            		<tr>
 			            		    <td class='info'>品目名称<span class="red">*</span></td>
 			            		    <td id="cateTdId">
-			            		        <div class="input-append" id="cateNameId" >
-			            		    	  <input id="cateId" class="span5 h30" 	  name='name'/>
-			            		    	  <span class="add-on">i</span><span id="cateTipsId" class="red" />
+			            		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
+			            		    	  <input id="cateId" type="text" name='name'/>
+			            		    	  <span class="add-on">i</span>
+			            		    	  <span id="cateTipsId" class="red clear" />
 			            		    	</div>
 			            		    </td>
 			            		</tr>
 			            		<tr>
 			            			<td class='info'>排序<span class="red">*</span></td>
 			            			<td id="posTdId">
-			            				<div class="input-append" id ="posNameId">
-			            				  <input  id="posId"  class="span5 h30"  name='position'/>
-			            				  <span class="add-on">i</span><span id="posTipsId" class="red" />
+			            				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
+			            				  <input  id="posId" type="text" name='position'/>
+			            				  <span class="add-on">i</span>
+			            				  <span id="posTipsId" class="red clear" />
 			            				</div>
 			            		    </td>
 			            	    </tr>
@@ -380,7 +382,7 @@
 			            	    <tr>
 			            	        <td class='info'>描述</td>
 			            	        <td id="descTdId">
-			            	        	<textarea name='description' class="span5 h80 textArea_resizeB"   id="descId"></textarea>
+			            	        	<textarea name='description' class="col-md-10 col-sm-10 col-xs-12 h80 textArea_resizeB"   id="descId"></textarea>
 			            	        	<span class="red" id="descTipsId"></span>
 			            	        </td>
 			            	    </tr>

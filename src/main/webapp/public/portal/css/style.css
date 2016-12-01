@@ -2201,7 +2201,7 @@ a.yjfk{
   text-align:center;
 }
 
-/*供应商注册*/
+/*锟斤拷锟斤拷锟斤拷锟斤拷贫锟斤拷锟绞斤拷锟绞�/
 
 .drop_hover .supp_login{
   padding-right:30px!important;
@@ -2266,7 +2266,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*form的头*/
+/*鐧诲綍椤甸潰鏍峰紡寮�*/
 .sky-form header {
     color: inherit;
     display: block;
@@ -2369,7 +2369,8 @@ a.yjfk{
   text-align:right;
 }
 
-
+/*鐧诲綍椤甸潰鏍峰紡缁撴潫*/
+/*li_square*/
 .li_square li{
   border-bottom:1px dashed #e2e2e2!important;
   font-size:15px!important;
@@ -2422,9 +2423,14 @@ span.list_squre {
     color:#ef0000;
     margin-right:5px;
 }
+<<<<<<< Updated upstream
 .footer-fixed{
 	position:fixed;
 	left:0;
 	right:0;
 	bottom:0;
 }
+=======
+
+
+>>>>>>> Stashed changes
