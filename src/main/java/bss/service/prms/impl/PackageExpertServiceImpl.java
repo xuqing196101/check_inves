@@ -3,19 +3,21 @@ package bss.service.prms.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.MARSHAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.model.prms.PackageExpert;
 import bss.service.prms.PackageExpertService;
 @Service("packageExpertService")
 public class PackageExpertServiceImpl implements PackageExpertService {
-	@Autowired
-	private PackageExpertMapper mapper;
-	/**
-	 * 
+	  @Autowired
+	  private PackageExpertMapper mapper;
+	  @Autowired
+	  private ExpertScoreMapper expertScoremapper;
+	  /**
+	   * 
 	  * @Title: save
 	  * @author ShaoYangYang
 	  * @date 2016年10月18日 下午2:18:45  
@@ -24,11 +26,11 @@ public class PackageExpertServiceImpl implements PackageExpertService {
 	  * @param @return      
 	  * @return int
 	 */
-	@Override
-	public int save(PackageExpert record) {
-		// TODO Auto-generated method stub
-		return mapper.insert(record);
-	}
+	  @Override
+	  public int save(PackageExpert record) {
+	    // TODO Auto-generated method stub
+	    return mapper.insert(record);
+	  }
     /**
      * 
       * @Title: selectList
@@ -39,13 +41,13 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       * @param @return      
       * @return List<PackageExpert>
      */
-	@Override
-	public List<PackageExpert> selectList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return mapper.selectList(map);
-	}
-	/**
-     * 
+	  @Override
+	  public List<PackageExpert> selectList(Map<String, Object> map) {
+	    // TODO Auto-generated method stub
+	    return mapper.selectList(map);
+	  }
+	    /**
+	     * 
       * @Title: deleteByPackageId
       * @author ShaoYangYang
       * @date 2016年10月18日 下午2:17:16  
@@ -53,12 +55,12 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       * @param @param packageId      
       * @return void
      */
-	@Override
-	public void deleteByPackageId(String packageId) {
-		mapper.deleteByPackageId(packageId);
-	}
-	 /**
-     * 
+	  @Override
+	  public void deleteByPackageId(String packageId) {
+	    mapper.deleteByPackageId(packageId);
+	  }
+	    /**
+	     * 
       * @Title: updateByBean
       * @author ShaoYangYang
       * @date 2016年10月27日 下午5:28:53  
@@ -67,7 +69,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       * @return void
      */
     public void updateByBean(PackageExpert record){
-    	mapper.updateByBean(record);
+      mapper.updateByBean(record);
     }
     /**
      * 
@@ -126,9 +128,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         for (String expertId : ids) {
             mapSearch.remove("expertId");
             mapSearch.put("expertId", expertId.replace("undefined", ""));
-            // 1.SALE_TENDER表中IS_HISTORY改为1
-            // 2.
-            // 3.
+            // 1.EXPERT_SCORE表中IS_HISTORY改为1
+            expertScoremapper.backScore(mapSearch);
+            // 2.PACKAGE_EXPERT表中的IS_GRADE改为0
+            mapper.backScore(mapSearch);
         }
     }
     

@@ -28,8 +28,8 @@ public interface ExpertScoreMapper {
       * @param @return      
       * @return List<ExpertScore>
      */
-    List<ExpertScore> selectByMap(Map<String,Object> map);/**
-     * 
+    List<ExpertScore> selectByMap(Map<String,Object> map);
+    /**
      *〈简述〉
      *〈详细描述〉专家详细审核界面的分值展示
      * @author WangHuijie
@@ -37,4 +37,14 @@ public interface ExpertScoreMapper {
      * @return
      */
     List<ExpertSuppScore> getScoreByMap(Map<String, Object> map);
+    
+    /**
+     *〈简述〉
+     * 回退分数
+     *〈详细描述〉
+     * EXPERT_SCORE表中IS_HISTORY改为1
+     * @author WangHuijie
+     * @param mapSearch
+     */
+    void backScore(Map<String, Object> mapSearch);
 }

@@ -171,4 +171,12 @@
     and es.PACKAGE_ID = #{packageId}
     and es.IS_HISTORY = '0'
   </select>
+  <!-- 回退分数 -->
+  <update id="backScore" parameterType="java.util.HashMap">
+  	update T_BSS_PRMS_PACKAGE_EXPERT
+  	set IS_GRADE = 0
+  	where PACKAGE_ID = #{packageId}
+  	PROJECT_ID = #{projectId}
+  	EXPERT_ID = #{expertId}
+  </update>
 </mapper>
