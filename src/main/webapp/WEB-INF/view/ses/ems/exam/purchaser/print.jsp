@@ -13,13 +13,14 @@
 	<script type="text/javascript">
 		//打印功能
 		function dayin() {
-			var LODOP = getLodop();
+			/**var LODOP = getLodop();
 			if (LODOP) {
 				LODOP.PRINT_INIT("打印表格"); 
 				LODOP.ADD_PRINT_TABLE("0","0","100%","100%",document.getElementById("div_print").innerHTML);
 				
 			    LODOP.PREVIEW(); 
-			}
+			}*/
+			window.print();
 		}
 	</script>
   </head>
@@ -32,7 +33,7 @@
   
 		  	<!-- 表格开始 -->
 	  		<div class="content table_box" id="div_print">
-	   			<table class="table table-bordered table-condensed">
+	   			<table class="table table-bordered table-condensed table-hover">
 			  		<thead>
 			  			<tr class="info">
 				  			<th class="w50">序号</th>
@@ -47,7 +48,8 @@
 			  			 <c:forEach items="${paperUserList }" var="paper" varStatus="p">
 				  			 <tr class="tc">
 				    			<td>${p.index+1 }</td>
-								<td>${paper.userName }</td>
+								<td>${paper.relName }</td>
+								<td>${paper.card }</td>
 								<td>${paper.code }</td>
 								<td>${paper.unitName }</td>
 								<td>${paper.score }</td>

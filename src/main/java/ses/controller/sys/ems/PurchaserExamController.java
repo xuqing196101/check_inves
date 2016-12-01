@@ -1628,9 +1628,11 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/printReView")
 	public String printReView(HttpServletRequest request,ExamPaperUser examPaperUser,Model model){
-		examPaperUser.setPaperId(request.getParameter("paperId"));
-		
-		//model.addAttribute("paperUserList",paperUserList);
+		String id = request.getParameter("paperId");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("paperId", id);
+		List<ExamUserScore> paperUserList = examUserScoreService.findPurchaserScore(map);
+		model.addAttribute("paperUserList", paperUserList);
 		return "ses/ems/exam/purchaser/print";
 	}
 	
