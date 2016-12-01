@@ -969,12 +969,11 @@ li:first-child {
   color: #8fc31f !important; 
  }
 
-/** 隐藏div */ 
+/** 隐藏待用上传按钮的div */ 
 .dis_none{
  	position: absolute; 
  	opacity: 0; 
  	filter:Alpha(opacity=0);
- 	display: none;
  }
 /** textArea resie none*/
 .textArea_resizeB{

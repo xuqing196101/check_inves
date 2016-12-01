@@ -164,7 +164,7 @@
 			uploader.on( 'beforeFileQueued', function(file) {
 				if (!checkFileType(file.name)){
 					uploader.removeFile(file);
-					alert("不支持上传文件类型!");
+					layer.msg("不支持上传文件类型!");
 					return;
 				}
 				

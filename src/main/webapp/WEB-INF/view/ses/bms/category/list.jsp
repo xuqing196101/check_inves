@@ -99,6 +99,7 @@
     	    var zTree = $.fn.zTree.getZTreeObj("ztree");
 			nodes = zTree.getSelectedNodes();
 			var node = nodes[0];
+			$("#operaFlag").val('add');
 			if (node) {
 				$.ajax({
 					url:"${pageContext.request.contextPath}/category/add.do",
@@ -154,13 +155,16 @@
     }
     
 	/** 保存 */
-	function save(id){
+	function save(){
+		var operaValue = $("#operaFlag").val();
     	$.ajax({
     		dataType:"json",
     		type:"post",
     		data:$("#fm").serialize(),
     		url:"${pageContext.request.contextPath}/category/save.do",
-    		success:callback
+    		success:function(data){
+    			result(data,operaValue);
+    		}
     	});
     }
     
@@ -173,12 +177,16 @@
     }
     
     /** 保存后的提示 */
-    function callback(msg){
+    function result(msg,operaValue){
     	resetTips();
     	if (msg.success) {
     		$("#uploadBtnId").hide();
 			$("#btnIds").hide();
-			refreshParentNode();
+			if (operaValue =='add'){
+				refreshNode();
+			} else {
+				refreshParentNode();
+			}
 			layer.msg('保存成功');
     	} else {
     		if (msg.msg != null && msg.msg != ""){
@@ -201,7 +209,8 @@
 	   type = "refresh",  
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();
-	   zTree.reAsyncChildNodes(nodes[0], type, silent);  
+	   zTree.reAsyncChildNodes(nodes[0], type, silent); 
+	   zTree.expandNode(nodes[0], true, false);
    }
     
     /** 刷新父级节点 */
@@ -211,7 +220,9 @@
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   zTree.reAsyncChildNodes(parentNode, type, silent);  
+	   zTree.reAsyncChildNodes(parentNode, type, silent); 
+	   zTree.selectNode(nodes[0],true);
+	   zTree.expandNode(parentNode, true, false);
    }
     
     /** 刷新根节点 */
@@ -227,6 +238,7 @@
   function 	edit(){
 	  var zTree = $.fn.zTree.getZTreeObj("ztree");
 	  var nodes = zTree.getSelectedNodes();  
+	  $("#operaFlag").val('edit');
 	  if (isRoot(nodes[0])){
 		  layer.msg(nodes[0].name + '不能被编辑');
 		  return;
@@ -303,7 +315,7 @@
 	  		url:"${pageContext.request.contextPath}/category/deleted.do?id=" + treeid,
 	  		success:function(data){
 	  			if (data == "success") {
-	  				refreshRootNode();
+	  				refreshParentNode();
 	  				layer.msg('删除成功');
 	  				$("#tableDivId").addClass("dis_none");
 	  			} else {
@@ -318,7 +330,7 @@
 </head>
 
 <body>
-	<!--面包屑导航开始-->
+ <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -327,73 +339,78 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-	   <div class="container">
-		   <div class="col-md-3 col-sm-4 col-xs-12">
-		  	 <div class="tag-box tag-box-v3 mt15">
-			 	<div><ul id="ztree" class="ztree s_ztree"></ul></div>
-			 </div>
-		   </div>
-		   <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
-		   		<button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
-		   		<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
-		   		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-		        <div id="tableDivId"   class="content dis_none" >   
-		        	<form id="fm">
-		        		<input type="hidden" id="pid" name="parentId" />
-		        		<input type="hidden" id="mainId" name="id" />
-		        		<input type="hidden" id="operaId" name="opera" />
-			            <table id="result"  class="table table-bordered table-condensedb" >
-			            	 <tbody>
-			            	 	<tr>
-			            			<td class='info'>上级目录</td>
-			            			<td id="parentNameId"></td>
-			            		</tr>
-			            		<tr>
-			            		    <td class='info'>品目名称<span class="red">*</span></td>
-			            		    <td id="cateTdId">
-			            		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
-			            		    	  <input id="cateId" type="text" name='name'/>
-			            		    	  <span class="add-on">i</span>
-			            		    	  <span id="cateTipsId" class="red clear" />
-			            		    	</div>
-			            		    </td>
-			            		</tr>
-			            		<tr>
-			            			<td class='info'>排序<span class="red">*</span></td>
-			            			<td id="posTdId">
-			            				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
-			            				  <input  id="posId" type="text" name='position'/>
-			            				  <span class="add-on">i</span>
-			            				  <span id="posTipsId" class="red clear" />
-			            				</div>
-			            		    </td>
-			            	    </tr>
-			            	    <tr>
-			            	    	<td class='info'>图片</td>
-			            	    	<td>
-			            	    		<div id="uploadBtnId" class="dis_none">
-			            	    			<u:upload  id="uploadId"   businessId="${id}" auto="true" sysKey="2"/>
-			            	    		</div>
-			            	    		<div id="showFileId">
-			            	    			<u:show showId="fileId" businessId="${id}" sysKey="2"/>
-			            	    		</div>
-			            	    	</td>
-			            	    </tr>
-			            	    <tr>
-			            	        <td class='info'>描述</td>
-			            	        <td id="descTdId">
-			            	        	<textarea name='description' class="col-md-10 col-sm-10 col-xs-12 h80 textArea_resizeB"   id="descId"></textarea>
-			            	        	<span class="red" id="descTipsId"></span>
-			            	        </td>
-			            	    </tr>
-			            	  </tbody>
-			            </table>
-			            <div id="btnIds" class="dnone textc">
-			            	<button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
-			            </div>
-			         </form> 
-		         </div>
-	       </div>
+   
+   <!-- 内容 -->
+   <div class="container">
+   
+     <div class="col-md-3 col-sm-4 col-xs-12">
+  	   <div class="tag-box tag-box-v3 mt15">
+	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
+	   </div>
+     </div>
+     
+     <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
+   	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
+   	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
+   	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+       <div id="tableDivId"   class="content dis_none" >   
+         <input id="operaFlag" type="hidden" name="operaName"  />
+         <form id="fm">
+       		<input type="hidden" id="pid" name="parentId" />
+       		<input type="hidden" id="mainId" name="id" />
+       		<input type="hidden" id="operaId" name="opera" />
+            <table id="result"  class="table table-bordered table-condensedb" >
+           	  <tbody>
+           	 	<tr>
+       			  <td class='info'>上级目录</td>
+       			  <td id="parentNameId"></td>
+           		</tr>
+           		<tr>
+           		  <td class='info'>品目名称<span class="red">*</span></td>
+           		  <td id="cateTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
+       		    	  <input id="cateId" type="text" name='name'/>
+       		    	  <span class="add-on">i</span>
+       		    	  <span id="cateTipsId" class="red clear" />
+       		    	</div>
+           		  </td>
+           		</tr>
+           		<tr>
+       			  <td class='info'>排序<span class="red">*</span></td>
+       			  <td id="posTdId">
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
+       				  <input  id="posId" type="text" name='position'/>
+       				  <span class="add-on">i</span>
+       				  <span id="posTipsId" class="red clear" />
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr>
+       	    	  <td class='info'>图片</td>
+       	    	  <td>
+       	    		<div id="uploadBtnId" class="dis_none">
+       	    		  <u:upload  id="uploadId"   businessId="${id}" auto="true" sysKey="2"/>
+       	    		</div>
+       	    		<div id="showFileId">
+       	    		  <u:show showId="fileId" businessId="${id}" sysKey="2"/>
+       	    		</div>
+       	    	  </td>
+           	    </tr>
+           	    <tr>
+       	          <td class='info'>描述</td>
+       	          <td id="descTdId">
+       	        	<textarea name='description' class="col-md-10 col-sm-10 col-xs-12 h80 textArea_resizeB"   id="descId"></textarea>
+       	        	<span class="red" id="descTipsId"></span>
+       	          </td>
+           	    </tr>
+           	   </tbody>
+            </table>
+            <div id="btnIds" class="dnone textc">
+              <button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
+            </div>
+           </form> 
+         </div>
+      </div>
 	</div>
 </body>
 </html>
