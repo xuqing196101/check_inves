@@ -32,42 +32,45 @@
 		  
 
 		  
-		  <!-- 1.查询数量 -->
-		  <select id="queryByCount" resultType="Object" parameterType="Object">
-		    select count(1) from T_ISS_FS_PARK
-		  </select>
+		  	<!-- 1.查询数量 -->
+		  	<select id="queryByCount" resultType="Object" parameterType="Object">
+		   	 	select count(1) from T_ISS_FS_PARK
+		  	</select>
 		  
-		   <!-- 2.根据ID查询版块-->
-		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ParkTopicPostMap">
-		    select 
-		    <include refid="Base_Column_List" />
-		    from T_ISS_FS_PARK
-		    where ID = #{id} AND IS_DELETED = 0
-		  </select>
+		   	<!-- 2.根据ID查询版块-->
+		  	<select id="selectByPrimaryKey" parameterType="Object" resultMap="ParkTopicPostMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_PARK
+			    where ID = #{id} AND IS_DELETED = 0
+		  	</select>
 		  		
-		  <!-- 3.1查询版块列表分页 -->
+		  	<!-- 3.1查询版块列表分页 -->
 		    <select id="queryByList" parameterType="Map" resultMap="ParkTopicPostMap">
-		    select 
-		    <include refid="Base_Column_List" />
-		    from T_ISS_FS_PARK
-		    WHERE IS_DELETED = 0
-		    <trim suffixOverrides=",">
-                  <if test="parkNameForSerach!= null">
-                    and NAME Like concat(concat('%', '${parkNameForSerach}'), '%')
-                  </if> 
-                   <if test="parkContentForSerach!= null">
-                    and CONTENT Like concat(concat('%', '${parkContentForSerach}'), '%')
-                  </if>         
-                </trim>
-			 ORDER BY CREATED_AT DESC
-		  </select>	
+		    	select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_PARK
+			    WHERE IS_DELETED = 0
+			    <trim suffixOverrides=",">
+	                 <if test="parkNameForSerach!= null">
+	                    and NAME Like concat(concat('%', '${parkNameForSerach}'), '%')
+	                 </if> 
+	                 <if test="parkContentForSerach!= null">
+	                    and CONTENT Like concat(concat('%', '${parkContentForSerach}'), '%')
+	                 </if> 
+	                 <if test="userId != null and userId != '' ">
+	                    and USER_ID = #{userId}
+	                 </if>           
+	             </trim>
+				 ORDER BY CREATED_AT DESC
+		  	  </select>	
 		  	  
-		  <!-- 4.根据ID删除 逻辑删除-->
-		  <update id="deleteByPrimaryKey" parameterType="Object">
-		    update T_ISS_FS_PARK
-		    set is_deleted = 1
-		    where ID = #{id}
-		  </update>
+			  <!-- 4.根据ID删除 逻辑删除-->
+			  <update id="deleteByPrimaryKey" parameterType="Object">
+			    update T_ISS_FS_PARK
+			    set is_deleted = 1
+			    where ID = #{id}
+			  </update>
 		  
 		 <!-- 5.插入一条记录 -->
 		  <insert id="insertSelective" parameterType="iss.model.fs.Park">

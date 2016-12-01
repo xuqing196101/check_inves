@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
@@ -59,6 +60,8 @@ public class ParkManageController extends BaseSupplierController {
 	private ReplyService replyService;
 	@Autowired
 	private UserServiceI userService;
+	@Autowired
+	private RoleServiceI roleService;
 
 	/**
 	 * @Title: getParkList
@@ -71,9 +74,14 @@ public class ParkManageController extends BaseSupplierController {
 	 */
 	@RequestMapping("/getlist")
 	public String getParkList(HttpServletRequest request,Model model, Park park,Integer page) {
+		User user = (User) request.getSession().getAttribute("loginUser");
 		Map<String,Object> map = new HashMap<String, Object>();
 		String parkNameForSerach = request.getParameter("parkNameForSerach");
 		String parkContentForSerach = request.getParameter("parkContentForSerach");	
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", user.getId());
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
 		if(page == null){
 			page=1;
 		}
@@ -82,6 +90,9 @@ public class ParkManageController extends BaseSupplierController {
 		}
 		if(parkContentForSerach !=null && parkContentForSerach!=""){
 			map.put("parkContentForSerach", parkContentForSerach);
+		}
+		if(!i.equals(new BigDecimal(1))){
+			map.put("userId", user.getId());
 		}
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
@@ -102,6 +113,7 @@ public class ParkManageController extends BaseSupplierController {
 		model.addAttribute("list", new PageInfo<Park>(parklist));
 		model.addAttribute("parkNameForSerach", parkNameForSerach);
 		model.addAttribute("parkContentForSerach", parkContentForSerach);
+		model.addAttribute("admin", i);
 		return "iss/forum/park/list";
 	}
 

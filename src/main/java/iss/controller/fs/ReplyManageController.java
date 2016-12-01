@@ -169,15 +169,15 @@ public class ReplyManageController {
     			reply.setUpdatedAt(tsu);	
     			reply.setIsRead(0);
     			replyService.insertSelective(reply);
-    			StationMessage stationMessage = new StationMessage();
-    			String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-    			stationMessage.setId(id);
-    			stationMessage.setCreatedAt(new Date());
-    			stationMessage.setIsDeleted((short)0);
-    			stationMessage.setName("【论坛】"+post.getName()+"有新的回复");
-    			stationMessage.setIsFinish((short)0);
-    			stationMessage.setUrl("post/getIndexDetail.html?postId="+postId);
-    			stationMessageService.insertStationMessage(stationMessage);
+//    			StationMessage stationMessage = new StationMessage();
+//    			String id = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+//    			stationMessage.setId(id);
+//    			stationMessage.setCreatedAt(new Date());
+//    			stationMessage.setIsDeleted((short)0);
+//    			stationMessage.setName("【论坛】"+post.getName()+"有新的回复");
+//    			stationMessage.setIsFinish((short)0);
+//    			stationMessage.setUrl("post/getIndexDetail.html?postId="+postId);
+//    			stationMessageService.insertStationMessage(stationMessage);
             	msg += "回复成功";
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter()
