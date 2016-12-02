@@ -25,43 +25,37 @@
 	 }
   </script>
   <body>
-  	<div class="container">
-	    <div class="headline-v2">
-	     	<h2>供应商报价信息</h2>
-	    </div>
-	   	<div class="content table_box">
-	   		<input type="hidden" id="projectId" value="${projectId}">
-	    	<table class="table table-bordered table-condensed table-hover table-striped">
-				<thead>
-				<tr>
-				  <th class="w50 info">序号</th>
-				  <th class="info">供应商名称</th>
-				  <th class="info">报价(单位：元)</th>
-				  <th class="info">操作</th>
-				</tr>
-				</thead>
-				<c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-			       <tr>
-			        <td class="tc w30">${vs.count } </td>
-			        <td class="tc">${supplier.suppliers.supplierName } </td>
-			        <td>
-			        	<table>
-			        	  <c:forEach items="${supplier.money}" var="sm" varStatus="vs">
-			        		<tr>
-			        			<td class="tc">${sm.packageName}： </td>
-			        		    <td class="tl w100">${sm.totalMoney}</td>
-			        		    <td class="tl w230">(${sm.upperName })</td>
-			        		</tr>
-			              </c:forEach>
-			        	</table>
-			        </td>
-			        <td class="tc w100">
-			          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
-			        </td>
-			      </tr>
-	      	  </c:forEach>
-			</table>
-	    </div>
-    </div>
+	    <h2 class="list_title">供应商报价信息</h2>
+   		<input type="hidden" id="projectId" value="${projectId}">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+			<tr>
+			  <th class="w50 info">序号</th>
+			  <th class="info">供应商名称</th>
+			  <th class="info">报价(单位：元)</th>
+			  <th class="info">操作</th>
+			</tr>
+			</thead>
+			<c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		       <tr>
+		        <td class="tc w30">${vs.count } </td>
+		        <td class="tc">${supplier.suppliers.supplierName } </td>
+		        <td>
+		        	<table>
+		        	  <c:forEach items="${supplier.money}" var="sm" varStatus="vs">
+		        		<tr>
+		        			<td class="tc">${sm.packageName}： </td>
+		        		    <td class="tl w100">${sm.totalMoney}</td>
+		        		    <td class="tl w230">(${sm.upperName })</td>
+		        		</tr>
+		              </c:forEach>
+		        	</table>
+		        </td>
+		        <td class="tc w100">
+		          <input class="btn" type="button" value="查看" onclick="supplierView('${supplier.suppliers.id}')">
+		        </td>
+		      </tr>
+      	  </c:forEach>
+		</table>
   </body>
 </html>

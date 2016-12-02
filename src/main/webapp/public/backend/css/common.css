@@ -852,3 +852,7 @@ a.redhover:hover{
 .list-style{
 	list-style-type: none;
 }
+
+.space_nowrap{
+	white-space: nowrap;
+}

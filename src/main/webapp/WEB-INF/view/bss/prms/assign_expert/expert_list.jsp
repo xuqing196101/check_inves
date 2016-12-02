@@ -110,51 +110,44 @@
          
   </script>
   <body>
-    <div class="container">
-        <div class="headline-v2">
-            <h2>专家抽取包列表</h2>
-        </div>
+        <h2 class="list_title">专家抽取包列表</h2>
         <c:if test="${execute != 'SCCUESS' }">
-          <div class="col-md-12 pl20 mt10">
+          <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
              <button class="btn btn-windows add" onclick="addexp();" type="button">添加专家</button>
              <button class="btn " onclick="addLeader();" type="button">分配组长</button>
              <button class="btn " onclick="finish();" type="button">执行完成</button>
           </div>
         </c:if>
-        <div class="content table_box">
-            <table class="table table-bordered table-condensed table-hover table-striped">
-                <thead>
+        <table class="table table-bordered table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+              <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+              <th class="w50 info">序号</th>
+              <th class="info">包名</th>
+              <th class="info">组长</th>
+              <th class="info">专家人数</th>
+            </tr>
+            </thead>
+            <c:forEach items="${packageList }" var="pack" varStatus="vs">
                 <tr>
-                  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-                  <th class="w50 info">序号</th>
-                  <th class="info">包名</th>
-                  <th class="info">组长</th>
-                  <th class="info">专家人数</th>
-            
+                    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
+                    <td class="tc w30">${vs.count }</td>
+                    <td class="tc">${pack.name }</td>
+                     <td class="tc">
+                      <c:set value="0" var="num"></c:set>
+                      <c:forEach items="${selectList}" var="list"> 
+                         <c:if test="${pack.id==list.packageId}">
+                                ${list.expert.relName}
+                           <c:set value="1" var="num"></c:set>
+                         </c:if>
+                      </c:forEach>
+                      <c:if test="${num==0}">
+                                                                             暂无
+                      </c:if>
+                    </td>
+                    <td class="tc"><a href="${pageContext.request.contextPath}/packageExpert/showExpert.html?packageId=${pack.id}&&flowDefineId=${flowDefineId}&&execute=${execute}">${fn:length(pack.listExperts)}</td>
                 </tr>
-                </thead>
-                <c:forEach items="${packageList }" var="pack" varStatus="vs">
-                    <tr>
-                        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
-                        <td class="tc w30">${vs.count }</td>
-                        <td class="tc">${pack.name }</td>
-                         <td class="tc">
-                          <c:set value="0" var="num"></c:set>
-                          <c:forEach items="${selectList}" var="list"> 
-                             <c:if test="${pack.id==list.packageId}">
-                                    ${list.expert.relName}
-                               <c:set value="1" var="num"></c:set>
-                             </c:if>
-                          </c:forEach>
-                          <c:if test="${num==0}">
-                                                                                 暂无
-                          </c:if>
-                        </td>
-                        <td class="tc"><a href="${pageContext.request.contextPath}/packageExpert/showExpert.html?packageId=${pack.id}&&flowDefineId=${flowDefineId}&&execute=${execute}">${fn:length(pack.listExperts)}</td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </div>
+            </c:forEach>
+        </table>
   </body>
 </html>

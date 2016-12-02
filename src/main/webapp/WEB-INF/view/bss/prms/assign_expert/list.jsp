@@ -110,57 +110,50 @@
 		 }
   </script>
   <body>
-  	<div class="container">
-	    <div class="headline-v2">
-	     	<h2>专家抽取名单</h2>
-	    </div>
+	    <h2 class="list_title">专家抽取名单</h2>
 	    <c:if test="${execute != 'SCCUESS'}">
-	      <div class="col-md-12 pl20 mt10">
+	      <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn " onclick="resetPwd();" type="button">重置密码</button>
 		    <button class="btn " onclick="relate();" type="button">分配组长</button>
 	   	  </div>
 	   	</c:if>
-	   	<div class="content table_box">
-	    	<table class="table table-bordered table-condensed table-hover table-striped">
-				<thead>
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+			<tr>
+			  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+                 <th class="info w50">序号</th>
+                 <th class="info">专家姓名</th>
+                 <th class="info">专家类型</th>
+                 <th class="info">证件号</th>
+                 <th class="info">现任职务</th>
+                 <th class="info">联系地址</th>
+                 <th class="info">联系电话</th>
+			</tr>
+			</thead>
+			<c:forEach items="${expertList }" var="expert" varStatus="vs">
 				<tr>
-				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-                  <th class="info w50">序号</th>
-                  <th class="info">专家姓名</th>
-                  <th class="info">专家类型</th>
-                  <th class="info">证件号</th>
-                  <th class="info">现任职务</th>
-                  <th class="info">联系地址</th>
-                  <th class="info">联系电话</th>
-				</tr>
-				</thead>
-				<c:forEach items="${expertList }" var="expert" varStatus="vs">
-					<tr>
-		                <td class="tc w30"><input type="checkbox"
-		                    value="${expert.expert.id}" name="chkItem" onclick="check()"></td>
-		                <td class="tc w30">${vs.count }</td>
-		                <td class="tc">${expert.expert.relName }</td>
-		                <c:if test="${expert.expert.expertsTypeId eq '1' }">
-		                    <td class="tc">技术</td>
-		                </c:if>
-		                <c:if test="${expert.expert.expertsTypeId eq '2' }">
-		                <td class="tc">法律</td>
-		                </c:if>
-		                <c:if test="${expert.expert.expertsTypeId eq '3' }">
-		                    <td class="tc">商务</td>
-		                </c:if>
-		                <td class="tc">${expert.expert.idNumber }</td>
-		                <td class="tc">${expert.expert.atDuty }</td>
-		                <td class="tc">${expert.expert.unitAddress }</td>
-		                <td class="tc">${expert.expert.mobile }</td>
-                    </tr>
-				</c:forEach>
-			</table>
-			 <div class="col-md-12 tc">
-               <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-             </div>
-	    </div>
-	    
-    </div>
+	                <td class="tc w30"><input type="checkbox"
+	                    value="${expert.expert.id}" name="chkItem" onclick="check()"></td>
+	                <td class="tc w30">${vs.count }</td>
+	                <td class="tc">${expert.expert.relName }</td>
+	                <c:if test="${expert.expert.expertsTypeId eq '1' }">
+	                    <td class="tc">技术</td>
+	                </c:if>
+	                <c:if test="${expert.expert.expertsTypeId eq '2' }">
+	                <td class="tc">法律</td>
+	                </c:if>
+	                <c:if test="${expert.expert.expertsTypeId eq '3' }">
+	                    <td class="tc">商务</td>
+	                </c:if>
+	                <td class="tc">${expert.expert.idNumber }</td>
+	                <td class="tc">${expert.expert.atDuty }</td>
+	                <td class="tc">${expert.expert.unitAddress }</td>
+	                <td class="tc">${expert.expert.mobile }</td>
+                   </tr>
+			</c:forEach>
+		</table>
+		 <div class="col-md-12 tc">
+              <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+            </div>
   </body>
 </html>

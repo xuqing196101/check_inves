@@ -25,7 +25,6 @@
 	  </div>
     </div> --%>
     <!-- 项目戳开始 -->
-  <div class="container clear">
   <div class="col-md-12 tc">
 			  	<span >报价历史查看：</span>
 					  	<select onchange="showQuoteHistory(this)">
@@ -159,9 +158,7 @@
           </div>
       </div>
     </div>
-    
-</div>
-   <div class=" tc col-md-12">
+   <div class=" tc col-md-12 mt5">
        <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
 </body>

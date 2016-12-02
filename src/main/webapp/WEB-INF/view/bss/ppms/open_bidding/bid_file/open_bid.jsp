@@ -102,12 +102,10 @@
 </head>
 <body>
 <!-- 表格开始-->  
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
         <input type="hidden" id="projectId" value="${project.id }" />
-        <span><b>项目名称</b>：${project.name }</span>  
-        <span><b>项目编号</b>：${project.projectNumber }</span>
-        <span><b>开标倒计时</b>：<span id="showTime"></span></span>
+        <h2 class="list_title">项目名称：${project.name } 
+        	项目编号：${project.projectNumber }
+        	开标倒计时：<span id="showTime"></span></h2>
         <table class="table table-striped table-bordered table-hover tc padding-top-5">
 		<thead>
 		<tr>
@@ -152,7 +150,5 @@
 			</tr>
 		</c:forEach> 
         </table>
-     </div>
-   </div>
 </body>
 </html>

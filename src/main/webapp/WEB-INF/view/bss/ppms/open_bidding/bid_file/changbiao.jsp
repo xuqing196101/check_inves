@@ -20,13 +20,10 @@
 </head>
 <body>
 <!-- 表格开始-->  
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
        <!--  <button class="btn btn-windows git tr" onclick="show()">唱标</button> -->
-        <div>
         <c:forEach items="${listQuoteList }" var="listQuote" varStatus="vs">
         <h3 class="tc">报价一览表</h3>
-        <h4 >投标人全称：${listQuote[0].supplier.supplierName }</h4>
+        <h2 class="list_title">投标人全称：${listQuote[0].supplier.supplierName }</h2>
         <table class="table table-striped table-bordered table-hover tc">
 		<thead>
 		<tr>
@@ -67,8 +64,5 @@
 			</tr>
         </table>
         </c:forEach>
-        </div>
-     </div>
-   </div>
 </body>
 </html>

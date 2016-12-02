@@ -37,18 +37,14 @@
 	}
   </script>
   <body>
-  	<div class="container">
-	    <div class="headline-v2">
-	     	<h2>${pack.name}初审查看</h2>
-	    </div>
-	    <div class="col-md-12 pl20 mt10">
+	    <h2 class="list_title">${pack.name}初审查看</h2>
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn" onclick="window.print();" type="button">打印</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
-	   	<div class="content table_box">
-	    	<table class="table table-bordered table-condensed table-hover table-striped">
-  		      <thead>
+	  	<table class="table table-bordered table-condensed table-hover table-striped">
+ 		  <thead>
 		      <tr>
 		        <th class="info">评委/供应商</th>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
@@ -56,34 +52,32 @@
 		        </c:forEach>
 		        <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th>
 		      </tr>
-		      </thead>
-		      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
-			       <tr>
-			        <td class="tc">${ext.expert.relName } </td>
-			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-				        	<td class="tc">
-				        	  <c:forEach items="${supplierExtList }" var="supplierExt">
-				        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
-				        	  	${supplierExt.suppIsPass }
-				        	  	</c:if>
-				        	  </c:forEach>
-				        	</td>
-		            </c:forEach>
-		            <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td>
-			      </tr>
-	      	 </c:forEach>
-	      	 	<tr>
-	      	 		<td class="tc"><button class="btn" onclick="" type="button">查看明细</button></td>
-	      	 		 <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-				       	<td class="tc w30"><input  type="radio" /></td>
-				     </c:forEach>
-				    <td></td>
-		      	 </tr>
-  		  </table>
-  		</div>
+	      </thead>
+	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
+		       <tr>
+		        <td class="tc">${ext.expert.relName } </td>
+		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+		        	<td class="tc">
+		        	  <c:forEach items="${supplierExtList }" var="supplierExt">
+		        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
+		        	  	${supplierExt.suppIsPass }
+		        	  	</c:if>
+		        	  </c:forEach>
+		        	</td>
+	            </c:forEach>
+	            <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td>
+		      </tr>
+      	 </c:forEach>
+      	 	  <tr>
+      	 		<td class="tc"><button class="btn" onclick="" type="button">查看明细</button></td>
+      	 		 <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			       	<td class="tc w30"><input  type="radio" /></td>
+			     </c:forEach>
+			    <td></td>
+	      	  </tr>
+  		</table>
   		<div class="col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
 	   	</div>
-  	</div>
   </body>
 </html>

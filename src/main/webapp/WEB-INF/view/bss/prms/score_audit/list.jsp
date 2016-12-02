@@ -59,48 +59,42 @@
   
   </script>
   <body>
-  	<div class="container">
-	    <div class="headline-v2">
-	     	<h2>详细评审</h2>
-	    </div>
-	    <div class="col-md-12 pl20 mt10">
+	    <h2 class="list_title">详细评审</h2>
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		    <button class="btn" onclick="" type="button">评分汇总</button>
 	   	</div>
-	   	<div class="content table_box">
-	   		<input type="hidden" id="projectId" value="${projectId}">
-	    	<table class="table table-bordered table-condensed table-hover table-striped">
-				<thead>
-				<tr>
-				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-				  <th class="w50 info">序号</th>
-				  <th class="info">包名</th>
-				  <th class="info">详审进度</th>
-				  <th class="info">操作</th>
-				</tr>
-				</thead>
-				<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
-			       <tr>
-			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
-			        <td class="tc w30">${vs.count} </td>
-			        <td class="tc">${rp.packageName}</td>
-				    <td class="tc">
-					  <div class="col-md-12 padding-0">
-						  <div class="progress w55p fl margin-left-0">
-				             <div class="progress-bar progress-bar-danger" role="progressbar" 
-				                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-				                 style="width:${rp.scoreProgress*100}%;"> 
-				             </div> 
-				          </div>
-						  <span class="fl padding-5">${rp.scoreProgress*100}%</span>
-					  </div>
-				    </td>
-				    <td class="tc w100">
-			          <input class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
-			        </td>
-			      </tr>
-				</c:forEach>
-			</table>
-	    </div>
-    </div>
+   		<input type="hidden" id="projectId" value="${projectId}">
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+			<tr>
+			  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+			  <th class="w50 info">序号</th>
+			  <th class="info">包名</th>
+			  <th class="info">详审进度</th>
+			  <th class="info">操作</th>
+			</tr>
+			</thead>
+			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
+		       <tr>
+		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
+		        <td class="tc w30">${vs.count} </td>
+		        <td class="tc">${rp.packageName}</td>
+			    <td class="tc">
+				  <div class="col-md-12 padding-0">
+					  <div class="progress w55p fl margin-left-0">
+			             <div class="progress-bar progress-bar-danger" role="progressbar" 
+			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
+			                 style="width:${rp.scoreProgress*100}%;"> 
+			             </div> 
+			          </div>
+					  <span class="fl padding-5">${rp.scoreProgress*100}%</span>
+				  </div>
+			    </td>
+			    <td class="tc w100">
+		          <input class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
+		        </td>
+		      </tr>
+			</c:forEach>
+		</table>
   </body>
 </html>

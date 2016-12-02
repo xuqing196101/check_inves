@@ -50,18 +50,16 @@
   </head>
   
   <body>
-	<div class="container" >
-  	   	<div class="headline-v2">
-	     	<h2>${expert.relName}初审详情</h2>
-	    </div>
+	<!-- <div class="container" > -->
+	    <h2 class="list_title">${expert.relName}初审详情</h2>
 	    <input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
 	   	<input type="hidden" id="packageId" value="${packageId}">
-   	   <div class="content table_box">
-		   <table class="table table-bordered table-condensed table-hover" id="table2">
+   	   	<div class="over_scroll">
+		   <table class="table table-bordered table-condensed table-hover col-md-12 col-sm-12 col-xs-12 p0 space_nowrap" id="table2">
 		   		<thead>
 		   		  <th class="w50 info">序号</th>
-		   		  <th class="info w160">初审项</th>
+		   		  <th class="info">初审项</th>
 		   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
 		   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 			   		    <th class="info">
@@ -72,7 +70,7 @@
 		   		  <!-- <th class="info">
 			   		      太难猜今天
 			   		</th>
-			   		<th class="info">
+			   		 <th class="info">
 			   		      太难猜今天
 			   		</th>
 			   		<th class="info">
@@ -91,10 +89,10 @@
  	            <c:forEach items="${extension.firstAuditList}" var="first" varStatus="vs">
 			      	<tr>
 			      	  <td class="tc w30">${vs.count} </td>
-			      	  <td class="w160">${first.name }</td>
+			      	  <td class="">${first.name }</td>
 			      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 			      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-	   		                <td class="tc w200">
+	   		                <td class="tc">
 	   		                	<c:forEach items="${reviewFirstAuditList }" var="r" >
 		   		                  <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==0 }">合格</c:if>
 		   		                  <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==1 }">
@@ -105,30 +103,30 @@
 		   		            </td>
    		                </c:if>
    		               </c:forEach>
-   		               <%-- <th class="info">
+   		              <%--  <td class="tc">
 			   		     不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th>
-			   		<th class="info">
+			   		</td>
+			   		<td class="tc">
 			   		    不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th>
-			   		<th class="info">
+			   		</td>
+			   		<td class="tc w200">
 			   		    不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th>
-			   		<th class="info">
+			   		</td>
+			   		<td class="tc w200">
 			   		    不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th>
-			   		<th class="info">
+			   		</td>
+			   		<td class="tc w200">
 			   		      不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th>
-			   		<th class="info">
+			   		</td>
+			   		<td class="tc w200">
 			   		     不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
-			   		</th> --%>
+			   		</td> --%>
 			      </tr>
  	           </c:forEach>
 		   </table>
@@ -136,6 +134,6 @@
 	   <div class="col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
 	   	</div>
-	</div> 
+<!-- 	</div>  -->
   </body>
 </html>

@@ -212,69 +212,63 @@
 	
 	</h2>
 	<!-- 表格开始-->
-	<div class="container  ">
-		<div class="">
-			<button class="btn btn-windows withdraw" onclick="download();"
-				type="button">下载标书</button>
-			<button class="btn btn-windows add" onclick="add();" type="button">新增</button>
-			<button class="btn btn-windows edit" onclick="upload();"
-				type="button">缴纳保证金</button>
-		</div>
+	<div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
+		<button class="btn btn-windows withdraw" onclick="download();"
+			type="button">下载标书</button>
+		<button class="btn btn-windows add" onclick="add();" type="button">新增</button>
+		<button class="btn btn-windows edit" onclick="upload();"
+			type="button">缴纳保证金</button>
 	</div>
-	<div class="content padding-left-25 padding-right-25 padding-top-20">
-		<div class="col-md-12">
-			<table class="table table-bordered table-condensed">
-				<thead>
-					<tr>
-						<th class="info w30"><input id="checkAll" type="checkbox"
-							onclick="selectAll()" /></th>
-						<th class="info w50">供应商名称</th>
-						<th class="info">联系人</th>
-						<th class="info">联系电话</th>
-						<th class="info">发售日期</th>
-						<th class="info">标书状态</th>
-						<th class="info">保证金状态</th>
-					</tr>
-				</thead>
-				<c:forEach items="${list.list}" var="sale" varStatus="vs">
-					<tr>
-						<td class="tc opinter"><input onclick="check()"
-							type="checkbox" name="chkItem"
-							value="${sale.id}^${sale.statusBond}^${sale.statusBid}" /></td>
-						<td class="tc opinter w200" onclick="view('${templet.id}')" title="${sale.suppliers.supplierName}">
-						  <c:choose>
-                                <c:when test="${fn:length(sale.suppliers.supplierName) > 12}">  
-                                                      ${fn:substring(sale.suppliers.supplierName, 0, 10)}......
-                                </c:when>
-                                <c:otherwise>  
-                                          ${sale.suppliers.supplierName}
-                                </c:otherwise>
-                           </c:choose>
-						
-						</td>
+		<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
+				<tr>
+					<th class="info w30"><input id="checkAll" type="checkbox"
+						onclick="selectAll()" /></th>
+					<th class="info w50">供应商名称</th>
+					<th class="info">联系人</th>
+					<th class="info">联系电话</th>
+					<th class="info">发售日期</th>
+					<th class="info">标书状态</th>
+					<th class="info">保证金状态</th>
+				</tr>
+			</thead>
+			<c:forEach items="${list.list}" var="sale" varStatus="vs">
+				<tr>
+					<td class="tc opinter"><input onclick="check()"
+						type="checkbox" name="chkItem"
+						value="${sale.id}^${sale.statusBond}^${sale.statusBid}" /></td>
+					<td class="tc opinter w200" onclick="view('${templet.id}')" title="${sale.suppliers.supplierName}">
+					  <c:choose>
+                               <c:when test="${fn:length(sale.suppliers.supplierName) > 12}">  
+                                                     ${fn:substring(sale.suppliers.supplierName, 0, 10)}......
+                               </c:when>
+                               <c:otherwise>  
+                                         ${sale.suppliers.supplierName}
+                               </c:otherwise>
+                          </c:choose>
+					
+					</td>
 
-						<td class="tc opinter w100">${sale.suppliers.contactName}</td>
+					<td class="tc opinter w100">${sale.suppliers.contactName}</td>
 
-						<td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>
+					<td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>
 
-						<td class="tc opinter w150"><fmt:formatDate
-								value='${sale.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' /></td>
-								
-						<td class="tc opinter w60"><c:if test="${sale.statusBid==1}">
-                                未缴纳
-                                </c:if> <c:if test="${sale.statusBid==2}">
-                                已缴纳
-                                </c:if></td>
-						<td class="tc opinter w75"><c:if test="${sale.statusBond==1}">
-                                未缴纳
-                                </c:if> <c:if test="${sale.statusBond==2}">
-                                已缴纳
-                                </c:if></td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
+					<td class="tc opinter w150"><fmt:formatDate
+							value='${sale.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' /></td>
+							
+					<td class="tc opinter w60"><c:if test="${sale.statusBid==1}">
+                               未缴纳
+                               </c:if> <c:if test="${sale.statusBid==2}">
+                               已缴纳
+                               </c:if></td>
+					<td class="tc opinter w75"><c:if test="${sale.statusBond==1}">
+                               未缴纳
+                               </c:if> <c:if test="${sale.statusBond==2}">
+                               已缴纳
+                               </c:if></td>
+				</tr>
+			</c:forEach>
+		</table>
 		<div id="pagediv" align="right"></div>
-	</div>
 </body>
 </html>

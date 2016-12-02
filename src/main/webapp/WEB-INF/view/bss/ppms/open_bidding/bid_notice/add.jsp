@@ -151,7 +151,7 @@
       </form>
 	<div class="dnone" id="preview">
 	   	<!-- <div class="col-md-12 p30_40 border1 margin-top-20"> -->
-	   		<div class="col-md-10 tc">
+	   		<div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
             <input type="button" class="btn " value="打印" onclick="window.print();" id="print"/>
             <input class="btn btn-windows back" onclick="pre_back();" value="返回" type="button">
         	</div>
