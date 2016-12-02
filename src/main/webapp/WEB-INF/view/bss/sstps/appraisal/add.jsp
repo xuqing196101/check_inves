@@ -101,10 +101,10 @@
 				 		<td width="25%">
 				 			<select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
 				 				<option value=""></option>
-				 				<option value="单一来源">单一来源</option>
+				 				<%--<option value="单一来源">单一来源</option> --%>
 				 				<option value="询价">询价</option>
-				 				<option value="邀请招标">邀请招标</option>
-				 				<option value="公开招标">公开招标</option>
+				 				<%--<option value="邀请招标">邀请招标</option>
+				 				<option value="公开招标">公开招标</option> --%>
 				 				<option value="竞价性谈判">竞价性谈判</option>
 				 			</select>
 				 			<div class="red f12 clear">${ERR_purchaseType}</div>
@@ -132,7 +132,7 @@
 				 		<td width="25%">
 				 			<input id="purchaseDepName" name="purchaseDepName" value="${appraisalContract.purchaseDepName }" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
-				 		<td width="25%" class="bggrey tr">合同金额：</td>
+				 		<td width="25%" class="bggrey tr">合同金额(万元)：</td>
 				 		<td width="25%">
 				 			<input id="money" name="money" type="text" value="${appraisalContract.money }" class="w230 mb0 border0" readonly>
 				 		</td>

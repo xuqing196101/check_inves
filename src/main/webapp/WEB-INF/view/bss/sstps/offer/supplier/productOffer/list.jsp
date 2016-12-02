@@ -39,7 +39,8 @@ function onStep(){
    
    <form action="${pageContext.request.contextPath}/auditSummary/update.html" method="post">
    
-   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }">
+   <input type="hidden" name="proId" class="w230 mb0" value="${proId }">
    <input type="hidden" id="apid" name="id" value="${ap.id }" />
    <div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

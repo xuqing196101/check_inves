@@ -117,7 +117,7 @@ function resetQuery(){
 	  				<c:if test="${contract.appraisal=='0' }">
 	  					<input type="button" value="申请审价" onclick="appraisal('${contract.id }')" class="btn">
 	  				</c:if>
-	  				<c:if test="${contract.appraisal=='1' }">
+	  				<c:if test="${contract.appraisal=='1' || contract.appraisal=='3' }">
 	  					审价中
 	  				</c:if>
 	  				<c:if test="${contract.appraisal=='2' }">

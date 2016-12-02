@@ -92,6 +92,27 @@ public class AuditSummaryController {
 		contractProduct.setOffer(1);
 		contractProductService.update(contractProduct);
 		
+		ContractProduct contract = contractProductService.selectById(proId);
+		//遍历项目所有条目是否已审核
+		List<ContractProduct> ContractProducts = contractProductService.selectProjectList(contract);
+		boolean flag = true;
+		for (ContractProduct cp : ContractProducts) {
+			if(cp.getOffer()==0){ //如果已报价
+				flag=false;
+				break;
+			}else {
+				flag = true;
+				break;
+			}
+		}
+		if (flag) {
+			AppraisalContract appraisalContract = new AppraisalContract();
+			appraisalContract.setId(contract.getAppraisalContract().getId());
+			appraisalContract.setAppraisal(3);
+			appraisalContract.setUpdatedAt(new Date());
+			appraisalContractService.update(appraisalContract);
+		}
+		
 		Integer page=1;
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));

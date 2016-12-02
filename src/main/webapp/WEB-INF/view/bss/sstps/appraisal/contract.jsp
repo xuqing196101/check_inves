@@ -74,7 +74,7 @@ function sub(){
 				 		<td width="25%">
 				 			${contracts.purchaseDepName }
 				 		</td>
-				 		<td width="25%" class="bggrey tr">合同金额：</td>
+				 		<td width="25%" class="bggrey tr">合同金额(万元)：</td>
 				 		<td width="25%">
 				 			${contracts.money }
 				 		</td>

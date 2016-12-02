@@ -68,7 +68,7 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @Title: selectContract
 	* @author Shen Zhenfei 
 	* @date 2016-10-3 下午4:16:31  
-	* @Description: 模拟数据，获取采购合同列表
+	* @Description: 获取采购合同列表
 	* @param @param response
 	* @param @param type      
 	* @return void
