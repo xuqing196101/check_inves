@@ -225,6 +225,7 @@ public class TackController extends BaseController{
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", listp);
+        model.addAttribute("task", task);
         model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/view";
 	}
@@ -253,8 +254,17 @@ public class TackController extends BaseController{
 	        for(FieldError fieldError:errors){
                 model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
             }
+	        
 	        return "bss/ppms/task/edit";
 	    }
+	    if(task.getName().length()>12){
+            model.addAttribute("ERR_name", "字符太大");
+            return "bss/ppms/task/edit";
+        }
+	    if(task.getDocumentNumber().length()>12){
+            model.addAttribute("ERR_documentNumber", "字符太大");
+            return "bss/ppms/task/edit";
+        }
 	    Task task2 = taskservice.selectById(id);
 	    task2.setName(task.getName());
 	    task2.setDocumentNumber(task.getDocumentNumber());

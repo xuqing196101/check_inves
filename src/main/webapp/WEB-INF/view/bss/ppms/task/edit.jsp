@@ -137,7 +137,7 @@
     }else if(planNo==""){
       layer.tips("计划编号不能为空","#planNo");
     }else{
-      layer.open({
+      /* layer.open({
         type: 1, //page层
         area : [ '400px', '200px' ],
         title: '请上传更改附件',
@@ -147,7 +147,8 @@
         offset: ['220px', '630px'],
         shadeClose: true,
         content:$("#file")
-      });
+      }); */
+       $("#form1").submit();
     }
   }
         
@@ -191,7 +192,7 @@
 	      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
-			  <input type="text" id="fileName" name="name" class="input_group" value="${task.name}"/>
+			  <input type="text" id="fileName" maxlength="20" name="name" class="input_group" value="${task.name}"/>
 			  <span class="add-on">i</span>
 			  <div class="cue">${ERR_name}</div>
 			</div>
@@ -199,7 +200,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
             <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input type="text" id="planNo" name="documentNumber" class="input_group" value="${task.documentNumber}"/> 
+              <input type="text" id="planNo" maxlength="20" name="documentNumber" class="input_group" value="${task.documentNumber}"/> 
               <span class="add-on">i</span>
               <div class="cue">${ERR_documentNumber}</div>
             </div>
@@ -312,15 +313,23 @@
        </div>
        <!-- 上传  --> 
        <div id="file" class="dnone">
-         <br>
-         <span id="uuId"></span>
-		 <input type="hidden" name="id" value="${task.id}"/>
-		 <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
-		 <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+         <div class="drop_window">
+        <ul class="list-unstyled">
+        <li class="mt10 col-md-12 p0">
+            <label class="col-md-12 pl20" id="uuId"></label>
+            <span class="col-md-12">
+               <input type="hidden" name="id" value="${task.id}"/>
+         <f:upload id="upload_id" businessId="${task.id}" typeId="${dataId}" sysKey="2"/>
+         <f:show showId="upload_id" businessId="${task.id}" sysKey="2" typeId="${dataId}"/>
+            </span>
+          </li>
+        </ul>
+        </div>
+		
 		 <div class="tc mt10 col-md-12">
 		   <br>
 		   <a class="btn btn-windows save" onclick="delTask('${task.id}');">确认</a>
-		   <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+		   <input class="btn btn-windows cancel" value="取消" type="button" onclick="cancel();">
 		 </div>
        </div> 
      </sf:form>

@@ -42,7 +42,7 @@
     </div>
     <div class="tc mt10 col-md-12">
       <input class="btn btn-windows save" type="button" value="确认" onclick="delTask();"/>
-      <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+      <input class="btn btn-windows back" value="取消" type="button" onclick="cancel();">
     </div>
   </form>
 </body>

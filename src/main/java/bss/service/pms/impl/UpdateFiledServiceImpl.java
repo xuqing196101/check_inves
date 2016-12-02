@@ -38,6 +38,13 @@ public class UpdateFiledServiceImpl implements UpdateFiledService{
 		list.add(FiledNameEnum.DEPARTMENT);
 		list.add(FiledNameEnum.GIVEDATE);
 		list.add(FiledNameEnum.GOODSUSE);
+		list.add(FiledNameEnum.PLANTYPE);
+		list.add(FiledNameEnum.PLANNAME);
+		list.add(FiledNameEnum.TECHPARAM);
+		list.add(FiledNameEnum.PURCHASETYPE);
+		list.add(FiledNameEnum.GYSNAMW);
+		list.add(FiledNameEnum.ISTAXFREE);
+		list.add(FiledNameEnum.USEUNIT);
 		return list;
 	}
 	@Override

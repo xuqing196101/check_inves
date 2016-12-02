@@ -311,7 +311,9 @@
 	            <td>${obj.price}</td>
 	            <td>${obj.budget}</td>
 	            <td>${obj.deliverDate}</td>
-	            <td>${obj.purchaseType}</td>
+	            <td><c:forEach items="${kind}" var="kind" >
+                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                  </c:forEach></td>
 	            <td>${obj.supplier}</td>
 	            <c:if test="${pack.isImport==1 }">
 		            <td>${obj.isFreeTax}</td>

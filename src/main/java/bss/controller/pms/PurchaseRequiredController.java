@@ -509,6 +509,7 @@ public class PurchaseRequiredController extends BaseController{
 	    	PurchaseRequired p=new PurchaseRequired();
 	    	p.setPlanNo(planNo);
 	    	p.setStatus("2");
+	    	p.setDetailStatus(0);
 	    	purchaseRequiredService.updateStatus(p);
 //	    	purchaseRequiredService.update(planNo, "2");
 	    	return "redirect:list.html";

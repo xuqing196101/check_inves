@@ -177,12 +177,18 @@
 	
 	function sub(){
 		var id=[]; 
+		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
+		status = $.trim(status);
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
+			if(status == "已编制为采购计划"){
+			     window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
+			}else{
+			     layer.alert("已提交",{offset: ['322px', '790px'], shade:0.01});
+			}
 			
-			window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -278,7 +284,14 @@
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="tc w30">
+			  <c:if test="${obj.status=='1' }">
+			  <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+			  </c:if>
+			   <c:if test="${obj.status!='1' }">
+              <input type="checkbox" disabled="disabled"  value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+              </c:if>
+			  </td>
 			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>

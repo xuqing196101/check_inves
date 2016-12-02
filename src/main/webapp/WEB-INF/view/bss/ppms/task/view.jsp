@@ -36,9 +36,9 @@
               <tbody> 
                 <tr>
 			      <td class="bggrey">计划名称：</td>
-			      <td>${queryById.fileName}</td>
+			      <td>${task.name}</td>
 			      <td class="bggrey">计划编号：</td>
-			      <td>${queryById.planNo}</td>
+			      <td>${task.documentNumber}</td>
 			    </tr> 
               </tbody>       
             </table>     
