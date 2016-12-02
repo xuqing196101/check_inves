@@ -230,13 +230,20 @@ $(document).ready(function() {
 											 	               </td>
 											 	              </c:when>
 											 	              <c:otherwise>
-											 	                 <td><input type="text"  name="expertValue" id="ipt5" onpaste="return false;" value="${l.expertValue }"
-											 	                  <c:if test="${l.round == 0  }"> style="width: 50px; ime-mode:disabled" onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
-											 	                  </c:if>
-											 	                   <c:if test="${l.round == 1  }"> style="width: 50px; color:red; ime-mode:disabled"  onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
-											 	                  </c:if>
-											 	                  <c:if test="${l.round == 2  }"> readonly="readonly" style="width: 50px;"
-											 	                  </c:if>
+											 	                 <td>
+											 	                 <input type="text"  name="expertValue" id="ipt5" onpaste="return false;" value="${l.expertValue }"
+											 	                   <c:if test="${l.round == 0  }"> 
+											 	                   		style="width: 50px; ime-mode:disabled" 
+											 	                   		onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                   </c:if>
+											 	                   <c:if test="${l.round == 1  }">
+											 	                   		style="width: 50px; color:red; ime-mode:disabled"  
+											 	                   		onchange="audit(this,'${l.scoreModelId}','${supplier.id }','${l.typeName}','${l.markTermId }','${l.quotaId }')"
+											 	                   </c:if>
+											 	                   <c:if test="${l.round == 2  }"> 
+											 	                     	readonly="readonly" style="width: 50px;"
+											 	                   </c:if>
+											 	                   >
 											 	                   </td>
 											 	              </c:otherwise>
 											 	             </c:choose>
