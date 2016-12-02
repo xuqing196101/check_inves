@@ -750,6 +750,7 @@ session.setAttribute("tokenSession", tokenValue);
 		//validateBase();
 		func();
 		showJiGou();
+		purDepBack();
 	}
 	
 	//校验基本信息 不能为空的字段
@@ -1445,12 +1446,12 @@ session.setAttribute("tokenSession", tokenValue);
 	   	  <table class="table table-bordered">
 	   	    <tr>
 	   	      <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
-	   	      <td width="85%">
+	   	      <td>
 	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
 			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	      </td>
 	   	      <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
-	   	      <td width="85%">
+	   	      <td>
 	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	      </td>
