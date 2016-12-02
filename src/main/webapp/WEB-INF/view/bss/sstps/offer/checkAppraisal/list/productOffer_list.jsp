@@ -7,7 +7,7 @@
 <html>
   <head>
     
-    <title>产 品 复审详 细 情 况</title>
+    <title>产 品 复 审 详 细 情 况</title>
    
 <script type="text/javascript">
 function onStep(){
@@ -16,7 +16,7 @@ function onStep(){
 }
 
 function cancel(){
-	window.location.href="${pageContext.request.contextPath}/auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}/offer/checkList.html";
 }
 
 </script>
@@ -29,7 +29,7 @@ function cancel(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">审价人员复审</a></li><li><a href="javascript:void(0)">产 品 复审详 细 情 况</a></li></ul>
+		   <li><a href="javascript:void(0)">首页</a></li><li><a href="javascript:void(0)">审价人员复审</a></li><li><a href="javascript:void(0)">产品复审详细情况</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -37,7 +37,7 @@ function cancel(){
    
    <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>产 品 复审详 细 情 况</h2>
+	  		 <h2>产 品 复 审 详 细 情 况</h2>
 	 	</div>
    </div>
    
