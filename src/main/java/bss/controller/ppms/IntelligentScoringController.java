@@ -136,6 +136,7 @@ public class IntelligentScoringController {
 	    model.addAttribute("bidMethod", bidMethod);
 		return "bss/ppms/open_bidding/scoring_standard";
 	}
+	
 	@RequestMapping("operatorScoreModel")
 	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
 		String packageId = request.getParameter("id");
@@ -284,6 +285,7 @@ public class IntelligentScoringController {
 	public String getMarkTermTree(HttpServletRequest request){
 		String packageId = request.getParameter("packageId");
 		String bidMethodId = request.getParameter("bidMethodId");
+		request.getSession().setAttribute("bidMethodId", bidMethodId);
 		String projectId = request.getParameter("projectId");
 		String id = request.getParameter("id");
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -383,7 +385,22 @@ public class IntelligentScoringController {
 				packageService.updateByPrimaryKeySelective(pack);
 			}
 			map.put("id", markTerm.getId());
+			//获取id跟新
+			String id=(String)request.getSession().getAttribute("bidMethodId");
+			BidMethod bm1 = new BidMethod();
+			bm1.setId(id);
+			BidMethod bm2 = bidMethodService.findListByBidMethod(bm1).get(0);
+			bm2.setRemainScore(String.valueOf(Double.parseDouble(bm2.getRemainScore())+Double.parseDouble(markTerm.getRemainScore())));
+			bidMethodService.updateBidMethod(bm2);
 			markTermService.delMarkTermByMap(map);
+			//给删掉的分数 加到markterm里面
+            MarkTerm m1 = new MarkTerm();
+            m1.setId(markTerm.getPid());
+            MarkTerm markTerm1 = markTermService.findListByMarkTerm(m1).get(0);
+            markTerm1.setRemainScore(String.valueOf(Double.parseDouble(markTerm1.getRemainScore())+Double.parseDouble(markTerm.getRemainScore())));
+            markTermService.updateMarkTerm(markTerm1);
+			updateScoreModelName(packageId,method,markTerm);
+			request.getSession().removeAttribute("bidMethodId");
 		}
 		/*//增删改操作后  更新项目分包信息里面绑定的评分项树字符串   下次调用直接解析次字符串
 		setPackageMarkTermTree(packageId,method,markTerm);
