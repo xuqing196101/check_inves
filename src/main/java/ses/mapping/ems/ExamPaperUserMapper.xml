@@ -202,8 +202,7 @@
 			p.code AS code,
 			p.TEST_TIME AS testTime,
 			p.START_TIME AS startTime,
-			p.OFF_TIME AS offTime,
-			p.IS_ALLOW_RETAKE AS isAllowRetake
+			p.OFF_TIME AS offTime
 		FROM
 			T_SES_EMS_EXAM_PAPER P,
 			T_SES_EMS_EXAM_PAPER_USER U
