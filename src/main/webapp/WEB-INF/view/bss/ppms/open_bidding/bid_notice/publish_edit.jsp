@@ -54,11 +54,11 @@
 	  	<div class="layui-layer-wrap" >
 		  <div class="drop_window">
 			  <ul class="list-unstyled">
-			    <li class="mt10 col-md-12 p0">
-	    	      <label class="col-md-12 pl20"><span class="red">*</span>上传审批附件:</label>
-				   	<p:upload id="a" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId }" auto="true" />
-             		<p:show  showId="b"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
-	            </li>
+			    <li class="col-md-6 p0 mt10 mb25">
+              <label class="col-md-5 padding-left-5"><span class="red">*</span>上传审批附件:</label>
+                <p:upload id="a" businessId="${articleId }"  sysKey="${sysKey }" typeId="${typeId }" auto="true" />
+                <p:show  showId="b"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/>
+              </li>
 	            <div class="clear"></div>
 			  </ul>
           	  <div class="tc mt10 col-md-12">

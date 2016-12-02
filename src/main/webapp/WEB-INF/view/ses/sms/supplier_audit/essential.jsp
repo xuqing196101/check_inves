@@ -27,7 +27,7 @@
 			  title: '审核操作说明：',
 		    skin: 'layui-layer-molv', //样式类名
 		    closeBtn: 0,
-		    offset:'300px',
+		    offset:'100px',
 		    shift: 1 //动画类型
 			  });
 			});
@@ -48,7 +48,7 @@
 	    });
 	
 		  function reason(id,auditField){
-		    var offset = "";
+      /*var offset = "";
 		    if (window.event) {
 		      e = event || window.event;
 		      var x = "";
@@ -59,6 +59,8 @@
 		    } else {
 		      offset = "200px";
 		    }
+        var w = window.screen.height / 2 + "px";
+         */
 			  var supplierId=$("#id").val();
 			  var id2=id+"2";
 			  var id3=id+"3";
@@ -67,7 +69,7 @@
 			  var index = layer.prompt({
 			    title : '请填写不通过的理由：', 
 			    formType : 2, 
-			    offset : offset
+			    offset : '100px',
 			  }, 
 	    function(text){
 		    $.ajax({
@@ -80,7 +82,7 @@
 		        if(result.msg == "fail"){
 		           layer.msg('该条信息已审核过！', {	            
 		             shift: 6, //动画类型
-		             offset:'300px'
+		             offset:'100px'
 		          });
 		        }
 		      }
@@ -99,22 +101,26 @@
 	    function reason1(ele,auditField){
 			  var supplierId=$("#id").val();
 			  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","").replace("view","");//审批的字段名字
-			  var index = layer.prompt({title: '请填写不通过的理由：', formType: 2, offset:'300px'}, function(text){
-			  $.ajax({
-			    url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-			    type:"post",
-			    data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType=basic_page"+"&auditContent=附件"+"&auditField="+auditField,
-			    dataType:"json",
-			    success:function(result){
-				  result = eval("(" + result + ")");
-				  if(result.msg == "fail"){
-				    layer.msg('该条信息已审核过！', {
-			      shift: 6, //动画类型
-			       offset:'300px'
-			            });
-				        }
-			       }
-			    });
+			  var index = layer.prompt({
+			    title: '请填写不通过的理由：', 
+			    formType: 2, 
+			    offset:'100px'
+			    }, function(text){
+				  $.ajax({
+				    url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				    type:"post",
+				    data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType=basic_page"+"&auditContent=附件"+"&auditField="+auditField,
+				    dataType:"json",
+				    success:function(result){
+					  result = eval("(" + result + ")");
+					  if(result.msg == "fail"){
+					    layer.msg('该条信息已审核过！', {
+				      shift: 6, //动画类型
+				       offset:'100px'
+				            });
+					        }
+				       }
+				    });
 			       $(ele).parents("li").find("p").show(); //显示叉
 			       layer.close(index);
 			  });
