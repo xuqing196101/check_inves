@@ -1,19 +1,23 @@
 package bss.service.ppms.impl;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropUtil;
-
-import com.github.pagehelper.PageHelper;
-
+import bss.dao.ppms.PackageMapper;
 import bss.dao.ppms.ProjectAttachmentsMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.dao.ppms.SaleTenderMapper;
+import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.SaleTenderService;
+
+import com.github.pagehelper.PageHelper;
 
 /**
  * @Description:
@@ -30,6 +34,12 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     private SaleTenderMapper saleTenderMapper;
     @Autowired
     private ProjectMapper promapper;
+    
+    /**
+     * 包的持久层
+     */
+    @Autowired
+    private PackageMapper packageMapper;
     /**
      * @Description:插入记录
      *
@@ -113,6 +123,26 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     @Override
     public void update(SaleTender std) {
         saleTenderMapper.updateByPrimaryKeySelective(std);
+    }
+
+    @Override
+    public List<SaleTender> getPackageNames(List<SaleTender> stList) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        for (SaleTender saleTender : stList) {
+            List<String> packageIds = null;
+            if (saleTender.getPackages() != null){
+                packageIds = Arrays.asList(saleTender.getPackages().split(","));
+                StringBuilder packageNames = new StringBuilder("");
+                for (String string : packageIds) {
+                    map.put("id", string);
+                    List<Packages> packages = packageMapper.findPackageById(map);
+                    //按照id查询 返回有且只有一条 所以使用get(0)
+                    packageNames.append(packages.get(0).getName());
+                }
+                saleTender.setPackageNames(packageNames.toString());
+            }
+        }
+        return stList;
     }
 }
 

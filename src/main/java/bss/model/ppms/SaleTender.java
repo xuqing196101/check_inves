@@ -122,6 +122,23 @@ public class SaleTender {
     
     private List<Money> money;
     
+    /**
+     * 包名字符串
+     */
+    private String packageNames;
+    
+    
+    
+    public String getPackageNames() {
+        return packageNames;
+    }
+
+
+    public void setPackageNames(String packageNames) {
+        this.packageNames = packageNames;
+    }
+
+
     public List<Money> getMoney() {
         return money;
     }

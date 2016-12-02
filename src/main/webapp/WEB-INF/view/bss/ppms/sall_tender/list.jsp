@@ -129,29 +129,49 @@
             layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
         }
     }
+    
+     function uploadBsf(){
+    	var id=[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val());
+        }); 
+        if(id.length==1){
+        	var status=id.toString().split("^");
+        	if(status[2]!=2){
+        		var iframeWin;
+                layer.open({
+                    type: 2,
+                    title: '上传',
+                    shadeClose: true,
+                    shade: 0.01,
+                    area: ['500px', '230px'], //宽高
+                    content: '${pageContext.request.contextPath}/saleTender/uploadBsf.html?projectId=${projectId}&&id='+status[0],
+                    success: function(layero, index){
+                        iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                      },
+                    btn: ['上传', '关闭'] 
+                        ,yes: function(){
+                            iframeWin.uploadBsf();
+                        
+                            
+                        }
+                        ,btn2: function(){
+                          layer.closeAll();
+                        }
+                  });	
+        	}else{
+        	     layer.alert("已缴纳标书费",{offset: ['222px', '390px'], shade:0.01});
+        	}
+                    
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
   
     function add(){
-    	  var iframeWin;
-        layer.open({
-            type: 2,
-            title: '新增供应商',
-            shadeClose: true,
-            shade: 0.01,
-            area: ['90%', '50%'], //宽高
-            offset:['100',''],
-            content: '${pageContext.request.contextPath}/saleTender/showSupplier.html?projectId=${projectId}',
-            success: function(layero, index){
-                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-              },
-            btn: ['保存', '关闭'] 
-		        ,yes: function(){
-		        	iframeWin.showSupplier();
-		        
-		        }
-		        ,btn2: function(){
-		          layer.closeAll();
-		        }
-          });
+		window.location.href='${pageContext.request.contextPath}/saleTender/showSupplier.html?projectId=${projectId}';
     }
    
     function download(){
@@ -216,8 +236,8 @@
 		<button class="btn btn-windows withdraw" onclick="download();"
 			type="button">下载标书</button>
 		<button class="btn btn-windows add" onclick="add();" type="button">新增</button>
-		<button class="btn btn-windows edit" onclick="upload();"
-			type="button">缴纳保证金</button>
+		<button class="btn btn-windows edit" onclick="upload();" type="button">缴纳保证金</button>
+		<button class="btn btn-windows edit" onclick="uploadBsf();" type="button">缴纳标书费</button>
 	</div>
 		<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
@@ -225,6 +245,7 @@
 					<th class="info w30"><input id="checkAll" type="checkbox"
 						onclick="selectAll()" /></th>
 					<th class="info w50">供应商名称</th>
+					<th class="info">包名</th>
 					<th class="info">联系人</th>
 					<th class="info">联系电话</th>
 					<th class="info">发售日期</th>
@@ -248,7 +269,7 @@
                           </c:choose>
 					
 					</td>
-
+					<td class="tc opinter w100">${sale.packageNames}</td>
 					<td class="tc opinter w100">${sale.suppliers.contactName}</td>
 
 					<td class="tc opinter w110">${sale.suppliers.contactTelephone}</td>

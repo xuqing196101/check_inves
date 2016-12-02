@@ -79,4 +79,13 @@ public interface SaleTenderService   {
      * @param std
      */
     public void update(SaleTender std);
+    
+    /**
+     *〈简述〉发售标书列表加上包名
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param stList
+     * @return
+     */
+    public List<SaleTender> getPackageNames(List<SaleTender> stList);
 }

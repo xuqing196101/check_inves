@@ -71,16 +71,12 @@
 		$('input[name="packages"]:checked').each(function(){ 
 			packageIds.push($(this).val());
 		}); 
-        if(id.length>=1){
-            $.post("${pageContext.request.contextPath}/saleTender/save.do",{ids:id.toString(),packages:packageIds.toString(),projectId:"${projectId}"},
-                    function(data){
-            	if(data=="error"){
-            		layer.alert("请选择包",{offset: ['100px', '200px'], shade:0.01});
-            	}else{
-            		 parent.location.reload();
-            	}
-                    },"json");
-        }else{
+        if(id.length>=1&&packageIds.length>=1){
+          window.location.href="${pageContext.request.contextPath}/saleTender/save.html?ids="+id.toString()+"&packages="+packageIds.toString()+"&projectId=${projectId}";
+             
+        }else if(packageIds.length==0){
+        	layer.alert("请选择包",{offset: ['100px', '200px'], shade:0.01});
+        }else if(id.length==0){
             layer.alert("请选择一个供应商",{offset: ['100px', '200px'], shade:0.01});
         }
 	}
@@ -142,8 +138,6 @@
 </script>
 <body >
 	<!--面包屑导航开始-->
-	<div class="container">
-	
 			 <h2 class="search_detail">
 				<form action="" method="post" id="form" class="mb0">
 					<ul class="demand_list">
@@ -156,6 +150,11 @@
 					<div class="clear"></div>
 				</form>
 			</h2>
+			<div class="tl">
+				<button class="btn btn-windows save"  onclick="showSupplier()">保存</button>
+			   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+			</div>
+			<b>请选择包：</b>
 	         <c:forEach items="${listPackage}" var="lp" varStatus="vs">
 	         	<input type="checkbox" name="packages" value="${lp.id }" />	<span>${lp.name }</span>
 	         </c:forEach>
@@ -192,6 +191,5 @@
 				</c:forEach>
 			</table>
 			<div id="pagediv" align="right"></div>
-		</div>
 </body>
 </html>

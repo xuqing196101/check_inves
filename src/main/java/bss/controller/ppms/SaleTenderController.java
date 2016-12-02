@@ -78,6 +78,7 @@ public class SaleTenderController {
         supplier.setSupplierName(supplierName);
         saleTender.setSuppliers(supplier);
         List<SaleTender> list = saleTenderService.list(saleTender,page==null?1:Integer.valueOf(page));
+        saleTenderService.getPackageNames(list);
         model.addAttribute("list", new PageInfo<>(list));
         model.addAttribute("projectId", projectId);
         model.addAttribute("saleTender",saleTender);
@@ -167,6 +168,52 @@ public class SaleTenderController {
 
         return "bss/ppms/sall_tender/upload";
     }
+    
+    /**
+     *〈简述〉打开上传标书费页面
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param projectId 主键
+     * @param model 模型
+     * @param id 主键
+     * @return String
+     */
+    @RequestMapping(value = "uploadBsf")
+    public String uploadBsf(String projectId,Model model,String id){
+        DictionaryData dd = new  DictionaryData();
+        List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+        //发票上传
+        dd = new  DictionaryData();
+        dd.setCode("SALE_TENDER_BSF_FPSC");
+        find = dictionaryDataServiceI.find(dd);
+        if(find != null && find.size() !=0 ){
+            model.addAttribute("saleTenderBsfFpsc", find.get(0).getId());
+        }
+        //招标系统key
+        Integer tenderKey = Constant.TENDER_SYS_KEY;
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("saleId", id);
+        model.addAttribute("tenderKey", tenderKey);
+        return "bss/ppms/sall_tender/upload_bsf";
+    }
+    
+    /**
+     *〈简述〉ajax修改状态
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param projectId
+     * @param saleId
+     * @param statusBid
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/uploadBsfAjax")
+    public String uploadBsfAjax(String projectId,String saleId,String statusBid){
+        String upload = "success";
+        saleTenderService.download(projectId,saleId);
+        return JSON.toJSONString(upload);
+    }
+    
     /**
      * @Description:缴费
      *
@@ -189,22 +236,16 @@ public class SaleTenderController {
      * @param @return      
      * @return String
      */
-    @ResponseBody
     @RequestMapping("/save")
-    public Object save(String ids,String packages,String status,HttpServletRequest sq,String projectId){
+    public String save(String ids,String packages,String status,HttpServletRequest sq,String projectId){
         User attribute = (User) sq.getSession().getAttribute("loginUser");
-        String info = "";
-        if(packages==null||"".equals(packages.trim())){
-        	info="error";
-        }else{
-        	if (attribute != null){
-        		List<String> listIds=Arrays.asList(ids.split(","));
-        		for(String str:listIds){
-        			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)1, attribute.getId(),packages));
-        		}
-            }
+    	if (attribute != null){
+    		List<String> listIds=Arrays.asList(ids.split(","));
+    		for(String str:listIds){
+    			saleTenderService.insert(new SaleTender(projectId, (short)1, str, (short)1, attribute.getId(),packages));
+    		}
         }
-        return JSON.toJSONString(info);
+        return "redirect:list.html?projectId="+projectId;
     }
 
     /**
@@ -222,7 +263,7 @@ public class SaleTenderController {
         if (files != null && files.size() > 0) {
             downloadService.downloadOther(request, response, files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
         }
-        saleTenderService.download(projectId,id);
+        //saleTenderService.download(projectId,id);
         return "redirect:list.html?projectId="+projectId;
     }
 }
