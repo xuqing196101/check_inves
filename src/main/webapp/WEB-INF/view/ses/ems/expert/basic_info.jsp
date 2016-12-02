@@ -1121,8 +1121,8 @@ session.setAttribute("tokenSession", tokenValue);
 				  	   </td>
 				  	</tr>
 				  	<tr>
-				  	   <td class="bggrey" ><i class="red">*</i>个人照片</td>
-				  	   <td>
+				  	   <td class="bggrey"><i class="red">*</i>个人照片</td>
+				  	   <td colspan="3">
 				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
 				          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
 				  	   </td>
