@@ -48,7 +48,6 @@ public interface OrgnizationServiceI {
      * 
      * @author myc
      * @param map
-     *            参数map
      * @return
      */
 	List<Orgnization> getNeedOrg(Map<String, Object> map);
@@ -63,4 +62,14 @@ public interface OrgnizationServiceI {
 	 * @return 成功返回ok
 	 */
 	public String delOrg(String id);
+	
+	/**
+	 * 
+	 *〈简述〉 根据类型查询组织机构
+	 *〈详细描述〉
+	 * @author myc
+	 * @param type 类型
+	 * @return Orgnization集合
+	 */
+	List<Orgnization> initOrgByType(String type);
 }

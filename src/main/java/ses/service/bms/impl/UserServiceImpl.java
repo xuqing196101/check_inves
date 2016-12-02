@@ -218,5 +218,13 @@ public class UserServiceImpl implements UserServiceI {
             }
         }
     }
+
+	@Override
+	public User findByTypeId(String id) {
+		
+		return userMapper.findUserByTypeId(id);
+	}
+    
+    
 }
 

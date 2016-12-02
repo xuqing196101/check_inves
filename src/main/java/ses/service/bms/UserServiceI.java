@@ -188,4 +188,14 @@ public interface UserServiceI {
      * @param ups
      */
     void deleteUserMenuBatch(List<UserPreMenu> ups);
+    
+    /**
+     * 
+     *〈简述〉 根据类型Id查询用户
+     *〈详细描述〉
+     * @author myc
+     * @param typeId
+     * @return
+     */
+	User findByTypeId(String id);
 }

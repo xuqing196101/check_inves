@@ -3,6 +3,8 @@ package ses.dao.bms;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
@@ -169,5 +171,15 @@ public interface UserMapper {
     * @return List<User>
      */
     List<User> queryParkManagers(HashMap<String,Object> map);
+    
+    /**
+     * 
+     *〈简述〉 根据typeId查询用户
+     *〈详细描述〉
+     * @author myc
+     * @param typeId
+     * @return
+     */
+	User findUserByTypeId(@Param("typeId")String typeId);
 	
 }

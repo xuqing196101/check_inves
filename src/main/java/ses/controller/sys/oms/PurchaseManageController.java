@@ -596,7 +596,7 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: AjaxJsonData
 	 */
-	@RequestMapping(value="createUser",method= RequestMethod.POST)
+	/*@RequestMapping(value="createUser",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData createUser(@ModelAttribute User user,HttpServletRequest request){
 		User currUser = (User) request.getSession().getAttribute("loginUser");
@@ -616,7 +616,7 @@ public class PurchaseManageController {
 		jsonData.setMessage("保存成功");
 		return jsonData;
 		
-	}
+	}*/
 	/**
 	 * 
 	 * @Title: editUser

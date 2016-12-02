@@ -456,6 +456,14 @@
     u.LOGIN_NAME = #{loginName}
   </select>
   
+  <!-- 根据typeId查询用户 -->
+  <select id="findUserByTypeId" resultMap="UserBaseMap" >
+      SELECT 
+       <include refid="Base_Column_List" />
+      FROM T_SES_BMS_USER 
+      WHERE  TYPE_ID = #{typeId}
+  </select>
+  
   <!-- 14.用户名、密码登录查询（包含角色等关联信息） -->  
   <select id="queryByLogin" parameterType="Object" resultMap="UserResultMap">  
       SELECT
@@ -511,5 +519,4 @@
                      )
            ORDER BY CREATED_AT DESC
     </select> 
-  
 </mapper>

@@ -1,8 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
@@ -11,157 +9,85 @@
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
-<style type="text/css">
-.panel-title>a {
-	color: #333
-}
-</style>
+
 <script type="text/javascript">
+function showRole() {
+	var userId = $("#uId").val();
 	var setting = {
-		view : {
-			dblClickExpand : false
+	check: {
+			enable: true,
+			chkboxType: {"Y":"", "N":""}
 		},
-		async : {
-			autoParam : [ "id" ],
-			enable : true,
-			url : "${pageContext.request.contextPath}/purchaseManage/gettree.do",
-			dataType : "json",
-			type : "post",
+		view: {
+			dblClickExpand: false
 		},
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pId : "pId",
-				rootPId : -1,
+		data: {
+			simpleData: {
+				enable: true
 			}
 		},
-		callback : {
-			beforeClick : beforeClick,
-			onClick : onClick
+		callback: {
+			beforeClick: beforeClick,
+			onCheck: onCheck
 		}
 	};
-	$(document).ready(function() {
-		$.fn.zTree.init($("#treeDemo"), setting, datas);
-	});
-</script>
-<script type="text/javascript">
-	 $(document).ready(function(){
-	 	var proviceId = $("#pid").val();
-		//console.dir(proviceId);
-		
-	 	$.ajax({
-		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
-		    data : {pid:1},
-		    success: function(data) {
-		    	$("#city").append("<option value='-1'>请选择</option>");
-		    	$("#province").append("<option value='-1'>请选择</option>");
-			    $.each(data, function(idx, item) {
-					if(item.id==proviceId){
-						var html = "<option value='" + item.id + "' selected>" + item.name
-						+ "</option>";
-						$("#province").append(html);
-						loadCities(proviceId);
-					}else{
-						var html = "<option value='" + item.id + "'>" + item.name
-						+ "</option>";
-						$("#province").append(html);
-					}
-				});
-				if(proviceId!=null && proviceId!="" && proviceId!=undefined){
-					//loadCities(proviceId);
-				}
-            	/*  var optionHTML="<select name=\"province\" onchange=\"loadCities(this.value)\">";
-	             var optionHTML="";
-				  optionHTML+="<option value=\""+"-1"+"\">"+"清选择"+"</option>"; 
-				  for(var i=0;i<data.length;i++){
-			       // console.dir(data[i].id);
-			        optionHTML+="<option value=\""+data[i].id+"\">"+data[i].name+"</option>"; 
-				  }
-				  optionHTML+="</select>";
-				  $("#province").html(optionHTML);//将数据填充到省份的下拉列表中
-				  console.dir(optionHTML); */
-		    }
-		});
-		
-    });
-    function loadCities(pid){
-    	$("#pid").val(pid);
-    	var cityId = $("#cid").val();
-    	$.ajax({
-		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
-		    data : {pid:pid},
-		    success: function(data) {
-		    	$.each(data, function(idx, item) {
-					if(item.id==cityId){
-						var html = "<option value='" + item.id + "' selected>" + item.name
-						+ "</option>";
-						$("#city").append(html);
-					}else{
-						var html = "<option value='" + item.id + "'>" + item.name
-						+ "</option>";
-						$("#city").append(html);
-					}
-					
-				});
-             /* var optionHTML="";
-			  optionHTML+="<option value=\""+"-1"+"\">"+"清选择"+"</option>"; 
-			  for(var i=0;i<data.length;i++){
-		       // console.dir(data[i].id);
-		        optionHTML+="<option value=\""+data[i].id+"\">"+data[i].name+"</option>"; 
-			  }
-			  optionHTML+="</select>";
-			  $("#city").html(optionHTML);//将数据填充到省份的下拉列表中
-			  //console.dir(optionHTML); */
-		    }
-		});
-    }
-    function loadTown(pid){
-    	$("#cid").val(pid);
-    }
-	function create(){
-		$.ajax({
-		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchase/createAjax.do?",
-		    data : $('#formID').serialize(),
-		    //data: {'pid':pid,$("#formID").serialize()},
-		    success: function(data) {
-		        truealert(data.message,data.success == false ? 5:1);
-		    }
-		});
-		
+    $.ajax({
+     type: "GET",
+     async: false, 
+     url: "${pageContext.request.contextPath}/role/roletree.do?userId="+userId,
+     dataType: "json",
+     success: function(zNodes){
+	        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
+	        tree.expandAll(true);//全部展开
+       }
+ 	});
+	var cityObj = $("#roleSel");
+	var cityOffset = $("#roleSel").offset();
+	$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+	$("body").bind("mousedown", onBodyDownOrg);
+}
+
+function hideRole() {
+	$("#roleContent").fadeOut("fast");
+	$("body").unbind("mousedown", onBodyDownOrg);
+}
+
+function onBodyDownOrg(event) {
+	if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
+		hideRole();
 	}
-	function truealert(text,iconindex){
-		layer.open({
-		    content: text,
-		    icon: iconindex,
-		    shade: [0.3, '#000'],
-		    yes: function(index){
-		        //do something
-		         //parent.location.reload();
-		    	 layer.closeAll();
-		    	 //parent.layer.close(index); //执行关闭
-		    	 parent.location.href="${pageContext.request.contextPath}/purchase/list.do";
-		    }
-		});
+}
+
+function beforeClick(treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj("treeRole");
+	zTree.checkNode(treeNode, !treeNode.checked, null, true);
+	return false;
+}
+
+function onCheck(e, treeId, treeNode) {
+	var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+	nodes = zTree.getCheckedNodes(true),
+	v = "";
+	var rid = "";
+	for (var i=0, l=nodes.length; i<l; i++) {
+		v += nodes[i].name + ",";
+		rid += nodes[i].id + ",";
 	}
-	function pageOnload(){
-		var proviceId = $("#pid").val();
-		console.dir(proviceId);
-		var cityId = $("#cid").val();
-		var isAudit = $("#cid").val();
-		$("#province").val('A4CCB12438AD4E49AADE355B3B02910C');
-		$("#province").get(0).selectedIndex=proviceId;
-		$("#province option[value ='"+proviceId+"']").attr("selected", true);//val(2);
-		$("#city").val(cityId);
-		//$("#provinceId").val(proviceId);
-		
-	}
+	if (v.length > 0 ) v = v.substring(0, v.length-1);
+	if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
+	var cityObj = $("#roleSel");
+	cityObj.attr("value", v);
+	$("#rId").val(rid);
+}
+
+
+	
+	
+	
+	
 </script>
 </head>
-<body onload="pageOnload();">
+<body>
 
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
@@ -182,31 +108,24 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container container_box">
-		<div id="menuContent" class="menuContent divpopups menutree">
-			<ul id="treeDemo" class="ztree"></ul>
-		</div>
+	  <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+	  </div>
 		<form action="${pageContext.request.contextPath}/purchase/create.do" method="post" id="formID">
-			<!-- <input type="hidden" value="1" name="typeName"/> -->
+		  <input type="hidden" name="id"  value="${mainId}" />
 			<div>
-				<h2 class="count_flow"><i>1</i>修改基本信息</h2>
+				<h2 class="count_flow"><i>1</i>基本信息</h2>
 				<ul class="ul_list">
-					<%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
+				  <li class="col-md-3 col-sm-6 col-xs-12 pl15 col-lg-3">
 				   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>用户名</span>
 				   <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <input  name="loginName" value="${purchaseInfo.loginName}" maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       	<div class="cue"><sf:errors path="loginName"/></div>
-			       	<div class="cue">${exist }</div>
+			       	<div class="cue">${exist}</div>
 			       </div>
 				 </li>
-				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>真实姓名</span>
-				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="relName" value="${purchaseInfo.relName}" maxlength="30" type="text">
-				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="relName"/></div>
-			       	</div>
-			 	 </li>
+				
 			 	 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>密码</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
@@ -224,78 +143,28 @@
 				        <div class="cue">${password2_msg}</div>
 			        </div>
 			 	</li>
-			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>性别</span>
-			        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        <select id="gender" name="gender">
-			        	<c:forEach items="${genders}" var="g" varStatus="vs">
-			        		<option value="${g.id }" <c:if test="${g.id eq purchaseInfo.gender}">selected</c:if>>
-			        			<c:if test="${'M' eq g.code}">男</c:if>
-			        			<c:if test="${'F' eq g.code}">女</c:if>
-			        		</option>
-			        	</c:forEach>
-			        </select>
-			        </div>
-			 	</li>
-		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>手机</span>
-				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0" >
-				        <input  name="mobile" value="${purchaseInfo.mobile}" maxlength="40" type="text">
-				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="mobile"/></div>
-			        </div>
-			 	</li>
-		        <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
-				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
-				        <span class="add-on">i</span>
-				        <div class="cue"><sf:errors path="email"/></div>
-			       	</div>
-			 	</li>
-		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">职务</span>
-				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="duties" value="${purchaseInfo.duties}"  maxlength="40" type="text">
-			        	<span class="add-on">i</span>
-			        </div>
-				 </li>
+			 	
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
 				    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			        <select name="typeName" id="typeName_id">
-			        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
-			        		<c:if test="${t.code != 'SUPPLIER_U' && t.code != 'EXPERT_U' && t.code != 'IMP_SUPPLIER_U' && t.code != 'IMP_AGENT_U'}">
-				        		<option value="${t.id}" <c:if test="${t.id eq purchaseInfo.typeName}">selected</c:if>>
-									<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
-									<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
-									<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
-									<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-									<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
-				        		</option>
-			        		</c:if>
+			        	<c:forEach items="${purchaserTypeList}" var="dict" >
+			        	  <option value="${dict.id}" <c:if test="${dict.id == purchaseInfo.typeName}"> selected="selected"</c:if> >${dict.name}</option>
 			        	</c:forEach>
 			        </select>
 			        </div>
 				 </li>
 			 	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
-				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-				        <input id="oId" name="orgId" value="${purchaseInfo.orgId}" type="hidden">
-				        <input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  onclick="showOrg();" />
-						<div class="drop_up" onclick="showOrg();">
-						    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" class="margin-bottom-5"/>
-				        </div>
-				        <div class="cue"><sf:errors path="orgId"/></div>
+				   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>采购机构</span>
+				   	  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				        <select name="orgId" id="typeName_id">
+				        	<c:forEach items="${purchaserOrgList}" var="org" >
+				        	  <option value="${org.id}" <c:if test="${org.id == purchaseInfo.orgId}">selected="selected"</c:if>>${org.name}</option>
+				        	</c:forEach>
+				        </select>
 			        </div>
 			 	</li>
-		     	<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
-				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">座机电话</span>
-				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="telephone" value="${purchaseInfo.telephone}" maxlength="40" type="text">
-			        	<span class="add-on">i</span>
-			        </div>
-			    </li> 
+		     	
 				<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>角色</span>
 				    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
@@ -307,81 +176,15 @@
 				        <div class="cue"><sf:errors path="roleId"/></div>
 			        </div>
 			 	</li>
-			 	<li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
-			 	   <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">详细地址</span>
-				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-			        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="height:130px" name="address" title="不超过100个字">${purchaseInfo.address}</textarea>
-			       </div>
-			 	</li> --%>
-				    <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
-				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名</span>
-				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				        <input class="input_group" name="relName" type="text" value="${purchaseInfo.relName }">
-				        <span class="add-on">i</span>
-				        <div class="b f18 ml10 red hand">${name_msg}</div>
-				       </div>
-				     </li>
-				     <li class="col-md-3 col-sm-6 col-xs-12"> 
-					       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">性别</span>
-					       <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-					        <select name="gender">
-					          <option value="">-请选择-</option>
-                              <option value="M">男</option>
-                              <option value="F">女</option>
-					        </select>
-					       </div>
-					 </li>
-					  <li class="col-md-3 col-sm-6 col-xs-12"> 
-                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">省</span>
-                           <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                            <select name="provinceId" id="province" onchange="loadCities(this.value);">
-                            </select>
-                            <input type="hidden" name="purchaseInfo.provinceId" id="pid" value="${purchaseInfo.provinceId }">
-                           </div>
-                     </li>
-                     <li class="col-md-3 col-sm-6 col-xs-12"> 
-                           <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">市</span>
-                           <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                            <select name="provinceId" name="cityId" id="city" onchange="loadTown(this.value);">
-                            </select>
-                            <input type="hidden" name="purchaseInfo.cityId" id="cid" value="${purchaseInfo.cityId }">
-                           </div>
-                     </li>
-                     <li class="col-md-3 col-sm-6 col-xs-12"> 
-				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">民族</span>
-				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				        <input class="input_group" name="nation" value="${purchaseInfo.subordinateOrgName }" type="text">
-				        <span class="add-on">i</span>
-				       </div>
-				     </li>
-				     <li class="col-md-3 col-sm-6 col-xs-12"> 
-                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
-                       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                        <input class="input_group" name="political" value="${purchaseInfo.businessRange }" type="text">
-                        <span class="add-on">i</span>
-                       </div>
-                     </li>
-                     <li class="col-md-3 col-sm-6 col-xs-12"> 
-				       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">出生年月</span>
-				       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-				        <input class="input_group" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />" type="text">
-				       </div>
-				     </li>
-				     <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证号</span>
-                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                              <input class="input_group" name="idCard" value="${ purchaseInfo.postCode}" type="text"> 
-                              <span class="add-on">i</span>
-                           </div>
-                     </li>
                       <li class="col-md-3 col-sm-6 col-xs-12"> 
                            <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">人员类别</span>
                            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                            <select name="provinceId" name="purcahserType">
-                                                <option value="">-请选择-</option>
-                                                <option value="0">军人</option>
-                                                <option value="1">文职</option>
-                                                <option value="2">职工</option>
-                                                <option value="3">战士</option>
+                            <select  name="purcahserType">
+                              <option value="">-请选择-</option>
+                              <option value="0" <c:if test="${purchaseInfo.purcahserType == '0' }">selected="true"</c:if>>军人</option>
+                              <option value="1" <c:if test="${purchaseInfo.purcahserType == '1' }"> selected="selected"</c:if>>文职</option>
+                              <option value="2" <c:if test="${purchaseInfo.purcahserType == '2' }"> selected="selected"</c:if>>职工</option>
+                              <option value="3" <c:if test="${purchaseInfo.purcahserType == '3' }"> selected="selected"</c:if>>战士</option>
                             </select>
                            </div>
                      </li>
@@ -391,79 +194,66 @@
                               <span class="add-on">i</span>
                            </div>
                      </li>
-                     <li class="col-md-3 col-sm-6 col-xs-12"> 
-					       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所属采购机构</span>
-					       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-					        <input type="hidden"  id="treeId" name="purchaseDepId" value="${purchaseInfo.purchaseDepId }"  class="text"/>
-					        <input class="input_group" id="proSec" type="text" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName" onclick="showMenu(); return false;">
-					       </div>
-					 </li>
-					 <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职务</span>
-                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                                            <input class="input_group" name="duties" type="text" value="${ purchaseInfo.duties}"> <span
-                                                class="add-on">i</span>
-                                         </div>
-                      </li>
-                      <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">年龄</span>
-                                        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                                            <input class="input_group" name="age" type="text" value="${ purchaseInfo.age}"> <span
-                                                class="add-on">i</span>
-                                        </div>
-                      </li>
+					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">职务</span>
+                          <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                              <input class="input_group" name="duties" type="text" value="${purchaseInfo.duties}"> 
+                              <span class="add-on">i</span>
+                           </div>
+                      </li> 
 				</ul>
 				</div>
 				<div class="padding-top-10 clear">
-				    <h2 class="count_flow"><i>2</i>修改专业信息</h2>
+				    <h2 class="count_flow"><i>2</i>专业信息</h2>
 				   <ul class="ul_list">
 				        <li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">学历</span>
                                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                                            <input class="input_group" name="topStudy" type="text"> <span
+                                            <input class="input_group" name="topStudy" value="${purchaseInfo.topStudy}" type="text"> <span
                                                 class="add-on">i</span>
                                         </div>
                           </li>
                           <li class="col-md-3 margin-0 padding-0  "><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">毕业院校</span>
                                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                                            <input class="input_group" name="graduateSchool" type="text"> <span
+                                            <input class="input_group" name="graduateSchool" value="${purchaseInfo.graduateSchool}" type="text"> <span
                                                 class="add-on">i</span>
                                         </div>
                            </li>
                             <li class="col-md-12 col-sm-12 col-xs-12">
 						       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">工作经历</span>
 						       <div class="col-md-12 col-sm-12 col-xs-12 p0">
-						        <textarea  class="col-md-12 col-sm-12 col-xs-12" style="height:130px" name="workExperience" title="不超过800个字"></textarea>
+						        <textarea  class="col-md-12 col-sm-12 col-xs-12 h130" name="workExperience" title="不超过800个字">${purchaseInfo.workExperience}</textarea>
 						       </div>
 						     </li> 
 						      <li class="col-md-12 col-sm-12 col-xs-12">
                                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">培训经历</span>
                                <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                                <textarea  class="col-md-12 col-sm-12 col-xs-12" style="height:130px" name="trainExperience" title="不超过800个字"></textarea>
+                                <textarea  class="col-md-12 col-sm-12 col-xs-12 h130"  name="trainExperience" title="不超过800个字">${purchaseInfo.trainExperience}</textarea>
                                </div>
                              </li>
 				   </ul>
 				 </div>
 					<div class="padding-top-10 clear">
-					   <h2 class="count_flow"><i>3</i>修改资质信息</h2>
+					   <h2 class="count_flow"><i>3</i>资质信息</h2>
 								<ul class="ul_list">
 									<li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">资质编号</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="quaCode" type="text"> <span
+											<input class="input_group" name="quaCode" value="${purchaseInfo.quaCode}" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质范围</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="quaRank" type="text"> <span
-												class="add-on">i</span>
+											<input class="input_group" name="quaRank" value="${purchaseInfo.quaRank}" type="text"> 
+											<span class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质开始日期</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" /> 
+											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />"  /> 
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资质截止日期</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" /> 
+											<input class="input_group" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value="${purchaseInfo.quaEdndate}" pattern="yyyy-MM-dd" />"   /> 
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> 
@@ -471,53 +261,115 @@
 								       <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 								        <select name="quaLevel">
 								                <option value="">-请选择-</option>
-                                                <option value="0">初</option>
-                                                <option value="1">中</option>
-                                                <option value="2">高</option>
+                                                <option value="0" <c:if test="${purchaseInfo.quaLevel == '0'}"> selected="selected"</c:if> >初</option>
+                                                <option value="1" <c:if test="${purchaseInfo.quaLevel == '1'}"> selected="selected"</c:if> >中</option>
+                                                <option value="2" <c:if test="${purchaseInfo.quaLevel == '2'}"> selected="selected"</c:if> >高</option>
 								        </select>
 								       </div>
 								     </li>
-									<li class="col-md-6 p0"><span class=""><i class="red">＊</i>采购资格证书图片</span>
+									<li class="col-md-6 p0"><span class=""><i class="red">＊</i>采购资格证书</span>
 										<div class="uploader orange m0">
-											<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-											<input type="button" class="button" value="选择文件..." /> 
-											<input type="file" size="30" accept="image/*" />
+										    <u:show showId="purShowId" businessId="${mainId}" sysKey="2"/>
+											<u:upload id="purUploadId" auto="true" businessId="${mainId}" sysKey="2" />
 										</div>
 									</li>
 									
 								</ul>
 					</div>
 					<div class="padding-top-10 clear">
-					   <h2 class="count_flow"><i>4</i>修改人员信息</h2>
+					   <h2 class="count_flow"><i>4</i>个人信息</h2>
 								<ul class="ul_list">
+									
+									<li class="col-md-3 col-sm-6 col-xs-12">
+									    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>姓名</span>
+									    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+									        <input  name="relName" value="${purchaseInfo.relName}"  type="text">
+									        <span class="add-on">i</span>
+									        <div class="cue"><sf:errors path="relName"/></div>
+								       	</div>
+								 	 </li>
+								 	 
+								 	 <li class="col-md-3 col-sm-6 col-xs-12">
+									    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>性别</span>
+								        <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+								        <select id="gender" name="gender">
+								        	<c:forEach items="${genders}" var="g" varStatus="vs">
+								        		<option value="${g.id }" <c:if test="${g.id eq purchaseInfo.gender}">selected</c:if>>
+								        			<c:if test="${'M' eq g.code}">男</c:if>
+								        			<c:if test="${'F' eq g.code}">女</c:if>
+								        		</option>
+								        	</c:forEach>
+								        </select>
+								        </div>
+								 	</li>
+							     	
+				                     <li class="col-md-3 col-sm-6 col-xs-12"> 
+								       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">民族</span>
+								       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								        <input class="input_group" name="nation" value="${purchaseInfo.nation}" type="text">
+								        <span class="add-on">i</span>
+								       </div>
+								     </li>
+								    
+				                     <li class="col-md-3 col-sm-6 col-xs-12"> 
+								       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">出生年月</span>
+								       <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								        <input class="input_group" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.birthAt}" pattern="yyyy-MM-dd" />" type="text">
+								       </div>
+								     </li>
+								     <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证号</span>
+				                           <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+				                              <input class="input_group" name="idCard" value="${purchaseInfo.idCard}" type="text"> 
+				                              <span class="add-on">i</span>
+				                           </div>
+				                     </li>
+				                     
+				                      <li class="col-md-3 col-sm-6 col-xs-12"> 
+				                       <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">政治面貌</span>
+				                       <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+				                         <select name="political">
+				                           <c:forEach items="${politicals}" var="poli">
+				                             <option value="${poli.id}" <c:if test="${purchaseInfo.political == poli.id }"> selected="selected"</c:if>>${poli.name}</option>
+				                           </c:forEach>
+				                         </select>
+				                       </div>
+				                     </li>
+				                     
 									<li class="col-md-3 col-sm-6 col-xs-12 pl15">  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">手机号码</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="mobile" type="text"> <span
+											<input class="input_group" name="mobile" value="${purchaseInfo.mobile}" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公号码</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="telephone" type="text"> <span
+											<input class="input_group" name="telephone" value="${purchaseInfo.telephone}" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真号码</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="fax" type="text"> <span
+											<input class="input_group" name="fax" value="${purchaseInfo.fax}" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
+									 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3" >
+									   	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">邮箱</span>
+									   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
+									        <input  name="email" value="${purchaseInfo.email}" maxlength="100" type="text">
+									        <span class="add-on">i</span>
+									        <div class="cue"><sf:errors path="email"/></div>
+								       	</div>
+								 	</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮政编码</span>
 										<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-											<input class="input_group" name="postCode" type="text"> <span
+											<input class="input_group" name="postCode" value="${purchaseInfo.postCode}" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-12 col-sm-12 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系地址</span>
 										<div class="col-md-12 col-sm-12 col-xs-12 p0">
-											<textarea  class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过800个字" name="address"
-												 title="" placeholder=""></textarea>
+											<textarea  class="col-md-12 col-sm-12 col-xs-12" title="不超过800个字" name="address" >${purchaseInfo.address}</textarea>
 										</div>
 									</li>
 								</ul>
@@ -525,8 +377,7 @@
 				<!-- 伸缩层 -->
 				<div class="col-md-12">
                 <div class="mt40 tc  mb50 ">
-                    <button type="button" class="btn btn-windows git" onclick="create();">确认</button>
-                    <!-- <button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();">暂存</button> -->
+                    <button type="submit" class="btn btn-windows save" >保存</button>
                     <button type="button" class="btn btn-windows cancel" onclick="history.go(-1)">取消</button>
                 </div>
             </div>

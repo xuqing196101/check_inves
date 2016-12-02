@@ -60,4 +60,14 @@ public interface OrgnizationMapper {
      * @return Orgnization 对象
      */
     Orgnization  findOrgByPrimaryKey(@Param("id")String id);
+    
+    /**
+     * 
+     *〈简述〉根据类型查询组织机构
+     *〈详细描述〉
+     * @author myc
+     * @param type 类型
+     * @return
+     */
+	List<Orgnization> findByType(String type);
 }

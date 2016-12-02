@@ -25,7 +25,7 @@ public class PurchaseInfo extends User{
 
     private String purcahserType;//类型0.军人1.文职2.职工3.战士
     
-    private String birthAt;
+    private Date birthAt;
 
     private String area;
 
@@ -48,7 +48,7 @@ public class PurchaseInfo extends User{
     private String quaCode;
 
     private String quaLevel;//采购资格等级
-    private String quaEdndate;
+    private Date quaEdndate;
 
     private String quaCert;
 
@@ -56,13 +56,12 @@ public class PurchaseInfo extends User{
 
     private String fax;
 
-    //private String address;
 
     private String postCode;
     private String workExperience;
 
     private String trainExperience;
-    private String quaStartDate;
+    private Date quaStartDate;
     private Integer isDeleted; 
     private String userId;//用户id
     
@@ -102,15 +101,15 @@ public class PurchaseInfo extends User{
         this.purcahserType = purcahserType;
     }
 
-    public String getBirthAt() {
-        return birthAt;
-    }
+    public Date getBirthAt() {
+		return birthAt;
+	}
 
-    public void setBirthAt(String birthAt) {
-        this.birthAt = birthAt;
-    }
+	public void setBirthAt(Date birthAt) {
+		this.birthAt = birthAt;
+	}
 
-    public String getArea() {
+	public String getArea() {
         return area;
     }
 
@@ -199,11 +198,11 @@ public class PurchaseInfo extends User{
         this.quaLevel = quaLevel == null ? null : quaLevel.trim();
     }
 
-    public String getQuaEdndate() {
+    public Date getQuaEdndate() {
         return quaEdndate;
     }
 
-    public void setQuaEdndate(String quaEdndate) {
+    public void setQuaEdndate(Date quaEdndate) {
         this.quaEdndate = quaEdndate;
     }
 
@@ -267,11 +266,11 @@ public class PurchaseInfo extends User{
 		this.nation = nation;
 	}
 
-	public String getQuaStartDate() {
+	public Date getQuaStartDate() {
 		return quaStartDate;
 	}
 
-	public void setQuaStartDate(String quaStartDate) {
+	public void setQuaStartDate(Date quaStartDate) {
 		this.quaStartDate = quaStartDate;
 	}
 

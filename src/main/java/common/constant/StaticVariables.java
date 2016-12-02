@@ -3,8 +3,7 @@ package common.constant;
 /**
  * 
  * 版权：(C) 版权所有 
- * <简述>
- *  常量
+ * <简述> 公共常量
  * <详细描述>
  * @author   myc
  * @version  
@@ -93,4 +92,13 @@ public class StaticVariables {
     public static final Integer GOODS_SALES_STATUS = 2;
     /** 物资生产销售状态 **/
     public static final Integer GOODS_PS_STATUS = 3;
+    
+    
+    /** 机构类型值 -默认 */
+    public static final String ORG_TYPE_DEFAULT = "0";
+    /** 机构类型值 -采购机构 */
+    public static final String ORG_TYPE_PURCHASE = "1";
+    /** 机构类型值 -管理机构 */
+    public static final String ORG_TYPE_MANAGE = "2";
+    
 }

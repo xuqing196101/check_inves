@@ -11,12 +11,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
-import org.aspectj.weaver.NewMemberClassTypeMunger;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,22 +27,23 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import ses.model.bms.User;
-import ses.model.ems.ExpertBlackList;
-import ses.model.oms.Orgnization;
-import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseInfo;
-import ses.model.oms.PurchaseOrg;
-import ses.model.oms.util.AjaxJsonData;
-import ses.model.oms.util.CommUtils;
-import ses.model.oms.util.CommonConstant;
-import ses.service.bms.UserServiceI;
-import ses.service.oms.PurchaseServiceI;
-import ses.util.PropUtil;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import common.constant.StaticVariables;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseInfo;
+import ses.model.oms.util.AjaxJsonData;
+import ses.model.oms.util.CommonConstant;
+import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
+import ses.service.oms.PurchaseServiceI;
+import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
+import ses.util.WfUtil;
 
 /**
  * 
@@ -53,118 +56,184 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 @Scope("prototype")
 @RequestMapping("/purchase")
 public class PurchaseController {
+	
 	@Autowired
 	private PurchaseServiceI purchaseServiceI;
+	
 	@Autowired
 	private UserServiceI userServiceI;
+	
+	@Autowired
+	private RoleServiceI roleService;
+	
 	private AjaxJsonData jsonData = new AjaxJsonData();
+	
+	/**
+	 * 
+	 *〈简述〉 列表
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 * @param purchaseInfo
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping("list")
 	public String list(Model model,@ModelAttribute PurchaseInfo purchaseInfo,Integer page){
 		//每页显示十条
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(purchaseInfo.getRelName()!=null&&!purchaseInfo.getRelName().equals("")){
-			map.put("relName", purchaseInfo.getRelName());
-		}
-		if(purchaseInfo.getPurchaseDepName()!=null&&!purchaseInfo.getPurchaseDepName().equals("")){
-			map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
-		}
+		
 		List<PurchaseInfo> purchaseList = purchaseServiceI.findPurchaseList(map);
 		model.addAttribute("purchaseList",purchaseList);
-
+		
+		List<DictionaryData> genders = DictionaryDataUtil.find(13);
+        model.addAttribute("genders", genders);
 		//分页标签
 		model.addAttribute("list",new PageInfo<PurchaseInfo>(purchaseList));
-		/*String pagesales = CommUtils.getTranslation(page,"purchase/list.do");
-		model.addAttribute("pagesql", pagesales);*/
 		model.addAttribute("purchaseInfo", purchaseInfo);
+		
 		return "ses/oms/purchase/list";
 	}
+	
+	/**
+	 * 
+	 *〈简述〉添加
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
 	@RequestMapping("add")
-	public String add() {
+	public String add(Model model) {
+		
+		model.addAttribute("mainId", WfUtil.createUUID());
+		purchaseServiceI.initPurchaser(model);
 		return "ses/oms/purchase/add";
 	}
 	
+	/**
+	 * 
+	 *〈简述〉
+	 * 保存
+	 *〈详细描述〉
+	 * @author yggc
+	 * @param purchaseInfo
+	 * @param result
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
-	public String create(@ModelAttribute PurchaseInfo purchaseInfo,HttpServletRequest request){
-		User currUser=(User) request.getSession().getAttribute("loginUser");
-		purchaseServiceI.savePurchase(purchaseInfo);
-		User user = new User();
-		user.setTypeId(purchaseInfo.getId());
-		user.setRelName(purchaseInfo.getRelName());
-		user.setGender(purchaseInfo.getGender());
-		user.setMobile(purchaseInfo.getMobile());
-		user.setAddress(purchaseInfo.getAddress());
-		user.setTelephone(purchaseInfo.getTelephone());
-		Orgnization org = new Orgnization();
-		if(purchaseInfo.getPurchaseDepId()!=null && !purchaseInfo.getPurchaseDepId().equals("")){
-			org.setId(purchaseInfo.getPurchaseDepId());
-			user.setOrg(org);
+	public String create(@Valid PurchaseInfo purchaseInfo, BindingResult result,HttpServletRequest request, Model model){
+		
+		String roleName = request.getParameter("roleName");
+		
+		//校验
+		if (result.hasErrors()){
+			model.addAttribute("roleName",roleName);
+			model.addAttribute("mainId",purchaseInfo.getId());
+			model.addAttribute("purchaseInfo", purchaseInfo);
+			purchaseServiceI.initPurchaser(model);
+			return "ses/oms/purchase/add";
 		}
-		userServiceI.save(user,currUser);
 		
+		//校验用户名是否存在
+	    List<User> users = userServiceI.findByLoginName(purchaseInfo.getLoginName());
+		if (users != null && users.size() > 0){
+			
+			model.addAttribute("roleName",roleName);
+			model.addAttribute("mainId",purchaseInfo.getId());
+			model.addAttribute("purchaseInfo", purchaseInfo);
+			model.addAttribute("exist", "用户名已存在");
+			purchaseServiceI.initPurchaser(model);
+			return "ses/oms/purchase/add";
+		}
 		
+		//验证两次密码是否一致
+		if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){
+			model.addAttribute("mainId",purchaseInfo.getId());
+			model.addAttribute("purchaseInfo", purchaseInfo);
+			model.addAttribute("exist", "用户名已存在");
+			purchaseServiceI.initPurchaser(model);
+			return "ses/oms/purchase/add";
+		}
+		
+		User currUser=(User) request.getSession().getAttribute("loginUser");
+		purchaseServiceI.savePurchase(purchaseInfo,currUser);
 		return "redirect:list.do";
 	}
+	
+	
 	@RequestMapping(value="createAjax",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData createAjax(@ModelAttribute PurchaseInfo purchaseInfo,HttpServletRequest request){
 		User currUser=(User) request.getSession().getAttribute("loginUser");
-		purchaseServiceI.savePurchase(purchaseInfo);
-		User user = new User();
-		user.setTypeId(purchaseInfo.getId());
-		user.setRelName(purchaseInfo.getRelName());
-		user.setGender(purchaseInfo.getGender());
-		user.setMobile(purchaseInfo.getMobile());
-		user.setAddress(purchaseInfo.getAddress());
-		user.setTelephone(purchaseInfo.getTelephone());
-		Orgnization org = new Orgnization();
-		if(purchaseInfo.getPurchaseDepId()!=null && !purchaseInfo.getPurchaseDepId().equals("")){
-			org.setId(purchaseInfo.getPurchaseDepId());
-			user.setOrg(org);
-		}
-		userServiceI.save(user,currUser);
+		purchaseServiceI.savePurchase(purchaseInfo ,currUser);
 		jsonData.setMessage("保存成功!");
 		return jsonData ;
 	}
+	
+	/**
+	 * 
+	 *〈简述〉编辑
+	 *〈详细描述〉
+	 * @author myc
+	 * @param purchaseInfo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("edit")
 	public String edit(@ModelAttribute PurchaseInfo purchaseInfo,Model model) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("id", purchaseInfo.getId());
+		purchaseServiceI.initPurchaser(model);
 		List<PurchaseInfo> oList = purchaseServiceI.findPurchaseList(map);
 		if(oList!=null && oList.size()>0){
-			model.addAttribute("purchaseInfo", oList.get(0));
+			
+			PurchaseInfo purchase = oList.get(0);
+			List<Role> roleList = roleService.selectByUserId(purchase.getUserId());
+			
+			String roleIds =  "";
+			String  roleNames = "";
+			
+			for (Role role : roleList){
+				roleIds += role.getId() + StaticVariables.COMMA_SPLLIT;
+				roleNames += role.getName() + StaticVariables.COMMA_SPLLIT;
+			}
+			
+			if (StringUtils.isNotBlank(roleIds)){
+				roleIds = roleIds.substring(0, roleIds.length() -1);
+				roleNames = roleNames.substring(0, roleNames.length() -1);
+			}
+			
+			purchase.setRoleId(roleIds);
+			purchase.setOrgId(purchase.getPurchaseDepId());
+			model.addAttribute("purchaseInfo", purchase);
+			model.addAttribute("mainId", purchase.getId());
+			model.addAttribute("roleName", roleNames);
 		}
 		return "ses/oms/purchase/edit";
 	}
+	
+	
 	@RequestMapping(value="update",method= RequestMethod.POST)
-	public String update(@ModelAttribute PurchaseInfo purchaseInfo,HttpServletRequest request) throws IOException{
-		//User currUser=(User) request.getSession().getAttribute("loginUser");
-		User currUser=(User) request.getSession().getAttribute("loginUser");
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", purchaseInfo.getId());
-		PurchaseInfo p = purchaseServiceI.findPurchaseList(map).get(0);
-		this.setUploadFile(request, purchaseInfo);
-		purchaseServiceI.updatePurchase(purchaseInfo);
-		User user = new User();
-		if(p!=null){
-			//user.setTypeId(purchaseInfo.getId());
-			Orgnization org = new Orgnization();
-			if(p.getPurchaseDepId()!=null && !p.getPurchaseDepId().equals("")){
-				org.setId(p.getPurchaseDepId());
-				user.setOrg(org);
-			}
-			user.setId(p.getUserId());
-			user.setRelName(purchaseInfo.getRelName());
-			user.setGender(purchaseInfo.getGender());
-			user.setMobile(purchaseInfo.getMobile());
-			user.setAddress(purchaseInfo.getAddress());
-			user.setTelephone(purchaseInfo.getTelephone());
-			user.setDuites(purchaseInfo.getDuites());
-			user.setUpdatedAt(new Date());
-			userServiceI.update(user);
+	public String update(@Valid PurchaseInfo purchaseInfo , BindingResult result ,HttpServletRequest request,Model model) throws IOException{
+		
+		String roleName = request.getParameter("roleName");
+		//校验
+		if (result.hasErrors()){
+			model.addAttribute("roleName",roleName);
+			model.addAttribute("mainId",purchaseInfo.getId());
+			model.addAttribute("purchaseInfo", purchaseInfo);
+			purchaseServiceI.initPurchaser(model);
+			return "ses/oms/purchase/edit";
 		}
+		purchaseServiceI.updatePurchase(purchaseInfo);
+		
 		return "redirect:list.do";
 	}
+	
+	
 	@RequestMapping(value="updateAjax",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData updateAjax(@ModelAttribute PurchaseInfo purchaseInfo,HttpServletRequest request) throws IOException{
@@ -195,10 +264,11 @@ public class PurchaseController {
 		jsonData.setMessage("更新成功!");
 		return jsonData ;
 	}
+	
+	
 	@RequestMapping(value = "delajax")
 	@ResponseBody    
 	public AjaxJsonData delajax(Model model,HttpServletRequest request,@ModelAttribute PurchaseInfo purchaseInfo,HttpSession session,HttpServletResponse response) {
-		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
 		String ids = request.getParameter("ids");
 		ArrayList<String> list = new ArrayList<String>();
 		String[] idStrings = null;
@@ -211,14 +281,10 @@ public class PurchaseController {
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		//purchaseServiceI.delPurchaseByMap(map);//物理删除
 		delUserByPurchaseIds(ids);
 		AjaxJsonData json = new AjaxJsonData();
 		json.setSuccess(true);
 		json.setMessage("删除成功");
-		/*if(orgnization.getIsDeleted()!=null && orgnization.getIsDeleted().equals(1)){
-			json.setMessage("更新成功");
-		}*/
 		return json;
 	}
 	public AjaxJsonData getJsonData() {

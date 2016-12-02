@@ -57,62 +57,50 @@
     	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
     }
     function edit(){
-    	var id=[]; 
+    	var id = []; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		
-		if(id.length==1){
-			$("#purchaseid").val(id[0]);
-			$("#hideform").submit();
-			//window.location.href="${pageContext.request.contextPath}/purchaseManage/editPurchaseDep.do?id="+id+"&&type='edit'";
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+		if(id.length !=1){
+			layer.msg("请选择一条记录进行编辑");
+			return;
 		}
+		window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?id=" + id[0]; 
     }
-    function del(){
+    function delPurchaser(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
-		var idstr="";
 		if(ids.length>0){
-			for(var i=0;i<ids.length;i++){
-		    	idstr += ids[i];
-		    	idstr += ",";
-		    }
-		    idstr = idstr.substr(0,idstr.length-1);
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				$.ajax({
-				    type: 'post',
-				    url: "${pageContext.request.contextPath}/purchase/delajax.do",
-				    data : {ids:idstr},
-				    //data: {'pid':pid,$("#formID").serialize()},
-				    success: function(data) {
-				        truealert(data.message,data.success == false ? 5:1);
-				    }
-				});
+			layer.confirm('您确定要删除吗?', {
+				btn:['确认','取消']
+			},function(){
+				ajaxDelUser(ids.toString());
 			});
 		}else{
-			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要删除的用户");
 		}
     }
-	function truealert(text,iconindex){
-		layer.open({
-		    content: text,
-		    icon: iconindex,
-		    shade: [0.3, '#000'],
-		    yes: function(index){
-		        //do something
-		         //parent.location.reload();
-		    	 layer.closeAll();
-		    	 //parent.layer.close(index); //执行关闭
-		    	 parent.location.href="${pageContext.request.contextPath}/purchase/list.do";
+    
+    function ajaxDelUser(idstr){
+    	$.ajax({
+		    type: 'post',
+		    url: "${pageContext.request.contextPath}/purchase/delajax.do",
+		    data : {ids:idstr},
+		    success: function(data) {
+		    	if (data.success){
+		    		layer.msg("删除成功");
+		    		window.location.href= "${pageContext.request.contextPath}/purchase/list.html";
+		    	} else {
+		    		layer.msg("删除失败");
+		    	}
+		       
 		    }
 		});
-	}
+    }
+    
 	function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
@@ -139,14 +127,8 @@
 			<div class="headline-v2">
 				<h2>采购机构人员列表</h2>
 			</div>
-		<div>
-			<form id="hideform" action="${pageContext.request.contextPath}/purchase/edit.html" method="post">
-				<input type="hidden" id="purchaseid" name="id">
-			</form>
-		</div>
-		<!-- hide  form -->
 				<h2 class="search_detail">
-					<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1" enctype="multipart/form-data" class="mb0">
+					<form action="${pageContext.request.contextPath}/purchase/list.html" method="post" id="form1"  class="mb0">
 						<input type="hidden" name="page" id="page"/> 
 						<ul class="demand_list">
 							<li><label class="fl">姓名：</label><span><input type="text" name="relName" id="relName"
@@ -169,7 +151,7 @@
 					<button class="btn btn-windows edit" type="button"
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
-						onclick="del();">删除</button>
+						onclick="delPurchaser();">删除</button>
 				</div>
 			<div class="content table_box">
                  <table class="table table-bordered table-condensed table-hover table-striped">
@@ -182,13 +164,11 @@
 							<th class="info">所属采购机构</th>
 							<th class="info">类型</th>
 							<th class="info">性别</th>
-							<th class="info">年龄</th>
 							<th class="info">职务</th>
 							<th class="info">职称</th>
 							<th class="info">采购资格等级</th>
 							<th class="info">学历</th>
 							<th class="info">电话</th>
-							<!-- <th class="info">资质证书类型</th> -->
 							<th class="info">证书编号</th>
 						</tr>
 					</thead>
@@ -226,21 +206,12 @@
 									</c:choose>
 								</td>
 								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');"> 
-									<c:choose>
-										<c:when test="${p.gender=='M'}">
-											男
-										</c:when>
-										<c:when test="${p.gender=='F'}">
-											女
-										</c:when>
-										<c:otherwise>
-											男
-										</c:otherwise>
-									</c:choose>
-								</td>
-								<!-- 是否发布 -->
-								<td class="tc" onclick="show('${p.id}');">${p.age}</td>
+								
+								<c:forEach items="${genders}" var="g" >
+									<c:if test="${g.id eq p.gender}">
+									  <td class="tc" onclick="show('${p.id}');">${g.name}</td>
+									</c:if>
+					        	</c:forEach>
 								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
 								<!-- 是否发布 -->

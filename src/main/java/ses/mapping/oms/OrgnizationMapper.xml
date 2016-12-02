@@ -520,4 +520,13 @@
 		WHERE ID = #{id}
 		AND IS_DELETED = 0
 	</select>
+	
+	<!-- 根据类型查询 -->
+	<select id="findByType" resultMap="baseOrgnization">
+	   SELECT 
+		<include refid="baseSearchSql"/>
+		FROM T_SES_OMS_ORG
+		WHERE TYPE_NAME = #{typeName}
+		AND IS_DELETED = 0
+	</select>
 </mapper>

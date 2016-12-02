@@ -137,10 +137,15 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
        }
         return StaticVariables.FAILED;
     }
-	
-	
-	
-	
-	
+    
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#initOrgByType(java.lang.String)
+     */
+	@Override
+	public List<Orgnization> initOrgByType(String type) {
+		
+		return orgniztionMapper.findByType(type);
+	}
 
 }

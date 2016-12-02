@@ -5,12 +5,16 @@
 	<select id="findPurchaseList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
 			   select d.id  as id,
 		       u.GENDER       as gender,
+		       u.LOGIN_NAME   AS loginName,
+		       u.MOBILE  AS mobile,
+		       u.TYPE_NAME  AS typeName,
+		       u.EMAIL AS email,
 		       d.NATION       as nation,
 		       o.id     as purchaseDepId,
 		       o.name   as purchaseDepName,
 		       d.POLITICAL         as political,
 		       d.PURCAHSER_TYPE       as purcahserType,
-		       to_char(d.BIRTH_AT, 'yyyy-MM-dd')       as birthAt,
+		       d.BIRTH_AT      as birthAt,
 		       d.AREA         as area,
 		       d.PROVINCE_ID      as provinceId,
 		       d.CITY_ID    as cityId,
@@ -24,13 +28,13 @@
 		       d.TRAIN_EXPERIENCE   as trainExperience,
 		       d.QUA_CODE   as quaCode,
 		       d.QUA_LEVEL   as quaLevel,
-		       to_char(d.QUA_EDNDATE, 'yyyy-MM-dd')   as quaEdndate,
+		       d.QUA_EDNDATE  as quaEdndate,
 		       d.QUA_CERT   as quaCert,
 		       d.QUA_RANK   as quaRank,
 		       d.FAX   as fax,
 		       u.ADDRESS   as address,
 		       d.POST_CODE   as postCode,
-		       to_char(d.QUA_START_DATE, 'yyyy-MM-dd')   as quaStartDate,
+		       d.QUA_START_DATE   as quaStartDate,
 		       u.id      as  userId,
 		       u.REL_NAME as relName,
 		       d.AGE      as age,
@@ -39,7 +43,7 @@
 		  from T_SES_OMS_PURCHASER     d
 		  LEFT JOIN	T_SES_BMS_USER u on d.id = u.type_id
 		  LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
-		 where nvl(d.is_deleted,0)=0
+		 where d.IS_DELETED = 0
 		 <if test="id != null and '' != id">
 			and d.id= #{id}
 		</if>
@@ -66,9 +70,7 @@
 	</select>
 	<!-- 保存采购机构 -->
 	<insert id="savePurchase" parameterType="ses.model.oms.PurchaseInfo">
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select rawtohex(sys_guid()) as VALUE from dual
-		</selectKey>
+		
 		insert into T_SES_OMS_PURCHASER
 		 (ID,NATION,PURCHASE_DEP_ID,
 		  POLITICAL,PURCAHSER_TYPE,BIRTH_AT,
@@ -81,15 +83,15 @@
 		  QUA_START_DATE,AGE,CREATED_AT
           )
 		values(
-	      #{id},#{nation,jdbcType=VARCHAR},
+	      #{id,jdbcType=VARCHAR},#{nation,jdbcType=VARCHAR},
 		  #{purchaseDepId,jdbcType=VARCHAR},#{political,jdbcType=VARCHAR},#{purcahserType,jdbcType=NUMERIC},
-		  to_date(#{birthAt},'yyyy-mm-dd hh24:mi:ss'),#{area,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR},
+		  #{birthAt,jdbcType=DATE},#{area,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR},
 		  #{cityId,jdbcType=VARCHAR},#{townId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},
 		  #{idCard,jdbcType=VARCHAR},#{professional,jdbcType=VARCHAR},#{topStudy,jdbcType=VARCHAR},
 		  #{graduateSchool,jdbcType=VARCHAR},#{workExperience,jdbcType=VARCHAR},#{trainExperience,jdbcType=VARCHAR},
-		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},to_date(#{quaEdndate},'yyyy-mm-dd hh24:mi:ss'),
+		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=DATE},
 		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
-		  #{postCode,jdbcType=VARCHAR},to_date(#{quaStartDate},'yyyy-mm-dd hh24:mi:ss'),#{age,jdbcType=NUMERIC},
+		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=DATE},#{age,jdbcType=NUMERIC},
 		  sysdate
 		 )
 	</insert>
@@ -112,7 +114,7 @@
 		 		,PURCAHSER_TYPE=#{purcahserType,jdbcType=NUMERIC}
 		 	</if>
 		 	 <if test="birthAt != null">
-		 		,BIRTH_AT=to_date(#{birthAt},'yyyy-mm-dd hh24:mi:ss')  
+		 		,BIRTH_AT=#{birthAt,jdbcType=DATE}  
 		 	</if>
 		 	 <if test="area != null">
 		 		,AREA=#{area,jdbcType=VARCHAR}
@@ -154,7 +156,7 @@
 		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
 		 	</if>
 		 	 <if test="quaEdndate != null">
-		 		,QUA_EDNDATE= to_date(#{quaEdndate},'yyyy-mm-dd hh24:mi:ss')  
+		 		,QUA_EDNDATE= #{quaEdndate,jdbcType=DATE}  
 		 	</if>
 		 	 <if test="quaCert != null">
 		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
@@ -173,7 +175,7 @@
 		 		,POST_CODE=#{postCode,jdbcType=VARCHAR}
 		 	</if>
 		 	 <if test="quaStartDate != null">
-		 		,QUA_START_DATE= to_date(#{quaStartDate},'yyyy-mm-dd hh24:mi:ss')  
+		 		,QUA_START_DATE= #{quaStartDate,jdbcType=DATE} 
 		 	</if>
 		 	 <if test="age != null">
 		 		,AGE=#{age,jdbcType=NUMERIC}
