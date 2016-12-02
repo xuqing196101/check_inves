@@ -238,7 +238,12 @@ public class ExpertController {
 			// 查找用户类型
 			String userType = DictionaryDataUtil.getId("EXPERT_U");
 			user.setTypeName(userType);
+			String expertId = WfUtil.createUUID();
+			user.setTypeId(expertId);
 			userService.save(user, null);
+			Expert expert = new Expert();
+			expert.setId(expertId);
+			service.insertSelective(expert);
 			Role role = new Role();
 			role.setCode("IMPORT_AGENT_R");
 			List<Role> listRole = roleService.find(role);
@@ -260,12 +265,12 @@ public class ExpertController {
 				}
 			}
 			attr.addAttribute("userId", user.getId());
-			return "redirect:toAddBasicInfo.html";
+			return "redirect:toAddBasicInfo.html?pageFlag=one";
 		}
 		// 重复提交
 		else {
 			attr.addAttribute("userId", user.getId());
-			return "redirect:toAddBasicInfo.html";
+			return "redirect:toAddBasicInfo.html?pageFlag=one";
 		}
 	}
 
@@ -285,13 +290,17 @@ public class ExpertController {
 	@RequestMapping("/toAddBasicInfo")
 	public String toAddBasicInfo(@RequestParam("userId") String userId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model) {
+			Model model, String pageFlag) {
+	  if(pageFlag == null){
+	      pageFlag = "one";
+	  }
+	  model.addAttribute("pageFlag", pageFlag);
+	  model.addAttribute("userId", userId);
 		User user = userService.getUserById(userId);
 		String typeId = user.getTypeId();
 		// 生成专家id
 		String expertId = "";
 		int flag = 0;
-		if (StringUtils.isNotEmpty(typeId)) {
 			// 暂存 或退回后重新填写
 			Expert expert = service.selectByPrimaryKey(typeId);
 			if (expert != null)
@@ -305,9 +314,6 @@ public class ExpertController {
 			Map<String, Object> errorMap = service.Validate(expert, 3);
 			model.addAttribute("expert", expert);
 			model.addAttribute("errorMap", errorMap);
-		} else {
-			expertId = WfUtil.createUUID();
-		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("typeName", "0");
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService
@@ -352,7 +358,7 @@ public class ExpertController {
 		if (flag == 1) {
 			return "ses/ems/expert/basic_info_view";
 		} else {
-			return "ses/ems/expert/basic_info";
+			return "ses/ems/expert/basic_info_"+pageFlag;
 		}
 	}
 
@@ -468,7 +474,7 @@ public class ExpertController {
 
 	/**
 	 * 
-	 * @Title: toBasicInfo
+	 * @Title: toEditBasicInfo
 	 * @author lkzx
 	 * @date 2016年9月1日 上午11:12:55
 	 * @Description: TODO 跳转到修改个人信息
@@ -766,7 +772,7 @@ public class ExpertController {
 						expertId, categoryId);
 				if (map != null && !map.isEmpty()) {
 					attr.addAttribute("userId", userId);
-					return "redirect:toAddBasicInfo.html";
+					return "redirect:toAddBasicInfo.html?pageFlag=one";
 				}
 			}
 		} catch (Exception e) {
@@ -774,8 +780,39 @@ public class ExpertController {
 			// 未做异常处理
 		}
 		attr.addAttribute("userId", userId);
-		return "redirect:toAddBasicInfo.html";
+		return "redirect:toAddBasicInfo.html?pageFlag=one";
 	}
+	
+	/**
+   * 
+   * @Title: add
+   * @author lkzx
+   * @date 2016年9月1日 上午11:14:38
+   * @Description: TODO 新增个人信息
+   * @param @return
+   * @return String
+   * @throws IOException
+   */
+  @RequestMapping("/add1")
+  public String add1(String categoryId, String sysId, Expert expert,
+      String userId, Model model, RedirectAttributes attr,
+      HttpSession session, String token2, HttpServletRequest request,
+      HttpServletResponse response) {
+    try {
+        String expertId = sysId;
+        // 正常提交
+        User user = (User) session.getAttribute("loginUser");
+        // 用户信息处理
+        service.userManager(user, userId, expert, expertId);
+        // 调用service逻辑代码 实现提交
+        service.saveOrUpdate(expert, expertId, categoryId);
+    } catch (Exception e) {
+      e.printStackTrace();
+      // 未做异常处理
+    }
+    attr.addAttribute("userId", userId);
+    return "redirect:toAddBasicInfo.html?pageFlag=one";
+  }
 
 	/**
 	 * 

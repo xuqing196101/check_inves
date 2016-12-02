@@ -372,7 +372,7 @@ public class ExpertServiceImpl implements ExpertService {
 					expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
 				}
 			}
-			if(expert.getExpertsTypeId().equals("1")){
+			if("1".equals(expert.getExpertsTypeId())){
 			//保存品目
 				saveCategory(expert, categoryIds);
 			}else{
@@ -511,6 +511,7 @@ public class ExpertServiceImpl implements ExpertService {
 	
 	public Map<String,Object> Validate(Expert expert,int flag){
 		Map<String,Object> map = new HashMap<>();
+		if (expert != null) {
 		if(!ValidateUtils.isNotNull(expert.getRelName())){
 			map.put("realName", "姓名不能为空！");
 		}
@@ -578,7 +579,87 @@ public class ExpertServiceImpl implements ExpertService {
 		}else{
 			return map;
 		}
+		}else{
+		  return null;
+		}
 	}
+
+  @Override
+  public void saveOrUpdateInfo(Expert expert, String expertId, String categoryIds)
+    throws Exception {
+    // TODO Auto-generated method stub
+    Map<String,Object> map;
+    //如果id不为空 则为专家 暂存  或专家退回重新修改提交
+    if(StringUtils.isNotEmpty(expert.getId())){
+      expert.setIsDo("0");
+      //已提交
+      expert.setIsSubmit("1");
+      //未审核
+      expert.setStatus("0");
+      //修改时间
+      expert.setUpdatedAt(new Date());
+      //执行校验并修改
+       map = Validate(expert,2);
+      //mapper.updateByPrimaryKeySelective(expert);
+      //获取之前的审核信息
+      List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
+      if(auditList!=null && auditList.size()>0){
+        for (ExpertAudit expertAudit : auditList) {
+          //修改之前的审核信息为删除 和历史状态
+          expertAudit.setIsDelete((long) 1);
+          expertAudit.setIsHistory("1");
+          expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
+        }
+      }
+      if(expert.getExpertsTypeId().equals("1")){
+      //保存品目
+        saveCategory(expert, categoryIds);
+      }else{
+        //不是技术专家就删除品目关联信息
+        categoryMapper.deleteByExpertId(expert.getId());
+      }
+    }else{
+    expert.setId(expertId);
+    //未考试
+    expert.setIsDo("0");
+    //已提交
+    expert.setIsSubmit("1");
+    //未审核
+    expert.setStatus("0");
+    //创建时间
+    expert.setCreatedAt(new Date());
+    //修改时间
+    expert.setUpdatedAt(new Date());
+    //执行校验并保存
+     map = Validate(expert,1);
+    mapper.insertSelective(expert);
+    //文件上传
+    //uploadFile(files, realPath,expertId);
+    //保存品目
+    saveCategory(expert, categoryIds);
+    }
+    //发送待办
+    Todos todos = new Todos();
+    todos.setId(WfUtil.createUUID());
+    todos.setCreatedAt(new Date());
+    todos.setIsDeleted((short)0);
+    todos.setIsFinish((short)0);
+    //待办类型
+    todos.setName("评审专家注册");
+    //todos.setReceiverId();
+    //接受人id
+    todos.setOrgId(expert.getPurchaseDepId());
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    todos.setPowerId(config.getString("zjdb"));
+    //发送人id
+    todos.setSenderId(expert.getId());
+    todos.setUndoType((short)2);
+    //发送人姓名
+    todos.setSenderName(expert.getRelName());
+    //审核地址
+    todos.setUrl("expert/toShenHe.html?id="+expert.getId());
+    todosMapper.insert(todos );
+  }
 	
 }
 

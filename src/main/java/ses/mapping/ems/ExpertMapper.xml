@@ -532,66 +532,122 @@
 	<update id="updateByPrimaryKey" parameterType="ses.model.ems.Expert">
 		update
 		T_SES_EMS_EXPERT
-		set IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
-		IS_DO =
-		#{isDo,jdbcType=VARCHAR},
-		IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-		IS_PASS = #{isPass,jdbcType=DECIMAL},
-		IS_PROVISIONAL =
-		#{isProvisional,jdbcType=DECIMAL},
-		CREATED_AT =
-		#{createdAt,jdbcType=DATE},
-		GENDER =
-		#{gender,jdbcType=CHAR},
-		UPDATED_AT
-		= #{updatedAt,jdbcType=DATE},
-		MOBILE = #{mobile,jdbcType=VARCHAR},
-		BIRTHDAY =
-		#{birthday,jdbcType=DATE},
-		ID_NUMBER =
-		#{idNumber,jdbcType=VARCHAR},
-		ID_TYPE = #{idType,jdbcType=VARCHAR},
-		EXPERTS_FROM =
-		#{expertsFrom,jdbcType=VARCHAR},
-		POLITICS_STATUS =
-		#{politicsStatus,jdbcType=VARCHAR},
-		NATION =
-		#{nation,jdbcType=VARCHAR},
-		GRADUATE_SCHOOL =
-		#{graduateSchool,jdbcType=VARCHAR},
-		LAST_EDUCATION =
-		#{hightEducation,jdbcType=VARCHAR},
-		MAJOR = #{major,jdbcType=VARCHAR},
-		WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
-		TELEPHONE =
-		#{telephone,jdbcType=VARCHAR},
-		FAX = #{fax,jdbcType=VARCHAR},
-		MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
-		HEALTH_STATE =
-		#{healthState,jdbcType=VARCHAR},
-		ADDRESS = #{address,jdbcType=VARCHAR},
-		PROFESS_TECH_TITLES = #{professTechTitles,jdbcType=VARCHAR},
-		TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
-		TIME_START_WORK =
-		#{timeStartWork,jdbcType=DATE},
-		UNIT_ADDRESS =
-		#{unitAddress,jdbcType=VARCHAR},
-		POST_CODE =
-		#{postCode,jdbcType=VARCHAR},
-		DEGREE = #{degree,jdbcType=VARCHAR},
-		AT_DUTY = #{atDuty,jdbcType=VARCHAR},
-		EXPERTS_TYPE_ID =
-		#{expertsTypeId,jdbcType=VARCHAR},
-		PURCHASE_DEP_ID =
-		#{purchaseDepId,jdbcType=DECIMAL},
-		STATUS = #{status,jdbcType=CHAR},
-		IS_BLACK = #{isBlack,jdbcType=CHAR},
-		HONESTY_SCORE =
-		#{honestyScore,jdbcType=DECIMAL},
-		REAL_NAME =
-		#{relName,jdbcType=VARCHAR},
-		REMARKS =
-		#{remarks,jdbcType=VARCHAR}
+		<set>
+			<if test="isSubmit != null and isSubmit != '0'">
+				IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
+			</if>
+			<if test="isDo != null and isDo != '0'">
+				IS_DO = #{isDo,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null and isDelete != '0'">
+				IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="isPass != null and isPass != ''">
+				IS_PASS = #{isPass,jdbcType=DECIMAL},
+			</if>
+			<if test="isProvisional != null and isProvisional != ''">
+				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+			</if>
+			<if test="createdAt != null and createdAt != ''">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="gender != null and gender != ''">
+				GENDER = #{gender,jdbcType=CHAR},
+			</if>
+			<if test="updatedAt != null and updatedAt != ''">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="mobile != null and mobile != ''">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null and birthday != ''">
+				BIRTHDAY = #{birthday,jdbcType=DATE},
+			</if>
+			<if test="idNumber != null and idNumber != ''">
+				ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="idType != null and idType != ''">
+				ID_TYPE = #{idType,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsFrom != null and expertsFrom != ''">
+				EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
+			</if>
+			<if test="politicsStatus != null and politicsStatus != ''">
+				POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null and nation != ''">
+				NATION = #{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="graduateSchool != null and graduateSchool != ''">
+				GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
+			</if>
+			<if test="hightEducation != null and hightEducation != ''">
+				LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
+			</if>
+			<if test="major != null and major != ''">
+				MAJOR = #{major,jdbcType=VARCHAR},
+			</if>
+			<if test="workUnit != null and workUnit != ''">
+				WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null and telephone != ''">
+				TELEPHONE = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="fax != null and fax != ''">
+				FAX = #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="makeTechDate != null and makeTechDate != ''">
+				MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
+			</if>
+			<if test="healthState != null and healthState != ''">
+				HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null and address != ''">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="professTechTitles != null and professTechTitles != ''">
+				PROFESS_TECH_TITLES = #{professTechTitles,jdbcType=VARCHAR},
+			</if>
+			<if test="timeToWork != null and timeToWork != ''">
+				TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
+			</if>
+			<if test="timeStartWork != null and timeStartWork != ''">
+				TIME_START_WORK = #{timeStartWork,jdbcType=DATE},
+			</if>
+			<if test="unitAddress != null and unitAddress != ''">
+				UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="postCode != null and postCode != ''">
+				POST_CODE = #{postCode,jdbcType=VARCHAR},
+			</if>
+			<if test="degree != null and degree != ''">
+				DEGREE = #{degree,jdbcType=VARCHAR},
+			</if>
+			<if test="atDuty != null and atDuty != ''">
+				AT_DUTY = #{atDuty,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsTypeId != null and expertsTypeId != ''">
+				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseDepId != null and purchaseDepId != ''">
+				PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null and status != '0'">
+				STATUS = #{status,jdbcType=CHAR},
+			</if>
+			<if test="isBlack != null and isBlack != '0'">
+				IS_BLACK = #{isBlack,jdbcType=CHAR},
+			</if>
+			<if test="honestyScore != null and honestyScore != ''">
+				HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
+			</if>
+			<if test="relName != null and relName != ''">
+				REAL_NAME = #{relName,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null and remarks != ''">
+				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+		</set>
 		where
 		ID = #{id,jdbcType=VARCHAR}
 

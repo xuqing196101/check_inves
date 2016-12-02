@@ -190,6 +190,20 @@ public interface ExpertService {
 		 */
 		Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception;
 		/**
+     * 
+      * @Title: saveOrUpdate
+      * @author WangHuijie
+      * @date 2016年12月2日 下午18:53:47  
+      * @Description: TODO controller调用 逻辑
+      * @param @param expert
+      * @param @param expertId
+      * @param @param files
+      * @param @param realPath
+      * @param @throws Exception      
+      * @return void
+     */
+    void saveOrUpdateInfo(Expert expert,String expertId,String categoryIds) throws Exception;
+		/**
 		 * 
 		  * @Title: userManager
 		  * @author ShaoYangYang
