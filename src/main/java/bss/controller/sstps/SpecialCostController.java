@@ -289,6 +289,6 @@ public class SpecialCostController {
 			specialCostService.update(specialCost);
 		}
 		model.addAttribute("proId",productId);
-		return "redirect:/burningPower/userGetAll.html?productId="+productId;
+		return "redirect:/burningPower/userGetAllCheck.html?productId="+productId;
 	}
 }

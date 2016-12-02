@@ -286,6 +286,6 @@ public class AccessoriesConController {
 		model.addAttribute("list", list);
 		model.addAttribute("proId", productId);
 		
-		return "bss/sstps/offer/CheckAppraisal/list/accessories_list";
+		return "bss/sstps/offer/checkAppraisal/list/accessories_list";
 	}
 }

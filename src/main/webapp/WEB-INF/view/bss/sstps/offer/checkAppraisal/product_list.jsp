@@ -135,12 +135,22 @@ function offer(){
 	  						</tr>
 						</thead>
 				  		<c:forEach items="${list.list}" var="product" varStatus="vs">
-				  			<c:if test="${product.offer==1 }&&${product.auditOffer==1 }"> 
+				  			<c:if test="${product.offer==1 }"> 
 				  			<tr>
 				  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				  				<td class="tc pointer">${product.name }</td>
-				  				<td class="tc pointer" name="auditOffer">已审价</td>
+				  				<c:choose>
+    								<c:when test="${product.auditOffer==1 }">
+				  						<td class="tc pointer" name="auditOffer">已审价</td>
+				  					</c:when>
+				  					<c:when test="${product.auditOffer==2 }">
+				  						<td class="tc pointer" name="auditOffer">已复审</td>
+				  					</c:when>
+				  					<c:otherwise>
+				  						<td class="tc pointer" name="auditOffer">已报价</td>
+				  					</c:otherwise>
+				  				</c:choose>
 				  			</tr>
 				  			</c:if>
 						</c:forEach>
