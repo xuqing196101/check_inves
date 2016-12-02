@@ -11,8 +11,8 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		var score = "${score}";
-		var pass = "${pass}";
+		var score = parseFloat("${score}");
+		var pass = parseFloat("${pass}");
 		$(function(){
 			if(score < pass){
 				$("#isPass").html("很遗憾,您未通过本场考试!");
@@ -23,10 +23,7 @@
 		
 		//退出
 		function exitExam(){
-			layer.confirm('您确定要退出吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
-			});
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
 		}
 	</script>
 	
