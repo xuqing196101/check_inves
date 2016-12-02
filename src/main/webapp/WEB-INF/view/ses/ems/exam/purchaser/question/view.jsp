@@ -96,10 +96,10 @@
 				  		</div>
   					</li>
   		
-		  			<li class="col-md-12 col-sm-12 col-xs-12 p0">
+		  			<li class="col-md-12 col-sm-12 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red fl">*</div>题干：</span>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0">
-			  				<textarea disabled="disabled" class="col-md-10 h80 p0" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
+			  				<textarea disabled="disabled" class="col-md-10 col-sm-10 col-xs-10 h80 p0" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
 		  				</div>
 		  			</li>
   				</ul>

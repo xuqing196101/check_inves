@@ -40,10 +40,7 @@
 	  		</div>
 	  		<div id="time"></div>
 	  		<form action="${pageContext.request.contextPath }/purchaserExam/test.html" method="post" id="form">
-				<%--<div class="tc mt20" id="startExam">
-		  			<input type="submit" class="btn" value="开始考试"/>
-		  		</div>
-		  		--%><input type="hidden" name="paperId" value="${paperId }"/>
+				<input type="hidden" name="paperId" value="${paperId }"/>
 	  		</form>
 	  	</div>
   	</div>

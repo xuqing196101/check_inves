@@ -12,7 +12,7 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		window.onload = function(){
+		$(function(){
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
        			if(i==1){
@@ -21,7 +21,7 @@
        				$("#pageNum"+i).hide();
        			}
        		}
-		}
+		})
 		
 		//答题时上一页下一页切换
         function setTab(index){
@@ -59,6 +59,17 @@
 				});
 			 }
 		 }
+		 
+		//表单防重复提交
+	    var isCommitted = false;//表单是否已经提交标识，默认为false
+	    function dosubmit(){
+	       if(isCommitted==false){
+	          isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+	          return true;//返回true让表单正常提交
+	       }else{
+	          return false;//返回false那么表单将不提交
+	       }
+	    }
 	</script>
   </head>
   
@@ -78,7 +89,7 @@
   			本次考试题型包括：多选题，共${multipleNum }题，每题${multiplePoint }分。
   		</c:if>
   	</div>
-  	<form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form" class="clear mt10">
+  	<form action="${pageContext.request.contextPath }/expertExam/saveScore.html" method="post" id="form" class="clear mt10" onsubmit="return dosubmit()">
   	<c:choose>
   		<c:when test="${pageSize==1 }">
 	  	<table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">

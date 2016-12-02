@@ -149,6 +149,17 @@
         function cancel(){
         	layer.closeAll();
         }
+        
+        //表单防重复提交
+        var isCommitted = false;//表单是否已经提交标识，默认为false
+        function dosubmit(){
+           if(isCommitted==false){
+              isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true
+              return true;//返回true让表单正常提交
+           }else{
+              return false;//返回false那么表单将不提交
+           }
+        }
 	</script>
   </head>
   
@@ -157,8 +168,8 @@
   		<div class="red tc mt20">您还有题目未作答,确定交卷吗?</div>
   		<div class="tc mt10">答题剩余时间：<span id="surplusNo"></span></div>
   		<div class="col-md-12 tc mt20">
-  		  <button class="btn" type="button" onclick="sure()">确定</button>
-  		  <button class="btn" type="button" onclick="cancel()">取消</button>
+  		  	<button class="btn" type="button" onclick="sure()">确定</button>
+  		  	<button class="btn" type="button" onclick="cancel()">取消</button>
   		</div>
   	</div>
   	
@@ -199,7 +210,7 @@
 	  			本次考试题型包括：多选题和判断题，其中：多选题${multipleNum }题，每题${multiplePoint }分，判断题${judgeNum }题，每题${judgePoint }分。
 	  		</c:if>
   		</div>
-  <form action="${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.html" method="post" id="form">
+  <form action="${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.html" method="post" id="form" onsubmit="return dosubmit()">
   <c:choose>
   	<c:when test="${pageSize==1 }">
 	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
@@ -235,7 +246,7 @@
 	  	<div class="col-md-12 tc">
 	    	<button class="btn" type="button" onclick="git()">提交</button>
 	  	</div>
-  </c:when>
+  	</c:when>
 	  <c:otherwise>
   		<c:forEach items="${pageNum }" varStatus="p">
   		<c:choose>
@@ -246,44 +257,42 @@
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-					         <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
-					    		<c:if test="${pur.examQuestionType.name=='单选题' }">
-								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
-								    <div class="mt10 clear fl">
-								    	<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
-								  	 </div>
-								    </c:forEach>
-								 </c:if>
-								 <c:if test="${pur.examQuestionType.name=='多选题' }">
-								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
-								    <div class="mt10 clear fl">
-								    	<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
-								    </div>
-								    </c:forEach>
-								 </c:if>
-								 <c:if test="${pur.examQuestionType.name=='判断题' }">
-						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
-						    	</c:if>
-					    	 
+					        <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
+					    	<c:if test="${pur.examQuestionType.name=='单选题' }">
+								<c:forEach items="${fn:split(pur.items,';')}" var="it">
+								<div class="mt10 clear fl">
+								    <input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								</div>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pur.examQuestionType.name=='多选题' }">
+								<c:forEach items="${fn:split(pur.items,';')}" var="it">
+								<div class="mt10 clear fl">
+								    <input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								</div>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pur.examQuestionType.name=='判断题' }">
+						    	<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+						    	<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+						    </c:if>
 		        		</td>
 		     		 </tr>
 			    </c:forEach>
 		    </table>
-		    <div class="col-md-12 tc">
-    			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
-  			</div>
-		   </div>
-		    </c:when>
+			    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+	    			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
+	  			</div>
+		  </div>
+		</c:when>
 		    
-		    <c:when test="${p.last}">
+		<c:when test="${p.last}">
 		    <div id="pageNum${p.index+1 }" name="exam">
 		    <table class="clear table table-bordered table-condensed">
-		  	
 			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				     <tr>
 		       			 <td class="col-md-1 tc">${l.index+1 }</td>
-				    	<td class="col-md-11">
+				    	 <td class="col-md-11">
 				          <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
 				         		<c:if test="${pur.examQuestionType.name=='单选题' }">
 								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
@@ -303,52 +312,48 @@
 					    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
 					    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 					    		</c:if>
-		        		</td>
+		        		 </td>
 		     		 </tr>
 			    </c:forEach>
-			   
 		    </table>
-		     	<div class="col-md-12 tc">
+		     	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			    	<button class="btn" type="button" onclick="setTab(${p.index})">上一页</button>
     				<button class="btn" type="button" onclick="git()">提交</button>
   				</div>
-  				</div>
-		    </c:when>
+  			</div>
+		</c:when>
 		    
 		    <c:otherwise>
 		    <div id="pageNum${p.index+1 }" name="exam">
 		    <table class="clear table table-bordered table-condensed">
-		    	
 			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				        <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
-				        
-				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
-								    <div class="mt10 clear fl">
-								    	<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
-								  	 </div>
-								    </c:forEach>
-								 </c:if>
-								 <c:if test="${pur.examQuestionType.name=='多选题' }">
-								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
-								    <div class="mt10 clear fl">
-								    	<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
-								    </div>
-								    </c:forEach>
-								 </c:if>
-								<c:if test="${pur.examQuestionType.name=='判断题' }">
-						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
-						    	</c:if>
-				    	
+				        	<div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
+				    		<c:if test="${pur.examQuestionType.name=='单选题' }">
+								<c:forEach items="${fn:split(pur.items,';')}" var="it">
+								<div class="mt10 clear fl">
+								    <input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								</div>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pur.examQuestionType.name=='多选题' }">
+								<c:forEach items="${fn:split(pur.items,';')}" var="it">
+								<div class="mt10 clear fl">
+								    <input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								</div>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pur.examQuestionType.name=='判断题' }">
+						    	<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+						    	<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+						    </c:if>
 		        		</td>
 		     		</tr>
 			    </c:forEach>
 		    </table>
-			    <div class="col-md-12 tc">
+			    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 			    	<button class="btn" onclick="setTab(${p.index})" type="button">上一页</button>
 	    			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
 	  			</div>
