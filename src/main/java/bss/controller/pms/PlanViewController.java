@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.util.DictionaryDataUtil;
+
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.CollectPlan;
@@ -83,6 +85,7 @@ public class PlanViewController extends BaseController{
 //			}
 //		}
 //		model.addAttribute("list", lists);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));	
 		model.addAttribute("list", list);
 		return "bss/pms/collect/included";
 	}

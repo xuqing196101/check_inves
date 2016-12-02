@@ -2,34 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
-
 <%@ taglib uri="/tld/upload" prefix="u"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
-
-
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-<script>
-	var globalPath = "${contextPath}";
-</script>
-
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -70,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	function view(no){
   		
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
   	}
   	
   	 function aadd(){
@@ -105,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  var defVal=obj.defaultValue;
 			if(val!=defVal){
 				$.ajax({
-					url:"<%=basePath%>adjust/filed.html",
+					url:"${pageContext.request.contextPath}/adjust/filed.html",
 					type:"post",
 					data:{
 						planNo:planNo,
@@ -253,7 +230,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30">
+		<div class="col-md-12 pl20 mt10">
+		  <div style="float: left">
+                <u:upload id="cgjh" businessId="${id }" sysKey="2" typeId="${aid }"/>
+                <u:show showId="cgjh"   businessId="${id }" sysKey="2" typeId="${aid }"/>
+                </div>
+                <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
+                <input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
+                <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		</div>
+		 <div class="content table_box">
 
 			<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post" enctype="multipart/form-data">
 				<table id="table" class="table table-bordered table-condensed mt5">
@@ -333,18 +319,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
 							
-							<td><input  0px;" type="text" name="list[${vs.index }].deliverDate" onblur="checks(this)" value="${obj.deliverDate }"></td>
+							<td><input type="text" name="list[${vs.index }].deliverDate" onblur="checks(this)" value="${obj.deliverDate }"></td>
 							<td>
-							
-						<%-- 	<input  type="text" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }"> --%>
-							
 							 <select name="list[${vs.index }].purchaseType" onchange="sel(this)" style="width:100px" id="select">
               				    <option value="" >请选择</option>
-	                           <%--  <option value="gkzb" <c:if test="${'gkzb'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
-	                            <option value="yqzb" <c:if test="${'yqzb'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-	                            <option value="jzxtp" <c:if test="${'jzxtp'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-	                            <option value="xjcg" <c:if test="${'xjcg'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="dyly" <c:if test="${'dyly'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option> --%>
 	                            <c:forEach items="${dicType }" var="mt">
 								  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 								</c:forEach>
@@ -438,15 +416,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr> --%>
 				
 				</table>
-				<div style="float: left">
-				<u:upload id="cgjh" businessId="${id }" sysKey="2" typeId="${aid }"/>
-				<u:show showId="cgjh"   businessId="${id }" sysKey="2" typeId="${aid }"/>
-				</div>
-				<!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
-				<div  style="float: left">  
-				<input class="btn btn-windows save"  type="button" value="提交" onclick="sub()">
-				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-				</div>
 				
 			</form>
 		</div>

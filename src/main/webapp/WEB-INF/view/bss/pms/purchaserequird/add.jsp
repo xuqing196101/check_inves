@@ -374,23 +374,20 @@
 	<div class="padding-top-10 clear">
     <h2 class="count_flow"><i>2</i>计划明细</h2>
         <ul class="ul_list">
-	<div class="col-md-12 pl20 mt10">
-	<button style="margin-top: 20px;"  class="btn btn-windows add" onclick="aadd()">添加子级</button>
-	<button style="margin-top: 20px;" class="btn btn-windows add" onclick="same()">添加同级</button>
-	<button  style="margin-top: 20px;" class="btn btn-windows output" onclick="down()">下载Excel模板</button>
-	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
-	<button  style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
+	<div class="col-md-12 p115 mt10">
+	<button  class="btn btn-windows add" onclick="aadd()">添加子级</button>
+	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
+	<button class="btn btn-windows output" onclick="down()">下载Excel模板</button>
+	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
+	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 	</div>			
 <!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
 
 
-	<div style="overflow: scroll;" class="content table_box" id="add_div" >
+	<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" id="add_div" >
 
 		<form id="add_form"  action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-		<!-- 	<input type="hidden" name="planName" id="fjhmc">
-			<input type="hidden" name="planNo" id="fjhbh">
-			<input type="hidden" name="planType" value="" id="ptype"> -->
-			<table class="table table-bordered table-condensed table-hover" style="white-space: nowrap;overflow: hidden;word-spacing:keep-all;" >
+			<table class="table table-bordered table-condensed " >
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
@@ -454,11 +451,12 @@
 			<!--  <input class="btn btn-windows reset" value="取消"
 				type="button" onclick="hide()"> -->
 		</form>
-					<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> 
-					<button  class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
-		
+					
 	</div>
+        
     </ul>
+    <input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> 
+                    <button  class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
     </div>
 
 	<div id="content" class="dnone">

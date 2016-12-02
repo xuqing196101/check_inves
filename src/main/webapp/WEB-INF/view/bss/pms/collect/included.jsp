@@ -2,30 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
-
  <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
 <script type="text/javascript">
- 
-    
- 
- 
 </script>
 </head>
 
@@ -44,11 +25,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
  
 	<div class="container">
-	 
-		<div class="container clear margin-top-30">
-
-		 
-				<table class="table table-bordered table-condensed mt5">
+	 <div class="col-md-12 pl20 mt10">
+	 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	 </div>
+		<div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
 							<th class="info w50">序号</th>
@@ -83,7 +64,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
-							<td>${obj.purchaseType }</td>
+							<td>
+							  <c:forEach items="${kind}" var="kind" >
+			                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                  </c:forEach>
+							</td>
 							<td class="tc">${obj.supplier }</td>
 							<td class="tc">${obj.isFreeTax }</td>
 							<td class="tc">${obj.goodsUse }</td>
@@ -95,8 +80,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					</c:forEach>  
 					</table>
- 
-		 <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		</div>
 	</div>
 

@@ -283,29 +283,43 @@
 		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
 
- <div id="content" class="dnone">
+ <div id="content" class="dnone layui-layer-wrap">
 	 
-	<form id="collect_form" action="" style="margin-top: 20px;">
-	
-	  <div style="text-align: center;"><span>姓名:</span><input  type="text" name="name" value=""></div>
-	   <div  style="text-align: center;margin-top: 20px;"><span>电话:</span><input  type="text" name="mobile" value=""></div>
-	  	<div  style="text-align: center;margin-top: 20px;"><span>身份证号:</span><input  type="text" name="idNumber" value=""></div>
-		<!--  文件名称：<input type="text" name="fileName" value=""><br>
-		 密码:<input type="password" name="password" value=""><br> -->
-		 <input type="hidden" name="type" id="type" value="3">
-		 
-		 <input type="hidden" name="id" value="123123123">
-<!-- 	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="qd()" >确认添加</button>
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancel()" >取消</button>
- -->	   
-	   <input class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" type="button"  onclick="qd()" value="确认添加">
-	  <input class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;" type="button"  onclick="cancel()" value="取消">
-	
+	<form id="collect_form" action="">
+	   <input type="hidden" name="type" id="type" value="3">
+         <input type="hidden" name="id" value="123123123">
+	<div class="drop_window">
+	   <ul class="list-unstyled">
+	           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">姓名</label>
+                    <span class="col-md-12 col-xs-12">
+                       <input id="citySel" class="title col-md-12" name="name" type="text"/>
+                    </span>
+                 </li>
+                 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">电话</label>
+                    <span class="col-md-12 col-xs-12">
+                       <input id="citySel" class="title col-md-12" name="mobile" type="text"/>
+                    </span>
+                 </li>
+	           <li class="mt10 col-md-12 p0 col-xs-12">
+                   <label class="col-md-12 pl20 col-xs-12">身份证号</label>
+                     <span class="col-md-12 col-xs-12">
+                        <input class="col-xs-12 h80 mt6" name="idNumber"  type="text">
+                    </span>
+            </li>
+		 <div class="clear"></div>
+	</ul>
+	<div class="tc mt10 col-md-12 col-xs-12">
+                <button class="btn btn-windows save" id="save" type="button" onclick="qd()">添加</button>
+                <button class="btn btn-windows cancel"  onclick="cancel()" type="button">取消</button>
+          </div>
+	</div>
 	 </form>   
  </div>
 </div>
 </div>
-	<form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" style="display: none;">
+	<form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" >
 		 <input type="hidden" name="val1" value="" id="val1" >
 	 	<input type="hidden" name="val2" value="" id="val2" >
 	 	<input type="hidden" name="fname" value="" id="fname" >

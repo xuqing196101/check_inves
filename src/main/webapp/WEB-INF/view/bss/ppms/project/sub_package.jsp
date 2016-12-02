@@ -6,12 +6,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>项目分包</title>  
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
   	<script type="text/javascript">
   		$(function(){
   			var sure = document.getElementsByName("sure");
@@ -207,11 +201,12 @@
     	<!-- 按钮开始-->
    		<div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" type="button" onclick="addPack()">添加分包</button>
+		    <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 		    <span class="fr mt10">项目编号：${project.projectNumber}</span>
     	</div>
 	 
 	  <div class="content table_box" id="package">
-	  	<table class="table table-bordered table-condensed table-hover">
+	  	<table class="table table-bordered table-condensed table-hover table-striped">
         	<thead>
         		<tr class="info">
         			<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -254,7 +249,9 @@
 		            <td>${obj.price}</td>
 		            <td>${obj.budget}</td>
 		            <td>${obj.deliverDate}</td>
-		            <td>${obj.purchaseType}</td>
+		            <td><c:forEach items="${kind}" var="kind" >
+                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                  </c:forEach></td>
 		            <td>${obj.supplier}</td>
 		            <c:if test="${project.isImport==1 }">
 			            <td>${obj.isFreeTax}</td>
@@ -325,11 +322,7 @@
          </c:forEach> 
       </table>
 	   </c:forEach>
-        
+        </div>
    </div>
-   	<!-- 按钮 -->
-  	<div class="col-md-12 mt10 tc">
-	    <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-	</div>	
   </body>
 </html>

@@ -5,16 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>采购需求管理</title>  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	
 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
  
@@ -134,14 +124,14 @@
       <h2>采购计划列表
 	  </h2>
    </div> 
-    <span class="fr option_btn margin-top-10">
+    <div class="col-md-12 pl20 mt10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="looks()">查看需求</button>
  		<!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
  	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button> -->
-	  </span>
+	  </div>
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>

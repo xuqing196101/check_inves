@@ -136,11 +136,18 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<div class="container clear margin-top-30">
+		<form action="${pageContext.request.contextPath}/look/audit.html" method="post">
+		<div class="col-md-12 pl20 mt10">
 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面pdf</a>
-		
-			<form action="${pageContext.request.contextPath}/look/audit.html" method="post">
+		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
+		<div style="float: left">
+                <u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
+                <u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
+                </div>
+		<input class="btn btn-windows save" type="submit" value="提交">
+                <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		</div>
+			 <div class="content table_box">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -283,21 +290,10 @@
 						</tr>
 
 					</c:forEach>
-					
-				<%-- 	<tr>
-					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${fn:length(list)}"> <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加"></td>
-				</tr> --%>
-				
 				</table>
-				<div style="float: left">
-				<u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
-				<u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
 				</div>
-				<input class="btn btn-windows save" type="submit" value="提交">
-				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>
-	</div>
 
 </body>
 </html>

@@ -659,6 +659,7 @@ public class ProjectController extends BaseController {
             }
         }
         model.addAttribute("packageList", packages);
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
         return "bss/ppms/project/sub_package";
