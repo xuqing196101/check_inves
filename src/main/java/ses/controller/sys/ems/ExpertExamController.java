@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1135,14 +1136,14 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] queAnswer = request.getParameter("queAnswer").split(",");
 		String[] queId = request.getParameter("queId").split(",");
 		String[] queType = request.getParameter("queType").split(",");
-		Integer score = 0;
+		BigDecimal score = new BigDecimal(0);
 		List<ExamRule> examRule = examRuleService.selectInUseRule();
 		String typeDistribution = examRule.get(0).getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleP = (String) obj.get("singlePoint");
-		Integer singlePoint = Integer.parseInt(singleP);
+		BigDecimal singlePoint = new BigDecimal(singleP);
 		String multipleP = (String) obj.get("multiplePoint");
-		Integer multiplePoint = Integer.parseInt(multipleP);
+		BigDecimal multiplePoint = new BigDecimal(multipleP);
 		for(int i=0;i<queAnswer.length;i++){
 			StringBuffer sb = new StringBuffer();
 			if(request.getParameterValues("que"+(i+1))==null){
@@ -1156,9 +1157,9 @@ public class ExpertExamController extends BaseSupplierController{
 				insertAnswer(sb.toString(), queId[i], user.getId());
 				if(queAnswer[i].equals(sb.toString())){
 					if(queType[i].equals("单选题")){
-						score = score + singlePoint;
+						score = score.add(singlePoint);
 					}else if(queType[i].equals("多选题")){
-						score = score + multiplePoint;
+						score = score.add(multiplePoint);
 					}
 				}
 			}
@@ -1170,7 +1171,7 @@ public class ExpertExamController extends BaseSupplierController{
 			Expert expertObject = new Expert();
 			expertObject.setId(expert.getId());
 			expertObject.setIsDo("1");
-			if(score>=Integer.parseInt(passStandard)){
+			if(score.compareTo(new BigDecimal(passStandard))>=0){
 				examUserScore.setStatus("及格");
 				expertObject.setIsPass((short)1);
 			}else{
@@ -1193,10 +1194,10 @@ public class ExpertExamController extends BaseSupplierController{
 			examUserScore.setScore(String.valueOf(score));
 			examUserScoreService.insertSelective(examUserScore);
 		}else{
-			int maxS = Integer.parseInt(maxScore.get(0).getScore());
-			if(maxS>score){
+			BigDecimal maxS = new BigDecimal(maxScore.get(0).getScore());
+			if(maxS.compareTo(score)>0){
 				ExamUserScore examUserScore = new ExamUserScore();
-				if(score>=Integer.parseInt(passStandard)){
+				if(score.compareTo(new BigDecimal(passStandard))>=0){
 					examUserScore.setStatus("及格");
 				}else{
 					examUserScore.setStatus("不及格");
@@ -1223,7 +1224,7 @@ public class ExpertExamController extends BaseSupplierController{
 				ExamUserScore examUserScore = new ExamUserScore();
 				Expert expertObject = new Expert();
 				expertObject.setId(expert.getId());
-				if(score>=Integer.parseInt(passStandard)){
+				if(score.compareTo(new BigDecimal(passStandard))>=0){
 					examUserScore.setStatus("及格");
 					expertObject.setIsPass((short)1);
 				}else{
@@ -1347,9 +1348,9 @@ public class ExpertExamController extends BaseSupplierController{
 		String multipleN = (String) obj.get("multipleNum");
 		Integer multipleNum = Integer.parseInt(multipleN);
 		String singleP =  (String) obj.get("singlePoint");
-		Integer singlePoint = Integer.parseInt(singleP);
+		BigDecimal singlePoint = new BigDecimal(singleP);
 		String multipleP = (String) obj.get("multiplePoint");
-		Integer multiplePoint = Integer.parseInt(multipleP);
+		BigDecimal multiplePoint = new BigDecimal(multipleP);
 		HashMap<String,Object> single = new HashMap<String,Object>();
 		HashMap<String,Object> multiple = new HashMap<String,Object>();
 		List<ExamQuestion> singleQuestion = new ArrayList<ExamQuestion>();
@@ -1508,9 +1509,9 @@ public class ExpertExamController extends BaseSupplierController{
 			String multipleN = (String) obj.get("multipleNum");
 			Integer multipleNum = Integer.parseInt(multipleN);
 			String singleP =  (String) obj.get("singlePoint");
-			Integer singlePoint = Integer.parseInt(singleP);
+			BigDecimal singlePoint = new BigDecimal(singleP);
 			String multipleP = (String) obj.get("multiplePoint");
-			Integer multiplePoint = Integer.parseInt(multipleP);
+			BigDecimal multiplePoint = new BigDecimal(multipleP);
 			if(singleNum!=0&&multipleNum!=0){
 				list.get(i).setDiscribution("单选题"+singleNum+"题，每题"+singlePoint+"分；多选题"+multipleNum+"题，每题"+multiplePoint+"分。");
 			}else if(singleNum!=0&&multipleNum==0){
@@ -1586,7 +1587,7 @@ public class ExpertExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(singleNum)){
 						error = "error";
 						model.addAttribute("ERR_single", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(singlePoint)){
 						error = "error";
 						model.addAttribute("ERR_single", "分值必须为大于0的正数");
 					}else{
@@ -1631,7 +1632,7 @@ public class ExpertExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(multiplePoint)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
@@ -1667,10 +1668,10 @@ public class ExpertExamController extends BaseSupplierController{
 			error = "error";
 			model.addAttribute("ERR_passStandard", "及格标准不能为空");
 		}else{
-			if(!ValidateUtils.PositiveNumber(passStandard)){
+			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
-			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+			}else if(new BigDecimal(paperScore).compareTo(new BigDecimal(passStandard))<=0){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
@@ -1774,7 +1775,7 @@ public class ExpertExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(singleNum)){
 						error = "error";
 						model.addAttribute("ERR_single", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(singlePoint)){
 						error = "error";
 						model.addAttribute("ERR_single", "分值必须为大于0的正数");
 					}else{
@@ -1819,7 +1820,7 @@ public class ExpertExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(multiplePoint)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
@@ -1855,10 +1856,10 @@ public class ExpertExamController extends BaseSupplierController{
 			error = "error";
 			model.addAttribute("ERR_passStandard", "及格标准不能为空");
 		}else{
-			if(!ValidateUtils.PositiveNumber(passStandard)){
+			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
-			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+			}else if(new BigDecimal(paperScore).compareTo(new BigDecimal(passStandard))<=0){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}

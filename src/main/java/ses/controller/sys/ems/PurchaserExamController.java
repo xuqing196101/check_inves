@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -653,11 +654,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeN = (String) obj.get("judgeNum");
 		Integer judgeNum = Integer.parseInt(judgeN);
 		String singleP =  (String) obj.get("singlePoint");
-		Integer singlePoint = Integer.parseInt(singleP);
+		BigDecimal singlePoint = new BigDecimal(singleP);
 		String multipleP = (String) obj.get("multiplePoint");
-		Integer multiplePoint = Integer.parseInt(multipleP);
+		BigDecimal multiplePoint = new BigDecimal(multipleP);
 		String judgeP = (String) obj.get("judgePoint");
-		Integer judgePoint = Integer.parseInt(judgeP);
+		BigDecimal judgePoint = new BigDecimal(judgeP);
 		HashMap<String,Object> smap = new HashMap<String,Object>();
 		smap.put("questionTypeId", 1);
 		smap.put("queNum", singleNum);
@@ -869,7 +870,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			error = "error";
 			model.addAttribute("ERR_passStandard","及格标准不能为空");
 		}else{
-			if(!ValidateUtils.PositiveNumber(passStandard)){
+			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
 			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
@@ -917,7 +918,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(singleNum)){
 						error = "error";
 						model.addAttribute("ERR_single", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(singlePoint)){
 						error = "error";
 						model.addAttribute("ERR_single", "分值必须为大于0的正数");
 					}else{
@@ -953,7 +954,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(multiplePoint)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
@@ -989,7 +990,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(judgeNum)){
 						error = "error";
 						model.addAttribute("ERR_judge", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(judgePoint)){
 						error = "error";
 						model.addAttribute("ERR_judge", "分值必须为大于0的正数");
 					}else{
@@ -1223,7 +1224,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			error = "error";
 			model.addAttribute("ERR_passStandard","及格标准不能为空");
 		}else{
-			if(!ValidateUtils.PositiveNumber(passStandard)){
+			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
 			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
@@ -1271,7 +1272,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(singleNum)){
 						error = "error";
 						model.addAttribute("ERR_single", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(singlePoint)){
 						error = "error";
 						model.addAttribute("ERR_single", "分值必须为大于0的正数");
 					}else{
@@ -1307,7 +1308,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(multipleNum)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(multiplePoint)){
 						error = "error";
 						model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
 					}else{
@@ -1343,7 +1344,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					if(!ValidateUtils.Z_index(judgeNum)){
 						error = "error";
 						model.addAttribute("ERR_judge", "题目数量必须为正整数");
-					}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+					}else if(!ValidateUtils.PLUS_NUMBER(judgePoint)){
 						error = "error";
 						model.addAttribute("ERR_judge", "分值必须为大于0的正数");
 					}else{
@@ -1474,16 +1475,16 @@ public class PurchaserExamController extends BaseSupplierController{
 		String[] purQueId = request.getParameter("purQueId").split(",");
 		String paperId = request.getParameter("paperId");
 		ExamPaper paper = examPaperService.selectByPrimaryKey(paperId);
-		Integer pass = Integer.parseInt(paper.getPassStandard());
 		String typeDistribution = paper.getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleP = (String) obj.get("singlePoint");
-		Integer singlePoint = Integer.parseInt(singleP);
+		BigDecimal singlePoint = new BigDecimal(singleP);
 		String multipleP = (String) obj.get("multiplePoint");
-		Integer multiplePoint = Integer.parseInt(multipleP);
+		BigDecimal multiplePoint = new BigDecimal(multipleP);
 		String judgeP = (String) obj.get("judgePoint");
-		Integer judgePoint = Integer.parseInt(judgeP);
-		Integer score = 0;
+		BigDecimal judgePoint = new BigDecimal(judgeP);
+		BigDecimal score = new BigDecimal(0);
+		String passStandard = paper.getPassStandard();
 		for(int i=0;i<purQueAnswer.length;i++){
 			StringBuffer sb = new StringBuffer();
 			if(request.getParameterValues("que"+(i+1))==null){
@@ -1509,11 +1510,11 @@ public class PurchaserExamController extends BaseSupplierController{
 				examUserAnswerService.insertSelective(examUserAnswer);
 				if(purQueAnswer[i].equals(sb.toString())){
 					if(purQueType[i].equals("单选题")){
-						score = score + singlePoint;
+						score = score.add(singlePoint); 
 					}else if(purQueType[i].equals("多选题")){
-						score = score + multiplePoint;
+						score = score.add(multiplePoint);
 					}else if(purQueType[i].equals("判断题")){
-						score = score + judgePoint;
+						score = score.add(judgePoint);
 					}
 				}
 			}
@@ -1526,7 +1527,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		examUserScore.setUserType(2);
 		examUserScore.setScore(String.valueOf(score));
 		examUserScore.setPaperId(paperId);
-		if(score<pass){
+		if(score.compareTo(new BigDecimal(passStandard))<0){
 			examUserScore.setStatus("不及格");
 		}else{
 			examUserScore.setStatus("及格");
