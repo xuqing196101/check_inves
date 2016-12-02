@@ -200,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							    },
 							    series : [
 							        {
-							            name: '访问来源',
+							            name: '采购方式',
 							            type: 'pie',
 							            radius : '55%',
 							            center: ['50%', '60%'],
@@ -239,7 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					success : function(data) {
 						option = {
 							    title: {
-							        text: '折线图堆叠'
+							        text: '按月统计'
 							    },
 							    tooltip: {
 							        trigger: 'axis'
@@ -270,7 +270,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							};
 					 	 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 							myChart.setOption(option);
-							myChart.hideLoading();   
+							myChart.hideLoading();
+							$("#funsionCharts_div_id").show();
+							$("#container").hide();
 					},
 					 
 				});
@@ -513,7 +515,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%-- 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
  --%>			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
-			  <c:if test="${obj.planType=='1'}">
+	<%-- 		  <c:if test="${obj.planType=='1'}">
 					  货物
 			  </c:if>
 			  <c:if test="${obj.planType=='2'}">
@@ -521,11 +523,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </c:if>
 			  <c:if test="${obj.planType=='3'}">
 					服务
-			  </c:if>
+			  </c:if> --%>
+			  <c:forEach items="${goods }"  var="gd" >
+					  <c:if test="${gd.id==obj.planType }">
+						  ${gd.name }
+					  </c:if>
+				  </c:forEach>
+				  
 			  </td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy" /></td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.purchaseType }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">
+				  <c:forEach items="${kind }"  var="kind" >
+					  <c:if test="${kind.id==obj.purchaseType }">
+						  ${kind.name }
+					  </c:if>
+				  </c:forEach>
+			  </td>
 			  <td class="tc" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
 		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
@@ -541,7 +555,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
- 	<div id="funsionCharts_div_id" style="width:100%;height:100%;display: none;margin: 0 auto;"></div>
+ 	<div id="funsionCharts_div_id" style="width:800px;height:400px;display: none;margin: 0 auto;"></div>
  
    <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
    

@@ -66,10 +66,15 @@
     	var content = "您确认删除节点" + treeNode.name + "吗?";
     	var packageId = $("#packageId").val();
     	layer.confirm(content, {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				$.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,method:"delnode",packageId:packageId}); 
+				$.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,method:"delnode",packageId:packageId},
+				function(){
+					window.location.reload();
+				}
+				); 
        		   // $("#addBtn_" + treeNode.tId).unbind().remove();  
 				layer.close(index); 
 		});
+		
     }  
     function beforeRename(treeId, treeNode, newName) {  
     	var packageId = $("#packageId").val();

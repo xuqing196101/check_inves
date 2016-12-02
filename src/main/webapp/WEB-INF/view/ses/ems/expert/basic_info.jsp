@@ -499,6 +499,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	
 	function tab4(){
+		tab3();
 		if (!validateForm1()){
 			return;
 		} 
@@ -541,6 +542,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#reg_box_id_8").hide();
 	}
 	function tab5(){
+		tab3();
 		if (!validateForm1()){
 			return;
 		} 
