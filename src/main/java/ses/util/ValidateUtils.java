@@ -132,6 +132,9 @@ public class ValidateUtils {
     
     /**只能输入数字和英文*/
     private static final String V_NUMVER_CODE = "^[0-9a-zA_Z]+$";
+    
+    /**只能输入大于0的正数*/
+    private static final String V_PLUS_NUMBER = "^[0-9].*$";
       
     private ValidateUtils(){}  
     
@@ -288,8 +291,20 @@ public class ValidateUtils {
     public static boolean Color(String value){  
         return match(V_COLOR,value);  
     }  
-  
-  
+    
+    /**
+     * 
+    * @Title: PLUS_NUMBER
+    * @author ZhaoBo
+    * @date 2016-12-1 下午7:56:01  
+    * @Description: 验证是否为大于0的正数 
+    * @param @param value
+    * @param @return      
+    * @return boolean
+     */
+    public static boolean PLUS_NUMBER(String value){  
+        return match(V_PLUS_NUMBER,value);  
+    }
   
     /** 
      * 验证是不是日期 
