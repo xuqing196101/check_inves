@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.Packages;
+import bss.model.ppms.SupplierCheckPass;
 
 /**
  * @Title:PackageMapper
@@ -120,4 +121,13 @@ public interface PackageMapper {
      * @return
      */
     List<Packages> listResultSupplier(String projectId);
+
+    /**
+     * 
+     *〈简述〉根据包返回抽取中标供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<SupplierCheckPass> listSupplierCheckPass(String projectId);
 }

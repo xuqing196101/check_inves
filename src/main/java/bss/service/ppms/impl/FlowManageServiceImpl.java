@@ -1,14 +1,18 @@
 package bss.service.ppms.impl;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.model.bms.User;
 import ses.util.PropUtil;
-
+import ses.util.WfUtil;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
 import bss.model.ppms.FlowDefine;
@@ -24,7 +28,7 @@ import bss.service.ppms.FlowMangeService;
  * @since
  * @see
  */
-@Service("flowManage")
+@Service
 public class FlowManageServiceImpl implements FlowMangeService {
 	
     @Autowired
@@ -32,6 +36,7 @@ public class FlowManageServiceImpl implements FlowMangeService {
     
     @Autowired
     private FlowExecuteMapper flowExecuteMapper;
+    
 
     @Override
     public List<FlowDefine> find(FlowDefine fd) {
@@ -78,6 +83,55 @@ public class FlowManageServiceImpl implements FlowMangeService {
     @Override
     public FlowExecute getFlowExecute(String id) {
         return flowExecuteMapper.get(id);
+    }
+    
+    /**
+     *〈简述〉添加一条流程执行记录
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param flowDefineId 流程环节定义
+     * @param projectId 项目id
+     * @param status 执行状态
+     */
+    public void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status){
+        FlowExecute temp = new FlowExecute();
+        temp.setFlowDefineId(flowDefineId);
+        temp.setProjectId(projectId);
+        List<FlowExecute> flowExecutes = findFlowExecute(temp);
+        //如果该项目该环节流程已经执行过
+        if (flowExecutes != null && flowExecutes.size() > 0) {
+            //执行记录设置为假删除状态
+            FlowExecute oldFlowExecute = flowExecutes.get(0); 
+            oldFlowExecute.setIsDeleted(1);
+            oldFlowExecute.setUpdatedAt(new Date());
+            updateExecute(oldFlowExecute);
+            //新增一条相同环节记录
+            oldFlowExecute.setCreatedAt(new Date());
+            oldFlowExecute.setStatus(status);
+            oldFlowExecute.setId(WfUtil.createUUID());
+            oldFlowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            oldFlowExecute.setOperatorId(currUser.getId());
+            oldFlowExecute.setOperatorName(currUser.getRelName());
+            oldFlowExecute.setStatus(status);
+            saveExecute(oldFlowExecute);
+        } else {
+            //如果该项目该环节流程没有执行过
+            FlowDefine flowDefine = getFlowDefine(flowDefineId);
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setCreatedAt(new Date());
+            flowExecute.setFlowDefineId(flowDefineId);
+            flowExecute.setIsDeleted(0);
+            User currUser = (User) request.getSession().getAttribute("loginUser");
+            flowExecute.setOperatorId(currUser.getId());
+            flowExecute.setOperatorName(currUser.getRelName());
+            flowExecute.setProjectId(projectId);
+            flowExecute.setStatus(status);
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setStep(flowDefine.getStep());
+            saveExecute(flowExecute);
+        }
     }
 	
 }

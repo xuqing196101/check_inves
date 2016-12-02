@@ -105,7 +105,13 @@
     }
     
     function record(){
-    	   location.href = '${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do';
+    	var typeclassId = "${typeclassId}";
+    	if(typeclassId!=null && typeclassId !=''){
+    		 location.href = '${pageContext.request.contextPath}/ExpExtract/resuleRecordlist.do';
+    	}else{
+    		 location.href = '${pageContext.request.contextPath}/ExpExtract/record.do?projectId=${projectId}';
+    	}
+    	
     }
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");

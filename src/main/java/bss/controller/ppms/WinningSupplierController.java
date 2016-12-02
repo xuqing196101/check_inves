@@ -3,8 +3,6 @@
  */
 package bss.controller.ppms;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.sms.Supplier;
 import ses.service.sms.SupplierQuoteService;
 
 import com.alibaba.fastjson.JSON;
@@ -63,7 +60,8 @@ public class WinningSupplierController extends BaseController {
      */
     @RequestMapping("/selectSupplier")
     public String selectWinningSupplier(Model model, String projectId, String flowDefineId){
-        List<Packages> listPackage = checkPassService.listPackage(projectId);
+        List<SupplierCheckPass> listSupplierCheckPass = packageService.listSupplierCheckPass(projectId);
+        model.addAttribute("listSupplierCheckPass", listSupplierCheckPass);
 //        //项目分包信息
 //        HashMap<String,Object> pack = new HashMap<String,Object>();
 //        pack.put("projectId", projectId);
@@ -83,7 +81,7 @@ public class WinningSupplierController extends BaseController {
 //            pg.getSupplierList();
 //        }
 //        JSON.parseObject(text, clazz);
-        model.addAttribute("packages", listPackage);
+//        model.addAttribute("packages", listPackage);
         model.addAttribute("projectId", projectId);
         return "bss/ppms/winning_supplier/list";
     }

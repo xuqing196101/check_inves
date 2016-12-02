@@ -313,11 +313,11 @@ public class OpenBiddingController {
                 if (art != null ){
                     articelService.update(article);
                     //该环节设置为执行中状态
-                    flowExe(request, flowDefineId, article.getProjectId(), 2);
+                    flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
                 } else {
                     articelService.addArticle(article);
                     //该环节设置为执行中状态
-                    flowExe(request, flowDefineId, article.getProjectId(), 2);
+                    flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
                 }
                 jsonData.setSuccess(true);
                 jsonData.setMessage("保存成功");
@@ -425,7 +425,7 @@ public class OpenBiddingController {
             article.setStatus(2);
             articelService.update(article);
             //该环节设置为已执行状态
-            flowExe(request, flowDefineId, article.getProjectId(), 1);
+            flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 1);
             String msg = "发布成功";
             String projectId = article.getProjectId();
             response.setContentType("text/html;charset=utf-8");
@@ -459,11 +459,11 @@ public class OpenBiddingController {
             uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
             //该环节设置为执行中状态
-            flowExe(req, flowDefineId, projectId, 2);
+            flowMangeService.flowExe(req, flowDefineId, projectId, 2);
         } else {
             result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
             //该环节设置为执行中状态
-            flowExe(req, flowDefineId, projectId, 2);
+            flowMangeService.flowExe(req, flowDefineId, projectId, 2);
         }
         System.out.println(result);
     }
@@ -555,7 +555,7 @@ public class OpenBiddingController {
             project.setConfirmFile(1);
             projectService.update(project);
             //该环节设置为执行完状态
-            flowExe(request, flowDefineId, projectId, 1);
+            flowMangeService.flowExe(request, flowDefineId, projectId, 1);
             String msg = "确认成功";
             response.setContentType("text/html;charset=utf-8");
             response.getWriter()
@@ -750,52 +750,5 @@ public class OpenBiddingController {
     }
     
     
-    /**
-     *〈简述〉添加一条流程执行记录
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param request
-     * @param flowDefineId 流程环节定义
-     * @param projectId 项目id
-     * @param status 执行状态
-     */
-    public void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status){
-        FlowExecute temp = new FlowExecute();
-        temp.setFlowDefineId(flowDefineId);
-        temp.setProjectId(projectId);
-        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(temp);
-        //如果该项目该环节流程已经执行过
-        if (flowExecutes != null && flowExecutes.size() > 0) {
-            //执行记录设置为假删除状态
-            FlowExecute oldFlowExecute = flowExecutes.get(0); 
-            oldFlowExecute.setIsDeleted(1);
-            oldFlowExecute.setUpdatedAt(new Date());
-            flowMangeService.updateExecute(oldFlowExecute);
-            //新增一条相同环节记录
-            oldFlowExecute.setCreatedAt(new Date());
-            oldFlowExecute.setStatus(status);
-            oldFlowExecute.setId(WfUtil.createUUID());
-            oldFlowExecute.setIsDeleted(0);
-            User currUser = (User) request.getSession().getAttribute("loginUser");
-            oldFlowExecute.setOperatorId(currUser.getId());
-            oldFlowExecute.setOperatorName(currUser.getRelName());
-            oldFlowExecute.setStatus(status);
-            flowMangeService.saveExecute(oldFlowExecute);
-        } else {
-            //如果该项目该环节流程没有执行过
-            FlowDefine flowDefine = flowMangeService.getFlowDefine(flowDefineId);
-            FlowExecute flowExecute = new FlowExecute();
-            flowExecute.setCreatedAt(new Date());
-            flowExecute.setFlowDefineId(flowDefineId);
-            flowExecute.setIsDeleted(0);
-            User currUser = (User) request.getSession().getAttribute("loginUser");
-            flowExecute.setOperatorId(currUser.getId());
-            flowExecute.setOperatorName(currUser.getRelName());
-            flowExecute.setProjectId(projectId);
-            flowExecute.setStatus(status);
-            flowExecute.setId(WfUtil.createUUID());
-            flowExecute.setStep(flowDefine.getStep());
-            flowMangeService.saveExecute(flowExecute);
-        }
-    }
+ 
 }

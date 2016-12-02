@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 
 import bss.dao.ppms.PackageMapper;
 import bss.model.ppms.Packages;
+import bss.model.ppms.SupplierCheckPass;
 import bss.service.ppms.PackageService;
 
 /**
@@ -83,6 +84,17 @@ public class PackageServiceImpl implements PackageService{
      */
     public List<Packages> listResultSupplier(String projectId){
        return  packageMapper.listResultSupplier(projectId);
+    }
+    
+    /**
+     * 
+     *〈简述〉根据包返回抽取中标供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    public List<SupplierCheckPass> listSupplierCheckPass(String projectId){
+        return packageMapper.listSupplierCheckPass(projectId);
     }
 }
 

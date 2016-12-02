@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,7 +37,6 @@ import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ExtConTypeArray;
 import ses.model.ems.ProExtSupervise;
-import ses.model.sms.SupplierExtPackage;
 import ses.service.bms.AreaServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExtConTypeService;
@@ -113,7 +110,16 @@ public class ExpExtConditionController {
             }else{
                 //插入信息
                 conditionService.insert(condition);
-               
+                //添加一条记录
+                ExpExtPackage extP = new  ExpExtPackage();
+                extP.setId(condition.getProjectId());
+                List<ExpExtPackage> listExtPackage = extPackageMapper.list(extP);
+                if (listExtPackage != null && listExtPackage.size() != 0){
+                    extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
+                    extPackageMapper.updateByPrimaryKeySelective(extP);
+                }
+                
+                
                 if (list != null && list.size() != 0){
                 
                 }else{
@@ -155,14 +161,7 @@ public class ExpExtConditionController {
                     conTypeService.insert(conType);	
                 }
             }
-            //添加一条记录
-            ExpExtPackage extP = new  ExpExtPackage();
-            extP.setId(condition.getProjectId());
-            List<ExpExtPackage> listExtPackage = extPackageMapper.list(extP);
-            if (listExtPackage != null && listExtPackage.size() != 0){
-                extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
-                extPackageMapper.updateByPrimaryKeySelective(extP);
-            }
+           
          
         }
         return JSON.toJSONString(map);
@@ -183,7 +182,6 @@ public class ExpExtConditionController {
                                  String[] sids, Model model,ExtConTypeArray extConTypeArray,Map<String, String> map) {
         model.addAttribute("ExpExtCondition", condition);
         Integer count = 0;
-
         if (condition.getAgeMax() == null || "".equals(condition.getAgeMax()) || condition.getAgeMin() == null || "".equals(condition.getAgeMax())){
             map.put("age", "不能为空");
             count = 1;
@@ -225,8 +223,8 @@ public class ExpExtConditionController {
             //获取监督人员
             List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
             model.addAttribute("listUser", listUser);
-            String userName="";
-            String userId="";
+            String userName = "";
+            String userId = "";
             if (listUser != null && listUser.size() != 0){
                 for (User user : listUser) {
                     if (user != null && user.getId() != null){

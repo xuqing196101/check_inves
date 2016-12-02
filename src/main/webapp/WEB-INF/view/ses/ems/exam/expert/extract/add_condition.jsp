@@ -68,13 +68,6 @@
              }
          });
 
-       
-    	
-    	
-    	
-       
-        
-         
     });
     
     //专家类型级联
@@ -129,31 +122,31 @@
 		                     "<option value='3'>商务</option>"+
 		               "</select>";
                html+="</td>"+
-                "<td class='tc'><input class='hide' name='extCount'  type='text' value='"+$('#eCount').val()+"'></td>"+
+                "<td class='tc'><input class='hide' name='extCount'  type='text' value='"+$('#eCount').val()+"'></td>";
                 
-                "<td class='tc'><select name='expertsFrom' id='expfrom' >";
+//                 "<td class='tc'><select name='expertsFrom' id='expfrom' >";
                 
                 
-                <c:forEach items="${find}" var="item" varStatus="status" >
+//                 <c:forEach items="${find}" var="item" varStatus="status" >
                
-                html+="<option value='${item.id}'>${item.name}</option>";
+//                 html+="<option value='${item.id}'>${item.name}</option>";
                 
-                </c:forEach> 
+//                 </c:forEach> 
                 
                 
-                html+="</td>";
+//                 html+="</td>";
                 
-                html+="<td class='tc'><input class='hide'  readonly='readonly'  title='"+$("#supplierType").val()+"' type='text' value='"+$("#supplierType").val()+"'></td>"+
+                html+="<td class='tc'><input class='hide'  readonly='readonly' onclick='showSupplierTypeC(this);'  title='"+$("#supplierType").val()+"' type='text' value='"+$("#supplierType").val()+"'></td>"+
               
                 "</tr>";
                
                
-               alert($("#supplierType").val());
+//                alert($("#supplierType").val());
                
                $("#tbody").append(html);
                
-               //专家来源
-               $("tr:last").find("#expfrom option[value='"+$("#expertsFromcopy option:selected ").val()+"']").attr("selected",true);
+//                //专家来源
+//                $("tr:last").find("#expfrom option[value='"+$("#expertsFromcopy option:selected ").val()+"']").attr("selected",true);
                //专家类型
                $("tr:last").find("#estype option[value='"+$("#etype option:selected").val()+"']").attr("selected",true);
                
@@ -163,7 +156,7 @@
                $("#expertsTypeName").val("");
                $("#dCount").text("");
                $("#eCount").val("");
-               $("#expertsFromcopy").text("");
+//                $("#expertsFromcopy").text("");
                $("#typeIds").text("");
                $("#agediv").text("");
         }
@@ -334,6 +327,7 @@
             		  window.location.href = '${pageContext.request.contextPath}/ExpExtract/Extraction.do?id=${projectId}&&typeclassId=${typeclassId}';
             	}
             }
+        
         });
 
 return true;
@@ -492,6 +486,99 @@ return true;
     </script>
 </head>
 <script type="text/javascript">
+		function showSupplierTypeC(inp) {
+		    var setting = {
+		    check: {
+		            enable: true,
+		            chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+		        },
+		        view: {
+		            dblClickExpand: false
+		        },
+		        data : {
+		        simpleData : {
+		            enable : true,
+		            idKey : "id",
+		            pIdKey : "parentId"
+		        }
+		    },
+		        callback: {
+		            beforeClick: beforeClickC,
+		            onCheck: onCheckC
+		        }
+		    };
+		    $.ajax({
+		     type: "GET",
+		     async: false, 
+		     url: "${pageContext.request.contextPath}/ExpExtract/findType.do",
+		     dataType: "json",
+		     success: function(zNodes){
+		             for (var i = 0; i < zNodes.length; i++) { 
+		                if (zNodes[i].isParent) {  
+		      
+		                } else {  
+		                    //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+		                }  
+		            }  
+		            tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);  
+		            tree.expandAll(true);//全部展开
+		       }
+		    });
+		    var cityObj = $(inp);
+		    var cityOffset = $(inp).offset();
+		    $("#supplierTypeContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		    $("body").bind("mousedown", onBodyDownSupplierType);
+		}
+		function beforeClickC(treeId, treeNode) {
+		    var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
+		    zTree.checkNode(treeNode, !treeNode.checked, null, true);
+		    return false;
+		    }
+		
+		var nodes="";
+		function onCheckC(e, treeId, treeNode) {
+		    var zTree = $.fn.zTree.getZTreeObj("treeSupplierType"),
+		    
+		    nodes = zTree.getCheckedNodes(true),
+		    v = "";
+		    var rid = "";
+		    for (var i=0, l=nodes.length; i<l; i++) {
+		        if(!nodes[i].isParent){
+		        v += nodes[i].name + ",";
+		        rid += nodes[i].id + "^";
+		        }
+		    }
+		    if (v.length > 0 ) v = v.substring(0, v.length-1);
+		    if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
+		    var cityObj = $(inp);
+		    cityObj.attr("value", '123');
+// 		    $("#suppliertypeids").val(rid); 
+		    
+		}
+
+		function hideRole() {
+		    $("#roleContent").fadeOut("fast");
+		    $("body").unbind("mousedown", onBodyDownOrg);
+		    
+		}
+		function hideSupplierType() {
+		    $("#supplierTypeContent").fadeOut("fast");
+		    $("body").unbind("mousedown", onBodyDownOrg);
+		    
+		}
+		function onBodyDownOrg(event) {
+		    if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
+		        hideRole();
+		    }
+		}
+		function onBodyDownSupplierType(event) {
+		    if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
+		        hideSupplierType();
+		    }
+}
+	
+	
+	
 	
 </script>
 <body>
@@ -566,6 +653,24 @@ return true;
                            <div class="  f12 red tip w150" id="agediv"></div>
                         </div>
                       </li>
+                       <li class="col-md-4 col-sm-6 col-xs-12">
+                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>专家来源：</span>
+                           <div class=" select_common input-append input_group col-sm-12 col-xs-12 p0">
+                             <select class="w250" name="expertsFrom" id="expertsFrom">
+                           <c:forEach items="${find}" var="item" varStatus="status" >
+                              <c:choose>
+                                <c:when test="${item.id == ExpExtCondition.expertsFrom}">
+                                   <option selected="selected" value="${item.id}">${item.name}</option>
+                                </c:when>
+                                <c:otherwise>
+                                  <option value="${item.id}">${item.name}</option>
+                                </c:otherwise>
+                              </c:choose>
+                            </c:forEach> 
+                       </select>
+                             <div class=" f12 red tip w200 fl" id=""></div>
+                           </div>
+                         </li>
                            <li class="col-md-4 col-sm-6 col-xs-12">
                            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>抽取数量：</span>
                            <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -574,23 +679,11 @@ return true;
                              <div class=" f12 red tip w150 fl" id="dCount" ></div>
                            </div>
                          </li>  
-                         <li class="col-md-4 col-sm-6 col-xs-12">
-                           <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>专家来源：</span>
-                           <div class=" select_common input-append input_group col-sm-12 col-xs-12 p0">
-                             <select class="w250" name="expertsFromcopy" id="expertsFrom">
-                           <c:forEach items="${find}" var="item" varStatus="status" >
-               
-                            <option value='${item.id}'>${item.name}</option>
-                
-                            </c:forEach> 
-                       </select>
-                             <div class=" f12 red tip w200 fl" id=""></div>
-                           </div>
-                         </li> 
+                         
                           <li class="col-md-4 col-sm-6 col-xs-12">
                            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>专家类型：</span>
                            <div class="select_common input-append input_group col-sm-12 col-xs-12 p0">
-                             <select class="" name="" id="etype" onchange="cascade(this);">
+                             <select class="w250" name="" id="etype" onchange="cascade(this);">
                                     <option selected="selected" value="1">技术</option>
                                     <option value="2">法律</option>
                                     <option value="3">商务</option>
@@ -624,7 +717,6 @@ return true;
 		                                onclick="selectAll()" alt=""></th> 
 		                            <th class="info">专家类型</th>
 		                            <th class="info">专家数量</th>
-		                            <th class="info">专家来源</th>
 		                            <th class="info">产品类别</th>
 		                        </tr>
 		                    </thead>
@@ -635,6 +727,8 @@ return true;
 		                                    value="${conTypes.id}">
 		                                <input class="hide" type="hidden" name="extCategoryId"
 		                                    value="${conTypes.categoryId }">
+		                                         <input class="hide" type="hidden" name="extCategoryName"
+                                            value="${conTypes.categoryName }">
 		                                <td class='tc w30'><input type="checkbox"
 		                                    value="${conTypes.categoryId},${conTypes.expertsTypeId},${conTypes.expertsCount},${conTypes.expertsQualification}"
 		                                    name="chkItem" onclick="check()"></td>
@@ -660,17 +754,7 @@ return true;
 		                                <td class="tc"><input class="hide" readonly="readonly"
 		                                    name="extCount" type="text" value="${conTypes.expertsCount }"></td>
 		                                <td class="tc">
-		                                    <select >
-		                                        <c:forEach items="${find}" var="item">
-			                                      <c:if test="${item.id == conTypes.expertsFrom}">
-			                                        <option selected="selected" value="${item.id}">${item.name}</option>
-			                                      </c:if>
-		                                            <option value="${item.id}">${item.name}</option>
-		                                        </c:forEach>
-		                                   </select>
-		                                </td>
-		                                <td class="tc">
-		                                    <input class='hide'  readonly='readonly'  title='${conTypes.categoryName}' type='text' value="${conTypes.categoryName}"/>
+		                                    <input class='hide'  readonly='readonly'  title='${conTypes.categoryName}' onclick="showSupplierTypeC(this);" type='text' value="${conTypes.categoryName}"/>
 		                                </td>
 		                            </tr>
 		                        </c:forEach>

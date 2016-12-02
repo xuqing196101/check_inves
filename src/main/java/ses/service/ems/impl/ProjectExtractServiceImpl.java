@@ -112,7 +112,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
      * @return void
      */
     @Override
-    public List<ProjectExtract> list(ProjectExtract projectExtract) {
+    public List<ProjectExtract> list(ProjectExtract projectExtract ) {
 
         return extractMapper.list(projectExtract);
 

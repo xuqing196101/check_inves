@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -57,6 +59,7 @@ import com.github.pagehelper.PageInfo;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 
@@ -105,7 +108,10 @@ public class ExpExtractRecordController extends BaseController {
     private DictionaryDataMapper dictionaryDataMapper; //
     @Autowired
     private SupplierTypeService supplierTypeService;// 供应商类型
-
+    @Autowired
+    private UserServiceI userService;
+    @Autowired
+    private FlowMangeService flowMangeService;//环节
 
 
     /**
@@ -223,7 +229,7 @@ public class ExpExtractRecordController extends BaseController {
             //条件集合
             List<ExpExtCondition> listCon = conditionService.list(new ExpExtCondition(id), page == null ? 1 : Integer.valueOf(page));
             model.addAttribute("list", new PageInfo<ExpExtCondition>(listCon));
-          
+
         } else {
             Map<String, Object> map = new HashMap<String, Object>();
             String[] str = {"YQZB", "DYLY", "JZXTP", "XJCG", "GKZB"};
@@ -352,7 +358,7 @@ public class ExpExtractRecordController extends BaseController {
                 List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(extractRecord,0);
                 extractRecord.setExtractionSites(extAddress);
                 extractRecord.setResponseTime(hour + "," + minute);
-                
+
                 if (listSe != null && listSe.size() != 0){
                     extractRecord.setId(listSe.get(0).getId());
                     expExtractRecordService.update(extractRecord);
@@ -637,6 +643,26 @@ public class ExpExtractRecordController extends BaseController {
         return "ses/ems/exam/expert/extract/show_info";
     }
 
+
+    /**
+     * @Description:抽取专家记录(流程)
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午7:29:36  
+     * @param @param model
+     * @param @param id
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping("/record")
+    public String Record(Model model,String projectId){
+        List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
+        model.addAttribute("listResultExpert", listResultExpert);
+        return "ses/ems/exam/expert/extract/show_record";
+    }
+
+
+
     /**
      * @Description:重置密码
      *
@@ -678,8 +704,13 @@ public class ExpExtractRecordController extends BaseController {
      * @param  id 专家id
      */
     @RequestMapping("/showTemporaryExpert")
-    public  String showTemporaryExpert(Model model,String projectId){
+    public  String showTemporaryExpert(Model model,String packageId,String projectId,String flowDefineId){
+        model.addAttribute("packageId", packageId);
         model.addAttribute("projectId", projectId);
+        model.addAttribute("expert", new Expert());
+        model.addAttribute("flowDefineId", flowDefineId);
+        //证件类型
+        model.addAttribute("idType", DictionaryDataUtil.find(9));
         return "bss/prms/temporary_expert_add";
     }
 
@@ -692,10 +723,50 @@ public class ExpExtractRecordController extends BaseController {
      * @param  id 专家id
      */
     @RequestMapping("/AddtemporaryExpert")
-    public  Object addTemporaryExpert(Model model, Expert expert, String projectId, String loginName, String loginPwd){
-        expExtractRecordService.addTemporaryExpert(expert, projectId, loginName, loginPwd);
-        return "redirect:/packageExpert/toPackageExpert.html?projectId=" + projectId;
+    public  Object addTemporaryExpert(@Valid Expert expert, BindingResult result, Model model, String projectId,String packageId, String loginName, String loginPwd,String flowDefineId,HttpServletRequest sq){
+        Integer type = 0;
+        //校验字段
+        if (result.hasErrors()){
+            type = 1;
+        }
+        if (loginName == null || "".equals(loginName)){
+            model.addAttribute("loginNameError", "不能为空");
+            type = 1;
+        }else{
+            //校验用户名是否存在
+            List<User> users = userService.findByLoginName(loginName);
+            if (users.size() > 0){
+                type = 1;
+                model.addAttribute("loginNameError", "用户名已存在");
+            }
+        }
+
+        if (loginPwd == null || "".equals(loginPwd)){
+            model.addAttribute("loginPwdError", "不能为空");
+            type = 1;
+        }
+
+
+
+        if (type == 1){
+            model.addAttribute("expert", expert);
+            model.addAttribute("loginName", loginName);
+            model.addAttribute("loginPwd", loginPwd);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("packageId", packageId);
+            //证件类型
+            model.addAttribute("idType", DictionaryDataUtil.find(9));
+            return "bss/prms/temporary_expert_add";
+        }
+
+
+        expExtractRecordService.addTemporaryExpert(expert, projectId,packageId, loginName, loginPwd);
+        //修改状态
+        flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
+        
+        return  "redirect:/packageExpert/assignedExpert.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId;
     }
+
 
 
     /**

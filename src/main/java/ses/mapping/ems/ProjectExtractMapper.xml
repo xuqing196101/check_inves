@@ -14,6 +14,7 @@
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
+		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional"/>
 		<!-- 专家 -->
 		<association column="EXPERT_ID" property="expert"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
@@ -23,7 +24,7 @@
 		ID, PROJECT_ID, EXPERT_CONDITION_ID, EXPERT_ID, CREATED_AT,
 		UPDATED_AT, OPERATING_TYPE,
 		REASON, IS_DELETED,
-		CON_TYPE_ID,STATUS_COUNT
+		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -45,7 +46,7 @@
 		EXPERT_ID, CREATED_AT, UPDATED_AT,
 		OPERATING_TYPE,
 		REASON, IS_DELETED,
-		CON_TYPE_ID,STATUS_COUNT)
+		CON_TYPE_ID,STATUS_COUNT,IS_PROVISIONAL)
 		values
 		(#{id,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
@@ -96,7 +97,10 @@
 			<if test="statusCount != null">
 				STATUS_COUNT,
 			</if>
-
+			<if test="isProvisional != null">
+                IS_PROVISIONAL,
+            </if>
+		
 
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -133,6 +137,9 @@
 			<if test="statusCount != null">
 				#{statusCount,jdbcType=DECIMAL}
 			</if>
+			<if test="isProvisional != null">
+                #{isProvisional,jdbcType=DECIMAL}
+            </if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProjectExtract">
@@ -170,6 +177,9 @@
 			<if test="statusCount != null">
 				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
 			</if>
+			<if test="isProvisional != null">
+                IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+            </if>
 
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -201,7 +211,10 @@
 		pe.*
 		FROM
 		T_SES_EMS_PROJECT_EXTRACT pe
-		Where STATUS_COUNT=0
+		Where STATUS_COUNT=0 
+		<if test="isProvisional == null ||  isProvisional =='' ">
+           AND IS_PROVISIONAL=0
+        </if>
 		<if test="id != null and id != ''">
 			AND pe.ID =#{id}
 		</if>
@@ -216,6 +229,7 @@
 			ORDER BY
 			EXPERT_CONDITION_ID
 		</if>
+		
 	</select>
 
 	<!-- 删除重复数据 -->
@@ -252,7 +266,7 @@
 		T_SES_EMS_PROJECT_EXTRACT WHERE
 		EXPERT_ID=#{expertId}
 		AND
-		PROJECT_ID=#{projectId}
+		PROJECT_ID=#{projectId} AND IS_PROVISIONAL=0
 	</select>
 	<!-- 批量插入 -->
 	<insert id="insertList" parameterType="java.util.List">

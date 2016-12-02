@@ -25,6 +25,8 @@ public class Packages {
     
     private List<Supplier> listSupplier;
     
+    private List<SupplierCheckPass> listCheckPasses;
+    
 	private String id;
 	
 	private String name;
@@ -233,6 +235,20 @@ public class Packages {
      */
     public void setListSupplier(List<Supplier> listSupplier) {
         this.listSupplier = listSupplier;
+    }
+
+    /**
+     * @return Returns the listCheckPasses.
+     */
+    public List<SupplierCheckPass> getListCheckPasses() {
+        return listCheckPasses;
+    }
+
+    /**
+     * @param listCheckPasses The listCheckPasses to set.
+     */
+    public void setListCheckPasses(List<SupplierCheckPass> listCheckPasses) {
+        this.listCheckPasses = listCheckPasses;
     }
 
 

@@ -6,22 +6,6 @@ package ses.controller.sys.bms;
 import java.util.List;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +13,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bss.dao.ppms.PackageMapper;
-import bss.model.ppms.Packages;
-import bss.service.ppms.PackageService;
 
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.sms.Supplier;
 import ses.service.bms.TodosService;
-import ses.service.sms.SupplierService;
 
 /**
  * @Description: 通知
@@ -56,8 +35,6 @@ public class ToDoController {
     @Autowired
     private TodosService todosService;
     
-    @Autowired
-    private PackageService packageService;  
  
     /**
      * 
@@ -68,8 +45,6 @@ public class ToDoController {
      */
     @RequestMapping("/todos")
     public String todos(HttpServletRequest req, String type, String id){
-        List<Packages> listResultSupplier = packageService.listResultSupplier("51B2054556F845D39187387FC39005AF");
-        System.out.println(listResultSupplier);
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null && user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
             //代办事项

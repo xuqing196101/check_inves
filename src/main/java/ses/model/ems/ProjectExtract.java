@@ -6,7 +6,7 @@ import java.util.List;
 import ses.model.bms.User;
 
 public class ProjectExtract {
-	
+
     /**
      * <pre>
      * 主键
@@ -76,7 +76,7 @@ public class ProjectExtract {
      * </pre>
      */
     private Short isDeleted;
-    
+
     /**
      * <pre>
      * 条件类型id
@@ -84,11 +84,19 @@ public class ProjectExtract {
      * </pre>
      */
     private String conTypeId;
-    
+
+    /**
+     * <pre>
+     * 条件类型id
+     * 表字段 : T_SES_EMS_PROJECT_EXTRACT.IS_PROVISIONAL
+     * </pre>
+     */
+    private Short isProvisional;
+
     private Integer statusCount;
-    
+
     private Expert expert;
-    
+
     private List<ExtConType> conType;
 
     /**
@@ -316,31 +324,31 @@ public class ProjectExtract {
         this.isDeleted = isDeleted;
     }
 
-//
+    //
 
-    
-	public ProjectExtract() {
-		super();
-	}
 
-	public ProjectExtract(String expertConditionId) {
-		super();
-		this.expertConditionId = expertConditionId;
-	}
+    public ProjectExtract() {
+        super();
+    }
 
-	public ProjectExtract(String id, Short operatingType,String reason) {
-		super();
-		this.id = id;
-		this.operatingType = operatingType;
-		this.reason=reason;
-	}
-	public ProjectExtract(String id, Short operatingType) {
-		super();
-		this.id = id;
-		this.operatingType = operatingType;
-	
-	}
-	   /**
+    public ProjectExtract(String expertConditionId) {
+        super();
+        this.expertConditionId = expertConditionId;
+    }
+
+    public ProjectExtract(String id, Short operatingType,String reason) {
+        super();
+        this.id = id;
+        this.operatingType = operatingType;
+        this.reason=reason;
+    }
+    public ProjectExtract(String id, Short operatingType) {
+        super();
+        this.id = id;
+        this.operatingType = operatingType;
+
+    }
+    /**
      * <pre>
      * 获取：条件类型id
      * 表字段：T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID
@@ -364,15 +372,15 @@ public class ProjectExtract {
     public void setConTypeId(String conTypeId) {
         this.conTypeId = conTypeId == null ? null : conTypeId.trim();
     }
-	public Expert getExpert() {
-		return expert;
-	}
+    public Expert getExpert() {
+        return expert;
+    }
 
-	public void setExpert(Expert expert) {
-		this.expert = expert;
-	}
+    public void setExpert(Expert expert) {
+        this.expert = expert;
+    }
 
-  
+
     /**
      * @return Returns the conType.
      */
@@ -401,6 +409,20 @@ public class ProjectExtract {
         this.statusCount = statusCount;
     }
 
-    
-    
+    /**
+     * @return Returns the isProvisional.
+     */
+    public Short getIsProvisional() {
+        return isProvisional;
+    }
+
+    /**
+     * @param isProvisional The isProvisional to set.
+     */
+    public void setIsProvisional(Short isProvisional) {
+        this.isProvisional = isProvisional;
+    }
+
+
+
 }

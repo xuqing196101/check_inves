@@ -3,6 +3,8 @@ package ses.model.ems;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 /**
  * 
   * <p>Title:Expert </p>
@@ -37,12 +39,15 @@ public class Expert implements Serializable{
     /**修改时间*/
     private Date updatedAt;
     /**联系电话*/
+    @NotNull(message = "不能为空") 
     private String mobile;
     /**出生日期*/
     private Date birthday;
     /**证件号码*/
+    @NotNull(message = "不能为空") 
     private String idNumber;
     /**证件类型*/
+    @NotNull(message = "不能为空") 
     private String idType;
     /**专家来源*/
     private String expertsFrom;
@@ -81,8 +86,10 @@ public class Expert implements Serializable{
     /**学位*/
     private String degree;
     /**现任职务*/
+    @NotNull(message = "不能为空") 
     private String atDuty;
     /**专家类型*/
+    @NotNull(message = "不能为空") 
     private String expertsTypeId;
     /**采购机构id*/
     private String purchaseDepId;
@@ -93,6 +100,7 @@ public class Expert implements Serializable{
     /**诚信积分；根据不诚信指标扣分*/
     private Integer honestyScore;
     /**真实姓名*/
+    @NotNull(message = "不能为空") 
     private String relName;
     
     private List<String> ids;

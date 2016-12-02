@@ -3,22 +3,29 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import bss.model.prms.PackageExpert;
+import bss.service.prms.PackageExpertService;
+
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.ems.ExpExtractRecordMapper;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
@@ -42,6 +49,11 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
     ProjectExtractService extractService; //关联表
     @Autowired
     UserServiceI userServiceI;//用户管理
+    @Autowired
+    private PackageExpertService service;//包关联专家
+    @Autowired
+    ExpExtPackageService expExtPackageService; //项目和包关联
+
     public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /**
      * @Description:插入记录
@@ -92,18 +104,14 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
      * @see ses.service.ems.ExpExtractRecordService#addTemporaryExpert(ses.model.ems.Expert, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public List<ProjectExtract> addTemporaryExpert(Expert expert, String projectId,
+    public  Map<String, String> addTemporaryExpert(Expert expert, String projectId,String packageId,
         String loginName, String loginPwd) {
+        Map<String, String> map=new HashMap<String, String>();
         //插入专家表一条数据
-       String uuId=WfUtil.createUUID();
+        String uuId=WfUtil.createUUID();
         expert.setId(uuId);
+        expert.setIsProvisional(new Short("1"));
         ExpertService.insertSelective(expert);
-        //插入专家抽取关联表
-        ProjectExtract extract = new ProjectExtract();
-        extract.setExpertId(uuId);
-        extract.setOperatingType((short)1);
-        extract.setProjectId(projectId);
-        extractService.insertProjectExtract(extract);
         //生成15位随机码
         String randomCode = generateString(15);
         //根据随机码+密码加密
@@ -111,6 +119,19 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
         md5.setEncodeHashAsBase64(false);     
         String pwd = md5.encodePassword(loginPwd, randomCode);
+
+        //插入专家抽取关联表
+        ProjectExtract extract = new ProjectExtract();
+        extract.setExpertId(uuId);
+        extract.setOperatingType((short)1);
+        extract.setIsProvisional((short)1);
+        ExpExtPackage expExtPackage=new ExpExtPackage();
+        expExtPackage.setPackageId(packageId);
+        List<ExpExtPackage> list = expExtPackageService.list(expExtPackage, "0");
+        if (list != null && list.size() !=0 ){}
+        extract.setProjectId(list.get(0).getId());
+        extractService.insertProjectExtract(extract);
+
         //插入登录表
         User user = new User();
         user.setLoginName(loginName);
@@ -118,15 +139,26 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         user.setTypeId(uuId);
         userServiceI.save(user, null);
-        //查询条件
-        ProjectExtract projectExtract = new ProjectExtract();
-        projectExtract.setProjectId(projectId);
-        projectExtract.setReason("1");
-        //项目抽取的专家信息
-        List<ProjectExtract> expertList = extractService.list(projectExtract );
-        return expertList;
+
+        //插入到包关联专家
+        PackageExpert record = new PackageExpert();
+        record.setProjectId(projectId);
+        record.setPackageId(packageId);
+        record.setExpertId(uuId);
+        // 评审状态 未评审
+        record.setIsAudit((short) 0);
+        // 初审是否汇总 未汇总
+        record.setIsGather((short) 0);
+        // 是否评分
+        record.setIsGrade((short) 0);
+        // 评分是否汇总
+        record.setIsGatherGather((short) 0);
+        record.setIsGroupLeader((short) 0);
+        service.save(record);
+        map.put("sccuess", "sccuess");
+        return map;
     }
-    
+
     /**
      * Description: 返回一个定长的随机字符串(只包含大小写字母、数字)
      * 
@@ -145,7 +177,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         return sb.toString();  
     }
 
-    
+
     /**
      * 
      *〈简述〉修改

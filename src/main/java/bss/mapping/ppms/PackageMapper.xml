@@ -43,6 +43,13 @@
 			select="ses.dao.sms.SupplierMapper.getByExtRelateProjectId" ofType="ses.model.sms.Supplier" />
 
 	</resultMap>
+	<!-- 中标供应商 -->
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+		id="SupplierCheckPass">
+		<collection property="listCheckPasses" column="ID"
+			select="bss.dao.ppms.SupplierCheckPassMapper.getByCheckPass" ofType="bss.model.ppms.SupplierCheckPass" />
+	</resultMap>
+
 
 	<sql id="Base_Column_List">
 		ID, NAME,
@@ -301,6 +308,15 @@
 		JOIN T_SES_SMS_SUPPLIER_EXT_PACKAGE ep ON PP."ID" = EP.PACKAGE_ID
 		WHERE
 		EP.PROJECT_ID = #{projectId}
+	</select>
+
+	<select id="listSupplierCheckPass" parameterType="java.lang.String"
+		resultMap="SupplierCheckPass">
+		SELECT
+		*
+		FROM
+		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID=#{projectId}
+
 	</select>
 
 </mapper>

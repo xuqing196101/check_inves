@@ -2,6 +2,8 @@ package bss.model.prms;
 
 import java.io.Serializable;
 
+import ses.model.ems.Expert;
+
 public class PackageExpert implements Serializable{
     /**
 	 * @Fields serialVersionUID : 
@@ -23,7 +25,8 @@ public class PackageExpert implements Serializable{
     private Short isGrade;
     //评分是否汇总0否1是
     private Short isGatherGather;
-
+    //专家实体
+    private Expert expert;
     
     
 
@@ -90,4 +93,20 @@ public class PackageExpert implements Serializable{
     public void setIsAudit(Short isAudit) {
         this.isAudit = isAudit;
     }
+
+    /**
+     * @return Returns the expert.
+     */
+    public Expert getExpert() {
+        return expert;
+    }
+
+    /**
+     * @param expert The expert to set.
+     */
+    public void setExpert(Expert expert) {
+        this.expert = expert;
+    }
+    
+    
 }

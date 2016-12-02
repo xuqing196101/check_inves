@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ppms.Packages;
+import bss.model.ppms.SupplierCheckPass;
 
 /**
  * @Title:PackageService
@@ -95,7 +96,7 @@ public interface PackageService {
      * @return
      */
     List<Packages> listResultExpert(String projectId);
-    
+
     /**
      * 
      *〈简述〉根据包返回抽取供应商
@@ -104,4 +105,13 @@ public interface PackageService {
      * @return
      */
     List<Packages> listResultSupplier(String projectId);
+
+    /**
+     * 
+     *〈简述〉根据包返回中标供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    List<SupplierCheckPass> listSupplierCheckPass(String projectId);
 }

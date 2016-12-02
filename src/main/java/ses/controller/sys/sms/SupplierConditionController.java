@@ -112,6 +112,17 @@ public class SupplierConditionController {
         }else{
             //插入信息
             conditionService.insert(condition);
+            
+            //添加一条记录
+            SupplierExtPackage extP = new  SupplierExtPackage();
+            extP.setId(condition.getProjectId());
+            List<SupplierExtPackage> listExtPackage = supplierExtPackageServicel.list(extP, "0");
+            if (listExtPackage != null && listExtPackage.size() != 0){
+                extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
+                supplierExtPackageServicel.update(extP);
+            }
+            
+            
             if (list != null && list.size() != 0){
 
             }else{
@@ -155,14 +166,7 @@ public class SupplierConditionController {
         }
 
         map.put("sccuess", "sccuess");
-        //添加一条记录
-        SupplierExtPackage extP = new  SupplierExtPackage();
-        extP.setId(condition.getProjectId());
-        List<SupplierExtPackage> listExtPackage = supplierExtPackageServicel.list(extP, "0");
-        if (listExtPackage != null && listExtPackage.size() != 0){
-            extP.setCount(listExtPackage.get(0).getCount() == 0 ? 1 : listExtPackage.get(0).getCount()+ 1);
-            supplierExtPackageServicel.update(extP);
-        }
+     
 
         return JSON.toJSONString(map);
     }

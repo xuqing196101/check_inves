@@ -2,6 +2,8 @@ package bss.service.ppms;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 
@@ -93,4 +95,15 @@ public interface FlowMangeService {
      * @return
      */
     FlowExecute getFlowExecute(String id);
+    
+    /**
+     *〈简述〉添加一条流程执行记录
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param flowDefineId 流程环节定义
+     * @param projectId 项目id
+     * @param status 执行状态 1已执行完成  2执行中
+     */
+    void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status);
 }

@@ -1,6 +1,7 @@
 package ses.service.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
@@ -48,13 +49,13 @@ public interface ExpExtractRecordService {
 	
 	/**
 	 * 
-	 *〈简述〉
+	 *〈简述〉添加临时专家
 	 *〈详细描述〉
 	 * @author Wang Wenshuai
 	 * @param expExtractRecordService
 	 * @return
 	 */
-	List<ProjectExtract>  addTemporaryExpert(Expert expert,String projectId,String loginName,String loginPwd);
+    Map<String, String> addTemporaryExpert(Expert expert,String projectId,String packageId,String loginName,String loginPwd);
 	
 	/**
      * 
