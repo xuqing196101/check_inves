@@ -76,11 +76,11 @@
     	<div class="container container_box">
 	   		 <h2 class="list_title">查看题目</h2>
      		 <div class="ul_list">
-  				<ul class="list-unstyled col-md-6">
-			     	<li class="col-md-12 col-sm-12 col-xs-12 p0">
+  				<ul class="list-unstyled col-md-6 col-sm-6 col-xs-12">
+			     	<li class="col-md-12 col-sm-12 col-xs-12 pl15">
 			  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
-			  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
-				  		  	<select id="queType" name="queType" onchange="changeType()" class="" disabled="disabled">
+			  			<div class="select_common col-md-6 col-sm-6 col-xs-6 p0">
+				  		  	<select id="queType" name="queType" onchange="changeType()" disabled="disabled">
 				  				<option value="">请选择</option>
 				  				<c:forEach items="${examPoolType }" var="e">
 					  			<c:choose>
