@@ -90,6 +90,16 @@
     and status = '1'
   </select>
   
+  <select id="selectRoughById" parameterType="java.lang.String" resultMap="purContractBlob">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="PurCon_BlOB_Column_List" />
+    from T_BSS_CS_PURCHASE_CONTRACT
+    where ID = #{id,jdbcType=VARCHAR}
+    and status = '0'
+  </select>
+  
   <select id="selectFormalByContractType" parameterType="Object" resultMap="purContractMap">
   	select
   	<include refid="Base_Column_List" />
@@ -118,6 +128,38 @@
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where STATUS = '1'
+  	and IS_DELETED = '0'
+  	<if test="projectName != null and projectName != ''">
+  		and PROJECT_NAME like '%'||#{projectName}||'%'
+  	</if>
+  	<if test="code != null and code != ''">
+  		and CODE like '%'||#{code}||'%'
+  	</if>
+  	<if test="supplierDepName != null and supplierDepName != ''">
+  		and SUPPLIER_DEP_NAME like '%'||#{supplierDepName}||'%'
+  	</if>
+  	<if test="purchaseDepName != null and purchaseDepName != ''">
+  		and PURCHASE_DEP_NAME like '%'||#{purchaseDepName}||'%'
+  	</if>
+  	<if test="demandSector != null and demandSector != ''">
+  		and DEMAND_SECTOR like '%'||#{demandSector}||'%'
+  	</if>
+  	<if test="documentNumber != null and documentNumber != ''">
+  		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
+  	</if>
+  	<if test="year != null and year != ''">
+  		and YEAR = #{year}
+  	</if>
+  	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
+  		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
+  	</if>
+  </select>
+  
+  <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where STATUS = '0'
   	and IS_DELETED = '0'
   	<if test="projectName != null and projectName != ''">
   		and PROJECT_NAME like '%'||#{projectName}||'%'
@@ -187,6 +229,12 @@
     update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'
     where ID = #{id,jdbcType=VARCHAR}
     and status = '1'
+  </update>
+  
+  <update id="deleteRoughByPrimaryKey" parameterType="java.lang.String">
+    update T_BSS_CS_PURCHASE_CONTRACT set IS_DELETED = '1'
+    where ID = #{id,jdbcType=VARCHAR}
+    and status = '0'
   </update>
   <insert id="insert" parameterType="bss.model.cs.PurchaseContract">
     insert into T_BSS_CS_PURCHASE_CONTRACT (ID, CODE, NAME, 

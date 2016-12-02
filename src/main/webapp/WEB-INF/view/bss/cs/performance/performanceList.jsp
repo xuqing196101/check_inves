@@ -212,7 +212,7 @@
     	<ul class="demand_list">
           <li class="fl"><label class="fl">合同类型：</label><span>
           <select name="contractType" id="contractType">
-          	<option></option>
+          	<option>--请选择--</option>
           	<option value="0">正常采购合同</option>
           	<option value="1">以厂代储合同</option>
           	<option value="2">合同储备合同</option>

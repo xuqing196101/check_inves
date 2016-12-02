@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>合同草案修改</title>
+    <title>合同草稿修改</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
     <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -147,10 +147,12 @@
 
 		$("body").bind("mousedown", onBodyDown);
 	}
+    
     function hideMenu() {
 		$("#menuContent").fadeOut("fast");
 		$("body").unbind("mousedown", onBodyDown);
 	}
+    
 	function onBodyDown(event) {
 		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
 			hideMenu();
@@ -248,7 +250,7 @@
 	}
 	
 	function staging(){
-		$("#status").val("1");
+		$("#status").val("0");
 		$("#contractForm").submit();
 	}
 
@@ -619,7 +621,7 @@
    		</c:forEach>
 	</table>
 	</div>
-		<h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
+	<h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
    	<div>
 		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
 	</div>
@@ -628,10 +630,10 @@
        <div class="red f12 clear">${ERR_content}</div>
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="保存"/>
    			<%--<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
-   			--%><input type="button" class="btn" onclick="printdra()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
+   			--%>
+   			<input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>
   		<%--<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
   		    <li class="col-md-12 ml15">

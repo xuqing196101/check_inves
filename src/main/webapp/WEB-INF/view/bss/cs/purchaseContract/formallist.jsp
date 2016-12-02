@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>采购合同管理</title>  
+    <title>正式合同列表</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -216,6 +216,10 @@
 				time : 4000    //默认消息框不关闭
 		});//去掉msg图标
   	}
+	
+	function updateModel(){
+		window.location.href="${pageContext.request.contextPath}/templet/search.html?temType=合同模板";
+	}
   </script>
   </head>
   
@@ -259,6 +263,10 @@
    	   <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn" onclick="printformal()">打印</button>
    	  	  <button class="btn" onclick="execution()">合同执行情况登记</button>
+   	  	  <button class="btn" onclick="updateModel()">更新合同模板</button>
+   	  	  <div class="fr mt5 b">
+	      	项目总金额：${contractSum}
+	      </div>
 	   </div>
    <div class="content table_box">
    	<table class="table table-striped table-bordered table-hover">

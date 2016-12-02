@@ -203,7 +203,7 @@ public class PerformanceController {
 		}
 		map.put("page", page);
 		String[] idArray = null;
-		if(contractType!=null && !contractType.equals("")){
+		if(contractType!=null && !contractType.trim().equals("--请选择--")){
 			List<PurchaseContract> contractList = purchaseContactService.selectFormalByContractType(Integer.parseInt(contractType));
 			idArray = new String[contractList.size()];
 			for(int i=0;i<contractList.size();i++){

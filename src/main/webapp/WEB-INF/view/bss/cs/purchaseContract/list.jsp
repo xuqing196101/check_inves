@@ -277,9 +277,8 @@
 					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();>${code}</td>
+					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
 				</c:if>
-				<td class="pointer">${pack.project.projectNumber}</td>
 				<td class="tc pointer">${pack.name}</td>
 				<td class="tc pointer">${pack.project.amount}</td>
 				<td class="tc pointer">${pack.supplierNames}</td>

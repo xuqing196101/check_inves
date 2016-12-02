@@ -612,6 +612,68 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 〈简述〉 〈详细描述〉
 	* 
 	* @author QuJie 
+	* @date 2016-11-11 下午2:56:42  
+	* @Description: 生成合同草稿 
+	* @param @param purCon 合同实体类
+	* @param @param proList 明细list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/toValidRoughContract")
+	public void toValidRoughContract(PurchaseContract purCon,HttpServletResponse response) throws Exception{
+		Boolean flag = true;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(purCon.getDraftGitAt()==null){
+			flag = false;
+			map.put("gitAt", "提报时间不能为空");
+		}
+		if(purCon.getDraftReviewedAt()==null){
+			flag = false;
+			map.put("reviewAt", "报批时间不能为空");
+		}
+		if(flag && purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
+			flag=false;
+			map.put("gitAt", "报批时间不能早于提报时间");
+			map.put("reviewAt", "报批时间不能早于提报时间");
+		}
+		if(flag){
+			super.writeJson(response, 1);
+		}else{
+			super.writeJson(response, JSONSerializer.toJSON(map).toString());
+		}
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:56:42  
+	* @Description: 生成合同草稿 
+	* @param @param purCon 合同实体类
+	* @param @param proList 明细list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/toRoughContract")
+	public String toRoughContract(PurchaseContract purCon) throws Exception{
+			purchaseContractService.updateByPrimaryKeySelective(purCon);
+			return "redirect:selectRoughContract.html";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
 	* @date 2016-11-11 下午3:02:44  
 	* @Description: 修改合同草稿 
 	* @param @param agrfile
@@ -634,7 +696,6 @@ public class PurchaseContractController extends BaseSupplierController{
 			String ids = request.getParameter("ids");
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("draftCon", purCon);
-			model.addAttribute("requList", requList);
 			if(requList!=null){
 				for(int i=0;i<requList.size();i++){
 					if(requList.get(i).getPlanNo()==null){
@@ -642,8 +703,12 @@ public class PurchaseContractController extends BaseSupplierController{
 					}
 				}
 			}
+			purCon.setContractReList(requList);
 			model.addAttribute("ids", ids);
-			return "bss/cs/purchaseContract/draftContract";
+			url = "bss/cs/purchaseContract/draftContract";
+			if(purCon.getStatus()==0){
+				url = "bss/cs/purchaseContract/roughContract";
+			}
 		}else{
 			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
 			File rootFile = new File(rootpath);
@@ -680,6 +745,9 @@ public class PurchaseContractController extends BaseSupplierController{
 				purchaseContractService.createWord(purCon, requList,request);
 			}
 			url = "redirect:selectDraftContract.html";
+			if(purCon.getStatus()==0){
+				url = "redirect:selectRoughContract.html";
+			}
 		}
 		return url;
 	}
@@ -900,10 +968,86 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		
 		List<PurchaseContract> draftConList = purchaseContractService.selectDraftContract(map);
+		BigDecimal contractSum = new BigDecimal(0);
+		for(int i=0;i<draftConList.size();i++){
+			if(draftConList.get(i)!=null){
+				if(draftConList.get(i).getMoney()!=null){
+					contractSum = contractSum.add(draftConList.get(i).getMoney());
+				}
+			}
+		}
 		model.addAttribute("list", new PageInfo<PurchaseContract>(draftConList));
 		model.addAttribute("draftConList", draftConList);
+		model.addAttribute("contractSum",contractSum);
 		model.addAttribute("purCon", purCon);
 		return "bss/cs/purchaseContract/draftlist";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:58:05  
+	* @Description: 查询草稿合同列表 
+	* @param @param request
+	* @param @param page 分页
+	* @param @param model
+	* @param @param purCon 合同实体类
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/selectRoughContract")
+	public String selectRoughContract(HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
+		if(page==null){
+			page=1;
+		}
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		if(purCon.getProjectName()!=null){
+			map.put("projectName", purCon.getProjectName());
+		}
+		if(purCon.getCode()!=null){
+			map.put("code", purCon.getCode());
+		}
+		if(purCon.getSupplierDepName()!=null){
+			map.put("supplierDepName", purCon.getSupplierDepName());
+		}
+		if(purCon.getPurchaseDepName()!=null){
+			map.put("purchaseDepName", purCon.getPurchaseDepName());
+		}
+		if(purCon.getDemandSector()!=null){
+			map.put("demandSector", purCon.getDemandSector());
+		}
+		if(purCon.getDocumentNumber()!=null){
+			map.put("documentNumber", purCon.getDocumentNumber());
+		}
+		if(purCon.getYear_string()!=null){
+			if(ValidateUtils.Integer(purCon.getYear_string())){
+				map.put("year", new BigDecimal(purCon.getYear_string()));
+			}else{
+				map.put("year", 1234);
+			}
+		}
+		if(purCon.getBudgetSubjectItem()!=null){
+			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
+		}
+		
+		List<PurchaseContract> roughConList = purchaseContractService.selectRoughContract(map);
+		BigDecimal contractSum = new BigDecimal(0);
+		for(int i=0;i<roughConList.size();i++){
+			if(roughConList.get(i)!=null){
+				if(roughConList.get(i).getMoney()!=null){
+					contractSum = contractSum.add(roughConList.get(i).getMoney());
+				}
+			}
+		}
+		model.addAttribute("list", new PageInfo<PurchaseContract>(roughConList));
+		model.addAttribute("roughConList", roughConList);
+		model.addAttribute("contractSum", contractSum);
+		model.addAttribute("purCon", purCon);
+		return "bss/cs/purchaseContract/roughlist";
 	}
 	
 	/**
@@ -925,16 +1069,16 @@ public class PurchaseContractController extends BaseSupplierController{
 		PurchaseContract draftCon = purchaseContractService.selectDraftById(ids);
 		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
 		draftCon.setContractReList(conRequList);
-		
-		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("attachuuid", uuid);
-		DictionaryData dd=new DictionaryData();
-		dd.setCode("CONTRACT_APPROVE_ATTACH");
-		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
-		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
-		if(datas.size()>0){
-			model.addAttribute("attachtypeId", datas.get(0).getId());
-		}
+//		
+//		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+//		model.addAttribute("attachuuid", uuid);
+//		DictionaryData dd=new DictionaryData();
+//		dd.setCode("CONTRACT_APPROVE_ATTACH");
+//		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+//		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+//		if(datas.size()>0){
+//			model.addAttribute("attachtypeId", datas.get(0).getId());
+//		}
 		if(draftCon.getMoney()!=null){
 			draftCon.setMoney_string(draftCon.getMoney().toString());
 		}
@@ -950,6 +1094,52 @@ public class PurchaseContractController extends BaseSupplierController{
 		model.addAttribute("draftCon", draftCon);
 		model.addAttribute("ids", ids);
 		return "bss/cs/purchaseContract/draftContract";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:58:38  
+	* @Description: 创建草稿合同页面 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/createRoughContract")
+	public String createRoughContract(HttpServletRequest request,Model model) throws Exception{
+		String ids = request.getParameter("ids");
+		PurchaseContract roughCon = purchaseContractService.selectRoughById(ids);
+		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(roughCon.getId());
+		roughCon.setContractReList(conRequList);
+//		
+//		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+//		model.addAttribute("attachuuid", uuid);
+//		DictionaryData dd=new DictionaryData();
+//		dd.setCode("CONTRACT_APPROVE_ATTACH");
+//		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+//		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+//		if(datas.size()>0){
+//			model.addAttribute("attachtypeId", datas.get(0).getId());
+//		}
+		if(roughCon.getMoney()!=null){
+			roughCon.setMoney_string(roughCon.getMoney().toString());
+		}
+		if(roughCon.getBudget()!=null){
+			roughCon.setBudget_string(roughCon.getBudget().toString());
+		}
+		if(roughCon.getSupplierBankAccount()!=null){
+			roughCon.setSupplierBankAccount_string(roughCon.getSupplierBankAccount().toString());
+		}
+		if(roughCon.getPurchaseBankAccount()!=null){
+			roughCon.setPurchaseBankAccount_string(roughCon.getPurchaseBankAccount().toString());
+		}
+		model.addAttribute("draftCon", roughCon);
+		model.addAttribute("ids", ids);
+		return "bss/cs/purchaseContract/roughContract";
 	}
 	
 	/**
@@ -1093,6 +1283,28 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 〈简述〉 〈详细描述〉
 	* 
 	* @author QuJie 
+	* @date 2016-11-11 下午3:05:57  
+	* @Description: 删除合同草稿 
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/deleteRoughDraft")
+	public String deleteRoughDraft(HttpServletRequest request) throws Exception{
+		String id = request.getParameter("ids");
+		String[] ids = id.split(",");
+		for(int i=0;i<ids.length;i++){
+			purchaseContractService.deleteRoughByPrimaryKey(ids[i]);
+		}
+		return "redirect:selectRoughContract.html";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
 	* @date 2016-11-11 下午3:06:13  
 	* @Description: 查询正式合同 
 	* @param @param request
@@ -1139,8 +1351,17 @@ public class PurchaseContractController extends BaseSupplierController{
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
 		List<PurchaseContract> formalConList = purchaseContractService.selectFormalContract(map);
+		BigDecimal contractSum = new BigDecimal(0);
+		for(int i=0;i<formalConList.size();i++){
+			if(formalConList.get(i)!=null){
+				if(formalConList.get(i).getMoney()!=null){
+					contractSum = contractSum.add(formalConList.get(i).getMoney());
+				}
+			}
+		}
 		model.addAttribute("list", new PageInfo<PurchaseContract>(formalConList));
 		model.addAttribute("formalConList", formalConList);
+		model.addAttribute("contractSum", contractSum);
 		model.addAttribute("purCon", purCon);
 		return "bss/cs/purchaseContract/formallist";
 	}
@@ -1284,7 +1505,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			map.put("reviewAt", "报批时间不能为空");
 		}
-		if(purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
+		if(flag && purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
 			flag=false;
 			map.put("gitAt", "报批时间不能早于提报时间");
 			map.put("reviewAt", "报批时间不能早于提报时间");

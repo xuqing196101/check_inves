@@ -573,7 +573,7 @@
 		</ul>
 
          <h2 class="f16 count_flow mt40"><i>04</i>项目明细</h2>
-		<div>
+		<div class="col-md-12 col-xs-12 col-sm-12 p0">
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
@@ -621,8 +621,8 @@
        <script id="editor" name="content" type="text/plain" class= ""></script>
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
-   			--%><input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
+   			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
    			<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
   		</div>

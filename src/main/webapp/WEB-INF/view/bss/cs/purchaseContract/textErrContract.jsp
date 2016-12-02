@@ -615,8 +615,8 @@
         <div class="red f12 clear">${ERR_content}</div>
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
-   			--%><input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
+   			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
+   			<input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
    			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>

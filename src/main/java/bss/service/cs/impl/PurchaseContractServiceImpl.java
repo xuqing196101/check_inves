@@ -50,6 +50,18 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	}
 	
 	@Override
+	public List<PurchaseContract> selectRoughContract(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return purchaseContractMapper.selectRoughContract(map);
+	}
+
+	@Override
+	public PurchaseContract selectRoughById(String id) {
+		return purchaseContractMapper.selectRoughById(id);
+	}
+
+	@Override
 	public List<PurchaseContract> selectAllPurchaseContract() {
 		List<PurchaseContract> contractList = purchaseContractMapper.selectAllPurchaseContract();
 		return contractList;
@@ -86,6 +98,11 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	@Override
 	public void deleteDraftByPrimaryKey(String id) {
 		purchaseContractMapper.deleteDraftByPrimaryKey(id);
+	}
+	
+	@Override
+	public void deleteRoughByPrimaryKey(String id) {
+		purchaseContractMapper.deleteRoughByPrimaryKey(id);
 	}
 
 	@Override

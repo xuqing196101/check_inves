@@ -7,7 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>合同草案列表</title>  
+    <title>合同草稿列表</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -77,7 +77,7 @@
 		   }
 	}
     
-  	function delDraft(){
+  	function delRough(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -85,19 +85,12 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/deleteDraft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/deleteRoughDraft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
-  	
-  	function query(){
-  		var projectName = $("#projectName").val();
-  		var projectCode = $("#projectCode").val();
-  		var purchaseDep = $("#purchaseDep").val();
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
-  	}
   	
   	function resetForm(){
   		$("#projectName").val("");
@@ -110,7 +103,7 @@
   		$("#budgetSubjectItem").val("");
   	}
   	
-  	function updateDraft(){
+  	function updateRough(){
   		var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -119,7 +112,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/createDraftContract.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/createRoughContract.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择要修改的草稿",{offset: ['222px', '390px'], shade:0.01});
@@ -131,7 +124,7 @@
   	}
   	
   	var ind;
-  	function createContract(){
+  	function createDraftContract(){
   		var ids =[];
   		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -140,18 +133,17 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条草稿生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				/*ind = layer.open({
+				ind = layer.open({
 					shift: 1, //0-6的动画形式，-1不开启
 				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-				    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
+				    title: ['生成草案所需信息','border-bottom:1px solid #e5e5e5'],
 				    shade:0.01, //遮罩透明度
 					type : 1,
 					skin : 'layui-layer-rim', //加上边框
 					area : [ '40%', '300px' ], //宽高
 					content : $('#numberWin'),
 					offset: ['10%', '25%']
-				});*/
-				window.location.href="${pageContext.request.contextPath}/purchaseContract/createTransFormal.html?id="+ids;
+				});
 			}
 		}else{
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
@@ -163,64 +155,54 @@
 			ids.push($(this).val()); 
 		}); 
   		$("#ids").val(ids);
-		var apN = $("#apN").val();
-		var picFile = $("#fi").val();
-		var picFiles = picFile.split(".");
-		var pic = picFiles[picFiles.length-1];
-		var formalGitAt = $("#formalGitAt").val();
-		var formalReviewedAt = $("#formalReviewedAt").val();
-		var flag = false;
-		var news = "";
-		if(formalGitAt!=null && formalGitAt!=""){
-			flag = true;
-		}else{
-			flag = false;
-			news+="请填写上报时间";
-		}
-		if(formalReviewedAt!=null && formalReviewedAt!=""){
-			flag = true;
-		}else{
-			flag = false;
-			news+="请填写报批时间";
-		}
-		if(apN!=null && apN!=''){
-			flag = true;
-		}else{
-			flag = false;
-			news+="请填写合同批准文号,";
-		}
-		if(pic!=null && pic!=''){
-			if(pic=='bmp' || pic=='png' || pic=='gif' && pic=='jpg' && pic=='jpeg'){
-				flag=true;
-			}else{
-				flag=false;
-				news+="上传的附件类型不正确";
-			}
-		}else{
-			flag=false;
-			news+="请上传批准电子扫描件,";
-		}
-		
-		if(flag){
-			$("#contractForm").submit();
-		}else{
-			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
-		}
+  		$.ajax({
+  			url:"${pageContext.request.contextPath}/purchaseContract/toValidRoughContract.html",
+  			data:$('#form2').serialize(),
+  			type:"post",
+  			dataType:"json",
+  			success:function(data){
+  				if(data==1){
+					$("#form2").submit();
+				}else{
+					var obj = new Function("return" + data)();
+					$("#gitTime").text(obj.gitAt);
+					$("#reviewTime").text(obj.reviewAt);
+				}
+  			}
+  		});
 	}
 	
 	function cancel(){
 		layer.close(ind);
 	}
 	
-	function out(content){
-		layer.msg(content, {
-			    skin: 'demo-class',
-				shade:false,
-				closeBtn:[0,true],
-				area: ['600px'],
-				time : 4000    //默认消息框不关闭
-		});//去掉msg图标
-  	}
+	var inds = null;
+	function updateModel(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/templet/searchByTemtype.html",
+			type:"POST",
+			data:{"temType":"合同模板"},
+			dataType:"text",
+			success:function(data){
+				var ue = UE.getEditor('editor');
+			    var content=data;
+				ue.ready(function(){
+			  		ue.setContent(content);    
+				});
+				inds = layer.open({
+					shift: 1, //0-6的动画形式，-1不开启
+				    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				    shade:0.01, //遮罩透明度
+					type : 1,
+					skin : 'layui-layer-rim', //加上边框
+					area : [ '80%', '80%' ], //宽高
+					content : $('#edi'),
+					offset: ['10%', '15%']
+				});
+			}
+		});
+	}
+	
   </script>
   </head>
   
@@ -241,7 +223,7 @@
 	    </h2>
    </div> 
 <!-- 项目戳开始 -->
-    <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html" method="post">
+    <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectRoughContract.html" method="post">
     <input type="hidden" value="" id="page"/>
      <h2 class="search_detail">
     	<ul class="demand_list">
@@ -261,14 +243,14 @@
     	  <div class="clear"></div>
     	  </h2>
       </form>
-         <div class="col-md-12 col-xs-12 col-sm-12 pl20 mt10 p0">
-   	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
-   	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
-	      <button class="btn" onclick="createContract()">生成正式合同</button>
-	      <div class="fr mt5 b">
+         <div class="col-md-12 pl20 mt10">
+   	  	  <button class="btn btn-windows edit" onclick="updateRough()">修改</button>
+   	  	  <button class="btn btn-windows delete" onclick="delRough()">删除</button>
+	      <button class="btn" onclick="createDraftContract()">生成草案合同</button>
+	      
+	     <div class="fr mt5 b">
 	      	项目总金额：${contractSum}
-	      </div>
-	     </div>
+	      </div></div>
    <div class="content table_box">
    	<table class="table table-striped table-bordered table-hover">
 		<thead>
@@ -288,7 +270,7 @@
 				<th class="info">项级预算科目</th>
 			</tr>
 		</thead>
-		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
+		<c:forEach items="${roughConList}" var="draftCon" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -321,41 +303,31 @@
 		</c:forEach>
 	</table>
     </div>
-   <div id="pagediv" align="right"></div>
-   <%--<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
-   <input type="hidden" value="" id="ids" name="id"/>
-   <input type="hidden" value="2" name="status"/>
-   	<ul class="list-unstyled list-flow dnone mt10" id="numberWin">
-  		    <li class="col-md-12 ml15">
-			   <span class="span3 fl mt5"><div class="red star_red">*</div>合同批准文号：</span>
-			   <input type="text" id="apN" name="approvalNumber" value="" class="mb0 w220"/>
+    <form action="${pageContext.request.contextPath}/purchaseContract/toRoughContract.html" id="form2">
+    <input type="hidden" name="id" id="ids" value=""/>
+    <input type="hidden" name="status" value="1"/>
+    <ul class="list-unstyled mt10 dnone" id="numberWin">
+  		    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草稿合同上报时间：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
+			     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			     <div id='gitTime' class="cue"></div>
+			   </div>
 			</li>
-			<li class="col-md-12">
-			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同上报时间：</span>
-			   <input type="text" name="formalGitAt" id="formalGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			<li class="col-md-6 col-sm-12 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草稿合同批复时间：</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
+			     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+			     <div id='reviewTime' class="cue"></div>
+			   </div>
 			</li>
-			<li class="col-md-12">
-			   <span class="span3 fl mt5"><div class="red star_red">*</div>正式合同批复时间：</span>
-			   <input type="text" name="formalReviewedAt" id="formalReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-			</li>
-			<li class="col-md-12 mt10">
-			   <span class="span3 fl"><div class="red star_red">*</div>上传附件：</span>
-			    <up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-				<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
-            </li>
-			<li class="tc col-md-12 mt20">
+			<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</li>
-	 </ul>
+	</ul>
 	</form>
-	<div class="col-md-12 tc">
-	<div id="edi" class="w70p mt5 dnone tc" style="margin:0 auto">
-		 <script id="editor" name="content" type="text/plain" class=""></script>
-    </div>
-    </div>
-	<div id="pagediv" align="right"></div>
-	--%>
+   <div id="pagediv" align="right"></div>
    </div>
 </body>
 </html>

@@ -20,6 +20,18 @@ public interface PurchaseContractMapper {
     void deleteDraftByPrimaryKey(String id);
     
     /**
+	 * 
+	* @Title: deleteRoughByPrimaryKey
+	* @author QuJie 
+	* @date 2016-10-13 上午11:17:43  
+	* @Description: 根据id删除草稿
+	* @param @param id
+	* @param @return      
+	* @return int
+	 */
+    void deleteRoughByPrimaryKey(String id);
+    
+    /**
      * 
     * 〈简述〉 〈详细描述〉
     * 
@@ -104,6 +116,17 @@ public interface PurchaseContractMapper {
     
     /**
      * 
+    * @Title: selectRoughContract
+    * @author QuJie 
+    * @date 2016-10-9 下午1:10:54  
+    * @Description: 查询所有合同草稿 
+    * @param @return      
+    * @return PurchaseContract
+     */
+    List<PurchaseContract> selectRoughContract(Map<String,Object> map);
+    
+    /**
+     * 
     * @Title: selectDraftContract
     * @author QuJie 
     * @date 2016-10-9 下午1:10:54  
@@ -135,6 +158,18 @@ public interface PurchaseContractMapper {
     * @return List<PurchaseContract>
      */
     PurchaseContract selectDraftById(String id);
+    
+    /**
+     * 
+    * @Title: selectRoughById
+    * @author QuJie 
+    * @date 2016-10-10 上午10:13:58  
+    * @Description: 根据id查询合同草稿
+    * @param @param id
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    PurchaseContract selectRoughById(String id);
     
     /**
      * 
