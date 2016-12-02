@@ -226,7 +226,7 @@ public class AuditSummaryController {
 
 		
 		Integer page=1;
-		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+		List<AppraisalContract> list = appraisalContractService.selectAppraisal(null,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		
 		String url = "bss/sstps/offer/checkAppraisal/list";
