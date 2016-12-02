@@ -1266,11 +1266,13 @@ session.setAttribute("tokenSession", tokenValue);
   <div class="headline-v2">
 	 <h2>打印专家申请表</h2>
   </div>  
-<div><br/><br/>
+<div>
   <table class="table table-bordered">
+  <div class="margin-top-30"></div>
     <div align="left">
-      <a class="btn btn-windows git" onclick='downloadTable()' href="javascript:void(0)">下载</a>
-    </div><br/>
+      <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
+    </div>
+    <div class="margin-top-30"></div>
    	<tr>
  	  <td width="25%" class="bggrey">姓名</td>
  	  <td width="25%" id="tName"></td>

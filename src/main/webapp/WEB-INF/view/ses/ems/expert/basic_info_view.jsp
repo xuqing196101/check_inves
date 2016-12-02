@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/tld/upload" prefix="up"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <%--<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -261,12 +261,9 @@ $(function() {
 	     </ul>
 		   </div>
 <!-- 附件信息-->
-	  <div class="padding-top-10 clear">
-	    <div class="headline-v2 clear">
-	      <h2>上传附件</h2>
-	    </div>
-	  </div>
-	  <div class="padding-left-30 padding-right-20 clear">
+	  <div class="padding-right-20 clear">
+	    <h2 class="count_flow"><i>2</i>上传附件</h2>
+		<ul class="ul_list">
 	    <table class="table table-bordered">
 	  	  <tr>
 	  	    <td width="25%" class="info"><i class="red">*</i>身份证:</td>
@@ -296,10 +293,10 @@ $(function() {
 	  	    <td></td><td></td>
 	  	  </tr>  
 	   </table>
-	 </div>
        <div class="tc mt20 clear col-md-11">
 		 <button class="btn btn-windows git" id="nextBind"  type="button" onclick="tab2()" >下一步</button>
        </div>
+	 </div>
               </div>
             </div>
           </div>
@@ -370,11 +367,8 @@ $(function() {
 			    <div class="clear"></div>
 		    </h2><br/>
 		    <h2 class="count_flow">
-			  <i>03</i>选择采购机构
+			  <i>03</i>采购机构
 			</h2>
-		    <h2 class="f16">
-			  采购机构
-		    </h2>
 			<table id="tb1"  class="table table-bordered table-condensed">
 			  <thead>
 			    <tr>
@@ -416,7 +410,8 @@ $(function() {
 	  </h2><br/>
 	  <h2 class="count_flow">
 	    <i>04</i>打印专家申请表
-	  </h2><br/><br/>
+	  </h2>
+	  <div class="margin-top-30"></div>
 <div>
   <table class="table table-bordered table-condensed">
    	<tr>
@@ -609,7 +604,7 @@ $(function() {
 	     <h2 class="count_flow">
 		   <i>05</i>专家申请表、合同书
 		 </h2>
-		 <div class="" style="margin-left:100px;">
+		 <div class="">
 		   <table class="table table-bordered">
 		     <tr>
 		       <td width="25%" class="info"><i class="red">*</i>专家申请表：</td>
