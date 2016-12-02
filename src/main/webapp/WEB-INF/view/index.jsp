@@ -17,17 +17,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
     <%@include file="common/nav.jsp" %>
 	<script type="text/javascript" language="javascript">   
-		function iFrameHeight() {   
-			var ifm= document.getElementById("iframepage");   
-			var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
-			if(ifm != null && subWeb != null) {
-			   ifm.height = subWeb.body.scrollHeight;
-			   /*ifm.width = subWeb.body.scrollWidth;*/
-			}   
-		}   
-</script>
+     function getContentSize() {
+		var he = document.documentElement.clientHeight;
+		var footer = $("#footer-v2").outerHeight();
+	    var nav = $("#nav").outerHeight() ;
+		ch = (he - footer - nav) + "px";
+		document.getElementById("iframepage").style.height = ch;
+	}
+	window.onload = getContentSize;
+	window.onresize = getContentSize;
+ </script>
 	<!-- 后台管理内容开始-->
-<div >
+<div>
 	<iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
 </div>
 
