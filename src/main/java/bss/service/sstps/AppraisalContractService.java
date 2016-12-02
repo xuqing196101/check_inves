@@ -133,5 +133,7 @@ public interface AppraisalContractService {
 	public void updateAppeal(String id);
 	
 	public List<AppraisalContract> selectAppraisalContractByContractId(Map<String, Object> map);
+	
+	List<AppraisalContract> selectByOffer(AppraisalContract singleBond,Integer page);
   
 }

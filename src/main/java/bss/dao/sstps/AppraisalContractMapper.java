@@ -42,4 +42,6 @@ public interface AppraisalContractMapper {
     List<AppraisalContract> selectAppraisalConByContractId(Map<String, Object> map);
     
     List<AppraisalContract> selectByObjectCheck(AppraisalContract record);
+    
+    List<AppraisalContract> selectByOffer(AppraisalContract record);
 }

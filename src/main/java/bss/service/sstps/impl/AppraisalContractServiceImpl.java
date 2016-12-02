@@ -133,6 +133,15 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));		
 		return appraisalContractMapper.selectByObjectCheck(singleBond);
 	}
+
+
+	@Override
+	public List<AppraisalContract> selectByOffer(AppraisalContract singleBond,
+			Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return appraisalContractMapper.selectByOffer(singleBond);
+	}
 	
 	
 	
