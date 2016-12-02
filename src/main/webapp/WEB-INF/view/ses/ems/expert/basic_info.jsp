@@ -1429,7 +1429,7 @@ session.setAttribute("tokenSession", tokenValue);
  </table>
     <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
    		<button class="btn"   type="button" onclick="pre('reg_box_id', 6, 'pre')">上一步</button>
-		<button class="btn"   type="button" onclick='four()'>下一步</button>
+		<button class="btn"   type="button" onclick='tab5()'>下一步</button>
 	</div>
 	  </div>
 	    </div>

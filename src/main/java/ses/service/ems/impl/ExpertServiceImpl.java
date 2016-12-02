@@ -559,10 +559,12 @@ public class ExpertServiceImpl implements ExpertService {
 		}
 		String idType = expert.getIdType();
 		DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
-		if("ID_CARD".equals(data.getCode())){
-			if(!ValidateUtils.IDcard(expert.getIdNumber())){
-				map.put("idNumber2", "证件号码无效！");
-			}
+		if(data != null){
+		    if("ID_CARD".equals(data.getCode())){
+		        if(!ValidateUtils.IDcard(expert.getIdNumber())){
+		            map.put("idNumber2", "证件号码无效！");
+		         }
+		    }
 		}
 		if(map.isEmpty()){
 			if(flag==1){
