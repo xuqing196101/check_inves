@@ -2445,8 +2445,7 @@ span.list_squre {
 	position:fixed;
 	left:0;
 	right:0;
-<<<<<<< Updated upstream
-	bottom:0;
+	bottom:2%;
 }
 @media(min-width:1367px){
 .login_content{
