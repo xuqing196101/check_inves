@@ -182,13 +182,14 @@
      </ul>
      <div class="clear"></div>
   </h2>
-<!-- 表格开始-->
-   <div class="col-md-12 pl20 mt10">
-    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-	</div>
-
+	<!-- 表格开始-->
+	<c:if test="${admin==1 }">
+   		<div class="col-md-12 pl20 mt10">
+    		<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		</div>
+	</c:if>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
     

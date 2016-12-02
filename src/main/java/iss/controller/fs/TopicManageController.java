@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
+import ses.service.bms.RoleServiceI;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 
@@ -53,6 +54,8 @@ public class TopicManageController extends BaseSupplierController {
 	private TopicService topicService;
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private RoleServiceI roleService;
 	/**   
 	* @Title: getList
 	* @author Peng Zhongjun
@@ -64,6 +67,11 @@ public class TopicManageController extends BaseSupplierController {
 	*/
 	@RequestMapping("/getlist")
 	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
+		User user = (User) request.getSession().getAttribute("loginUser");
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", user.getId());
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
 		Map<String,Object> map = new HashMap<String, Object>();
 		String describe = request.getParameter("condition");
 		String parkId = request.getParameter("parkId");		
@@ -76,7 +84,9 @@ public class TopicManageController extends BaseSupplierController {
 		if(parkId !=null && parkId!=""){
 			map.put("parkId", parkId);
 		}
-
+		if(!i.equals(new BigDecimal(1))){
+			map.put("userId", user.getId());
+		}
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
@@ -94,6 +104,7 @@ public class TopicManageController extends BaseSupplierController {
 		model.addAttribute("list", new PageInfo<Topic>(list));
 		model.addAttribute("describe", describe);
 		model.addAttribute("parkId", parkId);
+		model.addAttribute("admin", i);
 		return "iss/forum/topic/list";
 	}
 	

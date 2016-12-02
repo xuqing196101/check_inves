@@ -58,7 +58,10 @@ public class Topic {
      * @Fields isDeleted : 是否删除标识
      */
     private Integer isDeleted;
-    
+    /**
+     * @Fields userID : 版主ID
+     */
+    private String userID;
 
     public String getId() {
         return id;
@@ -146,5 +149,14 @@ public class Topic {
 
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}  
+	
 }

@@ -42,19 +42,22 @@
 		   <select id="queryByList" parameterType="Map" resultMap="TopicPostMap">
 			    select 
 			    <include refid="Base_Column_List" />
-			    from T_ISS_FS_TOPIC
-			    WHERE IS_DELETED = 0
-                 <trim suffixOverrides=",">
-                  <if test="parkId!= null">
-                    and PARK_ID = #{parkId}
-                  </if> 
-                   <if test="content!= null">
-                    and CONTENT Like concat(concat('%', '${content}'), '%')
-                  </if>         
-                </trim>
-			    ORDER BY CREATED_AT DESC
-			    
-		  	</select>		  
+			    from T_ISS_FS_TOPIC T
+			    WHERE T.IS_DELETED = 0
+			    <if test="userId!= null">
+			    AND T.PARK_ID IN (
+			    SELECT P.ID from T_ISS_FS_PARK P
+			    WHERE P.IS_DELETED = 0 AND P.USER_ID = #{userId})
+			    </if>
+                <if test="parkId!= null">
+                    and T.PARK_ID = #{parkId}
+                </if> 
+                <if test="content!= null">
+                    and T.CONTENT Like concat(concat('%', '${content}'), '%')
+                </if>  
+			    ORDER BY T.CREATED_AT DESC
+		  	</select>
+		  	
 		  	 <!-- 2.2查询列表 -->
 		   <select id="getAll" parameterType="Object" resultMap="TopicPostMap">
 			    select 
