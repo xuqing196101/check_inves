@@ -12,12 +12,13 @@
     
 <script type="text/javascript">
 function dayin() {
-	var LODOP = getLodop();
-	if (LODOP) {
-		LODOP.ADD_PRINT_HTM(0, 0, "100%", "100%",
-				document.getElementById("div_print").innerHTML);
-		LODOP.PREVIEW();
-	}
+//	var LODOP = getLodop();
+//	if (LODOP) {
+//		LODOP.ADD_PRINT_HTM(0, 0, "100%", "100%",
+//				document.getElementById("div_print").innerHTML);
+//		LODOP.PREVIEW();
+//	}
+	window.print();
 }
 
 function sub(){

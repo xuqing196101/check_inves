@@ -97,9 +97,11 @@ public class AuditSummaryController {
 		List<ContractProduct> ContractProducts = contractProductService.selectProjectList(contract);
 		boolean flag = true;
 		for (ContractProduct cp : ContractProducts) {
-			if(cp.getOffer()==0){ //如果已报价
-				flag=false;
-				break;
+			if(cp.getAuditOffer()==0){ 
+				if (cp.getOffer()!=1) {//如果条目已审核
+					flag=false;
+					break;
+				}
 			}else {
 				flag = true;
 				break;
