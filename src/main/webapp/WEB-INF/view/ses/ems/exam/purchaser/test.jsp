@@ -12,7 +12,7 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		window.onload = function(){
+		$(function(){
 			$("#submitNoResult").hide();
 			$("#submitYesResult").hide();
 			var offTime = "${examPaper.offTime}";
@@ -24,7 +24,7 @@
 			var hours = Math.floor(leave1/(3600*1000));
 			var leave2 = leave1%(3600*1000);
 			var minutes = Math.floor(leave2/(60*1000));
-			if(minutes<test){
+			if(minutes < test){
 				document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
 				document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
 				document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
@@ -43,7 +43,7 @@
        		}
        		countSurPlusNo();
        		countSurPlusYes();
-		}
+		})
 		
 		//答题时上一页下一页切换
         function setTab(index){
@@ -72,9 +72,9 @@
 		    var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
 		    var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
 		}else{
-			var timeLeft = test*60*1000-1000;
-		    var timeYes = test*60*1000-1000;
-		    var timeNo = test*60*1000-1000;
+			var timeLeft = test*60*1000;
+		    var timeYes = test*60*1000;
+		    var timeNo = test*60*1000;
 		}
         
 		function countTime(){ 
@@ -225,7 +225,6 @@
 		        <td class="col-md-1 tc">${l.index+1 }</td>
 		        <td class="col-md-11">
 			        <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
-			       
 		          	<c:if test="${pur.examQuestionType.name=='单选题' }">
 						<c:forEach items="${fn:split(pur.items,';')}" var="it">
 						<div class="mt10 clear fl">
@@ -264,7 +263,6 @@
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
 					         <div><span class="mr10">【${pur.examQuestionType.name}】</span><span>${pur.topic }</span></div>
-					        
 					    		<c:if test="${pur.examQuestionType.name=='单选题' }">
 								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
 								    <div class="mt10 clear fl">
@@ -366,26 +364,19 @@
 		     		</tr>
 			    </c:forEach>
 		    </table>
-		    <div class="col-md-12 tc">
-		    	<button class="btn" onclick="setTab(${p.index})" type="button">上一页</button>
-    			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
-  			</div>
+			    <div class="col-md-12 tc">
+			    	<button class="btn" onclick="setTab(${p.index})" type="button">上一页</button>
+	    			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
+	  			</div>
   			</div>
 		    </c:otherwise>
 		 </c:choose>
-   	</c:forEach>
-  </c:otherwise>
-	</c:choose>  
+   		</c:forEach>
+  	</c:otherwise>
+	</c:choose> 
 	
-	
-	<c:if test="${time!=null&&time!='' }">
-		<input type="hidden" value="${time }" name="time" id="retake"/>
-	</c:if>
-  	<c:if test="${thirty!=null&&thirty!='' }">	
-  		<input type="hidden" value="${thirty }" name="thirty"/>
-  	</c:if>	
   	<input type="hidden" value="${purQueAnswer }" name="purQueAnswer"/>
-  	<input type="hidden" value="${paperId }" name="paperId"/>
+  	<input type="hidden" value="${examPaper.id }" name="paperId"/>
   	<input type="hidden" value="${purQueType }" name="purQueType"/>
   	<input type="hidden" value="${purQueId }" name="purQueId"/>
   	</form>

@@ -12,12 +12,11 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			document.getElementById("time").innerHTML = 5+"分钟"+0+"秒"; 
-			$("#startExam").hide();
+			document.getElementById("time").innerHTML = 5+"分钟"+0+"秒";
 		})
 		
 		//倒计时
-		var timeLeft = 20*1000-1000;//这里设定的时间是5分钟 
+		var timeLeft = 5*60*1000;//这里设定的时间是5分钟 
 		function countTime(){
 		    if(timeLeft==0){
 		    	$("#form").submit();

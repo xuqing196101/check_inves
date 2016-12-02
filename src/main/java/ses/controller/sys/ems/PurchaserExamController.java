@@ -697,15 +697,12 @@ public class PurchaserExamController extends BaseSupplierController{
 		if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
 			model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
 			model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
-		}else{
-			model.addAttribute("testTime", examPaper.getTestTime());
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("purQueType",sb_queTypes);
 		model.addAttribute("purQueAnswer", sb_answers);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("purchaserQue",purchaserQue);
-		model.addAttribute("paperId", paperId);
 		model.addAttribute("purQueId", sb_questionIds);
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("examPaper", examPaper);
