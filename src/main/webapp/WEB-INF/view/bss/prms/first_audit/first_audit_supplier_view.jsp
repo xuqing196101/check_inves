@@ -51,7 +51,7 @@
   
   <body>
 	<!-- <div class="container" > -->
-	    <h2 class="list_title">${expert.relName}初审详情</h2>
+	    <h2 class="list_title">${supplier.supplierName}初审详情</h2>
 	    <input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
 	   	<input type="hidden" id="packageId" value="${packageId}">
@@ -60,24 +60,22 @@
 		   		<thead>
 		   		  <th class="w50 info">序号</th>
 		   		  <th class="info">初审项</th>
-		   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
-		   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
+		   		  <c:forEach items="${experts}" var="expert" varStatus="vs">
 			   		    <th class="info">
-			   		      ${supplier.suppliers.supplierName }
+			   		      ${expert.relName}
 			   		    </th>
-		   		    </c:if>
 		   		  </c:forEach>
 		   		</thead>
  	            <c:forEach items="${extension.firstAuditList}" var="first" varStatus="vs">
 			      	<tr>
 			      	  <td class="tc w30">${vs.count} </td>
-			      	  <td class="">${first.name }</td>
-			      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
+			      	  <td class="">${first.name}</td>
+			      	  <c:forEach items="${reviewFirstAuditList}" var="veviewFirstAudit" varStatus="v">
 			      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 	   		                <td class="tc">
 	   		                	<c:forEach items="${reviewFirstAuditList }" var="r" >
-		   		                  <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==0 }">合格</c:if>
-		   		                  <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==1 }">
+		   		                  <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==0 }">合格</c:if>
+		   		                  <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.expertId eq expert.id && r.isPass==1 }">
 		   		                  	不合格
 		   		                  	<a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${r.expertId}');">查看理由</a>
 		   		                  </c:if>

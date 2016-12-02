@@ -982,6 +982,85 @@ public class PackageExpertController {
         model.addAttribute("flowDefineId", flowDefineId);
         return "bss/prms/first_audit/first_audit_expert_view";
     }
+    
+    /**
+     *〈简述〉查看所有专家对供应商的初审明细
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param supplierId 供应商id
+     * @param model
+     * @param packageId 包id
+     * @param projectId 项目id
+     * @return
+     */
+    @RequestMapping("/viewBySupplier")
+    public String viewBySupplier(String supplierId, Model model, String packageId, String projectId, String flowDefineId){
+        Supplier supplier = supplierService.selectById(supplierId);
+        //创建封装的实体
+        Extension extension = new Extension();
+        HashMap<String ,Object> map = new HashMap<String ,Object>();
+        map.put("projectId", projectId);
+        map.put("id", packageId);
+        //查询包信息
+        List<Packages> list = packageService.findPackageById(map);
+        if(list!=null && list.size()>0){
+            Packages packages = list.get(0);
+            //放入包信息
+            extension.setPackageId(packages.getId());
+            extension.setPackageName(packages.getName());
+        }
+        //查询项目信息
+        Project project = projectService.selectById(projectId);
+        if(project!=null){
+            //放入项目信息
+            extension.setProjectId(project.getId());
+            extension.setProjectName(project.getName());
+            extension.setProjectCode(project.getProjectNumber());
+        }
+
+        //查询改包下的初审项信息
+        Map<String,Object> map2 = new HashMap<>();
+        map2.put("projectId", projectId);
+        map2.put("packageId", packageId);
+        //查询出该包下的初审项id集合
+        List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
+        //创建初审项的集合
+        List<FirstAudit> firstAuditList = new ArrayList<FirstAudit>();
+        if(packageAuditList!=null && packageAuditList.size()>0){
+            for (PackageFirstAudit packageFirst : packageAuditList) {
+                //根据初审项的id 查询出初审项的信息放入集合
+                FirstAudit firstAudits = firstAuditService.get(packageFirst.getFirstAuditId());
+                firstAuditList.add(firstAudits);
+            }
+        }
+        //放入初审项集合
+        extension.setFirstAuditList(firstAuditList);
+        //查询专家初审记录
+        Map<String, Object> rfamap = new HashMap<>();
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        map.put("supplierId", supplierId);
+        List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(rfamap);
+        List<Expert> experts = new ArrayList<Expert>();
+        HashMap<String, Object> packageExpertMap = new HashMap<String, Object>();
+        packageExpertMap.put("projectId", projectId);
+        packageExpertMap.put("packageId", packageId);
+        //获取包下所有专家
+        List<PackageExpert> packageExperts = packageExpertService.selectList(packageExpertMap);
+        for (PackageExpert packageExpert : packageExperts) {
+            experts.add(packageExpert.getExpert());
+        }
+        //回显信息放进去
+        model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+        //把封装的实体放入域中
+        model.addAttribute("experts", experts);
+        model.addAttribute("extension", extension);
+        model.addAttribute("supplier", supplier);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
+        return "bss/prms/first_audit/first_audit_supplier_view";
+    }
 
     /**
     *〈简述〉跳转到初审页面

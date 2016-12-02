@@ -35,17 +35,6 @@
 			window.location.href="${pageContext.request.contextPath}/packageExpert/viewByExpert.html?id="+expertId+"&packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
 		}
 	}
-	
-	//查看所有专家对供应商的初审明细
-	function viewByExpert(obj, packageId, projectId, flowDefineId){
-		var supplierId = $('input:radio[name="firstAuditBySupplier"]:checked').val();
-		if (typeof(expertId) == "undefined") {
-			 layer.msg("请选择一名供应商的初审记录",{offset: "100px", shade:0.01});
-		}
-		if (typeof(expertId) != "undefined") {
-			window.location.href="${pageContext.request.contextPath}/packageExpert/viewBySupplier.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
-		}
-	}
   </script>
   <body>
 	    <h2 class="list_title">${pack.name}初审查看</h2>
@@ -80,9 +69,9 @@
 		      </tr>
       	 </c:forEach>
       	 	  <tr>
-      	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>
-      	 		 <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-			       	<td class="tc w30"><input type="radio" name="firstAuditBySupplier" value="${supplier.suppliers.supplierName}"/></td>
+      	 		<td class="tc"><button class="btn" onclick="" type="button">查看明细</button></td>
+      	 		 <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			       	<td class="tc w30"><input  type="radio" /></td>
 			     </c:forEach>
 			    <td></td>
 	      	  </tr>

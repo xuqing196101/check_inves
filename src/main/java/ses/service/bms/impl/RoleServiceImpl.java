@@ -236,4 +236,9 @@ public class RoleServiceImpl implements RoleServiceI {
         }
     }
 
+    @Override
+    public List<Role> selectByUserId(String userId) {
+        return roleMapper.selectByUserId(userId);
+    }
+
 }

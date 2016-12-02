@@ -139,5 +139,14 @@ public interface RoleMapper {
 	* @return BigDecimal
 	 */
 	BigDecimal checkRolesByUserId(HashMap<String,Object> map);
+	
+	/**
+	 *〈简述〉查询用户角色
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param userId 用户id
+	 * @return 角色列表
+	 */
+	List<Role> selectByUserId(String userId);
 
 }

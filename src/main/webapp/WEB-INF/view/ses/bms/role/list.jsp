@@ -128,7 +128,7 @@
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset : '180px',
+			  offset : '100px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/role/edit.html?id='+id
 			});
@@ -201,7 +201,7 @@
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: '180px',
+			  offset: '110px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/role/add.html'
 			});

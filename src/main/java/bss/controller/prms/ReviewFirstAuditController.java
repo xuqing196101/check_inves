@@ -1,3 +1,4 @@
+
 package bss.controller.prms;
 
 import java.math.BigDecimal;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
-import bss.model.ppms.AduitQuota;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
@@ -331,13 +331,14 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("getReason")
 	@ResponseBody
-	public ReviewFirstAudit getReason(String projectId,String packageId,String supplierId,String firstAuditId){
+	public ReviewFirstAudit getReason(String projectId, String packageId, String supplierId, String firstAuditId, String expertId){
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", projectId);
     	map.put("packageId", packageId);
     	map.put("supplierId", supplierId);
     	map.put("firstAuditId", firstAuditId);
-		List<ReviewFirstAudit> list = service.selectList(map );
+    	map.put("expertId", expertId);
+		List<ReviewFirstAudit> list = service.selectList(map);
 		if(list!=null && list.size()>0){
 			ReviewFirstAudit reviewFirstAudit = list.get(0);
 			return reviewFirstAudit;

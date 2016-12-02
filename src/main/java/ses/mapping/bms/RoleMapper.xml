@@ -87,7 +87,7 @@
   </sql>
   
   <!-- 1.根据id查询 -->
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoleBaseMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="RoleBaseMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_ROLE
@@ -95,7 +95,7 @@
   </select>
   
   <!-- 2.根据id删除 -->
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_BMS_ROLE
     where ID = #{id}
   </delete>
@@ -320,6 +320,27 @@
 	       WHERE USER_ID = #{userId}
 	    )
 	    AND CODE = #{code}
+    </select>
+    
+    <!-- 13.根据用户查询角色 -->
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="RoleBaseMap">
+	    SELECT 
+	    	r. ID AS ID,
+			r. NAME AS NAME,
+			r.CREATED_AT AS CREATED_AT,
+			r.DESCRIPTION AS DESCRIPTION,
+			r.IS_DELETED AS IS_DELETED,
+			r.UPDATED_AT AS UPDATED_AT,
+			r.STATUS AS STATUS,
+			r.CODE AS CODE,
+			r.KIND AS KIND
+		FROM
+			T_SES_BMS_ROLE r
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON r. ID = ur.ROLE_ID
+		LEFT JOIN T_SES_BMS_USER U ON ur.USER_ID = U . ID
+		WHERE
+			r.IS_DELETED = 0
+		AND U.ID = #{userId}
     </select>
     
 </mapper>
