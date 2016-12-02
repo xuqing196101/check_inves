@@ -873,7 +873,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
-			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+			}else if(new BigDecimal(paperScore).compareTo(new BigDecimal(passStandard))<=0){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
@@ -1227,7 +1227,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			if(!ValidateUtils.PLUS_NUMBER(passStandard)){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
-			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+			}else if(new BigDecimal(paperScore).compareTo(new BigDecimal(passStandard))<=0){
 				error = "error";
 				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
