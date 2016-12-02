@@ -57,9 +57,8 @@
 			<div class="headline-v2">
 				<h2>供应商抽取表</h2>
 			</div>
-			<div>
-				<table style="width: 70%"
-					class="table table-bordered table-condensed">
+     		  <div class="content table_box">
+				<table class="table table-bordered table-condensed">
 					<tr>
 						<td class="bggrey" width="100px">项目名称:</td>
 						<td colspan="8" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
@@ -73,36 +72,35 @@
 						<td colspan="4">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
-						<td  class="bggrey" height="300px;">抽取条件:<br>抽取数量:
+						<td  class="bggrey">抽取条件:<br>抽取数量:
 						
 						</td>
-						<td colspan="8" height="300px;">
-							<div class="margin-left-100">
+						<td colspan="8">
+							<div class="col-md-12 col-xs-12 col-sm-12">
 								<c:forEach items="${conditionList}" var="con" varStatus="vs">
 								  <c:if test="${con.conditionList != null && fn:length(con.conditionList) != 0}">
-								    <span style="font-size: 16px;">包名：${con.packages.name}<br></span>
+								    <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.packages.name}</span></p>
 									    <c:forEach items="${ con.conditionList}" var="conlist" varStatus="vs">
-										    <span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
-		                                    <br />
-		                                                                                                             供应商所在地区【${conlist.address}】 <br />
+										    <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
+										    <p> 供应商所在地区【${conlist.address}】</p>
 		                                    <ol>
 		                                        <c:forEach items="${conlist.conTypes }" var="contypes">
 		                                            <li><c:choose>
 		                                                    <c:when
 		                                                        test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
-		                                                                                                                                                           ，  供应商类型【 生产型,销售型 】
+		                                                                                                                                                             供应商类型【 生产型,销售型 】
 		                                                          </c:when>
 		                                                    <c:when
 		                                                        test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
-		                                                                                                                                                               ，  供应商类型【生产型】
+		                                                                                                                                                               供应商类型【生产型】
 		                                                  </c:when>
 		                                                    <c:when
 		                                                        test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
-		                                                                                                                                                     ， 供应商类型【销售型】
+		                                                                                                                                                    供应商类型【销售型】
 		                                                 </c:when>
-		                                                </c:choose> ， 
+		                                                </c:choose> 
 		                                                <c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
-		                                                                                                                                               采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 }</li>
+		                                                                                                                                               采购类别【 ${fn:replace(category,'^',',')}】，供应商抽取数量【${contypes.supplieCount}】 </li>
 		                                        </c:forEach>
 	                                    </ol>
 									    </c:forEach>
@@ -196,11 +194,9 @@
 				</table>
 			</div>
 		</div>
-		<div class="col-md-12">
-			<div class="fl padding-10">
-				<button class="btn btn-windows git" onclick="history.go(-1)"
+		<div class="col-md-12 col-xs-12 col-sm-12">
+				<button class="btn btn-windows back" onclick="history.go(-1)"
 					type="button">返回</button>
-			</div>
 		</div>
 	</div>
 </body>

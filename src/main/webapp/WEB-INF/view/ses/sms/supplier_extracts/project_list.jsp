@@ -147,7 +147,7 @@
             <button class="btn"
                 onclick="record();">抽取记录</button>
         </div>
-		<div class="container table_box">
+		<div class="content table_box">
 		
          <table class="table table-striped table-bordered table-hover">
         <thead>

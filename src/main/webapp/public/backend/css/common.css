@@ -613,6 +613,9 @@
   color: #ff007e !important; 
 }
 
+.light_blue{
+  color:#3498db;
+}
 .font_sblck{
   color:#777777;
 }
@@ -844,4 +847,8 @@ a.redhover:hover{
   height:34px;
   line-height:34px;
   overflow:hidden;
+}
+
+.list-style{
+	list-style-type: none;
 }
