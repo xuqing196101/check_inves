@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <%@ taglib uri="/tld/upload" prefix="up"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
@@ -15,6 +15,7 @@ session.setAttribute("tokenSession", tokenValue);
 <script type="text/javascript">
 		function func(){
 			var parentId = $("#addr").val();
+			$("#addr2").val(parentId);
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 				data:{"id":parentId}, 
@@ -22,14 +23,15 @@ session.setAttribute("tokenSession", tokenValue);
 				dataType:"json",
 				success:function(response,status,request){
 					$("#add").empty();
+					$("#add2").empty();
 					$("#add").append("<option  value=''>-请选择-</option>");
+					$("#add2").append("<option  value=''>-请选择-</option>");
 					$.each(response,function(i,result){
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
 				}
 			});
-			$("#addr2").val(parentId);
-			func2();
 		}
 		
 		//第一个字地区事件
@@ -74,20 +76,20 @@ session.setAttribute("tokenSession", tokenValue);
 									$.each(code,function(i,result){
 										if(vals==result){
 						 				checklist[i].checked=true;
-						 			    }
+						 			   }
 										if("GOODS"==result){
 											count++;
 										}
 									});
 							} 
-						   } 
+						  } 
 					    if(count>0){
 							$("#hwType").show(); 
 						}else{
 							$("#hwType").hide(); 
 						}
-				  }
-			  }); 
+				 }
+			 }); 
 			  $("#ztree").show();
 			}else{
 			  $("#ztree").hide();
@@ -105,9 +107,9 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(result){
 				$("#id").val(result.id);
 				  layer.msg("已暂存");
-			  },
+			 },
 			  error:function(result){
-			  }
+			 }
 		});
 	}
 	//无提示暂存
@@ -120,9 +122,9 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-			  },
+			 },
 			  error:function(result){
-			  }
+			 }
 		});
 	}
 	//获取选中子节点id
@@ -139,7 +141,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 				 count++;
 	 				}
 	 			}
-		   } 
+		  } 
 		if(count>0){
 			 $("#hwType").show();  
 		}else{
@@ -153,7 +155,7 @@ session.setAttribute("tokenSession", tokenValue);
 		 			if(vals=='PRODUCT'){
 		 				checklist[i].checked = false;
 		 			} 
-			   }
+			  }
 			 $("#hwType").hide();  
 		}
 	     $("#categoryId").val(ids);
@@ -613,9 +615,9 @@ session.setAttribute("tokenSession", tokenValue);
 		 if(expertsTypeId==1 || expertsTypeId=="1"){
 			 $("#ztree").show();
 			 getChildren();
-		 }else{
+		}else{
 			 $("#ztree").hide();
-		 }
+		}
 		
 	}
 	function four(){
@@ -652,7 +654,7 @@ session.setAttribute("tokenSession", tokenValue);
 		//采购机构
 		var sup = $("#purchaseDepId").val();
 		var purDepId="";
-		var expertId="${expert.id }";
+		var expertId="${expert.id}";
 		if(expertId){
 			$.ajax({
 				url:'${pageContext.request.contextPath}/expert/getPurDepIdByExpertId.do',
@@ -714,22 +716,22 @@ session.setAttribute("tokenSession", tokenValue);
 	var addressId="${expert.address}";
 	window.onload=function(){
 		//地区回显和数据显示
-		 $.ajax({
-		url : "${pageContext.request.contextPath}/area/find_by_id.do",
-		data:{"id":addressId},
-		success:function(obj){
-			$.each(obj,function(i,result){
-				if(addressId == result.id){
-					parentId = result.parentId;
-				$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				$("#add2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-				}else{
-					$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
-					$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
-				}
-			});
-		}
-	}); 
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_id.do",
+			data:{"id":addressId},
+			success:function(obj){
+				$.each(obj,function(i,result){
+					if(addressId == result.id){
+						parentId = result.parentId;
+						$("#add").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						$("#add2").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{
+						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						$("#add2").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+				});
+			}
+		}); 
 		//地区
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
@@ -745,7 +747,8 @@ session.setAttribute("tokenSession", tokenValue);
 				});
 			}
 		});
-		validateBase();
+		//validateBase();
+		func();
 		showJiGou();
 	}
 	
@@ -869,7 +872,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 </script>
 </head>
-<body onload="func()">
+<body>
  <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
@@ -929,7 +932,7 @@ session.setAttribute("tokenSession", tokenValue);
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                        <select  name="gender" id="gender">
                           <option selected="selected" value="">-请选择-</option>
-                          <c:forEach items="${sexList }" var="sex" varStatus="vs">
+                          <c:forEach items="${sexList}" var="sex" varStatus="vs">
                             <option <c:if test="${expert.gender eq sex.id}">selected="selected"</c:if> value="${sex.id}">${sex.name}</option>
                           </c:forEach>
                         </select>
@@ -939,8 +942,8 @@ session.setAttribute("tokenSession", tokenValue);
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                     <select  name="idType" id="idType">
                     <option selected="selected" value="">-请选择-</option>
-                    <c:forEach items="${idTypeList }" var="idType" varStatus="vs">
-                      <option <c:if test="${expert.idType eq idType.id }">selected="selected"</c:if> value="${idType.id}">${idType.name}</option>
+                    <c:forEach items="${idTypeList}" var="idType" varStatus="vs">
+                      <option <c:if test="${expert.idType eq idType.id}">selected="selected"</c:if> value="${idType.id}">${idType.name}</option>
                     </c:forEach>
                    </select>
                     </div>
@@ -969,8 +972,8 @@ session.setAttribute("tokenSession", tokenValue);
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select  name="politicsStatus" id="politicsStatus">
                         <option selected="selected" value="">-请选择-</option>
-                        <c:forEach items="${zzList }" var="zz" varStatus="vs">
-                          <option <c:if test="${expert.politicsStatus eq zz.id }">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
+                        <c:forEach items="${zzList}" var="zz" varStatus="vs">
+                          <option <c:if test="${expert.politicsStatus eq zz.id}">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
                         </c:forEach>
                        </select>
                     </div>
@@ -980,7 +983,7 @@ session.setAttribute("tokenSession", tokenValue);
                      <select  name="hightEducation" id="hightEducation" >
                         <option selected="selected" value="">-请选择-</option>
                         <c:forEach items="${xlList}" var="xl" varStatus="vs">
-                        <option <c:if test="${expert.hightEducation eq xl.id }">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
+                        <option <c:if test="${expert.hightEducation eq xl.id}">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
                         </c:forEach>
                       </select>
                     </div>
@@ -1008,8 +1011,8 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 						<select  name="expertsFrom" id="expertsFrom">
 						<option selected="selected" value="">-请选择-</option>
-						<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
-					     	<option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+						<c:forEach items="${lyTypeList}" var="ly" varStatus="vs"> 
+					     	<option <c:if test="${expert.expertsFrom eq ly.id}">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
 						</c:forEach>
 					   </select>
 					</div>
@@ -1097,31 +1100,31 @@ session.setAttribute("tokenSession", tokenValue);
 				  	<tr>
 				  	   <td class="bggrey" width="15%"><i class="red">*</i>身份证</td>
 				  	   <td>
-				  	      <u:upload id="expert1"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"   auto="true"/>
-				          <u:show showId="show1"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
+				  	      <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
+				          <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
 				  	   </td>
 				  	   <td class="bggrey" width="15%"><i class="red">*</i>学历证书</td>
 				  	   <td>
-				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
-				          <u:show showId="show2"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
+				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
+				          <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
 				  	   </td>
 				  	</tr>
 				  	<tr>
 				  	   <td class="bggrey"><i class="red">*</i>职称证书</td>
 				  	   <td>
-				  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
-				          <u:show  showId="show3"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+				  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
+				          <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
 				  	   </td>
 				  	   <td class="bggrey"><i class="red">*</i>学位证书</td>
 				  	   <td>
-				  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"   typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
-				          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
+				  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
+				          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
 				  	   </td>
 				  	</tr>
 				  	<tr>
 				  	   <td class="bggrey" ><i class="red">*</i>个人照片</td>
 				  	   <td>
-				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7"  businessId="${sysId}" sysKey="${expertKey}"  typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
+				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
 				          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
 				  	   </td>
 				  	</tr>
@@ -1155,9 +1158,9 @@ session.setAttribute("tokenSession", tokenValue);
 			      <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 			        <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		  <option value="">-请选择-</option>
-			   		  <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
-			   		  <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
-			   		  <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
+			   		  <option <c:if test="${expert.expertsTypeId eq '1'}">selected</c:if> value="1">技术</option>
+			   		  <option <c:if test="${expert.expertsTypeId eq '2'}">selected</c:if> value="2">法律</option>
+			   		  <option <c:if test="${expert.expertsTypeId eq '3'}">selected</c:if> value="3">商务</option>
 			        </select>
 			      </div>
 			    </li>
@@ -1442,13 +1445,13 @@ session.setAttribute("tokenSession", tokenValue);
 	   	    <tr>
 	   	      <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
 	   	      <td width="85%">
-	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
-			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }"/>
+	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
+			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	      </td>
 	   	      <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
 	   	      <td width="85%">
-	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }" auto="true"/>
-			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
+	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
+			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
 	   	      </td>
 	   	    </tr>
 		 </table>
