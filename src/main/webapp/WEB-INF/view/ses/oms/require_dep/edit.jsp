@@ -178,180 +178,156 @@
 </script>
 </head>
 <body>
+ <!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+    <div class="container">
+      <ul class="breadcrumb margin-left-0">
+        <li><a href="javascript:void(0)"> 首页</a></li>
+        <li><a href="javascript:void(0)">支撑系统</a></li>
+        <li><a href="javascript:void(0)">后台管理</a></li>
+        <li class="active"><a href="javascript:void(0)">机构管理</a></li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </div>
 
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a>
-				</li>
-				<li><a href="#">支撑系统</a>
-				</li>
-				<li><a href="#">后台管理</a>
-				</li>
-				<li class="active"><a href="#">机构管理</a>
-				</li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
-
-	<!-- 修改订列表开始-->
-	<div class="container">
-		<sf:form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
-			<div>
-			     <h2 class="count_flow"><i>1</i>修改基本信息</h2>
-				<input type="hidden" name="depIds" id="depIds"/>
-				<input type="hidden" name="id" value="${orgnization.id}"/>
-				<ul class="ul_list">
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="name" type="text" value="${orgnization.name }"> <span
-								class="add-on">i</span>
-								<div class="cue"><sf:errors path="name"/></div>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>简称</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="shortName" type="text" value="${orgnization.shortName }"> <span
-								class="add-on">i</span>
-								<div class="cue"><sf:errors path="shortName"/></div>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
-					    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-					      <select   name="typeName"  id="typeName"  onchange="show();"> 
-							    <option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>请选择</option>
-								<option value="1" <c:if test="${orgnization.typeName == '1' }">selected="true"</c:if>>采购机构</option>
-								<option value="2" <c:if test="${orgnization.typeName == '2' }">selected="true"</c:if>>管理部门</option>
-							</select>
-					    </div>
-					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input id="proSec" class="input_group" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
-							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
-						</div></li>
-					
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省份</span>
-						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-							<select name="provinceId" id="provinceId"  onchange="loadCity()"> 
-								<c:forEach items="${areaList}" var="area">
-								   <option value="${area.id}" <c:if test="${orgnization.provinceId == area.id}"> selected="selected"</c:if> >${area.name}</option>
-								</c:forEach>
-							</select>
-						</div></li>	
-					
-					<li class="col-md-3 col-sm-6 col-xs-12 pl15"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市</span>
-						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-							<select id="cityId" name="cityId"> 
-								<c:forEach items="${cityList}" var="city">
-								  <option value="${city.id}" <c:if test="${orgnization.cityId == city.id}"> selected="selected"</c:if>>${city.name}</option>
-								</c:forEach>
-							</select>
-						</div></li>	
-						
-				   <li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="address" type="text" value="${orgnization.address }"> <span
-								class="add-on">i</span>
-						</div></li>
-					
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="mobile" type="text" value="${orgnization.mobile }"> <span
-								class="add-on">i</span>
-						</div></li>
-					
-					
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="postCode" type="text" value="${orgnization.postCode }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"> <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="fax" type="text" value="${orgnization.fax }"> <span
-								class="add-on">i</span>
-						</div></li>
-					
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构代码</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="orgCode" type="text" value="${orgnization.orgCode }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="detailAddr" type="text" value="${orgnization.detailAddr }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">网站地址</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="website" type="text" value="${orgnization.website }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="princinpal" type="text" value="${orgnization.princinpal }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">负责人身份证号</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="princinpalIdCard" type="text" value="${orgnization.princinpalIdCard }"> <span
-								class="add-on">i</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 hide monitor"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">监管机构性质</span>
-						<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-							<input class="input_group" name="nature" type="text" value="${orgnization.nature }"> <span
-								class="add-on">i</span>
-						</div></li>
-				</ul>
-				<div class="padding-top-10 clear">
-                    <h2 class="count_flow"><i>2</i><c:choose>
-                    	<c:when test="${orgnization.typeName==1}">关联采购机构</c:when>
-                    	<c:when test="${orgnization.typeName==2}">关联管理部门</c:when>
-                    	<c:when test="${orgnization.typeName==0}">关联管理部门</c:when>
-                    </c:choose></h2>
-                       <ul class="ul_list">
-                           <div class="col-md-12 pl20 mt10">
-                               <button type="button" class="btn btn-windows add"  id="dynamicAddId" onclick="dynamicAdd();">关联</button>
-                               <button type="button" class="btn btn-windows cancel"  onclick="dynamicCancel();">取消</button>
-                            </div>
-                               <div class="content table_box">
-                                    <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
-                                        <thead>
-                                                <tr>
-                                                    <th class="info w30"><input id="checkAll" type="checkbox"
-                                                        onclick="selectAll()" /></th>
-                                                    <th class="info w50">序号</th>
-                                                    <th class="info">机构名称</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <c:forEach  items="${relaList}" var="dept" varStatus="deptStatus">
-                                                	<tr class="tc" id="${dept.id}">
-                                                		<td>
-                                                			<input type="checkbox" name="selectedItem" value="${dept.id}" />
-                                                	    </td>
-                                                	    <td>${deptStatus.index +1}</td>
-                                                	    <td>${dept.name}</td>
-                                                	</tr>
-                                                </c:forEach>
-                                            </tbody>
-                                    </table>
-                                </div>
-                       </ul>
-                   </div>
+  <!-- 修改订列表开始-->
+  <div class="container">
+    <sf:form action="${pageContext.request.contextPath}/purchaseManage/update.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
+	  <div>
+		<h2 class="count_flow"><i>1</i>修改基本信息</h2>
+		<input type="hidden" name="depIds" id="depIds"/>
+		<input type="hidden" name="id" value="${orgnization.id}"/>
+		<ul class="ul_list">
+		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>名称</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="name" type="text" value="${orgnization.name }"> 
+			  <span class="add-on">i</span>
+			  <div class="cue"><sf:errors path="name"/></div>
 			</div>
-			<div class="col-md-12">
-				<div class="mt40 tc mb50">
-					<button type="submit" class="btn btn-windows save">保存</button>
-					 <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
-				</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12">
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>简称</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="shortName" type="text" value="${orgnization.shortName }"> 
+			  <span class="add-on">i</span>
+			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
-		</sf:form>
-		<!-- tree -->
-		<div id="menuContent" class="menuContent divpopups menutree">
-			<ul id="treeDemo" class="ztree"></ul>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12">
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
+		    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+		      <select   name="typeName"  id="typeName"  onchange="show();"> 
+			    <option value="0" <c:if test="${orgnization.typeName == '0' }">selected="true"</c:if>>请选择</option>
+				<option value="1" <c:if test="${orgnization.typeName == '1' }">selected="true"</c:if>>采购机构</option>
+				<option value="2" <c:if test="${orgnization.typeName == '2' }">selected="true"</c:if>>管理部门</option>
+			  </select>
+			</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input id="proSec" class="input_group" type="text" readonly value="${orgnization.parentName }" name="parentName" onclick="showMenu(); return false;"/>
+			  <input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
+			</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省份</span>
+			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			  <select name="provinceId" id="provinceId"  onchange="loadCity()"> 
+				<c:forEach items="${areaList}" var="area">
+				  <option value="${area.id}" <c:if test="${orgnization.provinceId == area.id}"> selected="selected"</c:if> >${area.name}</option>
+				</c:forEach>
+			  </select>
+			</div>
+		  </li>	
+		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市</span>
+			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			  <select id="cityId" name="cityId"> 
+				<c:forEach items="${cityList}" var="city">
+				  <option value="${city.id}" <c:if test="${orgnization.cityId == city.id}"> selected="selected"</c:if>>${city.name}</option>
+				</c:forEach>
+			  </select>
+			</div>
+		  </li>	
+		  <li class="col-md-3 col-sm-6 col-xs-12"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="address" type="text" value="${orgnization.address }"> 
+			  <span class="add-on">i</span>
+			</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">电话</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="mobile" type="text" value="${orgnization.mobile }"> 
+			  <span class="add-on">i</span>
+			</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="postCode" type="text" value="${orgnization.postCode }"> 
+			  <span class="add-on">i</span>
+			</div>
+		  </li>
+		  <li class="col-md-3 col-sm-6 col-xs-12"> 
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">传真</span>
+			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			  <input class="input_group" name="fax" type="text" value="${orgnization.fax }"> 
+			  <span	class="add-on">i</span>
+			</div>
+		  </li>
+		</ul>
+		<div class="padding-top-10 clear">
+          <h2 class="count_flow"><i>2</i>
+	        <c:choose>
+	          <c:when test="${orgnization.typeName==1}">关联采购机构</c:when>
+	          <c:when test="${orgnization.typeName==2}">关联管理部门</c:when>
+	          <c:when test="${orgnization.typeName==0}">关联管理部门</c:when>
+	        </c:choose>
+          </h2>
+          <ul class="ul_list">
+            <div class="col-md-12 pl20 mt10">
+              <button type="button" class="btn btn-windows add"  id="dynamicAddId" onclick="dynamicAdd();">关联</button>
+              <button type="button" class="btn btn-windows cancel"  onclick="dynamicCancel();">取消</button>
+            </div>
+            <div class="content table_box">
+              <table class="table table-bordered table-condensed table-hover table-striped" id="tab">
+                <thead>
+                  <tr>
+                    <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+                    <th class="info w50">序号</th>
+                    <th class="info">机构名称</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <c:forEach  items="${relaList}" var="dept" varStatus="deptStatus">
+                    <tr class="tc" id="${dept.id}">
+                      <td><input type="checkbox" name="selectedItem" value="${dept.id}" /></td>
+                      <td>${deptStatus.index +1}</td>
+                      <td>${dept.name}</td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
+              </table>
+            </div>
+          </ul>
+        </div>
+      </div>
+	  <div class="col-md-12">
+		<div class="mt40 tc mb50">
+		  <button type="submit" class="btn btn-windows save">保存</button>
+		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
 		</div>
+	  </div>
+	</sf:form>
+	<!-- tree -->
+	<div id="menuContent" class="menuContent divpopups menutree">
+	  <ul id="treeDemo" class="ztree"></ul>
 	</div>
+  </div>
 </body>
 </html>

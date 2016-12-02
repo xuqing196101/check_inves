@@ -5,7 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>采购机构查询</title>
 <script type="text/javascript">
   	  $(function(){
 	  laypage({
@@ -93,70 +92,63 @@ function chongzhi(){
 		}
 </script>
 </head>
-  <body>
-  	<div class="container">
-  		<div class="headline-v2">
-		     <h2>采购机构信息</h2>
-	    </div>
-	    <h2 class="search_detail">
-		<form id="form1" class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
-			<input type="hidden" name="page" id="page"> 
-			<input type="hidden" name="flag" value="0">
-		    <input type="hidden" name="typeName" value="${orgnization.typeName }" />
-		    <ul class="demand_list">
-	          <li>
-	            <label class="fl">机构名称：</label><span><input type="text" name="name" id="name" value="${orgnization.name }"></span>
-	          </li>
-	            <button class="btn" onclick="submit()" type="button">查询</button>
-                <button class="btn" onclick="chongzhi()" type="button"> 重置</button>
-	        </ul>
-	        <div class="clear"></div>
-		</form>
-		</h2>
-		   <div class="col-md-12 pl20 mt10">
-		    <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
-		    <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
-		   </div>
-		<div class="content table_box">
-            <table class="table table-bordered table-condensed table-hover table-striped">
-			<thead>
-				<tr>
-					<th class="info w30"><input type="checkbox"
-						onclick="selectAll();" id="allId" alt="全选">
-					</th>
-					<th class="info w50">序号</th>
-					<th class="info">机构名称</th>
-					<th class="info">类型</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<c:forEach items="${orgnizationList}" var="p" varStatus="vs">
-					<tr class="cursor">
-						<!-- 选择框 -->
-						<td class="tc"><input type="checkbox" name="items"  value="${p.id}" />
-						</td>
-						<!-- 序号 -->
-						<td class="tc">${vs.index+1}</td>
-						<!-- 内容 -->
-						<td class="tc">${p.name}</td>
-						<!-- 创建人-->
-						<td class="tc">
-							<c:choose>
-								<c:when test="${p.typeName=='0'}">
-									监管部门
-								</c:when>
-								<c:when test="${p.typeName=='1'}">
-									采购机构
-								</c:when>
-							</c:choose>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		<div id="pagediv" align="right"></div>
-		</div>
-     </div>
-  </body>
+<body>
+  <div class="container">
+    <div class="headline-v2">
+	  <h2>采购机构信息</h2>
+	</div>
+	<h2 class="search_detail">
+	  <form id="form1" class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
+		<input type="hidden" name="page" id="page"> 
+		<input type="hidden" name="flag" value="0">
+		<input type="hidden" name="typeName" value="${orgnization.typeName }" />
+		<ul class="demand_list">
+	      <li>
+	        <label class="fl">机构名称：</label>
+	        <span><input type="text" name="name" id="name" value="${orgnization.name }"></span>
+	      </li>
+	      <button class="btn" onclick="submit()" type="button">查询</button>
+          <button class="btn" onclick="chongzhi()" type="button"> 重置</button>
+	    </ul>
+	    <div class="clear"></div>
+	  </form>
+	</h2>
+	<div class="col-md-12 pl20 mt10">
+	  <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+	  <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+	</div>
+	<div class="content table_box">
+      <table class="table table-bordered table-condensed table-hover table-striped">
+		<thead>
+		  <tr>
+	        <th class="info w30"><input type="checkbox" onclick="selectAll();" id="allId" alt="全选"></th>
+			<th class="info w50">序号</th>
+			<th class="info">机构名称</th>
+			<th class="info">类型</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <c:forEach items="${orgnizationList}" var="p" varStatus="vs">
+			<tr class="cursor">
+			  <!-- 选择框 -->
+		      <td class="tc"><input type="checkbox" name="items"  value="${p.id}" /></td>
+			  <!-- 序号 -->
+			  <td class="tc">${vs.index+1}</td>
+			  <!-- 内容 -->
+			  <td class="tc">${p.name}</td>
+			  <!-- 创建人-->
+			  <td class="tc">
+				<c:choose>
+				  <c:when test="${p.typeName=='0'}">监管部门</c:when>
+				  <c:when test="${p.typeName=='1'}">采购机构</c:when>
+				</c:choose>
+			  </td>
+			</tr>
+		  </c:forEach>
+		</tbody>
+	  </table>
+	  <div id="pagediv" align="right"></div>
+	</div>
+  </div>
+</body>
 </html>
