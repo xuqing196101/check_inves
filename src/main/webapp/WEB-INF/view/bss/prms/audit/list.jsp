@@ -102,8 +102,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">项目编号</th>
           <th class="info">包名</th>
           <th class="info">采购方式</th>
-          <th class="info">创建时间</th>
-          <th class="info">当前处理人</th>
           <th class="info">项目状态</th>
         </tr>
         </thead>
@@ -116,9 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.name }</td>
               <td class="tc">${obj.projectNumber }</td>
               <td class="tc">${obj.packageName }</td>
-              <td class="tc">${obj.purchaseType }</td>
-              <td class="tc"><fmt:formatDate type='date' value='${obj.createAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-              <td class="tc">${sessionScope.loginUser.loginName}</td>
+              <td class="tc">${obj.dictionary.name }</td>
               <td class="tc">
               <c:if test="${'1'==obj.status}">实施中</c:if>
               <c:if test="${'2'==obj.status}">已成交</c:if>

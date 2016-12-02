@@ -20,11 +20,11 @@ public class TestScore {
         double score=ScoreModelUtil.getScoreByModelOne(scoreModel, flag);
         System.out.println(score);
     }
-    @Test
+    
     public void testTwo() {//修改后测试正常
         ScoreModel scoreModel = new ScoreModel();
         //0加分1减分
-        scoreModel.setAddSubtractTypeName("0");
+        scoreModel.setAddSubtractTypeName("1");
         //加分的起始分值为0  减分起始分值为2
         scoreModel.setReviewStandScore("10");
         //最高分
@@ -68,7 +68,7 @@ public class TestScore {
         }
     }
     
-
+    @Test
     public void testSeven() {
         ScoreModel scoreModel = new ScoreModel();
         //评审基准数
@@ -76,21 +76,21 @@ public class TestScore {
         //0等额区间    1不等额区间
         scoreModel.setIntervalTypeName("0");
         //加减分类型  0 加分 1减分
-        scoreModel.setAddSubtractTypeName("0");
+        scoreModel.setAddSubtractTypeName("1");
         //每个区间之间的差额，用于等额区间模型
-        scoreModel.setIntervalNumber("0.5");
+        scoreModel.setIntervalNumber("1");
         //截止分数
         scoreModel.setDeadlineNumber("5");
         //最高分
         scoreModel.setMaxScore("10");
         //最低分
         scoreModel.setMinScore("0");
-        Integer number=11;
+        Integer number=10;
         double score = ScoreModelUtil.getScoreByModelSeven(scoreModel,number);
         System.out.println(score);
         
     }
-    
+    @Test
     public void testSix() { //精度损失  修改完毕
         ArrayList<SupplyMark> supplyMarkList = new ArrayList<SupplyMark>();
         SupplyMark sm = new SupplyMark();
@@ -110,6 +110,13 @@ public class TestScore {
         sm4.setPrarm(1);
         supplyMarkList.add(sm4);
         
+        double param =2;
+        for (SupplyMark supplyMark : supplyMarkList) {
+            if (param > supplyMark.getPrarm()) {
+                param = supplyMark.getPrarm();
+            }
+        }
+        System.out.println(param);
         ScoreModel scoreModel = new ScoreModel();
         //标准分值standardScore
         scoreModel.setStandardScore("30");

@@ -379,17 +379,33 @@ public class ReviewFirstAuditController {
 		scoreModel.setId(scoreModelId);
 		ScoreModel scoreModel2 = scoreModelService.findScoreModelByScoreModel(scoreModel );
 		List<SupplyMark> list = null ;
-		if(typeName=="3" || typeName.equals("3")) {
+		if(typeName=="2" || typeName.equals("2")) {
 			list = ScoreModelUtil.getScoreByModelThree(scoreModel2, smList);
 		}
-		if(typeName=="4" || typeName.equals("4")) {
+		if(typeName=="3" || typeName.equals("3")) {
 			 list = ScoreModelUtil.getScoreByModelFour(scoreModel2, smList);
 		}
-		if(typeName=="5" || typeName.equals("5")) {
-			 list = ScoreModelUtil.getScoreByModelFive(scoreModel2, smList, null);
+		if(typeName=="4" || typeName.equals("4")) {
+		    double param = 0;
+		    for (SupplyMark supplyMark : smList) {
+                if (param < supplyMark.getPrarm()) {
+                    param = supplyMark.getPrarm();
+                }
+            }
+		    SupplyMark smCondition = new SupplyMark();
+		    smCondition.setPrarm(param);
+			list = ScoreModelUtil.getScoreByModelFive(scoreModel2, smList, smCondition);
 		}
-		if(typeName=="6" || typeName.equals("6")) {
-			 list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,null);
+		if(typeName=="5" || typeName.equals("5")) {
+		    double param = smList.get(0).getPrarm();
+            for (SupplyMark supplyMark : smList) {
+                if (param > supplyMark.getPrarm()) {
+                    param = supplyMark.getPrarm();
+                }
+            }
+            SupplyMark smCondition = new SupplyMark();
+            smCondition.setPrarm(param);
+			list = ScoreModelUtil.getScoreByModelSix(scoreModel2, smList,smCondition);
 		}
 		
 		

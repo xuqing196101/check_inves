@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import ses.util.FloatUtil;
 import bss.model.ppms.ParamInterval;
@@ -23,21 +26,21 @@ import bss.service.ppms.ParamIntervalService;
  * @since
  * @see
  */
+@Component
 public class ScoreModelUtil {
     
     @Autowired
     private ParamIntervalService paramIntervalService;
     private static ScoreModelUtil scoreModelUtil;
-    
-    
    
     public void setParamIntervalService(ParamIntervalService paramIntervalService) {
         this.paramIntervalService = paramIntervalService;
     }
+
+    @PostConstruct 
     public void init() {  
         scoreModelUtil = this;  
         scoreModelUtil.paramIntervalService = this.paramIntervalService;  
-  
     }  
     
     public static double getQuantizateScore(ScoreModel scoreModel,Integer number,Integer flag){
@@ -97,6 +100,7 @@ public class ScoreModelUtil {
         if(scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
             if(number!=null && isNumber(number+"")){
                 double score = FloatUtil.add(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
+                sc = score;
                 if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
                     score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMaxScore()), 0);
                     sc = score;
@@ -105,6 +109,7 @@ public class ScoreModelUtil {
             
         }else if (scoreModel.getAddSubtractTypeName().equals("1")) {
             double score = FloatUtil.sub(reviewStandScore, FloatUtil.mul(Double.parseDouble(number+""), unitScore)) ;
+            sc = score;
             if(scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals("")){
                 score = getDeadlineScore(score, Double.parseDouble(scoreModel.getMinScore()), 1);
                 sc = score;

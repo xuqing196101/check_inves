@@ -223,7 +223,7 @@ public class SupplierQueryController extends BaseSupplierController {
         if (judge != null && judge == NUMBER_THREE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
-            if (sup.getStatus() != null && sup.getStatus() == NUMBER_TWO) {
+            if (sup.getStatus() != null && sup.getStatus() == NUMBER_THREE) {
                 return "ses/sms/supplier_query/select_ruku_supplier_by_province";
             } else {
                 return "ses/sms/supplier_query/select_supplier_by_province";
