@@ -66,16 +66,16 @@
 		                dataType: "json",
 		                success: function(data){
 		             	   if("sccuess"==data){
-		                        layer.alert("重置成功！默认密码：123456",{offset: ['40%', '40%'], shade:0.01});
+		                        layer.alert("重置成功！默认密码：123456",{offset: ['100px', '300px'], shade:0.01});
 		                           }else{
-		                         	   layer.alert("重置失败！请尝试重新重置",{offset: ['200px', '200px'], shade:0.01});
+		                         	   layer.alert("重置失败！请尝试重新重置",{offset: ['100px', '300px'], shade:0.01});
 		                           }
 		                         }
 		            });
 		        }else if(id.length>1){
-		            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		            layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
 		        }else{
-		            layer.alert("请选择需要重置密码的专家",{offset: ['222px', '390px'], shade:0.01});
+		            layer.alert("请选择需要重置密码的专家",{offset: ['100px', '300px'], shade:0.01});
 		        }
 		 }
 		 
@@ -102,9 +102,9 @@
              if(id.length==1){
                  window.location.href="${pageContext.request.contextPath}/packageExpert/relate.html?packageId=${packageId}&&groupId="+id+"&&flowDefineId=${flowDefineId}";
              }else if(id.length>1){
-                 layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+                 layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
              }else{
-                 layer.alert("请选择组长",{offset: ['222px', '390px'], shade:0.01});
+                 layer.alert("请选择组长",{offset: ['100px', '300px'], shade:0.01});
              }
 
 		 }

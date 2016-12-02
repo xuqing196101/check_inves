@@ -62,9 +62,9 @@
                 if(id.length==1){
                     window.location.href="${pageContext.request.contextPath}/ExpExtract/showTemporaryExpert.html?packageId="+id+"&&projectId=${project.id}&&&&flowDefineId=${flowDefineId}";
                 }else if(id.length>1){
-                    layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+                    layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
                 }else{
-                    layer.alert("请选择包",{offset: ['222px', '390px'], shade:0.01});
+                    layer.alert("请选择包",{offset: ['100px', '300px'], shade:0.01});
                 }
          }
          
@@ -77,15 +77,15 @@
                 if(id.length==1){
                     window.location.href="${pageContext.request.contextPath}/packageExpert/showExpert.html?packageId="+id+"&&flowDefineId=${flowDefineId}";
                 }else if(id.length>1){
-                    layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+                    layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
                 }else{
-                    layer.alert("请选择包",{offset: ['222px', '390px'], shade:0.01});
+                    layer.alert("请选择包",{offset: ['100px', '300px'], shade:0.01});
                 }
          }
          /** 执行完成*/
          function finish(){
              layer.confirm('确定之后不可修改，是否确定？', {
-                  btn: ['确定','取消'],offset: ['40%', '40%'], shade:0.01
+                  btn: ['确定','取消'],offset: ['100px', '300px'], shade:0.01
                 }, function(index){
                     $.ajax({
                         type: "POST",
