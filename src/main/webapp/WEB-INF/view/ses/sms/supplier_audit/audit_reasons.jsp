@@ -24,10 +24,9 @@
             $("#tuihui").attr("disabled", true);
         }
         if(num != 0){
-            $("#tonguo").attr("disabled", true);
-        }
+            $("#tongguo").attr("disabled", true);
+        };
       });
-
 
 			function tijiao(status){
 			  $("#status").val(status);
@@ -171,41 +170,40 @@
               </ul>
             </c:forEach>
         </div> --%>
-        </div>
-        
-        <c:if test="${status==1 }">
-	        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
-		      <ul class="ul_list">
-	          <li class="col-md-6 p0 mb25">
+	        <c:if test="${status==1 }">
+		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
+			      <ul class="ul_list">
+		          <li class="col-md-6 p0 mb25">
+		            <input name="supplierId" value="${supplierId}" type="hidden">
+		            <span class="col-md-5 padding-left-5" ><a class="star_red">*</a>上传考察表:</span>
+		            <div style="margin-bottom: 25px">
+		              <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+		              <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+		            </div>
+		          </li>
+	          </ul>
+	        </c:if>
+	        <div class="col-md-12 add_regist tc">
+	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
-	            <span class="col-md-5 padding-left-5" ><i class="red">*</i>上传考察表:</span>
-	            <div style="margin-bottom: 25px">
-	              <up:upload id="inspect" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
-	              <up:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
+	            <input name="id" type="hidden">
+	            <input type="hidden" name="status" id="status"/>
+	            <div class="margin-bottom-0  categories">
+	              <div class="col-md-12 add_regist tc">
+			            <c:if test="${status==0 || status==5  || status==8}">
+			              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tongguo">
+			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
+			            </c:if>
+			            <c:if test="${status==1 || status==6}">
+			              <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tongguo">
+			              <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
+			            </c:if>
+	              </div>
 	            </div>
-	          </li>
-          </ul>
-        </c:if>
-        <div class="col-md-12 add_regist tc">
-          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
-            <input name="supplierId" value="${supplierId}" type="hidden">
-            <input name="id" type="hidden">
-            <input type="hidden" name="status" id="status"/>
-            <div class="margin-bottom-0  categories">
-              <div class="col-md-12 add_regist tc">
-		            <c:if test="${status==0 || status==5  || status==8}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tonguo">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过" id="butonguo">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
-		            </c:if>
-		            <c:if test="${status==1 || status==6}">
-		              <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tonguo">
-		              <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过" id="butogguo">
-		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
-		            </c:if>
-              </div>
-            </div>
-          </form>
+	          </form>
+          </div>
         </div>     
       </div>
     </div>

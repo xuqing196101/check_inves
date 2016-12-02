@@ -73,6 +73,7 @@
 				      }
 				      });
 				        $("#"+id+"_show").show();
+				        $("#"+id+"_hidden").hide();
 				        layer.close(index);
 				    });
 				}
@@ -278,20 +279,20 @@
 		            <th class="info">有效期(起止时间)</th>
 		            <th class="info">是否年检</th>
 		            <th class="info">附件</th>
-		            <th class="info"></th>
+		            <th class="info w50">操作 </th>
 		          </tr>
 		          </thead>
 	          <c:forEach items="${materialProduction}" var="m" varStatus="vs">
 	            <tr>
 	              <td class="tc">${vs.index + 1}</td>
-	              <td class="tc" id="${m.id}" onclick="reason('${m.id}');">${m.name }</td>
-	              <td class="tc" onclick="reason('${m.id}');">${m.levelCert}</td>
-	              <td class="tc" onclick="reason('${m.id}');">${m.licenceAuthorith }</td>
-	              <td class="tc" onclick="reason('${m.id}');">
+	              <td class="tc" id="${m.id}">${m.name }</td>
+	              <td class="tc" >${m.levelCert}</td>
+	              <td class="tc" >${m.licenceAuthorith }</td>
+	              <td class="tc" >
 	                <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
 	                <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
 	              </td>
-	              <td class="tc" onclick="reason('${m.id}');">
+	              <td class="tc" >
 	               <c:if test="${m.mot==0 }">否</c:if>
 	               <c:if test="${m.mot==1 }">是</c:if>
 	              </td>
@@ -303,8 +304,9 @@
 	                  <a class="red">无附件下载</a>
 	                </c:if>
 	              </td>
-	              <td class="tc">
-	                <a  id="${m.id }_show" class="abolish">×</a>
+	              <td class="tc w50">
+	                <p onclick="reason('${m.id}');" id="${m.id}_hidden" class="btn">审核</p>
+	                <a  id="${m.id }_show" class="b red">×</a>
 	              </td>
 	            </tr>
 	          </c:forEach>

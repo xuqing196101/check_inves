@@ -65,8 +65,10 @@
 	    });
 	    
 	    if(auditFieldName == "财务信息"){
+	      $("#"+id+"_hidden1").hide();
 	      $("#"+id+"_show").show();
 	    }else{
+	      $("#"+id+"_hidden2").hide();
 	      $("#"+id+"_fileShow").show();
 	    }
 	      layer.close(index);
@@ -269,7 +271,7 @@
 	                <th class="info">负债总额</th>
 	                <th class="info">净资产总额</th>
 	                <th class="info">营业收入</th>
-	                <th class="info"></th>
+	                <th class="info w50">操作</th>
 	              </tr>
 	            </thead>
 	            <c:forEach items="${financial}" var="f" varStatus="vs">
@@ -284,8 +286,9 @@
 	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalLiabilities }</td>
 	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalNetAssets}</td>
 	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.taking}</td>
-	                <td class="tc" >
-	                  <p id="${f.id}_show" class="b f18 fl ml10 hand red">×</p>
+	                <td class="tc w50">
+	                  <a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="btn">审核</a>
+	                  <p id="${f.id}_show" class="b red">×</p>
 	                </td>
 	              </tr>
 	            </c:forEach>
@@ -304,14 +307,14 @@
 	                  <th class="info">资产负债表</th>
 	                  <th class="info">现金流量表</th>
 	                  <th class="info">所有者权益变动表</th>
-	                  <th class="info"></th>
+	                  <th class="info w50">操作</th>
 	                </tr>
 	              </thead>
 	              <tbody id="finance_attach_list_tbody_id">
 	                <c:forEach items="${financial}" var="finance" varStatus="vs">
 	                  <tr>
-	                    <td class="tc" onclick="reason('${finance.id}','财务附件');">${vs.index + 1}</td>
-	                    <td class="tc" id="${finance.id }" onclick="reason('${finance.id}','财务附件');">${finance.year}</td>
+	                    <td class="tc">${vs.index + 1}</td>
+	                    <td class="tc">${finance.year}</td>
 	                    <td class="tc">
 	                      <a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
 	                    </td>
@@ -327,8 +330,9 @@
 	                    <td class="tc">
 	                      <a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
 	                    </td>
-	                    <td class="tc" >
-	                      <p id="${finance.id}_fileShow" class="b f18 fl ml10 hand red" >×</p>
+	                    <td class="tc w50" >
+	                      <a onclick="reason('${finance.id}','财务附件');" id="${finance.id}_hidden2" class="btn">审核</a>
+	                      <p id="${finance.id}_fileShow" class="b red" >×</p>
 	                    </td>
 	                  </tr>
 	                 </c:forEach>

@@ -71,6 +71,7 @@
 			        }
 			      }
 			    });
+			       $("#"+id+"_hidden").hide();
 			       $("#"+id+"_show").show();
 			       layer.close(index);
 			    });
@@ -254,20 +255,20 @@
 	                <th class="info">有效期(起止时间)</th>
 	                <th class="info">是否年检</th>
 	                <th class="info">附件</th>
-	                <th class="info"></th>
+	                <th class="info w50">操作</th>
 	              </tr>
 	            </thead>
 	            <c:forEach items="${supplierCertSell}" var="s" varStatus="vs">
 	              <tr>
 	                <td class="tc">${vs.index + 1}</td>
-	                <td class="tc" id="${s.id}"  onclick="reason('${s.id}');" >${s.name }</td>
-	                <td class="tc"  onclick="reason('${s.id}');" >${s.levelCert}</td>
-	                <td class="tc"  onclick="reason('${s.id}');" >${s.licenceAuthorith }</td>
-	                <td class="tc"  onclick="reason('${s.id}');" >
+	                <td class="tc" id="${s.id}" >${s.name }</td>
+	                <td class="tc"  >${s.levelCert}</td>
+	                <td class="tc"  >${s.licenceAuthorith }</td>
+	                <td class="tc"  >
 	                  <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
 	                  <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
 	                </td>
-	                <td class="tc" onclick="reason('${s.id}');">
+	                <td class="tc" >
 	                 <c:if test="${s.mot==0 }">否</c:if>
 	                 <c:if test="${s.mot==1 }">是</c:if>
 	                </td>
@@ -279,8 +280,9 @@
 	                  <c:if test="${s.attach ==null}">
 	                   <a class="red">无附件下载</a>
 	                  </c:if>
-	                <td class="tc">
-	                  <a id="${s.id }_show" class="abolish">×</a>
+	                <td class="tc w50">
+	                  <p onclick="reason('${s.id}');"  id="${s.id}_hidden" class="btn">审核</p>
+	                  <a id="${s.id }_show" class="b red">×</a>
 	                </td>
 	              </tr>
 	            </c:forEach>

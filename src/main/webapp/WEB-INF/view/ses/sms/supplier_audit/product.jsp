@@ -61,7 +61,6 @@
 			        }
 			      }
 			    });
-			        
 					    $("#"+id+"_show").show();
 					    layer.close(index);
 			    });
@@ -260,7 +259,7 @@
 		                    </c:forEach> 
 		                  </c:forEach>
 		                  <td class="tc" >
-                        <a  id="" class="b f18 fl ml10 hand red">×</a>
+                        <a  id="${obj.id}_show" class="b f18 fl ml10 hand red">×</a>
                       </td>
 	                  </tr>  
 	                </table>

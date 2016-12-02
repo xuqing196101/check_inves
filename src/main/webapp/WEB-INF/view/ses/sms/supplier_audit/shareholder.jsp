@@ -60,6 +60,7 @@
 		        }
 		      }
 		      });
+		        $("#"+id+"_hidden").hide();
 			      $("#"+id+"_show").show();
 			       layer.close(index);
 		    });
@@ -196,19 +197,20 @@
 		            <th class="info">统一社会信用代码或身份证</th>
 		            <th class="info">出资金额或股份(万元/份)</th>
 		            <th class="info">比例(%)</th>
-		            <th class="info"></th>
+		            <th class="info w50">操作</th>
 		          </tr>
             </thead>
 	            <c:forEach items="${shareholder}" var="s" varStatus="vs">
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
-		              <td class="tc" id="${s.id }" onclick="reason('${s.id}');">${s.name}</td>
-		              <td class="tc" onclick="reason('${s.id}');">${s.nature}</td>
-		              <td class="tc" onclick="reason('${s.id}');">${s.identity}</td>
-		              <td class="tc" onclick="reason('${s.id}');">${s.shares}</td>
-		              <td class="tc" onclick="reason('${s.id}');">${s.proportion}%</td>
-		              <td class="tc" onclick="reason('${s.id}');">
-		                <a  class="b f18 fl ml10 hand red" id="${s.id}_show">×</a>
+		              <td class="tc" id="${s.id }" >${s.name}</td>
+		              <td class="tc">${s.nature}</td>
+		              <td class="tc" >${s.identity}</td>
+		              <td class="tc" >${s.shares}</td>
+		              <td class="tc" >${s.proportion}%</td>
+		              <td class="tc w50" >
+		                <a  class="b red" id="${s.id}_show">×</a>
+		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
 		              </td>
 	              </tr>
 	            </c:forEach>

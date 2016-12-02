@@ -71,6 +71,9 @@
 				      }
 				    }
 				  });
+				    $("#"+id+"_hidden").hide();
+				    $("#"+id+"_hidden1").hide();
+				    $("#"+id+"_hidden2").hide();
 				    $("#"+id+"_show").show();
 				    $("#"+id+"_show1").show();
 				    $("#"+id+"_show2").show();
@@ -264,29 +267,29 @@
 		              <th class="info">有效截止日期</th>
 		              <th class="info">证书状态</th>
 		              <th class="info">附件</th>
-		             <th class="info"></th>
+		             <th class="info w50">操作</th>
 		            </tr>
 		          </thead>
               <c:forEach items="${supplierCertEng}" var="s" >
                 <tr>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certType }</td>
-                  <td class="tc" id="${s.id }" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certCode }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.certMaxLevel }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techName }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techPt }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.techJop }</td>
-                  <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >${s.depName }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.depPt }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.depJop }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >${s.licenceAuthorith }</td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
+                  <td class="tc" >${s.certType }</td>
+                  <td class="tc" id="${s.id }" >${s.certCode }</td>
+                  <td class="tc" >${s.certMaxLevel }</td>
+                  <td class="tc" >${s.techName }</td>
+                  <td class="tc" >${s.techPt }</td>
+                  <td class="tc" >${s.techJop }</td>
+                  <td class="tc" >${s.depName }</td>
+                  <td class="tc" >${s.depPt }</td>
+                  <td class="tc" >${s.depJop }</td>
+                  <td class="tc" >${s.licenceAuthorith }</td>
+                  <td class="tc " >
                     <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
                   </td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
+                  <td class="tc" >
                      <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>
                      <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
                   </td>
-                  <td class="tc" onclick="reason('${s.id}','工程-资质证书信息');" >
+                  <td class="tc" >
                     <c:if test="${s.certStatus==0 }">无效</c:if>
                     <c:if test="${s.certStatus==1 }">有效</c:if>
                   </td>
@@ -299,8 +302,9 @@
                          <a class="red">无附件下载</a>
                        </c:if>
                   </td>
-                  <td class="tc">
-                    <a id="${s.id }_show" class="b f18 fl ml10 hand red">×</a>
+                  <td class="tc w50">
+                    <p onclick="reason('${s.id}','工程-资质证书信息');" id="${s.id}_hidden" class="btn">审核</p>
+                    <a id="${s.id }_show" class="b red">×</a>
                   </td>
                 </tr>
               </c:forEach>
@@ -326,33 +330,33 @@
 		              <th class="info">资质资格状态变更时间</th>
 		              <th class="info">资质资格状态变更原因</th>
 		              <th class="info">附件</th>
-		              <th class="info"></th>
+		              <th class="info w50">操作</th>
 		            </tr>
               </thead>
 		          <c:forEach items="${supplierAptitutes}" var="s" >
 		            <tr>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.certType }</td>
-		              <td class="tc" id="${s.id }" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.certCode }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteSequence }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.professType }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteLevel }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
+		              <td class="tc" >${s.certType }</td>
+		              <td class="tc" id="${s.id }" >${s.certCode }</td>
+		              <td class="tc" >${s.aptituteSequence }</td>
+		              <td class="tc" >${s.professType }</td>
+		              <td class="tc" >${s.aptituteLevel }</td>
+		              <td class="tc" >
 		                <c:if test="${s.isMajorFund==0 }">否</c:if>
 		                <c:if test="${s.isMajorFund==1 }">是</c:if>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteContent }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteCode }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
+		              <td class="tc" >${s.aptituteContent }</td>
+		              <td class="tc" >${s.aptituteCode }</td>
+		              <td class="tc" >
 		                <fmt:formatDate value="${s.aptituteDate }" pattern='yyyy-MM-dd'/>
 		              </td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteWay }</td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
+		              <td class="tc" >${s.aptituteWay }</td>
+		              <td class="tc" >
 		                <c:if test="${s.aptituteStatus==0 }">无效</c:if>
 		                <c:if test="${s.aptituteStatus==1 }">有效</c:if>
 		              </td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >
+		              <td class="tc">
 		                <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
 		              </td>
-		              <td class="tc" onclick="reason('${s.id}','工程-资质资格证书信息');" >${s.aptituteChangeReason }</td>
+		              <td class="tc">${s.aptituteChangeReason }</td>
 		              <td class="tc" >
 		                <c:if test="${s.attachCert !=null}">
 		                  <%-- <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a> --%>
@@ -362,8 +366,9 @@
 		                    <a class="red">无附件下载</a>
 		                </c:if>
 		              </td>
-		              <td class="tc">
-		                <a id="${s.id }_show1" class="b f18 fl ml10 hand red">×</a>
+		              <td class="tc w50">
+		                <p onclick="reason('${s.id}','工程-资质资格证书信息');" id="${s.id}_hidden1" class="btn">审核</p>
+		                <a id="${s.id }_show1" class="b red">×</a>
 		              </td>
 		            </tr>
 		          </c:forEach>
@@ -378,16 +383,17 @@
 	                <th class="info w50">序号</th>
 	                <th class="info">注册名称</th>
 	                <th class="info">注册人数</th>
-	                <th class="info"></th>
+	                <th class="info w50">操作</th>
 	              </tr>
 		          </thead>
               <c:forEach items="${listRegPerson}" var="regPrson" varStatus="vs">
-                <tr onclick="reason('${regPrson.id}','工程-注册人员登记信息');">
+                <tr>
                   <td class="tc">${vs.index + 1}</td>
                   <td class="tc">${regPrson.regType}</td>
                   <td class="tc">${regPrson.regNumber}</td>
-                  <td class="tc">
-                    <a id="${regPrson.id }_show2" class="abolish">×</a>
+                  <td class="tc w50">
+                    <p onclick="reason('${regPrson.id}','工程-注册人员登记信息');" id="${regPrson.id}_hidden2" class="btn">审核</p>
+                    <a id="${regPrson.id }_show2" class="b red">×</a>
                   </td>
                 </tr>
               </c:forEach>
