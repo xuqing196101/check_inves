@@ -205,7 +205,7 @@
 					  <input type="hidden" name="ss" value="${obj.parentId }">
 					</c:if>
 				    <c:if test="${obj.price==null}">
-					  <input style="border: 0px;" readonly="readonly" onblur="sum1(this)" type="text" name="lists[${vs.index }].price" value="${obj.price }">
+					  <input style="border: 0px;" readonly="readonly"  type="text" name="lists[${vs.index }].price" value="${obj.price }">
 					</c:if>
 				  </td>
 				  <td class="tc">

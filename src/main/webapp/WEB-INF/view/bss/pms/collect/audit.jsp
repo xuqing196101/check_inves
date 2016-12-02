@@ -3,31 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/tld/upload" prefix="u"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
-
-<title>采购需求管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
-
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
-<script>
-	var globalPath = "${contextPath}";
-</script>
-
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -68,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	function view(no){
   		
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no;
   	}
   	
   	 function aadd(){
@@ -100,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	function sets(){
 			 var id=$("#cid").val(); 
  		
-			window.location.href="<%=basePath%>set/list.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/set/list.html?id="+id;
 	  
 	}
  	
@@ -159,7 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-		<a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>look/report.html?id=${id}">生成评审报告页面pdf</a>
+		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面pdf</a>
 		
 			<form action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<table class="table table-bordered table-condensed mt5">

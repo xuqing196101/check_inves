@@ -2,59 +2,38 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>采购需求管理</title>  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	
-
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
- 
 <script type="text/javascript">
 
   /*分页  */
   $(function(){
-	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${info.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    total: "${info.total}",
-		    startRow: "${info.startRow}",
-		    endRow: "${info.endRow}",
-		    skip: true, //是否开启跳页
-		  
-		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
-		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//			        var page = location.search.match(/page=(\d+)/);
-//			        return page ? page[1] : 1;
-				return "${info.pageNum}";
-		    }(), 
-		    jump: function(e, first){ //触发分页后的回调
-		            if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        $("#page").val(e.curr);
-		          $("#add_form").submit();
-		        	
-		         
-		        }  
-		    }
-		});
+      laypage({
+            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+            pages: "${info.pages}", //总页数
+            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+            total: "${info.total}",
+            startRow: "${info.startRow}",
+            endRow: "${info.endRow}",
+            skip: true, //是否开启跳页
+            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
+            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+//                  var page = location.search.match(/page=(\d+)/);
+//                  return page ? page[1] : 1;
+                return "${info.pageNum}";
+            }(), 
+            jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                    $("#page").val(e.curr);
+                     $("#add_form").submit();
+                    
+                }  
+            }
+        });
   });
-    
-
+  
 	
 	function closeds(){
 		var id  = $('input[name="chkItem"]:checked').val(); 
@@ -107,33 +86,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-
+<div class="container">
 <!-- 录入采购计划开始-->
-<!--  <div class="container">
+ <div class="container">
    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
+      <h2>用户列表</h2>
+   </div>
 <!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-   <form id="add_form" action="${pageContext.request.contextPath }/set/user.html" method="post" >
-   
+   <h2 class="search_detail">
+   <form id="add_form" class="mb0" action="${pageContext.request.contextPath }/set/user.html" method="post" >
     <input type="hidden" name="page" id="page">
-	 用户名称 <input class="mt10"  type="text" name="relName" value="${user.relName}"/> 
-	   		 <input class="btn-u"   type="submit" name="" value="查询" />
- 
-   <input type="button" class="btn-u"  onclick="closeds()" value="确定 "/>
-      		<input type="button" class="btn-u"  onclick="cancel()" value="取消 "/>
-   
+    <ul class="demand_list">
+          <li>
+            <label class="fl">  用户名称 ：</label><span><input type="text" id="topic" name="relName" value="${user.relName }"/></span>
+          </li>
+            <button type="submit" class="btn">查询</button>
+    </ul>
+   <div class="clear"></div>
    </form>  
-   
-      		
-  </div>
- <span style="margin-left: 30px;">用户列表</span>	
-  <!--   <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">受理</button>
-	  </span> -->
-   <div class="container clear">
-        <table class="table table-bordered table-condensed mt5">
+  </h2>
+  <div class="col-md-12 pl20 mt10">
+             <input type="button" class="btn btn-windows git"  onclick="closeds()" value="确定" />
+            <input type="button" class="btn btn-windows cancel"   onclick="cancel()" value="取消">
+   </div>
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"></th>
@@ -141,11 +118,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">姓名</th>
 		  <th class="info">电话</th>
 		  <th class="info">身份证号</th>
-		  
-	<!-- 	  <th class="info">编报人</th>
-		  <th class="info">提交日期</th>
-		  <th class="info">预算总金额</th>
-		  <th class="info">状态</th> -->
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
@@ -157,28 +129,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    </td>
 			    <td class="tc"  >${obj.mobile }</td>
 			 	<td class="tc"  > </td>
-			    
-			
-			
-		 
-			  
-			 
 			</tr>
-	 
 		 </c:forEach>
-		 
-
       </table>
-      
-      <div id="pagediv" align="right"></div>
    </div>
-<!--  </div> -->
-
-
- 			
- 
+   <div id="pagediv" align="right"></div>
+   </div>
 	 </body>
-	<form id="collected_form" action="" method="post" style="margin-top: 20px;display: none;">
+	<form id="collected_form" action="" method="post" >
 	 <input type="hidden" value="" name="id" id="aid">
 	  <input type="hidden" name="type" value="2">
 	  <input type="hidden" name="collectId" value="" id="cid">

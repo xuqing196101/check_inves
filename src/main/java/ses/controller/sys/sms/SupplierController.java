@@ -328,7 +328,7 @@ public class SupplierController extends BaseSupplierController {
 		}else if(flag.equals("2")){
 			supplierService.perfectBasic(supplier);
 //			supplier = supplierService.get(supplier.getId());
-			supplier = supplierService.get(supplier.getId());
+			Supplier supplier2 = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -337,6 +337,15 @@ public class SupplierController extends BaseSupplierController {
 			dd2.setKind(8);
 			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 			request.getSession().setAttribute("wlist", wlist);
+			
+			 if(supplier2.getListSupplierFinances()!=null&&supplier2.getListSupplierFinances().size()>0){
+	                supplier.setListSupplierFinances(supplier2.getListSupplierFinances());  
+	            }
+	            if(supplier2.getListSupplierStockholders()!=null&&supplier2.getListSupplierStockholders().size()>0){
+	                supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
+	            }
+	            
+	            
 			request.getSession().setAttribute("currSupplier", supplier);
 			
 			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -344,7 +353,7 @@ public class SupplierController extends BaseSupplierController {
 			
 			return "ses/sms/supplier_register/basic_info";
 		}else{
-			 supplier = supplierService.get(supplier.getId());
+		    Supplier supplier2 = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -353,6 +362,15 @@ public class SupplierController extends BaseSupplierController {
 			dd2.setKind(8);
 			List<DictionaryData> wlist = dictionaryDataServiceI.find(dd2);
 			request.getSession().setAttribute("wlist", wlist);
+			 if(supplier2.getListSupplierFinances()!=null&&supplier2.getListSupplierFinances().size()>0){
+                 supplier.setListSupplierFinances(supplier2.getListSupplierFinances());  
+             }
+             if(supplier2.getListSupplierStockholders()!=null&&supplier2.getListSupplierStockholders().size()>0){
+                 supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
+             }
+             
+             
+             
 			request.getSession().setAttribute("currSupplier", supplier);
 			
 			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -423,7 +441,7 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
-		supplier = supplierService.get(supplier.getId());
+	//	supplier = supplierService.get(supplier.getId());
  
 
 		request.getSession().setAttribute("currSupplier", supplier);

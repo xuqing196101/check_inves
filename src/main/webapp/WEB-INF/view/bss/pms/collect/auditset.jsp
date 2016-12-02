@@ -2,30 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>采购需求管理</title>  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	
-
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
  <link href="${pageContext.request.contextPath}/public/codebase/set.css" media="screen" rel="stylesheet" type="text/css" >
- 
-
- 
   <script type="text/javascript">
   
   var id="${id}";
@@ -127,26 +108,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   	  layer.open({
 		  type: 2, //page层
-		  area: ['600px', '500px'],
+		  area: ['900px', '500px'],
 		  title: '专家库',
 		  closeBtn: 1,
 		  shade:0.01, //遮罩透明度
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
-		  offset: ['80px', '100px'],
+		  offset: ['200px', '500px'],
 		  content:  '${pageContext.request.contextPath}/set/expert.html',
 		});
     }
     function users(){
     	 layer.open({
    		  type: 2, //page层
-   		  area: ['600px', '500px'],
+   		  area: ['900px', '500px'],
    		  title: '用户库',
    		  closeBtn: 1,
    		  shade:0.01, //遮罩透明度
    		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		  shift: 1, //0-6的动画形式，-1不开启
-   		  offset: ['80px', '100px'],
+   		  offset: ['200px', '500px'],
    		  content:  '${pageContext.request.contextPath}/set/user.html',
    		});
     }
@@ -200,32 +181,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
 <!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
+  <%-- <div class="border1 col-md-12 ml30">
     <form id="add_form" >
   		审核人员设置： <input type="text" class="mt10" name="planName" value="${inf.planName }"/>
-<!-- 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- -->	 
-
-	
-    
    </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>审核人员列列表
-	  </h2>
-   </div> 
-    <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="experts()">从专家库添加</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="users()">从用户库添加</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="temp()">临时添加</button>
+  </div> --%>
+  <div class="container container_box">
+  <div>
+  <h2 class="list_title">审核人员列列表</h2>
+  <ul class="ul_list">
+      
+    <div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows add" onclick="experts()">专家库添加</button>
+		<button class="btn btn-windows add" onclick="users()">用户库添加</button>
+		<button class="btn btn-windows add" onclick="temp()">临时添加</button>
 		
-	  </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+	  </div>
+  <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -251,18 +225,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</tr>
 	 
 		 </c:forEach>
-		 
-
       </table>
-      
-      <div id="pagediv" align="right"></div>
    </div>
+    <div id="pagediv" align="right"></div>
+ </ul>
  </div>
- <div style="margin-top: 50px;">
-  <span style="font-size: 18px;margin-left: 150px;">审核字段设置</span> 
- </div>
-
-<div style="margin-left: 145px;margin-top: 20px;border: 1px solid #ccc;width: 800px;height: 205px;">
+ <div class="padding-top-10 clear">
+    
+      <h2 class="list_title">审核字段设置
+      </h2>
+<ul class="ul_list">
+<div class="content table_box">
 	
 	<div class="selectbox" style="float: left;">
 		<div class="select-bar">
@@ -303,9 +276,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
 	
 </div>
+</ul>
+</div>
 	<div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="save()">保存</button>
-		<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		<button class="btn btn-windows git" onclick="save()">保存</button>
+		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
 
  <div id="content" class="dnone">
@@ -328,8 +303,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	 </form>   
  </div>
-
-
+</div>
+</div>
 	<form id="set_form" action="${pageContext.request.contextPath}/set/update.html" method="post" style="display: none;">
 		 <input type="hidden" name="val1" value="" id="val1" >
 	 	<input type="hidden" name="val2" value="" id="val2" >

@@ -210,7 +210,7 @@
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
-                      <input  class="border0"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+                      <input  class="border0"    type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
                     </c:if>
                   </td>
                   <td class="tc">
@@ -220,7 +220,7 @@
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
-                      <input class="border0"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+                      <input class="border0"  readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
                     </c:if>
                   </td>
                   <td class="tc">

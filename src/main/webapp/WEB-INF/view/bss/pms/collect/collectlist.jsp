@@ -2,27 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    
-    <title>采购需求管理</title>  
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	
-	
-
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
-
- 
   <script type="text/javascript">
   
   /*分页  */
@@ -46,8 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       	$("#page").val(e.curr);
 		        	  $("#add_form").submit();
 		        	
-<%-- 		         location.href = '<%=basePath%>purchaser/list.do?page='+e.curr;
- --%>		        }  
+ 	        }  
 		    }
 		});
   });
@@ -91,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	function view(no){
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no+"&&type=1";
+  		window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+no+"&&type=1";
   	}
   	
     function edit(){
@@ -101,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id+"&&type=2";;
+			window.location.href="${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo="+id+"&&type=2";;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -118,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				 $.ajax({
-		 			 url:"<%=basePath%>purchaser/delete.html",
+		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html",
 		 			 type:"post",
 		 			 data:{
 		 				 planNo:$('input[name="chkItem"]:checked').val()
@@ -231,14 +213,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		else  if(ids.length>=1){
 			  layer.open({
 				  type: 2, //page层
-				  area: ['600px', '500px'],
+				  area: ['900px', '400px'],
 				  title: '汇入采购计划',
 				  closeBtn: 1,
 				  shade:0.01, //遮罩透明度
 				  moveType: 0, //拖拽风格，0是默认，1是传统拖动
 				  shift: 1, //0-6的动画形式，-1不开启
-				  offset: ['80px', '100px'],
-				  content:  '<%=basePath%>collect/collectlist.html?type='+goodsType,
+				  offset: ['100px', '600px'],
+				  content:  '${pageContext.request.contextPath}/collect/collectlist.html?type='+goodsType,
 				});
 			 
 			 
@@ -316,7 +298,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
 	 </div>
    <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -386,28 +368,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="dnone">
+ <div id="content" class="dnone layui-layer-wrap">
 	 
-	<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post" style="margin-top: 20px;">
-	<div style="text-align: center;"><span>计划编号：</span><input  type="text" name="cno" value=""></div>
-	  <div style="text-align: center;"><span>文件名称：</span><input  type="text" name="fileName" value=""></div>
-	       <div  style="text-align: center;"><span>密码：</span><input  type="password" name="password" value=""></div>
-	       
-	       
-		<!--  文件名称：<input type="text" name="fileName" value=""><br>
-		 密码:<input type="password" name="password" value=""><br> -->
-		 <input type="hidden" name="planNo" id="plannos" value="">
-		  <input type="hidden" name="department" id="dep" value="">
-		  <input type="hidden" name="goodsType" id="goodsType" value="">
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >生成采购计划</button>
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 20px" onclick="cancels()" >取消</button>
+	<form id="collect_form" action="${pageContext.request.contextPath }/collect/add.html" method="post">
+	<div class="drop_window">
+	<ul class="list-unstyled">
+	   <li class="mt10 col-md-12 p0 col-xs-12">
+                   <label class="col-md-12 pl20 col-xs-12">计划编号</label>
+                     <span class="col-md-12 col-xs-12">
+                        <input class="col-xs-12 h80 mt6" name="cno" maxlength="300" type="text">
+                    </span>
+                 </li>
+                 <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">文件名称</label>
+                    <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="fileName"  maxlength="3" type="text">
+                    </span>
+                 </li>
+                 <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
+                   <label class="col-md-12 pl20 col-xs-12">密码</label>
+                    <span class="col-md-12 col-xs-12">
+                        <input class="title col-md-12" name="password" maxlength="200" type="password">
+                    </span>
+                 </li>
+                 <div class="clear"></div>
+                 </ul>
+	</div>
+	<div class="tc mt10 col-md-12 col-xs-12">
+	<input type="hidden" name="planNo" id="plannos" value="">
+          <input type="hidden" name="department" id="dep" value="">
+          <input type="hidden" name="goodsType" id="goodsType" value="">
+                <button class="btn padding-left-10 padding-right-10 btn_back" onclick="closeLayer()" >生成采购计划</button>
+          </div>
 	   
 	 </form>   
  </div>
- 
- 
-
- 
- 
 	 </body>
 </html>

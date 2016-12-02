@@ -51,8 +51,6 @@ public class PurchaseAcceptController extends BaseController{
 	@Autowired
 	private StationMessageService stationMessageService;
 	
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	/**
 	 * 

@@ -2,16 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>  
     <head>  
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
-        <title>主动流失率</title>  
- 
 <jsp:include page="/WEB-INF/view/common.jsp"/> 
  
  <script type="text/javascript">
@@ -19,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  function aadd(obj){
 		 var id=null;
 		 $.ajax({
-			 url:"<%=basePath%>purchaser/getId.html",
+			 url:"${pageContext.request.contextPath}/purchaser/getId.html",
 			 type:"post",
 			 
 			 success:function(data){
@@ -100,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  function news(obj){
 		 var id=null;
 		 $.ajax({
-			 url:"<%=basePath%>purchaser/getId.html",
+			 url:"${pageContext.request.contextPath}/purchaser/getId.html",
 			 type:"post",
 			 
 			 success:function(data){
@@ -167,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 
-		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
+		<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 			<input type="hidden" name="planName" value="${planName }">
 			<input type="hidden" name="planNo" value="${planNo }">
 			<input type="hidden" name="type" value="${type }">

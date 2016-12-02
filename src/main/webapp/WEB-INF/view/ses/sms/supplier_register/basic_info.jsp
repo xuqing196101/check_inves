@@ -576,7 +576,7 @@ function deleteFinance() {
 		    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮编</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			      <input type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
+			      <input type="text" name="businessPostCode" onkeyup="checknums(this)" value="${currSupplier.businessPostCode}" />
 			      <span class="add-on cur_point">i</span>
 			       <div class="cue"> ${err_bCode } </div>
 	       	   </div>

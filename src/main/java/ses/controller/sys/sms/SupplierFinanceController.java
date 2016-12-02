@@ -165,7 +165,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("assets", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalAssets()!=null&&!supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalAssets()!=null&&!supplierFinance.getTotalAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")&&supplierFinance.getTotalAssets().toString().length()>11){
 			map.put("assets", "不能为空");
 			bool=false;
 		}
@@ -173,7 +173,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("bilit", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalLiabilities()!=null&&!supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalLiabilities()!=null&&!supplierFinance.getTotalLiabilities().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")&&supplierFinance.getTotalLiabilities().toString().length()>11){
 			map.put("bilit", "金额错误");
 			bool=false;
 		}
@@ -181,7 +181,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("noAssets", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTotalNetAssets()!=null&&!supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTotalNetAssets()!=null&&!supplierFinance.getTotalNetAssets().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")&&supplierFinance.getTotalNetAssets().toString().length()>11){
 			map.put("noAssets", "金额错误");
 			bool=false;
 		}
@@ -189,7 +189,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("taking", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getTaking()!=null&&!supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")){
+		if(supplierFinance.getTaking()!=null&&!supplierFinance.getTaking().toString().matches("^(([0-9]+//.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*//.[0-9]+)|([0-9]*[1-9][0-9]*))$")&&supplierFinance.getTaking().toString().length()>11){
 			map.put("taking", "金额格式错误");
 			bool=false;
 		}

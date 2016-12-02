@@ -2,10 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-	<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -95,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){   
 			
-			window.location.href="<%=basePath%>set/excel.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/set/excel.html?id="+id;
  	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -109,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){   
-		  window.location.href="<%=basePath%>adjust/all.html?id="+id;
+		  window.location.href="${pageContext.request.contextPath}/adjust/all.html?id="+id;
 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -134,22 +130,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-<!--    <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-<%--   <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
-  
-
-	 
-	    采购计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
-	   采购方式： <input type="text" class="mt10"name="" value=""/>
-	   采购金额： <input type="text" class="mt10" name="budget" value=""/> 
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 
-   </form>
-  </div> --%>
    <div class="headline-v2 fl">
       <h2>采购计划列表
 	  </h2>
