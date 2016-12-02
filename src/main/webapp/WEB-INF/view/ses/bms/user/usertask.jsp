@@ -278,7 +278,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 	  </div>
    </div>
    
-   
+   <div class="container mt20">
 	<div id="scheduler_here" class="dhx_cal_container date"  >
 		<div class="dhx_cal_navline">
 			<div class="dhx_cal_prev_button">&nbsp;</div>
@@ -291,6 +291,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 		<div class="dhx_cal_data">
 		</div>		
 	</div>
+
 	<div class="jzp">
 	紧急: <input type="text" disabled="true" id="jinji" /><br/> 
 	重要: <input type="text" disabled="true"  id="zhongyao" /> <br/>
@@ -318,6 +319,7 @@ scheduler.attachEvent("onMouseMove", function (event_id, event_object){
 	</form>
 	
 	<input type="hidden" id="hdate" value="${date }"> 
+	</div>
 </body>
 
 </html>
