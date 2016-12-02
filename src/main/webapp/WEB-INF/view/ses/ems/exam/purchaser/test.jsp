@@ -15,16 +15,8 @@
 		$(function(){
 			$("#submitNoResult").hide();
 			$("#submitYesResult").hide();
-			var offTime = "${examPaper.offTime}";
-			var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
 			var test = "${examPaper.testTime}";
-			var date3 = off.getTime()-new Date().getTime();
-			var days = Math.floor(date3/(24*3600*1000));
-			var leave1 = date3%(24*3600*1000);
-			var hours = Math.floor(leave1/(3600*1000));
-			var leave2 = leave1%(3600*1000);
-			var minutes = Math.floor(leave2/(60*1000));
-			if(minutes < test){
+			if("${second}"){
 				document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
 				document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
 				document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
@@ -58,19 +50,11 @@
         }
 		
 		//考试倒计时
-		var offTime = "${examPaper.offTime}";
-		var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
 		var test = "${examPaper.testTime}";
-		var date3 = off.getTime()-new Date().getTime();
-		var days = Math.floor(date3/(24*3600*1000));
-		var leave1 = date3%(24*3600*1000);
-		var hours = Math.floor(leave1/(3600*1000));
-		var leave2 = leave1%(3600*1000);
-		var minutes = Math.floor(leave2/(60*1000));
-		if(minutes<test){
-			var timeLeft = "${second}"*60*1000-1000+"${minute}"*1000;
-		    var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
-		    var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
+		if("${second}"){
+			var timeLeft = "${second}"*60*1000+"${minute}"*1000;
+		    var timeYes = "${second}"*60*1000+"${minute}"*1000;
+		    var timeNo = "${second}"*60*1000+"${minute}"*1000;
 		}else{
 			var timeLeft = test*60*1000;
 		    var timeYes = test*60*1000;
