@@ -1090,7 +1090,6 @@ session.setAttribute("tokenSession", tokenValue);
 					</div>
 				</li>
 			</ul>
-			  </div>
 			  <!-- 附件信息-->
 			  <div class="padding-top-10 clear">
 			    <h2 class="count_flow"><i>2</i>上传附件</h2>
@@ -1132,11 +1131,13 @@ session.setAttribute("tokenSession", tokenValue);
 				  </table>
 			    </ul>
 			   </div>
+			   
 				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 			        <button class="btn" onclick='submitForm1()'  type="button">暂存</button>
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 				</div>
-					  </div>
+				</div>
+					 </div>
 		<div id="reg_box_id_4" class="container clear margin-top-30 yinc" style="display: none;">
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
