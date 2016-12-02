@@ -60,28 +60,63 @@
   	}
   
     //初审汇总
-  	function gather(obj){
+  	function gather(){
   	    var projectId = $("#projectId").val();
 	    var ids =[]; 
+	    var count = 0;
+	    var tips = "";
 		$('input[name="chkItem"]:checked').each(function(){ 
+			var tdArr = $(this).parent().parent().children();
+			var paName = tdArr.eq(2).text();
+	    	var is_gather = tdArr.eq(3).find("input").val();//汇总状态
+	    	var audit_progress = tdArr.eq(4).find("input").val();//评审进度
+	    	//已汇总状态和评审进度小于100的不能汇总
+	    	var message = "";
+	    	if (is_gather == 1) {
+	    		message += "【";
+	    		message += paName;
+	    		message += "已汇总";
+	    		message += "】";
+	    		count += 1;
+			}
+			if (audit_progress < 100) {
+				message += "【";
+				message += paName;
+	    		message += "评审未完成";
+	    		message += "】";
+	    		count += 1;
+			}
+			tips += message;
 			ids.push($(this).val()); 
 		}); 
-		if(ids.length>0){
-			layer.confirm('确定要汇总吗?', {title:'提示',offset: '80px',shade:0.01},function(index){
-				$.ajax({   
-		            type: "POST",  
-		            url: "${pageContext.request.contextPath}/packageExpert/gather.html?projectId="+projectId+"&packageIds="+ids,       
-				    dataType:'json',
-				    success:function(result){
-				    	layer.alert(data,{offset: "200px", shade:0.01});
-	                },
-	                error: function(result){
-	                    layer.msg("汇总失败",{offset: "80px"});
-	                }
-		     	});
-			});
-		}else{
-			layer.alert("请选择一条",{offset: "80px", shade:0.01});
+		if (count > 0) {
+			layer.alert(tips,{offset: "100px", shade:0.01});
+		} else {
+			if(ids.length>0){
+				layer.confirm('确定要汇总吗?', {title:'提示',offset: '80px',shade:0.01},function(index){
+					$.ajax({   
+			            type: "POST",  
+			            url: "${pageContext.request.contextPath}/packageExpert/gather.html?projectId="+projectId+"&packageIds="+ids,       
+					    success:function(result){
+					    	layer.alert(result,{offset: "100px", shade:0.01});
+					    	$.each(ids,function(n,value) {  
+				           		 $("#ty").find("tr").each(function(){
+				           		 	var tdArr = $(this).children();
+				           		 	var paId = tdArr.eq(0).find("input").val();//包id
+				           		 	if (value == paId) {
+										tdArr.eq(3).text("已汇总");
+									}
+				           		 });
+				            });  
+		                },
+		                error: function(result){
+		                    layer.msg("汇总失败",{offset: "100px"});
+		                }
+			     	});
+				});
+			}else{
+				layer.alert("请选择一条",{offset: "80px", shade:0.01});
+			}
 		}
 	}
   </script>
@@ -98,15 +133,22 @@
 			  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
+			  <th class="info">是否汇总</th>
 			  <th class="info">初审进度</th>
 			  <th class="info">操作</th>
 			</tr>
 			</thead>
+			<tbody id="ty">
 			<c:forEach items="${reviewProgressList}" var="rp" varStatus="vs">
 		       <tr>
 		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${rp.packageId}" /></td>
-		        <td class="tc w30">${vs.count} </td>
+		        <td class="tc w30">${vs.count}</td>
 		        <td class="tc">${rp.packageName}</td>
+		        <td class="tc">
+		        	<input type="hidden" value="${rp.isGather}">
+		        	<c:if test="${rp.isGather == 0}">未汇总</c:if>
+		        	<c:if test="${rp.isGather == 1}">已汇总</c:if>
+		        </td>
 			    <td class="tc">
 				  <div class="col-md-12 padding-0">
 					  <div class="progress w55p fl margin-left-0">
@@ -117,12 +159,14 @@
 			          </div>
 					  <span class="fl padding-5">${rp.firstAuditProgress*100}%</span>
 				  </div>
+				  <input type="hidden" value="${rp.firstAuditProgress*100}">
 			    </td>
 			    <td class="tc w100">
 		          <input class="btn" type="button" value="查看" onclick="fitsrView('${rp.packageId}','${projectId}','${flowDefineId}')">
 		        </td>
 		      </tr>
 			</c:forEach>
+			</tbody>
 		</table>
   </body>
 </html>

@@ -594,14 +594,12 @@ public class PackageExpertController {
         try {
             PackageExpert record = new PackageExpert();
             String[] packageIdArr = packageIds.split(",");
-            String msg1 = "";
-            String msg2 = "";
-            String msg3 = "";
+            String msg = "";
             //遍历选中的包
             if (packageIdArr != null && packageIdArr.length > 0) {
                 for (String packageId : packageIdArr) {
                     HashMap<String, Object> packmap = new HashMap<String, Object>();
-                    packmap.put("packageId", packageId);
+                    packmap.put("id", packageId);
                     List<Packages> packages = packageService.findPackageById(packmap);
                     Packages pa = new Packages();
                     if (packages != null && packages.size() > 0) {
@@ -613,29 +611,29 @@ public class PackageExpertController {
                     // 查询包关联专家实体
                     List<PackageExpert> selectList = packageExpertService.selectList(map);
                     if (selectList != null && selectList.size() > 0) {
+                        int count2 = 0;
                         for (PackageExpert packageExpert : selectList) {
                             //判断为审核过的 和未汇总的 才执行汇总
                             if (packageExpert.getIsAudit() == SONE && packageExpert.getIsGather() != SONE) {
-                                record.setIsGather((short) 1);
-                                service.updateByBean(record);
-                                String str = "【"+pa.getName()+"】";
-                                msg1 += str;
-                            } else if (packageExpert.getIsGather() == SONE) {
-                                String str2 = "【"+pa.getName()+"】";
-                                msg2 += str2;
-                            } else if (packageExpert.getIsAudit() != SONE) {
-                                String str3 = "【"+pa.getName()+"】";
-                                msg3 += str3;
+                                count2 ++;
+                            } else {
+                                break;
                             }
+                        }
+                        if (count2 == selectList.size()) {
+                            record.setIsGather((short) 1);
+                            record.setPackageId(packageId);
+                            record.setProjectId(projectId);
+                            service.updateByBean(record);
+                            String str = "【"+pa.getName()+"】";
+                            msg += str;
                         }
                     }
                 }
             }
-            msg1 += "汇总完成";
-            msg2 += "已汇总";
-            msg3 += "未完成打分，不能汇总";
+            msg += "汇总完成";
             response.setContentType("text/html;charset=utf-8");
-            response.getWriter().print(msg1+msg2+msg3);
+            response.getWriter().print(msg);
             response.getWriter().flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -986,49 +984,69 @@ public class PackageExpertController {
     }
 
     /**
-     *〈简述〉跳转到初审页面
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param projectId 项目id
-     * @param model
-     * @param flowDefineId 流程环节id
-     * @return
-     */
-    @RequestMapping("/toFirstAudit")
-    public String toFirstAudit(String projectId, Model model, String flowDefineId){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", projectId);
-        // 进度集合
-        List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map);
-        List<Packages> packages = packageService.listResultExpert(projectId);
-        if (reviewProgressList.size() < packages.size()) {
-            for (Packages pg : packages) {
-                Map<String, Object> map2 = new HashMap<String, Object>();
-                map2.put("projectId", projectId);
-                map2.put("packageId", pg.getId());
-                //查询该包有没有评审进度数据
-                List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
-                if (rplist == null || rplist.size() <= 0) {
-                    ReviewProgress reviewProgress = new ReviewProgress();
-                    reviewProgress.setAuditStatus("0");
-                    reviewProgress.setFirstAuditProgress(0.00);
-                    reviewProgress.setPackageId(pg.getId());
-                    reviewProgress.setPackageName(pg.getName());
-                    reviewProgress.setProjectId(projectId);
-                    reviewProgress.setScoreProgress(0.00);
-                    reviewProgress.setTotalProgress(0.00);
-                    reviewProgressList.add(reviewProgress);
-                }
-            }
-        }
-        // 包信息
-        model.addAttribute("packageList", packages);
-        // 进度
-        model.addAttribute("reviewProgressList", reviewProgressList);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("flowDefineId", flowDefineId);
-        return "bss/prms/first_audit/list";
-    }
+    *〈简述〉跳转到初审页面
+    *〈详细描述〉
+    * @author Ye MaoLin
+    * @param projectId 项目id
+    * @param model
+    * @param flowDefineId 流程环节id
+    * @return
+    */
+   @RequestMapping("/toFirstAudit")
+   public String toFirstAudit(String projectId, Model model, String flowDefineId){
+//       Map<String, Object> map = new HashMap<String, Object>();
+//       map.put("projectId", projectId);
+       // 进度集合
+      // List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map);
+       List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
+       List<Packages> packages = packageService.listResultExpert(projectId);
+       for (Packages pg : packages) {
+           Map<String, Object> map2 = new HashMap<String, Object>();
+           map2.put("projectId", projectId);
+           map2.put("packageId", pg.getId());
+           //查询该包有没有评审进度数据
+           List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
+           Map<String, Object> pemap = new HashMap<>();
+           pemap.put("projectId", projectId);
+           pemap.put("packageId", pg.getId());
+           // 查询包关联专家实体
+           List<PackageExpert> selectList = packageExpertService.selectList(pemap);
+           if (rplist == null || rplist.size() <= 0) {
+               //如果该包进度不存在
+               ReviewProgress reviewProgress = new ReviewProgress();
+               reviewProgress.setAuditStatus("0");
+               reviewProgress.setFirstAuditProgress(0.00);
+               reviewProgress.setPackageId(pg.getId());
+               reviewProgress.setPackageName(pg.getName());
+               reviewProgress.setProjectId(projectId);
+               reviewProgress.setScoreProgress(0.00);
+               reviewProgress.setTotalProgress(0.00);
+               reviewProgress.setIsGather(0);
+               reviewProgressList.add(reviewProgress);
+           } else {
+               //是否汇总  0:未汇总 1：已汇总
+               Integer isGather = 1;
+               if (selectList != null && selectList.size() > 0) {
+                   for (PackageExpert packageExpert : selectList) {
+                       if (packageExpert.getIsGather() != SONE) {
+                           isGather = 0;
+                           break;
+                       }
+                   }
+               }
+               ReviewProgress reviewProgress = rplist.get(0);
+               reviewProgress.setIsGather(isGather);
+               reviewProgressList.add(reviewProgress);
+           }
+       }
+       // 包信息
+       model.addAttribute("packageList", packages);
+       // 进度
+       model.addAttribute("reviewProgressList", reviewProgressList);
+       model.addAttribute("projectId", projectId);
+       model.addAttribute("flowDefineId", flowDefineId);
+       return "bss/prms/first_audit/list";
+   }
 
     /**
      *〈简述〉查看包的初审情况

@@ -16,6 +16,8 @@ public class ReviewProgress {
     private Double firstAuditProgress;
     //评分进度
     private Double scoreProgress;
+    //汇总状态 0：未汇总  1：已汇总
+    private Integer isGather;
 
     public String getId() {
         return id;
@@ -81,5 +83,12 @@ public class ReviewProgress {
 		this.scoreProgress = scoreProgress;
 	}
 
-   
+    public Integer getIsGather() {
+        return isGather;
+    }
+
+    public void setIsGather(Integer isGather) {
+        this.isGather = isGather;
+    }
+
 }
