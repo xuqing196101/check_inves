@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.Line;
 import bss.formbean.Maps;
@@ -23,6 +25,7 @@ import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 /**
  * 
@@ -57,11 +60,15 @@ public class PlanStatisticsController extends BaseController {
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model,String year){
 		purchaseRequired.setGoodsType("1");
+		PageHelper.startPage(page==null?1:page,10);
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
 		model.addAttribute("year", year);
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
+		model.addAttribute("goods", DictionaryDataUtil.find(6));
+		
 		
 		 String json = map(purchaseRequired,year);
 //		String json= JSON.toJSONString(getMap());
@@ -146,14 +153,21 @@ public class PlanStatisticsController extends BaseController {
 		
 		if(list!=null && list.size() >0){
 			for (Map<String,Object> m : list) {
-				 
-				 type.add(String.valueOf(m.get("PURCHASETYPE")));
+				DictionaryData dic = DictionaryDataUtil.findById(String.valueOf(m.get("PURCHASETYPE")));
+				
+				if(dic!=null){
+					type.add(dic.getName());
+					
+				}
+				
 				 
 				 Maps mp=new Maps();
  				 String string = String.valueOf(m.get("AMOUNT"));
  				BigDecimal decimal = new BigDecimal(string);
 				 mp.setValue(decimal);
-				 mp.setName(String.valueOf(m.get("PURCHASETYPE")));
+				if(dic!=null){
+					 mp.setName(dic.getName());
+				}
 				 maps.add(mp);
 			}
 		}
