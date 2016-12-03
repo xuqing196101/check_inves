@@ -59,6 +59,19 @@ session.setAttribute("tokenSession", tokenValue);
 			 }
 		});
 	}
+	//无提示暂存
+	function submitForm5(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+			 }
+		});
+	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
 		if(!validateJiGou()){
@@ -66,6 +79,14 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		//暂存无提示
 		submitForm2();
+	}
+	/** 专家完善注册信息页面 */
+	function supplierRegist5() {
+		if(!validateJiGou()){
+			return false;
+		}
+		//暂存无提示
+		submitForm5();
 	}
 	function pre() {
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=two";
@@ -252,7 +273,7 @@ session.setAttribute("tokenSession", tokenValue);
 		purDepBack();
 	}
 	function tab5(){
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+		supplierRegist5();
 	}
 </script>
 </head>

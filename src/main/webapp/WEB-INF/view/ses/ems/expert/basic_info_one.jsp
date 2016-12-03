@@ -324,8 +324,15 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
 			return false;
 		}
-		var isok = 0;
 		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
+			var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/;
+			if(!reg.test(idNumber)){
+				layer.msg("身份证号码格式有误 !",{offset: ['222px', '390px']});
+				return false;
+			}
+		}
+		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
+			var isok = 0;
 			$.ajax({
 				url:'${pageContext.request.contextPath}/expert/validateIdNumber.do',
 				type:"post",
@@ -367,15 +374,15 @@ session.setAttribute("tokenSession", tokenValue);
 		return flag;
 	}
 	function tab3(typeId){
-		if(typeId != null){
+		if(typeId != ""){
 			fun3();
 		} else {
 			fun();
 		}
 	}
 	function tab4(typeId, depId){
-		if(typeId != null){
-			if(depId != null){
+		if(typeId != ""){
+			if(depId != ""){
 				fun4();
 			}else{
 				fun3();
@@ -385,8 +392,8 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 	}
 	function tab5(typeId, depId){
-		if(typeId != null){
-			if(depId != null){
+		if(typeId != ""){
+			if(depId != ""){
 				fun5();
 			}else{
 				fun3();

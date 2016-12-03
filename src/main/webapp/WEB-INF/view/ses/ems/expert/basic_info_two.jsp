@@ -78,6 +78,34 @@ session.setAttribute("tokenSession", tokenValue);
 			 }
 		});
 	}
+	//无提示暂存
+	function submitForm4(){
+		getChildren();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+			 }
+		});
+	}
+	//无提示暂存
+	function submitForm5(){
+		getChildren();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+			 }
+		});
+	}
 	//获取选中子节点id
 	function getChildren(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -120,6 +148,20 @@ session.setAttribute("tokenSession", tokenValue);
 		//暂存无提示
 		submitForm2();
 	}
+	function supplierRegist4() {
+		if (!validateType()){
+			return;
+		}
+		//暂存无提示
+		submitForm4();
+	}
+	function supplierRegist5() {
+		if (!validateType()){
+			return;
+		}
+		//暂存无提示
+		submitForm5();
+	}
 	function pre() {
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
@@ -127,6 +169,36 @@ session.setAttribute("tokenSession", tokenValue);
 		//选中的子节点
 		getChildren();
 		supplierRegist();
+		var expertsTypeId = $("#expertsTypeId").val();
+		if(expertsTypeId == "1"){
+			$("#tExpertsTypeId").text("技术");
+		}
+		if(expertsTypeId == "2"){
+			$("#tExpertsTypeId").text("法律");
+		}
+		if(expertsTypeId == "3"){
+			$("#tExpertsTypeId").text("商务");
+		}
+	}
+	function fun4(){
+		//选中的子节点
+		getChildren();
+		supplierRegist4();
+		var expertsTypeId = $("#expertsTypeId").val();
+		if(expertsTypeId == "1"){
+			$("#tExpertsTypeId").text("技术");
+		}
+		if(expertsTypeId == "2"){
+			$("#tExpertsTypeId").text("法律");
+		}
+		if(expertsTypeId == "3"){
+			$("#tExpertsTypeId").text("商务");
+		}
+	}
+	function fun5(){
+		//选中的子节点
+		getChildren();
+		supplierRegist5();
 		var expertsTypeId = $("#expertsTypeId").val();
 		if(expertsTypeId == "1"){
 			$("#tExpertsTypeId").text("技术");
@@ -150,15 +222,15 @@ session.setAttribute("tokenSession", tokenValue);
 		
 	}
 	function tab4(depId){
-		if(depId != null){
-			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+		if(depId != ""){
+			
 		} else {
 			fun1();
 		}
 	}
 	function tab5(depId){
-		if(depId != null){
-			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+		if(depId != ""){
+			
 		} else {
 			fun1();
 		}
