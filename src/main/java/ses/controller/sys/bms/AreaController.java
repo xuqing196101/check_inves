@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
-import ses.model.bms.AreaZtree;
 import ses.service.bms.AreaServiceI;
 
 import com.alibaba.fastjson.JSON;
@@ -65,8 +64,8 @@ public class AreaController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/listByOne",produces = "application/json;charset=UTF-8")
-	public List<AreaZtree> listByOne(Area area,Model model)throws Exception {
-	    return areaService.getTreeList(area.getId(),area.getName());
+	public String listByOne(Area area,Model model)throws Exception {
+	    return JSON.toJSON(areaService.getTreeList(area.getId(),area.getName())).toString();
 	}
 	/**
 	 * 
@@ -191,9 +190,9 @@ public class AreaController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "find_by_parent_id",produces = "application/json;charset=UTF-8")
-	public List<Area> findAreaByParentId2(HttpServletResponse response, String id) throws IOException {
+	public String findAreaByParentId2(HttpServletResponse response, String id) throws IOException {
 		List<Area> list = areaService.findAreaByParentId(id);
-		return list;
+		return JSON.toJSON(list).toString();
 	}
 	/**
 	 * 
@@ -208,14 +207,14 @@ public class AreaController {
 	  * @return List<Area>
 	 */
 	@ResponseBody
-	@RequestMapping(value = "find_by_id")
-	public List<Area> find_by_id(HttpServletResponse response, String id) throws IOException {
+	@RequestMapping(value = "find_by_id",produces="application/json;charset=utf-8")
+	public String find_by_id(HttpServletResponse response, String id) throws IOException {
 		if(StringUtils.isNotEmpty(id)){
-		Area area = areaService.listById(id);
-		//根据父id查询出所有子节点
-		List<Area> listByArea = areaService.findAreaByParentId(area.getParentId());
-		return listByArea;
+		    Area area = areaService.listById(id);
+		    //根据父id查询出所有子节点
+		    List<Area> listByArea = areaService.findAreaByParentId(area.getParentId());
+		    return JSON.toJSON(listByArea).toString();
 		}
-		return new ArrayList<>();
+		return JSON.toJSON(new ArrayList<Area>()).toString();
 	}
 }

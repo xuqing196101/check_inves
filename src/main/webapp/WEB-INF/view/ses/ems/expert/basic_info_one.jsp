@@ -19,10 +19,9 @@ session.setAttribute("tokenSession", tokenValue);
 				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
 				data:{"id":parentId}, 
 				async:false,
-				dataType:"json",
 				success:function(response,status,request){
 					$("#add").empty();
-					$("#add").append("<option  value=''>-请选择-</option>");
+					$("#add").append("<option value=''>-请选择-</option>");
 					$.each(response,function(i,result){
 						$("#add").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
@@ -37,6 +36,7 @@ session.setAttribute("tokenSession", tokenValue);
 				url : "${pageContext.request.contextPath}/area/find_by_id.do",
 				data:{"id":addressId},
 				async:false,
+				dataType:"json",
 				success:function(obj){
 					$.each(obj,function(i,result){
 						if(addressId == result.id){
@@ -52,12 +52,13 @@ session.setAttribute("tokenSession", tokenValue);
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/listByOne.do",
 				async:false,
+				dataType:"json",
 				success:function(obj){
 					$.each(obj,function(i,result){
-						 if(parentId == result.id){
+						if(parentId == result.id){
 							$("#addr").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
 						}else{ 
-						$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
+							$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
 						}
 					});
 				}
