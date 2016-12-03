@@ -37,8 +37,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
-
-
+import common.constant.StaticVariables;
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -97,15 +96,12 @@ public class PurchaseManageController {
 	private PurchaseServiceI purchaseServiceI;
 	@Autowired
 	private AreaServiceI areaServiceI;
-	@Autowired
-	private SupplierAuditService supplierAuditService;
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
-	private List<Area> cityList = new ArrayList<Area>();
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
 	
 	
@@ -135,9 +131,7 @@ public class PurchaseManageController {
 		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
 		if(oList!=null && oList.size()>0){
 			model.addAttribute("orgnization", oList.get(0).getName());
-			Object object = oList.get(0);
 			resultMap.put("orgnization",  oList.get(0));
-			//jsonData.setObj(object);
 			jsonData.setMessage("nihao");
 		}
 		
@@ -621,10 +615,21 @@ public class PurchaseManageController {
 	@ResponseBody
 	public AjaxJsonData deleteUser(@ModelAttribute User user,HttpServletRequest request){
 		String idsString = request.getParameter("ids");
+		String orgType = request.getParameter("orgType");
 		String[] ids = idsString.split(",");
 		if(ids!=null && !ids.equals("")){
 			for(int i=0;i<ids.length;i++){
-				userServiceI.deleteByLogic(ids[i]);
+				if (StringUtils.isNotBlank(orgType) && orgType.equals(StaticVariables.ORG_TYPE_PURCHASE)){
+					User u = userServiceI.getUserById(ids[i]);
+					if (u != null){
+						if (StringUtils.isNotBlank(u.getTypeId())){
+							purchaseServiceI.busDelPurchase(u.getTypeId());
+						}
+						userServiceI.deleteByLogic(ids[i]);
+					}
+				} else {
+					userServiceI.deleteByLogic(ids[i]);
+				}
 			}
 		}
 		jsonData.setSuccess(true);
@@ -680,9 +685,7 @@ public class PurchaseManageController {
 		model.addAttribute("purchaseDepList",purchaseDepList);
 
 		//分页标签
-		 model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
-		/*String pagesales = CommUtils.getTranslation(page,"purchaseManage/purchaseUnitList.do");
-		model.addAttribute("pagesql", pagesales);*/
+		model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "ses/oms/purchase_dep/list";
 	}
@@ -896,18 +899,7 @@ public class PurchaseManageController {
 			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
 			if(orglist!=null && orglist.size()>0){
 				Orgnization org = orglist.get(0);
-				
-				Area area = areaServiceI.listById(org.getProvinceId());
-				if (area != null){
-					org.setProvinceName(area.getName());
-				}
-				
-				Area city = areaServiceI.listById(org.getCityId());
-				
-				if (city != null){
-					org.setCityName(city.getName());
-				}
-				
+				initAreaInfo(org);
 				model.addAttribute("orgnization", org);
 			}
 			
@@ -926,16 +918,7 @@ public class PurchaseManageController {
 				
 				Orgnization org = orglist.get(0);
 				
-				Area area = areaServiceI.listById(org.getProvinceId());
-				if (area != null){
-					org.setProvinceName(area.getName());
-				}
-				
-				Area city = areaServiceI.listById(org.getCityId());
-				
-				if (city != null){
-					org.setCityName(city.getName());
-				}
+				initAreaInfo(org);
 				
 				model.addAttribute("orgnization",org);
 				String orgId = orglist.get(0).getId();
@@ -952,6 +935,32 @@ public class PurchaseManageController {
 		
 		return "ses/oms/require_dep/treebody";
 	}
+	
+	/**
+	 * 
+	 *〈简述〉设置省市名称
+	 *〈详细描述〉
+	 * @author myc
+	 * @param org Orgnization对象
+	 */
+	private void initAreaInfo(Orgnization org){
+		
+		//省份
+		if (org != null && StringUtils.isNotBlank(org.getProvinceId())){
+			Area area = areaServiceI.listById(org.getProvinceId());
+			if (area != null){
+				org.setProvinceName(area.getName());
+			}
+		}
+		//市
+		if (org != null && StringUtils.isNotBlank(org.getCityId())){
+			Area city = areaServiceI.listById(org.getCityId());
+			if (city != null){
+				org.setCityName(city.getName());
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @Title: getProvinceList

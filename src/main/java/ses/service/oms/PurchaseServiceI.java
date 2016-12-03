@@ -25,6 +25,16 @@ public interface PurchaseServiceI {
 	 *〈详细描述〉
 	 * @author myc
 	 * @param model
+	 * @param orgId 组织机构Id
 	 */
-	void initPurchaser(Model model);
+	void initPurchaser(Model model, String orgId);
+	
+	/**
+	 * 
+	 *〈简述〉业务删除
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 主键
+	 */
+	void busDelPurchase(String id);
 }

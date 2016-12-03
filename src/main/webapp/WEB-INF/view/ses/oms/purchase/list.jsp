@@ -73,7 +73,7 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
-		if(ids.length>0){
+		if(ids.length > 0){
 			layer.confirm('您确定要删除吗?', {
 				btn:['确认','取消']
 			},function(){
@@ -176,47 +176,33 @@
 					<tbody>
 						<c:forEach items="${purchaseList}" var="p" varStatus="vs">
 							<tr class="cursor">
-								<!-- 选择框 -->
-								<td onclick="null" class="tc"><input
-									type="checkbox" name="chkItem" value="${p.id}" /></td>
-								<!-- 序号 -->
+								<td class="tc"><input type="checkbox" name="chkItem" value="${p.id}" /></td>
 								<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-								<!-- 标题 -->
 								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
-								<!-- 内容 -->
 								<td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
-								<!-- 创建人-->
 								<td class="tc" onclick="show('${p.id}');">
 									<c:choose>
-										<c:when test="${p.purcahserType==0}">
+										<c:when test="${p.purcahserType== 0 }">
 											军人
 										</c:when>
-										<c:when test="${p.purcahserType==1}">
+										<c:when test="${p.purcahserType== 1 }">
 											文职
 										</c:when>
-										<c:when test="${p.purcahserType==2}">
+										<c:when test="${p.purcahserType== 2 }">
 											职工
 										</c:when>
-										<c:when test="${p.purcahserType==3}">
+										<c:when test="${p.purcahserType== 3 }">
 											战士
 										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
 									</c:choose>
 								</td>
-								<!-- 是否发布 -->
-								
 								<c:forEach items="${genders}" var="g" >
 									<c:if test="${g.id eq p.gender}">
 									  <td class="tc" onclick="show('${p.id}');">${g.name}</td>
 									</c:if>
 					        	</c:forEach>
-								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
-								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">${p.professional}</td>
-								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">
 									<c:choose>
 										<c:when test="${p.quaLevel==0}">
@@ -228,21 +214,10 @@
 										<c:when test="${p.quaLevel==2}">
 											高
 										</c:when>
-										<c:when test="${p.quaLevel==3}">
-											
-										</c:when>
-										<c:otherwise>
-											
-										</c:otherwise>
 									</c:choose>
 								</td>
-								<!-- 创建人-->
 								<td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
-								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
-								<!-- 是否发布 -->
-								<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
-								<!-- 是否发布 -->
 								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
 							</tr>
 						</c:forEach>

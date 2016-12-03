@@ -101,4 +101,10 @@ public class StaticVariables {
     /** 机构类型值 -管理机构 */
     public static final String ORG_TYPE_MANAGE = "2";
     
+    
+    /** 组织机构添加采购人入口 - 采购机构入口 **/
+    public static final String ORG_ORIGIN_PURCHASER = "1";
+    /** 组织机构添加采购人入口 - 组织机构入口 **/
+    public static final String ORG_ORIGIN_ORG = "2";
+    
 }

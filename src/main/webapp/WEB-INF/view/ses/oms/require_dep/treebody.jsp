@@ -20,42 +20,56 @@
         	}
         }
      
-    
+    	/** 添加人员 */
     	function addUser(){
-    		window.location.href= "${pageContext.request.contextPath}/purchaseManage/addUser.do?orgId="+selectedTreeId;
+    		var typeName = $("#type_name").val();
+    		if (typeName == '1'){
+    			window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=2&orgId="+selectedTreeId;
+    		} else {
+    			window.location.href= "${pageContext.request.contextPath}/purchaseManage/addUser.do?orgId="+selectedTreeId;
+    		}
     	}
     	
+    	/** 编辑 **/
     	function editUser(){
     		var ids = getSelectIds();
     		var len = ids.length;
     		var titles="";
     		if(ids.length != 1){
-    			titles="请选择一条记录";
-    			truealert(titles,5);
+    			layer.msg("请选择一个用户,进行修改");
     			return;
     		}
-    		window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId;  
+    		var typeName = $("#type_name").val();
+    		if (typeName == '1'){
+    			window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?purchaserId=" + ids + "&origin=2&orgId=" + selectedTreeId; 
+    		} else {
+    			window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId;  
+    		}
     	}
     	
     	/** 删除用户 **/
     	function delUser(id){
     		var ids = getSelectIds();
     		var len = ids.length;
-    		var titles="请选择需要删除的记录";;
+    		var type = $("#type_name").val();
     		if(len<=0){
-    			truealert(titles,5);
+    			layer.msg("请选择需要删除的用户");
     			return;
 		    }
-		    var idstr="";
-		    for(var i=0;i<len;i++){
-		    	idstr += ids[i];
-		    	idstr += ",";
-		    }
-		    idstr = idstr.substr(0,idstr.length-1);
-			$.ajax({
+    		layer.confirm('您确定要删除吗?', {
+				btn:['确认','取消']
+			},function(){
+				delUserAjax(ids.toString(),type);
+			});
+			
+    	}
+    	
+    	//ajax删除用户
+    	function delUserAjax(ids,type){
+    		$.ajax({
 				type : 'post',
-				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do",
-				data : {ids:idstr},
+				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do?orgType=" + type ,
+				data : {ids:ids},
 				success : function(data) {
 					showRes(data.success);
 				}
@@ -88,21 +102,6 @@
 	        }   
 		}
     	
-    	/** 提示 */
-		function truealert(text,iconindex){
-			if(top == null || top == "" || top == "underfined"){
-			  top = 120;
-			}
-			layer.open({
-			    content: text,
-			    icon: iconindex,
-			    offset: top+"px",
-			    shade: [0.3, '#000'],
-			    yes: function(index){
-			    	 layer.closeAll();
-			    }
-			});
-		}
 		
 		/** 删除成功后调用 */
 		function showRes(res){
@@ -141,12 +140,6 @@
 			  <div class="show_obj">
 			    <table class="table table-striped table-bordered">
 				  <tbody>
-					<!-- 伪表单 跳转编辑页面 post传参数-->
-					<form id="hform" action="${pageContext.request.contextPath}/purchaseManage/addUser.do" method="post">
-					  <input type="hidden" id="defaultid" name="org.id" value="${orgnization.id }"/>
-					  <input type="hidden" id="typeName" name="org.typeName" value="${orgnization.typeName }"/>
-					</form>
-					<!-- 伪表单-->
 					<tr>
 					  <td class="col-xs-3 bggrey tl">名称：</td>
 					  <td class="col-xs-3">${orgnization.name }</td>

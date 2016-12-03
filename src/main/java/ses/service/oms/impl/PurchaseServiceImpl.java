@@ -1,6 +1,7 @@
 package ses.service.oms.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,6 @@ import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
-import ses.util.WfUtil;
 @Service("purchaseService")
 public class PurchaseServiceImpl implements PurchaseServiceI{
 	
@@ -68,10 +68,11 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 
 		user.setTypeName(purchaseInfo.getTypeName());
 		user.setOrgId(purchaseInfo.getOrgId());
+		user.setCreatedAt(new Date());
 		
 		Orgnization org = new Orgnization();
-		if(purchaseInfo.getPurchaseDepId()!=null && !purchaseInfo.getPurchaseDepId().equals("")){
-			org.setId(purchaseInfo.getPurchaseDepId());
+		if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
+			org.setId(purchaseInfo.getOrgId());
 			user.setOrg(org);
 		}
 		
@@ -107,8 +108,8 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			user.setOrgId(purchaseInfo.getOrgId());
 			
 			Orgnization org = new Orgnization();
-			if(purchaseInfo.getPurchaseDepId()!=null && !purchaseInfo.getPurchaseDepId().equals("")){
-				org.setId(purchaseInfo.getPurchaseDepId());
+			if(purchaseInfo.getOrgId()!=null && !purchaseInfo.getOrgId().equals("")){
+				org.setId(purchaseInfo.getOrgId());
 				user.setOrg(org);
 			}
 			userServiceI.update(user);
@@ -131,10 +132,18 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 	 * @see ses.service.oms.PurchaseServiceI#initPurchaser(org.springframework.ui.Model)
 	 */
 	@Override
-	public void initPurchaser(Model model) {
+	public void initPurchaser(Model model, String orgId) {
 		
 		model.addAttribute("purchaserTypeList", initPurchase());
-		model.addAttribute("purchaserOrgList", initPurchaseOrg());
+		
+		if (StringUtils.isNotBlank(orgId)){
+			Orgnization org = orgService.findByCategoryId(orgId);
+			List<Orgnization> list = new ArrayList<Orgnization>();
+			list.add(org);
+			model.addAttribute("purchaserOrgList", list);
+		} else {
+			model.addAttribute("purchaserOrgList", initPurchaseOrg());
+		}
 		List<DictionaryData> genders = DictionaryDataUtil.find(13);
 		List<DictionaryData> politicals = DictionaryDataUtil.find(10);
         model.addAttribute("genders", genders);
@@ -204,6 +213,16 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			}
 			userServiceI.saveUserMenuBatch(userPreMenus);
 		}
-		
 	}
+	
+	/**
+	 * 
+	 * @see ses.service.oms.PurchaseServiceI#busDelPurchase(java.lang.String)
+	 */
+	@Override
+	public void busDelPurchase(String id) {
+		purchaseInfoMapper.busDelPurchase(id);
+	}
+	
+	
 }

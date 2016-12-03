@@ -104,19 +104,23 @@ public class PurchaseController {
 	 * @return
 	 */
 	@RequestMapping("add")
-	public String add(Model model) {
+	public String add(Model model,HttpServletRequest request) {
+		//入口标识
+		String origin = request.getParameter("origin");
+		String orgId = request.getParameter("orgId");
 		
 		model.addAttribute("mainId", WfUtil.createUUID());
-		purchaseServiceI.initPurchaser(model);
+		model.addAttribute("origin", origin);
+		model.addAttribute("originOrgId", orgId);
+		purchaseServiceI.initPurchaser(model,orgId);
 		return "ses/oms/purchase/add";
 	}
 	
 	/**
 	 * 
-	 *〈简述〉
-	 * 保存
+	 *〈简述〉 保存
 	 *〈详细描述〉
-	 * @author yggc
+	 * @author myc
 	 * @param purchaseInfo
 	 * @param result
 	 * @param request
@@ -128,12 +132,18 @@ public class PurchaseController {
 		
 		String roleName = request.getParameter("roleName");
 		
+		String origin = request.getParameter("origin");
+		
+		String originOrgId = request.getParameter("originOrgId");
+		
 		//校验
 		if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);
 			model.addAttribute("mainId",purchaseInfo.getId());
 			model.addAttribute("purchaseInfo", purchaseInfo);
-			purchaseServiceI.initPurchaser(model);
+			model.addAttribute("origin", origin);
+			model.addAttribute("originOrgId", originOrgId);
+			purchaseServiceI.initPurchaser(model,originOrgId);
 			return "ses/oms/purchase/add";
 		}
 		
@@ -145,7 +155,9 @@ public class PurchaseController {
 			model.addAttribute("mainId",purchaseInfo.getId());
 			model.addAttribute("purchaseInfo", purchaseInfo);
 			model.addAttribute("exist", "用户名已存在");
-			purchaseServiceI.initPurchaser(model);
+			model.addAttribute("originOrgId", originOrgId);
+			purchaseServiceI.initPurchaser(model,originOrgId);
+			model.addAttribute("origin", origin);
 			return "ses/oms/purchase/add";
 		}
 		
@@ -153,14 +165,27 @@ public class PurchaseController {
 		if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){
 			model.addAttribute("mainId",purchaseInfo.getId());
 			model.addAttribute("purchaseInfo", purchaseInfo);
-			model.addAttribute("exist", "用户名已存在");
-			purchaseServiceI.initPurchaser(model);
+			model.addAttribute("password2_msg", "两次输入密码不一致");
+			model.addAttribute("originOrgId", originOrgId);
+			purchaseServiceI.initPurchaser(model,originOrgId);
+			
+			model.addAttribute("origin", origin);
 			return "ses/oms/purchase/add";
 		}
 		
 		User currUser=(User) request.getSession().getAttribute("loginUser");
 		purchaseServiceI.savePurchase(purchaseInfo,currUser);
-		return "redirect:list.do";
+		
+		if (StringUtils.isNotBlank(origin)){
+			 if (StaticVariables.ORG_ORIGIN_PURCHASER.equals(origin)){
+				 return "redirect:/purchaseManage/purchaseUnitList.html";
+			 }
+			 if (StaticVariables.ORG_ORIGIN_ORG.equals(origin)){
+				 model.addAttribute("srcOrgId", purchaseInfo.getOrgId());
+				 return "ses/oms/require_dep/list";
+			 }
+		} 
+	    return "redirect:list.do";
 	}
 	
 	
@@ -183,10 +208,27 @@ public class PurchaseController {
 	 * @return
 	 */
 	@RequestMapping("edit")
-	public String edit(@ModelAttribute PurchaseInfo purchaseInfo,Model model) {
+	public String edit(@ModelAttribute PurchaseInfo purchaseInfo,Model model,HttpServletRequest request) {
+		
+		//入口标识
+		String origin = request.getParameter("origin");
+		String orgId = request.getParameter("orgId");
+		String purchaserId = request.getParameter("purchaserId");
+
+		model.addAttribute("origin", origin);
+		model.addAttribute("originOrgId", orgId);
+		
+		if (StringUtils.isNotBlank(purchaserId)){
+			User user = userServiceI.getUserById(purchaserId);
+			if (user != null){
+				purchaseInfo.setId(user.getTypeId());
+			}
+		} 
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("id", purchaseInfo.getId());
-		purchaseServiceI.initPurchaser(model);
+		purchaseServiceI.initPurchaser(model,orgId);
+		
 		List<PurchaseInfo> oList = purchaseServiceI.findPurchaseList(map);
 		if(oList!=null && oList.size()>0){
 			
@@ -219,18 +261,34 @@ public class PurchaseController {
 	@RequestMapping(value="update",method= RequestMethod.POST)
 	public String update(@Valid PurchaseInfo purchaseInfo , BindingResult result ,HttpServletRequest request,Model model) throws IOException{
 		
+		//入口标识
+		String origin = request.getParameter("origin");
+		String originOrgId = request.getParameter("originOrgId");
+		
+		
 		String roleName = request.getParameter("roleName");
 		//校验
 		if (result.hasErrors()){
 			model.addAttribute("roleName",roleName);
 			model.addAttribute("mainId",purchaseInfo.getId());
 			model.addAttribute("purchaseInfo", purchaseInfo);
-			purchaseServiceI.initPurchaser(model);
+			model.addAttribute("origin", origin);
+			model.addAttribute("originOrgId", originOrgId);
+			purchaseServiceI.initPurchaser(model,originOrgId);
 			return "ses/oms/purchase/edit";
 		}
 		purchaseServiceI.updatePurchase(purchaseInfo);
 		
-		return "redirect:list.do";
+		if (StringUtils.isNotBlank(origin)){
+			 if (StaticVariables.ORG_ORIGIN_PURCHASER.equals(origin)){
+				 return "redirect:/purchaseManage/purchaseUnitList.html";
+			 }
+			 if (StaticVariables.ORG_ORIGIN_ORG.equals(origin)){
+				 model.addAttribute("srcOrgId", purchaseInfo.getOrgId());
+				 return "ses/oms/require_dep/list";
+			 }
+		} 
+		return "redirect:list.html";
 	}
 	
 	
@@ -265,7 +323,18 @@ public class PurchaseController {
 		return jsonData ;
 	}
 	
-	
+	/**
+	 * 
+	 *〈简述〉删除
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 * @param request
+	 * @param purchaseInfo
+	 * @param session
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "delajax")
 	@ResponseBody    
 	public AjaxJsonData delajax(Model model,HttpServletRequest request,@ModelAttribute PurchaseInfo purchaseInfo,HttpSession session,HttpServletResponse response) {
@@ -293,6 +362,7 @@ public class PurchaseController {
 	public void setJsonData(AjaxJsonData jsonData) {
 		this.jsonData = jsonData;
 	}
+	
 	public void delUserByPurchaseIds(String ids){
 		if(ids!=null && !ids.equals("")){
 			HashMap<String, Object> map = new HashMap<String, Object>();

@@ -101,7 +101,7 @@
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
     }
     function addPurchase(){
-    	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
+    	window.location.href="${pageContext.request.contextPath}/purchase/add.html?origin=1";
     }
     function resetQuery(){
 		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");

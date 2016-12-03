@@ -81,7 +81,25 @@ function onCheck(e, treeId, treeNode) {
 }
 
 
-	
+   /** 返回 */
+  function back(){
+	  var origin = $("input[name='origin']").val();
+	  if (origin != null && origin != ""){
+		  //返回到采购机构
+		  if (origin == "1"){
+			  window.location.href = "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+		  }
+		  //返回到组织机构
+		  if (origin == "2"){
+			  var srcOrgId = $("select[name='orgId']").val();
+			  window.location.href = "${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId=" +srcOrgId;
+		  }
+		  
+	  } else {
+		  //返回到采购人员管理
+		  window.location.href = "${pageContext.request.contextPath}/purchase/list.html";
+	  }
+  }
 	
 	
 	
@@ -90,6 +108,7 @@ function onCheck(e, treeId, treeNode) {
 <body>
 
 	<!--面包屑导航开始-->
+  <c:if test="${empty origin}">
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
@@ -105,7 +124,7 @@ function onCheck(e, treeId, treeNode) {
 			<div class="clear"></div>
 		</div>
 	</div>
-
+  </c:if>
 	<!-- 修改订列表开始-->
 	<div class="container container_box">
 	  <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
@@ -113,6 +132,8 @@ function onCheck(e, treeId, treeNode) {
 	  </div>
 		<form action="${pageContext.request.contextPath}/purchase/update.html" method="post" id="formID">
 		  <input type="hidden" name="id"  value="${mainId}" />
+		  <input type="hidden" name ="origin" value="${origin}"/>
+		  <input type="hidden" name ="originOrgId" value="${originOrgId}"/>
 		  <input  name="password" value="${purchaseInfo.password}"  type="hidden" />
 		  <input  name="password2" value="${purchaseInfo.password2}"  type="hidden" />
 			<div>
@@ -360,7 +381,7 @@ function onCheck(e, treeId, treeNode) {
 				<div class="col-md-12">
                 <div class="mt40 tc  mb50 ">
                     <button type="submit" class="btn btn-windows save" >保存</button>
-                    <button type="button" class="btn btn-windows cancel" onclick="history.go(-1)">取消</button>
+                    <button type="button" class="btn btn-windows cancel" onclick="back();">取消</button>
                 </div>
             </div>
 				</form>
