@@ -16,7 +16,6 @@ session.setAttribute("tokenSession", tokenValue);
 	//提交
 	function addSubmitForm(){
 		if(!validateHeTong()){
-			tab5();
 			return;
 		}
 		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
