@@ -1,11 +1,26 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <script type="text/javascript">
+       
+        $(function(){
+        	loadDynOrg();
+        });
+    	
+        /** 动态加载组织机构信息 */
+        function loadDynOrg(){
+        	var typeName = $("#type_name").val();
+        	if (typeName == '2'){
+        		$(".monitor").show();
+        	} else {
+        		$(".monitor").hide();
+        	}
+        }
+     
+    
     	function addUser(){
     		window.location.href= "${pageContext.request.contextPath}/purchaseManage/addUser.do?orgId="+selectedTreeId;
     	}
@@ -84,7 +99,6 @@
 			    offset: top+"px",
 			    shade: [0.3, '#000'],
 			    yes: function(index){
-			        //do something
 			    	 layer.closeAll();
 			    }
 			});
@@ -112,7 +126,7 @@
 </script>
 </head>
 <body>
-  <input id="type_name" value="${orgnization.typeName }" type="hidden">
+  <input id="type_name" value="${orgnization.typeName}" type="hidden">
   <div class="tab-content">
 	<div class="tab-pane fade active in" id="show_ztree_content">
 	  <div class="panel-heading overflow-h margin-bottom-20 no-padding" id="ztree_title">
@@ -134,16 +148,53 @@
 					</form>
 					<!-- 伪表单-->
 					<tr>
-					  <td width="25%" class="bggrey tl">名称：</td>
-					  <td width="25%">${orgnization.name }</td>
-					  <td width="25%" class="bggrey tl">邮编：</td>
-					  <td width="25%">${orgnization.shortName }</td>
+					  <td class="col-xs-3 bggrey tl">名称：</td>
+					  <td class="col-xs-3">${orgnization.name }</td>
+					  <td class="col-xs-3 bggrey tl">简称：</td>
+					  <td class="col-xs-3">${orgnization.shortName }</td>
 					</tr>
 					<tr>
-					  <td width="25%" class="bggrey tl">地址：</td>
-					  <td width="25%">${orgnization.address}</td>
-					  <td width="25%" class="bggrey tl">电话：</td>
-					  <td width="25%">${orgnization.mobile}</td>
+					  <td class="col-xs-3 bggrey tl">类型：</td>
+					  <td class="col-xs-3">
+					    <c:if test="${orgnization.typeName == '1'}">采购机构</c:if>
+					    <c:if test="${orgnization.typeName == '2'}">管理部门</c:if>
+					  </td>
+					  <td class="col-xs-3 bggrey tl">上级：</td>
+					  <td class="col-xs-3">${orgnization.parentName}</td>
+					</tr>
+					<tr>
+					  <td class="col-xs-3 bggrey tl">省份：</td>
+					  <td class="col-xs-3">${orgnization.provinceName}</td>
+					  <td class="col-xs-3 bggrey tl">市：</td>
+					  <td class="col-xs-3">${orgnization.cityName}</td>
+					</tr>
+					<tr>
+					  <td class="col-xs-3 bggrey tl">详细地址：</td>
+					  <td class="col-xs-3">${orgnization.address}</td>
+					  <td class="col-xs-3 bggrey tl">电话：</td>
+					  <td class="col-xs-3">${orgnization.mobile}</td>
+					</tr>
+					<tr>
+					  <td class="col-xs-3 bggrey tl">邮编：</td>
+					  <td class="col-xs-3">${orgnization.postCode}</td>
+					  <td class="col-xs-3 bggrey tl">传真：</td>
+					  <td class="col-xs-3">${orgnization.fax}</td>
+					</tr>
+					<tr class="hide monitor">
+					  <td class="col-xs-3 bggrey tl">组织机构代码：</td>
+					  <td class="col-xs-3">${orgnization.orgCode}</td>
+					  <td class="col-xs-3 bggrey tl">网站地址：</td>
+					  <td class="col-xs-3">${orgnization.website}</td>
+					</tr>
+					<tr class="hide monitor">
+					  <td class="col-xs-3 bggrey tl">负责人：</td>
+					  <td class="col-xs-3">${orgnization.princinpal}</td>
+					  <td class="col-xs-3 bggrey tl">身份证号：</td>
+					  <td class="col-xs-3">${orgnization.princinpalIdCard}</td>
+					</tr>
+					<tr class="hide monitor">
+					  <td class="col-xs-3 bggrey tl">监管机构性质：</td>
+					  <td class="col-xs-3">${orgnization.nature}</td>
 					</tr>
 				  </tbody>
 				</table>
@@ -171,7 +222,6 @@
 					  <th>姓名</th>
 					  <th>手机</th>
 					  <th>电话</th>
-					  <!-- <th>传真</th> -->
 					  <th>详细地址</th>
 					  <th>军网邮箱</th>
 				    </tr>
@@ -179,21 +229,12 @@
 				  <tbody>
 					<c:forEach items="${userlist}" var="u" varStatus="vs">
 					  <tr class="cursor">
-					    <!-- 选择框 -->
 						<td class="tc"><input type="checkbox" name="chkItem" value="${u.id}" /></td>
-						<!-- 姓名 -->
 						<td class="tc">${vs.index+1}</td>
-						<!-- 标题 -->
 						<td class="tc">${u.relName}</td>
-						<!-- 内容 -->
 						<td class="tc">${u.mobile}</td>
-						<!-- 创建人-->
 						<td class="tc">${u.telephone}</td>
-						<!-- 是否发布 -->
-						<%-- <td class="tc" onclick="show('${u.id}');">${p.gender}</td> --%>
-						<!-- 是否发布 -->
 						<td class="tc">${u.address}</td>
-						<!-- 是否发布 -->
 						<td class="tc">${u.email}</td>
 					  </tr>
 					</c:forEach>
@@ -245,34 +286,19 @@
 				  <tbody>
 					<c:forEach items="${oList}" var="p" varStatus="vs">
 					  <tr class="cursor">
-						<!-- 序号 -->
-						<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-						<!-- 标题 -->
-						<td class="tc" onclick="show('${p.id}');">${p.name}</td>
-						<!-- 内容 -->
-						<td class="tc" onclick="show('${p.id}');">${p.shortName}</td>
-						<!-- 创建人-->
-						<td class="tc" onclick="show('${p.id}');">${p.orgCode}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.mobile}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.areaId}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.detailAddr}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.fax}</td>
-						<!-- 创建人-->
-						<td class="tc" onclick="show('${p.id}');">${p.website}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.princinpal}</td>
-						<!-- 是否发布 -->
-						<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.princinpalIdCard}</td>
-						<!-- 是否发布 -->
-						<td class="tc" onclick="show('${p.id}');">${p.nature}</td>
+						<td class="tc">${vs.index+1}</td>
+						<td class="tc">${p.name}</td>
+						<td class="tc">${p.shortName}</td>
+						<td class="tc">${p.orgCode}</td>
+						<td class="tc">${p.mobile}</td>
+						<td class="tc">${p.areaId}</td>
+						<td class="tc">${p.detailAddr}</td>
+						<td class="tc">${p.postCode}</td>
+						<td class="tc">${p.fax}</td>
+						<td class="tc">${p.website}</td>
+						<td class="tc">${p.princinpal}</td>
+						<td class="tc">${p.princinpalIdCard}</td>
+						<td class="tc">${p.nature}</td>
 					  </tr>
 					</c:forEach>
 				  </tbody>
@@ -289,6 +315,7 @@
 			  </h2>
 			</div>
 		  </div>
+		  
 		</div>
 	  </div>
 	</div>

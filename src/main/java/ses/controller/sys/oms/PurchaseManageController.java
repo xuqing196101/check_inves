@@ -180,12 +180,8 @@ public class PurchaseManageController {
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
 		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
-		//page = new PageInfo(orgnizationList);
 		model.addAttribute("orgnizationList",orgnizationList);
 		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
-		//分页标签
-		//String pagesales = CommUtils.getTranslation(page,"purchaseManage/addPurchaseOrg.do");
-		//model.addAttribute("pagesql", pagesales);
 		return "ses/oms/require_dep/add_purchase_org";
 	}
 	
@@ -202,7 +198,6 @@ public class PurchaseManageController {
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
-		//User currUser=(User) request.getSession().getAttribute("loginUser");
 	    if(result.hasErrors()){
             model.addAttribute("orgnization", orgnization);
             return "ses/oms/require_dep/add";
@@ -238,7 +233,6 @@ public class PurchaseManageController {
 		}else {
 			orgmap.put("isroot", 1);
 		}
-		//orgmap.put("dep_id", depmap.get("id"));
 		orgnizationServiceI.saveOrgnization(orgmap);
 		String ORG_ID = (String) orgmap.get("id");
 		deporgmap.put("ORG_ID", ORG_ID);
@@ -277,7 +271,6 @@ public class PurchaseManageController {
             model.addAttribute("orgnization", orgnization);
             return "ses/oms/require_dep/edit";
         }
-		//User currUser=(User) request.getSession().getAttribute("loginUser");
 		HashMap<String, Object> orgmap = new HashMap<String, Object>();
 		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
 		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
@@ -585,49 +578,7 @@ public class PurchaseManageController {
 		model.addAttribute("origin", "org");
 		return "ses/bms/user/add";
 	}
-	/**
-	 * 
-	 * @Title: createUser
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-27 下午4:25:25
-	 * @Description: 保存用户
-	 * @param: @param user
-	 * @param: @param request
-	 * @param: @return
-	 * @return: AjaxJsonData
-	 */
-	/*@RequestMapping(value="createUser",method= RequestMethod.POST)
-	@ResponseBody
-	public AjaxJsonData createUser(@ModelAttribute User user,HttpServletRequest request){
-		User currUser = (User) request.getSession().getAttribute("loginUser");
-		//如果是采购机构增加人员 需要先建立主从关系
-		if (user.getTypeName()!=null && user.getTypeName().equals(1)) {
-			PurchaseInfo purchaseInfo = new PurchaseInfo();
-			purchaseInfo.setBirthAt("");
-			purchaseInfo.setQuaEdndate("");
-			purchaseInfo.setQuaStartDate("");
-			purchaseServiceI.savePurchase(purchaseInfo);
-			System.out.println(purchaseInfo.getId());
-			user.setTypeId(purchaseInfo.getId());
-		}
-		user.setTypeName(DictionaryDataUtil.getId("PURCHASER_U"));
-		userServiceI.save(user, currUser);
-		jsonData.setSuccess(true);
-		jsonData.setMessage("保存成功");
-		return jsonData;
-		
-	}*/
-	/**
-	 * 
-	 * @Title: editUser
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-27 下午4:26:11
-	 * @Description: 编辑用户
-	 * @param: @param user
-	 * @param: @param model
-	 * @param: @return
-	 * @return: String
-	 */
+	
 	@RequestMapping("editUser")
 	public String editUser(@ModelAttribute User user,Model model) {
 		user = userServiceI.queryByList(user).get(0);
@@ -944,7 +895,20 @@ public class PurchaseManageController {
 			map.put("id", orgnization.getId());
 			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
 			if(orglist!=null && orglist.size()>0){
-				model.addAttribute("orgnization",orglist.get(0) );
+				Orgnization org = orglist.get(0);
+				
+				Area area = areaServiceI.listById(org.getProvinceId());
+				if (area != null){
+					org.setProvinceName(area.getName());
+				}
+				
+				Area city = areaServiceI.listById(org.getCityId());
+				
+				if (city != null){
+					org.setCityName(city.getName());
+				}
+				
+				model.addAttribute("orgnization", org);
 			}
 			
 			user.setOrg(orgnization);
@@ -959,7 +923,21 @@ public class PurchaseManageController {
 			map.put("isroot", 1);
 			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
 			if(orglist!=null && orglist.size()>0){
-				model.addAttribute("orgnization",orglist.get(0) );
+				
+				Orgnization org = orglist.get(0);
+				
+				Area area = areaServiceI.listById(org.getProvinceId());
+				if (area != null){
+					org.setProvinceName(area.getName());
+				}
+				
+				Area city = areaServiceI.listById(org.getCityId());
+				
+				if (city != null){
+					org.setCityName(city.getName());
+				}
+				
+				model.addAttribute("orgnization",org);
 				String orgId = orglist.get(0).getId();
 				user.setOrg(orglist.get(0));
 				List<User> userlist= userServiceI.queryByList(user);
