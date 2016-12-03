@@ -149,6 +149,20 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		
 	}
+	function tab4(depId){
+		if(depId != null){
+			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+		} else {
+			fun1();
+		}
+	}
+	function tab5(depId){
+		if(depId != null){
+			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+		} else {
+			fun1();
+		}
+	}
 </script>
 </head>
 <body>
@@ -180,9 +194,9 @@ session.setAttribute("tokenSession", tokenValue);
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-				<span id="ty3" class="new_step fl" onclick='fun1()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-				<span id="ty4" class="new_step fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-				<span id="ty5" class="new_step fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick='fun1()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.purchaseDepId}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.purchaseDepId}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

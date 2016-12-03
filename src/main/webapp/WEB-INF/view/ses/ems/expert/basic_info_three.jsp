@@ -251,6 +251,9 @@ session.setAttribute("tokenSession", tokenValue);
 		showJiGou();
 		purDepBack();
 	}
+	function tab5(){
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+	}
 </script>
 </head>
 <body>
@@ -284,8 +287,8 @@ session.setAttribute("tokenSession", tokenValue);
 					<span id="jg1" class="new_step current fl"  onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 					<span id="jg2" class="new_step current fl"   onclick='pre()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 					<span id="jg3" class="new_step current fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span id="jg4" class="new_step fl" onclick='addPurList()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-					<span id="jg5" class="new_step fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<span id="jg4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='addPurList()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span id="jg5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

@@ -36,6 +36,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/find_by_id.do",
 				data:{"id":addressId},
+				async:false,
 				success:function(obj){
 					$.each(obj,function(i,result){
 						if(addressId == result.id){
@@ -50,6 +51,7 @@ session.setAttribute("tokenSession", tokenValue);
 			//地区
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/listByOne.do",
+				async:false,
 				success:function(obj){
 					$.each(obj,function(i,result){
 						 if(parentId == result.id){
@@ -61,7 +63,7 @@ session.setAttribute("tokenSession", tokenValue);
 				}
 			});
 			//validateBase();
-			func();
+			//func();
 		}
 	function submitForm1(){
 		$.ajax({
@@ -88,13 +90,80 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		});
 	}
+	//无提示暂存
+	function submitForm3(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=three";
+			}
+		});
+	}
+	//无提示暂存
+	function submitForm4(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+			}
+		});
+	}
+	//无提示暂存
+	function submitForm5(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+			}
+		});
+	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
-			if (!validateForm1()){
-				return false;
-			} 
-		//暂存无提示
-		submitForm2();
+		if (!validateForm1()){
+			return;
+		} else {
+			//暂存无提示
+			submitForm2();
+		}
+	}
+	/** 专家完善注册信息页面 */
+	function supplierRegist3() {
+		if (!validateForm1()){
+			return;
+		} else {
+			//暂存无提示
+			submitForm3();
+		}
+	}
+	/** 专家完善注册信息页面 */
+	function supplierRegist4() {
+		if (!validateForm1()){
+			return;
+		} else {
+			//暂存无提示
+			submitForm4();
+		}
+	}
+	/** 专家完善注册信息页面 */
+	function supplierRegist5() {
+		if (!validateForm1()){
+			return;
+		} else {
+			//暂存无提示
+			submitForm5();
+		}
 	}
 
 	//回显基本信息到表中
@@ -160,8 +229,25 @@ session.setAttribute("tokenSession", tokenValue);
 		
 		$("#Taddress").text(addValue1+","+addValue2);
 	}
+	
+	// 点击下一步事件
 	function fun(){
 		supplierRegist(); 
+		editTable();
+	}
+	// 点击3事件
+	function fun3(){
+		supplierRegist3(); 
+		editTable();
+	}
+	// 点击4事件
+	function fun4(){
+		supplierRegist4(); 
+		editTable();
+	}
+	// 点击5事件
+	function fun5(){
+		supplierRegist5(); 
 		editTable();
 	}
 	
@@ -238,18 +324,23 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
 			return false;
 		}
+		var isok = 0;
 		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
 			$.ajax({
 				url:'${pageContext.request.contextPath}/expert/validateIdNumber.do',
 				type:"post",
-				data:{"idNumber":idNumber},
+				async:false,
+				data:{"idNumber":idNumber,"expertId":$("#id").val()},
 				success:function(obj){
 					if(obj=='1'){
 						layer.msg("该身份证号已被占用!",{offset: ['222px', '390px']});
-						return false;
+						isok = 1;
 					}
 				}
 			});
+		}
+		if (isok == 1) {
+			return false;
 		}
 		var id_areaSelect = $("#add").val();
 		if(!id_areaSelect){
@@ -274,6 +365,35 @@ session.setAttribute("tokenSession", tokenValue);
 			dataType:"json"
 		});
 		return flag;
+	}
+	function tab3(typeId){
+		if(typeId != null){
+			fun3();
+		} else {
+			fun();
+		}
+	}
+	function tab4(typeId, depId){
+		if(typeId != null){
+			if(depId != null){
+				fun4();
+			}else{
+				fun3();
+			}
+		} else {
+			fun();
+		}
+	}
+	function tab5(typeId, depId){
+		if(typeId != null){
+			if(depId != null){
+				fun5();
+			}else{
+				fun3();
+			}
+		} else {
+			fun();
+		}
 	}
 </script>
 </head>
@@ -305,10 +425,10 @@ session.setAttribute("tokenSession", tokenValue);
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
 	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	    <span id="sp2" class="new_step fl" onclick='fun()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-	    <span id="sp3" class="new_step fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-	    <span id="sp4" class="new_step fl" onclick='tab4()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-	    <span id="sp5" class="new_step fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+	    <span id="sp2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl" onclick='fun()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	    <span id="sp3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick="tab3('${expert.expertsTypeId}')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+	    <span id="sp4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.expertsTypeId}','${expert.purchaseDepId}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+	    <span id="sp5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.expertsTypeId}','${expert.purchaseDepId}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">

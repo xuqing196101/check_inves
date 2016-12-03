@@ -1341,12 +1341,16 @@ public class ExpertController {
      */
     @ResponseBody
     @RequestMapping("/validateIdNumber")
-    public String validateIdNumber(String idNumber) {
+    public String validateIdNumber(String idNumber, String expertId) {
         List<Expert> list = service.validateIdNumber(idNumber);
         if (list.isEmpty()) {
             return "0";
         } else {
-            return "1";
+            if (list.size() == 1 && expertId.equals(list.get(0).getId())) {
+                return "0";
+            } else {
+                return "1";
+            }
         }
     }
 }
