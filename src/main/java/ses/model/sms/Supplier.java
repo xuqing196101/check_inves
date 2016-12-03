@@ -515,6 +515,10 @@ public class Supplier implements Serializable {
 	
 	
 	private List<ProductParam> paramVleu=new   ArrayList<ProductParam>();
+	/**
+	 * 公司详细地址
+	 */
+	private String detailAddress;
 	
 	public List<CategoryParameter> getCategoryParam() {
 		return categoryParam;
@@ -1217,6 +1221,16 @@ public class Supplier implements Serializable {
 	public void setParamVleu(List<ProductParam> paramVleu) {
 		this.paramVleu = paramVleu;
 	}
+
+	public String getDetailAddress() {
+		return detailAddress;
+	}
+
+	public void setDetailAddress(String detailAddress) {
+		this.detailAddress = detailAddress;
+	}
+	
+	
 	
 	
 }

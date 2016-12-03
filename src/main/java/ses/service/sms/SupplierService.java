@@ -121,4 +121,20 @@ public interface SupplierService {
      */
     String selectSupplierTypes(Supplier supplier);
     
+    
+   public Map<String,Object> getCategory(String supplierId);
+   
+   /**
+    * 
+   * @Title: query
+   * @Description: 查询供应商
+   * author: Li Xiaoxiao 
+   * @param @param supplier
+   * @param @return     
+   * @return Supplier     
+   * @throws
+    */
+   public List<Supplier> query(Map<String,Object> map);
+    
+    
 }

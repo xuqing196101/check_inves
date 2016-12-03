@@ -57,7 +57,7 @@ public interface SupplierItemMapper {
     List<String> getSupplierId();
     List<String> getItemBySupplierId();
     
-    List<SupplierItem> findByMap(Map<String, String> param);
+    List<SupplierItem> findByMap(Map<String, Object> param);
     
     int deleteByMap(Map<String, String> param);
     

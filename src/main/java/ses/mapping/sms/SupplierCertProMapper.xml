@@ -173,9 +173,17 @@
 		    T1.MAT_PRO_ID = T2.ID
 		left join  
 		    T_SES_SMS_SUPPLIER_ATTACHMENT t3 
-		on 
+		on s
 		    t1. ID = t3.BUSINESS_ID
 		where
 		    T2.SUPPLIER_ID = #{supplierId}
   </select>
+  
+  
+  	<delete id="deleteById" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_PRO
+		where ID = #{id}
+	</delete>
+	
+	
 </mapper>

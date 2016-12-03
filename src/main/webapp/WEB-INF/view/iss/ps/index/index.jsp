@@ -76,7 +76,7 @@ function login(){
 					 		layer.close(index);
 					 		window.location.href="${pageContext.request.contextPath}/";
 					 	    });
-					}else if(flag[0]=="reset"){
+				}else if(flag[0]=="reset"){
 					 		//询问框
 					 		//layer.confirm('你还未完善个人信息，或信息被退回，请重新完善信息？', {
 					 		//btn: ['是','否'] //按钮
@@ -86,10 +86,22 @@ function login(){
 					 			//layer.close(index);
 					 			//window.location.href="${pageContext.request.contextPath}/";
 					 		   //});
-				}else if(data="deleteLogin"){
+				}else if(flag[0]=="unprefect"){
+					//询问框
+					layer.confirm('个人信息未完善，是否前去完善？', {
+					 	btn: ['是','否'] //按钮
+					}, function(){
+					  window.location.href="${pageContext.request.contextPath}/supplier/login.html?userId="+flag[1];
+					 	}, function(){
+					 		layer.close(index);
+					 		window.location.href="${pageContext.request.contextPath}/";
+					 	    });
+				}
+				else if(data="deleteLogin"){
 					layer.msg("账号不存在!");
 					layer.close(index);
 				}
+				
 				kaptcha();
 			}
 		});

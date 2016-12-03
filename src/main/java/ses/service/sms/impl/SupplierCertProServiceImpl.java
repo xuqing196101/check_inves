@@ -26,7 +26,7 @@ public class SupplierCertProServiceImpl implements SupplierCertProService {
 	@Override
 	public void deleteCertPro(String certProIds) {
 		for (String id : certProIds.split(",")) {
-			supplierCertProMapper.deleteByPrimaryKey(id);
+			supplierCertProMapper.deleteById(id);
 		}
 	}
 

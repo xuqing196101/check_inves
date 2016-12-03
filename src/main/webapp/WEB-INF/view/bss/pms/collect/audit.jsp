@@ -114,7 +114,41 @@
     		   }
     	   });
        } 
+     
       
+   	var flag=true;
+	function checks(obj){
+		  var name=$(obj).attr("name");
+		  var planNo=$("#pNo").val();
+		  var val=$(obj).val();
+		  var defVal=obj.defaultValue;
+			if(val!=defVal){
+				$.ajax({
+					url:"${pageContext.request.contextPath}/adjust/filed.html",
+					type:"post",
+					data:{
+						planNo:planNo,
+						name:name
+					},
+					success: function(data){
+						 if(data=='exit'){
+							 flag=false;
+							 layer.tips("该字段不允许修改",obj);
+						 }
+					 },
+					error:function(data){
+						 
+					 }
+					 
+				});
+			} 
+	}
+	
+	function audits(){
+		if(flag==true){
+			$("#audit_form").submit();
+		}
+	}
       
 </script>
 </head>
@@ -136,7 +170,7 @@
 		<div class="headline-v2 fl">
 			<h2>计划明细</h2>
 		</div>
-		<form action="${pageContext.request.contextPath}/look/audit.html" method="post">
+		<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
 		<div class="col-md-12 pl20 mt10">
 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
 		<a class="btn padding-left-10 padding-right-10 btn_back" href="${pageContext.request.contextPath}/look/report.html?id=${id}">生成评审报告页面</a>
@@ -144,7 +178,7 @@
                 <u:upload id="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
                 <u:show showId="cgjh" groups="cgjh,audit" businessId="${id }" sysKey="2" typeId="${aid }"/>
                 </div>
-		<input class="btn btn-windows save" type="submit" value="提交">
+		<input class="btn btn-windows save" onclick="audits()" value="提交">
                 <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		</div>
 			 <div class="content table_box">
@@ -203,7 +237,7 @@
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
 							<td><input style="border: 0px;" type="text" name="list[${vs.index }].department" value="${obj.department }"></td>
 							<td><input style="border: 0px;" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>

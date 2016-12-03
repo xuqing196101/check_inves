@@ -27,7 +27,7 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 	@Override
 	public void deleteAptitute(String aptituteIds) {
 		for (String id : aptituteIds.split(",")) {
-			supplierAptituteMapper.deleteByPrimaryKey(id);
+			supplierAptituteMapper.deleteById(id);
 		}
 	}
 

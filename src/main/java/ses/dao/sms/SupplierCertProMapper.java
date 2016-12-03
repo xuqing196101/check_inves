@@ -57,4 +57,7 @@ public interface SupplierCertProMapper {
      * @return List<SupplierCertPro>
      */
     List<SupplierCertPro> findBySupplierId(String  id);
+    
+    
+    void deleteById(String id);
 }

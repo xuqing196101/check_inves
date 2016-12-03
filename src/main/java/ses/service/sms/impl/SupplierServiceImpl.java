@@ -21,6 +21,7 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.Todos;
@@ -351,7 +352,8 @@ public class SupplierServiceImpl implements SupplierService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Integer status = supplier.getStatus();
 		if (status == -1) {
-			map.put("status", "信息未提交, 请提交审核 !");
+			map.put("status", "unperfect");
+//			map.put("status", "信息未提交, 请提交审核 !");
 		} else if (status == 0 || status == 8) {
 			map.put("status", "信息待初审, 请等待审核 !");
 		} else if (status == 1) {
@@ -390,5 +392,78 @@ public class SupplierServiceImpl implements SupplierService {
 	public String selectSupplierTypes(Supplier supplier) {
 		return supplierMapper.selectSupplierTypes(supplier);
 	}
+
+	 
+	public Map<String, Object> getCategory(String supplierId) {
+		
+		Map<String,Object> map=new HashMap<String,Object>();
+		
+		List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+		//三大类
+		List<DictionaryData> find = DictionaryDataUtil.find(6);
+		//销售生产
+		List<DictionaryData> list2 = DictionaryDataUtil.find(8);
+		
+		StringBuffer server=new StringBuffer();
+		StringBuffer project=new StringBuffer();
+		StringBuffer product=new StringBuffer();
+		StringBuffer sale=new StringBuffer();
+		for(DictionaryData dic:find){
+			if(dic.getCode().equals("SERVICE")){
+				for(SupplierItem s:list){
+					if(dic.getId().equals(s.getSupplierTypeRelateId())){
+						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+//						server.add(category.getName());
+						server.append(category.getName());
+					}
+				}
+			}
+			if(dic.getCode().equals("PROJECT")){
+				for(SupplierItem s:list){
+					if(dic.getId().equals(s.getSupplierTypeRelateId())){
+						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+//						project.add(category.getName());
+						project.append(category.getName());
+					}
+				}
+			}
+		}
+		
+		
+		for(DictionaryData dic:list2){
+			if(dic.getCode().equals("PRODUCT")){
+				for(SupplierItem s:list){
+					if(dic.getId().equals(s.getSupplierTypeRelateId())){
+						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+//						product.add(category.getName());
+						product.append(category.getName());
+					}
+				}
+			}
+			if(dic.getCode().equals("SALES")){
+				for(SupplierItem s:list){
+					if(dic.getId().equals(s.getSupplierTypeRelateId())){
+						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+//						sale.add(category.getName());
+						sale.append(category.getName());
+					}
+				}
+			}
+		}
+		
+		map.put("server", server);
+		map.put("project", project);
+		map.put("product", product);
+		map.put("sale", sale);
+		return map;
+	}
+
+	@Override
+	public List<Supplier> query(Map<String,Object> map) {
+		// TODO Auto-generated method stub
+		return supplierMapper.query(map);
+	}
+	
+	
 	
 }

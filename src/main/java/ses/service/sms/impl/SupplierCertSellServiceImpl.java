@@ -26,7 +26,7 @@ public class SupplierCertSellServiceImpl implements ses.service.sms.SupplierCert
 	@Override
 	public void deleteCertSell(String certSellIds) {
 		for (String id : certSellIds.split(",")) {
-			supplierCertSellMapper.deleteByPrimaryKey(id);
+			supplierCertSellMapper.deleteById(id);
 		}
 	}
 

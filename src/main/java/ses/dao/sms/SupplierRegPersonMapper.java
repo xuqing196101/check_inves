@@ -46,4 +46,6 @@ public interface SupplierRegPersonMapper {
     int updateByPrimaryKey(SupplierRegPerson record);
     
     List<SupplierRegPerson> findRegPersonByMatEngId(String supplierMatEngId);
+    
+    void deleteById(String id);
 }

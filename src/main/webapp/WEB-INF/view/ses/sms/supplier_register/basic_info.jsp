@@ -274,7 +274,7 @@ function deleteFinance() {
 	
 	function checknums(obj){
 		var vals=$(obj).val();
-		var reg=/^[0-9].*$/;
+		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
 			 $("#err_fund").text("数字非法");
@@ -314,7 +314,7 @@ function deleteFinance() {
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司网址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="website" value="${currSupplier.website}">
+			        <input type="text" name="website" placeholder="http开头或者死https://开头" value="${currSupplier.website}">
 			        <span class="add-on cur_point">i</span>
 			         <div class="cue"> ${err_msg_website } </div>
 			       </div>
@@ -378,9 +378,19 @@ function deleteFinance() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 			        <span class="add-on cur_point">i</span>
-			         <div class="cue"> ${err_msg_postCode } </div>
+			         
 			       </div>
 				 </li>  
+				 
+				 
+				<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>
+			    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
+				       <textarea class="col-md-12 col-xs-12 col-sm-12 h130"  name="detailAddress">${currSupplier.detailAddress}</textarea>
+				       <div class="cue"> ${err_detailAddress } </div>
+		       	    </div>
+				</li> 
+			
 	       </fieldset>
 	       <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
 	 			<legend>资质资信</legend>
@@ -595,7 +605,7 @@ function deleteFinance() {
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h130" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h130" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
 			</li> 
 		</fieldset>

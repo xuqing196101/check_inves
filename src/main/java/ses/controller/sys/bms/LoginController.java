@@ -149,6 +149,8 @@ public class LoginController {
 						req.getSession().setAttribute("loginUser", u);
 						req.getSession().setAttribute("resource", u.getMenus());
 						out.print("scuesslogin");
+					}else{
+						out.print("unprefect," + u.getLoginName());
 					}
 				} else {
 					req.getSession().setAttribute("loginUser", u);

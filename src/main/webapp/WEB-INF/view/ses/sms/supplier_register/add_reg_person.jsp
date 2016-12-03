@@ -67,7 +67,7 @@
 	
 	function checknums(obj){
 		var vals=$(obj).val();
-		var reg=/^[0-9].*$/;
+		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
 			 $("#err_fund").text("数字非法");

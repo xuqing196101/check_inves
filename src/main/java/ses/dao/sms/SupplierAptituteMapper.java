@@ -58,4 +58,7 @@ public interface SupplierAptituteMapper {
      */
     List<SupplierAptitute> findAptituteBySupplierId(String supplierId);
     
+    
+    void deleteById(String id);
+    
 }

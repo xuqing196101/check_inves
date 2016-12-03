@@ -96,10 +96,11 @@ public class SupplierFinanceController extends BaseSupplierController {
 	public String deleteCertEng(HttpServletRequest request, String financeIds, String supplierId) {
 		supplierFinanceService.deleteFinance(financeIds);
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-2");
+//		request.getSession().setAttribute("defaultPage", "tab-2");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "basic_info");
-		return "redirect:../supplier/page_jump.html";
+//		request.getSession().setAttribute("jump.page", "basic_info");
+//		return "redirect:../supplier/page_jump.html";
+		return "ses/sms/supplier_register/basic_info";
 	}
 	
 	public void setFinanceUpload(HttpServletRequest request, SupplierFinance supplierFinance) throws IOException {

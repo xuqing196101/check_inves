@@ -88,12 +88,31 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<h2 class="f16 jbxx mt40">
+										<!-- <h2 class="f16 jbxx mt40">
 											<i>01</i>申请表和承诺书上传
-										</h2>
-										<ul class="list-unstyled list-flow">
+										</h2> -->
+										
+											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商申请表和承诺书上传</span> 
+												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+													   <u:upload id="promise_up"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" /> 
+													   <u:show showId="promise_show"    businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" />
+												   </div>
+											</li>
+				
+										<%-- 	<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商承诺书上传</span> 
+												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+													   <u:upload id="application_up" groups="promise_up,application_up"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" /> 
+													   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" />
+												   </div>
+											</li>
+											 --%>
+				
+				
+								<!-- 		<ul class="list-unstyled list-flow">
 											<li id="level_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i> 军队供应商分级方法：</span>
-												<%--<c:if test="${currSupplier.supplierLevel != null}">
+												 --><%--<c:if test="${currSupplier.supplierLevel != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierLevel}')">下载附件</a>
 														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('level_li_id')">☓</a>
@@ -108,9 +127,9 @@
 														</div>
 													</div>
 												</c:if>--%>
-												<up:upload id="aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+									<%-- 			<up:upload id="aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 												<up:show showId="bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-											</li>
+											</li> --%>
 											<%--<li id="pledge_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
 												<c:if test="${currSupplier.supplierPledge != null}">
 													<div>

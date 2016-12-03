@@ -246,4 +246,11 @@
 		where
 		  t2.SUPPLIER_ID=#{supplierId}
   </select>
+  
+  	<delete id="deleteById" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_APTITUTE
+		where ID = #{id}
+	</delete>
+	
+	
 </mapper>

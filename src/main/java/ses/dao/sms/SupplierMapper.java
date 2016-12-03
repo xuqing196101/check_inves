@@ -232,4 +232,20 @@ public interface SupplierMapper {
      * @return
      */
     List<Supplier> listResultSupplier(String ProjectId);
+    
+    
+    
+    Supplier  queryByName(@Param("name")String name);
+    /**
+     * 
+    * @Title: query
+    * @Description: 查询供应商
+    * author: Li Xiaoxiao 
+    * @param @param supplier
+    * @param @return     
+    * @return Supplier     
+    * @throws
+     */
+    List<Supplier> query(Map<String,Object> map);
+    
 }

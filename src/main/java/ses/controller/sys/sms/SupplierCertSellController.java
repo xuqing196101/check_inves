@@ -94,10 +94,11 @@ public class SupplierCertSellController extends BaseSupplierController {
 	public String deleteCertSell(HttpServletRequest request, String certSellIds, String supplierId) {
 		supplierCertSellService.deleteCertSell(certSellIds);
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-2");
+//		request.getSession().setAttribute("defaultPage", "tab-2");
 		request.getSession().setAttribute("currSupplier", supplier);
-		request.getSession().setAttribute("jump.page", "professional_info");
-		return "redirect:../supplier/page_jump.html";
+//		request.getSession().setAttribute("jump.page", "professional_info");
+//		return "redirect:../supplier/page_jump.html";
+		return "ses/sms/supplier_register/supplier_type";	
 	}
 	
 	public void setCertSellUpload(HttpServletRequest request, SupplierCertSell supplierCertSell) throws IOException {

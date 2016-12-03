@@ -103,6 +103,27 @@
 	  });
 	  
 	  
+		$(function() {
+			  window.onload=function(){
+				  var checkeds = $("#choseId").val();
+		 		  var arrays =checkeds.split(",");
+		 		   var checkBoxAll = $("input[name='chkItem']"); 
+		 		   if(arrays.length>0){
+				  for(var i=0;i<arrays.length;i++){
+					  $.each(checkBoxAll,function(j,checkbox){
+						    //获取复选框的value属性
+						      var checkValue=$(checkbox).val();
+						            if(arrays[i]==checkValue){
+					                      $(checkbox).attr("checked",true);
+					               }
+					      });
+				  }
+		 		}
+			  }
+		});
+		
+		
+	  
 </script>
 </head>
 
@@ -141,7 +162,7 @@
 	</div>
 	 
 	 <input type="hidden" value="${id}" id="flag" >
-	 
+	  <input type="hidden" value="${choseId}" id="choseId" >
 	<form class="dnone" action="" id="category_id">
 			<input type="hidden" name="categoryId" id="cid">
 			<input type="hidden" name="supplierId" id="sid" value="${sid }">

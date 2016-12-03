@@ -304,6 +304,7 @@
 			}
 			certProIds += $(this).val();
 		});
+		alert(certProIds);
 		var size = checkboxs.length;
 		if (size > 0) {
 			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
@@ -559,7 +560,7 @@
     
     function checknums(obj){
 		var vals=$(obj).val();
-		var reg=/^[0-9].*$/;
+		var reg= /^\d+\.?\d*$/;  
 		if(!reg.exec(vals)){
 			$(obj).val("");
 			 $("#err_fund").text("数字非法");
@@ -613,22 +614,35 @@
 					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
 				<div>
 				
-				<div class="sevice_list container" style="display: none;" id="production">
+				<%-- <div class="sevice_list container" style="display: none;" id="production">
 					  <h2>产品/货物生产</h2>
 					  <div class="col-md-12 col-sm-12 col-xs-12">
 					      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
 						  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-								    <input type="text" readonly="readonly"   id="production_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
+								    <input type="text" readonly="readonly"   id="production_seach" value="${product }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
 								    <input type="hidden"   value="" />
 								<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 						  </div>
 					    </div>
-				 </div>
+				 </div> --%>
 						
 						<!-- 物资生产型专业信息 -->
 			              
 			              <div class="dnone" id="production_div">
 			              <div class="container container_box">
+			             <!-- 开始 --> 
+			              <div class="sevice_list container" style="display: none;" id="production">
+							  <h2>产品/货物生产</h2>
+							  <div class="col-md-12 col-sm-12 col-xs-12">
+							      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
+								  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+										    <input type="text" readonly="readonly"   id="production_seach" value="${product }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
+										    <input type="hidden"   value="" />
+										<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+								  </div>
+							    </div>
+						 </div>
+				     <!-- 结束 --> 
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-生产型专业信息</h3>
 			              	    <ul class="list-unstyled f14">
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
@@ -796,10 +810,10 @@
 											 
 							 	<fieldset class="col-md-12 border_font mt20">
 						 	      <legend>供应商物资生产资质证书</legend>
-								       <div class="col-md-12 col-sm-12 col-xs-12 p0">
-											<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
-											 <button type="button" class="btn fr" onclick="openCertPro()">新增</button>
-											  <button type="button" class="btn fr mr0" onclick="deleteCertPro()">删除</button>
+								       <div class="col-md-12 p0">
+											<div class="fl">
+											  <button type="button" class="btn fr mr0" onclick="openCertPro()">新增</button>
+											  <button type="button" class="btn fr" onclick="deleteCertPro()">删除</button>
 											</div>
 					                       <table class="table table-bordered table-condensed mt5">
 												<thead>
@@ -841,24 +855,39 @@
 								</div>
 							 </div>
 				
-		 <div class="sevice_list container"  style="display: none;" id="sale" >
+<%-- 		 <div class="sevice_list container"  style="display: none;" id="sale" >
 			  <h2>产品/货物销售类</h2>
 			  <div class="col-md-12 col-sm-12 col-xs-12">
 			      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-						    <input type="text" readonly="readonly"  id="sale_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+						    <input type="text" readonly="readonly"  id="sale_seach" value="${sale }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 						    <input type="hidden"    value="" />
 						 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 				  </div>
 			    </div>
-		  </div>
+		  </div> --%>
 								
 								<!-- 物资销售型专业信息 -->
 				<div class="dnone" id="sale_div">
 							 
 					<!-- 		   <h2> 物资-销售信息：</h2> -->
 						 
-						    <div class="container container_box">
+						  <div class="container container_box">
+						    
+						  <!-- 开始-->
+						    <div class="sevice_list container"  style="display: none;" id="sale" >
+								  <h2>产品/货物销售类</h2>
+								  <div class="col-md-12 col-sm-12 col-xs-12">
+								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
+									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+											    <input type="text" readonly="readonly"  id="sale_seach" value="${sale }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+											    <input type="hidden"    value="" />
+											 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+									  </div>
+								    </div>
+							  </div>
+		  				<!--结束  -->
+		  
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-销售专业信息</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 			              	    
@@ -867,7 +896,7 @@
 								    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			 						<legend>供应商组织机构和人员 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group">
 														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
 														 <span class="add-on cur_point">i</span>
 														 <div class="cue"> ${sale_org } </div>
@@ -967,22 +996,36 @@
 								</div> 
 							 </div>
 								
-					  <div class="sevice_list container" style="display: none;"   id="project"  >
+				<%-- 	  <div class="sevice_list container" style="display: none;"   id="project"  >
 						  <h2>产品/工程类</h2>
 						  <div class="col-md-12 col-sm-12 col-xs-12">
 						      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
 							  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-									    <input type="text" readonly="readonly"   id="project_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+									    <input type="text" readonly="readonly"   id="project_seach" value="${project }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 									    <input type="hidden"   value="" />
 									  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 							  </div>
 						    </div>
-					  </div>				
+					  </div>	 --%>			
 								
 								<!-- 工程专业信息 -->
 		 			<div  class="dnone" id="project_div">
 		 							  
    						<div class="container container_box">
+   						<!-- 开始 -->
+   						  <div class="sevice_list container" style="display: none;"   id="project"  >
+							  <h2>产品/工程类</h2>
+							  <div class="col-md-12 col-sm-12 col-xs-12">
+							      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
+								  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+										    <input type="text" readonly="readonly"   id="project_seach" value="${project }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+										    <input type="hidden"   value="" />
+										  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+								  </div>
+							    </div>
+						   </div>
+					  <!-- 结束 -->
+					  
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >工程专业信息:</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
 			              	    
@@ -1226,22 +1269,36 @@
 							 </div>
 						
 						
-						    <div class="sevice_list container" style="display: none;"  id="server" >
+						<%--     <div class="sevice_list container" style="display: none;"  id="server" >
 								  <h2>产品/服务类</h2>
 								  <div class="col-md-12 col-sm-12 col-xs-12">
 								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
 									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-											    <input type="text" readonly="readonly"  id="server_seach" value="" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+											    <input type="text" readonly="readonly"  id="server_seach" value="${server }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
 											    <input type="hidden"   value="" />
 											    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
 									  </div>
 								    </div>
-							 </div>
+							 </div> --%>
 								
 								<!-- 服务专业信息 -->
 							 <div class="dnone" id="server_div">
 							 
 									<div class="container container_box">
+									<!--开始  -->
+									  <div class="sevice_list container" style="display: none;"  id="server" >
+										  <h2>产品/服务类</h2>
+										  <div class="col-md-12 col-sm-12 col-xs-12">
+										      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
+											  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+													    <input type="text" readonly="readonly"  id="server_seach" value="${server }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
+													    <input type="hidden"   value="" />
+													    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
+											  </div>
+										    </div>
+									 </div>
+									 	<!--结束  -->
+									 
 					              	  <h3 class="headline-v2" style="background-color: #FBFBFB ">服务专业信息:</h3>
 					              	    <ul class="list-unstyled" style="font-size: 14">
 							 	
@@ -1295,17 +1352,14 @@
 										 
 										 
 										 
-											   <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	              						 <legend> 供应商资服务质证书 </legend>
-	 	              						 
-										     
-								 
-											   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-													<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
+									<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+	 	              					<legend> 供应商资服务质证书 </legend>
+										<div class="col-md-12 p0">
+													<div class="fl">
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSe()">删除</button>
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSe()">新增</button>
 													</div>
-												<div class="col-md-12 col-sm-12 col-xs-12">
+										<div class="col-md-12 col-sm-12 col-xs-12">
 										 <table id="share_table_id" class="table table-bordered table-condensed mt5">
 												<thead>
 													<tr>

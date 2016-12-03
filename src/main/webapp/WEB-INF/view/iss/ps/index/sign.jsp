@@ -73,7 +73,19 @@
     							layer.close(index);
     							window.location.href = "${pageContext.request.contextPath}/";
     						});
-    					} else if (flag[0] == "reset") {
+    					}else if(flag[0]=="unprefect"){
+    						//询问框
+    						layer.confirm('信息未完善，是否前去完善？', {
+    						 	btn: ['是','否'] //按钮
+    						}, function(){
+    						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
+    						 	}, function(){
+    						 		layer.close(index);
+    						 		window.location.href="${pageContext.request.contextPath}/";
+    						 	    });
+    					}  
+    					
+    					else if (flag[0] == "reset") {
     						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=" + flag[1];
     					} else if (data = "deleteLogin") {
     						layer.msg("账号不存在!");
