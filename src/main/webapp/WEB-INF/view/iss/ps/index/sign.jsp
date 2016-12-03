@@ -127,7 +127,7 @@
   			<div class="container content login_content">
   				<div class="row">
   					<div class="sign_left col-md-6 col-sm-12 col-xs-12">
-  						<img src="${pageContext.request.contextPath}/public/portal/images/newsign_left.jpg" class='sign_left_image'/>
+  						<img src="${pageContext.request.contextPath}/public/portal/images/newsign_left.jpg" class='sign_left_image' />
   					</div>
 
   					<div class="col-md-5 col-sm-12 col-xs-12 login_right">
