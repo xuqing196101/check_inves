@@ -1657,7 +1657,7 @@ img.img-mouse {
 	color: #555;
 }
 
-/*锟斤拷应锟斤拷锟斤拷知锟斤拷始*/ 
+/* */ 
  .download{
   padding:12px 24px;
   background:url(../images/download.png) no-repeat 0px;
@@ -1668,7 +1668,7 @@ img.img-mouse {
    margin:0px;
   }
   
-/*锟斤拷写锟斤拷息锟斤拷始*/
+/* */
 .list-flow span {
     width: 135px;
     float: left;
@@ -1978,8 +1978,8 @@ img.img-mouse {
 
     }
 
-/*锟铰硷拷锟斤拷式*/
-/*锟街诧拷图锟斤拷式*/
+/**/
+/* */
 .section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
 .section-focus-pic ul li{position:absolute;top:0;left:100%;width:100%;height:354px;list-style-type:none;}
 .section-focus-pic .pages{width:100%;height:354px;}
@@ -2201,7 +2201,7 @@ a.yjfk{
   text-align:center;
 }
 
-/*锟斤拷锟斤拷锟斤拷锟斤拷贫锟斤拷锟绞斤拷锟绞�/
+/* supp_login */
 
 .drop_hover .supp_login{
   padding-right:30px!important;
@@ -2254,7 +2254,8 @@ a.yjfk{
  padding-top:5px;
  overflow:hidden;
 }
-/*澶撮儴鐧诲綍鍏ュ彛*/
+
+/* head */
 .head_top{
   background:#f7f7f7;
   height:34px;
@@ -2266,7 +2267,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*鐧诲綍椤甸潰鏍峰紡寮�*/
+/* */
 .sky-form header {
     color: inherit;
     display: block;
@@ -2312,6 +2313,7 @@ a.yjfk{
 	font-size: 14px;
     color: #404040;
 }
+
 .shadow-effect-2{
     background:#f0efef;
 	opacity:0.8;
@@ -2319,9 +2321,11 @@ a.yjfk{
     -moz-opacity: 0.8;
 	position:relative;
 }
+
 .sign_box {
    border:1px solid #cccccc;
 }
+
 .reg-page {
     color: #555;
     padding: 30px;
@@ -2329,29 +2333,32 @@ a.yjfk{
     border: solid 1px #eee;
     box-shadow: 0 0 3px #eee;
 }
+
 @media (min-width:768px){
-.login_right{
-    padding-left:4%;
+  .login_right{
+    padding-left:2%;
 	border-left:1px solid #cccccc;
-	margin-left:4%;
-    margin-top: 5%;
+	margin-left:2%;
+    margin-top: 3%;
+  }
+  
+  .sign_left{
+    margin-left:4%;
+    margin-top: 3%;
+  }
 }
-.sign_left{
-   margin-left:4%;
-   margin-top: 5%;
-}
-}
+
 @media (max-width:768px){
-.login_right{
+  .login_right{
 	padding-left:0%;
 	border-left:0px solid #cccccc;
 	margin-left:0;
     margin-top:5%;
-}
-.sign_left{
-   margin-left:0%;
-   margin-top: 5%;
-}
+  }
+  .sign_left{
+    margin-left:0%;
+    margin-top: 5%;
+  }
 }
 
 .sign_bg{
@@ -2384,7 +2391,7 @@ a.yjfk{
   text-align:right;
 }
 
-/*鐧诲綍椤甸潰鏍峰紡缁撴潫*/
+/* li_square */
 /*li_square*/
 .li_square li{
   border-bottom:1px dashed #e2e2e2!important;
@@ -2441,28 +2448,54 @@ span.list_squre {
     color:#ef0000;
     margin-right:5px;
 }
+
 .footer-fixed{
 	position:fixed;
 	left:0;
 	right:0;
 	bottom:2%;
 }
+
+
+.login-footer{
+	margin-top: 50px;
+	left:0;
+	right:0;
+	bottom:2%;
+}
+
 @media(min-width:1367px){
-.login_content{
-	width:1670px!important;
+  .login_content{
+  	width: 98%;
+  }
+  
+  .login_content section{
+  	margin-bottom: 5%;
+  }
+  
+  .login_btn{
+  	margin-top:20px;
+  }
+  
+  .reg-page{
+  	padding:60px 30px;
+  }
+  
+  .login-logo {
+  	padding-left: 6%;
+    padding-top: 1%;
+  }
+  
+  .login-logo img {
+  	max-width: 431px;
+  	max-height: 93px;
+  }
+  
+  /* max-length 暂定， 防止左右高度不一 超大屏，图片会扁平*/
+  .sign_left_image {
+  	width: 100%;
+  	height: 100%;
+  	max-height: 440px;
+  	
+  }
 }
-.login_content section{
-	margin-bottom:35px!important;
-}
-.login_btn{
-	margin-top:20px;
-}
-.reg-page{
-	padding:60px 30px;
-}
-}
->>>>>>> Stashed changes
-=======
-	bottom:0;
-}
->>>>>>> Stashed changes
