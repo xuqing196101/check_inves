@@ -311,7 +311,7 @@ public class ExpertController {
 				// 已提交未审核数据
 				flag = 1;
 			}
-			Map<String, Object> errorMap = service.Validate(expert, 3);
+			Map<String, Object> errorMap = service.Validate(expert, 3, null);
 			model.addAttribute("expert", expert);
 			model.addAttribute("errorMap", errorMap);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -769,7 +769,7 @@ public class ExpertController {
 				service.userManager(user, userId, expert, expertId);
 				// 调用service逻辑代码 实现提交
 				Map<String, Object> map = service.saveOrUpdate(expert,
-						expertId, categoryId);
+						expertId, categoryId, null);
 				if (map != null && !map.isEmpty()) {
 					attr.addAttribute("userId", userId);
 					return "redirect:toAddBasicInfo.html?pageFlag=one";
@@ -797,7 +797,7 @@ public class ExpertController {
   public String add1(String categoryId, String sysId, Expert expert,
       String userId, Model model, RedirectAttributes attr,
       HttpSession session, String token2, HttpServletRequest request,
-      HttpServletResponse response) {
+      HttpServletResponse response, String gitFlag) {
     try {
         String expertId = sysId;
         // 正常提交
@@ -805,7 +805,7 @@ public class ExpertController {
         // 用户信息处理
         service.userManager(user, userId, expert, expertId);
         // 调用service逻辑代码 实现提交
-        service.saveOrUpdate(expert, expertId, categoryId);
+        service.saveOrUpdate(expert, expertId, categoryId, gitFlag);
     } catch (Exception e) {
       e.printStackTrace();
       // 未做异常处理
@@ -1296,14 +1296,57 @@ public class ExpertController {
 		return newFileName;
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "getPIdandCIdByPurDepId")
-	public String getPIdandCIdByPurDepId(String purDepId) {
-		if (purDepId != null && !"".equals(purDepId)) {
-			Map<String, String> purchaseDep = purchaseOrgnizationService
-					.findPIDandCIDByOrgId(purDepId);
-			return JSON.toJSONString(purchaseDep);
-		}
-		return null;
-	}
+	/**
+	 *〈简述〉
+	 * 根据机构编号查询所在的省市
+	 *〈详细描述〉
+	 * @author Wanghuijie
+	 * @param purDepId
+	 * @return
+	 */
+	  @ResponseBody
+	  @RequestMapping(value = "getPIdandCIdByPurDepId")
+	  public String getPIdandCIdByPurDepId(String purDepId) {
+		    if (purDepId != null && !"".equals(purDepId)) {
+			      Map<String, String> purchaseDep = purchaseOrgnizationService.findPIDandCIDByOrgId(purDepId);
+			      return JSON.toJSONString(purchaseDep);
+		    }
+		    return null;
+	  }
+	  /**
+	   *〈简述〉
+	   * 专家注册页面的手机号唯一性验证
+	   *〈详细描述〉
+	   * @author WangHuijie
+	   * @param phone 
+	   * @return
+	   */
+	  @ResponseBody
+	  @RequestMapping("/validatePhone")
+	  public String findAllPhone(String phone) {
+	      List<Expert> list = service.validatePhone(phone);
+	      if (list.isEmpty()) {
+	          return "0";
+	      } else {
+	          return "1";
+	      }
+	  }
+	  /**
+     *〈简述〉
+     * 专家注册页面的身份证号唯一性验证
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param phone
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/validateIdNumber")
+    public String validateIdNumber(String idNumber) {
+        List<Expert> list = service.validateIdNumber(idNumber);
+        if (list.isEmpty()) {
+            return "0";
+        } else {
+            return "1";
+        }
+    }
 }

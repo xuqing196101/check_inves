@@ -77,5 +77,22 @@ public interface ExpertMapper {
      * @return List<Expert>
      */
     List<Expert> listExtractionExpert(ExpExtCondition con);
-
+    /**
+     *〈简述〉
+     * 专家手机号唯一性验证
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param phone
+     * @return
+     */
+    List<Expert> validatePhone(String phone);
+    /**
+     *〈简述〉
+     * 专家身份证号唯一性验证
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param phone
+     * @return
+     */
+    List<Expert> validateIdNumber(String phone);
 }

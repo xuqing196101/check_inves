@@ -19,7 +19,7 @@ session.setAttribute("tokenSession", tokenValue);
 			tab5();
 			return;
 		}
-		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add1.html");
+		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
 		$("#form1").submit();
 	}
 	//判断申请表  合同书

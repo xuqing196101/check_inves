@@ -62,7 +62,7 @@ session.setAttribute("tokenSession", tokenValue);
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
 		if(!validateJiGou()){
-			return;
+			return false;
 		}
 		//暂存无提示
 		submitForm2();
@@ -149,7 +149,6 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	function addPurList(){
 		supplierRegist(); 
-		editTable();
 	}
 	
 	function showJiGou(){

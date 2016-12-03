@@ -54,9 +54,9 @@
 		   flag4=1;
 		   return false;
 		}else{
-			 $("#phone2").html("");
-			   flag4=2;
-			   return true;
+			$("#phone2").html("");
+			flag4=2;
+			return true;
 		}
    }
     function submitForm(){

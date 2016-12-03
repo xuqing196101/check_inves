@@ -49,7 +49,6 @@ session.setAttribute("tokenSession", tokenValue);
 			}else{
 			  $("#ztree").hide();
 			}
-				 showJiGou();
 			}); 
 	
 	function submitForm1(){
@@ -138,7 +137,6 @@ session.setAttribute("tokenSession", tokenValue);
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("商务");
 		}
-		showJiGou();
 	}
 	//显示隐藏树
 	function typeShow(){

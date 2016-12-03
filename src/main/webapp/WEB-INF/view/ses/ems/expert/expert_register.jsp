@@ -68,6 +68,44 @@ session.setAttribute("tokenSession", tokenValue);
 		   }
 	   }); 
    }
+   function validatePhone(){
+	   var phone = $("#phone").val();
+	   if(phone.replace(/\s/g,"")==null || phone.replace(/\s/g,"")==""){
+		   $("#phone2").html("手机号不能为空").css('color','red');
+		   flag4=1;
+		   return false;
+	   }else if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){ 
+		   $("#phone2").html("手机号码格式错误").css('color','red');
+		   flag4=1;
+		   return false;
+		}else{
+			$.ajax({
+				url:'${pageContext.request.contextPath}/expert/validatePhone.do',
+				type:"post",
+				data:{"phone":phone},
+				success:function(obj){
+					if(obj=='1'){
+						$("#phone2").html("该手机号码已被使用!").css('color','red');
+						flag4=1;
+						return false;
+					}else{ 
+						$("#phone2").html("");
+						flag4=2;
+						return true;
+					}
+				}
+			}); 
+		}
+   	}
+   	function submitForm1(){
+   		validataLoginName();
+   		validataPassword();
+   		validataPwd2();
+   		validatePhone();
+	 	if(flag==2 && flag2==2 && flag3==2&&flag4==2){
+			$("#form1").submit();
+	 	}
+   	}
    </script>
 
 </head>
@@ -106,7 +144,7 @@ session.setAttribute("tokenSession", tokenValue);
 			 <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>手机号码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
+		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
 		        <span class="add-on">i</span>&nbsp;<input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
 		       </div>
 		        
@@ -123,7 +161,7 @@ session.setAttribute("tokenSession", tokenValue);
 	  <div  class="col-md-12">
 	   <div class="padding-10" align="center">
 		   <button class="btn btn-windows reset"  type="button" onclick="location.href='javascript:history.go(-1);'"> 返回</button>
-		   <button class="btn btn-windows add"    type="button" onclick="submitForm();"  >注册</button>
+		   <button class="btn btn-windows add"    type="button" onclick="submitForm1();"  >注册</button>
 		</div>
 	 </div>
   </form>

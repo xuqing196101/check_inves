@@ -750,6 +750,14 @@
 		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN T_SES_EMS_EXPERT ee
 		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0  AND PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
 	</select>
-
-
+	<!-- 手机号唯一性验证 -->
+	<select id="validatePhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT ID FROM T_SES_EMS_EXPERT
+		WHERE MOBILE = #{_parameter}
+	</select>
+	<!-- 身份证号唯一性验证 -->
+	<select id="validateIdNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT ID FROM T_SES_EMS_EXPERT
+		WHERE ID_NUMBER = #{_parameter}
+	</select>
 </mapper>

@@ -348,7 +348,7 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds) throws Exception{
+	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag) throws Exception{
 		Map<String,Object> map;
 		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
 		if(StringUtils.isNotEmpty(expert.getId())){
@@ -360,7 +360,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			//执行校验并修改
-			 map = Validate(expert,2);
+			 map = Validate(expert,2,gitFlag);
 			//mapper.updateByPrimaryKeySelective(expert);
 			//获取之前的审核信息
 			List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
@@ -392,7 +392,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//修改时间
 		expert.setUpdatedAt(new Date());
 		//执行校验并保存
-		 map = Validate(expert,1);
+		 map = Validate(expert,1,gitFlag);
 		mapper.insertSelective(expert);
 		//文件上传
 		//uploadFile(files, realPath,expertId);
@@ -509,7 +509,7 @@ public class ExpertServiceImpl implements ExpertService {
 		return mapper.findAllExpert(map);
 	}
 	
-	public Map<String,Object> Validate(Expert expert,int flag){
+	public Map<String,Object> Validate(Expert expert, int flag, String gitFlag){
 		Map<String,Object> map = new HashMap<>();
 		if (expert != null) {
 		if(!ValidateUtils.isNotNull(expert.getRelName())){
@@ -567,6 +567,10 @@ public class ExpertServiceImpl implements ExpertService {
 		         }
 		    }
 		}
+		if(gitFlag != null){
+      //修改
+      mapper.updateByPrimaryKeySelective(expert);
+    }
 		if(map.isEmpty()){
 			if(flag==1){
 				//新增
@@ -599,7 +603,7 @@ public class ExpertServiceImpl implements ExpertService {
       //修改时间
       expert.setUpdatedAt(new Date());
       //执行校验并修改
-       map = Validate(expert,2);
+       map = Validate(expert,2,null);
       //mapper.updateByPrimaryKeySelective(expert);
       //获取之前的审核信息
       List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
@@ -631,7 +635,7 @@ public class ExpertServiceImpl implements ExpertService {
     //修改时间
     expert.setUpdatedAt(new Date());
     //执行校验并保存
-     map = Validate(expert,1);
+     map = Validate(expert,1,null);
     mapper.insertSelective(expert);
     //文件上传
     //uploadFile(files, realPath,expertId);
@@ -660,6 +664,17 @@ public class ExpertServiceImpl implements ExpertService {
     todos.setUrl("expert/toShenHe.html?id="+expert.getId());
     todosMapper.insert(todos );
   }
+
+    @Override
+    public List<Expert> validatePhone(String phone) {
+      return mapper.validatePhone(phone);
+    }
+
+    @Override
+    public List<Expert> validateIdNumber(String idNumber) {
+      // TODO Auto-generated method stub
+      return mapper.validateIdNumber(idNumber);
+    }
 	
 }
 

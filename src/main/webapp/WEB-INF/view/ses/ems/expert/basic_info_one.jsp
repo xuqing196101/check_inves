@@ -91,7 +91,7 @@ session.setAttribute("tokenSession", tokenValue);
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
 			if (!validateForm1()){
-				return;
+				return false;
 			} 
 		//暂存无提示
 		submitForm2();
@@ -163,28 +163,6 @@ session.setAttribute("tokenSession", tokenValue);
 	function fun(){
 		supplierRegist(); 
 		editTable();
-	}
-	//提交
-	function addSubmitForm(){
-				 if (!validateForm1()) {
-					 tab1();
-					return;
-				} 
-				if (!validateType()) {
-					tab2();
-					return;
-				}
-				if(!validateJiGou()){
-					tab3();
-					return;
-				}
-				if(!validateHeTong()){
-					tab5();
-					return;
-				}
-				
-		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add.html");
-		$("#form1").submit();
 	}
 	
 	//校验基本信息 不能为空的字段
@@ -259,6 +237,19 @@ session.setAttribute("tokenSession", tokenValue);
 		if(!idNumber){
 			layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
 			return false;
+		}
+		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
+			$.ajax({
+				url:'${pageContext.request.contextPath}/expert/validateIdNumber.do',
+				type:"post",
+				data:{"idNumber":idNumber},
+				success:function(obj){
+					if(obj=='1'){
+						layer.msg("该身份证号已被占用!",{offset: ['222px', '390px']});
+						return false;
+					}
+				}
+			});
 		}
 		var id_areaSelect = $("#add").val();
 		if(!id_areaSelect){
@@ -377,7 +368,7 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                     <select  name="address" id="add" onchange="copySel()">
+                     <select  name="address" id="add">
                             <option value="">-请选择-</option>
                      </select>
                     </div>
