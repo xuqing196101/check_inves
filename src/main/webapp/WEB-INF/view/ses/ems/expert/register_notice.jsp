@@ -6,7 +6,6 @@
 <head>
 
 <title>评审专家注册须知</title>
-<jsp:include page="/WEB-INF/view/ses/ems/expert/common/common.jsp"></jsp:include>
 <script type="text/javascript">
 	$(function() {
 		// 注册须知

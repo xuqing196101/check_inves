@@ -103,7 +103,7 @@ session.setAttribute("tokenSession", tokenValue);
    		validataPwd2();
    		validatePhone();
 	 	if(flag==2 && flag2==2 && flag3==2&&flag4==2){
-			$("#form1").submit();
+			$("#formExpert").submit();
 	 	}
    	}
    </script>
@@ -113,7 +113,7 @@ session.setAttribute("tokenSession", tokenValue);
  	 <jsp:include page="/index_head.jsp"></jsp:include>
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="form1">
+   <form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
 	 <input type="hidden"  name="token2" value="<%=tokenValue%>">
 	 <input type="hidden" id="message" value="${message }"/>
    <div>

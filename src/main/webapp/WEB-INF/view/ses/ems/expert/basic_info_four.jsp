@@ -28,8 +28,8 @@ session.setAttribute("tokenSession", tokenValue);
 
 	//下载
 	function downloadTable(){
-		$("#form1").attr("action","${pageContext.request.contextPath}/expert/download.html");
-		$("#form1").submit();
+		$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/download.html");
+		$("#formExpert").submit();
 	}
 	function four(att){
 		if (att == '1' || att == 'ok') {
@@ -47,7 +47,8 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
- <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
+	<jsp:include page="/index_head.jsp"></jsp:include>
+ <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
   <input type="hidden" name="id" id="id" value="${expert.id}"/>
@@ -253,5 +254,6 @@ session.setAttribute("tokenSession", tokenValue);
 	    </div>
 	      </div>
 	</form>
+	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

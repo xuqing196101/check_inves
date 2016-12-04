@@ -53,11 +53,11 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 	}); 
 	
-	function submitForm1(){
+	function submitformExpert(){
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -72,7 +72,7 @@ session.setAttribute("tokenSession", tokenValue);
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -87,7 +87,7 @@ session.setAttribute("tokenSession", tokenValue);
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -102,7 +102,7 @@ session.setAttribute("tokenSession", tokenValue);
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -252,7 +252,8 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
- <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
+ 	 <jsp:include page="/index_head.jsp"></jsp:include>
+ <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
   <input type="hidden" name="id" id="id" value="${expert.id}"/>
@@ -325,11 +326,12 @@ session.setAttribute("tokenSession", tokenValue);
    			   
 		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 				<button class="btn"  type="button" onclick="pre()">上一步</button>
-				<button class="btn" onclick='submitForm1()'  type="button">暂存</button>
+				<button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
 				<button class="btn"  type="button" onclick='fun1()'>下一步</button>
 			</div>
 		</div>
 		</div></div>
 	</form>
+	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

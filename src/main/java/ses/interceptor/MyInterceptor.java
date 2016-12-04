@@ -73,6 +73,7 @@ public class MyInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object arg2) throws Exception {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html;charset=utf-8");
+		String reqUrl = request.getServletPath();
 			if (session.getAttribute("loginUser") == null) {
 				//系统的根url
                 String path = request.getContextPath();

@@ -66,11 +66,11 @@ session.setAttribute("tokenSession", tokenValue);
 			//validateBase();
 			//func();
 		}
-	function submitForm1(){
+	function submitformExpert(){
 		updateStepNumber("");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -84,7 +84,7 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("two");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -98,7 +98,7 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("two");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -112,7 +112,7 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("three");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -126,7 +126,7 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("four");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -140,7 +140,7 @@ session.setAttribute("tokenSession", tokenValue);
 		updateStepNumber("five");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
-			data:$("#form1").serialize(),
+			data:$("#formExpert").serialize(),
 			type: "post",
 			async: true,
 			success:function(result){
@@ -151,7 +151,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
-		if (!validateForm1()){
+		if (!validateformExpert()){
 			return;
 		} else {
 			//暂存无提示
@@ -160,7 +160,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	/** 专家完善注册信息页面 */
 	function supplierRegist2() {
-		if (!validateForm1()){
+		if (!validateformExpert()){
 			return;
 		} else {
 			//暂存无提示
@@ -169,7 +169,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	/** 专家完善注册信息页面 */
 	function supplierRegist3() {
-		if (!validateForm1()){
+		if (!validateformExpert()){
 			return;
 		} else {
 			//暂存无提示
@@ -178,7 +178,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	/** 专家完善注册信息页面 */
 	function supplierRegist4() {
-		if (!validateForm1()){
+		if (!validateformExpert()){
 			return;
 		} else {
 			//暂存无提示
@@ -187,7 +187,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	/** 专家完善注册信息页面 */
 	function supplierRegist5() {
-		if (!validateForm1()){
+		if (!validateformExpert()){
 			return;
 		} else {
 			//暂存无提示
@@ -286,7 +286,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	
 	//校验基本信息 不能为空的字段
-	function validateForm1(){
+	function validateformExpert(){
 		var relName = $("#relName").val();
 		if(!relName){
 			layer.msg("请输入姓名 !",{offset: ['222px', '390px']});
@@ -443,7 +443,8 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
- <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
+	<jsp:include page="/index_head.jsp"></jsp:include>
+ <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
   <input type="hidden" name="id" id="id" value="${expert.id}"/>
@@ -703,11 +704,12 @@ session.setAttribute("tokenSession", tokenValue);
 			   </div>
 			   
 				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
-			        <button class="btn" onclick='submitForm1()'  type="button">暂存</button>
+			        <button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
 				</div>
 				</div>
 					 </div>
 	</form>
+	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
