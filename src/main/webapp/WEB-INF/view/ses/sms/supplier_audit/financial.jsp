@@ -24,7 +24,7 @@
 	  });
 	
 	  function reason(id,auditFieldName){
-	    var offset = "";
+	    /* var offset = "";
 	    if (window.event) {
 		    e = event || window.event;
 		    var x = "";
@@ -34,7 +34,7 @@
 		    offset = [y, x];
 	    } else {
 	      offset = "200px";
-	    }
+	    } */
 		  var supplierId=$("#supplierId").val();
 		  if(auditFieldName == "财务信息"){
 		    var auditContent=$("#"+id).text()+"年财务信息"; //审批的字段内容
@@ -45,7 +45,7 @@
 		  var index = layer.prompt({
 			  title: '请填写不通过的理由：', 
 			  formType: 2, 
-			  offset: offset
+			  offset: '100px'
 		  }, 
 	    function(text){
 	      $.ajax({
@@ -58,7 +58,7 @@
 			      if(result.msg == "fail"){
 			       layer.msg('该条信息已审核过！', {
 	                shift: 6, //动画类型
-	                offset:'300px'
+	                offset:'100px'
 	            });
 			      } 
 		     }
@@ -276,16 +276,16 @@
 	            </thead>
 	            <c:forEach items="${financial}" var="f" varStatus="vs">
 	              <tr>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${vs.index + 1}</td>
-	                <td class="tc" id="${f.id }" onclick="reason('${f.id}','财务信息');">${f.year } </td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');" >${f.name }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.telephone }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.auditors }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.quota }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalAssets }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalLiabilities }</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.totalNetAssets}</td>
-	                <td class="tc" onclick="reason('${f.id}','财务信息');">${f.taking}</td>
+	                <td class="tc" >${vs.index + 1}</td>
+	                <td class="tc" id="${f.id }">${f.year } </td>
+	                <td class="tc" >${f.name }</td>
+	                <td class="tc" >${f.telephone }</td>
+	                <td class="tc" >${f.auditors }</td>
+	                <td class="tc" >${f.quota }</td>
+	                <td class="tc" >${f.totalAssets }</td>
+	                <td class="tc" >${f.totalLiabilities }</td>
+	                <td class="tc" >${f.totalNetAssets}</td>
+	                <td class="tc" >${f.taking}</td>
 	                <td class="tc w50">
 	                  <a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="btn">审核</a>
 	                  <p id="${f.id}_show" class="b red">×</p>

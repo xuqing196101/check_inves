@@ -27,7 +27,7 @@
 		
 		
 			function reason1(ele,auditField){
-			  var offset = "";
+			  /* var offset = "";
 			  if (window.event) {
 			    e = event || window.event;
 			    var x = "";
@@ -37,13 +37,13 @@
 			    offset = [y, x];
 			  } else {
 			      offset = "200px";
-			  }
+			  } */
 			  var supplierId=$("#supplierId").val();
 			  var auditFieldName = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
 			  var index = layer.prompt({
 				  title: '请填写不通过的理由：', 
 				  formType: 2, 
-				  offset: offset
+				  offset: '100px'
 			    },
 		    function(text){
 		      $.ajax({
@@ -56,7 +56,7 @@
 			        if(result.msg == "fail"){
 			          layer.msg('该条信息已审核过！', {
 		            shift: 6, //动画类型
-		            offset:'300px'
+		            offset:'100px'
 		           });
 		         }
 		       }
@@ -181,8 +181,8 @@
                 <up:show showId="lvel_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLevel}"/>
                 <p class="b f18 ml10 red">×</p>
               </li> --%>
-              <li class="col-md-3 margin-0 padding-0 ">
-	              <span class="" onclick="reason1(this,'supplierPledge');" >军队供应商承诺书：</span>
+              <li class="col-md-6 p0 mt10 mb25">
+	              <span class="col-md-5 padding-left-5" onclick="reason1(this,'supplierPledge');" >军队供应商承诺书：</span>
 	                <up:show showId="pledge_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
 	                <p class="b f18 ml10 red">×</p>
               </li>

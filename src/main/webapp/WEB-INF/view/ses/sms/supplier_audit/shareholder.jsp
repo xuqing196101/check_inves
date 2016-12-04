@@ -25,7 +25,7 @@
 		});
 		
 		function reason(id){
-		  var offset = "";
+		  /* var offset = "";
 		  if (window.event) {
 		    e = event || window.event;
 		    var x = "";
@@ -35,14 +35,14 @@
 		    offset = [y, x];
 		  } else {
 		      offset = "200px";
-		  }
+		  } */
 		  var supplierId=$("#supplierId").val();
 		  var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
 		  var auditType=$("#shareholder").text();//审核类型
 		  var index = layer.prompt({
 		    title: '请填写不通过的理由：', 
 		    formType: 2, 
-		    offset: offset,
+		    offset: '100px',
 		    }, 
 		    function(text){
 		    $.ajax({
@@ -55,7 +55,7 @@
 		      if(result.msg == "fail"){
 		        layer.msg('该条信息已审核过！', {
 		          shift: 6, //动画类型
-		          offset:'300px'
+		          offset:'100px'
 		            });
 		        }
 		      }

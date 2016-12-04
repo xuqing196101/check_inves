@@ -38,7 +38,7 @@
 				});
 
         function reason(id){
-				  var offset = "";
+				  /* var offset = "";
 				  if (window.event) {
 				    e = event || window.event;
 				    var x = "";
@@ -48,13 +48,13 @@
 				    offset = [y, x];
 				  } else {
 				      offset = "200px";
-				  }
+				  } */
 				  var supplierId=$("#supplierId").val();
 				  var auditContent = "生产-资质证书信息";
 				  var index = layer.prompt({
 					   title: '请填写不通过的理由：', 
 					   formType: 2, 
-					   offset: offset
+					   offset: '100px'
 				    }, 
 				    function(text){
 				    $.ajax({
@@ -67,7 +67,7 @@
 				        if(result.msg == "fail"){
 				          layer.msg('该条信息已审核过！', {
 				             shift: 6, //动画类型
-				             offset:'300px'
+				             offset:'100px'
 				            });
 				        }
 				      }
@@ -80,7 +80,7 @@
 
 
 				function reason1(id,auditField){
-				  var offset = "";
+				  /* var offset = "";
 				  if (window.event) {
 				    e = event || window.event;
 				    var x = "";
@@ -90,7 +90,7 @@
 				    offset = [y, x];
 				  } else {
 				      offset = "200px";
-				  }
+				  } */
 				  var supplierId=$("#supplierId").val();
 				  var id2=id+"2";
 				  var id3=id+"3";
@@ -99,7 +99,7 @@
 				  var index = layer.prompt({
 					  title: '请填写不通过的理由：', 
 					  formType: 2, 
-					  offset: offset
+					  offset: '100px'
 				  }, 
 				  function(text){
 				    $.ajax({
@@ -112,7 +112,7 @@
 				      if(result.msg == "fail"){
 				        layer.msg('该条信息已审核过！', {
 				          shift: 6, //动画类型
-				          offset:'300px'
+				          offset:'100px'
 				            });
 				        }
 				      }
