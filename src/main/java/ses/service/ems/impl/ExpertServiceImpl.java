@@ -374,30 +374,30 @@ public class ExpertServiceImpl implements ExpertService {
 			}
 			if("1".equals(expert.getExpertsTypeId())){
 			//保存品目
-				saveCategory(expert, categoryIds);
+			//saveCategory(expert, categoryIds);
 			}else{
 				//不是技术专家就删除品目关联信息
-				categoryMapper.deleteByExpertId(expert.getId());
+				//categoryMapper.deleteByExpertId(expert.getId());
 			}
 		}else{
-		expert.setId(expertId);
-		//未考试
-		expert.setIsDo("0");
-		//已提交
-		expert.setIsSubmit("1");
-		//未审核
-		expert.setStatus("0");
-		//创建时间
-		expert.setCreatedAt(new Date());
-		//修改时间
-		expert.setUpdatedAt(new Date());
-		//执行校验并保存
-		 map = Validate(expert,1,gitFlag);
-		mapper.insertSelective(expert);
-		//文件上传
-		//uploadFile(files, realPath,expertId);
-		//保存品目
-		saveCategory(expert, categoryIds);
+    		expert.setId(expertId);
+    		//未考试
+    		expert.setIsDo("0");
+    		//已提交
+    		expert.setIsSubmit("1");
+    		//未审核
+    		expert.setStatus("0");
+    		//创建时间
+    		expert.setCreatedAt(new Date());
+    		//修改时间
+    		expert.setUpdatedAt(new Date());
+    		//执行校验并保存
+    		 map = Validate(expert,1,gitFlag);
+    		mapper.insertSelective(expert);
+    		//文件上传
+    		//uploadFile(files, realPath,expertId);
+    		//保存品目
+    		//saveCategory(expert, categoryIds);
 		}
 		//发送待办
 		Todos todos = new Todos();
@@ -477,7 +477,7 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	private void saveCategory(Expert expert,String ids) {
-		if(ids!=null && StringUtils.isNotEmpty(ids)){
+		if(ids!=null && StringUtils.isNotEmpty(ids) && ids != null){
 			String[] code = ids.split(",");
 			ExpertCategory expertCategory = new ExpertCategory();
 			categoryMapper.deleteByExpertId(expert.getId());

@@ -861,10 +861,9 @@ public class ExpertController {
 	 */
 	@RequestMapping("/getCategoryByExpertId")
 	@ResponseBody
-	public List<String> getCategoryByExpertId(
-			@RequestParam("expertId") String id) {
-		List<String> list = expertCategoryService.getListByExpertId(id);
-		return list;
+	public String getCategoryByExpertId(String expertId) {
+		List<String> list = expertCategoryService.getListByExpertId(expertId);
+		return JSON.toJSONString(list);
 	}
 
 	/**
@@ -1200,8 +1199,10 @@ public class ExpertController {
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("download")
-	public ResponseEntity<byte[]> download(Expert expert,
+	public ResponseEntity<byte[]> download(String id,
 			HttpServletRequest request) throws Exception {
+	    // 根据编号查询专家信息
+	    Expert expert = service.selectByPrimaryKey(id);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext()
 				.getRealPath("/WEB-INF/upload_file/");
@@ -1293,7 +1294,7 @@ public class ExpertController {
 		String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
 				"UTF-8");
 		/** 生成word 返回文件名 */
-		String newFileName = WordUtil.createWord(dataMap, "expert.ftl",
+		String newFileName = WordUtil.createWord(dataMap, "expertTemplate.ftl",
 				fileName, request);
 		return newFileName;
 	}

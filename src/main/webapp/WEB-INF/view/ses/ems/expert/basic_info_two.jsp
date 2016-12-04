@@ -16,40 +16,42 @@ session.setAttribute("tokenSession", tokenValue);
 	
 	$(function(){
 		//回显已选产品
-		   var id="${expert.id}";
-		   var count=0;
-		   var expertsTypeId = $("#expertsTypeId").val();
-			  //控制品目树的显示和隐藏
-		   if(expertsTypeId==1 || expertsTypeId=="1"){
-			  $.ajax({
-				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-				  success:function(code){
-					  var checklist = document.getElementsByName ("chkItem");
-					  for(var i=0;i<checklist.length;i++){
-							var vals=checklist[i].value;
-							 if(code.length>0){
-									$.each(code,function(i,result){
-										if(vals==result){
-						 				checklist[i].checked=true;
-						 			   }
-										if("GOODS"==result){
-											count++;
-										}
-									});
-							} 
-						  } 
-					    if(count>0){
-							$("#hwType").show(); 
-						}else{
-							$("#hwType").hide(); 
-						}
-				 }
-			 }); 
-			  $("#ztree").show();
-			}else{
-			  $("#ztree").hide();
-			}
+		var id="${expert.id}";
+		var count=0;
+		var expertsTypeId = $("#expertsTypeId").val();
+		//控制品目树的显示和隐藏
+		if(expertsTypeId==1 || expertsTypeId=="1"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+				async:false,
+				dataType:"json",
+				success:function(code){
+					var checklist = document.getElementsByName("chkItem");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+								if("GOODS"==result){
+									count++;
+								}
+							});
+						} 
+					} 
+					if(count>0){
+						$("#hwType").show(); 
+					}else{
+						$("#hwType").hide(); 
+					}
+				}
 			}); 
+			$("#ztree").show();
+		}else{
+			$("#ztree").hide();
+		}
+	}); 
 	
 	function submitForm1(){
 		getChildren();
@@ -120,7 +122,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 			if(checklist[i].checked){
 	 				ids.push(vals);
 	 				if(vals=="GOODS"){
-	 				 count++;
+	 				 	count++;
 	 				}
 	 			}
 		  } 

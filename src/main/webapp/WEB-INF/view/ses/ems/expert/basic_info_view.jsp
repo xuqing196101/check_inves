@@ -16,74 +16,8 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <title>评审专家基本信息</title>
 <script type="text/javascript">
-$(function() {
-	var parentId ;
-	var addressId="${expert.address}";
-	//回显已选产品
-	   var id="${expert.id}";
-	   var count=0;
-	   var expertsTypeId = $("#expertsTypeId").val();
-		  //控制品目树的显示和隐藏
-	   if(expertsTypeId==1 || expertsTypeId=="1"){
-		  $.ajax({
-			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			  success:function(code){
-				  var checklist = document.getElementsByName ("chkItem");
-				  for(var i=0;i<checklist.length;i++){
-						var vals=checklist[i].value;
-						 if(code.length>0){
-								$.each(code,function(i,result){
-									if(vals==result){
-					 				checklist[i].checked=true;
-					 			    }
-									if("GOODS"==result){
-										count++;
-									}
-								});
-						} 
-					   } 
-				    if(count>0){
-						$("#hwType").show(); 
-					}else{
-						$("#hwType").hide(); 
-					}
-			  }
-		  }); 
-		  $("#ztree").show();
-		}else{
-		  $("#ztree").hide();
-			 }
-				//地区回显和数据显示
-				 $.ajax({
-						url : "${pageContext.request.contextPath}/area/find_by_id.do",
-						data:{"id":addressId},
-						success:function(obj){
-							$.each(obj,function(i,result){
-								if(addressId == result.id){
-									parentId = result.parentId;
-								$("#add").append(result.name);
-								$("#add2").append(result.name);
-								}
-							});
-						}
-					}); 
-				//地区
-					$.ajax({
-						url : "${pageContext.request.contextPath}/area/listByOne.do",
-						success:function(obj){
-							//var data = eval('(' + obj + ')');
-							//alert(data);
-							$.each( obj,function(i,result){
-								 if(parentId == result.id){
-									$("#addr").append(result.name+",");
-									$("#addr2").append(result.name+",");
-								}
-							});
-						}
-					});
-			}); 
 	//页签点击跳转
-	function tab1(){
+	function go1(){
 		$("#reg_box_id_3").show();
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
@@ -91,7 +25,7 @@ $(function() {
 		$("#reg_box_id_7").hide();
 		$("#reg_box_id_8").hide();
 	}
-	function tab2(){
+	function go2(){
 		$("#reg_box_id_3").hide();
 		$("#reg_box_id_4").show();
 		$("#reg_box_id_5").hide();
@@ -99,7 +33,7 @@ $(function() {
 		$("#reg_box_id_7").hide();
 		$("#reg_box_id_8").hide();
 	}
-	function tab3(){
+	function go3(){
 		$("#reg_box_id_3").hide();
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").show();
@@ -107,22 +41,91 @@ $(function() {
 		$("#reg_box_id_7").hide();
 		$("#reg_box_id_8").hide();
 	}
-	function tab4(){
+	function go4(){
 		$("#reg_box_id_3").hide();
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").show();
 		$("#reg_box_id_7").hide();
 		$("#reg_box_id_8").hide();
-	}
-	function tab5(){
+	}	
+	function go5(){
 		$("#reg_box_id_3").hide();
 		$("#reg_box_id_4").hide();
 		$("#reg_box_id_5").hide();
 		$("#reg_box_id_6").hide();
 		$("#reg_box_id_7").show();
 		$("#reg_box_id_8").hide();
-	}
+	}	
+	$(function(){
+		var parentId ;
+		var addressId="${expert.address}";
+		//回显已选产品
+		var id="${expert.id}";
+		var count=0;
+		var expertsTypeId = $("#expertsTypeId").val();
+		//控制品目树的显示和隐藏
+		if(expertsTypeId==1 || expertsTypeId=="1"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+				dataType:"json",
+				data:{"expertId":id},
+				async:false,
+				success:function(code){
+					var checklist = document.getElementsByName ("chkItem");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+								if("GOODS"==result){
+									count++;
+								}
+							});
+						} 
+					} 
+					if(count>0){
+						$("#hwType").show(); 
+					}else{
+						$("#hwType").hide(); 
+					}
+				}
+			}); 
+			$("#ztree").show();
+		} else {
+			$("#ztree").hide();
+		}
+		//地区回显和数据显示
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_id.do",
+			dataType:"json",
+			data:{"id":addressId},
+			success:function(obj){
+				$.each(obj,function(i,result){
+					if(addressId == result.id){
+						parentId = result.parentId;
+						$("#add").append(result.name);
+						$("#add2").append(result.name);
+					}
+				});
+			}
+		}); 
+		//地区
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			dataType:"json",
+			success:function(obj){
+				$.each( obj,function(i,result){
+					if(parentId == result.id){
+						$("#addr").append(result.name+",");
+						$("#addr2").append(result.name+",");
+					}
+				});
+			}
+		});
+	}); 	
 </script>
 </head>
 <body>
@@ -136,11 +139,11 @@ $(function() {
 	<input type="hidden"  name="token2" value="<%=tokenValue%>">
 	<div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
-	    <span id="" class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-		<span  class="new_step current fl"   onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-		<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-		<span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-		<span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+	    <span id="" class="new_step current fl" onclick="go1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+		<span  class="new_step current fl"   onclick="go2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+		<span class="new_step current fl" onclick="go3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+		<span class="new_step current fl" onclick="go4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+		<span class="new_step current fl" onclick="go5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 <div class="container content height-350">
@@ -294,7 +297,7 @@ $(function() {
 	  	  </tr>  
 	   </table>
        <div class="tc mt20 clear col-md-11">
-		 <button class="btn btn-windows git" id="nextBind"  type="button" onclick="tab2()" >下一步</button>
+		 <button class="btn btn-windows git" id="nextBind"  type="button" onclick="go2()" >下一步</button>
        </div>
 	 </div>
               </div>
@@ -307,11 +310,11 @@ $(function() {
 		
   <div id="reg_box_id_4" class="container clear margin-top-30 yinc" style="display: none;">
     <h2 class="padding-20 mt40">
-      <span class="new_step current fl"  onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-      <span  class="new_step current fl"   onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-      <span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-      <span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-      <span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+      <span class="new_step current fl"  onclick="go1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+      <span  class="new_step current fl"   onclick="go2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+      <span class="new_step current fl" onclick="go3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+      <span class="new_step current fl" onclick="go4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+      <span class="new_step current fl" onclick="go5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	  <div class="clear"></div>
     </h2><br/>
 	<h2 class="count_flow">
@@ -338,7 +341,7 @@ $(function() {
         <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
           <div class="col-md-7 service_list">
             <c:forEach items="${spList}" var="obj" >
-              <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${obj.code}" />${obj.name} </span>
+              <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.code}" />${obj.name} </span>
             </c:forEach>
           </div>
        </div>
@@ -346,24 +349,24 @@ $(function() {
          <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
           <div class="col-md-7 service_list">
             <c:forEach items="${hwList}" var="hw" >
-            <span><input type="checkbox" name="chkItem" disabled="disabled"   value="${hw.code}" />${hw.name} </span>
+            <span><input type="checkbox" name="chkItem" disabled="disabled" value="${hw.code}" />${hw.name} </span>
             </c:forEach>
           </div>
         </div>
     </ul>
 	    <div class="tc mt20 clear col-md-11">
-			<button class="btn btn-windows back"   type="button" onclick="tab1()">上一步</button>
-			<button class="btn btn-windows git"   type="button" onclick="tab3()">下一步</button>
+			<button class="btn btn-windows back"   type="button" onclick="go1()">上一步</button>
+			<button class="btn btn-windows git"   type="button" onclick="go3()">下一步</button>
 		</div>
 		</div>
 		<!-- 项目戳开始 -->
 		<div id="reg_box_id_5" class="container clear margin-top-30 yinc" style="display: none;">
 	  		<h2 class="padding-20 mt40">
-				<span class="new_step current fl"  onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-				<span  class="new_step current fl"   onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-				<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-				<span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-				<span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<span class="new_step current fl"  onclick="go1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+				<span  class="new_step current fl"   onclick="go2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+				<span class="new_step current fl" onclick="go3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+				<span class="new_step current fl" onclick="go4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+				<span class="new_step current fl" onclick="go5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 			    <div class="clear"></div>
 		    </h2><br/>
 		    <h2 class="count_flow">
@@ -395,17 +398,17 @@ $(function() {
 		                 友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		      </h6>
 		    <div class="tc mt20 clear col-md-11">
-			  <button class="btn btn-windows back"   type="button" onclick="tab2()">上一步</button>
-			  <button class="btn btn-windows git"   type="button" onclick="tab4()">下一步</button>
+			  <button class="btn btn-windows back"   type="button" onclick="go2()">上一步</button>
+			  <button class="btn btn-windows git"   type="button" onclick="go4()">下一步</button>
 			</div>
     </div>
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc" style="display: none;">
 	  <h2 class="padding-20 mt40">
-		<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-		<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-		<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-		<span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-		<span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+		<span class="new_step current fl" onclick="go1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+		<span class="new_step current fl" onclick="go2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+		<span class="new_step current fl" onclick="go3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+		<span class="new_step current fl" onclick="go4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+		<span class="new_step current fl" onclick="go5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	    <div class="clear"></div>
 	  </h2><br/>
 	  <h2 class="count_flow">
@@ -587,18 +590,18 @@ $(function() {
    </tr>
    </table>
   <div class="tc mt20 clear col-md-11">
-    <button class="btn btn-windows back"   type="button" onclick="tab3()">上一步</button>
-    <button class="btn btn-windows git"   type="button" onclick="tab5()">下一步</button>
+    <button class="btn btn-windows back"   type="button" onclick="go3()">上一步</button>
+    <button class="btn btn-windows git"   type="button" onclick="go5()">下一步</button>
   </div>
     </div>
        </div>
 	   <div id="reg_box_id_7" class="container clear margin-top-30 yinc" style="display: none;">
 		 <h2 class="padding-20 mt40">
-			<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-			<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-			<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-			<span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-			<span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+			<span class="new_step current fl" onclick="go1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+			<span class="new_step current fl" onclick="go2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+			<span class="new_step current fl" onclick="go3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+			<span class="new_step current fl" onclick="go4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+			<span class="new_step current fl" onclick="go5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 			<div class="clear"></div>
 		 </h2><br/>
 	     <h2 class="count_flow">
@@ -619,7 +622,7 @@ $(function() {
 		   </table>
 		     </div>
 		       <div class="tc mt20 clear col-md-11">
-		   	     <button class="btn btn-windows back"   type="button" onclick="tab4()">上一步</button>
+		   	     <button class="btn btn-windows back"   type="button" onclick="go4()">上一步</button>
 			   </div>
 		</div>
       </form>
