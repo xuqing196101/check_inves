@@ -48,6 +48,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
+		updateStepNumber("four");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -55,12 +56,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
 	}
 	//无提示暂存
 	function submitForm5(){
+		updateStepNumber("five");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -68,7 +70,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
 	}
@@ -89,9 +91,11 @@ session.setAttribute("tokenSession", tokenValue);
 		submitForm5();
 	}
 	function pre() {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=two";
+		updateStepNumber("two");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function tab1() {
+		updateStepNumber("one");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	
@@ -272,8 +276,22 @@ session.setAttribute("tokenSession", tokenValue);
 		showJiGou();
 		purDepBack();
 	}
-	function tab5(){
-		supplierRegist5();
+	function tab4(att){
+		if (att == '1') {
+			supplierRegist2();
+		}
+	}
+	function tab5(att){
+		if (att == '1') {
+			supplierRegist();
+		}
+	}
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
 	}
 </script>
 </head>
@@ -308,8 +326,8 @@ session.setAttribute("tokenSession", tokenValue);
 					<span id="jg1" class="new_step current fl"  onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 					<span id="jg2" class="new_step current fl"   onclick='pre()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 					<span id="jg3" class="new_step current fl" onclick='tab3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span id="jg4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='addPurList()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-					<span id="jg5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='tab5()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<span id="jg4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${att}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span id="jg5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${att}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

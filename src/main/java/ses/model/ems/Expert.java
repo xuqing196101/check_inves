@@ -102,11 +102,21 @@ public class Expert implements Serializable{
     /**真实姓名*/
     @NotNull(message = "不能为空") 
     private String relName;
+    /**步骤数:用来判断注册走到了第几步*/
+    private String stepNumber;
     
     private List<String> ids;
     
     
     
+    public String getStepNumber() {
+        return stepNumber;
+    }
+
+    public void setStepNumber(String stepNumber) {
+        this.stepNumber = stepNumber;
+    }
+
     public Short getIsProvisional() {
 		return isProvisional;
 	}

@@ -172,10 +172,10 @@ $(function() {
 				      <td width="25%" class="info">性别：</td>
 				      <td width="25%"> 
 				        <c:forEach items="${sexList}" var="sex">
-				          <c:if test="${expert.gender eq sex.id }">${sex.name}</c:if>
+				          <c:if test="${expert.gender eq sex.code }">${sex.name}</c:if>
 				        </c:forEach>
 	     			  </td>
-				      <td width="25%" class="info">出生日期：：</td>
+				      <td width="25%" class="info">出生日期：</td>
 				      <td width="25%"><fmt:formatDate type='date' value='${expert.birthday}' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 				    </tr>
 				    <tr>

@@ -43,16 +43,27 @@ session.setAttribute("tokenSession", tokenValue);
 		return flag;
 	}
 	function tab1(name, i, position) {
+		updateStepNumber("one");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function tab2(name, i, position) {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=two";
+		updateStepNumber("two");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function tab3(name, i, position) {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=three";
+		updateStepNumber("three");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function tab4(name, i, position) {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+		updateStepNumber("four");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+	}
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
 	}
 </script>
 </head>

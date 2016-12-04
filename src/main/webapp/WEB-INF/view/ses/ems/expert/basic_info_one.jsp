@@ -67,6 +67,7 @@ session.setAttribute("tokenSession", tokenValue);
 			//func();
 		}
 	function submitForm1(){
+		updateStepNumber("");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -80,6 +81,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
+		updateStepNumber("two");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -87,12 +89,27 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=two";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+			}
+		});
+	}
+	//无提示暂存
+	function submitForm22(){
+		updateStepNumber("two");
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/zanCun.do",
+			data:$("#form1").serialize(),
+			type: "post",
+			async: true,
+			success:function(result){
+				$("#id").val(result.id);
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		});
 	}
 	//无提示暂存
 	function submitForm3(){
+		updateStepNumber("three");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -100,12 +117,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=three";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		});
 	}
 	//无提示暂存
 	function submitForm4(){
+		updateStepNumber("four");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -113,12 +131,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		});
 	}
 	//无提示暂存
 	function submitForm5(){
+		updateStepNumber("five");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#form1").serialize(),
@@ -126,7 +145,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		});
 	}
@@ -137,6 +156,15 @@ session.setAttribute("tokenSession", tokenValue);
 		} else {
 			//暂存无提示
 			submitForm2();
+		}
+	}
+	/** 专家完善注册信息页面 */
+	function supplierRegist2() {
+		if (!validateForm1()){
+			return;
+		} else {
+			//暂存无提示
+			submitForm22();
 		}
 	}
 	/** 专家完善注册信息页面 */
@@ -234,6 +262,11 @@ session.setAttribute("tokenSession", tokenValue);
 	// 点击下一步事件
 	function fun(){
 		supplierRegist(); 
+		editTable();
+	}
+	// 点击2事件
+	function fun2(){
+		supplierRegist2(); 
 		editTable();
 	}
 	// 点击3事件
@@ -374,34 +407,38 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 		return flag;
 	}
-	function tab3(typeId){
+	function tab3(typeId, depId){
 		if(typeId != ""){
-			fun3();
-		} else {
-			fun();
+			if(depId != ""){
+				fun3();
+			}
+		}
+	}
+	function tab2(typeId){
+		if(typeId != ""){
+			fun2();
 		}
 	}
 	function tab4(typeId, depId){
 		if(typeId != ""){
 			if(depId != ""){
 				fun4();
-			}else{
-				fun3();
 			}
-		} else {
-			fun();
 		}
 	}
 	function tab5(typeId, depId){
 		if(typeId != ""){
 			if(depId != ""){
 				fun5();
-			}else{
-				fun3();
 			}
-		} else {
-			fun();
 		}
+	}
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
 	}
 </script>
 </head>
@@ -433,8 +470,8 @@ session.setAttribute("tokenSession", tokenValue);
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
 	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	    <span id="sp2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl" onclick='fun()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-	    <span id="sp3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick="tab3('${expert.expertsTypeId}')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+	    <span id="sp2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl" onclick="tab2('${expert.expertsTypeId}')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	    <span id="sp3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick="tab3('${expert.expertsTypeId}','${expert.purchaseDepId}')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 	    <span id="sp4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.expertsTypeId}','${expert.purchaseDepId}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
 	    <span id="sp5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.expertsTypeId}','${expert.purchaseDepId}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 	    <div class="clear"></div>

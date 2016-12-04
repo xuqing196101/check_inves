@@ -253,4 +253,13 @@ public interface ExpertService {
      * @return
      */
     List<Expert> validateIdNumber(String idNumber);
+    /**
+     *〈简述〉
+     * 注册时点击下一步,将表中的STRP_NUMBER进行同步
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param stepNumber
+     */
+    void updateStepNumber(String expertId, String stepNumber);
 }

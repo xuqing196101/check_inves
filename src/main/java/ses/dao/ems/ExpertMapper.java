@@ -95,4 +95,13 @@ public interface ExpertMapper {
      * @return
      */
     List<Expert> validateIdNumber(String phone);
+    /**
+     *〈简述〉
+     * 注册时点击下一步,将表中的STRP_NUMBER进行同步
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param stepNumber
+     */
+    void updateStepNumber(String expertId, String stepNumber);
 }

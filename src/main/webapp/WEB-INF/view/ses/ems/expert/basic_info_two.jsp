@@ -66,6 +66,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
+		updateStepNumber("three");
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
@@ -74,12 +75,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=three";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
 	}
 	//无提示暂存
 	function submitForm4(){
+		updateStepNumber("four");
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
@@ -88,12 +90,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=four";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
 	}
 	//无提示暂存
 	function submitForm5(){
+		updateStepNumber("five");
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
@@ -102,7 +105,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
 	}
@@ -163,12 +166,12 @@ session.setAttribute("tokenSession", tokenValue);
 		submitForm5();
 	}
 	function pre() {
+		updateStepNumber("one");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function fun1(){
 		//选中的子节点
 		getChildren();
-		supplierRegist();
 		var expertsTypeId = $("#expertsTypeId").val();
 		if(expertsTypeId == "1"){
 			$("#tExpertsTypeId").text("技术");
@@ -179,6 +182,7 @@ session.setAttribute("tokenSession", tokenValue);
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("商务");
 		}
+		supplierRegist();
 	}
 	function fun4(){
 		//选中的子节点
@@ -212,28 +216,36 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//显示隐藏树
 	function typeShow(){
-		 var expertsTypeId = $("#expertsTypeId").val();
-		 if(expertsTypeId==1 || expertsTypeId=="1"){
-			 $("#ztree").show();
-			 getChildren();
+		var expertsTypeId = $("#expertsTypeId").val();
+		if(expertsTypeId==1 || expertsTypeId=="1"){
+			$("#ztree").show();
+			getChildren();
 		}else{
-			 $("#ztree").hide();
+			$("#ztree").hide();
 		}
 		
 	}
-	function tab4(depId){
+	function tab3(depId){
 		if(depId != ""){
-			
-		} else {
 			fun1();
 		}
 	}
-	function tab5(depId){
-		if(depId != ""){
-			
-		} else {
-			fun1();
+	function tab4(depId,att){
+		if(depId != "" && att == '1'){
+			fun4();
 		}
+	}
+	function tab5(depId,att){
+		if(depId != "" && att == '1'){
+			fun5();
+		}
+	}
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
 	}
 </script>
 </head>
@@ -266,9 +278,9 @@ session.setAttribute("tokenSession", tokenValue);
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick='fun1()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.purchaseDepId}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.purchaseDepId}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick="tab3('${expert.purchaseDepId}')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.purchaseDepId}','${att}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.purchaseDepId}','${att}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

@@ -14,12 +14,15 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <script type="text/javascript">
 	function pre3(name, i, position) {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=three";
+		updateStepNumber("three");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function pre2(name, i, position) {
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=two";
+		updateStepNumber("two");
+		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function pre1(name, i, position) {
+		updateStepNumber("one");
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 
@@ -28,10 +31,19 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#form1").attr("action","${pageContext.request.contextPath}/expert/download.html");
 		$("#form1").submit();
 	}
-	function four(){
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}&pageFlag=five";
+	function four(att){
+		if (att == '1' || att == 'ok') {
+			updateStepNumber("five");
+			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+		}
 	}
-	
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
+	}
 </script>
 </head>
 <body>
@@ -65,7 +77,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
 			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 			<span id="dy4" class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-			<span id="dy5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick='four()'><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+			<span id="dy5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="four('${att}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
@@ -235,7 +247,7 @@ session.setAttribute("tokenSession", tokenValue);
  </table>
     <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
    		<button class="btn"   type="button" onclick="pre3()">上一步</button>
-		<button class="btn"   type="button" onclick='four()'>下一步</button>
+		<button class="btn"   type="button" onclick="four('ok')">下一步</button>
 	</div>
 	  </div>
 	    </div>

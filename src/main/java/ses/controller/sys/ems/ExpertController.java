@@ -265,12 +265,12 @@ public class ExpertController {
 				}
 			}
 			attr.addAttribute("userId", user.getId());
-			return "redirect:toAddBasicInfo.html?pageFlag=one";
+			return "redirect:toAddBasicInfo.html";
 		}
 		// 重复提交
 		else {
 			attr.addAttribute("userId", user.getId());
-			return "redirect:toAddBasicInfo.html?pageFlag=one";
+			return "redirect:toAddBasicInfo.html";
 		}
 	}
 
@@ -290,30 +290,32 @@ public class ExpertController {
 	@RequestMapping("/toAddBasicInfo")
 	public String toAddBasicInfo(@RequestParam("userId") String userId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, String pageFlag) {
-	  if(pageFlag == null){
-	      pageFlag = "one";
-	  }
-	  model.addAttribute("pageFlag", pageFlag);
-	  model.addAttribute("userId", userId);
+			Model model) {
+	    model.addAttribute("userId", userId);
 		User user = userService.getUserById(userId);
 		String typeId = user.getTypeId();
 		// 生成专家id
 		String expertId = "";
 		int flag = 0;
-			// 暂存 或退回后重新填写
-			Expert expert = service.selectByPrimaryKey(typeId);
-			if (expert != null)
-				expertId = expert.getId();
-			// 判断已提交 未审核的数据 跳转到查看页面
-			if (expert != null && expert.getIsSubmit().equals("1")
-					&& expert.getStatus().equals("0")) {
-				// 已提交未审核数据
-				flag = 1;
-			}
-			Map<String, Object> errorMap = service.Validate(expert, 3, null);
-			model.addAttribute("expert", expert);
-			model.addAttribute("errorMap", errorMap);
+		// 暂存 或退回后重新填写
+		Expert expert = service.selectByPrimaryKey(typeId);
+		String stepNumber;
+		if ("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
+		    stepNumber = "one";
+		} else {
+		    stepNumber = expert.getStepNumber();
+		}
+		if (expert != null)
+			expertId = expert.getId();
+		// 判断已提交 未审核的数据 跳转到查看页面
+		if (expert != null && expert.getIsSubmit().equals("1")
+				&& expert.getStatus().equals("0")) {
+			// 已提交未审核数据
+			flag = 1;
+		}
+		Map<String, Object> errorMap = service.Validate(expert, 3, null);
+		model.addAttribute("expert", expert);
+		model.addAttribute("errorMap", errorMap);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("typeName", "0");
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService
@@ -358,7 +360,7 @@ public class ExpertController {
 		if (flag == 1) {
 			return "ses/ems/expert/basic_info_view";
 		} else {
-			return "ses/ems/expert/basic_info_"+pageFlag;
+			return "ses/ems/expert/basic_info_"+stepNumber;
 		}
 	}
 
@@ -772,7 +774,7 @@ public class ExpertController {
 						expertId, categoryId, null);
 				if (map != null && !map.isEmpty()) {
 					attr.addAttribute("userId", userId);
-					return "redirect:toAddBasicInfo.html?pageFlag=one";
+					return "redirect:toAddBasicInfo.html";
 				}
 			}
 		} catch (Exception e) {
@@ -780,7 +782,7 @@ public class ExpertController {
 			// 未做异常处理
 		}
 		attr.addAttribute("userId", userId);
-		return "redirect:toAddBasicInfo.html?pageFlag=one";
+		return "redirect:toAddBasicInfo.html";
 	}
 	
 	/**
@@ -811,7 +813,7 @@ public class ExpertController {
       // 未做异常处理
     }
     attr.addAttribute("userId", userId);
-    return "redirect:toAddBasicInfo.html?pageFlag=one";
+    return "redirect:toAddBasicInfo.html";
   }
 
 	/**
@@ -1352,5 +1354,18 @@ public class ExpertController {
                 return "1";
             }
         }
+    }
+    /**
+     *〈简述〉
+     * 注册时点击下一步,将表中的STRP_NUMBER进行同步
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param stepNumber
+     */
+    @ResponseBody
+    @RequestMapping("/updateStepNumber")
+    public void updateStepNumber(String expertId, String stepNumber) {
+        service.updateStepNumber(expertId, stepNumber);
     }
 }

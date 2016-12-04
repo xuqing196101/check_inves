@@ -42,6 +42,7 @@
 		<result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
 		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
 		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+		<result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT, GENDER,
@@ -57,7 +58,7 @@
 		POST_CODE, DEGREE, AT_DUTY,
 		EXPERTS_TYPE_ID,
 		PURCHASE_DEP_ID, STATUS,
-		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
+		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, STEP_NUMBER
 	</sql>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
@@ -760,4 +761,10 @@
 		SELECT ID FROM T_SES_EMS_EXPERT
 		WHERE ID_NUMBER = #{_parameter}
 	</select>
+	<!-- 注册时点击下一步,将表中的STRP_NUMBER进行同步 -->
+	<update id="updateStepNumber">
+		update T_SES_EMS_EXPERT
+		set STEP_NUMBER = #{param2}
+		where id = #{param1} 
+	</update>
 </mapper>

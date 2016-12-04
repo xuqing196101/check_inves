@@ -675,6 +675,19 @@ public class ExpertServiceImpl implements ExpertService {
       // TODO Auto-generated method stub
       return mapper.validateIdNumber(idNumber);
     }
+    /**
+     *〈简述〉
+     * 注册时点击下一步,将表中的STRP_NUMBER进行同步
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @param stepNumber
+     */
+    @Override
+    public void updateStepNumber(String expertId, String stepNumber) {
+        // TODO Auto-generated method stub
+        mapper.updateStepNumber(expertId, stepNumber);
+    }
 	
 }
 
