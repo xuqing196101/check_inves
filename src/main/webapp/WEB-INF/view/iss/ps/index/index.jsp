@@ -42,7 +42,7 @@ function drugs(){
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
-		  	<c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
+		  	<%-- <c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
 		  	<c:choose>
 		  	 <c:when test="${vs.index==0}">
 			   <li class="item" style="left:0px;">
@@ -56,8 +56,8 @@ function drugs(){
 			 </c:otherwise>
 			 </c:choose>
 			</c:forEach>
-			
-			<%-- <li class="item" style="left:0px;">
+			--%>
+			<li class="item" style="left:0px;">
 				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
@@ -66,7 +66,7 @@ function drugs(){
 			<li class="item">
 				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
-		   </ul>--%>
+		   </ul>
 			</ul>
 	      </div>
 	      <div class="controler" data-scro="controler">
