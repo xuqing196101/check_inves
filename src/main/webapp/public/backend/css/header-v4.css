@@ -1045,16 +1045,16 @@ li.dropdown ul.dropdown-menu > li :focus > .dropdown-menuson{
 }
 li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 	position: absolute;
-    top: 0px;
+    top: -1px;
     left:100%;
     font-size: 14px;
     text-align: left;
     list-style: none;
     background-color: #16888F;
     padding: 0;
-    border: none;
     min-width: 100px;
     z-index: 9999 ;
+    border:1px solid #ddddddd;
 }
 .top_icon{
 	width:50px;

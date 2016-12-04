@@ -862,6 +862,7 @@
 
 .header-v5 .mega-menu .dropdown-menu {
     left: 0px;
+    border:1px solid #dddddd;
 }
 
 .header-v5 .mega-menu .dropdown-menu > li {
