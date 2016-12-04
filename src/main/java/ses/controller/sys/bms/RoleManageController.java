@@ -114,6 +114,13 @@ public class RoleManageController {
                     count ++;
                 }
             }
+			Role roleCondition = new Role();
+			roleCondition.setCode(r.getCode());
+			List<Role> roleList = roleService.find(roleCondition);
+			if (roleList.size() >= 1) {
+			    msg = "唯一编码不可以重复";
+                count ++;
+			}
 			if (count > 0) {
 			    response.setContentType("text/html;charset=utf-8");
                 response.getWriter().print(
