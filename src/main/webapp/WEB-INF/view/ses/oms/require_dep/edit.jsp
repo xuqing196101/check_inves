@@ -52,7 +52,7 @@
 		 	$("#show_org_cont").text("关联采购机构");
 		 }else{
 		 	$(".monitor").hide();
-		 	$("#show_org_cont").text("关联监管部门");
+		 	$("#show_org_cont").text("关联管理部门");
 		 }
 	}
 
@@ -60,7 +60,7 @@
     function dynamicAdd(){
     	var typeName = $("#typeName").val();
     	var title = "";
-    	if(typeName!=undefined && typeName==0){
+    	if(typeName!=undefined && typeName==2){
     		title = "添加采购机构";
     	}else{
     		title = "添加监管部门";

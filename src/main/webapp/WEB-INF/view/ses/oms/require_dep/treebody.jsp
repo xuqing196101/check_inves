@@ -239,9 +239,9 @@
 			  <h2 class="panel-title heading-sm pull-left">
 				<i class="fa fa-bars"></i> 
 				<c:choose>
-				  <c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">管理部门信息</c:when>
-				  <c:when test="${ orgnization.typeName!=null && orgnization.typeName==1 }">采购机构信息</c:when>
-				  <c:otherwise>管理部门信息</c:otherwise>
+				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '0'}">管理部门信息</c:when>
+				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '1'}">管理部门信息</c:when>
+				  <c:when test="${orgnization.typeName!=null && orgnization.typeName == '2'}">采购机构信息</c:when>
 				</c:choose> 
 				<span class="label rounded-2x label-u">正常</span>
 			  </h2>
@@ -251,9 +251,9 @@
 				<h3 class="panel-title">
 				  <i class="fa fa-users"></i> 
 				  <c:choose>
-					<c:when test="${orgnization.typeName!=null && orgnization.typeName==0 }">管理部门信息</c:when>
-					<c:when test="${orgnization.typeName!=null && orgnization.typeName==1 }">采购机构信息</c:when>
-					<c:when test="${orgnization.typeName!=null && orgnization.typeName==2}">管理部门信息</c:when>
+					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '0' }">管理部门信息</c:when>
+					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '1' }">管理部门信息</c:when>
+					<c:when test="${orgnization.typeName!=null && orgnization.typeName == '2'}">采购机构信息</c:when>
 				  </c:choose> 
 				</h3>
 			  </div>
