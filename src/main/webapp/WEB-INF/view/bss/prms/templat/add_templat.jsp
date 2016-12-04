@@ -85,20 +85,20 @@
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">初审项模板类型</span>
 					<div class="select_check">
-						<input type="radio" name="kind" value="商务">商务 
-						<input type="radio" name="kind" id="kind" value="技术">技术 
+						<input type="radio" name="kind" value="符合性">符合性 
+						<input type="radio" name="kind" id="kind" value="资格性">资格性 
 						<input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
 					</div>
 				</li>
 				<li class="col-md-3 margin-0 padding-0 "><span class="">是否公开</span>
                     <div class="select_check">
-                        <input name="isOpen" maxlength="10" type="radio" value="0">公开
+                        <input name="isOpen" maxlength="10" type="radio" checked value="0">公开
                         <input name="isOpen" id="isOpen" maxlength="10" type="radio" value="1">私有
                     </div>
                 </li>
                 <li class="col-md-3 margin-0 padding-0 "><span class="">是否可用</span>
                     <div class="select_check">
-                        <input name="isUse" maxlength="10" type="radio" value="0">可用
+                        <input name="isUse" maxlength="10" type="radio" checked value="0">可用
                         <input name="isUse" id="isUse" maxlength="10" type="radio" value="1">不可用
                         <input type="hidden" name="userId" value="${sessionScope.loginUser.id }">
                     </div>

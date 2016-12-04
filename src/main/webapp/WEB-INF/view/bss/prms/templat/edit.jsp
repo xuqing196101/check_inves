@@ -82,8 +82,8 @@ function submit1(){
             
             <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="">初审项模板类型</span>
                     <div class="select_check">
-                        <input type="radio" name="kind" value="商务" <c:if test="${fn:contains(templat.kind,'商务')}">checked="true"</c:if> >商务
-                        <input type="radio" <c:if test="${fn:contains(templat.kind,'技术')}">checked="true"</c:if> name="kind" id="kind" value="技术" >技术
+                        <input type="radio" name="kind" value="资格性" <c:if test="${fn:contains(templat.kind,'资格性')}">checked="true"</c:if> >资格性
+                        <input type="radio" <c:if test="${fn:contains(templat.kind,'符合性')}">checked="true"</c:if> name="kind" id="kind" value="符合性" >符合性
                         
                     </div>
             </li>
