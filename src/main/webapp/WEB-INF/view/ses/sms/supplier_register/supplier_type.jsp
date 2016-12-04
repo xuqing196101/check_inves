@@ -810,10 +810,12 @@
 											 
 							 	<fieldset class="col-md-12 border_font mt20">
 						 	      <legend>供应商物资生产资质证书</legend>
-								       <div class="col-md-12 p0">
+						 	      	<div  class="col-md-12 p0 ul_list mb50">
+								       <div class="col-md-12 p15 mt20">
 											<div class="fl">
-											  <button type="button" class="btn fr mr0" onclick="openCertPro()">新增</button>
-											  <button type="button" class="btn fr" onclick="deleteCertPro()">删除</button>
+											  <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
+											  <button type="button" class="btn btn-windows delete" onclick="deleteCertPro()">删除</button>
+											  <span class="red">${cert_pro }</span>
 											</div>
 					                       <table class="table table-bordered table-condensed mt5">
 												<thead>
@@ -851,6 +853,7 @@
 												</tbody>
 											</table>
 										</div>
+									  </div>
 									</fieldset>
 								</div>
 							 </div>
@@ -944,8 +947,9 @@
 						<!-- 	<div  class="col-md-12 p0 ul_list mb50"> -->
 							   <div class="col-md-12 p0">
 									<div class="fl">
-											<button type="button" class="btn fr mr0" onclick="deleteCertSell()">删除</button>
-											<button type="button" class="btn fr" onclick="openCertSell()">新增</button>
+											<button type="button" class="btn btn-windows add" onclick="openCertSell()">新增</button>
+											<button type="button" class="btn btn-windows delete" onclick="deleteCertSell()">删除</button>
+											<span class="red">${sale_cert }</span>
 									</div>		
 									<div class="mt40">
 							      <table id="share_table_id" class="table table-bordered table-condensed mt5">
@@ -1090,6 +1094,7 @@
 											<div class="fl">
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openRegPerson()">新增</button>
+											<span class="red">${eng_persons }</span>
 											</div>
 											<div class="mt40">
 						  						<table  class="table table-bordered table-condensed mt5">
@@ -1124,6 +1129,7 @@
 											<div class="fl">
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertEng()">新增</button>
+											    <span class="red">${eng_cert}</span>
 										  </div>
 										   	<div class="mt40">
 						  						<table  class="table table-bordered table-condensed mt5">
@@ -1194,6 +1200,7 @@
 											  <div class="fl">
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
 												<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
+												<span class="red">${eng_aptitutes }</span>
 											  </div>
 										   	<div class="mt40">
 						  						<table  class="table table-bordered table-condensed mt5">
@@ -1358,6 +1365,7 @@
 													<div class="fl">
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSe()">删除</button>
 														<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSe()">新增</button>
+														<span class="red">${fw_cert }</span>
 													</div>
 										<div class="col-md-12 col-sm-12 col-xs-12">
 										 <table id="share_table_id" class="table table-bordered table-condensed mt5">

@@ -26,11 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import bss.model.pms.PurchaseRequired;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
@@ -47,6 +42,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
@@ -64,6 +60,9 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
+
+import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -130,6 +129,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierMapper supplierMapper;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -462,6 +464,11 @@ public class SupplierController extends BaseSupplierController {
 				return "ses/sms/supplier_register/basic_info";
 			}
 			else if(flag.equals("2")){
+				 Map<String, Object> map = supplierService.getCategory(supplier.getId());
+				 request.getSession().setAttribute("server", map.get("server"));
+				 request.getSession().setAttribute("product", map.get("product"));
+				 request.getSession().setAttribute("sale", map.get("sale"));
+				 request.getSession().setAttribute("project", map.get("project"));
 				return "ses/sms/supplier_register/supplier_type";	
 			}else{
 				 supplier = supplierService.get(supplier.getId());
@@ -1099,6 +1106,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tqcDevice", "不能为空");
 			bool=false;	
 		}
+//		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
+//		if(list==null||list.size()<1){
+//			model.addAttribute("cert_pro", "请添加生产资质证书信息");
+//			bool=false;	
+//		}
 		
 		return bool;
 	}
@@ -1142,7 +1154,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("sale_work", "格式不正确");
 			bool=false;
 		}
-		
+//		List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
+//		if(list==null||list.size()<1){
+//			model.addAttribute("sale_cert", "资质证书不能为空");
+//			bool=false;
+//		}
 		return bool;
 	}
 	//工程信息校验
@@ -1169,7 +1185,21 @@ public class SupplierController extends BaseSupplierController {
 		   model.addAttribute("eng_worker", "不能为空或者不是数字类型");
 			bool=false;
 	   }
-		
+//	   List<SupplierAptitute> aptitutes = supplierMatPro.getListSupplierAptitutes();
+//	   if(aptitutes==null||aptitutes.size()<1){
+//		  model.addAttribute("eng_aptitutes", "请添加资格资质证书信息");
+//		  bool=false;
+//	   }
+//	   List<SupplierCertEng> certEngs = supplierMatPro.getListSupplierCertEngs();
+//	   if(certEngs==null||certEngs.size()<1){
+//		      model.addAttribute("eng_cert", "请添加证书信息");
+//			  bool=false;
+//	   }
+//	   List<SupplierRegPerson> persons = supplierMatPro.getListSupplierRegPersons();
+//	   if(persons==null||persons.size()<1){
+//		   model.addAttribute("eng_persons", "请添加证书信息");
+//		   bool=false;
+//	   }
 		return bool;
 	}
 	//服务信息校验
@@ -1211,7 +1241,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("fw_work", "格式不正确");
 			bool=false;
 		}
-		
+//		List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
+//		if(list==null||list.size()<1){
+//			model.addAttribute("fw_cert", "请添加服务证书信息");
+//			bool=false;
+//		}
 		
 		return bool;
 	}

@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +36,11 @@ public class SupplierCertSeServiceImpl implements ses.service.sms.SupplierCertSe
 	public SupplierCertServe queryById(String id) {
 		SupplierCertServe server = supplierCertSeMapper.selectByPrimaryKey(id);
 		return server;
+	}
+
+	@Override
+	public List<SupplierCertServe> queryServerId(String serverId) {
+		// TODO Auto-generated method stub
+		return supplierCertSeMapper.findCertSeBySupplierMatSeId(serverId);
 	}
 }

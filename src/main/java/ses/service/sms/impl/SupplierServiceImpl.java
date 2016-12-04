@@ -210,7 +210,7 @@ public class SupplierServiceImpl implements SupplierService {
         
         
         Role role = new Role();
-        role.setCode("IMPORT_AGENT_R");
+        role.setCode("SUPPLIER_R");
         List<Role> listRole = roleService.find(role);
         if (listRole != null && listRole.size() > 0) {
             Userrole userrole = new Userrole();
@@ -247,6 +247,16 @@ public class SupplierServiceImpl implements SupplierService {
 		//BeanUtils.copyProperties(supplier, oldSupplier, new String[] {"serialVersionUID", "id", "loginName", "mobile", "password", "createdAt"});
 		supplier.setUpdatedAt(new Date());
 		supplierMapper.updateByPrimaryKeySelective(supplier);
+		User user = userService.findByTypeId(supplier.getId());
+		user.setRelName(supplier.getContactName());
+		user.setAddress(supplier.getContactAddress());
+		user.setEmail(supplier.getContactEmail());
+		user.setMobile(supplier.getContactTelephone());
+		user.setTelephone(supplier.getContactTelephone());
+		String id = DictionaryDataUtil.get("SUPPLIER_U").getId();
+		user.setTypeName(id);
+		userService.update(user);
+		
 	}
 	
 	/**

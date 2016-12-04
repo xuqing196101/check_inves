@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,12 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 	public SupplierAptitute queryById(String id) {
 		SupplierAptitute aptitute = supplierAptituteMapper.selectByPrimaryKey(id);
 		return aptitute;
+	}
+
+	@Override
+	public List<SupplierAptitute> queryByAptitute(String projectId) {
+		// TODO Auto-generated method stub
+		return supplierAptituteMapper.findAptituteByMatEngId(projectId);
 	}
 
 }

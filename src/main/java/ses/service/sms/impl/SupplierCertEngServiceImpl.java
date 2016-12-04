@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,12 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 	public SupplierCertEng queryById(String id) {
 		SupplierCertEng certEng = supplierCertEngMapper.selectByPrimaryKey(id);
 		return certEng;
+	}
+
+	@Override
+	public List<SupplierCertEng> queryByEngId(String endId) {
+		// TODO Auto-generated method stub
+		return supplierCertEngMapper.findCertEngByMatEngId(endId);
 	}
 
 }

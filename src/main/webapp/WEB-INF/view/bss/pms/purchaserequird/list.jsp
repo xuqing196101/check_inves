@@ -96,12 +96,12 @@
     	var id =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
-		}); 
+		});
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				 $.ajax({
-		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html",
+		 			 url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
 		 			 type:"post",
 		 			 data:{
 		 				 planNo:id
