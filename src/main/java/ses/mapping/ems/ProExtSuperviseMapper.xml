@@ -146,15 +146,13 @@
 	</update>
 	<select id="list" resultMap="UserBaseMap" parameterType="ses.model.ems.ProExtSupervise">
 		SELECT
-		bu.*
-		FROM
-		T_SES_EMS_PRO_EXT_SUPERVISOR es
-		LEFT JOIN
-		T_SES_BMS_USER bu
-		ON
-		ES.SUPERVISOR_ID = BU."ID"
+    BU.*
+    FROM
+    T_SES_EMS_PRO_EXT_SUPERVISOR es
+    LEFT JOIN T_SES_EMS_EXP_EXT_PACKAGE ep ON es.PROJECT_ID =
+    EP.PACKAGE_ID INNER JOIN T_SES_BMS_USER bu ON es.SUPERVISOR_ID = bu.ID
 		WHERE
-		PROJECT_ID =
+		 EP.PROJECT_ID =
 		#{projectId}
 	</select>
 	<!-- 根据项目id 删除监督人员 -->

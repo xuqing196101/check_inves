@@ -87,7 +87,7 @@
         if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
-             window.location.href="${pageContext.request.contextPath}/ExpExtract/Extraction.html?projectId="+id+"&&typeclassId=1";
+             window.location.href="${pageContext.request.contextPath}/ExpExtract/packageList.html?projectId="+id+"&&typeclassId=1";
         }
     }
   //查看明细

@@ -113,5 +113,5 @@ public interface PackageService {
      * @author Wang Wenshuai
      * @return
      */
-    List<SupplierCheckPass> listSupplierCheckPass(String projectId);
+    List<Packages> listSupplierCheckPass(String projectId);
 }

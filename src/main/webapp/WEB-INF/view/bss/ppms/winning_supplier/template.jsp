@@ -25,12 +25,11 @@
         	var iframeWin;
             layer.open({
               type: 2, //page层
-              area: ['800px', '500px'],
+              area: ['80%', '50%'],
               title: '配置权限',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
               shift: 1, //0-6的动画形式，-1不开启
-              offset: ['180px', '550px'],
               shadeClose: false,
               content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
               success: function(layero, index){
@@ -47,9 +46,9 @@
                   if(id.length==1){
                       window.location.href="${pageContext.request.contextPath}/templet/edit.do?id="+id;
                   }else if(id.length>1){
-                      layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+                      layer.alert("只能选择一个",{offset: ['200', '200px'], shade:0.01});
                   }else{
-                      layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+                      layer.alert("请选择需要修改的用户",{offset: ['200px', '200px'], shade:0.01});
                   }
               }
               ,btn2: function(){
@@ -71,7 +70,8 @@
         }
         //发布
         function publish(){
-            alert("发布");
+        	 $("#form").attr("action",'${pageContext.request.contextPath}/winningSupplier/publish.do');   
+           $("#form").submit();
         }
         //保存
         function save(){
@@ -82,31 +82,31 @@
 </script>
 
 <script type="text/javascript">
-$(function(){
-	 var pack="${packageName[0].id}";
-     change(pack);	
-})
+// $(function(){
+// 	 var pack="${packageName[0].id}";
+//      change(pack);	
+// })
 
-	function supplierch(){
-		 var pack=$("#package").find("option:selected").val();
-		 change(pack);
-	}
+// 	function supplierch(){
+// 		 var pack=$("#package").find("option:selected").val();
+// 		 change(pack);
+// 	}
 
-    function change(pack){
-    	      $.ajax({
-    	          type:"POST",
-    	          url:"${pageContext.request.contextPath}/winningSupplier/getSupplierJosn.do",
-    	          data:{packageId:pack,isWonBid:1},
-    	          dataType:"json",
-    	          success: function(data){
-    	               var list = data;
-    	               $("#supplier").empty();
-    	               for(var i=0;i<list.length;i++){
-    	                    $("#supplier").append("<option value="+list[i].id+">"+list[i].supplier.supplierName+"</option>");
-    	               }
-    	          }
-    	      });
-    }
+//     function change(pack){
+//     	      $.ajax({
+//     	          type:"POST",
+//     	          url:"${pageContext.request.contextPath}/winningSupplier/getSupplierJosn.do",
+//     	          data:{packageId:pack,isWonBid:1},
+//     	          dataType:"json",
+//     	          success: function(data){
+//     	               var list = data;
+//     	               $("#supplier").empty();
+//     	               for(var i=0;i<list.length;i++){
+//     	                    $("#supplier").append("<option value="+list[i].supplier.id+">"+list[i].supplier.supplierName+"</option>");
+//     	               }
+//     	          }
+//     	      });
+//     }
 </script>
 </head>
 
@@ -130,27 +130,26 @@ $(function(){
 			<div class="col-md-12" style="min-height: 400px;">
 				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 					<h2 class="padding-10 border1">
-						<form action="" method="post" class="mb0">
+						<form action="" method="post" id="form" class="mb0">
+						<input type="hidden" value="${projectId}" name="projectId">
 							<ul class="demand_list">
-								<li class="fl"><label class="fl">包：</label><span> <select
-										id="package" class="w100" onchange="supplierch();">
-											<c:forEach items="${packageName}" var="pack">
-												<option value="${pack.id}">${pack.name}</option>
-											</c:forEach>
-									</select>
-								</span></li>
+<!-- 								<li class="fl"><label class="fl">包：</label><span> <select -->
+<!-- 										id="package" class="w100" name="packageId" onchange="supplierch();"> -->
+<%-- 											<c:forEach items="${packageName}" var="pack"> --%>
+<%-- 												<option value="${pack.id}">${pack.name}</option> --%>
+<%-- 											</c:forEach> --%>
+<!-- 									</select> -->
+<!-- 								</span></li> -->
 
 								<li class="fl"><label class="fl">供应商名称：</label><span>
-										<select class="w200" id="supplier">
+										<select class="w200" name="supplierId" id="supplier">
 
 									</select>
-								</span></li>
+							   	</span>
+								</li>
 							</ul>
 							<div class="clear"></div>
-						</form>
-					</h2>
-
-					<form method="post" id="form">
+					
 						<div class="row">
 							<!-- 按钮 -->
 							<div class="col-md-12">
@@ -159,8 +158,7 @@ $(function(){
 									type="button" class="btn btn-windows output"
 									onclick="outputAnnouncement()" value="导出"></input> <input
 									type="button" class="btn btn-windows git" onclick="preview()"
-									value="预览"></input> <input type="button"
-									class="btn btn-windows apply" onclick="publish()" value="发布"></input>
+									value="预览">
 							</div>
 							<!-- 文本编辑器 -->
 							<div class="col-md-12">
@@ -171,13 +169,13 @@ $(function(){
 							<div class="tc mt20 clear col-md-12">
 
 								<input type="button" class="btn btn-windows save"
-									onclick="save()" value="保存"></input> <input type="button"
+									onclick="publish()" value="发布"></input> <input type="button"
 									class="btn btn-windows back" onclick="history.go(-1)"
 									value="返回"></input>
 							</div>
 						</div>
 					</form>
-
+        </h2>
 				</div>
 			</div>
 		</div>

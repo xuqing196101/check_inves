@@ -95,7 +95,16 @@ function chongzhi(){
 <body>
   <div class="container">
     <div class="headline-v2">
-	  <h2>采购机构信息</h2>
+	  <h2>
+	    <c:if test="${orgnization.typeName == '0'}">
+	            管理机构信息
+	    </c:if>
+	    <c:if test="${orgnization.typeName == '1'}">
+	           管理机构信息
+	    </c:if>
+	    <c:if test="${orgnization.typeName == '2'}">
+	          采购机构信息
+	    </c:if>
 	</div>
 	<h2 class="search_detail">
 	  <form id="form1" class="mb0" action="${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html" method="post" id="form1">
@@ -105,7 +114,7 @@ function chongzhi(){
 		<ul class="demand_list">
 	      <li>
 	        <label class="fl">机构名称：</label>
-	        <span><input type="text" name="name" id="name" value="${orgnization.name }"></span>
+	        <span><input type="text" name="name" id="name" value="${orgnization.name}"></span>
 	      </li>
 	      <button class="btn" onclick="submit()" type="button">查询</button>
           <button class="btn" onclick="chongzhi()" type="button"> 重置</button>
@@ -139,7 +148,7 @@ function chongzhi(){
 			  <!-- 创建人-->
 			  <td class="tc">
 				<c:choose>
-				  <c:when test="${p.typeName=='0'}">监管部门</c:when>
+				  <c:when test="${p.typeName=='0'}">管理部门</c:when>
 				  <c:when test="${p.typeName=='1'}">采购机构</c:when>
 				</c:choose>
 			  </td>

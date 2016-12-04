@@ -280,7 +280,7 @@
 		<include refid="Base_Column_List" />
 		FROM
 		T_SES_SMS_SUPPLIER_EXT_RELATE WHERE
-		SUPPLIER_CONDITION_ID=#{supplierId}
+		SUPPLIER_CONDITION_ID=#{supplierId} AND (OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
 	</select>
 
 </mapper>

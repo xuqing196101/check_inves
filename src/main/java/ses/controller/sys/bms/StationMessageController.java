@@ -113,7 +113,10 @@ public class StationMessageController {
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null){
             stationMessage.setReceiverId(user.getId());
-            stationMessage.setOrgId(user.getOrg().getId());
+            if (user.getOrg() != null ){
+                stationMessage.setOrgId(user.getOrg().getId());
+            }
+           
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage,page==null||"".equals(page)?1:Integer.valueOf(page));
             model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
             model.addAttribute("stationMessage",stationMessage);

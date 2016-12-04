@@ -192,7 +192,7 @@
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id
 		 <!-- LEFT JOIN T_SES_OMS_ORG dd on d.PARENT_ID=DD.id-->
-		 where nvl(d.is_deleted,0)=0
+		 where d.is_deleted=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
 		</if>

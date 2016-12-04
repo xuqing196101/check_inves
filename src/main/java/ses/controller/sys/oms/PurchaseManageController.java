@@ -166,9 +166,9 @@ public class PurchaseManageController {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals("0")){
+		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals("2")){
 			map.put("typeName", "1");
-		}else if (orgnization.getTypeName().equals("1")||orgnization.getTypeName().equals("2")) {
+		}else if (orgnization.getTypeName().equals("1")||orgnization.getTypeName().equals("0")) {
 			map.put("typeName", "0");
 		}
 		map.put("name", orgnization.getName());

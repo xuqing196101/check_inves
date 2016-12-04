@@ -62,10 +62,10 @@
     function dynamicAdd(){
     	var typeName = $("#typeName").val();
     	var title = "";
-    	if(typeName!=undefined && typeName==0){
+    	if(typeName!=undefined && typeName==2){
     		title = "添加采购机构";
     	}else{
-    		title = "添加监管部门";
+    		title = "添加管理部门";
     	}
     	layer.open({
 			type : 2, //page层

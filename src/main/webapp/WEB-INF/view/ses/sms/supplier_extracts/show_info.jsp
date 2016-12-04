@@ -125,7 +125,7 @@
 						<td align="center">不参加理由</td>
 					</tr>
 					<c:forEach items="${conditionList}" var="con" varStatus="vs">
-						<c:forEach items="${con.conditionList}" var="conlist" varStatus="vs">
+						<c:forEach items="${con.conditionList}" var="conlist" varStatus="vse">
 						  <c:forEach items="${conlist.extRelatesList}" var="ext" varStatus="vs">
 							<tr>
 								<td align="center">${vs.index+1 }</td>

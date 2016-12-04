@@ -46,7 +46,7 @@ public class StationMessageServiceImpl implements StationMessageService {
     public void insertStationMessage(StationMessage stationMessage) {
         
         
-        stationMessageMapper.insert(stationMessage);
+        stationMessageMapper.insertSelective(stationMessage);
 
     }
 

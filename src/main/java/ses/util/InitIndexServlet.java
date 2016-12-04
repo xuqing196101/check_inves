@@ -2,6 +2,7 @@ package ses.util;
 
 import iss.service.ps.SolrNewsService;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /*
  *@Title:InitIndexServlet
@@ -33,14 +35,14 @@ public class InitIndexServlet extends HttpServlet implements HttpSessionListener
 	* @param @param se
 	 */
 	public void sessionCreated(HttpSessionEvent se) {
-//		ServletContext servletContext = se.getSession().getServletContext();
-//		if (applicationContext == null) {
-//			applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-//		}
-//		if (solrNewsService == null) {
-//			solrNewsService = (SolrNewsService)applicationContext.getBean("solrNewsService");
-//		}
-//		solrNewsService.initIndex();
+		ServletContext servletContext = se.getSession().getServletContext();
+		if (applicationContext == null) {
+			applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		}
+		if (solrNewsService == null) {
+			solrNewsService = (SolrNewsService)applicationContext.getBean("solrNewsService");
+		}
+		solrNewsService.initIndex();
 	}
 	
 	/**

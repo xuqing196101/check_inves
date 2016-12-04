@@ -15,7 +15,7 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
-        <association property="perpleUser" column="EXTRACTS_PEOPLE"
+        <association property="perpleUser"  column="EXTRACTS_PEOPLE"
             select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List">
