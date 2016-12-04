@@ -314,8 +314,9 @@ function deleteFinance() {
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司网址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="website" placeholder="http开头或者死https://开头" value="${currSupplier.website}">
+			        <input type="text" name="website"  value="${currSupplier.website}">
 			        <span class="add-on cur_point">i</span>
+			        <span class="input-tip">例如：http://www.baidu.com</span>
 			         <div class="cue"> ${err_msg_website } </div>
 			       </div>
 				 </li>
