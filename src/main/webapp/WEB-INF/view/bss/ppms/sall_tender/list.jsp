@@ -236,7 +236,7 @@
 					<td class="tc opinter"><input onclick="check()"
 						type="checkbox" name="chkItem"
 						value="${sale.id}^${sale.statusBond}^${sale.statusBid}" /></td>
-					<td class="tc opinter w200" onclick="view('${templet.id}')" title="${sale.suppliers.supplierName}">
+					<td class="tc opinter w200" title="${sale.suppliers.supplierName}">
 					  <c:choose>
                                <c:when test="${fn:length(sale.suppliers.supplierName) > 12}">  
                                                      ${fn:substring(sale.suppliers.supplierName, 0, 10)}......

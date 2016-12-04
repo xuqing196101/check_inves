@@ -1,12 +1,23 @@
 package bss.model.ppms.ext;
 
 import bss.model.ppms.Project;
+import bss.model.prms.ReviewProgress;
 
 public class ProjectExt extends Project {
     //包id
 	private String packageId;
 	//包名
 	private String packageName;
+	//增加项目进度
+	private ReviewProgress reviewProgress;
+
+    public ReviewProgress getReviewProgress() {
+        return reviewProgress;
+    }
+
+    public void setReviewProgress(ReviewProgress reviewProgress) {
+        this.reviewProgress = reviewProgress;
+    }
 	public String getPackageId() {
 		return packageId;
 	}

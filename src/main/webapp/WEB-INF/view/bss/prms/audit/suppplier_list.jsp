@@ -98,16 +98,19 @@
    <div class="headline-v2 fl">
       <h2>供应商信息</h2>
    </div> 
-   <div class="container clear margin-top-30">
-   <span class="fr option_btn margin-top-10">
+   </div>
+   <div class="container clear">
+   <span class="fl option_btn margin-top-10 ml10">
    	  <c:if test="${packageExpert.isAudit == 1 && packageExpert.isGrade != 1}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toGrade();">评分</button>
    	  </c:if>
    	   <c:if test="${packageExpert.isAudit != 1  && packageExpert.isGrade == 0}">
    	   <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性审查</button>
    	  </c:if>
+   	  
        <!--  <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">符合性检查</button> -->
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="supplierPrice()">查看供应商报价</button>
+        <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
       </span>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
@@ -142,11 +145,6 @@
       </table>
       </div>
    </div>
-    <div class="container clear margin-top-30">
-    <div class="container margin-top-5">
-    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"><br/>
-    </div>
-    </div>
  </div>
-     </body>
+</body>
 </html>

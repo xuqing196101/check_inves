@@ -88,9 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>项目评审</h2>
    </div> 
    </div>
-   <div class="container clear margin-top-30">
-   <span class="fr option_btn margin-top-10">
+   <div class="container">
+   <span class="fl option_btn ml10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="toAudit();">项目评审</button>
+        <button class="btn btn-windows back" onclick="history.go(-1)">返回</button>
       </span>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
@@ -101,8 +102,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
           <th class="info">包名</th>
-          <th class="info">采购方式</th>
-          <th class="info">项目状态</th>
+		  <th class="info">总进度</th>
+		  <th class="info">初审进度</th>
+		  <th class="info">详审进度</th>
         </tr>
         </thead>
         <tbody id="tbody_id">
@@ -111,17 +113,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${vs.count}</td>
-              <td class="tc">${obj.name }</td>
-              <td class="tc">${obj.projectNumber }</td>
+              <td>${obj.name}</td>
+              <td>${obj.projectNumber }</td>
               <td class="tc">${obj.packageName }</td>
-              <td class="tc">${obj.dictionary.name }</td>
-              <td class="tc">
-              <c:if test="${'1'==obj.status}">实施中</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">已立项</c:if>
-              </td>
+              <td class="w260">
+				  <div class="col-md-12 padding-0">
+				  	  <span class="fl padding-5">
+				  	  	<c:if test="${obj.reviewProgress.auditStatus == '0'}">未评审</c:if>
+				  	  	<c:if test="${obj.reviewProgress.auditStatus == '1'}">初审中</c:if>
+				  	  	<c:if test="${obj.reviewProgress.auditStatus == '2'}">初审完成</c:if>
+				  	  	<c:if test="${obj.reviewProgress.auditStatus == '3'}">详审中</c:if>
+				  	  	<c:if test="${obj.reviewProgress.auditStatus == '4'}">评审完成</c:if>
+				  	  </span>
+					  <div class="progress w55p fl margin-left-0">
+			             <div class="progress-bar progress-bar-danger" role="progressbar" 
+			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
+			                 style="width:${obj.reviewProgress.totalProgress*100}%;"> 
+			             </div> 
+			          </div>
+					  <span class="fl padding-5">${obj.reviewProgress.totalProgress*100}%</span>
+				  </div>
+			    </td>
+			    <td class="tc w200">
+				  <div class="col-md-12 padding-0">
+					  <div class="progress w55p fl margin-left-0">
+			             <div class="progress-bar progress-bar-danger" role="progressbar" 
+			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
+			                 style="width:${obj.reviewProgress.firstAuditProgress*100}%;"> 
+			             </div> 
+			          </div>
+					  <span class="fl padding-5">${obj.reviewProgress.firstAuditProgress*100}%</span>
+				  </div>
+			    </td>
+			    <td class="tc w200">
+				  <div class="col-md-12 padding-0">
+					  <div class="progress w55p fl margin-left-0">
+			             <div class="progress-bar progress-bar-danger" role="progressbar" 
+			                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
+			                 style="width:${obj.reviewProgress.scoreProgress*100}%;"> 
+			             </div> 
+			          </div>
+					  <span class="fl padding-5">${obj.reviewProgress.scoreProgress*100}%</span>
+				  </div>
+			    </td>
             </tr>
-     
          </c:forEach> 
         </tbody>
       </table>
