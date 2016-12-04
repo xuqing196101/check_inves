@@ -75,8 +75,28 @@
 		   }
 	}
 	
+	var obj = "";
   	function view(id){
-  		window.location.href="${ pageContext.request.contextPath }/park/view.html?id="+id;
+  		obj = id;
+  		layer.open({
+			  type: 1,
+			  title: '提示',
+			  skin: 'layui-layer-rim',
+			  shadeClose: true,
+			  area: ['450px','150px'],
+			  content: $("#gatewayPark")
+		});
+  		$(".layui-layer-shade").remove();
+  	}
+  	
+  	//查看详情
+  	function viewDetail(){
+  		window.location.href="${pageContext.request.contextPath }/park/view.html?id="+obj;
+  	}
+  	
+  	//进入门户
+  	function entryPortal(){
+  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+obj;
   	}
   	
     function edit(){
@@ -86,7 +106,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="${ pageContext.request.contextPath }/park/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath }/park/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -110,7 +130,7 @@
     }
     
     function add(){
-    	window.location.href="${ pageContext.request.contextPath }/park/add.html";
+    	window.location.href="${pageContext.request.contextPath }/park/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -127,15 +147,19 @@
 		layer.closeAll();//关闭消息框
 	}
 }
- 	function search(){
+ 	 function search(){
 	    var parkNameForSerach = $("#parkNameForSerach").val();
 		var parkContentForSerach = $("#parkContentForSerach").val();
 	    location.href = "${ pageContext.request.contextPath }/park/getlist.do?parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
-
 	 }
+ 	 
 	 function reset(){
 	 	$("#parkNameForSerach").val("");
 		$("#parkContentForSerach").val("");
+	 }
+	 
+	 function cancel(){
+		 layer.closeAll();
 	 }
   </script>
   </head>
@@ -162,32 +186,32 @@
        <label class="fl">版块介绍：</label>
        <span><input type="text" id="parkContentForSerach" class="" value="${parkContentForSerach }"/></span>
        </li>
-         <button class="btn  " onclick="search()">查询</button>
-         <button class="btn  " onclick="reset()">重置</button>
+       <button class="btn" onclick="search()">查询</button>
+       <button class="btn" onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
   </h2>
 
-<!-- 表格开始-->
-	<c:if test="${admin==1 }">
-		<div class="col-md-12 pl20 mt10">
-	    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+	<!-- 表格开始-->
+	<div class="col-md-12 pl20 mt10">
+		<c:if test="${admin==1 }">
+	    	<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+	    </c:if>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-		</div>
-	</c:if>
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+	</div>
+	
    
     </div>
    
    <div class="container">
      <div class="content table_box">
-   	<table class=" table table-condensed table-bordered table-hover table-striped">
-    
+   	<table class="table table-condensed table-bordered table-hover table-striped">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" >序号</th>
-				<th class="info" >版块名</th>
+			    <th class="info">序号</th>
+				<th class="info">版块名</th>
 				<th class="info">版块介绍</th>
 			    <th class="info">版主</th>
 			    <th class="info">热门</th>
@@ -203,7 +227,6 @@
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${park.id}" /></td>
 				<td class="tc pointer" onclick="view('${park.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<td class="pointer" onclick="view('${park.id}')">${park.name}</td>
-				
 				<c:set value="${park.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>30}">
@@ -229,6 +252,14 @@
      </div>
    	<div id="pagediv" align="right"></div>
    </div>
-
+	
+	
+		<div class="dnone layui-layer-wrap col-md-12" id="gatewayPark">
+	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+		  		<button class="btn" type="button" onclick="viewDetail()">查看详情</button>
+		  		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
+		  		<button class="btn" type="button" onclick="cancel()">取消</button>
+	  		</div>
+		</div>
 	 </body>
 </html>

@@ -12,11 +12,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-  	<script type="text/javascript">    
-		$(function(){ 
-			$("#park").val("${topic.park.id}");
-		});  
-		
+  	<script type="text/javascript">
 		//返回到主题列表
 		function back(){
 			window.location.href = "${pageContext.request.contextPath }/topic/backTopic.html";
@@ -36,11 +32,11 @@
    </div>
    <!-- 新增页面开始 -->
      <div class="container container_box">
-    <form action="${ pageContext.request.contextPath }/topic/update.html" method="post">  
+    <form action="${pageContext.request.contextPath }/topic/update.html" method="post">  
     <div>
 	   <h2 class="list_title">修改主题</h2>
 
-	    <input  name ="topicId" type="hidden" value = '${topic.id}'>
+	   <input name ="topicId" type="hidden" value='${topic.id}'>
 	   <ul class="ul_list mb20">
 	   		  
 	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -58,7 +54,15 @@
 	  			<select  id ="park" name ="parkId" class="col-md-12 col-sm-12 col-xs-12 p0 contract_name" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
-			  	  		<option  value="${park.id}">${park.name}</option>
+			  	  		<c:choose>
+			  	  			<c:when test="${parkId==park.id }">
+			  	  				<option value="${park.id}" selected="selected">${park.name}</option>
+			  	  			</c:when>
+			  	  			<c:otherwise>
+			  	  				<option value="${park.id}">${park.name}</option>
+			  	  			</c:otherwise>
+			  	  		</c:choose>
+			  	  		
 			  	  	</c:forEach> 
 	  			</select>
 	  			<div class="cue">${ERR_park}</div>

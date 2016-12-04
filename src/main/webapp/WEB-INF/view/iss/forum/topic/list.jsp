@@ -79,8 +79,37 @@
 		   }
 	}
 	
+	var obj = "";
+	var parkId = "";
   	function view(id){
-  		window.location.href="${ pageContext.request.contextPath }/topic/view.html?id="+id;
+  		obj = id;
+		$.ajax({
+			type:"POST",
+			dataType:"json",
+			url:"${pageContext.request.contextPath }/topic/queryParkIdByTopicId.do?id="+obj,
+		    success:function(data){
+		     	parkId = data.park.id;
+		    }
+	    });
+  		layer.open({
+			  type: 1,
+			  title: '提示',
+			  skin: 'layui-layer-rim',
+			  shadeClose: true,
+			  area: ['450px','150px'],
+			  content: $("#gatewayTopic")
+		});
+  		$(".layui-layer-shade").remove();
+  	}
+  	
+  	//查看详情
+  	function viewDetail(){
+  		window.location.href="${pageContext.request.contextPath }/topic/view.html?id="+obj;
+  	}
+  	
+  	//进入门户
+  	function entryPortal(){
+  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+obj;
   	}
   	
     function edit(){
@@ -114,7 +143,7 @@
     }
     
     function add(){
-    	window.location.href="${ pageContext.request.contextPath }/topic/add.html";
+    	window.location.href="${pageContext.request.contextPath }/topic/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -141,6 +170,10 @@
 		 $("#condition").val("");
 		 var parks = document.getElementById("parkId").options;
          parks[0].selected = true;
+	 }
+	 
+	 function cancel(){
+		 layer.closeAll();
 	 }
   </script>
   </head>
@@ -177,27 +210,25 @@
              </select>
             </span>
        </li>
-         <button class="btn  " onclick="search()">查询</button>
-         <button class="btn  " onclick="reset()">重置</button>
+         <button class="btn" onclick="search()">查询</button>
+         <button class="btn" onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
   </h2>
 	<!-- 表格开始-->
-	<c:if test="${admin==1 }">
-   		<div class="col-md-12 pl20 mt10">
-    		<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-			<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-		</div>
-	</c:if>
+   	<div class="col-md-12 pl20 mt10">
+    	<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+	</div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
     
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" >序号</th>
-				<th class="info" >主题名</th>
+			    <th class="info">序号</th>
+				<th class="info">主题名</th>
 				<th class="info">主题介绍</th>
 				<th class="info">创建人</th>
 				<th class="info">所属版块</th>
@@ -215,10 +246,10 @@
 				<c:set value="${topic.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>30}">
-					<td onclick="view('${topic.id}')"  class=" pointer ">${fn:substring(content,0,30)}...</td>
+					<td onclick="view('${topic.id}')"  class="pointer">${fn:substring(content,0,30)}...</td>
 				</c:if>
 				<c:if test="${length<=30}">
-					<td onclick="view('${topic.id}')"  class=" pointer ">${content } </td>
+					<td onclick="view('${topic.id}')"  class="pointer">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.park.name}</td>
@@ -230,6 +261,14 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
+   
+   		<div class="dnone layui-layer-wrap col-md-12" id="gatewayTopic">
+	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+		  		<button class="btn" type="button" onclick="viewDetail()">查看详情</button>
+		  		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
+		  		<button class="btn" type="button" onclick="cancel()">取消</button>
+	  		</div>
+		</div>
   </body>
 </html>
 

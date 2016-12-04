@@ -243,15 +243,22 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 				map.put("option",sb_opt);
 				outer:for(int i=0;i<option.length;i++){
-				if(option[i].trim().isEmpty()){
-					model.addAttribute("ERR_option", "选项内容不能为空");
-					error = "option";
-					break outer;
-				}else if(i==option.length-1){
-					for(int j=0;j<option.length;j++){
-						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-						model.addAttribute("ERR_option", "选项内容不能输入分号");
-							error = "option";
+					if(option[i].trim().isEmpty()){
+						model.addAttribute("ERR_option", "选项内容不能为空");
+						error = "option";
+						break outer;
+					}else if(i==option.length-1){
+						for(int j=0;j<option.length;j++){
+							for(int k=j+1;k<option.length;k++){
+								if(option[j].trim().equals(option[k].trim())){
+									error = "option";
+									model.addAttribute("ERR_option", "选项内容不能重复");
+									break outer;
+								}
+							}
+							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+								error = "option";
+								model.addAttribute("ERR_option", "选项内容不能输入分号");
 								break outer;
 							}
 						}
@@ -422,9 +429,16 @@ public class PurchaserExamController extends BaseSupplierController{
 						break outer;
 					}else if(i==option.length-1){
 						for(int j=0;j<option.length;j++){
+							for(int k=j+1;k<option.length;k++){
+								if(option[j].trim().equals(option[k].trim())){
+									error = "option";
+									model.addAttribute("ERR_option", "选项内容不能重复");
+									break outer;
+								}
+							}
 							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
 								error = "option";
+								model.addAttribute("ERR_option", "选项内容不能输入分号");
 								break outer;
 							}
 						}
@@ -437,8 +451,8 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 				String[] answer = request.getParameterValues("answer");
 				if(answer==null){
-					model.addAttribute("ERR_answer", "请选择答案");
 					error = "answer";
+					model.addAttribute("ERR_answer", "请选择答案");
 				}else{
 					for(int i = 0;i<answer.length;i++){
 						sb_answer.append(answer[i]);

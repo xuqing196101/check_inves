@@ -86,7 +86,7 @@
    		<h2 class="search_detail">
 			<ul class="demand_list">
 		    	<li>
-			    	<label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" class=""/></span>
+			    	<label class="fl">采购人员姓名：</label><span><input type="text" id="relName" name="relName" class=""/></span>
 			    </li>
 			    <li>
 			    	<label class="fl">试卷编号：</label>
@@ -115,7 +115,7 @@
 				<thead>
 					<tr class="info">
 						<th class="w50">序号</th>
-						<th class="w160">采购人姓名</th>
+						<th class="w160">采购人员姓名</th>
 						<th>身份证号</th>
 						<th>试卷编号</th>
 					    <th>考试时间</th>

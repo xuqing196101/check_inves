@@ -248,7 +248,7 @@
    		<h2 class="search_detail">
 			<ul class="demand_list">
 		    	<li>
-			    	<label class="fl">名称：</label><span><input type="text" id="topic" class=""/></span>
+			    	<label class="fl">题干：</label><span><input type="text" id="topic" class=""/></span>
 			    </li>
 			    <li>
 			    	<label class="fl">题型：</label>

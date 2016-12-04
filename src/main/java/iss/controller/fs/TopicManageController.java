@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
@@ -140,7 +141,16 @@ public class TopicManageController extends BaseSupplierController {
 	*/
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){
-		List<Park> parks = parkService.getAll(null);
+		User user = (User) request.getSession().getAttribute("loginUser");
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", user.getId());
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(!i.equals(new BigDecimal(1))){
+			map.put("userId", user.getId());
+		}
+		List<Park> parks = parkService.selectParkListByUser(map);
 		model.addAttribute("parks", parks);
 		return "iss/forum/topic/add";
 	}
@@ -185,7 +195,16 @@ public class TopicManageController extends BaseSupplierController {
 			model.addAttribute("ERR_park", "所属版块不能为空");
 		}
 		if(flag == false){
-			List<Park> parks = parkService.getAll(null);
+			User user = (User) request.getSession().getAttribute("loginUser");
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			Map<String,Object> parkMap = new HashMap<String,Object>();
+			if(!i.equals(new BigDecimal(1))){
+				parkMap.put("userId", user.getId());
+			}
+			List<Park> parks = parkService.selectParkListByUser(parkMap);
 			model.addAttribute("parks", parks);
 			if(!(parkId.equals(null)||parkId.equals(""))){
 				Park park = parkService.selectByPrimaryKey(parkId);
@@ -220,10 +239,20 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/edit")
-	public String edit(String id,Model model){
+	public String edit(String id,Model model,HttpServletRequest request){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
-		List<Park> parks = parkService.getAll(null);
+		model.addAttribute("parkId", p.getPark().getId());
+		User user = (User) request.getSession().getAttribute("loginUser");
+		HashMap<String,Object> roleMap = new HashMap<String,Object>();
+		roleMap.put("userId", user.getId());
+		roleMap.put("code", "ADMIN_R");
+		BigDecimal i = roleService.checkRolesByUserId(roleMap);
+		Map<String,Object> map = new HashMap<String,Object>();
+		if(!i.equals(new BigDecimal(1))){
+			map.put("userId", user.getId());
+		}
+		List<Park> parks = parkService.selectParkListByUser(map);
 		model.addAttribute("parks", parks);
 		return "iss/forum/topic/edit";
 	}
@@ -279,7 +308,17 @@ public class TopicManageController extends BaseSupplierController {
 				p.setPark(park);
 			}
 			model.addAttribute("topic", p);
-			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parkId", parkId);
+			User user = (User) request.getSession().getAttribute("loginUser");
+			HashMap<String,Object> roleMap = new HashMap<String,Object>();
+			roleMap.put("userId", user.getId());
+			roleMap.put("code", "ADMIN_R");
+			BigDecimal i = roleService.checkRolesByUserId(roleMap);
+			Map<String,Object> map = new HashMap<String,Object>();
+			if(!i.equals(new BigDecimal(1))){
+				map.put("userId", user.getId());
+			}
+			List<Park> parks = parkService.selectParkListByUser(map);
 			model.addAttribute("parks", parks);
 			url="iss/forum/topic/edit";
 		}else{
@@ -350,5 +389,20 @@ public class TopicManageController extends BaseSupplierController {
 	@RequestMapping("/backTopic")
 	public String backTopic(){
 		return "redirect:getlist.html";
+	}
+	
+	/**
+	 * 
+	* @Title: queryParkIdByTopicId
+	* @author ZhaoBo
+	* @date 2016-12-4 下午2:30:51  
+	* @Description: 查找parkID 
+	* @param @return      
+	* @return Topic
+	 */
+	@RequestMapping("/queryParkIdByTopicId")
+	@ResponseBody
+	public Topic queryParkIdByTopicId(HttpServletRequest request){
+		return topicService.selectByPrimaryKey(request.getParameter("id"));
 	}
 }

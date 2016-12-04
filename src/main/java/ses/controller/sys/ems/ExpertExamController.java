@@ -49,7 +49,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import common.constant.Constant;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
@@ -145,8 +144,6 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
 		model.addAttribute("topic", topic);
 		model.addAttribute("questionTypeId", questionTypeId);
-		Integer sysKey = Constant.EXPERT_SYS_KEY;
-		model.addAttribute("sysKey", sysKey);
 		return "ses/ems/exam/expert/technical/list";
 	}
 	
@@ -353,39 +350,41 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				map.put("option",sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						error = "option";
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+			}
+			map.put("option",sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					error = "option";
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
 								error = "option";
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
+								model.addAttribute("ERR_option", "选项内容不能重复");
 								break outer;
 							}
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							error = "option";
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							break outer;
 						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -467,39 +466,41 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				map.put("option",sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						error = "option";
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+			}
+			map.put("option",sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					error = "option";
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
 								error = "option";
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
+								model.addAttribute("ERR_option", "选项内容不能重复");
 								break outer;
 							}
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							error = "option";
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							break outer;
 						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -582,39 +583,41 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				map.put("option",sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						error = "option";
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+			}
+			map.put("option",sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					error = "option";
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
 								error = "option";
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
+								model.addAttribute("ERR_option", "选项内容不能重复");
 								break outer;
 							}
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							error = "option";
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							break outer;
 						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -721,7 +724,6 @@ public class ExpertExamController extends BaseSupplierController{
 		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
-			
 			return "ses/ems/exam/expert/law/edit";
 		}
 		String error = "无";
@@ -755,40 +757,42 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				model.addAttribute("optNum", option.length);
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			model.addAttribute("optNum", option.length);
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				model.addAttribute("optContent", sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						error = "option";
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
+			}
+			model.addAttribute("optContent", sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
 								error = "option";
+								model.addAttribute("ERR_option", "选项内容不能重复");
 								break outer;
 							}
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
 						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -950,40 +954,42 @@ public class ExpertExamController extends BaseSupplierController{
 			String[] option = request.getParameterValues("option");
 			String item = items[option.length];
 			String[] opt = item.split(",");
-//			if(option==null){
-//				error = "option";
-//				model.addAttribute("ERR_option","选项内容不能为空");
-//			}else{
-				model.addAttribute("optNum", option.length);
-				List<String> sb_opt = new ArrayList<String>();
-				for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						sb_opt.add("");
-					}else{
-						sb_opt.add(option[i].toString());
-					}
+			model.addAttribute("optNum", option.length);
+			List<String> sb_opt = new ArrayList<String>();
+			for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					sb_opt.add("");
+				}else{
+					sb_opt.add(option[i].toString());
 				}
-				model.addAttribute("optContent", sb_opt);
-				outer:for(int i=0;i<option.length;i++){
-					if(option[i].trim().isEmpty()){
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						error = "option";
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
+			}
+			model.addAttribute("optContent", sb_opt);
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].trim().isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
 								error = "option";
+								model.addAttribute("ERR_option", "选项内容不能重复");
 								break outer;
 							}
 						}
-						for(int j=0;j<opt.length;j++){
-							sb_option.append(opt[j]+"."+option[j]+";");
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
 						}
-						examQuestion.setItems(sb_option.toString());
 					}
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
 				}
-//			}
+			}
 			String[] answer = request.getParameterValues("answer");
 			if(answer==null){
 				model.addAttribute("ERR_answer", "请选择答案");
@@ -1083,6 +1089,13 @@ public class ExpertExamController extends BaseSupplierController{
 					break outer;
 				}else if(i==option.length-1){
 					for(int j=0;j<option.length;j++){
+						for(int k=j+1;k<option.length;k++){
+							if(option[j].trim().equals(option[k].trim())){
+								error = "option";
+								model.addAttribute("ERR_option", "选项内容不能重复");
+								break outer;
+							}
+						}
 						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
 							model.addAttribute("ERR_option", "选项内容不能输入分号");
 							error = "option";

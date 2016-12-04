@@ -93,7 +93,7 @@
   	<h2 class="search_detail">
 		<ul class="demand_list">
 			<li>
-			    <label class="fl">姓名：</label><span><input type="text" id="userName" class=""/></span>
+			    <label class="fl">专家姓名：</label><span><input type="text" id="userName" class=""/></span>
 			</li>
 	  		<li>
 			    <label class="fl">专家类型：</label>

@@ -37,7 +37,7 @@
                     var parkId = "${parkId}";
                     var topicId = "${topicId}";
                     var searchType ="${searchType}";
-                    location.href = "${ pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
+                    location.href = "${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
                 }
             }
         });
@@ -46,13 +46,13 @@
   
   function search(topicId){
 	  var parkId = "${parkId}";
-	  location.href = "${ pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId;
+	  location.href = "${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId;
   }
   function searchType(type){
 	  var parkId = "${parkId}";
       var topicId = "${topicId}";
       var searchType = type;
-      location.href = "${ pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
+      location.href = "${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
   }
  </script>
   </head>

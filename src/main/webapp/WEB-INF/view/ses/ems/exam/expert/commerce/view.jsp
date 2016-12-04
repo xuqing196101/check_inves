@@ -69,9 +69,9 @@
     		<div class="ul_list">
   				<ul class="list-unstyled col-md-6">
 			     <li class="col-md-12 col-sm-12 col-xs-12 p0">
-		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择题型：</span>
+		  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>题型：</span>
 		  			<div class="select_common input_group col-md-6 col-sm-6 col-xs-6 p0">
-			  		  	<select id="queType" name="queType" onchange="changeType()" class="" disabled="disabled">
+			  		  	<select id="queType" name="queType" onchange="changeType()" disabled="disabled">
 					  		<option value="">请选择</option>
 					  		<c:forEach items="${examPoolType }" var="e">
 					  			<c:choose>
@@ -98,7 +98,7 @@
 	  	
 	  		<ul class="list-unstyled col-md-6 p0">
 				<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>请选择选项数量：</span>
+					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red fl">*</div>选项数量：</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 					  	<select id="options" name="options" onchange="changeOpt()" class="col-md-6 p0" disabled="disabled">
 				  			<option value="">请选择</option>

@@ -95,8 +95,28 @@
 		   }
 	}
 	
+	var obj = "";
   	function view(id){
-  		window.location.href="${ pageContext.request.contextPath }/post/view.html?id="+id;
+  		obj = id;
+  		layer.open({
+			  type: 1,
+			  title: '提示',
+			  skin: 'layui-layer-rim',
+			  shadeClose: true,
+			  area: ['450px','150px'],
+			  content: $("#gatewayPost")
+		});
+  		$(".layui-layer-shade").remove();
+  	}
+  	
+  	//查看详情
+  	function viewContent(){
+  		window.location.href="${pageContext.request.contextPath }/post/view.html?id="+obj;
+  	}
+  	
+  	//进入门户
+  	function entryPortal(){
+  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexDetail.html?postId="+obj;
   	}
   	
     function edit(){
@@ -184,6 +204,10 @@
      	 $("#formForViewDetail").attr("action","${ pageContext.request.contextPath }/post/getIndexDetail.html?postId="+id);   
          $("#formForViewDetail").submit();
      }
+     
+     function cancel(){
+		 layer.closeAll();
+	 }
   </script>
   </head>
   
@@ -304,7 +328,14 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-
+	
+	<div class="dnone layui-layer-wrap col-md-12" id="gatewayPost">
+	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+		  	<button class="btn" type="button" onclick="viewContent()">查看详情</button>
+		  	<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
+		  	<button class="btn" type="button" onclick="cancel()">取消</button>
+	  	</div>
+	</div>
   </body>
 </html>
 
