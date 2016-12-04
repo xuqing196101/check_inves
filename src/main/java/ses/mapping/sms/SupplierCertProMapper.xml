@@ -173,7 +173,7 @@
 		    T1.MAT_PRO_ID = T2.ID
 		left join  
 		    T_SES_SMS_SUPPLIER_ATTACHMENT t3 
-		on s
+		on
 		    t1. ID = t3.BUSINESS_ID
 		where
 		    T2.SUPPLIER_ID = #{supplierId}

@@ -176,104 +176,41 @@
             </form>
             
             <ul class="count_flow ul_list hand">
-              <li class="col-md-3 margin-0 padding-0 ">
+              <%-- <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierLevel');" >军队供应商分级方法：</span>
                 <up:show showId="lvel_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLevel}"/>
                 <p class="b f18 ml10 red">×</p>
-                <%-- <div >
-                  <c:if test="${applicationForm.supplierLevel != null}">
-                  <a class="span5 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierLevel}')" >下载附件</a>
-                  </c:if>
-                  <c:if test="${applicationForm.supplierLevel == null}">
-                    <a class="span5 red">无附件下载</a>
-                  </c:if>
-                  <div class="b f18 ml10 fl hand red">×</div>
-                </div> --%>
-              </li>
+              </li> --%>
               <li class="col-md-3 margin-0 padding-0 ">
 	              <span class="" onclick="reason1(this,'supplierPledge');" >军队供应商承诺书：</span>
 	                <up:show showId="pledge_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}"/>
 	                <p class="b f18 ml10 red">×</p>
-			            <%-- <div class="input-append">
-			              <c:if test="${applicationForm.supplierPledge !=null}">
-			                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierPledge}')">下载附件</a>
-			              </c:if>
-			              <c:if test="${applicationForm.supplierPledge == null}">
-			                <a class="span5 red">无附件下载</a>
-			              </c:if>
-			              <div class="b f18 ml10 fl hand red">×</div>
-			            </div> --%>
               </li>
-	            <li class="col-md-3 margin-0 padding-0 ">
+	            <%-- <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierRegList');" >军队供应商入库申请表：</span>
                 <up:show showId="regList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}"/>
                 <p class="b f18 ml10 red">×</p>
-			            <%-- <div class="input-append">
-			              <c:if test="${applicationForm.supplierRegList !=null}">
-			                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierRegList}')">下载附件</a>
-			              </c:if>
-			              <c:if test="${applicationForm.supplierRegList == null}">
-			                <a class="span5 red">无附件下载</a>
-			              </c:if>
-			              <div class="b f18 ml10 fl hand red">×</div>
-			            </div> --%>
 	            </li>
 	            <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierInspectList');" >军队供应商实地考察记录表：</span>
                 <up:show showId="inspectList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}"/>
                 <p class="b f18 ml10 red">×</p>
-		            <%-- <div class="input-append">
-		              <c:if test="${applicationForm.supplierReviewList !=null}">
-		                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierReviewList}')">下载附件</a>
-		              </c:if>
-		              <c:if test="${applicationForm.supplierReviewList == null}">
-		                <a class="span5 red">无附件下载</a>
-		              </c:if>
-		              <div class="b f18 ml10 fl hand red">×</div>
-		            </div> --%>
 	            </li>
 	            <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierReviewList');" >军队供应商考察廉政意见函：</span>
                 <up:show showId="reviewList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierReviewList}"/>
                 <p class="b f18 ml10 red">×</p>
-		            <%-- <div class="input-append">
-		              <c:if test="${applicationForm.supplierInspectList !=null}">
-		                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierInspectList}')">下载附件</a>
-		              </c:if>
-		              <c:if test="${applicationForm.supplierInspectList == null}">
-		                <a class="span5 red">无附件下载</a>
-		              </c:if>
-		              <div class="b f18 ml10 fl hand red">×</div>
-		            </div> --%>
 	            </li>
 	            <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierChangeList');" >军队供应商注册变更申请表：</span>
                 <up:show showId="changeList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierChangeList}"/>
                 <p class="b f18 ml10 red">×</p>
-		            <%-- <div class="input-append">
-		              <c:if test="${applicationForm.supplierChangeList != null}">
-		                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierChangeList}')">下载附件</a>
-		              </c:if>
-		              <c:if test="${applicationForm.supplierChangeList == null}">
-		                <a class="span5 red">无附件下载</a>
-		              </c:if>
-		              <div  class="b f18 ml10 fl hand red">×</div>
-		            </div> --%>
 	            </li>
 	            <li class="col-md-3 margin-0 padding-0 ">
                 <span class="" onclick="reason1(this,'supplierExitList');" >军队供应商退库申请表：</span>
                 <up:show showId="exitList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierExitList}"/>
                 <p class="b f18 ml10 red">×</p>
-		            <%-- <div class="input-append">
-		              <c:if test="${applicationForm.supplierExitList != null}">
-		                <a class="span5 green" onclick="downloadFile('${applicationForm.supplierExitList}')">下载附件</a>
-		              </c:if>
-		              <c:if test="${applicationForm.supplierExitList == null}">
-		                <a class="span5 red">无附件下载</a>
-		              </c:if>
-		              <div class="b f18 ml10 fl hand red">×</div>
-		              </div> --%>
-	             </li>
+	             </li> --%>
              </ul>
            </div>
 	         <div class="col-md-12 add_regist tc">

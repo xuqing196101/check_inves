@@ -274,13 +274,7 @@
 	                 <c:if test="${s.mot==1 }">是</c:if>
 	                </td>
 	                <td class="tc">
-	                  <c:if test="${s.attach !=null}">
-	                   <%-- <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a> --%>
 	                   <a class="mt3 color7171C6" href="javascript:download('${s.attachId}', '${sysKey}')">${s.attach}</a>
-	                  </c:if>
-	                  <c:if test="${s.attach ==null}">
-	                   <a class="red">无附件</a>
-	                  </c:if>
 	                <td class="tc w50">
 	                  <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="btn">审核</p>
 	                  <a  id="${s.id}_show" class="b red">×</a>
