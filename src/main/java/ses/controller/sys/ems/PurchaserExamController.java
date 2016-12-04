@@ -840,10 +840,10 @@ public class PurchaserExamController extends BaseSupplierController{
 				error="error";
 				model.addAttribute("ERR_name", "试卷名称已存在");
 			}else{
-				int len = ValidateUtils.length(name);
-				if(len>20||len<6){
+				//int len = ValidateUtils.length(name);
+				if(name.length()>10||name.length()<4){
 					error="error";
-					model.addAttribute("ERR_name", "试卷名称由6-10个字符组成");
+					model.addAttribute("ERR_name", "试卷名称由4-10个字符组成");
 				}
 			}
 		}
@@ -1188,10 +1188,10 @@ public class PurchaserExamController extends BaseSupplierController{
 					error="error";
 					model.addAttribute("ERR_name", "试卷名称已存在");
 				}else{
-					int len = ValidateUtils.length(name);
-					if(len>20||len<6){
+					//int len = ValidateUtils.length(name);
+					if(name.length()>10||name.length()<4){
 						error="error";
-						model.addAttribute("ERR_name", "试卷名称由6-10个字符组成");
+						model.addAttribute("ERR_name", "试卷名称由4-10个字符组成");
 					}
 				}
 			}

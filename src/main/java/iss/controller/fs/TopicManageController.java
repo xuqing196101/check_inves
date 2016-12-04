@@ -30,7 +30,6 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.util.PropertiesUtil;
-import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -183,10 +182,10 @@ public class TopicManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "主题名称不能重复");
 			}else{
-				int len = ValidateUtils.length(topic.getName());
-				if(len>20||len<6){
+				//int len = ValidateUtils.length(topic.getName());
+				if(topic.getName().length()>10||topic.getName().length()<4){
 					flag = false;
-					model.addAttribute("ERR_name", "主题名称由6-10个字符组成");
+					model.addAttribute("ERR_name", "主题名称由4-10个字符组成");
 				}
 			}
 		}
@@ -287,10 +286,10 @@ public class TopicManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "主题名称不能重复");
 			}else{
-				int len = ValidateUtils.length(topic.getName());
-				if(len>20||len<6){
+				//int len = ValidateUtils.length(topic.getName());
+				if(topic.getName().length()>10||topic.getName().length()<4){
 					flag = false;
-					model.addAttribute("ERR_name", "主题名称由6-10个字符组成");
+					model.addAttribute("ERR_name", "主题名称由4-10个字符组成");
 				}
 			}
 		}

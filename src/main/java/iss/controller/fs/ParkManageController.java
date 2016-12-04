@@ -33,7 +33,6 @@ import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
-import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -180,10 +179,10 @@ public class ParkManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");
 			}else{
-				int len = ValidateUtils.length(park.getName());
-				if(len>20||len<6){
+				//int len = ValidateUtils.length(park.getName());
+				if(park.getName().length()>10||park.getName().length()<4){
 					flag = false;
-					model.addAttribute("ERR_name", "版块名称由6-10个字符组成");
+					model.addAttribute("ERR_name", "版块名称由4-10个字符组成");
 				}
 			}
 		}
@@ -271,10 +270,10 @@ public class ParkManageController extends BaseSupplierController {
 				flag = false;
 				model.addAttribute("ERR_name", "版块名称不能重复");			
 			}else{
-				int len = ValidateUtils.length(park.getName());
-				if(len>20||len<6){
+				//int len = ValidateUtils.length(park.getName());
+				if(park.getName().length()>10||park.getName().length()<4){
 					flag = false;
-					model.addAttribute("ERR_name", "版块名称由6-10个字符组成");
+					model.addAttribute("ERR_name", "版块名称由4-10个字符组成");
 				}
 			}
 		}	

@@ -80,7 +80,7 @@
    
    	<div class="container">
 	   <div class="headline-v2">
-	   		<h2>采购人成绩列表</h2>
+	   		<h2>采购人员成绩列表</h2>
 	   </div>
    	
    		<h2 class="search_detail">
