@@ -134,7 +134,7 @@
 		  <div class="col-md-12 col-sm-12 col-xs-12 service_list p0" id="chose">
 		   
 		   <c:forEach items="${chose }" var="ch" varStatus="vs">
-		        <span class="col-md-3 col-sm-4 col-xs-12 m0"><input type="checkbox"  checked="checked" value="${ch.id }"/>${ch.name }</span>
+		        <span class="col-md-3 col-sm-4 col-xs-12 m0"><input type="checkbox" name='checks'  checked="checked" value="${ch.id }"/>${ch.name }</span>
 		 	  </c:forEach>
 		 	  
 		  </div>

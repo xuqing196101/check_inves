@@ -360,6 +360,7 @@ public class ScoreModelUtil {
             ParamInterval paramInterval = new ParamInterval();
             paramInterval.setScoreModelId(scoreModel.getId());
             List<ParamInterval> paramIntervalList = scoreModelUtil.paramIntervalService.findListByParamInterval(paramInterval);
+            //List<ParamInterval> paramIntervalList = new ArrayList<ParamInterval>();
             Double num = new Double(number);
             for(ParamInterval p:paramIntervalList){
                 Double  startParam = new Double(p.getStartParam());

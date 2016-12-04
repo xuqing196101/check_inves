@@ -75,6 +75,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/supplier_cert_se/*.*" />
 			<mvc:exclude-mapping path="/supplier_cert_sell/*.*" />
 			<mvc:exclude-mapping path="/supplier_item/*.*" />
+			<mvc:exclude-mapping path="/categoryparam/*.*" />
+			<mvc:exclude-mapping path="/supplier_reg_person/*.*" />
 			<mvc:exclude-mapping path="/supplier_products/*.*" />
 			<mvc:exclude-mapping path="/supplier_type/*.*" />
 			<mvc:exclude-mapping path="/supplier_type_relate/*.*" />

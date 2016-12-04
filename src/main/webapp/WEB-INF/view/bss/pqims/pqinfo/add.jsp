@@ -8,49 +8,48 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    
-    <title>登记质检报告</title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />   
-<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
-<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
-	
-	
-    <script type="text/javascript">
- 
+
+  <title>登记质检报告</title>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+  <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+  <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+  <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
+
+  <script type="text/javascript">
+
     function addAttach(){
-		html="<input id='pic' type='file' class='toinline span2' name='report'/><a href='javascript:void(0)' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
-		$("#uploadAttach").append(html);
-	}
+		  html="<input id='pic' type='file' class='toinline span2' name='report'/><a href='javascript:void(0)' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+		  $("#uploadAttach").append(html);
+	  }
+
     function deleteattach(obj){
-		$(obj).prev().remove();
-		$(obj).next().remove();
-		$(obj).remove();
-	}
-
+		  $(obj).prev().remove();
+		  $(obj).next().remove();
+		  $(obj).remove();
+	  }
 
     $(function(){
-    	  $("#contract").select2();
-    })	
-    
+    	$("#contract").select2();
+    })
+
     $(function(){
 
-        if(${pqinfo.projectType!=null}&&${pqinfo.projectType!=""}){
-			$("#purchaseType").val("${pqinfo.projectType}");	
-        }else{
-        	$("#purchaseType").val("-请选择-");
-        }
+      if(${pqinfo.projectType!=null}&&${pqinfo.projectType!=""}){
+			  $("#purchaseType").val("${pqinfo.projectType}");
+      }else{
+        $("#purchaseType").val("-请选择-");
+      }
     	if(${pqinfo.type!=null}&&${pqinfo.type!=""}){
-			$("#type").val("${pqinfo.type}");
-		}else{
-			$("#type").val("-请选择-");
-		}
+			  $("#type").val("${pqinfo.type}");
+		  }else{
+			  $("#type").val("-请选择-");
+		  }
     	if(${pqinfo.conclusion!=null}&&${pqinfo.conclusion!=""}){
-			$("#conclusion").val("${pqinfo.conclusion}");
-		}else{
-			$("#conclusion").val("-请选择-");
-		}
+			  $("#conclusion").val("${pqinfo.conclusion}");
+		  }else{
+			  $("#conclusion").val("-请选择-");
+	    }
 
     	var type=$("#purchaseType").val();
     	if(type!=null && type!="" && type!="-请选择-"){
@@ -59,29 +58,29 @@
 				  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
 			      type:"POST",
 			      dataType: "json",
-			      success:function(purchaseContracts) {     
-		              if (purchaseContracts) {           
-		                $("#contract").html("<option></option>");                
-		                $.each(purchaseContracts, function(i, purchaseContract) {  
+			      success:function(purchaseContracts) {
+		              if (purchaseContracts) {
+		                $("#contract").html("<option></option>");
+		                $.each(purchaseContracts, function(i, purchaseContract) {
 		              	  if(purchaseContract.name != null && purchaseContract.name!=''){
-		              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>"); 
-		              	  }	                                              
-		                });  
+		              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>");
+		              	  }
+		                });
 		              }
-		              $("#contract").select2("val", "${pqinfo.contract.id}"); 
+		              $("#contract").select2("val", "${pqinfo.contract.id}");
 		          }
-				
+
 			});
     	}
     	});
-      	
+
 
 
     function contractType(type){
   	 	$("#contractCode").val("");
 	  	$("#supplierName").val("");
 	  	$("#procurementId").val("");
-      	$("#contractName").val("");
+      $("#contractName").val("");
     	$("#contract").select2("val", "");
     	$("#contract").empty();
     	$.ajax({
@@ -89,20 +88,20 @@
     		  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
     	      type:"POST",
     	      dataType: "json",
-    	      success:function(purchaseContracts) {     
-                  if (purchaseContracts) {           
-                    $("#contract").html("<option></option>");                
-                    $.each(purchaseContracts, function(i, purchaseContract) {  
+    	      success:function(purchaseContracts) {
+                  if (purchaseContracts) {
+                    $("#contract").html("<option></option>");
+                    $.each(purchaseContracts, function(i, purchaseContract) {
                   	  if(purchaseContract.name != null && purchaseContract.name!=''){
-                  		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>"); 
-                  	  }	                                              
-                    });  
-                  }  
+                  		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>");
+                  	  }
+                    });
+                  }
               }
-    		
+
     	});
     }
-    	
+
 
     function change(){
     	var id = $("#contract").val();
@@ -130,7 +129,7 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+
 <!-- 新增模板开始-->
    <div class="container container_box">
    		<form action="${pageContext.request.contextPath}/pqinfo/save.html" method="post" enctype="multipart/form-data">
@@ -149,11 +148,11 @@
 						<option value="邀请招标">邀请招标</option>
 						<option value="公开招标">公开招标</option>
 						<option value="竞争性谈判">竞争性谈判</option>
-	  				 </select> 
+	  				 </select>
 	  				<div id="contractCodeErr" class="cue">${ERR_projectType}</div>
 			       </div>
 			 	</li>
-			 
+
 		     	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>合同名称：</span>
 			   		<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
@@ -162,8 +161,8 @@
 		       		  <div id="contractCodeErr" class="cue">${ERR_contract_name}</div>
 			 	    </div>
 			 	</li>
-			 
-   			
+
+
 		    	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同编号：</span>
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -184,6 +183,7 @@
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        		<input class="span5 supplier_name" id="supplierName" type="text"  value = '${pqinfo.contract.supplierDepName}' readonly="readonly">
 		        		<span class="add-on">i</span>
+                <span class="input-tip">填写正确的供应商名称</span>
 		       		</div>
 			 	</li>
 
@@ -204,7 +204,7 @@
 						<option value="生产验收">生产验收</option>
 						<option value="出厂验收">出厂验收</option>
 						<option value="到货验收">到货验收</option>
-	  				</select> 
+	  				</select>
 	  				<input type="hidden" id="ty" var ="${pqinfo.type}" >
 	  				<div class="cue">${ERR_type}</div>
 	  			</div>
@@ -214,6 +214,7 @@
 		        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 ">
 		        	<input  name="place" value = '${pqinfo.place}' type="text">
 		        	<span class="add-on">i</span>
+              <span class="input-tip">填写质检地点</span>
 		        	<div class="cue">${ERR_place}</div>
        			</div>
 			 </li>
@@ -247,7 +248,7 @@
 						<option value="-请选择-" >请选择</option>
 						<option value="合格">合格</option>
 						<option value="不合格">不合格</option>
-	  				</select> 
+	  				</select>
 	  				<input type="hidden" id="conc" var ="${pqinfo.conclusion}" >
 	  				<div class="cue">${ERR_conclusion}</div>
 	  			</div>
@@ -283,6 +284,6 @@
   		</div>
   	</form>
  </div>
- 
+
 </body>
 </html>

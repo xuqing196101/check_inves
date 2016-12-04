@@ -47,6 +47,7 @@
           			$("#pageNum"+i).hide();
           		}
           	}
+          	$("html,body").animate({scrollTop:0}, 100);
         }
 		
 		//考试倒计时
@@ -215,7 +216,7 @@
   	<c:when test="${pageSize==1 }">
 	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
 	  	<tbody>
-		    <c:forEach items="${purchaserQue }" var="pur" varStatus="l">
+		    <c:forEach items="${question }" var="pur" varStatus="l">
 		      <tr>
 		        <td class="col-md-1 tc">${l.index+1 }</td>
 		        <td class="col-md-11">
@@ -253,7 +254,7 @@
   		<c:when test="${p.first}">
   		<div id="pageNum${p.index+1 }" name="exam">
   			<table class="clear table table-bordered table-condensed">
-			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
+			    <c:forEach items="${question }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
@@ -289,7 +290,7 @@
 		<c:when test="${p.last}">
 		    <div id="pageNum${p.index+1 }" name="exam">
 		    <table class="clear table table-bordered table-condensed">
-			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
+			    <c:forEach items="${question }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				     <tr>
 		       			 <td class="col-md-1 tc">${l.index+1 }</td>
 				    	 <td class="col-md-11">
@@ -326,7 +327,7 @@
 		    <c:otherwise>
 		    <div id="pageNum${p.index+1 }" name="exam">
 		    <table class="clear table table-bordered table-condensed">
-			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
+			    <c:forEach items="${question }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
 		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
@@ -364,10 +365,10 @@
   	</c:otherwise>
 	</c:choose> 
 	
-  	<input type="hidden" value="${purQueAnswer }" name="purQueAnswer"/>
+  	<input type="hidden" value="${questionAnswer }" name="questionAnswer"/>
   	<input type="hidden" value="${examPaper.id }" name="paperId"/>
-  	<input type="hidden" value="${purQueType }" name="purQueType"/>
-  	<input type="hidden" value="${purQueId }" name="purQueId"/>
+  	<input type="hidden" value="${questionType }" name="questionType"/>
+  	<input type="hidden" value="${questionId }" name="questionId"/>
   	</form>
   	</div>
   </body>

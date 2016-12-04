@@ -423,7 +423,7 @@ p, li, li a, label {
    width:200px;
    float:left;
  }
- 
+
 /*下载样式*/
 .download {
     padding: 5px 12px;
@@ -465,8 +465,8 @@ a {
 }
 
 a,
-a:focus, 
-a:hover, 
+a:focus,
+a:hover,
 a:active {
    outline: 0 !important;
 }
@@ -553,7 +553,7 @@ li:first-child {
   padding-left:40px !important;
   background-repeat: no-repeat;
  }
- 
+
 .cbp_detail span{
 	margin-right:20px;
 }
@@ -693,7 +693,7 @@ li:first-child {
 	list-style-type: none;
 	margin-bottom: 0px;
 	padding:0px;
-	
+
 }
 .poster ul li{
 	float: left;
@@ -727,7 +727,7 @@ li:first-child {
    height:40px;
    line-height:30px;
    padding:5px 10px;
-   
+
 }
 .btn_list li:last-child{
 	border-bottom:1px solid #e0e7e7!important;
@@ -785,7 +785,7 @@ li:first-child {
 .flow_step li.active i{
   background-color:#99CC33;
  }
- 
+
 /*右边的list*/
 .light_list{
   height:35px;
@@ -800,7 +800,7 @@ li:first-child {
   padding-left:30px;
   margin-top:10px;
   list-style-type:none;
-  overflow: hidden; 	
+  overflow: hidden;
 }
 .light_icon{
   float:right;
@@ -891,7 +891,7 @@ li:first-child {
 	z-index: 100;
 	margin:0px;
 	padding:0px;
-	list-style:none; 
+	list-style:none;
 }
 .tree_drop{
 	background:#e5e5e5;
@@ -932,12 +932,12 @@ li:first-child {
 	margin-top:10px;
 }
 .dangan_mian{
-	font-size:18px;	
+	font-size:18px;
 }
 .dangan_tip{
 	background-color:#f6f6f6;
 	height:40px;
-	line-height: 40px; 
+	line-height: 40px;
 }
 /**供应商注册悬浮按钮*/
 .btmfix {
@@ -956,7 +956,7 @@ li:first-child {
     /* border:1px dashed #2c9fa6; */
     padding: 15px;
  }
- 
+
 .webuploader-pick{
  	 padding: 1px 12px !important;
 }
@@ -1002,14 +1002,14 @@ li:first-child {
   background-color:#f8f8f8;
   padding:10px;
  }
-	 
+
 .done{
   display: none;
 }
 
-/** 文件上传使用隐藏div */ 
+/** 文件上传使用隐藏div */
 .dis_none{
- 	position: absolute; 
- 	opacity: 0; 
+ 	position: absolute;
+ 	opacity: 0;
  	filter:Alpha(opacity=0);
  }

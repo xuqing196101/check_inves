@@ -47,7 +47,7 @@
 
 .w90 {
   width: 90px!important; }
-  
+
 .w100 {
   width: 100px!important; }
 
@@ -59,7 +59,7 @@
 
 .w140 {
   width: 140px; }
- 
+
 .w150 {
   width: 150px; }
 
@@ -74,10 +74,10 @@
 
 .w350 {
   width: 350px; }
-  
+
 .w250 {
   width: 250px !important; }
-  
+
 .w260 {
   width: 260px; }
 
@@ -86,7 +86,7 @@
 
 .w178 {
   width: 178px; }
-  
+
 .w200 {
   width: 200px; }
 
@@ -134,12 +134,12 @@
 
 .w750 {
   width: 750px!important; }
-  
+
 .w745 {
   width: 745px!important; }
 .w775 {
  width: 775px!important; }
-  
+
 .w800 {
   width: 800px!important; }
 
@@ -154,7 +154,7 @@
 
 .w70p {
   width: 70%!important; }
-  
+
 .w140 {
   width: 140px; }
 
@@ -175,7 +175,7 @@
 
 .h32 {
   height: 32px; }
-  
+
 .h37 {
   height: 37px!important;
   line-height:37px; }
@@ -215,7 +215,7 @@
 
 .h130 {
   height: 130px; }
-  
+
 .h150 {
   height: 150px; }
 
@@ -272,19 +272,19 @@
 
 .l208 {
   left: 208px; }
- 
+
 .l260 {
   left: 260px; }
-  
+
 .l462 {
   left: 462px; }
-  
+
 .mt0 {
   margin-top: 0px!important; }
- 
+
  .mt1 {
-  margin-top: 1px!important; } 
-  
+  margin-top: 1px!important; }
+
 .mt3 {
   margin-top: 3px; }
 
@@ -326,7 +326,7 @@
 
 .mt120 {
   margin-top: 120px; }
-  
+
  .m0_30{
   margin:0px 30px;}
   .m0_25{
@@ -334,7 +334,7 @@
 
 .mb5 {
   margin-bottom: 5px; }
-  
+
 .mb8 {
   margin-bottom: 8px; }
 
@@ -367,7 +367,7 @@
 
 .ml200{
   margin-left:200px;}
-  
+
 .ml40 {
   margin-left: 40px; }
 
@@ -376,7 +376,7 @@
 
 .pt0 {
   padding-top: 0px!important; }
-  
+
 .pt10 {
   padding-top: 10px; }
 
@@ -391,16 +391,16 @@
 
 .pb20 {
   padding-bottom: 20px; }
-  
+
 .pl5 {
   padding-left: 5px; }
-  
+
 .pl10 {
   padding-left: 10px!important; }
 
 .pl13 {
   padding-left: 13px!important; }
-  
+
 .pl200{
   padding-left:200px!important;}
 .pr10 {
@@ -410,19 +410,19 @@
 }
 .p10_25 {
   padding: 10px 25px!important; }
-  
+
 .p0_10 {
   padding: 0 10px!important; }
 .p0_15 {
   padding: 0 15px!important; }
 .p0_20 {
   padding: 0 20px!important; }
-  
+
 .p5_0 {
   padding: 5px 0px!important; }
-  
+
 .p15_10 {
-  padding: 15px 10px!important; } 
+  padding: 15px 10px!important; }
 .p0{
   padding:0px !important;
  }
@@ -448,7 +448,7 @@
 
 .ml6 {
   margin-left: 6px; }
-  
+
 .ml10 {
   margin-left: 10px; }
 
@@ -475,7 +475,7 @@
 
 .ml180 {
   margin-left: 180px; }
-  
+
 .ml160 {
   margin-left: 160px; }
 
@@ -610,7 +610,7 @@
 
 /*颜色*/
 .pink {
-  color: #ff007e !important; 
+  color: #ff007e !important;
 }
 
 .light_blue{
@@ -624,18 +624,18 @@
   color: #777777 !important; }
 
 .orange {
-  color: orange; 
+  color: orange;
 }
 
 .orange_link{
   color:#f39800 !important;
 }
 .red {
-  color: red; 
+  color: red;
 }
 
 .green {
-  color: #8fc31f; 
+  color: #8fc31f;
 }
 
 .blue {
@@ -653,16 +653,16 @@
 .black {
   color: #000000;
 }
-  
+
 .brown{
   color:#997a00;
 }
 .white {
-  color: #FFFFFF; 
+  color: #FFFFFF;
 }
 
 .grey {
-  color: grey; 
+  color: grey;
 }
 
 .bbgrey{
@@ -674,19 +674,19 @@
 }
 
 .bgdd {
-  background-color: #EEE; 
+  background-color: #EEE;
 }
 
 .bgred {
-  background-color: #EC5757; 
+  background-color: #EC5757;
 }
 
 .bggrey {
-  background-color: #FBFBFB!important; 
+  background-color: #FBFBFB!important;
 }
 
 .bgwhite {
-  background-color: #ffffff !important; 
+  background-color: #ffffff !important;
 }
 
 .bg7 {
@@ -855,4 +855,10 @@ a.redhover:hover{
 
 .space_nowrap{
 	white-space: nowrap;
+}
+
+
+/* 表单input提示语隐藏 */
+.input-tip {
+  display: none;
 }

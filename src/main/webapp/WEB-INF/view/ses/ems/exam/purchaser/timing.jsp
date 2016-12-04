@@ -40,7 +40,17 @@
 	  		</div>
 	  		<div id="time"></div>
 	  		<form action="${pageContext.request.contextPath }/purchaserExam/test.html" method="post" id="form">
-				<input type="hidden" name="paperId" value="${paperId }"/>
+				<input type="hidden" name="paperId" value="${examPaper.id }"/>
+				<input type="hidden" name="questionType" value="${questionType }"/>
+				<input type="hidden" name="questionAnswer" value="${questionAnswer }"/>
+				<input type="hidden" name="questionId" value="${questionId }"/>
+				<input type="hidden" name="queCount" value="${queCount }"/>
+				<input type="hidden" name="singlePoint" value="${singlePoint }"/>
+				<input type="hidden" name="multiplePoint" value="${multiplePoint }"/>
+				<input type="hidden" name="judgePoint" value="${judgePoint }"/>
+				<input type="hidden" name="singleNum" value="${singleNum }"/>
+				<input type="hidden" name="multipleNum" value="${multipleNum }"/>
+				<input type="hidden" name="judgeNum" value="${judgeNum }"/>
 	  		</form>
 	  	</div>
   	</div>

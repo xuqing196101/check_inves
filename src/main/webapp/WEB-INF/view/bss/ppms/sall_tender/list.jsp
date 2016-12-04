@@ -112,21 +112,19 @@
                     btn: ['上传', '关闭'] 
                         ,yes: function(){
                             iframeWin.upload();
-                        
-                            
                         }
                         ,btn2: function(){
                           layer.closeAll();
                         }
                   });	
         	}else{
-        	     layer.alert("已缴纳保证金",{offset: ['222px', '390px'], shade:0.01});
+        	     layer.alert("已缴纳保证金",{offset: ['40px', '400px'], shade:0.01});
         	}
                     
         }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("只能选择一个",{offset: ['40px', '400px'], shade:0.01});
         }else{
-            layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("请选择",{offset: ['40px', '400px'], shade:0.01});
         }
     }
     
@@ -160,13 +158,13 @@
                         }
                   });	
         	}else{
-        	     layer.alert("已缴纳标书费",{offset: ['222px', '390px'], shade:0.01});
+        	     layer.alert("已缴纳标书费",{offset: ['40px', '400px'], shade:0.01});
         	}
                     
         }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("只能选择一个",{offset: ['40px', '400px'], shade:0.01});
         }else{
-            layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("请选择",{offset: ['40px', '400px'], shade:0.01});
         }
     }
   
@@ -175,27 +173,7 @@
     }
    
     function download(){
-    	   var id=[]; 
-           $('input[name="chkItem"]:checked').each(function(){ 
-               id.push($(this).val());
-           }); 
-           if(id.length==1){
-        	   var status=id.toString().split("^");
-        	   if(status[1]==1){
-        		    layer.alert("请先缴纳保证金",{offset: ['222px', '390px'], shade:0.01});
-        	   }else{
-        		     layer.confirm('是否已缴纳标书费',{offset: ['222px', '390px'], shade:0.01}, function(){
-                           window.location.href="${pageContext.request.contextPath}/saleTender/download.do?id="+status[0]+"&projectId=${projectId}";
-                       }, function(index){
-                           layer.closeAll();
-                       });      
-        	   }
-          
-           }else if(id.length>1){
-               layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-           }else{
-               layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
-           }
+        window.location.href="${pageContext.request.contextPath}/saleTender/download.do?projectId=${projectId}";         
     }
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");

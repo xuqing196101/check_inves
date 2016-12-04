@@ -112,10 +112,11 @@ public class TodosServiceImpl implements TodosService {
         String gysfs = config.getString("gysfs");
         String gysjk = config.getString("gysjk");
         String zjdb = config.getString("zjdb");
+        String gysedit = config.getString("gysedit");
         Map<String, Object> pMap = new HashMap<String, Object>();
         List<String> listUserPermission=null;
-        if (gyscs != null && zjdb != null && gysfs != null){
-            String[] db = {gyscs, gysfs, zjdb,gysjk};
+        if (gyscs != null && zjdb != null && gysfs != null && gysedit != null){
+            String[] db = {gyscs, gysfs, zjdb,gysjk,gysedit};
             pMap.put("id", userId);
             pMap.put("db", db);
             listUserPermission = mapper.listUserPermission(pMap);

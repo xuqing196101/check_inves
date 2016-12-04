@@ -27,8 +27,8 @@ function checkAll(ele, id) {
 }
 
 /**
- *	判断 checkbox 是否勾选, 
- * 	type = true 可以勾选多条, type = false 只能勾选一条, 
+ *	判断 checkbox 是否勾选,
+ * 	type = true 可以勾选多条, type = false 只能勾选一条,
  * 	msg 为错误消息提示,
  * 	返回 ids 和 size
  */
