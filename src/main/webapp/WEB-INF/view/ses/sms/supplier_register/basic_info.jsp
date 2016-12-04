@@ -31,7 +31,7 @@ $(function() {
 		});
 	}
 
-	loadRootArea();
+	// loadRootArea();
 	autoSelected("business_select_id", "${currSupplier.businessType}");
 	autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
 
@@ -67,8 +67,8 @@ function loadRootArea() {
 	});
 }
 
-function loadChildren() {
-	var id = $("#root_area_select_id").find("option:selected").attr("id");
+function loadChildren(obj) {
+	var id = $(obj).val();
 	if (id) {
 		$.ajax({
 			url : globalPath + "/area/find_area_by_parent_id.do",
@@ -86,12 +86,6 @@ function loadChildren() {
 				$("#children_area_select_id").append(html);
 
 				// 自动选中
-				var childrenArea = "${currSupplier.address}";
-				if (childrenArea)
-					childrenArea = childrenArea.split(",")[1];
-				if (childrenArea) {
-					autoSelected("children_area_select_id", childrenArea);
-				}
 			},
 		});
 	}
@@ -350,8 +344,32 @@ function deleteFinance() {
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
-				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren()" name="address"></select></div> 
-				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" ></select></div>
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)" name="address">
+				     
+				         <c:forEach  items="${privnce }" var="prin">
+					         <c:if test="${prin.id==area.parentId }">
+					          <option value="${prin.id }" selected="selected" >${prin.name }</option>
+					         </c:if>
+				           <c:if test="${prin.id!=area.parentId }">
+					          <option value="${prin.id }"  >${prin.name }</option>
+					         </c:if>
+				         </c:forEach>
+				         
+				         
+				         </select></div> 
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" >
+				         
+				           <c:forEach  items="${city }" var="city">
+					         <c:if test="${city.id==currSupplier.address }">
+					          <option value="${city.id }" selected="selected" >${city.name }</option>
+					         </c:if>
+				           <c:if test="${city.id!=currSupplier.address }">
+					          <option value="${city.id }"  >${city.name }</option>
+					         </c:if>
+				         </c:forEach>
+				         
+				         
+				         </select></div>
 				         <div class="cue"> ${err_msg_address } </div>
 			        </div>		        
 				 </li>  

@@ -29,6 +29,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
@@ -1338,11 +1339,23 @@ public class SupplierController extends BaseSupplierController {
 		Supplier supp = supplierMapper.queryByName(name);
 //		Supplier supplier = supplierService.get("61a6b3713e754c7c8efdc7d942eb7834");
 		Supplier supplier = supplierService.get(supp.getId());
+		Area area = areaService.listById(supplier.getAddress());
+		List<Area> city = areaService.findAreaByParentId(area.getParentId());
+		
+		List<Area> privnce = areaService.findRootArea();
+		
+		
 		request.getSession().setAttribute("company", DictionaryDataUtil.find(17));
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("supplierId", supplier.getId());
+		
+		
+		request.getSession().setAttribute("city", city);
+		request.getSession().setAttribute("area", area);
+		request.getSession().setAttribute("privnce", privnce);
+		
 		return "ses/sms/supplier_register/basic_info";
 	}
 }
