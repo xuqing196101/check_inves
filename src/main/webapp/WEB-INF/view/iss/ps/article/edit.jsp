@@ -70,10 +70,10 @@ $(function(){
 	    	  $("#articleTypes").select2("val", "${article.articleType.id }");
 	    	  typeId = "${article.articleType.name }";
 	    	  if(typeId=="工作动态"){
-	    			$("#picNone").removeClass().addClass("col-md-3 p0 mt10"); 
+	    			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10"); 
 	    			$("#picshow").show();
 	    		}else{
-	    			$("#picNone").removeClass().addClass("col-md-3 p0 mt10 dis_none"); 
+	    			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide"); 
 	    			$("#picshow").hide();
 	    		}
 	       }
@@ -82,7 +82,7 @@ $(function(){
 })
 
 	function goBack(){
-		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
+		window.location.href="${pageContext.request.contextPath }/article/getAll.html";
 	}
 
 </script>    
@@ -174,8 +174,8 @@ $(function(){
 	 </div>
 	 </li>
 	 
-	 <li class="col-md-6 col-xs-6 col-sm-12 mt10" id="picNone" >
-	    <span class="fl">图片上传：</span>
+	 <li class="col-md-6 col-xs-6 col-sm-12 mt10 dis_hide" id="picNone" >
+	    <span class="fl">已上传的图片：</span>
 	    <div class="fl">
 	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
 			<up:show showId="artice_show" groups="artice_show,artice_file_show" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }"/>

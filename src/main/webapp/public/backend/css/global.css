@@ -975,6 +975,11 @@ li:first-child {
  	opacity: 0; 
  	filter:Alpha(opacity=0);
  }
+.dis_hide{
+ 	position: relative; 
+ 	opacity: 0; 
+ 	filter:Alpha(opacity=0);
+ }
 /** textArea resie none*/
 .textArea_resizeB{
 	resize: none;

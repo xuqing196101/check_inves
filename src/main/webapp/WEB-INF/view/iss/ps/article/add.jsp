@@ -36,10 +36,10 @@
 		$("#picshow").hide();
 		var typeId = $("#articleTypes").select2("data").text;
 		if(typeId=="工作动态"){
-			$("#picNone").removeClass().addClass("col-md-3 p0 mt10"); 
+			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10"); 
 			$("#picshow").show();
 		}else{
-			$("#picNone").removeClass().addClass("col-md-3 p0 mt10 dis_none"); 
+			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide"); 
 			$("#picshow").hide();
 		}
 	}
@@ -71,7 +71,7 @@
 	})
 	
 	function goBack(){
-		window.location.href="${ pageContext.request.contextPath }/article/getAll.html";
+		window.location.href="${pageContext.request.contextPath }/article/getAll.html";
 	}
 	
 </script>    
@@ -161,7 +161,7 @@
 		</div>
 	 </li>
 	 
-	 <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_none" id="picNone">
+	 <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
 	    <span class="fl">图片上传：</span>
 	    <div class="fl">
 	        <up:upload id="artice_up" groups="artice_up,artice_file_up" businessId="${articleId }" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
