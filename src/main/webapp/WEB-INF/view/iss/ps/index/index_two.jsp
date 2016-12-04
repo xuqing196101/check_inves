@@ -46,12 +46,12 @@ $(function(){
 	  </div>
    </div>
   <div class="container content job-content ">
-          <div class="col-md-12  border1 p20_20">
-            <h2 class="col-md-12">
-          		<div class="col-md-6 tc f16 b">标题</div>
-                   <div class="fr b mr25 f16">发布时间</div>
+          <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
+            <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">标题</div>
+                   <div class="fr mr25 f16">发布时间</div>
              </h2>
-                <ul class="categories li_square">
+                <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0">
                 <c:choose>
 	                <c:when test="${indexList==null}">
 	                  <li class="tc">暂无数据</li>
