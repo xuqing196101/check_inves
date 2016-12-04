@@ -34,6 +34,9 @@
 			<result column="IS_MULTICONDITION" jdbcType="DECIMAL"
 				property="isMulticondition" />
 		</collection>
+		    <!-- 关联抽取过的专家 -->
+    <collection property="extRelatesList" column="ID"
+      ofType="ses.model.ems.ProjectExtract" select="ses.dao.ems.ProjectExtractMapper.getBuyConId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -318,6 +321,6 @@
         T_SES_EMS_EXP_EXT_CON_TYPE ct
         ON
         EC."ID"=CT.CONDITION_ID where
-           sc.PROJECT_ID =#{projectId}
+           EC.PROJECT_ID =#{projectId}
     </select>
 </mapper>

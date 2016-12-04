@@ -14,7 +14,7 @@
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
 		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
-		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional"/>
+		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
 		<!-- 专家 -->
 		<association column="EXPERT_ID" property="expert"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
@@ -98,9 +98,9 @@
 				STATUS_COUNT,
 			</if>
 			<if test="isProvisional != null">
-                IS_PROVISIONAL,
-            </if>
-		
+				IS_PROVISIONAL,
+			</if>
+
 
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -138,8 +138,8 @@
 				#{statusCount,jdbcType=DECIMAL}
 			</if>
 			<if test="isProvisional != null">
-                #{isProvisional,jdbcType=DECIMAL}
-            </if>
+				#{isProvisional,jdbcType=DECIMAL}
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProjectExtract">
@@ -178,8 +178,8 @@
 				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
 			</if>
 			<if test="isProvisional != null">
-                IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
-            </if>
+				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+			</if>
 
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -211,10 +211,10 @@
 		pe.*
 		FROM
 		T_SES_EMS_PROJECT_EXTRACT pe
-		Where STATUS_COUNT=0 
+		Where STATUS_COUNT=0
 		<if test="isProvisional == null ||  isProvisional =='' ">
-           AND IS_PROVISIONAL=0
-        </if>
+			AND IS_PROVISIONAL=0
+		</if>
 		<if test="id != null and id != ''">
 			AND pe.ID =#{id}
 		</if>
@@ -229,7 +229,7 @@
 			ORDER BY
 			EXPERT_CONDITION_ID
 		</if>
-		
+
 	</select>
 
 	<!-- 删除重复数据 -->
@@ -282,6 +282,15 @@
 			from dual
 		</foreach>
 	</insert>
-
+	
+	<!-- 关联抽取供应商 -->
+	<select id="getBuyConId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_EMS_PROJECT_EXTRACT WHERE
+		EXPERT_CONDITION_ID=#{expertId}  AND (OPERATING_TYPE =1 OR OPERATING_TYPE =2 OR OPERATING_TYPE =3)
+	</select>
 
 </mapper>

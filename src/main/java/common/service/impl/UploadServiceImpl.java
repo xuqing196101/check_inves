@@ -2,9 +2,11 @@ package common.service.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,11 +22,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.poifs.filesystem.DirectoryEntry;
+import org.apache.poi.poifs.filesystem.DocumentEntry;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropUtil;
-
 import common.bean.MultipartFileBean;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
@@ -45,7 +49,7 @@ import common.utils.UploadUtil;
  */
 @Service
 public class UploadServiceImpl implements UploadService {
-    
+
     /** 上传文件日志 */
     private final static Logger log = Logger.getLogger(UploadServiceImpl.class);
     /** 上传失败提示 */
@@ -56,16 +60,16 @@ public class UploadServiceImpl implements UploadService {
     private final static String ERROR ="err";
     /** 基础单位 */
     private final static int UNIT = 1024;
-    
+
     /** 计数器  */
     private static AtomicInteger counter = new AtomicInteger(0);
-    
+
     /** 文件上传Mapper */
     @Autowired
     private FileUploadMapper uploadDao;
-    
-    
-    
+
+
+
     /**
      * 
      * @see common.service.UploadService#upload(javax.servlet.http.HttpServletRequest)
@@ -93,22 +97,22 @@ public class UploadServiceImpl implements UploadService {
         boolean mutiple = Boolean.parseBoolean(request.getParameter("mutiple"));
         int systemKey = Integer.parseInt(request.getParameter("key"));
         String tableName = Constant.fileSystem.get(systemKey);
-        
+
         /**
          * 如果是单个文件上传,自动删除之前上传的文件
          */
         if (!mutiple){
-           List<UploadFile> files =  uploadDao.getFileByBusinessId(businessId, fileTypeId, tableName);
-           if (files != null && files.size() > 0){
-               for (UploadFile loadFile : files) {
-                   uploadDao.updateFile(tableName, loadFile.getId());
-               }
-           }
+            List<UploadFile> files =  uploadDao.getFileByBusinessId(businessId, fileTypeId, tableName);
+            if (files != null && files.size() > 0){
+                for (UploadFile loadFile : files) {
+                    uploadDao.updateFile(tableName, loadFile.getId());
+                }
+            }
         }
-        
-        
+
+
         String[] file = moveFile(systemKey, filePath, fileRealName);
-        
+
         if (file != null && file.length == 2){
             UploadFile model = new UploadFile();
             model.setBusinessId(businessId);
@@ -125,8 +129,8 @@ public class UploadServiceImpl implements UploadService {
         }
         return IS_ERR;
     }
-    
-    
+
+
     /**
      * 
      * @see common.service.UploadService#updateFile(javax.servlet.http.HttpServletRequest)
@@ -151,7 +155,7 @@ public class UploadServiceImpl implements UploadService {
      */
     @Override
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response) {
-       
+
         try {
             String fileName = request.getParameter("path");
             if (StringUtils.isNotBlank(fileName)){
@@ -166,17 +170,17 @@ public class UploadServiceImpl implements UploadService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
-    
+
 
     @Override
     public String saveOnlineFile(HttpServletRequest request, String businessId,
-            String typeId, String sysKey) {
+                                 String typeId, String sysKey) {
         if ((!StringUtils.isNotBlank(businessId)) 
-                || (!StringUtils.isNotBlank(typeId))
-                 || (!StringUtils.isNotBlank(sysKey))){
+            || (!StringUtils.isNotBlank(typeId))
+            || (!StringUtils.isNotBlank(sysKey))){
             return ERROR;
         }
         try {
@@ -200,7 +204,7 @@ public class UploadServiceImpl implements UploadService {
                 accessFile.seek(length);
                 accessFile.write(param.getFileItem().get());
                 accessFile.close();
-                
+
                 if (file != null){
                     UploadFile model = new UploadFile();
                     model.setBusinessId(businessId);
@@ -245,7 +249,7 @@ public class UploadServiceImpl implements UploadService {
             MultipartFileBean param = MultipartFileUploadUtil.parse(request);
             log.info(prefix + "chunks= " + param.getChunks());
             log.info(prefix + "chunk= " + param.getChunk());
-            
+
             long chunkSize = Long.parseLong(PropUtil.getProperty("file.upload.chunk.fileSize")) * UNIT;
             if (param.isMultipart()) {
 
@@ -260,7 +264,7 @@ public class UploadServiceImpl implements UploadService {
                 RandomAccessFile accessConfFile = new RandomAccessFile(confFile, "rw");
 
                 long offset = chunkSize * param.getChunk();
-                
+
                 accessTmpFile.seek(offset);
                 accessTmpFile.write(param.getFileItem().get());
 
@@ -279,10 +283,10 @@ public class UploadServiceImpl implements UploadService {
                 if (isComplete == Byte.MAX_VALUE) {
                     log.info(prefix + "upload complete !!");
                 }
-                
+
                 accessTmpFile.close();
                 accessConfFile.close();
-                
+
                 return tmpFile.getPath();
             }
         } catch (FileNotFoundException e) {
@@ -292,12 +296,12 @@ public class UploadServiceImpl implements UploadService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return null;
     }
-    
-    
-    
+
+
+
     /**
      * 
      * @see common.service.UploadService#getFiles(javax.servlet.http.HttpServletRequest)
@@ -315,7 +319,7 @@ public class UploadServiceImpl implements UploadService {
                 return list;
             }
         }
-       
+
         return new ArrayList<UploadFile>();
     }
 
@@ -352,8 +356,8 @@ public class UploadServiceImpl implements UploadService {
         }
         return obj;
     }
-    
-    
+
+
     /**
      * 
      *〈简述〉获取上传文件对应的系统路径
@@ -374,7 +378,10 @@ public class UploadServiceImpl implements UploadService {
     }
 
 
-
+    /**
+     * 
+     * @see common.service.UploadService#getFilesOther(java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public List<UploadFile> getFilesOther(String businessId, String typeId, String sysKey) {
         Integer systemKey = Integer.parseInt(sysKey);
@@ -386,7 +393,10 @@ public class UploadServiceImpl implements UploadService {
         return new ArrayList<UploadFile>();
     }
 
-
+    /**
+     * 
+     * @see common.service.UploadService#updateFileOther(java.lang.String, java.lang.String)
+     */
     @Override
     public String updateFileOther(String id, String sysKey) {
         Integer systemKey = Integer.parseInt(sysKey);
@@ -400,9 +410,69 @@ public class UploadServiceImpl implements UploadService {
         return ERROR;
     }
 
-	
-	@Override
-	public UploadFile findById(String id) {
-		return uploadDao.findById(id);
-	}
+    /**
+     * 
+     * @see common.service.UploadService#findById(java.lang.String)
+     */
+    @Override
+    public UploadFile findById(String id) {
+        return uploadDao.findById(id);
+    }
+
+
+    /**
+     * @throws IOException 
+     * @see common.service.UploadService#uploadFileByContext(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public String uploadFileByContext(String businessId, String sysKey, String context) {
+        try {
+
+            Integer systemKey = Integer.parseInt(sysKey);
+            String tableName = Constant.fileSystem.get(systemKey);
+
+
+            String fileName = PropUtil.getProperty("bidNotice")+".doc";//"中标通知书.doc";//param.getFileName();
+            //获取基础路径
+            String finalPath = PropUtil.getProperty("file.base.path");
+            //系统key
+            int type = Integer.parseInt(sysKey);
+            String fileSysPath = getFileDir(type);
+            if (StringUtils.isNotBlank(fileSysPath)){
+                finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
+                //创建一个文件目录
+                UploadUtil.createDir(finalPath);
+                String targetFileName = System.currentTimeMillis()+ "." + fileName.substring(fileName.lastIndexOf(".")+1) ;
+                //创建文件夹
+                File file = UploadUtil.getFile(finalPath, targetFileName);
+                RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
+                long length = file.length();
+                accessFile.seek(length);
+                accessFile.write(context.getBytes());
+                accessFile.close();
+                if (file != null){
+                    UploadFile model = new UploadFile();
+                    model.setBusinessId(businessId);
+//                 model.setTypeId(typeId);
+                    model.setSize(file.length());
+                    model.setPath(file.getPath());
+                    model.setName(fileName);
+                    model.setCreateDate(new Date());
+                    model.setUpdateDate(new Date());
+                    model.setIsDelete(0);
+                    model.setTableName(tableName);
+                    uploadDao.insertFile(model);
+                    return OK;
+                }
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return null;
+    }
+
+
+
+
 }

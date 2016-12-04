@@ -42,6 +42,14 @@
        
           
       });
+	  var typeclassId = "${typeclassId}";
+	  if( typeclassId != null && typeclassId != ""){
+		  $("#tenderTimeId").removeAttr("readonly");
+	  } else {
+		  $("#tenderTimeId").attr("rereadonly","readonly");
+	  }
+	  
+	   
 	  
 	   
       $('#minute').bind('input propertychange', function() {
@@ -319,8 +327,8 @@
                   <li class="col-md-4 col-sm-6 col-xs-12 ">
                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>开标时间:</span>
                    <div class="input-append">
-                    <input class="Wdate w230" readonly="readonly" onclick="WdatePicker();"   name="tenderTime"
-                       value="<fmt:formatDate value='${bidDate}'
+                    <input class="Wdate w230"  onclick="WdatePicker();"  id="tenderTimeId"  name="tenderTime"
+                       value="<fmt:formatDate value='${tenderTime}'
                                 pattern='yyyy-MM-dd' />"
                        maxlength="30"   type="text">
                        <div class="cue" id="tenderTimeError"></div>

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="up" uri="/tld/upload" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -66,18 +67,22 @@
   
 </script>
 <body>
-	<div class="container">
-		<div class="p10_25">
-				<form action="" method="post" class="mb0">
-                    <label class="fl">合同名称：</label><span><input type="file" id="topic" class=""/></span>
-				</form>
-		</div>
-	</div>
-	<div class="col-md-12" align="center">
-		<div class="fl padding-left-50 padding-top-30 " align="center">
-			<button class="btn btn-windows add" type="submit">提交</button>
-			<button class="btn btn-windows reset" type="submit">关闭</button>
-		</div>
-	</div>
+	<!-- 表格开始-->
+  <div class="content padding-left-25 padding-right-25 padding-top-0">
+  <a id="a" target="_parent"></a>
+    <form  method="post" id="form1">
+      <input name="saleId" type="hidden" value="${saleId}"  />
+      <input name="projectId" type="hidden" value="${projectId}" />
+             <ul class="demand_list">
+                <li>
+                      <label class="fl"><span class="red textspan">*</span>变更依据:</label>
+                        <span>
+                               <up:upload btnClass="fl" id="bgyj" groups="bgyj" businessId="${packageId}" sysKey="${tenderKey}" typeId="${checkPassBgyj}" auto="true" />
+                        </span>
+                        <up:show showId="bgyj"  groups="bgyj" businessId="${packageId}" sysKey="${tenderKey}" typeId="${saleTenderFpsc}"/>           
+                </li>
+            </ul>
+  </form>
+  </div>
 </body>
 </html>

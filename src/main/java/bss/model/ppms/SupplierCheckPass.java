@@ -2,6 +2,7 @@ package bss.model.ppms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import ses.model.sms.Supplier;
 
@@ -12,9 +13,10 @@ public class SupplierCheckPass {
      */
     private Supplier supplier;
     
-    
-    
-    
+    /**
+     * 选中的供应商
+     */
+    private List<Packages> packagesList;
     
     /**
      * <pre>
@@ -414,6 +416,21 @@ public class SupplierCheckPass {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
-    
+
+    /**
+     * @return Returns the packagesList.
+     */
+    public List<Packages> getPackagesList() {
+        return packagesList;
+    }
+
+    /**
+     * @param packagesList The packagesList to set.
+     */
+    public void setPackagesList(List<Packages> packagesList) {
+        this.packagesList = packagesList;
+    }
+
+
     
 }

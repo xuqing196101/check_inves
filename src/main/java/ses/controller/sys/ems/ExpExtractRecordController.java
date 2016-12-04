@@ -38,6 +38,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExtConType;
 import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
+import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
@@ -619,22 +620,26 @@ public class ExpExtractRecordController extends BaseController {
         //获取抽取记录
         ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
         model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+        
+        
+        
         //抽取条件
-        List<ExpExtCondition> conditionList = conditionService.list(new ExpExtCondition(showExpExtractRecord.getProjectId()),null);
-
+        ExpExtPackage extPackage = new ExpExtPackage();
+        extPackage.setProjectId(showExpExtractRecord.getProjectId());
+        List<ExpExtPackage> conditionList = expExtPackageServicel.extractsList(extPackage);
         model.addAttribute("conditionList", conditionList);
         List<List<ProjectExtract>> listEp=new ArrayList<List<ProjectExtract>>();
-        //获取专家人数
-        for (ExpExtCondition expExtCondition : conditionList) {
-            ProjectExtract pExtract = new ProjectExtract();
-            pExtract.setProjectId(showExpExtractRecord.getProjectId());
-            pExtract.setExpertConditionId(expExtCondition.getId());
-            //占用字段保存状态类型
-            pExtract.setReason("1,2,3");
-            List<ProjectExtract> projectExtract = extractService.list(pExtract); 
-            listEp.add(projectExtract);
-        }
-        model.addAttribute("ProjectExtract", listEp);
+//        //获取专家人数
+//        for (ExpExtCondition expExtCondition : conditionList) {
+//            ProjectExtract pExtract = new ProjectExtract();
+//            pExtract.setProjectId(showExpExtractRecord.getProjectId());
+//            pExtract.setExpertConditionId(expExtCondition.getId());
+//            //占用字段保存状态类型
+//            pExtract.setReason("1,2,3");
+//            List<ProjectExtract> projectExtract = extractService.list(pExtract); 
+//            listEp.add(projectExtract);
+//        }
+//        model.addAttribute("ProjectExtract", listEp);
         //获取监督人员
         if (conditionList != null && conditionList.size() != 0){
             List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(conditionList.get(0).getProjectId()));
@@ -656,8 +661,27 @@ public class ExpExtractRecordController extends BaseController {
      */
     @RequestMapping("/record")
     public String Record(Model model,String projectId){
+        ExpExtractRecord showExpExtractRecord = null;
+        //获取抽取记录
+        ExpExtractRecord expExtractRecord=new ExpExtractRecord();
+        expExtractRecord.setProjectId(projectId);
+        List<ExpExtractRecord> listExtractRecord = expExtractRecordService.listExtractRecord(expExtractRecord,0);
+        if(listExtractRecord != null){
+            showExpExtractRecord = listExtractRecord.get(0);
+        }
+        
+        if(showExpExtractRecord != null  && showExpExtractRecord.getProjectId() != null){
+         
+        model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+        //抽取条件
+        List<ExpExtCondition> conditionList = conditionService.list(new ExpExtCondition(showExpExtractRecord.getProjectId()),null);
+
+        model.addAttribute("conditionList", conditionList);
+        
         List<Packages> listResultExpert = packagesService.listResultExpert(projectId);
         model.addAttribute("listResultExpert", listResultExpert);
+        
+        }
         return "ses/ems/exam/expert/extract/show_record";
     }
 

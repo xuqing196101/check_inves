@@ -129,5 +129,5 @@ public interface PackageMapper {
      * @author Wang Wenshuai
      * @return
      */
-    List<SupplierCheckPass> listSupplierCheckPass(String projectId);
+    List<Packages> listSupplierCheckPass(String projectId);
 }
