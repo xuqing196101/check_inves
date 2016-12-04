@@ -245,7 +245,7 @@ public class ExpertController {
 			expert.setId(expertId);
 			service.insertSelective(expert);
 			Role role = new Role();
-			role.setCode("IMPORT_AGENT_R");
+			role.setCode("EXPERT_R");
 			List<Role> listRole = roleService.find(role);
 			if (listRole != null && listRole.size() > 0) {
 				Userrole userrole = new Userrole();
@@ -1294,7 +1294,7 @@ public class ExpertController {
 		String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
 				"UTF-8");
 		/** 生成word 返回文件名 */
-		String newFileName = WordUtil.createWord(dataMap, "expertTemplate.ftl",
+		String newFileName = WordUtil.createWord(dataMap, "expert.ftl",
 				fileName, request);
 		return newFileName;
 	}

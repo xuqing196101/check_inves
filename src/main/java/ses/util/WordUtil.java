@@ -42,7 +42,7 @@ public class WordUtil {
 	            //jdcg/src/main/java/ses/document/template/expertTemplate.ftl
 	            
 	            //ftl模板文件统一放至 ses.document.template 包下面
-	            TemplateLoader templateLoader=new ClassTemplateLoader(WordUtil.class,"template/"); 
+	            TemplateLoader templateLoader=new ClassTemplateLoader(WordUtil.class,"/ses/document/template/"); 
 	            
 	            //设置Configuration的模板
 	            configuration.setTemplateLoader(templateLoader);

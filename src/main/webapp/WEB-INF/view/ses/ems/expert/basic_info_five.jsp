@@ -18,8 +18,8 @@ session.setAttribute("tokenSession", tokenValue);
 		if(!validateHeTong()){
 			return;
 		}
-		$("#form1").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
-		$("#form1").submit();
+		$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
+		$("#formExpert").submit();
 	}
 	//判断申请表  合同书
 	function validateHeTong(){
@@ -68,7 +68,8 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
- <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
+ 	 <jsp:include page="/index_head.jsp"></jsp:include>
+ <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
   <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
   <input type="hidden" name="id" id="id" value="${expert.id}"/>
@@ -125,5 +126,6 @@ session.setAttribute("tokenSession", tokenValue);
 			</div>
 		</div></div>
 	</form>
+	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
