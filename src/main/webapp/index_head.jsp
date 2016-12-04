@@ -13,6 +13,12 @@
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
+	$(document).keyup(function(event){
+		  if(event.keyCode ==13){
+		    $("#form1").submit();
+		  }
+	});
+	
 	if(user!=null && user!=''){
 		$("#welcome").html(user+"你好，欢迎来到中国军队采购网！");
 	}
@@ -75,14 +81,14 @@ function importAdd(){
 			<!--搜索开始-->
             <div class="col-md-4 p0">
               <div class="search-block-v2">
-                  <form accept-charset="UTF-8" action="" method="get">
+                  <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch.html" method="get">
 				    <div style="display:none">
 				     <input name="utf8" value="✓" type="hidden">
 					</div>
                     <input id="t" name="t" value="search_products" type="hidden">
                     <div class="col-md-12 pull-left p0">
                       <div class="search-group">
-                        <input class="search-input" id="k" name="k" placeholder="" type="text">
+                        <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="" type="text">
                         <span class="input-group-btn">
                           <input class="btn-search" name="commit" value="搜索" type="submit">
                         </span>

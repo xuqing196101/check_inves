@@ -45,28 +45,21 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container content height-350 job-content ">
+  <div class="container content job-content ">
    <div class="f18">共查到关于<span class="searchFont">${oldCondition}</span>的信息${solrMap['tdsTotal']}条</div>
-    <div class="col-md-12 p20 border1 margin-top-20">
-        <%--<div class="tab-v1">
-          <h2 class="nav nav-tabs border0 padding-left-15">
-            ${typeName}
-		  </h2>
-        </div>
-          --%><div class="tab-content margin-bottom-20 margin-top-10">
-            <div class="tab-pane fade active in">
-              <div class="tag-box margin-bottom-0 padding-0">
-                <ul class="categories li_square padding-left-15 margin-bottom-0">
-                <c:forEach items="${solrMap['indexList']}" var="i">
-                  <li>
-                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" title="" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
-                   <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
-                  </li> 
-                </c:forEach>             
-                </ul>
-              </div>
-            </div>
-          </div>
+    <div class="col-md-12  border1 p20_20">
+       <h2 class="col-md-12">
+      		<div class="col-md-6 tc f16 b">标题</div>
+            <div class="fr b mr25 f16">发布时间</div>
+       </h2>
+            <ul class="categories li_square">
+            <c:forEach items="${solrMap['indexList']}" var="i">
+              <li>
+               <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
+               <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
+              </li> 
+            </c:forEach>             
+            </ul>
 	     <div id="pagediv" align="right"></div></div>
         </div>
 <!--底部代码开始-->

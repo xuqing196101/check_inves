@@ -552,14 +552,16 @@ public class ArticleController extends BaseSupplierController{
 	 */
 	@RequestMapping("/audit")
 	public String audit(String id,Article article,HttpServletRequest request,Model model,Integer page) throws Exception{
-		article.setUpdatedAt(new Date());
+		Article findOneArticle = articleService.selectArticleById(article.getId());
+		findOneArticle.setUpdatedAt(new Date());
 		if(article.getStatus()==2){
-			article.setReason("");
+			findOneArticle.setReason("");
+			findOneArticle.setStatus(2);
 			User user = (User) request.getSession().getAttribute("loginUser");
-			article.setPublishedName(user.getRelName());
-			article.setPublishedAt(new Date());
-	//		solrNewsService.addIndex(article);
-			articleService.update(article);
+			findOneArticle.setPublishedName(user.getRelName());
+			findOneArticle.setPublishedAt(new Date());
+			solrNewsService.addIndex(findOneArticle);
+			articleService.update(findOneArticle);
 		}
 		if(article.getStatus()==3){
 		//	String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
