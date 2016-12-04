@@ -8,6 +8,23 @@ $(function() {
     return(!obj || $.trim(obj) === "");
   };
 
+  /* 表单input后面提示 */
+  $("form input").on('click', function(){
+    var i_btn = $(this).siblings('.add-on')[0];
+    var tip_info = $(this).siblings('.input-tip')[0];
+    var input_val = $(this).val();
+    if(i_btn && tip_info && input_val == ""){
+      layer.tips($(tip_info).text(), $(i_btn), {tips: [3, '#000']});
+    }
+  });
+
+  $("form span.add-on").on('click', function(){
+    var tip_info = $(this).siblings('.input-tip')[0];
+    if(tip_info){
+      layer.tips($(tip_info).text(), $(this), {tips: [3, '#000']});
+    }
+  });
+
   // 提示
   $('.itips').on('click', function(){
     var d = dialog({
