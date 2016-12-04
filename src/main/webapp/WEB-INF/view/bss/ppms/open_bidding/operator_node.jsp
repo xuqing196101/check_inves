@@ -134,8 +134,8 @@
 						class="col-md-12 col-xs-12"> <select name="typeName" id="typeName"
 							class="w180 mt5">
 								<option value="">-请选择-</option>
-								<option value="0">商务</option>
-								<option value="1">技术</option>
+								<option value="0">符合性</option>
+								<option value="1">资格性</option>
 						</select> </span></li>
 					<li class="mt10 col-md-12 p0 col-xs-12"><label
 						class="col-md-12 pl20 col-xs-12">分值:</label> <span
