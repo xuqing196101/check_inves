@@ -217,7 +217,7 @@ function selectAll(){
                 <li class="mt10 col-md-12 p0">
                   <label class="col-md-12 pl20">要求类型</label>
                   <span class="col-md-12">
-                    <input type="radio" name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术
+                    <input type="radio" name="kind" value="符合性" >符合性&nbsp;<input type="radio" name="kind" id="kind" value="资格性" >资格性
                     <input name="creater" readonly="readonly" id="creater" maxlength="10" type="hidden" value="${sessionScope.loginUser.relName}">
                     <input type="hidden" name="templatId" value="${templat.id }">
                   </span>

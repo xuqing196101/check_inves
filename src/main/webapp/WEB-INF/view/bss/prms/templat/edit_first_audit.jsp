@@ -65,7 +65,7 @@
                 <li class="mt10 col-md-12 p0">
                   <label class="col-md-12 pl20">要求类型</label>
                   <span class="col-md-12">
-                    <input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'技术')}">checked="true"</c:if> value="技术" >技术
+                    <input type="radio" name="kind" <c:if test="${fn:contains(temitem.kind,'符合性')}">checked="true"</c:if> value="符合性" >符合性&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(temitem.kind,'资格性')}">checked="true"</c:if> value="资格性" >资格性
                     <input type="hidden" name="templatId" value="${temitem.templatId }">
                       <input type="hidden" name="id" value="${temitem.id }">
                       <input type="hidden" name="createdAt" value="<fmt:formatDate value='${temitem.createdAt}' pattern="yyyy-MM-dd" />">
