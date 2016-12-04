@@ -53,7 +53,6 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			indexEntity.setContext(newContext);
 			SolrContext.getServer().addBean(indexEntity);
 			SolrContext.getServer().commit();
-			articleService.update(article);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SolrServerException e) {
