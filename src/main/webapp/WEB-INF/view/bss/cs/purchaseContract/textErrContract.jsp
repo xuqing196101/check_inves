@@ -147,7 +147,7 @@
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "81px", top: "79px"}).slideDown("fast");
+		$("#menuContent").css({left: "79px", top: "79px"}).slideDown("fast");
 
 		$("body").bind("mousedown", onBodyDown);
 	}
@@ -241,9 +241,9 @@
 	    shade:0.01, //遮罩透明度
 		type : 1,
 		skin : 'layui-layer-rim', //加上边框
-		area : [ '50%', '550px' ], //宽高
+		area : [ '50%', '400px' ], //宽高
 		content : $('#openDiv'),
-		offset: ['600px', '350px']
+		offset: ['10%', '10%']
 	  });
     }
 	
@@ -263,7 +263,7 @@
 			skin : 'layui-layer-rim', //加上边框
 			area : [ '40%', '300px' ], //宽高
 			content : $('#numberWin'),
-			offset: ['80%', '25%']
+			offset: ['30%', '25%']
 		});
 		
 	}

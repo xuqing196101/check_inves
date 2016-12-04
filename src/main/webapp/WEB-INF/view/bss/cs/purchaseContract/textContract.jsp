@@ -7,11 +7,6 @@
 <html>
 <head>
     <title>合同草稿修改</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
-    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -248,10 +243,9 @@
 	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
 	    shade:0.01, //遮罩透明度
 		type : 1,
-		skin : 'layui-layer-rim', //加上边框
-		area : [ '50%', '600px' ], //宽高
+		area : [ '50%', '400px' ], //宽高
 		content : $('#openDiv'),
-		offset: ['600px', '350px']
+		offset: ['10%', '10%']
 	  });
     }
 	
@@ -265,13 +259,13 @@
 		ind = layer.open({
 			shift: 1, //0-6的动画形式，-1不开启
 		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-		    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
+		    title: ['生成草案信息','border-bottom:1px solid #e5e5e5'],
 		    shade:0.01, //遮罩透明度
 			type : 1,
 			skin : 'layui-layer-rim', //加上边框
 			area : [ '40%', '250px' ], //宽高
 			content : $('#numberWin'),
-			offset: ['80%', '25%']
+			offset: ['30%', '25%']
 		});
 		
 	}

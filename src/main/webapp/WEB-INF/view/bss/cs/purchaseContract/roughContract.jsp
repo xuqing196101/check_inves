@@ -143,7 +143,7 @@
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "80px", top: "78px"}).slideDown("fast");
+		$("#menuContent").css({left: "79px", top: "78px"}).slideDown("fast");
 
 		$("body").bind("mousedown", onBodyDown);
 	}
@@ -239,9 +239,9 @@
 	    shade:0.01, //遮罩透明度
 		type : 1,
 		skin : 'layui-layer-rim', //加上边框
-		area : [ '50%', '550px' ], //宽高
+		area : [ '50%', '400px' ], //宽高
 		content : $('#openDiv'),
-		offset: ['600px', '40%']
+		offset: ['10%', '10%']
 	  });
     }
 	

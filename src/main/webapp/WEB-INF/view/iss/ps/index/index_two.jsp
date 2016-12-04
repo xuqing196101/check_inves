@@ -52,12 +52,19 @@ $(function(){
                    <div class="fr b mr25 f16">发布时间</div>
              </h2>
                 <ul class="categories li_square">
-                <c:forEach items="${indexList}" var="i">
-                  <li>
-                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
-                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-                  </li> 
-                </c:forEach>             
+                <c:choose>
+	                <c:when test="${indexList==null}">
+	                  <li class="tc">暂无数据</li>
+	                </c:when>
+                <c:otherwise>
+	                <c:forEach items="${indexList}" var="i">
+	                  <li>
+	                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
+	                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                  </li> 
+	                </c:forEach>   
+                </c:otherwise> 
+                </c:choose>         
                 </ul>
 	     <%--<div class="fenye">
            <div class="page_box fr">
