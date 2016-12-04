@@ -185,5 +185,12 @@
 		where ID = #{id}
 	</delete>
 	
+		<select id="findCertProByProId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_CERT_PRO
+		where MAT_PRO_ID = #{matProId}
+	</select>
+	
 	
 </mapper>

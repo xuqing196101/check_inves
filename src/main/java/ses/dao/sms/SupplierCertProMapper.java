@@ -60,4 +60,18 @@ public interface SupplierCertProMapper {
     
     
     void deleteById(String id);
+    
+    
+    /**
+     * 
+     * 
+    * @Title: findCertProByProId
+    * @Description: 根据供应商生产类型Id查询证书
+    * author: Li Xiaoxiao 
+    * @param @param supplierMatProId
+    * @param @return     
+    * @return List<SupplierCertPro>     
+    * @throws
+     */
+    List<SupplierCertPro> findCertProByProId(String matProId);
 }

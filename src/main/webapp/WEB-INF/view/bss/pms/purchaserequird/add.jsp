@@ -164,9 +164,9 @@
  		 } 
  		 
  		 else{
- 			  $("#fjhmc").val(name);
- 	 		$("#fjhbh").val(no);
- 	 		$("#ptype").val(type);
+ 			  $("#detailJhmc").val(name);
+ 	 		 $("#detailJhbh").val(no);
+ 	 		 $("#detailType").val(type);
  		 
  	  $("#add_form").submit();   
  		 
@@ -441,7 +441,7 @@
 				</tr>
 			 <tr style="display: none">
 
-					<td class="tc" colspan="16"> <input type="hidden" name="planType" value="" id="ptype">
+					<td class="tc" colspan="16"><!--  <input type="hidden" name="planType" value="" id="ptype"> -->
 					 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加">
 					<!--  <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"> -->
 					 
@@ -450,6 +450,11 @@
 			</table>
 			<!--  <input class="btn btn-windows reset" value="取消"
 				type="button" onclick="hide()"> -->
+				
+				<input type="hidden" name="planName" id="detailJhmc">
+			    <input type="hidden" name="planNo" id="detailJhbh">
+			    <input type="hidden" name="planType" id="detailType">
+				
 		</form>
 					
 	</div>

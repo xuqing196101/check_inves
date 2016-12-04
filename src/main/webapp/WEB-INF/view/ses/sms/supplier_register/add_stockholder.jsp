@@ -110,7 +110,7 @@
 													<input class="span3" onkeyup="checknums(this)" type="text" name="shares" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 比例：</span>
+											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 比例（%）：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="proportion" />
 												</div>

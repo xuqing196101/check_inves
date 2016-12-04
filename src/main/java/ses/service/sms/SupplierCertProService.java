@@ -1,5 +1,7 @@
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierCertPro;
 
 public interface SupplierCertProService {
@@ -9,4 +11,6 @@ public interface SupplierCertProService {
 	public void deleteCertPro(String certProIds);
 	
 	public SupplierCertPro queryById(String id);
+	
+	public List<SupplierCertPro> queryByProId(String proId);
 }

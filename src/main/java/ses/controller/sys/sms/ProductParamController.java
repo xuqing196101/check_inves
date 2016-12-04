@@ -33,7 +33,7 @@ public class ProductParamController {
 	private SupplierService supplierService;// 供应商基本信息
  
 	
-	@RequestMapping(value = "save_or_update_param",produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/save_or_update_param",produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String supId, String cateId,CategoryParamValue pramValue) {
 //		productParam.setSupplierProductsId(productsId);

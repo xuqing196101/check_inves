@@ -547,7 +547,7 @@ function deleteFinance() {
 		    </li> 
 		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 注册资本（万元）</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="registFund" onkeyup="checknums(this)" value="${currSupplier.registFund}" />
 		        <span class="add-on cur_point">i</span>
@@ -759,7 +759,7 @@ function deleteFinance() {
 										<th class="info">出资人性质</th>
 										<th class="info">统一社会信用代码或身份证号码</th>
 										<th class="info">出资金额或股份（万元/万份）</th>
-										<th class="info">比例</th>
+										<th class="info">比例（%）</th>
 									</tr>
 								</thead>
 								<tbody id="stockholder_list_tbody_id">
