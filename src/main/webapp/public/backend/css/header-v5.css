@@ -868,7 +868,7 @@
 .header-v5 .mega-menu .dropdown-menu > li {
     display: block;
     position:relative;
-    padding:5px 11px;
+    padding:5px 25px 5px 15px;
 }
 
 .header-v5 .mega-menu .dropdown-submenu .dropdown-menu {
