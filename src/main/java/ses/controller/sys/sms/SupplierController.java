@@ -199,6 +199,8 @@ public class SupplierController extends BaseSupplierController {
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
 		Supplier sup = supplierService.selectById(supplier.getId());
 		boolean bool = validateRegister(request, model, supplier);
+		List<Area> privnce = areaService.findRootArea();
+		request.getSession().setAttribute("privnce", privnce);
 		if (bool==true&&sup==null) {
 			supplier = supplierService.register(supplier);
 			request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
