@@ -42,7 +42,7 @@ function drugs(){
         <div class="section-focus-pic" id="section-focus-pic">
 	      <div class="pages" data-scro="list">
 		   <ul>
-		  	<%--<c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
+		  	<c:forEach items="${indexMapper['picList']}" var="pic" varStatus="vs">
 		  	<c:choose>
 		  	 <c:when test="${vs.index==0}">
 			   <li class="item" style="left:0px;">
@@ -57,7 +57,7 @@ function drugs(){
 			 </c:choose>
 			</c:forEach>
 			
-			--%><li class="item" style="left:0px;">
+			<%-- <li class="item" style="left:0px;">
 				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
@@ -66,7 +66,7 @@ function drugs(){
 			<li class="item">
 				<a href="javascript:void(0)" target="_blank"><img src="${pageContext.request.contextPath}/public/portal/images/3.jpg" width="100%" height="100%"></a>
 			</li>
-		   </ul>
+		   </ul>--%>
 			</ul>
 	      </div>
 	      <div class="controler" data-scro="controler">
@@ -89,11 +89,11 @@ function drugs(){
 	                <c:forEach items="${indexMapper['select27List']}" var="sl">
 	                	<c:set value="${sl.name}" var="name"></c:set>
 						<c:set value="${fn:length(name)}" var="length"></c:set>
-						<c:if test="${length>16}">
-							<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+						<c:if test="${length>24}">
+							<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,24)}...</a></li>
 						</c:if>
-						<c:if test="${length<=16}">
-							<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+						<c:if test="${length<=24}">
+							<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 						</c:if>
 	                </c:forEach>            
                 </ul>
@@ -198,11 +198,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select28List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -213,11 +213,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select29List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -228,11 +228,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select30List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -258,11 +258,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select31List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -273,11 +273,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select32List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -288,11 +288,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select33List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -317,11 +317,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select34List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -332,11 +332,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select35List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -347,11 +347,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select36List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -389,11 +389,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select37List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -404,11 +404,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select38List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -419,11 +419,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select39List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -449,11 +449,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select40List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -464,11 +464,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select41List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -479,11 +479,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select42List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -508,11 +508,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select43List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -523,11 +523,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select44List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -538,11 +538,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select45List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}"><span class="list_squre">■</span>${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -670,11 +670,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select46List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,17)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -691,11 +691,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select47List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,17)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -712,11 +712,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select48List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,17)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -733,11 +733,11 @@ function drugs(){
               <c:forEach items="${indexMapper['select49List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,17)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=17}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>

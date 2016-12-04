@@ -147,11 +147,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select1List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -162,11 +162,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select2List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -177,11 +177,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select3List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -192,11 +192,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select4List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -225,11 +225,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select5List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -240,11 +240,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select6List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -255,11 +255,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select7List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -270,11 +270,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select8List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -302,11 +302,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select9List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -317,11 +317,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select10List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -332,11 +332,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select11List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -347,11 +347,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select12List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,23)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=23}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -412,11 +412,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select13List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -427,11 +427,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select14List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -442,11 +442,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select15List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=37}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -504,11 +504,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select17List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,28)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -519,11 +519,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select18List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,28)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -534,11 +534,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select19List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,28)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -591,11 +591,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select21List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,28)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -606,11 +606,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select22List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,28)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=28}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -705,11 +705,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select23List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>32}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,32)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=32}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>  
@@ -744,11 +744,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select24List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,29)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -759,11 +759,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select25List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,29)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>
@@ -774,11 +774,11 @@ function importAdd(){
               <c:forEach items="${indexMapper['select26List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,16)}...</a></li>
+					<c:if test="${length>29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,29)}...</a></li>
 					</c:if>
-					<c:if test="${length<=16}">
-						<li><a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+					<c:if test="${length<=29}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>
           </ul>

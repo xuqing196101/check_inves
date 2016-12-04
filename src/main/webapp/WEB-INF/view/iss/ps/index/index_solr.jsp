@@ -53,12 +53,19 @@
             <div class="fr b mr25 f16">发布时间</div>
        </h2>
             <ul class="categories li_square">
-            <c:forEach items="${solrMap['indexList']}" var="i">
+            <c:choose>
+	            <c:when test="${solrMap['indexList']==null}">
+	              <li class="tc">暂无数据</li>
+	            </c:when>
+            <c:otherwise>
+	        <c:forEach items="${solrMap['indexList']}" var="i">
               <li>
                <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${i.id}" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
                <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
               </li> 
-            </c:forEach>             
+            </c:forEach>  
+            </c:otherwise> 
+            </c:choose> 
             </ul>
 	     <div id="pagediv" align="right"></div></div>
         </div>

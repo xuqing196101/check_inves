@@ -61,6 +61,6 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 
 	@Override
 	public List<Article> selectNewsForJob(String id) {
-		return indeNewsMapper.selectNews(id);
+		return indeNewsMapper.selectNewsForJob(id);
 	}
 }
