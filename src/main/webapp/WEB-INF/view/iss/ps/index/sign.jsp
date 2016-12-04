@@ -56,7 +56,10 @@
     						layer.close(index);
     						window.location.href = "${pageContext.request.contextPath}/login/index.html";
     					} else if (data == "black") {
-    						layer.msg("对不起，你已被限制登录!");
+    						layer.msg("对不起，你已被列入黑名单!");
+    						layer.close(index);
+    					} else if (data == "reject") {
+    						layer.msg("对不起，你的审核没有通过!");
     						layer.close(index);
     					} else if (flag[0] == "audit") {
     						//layer.msg("你的信息还未审核，请耐心等待!");

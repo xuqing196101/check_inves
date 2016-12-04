@@ -129,6 +129,7 @@ session.setAttribute("tokenSession", tokenValue);
 </script>
 </head>
 <body>
+	<jsp:include page="/index_head.jsp"></jsp:include>
   <form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post">
     <input type="hidden" name="userId" value="${user.id}">
     <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}">
@@ -626,15 +627,6 @@ session.setAttribute("tokenSession", tokenValue);
 			   </div>
 		</div>
       </form>
-<div class="footer-v2" id="footer-v2">
-  <div class="footer">
-    <address class="">
-      Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-    </address>
-    <div class="">
-            浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-    </div> 
-  </div>
-</div>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

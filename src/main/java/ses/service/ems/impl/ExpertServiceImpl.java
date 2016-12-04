@@ -274,10 +274,13 @@ public class ExpertServiceImpl implements ExpertService {
 				if((expert.getIsSubmit().equals("0") || expert.getStatus().equals("3"))&&!expert.getIsBlack().equals("1")){
 						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
 						map.put("expert", "4");
-				} else if(expert.getStatus().equals("2") || expert.getIsBlack().equals("1")){
+				} else if(expert.getStatus().equals("2")){
 					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
-					map.put("expert", "1");
-				}else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){
+					map.put("expert", "5");
+				}else if(expert.getIsBlack().equals("1")){
+	                    //如果审核未通过 或者已拉黑 则根据此状态阻止登录
+	                    map.put("expert", "1");
+	            }else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){
 					//未审核
 					map.put("expert", "3");
 				}

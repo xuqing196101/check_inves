@@ -84,15 +84,15 @@ session.setAttribute("tokenSession", tokenValue);
 		});
   }	
 	 //是否通过标示
-	 function pass(flag){
-		 $("#isPass").val(flag);
-			var remark = $("#remark").val(); 
-			 if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
-				 layer.alert("请填写意见！",{offset: ['750px', '400px'],shade:0.01});
-			 }else{
-				 $("#form1").submit();
-			 }
-	 }
+	function pass(flag){
+		$("#isPass").val(flag);
+		var remark = $("#remark").val(); 
+		if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
+			layer.alert("请填写意见！",{offset: ['750px', '400px'],shade:0.01});
+		}else{
+			$("#form1").submit();
+		}
+	}
 </script>
 </head>
 <body>

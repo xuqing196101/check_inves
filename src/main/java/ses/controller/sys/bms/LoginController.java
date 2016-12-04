@@ -116,16 +116,17 @@ public class LoginController {
 							// 拉黑 阻止登录
 							if (object.equals("1")) {
 								out.print("black");
-							} else if (object.equals("2")) {
+							} else if(object.equals("5")){
+							    out.print("reject");
+							}else if (object.equals("2")) {
 								req.getSession().setAttribute("loginUser", u);
 								req.getSession().setAttribute("resource", u.getMenus());
 								// 信息为空 重新填写
 								out.print("empty," + u.getId());
 							} else if (object.equals("3")) {
-								req.getSession().setAttribute("loginUser", u);
-								req.getSession().setAttribute("resource", u.getMenus());
-								// 未审核
-								out.print("audit,"+ u.getId());
+							    req.getSession().setAttribute("loginUser", u);
+	                            req.getSession().setAttribute("resource", u.getMenus());
+	                            out.print("scuesslogin");
 							} else if (object.equals("4")) {
 								req.getSession().setAttribute("loginUser", u);
 								req.getSession().setAttribute("resource", u.getMenus());

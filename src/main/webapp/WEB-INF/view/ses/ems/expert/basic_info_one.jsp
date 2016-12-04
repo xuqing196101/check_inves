@@ -483,7 +483,7 @@ session.setAttribute("tokenSession", tokenValue);
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  id="relName" name="relName" value="${expert.relName}"   type="text"/>
+						<input id="relName" name="relName" value="${expert.relName}"   type="text"/>
 					    <span class="add-on">i</span>
 					</div>
 				</li>
@@ -504,7 +504,7 @@ session.setAttribute("tokenSession", tokenValue);
                        <select  name="gender" id="gender">
                           <option selected="selected" value="">-请选择-</option>
                           <c:forEach items="${sexList}" var="sex" varStatus="vs">
-                            <option <c:if test="${expert.gender eq sex.code}">selected="selected"</c:if> value="${sex.code}">${sex.name}</option>
+                            <option <c:if test="${expert.gender eq sex.id}">selected="selected"</c:if> value="${sex.id}">${sex.name}</option>
                           </c:forEach>
                         </select>
                     </div>
@@ -544,7 +544,7 @@ session.setAttribute("tokenSession", tokenValue);
                         <select  name="politicsStatus" id="politicsStatus">
                         <option selected="selected" value="">-请选择-</option>
                         <c:forEach items="${zzList}" var="zz" varStatus="vs">
-                          <option <c:if test="${expert.politicsStatus eq zz.id}">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
+                          <option <c:if test="${expert.politicsStatus eq zz.code}">selected="selected"</c:if> value="${zz.code}">${zz.name}</option>
                         </c:forEach>
                        </select>
                     </div>
