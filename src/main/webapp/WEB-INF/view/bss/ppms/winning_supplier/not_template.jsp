@@ -71,7 +71,8 @@
         }
         //发布
         function publish(){
-            alert("发布");
+        	 $("#form").attr("action",'${pageContext.request.contextPath}/winningSupplier/publish.do');   
+             $("#form").submit();
         }
         //保存
         function save(){
@@ -95,13 +96,13 @@
               $.ajax({
                   type:"POST",
                   url:"${pageContext.request.contextPath}/winningSupplier/getSupplierJosn.do",
-                  data:{packageId:pack},
+                  data:{packageId:pack,isWonBid:0},
                   dataType:"json",
                   success: function(data){
                        var list = data;
                        $("#supplier").empty();
                        for(var i=0;i<list.length;i++){
-                            $("#supplier").append("<option value="+list[i].id+">"+list[i].supplier.supplierName+"</option>");
+                            $("#supplier").append("<option value="+list[i].supplier.id+">"+list[i].supplier.supplierName+"</option>");
                        }
                   }
               });
@@ -132,7 +133,8 @@
 			<div class="col-md-12" style="min-height: 400px;">
 				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 					<h2 class="padding-10 border1">
-						<form action="" method="post" class="mb0">
+						<form action="" method="post"  id="form" class="mb0">
+						<input type="hidden" value="${projectId}" name="projectId">
 							<ul class="demand_list">
                                 <li class="fl"><label class="fl">包：</label><span> <select
                                         id="package" class="w100 " onchange="supplierch();">
@@ -149,10 +151,7 @@
                                 </span></li>
                             </ul>
 							<div class="clear"></div>
-						</form>
-					</h2>
-
-					<form method="post" id="form">
+			
 						<div class="row">
 							<!-- 按钮 -->
 							<div class="col-md-12">
@@ -161,8 +160,7 @@
 									type="button" class="btn btn-windows output"
 									onclick="outputAnnouncement()" value="导出"></input> <input
 									type="button" class="btn btn-windows git" onclick="preview()"
-									value="预览"></input> <input type="button"
-									class="btn btn-windows apply" onclick="publish()" value="发布"></input>
+									value="预览"></input> 
 							</div>
 							<!-- 文本编辑器 -->
 							<div class="col-md-12">
@@ -179,7 +177,7 @@
 							</div>
 						</div>
 					</form>
-
+    </h2>
 				</div>
 			</div>
 		</div>

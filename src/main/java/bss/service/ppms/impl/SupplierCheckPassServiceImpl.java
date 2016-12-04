@@ -46,7 +46,7 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 
     /**
      * 
-     *〈简述〉根据包id获取包下为发送通知的供应商和中标未中标的供应商
+     *〈简述〉根据包id获取包下未发送通知的供应商和中标未中标的供应商
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param checkPass 对象
@@ -78,8 +78,7 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
      * @param id
      */
     @Override
-    public void updateBid(String id) {
-        String[] ids = id.split(",");
+    public void updateBid(String[] ids) {
         SupplierCheckPass record = null;
         for (String sid : ids) {
             record = new SupplierCheckPass();

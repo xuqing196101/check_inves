@@ -224,7 +224,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM
-		T_SES_SMS_SUPPLIER_EXT_PACKAGE ep
+		T_SES_EMS_EXP_EXT_PACKAGE ep
 		WHERE
 		EP.PROJECT_ID =#{projectId}
 	</select>

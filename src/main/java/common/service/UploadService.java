@@ -113,5 +113,18 @@ public interface UploadService {
      * @return UploadFile
      */
     UploadFile findById(String id);
+    
+    
+    /**
+     * 
+     *〈简述〉 ueEdit 文件上传
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param businessId
+     * @param sysKey
+     * @param context
+     * @return
+     */
+    public String uploadFileByContext(String businessId, String sysKey, String context);
 
 }

@@ -46,6 +46,11 @@ public class ExpExtCondition implements Cloneable {
 	
     
     private List<ExtConType> conTypes;
+    
+    /**
+     * 专家抽取
+     */
+    private List<ProjectExtract> extRelatesList;
   
     /**
      * <pre>
@@ -608,6 +613,24 @@ public class ExpExtCondition implements Cloneable {
         }  
   
          return condition;
+    }
+
+
+
+    /**
+     * @return Returns the extRelatesList.
+     */
+    public List<ProjectExtract> getExtRelatesList() {
+        return extRelatesList;
+    }
+
+
+
+    /**
+     * @param extRelatesList The extRelatesList to set.
+     */
+    public void setExtRelatesList(List<ProjectExtract> extRelatesList) {
+        this.extRelatesList = extRelatesList;
     }
 
 

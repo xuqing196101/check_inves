@@ -55,53 +55,55 @@
 			<div class="headline-v2">
 				<h2>专家抽取表</h2>
 			</div>
-			<div>
-				<table style="width: 70%"
-					class="table table-bordered table-condensed">
+			<div class="content table_box">
+				<table class="table table-bordered table-condensed">
 					<tr>
 						<td  class="bggrey" width="100px">项目名称:</td>
 						<td colspan="7" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
 						<td  class="bggrey">抽取时间:</td>
-						<td colspan="3" align="center"><fmt:formatDate
+						<td colspan="3"><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td class="bggrey" >抽取地点:</td>
-						<td colspan="3" align="center">${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
+						<td colspan="3" >${fn:replace(ExpExtractRecord.extractionSites,',','')}</td>
 					</tr>
 					<tr>
 						<td align="center" class="bggrey" height="300px;">抽取条件<br>抽取数量
 						</td>
-						<td colspan="7"  height="300px;">
-							<div class="margin-left-100">
-								<c:forEach items="${conditionList}" var="con" varStatus="vs">
-									<span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
-									<br />
-                                                                                                          专家来源【${con.expertsFrom}】 专家所在地区【${con.address}】 <br />
-									<ol>
-										<c:forEach items="${con.conTypes }" var="contypes">
-											<li>{专家类型 <c:choose>
-													<c:when test="${contypes.expertsTypeId==1}">
-                                                                                                                                   【技术】
-                                          </c:when>
-													<c:when test="${contypes.expertsTypeId==2}">
-                                                                                                                                           【商务】
-                                              </c:when>
-													<c:when test="${contypes.expertsTypeId==3}">
-                                                                                                                                   【法律】
-                                         </c:when>
-												</c:choose> ，<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
-                                                                                                                                                  采购类别【 ${fn:replace(category,'^',',')}】
-												】，专家数量【${contypes.expertsCount}】 }
-											</li>
-										</c:forEach>
-									</ol>
+						<td colspan="8">
+              <div class="col-md-12 col-xs-12 col-sm-12">
+                <c:forEach items="${conditionList}" var="con" varStatus="vs">
+                  <c:if test="${con.conditionList != null && fn:length(con.conditionList) != 0}">
+                    <p class="f16"><span class="b">包名：</span><span class="light_blue b">${con.packages.name}</span></p>
+                      <c:forEach items="${ con.conditionList}" var="conlist" varStatus="vs">
+                        <p>第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：</p>
+                        <p> 供应商所在地区【${conlist.address}】</p>
+                                        <ol>
+                                            <c:forEach items="${conlist.conTypes }" var="contypes">
+																	                      <li>{专家类型 <c:choose>
+																	                          <c:when test="${contypes.expertsTypeId==1}">
+																	                                                                                                                                   【技术】
+																	                                          </c:when>
+																	                          <c:when test="${contypes.expertsTypeId==2}">
+																	                                                                                                                                           【商务】
+																	                                              </c:when>
+																	                          <c:when test="${contypes.expertsTypeId==3}">
+																	                                                                                                                                   【法律】
+																	                                         </c:when>
+																	                        </c:choose> ，<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
+																	                                                                                                                                                  采购类别【 ${fn:replace(category,'^',',')}】
+																	                        】，专家数量【${contypes.expertsCount}】 }
+                                      </li>
+                                </c:forEach>
+                                      </ol>
+                      </c:forEach>
+                    </c:if>
+                </c:forEach>
 
-								</c:forEach>
-
-							</div>
-						</td>
+              </div>
+            </td>
 					</tr>
 					<tr>
 						<td colspan="8" align="center" class="bggrey">抽取记录</td>
@@ -109,6 +111,7 @@
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">专家名称</td>
+						  <td align="center">包名称</td>
 						<td align="center">联系人</td>
 						<td align="center">手机号</td>
 						<td align="center">传真</td>
@@ -116,14 +119,16 @@
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
-					<c:forEach items="${ProjectExtract}" var="pe" varStatus="vse">
-						<c:forEach items="${pe}" var="ext" varStatus="vs">
+					<c:forEach items="${conditionList}" var="con" varStatus="vs">
+					<c:forEach items="${con.conditionList}" var="pe" varStatus="vse">
+						<c:forEach items="${pe.extRelatesList}" var="ext" varStatus="vs">
 							<tr>
 								<td align="center">${vs.index+1 }</td>
 								<td align="center">${ext.expert.relName}</td>
+							    <td align="center">${con.packages.name}</td>
 								<td align="center">${ext.expert.relName}</td>
 								<td align="center">${ext.expert.relName}</td>
-								<td align="center">${ext.expert.relName}</td>
+								  <td align="center">${ext.expert.relName}</td>
 								<td align="center">${vse.index+1}</td>
 								<td align="center"><c:if test="${ext.operatingType==1 }">
                                                                                          参加
@@ -138,6 +143,7 @@
 							</tr>
 						</c:forEach>
 					</c:forEach>
+				</c:forEach>
 					<tr>
 						<td colspan="7" align="center" class="bggrey">抽取人员</td>
 					</tr>

@@ -93,7 +93,7 @@ public class PackageServiceImpl implements PackageService{
      * @author Wang Wenshuai
      * @return
      */
-    public List<SupplierCheckPass> listSupplierCheckPass(String projectId){
+    public List<Packages> listSupplierCheckPass(String projectId){
         return packageMapper.listSupplierCheckPass(projectId);
     }
 }

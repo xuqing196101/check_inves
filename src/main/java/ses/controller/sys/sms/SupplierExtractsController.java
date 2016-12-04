@@ -605,37 +605,45 @@ public class SupplierExtractsController extends BaseController {
             //获取抽取记录
             SupplierExtracts extracts = new SupplierExtracts();
             extracts.setProjectId(projectId);
-            showExpExtractRecord = expExtractRecordService.listExtractRecord(extracts,0).get(0);
-            model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+            List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(extracts,0);
+            if(listExtractRecord != null && listExtractRecord.size() !=0){
+                showExpExtractRecord = listExtractRecord.get(0);
+                model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+            }
+
         }else{
             //获取抽取记录
-            showExpExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtracts(id),0).get(0);
-            model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+            List<SupplierExtracts> listExtractRecord = expExtractRecordService.listExtractRecord(new SupplierExtracts(id),0);
+            if(listExtractRecord != null && listExtractRecord.size() !=0){
+                showExpExtractRecord = listExtractRecord.get(0);
+                model.addAttribute("ExpExtractRecord", showExpExtractRecord);
+            }
         }
 
         //抽取条件
-        SupplierExtPackage extPackage = new SupplierExtPackage();
-        extPackage.setProjectId(showExpExtractRecord.getProjectId());
-        List<SupplierExtPackage> conditionList = supplierExtPackageServicel.extractsList(extPackage);
-        model.addAttribute("conditionList", conditionList);
-        //        List<List<SupplierExtRelate>> listEp = new ArrayList<List<SupplierExtRelate>>();
-        //        获取供应商人数  
-        //        for (SupplierCondition expExtCondition : conditionList) {
-        //            SupplierExtRelate pExtract = new SupplierExtRelate();
-        //            pExtract.setProjectId(showExpExtractRecord.getProjectId());
-        //            pExtract.setSupplierConditionId(expExtCondition.getId());
-        //            //占用字段保存状态类型
-        //            pExtract.setReason("1,2,3");
-        //            List<SupplierExtRelate> projectExtract = extRelateService.list(pExtract, ""); 
-        //            listEp.add(projectExtract);
-        //        }
-        //        model.addAttribute("ProjectExtract", listEp);
-        //        //获取监督人员
-        if (conditionList != null && conditionList.size() != 0){
-            List<User>  listUser = extUserServicl.list(new SupplierExtUser(conditionList.get(0).getProjectId()));
-            model.addAttribute("listUser", listUser);
+        if(showExpExtractRecord != null){
+            SupplierExtPackage extPackage = new SupplierExtPackage();
+            extPackage.setProjectId(showExpExtractRecord.getProjectId());
+            List<SupplierExtPackage> conditionList = supplierExtPackageServicel.extractsList(extPackage);
+            model.addAttribute("conditionList", conditionList);
+            //        List<List<SupplierExtRelate>> listEp = new ArrayList<List<SupplierExtRelate>>();
+            //        获取供应商人数  
+            //        for (SupplierCondition expExtCondition : conditionList) {
+            //            SupplierExtRelate pExtract = new SupplierExtRelate();
+            //            pExtract.setProjectId(showExpExtractRecord.getProjectId());
+            //            pExtract.setSupplierConditionId(expExtCondition.getId());
+            //            //占用字段保存状态类型
+            //            pExtract.setReason("1,2,3");
+            //            List<SupplierExtRelate> projectExtract = extRelateService.list(pExtract, ""); 
+            //            listEp.add(projectExtract);
+            //        }
+            //        model.addAttribute("ProjectExtract", listEp);
+            //        //获取监督人员
+            if (conditionList != null && conditionList.size() != 0){
+                List<User>  listUser = extUserServicl.list(new SupplierExtUser(conditionList.get(0).getProjectId()));
+                model.addAttribute("listUser", listUser);
+            }
         }
-
         return "ses/sms/supplier_extracts/show_info";
     }
 
