@@ -624,27 +624,8 @@ public class PurchaserExamController extends BaseSupplierController{
 		String paperNo = request.getParameter("paperNo");
 		HashMap<String,Object> code = new HashMap<String,Object>();
 		code.put("code", paperNo);
-		List<ExamPaper> examPaper = examPaperService.selectByPaperNo(code);
-		model.addAttribute("paperId", examPaper.get(0).getId());
-		return "ses/ems/exam/purchaser/timing";
-	}
-	
-	/**
-	 * 
-	* @Title: test
-	* @author ZhaoBo
-	* @date 2016-9-6 下午2:39:01  
-	* @Description: 采购人开始考试  
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/test")
-	public String test(Model model,HttpServletRequest request){
-		User user = (User) request.getSession().getAttribute("loginUser");
-		String paperId = request.getParameter("paperId");
-		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
+		List<ExamPaper> paperList = examPaperService.selectByPaperNo(code);
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperList.get(0).getId());
 		String typeDistribution = examPaper.getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleN =  (String) obj.get("singleNum");
@@ -675,16 +656,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		purchaserQue.addAll(singleQue);
 		purchaserQue.addAll(multipleQue);
 		purchaserQue.addAll(judgeQue);
-		List<Integer> pageNum = new ArrayList<Integer>();
-		if(purchaserQue.size()%5==0){
-			for(int i=0;i<purchaserQue.size()/5;i++){
-				pageNum.add(i);
-			}
-		}else{
-			for(int i=0;i<purchaserQue.size()/5+1;i++){
-				pageNum.add(i);
-			}
-		}
 		StringBuffer sb_answers = new StringBuffer();
 		StringBuffer sb_queTypes = new StringBuffer();
 		StringBuffer sb_questionIds =  new StringBuffer();
@@ -693,18 +664,9 @@ public class PurchaserExamController extends BaseSupplierController{
 			sb_queTypes.append(purchaserQue.get(i).getExamQuestionType().getName()+",");
 			sb_questionIds.append(purchaserQue.get(i).getId()+",");
 		}
-		Date offTime = examPaper.getOffTime();
-		if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
-			model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
-			model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
-		}
-		model.addAttribute("user", user);
-		model.addAttribute("purQueType",sb_queTypes);
-		model.addAttribute("purQueAnswer", sb_answers);
-		model.addAttribute("pageNum", pageNum);
-		model.addAttribute("purchaserQue",purchaserQue);
-		model.addAttribute("purQueId", sb_questionIds);
-		model.addAttribute("pageSize", pageNum.size());
+		model.addAttribute("questionType",sb_queTypes);
+		model.addAttribute("questionAnswer", sb_answers);
+		model.addAttribute("questionId", sb_questionIds);
 		model.addAttribute("examPaper", examPaper);
 		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
 		model.addAttribute("singlePoint", singlePoint);
@@ -713,6 +675,79 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("singleNum", singleNum);
 		model.addAttribute("multipleNum", multipleNum);
 		model.addAttribute("judgeNum", judgeNum);
+		return "ses/ems/exam/purchaser/timing";
+	}
+	
+	/**
+	 * 
+	* @Title: test
+	* @author ZhaoBo
+	* @date 2016-9-6 下午2:39:01  
+	* @Description: 采购人开始考试  
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/test")
+	public String test(Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String paperId = request.getParameter("paperId");
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
+		String typeDistribution = examPaper.getTypeDistribution();
+		JSONObject obj = JSONObject.fromObject(typeDistribution);
+		String singleN =  (String) obj.get("singleNum");
+		Integer singleNum = Integer.parseInt(singleN);
+		String multipleN = (String) obj.get("multipleNum");
+		Integer multipleNum = Integer.parseInt(multipleN);
+		String judgeN = (String) obj.get("judgeNum");
+		Integer judgeNum = Integer.parseInt(judgeN);
+		HashMap<String,Object> smap = new HashMap<String,Object>();
+		smap.put("questionTypeId", 1);
+		smap.put("queNum", singleNum);
+		List<ExamQuestion> singleQue = examQuestionService.selectPurchaserQuestionRandom(smap);
+		HashMap<String,Object> mmap = new HashMap<String,Object>();
+		mmap.put("questionTypeId", 2);
+		mmap.put("queNum", multipleNum);
+		List<ExamQuestion> multipleQue = examQuestionService.selectPurchaserQuestionRandom(mmap);
+		HashMap<String,Object> jmap = new HashMap<String,Object>();
+		jmap.put("questionTypeId", 3);
+		jmap.put("queNum", judgeNum);
+		List<ExamQuestion> judgeQue = examQuestionService.selectPurchaserQuestionRandom(jmap);
+		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
+		question.addAll(singleQue);
+		question.addAll(multipleQue);
+		question.addAll(judgeQue);
+		List<Integer> pageNum = new ArrayList<Integer>();
+		if(question.size()%5==0){
+			for(int i=0;i<question.size()/5;i++){
+				pageNum.add(i);
+			}
+		}else{
+			for(int i=0;i<question.size()/5+1;i++){
+				pageNum.add(i);
+			}
+		}
+		Date offTime = examPaper.getOffTime();
+		if((offTime.getTime()-new Date().getTime())/1000/60<Integer.parseInt(examPaper.getTestTime())){
+			model.addAttribute("second", (offTime.getTime()-new Date().getTime())/1000/60);
+			model.addAttribute("minute", (offTime.getTime()-new Date().getTime())/1000%60);
+		}
+		model.addAttribute("user", user);
+		model.addAttribute("questionType",request.getParameter("questionType"));
+		model.addAttribute("questionAnswer", request.getParameter("questionAnswer"));
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("question",question);
+		model.addAttribute("questionId", request.getParameter("questionId"));
+		model.addAttribute("pageSize", pageNum.size());
+		model.addAttribute("examPaper", examPaper);
+		model.addAttribute("queCount", request.getParameter("queCount"));
+		model.addAttribute("singlePoint", request.getParameter("singlePoint"));
+		model.addAttribute("multiplePoint", request.getParameter("multiplePoint"));
+		model.addAttribute("judgePoint", request.getParameter("judgePoint"));
+		model.addAttribute("singleNum", request.getParameter("singleNum"));
+		model.addAttribute("multipleNum", request.getParameter("multipleNum"));
+		model.addAttribute("judgeNum", request.getParameter("judgeNum"));
 		return "ses/ems/exam/purchaser/test";
 	}
 	
@@ -1398,11 +1433,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		String paperNo = request.getParameter("paperNo");
 		HashMap<String,Object> code = new HashMap<String,Object>();
 		code.put("code", paperNo);
-		List<ExamPaper> pap = examPaperService.selectByPaperNo(code);
-		if(pap.size()==0){
+		List<ExamPaper> paper = examPaperService.selectByPaperNo(code);
+		if(paper.size()==0){
 			str = "0";//没有该考卷
 		}else{
-			ExamPaper examPaper = pap.get(0);
+			ExamPaper examPaper = paper.get(0);
 			Date startTime = examPaper.getStartTime();
 			Date offTime = examPaper.getOffTime();
 			if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
@@ -1467,9 +1502,9 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/savePurchaserScore")
 	public String savePurchaserScore(Model model,HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		String[] purQueAnswer = request.getParameter("purQueAnswer").split(",");
-		String[] purQueType = request.getParameter("purQueType").split(",");
-		String[] purQueId = request.getParameter("purQueId").split(",");
+		String[] questionAnswer = request.getParameter("questionAnswer").split(",");
+		String[] questionType = request.getParameter("questionType").split(",");
+		String[] questionId = request.getParameter("questionId").split(",");
 		String paperId = request.getParameter("paperId");
 		ExamPaper paper = examPaperService.selectByPrimaryKey(paperId);
 		String typeDistribution = paper.getTypeDistribution();
@@ -1482,13 +1517,13 @@ public class PurchaserExamController extends BaseSupplierController{
 		BigDecimal judgePoint = new BigDecimal(judgeP);
 		BigDecimal score = new BigDecimal(0);
 		String passStandard = paper.getPassStandard();
-		for(int i=0;i<purQueAnswer.length;i++){
+		for(int i=0;i<questionAnswer.length;i++){
 			StringBuffer sb = new StringBuffer();
 			if(request.getParameterValues("que"+(i+1))==null){
 				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
 				examUserAnswer.setContent(" ");
 				examUserAnswer.setCreatedAt(new Date());
-				examUserAnswer.setQuestionId(purQueId[i]);
+				examUserAnswer.setQuestionId(questionId[i]);
 				examUserAnswer.setUserType(2);
 				examUserAnswer.setPaperId(paperId);
 				examUserAnswerService.insertSelective(examUserAnswer);
@@ -1501,16 +1536,16 @@ public class PurchaserExamController extends BaseSupplierController{
 				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
 				examUserAnswer.setContent(sb.toString());
 				examUserAnswer.setCreatedAt(new Date());
-				examUserAnswer.setQuestionId(purQueId[i]);
+				examUserAnswer.setQuestionId(questionId[i]);
 				examUserAnswer.setUserType(2);
 				examUserAnswer.setPaperId(paperId);
 				examUserAnswerService.insertSelective(examUserAnswer);
-				if(purQueAnswer[i].equals(sb.toString())){
-					if(purQueType[i].equals("单选题")){
+				if(questionAnswer[i].equals(sb.toString())){
+					if(questionType[i].equals("单选题")){
 						score = score.add(singlePoint); 
-					}else if(purQueType[i].equals("多选题")){
+					}else if(questionType[i].equals("多选题")){
 						score = score.add(multiplePoint);
-					}else if(purQueType[i].equals("判断题")){
+					}else if(questionType[i].equals("判断题")){
 						score = score.add(judgePoint);
 					}
 				}
