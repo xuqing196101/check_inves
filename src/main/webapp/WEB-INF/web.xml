@@ -30,9 +30,6 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
-  <listener>
-		<listener-class>ses.util.InitIndexServlet</listener-class>
-  </listener>
   <servlet>
     <description>spring mvc servlet</description>
     <servlet-name>springMvc</servlet-name>
@@ -112,21 +109,11 @@
         </init-param>
         
 	</servlet>
-  <servlet>
-    <servlet-name>InitIndexServlet</servlet-name>
-    <servlet-class>ses.util.InitIndexServlet</servlet-class>
-  </servlet>
-
 	<!-- 映射的url -->
 	<servlet-mapping>
 		<servlet-name>Kaptcha</servlet-name>
 		<url-pattern>/index/Kaptcha.jpg</url-pattern>
 	</servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>InitIndexServlet</servlet-name>
-    <url-pattern>/InitIndexServlet</url-pattern>
-  </servlet-mapping>
-  
   <listener>
   	<listener-class>ses.util.FolderListener</listener-class>
   </listener>
