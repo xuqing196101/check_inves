@@ -1341,8 +1341,14 @@ public class SupplierController extends BaseSupplierController {
 		Supplier supp = supplierMapper.queryByName(name);
 //		Supplier supplier = supplierService.get("61a6b3713e754c7c8efdc7d942eb7834");
 		Supplier supplier = supplierService.get(supp.getId());
-		Area area = areaService.listById(supplier.getAddress());
-		List<Area> city = areaService.findAreaByParentId(area.getParentId());
+		if(supplier.getAddress()!=null){
+			Area area = areaService.listById(supplier.getAddress());
+			List<Area> city = areaService.findAreaByParentId(area.getParentId());
+			request.getSession().setAttribute("city", city);
+			request.getSession().setAttribute("area", area);
+		}
+
+	
 		
 		List<Area> privnce = areaService.findRootArea();
 		
@@ -1353,9 +1359,6 @@ public class SupplierController extends BaseSupplierController {
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		request.getSession().setAttribute("supplierId", supplier.getId());
 		
-		
-		request.getSession().setAttribute("city", city);
-		request.getSession().setAttribute("area", area);
 		request.getSession().setAttribute("privnce", privnce);
 		
 		return "ses/sms/supplier_register/basic_info";
