@@ -178,7 +178,9 @@ public class ImportRecommendController extends BaseSupplierController {
         user.setTypeId(ir.getId());
         //采购管理部门的id
         Orgnization org = new Orgnization();
-        org.setId(user1.getOrg().getId());
+        if (user1.getOrg() != null ){
+            org.setId(user1.getOrg().getId());
+        }
         user.setOrg(org);
         user.setTypeName(DictionaryDataUtil.getId("IMP_AGENT_U"));
         userService.save(user, null);

@@ -517,12 +517,13 @@ public class SupplierQueryController extends BaseSupplierController {
     public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
         String supplierId = supplierAudit.getSupplierId();
         request.setAttribute("supplierId", supplierId);
-        if (supplierId != null) {
+       /* if (supplierId != null) {
             List<SupplierItem> listItem = supplierService.get(supplierId).getListSupplierItems();
             request.setAttribute("listItem", listItem);
-        }
+        }*/
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
+        supplier = supplierService.get(supplierId);
         supplier.setId(supplierId);
         getSupplierType(supplier);
         request.setAttribute("suppliers", supplier);

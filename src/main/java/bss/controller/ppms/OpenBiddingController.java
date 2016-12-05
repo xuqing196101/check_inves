@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
@@ -226,7 +227,59 @@ public class OpenBiddingController {
      */
     @RequestMapping("/winNotice")
     public String winNotice(String projectId, Model model, String flowDefineId){
-          return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
+        /*HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        List<Packages> list = packageService.findPackageById(map);
+        if(list != null && list.size()>0){
+            for(Packages ps:list){
+                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                packageId.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = detailService.selectById(packageId);
+                ps.setProjectDetails(detailList);
+            }
+        }
+        StringBuilder sb = new StringBuilder("");
+        sb.append("<p style='text-align: center;'><strong>测试项目不要删</strong></p><p><br/>");
+        for (Packages pack : list) {
+            sb.append("<strong>包名</strong><strong>：</strong>"+pack.getName()+"</p>");
+            sb.append("<table><tbody><tr class='firstRow'>");
+            sb.append("<td width='59' valign='middle' align='center'><strong>序号<br/></strong></td>");   
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>需求</strong></p><p><strong>部门</strong></p></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>物资</strong></p><p><strong>名称</strong></p></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>规格</strong></p><p><strong>型号</strong></p></td>");
+            sb.append("<td width='59' valign='middle' align='center'><strong>质量技术标准<br/></strong></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>计量</strong></p><p><strong>单位</strong></p></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>采购</strong></p><p><strong>数量</strong></p></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>单价</strong></p><p><strong>(元)<br/></strong></p></td>");
+            sb.append("<td style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>预算金额</strong></p><p><strong>(万元)</strong></p></td>");
+            sb.append("<td colspan='1' rowspan='1' style='word-break: break-all;' width='59' valign='middle' align='center'><p><strong>交货</strong></p><p><strong>期限</strong></p></td>");
+            sb.append("<td colspan='1' rowspan='1' style='word-break: break-all;' width='59' valign='middle' align='center'><strong>采购方式建议<br/></strong></td>");
+            sb.append("<td colspan='1' rowspan='1' width='59' valign='middle' align='center'><strong>供应商名称<br/></strong></td>");
+            sb.append("<td width='59' valign='middle' align='center'><strong>备注<br/></strong></td></tr>");
+            for (ProjectDetail pd : pack.getProjectDetails()) {
+                sb.append("<tr><td width='59' valign='top'><br/>"+pd.getSerialNumber()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getDepartment()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getGoodsName()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getStand()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getQualitStand()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getItem()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getPurchaseCount()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getPrice()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getBudget()+"</td>");
+                sb.append("<td width='59' valign='top'><br/>"+pd.getDeliverDate()+"</td>");
+                for (DictionaryData dd : DictionaryDataUtil.find(5)) {
+                    if (dd.getId() == pack.getPurchaseType()) {
+                        sb.append("<td colspan='1' rowspan='1' width='59' valign='top'><br/>"+dd.getName()+"</td>");
+                    }
+                }
+                sb.append("<td colspan='1' rowspan='1' width='59' valign='top'><br/></td>");
+                sb.append("<td colspan='1' rowspan='1' width='59' valign='top'><br/></td>");
+                sb.append("<td width='59' valign='top'><br/></td>");
+                sb.append("</tr></tbody></table><p><br/><br/></p>");
+            }
+        }*/
+
+        return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
     }
     
     @RequestMapping("/showTime")

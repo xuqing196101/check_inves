@@ -87,13 +87,6 @@ function fanhui(){
 				dataType : "json",
 				type : "post",
 			},
-			check : {
-				enable : true,
-				chkboxType : {
-					"Y" : "s",
-					"N" : "s"
-				}
-			},
 			data : {
 				simpleData : {
 					enable : true,

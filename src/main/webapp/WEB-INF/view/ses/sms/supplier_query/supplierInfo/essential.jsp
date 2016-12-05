@@ -218,7 +218,7 @@ function fanhui(){
 							<td class="bggrey">邮编：</td><td> ${suppliers.businessPostCode } </td>
 							<td class="bggrey">营业执照：</td>
 							<td class="hand">
-							<up:show showId="business_show"  businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+							<up:show showId="business_show" delete="flase" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 							</td>
 						</tr>
 						<tr>

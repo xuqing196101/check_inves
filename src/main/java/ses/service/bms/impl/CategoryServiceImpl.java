@@ -296,14 +296,12 @@ public class CategoryServiceImpl implements CategoryService {
         List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
         for (Category c : listCategorys) {
             SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-            supplierTypeTree.setId(c.getId());
-            supplierTypeTree.setParentId(c.getParentId());
-            supplierTypeTree.setName(c.getName());
-            supplierTypeTree.setChkDisabled(true);
             if (listCategoryIds.contains(c.getId())) {
-                supplierTypeTree.setChecked(true);
+                supplierTypeTree.setId(c.getId());
+                supplierTypeTree.setParentId(c.getParentId());
+                supplierTypeTree.setName(c.getName());
+                listSupplierTypeTrees.add(supplierTypeTree);
             }
-            listSupplierTypeTrees.add(supplierTypeTree);
         }
         return listSupplierTypeTrees;
     }
