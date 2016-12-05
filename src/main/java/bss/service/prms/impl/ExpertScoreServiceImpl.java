@@ -164,8 +164,8 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
         map.put("projectId", projectId);
         map.put("packageId", packageId);
         mapper.gather(map);
-        // 2.向SUPPLIER_CHECK_PASS表中插入数据
         for (SaleTender sale : supplierList) {
+            // 2.向SUPPLIER_CHECK_PASS表中插入数据
             Supplier supplier = sale.getSuppliers();
             BigDecimal totalScore = BigDecimal.ZERO;
             //查询改包下的供应商所有评审项的评分信息
@@ -200,6 +200,8 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
             record.setTotalPrice(total.longValue());
             supplierCheckPassMapper.insert(record);
             //end
+            // 3.同步AUDIT_QUOTA表中的专家评分和最终成绩
+            
         }
         return "success";
     }

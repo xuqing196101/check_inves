@@ -13,7 +13,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
 session.setAttribute("tokenSession", tokenValue);
 %>
 <script type="text/javascript">
-		function func(){
+		function func123(){
 			var parentId = $("#addr").val();
 			$.ajax({
 				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
@@ -539,7 +539,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                    <select id="addr" onchange="func();">
+                    <select id="addr" onchange="func123()">
                            <option value="">-请选择-</option>
                     </select>
                    </div>
