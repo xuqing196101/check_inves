@@ -256,11 +256,12 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "search_org")
-	public String searchOrg(HttpServletRequest request, String id) {
+	public String searchOrg(HttpServletRequest request, String pid,String cid) {
 		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 //		map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
-		map.put("provinceId",id);
+		map.put("provinceId",pid);
+		map.put("cityId",cid);
 		List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
 //		map.clear();
 //		map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");

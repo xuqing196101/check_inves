@@ -66,6 +66,35 @@
 		
 
 	}
+	
+	
+
+	function loadChildren(obj) {
+		var id = $(obj).val();
+		if (id) {
+			$.ajax({
+				url : globalPath + "/area/find_area_by_parent_id.do",
+				type : "post",
+				dataType : "json",
+				data : {
+					id : id
+				},
+				success : function(result) {
+					var html = "";
+					for ( var i = 0; i < result.length; i++) {
+						html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+					}
+					$("#children_area_select_id").empty();
+					$("#children_area_select_id").append(html);
+
+					// 自动选中
+				},
+			});
+		}
+	}
+
+	
+	
 </script>
 
 </head>
@@ -113,9 +142,29 @@
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="input-append">
-													<select class="w200 fz13" id="root_area_select_id" name="id"></select>
+													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)"></select>
+													
+													<select class="w100 fz13"  id="children_area_select_id" name="cid" ></select>
 													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
 												</div>
+											<!-- 	 <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
+												 
+												 <select id="children_area_select_id" name="address" > -->
+				         
+				 <%--           <c:forEach  items="${city }" var="city">
+					         <c:if test="${city.id==currSupplier.address }">
+					          <option value="${city.id }" selected="selected" >${city.name }</option>
+					         </c:if>
+				           <c:if test="${city.id!=currSupplier.address }">
+					          <option value="${city.id }"  >${city.name }</option>
+					         </c:if>
+				         </c:forEach> --%>
+				         
+				         
+								      <!--    </select> -->
+								         
+								         <!-- </div> -->
+				         
 											</form>
 										</li>
 									</ul><br />

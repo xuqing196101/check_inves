@@ -45,6 +45,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
 import common.model.UploadFile;
+import common.service.UploadService;
 
 
 /**
@@ -95,7 +96,9 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private PreMenuServiceI preMenuService;
 	
-	 
+	@Autowired
+	private UploadService uploadFileService;
+	
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
@@ -167,6 +170,12 @@ public class SupplierServiceImpl implements SupplierService {
 		}
 		supplier.setListSupplierItems(itemList);
 		supplier.setCategoryParam(categoryList);
+		for(ProductParam p:paramList){
+			List<UploadFile> file = uploadFileService.getFilesOther(p.getParamValue(), null, "1");
+			if(file.size()>0){
+				p.setParamValue(file.get(0).getName());
+			}
+		}
 		
 		supplier.setParamVleu(paramList);
 		

@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="u" uri="/tld/upload"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -45,7 +46,11 @@
 		   	  //   parent.location.reload(); 
 			       $(list).each(function(i){
 			    	  // alert(list[i].paramValue);
-			    	  $(tr).append("<td align='center'>"+list[i].paramValue+" </td>");
+			    	  if(list[i].paramName==null){
+			    		  $(tr).append("<td align='center'>"+list[i].paramValue+" </td>");
+			    	  }else{
+			    		  $(tr).append("<td class='tc'><a class='mt3 color7171C6' onClick='javascript:downloadFile(this)'>"+list[i].paramName+"</a><input type='hidden' value="+ list[i].paramValue+"> </td>");
+			    	  }
 			       });
 			  	 parent.layer.close(index);
 	 
@@ -68,6 +73,18 @@
 	
 	}
 
+	function checknums(obj){
+		var vals=$(obj).val();
+		var reg= /^\d+\.?\d*$/;  
+		if(!reg.exec(vals)){
+			$(obj).val("");
+			 $("#err_fund").text("数字非法");
+		}else{
+			$("#err_fund").text();
+			$("#err_fund").empty();
+		}
+	}
+	
 
 </script>
 <body>
@@ -86,12 +103,26 @@
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
 											<c:forEach items="${list}" var="obj" varStatus="vs">
-												<li class="col-md-6 p0"><span class=""><i class="red">*</i> ${obj.paramName}</span>
-													<div class="input-append">
+												<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class=""><i class="red">*</i> ${obj.paramName}:</span>
+													<div  >
 														<input name="list[${vs.index}].supplierId" value="${supplierId}" type="hidden" />
 														<input name="list[${vs.index}].categoryParamId" value="${obj.id}" type="hidden" />
 														<input name="list[${vs.index}].categoryId" value="${categoryId}" type="hidden" />
-														<input  type="text" name="list[${vs.index}].paramValue" value="" />
+														<c:if test="${obj.paramTypeId=='CHAR' }">
+														  <input  type="text" name="list[${vs.index}].paramValue" value="" />
+														</c:if>
+														<c:if test="${obj.paramTypeId=='DATE' }">
+														  <input  type="text" name="list[${vs.index}].paramValue"  readonly="readonly" onClick="WdatePicker()" />
+														</c:if>
+														<c:if test="${obj.paramTypeId=='INT' }">
+														  <input  type="text" name="list[${vs.index}].paramValue" onkeyup="checknums(this)" value="" />
+														</c:if>
+														<c:if test="${obj.paramTypeId=='ATTACHMENT' }">
+														<!-- <input type="text"  value="1"/> -->
+														  <input name="list[${vs.index}].paramValue" value="${attid}" type="hidden" />
+					 										  <u:upload id="promise_up"   businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" auto="true" /> 
+															   <u:show showId="promise_show"    businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" />  
+														</c:if>
 													</div>
 												</li>
 											</c:forEach>

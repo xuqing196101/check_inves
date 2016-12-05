@@ -111,6 +111,19 @@
 			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=products_page' + '&jsp=dialog_products_reason' + '&supplierId=' + supplierId, //url
 		});
 	}
+	
+	function downloadFile(obj){
+		var id=$(obj).parent().children(":last").val();
+	 	var key=1;
+	    var form = $("<form>");   
+	        form.attr('style', 'display:none');   
+	        form.attr('method', 'post');
+	        form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key);
+	        $('body').append(form); 
+	        form.submit();
+	}
+	
+	
 </script>
 </head>
 

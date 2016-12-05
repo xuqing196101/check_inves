@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,7 @@ import ses.model.bms.CategoryAptitude;
 import ses.model.bms.CategoryAssigned;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
@@ -45,9 +47,12 @@ import ses.service.bms.CategoryParameterService;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
+import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+
+import common.constant.Constant;
 
 @Controller
 @Scope("prototype")
@@ -1030,9 +1035,24 @@ public class CategoryParamContrller extends BaseSupplierController {
 //        model.addAttribute("productsId", productsId);
     	
     	List<CategoryParameter> list = categoryParameterService.getParametersByItemId(categoryId);
+    	for(CategoryParameter param:list){
+    		DictionaryData dic = DictionaryDataUtil.findById(param.getParamTypeId());
+    		param.setParamTypeId(dic.getCode());
+    	}
     	model.addAttribute("list", list);
     	model.addAttribute("categoryId", categoryId);
     	model.addAttribute("supplierId", supplierId);
+    	model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+    	List<DictionaryData> data = DictionaryDataUtil.find(14);
+ 
+    	for(DictionaryData dic:data){
+    		if(dic.getCode().equals("ATTACHMENT")){
+    			model.addAttribute("attachmentId",dic.getId());
+    		}
+    	}
+    	String attid = UUID.randomUUID().toString().replaceAll("-", "");
+    	model.addAttribute("attid",attid);
+		
         return "ses/sms/supplier_register/add_param";
     }
 
