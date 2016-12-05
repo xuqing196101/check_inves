@@ -31,7 +31,10 @@
     				tips : 1
     			});
     		} else {
-    			var index = layer.load();
+    			var index = layer.load(0,{
+    				  shade: [0.1,'#fff'],
+    				  offset:['45%','53%']
+    			}); 
     			$.ajax({
     				url : "${pageContext.request.contextPath}/login/login.html",
     				type : "post",
