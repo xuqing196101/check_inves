@@ -30,7 +30,7 @@
   <div class="mt10">
 	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
    </div>
-	   <div class="tab-content">
+	   <div class="tab-content mt10">
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
               <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="f18">页签一</a></li>

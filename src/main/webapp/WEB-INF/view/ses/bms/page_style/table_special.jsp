@@ -29,7 +29,7 @@
   <div class="mt10">
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
    </div> 
-  <table class="table table-bordered">
+  <table class="table table-bordered mt10">
 			    <tbody>
 				  <tr>
 				    <td width="25%" class="info">单位名称：</td>
