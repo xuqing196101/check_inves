@@ -15,42 +15,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title>专家个人信息</title>
 <script type="text/javascript">
-$(function(){
-	 //回显已选产品
-	   var id="${expert.id}";
-	   var count=0;
-	   var expertsTypeId = $("#expertsTypeId").val();
+	$(function(){
+	 	//回显已选产品
+	   	var id="${expert.id}";
+	   	var count=0;
+	   	var expertsTypeId = $("#expertsTypeId").val();
 		//控制品目树的显示和隐藏
-	   if(expertsTypeId==1 || expertsTypeId=="1"){
-		  $.ajax({
-			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			  success:function(code){
-				  var checklist = document.getElementsByName ("chkItem");
-				  for(var i=0;i<checklist.length;i++){
+	   	if(expertsTypeId==1 || expertsTypeId=="1"){
+			$.ajax({
+			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+			  	dataType:"json",
+			  	success:function(code){
+				  	var checklist = document.getElementsByName("chkItem");
+				  	for(var i=0;i<checklist.length;i++){
 						var vals=checklist[i].value;
-						 if(code.length>0){
-								$.each(code,function(i,result){
-									if(vals==result){
+						if(code.length>0){
+							$.each(code,function(i,result){
+								if(vals == result){
 					 				checklist[i].checked=true;
-					 			    }
-									if("GOODS"==result){
-										count++;
-									}
-								});
+					 			}
+								if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
+									count++;
+								}
+							});
 						} 
-					   } 
+					} 
 				    if(count>0){
 						$("#hwType").show(); 
 					}else{
 						$("#hwType").hide(); 
 					}
-			  }
-			  }); 
+			  	}
+			}); 
 		    $("#ztree").show();
-		 }else{
+		}else{
 			$("#ztree").hide();
-		 }
-}); 
+		}
+	}); 
 
 
 var parentId ;
@@ -315,7 +316,7 @@ window.onload=function(){
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${spList }" var="obj" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name}</span>
 			      </c:forEach>
 			  </div>
 			</div>
@@ -323,7 +324,7 @@ window.onload=function(){
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name}</span>
 			      </c:forEach>
 			  </div>
 			</div>

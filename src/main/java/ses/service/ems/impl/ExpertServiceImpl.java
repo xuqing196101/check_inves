@@ -405,18 +405,17 @@ public class ExpertServiceImpl implements ExpertService {
 		//发送待办
 		Todos todos = new Todos();
 		todos.setId(WfUtil.createUUID());
-		todos.setCreatedAt(new Date());
 		todos.setIsDeleted((short)0);
 		todos.setIsFinish((short)0);
 		//待办类型
-		todos.setName("评审专家注册");
+		todos.setName("(" + mapper.selectByPrimaryKey(expertId).getRelName() + ")-评审专家注册");
 		//todos.setReceiverId();
 		//接受人id
 		todos.setOrgId(expert.getPurchaseDepId());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		todos.setPowerId(config.getString("zjdb"));
 		//发送人id
-		todos.setSenderId(expert.getId());
+		todos.setSenderId(userId);
 		todos.setUndoType((short)2);
 		//发送人姓名
 		todos.setSenderName(expert.getRelName());
@@ -485,9 +484,9 @@ public class ExpertServiceImpl implements ExpertService {
 			ExpertCategory expertCategory = new ExpertCategory();
 			categoryMapper.deleteByExpertId(expert.getId());
 			//循环品目id集合
-			for (String string : code) {
+			for (String id : code) {
 				//根据编码查询id
-				String id = DictionaryDataUtil.getId(string);
+				//String id = DictionaryDataUtil.getId(string);
 				expertCategory.setCategoryId(id);
 				expertCategory.setExpertId(expert.getId());
 				//逐条保存

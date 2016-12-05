@@ -66,7 +66,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		//关联表的所有id  再根据id查询出所有的code
 		for (ExpertCategory expertCategory : list) {
 			DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(expertCategory.getCategoryId());
-			dataList.add(data.getCode());
+			//dataList.add(data.getCode());
+			dataList.add(data.getId());
 		}
 		return dataList;
 	}
