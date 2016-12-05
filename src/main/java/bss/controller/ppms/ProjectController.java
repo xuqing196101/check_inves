@@ -17,12 +17,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -136,17 +139,8 @@ public class ProjectController extends BaseController {
         model.addAttribute("info", info);
         //显示项目明细
         if(id != null){
-           /* String idr = (String) request.getSession().getAttribute("idr");
-            if (idr != null) {
-                idr = idr + "," + id;
-                request.getSession().setAttribute("idr", idr);
-            } else {
-                request.getSession().setAttribute("idr", id);
-            }
-            String ide = (String) request.getSession().getAttribute("idr");*/
             List<PurchaseRequired> lists  = new ArrayList<>();
             String[] ids = id.split(",");
-            //BigDecimal zero = BigDecimal.ZERO;
             int bud = 0;
             for (int i = 0; i < ids.length; i++ ) {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
@@ -220,7 +214,7 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/create")
-    public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
+    public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, @Valid Project project, Model model, BindingResult result, HttpServletRequest request) {
         request.getSession().removeAttribute("listFengtian");
         try {
             // 判断表单是否重复提交
@@ -233,11 +227,16 @@ public class ProjectController extends BaseController {
                 // 重复提交
                 return "redirect:list.html";
             }
+            if(result.hasErrors()){
+                List<FieldError> errors=result.getFieldErrors();
+                for(FieldError fieldError:errors){
+                    model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+                }
+                
+                return "bss/ppms/project/add";
+            }
             //新增项目信息
-            Project project = new Project();
-            if(name != null && projectNumber != null){
-                project.setName(name);
-                project.setProjectNumber(projectNumber);
+            if(project != null){
                 project.setCreateAt(new Date());
                 project.setStatus(3);
                 if(chkItem != null){

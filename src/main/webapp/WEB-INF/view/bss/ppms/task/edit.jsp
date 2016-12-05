@@ -185,7 +185,7 @@
   
 <!-- 录入采购计划开始-->
   <div class="container container_box">
-    <sf:form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post">
+    <sf:form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post" modelAttribute="task">
       <div>
         <h2 class="count_flow"><i>1</i>采购计划调整</h2>
         <ul class="ul_list">

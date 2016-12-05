@@ -2,6 +2,8 @@ package ses.model.oms;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import ses.model.bms.User;
@@ -37,6 +39,7 @@ public class PurchaseInfo extends User{
 
     private String detailAddr;
 
+    @NotNull(message = "身份证不能为空")  
     private String idCard;
 
     private String professional;//职称
@@ -61,6 +64,7 @@ public class PurchaseInfo extends User{
     private String workExperience;
 
     private String trainExperience;
+    
     private Date quaStartDate;
     private Integer isDeleted; 
     private String userId;//用户id

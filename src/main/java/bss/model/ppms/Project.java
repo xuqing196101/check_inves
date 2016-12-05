@@ -2,15 +2,19 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
 public class Project {
     private String id; //主键
-
+    
+    @NotBlank(message="不能为空")
     private String name; //项目名称
 
+    @NotBlank(message="不能为空")
     private String projectNumber; //项目编号
 
     private Integer status; //状态

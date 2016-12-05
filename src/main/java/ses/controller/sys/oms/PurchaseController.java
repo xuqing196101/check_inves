@@ -27,10 +27,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import bss.controller.base.BaseController;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
@@ -55,7 +59,7 @@ import ses.util.WfUtil;
 @Controller
 @Scope("prototype")
 @RequestMapping("/purchase")
-public class PurchaseController {
+public class PurchaseController extends BaseController{
 	
 	@Autowired
 	private PurchaseServiceI purchaseServiceI;
@@ -65,6 +69,10 @@ public class PurchaseController {
 	
 	@Autowired
 	private RoleServiceI roleService;
+	
+	@Autowired
+	private UploadService uploadService;
+	
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
@@ -147,6 +155,19 @@ public class PurchaseController {
 			return "ses/oms/purchase/add";
 		}
 		
+		List<UploadFile> list = uploadService.getFilesOther(purchaseInfo.getId(), null, "2");
+		if(list.size() < 1){
+		    model.addAttribute("roleName",roleName);
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("mainId_msg", "请上传附件");
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            
+            model.addAttribute("origin", origin);
+            return "ses/oms/purchase/add";
+		}
+		
 		//校验用户名是否存在
 	    List<User> users = userServiceI.findByLoginName(purchaseInfo.getLoginName());
 		if (users != null && users.size() > 0){
@@ -161,16 +182,74 @@ public class PurchaseController {
 			return "ses/oms/purchase/add";
 		}
 		
-		//验证两次密码是否一致
-		if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){
-			model.addAttribute("mainId",purchaseInfo.getId());
-			model.addAttribute("purchaseInfo", purchaseInfo);
-			model.addAttribute("password2_msg", "两次输入密码不一致");
-			model.addAttribute("originOrgId", originOrgId);
-			purchaseServiceI.initPurchaser(model,originOrgId);
-			
-			model.addAttribute("origin", origin);
-			return "ses/oms/purchase/add";
+		
+
+        //验证两次密码是否一致
+        if (!purchaseInfo.getPassword().equals(purchaseInfo.getPassword2())){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("password2_msg", "两次输入密码不一致");
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            
+            model.addAttribute("origin", origin);
+            return "ses/oms/purchase/add";
+        }
+		
+		//验证身份证格式
+		if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+		    model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+		    model.addAttribute("exist_idCard", "身份证格式不对");
+		    model.addAttribute("purchaseInfo", purchaseInfo);
+		    model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+		    return "ses/oms/purchase/add";
+		}
+		
+		//验证姓名长度
+		if(purchaseInfo.getRelName().length() > 15){
+		    model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+		    model.addAttribute("exist_name", "长度超出范围");
+		    model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+		    return "ses/oms/purchase/add";
+		}
+		
+		//验证时间
+		if(purchaseInfo.getQuaStartDate() == null){
+		    model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+		    model.addAttribute("err_sDate", "开始时间不能为空");
+		    model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+		    return "ses/oms/purchase/add";
+		}
+		if(purchaseInfo.getQuaEdndate() == null){
+		    model.addAttribute("roleName",roleName);
+		    model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("err_eDate", "截止时间不能为空");
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/add";
+        }
+		
+		//验证邮编格式
+		if(purchaseInfo.getPostCode() != null){
+    		if(!purchaseInfo.getPostCode().matches("^([1-9]\\d{5}(?!\\d))$")){
+    		    model.addAttribute("roleName",roleName);
+    		    model.addAttribute("mainId",purchaseInfo.getId());
+    		    model.addAttribute("exist_postCode", "输入正确的邮编格式");
+    		    model.addAttribute("purchaseInfo", purchaseInfo);
+                model.addAttribute("originOrgId", originOrgId);
+                purchaseServiceI.initPurchaser(model,originOrgId);
+                return "ses/oms/purchase/add";
+    		}
 		}
 		
 		User currUser=(User) request.getSession().getAttribute("loginUser");
@@ -277,8 +356,82 @@ public class PurchaseController {
 			purchaseServiceI.initPurchaser(model,originOrgId);
 			return "ses/oms/purchase/edit";
 		}
-		purchaseServiceI.updatePurchase(purchaseInfo);
 		
+		List<UploadFile> list = uploadService.getFilesOther(purchaseInfo.getId(), null, "2");
+        if(list.size() < 1){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("mainId_msg", "请上传附件");
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            
+            model.addAttribute("origin", origin);
+            return "ses/oms/purchase/edit";
+        }
+		
+		//验证身份证格式
+        if(!purchaseInfo.getIdCard().matches("^(\\d{15}$|^\\d{18}$|^\\d{17}(\\d|X|x))$")){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("exist_idCard", "身份证格式不对");
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("origin", origin);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/edit";
+        }
+        
+        //验证姓名长度
+        if(purchaseInfo.getRelName().length() > 15){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("exist_name", "长度超出范围");
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("origin", origin);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/edit";
+        }
+        
+        //验证时间
+        if(purchaseInfo.getQuaStartDate() == null){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("err_sDate", "开始时间不能为空");
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("origin", origin);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/edit";
+        }
+        if(purchaseInfo.getQuaEdndate() == null){
+            model.addAttribute("roleName",roleName);
+            model.addAttribute("err_eDate", "截止时间不能为空");
+            model.addAttribute("mainId",purchaseInfo.getId());
+            model.addAttribute("purchaseInfo", purchaseInfo);
+            model.addAttribute("origin", origin);
+            model.addAttribute("originOrgId", originOrgId);
+            purchaseServiceI.initPurchaser(model,originOrgId);
+            return "ses/oms/purchase/edit";
+        }
+		
+      //验证邮编格式
+        if(purchaseInfo.getPostCode() != null){
+            if(!purchaseInfo.getPostCode().matches("^([1-9]\\d{5}(?!\\d))$")){
+                model.addAttribute("roleName",roleName);
+                model.addAttribute("exist_postCode", "输入正确的邮编格式");
+                model.addAttribute("mainId",purchaseInfo.getId());
+                model.addAttribute("purchaseInfo", purchaseInfo);
+                model.addAttribute("origin", origin);
+                model.addAttribute("originOrgId", originOrgId);
+                purchaseServiceI.initPurchaser(model,originOrgId);
+                return "ses/oms/purchase/edit";
+            }
+        }
+        
+        purchaseServiceI.updatePurchase(purchaseInfo);
+        
 		if (StringUtils.isNotBlank(origin)){
 			 if (StaticVariables.ORG_ORIGIN_PURCHASER.equals(origin)){
 				 return "redirect:/purchaseManage/purchaseUnitList.html";

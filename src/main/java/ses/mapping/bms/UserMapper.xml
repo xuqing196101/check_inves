@@ -452,7 +452,7 @@
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_USER u
-    where
+    where u.IS_DELETED=0 and
     u.LOGIN_NAME = #{loginName}
   </select>
   

@@ -198,7 +198,7 @@
         #{name},
       </if>
       <if test="purchaseId != null">
-        #{purchaseId},
+        #{purchaseId.id},
       </if>
       <if test="documentNumber != null">
         #{documentNumber},

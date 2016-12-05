@@ -142,7 +142,7 @@
     </div>
   </div>
   <div class="container container_box">
-    <form id="form1" action="${pageContext.request.contextPath}/project/create.html" method="post">
+    <sf:form id="form1" action="${pageContext.request.contextPath}/project/create.html" method="post" modelAttribute="project">
 	  <div>
 		<h2 class="count_flow"><i>1</i>添加信息</h2>
 		<% session.setAttribute("tokenSession", tokenValue); %>
@@ -153,6 +153,7 @@
 			  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 		        <input id="pic" type="text" class="input_group" name="name" /> 
 		        <span class="add-on">i</span>
+		        <div class="cue"><sf:errors path="name"/></div>
 			  </div>
 		  </li>
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -160,6 +161,7 @@
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
 			  <input id="pc" type="text" class="input_group" name="projectNumber" />
 			  <span class="add-on">i</span>
+			  <div class="cue"><sf:errors path="projectNumber"/></div>
 		    </div>
 		  </li>
 		</ul>
@@ -294,7 +296,7 @@
         <button class="btn btn-windows save" onclick="add();" type="button">确定</button>
         <button class="btn btn-windows back" onclick="bask();" type="button">返回</button>
       </div>
-	</form>
+	</sf:form>>
   </div>
 </body>
 </html>
