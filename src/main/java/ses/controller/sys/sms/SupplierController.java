@@ -1316,7 +1316,7 @@ public class SupplierController extends BaseSupplierController {
 					Category category = categoryService.selectByPrimaryKey(s.getCategoryId());
 					chose.add(category);
 //					choseId.add(category.getId());
-					sb.append(category.getId());
+					sb.append(category.getId()).append(",");
 				}
 			}
 		}

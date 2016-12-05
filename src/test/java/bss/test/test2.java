@@ -188,4 +188,13 @@ public class test2 {
 		map.put("aa", "aa");
 		System.out.println(map.isEmpty());
 	}
+	
+	@Test
+	public void test6(){
+		StringBuffer sb=new StringBuffer();
+		sb.append("1").append(",");
+		sb.append("2");
+		System.out.print(sb.toString());
+		
+	}
 }

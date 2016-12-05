@@ -424,7 +424,7 @@ public class SupplierServiceImpl implements SupplierService {
 					if(dic.getId().equals(s.getSupplierTypeRelateId())){
 						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
 //						server.add(category.getName());
-						server.append(category.getName());
+						server.append(category.getName()).append(",");
 					}
 				}
 			}
@@ -433,7 +433,7 @@ public class SupplierServiceImpl implements SupplierService {
 					if(dic.getId().equals(s.getSupplierTypeRelateId())){
 						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
 //						project.add(category.getName());
-						project.append(category.getName());
+						project.append(category.getName()).append(",");
 					}
 				}
 			}
@@ -446,7 +446,7 @@ public class SupplierServiceImpl implements SupplierService {
 					if(dic.getId().equals(s.getSupplierTypeRelateId())){
 						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
 //						product.add(category.getName());
-						product.append(category.getName());
+						product.append(category.getName()).append(",");
 					}
 				}
 			}
@@ -455,7 +455,7 @@ public class SupplierServiceImpl implements SupplierService {
 					if(dic.getId().equals(s.getSupplierTypeRelateId())){
 						Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
 //						sale.add(category.getName());
-						sale.append(category.getName());
+						sale.append(category.getName()).append(",");
 					}
 				}
 			}
