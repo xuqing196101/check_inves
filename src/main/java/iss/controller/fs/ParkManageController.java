@@ -389,7 +389,7 @@ public class ParkManageController extends BaseSupplierController {
 		}
 		//如果热门版块不满4 根据版块下的回复量补充
 		if(hotParks.size() < 4){
-			int i = 4 -hotParks.size();
+			//int i = 4-hotParks.size();
 			//根据回复量排序
 			Collections.sort(parklist, new Comparator<Park>() {  				  
 	            @Override  
@@ -402,8 +402,8 @@ public class ParkManageController extends BaseSupplierController {
 	            }  
 	        });  
 			//添加
-			for(int j=0;j<i;j++){
-				if(parklist.size()!=0){
+			if(parklist.size()!=0){
+				for(int j=0;j<parklist.size();j++){
 					hotParks.add(parklist.get(j));
 				}
 			}

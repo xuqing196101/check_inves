@@ -2219,7 +2219,11 @@ public class ExpertExamController extends BaseSupplierController{
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
 				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
-					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					if(row.getCell(j).toString().indexOf(".")>-1){
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString().substring(0, row.getCell(j).toString().indexOf("."))+";");
+					}else{
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					}
 				}
 				examQuestion.setItems(sb_items.toString());
 				HashMap<String,Object> map = new HashMap<String,Object>();
@@ -2318,7 +2322,11 @@ public class ExpertExamController extends BaseSupplierController{
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
 				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
-					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					if(row.getCell(j).toString().indexOf(".")>-1){
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString().substring(0, row.getCell(j).toString().indexOf("."))+";");
+					}else{
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					}
 				}
 				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());
@@ -2422,7 +2430,11 @@ public class ExpertExamController extends BaseSupplierController{
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
 				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
-					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					if(row.getCell(j).toString().indexOf(".")>-1){
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString().substring(0, row.getCell(j).toString().indexOf("."))+";");
+					}else{
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					}
 				}
 				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());

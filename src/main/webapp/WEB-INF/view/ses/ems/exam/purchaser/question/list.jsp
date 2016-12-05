@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -301,7 +302,8 @@
 			    	<th class="w60">题型</th>
 			    	<th>题干</th>
 			    	<th>选项</th>
-			    	<th class="w50">答案</th>
+			    	<th>答案</th>
+			    	<th>创建时间</th>
 		    	</tr>
 	    	</thead>
 	    	<tbody>
@@ -310,19 +312,20 @@
 	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }" onclick="check()"/></td>
 	    				<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
 	    				<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
-	    				<c:if test="${fn:length(purchaser.topic)>26}">
-	    					<td onclick="view('${purchaser.id }')">${fn:substring(purchaser.topic,0,26)}...</td>
+	    				<c:if test="${fn:length(purchaser.topic)>28}">
+	    					<td onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.topic,0,28)}...</td>
 	    				</c:if>
-	    				<c:if test="${fn:length(purchaser.topic)<=26}">
+	    				<c:if test="${fn:length(purchaser.topic)<=28}">
 	    					<td onclick="view('${purchaser.id }')">${purchaser.topic }</td>
 	    				</c:if>
-	    				<c:if test="${fn:length(purchaser.items)>26}">
-	    					<td onclick="view('${purchaser.id }')">${fn:substring(purchaser.items,0,26)}...</td>
+	    				<c:if test="${fn:length(purchaser.items)>28}">
+	    					<td onclick="view('${purchaser.id }')" onmouseover="titleMouseOver('${purchaser.items}',this)" onmouseout="titleMouseOut()">${fn:substring(purchaser.items,0,28)}...</td>
 	    				</c:if>
-	    				<c:if test="${fn:length(purchaser.items)<=26}">
+	    				<c:if test="${fn:length(purchaser.items)<=28}">
 	    					<td onclick="view('${purchaser.id }')">${purchaser.items }</td>
 	    				</c:if>
-	    				<td class="tc w50" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
+	    				<td class="tc" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
+	    				<td class="tc" onclick="view('${purchaser.id }')"><fmt:formatDate value="${purchaser.createdAt}" pattern="yyyy/MM/dd"/></td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>

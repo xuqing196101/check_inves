@@ -305,6 +305,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setPersonType(2);
 		examQuestion.setCreatedAt(new Date());
+		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb_answer.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:purchaserList.html";
@@ -555,7 +556,11 @@ public class PurchaserExamController extends BaseSupplierController{
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
 				for(int i=3;i<row.getPhysicalNumberOfCells();i++){
-					sb_items.append(opt[i-3]+"."+row.getCell(i).toString()+";");
+					if(row.getCell(j).toString().indexOf(".")>-1){
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString().substring(0, row.getCell(j).toString().indexOf("."))+";");
+					}else{
+						sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+					}
 				}
 				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());

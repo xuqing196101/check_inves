@@ -75,42 +75,39 @@
 		   }
 	}
 	
-	var obj = "";
+	//查看
   	function view(id){
-  		obj = id;
-  		layer.open({
-			  type: 1,
-			  title: '提示',
-			  skin: 'layui-layer-rim',
-			  shadeClose: true,
-			  area: ['450px','150px'],
-			  content: $("#gatewayPark")
-		});
-  		$(".layui-layer-shade").remove();
-  	}
-  	
-  	//查看详情
-  	function viewDetail(){
-  		window.location.href="${pageContext.request.contextPath }/park/view.html?id="+obj;
+  		window.location.href="${pageContext.request.contextPath }/park/view.html?id="+id;
   	}
   	
   	//进入门户
   	function entryPortal(){
-  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+obj;
+  		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
+		}else{
+			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
+		}
+  		
   	}
   	
+  	//修改
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
 			window.location.href="${pageContext.request.contextPath }/park/edit.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的版块",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
@@ -120,12 +117,12 @@
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
 				window.location.href="${ pageContext.request.contextPath }/park/delete.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的版块",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
@@ -199,6 +196,7 @@
 	    </c:if>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
 	</div>
 	
    
@@ -252,14 +250,5 @@
      </div>
    	<div id="pagediv" align="right"></div>
    </div>
-	
-	
-		<div class="dnone layui-layer-wrap col-md-12" id="gatewayPark">
-	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-		  		<button class="btn" type="button" onclick="viewDetail()">查看详情</button>
-		  		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
-		  		<button class="btn" type="button" onclick="cancel()">取消</button>
-	  		</div>
-		</div>
 	 </body>
 </html>

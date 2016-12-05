@@ -79,51 +79,52 @@
 		   }
 	}
 	
-	var obj = "";
-	var parkId = "";
+	
+	
+	//查看详情
   	function view(id){
-  		obj = id;
-		$.ajax({
-			type:"POST",
-			dataType:"json",
-			url:"${pageContext.request.contextPath }/topic/queryParkIdByTopicId.do?id="+obj,
-		    success:function(data){
-		     	parkId = data.park.id;
-		    }
-	    });
-  		layer.open({
-			  type: 1,
-			  title: '提示',
-			  skin: 'layui-layer-rim',
-			  shadeClose: true,
-			  area: ['450px','150px'],
-			  content: $("#gatewayTopic")
-		});
-  		$(".layui-layer-shade").remove();
-  	}
-  	
-  	//查看详情
-  	function viewDetail(){
-  		window.location.href="${pageContext.request.contextPath }/topic/view.html?id="+obj;
+  		window.location.href="${pageContext.request.contextPath }/topic/view.html?id="+id;
   	}
   	
   	//进入门户
   	function entryPortal(){
-  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+obj;
+  		var parkId = "";
+  		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			$.ajax({
+	  			type:"POST",
+	  			dataType:"json",
+	  			url:"${pageContext.request.contextPath }/topic/queryParkIdByTopicId.do?id="+id,
+	  			success:function(data){
+	  			     parkId = data.park.id;
+	  			}
+	  		});
+			window.setTimeout(function(){
+				window.parent.location.href="${pageContext.request.contextPath }/post/getIndexlist.html?parkId="+parkId+"&topicId="+id;
+			}, 500);
+		}else if(id.length>1){
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
+		}else{
+			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
+		}
+  		
   	}
   	
+  	//修改主题
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
-			window.location.href="${ pageContext.request.contextPath }/topic/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath }/topic/edit.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的主题",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的主题",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
@@ -133,12 +134,12 @@
 			id.push($(this).val()); 
 		}); 
 		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${ pageContext.request.contextPath }/topic/delete.html?id="+id;
+				window.location.href="${pageContext.request.contextPath }/topic/delete.html?id="+id;
 			});
 		}else{
-			layer.alert("请选择要删除的主题",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的主题",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
@@ -163,7 +164,7 @@
 	 function search(){
 	    var condition = $("#condition").val();
 	    var parkId = $("#parkId  option:selected").val();
-	    location.href = "${ pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId;
+	    location.href = "${pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId;
 
 	 }
 	 function reset(){
@@ -220,6 +221,7 @@
     	<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
 	</div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
@@ -261,14 +263,6 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-   
-   		<div class="dnone layui-layer-wrap col-md-12" id="gatewayTopic">
-	  		<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-		  		<button class="btn" type="button" onclick="viewDetail()">查看详情</button>
-		  		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
-		  		<button class="btn" type="button" onclick="cancel()">取消</button>
-	  		</div>
-		</div>
   </body>
 </html>
 

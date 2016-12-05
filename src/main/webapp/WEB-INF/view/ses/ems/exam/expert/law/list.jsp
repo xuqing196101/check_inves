@@ -310,16 +310,16 @@
 					<td class="tc"><input type="checkbox" name="info" value="${l.id }" onclick="check()"/></td>
 					<td class="tc" onclick="view('${l.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					<td class="tc" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
-					<c:if test="${fn:length(l.topic)>20}">
-						<td onclick="view('${l.id }')">${fn:substring(l.topic,0,20)}...</td>
+					<c:if test="${fn:length(l.topic)>28}">
+						<td onclick="view('${l.id }')" onmouseover="titleMouseOver('${l.topic}',this)" onmouseout="titleMouseOut()">${fn:substring(l.topic,0,28)}...</td>
 					</c:if>
-					<c:if test="${fn:length(l.topic)<=20}">
+					<c:if test="${fn:length(l.topic)<=28}">
 						<td onclick="view('${l.id }')">${l.topic }</td>
 					</c:if>
-					<c:if test="${fn:length(l.items)>20}">
-						<td onclick="view('${l.id }')">${fn:substring(l.items,0,20)}...</td>
+					<c:if test="${fn:length(l.items)>28}">
+						<td onclick="view('${l.id }')" onmouseover="titleMouseOver('${l.items}',this)" onmouseout="titleMouseOut()">${fn:substring(l.items,0,28)}...</td>
 					</c:if>
-					<c:if test="${fn:length(l.items)<=20}">
+					<c:if test="${fn:length(l.items)<=28}">
 						<td onclick="view('${l.id }')">${l.items }</td>
 					</c:if>
 					<td class="tc" onclick="view('${l.id }')">${l.answer}</td>
