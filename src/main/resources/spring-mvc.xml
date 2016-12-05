@@ -37,6 +37,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*" />
 			<mvc:exclude-mapping path="/index/solrSearch.*" />
+			<mvc:exclude-mapping path="/browser/index.*" />
+			<mvc:exclude-mapping path="/browser/download.*" />
 
 
 <!-- 			首页登录 -->

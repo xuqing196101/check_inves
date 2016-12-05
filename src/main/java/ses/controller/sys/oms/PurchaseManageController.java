@@ -477,7 +477,6 @@ public class PurchaseManageController {
 		String msg  = orgnizationServiceI.delOrg(id);
 		return msg;
 	}
-	//-------------------------------------机构下人员增删改查      采购人在purchaseController----------------------------------------------------------------------
 	/**
 	 * 
 	 * @Title: addUser

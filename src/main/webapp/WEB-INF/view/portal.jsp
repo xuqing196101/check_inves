@@ -14,6 +14,7 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/public/portal/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/portal/js/browser.js"></script>
 <script src="${pageContext.request.contextPath}/public/portal/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>

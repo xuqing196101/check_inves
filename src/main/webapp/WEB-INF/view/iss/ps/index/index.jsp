@@ -3,19 +3,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <jsp:include page="/WEB-INF/view/portal.jsp" />
 <script type="text/javascript">
 $(function(){
-	$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
 	
-	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
-		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
-	});
+	var browser=navigator.appName;
+	var b_version=navigator.appVersion;
+	var version=parseFloat(b_version);
+	var ver_arr = b_version.split(";");
+	var msie_ver = ""
+	for(var i=0; i<ver_arr.length; i++){
+		if(ver_arr[i].indexOf('MSIE')!= -1){
+			msie_ver = ver_arr[i].substring(5,ver_arr[i].length);
+		}
+	}
+	if ((browser=="Netscape"||browser=="Microsoft Internet Explorer") && (version<=4) && msie_ver < 9 ){
+		window.location.href="${pageContext.request.contextPath}/browser/index.html";
+	} else {
+		$("#firstPage").attr("Class","active dropdown shouye_li mega-menu-fullwidth");
+		
+		$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
+			$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
+		});
+	}
+
 })
 
 function kaptcha(){
