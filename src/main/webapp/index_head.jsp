@@ -44,9 +44,9 @@ function importAdd(){
 	/*var typeName = "${sessionScope.loginUser.typeName}";
 	if(typeName!='7'){
 		layer.alert("您不是进口商",{offset: ['222px', '390px'], shade:0.01});
-	}else{
+	}else{*/
 		window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
-	}*/
+	//}
 }
 
 </script>
@@ -706,10 +706,10 @@ function importAdd(){
               <c:forEach items="${indexMapper['select23List']}" var="sl">
                 	<c:set value="${sl.name}" var="name"></c:set>
 					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>32}">
-						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,32)}...</a></li>
+					<c:if test="${length>30}">
+						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,30)}...</a></li>
 					</c:if>
-					<c:if test="${length<=32}">
+					<c:if test="${length<=30}">
 						<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
 					</c:if>
 	          </c:forEach>

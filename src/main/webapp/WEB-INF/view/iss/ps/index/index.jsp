@@ -576,7 +576,7 @@ function drugs(){
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a onclick="importAdd()" target="home" class="jksdj">
+	     <a onclick="importAdd()" class="jksdj">
           <span>进口商登记</span> 
 		 </a>
 	   </div>
