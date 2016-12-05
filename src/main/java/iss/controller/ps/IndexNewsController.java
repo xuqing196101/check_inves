@@ -266,10 +266,16 @@ public class IndexNewsController extends BaseSupplierController{
 		if(page==null){
 			page=1;
 		}
-		Map<String, Object> map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
-		Integer pages = (Integer)map.get("tdsTotal");
-		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
-		Integer endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
+		Integer pages=0;
+		Integer startRow=0;
+		Integer endRow=0;
+		Map<String, Object> map = null;
+		if(condition!=null && !condition.equals("")){
+			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
+			pages = (Integer)map.get("tdsTotal");
+			startRow = (page-1)*Integer.parseInt(pageSize)+1;
+			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
+		}
 		model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);
 		model.addAttribute("endRow", endRow);

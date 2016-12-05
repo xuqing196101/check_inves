@@ -745,7 +745,7 @@ function drugs(){
 	</div>
 	</div>
   </div>
-  <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a>
+  <!-- <a href="${pageContext.request.contextPath}/index/init.html">初始化solr</a> -->
 </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
