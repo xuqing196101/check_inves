@@ -4,28 +4,22 @@
 package bss.controller.ppms;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
-import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
 
@@ -33,31 +27,12 @@ import com.alibaba.fastjson.JSON;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import common.constant.Constant;
+import common.model.UploadFile;
 import common.service.UploadService;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SupplierCheckPass;
-import bss.model.prms.PackageExpert;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
@@ -75,6 +50,17 @@ import bss.util.PropUtil;
 @Scope("prototype")
 @RequestMapping("/winningSupplier")
 public class WinningSupplierController extends BaseController {
+
+    /** SCCUESS */
+    private static final String SUCCESS = "SCCUESS";
+    /** ERROR */
+    private static final String ERROR = "ERROR";
+    /** ZERO */
+    private static final Integer ZERO = 0;
+    /** ONE */
+    private static final Integer ONE = 1;
+    /** TWO */
+    private static final Integer TWO = 2;
     /**
      * 评审通过供应商
      */
@@ -95,9 +81,10 @@ public class WinningSupplierController extends BaseController {
 
     @Autowired
     private UserServiceI userServiceI;
-    
+
     @Autowired
     private FlowMangeService flowMangeService;//环节
+
 
     /**
      * 文件上传
@@ -120,7 +107,7 @@ public class WinningSupplierController extends BaseController {
         //获取已有中标供应商的包组
         String[] packcount = checkPassService.selectWonBid(projectId);
         if (packList.size() != packcount.length){
-            model.addAttribute("error", "ERROR");
+            model.addAttribute("error", ERROR);
         }
         return "bss/ppms/winning_supplier/list";
     }
@@ -145,6 +132,7 @@ public class WinningSupplierController extends BaseController {
         model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("projectId", projectId);
+        model.addAttribute("packageId", packageId);
         //             //修改流程状态
         flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
         return "bss/ppms/winning_supplier/supplier_list";
@@ -171,24 +159,26 @@ public class WinningSupplierController extends BaseController {
         //按照排名不需要上传变更依据
         if (type != 1){
             checkPassService.updateBid(checkPassId);
-            return JSON.toJSONString("SCCUESS");
+            return JSON.toJSONString(SUCCESS);
         } else {
-            return JSON.toJSONString("ERROR");
+            return JSON.toJSONString(ERROR);
         }
 
 
     } 
 
     /**
-     * @Description:上传
-     *
+     * 
+     *〈简述〉上传
+     *〈详细描述〉
      * @author Wang Wenshuai
-     * @version 2016年10月11日 下午3:48:56  
-     * @param       
-     * @return void
+     * @param model
+     * @param packageId
+     * @param flowDefineId
+     * @return
      */
     @RequestMapping("/upload")
-    public String upload(Model model,String packageId){
+    public String upload(Model model, String packageId, String flowDefineId, String checkPassId){
         //凭证上传
         String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
         model.addAttribute("checkPassBgyj", id);
@@ -197,10 +187,11 @@ public class WinningSupplierController extends BaseController {
         Integer tenderKey = Constant.TENDER_SYS_KEY;
         model.addAttribute("packageId", packageId);
         model.addAttribute("tenderKey", tenderKey);
-
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("checkPassId", checkPassId);
         return "bss/ppms/winning_supplier/upload";
     } 
-    
+
     /**
      * 
      *〈简述〉执行完成
@@ -220,14 +211,14 @@ public class WinningSupplierController extends BaseController {
         map.put("projectId", projectId);
         List<Packages> findPackageById = packageService.findPackageById(map);
         //对比
-        if (findPackageById != null && findPackageById.size() != 0){
+        if (findPackageById != null && findPackageById.size() != ZERO){
             if (findPackageById.size() != packList.length){
-                return JSON.toJSONString("ERROR");
+                return JSON.toJSONString(ERROR);
             } else {
                 flowMangeService.flowExe(sq, flowDefineId, projectId, 1);
             }
         }
-        return JSON.toJSONString("SCCUESS");
+        return JSON.toJSONString(SUCCESS);
     }
 
     /**
@@ -319,7 +310,6 @@ public class WinningSupplierController extends BaseController {
      */
     @RequestMapping("/publish")
     public String  publish(String supplierId,Integer isWon,String projectId,String content,HttpServletRequest sq) throws Exception{
-        String bidNotice = PropUtil.getProperty("bidNotice");
         if (supplierId != null &&  !"".equals(supplierId)){
             String[] supplierIds = supplierId.split("\\^");
             SupplierCheckPass checkPass = new SupplierCheckPass();
@@ -331,18 +321,15 @@ public class WinningSupplierController extends BaseController {
             //获取供应商登录id
             ses.model.bms.User findByTypeId = userServiceI.findByTypeId(supplierIds[0]);
 
-
-
             ses.model.bms.User  login = (ses.model.bms.User ) sq.getSession().getAttribute("loginUser");
             if (login != null){
                 StationMessage stationMessage = new StationMessage();
-                stationMessage.setReceiverId("869CB7FA88DD4C55A228D94F17A7CD71");
+                stationMessage.setReceiverId(findByTypeId.getId());
                 String pro = PropUtil.getProperty("bidNotice");
                 stationMessage.setName(pro);
                 stationMessage.setUrl("downloadabiddocument");
                 stationMessage.setSenderId(login.getId());
                 stationMessageService.insertStationMessage(stationMessage);
-                //                if (findByTypeId != null){
                 //招标系统key
                 Integer tenderKey = Constant.TENDER_SYS_KEY;
                 uploadService.uploadFileByContext(stationMessage.getId(), tenderKey.toString(), content); 
@@ -356,6 +343,32 @@ public class WinningSupplierController extends BaseController {
         }
 
     }
+
+    /**
+     * 
+     *〈简述〉获取文件是已上传
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param packageId 业务id
+     * @param typeId typeid
+     * @return 路径
+     */
+    @ResponseBody
+    @RequestMapping("/getFilesOther")
+    public String getFilesOther(String packageId, String typeId, String[] checkPassId){
+        //招标系统key
+        Integer tenderKey = Constant.TENDER_SYS_KEY;
+        List<UploadFile> filesOther = uploadService.getFilesOther(packageId, typeId, tenderKey.toString());
+        if (filesOther != null && filesOther.size() != ZERO){
+            checkPassService.updateBid(checkPassId);
+            return JSON.toJSONString(SUCCESS);
+        } else {
+            return JSON.toJSONString(ERROR);
+        }
+    }
+
+
+
 
     /**
      * 

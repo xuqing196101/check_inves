@@ -11,6 +11,8 @@
 <!--<![endif]-->
 <head>
 <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
+
+
 <script type="text/javascript">
 $(function(){
     laypage({

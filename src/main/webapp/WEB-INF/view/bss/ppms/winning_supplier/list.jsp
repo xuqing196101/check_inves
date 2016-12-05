@@ -67,7 +67,17 @@
              id.push($(this).val());
          }); 
          if(id.length==1){
-             window.location.href="${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId="+id+"&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
+        	 <c:forEach items="${packList }" var="pack" varStatus="vs">
+        	  if(id=="${pack.id}"){
+        		  var pass="${pack.listCheckPasses}";
+        		  if(pass.length>2){
+        			  layer.alert("已选择",{offset: ['100px', '300px'], shade:0.01});
+        		  }else{
+        			   window.location.href="${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId="+id+"&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
+        		  }
+        		 
+        	  }
+        	 </c:forEach>
          }else if(id.length>1){
              layer.alert("只能选择一个",{offset: ['100px', '300px'], shade:0.01});
          }else{

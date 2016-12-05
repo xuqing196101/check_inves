@@ -487,10 +487,10 @@
       
       function expTypeChange(select){
     	  
-    	  alert(select.value);
+//     	  alert(select.value);
     	  var id = select.value;
     	  if( id != 1){
-    		  alert($(select).parent().parent().parent().html());
+//     		  alert($(select).parent().parent().parent().html());
     		  $(select).parent().parent().parent().find("#extCategoryNameC").val("");
     		  $(select).parent().parent().parent().find("#extCategoryId").val("");
     		  $(select).parent().parent().parent().find("#extCategoryName").val("");
@@ -503,7 +503,7 @@
   var inps=null;
     function showSupplierTypeC(inp) {
     	inps=inp;
-    	alert(inp.value);
+//     	alert(inp.value);
       var setting = {
         check: {
           enable: true,
@@ -797,9 +797,9 @@
                           </c:if>
                         </select>
                       </td>
-                      <td class="tc"><input class="hide" readonly="readonly" name="extCount" type="text" value="${conTypes.expertsCount }"></td>
+                      <td class="tc"><input class="hide"  name="extCount" type="text" value="${conTypes.expertsCount }"></td>
                       <td class="tc">
-                        <input class='hide' readonly='readonly' title='${conTypes.categoryName}' id="extCategoryNameC" onclick="showSupplierTypeC(this);" type='text' value="${fn:replace(conTypes.categoryName, '^', ',')}" />
+                        <input class='hide' readonly='readonly' title="${fn:replace(conTypes.categoryName,'^', ',')}" id="extCategoryNameC" onclick="showSupplierTypeC(this);" type='text' value="${fn:replace(conTypes.categoryName, '^', ',')}" />
                       </td>
                     </tr>
                   </c:forEach>

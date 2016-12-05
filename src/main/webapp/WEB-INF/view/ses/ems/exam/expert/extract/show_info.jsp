@@ -59,11 +59,11 @@
 				<table class="table table-bordered table-condensed">
 					<tr>
 						<td  class="bggrey" width="100px">项目名称:</td>
-						<td colspan="7" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
+						<td colspan="8" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
 						<td  class="bggrey">抽取时间:</td>
-						<td colspan="3"><fmt:formatDate
+						<td colspan="4"><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td class="bggrey" >抽取地点:</td>
@@ -92,8 +92,7 @@
 																	                          <c:when test="${contypes.expertsTypeId==3}">
 																	                                                                                                                                   【法律】
 																	                                         </c:when>
-																	                        </c:choose> ，<c:set value="${fn:substring(contypes.categoryName, 0, contypes.categoryName.length()-1)}" var="category" ></c:set>
-																	                                                                                                                                                  采购类别【 ${fn:replace(category,'^',',')}】
+																	                        </c:choose> ，     采购类别【 ${fn:replace(contypes.categoryName,'^',',')}】
 																	                        】，专家数量【${contypes.expertsCount}】 }
                                       </li>
                                 </c:forEach>
@@ -106,7 +105,7 @@
             </td>
 					</tr>
 					<tr>
-						<td colspan="8" align="center" class="bggrey">抽取记录</td>
+						<td colspan="9" align="center" class="bggrey">抽取记录</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>
@@ -145,7 +144,7 @@
 					</c:forEach>
 				</c:forEach>
 					<tr>
-						<td colspan="7" align="center" class="bggrey">抽取人员</td>
+						<td colspan="9" align="center" class="bggrey">抽取人员</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>
@@ -166,7 +165,7 @@
 						<td colspan="2" align="center"></td>
 					</tr>
 					<tr>
-						<td colspan="7" align="center" class="bggrey">监督人员</td>
+						<td colspan="9" align="center" class="bggrey">监督人员</td>
 					</tr>
 					<tr>
 						<td align="center">序号</td>

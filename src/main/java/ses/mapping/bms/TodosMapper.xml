@@ -17,6 +17,11 @@
 		<result column="POWER_ID" jdbcType="VARCHAR" property="powerId" />
 		<result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
 	</resultMap>
+	<resultMap id="BaseResultMapList" extends="BaseResultMap"
+		type="ses.model.bms.Todos">
+		<result column="SENDER_NAME" jdbcType="VARCHAR" property="senderName" />
+	</resultMap>
+
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, CREATED_AT, NAME, IS_DELETED, URL, IS_FINISH, CLASS_NAME,
@@ -209,7 +214,7 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<!-- 获取所有的待办已办信息 -->
-	<select id="listTodos" parameterType="Map" resultMap="BaseResultMap">
+	<select id="listTodos" parameterType="Map" resultMap="BaseResultMapList">
 		SELECT
 		bt.*, BU.REL_NAME AS SENDER_NAME
 		FROM
@@ -283,11 +288,11 @@
 		WHERE
 		user_id = #{id}
 		<if test="db != null and db != '' ">
-		AND
-		<foreach collection="db" item="item" open="(" close=")"
-			separator="OR">
-			   permenu_id = #{item}
-		</foreach>
-		  </if>
+			AND
+			<foreach collection="db" item="item" open="(" close=")"
+				separator="OR">
+				permenu_id = #{item}
+			</foreach>
+		</if>
 	</select>
 </mapper>

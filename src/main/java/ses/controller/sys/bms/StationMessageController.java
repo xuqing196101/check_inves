@@ -115,7 +115,7 @@ public class StationMessageController {
         User user = (User) req.getSession().getAttribute("loginUser");
         if (user != null){
             stationMessage.setReceiverId(user.getId());
-            if (user.getOrg() != null ){
+            if (user.getOrg() != null && user.getId() != null){
                 stationMessage.setOrgId(user.getOrg().getId());
             }
            

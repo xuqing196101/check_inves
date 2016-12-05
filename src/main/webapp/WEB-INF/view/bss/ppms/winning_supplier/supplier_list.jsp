@@ -64,45 +64,45 @@
           id.push($(this).val());
         });
         if(id.length >= 1) {
-        var json='${supplierCheckPassJosn}';
-        	    $.ajax({
-                    type: "post",
-                    url:"${pageContext.request.contextPath}/winningSupplier/comparison.do",
-                    data:"checkPassId="+id+"&&jsonCheckPass="+json,
-                    dataType:"json",
-                    success: function(data) {
-//                     	alert(data);
-                    	if(data=="SCCUESS"){
-                    		  window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
-                    	}else{
-                    		  var iframeWin;
-                              layer.open({
-                                    type: 2,
-                                    title: '上传',
-                                    shadeClose: false,
-                                    shade: 0.01,
-                                    area: ['367px', '180px'], //宽高
-                                    content: '${pageContext.request.contextPath}/winningSupplier/upload.html',
-                                    success: function(layero, index){
-                                        iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                                      },
-                                    btn: ['保存', '关闭'] 
-                                        ,yes: function(){
-//                                            iframeWin.add();
-                                             layer.closeAll();
-                                        }
-                                        ,btn2: function(){
-                                            $(check).removeAttr("checked"); 
-                                          layer.closeAll();
-                                        }//iframe的url
-                                  });
-                            }
-                        }     
-                });
+        	 layer.confirm('确定后将不可修改,是否确定', {title:'提示',offset: ['100px','300px'],shade:0.01}, function(index){
+        		   var json='${supplierCheckPassJosn}';
+                   $.ajax({
+                         type: "post",
+                         url:"${pageContext.request.contextPath}/winningSupplier/comparison.do",
+                         data:"checkPassId="+id+"&&jsonCheckPass="+json,
+                         dataType:"json",
+                         success: function(data) {
+//                           alert(data);
+                           if(data=="SCCUESS"){
+                               window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+                           }else{
+                               var iframeWin;
+                                   layer.open({
+                                         type: 2,
+                                         title: '上传',
+                                         shadeClose: false,
+                                         shade: 0.01,
+                                         area: ['367px', '180px'], //宽高
+                                         content: '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&checkPassId='+id,
+                                         success: function(layero, index){
+                                             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                                           },
+                                         btn: ['保存', '关闭'] 
+                                             ,yes: function(){
+                                                iframeWin.upload();
+                                             }
+                                             ,btn2: function(){
+                                               layer.closeAll();
+                                             }
+                                       });
+                                 }
+                             }     
+                     });
+             });
       
         } else {
           layer.alert("请选择供应商", {
-            offset: ['200px', '390px'],
+            offset: ['100px', '390px'],
             shade: 0.01
           });
         }
@@ -117,7 +117,7 @@
           <i></i>
         </li>
         <li>
-          <a href="javascript:void(0);">02、中标通知书</a>
+          <a href="javascript:void(0);" class="dhx_move_denied">02、中标通知书</a>
           <i></i>
         </li>
         <li>
@@ -158,6 +158,9 @@
             </tr>
           </c:forEach>
         </table>
+           <div class="col-md-12 tc">
+              <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+            </div>
       </div>
   </body>
 

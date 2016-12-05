@@ -119,8 +119,8 @@
                                                             <li class="fl"><label class="fl">待办类型：</label><span>
                                                                     <select class="w200 " id="undoType" name="undoType">
                                                                        <option value="">请选择</option>
-                                                                        <option value="1">供应商代办</option>
-                                                                        <option value="2">专家代办</option>
+                                                                        <option value="1">供应商待办</option>
+                                                                        <option value="2">专家待办</option>
                                                                     </select>
                                                                     </span>
                                                                 </li>
@@ -138,7 +138,7 @@
                                                     <tr>
                                                         <th class="info">序号</th>
                                                         <th class="info">标题</th>
-                                                        <th class="info">代办类型</th>
+                                                        <th class="info">待办类型</th>
                                                         <th class="info">发送人</th>
                                                     </tr>
                                                 </thead>

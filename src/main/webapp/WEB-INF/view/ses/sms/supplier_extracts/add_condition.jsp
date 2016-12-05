@@ -149,7 +149,7 @@
                    html+="</td>"+
                 "<td class='tc'><input class='hide' name='extCount'  type='text' value='"+$('#eCount').val()+"'></td>"+
                   
-                "<td class='tc'><input class='hide' name='' readonly='readonly' onclick='opens(this);' title='"+copynames.substring(0,copynames.length-1)+"' type='text' value='"+copynames.substring(0,copynames.length-1)+"'></td>"+
+                "<td class='tc'><input class='hide' name='' readonly='readonly' onclick='opens(this);' title='"+copynames+"' type='text' value='"+copynames+"'></td>"+
                "</tr>";
                $("#tbody").append(html);
                
@@ -438,6 +438,8 @@ return false;
 													value="${conTypes.supplieTypeId }" id="expertsTypeId"/>
 												<input class="hide" type="hidden" name="extCategoryId"
 													value="${conTypes.categoryId }" id="extCategoryId" />
+													   <input class="hide" type="hidden" name="extCategoryName"
+                          value="${conTypes.categoryName }" id="extCategoryNamest" />
 												<input class="hide" type="hidden" name="isSatisfy"
 													value="${conTypes.isMulticondition }" id="isSatisfy"/>
 												<td class='tc w30'><input type="checkbox"
@@ -468,7 +470,7 @@ return false;
 												<td class="tc">
 												
 				                                <input class="hide" readonly onclick="opens(this);"
-				                                    name="extCategoryName" type="text"
+				                                    type="text"
 				                                    value="${fn:replace(conTypes.categoryName,'^',',')}"></td>
 											</tr>
 										</c:forEach>

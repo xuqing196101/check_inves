@@ -136,10 +136,9 @@
 		BU.*
 		FROM
 		T_SES_SMS_SUPPLIER_EXT_USER eu
-		LEFT JOIN T_SES_SMS_SUPPLIER_EXT_PACKAGE ep ON EU.PROJECT_ID =
-		EP.PACKAGE_ID INNER JOIN T_SES_BMS_USER bu ON EU.USER_ID = bu.ID
-		WHERE
-		EP.PROJECT_ID = #{projectId}
+		LEFT JOIN T_SES_BMS_USER bu ON EU.USER_ID = bu. ID
+		WHERE EU.PROJECT_ID=#{projectId}
+
 	</select>
 	<!-- 根据项目id 删除监督人员 -->
 	<delete id="deleteProjectId" parameterType="java.lang.String">

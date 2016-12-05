@@ -11,32 +11,34 @@
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 	</resultMap>
-	
-	  <resultMap id="UserBaseMap" type="ses.model.bms.User">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
-    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
-    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="IS_DELETED"  property="isDeleted" />
-    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
-    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
-    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
-    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
-    <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
-    <result column="TYPE_NAME"  property="typeName" />
-    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
-    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-    <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
-    <!-- 查询机构 -->  
-    <association column="ORG_ID"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
-    <!-- 查询创建人 -->  
-    <association column="USER_ID"  property="user" select="selectByPrimaryKey" />  
-  </resultMap>
-  
-	
-	
+
+	<resultMap id="UserBaseMap" type="ses.model.bms.User">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+		<result column="GENDER" jdbcType="VARCHAR" property="gender" />
+		<result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="DUTIES" jdbcType="VARCHAR" property="duties" />
+		<result column="TYPE_NAME" property="typeName" />
+		<result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
+		<!-- 查询机构 -->
+		<association column="ORG_ID" property="org"
+			select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
+		<!-- 查询创建人 -->
+		<association column="USER_ID" property="user"
+			select="selectByPrimaryKey" />
+	</resultMap>
+
+
+
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, SUPERVISOR_ID, CREATED_AT,
@@ -145,19 +147,20 @@
 		#{id,jdbcType=VARCHAR}
 	</update>
 	<select id="list" resultMap="UserBaseMap" parameterType="ses.model.ems.ProExtSupervise">
+
 		SELECT
-    BU.*
-    FROM
-    T_SES_EMS_PRO_EXT_SUPERVISOR es
-    LEFT JOIN T_SES_EMS_EXP_EXT_PACKAGE ep ON es.PROJECT_ID =
-    EP.PACKAGE_ID INNER JOIN T_SES_BMS_USER bu ON es.SUPERVISOR_ID = bu.ID
+		BU.*,ES.PROJECT_ID
+		FROM
+		T_SES_EMS_PRO_EXT_SUPERVISOR es
+		LEFT JOIN T_SES_BMS_USER bu ON es.SUPERVISOR_ID = bu.ID
 		WHERE
-		 EP.PROJECT_ID =
-		#{projectId}
+		es.PROJECT_ID =#{projectId}
+
 	</select>
 	<!-- 根据项目id 删除监督人员 -->
 	<delete id="deleteProjectId" parameterType="java.lang.String">
-        delete from T_SES_EMS_PRO_EXT_SUPERVISOR
-        where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		delete from T_SES_EMS_PRO_EXT_SUPERVISOR
+		where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 	</delete>
+
 </mapper>

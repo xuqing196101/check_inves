@@ -161,7 +161,7 @@
 					</tr>
 					<tr>
 						<td align="center">1</td>
-						<td align="center">${ExpExtractRecord.perpleUser.relName}</td>
+						<td align="center">${ExpExtractRecord.perpleUser.id}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
 						<td align="center">${ExpExtractRecord.perpleUser.duties}</td>

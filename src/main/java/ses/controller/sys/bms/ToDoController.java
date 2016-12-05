@@ -34,8 +34,8 @@ public class ToDoController {
 
     @Autowired
     private TodosService todosService;
-    
- 
+
+
     /**
      * 
      *〈简述〉待办
@@ -50,7 +50,7 @@ public class ToDoController {
             //代办事项
             req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId(), user.getOrg().getId())));
         } else {
-        	 req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId())));
+            req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId())));
         }
         return "ses/bms/todo/todos";
     }
@@ -65,16 +65,18 @@ public class ToDoController {
     @RequestMapping("/havetodo")
     public String havetodo(HttpServletRequest req,String type,Todos todos, String pages, String id){
         User user = (User) req.getSession().getAttribute("loginUser");
-        if (user != null && user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
+        if (user != null ){
             //          //已办事项
             todos.setIsFinish(new Short("1"));
             todos.setReceiverId(user.getId());
-            todos.setOrgId(user.getOrg().getId());
+            if(user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
+                todos.setOrgId(user.getOrg().getId());
+            }
             List<Todos> listHaveTodo = todosService.listHaveTodo(todos, pages == null || "".equals(pages) ? 1 : Integer.valueOf(pages));
             req.setAttribute("list", new PageInfo<Todos>(listHaveTodo));
         }
         req.setAttribute("todos",todos);
-        
+
         return "ses/bms/todo/havetodo";
     }
 }

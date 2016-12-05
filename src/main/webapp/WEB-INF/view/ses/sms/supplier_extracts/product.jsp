@@ -178,9 +178,11 @@
 	              }
 	        	  
 	       }); 
+	       
 	       $(cate).parent().parent().parent().parent().parent().find("#expertsTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
            $(cate).val(copynames.substring(0,copynames.length-1));
-           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names);
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNames").val(names.substring(0,names.length-1));
+           $(cate).parent().parent().parent().parent().parent().find("#extCategoryNamest").val(names.substring(0,names.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#expTypeName").val(expertsTypeName.substring(0,expertsTypeName.length-1));
            $(cate).parent().parent().parent().parent().parent().find("#extCategoryId").val(ids);
            $(cate).parent().parent().parent().parent().parent().find("#isSatisfy").val(issatisfy);

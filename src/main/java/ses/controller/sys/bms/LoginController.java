@@ -186,7 +186,7 @@ public class LoginController {
             StationMessage message=new StationMessage();
             message.setIsFinish((short)0);
             message.setReceiverId(user.getId());
-            if(user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
+            if (user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 message.setOrgId(user.getOrg().getId());
             }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(message,0);

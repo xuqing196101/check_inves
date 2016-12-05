@@ -310,11 +310,11 @@ public class ExpExtractRecordController extends BaseController {
             map.put("responseTimeError", "不能为空");
             count = 1;
         }
-        String tenderTime = rq.getParameter("tenderTime");
-        if (tenderTime == null || "".equals(tenderTime)){
-            map.put("tenderTimeError", "不能为空");
-            count = 1;
-        }
+//        String tenderTime = rq.getParameter("tenderTime");
+//        if (tenderTime == null || "".equals(tenderTime)){
+//            map.put("tenderTimeError", "不能为空");
+//            count = 1;
+//        }
 
         if (count == 1){
 
@@ -359,7 +359,11 @@ public class ExpExtractRecordController extends BaseController {
                 List<ExpExtractRecord> listSe = expExtractRecordService.listExtractRecord(extractRecord,0);
                 extractRecord.setExtractionSites(extAddress);
                 extractRecord.setResponseTime(hour + "," + minute);
-
+                User user = (User)rq.getSession().getAttribute("loginUser");
+                if(user != null ){
+                    extractRecord.setExtractsPeople(user.getId());
+                }
+               
                 if (listSe != null && listSe.size() != 0){
                     extractRecord.setId(listSe.get(0).getId());
                     expExtractRecordService.update(extractRecord);
@@ -372,11 +376,11 @@ public class ExpExtractRecordController extends BaseController {
             }  
             //监督人员
             if (sids != null && sids.length != 0){
-                projectSupervisorServicel.deleteProjectId(project.getId());
+                projectSupervisorServicel.deleteProjectId(packageId);
                 for (String id : sids) {
                     if (!"".equals(id)){
                         ProExtSupervise  record1 = new ProExtSupervise();
-                        record1.setProjectId(project.getId());
+                        record1.setProjectId(packageId);
                         record1.setSupviseId(id);
                         projectSupervisorServicel.insert(record1);
                     }
@@ -620,30 +624,23 @@ public class ExpExtractRecordController extends BaseController {
         //获取抽取记录
         ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
         model.addAttribute("ExpExtractRecord", showExpExtractRecord);
-        
-        
-        
-        //抽取条件
-        ExpExtPackage extPackage = new ExpExtPackage();
-        extPackage.setProjectId(showExpExtractRecord.getProjectId());
-        List<ExpExtPackage> conditionList = expExtPackageServicel.extractsList(extPackage);
-        model.addAttribute("conditionList", conditionList);
-        List<List<ProjectExtract>> listEp=new ArrayList<List<ProjectExtract>>();
-//        //获取专家人数
-//        for (ExpExtCondition expExtCondition : conditionList) {
-//            ProjectExtract pExtract = new ProjectExtract();
-//            pExtract.setProjectId(showExpExtractRecord.getProjectId());
-//            pExtract.setExpertConditionId(expExtCondition.getId());
-//            //占用字段保存状态类型
-//            pExtract.setReason("1,2,3");
-//            List<ProjectExtract> projectExtract = extractService.list(pExtract); 
-//            listEp.add(projectExtract);
-//        }
-//        model.addAttribute("ProjectExtract", listEp);
-        //获取监督人员
-        if (conditionList != null && conditionList.size() != 0){
-            List<User>  listUser = projectSupervisorServicel.list(new ProExtSupervise(conditionList.get(0).getProjectId()));
-            model.addAttribute("listUser", listUser);  
+        if(showExpExtractRecord !=null){
+          //抽取条件
+            ExpExtPackage extPackage = new ExpExtPackage();
+            extPackage.setProjectId(showExpExtractRecord.getProjectId());
+            List<ExpExtPackage> conditionList = expExtPackageServicel.extractsList(extPackage);
+            model.addAttribute("conditionList", conditionList);
+            //获取监督人员
+            if (conditionList != null && conditionList.size() != 0){
+                List<User>  listUser = null ;
+                for (ExpExtPackage expExtPackage : conditionList) {
+                    listUser =  projectSupervisorServicel.list(new ProExtSupervise(expExtPackage.getId()));
+                    if (listUser != null ){
+                        break;
+                    }
+                }
+                model.addAttribute("listUser", listUser);  
+            }
         }
         return "ses/ems/exam/expert/extract/show_info";
     }
@@ -666,7 +663,7 @@ public class ExpExtractRecordController extends BaseController {
         ExpExtractRecord expExtractRecord=new ExpExtractRecord();
         expExtractRecord.setProjectId(projectId);
         List<ExpExtractRecord> listExtractRecord = expExtractRecordService.listExtractRecord(expExtractRecord,0);
-        if(listExtractRecord != null){
+        if(listExtractRecord != null && listExtractRecord.size() != 0){
             showExpExtractRecord = listExtractRecord.get(0);
         }
         

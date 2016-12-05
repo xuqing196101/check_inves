@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import common.utils.UploadUtil;
 import ses.util.PropUtil;
+
+import common.utils.UploadUtil;
 
 /**
  * 
@@ -122,3 +123,4 @@ public class BrowserController {
 		 return fileName;
 	}
 }
+

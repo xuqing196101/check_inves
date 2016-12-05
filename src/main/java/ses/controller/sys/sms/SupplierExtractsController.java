@@ -256,7 +256,7 @@ public class SupplierExtractsController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/validateAddExtraction")
-    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extAddress){
+    public String validateAddExtraction(Project project, String packageName, String typeclassId, String[] sids, String extAddress,HttpServletRequest sq){
         Map<String, String> map = new HashMap<String, String>();
         //后台数据校验
         int count=0;
@@ -323,12 +323,18 @@ public class SupplierExtractsController extends BaseController {
                 PageHelper.startPage(1, 1);
                 List<SupplierExtracts> listSe = expExtractRecordService.listExtractRecord(supplierExtracts,0);
                 supplierExtracts.setExtractionSites(extAddress);
+                User user = (User)sq.getSession().getAttribute("loginUser");
+                if(user != null ){
+                    supplierExtracts.setExtractsPeople(user.getId());
+                }
                 if (listSe != null && listSe.size() != 0){
                     expExtractRecordService.update(supplierExtracts);
                 } else {
                     supplierExtracts.setProjectCode(project.getProjectNumber());
                     supplierExtracts.setProjectName(project.getName());
                     supplierExtracts.setExtractionTime(new Date());
+
+
                     expExtractRecordService.insert(supplierExtracts);
                 }
             }  
@@ -639,8 +645,15 @@ public class SupplierExtractsController extends BaseController {
             //        }
             //        model.addAttribute("ProjectExtract", listEp);
             //        //获取监督人员
+            //            array
             if (conditionList != null && conditionList.size() != 0){
-                List<User>  listUser = extUserServicl.list(new SupplierExtUser(conditionList.get(0).getProjectId()));
+                List<User>  listUser = null ;
+                for (SupplierExtPackage supplierExtPackage : conditionList) {
+                    listUser = extUserServicl.list(new SupplierExtUser(supplierExtPackage.getId()));
+                    if(listUser != null ){
+                        break; 
+                    }
+                }
                 model.addAttribute("listUser", listUser);
             }
         }
