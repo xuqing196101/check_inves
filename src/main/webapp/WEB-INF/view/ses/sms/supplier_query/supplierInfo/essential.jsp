@@ -141,7 +141,7 @@ function fanhui(){
 					    <tr>
 					        <td class="bggrey">近三个月完税凭证：</td>
 							<td>
-								<up:show showId="taxcert_show" delete="flase" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+								<up:show showId="taxcert_show" delete="flase" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,auditopinion_show,auditopinion_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
 							</td>
 							<td class="bggrey">近三年银行账单：</td>
 							<td>
@@ -216,7 +216,10 @@ function fanhui(){
 						</tr>
 						<tr>
 							<td class="bggrey">邮编：</td><td> ${suppliers.businessPostCode } </td>
-							<td class="bggrey">营业执照：</td><td class="hand">${suppliers.businessCert}</td>
+							<td class="bggrey">营业执照：</td>
+							<td class="hand">
+							<up:show showId="business_show"  businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
+							</td>
 						</tr>
 						<tr>
 						<td class="bggrey">生产或经营地址：</td>

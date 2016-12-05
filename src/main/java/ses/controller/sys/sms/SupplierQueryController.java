@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.maven.usability.diagnostics.DiagnosisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
@@ -42,6 +44,7 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -624,6 +627,12 @@ public class SupplierQueryController extends BaseSupplierController {
         for (Supplier sup : listSupplier) {
             String supplierTypes = supplierService.selectSupplierTypes(sup);
             sup.setSupplierType(supplierTypes);
+            DictionaryData dd = DictionaryDataUtil.findById(sup.getBusinessType());
+            String business = null;
+            if (dd != null) {
+                business = dd.getName();
+            }
+            sup.setBusinessType(business);
         }
     }
 
@@ -636,5 +645,11 @@ public class SupplierQueryController extends BaseSupplierController {
     public void getSupplierType(Supplier supplier){
         String supplierTypes = supplierService.selectSupplierTypes(supplier);
         supplier.setSupplierType(supplierTypes);
+        DictionaryData dd = DictionaryDataUtil.findById(supplier.getBusinessType());
+        String business = null;
+        if (dd != null) {
+            business = dd.getName();
+        }
+        supplier.setBusinessType(business);
     }
 }
