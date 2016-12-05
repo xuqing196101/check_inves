@@ -485,6 +485,8 @@ public class SupplierController extends BaseSupplierController {
 				 request.getSession().setAttribute("product", map.get("product"));
 				 request.getSession().setAttribute("sale", map.get("sale"));
 				 request.getSession().setAttribute("project", map.get("project"));
+				 supplier = supplierService.get(supplier.getId());
+                 request.getSession().setAttribute("currSupplier", supplier);
 				return "ses/sms/supplier_register/supplier_type";	
 			}else{
 				 supplier = supplierService.get(supplier.getId());

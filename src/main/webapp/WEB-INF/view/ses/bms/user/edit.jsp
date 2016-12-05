@@ -347,7 +347,7 @@
 	   			</ul>
 	  	  </div> 
 	  	   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12  tc mt20" >
-		    	<button class="btn btn-windows reset" type="submit">更新</button>
+		    	<button class="btn btn-windows save" type="submit">更新</button>
 		    	<button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
 		   </div>
   	   </sf:form>

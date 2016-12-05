@@ -95,6 +95,60 @@
 
 	
 	
+		function showJiGou(obj){
+/* 		$("#thead").empty();
+		//采购机构
+		var sup = $("#purchaseDepId").val();
+		var purDepId="";
+		var expertId="${expert.id}";
+		if(expertId){
+			$.ajax({
+				url:'${pageContext.request.contextPath}/expert/getPurDepIdByExpertId.do',
+				data:{"expertId":expertId},
+				cache: false,
+				async: false,
+				success:function(data){
+					purDepId=data;
+				}
+			});
+		}else{
+			purDepId=sup;
+		} */
+		var shengId = $("#root_area_select_id").val();
+		var shiId = $(obj).val();
+		$.ajax({
+			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
+			data:{"pId":shengId,"zId":shiId},
+			//type:"post",
+			dataType:"json",
+			cache: false,
+	        async: false,
+			success:function(obj){
+				$.each(obj,function(i,result){
+					i=i+1;
+					var name=result.name;
+					var princinpal=result.princinpal;
+					var detailAddr=result.detailAddr;
+					var mobile = result.mobile;
+					if(name==null)name="";
+					if(princinpal==null)princinpal="";
+					if(detailAddr==null)detailAddr="";
+					if(mobile==null)mobile="";
+						$("#thead").append(
+								"<tr align='center' ><td><input type='radio' name='radio'  value='"+result.id+"' /></td>"+
+								"<td>"+i+"</td>"+
+								"<td>"+name+"</td>"+
+								"<td>"+princinpal+"</td>"+
+								"<td>"+detailAddr+"</td>"+
+								"<td>"+mobile+"</td></tr>"
+							);
+				});
+			}
+		});
+	}
+	
+	
+	
 </script>
 
 </head>
@@ -144,7 +198,7 @@
 												<div class="input-append">
 													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)"></select>
 													
-													<select class="w100 fz13"  id="children_area_select_id" name="cid" ></select>
+													<select class="w100 fz13"  id="children_area_select_id" name="cid" onchange="showJiGou(this)"></select>
 													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
 												</div>
 											<!-- 	 <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
@@ -181,7 +235,7 @@
 												<th class="info">所在城市</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="thead">
 											<c:forEach items="${listOrgnizations1}" var="org1" varStatus="vs">
 												<tr>
 												
