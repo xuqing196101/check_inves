@@ -371,7 +371,7 @@ public class ExpertController {
     @ResponseBody
     public String showJiGou(String pId, String zId) {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("typeName", "0");
+        map.put("typeName", "1");
         map.put("provinceId", pId);
         map.put("cityId", zId);
         List<PurchaseDep> purchaseDepList = purchaseOrgnizationService

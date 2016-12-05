@@ -41,11 +41,13 @@
 			}
 		});
 		if (packageIds == "") {
-			layer.alert("请先选择一项!", {
+			layer.alert("请至少选择一项!", {
 				offset : [ y, x ],
 				shade : 0.01
 			});
 		} else {
+			alert(packageIds);
+			alert(projectId);
 			$.ajax({
 				url:"${pageContext.request.contextPath}/packageExpert/isGather.do",
 				data:{"packageIds":packageIds, "projectId":projectId},

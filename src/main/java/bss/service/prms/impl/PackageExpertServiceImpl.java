@@ -165,8 +165,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             mapSearch.put("packageId", packageId);
             // 判断如果该包的评分进度不是100%不能汇总
             List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
-            if (reviewList.get(0).getTotalProgress() != 1) {
-                isok = 1;
+            if (!reviewList.isEmpty()) {
+                if (reviewList.get(0).getTotalProgress() != 1) {
+                    isok = 1;
+                }
             }
             List<ExpertSuppScore> expertScores = expertScoreMapper.getScoreByMap(mapSearch);
             for (int i = 0; i < expertScores.size() - 1; i++ ) {
