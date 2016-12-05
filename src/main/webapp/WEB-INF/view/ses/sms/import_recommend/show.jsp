@@ -134,7 +134,7 @@
 				  		<c:if test="${ir.type==1 }">正式代理商</c:if>
 				  		<c:if test="${ir.type==2 }">临时代理商</c:if>
 				  </td>
-				  <td class="bggrey ">状态</td>
+				  <td class="bggrey ">状态：</td>
 				  <td colspan="3">
 				  		<c:if test="${ir.status==0 }">未激活</c:if>
 				  		<c:if test="${ir.status==1 }">已激活</c:if>
