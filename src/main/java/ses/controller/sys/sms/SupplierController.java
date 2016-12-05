@@ -902,7 +902,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_creditCide", "信用代码已存在!");
 		}
 		
-		if(supplier.getRegistAuthority()==null||supplier.getCreditCode().length()>20){
+		if(supplier.getRegistAuthority()==null||supplier.getRegistAuthority().length()>20){
 			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
 		}
