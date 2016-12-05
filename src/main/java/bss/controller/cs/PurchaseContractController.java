@@ -127,7 +127,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			SupplierCheckPass sucp = new SupplierCheckPass();
 			sucp.setPackageId(pa.getId());
 			sucp.setIsWonBid((short)1);
-			List<SupplierCheckPass> suList = supplierCheckPassService.listSupplierCheckPass(sucp);
+			List<SupplierCheckPass> suList = supplierCheckPassService.listCheckPass(sucp);
 			String supplierNames = "";
 			for(SupplierCheckPass su:suList){
 				if(su.getSupplier()!=null){
@@ -148,7 +148,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //				SupplierCheckPass supch = new SupplierCheckPass();
 //				supch.setPackageId(pack.getId());
 //				supch.setIsWonBid((short)1);
-//				List<SupplierCheckPass> chList = supplierCheckPassService.listSupplierCheckPass(supch);
+//				List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(supch);
 //				List<Supplier> suList = new ArrayList<Supplier>();
 //				for(SupplierCheckPass sucp:chList){
 //					suList.add(sucp.getSupplier());
@@ -274,7 +274,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			SupplierCheckPass suchp = new SupplierCheckPass();
 			suchp.setPackageId(pack.getId());
 			suchp.setIsWonBid((short)1);
-			List<SupplierCheckPass> chList = supplierCheckPassService.listSupplierCheckPass(suchp);
+			List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(suchp);
 			if(chList.size()>1){
 				flag="false";
 				news = "";
@@ -338,7 +338,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		SupplierCheckPass suppliercheckpass = new SupplierCheckPass();
 		suppliercheckpass.setPackageId(packIds[0]);
 		suppliercheckpass.setIsWonBid((short)1);
-		List<SupplierCheckPass> chePList = supplierCheckPassService.listSupplierCheckPass(suppliercheckpass);
+		List<SupplierCheckPass> chePList = supplierCheckPassService.listCheckPass(suppliercheckpass);
 		String options = "";
 		for(SupplierCheckPass su:chePList){
 			String option = "<option value='"+su.getSupplier().getId()+"'>"+su.getSupplier().getSupplierName()+"</option>";
@@ -366,7 +366,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		SupplierCheckPass suppliercheckpass = new SupplierCheckPass();
 		suppliercheckpass.setPackageId(packIds[0]);
 		suppliercheckpass.setIsWonBid((short)1);
-		List<SupplierCheckPass> chePList = supplierCheckPassService.listSupplierCheckPass(suppliercheckpass);
+		List<SupplierCheckPass> chePList = supplierCheckPassService.listCheckPass(suppliercheckpass);
 		String supid = "";
 		for(SupplierCheckPass su:chePList){
 			supid += su.getSupplier().getId();
