@@ -253,9 +253,11 @@ public class ProductQuotaController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,ProductQuotaList ProductQuotaList,String productId){
 		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
-		for (ProductQuota productQuota : ProductQuotas) {
-			productQuota.setUpdatedAt(new Date());
-			productQuotaService.update(productQuota);
+		if(ProductQuotas!=null){
+			for (ProductQuota productQuota : ProductQuotas) {
+				productQuota.setUpdatedAt(new Date());
+				productQuotaService.update(productQuota);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/comCostDis/userGetAll.html?productId="+productId;
@@ -276,9 +278,11 @@ public class ProductQuotaController {
 	@RequestMapping("/userUpdateCheck")
 	public String userUpdateCheck(Model model,ProductQuotaList ProductQuotaList,String productId){
 		List<ProductQuota> ProductQuotas = ProductQuotaList.getProductQuotaList();
-		for (ProductQuota productQuota : ProductQuotas) {
-			productQuota.setUpdatedAt(new Date());
-			productQuotaService.update(productQuota);
+		if(ProductQuotas!=null){
+			for (ProductQuota productQuota : ProductQuotas) {
+				productQuota.setUpdatedAt(new Date());
+				productQuotaService.update(productQuota);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/comCostDis/userGetAllCheck.html?productId="+productId;

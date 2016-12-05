@@ -261,9 +261,11 @@ public class SpecialCostController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,SpecialCostList SpecialCostList,String productId){
 		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
-		for (SpecialCost specialCost : SpecialCosts) {
-			specialCost.setUpdatedAt(new Date());
-			specialCostService.update(specialCost);
+		if(SpecialCosts!=null){
+			for (SpecialCost specialCost : SpecialCosts) {
+				specialCost.setUpdatedAt(new Date());
+				specialCostService.update(specialCost);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/burningPower/userGetAll.html?productId="+productId;
@@ -284,9 +286,11 @@ public class SpecialCostController {
 	@RequestMapping("/userUpdateCheck")
 	public String userUpdateCheck(Model model,SpecialCostList SpecialCostList,String productId){
 		List<SpecialCost> SpecialCosts = SpecialCostList.getSpecialCosts();
-		for (SpecialCost specialCost : SpecialCosts) {
-			specialCost.setUpdatedAt(new Date());
-			specialCostService.update(specialCost);
+		if(SpecialCosts!=null){
+			for (SpecialCost specialCost : SpecialCosts) {
+				specialCost.setUpdatedAt(new Date());
+				specialCostService.update(specialCost);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/burningPower/userGetAllCheck.html?productId="+productId;

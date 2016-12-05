@@ -255,9 +255,11 @@ public class BurningPowerController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,BurningPowerList BurningPowerList,String productId){
 		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
-		for (BurningPower burningPower : BurningPowers) {
-			burningPower.setUpdatedAt(new Date());
-			burningPowerService.update(burningPower);
+		if(BurningPowers!=null){
+			for (BurningPower burningPower : BurningPowers) {
+				burningPower.setUpdatedAt(new Date());
+				burningPowerService.update(burningPower);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/wagesPayable/userGetAll.html?productId="+productId;
@@ -278,9 +280,11 @@ public class BurningPowerController {
 	@RequestMapping("/userUpdateCheck")
 	public String userUpdateCheck(Model model,BurningPowerList BurningPowerList,String productId){
 		List<BurningPower> BurningPowers = BurningPowerList.getBurningPowers();
-		for (BurningPower burningPower : BurningPowers) {
-			burningPower.setUpdatedAt(new Date());
-			burningPowerService.update(burningPower);
+		if(BurningPowers!=null){
+			for (BurningPower burningPower : BurningPowers) {
+				burningPower.setUpdatedAt(new Date());
+				burningPowerService.update(burningPower);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/wagesPayable/userGetAllCheck.html?productId="+productId;

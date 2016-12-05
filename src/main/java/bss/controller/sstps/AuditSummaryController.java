@@ -165,10 +165,12 @@ public class AuditSummaryController {
 		auditOpinionService.update(auditOpinion);
 		
 		List<ComprehensiveCost> csc = plcc.getPlcc();
-		for(ComprehensiveCost cd:csc){
-			cd.setUpdatedAt(new Date());
-			cd.setContractProduct(contractProduct);
-			comprehensiveCostService.update(cd);
+		if(csc!=null){
+			for(ComprehensiveCost cd:csc){
+				cd.setUpdatedAt(new Date());
+				cd.setContractProduct(contractProduct);
+				comprehensiveCostService.update(cd);
+			}
 		}
 		//更改条目为已审核
 				contractProduct.setAuditOffer(1);
@@ -237,10 +239,12 @@ public class AuditSummaryController {
 		auditOpinionService.update(auditOpinion);
 		
 		List<ComprehensiveCost> csc = plcc.getPlcc();
-		for(ComprehensiveCost cd:csc){
-			cd.setUpdatedAt(new Date());
-			cd.setContractProduct(contractProduct);
-			comprehensiveCostService.update(cd);
+		if(csc!=null){
+			for(ComprehensiveCost cd:csc){
+				cd.setUpdatedAt(new Date());
+				cd.setContractProduct(contractProduct);
+				comprehensiveCostService.update(cd);
+			}
 		}
 		
 		contractProduct.setAuditOffer(2);

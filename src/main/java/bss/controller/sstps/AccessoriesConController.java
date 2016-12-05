@@ -190,27 +190,7 @@ public class AccessoriesConController {
 		return url;
 	}
 	
-	/**
-	 * 
-	 * @Title: userUpdate
-	 * @author Liyi 
-	 * @date 2016-10-26 下午3:36:22  
-	 * @Description:审价人员审减金额修改
-	 * @param:     
-	 * @return:
-	 */
 	
-	@RequestMapping("/userUpdate")
-	public String userUpdate(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
-		String proID = request.getParameter("productId");
-		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
-		for (AccessoriesCon accessoriesCon : accessoriesCons) {
-			accessoriesCon.setUpdatedAt(new Date());
-			accessoriesConService.update(accessoriesCon);
-		}
-		model.addAttribute("proId",proID);
-		return "redirect:/outproductCon/userGetAll.html?productId="+proID;
-	}
 	
 	/**
 	* @Title: delete
@@ -256,6 +236,30 @@ public class AccessoriesConController {
 	
 	/**
 	 * 
+	 * @Title: userUpdate
+	 * @author Liyi 
+	 * @date 2016-10-26 下午3:36:22  
+	 * @Description:审价人员审减金额修改
+	 * @param:     
+	 * @return:
+	 */
+	
+	@RequestMapping("/userUpdate")
+	public String userUpdate(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
+		String proID = request.getParameter("productId");
+		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
+		if(accessoriesCons!=null){
+			for (AccessoriesCon accessoriesCon : accessoriesCons) {
+				accessoriesCon.setUpdatedAt(new Date());
+				accessoriesConService.update(accessoriesCon);
+			}
+		}
+		model.addAttribute("proId",proID);
+		return "redirect:/outproductCon/userGetAll.html?productId="+proID;
+	}
+	
+	/**
+	 * 
 	 * @Title: userUpdateCheck
 	 * @author Liyi 
 	 * @date 2016-10-26 下午3:36:22  
@@ -268,9 +272,11 @@ public class AccessoriesConController {
 	public String userUpdateCheck(Model model,AccessoriesConList AccessoriesConList,HttpServletRequest request){
 		String proID = request.getParameter("productId");
 		List<AccessoriesCon> accessoriesCons = AccessoriesConList.getAccessoriesCons();
-		for (AccessoriesCon accessoriesCon : accessoriesCons) {
-			accessoriesCon.setUpdatedAt(new Date());
-			accessoriesConService.update(accessoriesCon);
+		if(accessoriesCons!=null){
+			for (AccessoriesCon accessoriesCon : accessoriesCons) {
+				accessoriesCon.setUpdatedAt(new Date());
+				accessoriesConService.update(accessoriesCon);
+			}
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/outproductCon/userGetAllCheck.html?productId="+proID;

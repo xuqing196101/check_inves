@@ -251,9 +251,12 @@ public class OutsourcingConController {
 	public String userUpdate(Model model,OutsourcingConList OutsourcingConList,HttpServletRequest request){
 		String proID = request.getParameter("productId");
 		List<OutsourcingCon> outsourcingCons = OutsourcingConList.getOutsourcingCons();
-		for (OutsourcingCon outsourcingCon : outsourcingCons) {
-			outsourcingCon.setUpdatedAt(new Date());
-			outsourcingConService.update(outsourcingCon);
+		if(outsourcingCons!=null){
+			for (OutsourcingCon outsourcingCon : outsourcingCons) {
+				outsourcingCon.setUpdatedAt(new Date());
+				outsourcingConService.update(outsourcingCon);
+			}
+			
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/specialCost/userGetAll.html?productId="+proID;
@@ -276,9 +279,11 @@ public class OutsourcingConController {
 	public String userUpdateCheck(Model model,OutsourcingConList OutsourcingConList,HttpServletRequest request){
 		String proID = request.getParameter("productId");
 		List<OutsourcingCon> outsourcingCons = OutsourcingConList.getOutsourcingCons();
-		for (OutsourcingCon outsourcingCon : outsourcingCons) {
-			outsourcingCon.setUpdatedAt(new Date());
-			outsourcingConService.update(outsourcingCon);
+		if(outsourcingCons!=null){
+			for (OutsourcingCon outsourcingCon : outsourcingCons) {
+				outsourcingCon.setUpdatedAt(new Date());
+				outsourcingConService.update(outsourcingCon);
+			}
 		}
 		model.addAttribute("proId",proID);
 		return "redirect:/specialCost/userGetAllCheck.html?productId="+proID;

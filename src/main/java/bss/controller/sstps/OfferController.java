@@ -387,7 +387,7 @@ public class OfferController {
 		sib.setName("%"+name+"%");
 		sib.setCode("%"+code+"%");
 		sib.setSupplierName("%"+supplierName+"%");
-		List<AppraisalContract> list = appraisalContractService.selectDistribution(sib,page==null?1:page);
+		List<AppraisalContract> list = appraisalContractService.selectDistributionUser(sib,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name",name);
 		model.addAttribute("code",code);

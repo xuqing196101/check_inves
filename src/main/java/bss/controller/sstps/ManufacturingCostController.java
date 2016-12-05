@@ -246,9 +246,11 @@ public class ManufacturingCostController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,ManufacturingCostList ManufacturingCostList,String productId){
 		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
-		for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
-			manufacturingCost.setUpdatedAt(new Date());
-			manufacturingCostService.update(manufacturingCost);
+		if(ManufacturingCosts!=null){
+			for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
+				manufacturingCost.setUpdatedAt(new Date());
+				manufacturingCostService.update(manufacturingCost);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/periodCost/userGetAll.html?productId="+productId;
@@ -269,9 +271,11 @@ public class ManufacturingCostController {
 	@RequestMapping("/userUpdateCheck")
 	public String userUpdateCheck(Model model,ManufacturingCostList ManufacturingCostList,String productId){
 		List<ManufacturingCost> ManufacturingCosts = ManufacturingCostList.getManufacturingCosts();
-		for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
-			manufacturingCost.setUpdatedAt(new Date());
-			manufacturingCostService.update(manufacturingCost);
+		if(ManufacturingCosts!=null){
+			for (ManufacturingCost manufacturingCost : ManufacturingCosts) {
+				manufacturingCost.setUpdatedAt(new Date());
+				manufacturingCostService.update(manufacturingCost);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/periodCost/userGetAllCheck.html?productId="+productId;

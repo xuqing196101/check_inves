@@ -43,5 +43,7 @@ public interface AppraisalContractMapper {
     
     List<AppraisalContract> selectByObjectCheck(AppraisalContract record);
     
+    List<AppraisalContract> selectByObjectUser(AppraisalContract record);
+    
     List<AppraisalContract> selectByOffer(AppraisalContract record);
 }

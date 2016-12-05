@@ -83,6 +83,16 @@ public interface AppraisalContractService {
 	List<AppraisalContract> selectDistributionCheck(AppraisalContract singleBond,Integer page);
 	
 	/**
+	 * 
+	 * @Title: selectDistributionCheck
+	 * @author Liyi 
+	 * @date 2016-11-27 下午2:27:23  
+	 * @Description:审价人员审价查询
+	 * @param:     
+	 * @return:
+	 */
+	List<AppraisalContract> selectDistributionUser(AppraisalContract singleBond,Integer page);
+	/**
 	* @Title: selectByObjectLike
 	* @author Shen Zhenfei 
 	* @date 2016-10-8 上午10:36:40  

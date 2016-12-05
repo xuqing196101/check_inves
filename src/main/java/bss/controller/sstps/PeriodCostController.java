@@ -252,10 +252,13 @@ public class PeriodCostController {
 	@RequestMapping("/userUpdate")
 	public String userUpdate(Model model,PeriodCostList PeriodCostList,String productId){
 		List<PeriodCost> PeriodCosts = PeriodCostList.getPeriodCosts();
-		for (PeriodCost periodCost : PeriodCosts) {
-			periodCost.setUpdatedAt(new Date());
-			periodCostService.update(periodCost);
+		if(PeriodCosts!=null){
+			for (PeriodCost periodCost : PeriodCosts) {
+				periodCost.setUpdatedAt(new Date());
+				periodCostService.update(periodCost);
+			}
 		}
+
 		model.addAttribute("proId",productId);
 		return "redirect:/yearPlan/userGetAll.html?productId="+productId;
 	}
@@ -275,9 +278,11 @@ public class PeriodCostController {
 	@RequestMapping("/userUpdateCheck")
 	public String userUpdateCheck(Model model,PeriodCostList PeriodCostList,String productId){
 		List<PeriodCost> PeriodCosts = PeriodCostList.getPeriodCosts();
-		for (PeriodCost periodCost : PeriodCosts) {
-			periodCost.setUpdatedAt(new Date());
-			periodCostService.update(periodCost);
+		if(PeriodCosts!=null){
+			for (PeriodCost periodCost : PeriodCosts) {
+				periodCost.setUpdatedAt(new Date());
+				periodCostService.update(periodCost);
+			}
 		}
 		model.addAttribute("proId",productId);
 		return "redirect:/yearPlan/userGetAllCheck.html?productId="+productId;

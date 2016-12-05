@@ -19,6 +19,7 @@
   </head>
   <script type="text/javascript">
   function cancel(){
+	  var id = $("#conId").val();
 	  window.location.href="${pageContext.request.contextPath}/offer/userSelectProduct.html?contractId="+id;
   }
   
@@ -40,7 +41,7 @@
 	 	<div class="headline-v2">
 	  		 <h2>装备（产品）技术资料概述</h2>
 	 	</div>
-	 	
+	 	<input type="hidden" id="conId" value="${contractProduct.appraisalContract.id }" readonly>
 	 	<input type="hidden" id="proId" name="proId" class="w230 mb0" value="${contractProduct.id }" readonly>
 	 	<input type="hidden" id="id" name="id" class="w230 mb0" value="${productInfo.id }" readonly>
 	 	
