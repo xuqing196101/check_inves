@@ -148,7 +148,7 @@ function add(){
 							</tr>
 						</thead>
 						<c:forEach items="${list.list}" var="contract" varStatus="vs">
-							<c:if test="${contract.appraisal=='1' }">
+							<c:if test="${contract.appraisal=='3' }">
 				  			<tr>
 				  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
 				  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>

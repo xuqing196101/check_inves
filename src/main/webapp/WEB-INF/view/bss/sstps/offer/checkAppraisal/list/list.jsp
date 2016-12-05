@@ -17,7 +17,12 @@
 	<meta http-equiv="description" content="This is my page">
 
   </head>
+    <script type="text/javascript">
+  function cancel(){
+	  window.location.href="${pageContext.request.contextPath}/offer/userSelectProductCheck.html?contractId="+id;
+  }
   
+  </script>
   <body>
   
   <!--面包屑导航开始-->
@@ -85,7 +90,7 @@
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn" type="submit">下一步</button>
-			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
+			    <button class="btn btn-windows cancel" type="button" onclick="cancel()">取消</button>
 			</div>
 		</div>
 	

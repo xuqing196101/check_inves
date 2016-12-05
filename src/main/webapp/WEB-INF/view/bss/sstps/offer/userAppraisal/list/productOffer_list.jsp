@@ -16,9 +16,12 @@ function onStep(){
 }
 
 function cancel(){
-	window.location.href="${pageContext.request.contextPath}/auditSummary/cancel.html";
+	window.location.href="${pageContext.request.contextPath}/offer/userAppraisalList.html";
 }
 
+function printz(){
+	window.print();
+}
 </script>
     
   </head>
@@ -120,7 +123,7 @@ function cancel(){
    	<div  class="col-md-12">
 		<div class="mt40 tc mb50">
 		    <button class="btn" type="button" onclick="onStep()">上一步</button>
-		    <button class="btn" type="button" >打印审价结果确认书</button>
+		    <button class="btn" type="button" onclick="printz()">打印审价结果确认书</button>
 		    <button class="btn" type="submit" >提交</button>
 		    <button class="btn btn-windows cancel" type="button" onclick="cancel()">关闭</button>
 		 </div>
