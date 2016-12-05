@@ -403,7 +403,9 @@ public class ParkManageController extends BaseSupplierController {
 	        });  
 			//添加
 			for(int j=0;j<i;j++){
-				hotParks.add(parklist.get(j));
+				if(parklist.size()!=0){
+					hotParks.add(parklist.get(j));
+				}
 			}
 			
 		}
