@@ -298,12 +298,12 @@
 		var iframeWin;
         layer.open({
           type: 2, //page层
-          area: ['800px', '500px'],
+          area: ['800px', '400px'],
           title: '引用模板',
           closeBtn: 1,
           shade:0.01, //遮罩透明度
           shift: 1, //0-6的动画形式，-1不开启
-          offset: ['70%', '20%'],
+          offset: ['10%', '20%'],
           shadeClose: false,
           content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
           success: function(layero, index){
@@ -734,7 +734,16 @@
 		<script type="text/javascript">
     		//实例化编辑器
     		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    		var ue = UE.getEditor('editor');
+    		var option ={
+  		        toolbars: [[
+	                'undo', 'redo', '|',
+	                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+	                 'fontfamily', 'fontsize', '|',
+	                 'indent', '|',
+	                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion'
+  		        ]]
+    		}
+	        var ue = UE.getEditor('editor',option);  
     		var content='${purCon.content}';
     		ue.ready(function(){
     	  		ue.setContent(content);    
