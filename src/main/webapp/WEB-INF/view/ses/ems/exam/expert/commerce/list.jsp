@@ -180,10 +180,10 @@
 							  title: '错误信息',
 							  skin: 'layui-layer-rim',
 							  shadeClose: true,
-							  area: ['580px','510px'],
+							  area: ['580px','460px'],
 							  content: $("#error")
 						});
-						//$(".layui-layer-shade").remove();
+						$(".layui-layer-shade").remove();
 			    	}
 			    }
 			}); 

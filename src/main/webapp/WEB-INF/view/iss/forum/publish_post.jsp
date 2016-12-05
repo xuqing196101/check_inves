@@ -147,8 +147,7 @@
                 'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
                  'fontfamily', 'fontsize', '|',
                  'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
-                 'insertimage', 
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion'
 
             ]]
 
