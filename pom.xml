@@ -313,6 +313,7 @@
 	            <directory>src/main/java</directory>  
 	            <includes>  
 	                <include>**/*.xml</include>  
+	                <include>**/*.ftl</include>
 	            </includes>  
 	            <filtering>false</filtering>  
 	        </resource> 
