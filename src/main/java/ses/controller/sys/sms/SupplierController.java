@@ -317,6 +317,18 @@ public class SupplierController extends BaseSupplierController {
 		request.getSession().setAttribute("relate", relate);
 		List<DictionaryData> company = DictionaryDataUtil.find(17);
 		request.getSession().setAttribute("company", company);
+		
+		
+		List<Area> privnce = areaService.findRootArea();
+		request.getSession().setAttribute("privnce", privnce);
+		if(supplier.getAddress()!=null){
+			Area area = areaService.listById(supplier.getAddress());
+			List<Area> city = areaService.findAreaByParentId(area.getParentId());
+			request.getSession().setAttribute("city", city);
+			request.getSession().setAttribute("area", area);
+		}
+		
+		
 		if(flag==null){
 			flag="3";
 		}

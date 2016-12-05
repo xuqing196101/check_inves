@@ -694,10 +694,10 @@ function deleteFinance() {
 								<th class="info">事务所联系电话</th>
 								<th class="info">审计人姓名</th>
 								<th class="info">指标</th>
-								<th class="info">资产总额</th>
-								<th class="info">负债总额</th>
-								<th class="info">净资产总额</th>
-								<th class="info">营业收入</th>
+								<th class="info">资产总额（万元）</th>
+								<th class="info">负债总额（万元）</th>
+								<th class="info">净资产总额（万元）</th>
+								<th class="info">营业收入（万元）</th>
 							</tr>
 						</thead>
 						<tbody id="finance_list_tbody_id">

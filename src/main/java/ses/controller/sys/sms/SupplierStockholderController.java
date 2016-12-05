@@ -102,7 +102,7 @@ public class SupplierStockholderController extends BaseController{
 			bool=false;
 			map.put("share", "不能为空字符编码过长");
 		}
-		if(stockholder.getShares()!=null&&!stockholder.getShares().matches("^\\d+?\\d+(\\.\\d+)?$")){
+		if(stockholder.getShares()!=null&&!stockholder.getShares().matches("^\\d+\\.?\\d*$")){
 			map.put("share", "金额格式错误");
 			bool=false;
 		}

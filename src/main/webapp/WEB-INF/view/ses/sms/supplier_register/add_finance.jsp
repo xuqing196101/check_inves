@@ -147,22 +147,22 @@
 													<input class="span3" type="text" name="quota" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资产总额：</span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资产总额（万元）：</span>
 												<div class="input-append">
 													<input class="span3"  onkeyup="checknums(this)" type="text" name="totalAssets" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 负债总额：</span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 负债总额（万元）：</span>
 												<div class="input-append">
 													<input class="span3" onkeyup="checknums(this)" type="text" name="totalLiabilities" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 净资产总额：</span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 净资产总额（万元）：</span>
 												<div class="input-append">
 													<input class="span3" onkeyup="checknums(this)" type="text" name="totalNetAssets" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 营业收入：</span>
+											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 营业收入（万元）：</span>
 												<div class="input-append">
 													<input class="span3" onkeyup="checknums(this)" type="text" name="taking" />
 												</div>
