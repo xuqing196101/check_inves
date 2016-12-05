@@ -572,6 +572,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
+		String supplierName = supplier.getSupplierName();
+		
 		if(supplier.getStatus() == 1){
 			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复审");
@@ -586,7 +588,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
-			todos.setName("供应商复审");
+			todos.setName(supplierName+"供应商复审");
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
@@ -595,6 +597,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			todos.setUrl("supplierAudit/essential.html?supplierId=" + supplierId);
 			//类型
 			todos.setUndoType((short) 1);
+			
 			todosService.insert(todos);
 		}
 		if(supplier.getStatus() == 2 || supplier.getStatus() == 3 || supplier.getStatus() == 4 ){
@@ -622,7 +625,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
-			todos.setName("供应商复审退回, 需初审 !");
+			todos.setName(supplierName+"供应商复审退回, 需初审 !");
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
@@ -643,7 +646,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名字
-			todos.setName("供应商信息有误,请修改！");
+			todos.setName(supplierName+"供应商信息有误,请修改！");
 			
 			List<User> receiverIdList= userServiceI.findByLoginName(supplier.getLoginName());
 			if(receiverIdList.size()>0){
