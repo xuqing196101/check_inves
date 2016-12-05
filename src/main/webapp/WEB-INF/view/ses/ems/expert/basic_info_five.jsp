@@ -20,6 +20,19 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/add1.html?gitFlag=1");
 		$("#formExpert").submit();
+		$.ajax(function(){
+			url:"${pageContext.request.contextPath}/expert/add1.do?gitFlag=1",
+			async:false,
+			success:function(){
+				layer.alert('您已成功提交,请等待审核结果!', {
+					btn : [ '确定','回到首页' ],
+					shade: false //不显示遮罩
+				//按钮
+				}, function() {
+					window.location.href='${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}';
+				});	
+			}
+		});
 	}
 	//判断申请表  合同书
 	function validateHeTong(){

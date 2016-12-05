@@ -797,7 +797,7 @@ public class ExpertController {
                 service.userManager(user, userId, expert, expertId);
                 // 调用service逻辑代码 实现提交
                 Map<String, Object> map = service.saveOrUpdate(expert,
-                        expertId, categoryId, null);
+                        expertId, categoryId, null, userId);
                 if (map != null && !map.isEmpty()) {
                     attr.addAttribute("userId", userId);
                     return "redirect:toAddBasicInfo.html";
@@ -833,7 +833,7 @@ public class ExpertController {
         // 用户信息处理
         service.userManager(user, userId, expert, expertId);
         // 调用service逻辑代码 实现提交
-        service.saveOrUpdate(expert, expertId, categoryId, gitFlag);
+        service.saveOrUpdate(expert, expertId, categoryId, gitFlag, userId);
     } catch (Exception e) {
       e.printStackTrace();
       // 未做异常处理

@@ -557,9 +557,20 @@
 							+ expertId
 				});
 	}
+	function is_Null(size){
+		if (size == "0" || size == 0) {
+			layer.confirm('暂无数据', {
+				btn : [ '返回' ],
+				shade: false //不显示遮罩
+			//按钮
+			}, function() {
+				window.location.href='${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}';
+			});		
+		}
+	}
 </script>
 </head>
-<body>
+<body onload="is_Null('${packExpertExtList.size()}')">
 
 <div class="container">
   <!-- 表格开始-->

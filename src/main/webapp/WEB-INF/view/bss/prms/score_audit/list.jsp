@@ -46,8 +46,6 @@
 				shade : 0.01
 			});
 		} else {
-			alert(packageIds);
-			alert(projectId);
 			$.ajax({
 				url:"${pageContext.request.contextPath}/packageExpert/isGather.do",
 				data:{"packageIds":packageIds, "projectId":projectId},

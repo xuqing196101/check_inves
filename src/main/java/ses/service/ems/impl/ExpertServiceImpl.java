@@ -351,7 +351,7 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag) throws Exception{
+	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag, String userId) throws Exception{
 		Map<String,Object> map;
 		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
 		if(StringUtils.isNotEmpty(expert.getId())){

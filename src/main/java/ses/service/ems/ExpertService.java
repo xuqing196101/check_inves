@@ -188,7 +188,7 @@ public interface ExpertService {
 		  * @param @throws Exception      
 		  * @return void
 		 */
-		Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag) throws Exception;
+		Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag, String userId) throws Exception;
 		/**
      * 
       * @Title: saveOrUpdate
