@@ -75,53 +75,61 @@
 	    });
     }
 
-/* function reason1(year, ele,auditField){
-  var offset = "";
-  if (window.event) {
-    e = event || window.event;
-    var x = "";
-    var y = "";
-    x = e.clientX + 20 + "px";
-    y = e.clientY + 20 + "px";
-    offset = [y, x];
-  } else {
-      offset = "200px";
-  }
-  var supplierId=$("#supplierId").val();
-  var value = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
-  var auditFieldName=year+"年";//审批的字段名字
-  var fail = false;
-  var index = layer.prompt({
-      title: '请填写不通过的理由：', 
-      formType: 2, 
-      offset : offset,
-    }, 
-      function(text){
-		      $.ajax({
-		          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
-		          type:"post",
-		          data:"auditType=finance_page"+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
-		          dataType:"json",
-			          success:function(result){
-			          result = eval("(" + result + ")");
-			          if(result.msg == "fail"){
-			           layer.msg('该条信息已审核过！', {
-		                shift: 6, //动画类型
-		                offset:'300px'
-		            });
-		            }
-		          }
+		/* function reason1(year, ele,auditField){
+		  var offset = "";
+		  if (window.event) {
+		    e = event || window.event;
+		    var x = "";
+		    var y = "";
+		    x = e.clientX + 20 + "px";
+		    y = e.clientY + 20 + "px";
+		    offset = [y, x];
+		  } else {
+		      offset = "200px";
+		  }
+		  var supplierId=$("#supplierId").val();
+		  var value = $(ele).parents("li").find("span").text().replace("：","");//审批的字段名字
+		  var auditFieldName=year+"年";//审批的字段名字
+		  var fail = false;
+		  var index = layer.prompt({
+		      title: '请填写不通过的理由：', 
+		      formType: 2, 
+		      offset : offset,
+		    }, 
+		      function(text){
+				      $.ajax({
+				          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				          type:"post",
+				          data:"auditType=finance_page"+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+				          dataType:"json",
+					          success:function(result){
+					          result = eval("(" + result + ")");
+					          if(result.msg == "fail"){
+					           layer.msg('该条信息已审核过！', {
+				                shift: 6, //动画类型
+				                offset:'300px'
+				            });
+				            }
+				          }
+				        });
+					        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
+					        layer.close(index);
 		        });
-			        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
-			        layer.close(index);
-        });
-    } */
-
+		    } */
+		    
+		//下一步
 	    function nextStep(){
-			  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
-			  $("#form_id").attr("action",action);
-			  $("#form_id").submit();
+		  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
+		  $("#form_id").attr("action",action);
+		  $("#form_id").submit();
 			}
+			
+		//上一步
+		function lastStep(){
+		  var action = "${pageContext.request.contextPath}/supplierAudit/essential.html";
+		  $("#form_id").attr("action",action);
+		  $("#form_id").submit();
+		}
 
 			//文件下載
 			/*   function downloadFile(fileName) {
@@ -342,6 +350,7 @@
 	        </div>
         <div class="col-md-12 add_regist tc">
           <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
+          <a class="btn"  type="button" onclick="lastStep();">上一步</a>
           <a class="btn"  type="button" onclick="nextStep();">下一步</a>
         </div>
       </div>

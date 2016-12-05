@@ -32,7 +32,14 @@
 			  $("#status").val(status);
 			  form1.submit();
 			}
-
+			
+		//上一步
+		function lastStep(){
+		  var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+		  $("#form_id").attr("action",action);
+		  $("#form_id").submit();
+		}
+			
 			//审核
 			function shenhe(status){
 			  var auditId = $("#auditId").val();
@@ -190,16 +197,18 @@
 	            <input type="hidden" name="status" id="status"/>
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
-			            <c:if test="${status==0 || status==5  || status==8}">
-			              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tongguo">
-			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
-			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
-			            </c:if>
-			            <c:if test="${status==1 || status==6}">
-			              <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tongguo">
-			              <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
-			              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
-			            </c:if>
+	              <div class="col-md-12 add_regist tc">
+          			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
+		            <c:if test="${status==0 || status==5  || status==8}">
+		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 " id="tongguo">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改" id="tuihui">
+		            </c:if>
+		            <c:if test="${status==1 || status==6}">
+		              <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 " id="tongguo">
+		              <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+		              <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改" id="tuihui">
+		            </c:if>
 	              </div>
 	            </div>
 	          </form>

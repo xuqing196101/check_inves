@@ -123,12 +123,18 @@
 				    });
 				}
 
-
+				//下一步
 				function nextStep(url){
 				  $("#form_id").attr("action",url);
 				  $("#form_id").submit();
 				}
-
+				
+				//上一步
+				function lastStep(){
+				  var action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
+				  $("#form_id").attr("action",action);
+				  $("#form_id").submit();
+				}
 
 				//文件下載
 				 /*  function downloadFile(fileName) {
@@ -455,7 +461,8 @@
 	        </li>
 	      </ul>
 	      <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-		      <a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>
+	      	<a class="btn"  type="button" onclick="lastStep();">上一步</a>
+		    <a class="btn"  type="button" onclick="nextStep('${url}');">下一步</a>
 	      </div>
 	      </div>
 	    </div>

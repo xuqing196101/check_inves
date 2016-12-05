@@ -28,7 +28,6 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
@@ -291,7 +290,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("销售")){
-			url=request.getContextPath()+"/supplierAudit/materialSales.html";
+			url = request.getContextPath()+"/supplierAudit/materialSales.html";
 		}else if(supplierTypeName.contains("工程") && url == null){
 			url=request.getContextPath()+"/supplierAudit/engineering.html";
 		}else if(supplierTypeName.contains("服务") && url == null){
@@ -299,7 +298,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		}else{
 			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
-		request.setAttribute("url", url);
+		request.setAttribute("url", url);		
 		return "ses/sms/supplier_audit/material_production";
 	}
 	
@@ -338,6 +337,16 @@ public class SupplierAuditController extends BaseSupplierController{
 			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
+		
+		//上一步
+		String lastUrl = null;
+		if(supplierTypeName.contains("生产")){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}else{
+			lastUrl = request.getContextPath() + "/supplierAudit/shareholder.html";
+		}
+		request.setAttribute("lastUrl", lastUrl);
+		
 		return "ses/sms/supplier_audit/material_sales";
 	}
 	
@@ -387,6 +396,18 @@ public class SupplierAuditController extends BaseSupplierController{
 			url=request.getContextPath()+"/supplierAudit/product.html";
 		}
 		request.setAttribute("url", url);
+		
+		//上一步
+		String lastUrl = null;
+		if(supplierTypeName.contains("销售")){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("生产") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}else{
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}
+		request.setAttribute("lastUrl", lastUrl);
+		
 		return "ses/sms/supplier_audit/engineering";
 	}
 	
@@ -415,6 +436,19 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierTypeNames", supplierTypeName);		
 		//文件
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//上一步
+		String lastUrl = null;
+		if(supplierTypeName.contains("工程")){
+			lastUrl = request.getContextPath() + "/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("销售")  && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("生产") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}else{
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}
+		request.setAttribute("lastUrl", lastUrl);
 		
 		return "ses/sms/supplier_audit/service_information";
 	}
@@ -824,6 +858,22 @@ public class SupplierAuditController extends BaseSupplierController{
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
+		
+		//上一步
+		String lastUrl = null;
+		if(supplierTypeName.contains("服务")){
+			lastUrl = request.getContextPath() + "/supplierAudit/serviceInformation.html";
+		}else if(supplierTypeName.contains("工程") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("销售") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("生产") && lastUrl == null){
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}else{
+			lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
+		}
+		request.setAttribute("lastUrl", lastUrl);
+				
 		return "ses/sms/supplier_audit/product";
 	}
 	

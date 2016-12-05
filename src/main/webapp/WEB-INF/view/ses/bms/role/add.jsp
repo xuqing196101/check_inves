@@ -46,13 +46,13 @@
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>名称</label>
                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                   <input class="h80 mt6" name="name" maxlength="30" type="text">
+                   <input style="padding-right: 20px;" name="name" maxlength="30" type="text">
                   </span>
                 </li>
                 <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                    <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>唯一编码</label>
                   <span class="col-md-12 col-sm-12 col-xs-12 p0">
-                  <input class="h80 mt6" name="code" maxlength="30" type="text">
+                  <input style="padding-right: 20px;" name="code" maxlength="30" type="text">
                   </span>
                 </li>
                 
