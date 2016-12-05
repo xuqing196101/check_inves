@@ -1,9 +1,9 @@
 package bss.service.prms;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
 import bss.model.prms.ext.ExpertSuppScore;
@@ -102,7 +102,7 @@ public interface ExpertScoreService {
 	     * @param expertId 
 	     * @return
 	     */
-        String gather(String packageId, String projectId, String expertId);
+        String gather(String packageId, String projectId, List<SaleTender> supplierList);
         
         /**
          * 

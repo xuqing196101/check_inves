@@ -1,5 +1,6 @@
 package bss.service.prms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
+import bss.dao.prms.ReviewProgressMapper;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewProgress;
+import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.prms.PackageExpertService;
 @Service("packageExpertService")
 public class PackageExpertServiceImpl implements PackageExpertService {
@@ -16,6 +20,10 @@ public class PackageExpertServiceImpl implements PackageExpertService {
 	  private PackageExpertMapper mapper;
 	  @Autowired
 	  private ExpertScoreMapper expertScoremapper;
+	  @Autowired
+      private ReviewProgressMapper reviewProgressMapper;
+	  @Autowired
+      private ExpertScoreMapper expertScoreMapper;
 	  /**
 	   * 
 	  * @Title: save
@@ -132,6 +140,57 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             expertScoremapper.backScore(mapSearch);
             // 2.PACKAGE_EXPERT表中的IS_GRADE改为0
             mapper.backScore(mapSearch);
+        }
+        // 3.评分进度减去对应的值
+        int score = 1/(ids.length);
+        mapSearch.put("score", score);
+        reviewProgressMapper.backScore(mapSearch);
+    }
+    /**
+     *〈简述〉
+     * 判断是否满足汇总条件
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageIds
+     * @return
+     */
+    @Override
+    public String isGather(String packageIds, String projectId) {
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        mapSearch.put("projectId", projectId);
+        StringBuffer notPass = new StringBuffer();
+        String ids[] = packageIds.split(",");
+        for (String packageId : ids) {
+            int isok = 0;
+            mapSearch.put("packageId", packageId);
+            // 判断如果该包的评分进度不是100%不能汇总
+            List<ReviewProgress> reviewList = reviewProgressMapper.selectByMap(mapSearch);
+            if (reviewList.get(0).getTotalProgress() != 1) {
+                isok = 1;
+            }
+            List<ExpertSuppScore> expertScores = expertScoreMapper.getScoreByMap(mapSearch);
+            for (int i = 0; i < expertScores.size() - 1; i++ ) {
+                for (int j = i + 1; j < expertScores.size(); j++ ) {
+                    if (expertScores.get(i) != null && expertScores.get(j) != null && expertScores.get(i).getScore() != null && expertScores.get(j).getScore() != null) {
+                        // 循坏判断如果分数不同则不能汇总
+                        if (!expertScores.get(i).getScore().equals(expertScores.get(j).getScore())) {
+                            isok = 1;
+                        }
+                    } else {
+                        // 若某个值为null也不能汇总
+                        isok = 1;
+                    }
+                }    
+            }
+            // 判断如果包内的专家所给出的分数不同的话不能汇总
+            if (isok == 1) {
+                notPass.append("【"+reviewList.get(0).getPackageName()+"】"); 
+            }
+        }
+        if (notPass.toString() != "") {
+            return notPass.toString();
+        } else {
+            return "ok";
         }
     }
     

@@ -17,6 +17,8 @@ public interface ReviewProgressMapper {
     int updateByPrimaryKeySelective(ReviewProgress record);
 
     int updateByPrimaryKey(ReviewProgress record);
+    
+    void backScore(Map<String, Object> map);
     /**
      * 
       * @Title: updateByMap

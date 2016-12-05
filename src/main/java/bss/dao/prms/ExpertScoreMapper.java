@@ -1,3 +1,4 @@
+
 package bss.dao.prms;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface ExpertScoreMapper {
     int updateByPrimaryKeySelective(ExpertScore record);
 
     int updateByPrimaryKey(ExpertScore record);
+    
+    void gather(Map<String, Object> map);
     /**
      * 
       * @Title: selectByMap

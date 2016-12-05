@@ -85,4 +85,13 @@ public interface PackageExpertService {
          * @param mapSearch
          */
         void backScore(Map<String, Object> mapSearch);
+        /**
+         *〈简述〉
+         * 判断是否满足汇总条件
+         *〈详细描述〉
+         * @author WangHuijie
+         * @param packageIds
+         * @return
+         */
+        String isGather(String packageIds, String projectId);
 }

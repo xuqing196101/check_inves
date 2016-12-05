@@ -6,17 +6,8 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    
-    <title>My JSP 'expert_list.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
-  </head>
+<head>
+  <title>My JSP 'expert_list.jsp' starting page</title>
   <script type="text/javascript">
   	/** 全选全不选 */
 	function selectAll(){
@@ -34,34 +25,78 @@
 			  }
 		 	}
 	}
-	
+	//汇总判断每一个table中的每一行每一列的值是否相等
+	function scoreTotal(obj) {
+		//得到点击坐标。
+		var x, y;
+		oRect = obj.getBoundingClientRect();
+		x = oRect.left;
+		y = oRect.top;
+
+		var projectId = $("#projectId").val();
+		var packageIds = "";
+		$("input[name='chkItem']").each(function(i,result){
+			if (result.checked == true) {
+				packageIds = packageIds + result.value + ",";
+			}
+		});
+		if (packageIds == "") {
+			layer.alert("请先选择一项!", {
+				offset : [ y, x ],
+				shade : 0.01
+			});
+		} else {
+			$.ajax({
+				url:"${pageContext.request.contextPath}/packageExpert/isGather.do",
+				data:{"packageIds":packageIds, "projectId":projectId},
+				async:false,
+				success:function(response){
+					if (response == "ok") {
+						$.ajax({
+							 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal2.do',
+							 data:{"packageId":packageId,"projectId":projectId},
+							 async:false,
+							 success:function(){
+								 layer.alert("已汇总",{offset: [y, x], shade:0.01});
+							 }
+						 });
+					} else {
+						layer.alert(response + "不满足汇总条件!", {
+							offset : [ y, x ],
+							shade : 0.01
+						});
+					}
+				}
+			});
+		}
+	}
 	/** 单选 */
 	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
+		var count=0;
+		var checklist = document.getElementsByName ("chkItem");
+		var checkAll = document.getElementById("checkAll");
+		for(var i=0;i<checklist.length;i++){
+			if(checklist[i].checked == false){
+				checkAll.checked = false;
+				break;
+			}
+			for(var j=0;j<checklist.length;j++){
+				if(checklist[j].checked == true){
+					checkAll.checked = true;
+					count++;
+				}
+			}
+		}
 	}
   	function scoreView(packageId){
   		window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
   	}
-  
   </script>
+</head>
   <body>
 	    <h2 class="list_title">详细评审</h2>
 	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
-		    <button class="btn" onclick="" type="button">评分汇总</button>
+		    <button class="btn" onclick="scoreTotal(this)" type="button">评分汇总</button>
 	   	</div>
    		<input type="hidden" id="projectId" value="${projectId}">
     	<table class="table table-bordered table-condensed table-hover table-striped">

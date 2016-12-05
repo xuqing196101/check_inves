@@ -899,15 +899,23 @@ public class PackageExpertController {
      * 
      * 〈简述〉评分汇总 〈详细描述〉
      * 
-     * @author this'me
+     * @author WangHuijie
      * @param packageId
      * @param projectId
      * @return
      */
-    @RequestMapping("scoreTotal")
+    @RequestMapping("/scoreTotal")
     @ResponseBody
-    public void scoreTotal(String packageId, String projectId, String expertId) {
-        expertScoreService.gather(packageId, projectId, expertId);
+    public void scoreTotal(String packageId, String projectId) {
+        // 供应商信息
+        List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+        for (int i = 0; i < supplierList.size(); i++) {
+            SaleTender sale = supplierList.get(i);
+            if (!sale.getPackages().contains(packageId)) {
+                supplierList.remove(i);
+            }
+        }
+        expertScoreService.gather(packageId, projectId, supplierList);
     }
 
     /**
@@ -1537,5 +1545,19 @@ public class PackageExpertController {
         packageExpertService.backScore(mapSearch);
         // 跳转到showViewBySupplierId.html重新查询展示
         return "redirect:showViewBySupplierId.html";
+    }
+
+    /**
+     *〈简述〉
+     * 判断所选择的包是否满足汇总条件
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param packageIds
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "isGather", produces = "text/html;charset=utf-8")
+    public String isGather(String packageIds, String projectId){
+        return service.isGather(packageIds, projectId);
     }
 }

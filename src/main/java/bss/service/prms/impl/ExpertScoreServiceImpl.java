@@ -2,7 +2,6 @@ package bss.service.prms.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +19,10 @@ import bss.dao.ppms.AduitQuotaMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.SupplyMark;
 import bss.model.prms.ExpertScore;
-import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ext.AuditModelExt;
 import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.prms.ExpertScoreService;
@@ -65,7 +64,6 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
 
 	@Override
 	public ExpertScore selectByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
 		return mapper.selectByPrimaryKey(id);
 	}
 
@@ -160,84 +158,49 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
      * @param projectId
      * @return
      */
-    public String gather(String packageId, String projectId,String expertId){
-       
+	public String gather(String packageId, String projectId, List<SaleTender> supplierList){
+        // 1.将PACKAGE_EXPERT表中该包的IS_GRADE_GATHER改为已汇总
         Map<String, Object> map = new HashMap<>();
         map.put("projectId", projectId);
         map.put("packageId", packageId);
-        //查询评分信息
-        List<AuditModelExt> findAllByMap = aduitQuotaMapper.findAllByMap(map);
-        removeAuditModelExt(findAllByMap);
-        //查询供应商信息
-        List<Supplier> supplierList = new ArrayList<>();
-        Map<String,Object> supplierMap = new HashMap<>();
-        supplierMap.put("projectId", projectId);
-        supplierMap.put("packageId", packageId);
-        if(findAllByMap!=null && findAllByMap.size()>0){
-            for (AuditModelExt auditModelExt : findAllByMap) {
-                supplierMap.put("supplierId", auditModelExt.getSupplierId());
-                List<ReviewFirstAudit> list = reviewFirstAuditMapper.selectList(supplierMap);
-                if(list!=null && list.size()>0){
-                    //如果有一项不合格 那么就不参加评分
-                    int flag = 0;
-                    for (ReviewFirstAudit reviewFirstAudit : list) {
-                        if(reviewFirstAudit.getIsPass()==1){
-                            //证明有不合格的数据
-                            flag=1;
-                            break;
-                        }
-                    }
-                    if(flag==0){
-                        //List<SaleTender> list2 = saleTenderService.list(new SaleTender(auditModelExt.getSupplierId()), 0);
-                        Supplier supplier = supplierMapper.selectByPrimaryKey(auditModelExt.getSupplierId());
-                        supplierList.add(supplier);
-                    }
+        mapper.gather(map);
+        // 2.向SUPPLIER_CHECK_PASS表中插入数据
+        for (SaleTender sale : supplierList) {
+            Supplier supplier = sale.getSuppliers();
+            BigDecimal totalScore = BigDecimal.ZERO;
+            //查询改包下的供应商所有评审项的评分信息
+            map.put("supplierId", supplier.getId());
+            List<ExpertScore> list = mapper.selectByMap(map);
+            for (ExpertScore expertScore : list) {
+                totalScore.add(expertScore.getScore());
+            }
+            SupplierCheckPass record = new SupplierCheckPass();
+            record.setPackageId(packageId);
+            record.setProjectId(projectId);
+            record.setSupplierId(supplier.getId());
+            record.setTotalScore(totalScore);
+            //增加供应商报价-start
+            Quote quote = new Quote();
+            quote.setProjectId(projectId);
+            quote.setSupplierId(supplier.getId());
+            List<Date> listDate = quoteMapper.selectQuoteCount(quote);
+            if(listDate!=null && listDate.size()>0){
+                Date date = listDate.get(listDate.size()-1);
+                Timestamp timestamp2 = new Timestamp(date.getTime());
+                quote.setCreatedAt(timestamp2);
+            }
+            quote.setPackageId(packageId);
+            List<Quote> listQuote = quoteMapper.selectQuoteHistory(quote);
+            BigDecimal total=BigDecimal.ZERO;
+            if(listQuote!=null){
+                for(Quote q : listQuote){
+                    total=total.add(q.getTotal());
                 }
             }
-        }   
-        //去重复后的供应商集合
-        removeSupplier(supplierList);
-        
-         Map<String, Object> mapScore = new HashMap<>();
-         mapScore.put("packageId", packageId);
-         mapScore.put("projectId", projectId);
-         mapScore.put("expertId", expertId);
-         for (Supplier supplier : supplierList) {
-             BigDecimal totalScore = BigDecimal.ZERO;
-             mapScore.put("supplierId", supplier.getId());
-             //查询改包下的供应商所有评审项的评分信息
-             List<ExpertScore> list = mapper.selectByMap(map);
-             for (ExpertScore expertScore : list) {
-                 totalScore.add(expertScore.getScore());
-             }
-             SupplierCheckPass record = new SupplierCheckPass();
-             record.setPackageId(packageId);
-             record.setProjectId(projectId);
-             record.setSupplierId(supplier.getId());
-             record.setTotalScore(totalScore);
-             //增加供应商报价-start
-             Quote quote = new Quote();
-             quote.setProjectId(projectId);
-             quote.setSupplierId(supplier.getId());
-             List<Date> listDate = quoteMapper.selectQuoteCount(quote);
-             if(listDate!=null && listDate.size()>0){
-                 Date date = listDate.get(listDate.size()-1);
-                 Timestamp timestamp2 = new Timestamp(date.getTime());
-                 quote.setCreatedAt(timestamp2);
-             }
-             quote.setPackageId(packageId);
-             List<Quote> listQuote = quoteMapper.selectQuoteHistory(quote);
-             BigDecimal total=BigDecimal.ZERO;
-             if(listQuote!=null){
-                 for(Quote q : listQuote){
-                     total=total.add(q.getTotal());
-                 }
-             }
-             record.setTotalPrice(total.longValue());
-             //end
-            supplierCheckPassMapper.insert(record );
+            record.setTotalPrice(total.longValue());
+            supplierCheckPassMapper.insert(record);
+            //end
         }
-       
         return "success";
     }
     /**
@@ -279,6 +242,6 @@ public class ExpertScoreServiceImpl implements ExpertScoreService {
     public List<ExpertSuppScore> getScoreByMap(Map<String, Object> map) {
         //mapper.deleteByPrimaryKey(id);
         return mapper.getScoreByMap(map);
-    } 
+    }
     
 }

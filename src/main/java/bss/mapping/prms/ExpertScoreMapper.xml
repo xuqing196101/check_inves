@@ -180,4 +180,10 @@
   	and EXPERT_ID = #{expertId}
   	and SUPPLIER_ID = #{supplierId}
   </update>
+  <update id="backScore" parameterType="java.util.HashMap">
+  	update T_BSS_PRMS_PACKAGE_EXPERT
+  	set IS_GRADE_GATHER = 1
+  	where PROJECT_ID = #{projectId}
+  	and PACKAGE_ID = #{packageId}
+  </update>
 </mapper>

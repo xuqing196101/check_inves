@@ -173,4 +173,10 @@
       SCORE_PROGRESS = #{scoreProgress,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="backScore" parameterType="java.util.HashMap">
+  	update T_BSS_PRMS_REVIEW_PROGRESS
+  	set SCORE_PROGRESS = SCORE_PROGRESS - #{score}
+  	where PROJECT_ID = #{projectId}
+  	and PACKAGE_ID = #{packageId}
+  </update>
 </mapper>

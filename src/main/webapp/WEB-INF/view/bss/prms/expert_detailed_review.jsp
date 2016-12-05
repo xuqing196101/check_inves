@@ -570,8 +570,7 @@
 	<c:forEach items="${packageList }" var="pack" varStatus="vs">
 	  <c:if test="${pack.id eq packageId}">
 		<h3>包名称：${pack.name }</h3>
-	    <div align="left">
-		  <button class="btn btn-windows git" onclick="scoreTotal(this,'${packageId}','${project.id}');" type="button">评分汇总</button>
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 mb5">
 		  <button class="btn btn-windows input" onclick="window.print();" type="button">打印信息</button>
 		  </div>
 		  <!--循环供应商  -->
