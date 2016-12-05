@@ -106,7 +106,7 @@
                                                 </div>
                                                 <div class="" style="width: 100%;height:300px; overflow:auto; ">
                                                  <a id="a" href="#" target="_parent"></a>
-                                                    <table class=" table table-striped table-bordered table-hover" >
+                                                    <table class="hand table table-striped table-bordered table-hover" >
                                                         <thead>
                                                             <tr>
                                                                 <th class="info">序号</th>
