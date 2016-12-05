@@ -1986,7 +1986,21 @@ img.img-mouse {
 .section-focus-pic ul li h3{position:absolute;bottom:0px;left:0;font-weight:normal;color:#FFF;margin-left: 20px;z-index: 111;font-size: 18px; font-family:"微锟斤拷锟脚猴拷";}
 .section-focus-pic ul li div{position:absolute;bottom:0;left:0;height:50px;background-color:#000;width:100%;opacity: 0.6;filter: alpha(opacity=60);}
 .section-focus-pic .controler{position:absolute;bottom:20px;right:20px;}
-.section-focus-pic .controler b{cursor:pointer;width:20px;height:20px;display:block;overflow:hidden;border-radius:20px!important; float:left;margin:0 0 0 5px;background:#157c82;color:#ffffff;text-align:center;line-height: 20px;border:1px  solid #157c82;}
+.section-focus-pic .controler b{
+	cursor:pointer;
+	width:20px;
+	height:20px;
+	line-height:18px;
+	display:block;
+	overflow:hidden;
+	border-radius:20px!important; 
+	float:left;
+	margin:0 0 0 5px;
+	background:#157c82;
+	color:#ffffff;
+	text-align:center;
+	border:1px  solid #157c82;
+}
 .section-focus-pic .controler b.down{background:#ffffff;color:#157c82;}
 .section-focus-pic .controler2 a{display:block; width:40px;position:absolute;top:120px;height:40px;}
 .section-focus-pic .controler2 a i{cursor:pointer;display:block;width:22px;height:34px; background:url(imgs/star.png) no-repeat;}
@@ -2174,17 +2188,21 @@ a.yjfk{
   line-height: 160px;
   font-size:16px;
 }
-.ywbl_01:hover a{
-  background-position:32px 17px;
-}
 .ywbl_02 a span{
   display: block;
-  height: 153px;
-  line-height: 160px;
+  height: 104px;
+  line-height: 164px;
   font-size:16px;
 }
-.ywbl_02:hover a{
-  background-position:45px 19px;
+.ywbl_02:hover a,.ywbl_01:hover a{
+ /*  background-position:45px 19px; */
+ background-color:#65e7fc;
+ background-image: none;
+ box-shadow: 3px 3px 5px #c0c0c0;
+}
+.ywbl_02:hover span,.ywbl_01:hover span{
+	line-height: 104px;
+	color:#ffffff;
 }
 .ywbl_02{
   width:154px;
@@ -2208,7 +2226,6 @@ a.yjfk{
   background:url(../images/gys_bg.jpg) 0px;
   height:248px; 
   position:relative;
-  margin-left:20px;
   vertical-align:middle;
 }
 .supp_login a {

@@ -53,7 +53,7 @@ function importAdd(){
 </head>
 <body>
 <div class="wrapper">
-  <div class="head_top col-md-12">
+  <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container">
     <div class="row">
     <div class="col-md-9" id="welcome">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a></div> 
@@ -86,7 +86,7 @@ function importAdd(){
 				     <input name="utf8" value="✓" type="hidden">
 					</div>
                     <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-left p0">
+                    <div class="col-md-12 col-xs-12 col-sm-12 pull-left p0">
                       <div class="search-group">
                         <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="" type="text">
                         <span class="input-group-btn">
@@ -122,13 +122,13 @@ function importAdd(){
 
       <!-- 公告 -->
         <li class="dropdown other gonggao_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="gonggao nav_icon"></i>信息公告</a>
+          <a class="dropdown-toggle " href="javascript:void(0);" data-toggle="dropdown"><i class="gonggao nav_icon"></i>信息公告</a>
 	  <!--	信息公告鼠标移动开始   -->
 	  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
-	    <div class="col-md-12 drop_hover">
+	    <div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	    <div class="drop_main">
-	    <div class="col-md-4">
+	    <div class="col-md-4 col-sm-12 col-xs-12">
 	    <div class="headline-v2">
          <h2>采购公告</h2>
         </div>
@@ -206,7 +206,7 @@ function importAdd(){
 	 </div>
 	 </div>
 
-	   <div class="col-md-4">
+	   <div class="col-md-4 col-sm-12 col-xs-12">
 	    <div class="headline-v2">
          <h2>中标公告</h2>
         </div>
@@ -283,7 +283,7 @@ function importAdd(){
 	  </div>
 	 </div>
 	 </div>
-		   <div class="col-md-4">
+		   <div class="col-md-4 col-sm-12 col-xs-12">
 	    <div class="headline-v2">
          <h2>单一来源公告</h2>
         </div>
@@ -369,13 +369,13 @@ function importAdd(){
 
       <!-- 公示 -->
         <li class="dropdown other gongshi_li mega-menu-fullwidth" >
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="gongshi nav_icon"></i>网上采购</a>
+          <a data-toggle="dropdown" class="dropdown-toggle " href="javascript:void(0);"><i class="gongshi nav_icon"></i>网上采购</a>
 <!--	网上采购鼠标移动开始   -->
 		  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
-      <div class="col-md-12 drop_hover">
+      <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
 	   <div class="drop_main ">
-	    <div class="col-md-4 mt25" id="drop-1">
+	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
 		  <div class="ywbl_01">
 	       <a href="#" class="wssc">
             <span>网上商城</span> 
@@ -397,7 +397,7 @@ function importAdd(){
 		  </a>
 	   </div>
 		</div>
-		<div class="col-md-6 mt10">
+		<div class="col-md-6 col-sm-6 col-xs-12 mt10">
 		<div class="margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
@@ -465,19 +465,19 @@ function importAdd(){
 
       <!-- 专家 -->
         <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="zhuanjia nav_icon"></i>供应商</a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="zhuanjia nav_icon"></i>供应商</a>
 	<!--供应商鼠标移动开始-->
 		<div class="drop_next dropdown-menu" >
 	     <div class="row magazine-page clear">
-	     <div class="col-md-12 drop_hover" >
+	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
-	       <div class="col-md-2 mt20 supp_login">
+	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
 	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html" target="_plant">
 		     供应商注册
 		     <i></i>
 		    </a>	  
 	       </div>
-	  <div class="col-md-4 mt10 ml30">
+	  <div class="col-md-5 col-sm-5 col-xs-10 mt10">
 	   <div class="headline-v2">
          <h2>供应商名录<a  href="" class="fr f14">更多>></a></h2>
         </div>
@@ -490,7 +490,7 @@ function importAdd(){
 		  </div>
 	  </div>
 	  
-		<div class="login_box job-content col-md-5 mt10">
+		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-36" data-toggle="tab">诚信记录</a></li>
@@ -555,30 +555,30 @@ function importAdd(){
 
       <!-- 投诉 -->
         <li class="dropdown other tousu_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
+          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
 	<!--评审专家鼠标移动开始-->
 		 <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
-	<div class="col-md-12 drop_hover"  id="drop-4">
+	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
-	  <div class="col-md-2 mt20 supp_login">
+	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
 	    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
 		 专家注册
 		 <i></i>
 		</a>	  
 	  </div>
-	  <div class="col-md-4 mt10 ml30">
+	  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
 	   <div class="headline-v2">
          <h2>专家名录<a href="#" class="fr f14">更多>></a></h2>
         </div>
-         <div class="job-content col-md-12">
+         <div class="job-content col-md-12 col-sm-12 col-xs-12">
 		    <div class="categories zhuanjia_list">
                <a href="#" title=" " target="_blank"></a>
 			</div>
 		  </div>
 	  </div>
 	  
-		<div class="login_box job-content col-md-5 mt10">
+		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-39" data-toggle="tab">诚信记录</a></li>
@@ -627,46 +627,46 @@ function importAdd(){
 
       <!-- 法规 -->
         <li class="dropdown other cgfw_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
+          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="cgfw nav_icon"></i>采购服务</a>
 	<!--采购服务鼠标移动开始-->
 		  <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
 
-	<div class="col-md-12 drop_hover">
+	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	 <div class="drop_main supp_service">
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="${pageContext.request.contextPath}/park/getIndex.html">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cglt.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/zlxz.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/zlxz.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/yjfk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
-	 <div class="col-md-2 mt60">
+	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/shfw.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/shfw.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
 	  </a>
 	 </div>
@@ -679,20 +679,21 @@ function importAdd(){
       <!-- End 法规 -->
 
         <li class="dropdown other luntan_li mega-menu-fullwidth">
-          <a href="javascript:void(0);" class="dropdown-toggle " ><i class="luntan nav_icon"></i>投诉处理</a>
+          <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle " ><i class="luntan nav_icon"></i>投诉处理</a>
 	<!-- 投诉处理鼠标移动开始-->
 	<div class="drop_next dropdown-menu" >
 	 <div class="row magazine-page clear">
-     <div class="col-md-12 drop_hover"  id="drop-6">
+     <div class="col-md-12 col-xs-12 col-sm-12 col-xs-12 col-sm-12 drop_hover"  id="drop-6">
 	  <div class="drop_main">
-	   <div class="col-md-4 mt20">
+	   <div class="col-md-4 col-sm-4 col-xs-12 mt20">
 	    <a href="#">
-	     <div class="col-md-12 tc p0"><img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
-		 <div class="col-md-12 f22 tc mt20 p0">在线投诉</div>
+	     <div class="col-md-12 col-xs-12 col-sm-12 tc p0">
+	     <img src="${pageContext.request.contextPath}/public/portal/images/tou_pic.jpg"/></div>
+		 <div class="col-md-12 col-xs-12 col-sm-12 f22 tc mt20 p0">在线投诉</div>
 		</a>
 	  </div>
-	  <div class="col-md-8 mt10">
-	  	<div class="margin-bottom-10 login_box job-content col-md-8">
+	  <div class="col-md-8 col-sm-8 col-xs-12 mt10">
+	  	<div class="margin-bottom-10 login_box job-content col-md-12 col-sm-12 col-xs-12">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab fl">
 		  <li class="active fl"><a>投诉处理公告</a></li>
@@ -724,13 +725,13 @@ function importAdd(){
    
         </li>
         <li class="dropdown other fagui_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
+          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="fagui nav_icon"></i>采购法规</a>
     <!--采购法规鼠标动开始-->
 	<div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
-      <div class="col-md-12 drop_hover"  id="drop-7">
+      <div class="col-md-12 col-xs-12 col-sm-12 drop_hover"  id="drop-7">
 	   <div class="drop_main">
-		<div class="margin-bottom-10 login_box job-content col-md-5 mt10">
+		<div class="margin-bottom-10 login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-41" data-toggle="tab">国家采购法规</a></li>
@@ -786,19 +787,19 @@ function importAdd(){
         </div>
 		</div>
 		</div>
-      <div class="col-md-7 mt20">
-	  <div class="col-md-12">
-	  <div class="col-md-5">
-	    <div class="col-md-12 fg_rule">
-		 <img src="${pageContext.request.contextPath}/public/portal/images/fg_01.jpg" class="fl" />
+      <div class="col-md-7 col-sm-7 col-xs-12 mt20">
+	  <div class="col-md-12 col-xs-12 col-sm-12">
+	  <div class="col-md-6 col-sm-6 col-xs-12">
+	    <div class="col-md-12 col-xs-12 col-sm-12 p0 fg_rule">
+		 <img src="${pageContext.request.contextPath}/public/portal/images/fg_01.jpg" class="fl" width="100%" />
 		</div>
 	  </div>
-	  <div class="col-md-5">
+	  <div class="col-md-6 col-sm-6 col-xs-12">
 		 <a href="">主题：2016年9月30日烈士纪念日</a>
 	  </div>
 	  </div>
-	  <div class="col-md-12 mt20">
-         <div class="job-content col-md-12">
+	  <div class="col-md-12 col-xs-12 col-sm-12 mt20">
+         <div class="job-content col-md-12 col-xs-12 col-sm-12">
 		    <div class="categories">
              <ul class="p0_10 list-unstyled">   
               <li></li>
