@@ -107,4 +107,10 @@ public class StaticVariables {
     /** 组织机构添加采购人入口 - 组织机构入口 **/
     public static final String ORG_ORIGIN_ORG = "2";
     
+    
+    /** 删除 **/
+    public static final Integer IS_DELETED = 1;
+    /** 不删除 **/
+    public static final Integer ISNOT_DELETED = 0;
+    
 }

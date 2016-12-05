@@ -16,6 +16,21 @@ public interface PurchaseDepMapper {
 	int update(PurchaseDep purchaseDep);
 	Map<String,String> findPIDandCIDByOrgId(String purDepId);
 	
+	/**
+	 * 
+	 *〈简述〉逻辑删除
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgId
+	 */
+	void delPurchaseByOrgId(@Param("orgId")String orgId);
 	
-	void falseDelPurchase(@Param("id")String id);
+	/**
+	 * 
+	 *〈简述〉保存
+	 *〈详细描述〉
+	 * @author myc
+	 * @param purchaseDep PurchaseDep对象
+	 */
+	void savePurchaseDept(PurchaseDep purchaseDep);
 }

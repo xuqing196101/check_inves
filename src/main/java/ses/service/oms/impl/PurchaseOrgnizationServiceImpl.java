@@ -9,14 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import common.constant.StaticVariables;
+import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 
 @Service("purchaseOrgnizationService")
 public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServiceI{
+	
 	@Autowired
 	private PurchaseDepMapper purchaseDepMapper;
+	
+	@Autowired
+	private OrgnizationMapper orgniztionMapper;
+	
+	@Autowired
+	private PurChaseDepOrgService purChaseDepOrgService;
 
 	@Override
 	public List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map) {
@@ -57,15 +67,31 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 			if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 				String [] idArray = ids.split(StaticVariables.COMMA_SPLLIT);
 				for (String id : idArray){
-					purchaseDepMapper.falseDelPurchase(id);
+					delPurchaseDept(id);
 				}
 			} else {
-				purchaseDepMapper.falseDelPurchase(ids);
+				delPurchaseDept(ids);
 			}
 		}
 		return StaticVariables.SUCCESS;
 	}
 	
+	
+	/**
+	 * 
+	 *〈简述〉逻辑删除
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 组织机构Id
+	 */
+	private void delPurchaseDept(String id){
+		 
+		 orgniztionMapper.delOrgById(id);
+         HashMap<String,Object> orgMap = new HashMap<String, Object>();
+         orgMap.put("org_id", id);
+         purChaseDepOrgService.delByOrgId(orgMap);
+         purchaseDepMapper.delPurchaseByOrgId(id);
+	}
 	
 
 }

@@ -196,57 +196,10 @@ public class PurchaseManageController {
             model.addAttribute("orgnization", orgnization);
             return "ses/oms/require_dep/add";
         }
-		HashMap<String, Object> orgmap = new HashMap<String, Object>();
-		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
-		String depIds= request.getParameter("depIds");
-		orgmap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		orgmap.put("type_name", orgnization.getTypeName());
-		orgmap.put("parent_id", orgnization.getParentId());
-		orgmap.put("parentName", orgnization.getParentName());
-		orgmap.put("describtion", orgnization.getDescribtion());
-		orgmap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
-		orgmap.put("mobile", orgnization.getMobile()==null?"":orgnization.getMobile());
-		orgmap.put("postCode", orgnization.getPostCode()==null?"":orgnization.getPostCode());
-		orgmap.put("orgCode", orgnization.getOrgCode());
-		orgmap.put("telephone", orgnization.getTelephone());
-		orgmap.put("areaId", orgnization.getAreaId());
-		orgmap.put("detailAddr", orgnization.getDetailAddr());
-		orgmap.put("fax", orgnization.getFax());
-		orgmap.put("website", orgnization.getWebsite());
-		orgmap.put("princinpal", orgnization.getPrincinpal());
-		orgmap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
-		orgmap.put("nature", orgnization.getNature());
-		orgmap.put("orgLevel", orgnization.getOrgLevel());
-		orgmap.put("position", orgnization.getPosition());
-		orgmap.put("shortName", orgnization.getShortName());
-		orgmap.put("parentName", orgnization.getParentName());
-		orgmap.put("pid", orgnization.getProvinceId());
-		orgmap.put("cid", orgnization.getCityId());
-		orgmap.put("isDeleted", 0);
-		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
-			orgmap.put("isroot", 0);
-		}else {
-			orgmap.put("isroot", 1);
-		}
-		orgnizationServiceI.saveOrgnization(orgmap);
-		String ORG_ID = (String) orgmap.get("id");
-		deporgmap.put("ORG_ID", ORG_ID);
-		List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
-		if(depIds!=null && !depIds.equals("")){
-			String[] purchaseDepIds = depIds.split(",");
-			for(int j=0;j<purchaseDepIds.length;j++){
-				PurchaseOrg pOrg = new PurchaseOrg();
-				pOrg.setPurchaseDepId(purchaseDepIds[j]);
-				purchaseOrgList.add(pOrg);
-			}
-		}else {
-			purchaseOrgList.add(new PurchaseOrg());
-			
-		}
-		if(depIds!=null && !depIds.equals("")){
-			deporgmap.put("purchaseOrgList", purchaseOrgList);
-			purChaseDepOrgService.saveByMap(deporgmap);
-		}
+	    String depIds = request.getParameter("depIds");
+	    
+		orgnizationServiceI.saveOrgnization(orgnization, depIds);
+		
 		return "redirect:list.do";
 	}
 	/**
@@ -412,7 +365,7 @@ public class PurchaseManageController {
 		}else {
 			orgMap.put("is_root", 1);
 		}
-		orgnizationServiceI.saveOrgnization(orgMap);
+		//orgnizationServiceI.saveOrgnization(orgMap);
 		purMap.put("org_id", orgMap.get("id"));
 		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
 		purMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());

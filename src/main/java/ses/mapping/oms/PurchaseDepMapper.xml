@@ -63,10 +63,13 @@
 		       o.QUA_NORMAL_REASON  as quaNormalReason,
 		       o.QUA_TERMINAL_REASON  as quaTerminalReason
 		  from T_SES_OMS_ORG o 
-		  LEFT JOIN T_SES_OMS_PURCHASE_DEP     d on d.ORG_ID = o.id
 		  LEFT JOIN T_SES_BMS_AREA a on o.province_id=a.id
-		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
-		 where nvl(d.is_deleted,0)=0
+		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id,
+		  T_SES_OMS_PURCHASE_DEP d
+	     
+	      WHERE d.is_deleted= 0
+	      AND o.is_deleted =0
+	      AND  d.ORG_ID = o.id
 		 <if test="id != null and id != ''">
 			and o.id= #{id}
 		</if>
@@ -113,8 +116,8 @@
 	
 	   <!-- 根据id查询 -->
     <select id="findPIDandCIDByOrgId" parameterType="java.lang.String" resultType="java.util.HashMap">
-               select city_id cityId,province_id provinceId
-          from T_SES_OMS_ORG
+         select city_id cityId,province_id provinceId
+         from T_SES_OMS_ORG
          where id= #{_parameter}
     </select>
 	
@@ -210,7 +213,7 @@
 		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
 		  BID_ROOM_COUNT,CREATED_AT,ORG_ID,
 		  IS_AUDIT_SUPPLIER,DUTY_ROOM_PHONE,
-		  QUA_START_DATE
+		  QUA_START_DATE,IS_DELETED
           )
 		values(
 	      #{id},#{levelDep,jdbcType=VARCHAR},
@@ -227,7 +230,7 @@
 		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
 		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
 		  #{orgId,jdbcType=VARCHAR},#{isAuditSupplier,jdbcType=NUMERIC},#{dutyRoomPhone,jdbcType=VARCHAR},
-		  #{quaStartDate,jdbcType=TIMESTAMP }
+		  #{quaStartDate,jdbcType=TIMESTAMP},#{isDeleted,jdbcType=NUMERIC}
 		 )
 	</insert>
 	<!-- 更新采购机构 -->
@@ -431,9 +434,21 @@
 	</select>
 	
 	<!-- 更新 -->
-	<update id="falseDelPurchase">
+	<update id="delPurchaseByOrgId">
 	  UPDATE T_SES_OMS_PURCHASE_DEP
 	  SET IS_DELETED = 1
-	  WHERE ID =#{id}
+	  WHERE ORG_ID =#{orgId}
 	</update>
+	
+	<!-- 保存 -->
+	<insert id="savePurchaseDept"  parameterType="ses.model.oms.PurchaseDep" >
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into T_SES_OMS_PURCHASE_DEP
+		 (ID,ORG_ID,IS_DELETED,CREATED_AT)
+		values(
+	      #{id},#{orgId,jdbcType=VARCHAR},#{isDeleted,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP})
+		
+	</insert>
 </mapper>

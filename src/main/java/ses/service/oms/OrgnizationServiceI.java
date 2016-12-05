@@ -13,7 +13,16 @@ public interface OrgnizationServiceI {
 	
     public List<Orgnization> findOrgnizationList(HashMap<String,Object> map);
 	
-    int saveOrgnization(HashMap<String, Object> map);
+    /**
+     * 
+     *〈简述〉保存
+     *〈详细描述〉
+     * @author myc
+     * @param org Orgnization对象
+     * @param depIds  管理机构Id
+     * @return 成功返回0
+     */
+    int saveOrgnization(Orgnization org,String depIds);
 	
     int updateOrgnization(HashMap<String, Object> map);
 	

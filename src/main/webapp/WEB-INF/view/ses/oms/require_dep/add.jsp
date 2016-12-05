@@ -310,7 +310,7 @@
 	  
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
-		  <button type="submit" class="btn btn-windows git">保存</button>
+		  <button type="submit" class="btn btn-windows save">保存</button>
 		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
 		</div>
 	  </div>
