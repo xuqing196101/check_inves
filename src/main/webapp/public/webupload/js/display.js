@@ -100,7 +100,7 @@ function disFile(html,obj,key,del){
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		li += '<span onclick=\'view("' + obj.path + '",this);\' style=\'color:red;cursor:pointer;width:30px;\'>view</span>';
+		li += '<span onclick=\'view("' + obj.path + '",this);\' style=\'color:red;cursor:pointer;width:30px;\'>查看</span>';
 	}
 	li += '</li>';
 	html.append(li);
