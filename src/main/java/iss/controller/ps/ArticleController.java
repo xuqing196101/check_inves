@@ -141,7 +141,7 @@ public class ArticleController extends BaseSupplierController{
 	public String save(String[] ranges,HttpServletRequest request, HttpServletResponse response,Article article,Model model){
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
-		
+		String id = request.getParameter("id");
 		String url = "";
 		boolean flag = true;
 		
@@ -155,7 +155,6 @@ public class ArticleController extends BaseSupplierController{
 				if(ar.getName().equals(article.getName())){
 					flag = false;
 					model.addAttribute("ERR_name", "标题名称不能重复");
-					//return "iss/ps/article/add";
 				}
 			}
 		}
@@ -187,6 +186,7 @@ public class ArticleController extends BaseSupplierController{
 		
 		if(flag==false){
 			model.addAttribute("article", article);
+			model.addAttribute("articleId", id);
 			url = "iss/ps/article/add";
 		}else{
 			User user = (User) request.getSession().getAttribute("loginUser");

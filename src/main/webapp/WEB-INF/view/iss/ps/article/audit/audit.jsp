@@ -10,9 +10,6 @@
   <head>
     <title>审核信息</title>
     
-    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-   
 <script type="text/javascript">
 
 $(function(){
@@ -162,13 +159,21 @@ function goBack(){
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
-	var content="${article.content}";
-	ue.ready(function(){
-  		ue.setContent(content); 
-  		ue.setDisabled(true);
-	});
-	
+	var option ={
+			 toolbars: [[
+			     'undo', 'redo', '|',
+			     'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+			     'fontfamily', 'fontsize', '|',
+			     'indent', '|',
+			     'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
+			   ]]
+			 }
+		var ue = UE.getEditor('editor',option);  
+		var content="${article.content}";
+			 ue.ready(function(){
+			 ue.setContent(content);
+			 ue.setDisabled(true);
+		});	
 </script>
     
   </body>
