@@ -50,7 +50,6 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 	var zTree = $.fn.zTree.getZTreeObj("departTree");
 	
 	var  srcOrgId = $("#srcOrgId").val();
-	
 	if (srcOrgId != null && srcOrgId !=""){
 		var treeNode = zTree.getNodeByParam("id",srcOrgId, null);
 		zTree.selectNode(treeNode);
@@ -69,8 +68,12 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
  * @param treeNode
  */
 function zTreeOnClick(event,treeId,treeNode){
-	selectedTreeId =  treeNode.id;
-	$("#treebody").load(globalPath + "/purchaseManage/gettreebody.do?id="+treeNode.id);
+	if (treeNode != null && treeNode !=""){
+		selectedTreeId =  treeNode.id;
+		$("#treebody").load(globalPath + "/purchaseManage/gettreebody.do?id="+treeNode.id);
+	} else {
+		selectedTreeId = null;
+	}
 }
 
 /**
@@ -134,8 +137,12 @@ function refreshAllTree(){
 		var node = treeObj.getNodeByParam("id", selectedTreeId, null)
 		treeObj.removeNode(node);
 		var allNodes = treeObj.getNodes();
-	    treeObj.selectNode(allNodes[0]);
-	    treeObj.setting.callback.onClick(null, treeObj.setting.treeId, allNodes[0]);
+		if (allNodes != null && allNodes !=""){
+			treeObj.selectNode(allNodes[0]);
+			treeObj.setting.callback.onClick(null, treeObj.setting.treeId, allNodes[0]);
+		} else {
+			$("#treebody").hide();
+		}
 	}
 }
 
