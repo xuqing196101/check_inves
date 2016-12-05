@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCredit;
 import ses.model.sms.SupplierCreditCtnt;
 import ses.service.sms.SupplierCreditCtntService;
 import ses.service.sms.SupplierCreditService;
 import ses.service.sms.SupplierLevelService;
+import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 
@@ -39,6 +41,8 @@ public class SupplierLevelController extends BaseSupplierController {
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());
 		model.addAttribute("level", supplier.getLevel());
+		List<DictionaryData> data = DictionaryDataUtil.find(17);
+		model.addAttribute("data", data);
 		return "ses/sms/supplier_level/list";
 	}
 	

@@ -166,7 +166,15 @@
 										${relate.supplierTypeName}
 									</c:forEach>
 								</td>
-								<td class="tc">${supplier.businessType}</td>
+								<td class="tc">
+								<c:forEach items="${data }" var="dic">
+									<c:if test="${supplier.businessType==dic.id}">
+										${dic.name }									
+									</c:if>
+								</c:forEach>
+								
+								
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
