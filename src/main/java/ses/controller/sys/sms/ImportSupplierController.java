@@ -277,7 +277,9 @@ public class ImportSupplierController {
         is.setCreatedAt(new Timestamp(new Date().getTime()));
         User user1 = (User) request.getSession().getAttribute("loginUser");
         is.setCreatorId(user1.getId());
-        is.setOrgId(user1.getOrg().getId());
+        if (user1.getOrg() != null) {
+            is.setOrgId(user1.getOrg().getId());
+        }
         importSupplierService.register(is);
         Todos todo = new Todos();
         //自己的id
