@@ -361,7 +361,6 @@ function openDiv(){
 		  skin: 'layui-layer-rim',
 		  shadeClose: true,
 		  area: ['500px','200px'],
-		  offset:['100px','400px'],
 		  content: $("#openDiv")
 		});
 }

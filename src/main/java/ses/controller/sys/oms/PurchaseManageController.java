@@ -183,7 +183,7 @@ public class PurchaseManageController {
 	 * 
 	 * @Title: create
 	 * @author: Tian Kunfeng
-	 * @date: 2016-9-13 娑撳﹤宕�0:57:54
+	 * @date: 2016-9-13
 	 * @Description: TODO
 	 * @param: @param deparent
 	 * @param: @param request
@@ -222,6 +222,7 @@ public class PurchaseManageController {
 		orgmap.put("parentName", orgnization.getParentName());
 		orgmap.put("pid", orgnization.getProvinceId());
 		orgmap.put("cid", orgnization.getCityId());
+		orgmap.put("isDeleted", 0);
 		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
 			orgmap.put("isroot", 0);
 		}else {
@@ -299,7 +300,6 @@ public class PurchaseManageController {
 		}else {
 			orgmap.put("is_root", 1);
 		}
-		//orgmap.put("dep_id", depmap.get("id"));
 		orgnizationServiceI.updateOrgnization(orgmap);
 		delmap.put("org_id", orgnization.getId());
 		purChaseDepOrgService.delByOrgId(delmap);
@@ -407,11 +407,11 @@ public class PurchaseManageController {
 		orgMap.put("postCode", orgnization.getPostCode());
 		
 		orgMap.put("parent_id", orgnization.getParentId()==null?"":orgnization.getParentId());
+		orgMap.put("isDeleted", 0);
 		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
 		}else {
 			orgMap.put("is_root", 1);
 		}
-		//departmentServiceI.saveDepartment(orgMap);
 		orgnizationServiceI.saveOrgnization(orgMap);
 		purMap.put("org_id", orgMap.get("id"));
 		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
@@ -495,7 +495,6 @@ public class PurchaseManageController {
 		orgnizationServiceI.updateOrgnization(orgMap);
 		purMap.put("org_id", orgMap.get("id"));
 		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		//purMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());
 		//更新采购机构
 		if(orgnization.getTypeName()!=null &&orgnization.getTypeName().equals(2)){
 			//更新采购机构
@@ -681,7 +680,6 @@ public class PurchaseManageController {
 		    map.put("name", purchaseDep.getName());
 		}
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-		page = new PageInfo(purchaseDepList);
 		model.addAttribute("purchaseDepList",purchaseDepList);
 
 		//分页标签
@@ -739,6 +737,21 @@ public class PurchaseManageController {
         }
 		return "ses/oms/purchase_dep/edit";
 	}
+	
+	/**
+	 * 
+	 *〈简述〉删除采购机构
+	 *〈详细描述〉
+	 * @author myc
+	 * @param id 主键
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/delPurchaseDep")
+	public String delPurchaseDep(String id){
+		return purchaseOrgnizationServiceI.delPurchaseDep(id);
+	}
+	
 	/**
 	 * 
 	 *〈简述〉查看页面
@@ -862,6 +875,8 @@ public class PurchaseManageController {
 		jsonData.setObj(purchaseDep);
 		return jsonData;
 	}
+	
+	
 	@RequestMapping(value="updateOrgnizationAjxa",method= RequestMethod.POST)
     @ResponseBody
     public AjaxJsonData updateOrgnizationAjxa(@ModelAttribute Orgnization orgnization,HttpServletRequest request){

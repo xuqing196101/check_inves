@@ -67,33 +67,55 @@
   	function view(id){
   		window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id[0]+"&&type='view'";
   	}
+  	
+  	/** 编辑 **/
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
+		if(id.length == 1){
 			window.location.href="${pageContext.request.contextPath}/purchaseManage/editPurchaseDep.do?id="+id[0]+"&&type='edit'";
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.msg("请选择一个采购机构进行编辑");
 		}
     }
+    
+    /** 编辑 **/
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="${pageContext.request.contextPath}/StationMessage/deleteSoftSMIsDelete.do?ids="+ids;
+			layer.confirm('您确定要删除吗?', {
+				btn:['确认','取消']
+			},function(){
+				delPurchaseDept(ids.toString());
 			});
 		}else{
-			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.msg("请选择要删除的用户");
 		}
     }
+    
+    /** ajax删除 */
+    function delPurchaseDept(ids){
+    	$.ajax({
+		    type: 'post',
+		    url: "${pageContext.request.contextPath}/purchaseManage/delPurchaseDep.do",
+		    data : {id:ids},
+		    success: function(msg) {
+		    	if (msg == "ok"){
+		    		layer.msg("删除成功");
+		    		window.location.href= "${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html";
+		    	} else {
+		    		layer.msg("删除失败");
+		    	}
+		       
+		    }
+		});
+    }
+    
     function add(){
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.do";
     }
@@ -264,7 +286,7 @@
 					<button class="btn btn-windows edit" type="button"
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
-						onclick="dell();">删除</button>
+						onclick="del();">删除</button>
 					<button class="btn btn-windows add" type="button" onclick="addPurchase();">人员管理</button>
 					<button class="btn btn-windows edit" type="button" onclick="purchaseStash()">资质暂停</button>
 					<button class="btn btn-windows edit" type="button" onclick="purchaseNormal()">资质启用</button>

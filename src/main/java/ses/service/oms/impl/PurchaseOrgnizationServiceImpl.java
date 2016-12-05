@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.constant.StaticVariables;
 import ses.dao.oms.PurchaseDepMapper;
 import ses.model.oms.PurchaseDep;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -43,5 +45,27 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 		// TODO Auto-generated method stub
 		return purchaseDepMapper.update(purchaseDep);
 	}
+	
+	/**
+	 * 
+	 * @see ses.service.oms.PurchaseOrgnizationServiceI#delPurchaseDep(java.lang.String)
+	 */
+	@Override
+	public String delPurchaseDep(String ids) {
+		
+		if (StringUtils.isNotBlank(ids)){
+			if (ids.contains(StaticVariables.COMMA_SPLLIT)){
+				String [] idArray = ids.split(StaticVariables.COMMA_SPLLIT);
+				for (String id : idArray){
+					purchaseDepMapper.falseDelPurchase(id);
+				}
+			} else {
+				purchaseDepMapper.falseDelPurchase(ids);
+			}
+		}
+		return StaticVariables.SUCCESS;
+	}
+	
+	
 
 }

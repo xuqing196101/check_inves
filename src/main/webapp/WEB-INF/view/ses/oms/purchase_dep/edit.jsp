@@ -1006,7 +1006,7 @@
                             </div>
                                 
                             <div class="mt40 tc mb50">
-                                        <input type="button" class="btn btn-windows git" onclick="update();" value="确认"/>
+                                        <input type="button" class="btn btn-windows save" onclick="update();" value="保存"/>
                                         <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
                                         <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消"/>
                                     </div>

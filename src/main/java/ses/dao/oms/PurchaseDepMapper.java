@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.oms.PurchaseDep;
 
 public interface PurchaseDepMapper {
@@ -13,4 +15,7 @@ public interface PurchaseDepMapper {
 	PurchaseDep selectPurchaseById(String id);
 	int update(PurchaseDep purchaseDep);
 	Map<String,String> findPIDandCIDByOrgId(String purDepId);
+	
+	
+	void falseDelPurchase(@Param("id")String id);
 }

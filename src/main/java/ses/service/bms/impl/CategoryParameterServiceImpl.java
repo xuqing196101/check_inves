@@ -341,6 +341,10 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
                 if (classified != null){
                     category.setClassify(classified);
                 }
+                if (StringUtils.isNotBlank(open)){
+                	category.setIsPublish(Integer.parseInt(open));
+                }
+                
                 category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
                 category.setUpdatedAt(new Date());
                 categoryService.updateByPrimaryKeySelective(category);
