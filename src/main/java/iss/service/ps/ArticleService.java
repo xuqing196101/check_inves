@@ -2,7 +2,10 @@ package iss.service.ps;
 
 import iss.model.ps.Article;
 
+import java.io.IOException;
 import java.util.List;
+
+import bss.model.ppms.Packages;
 
 
 
@@ -153,5 +156,14 @@ public interface ArticleService {
 	* @return List<Article>
 	 */
 	List<Article> selectPic();
+	
+	/**
+	 *〈简述〉获取默认模板内容
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param listPackages 包集合
+	 * @return StringBuilder
+	 */
+	StringBuilder getContent(List<Packages> listPackages);
 	
 }
