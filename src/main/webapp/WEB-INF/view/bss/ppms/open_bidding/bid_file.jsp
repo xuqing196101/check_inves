@@ -197,7 +197,7 @@
 						 </div>
 <div class="tab-content clear step_cont">
 	<!--第一个  -->
-		<div class="container" id="tab-1">
+		<div class="" id="tab-1">
 			<div class="headline-v2">
 				<h2>初审项定义</h2>
 			</div>

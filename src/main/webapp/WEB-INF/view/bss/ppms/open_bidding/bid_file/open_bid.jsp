@@ -74,9 +74,13 @@
 							if(hour<1){
 							    hour=0;
 								var minutes=(bidTime-60*60*24*1000*day)/(60*1000);
+								minutes=parseInt(minutes);
 								if(minutes<1){
 									var second=(bidTime-60*60*24*1000*day)/1000;
 									second=parseInt(second);
+								}else{
+								    second=(bidTime-hour*60*60*1000-60*60*24*1000*day-minutes*60*1000)/1000;
+								    second=parseInt(second);
 								};
 							}else{
 								var minutes=(bidTime-hour*60*60*1000-60*60*24*1000*day)/(60*1000);
