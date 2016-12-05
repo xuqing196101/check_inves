@@ -56,10 +56,10 @@
     						layer.close(index);
     						window.location.href = "${pageContext.request.contextPath}/login/index.html";
     					} else if (data == "black") {
-    						layer.msg("对不起，你已被列入黑名单!");
+    						layer.msg("对不起，您已被列入黑名单!");
     						layer.close(index);
     					} else if (data == "reject") {
-    						layer.msg("对不起，你的审核没有通过!");
+    						layer.msg("对不起，您的审核没有通过!");
     						layer.close(index);
     					} else if (flag[0] == "audit") {
     						//layer.msg("你的信息还未审核，请耐心等待!");
@@ -67,7 +67,7 @@
     						//layer.close(index);
     					} else if (flag[0] == "empty") {
     						//询问框
-    						layer.confirm('你还未注册个人信息，是否前去完善？', {
+    						layer.confirm('您还未注册个人信息，是否前去完善？', {
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {

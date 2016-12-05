@@ -436,7 +436,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   		 <option value="">-请选择-</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
+		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 			  </select>
 		   </li>
          </ul>

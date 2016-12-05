@@ -235,7 +235,7 @@
                                     <option selected="selected"  value=''>-请选择-</option>
                                     <option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
                                     <option <c:if test="${expert.expertsTypeId =='2' }">selected</c:if> value="2">法律</option>
-                                    <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">商务</option>
+                                    <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">经济</option>
                                </select>
                     </span>
                   </li>
@@ -273,17 +273,7 @@
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 		  <td onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 		  <td onclick="view('${e.id}');" class="tc">${e.relName}</td>
-		  <c:choose>
-		  	<c:when test="${e.gender =='M'}">
-		  		<td onclick="view('${e.id}');" class="tc">男</td>
-		  	</c:when>
-		  	<c:when test="${e.gender =='F'}">
-		  		<td onclick="view('${e.id}');" class="tc">女</td>
-		  	</c:when>
-		  	<c:otherwise>
-		  	<td onclick="view('${e.id}');" class="tc"></td>
-		  	</c:otherwise>
-		  </c:choose>
+		  <td onclick="view('${e.id}');" class="tc">${e.gender}</td>
 		  <c:if test="${e.expertsTypeId ==null}">
 		   <td onclick="view('${e.id}');" class="tc"></td>
 		  </c:if>
@@ -294,7 +284,7 @@
 		   <td  onclick="view('${e.id}');"class="tc">法律</td>
 		  </c:if>
 		   <c:if test="${e.expertsTypeId =='3' || e.expertsTypeId ==3}">
-		   <td onclick="view('${e.id}');" class="tc">商务</td>
+		   <td onclick="view('${e.id}');" class="tc">经济</td>
 		  </c:if>
 		 <td onclick="view('${e.id}');" class="tc">${e.graduateSchool }</td>
 		 <td onclick="view('${e.id}');" class="tc">${e.workUnit }</td>

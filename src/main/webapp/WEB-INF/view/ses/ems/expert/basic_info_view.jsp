@@ -330,7 +330,7 @@ session.setAttribute("tokenSession", tokenValue);
 		      <h4>
 		      <c:if test="${expert.expertsTypeId eq '1' }">技术</c:if>
 		      <c:if test="${expert.expertsTypeId eq '2' }">法律</c:if>
-		      <c:if test="${expert.expertsTypeId eq '3' }">商务</c:if>
+		      <c:if test="${expert.expertsTypeId eq '3' }">经济</c:if>
 		      </h4>
 		    </td>
 		  </tr>
@@ -455,7 +455,7 @@ session.setAttribute("tokenSession", tokenValue);
    	 <td align="center" id="tExpertsTypeId" width="150px">
    	  <c:if test="${expert.expertsTypeId eq '1' }">技术</c:if>
 	  <c:if test="${expert.expertsTypeId eq '2' }">法律</c:if>
-	  <c:if test="${expert.expertsTypeId eq '3' }">商务</c:if>
+	  <c:if test="${expert.expertsTypeId eq '3' }">经济</c:if>
    	 </td>
    	 <td align="center">从事年限</td>
    	 <td align="center" id="tTimeStartWork" colspan="2"><fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle="default" pattern="yyyy-MM-dd"/></td>

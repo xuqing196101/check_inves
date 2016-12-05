@@ -16,10 +16,11 @@ session.setAttribute("tokenSession", tokenValue);
 		function func123(){
 			var parentId = $("#addr").val();
 			$.ajax({
-				url : "${pageContext.request.contextPath}/area/find_by_parent_id.do",
-				data:{"id":parentId}, 
+				url:"${pageContext.request.contextPath}/area/find_by_parent_id.do",
+				data:{"id":parentId},
+				dataType:"json",
 				async:false,
-				success:function(response,status,request){
+				success:function(response){
 					$("#add").empty();
 					$("#add").append("<option value=''>-请选择-</option>");
 					$.each(response,function(i,result){

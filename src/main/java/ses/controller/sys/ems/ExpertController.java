@@ -950,6 +950,11 @@ public class ExpertController {
             HttpServletRequest request, HttpServletResponse response) {
         List<Expert> allExpert = service.selectAllExpert(page == null ? 0
                 : page, expert);
+        for (Expert exp : allExpert) {
+            DictionaryData dictionaryData = dictionaryDataServiceI
+                .getDictionaryData(exp.getGender());
+            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+        }
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);

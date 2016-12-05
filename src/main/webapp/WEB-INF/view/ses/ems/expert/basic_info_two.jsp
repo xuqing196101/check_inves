@@ -182,7 +182,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#tExpertsTypeId").text("法律");
 		}
 		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("商务");
+			$("#tExpertsTypeId").text("经济");
 		}
 		supplierRegist();
 	}
@@ -198,7 +198,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#tExpertsTypeId").text("法律");
 		}
 		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("商务");
+			$("#tExpertsTypeId").text("经济");
 		}
 	}
 	function fun5(){
@@ -213,7 +213,7 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#tExpertsTypeId").text("法律");
 		}
 		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("商务");
+			$("#tExpertsTypeId").text("经济");
 		}
 	}
 	//显示隐藏树
@@ -300,7 +300,7 @@ session.setAttribute("tokenSession", tokenValue);
 			   		  <option value="">-请选择-</option>
 			   		  <option <c:if test="${expert.expertsTypeId eq '1'}">selected</c:if> value="1">技术</option>
 			   		  <option <c:if test="${expert.expertsTypeId eq '2'}">selected</c:if> value="2">法律</option>
-			   		  <option <c:if test="${expert.expertsTypeId eq '3'}">selected</c:if> value="3">商务</option>
+			   		  <option <c:if test="${expert.expertsTypeId eq '3'}">selected</c:if> value="3">经济</option>
 			        </select>
 			      </div>
 			    </li>

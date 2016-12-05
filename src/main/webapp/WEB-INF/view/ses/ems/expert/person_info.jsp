@@ -306,7 +306,7 @@ window.onload=function(){
 		   		 <option value="">-请选择-</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
+		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 			  </select>
 		   </li>
          </ul>
@@ -315,7 +315,7 @@ window.onload=function(){
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${spList }" var="obj" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.code}" />${obj.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
@@ -323,7 +323,7 @@ window.onload=function(){
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.code}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>

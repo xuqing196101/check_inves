@@ -88,7 +88,7 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#isPass").val(flag);
 		var remark = $("#remark").val(); 
 		if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
-			layer.alert("请填写意见！",{offset: ['750px', '400px'],shade:0.01});
+			layer.alert("请填写审核意见！",{offset: ['350px', '750px'],shade:0.01});
 		}else{
 			$("#form1").submit();
 		}
