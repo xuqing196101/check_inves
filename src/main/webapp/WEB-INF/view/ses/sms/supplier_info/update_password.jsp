@@ -87,19 +87,19 @@ function qingkong(){
 						<tr>
 							<td class="bggrey tr">旧密码：</td>
 							<td>
-								<input class="span2" id="oldPassword" name="oldPassword"  type="text">
+								<input class="span2" id="oldPassword" name="oldPassword"  type="password">
 							</td>
 						</tr>
 						<tr>
 							<td class="bggrey tr">新密码：</td>
 							<td>
-								<input class="span2" id="newPassword1" name="newPassword1"  type="text">
+								<input class="span2" id="newPassword1" name="newPassword1"  type="password">
 							</td>
 						</tr>
 						<tr>
 							<td class="bggrey tr">确认新密码：</td>
 							<td>
-								<input class="span2" id="newPassword2"  name="newPassword2"  type="text">
+								<input class="span2" id="newPassword2"  name="newPassword2"  type="password">
 							</td>
 						</tr>
 					</tbody>
