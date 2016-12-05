@@ -344,7 +344,7 @@ function deleteFinance() {
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
-				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)" name="address">
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
 				     
 				         <c:forEach  items="${privnce }" var="prin">
 					         <c:if test="${prin.id==area.parentId }">
@@ -634,8 +634,9 @@ function deleteFinance() {
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支结构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		    	   <select  name="overseasBranch" onchange="dis(this)"  id="overseas_branch_select_id">
+		    	        <option value="0">无</option>
 						<option value="1">有</option>
-						<option value="0">无</option>
+						
 					</select>
 	       	    </div>
 			</li>
