@@ -34,7 +34,7 @@ session.setAttribute("tokenSession", tokenValue);
 								if(vals==result){
 						 			checklist[i].checked=true;
 						 		}
-								if("GOODS"==result){
+								if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
 									count++;
 								}
 							});
@@ -121,7 +121,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 			var vals=checklist[i].value;
 	 			if(checklist[i].checked){
 	 				ids.push(vals);
-	 				if(vals=="GOODS"){
+	 				if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
 	 				 	count++;
 	 				}
 	 			}
@@ -310,7 +310,7 @@ session.setAttribute("tokenSession", tokenValue);
 			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${spList}" var="obj" >
-						    <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.code}" />${obj.name} </span>
+						    <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
 				      </c:forEach>
 				  </div>
 			    </div>
@@ -318,7 +318,7 @@ session.setAttribute("tokenSession", tokenValue);
 				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>货物分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${hwList}" var="hw" >
-						    <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.code}" />${hw.name} </span>
+						    <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
 				      </c:forEach>
 				  </div>
 				</div>

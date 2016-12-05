@@ -139,7 +139,7 @@ public class ExpertController {
         Expert expert = service.selectByPrimaryKey(id);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", expert.getPurchaseDepId());
-        map.put("typeName", "0");
+        map.put("typeName", "1");
         // 查询出采购机构
         List<PurchaseDep> depList = purchaseOrgnizationService
                 .findPurchaseDepList(map);
@@ -320,7 +320,7 @@ public class ExpertController {
         model.addAttribute("expert", expert);
         model.addAttribute("errorMap", errorMap);
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("typeName", "0");
+        map.put("typeName", "1");
         List<PurchaseDep> purchaseDepList = purchaseOrgnizationService
                 .findPurchaseDepList(map);
         // 专家系统key
@@ -493,7 +493,7 @@ public class ExpertController {
             Model model) {
         Expert expert = service.selectByPrimaryKey(id);
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("typeName", "0");
+        map.put("typeName", "1");
         List<PurchaseDep> depList = purchaseOrgnizationService
                 .findPurchaseDepList(null);
         if (depList != null && depList.size() > 0) {
@@ -552,7 +552,7 @@ public class ExpertController {
         // 查询出采购机构
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", expert.getPurchaseDepId());
-        map.put("typeName", "0");
+        map.put("typeName", "1");
         List<PurchaseDep> depList = purchaseOrgnizationService
                 .findPurchaseDepList(map);
         if (depList != null && depList.size() > 0) {
@@ -667,7 +667,7 @@ public class ExpertController {
                     if (purchaseDepId != null
                             && StringUtils.isNotEmpty(purchaseDepId)) {
                         map.put("id", purchaseDepId);
-                        map.put("typeName", "0");
+                        map.put("typeName", "1");
                         // 采购机构
                         List<PurchaseDep> depList = purchaseOrgnizationService
                                 .findPurchaseDepList(map);
@@ -821,8 +821,9 @@ public class ExpertController {
    * @return String
    * @throws IOException
    */
+  @ResponseBody
   @RequestMapping("/add1")
-  public String add1(String categoryId, String sysId, Expert expert,
+  public void add1(String categoryId, String sysId, Expert expert,
       String userId, Model model, RedirectAttributes attr,
       HttpSession session, String token2, HttpServletRequest request,
       HttpServletResponse response, String gitFlag) {
@@ -839,7 +840,7 @@ public class ExpertController {
       // 未做异常处理
     }
     attr.addAttribute("userId", userId);
-    return "redirect:toAddBasicInfo.html";
+    //return "redirect:toAddBasicInfo.html";
   }
 
     /**

@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   if(expertsTypeId==1 || expertsTypeId=="1"){
 			  $.ajax({
 				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+				  	dataType:"json",
 				  success:function(code){
 					  var checklist = document.getElementsByName ("chkItem");
 					  for(var i=0;i<checklist.length;i++){
@@ -49,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										if(vals==result){
 						 				checklist[i].checked=true;
 						 			    }
-										if("GOODS"==result){
+										if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
 											count++;
 										}
 									});
@@ -111,34 +112,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	//获取选中子节点id
 	function getChildren(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var count=0;
-		 var ids=[];
-		 for(var i=0;i<checklist.length;i++)
-		   {
-	 			var vals=checklist[i].value;
-	 			if(checklist[i].checked){
-	 				ids.push(vals);
-	 				if(vals=="GOODS"){
-	 				 count++;
-	 				}
+		var checklist = document.getElementsByName ("chkItem");
+		var count=0;
+		var ids=[];
+		for(var i=0;i<checklist.length;i++) {
+	 	var vals=checklist[i].value;
+	 		if(checklist[i].checked){
+	 			ids.push(vals);
+	 			if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
+	 				count++;
 	 			}
-		   } 
+	 		}
+		} 
 		if(count>0){
 			 $("#hwType").show();  
 		}else{
 			var checklist = document.getElementsByName ("chkItem");
-			 for(var i=0;i<checklist.length;i++)
-			   {
-		 			var vals=checklist[i].value;
-		 			if(vals=='SALES'){
-		 				checklist[i].checked = false;
-		 			}
-		 			if(vals=='PRODUCT'){
-		 				checklist[i].checked = false;
-		 			} 
-			 $("#hwType").hide();  
-			   }
+			for(var i=0;i<checklist.length;i++){
+		 		var vals=checklist[i].value;
+		 		if(vals=='EE317E287DFF4F4A845EC2A3234BDE53'){
+		 			checklist[i].checked = false;
+		 		}
+		 		if(vals=='4AB6BDE2FA9C4FB587C3A3AB4AD646F6'){
+		 			checklist[i].checked = false;
+		 		} 
+			 	$("#hwType").hide();  
+			}
 		}
 	     $("#categoryId").val(ids);
 	}
@@ -445,7 +444,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${spList }" var="obj" >
-					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.code}" />${obj.name} </span>
+					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
@@ -453,7 +452,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.code}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
