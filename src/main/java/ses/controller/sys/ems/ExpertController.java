@@ -248,7 +248,7 @@ public class ExpertController {
             expert.setId(expertId);
             service.insertSelective(expert);
             Role role = new Role();
-            role.setCode("EXPERT_R");
+            role.setCode("EXPERT_TEMP_R");
             List<Role> listRole = roleService.find(role);
             if (listRole != null && listRole.size() > 0) {
                 Userrole userrole = new Userrole();
@@ -607,6 +607,29 @@ public class ExpertController {
             @RequestParam("remark") String remark, HttpSession session) {
         // 当前登录用户
         User user = (User) session.getAttribute("loginUser");
+        User expertUser = userService.findByTypeId(expert.getId());
+        if ("1".equals(isPass)) {
+            Role role = new Role();
+            role.setCode("EXPERT_R");
+            List<Role> listRole = roleService.find(role);
+            if (listRole != null && listRole.size() > 0) {
+                Userrole userrole = new Userrole();
+                userrole.setRoleId(listRole.get(0));
+                userrole.setUserId(expertUser);
+                /** 给该用户初始化进口代理商角色 */
+                userService.saveRelativity(userrole);
+                String[] roleIds = listRole.get(0).getId().split(",");
+                List<String> listMenu = menuService.findByRids(roleIds);
+                /** 给用户初始化进口代理商菜单权限 */
+                for (String menuId : listMenu) {
+                    UserPreMenu upm = new UserPreMenu();
+                    PreMenu preMenu = menuService.get(menuId);
+                    upm.setPreMenu(preMenu);
+                    upm.setUser(expertUser);
+                    userService.saveUserMenu(upm);
+                }
+            }
+        }
         // 专家状态修改
         expert.setStatus(isPass);
         // 审核时初始化专家诚信积分
