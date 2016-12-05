@@ -239,11 +239,11 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30">
-			  <c:if test="${obj.status=='5' }">
-              <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+			  <c:if test="${obj.status=='1'}">
+              <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt="">
               </c:if>
-               <c:if test="${obj.status!='5' }">
-              <input type="checkbox" disabled="disabled"  value="${obj.planNo }" name="chkItem" onclick="check()"  alt="">
+               <c:if test="${obj.status!='1' }">
+              <input type="checkbox" disabled="disabled"  value="${obj.id }" name="chkItem" onclick="check()"  alt="">
               </c:if>
 			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>

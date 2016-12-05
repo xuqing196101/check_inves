@@ -128,7 +128,7 @@
  
 		<input type="button"  class="btn" onclick="viewdetail()" value="需求单位查看">
 	
-		<button   class="btn" >历史记录</button>
+		<!-- <button   class="btn" >历史记录</button> -->
  </div>
    <div class="content  table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">

@@ -31,7 +31,7 @@
 						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">4</i>
 						<div class="line"></div> <span class="step_desc_02">初审采购机构</span> </span> <span class="new_step current fl"><i class="">5</i>
 						<div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> <span class="new_step fl"><i class="">6</i> 
-						<span class="step_desc_01">申请表承诺书上传</span> 
+						<span class="step_desc_02">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
 				</h2>
@@ -56,12 +56,12 @@
 										</h2>
 										<table class="table table-bordered">
 										  <tr>
-										    <td class="info">军队供应商分级方法：</td>
-										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
+										 <!--    <td class="info">军队供应商分级方法：</td>
+										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td> -->
 										    <td class="info">军队供应商承诺书：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										  </tr>
-										  <tr>
+										<!--   <tr>
 										    <td class="info">军队供应商入库申请表：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										    <td class="info">军队供应商抽取记录表：</td>
@@ -78,7 +78,7 @@
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										    <td class="info">军队供应商退库申请表：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
-										  </tr>
+										  </tr> -->
 										
 										</table>
 										<%--

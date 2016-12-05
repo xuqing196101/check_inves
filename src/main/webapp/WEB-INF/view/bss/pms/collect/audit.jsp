@@ -297,11 +297,15 @@
 									 	<%-- 		</c:if>
 									 		</c:forEach> --%>
 									 		<select onchange="ss(this)" name="audit[${vs.index*5+avs.index}].paramValue">
-												<option value="gkzb">公开招标</option>
+											<!-- 	<option value="gkzb">公开招标</option>
 												<option value="yqzb">邀请招标</option>
 												<option value="dyly">单一来源</option>
 												<option value="jzxtp">竞争性谈判</option>
-												<option value="xjcg">询价采购</option>
+												<option value="xjcg">询价采购</option> -->
+												<c:forEach items="${mType }" var="mt">
+												 	<option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
+												</c:forEach>
+								
 											</select>
 									 	</c:if>
 									  

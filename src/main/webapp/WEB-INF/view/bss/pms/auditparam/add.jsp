@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   	 	<li class="col-md-6 p0">
 					   	<span class="span2"><div class="fr">审核轮次：</div><div class="red">*</div></span>
 				<!-- 	   	<div class="input-append pr"> -->
-					     <select name="dictioanryId" >
+					     <select name="dictioanryId"  required="required">
 				    		<option value="">请选择</option>
 				    		<c:forEach items="${dic }" var="obj">
 				    			<option value="${obj.id }">${obj.name }</option>
