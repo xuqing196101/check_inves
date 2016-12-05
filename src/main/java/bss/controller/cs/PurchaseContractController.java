@@ -1170,6 +1170,29 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 〈简述〉 〈详细描述〉
 	* 
 	* @author QuJie 
+	* @date 2016-11-11 下午2:59:07  
+	* @Description: 展示合同草稿 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/showRoughContract")
+	public String showRoughContract(HttpServletRequest request,Model model) throws Exception{
+		String ids = request.getParameter("ids");
+		PurchaseContract draftCon = purchaseContractService.selectRoughById(ids);
+		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
+		draftCon.setContractReList(conRequList);
+		model.addAttribute("draftCon", draftCon);
+		return "bss/cs/purchaseContract/showDraftContract";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
 	* @date 2016-11-11 下午3:01:37  
 	* @Description: 展示正式合同 
 	* @param @param request

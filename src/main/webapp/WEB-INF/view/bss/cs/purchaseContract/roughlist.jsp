@@ -119,8 +119,8 @@
 		}
   	}
   	
-  	function showDraftContract(id){
-  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id;
+  	function showRoughContract(id){
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showRoughContract.html?ids="+id;
   	}
   	
   	var ind;
@@ -273,32 +273,32 @@
 		<c:forEach items="${roughConList}" var="draftCon" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,7)}...</td>
+					<td onclick="showRoughContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
+					<td onclick="showRoughContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,9)}...</td>
+					<td onclick="showRoughContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,9)}...</td>
 				</c:if>
 				<c:if test="${length<=9}">
-					<td onclick="showDraftContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
+					<td onclick="showRoughContract('${draftCon.id}')" class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
 				</c:if>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.supplierDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.demandSector}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.documentNumber}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budget}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.year}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budgetSubjectItem}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.money}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.projectName}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.supplierDepName}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.demandSector}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.documentNumber}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.budget}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.year}</td>
+				<td class="tc pointer" onclick="showRoughContract('${draftCon.id}')">${draftCon.budgetSubjectItem}</td>
 			</tr>
 		</c:forEach>
 	</table>
