@@ -95,7 +95,7 @@
                             if(data == "SCCUESS"){
                                   window.location.href = '${pageContext.request.contextPath}/packageExpert/assignedExpert.html?projectId=${project.id}&&flowDefineId=${flowDefineId}';
                             }else{
-                                   layer.alert("请选择组长",{offset: ['222px', '390px'], shade:0.01});
+                                   layer.alert("请选择组长",{offset: ['100px', '300px'], shade:0.01});
                             }
                         }
                     });

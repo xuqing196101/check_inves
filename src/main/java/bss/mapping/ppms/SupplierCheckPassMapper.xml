@@ -25,12 +25,11 @@
 		<result column="NAME" jdbcType="VARCHAR" property="name" />
 	</resultMap>
 
-
-	<resultMap type="bss.model.ppms.SupplierCheckPass" id="BaseResultMapList" extends="BaseResultMap">
-    <collection property="packagesList" column="PACKAGE_ID" ofType="bss.model.ppms.Packages">
-      <id column="PPID" jdbcType="VARCHAR" property="id" />
-      <result column="NAME" jdbcType="VARCHAR" property="name" />
-    </collection>
+	<resultMap type="bss.model.ppms.SupplierCheckPass" id="BaseResultMapList">
+		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+		<association property="supplier" column="SUPPLIER_ID"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
 	</resultMap>
 
 	<resultMap id="SelectResultMapPackage" type="bss.model.ppms.Packages">
@@ -261,18 +260,51 @@
 		ORDER BY
 		CP.TOTAL_SCORE DESC
 	</select>
-	<!-- 根据包id获取包下为发送通知的供应商和中标未中标的供应商 -->
+	<!-- 根据包id获取包下为未发送通知的供应商和中标未中标的供应商 -->
 	<select id="listSupplierCheckPass" parameterType="bss.model.ppms.SupplierCheckPass"
 		resultMap="BaseResultMapList">
+
+
+		SELECT wm_concat(CC."NAME") PACKAGE_ID, CC.SUPPLIER_ID FROM(
 		SELECT
-		CP.*,pp."NAME",PP."ID" as PPID
+		pp.name ,CP.PACKAGE_ID,CP.SUPPLIER_ID
+		,CP.PROJECT_ID,CP.IS_WON_BID,CP.IS_SEND_NOTICE
 		FROM
-		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp INNER JOIN T_BSS_PPMS_PACKAGE pp ON CP.PACKAGE_ID = PP."ID"
+		"JDCG"."T_BSS_PPMS_SUPPLIER_CHECK_PASS" cp
+		LEFT JOIN T_BSS_PPMS_PACKAGE
+		pp ON CP.PACKAGE_ID = PP."ID"
+		) CC
+		WHERE 1=1 AND CC.PROJECT_ID =
+		#{projectId} AND
+		CC.IS_WON_BID =#{isWonBid} AND CC.IS_SEND_NOTICE=
+		#{isSendNotice}
+
+		GROUP BY CC.SUPPLIER_ID
+
+	</select>
+
+	<select id="listCheckPass" parameterType="bss.model.ppms.SupplierCheckPass"
+		resultMap="BaseResultMap">
+
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
 		WHERE
-		1=1 AND
-		cp.PROJECT_ID = #{projectId}
+		1=1
+		<if test="packageId != null and packageId != ''">
+			AND CP.PACKAGE_ID =#{packageId}
+		</if>
+		<if test="isSendNotice != null and isSendNotice != '' ">
+			AND IS_SEND_NOTICE=#{isSendNotice}
+		</if>
+		<if test="isWonBid !=null and isWonBid !='' ">
+			AND IS_WON_BID = #{isWonBid}
+		</if>
+
 		ORDER BY
 		CP.TOTAL_SCORE DESC
+
 	</select>
 
 	<!-- 关联包 -->
@@ -284,6 +316,14 @@
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
 		WHERE cp.PACKAGE_ID =#{packageId}
 		and cp.IS_WON_BID =1
+	</select>
+
+	<!-- 查询每包是否都选择了中标供应商 -->
+	<select id="selectWonBid" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT PACKAGE_ID FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		WHERE IS_WON_BID=1 AND
+		PROJECT_ID = #{projectId}
+		GROUP BY PACKAGE_ID
 	</select>
 
 </mapper>

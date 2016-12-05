@@ -71,7 +71,7 @@
                     data:"checkPassId="+id+"&&jsonCheckPass="+json,
                     dataType:"json",
                     success: function(data) {
-                    	alert(data);
+//                     	alert(data);
                     	if(data=="SCCUESS"){
                     		  window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
                     	}else{
@@ -117,16 +117,16 @@
           <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/template.do?projectId=${projectId}">02、中标通知书</a>
+          <a href="javascript:void(0);">02、中标通知书</a>
           <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
+          <a href="javascript:void(0);">03、未中标通知书</a>
         </li>
       </ul>
     </div>
       <div class="headline-v2">
-        <h2>专家抽取包列表</h2>
+        <h2>确认中标供应商</h2>
       </div>
       <c:if test="${execute != 'SCCUESS' }">
         <div class="col-md-12 pl20 mt10">

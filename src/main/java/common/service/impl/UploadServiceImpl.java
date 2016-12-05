@@ -432,7 +432,7 @@ public class UploadServiceImpl implements UploadService {
             String tableName = Constant.fileSystem.get(systemKey);
 
 
-            String fileName = PropUtil.getProperty("bidNotice")+".doc";//"中标通知书.doc";//param.getFileName();
+            String fileName = PropUtil.getProperty("bidNotice") + ".doc";//"中标通知书.doc";//param.getFileName();
             //获取基础路径
             String finalPath = PropUtil.getProperty("file.base.path");
             //系统key
@@ -442,7 +442,7 @@ public class UploadServiceImpl implements UploadService {
                 finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
                 //创建一个文件目录
                 UploadUtil.createDir(finalPath);
-                String targetFileName = System.currentTimeMillis()+ "." + fileName.substring(fileName.lastIndexOf(".")+1) ;
+                String targetFileName = System.currentTimeMillis() +  "."  +  fileName.substring(fileName.lastIndexOf(".")+1) ;
                 //创建文件夹
                 File file = UploadUtil.getFile(finalPath, targetFileName);
                 RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
@@ -453,7 +453,7 @@ public class UploadServiceImpl implements UploadService {
                 if (file != null){
                     UploadFile model = new UploadFile();
                     model.setBusinessId(businessId);
-//                 model.setTypeId(typeId);
+//                    model.setTypeId(typeId);
                     model.setSize(file.length());
                     model.setPath(file.getPath());
                     model.setName(fileName);

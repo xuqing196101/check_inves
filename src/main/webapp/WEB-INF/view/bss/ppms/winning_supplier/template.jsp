@@ -82,6 +82,12 @@
 </script>
 
 <script type="text/javascript">
+  function  change(select){
+	 var vl= select.value;
+	 var array=vl.split("^");
+	 $("#bidid").text(array[1]);
+  }   
+
 // $(function(){
 // 	 var pack="${packageName[0].id}";
 //      change(pack);	
@@ -132,21 +138,21 @@
 					<h2 class="padding-10 border1">
 						<form action="" method="post" id="form" class="mb0">
 						<input type="hidden" value="${projectId}" name="projectId">
+						 <input type="hidden" value="1" name="isWon">
 							<ul class="demand_list">
-<!-- 								<li class="fl"><label class="fl">包：</label><span> <select -->
-<!-- 										id="package" class="w100" name="packageId" onchange="supplierch();"> -->
-<%-- 											<c:forEach items="${packageName}" var="pack"> --%>
-<%-- 												<option value="${pack.id}">${pack.name}</option> --%>
-<%-- 											</c:forEach> --%>
-<!-- 									</select> -->
-<!-- 								</span></li> -->
-
 								<li class="fl"><label class="fl">供应商名称：</label><span>
-										<select class="w200" name="supplierId" id="supplier">
-
+										<select class="w200" name="supplierId" id="supplier" onchange="change(this);">
+                        <c:forEach items="${listSupplierCheckPass}" var="pass">
+                          <option value="${pass.supplier.id}^${pass.packageId }">${pass.supplier.supplierName}</option>
+                        </c:forEach>
 									</select>
 							   	</span>
 								</li>
+								  <li class="fl"><label class="fl">中标包名：</label>
+								  <span id="bidid">
+								     ${listSupplierCheckPass[0].packageId}
+                  </span>
+                </li>
 							</ul>
 							<div class="clear"></div>
 					

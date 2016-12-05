@@ -3,12 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="ses.model.bms.User" %>
-<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://"
-            + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -51,6 +45,21 @@ $(function(){
     });
     
 });
+
+//点击url
+function clickuri(url){
+	
+var uri=url.split("^");	
+	
+if('downloadabiddocument' == uri[0] ){
+	window.location.href="${pageContext.request.contextPath}/file/download.html?id="+ uri[1] +"&key=${sysId}";
+}else{
+ window.location.href="${pageContext.request.contextPath}/"+uri[0];	
+}
+
+	
+}
+
 </script>
 </head>
 <body>
@@ -74,13 +83,12 @@ $(function(){
                     <div class="tag-box tag-box-v3 margin-0 p0_10">
                         <div class="margin-0">
                             <h2 class="margin-0 news cursor"
-                                onclick="window.location.href='<%=basePath%>StationMessage/listStationMessage.do'">通知</h2>
+                                onclick="window.location.href='${pageContext.request.contextPath}/StationMessage/listStationMessage.do'">通知</h2>
                         </div>
                         <ul 
                             class="padding-left-20  categories hex padding-bottom-5 padding-top-5" >
-                            <c:forEach items="${stationMessage }" var="station">
-                                <li><a
-                                    href="<%=basePath%>${station.url}" title="${station.name }"> <c:choose>
+                            <c:forEach items="${stationMessage}" var="station">
+                                <li><a href="javascript:void(0);" onclick="clickuri('${station.url}^${station.id}');" title="${station.name }"> <c:choose>
                                             <c:when test="${fn:length(station.name) > 10}">  
                                            ${fn:substring(station.name, 0, 14)}......
                                         </c:when>
@@ -98,8 +106,8 @@ $(function(){
                 <div class="col-md-12 tab-v2 job-content">
                     <div class="">
                         <ul class="nav nav-tabs" id="menu">
-                            <li class=""><a  href="<%=basePath%>todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
-                            <li class=""><a  href="<%=basePath%>todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
+                            <li class=""><a  href="${pageContext.request.contextPath}/todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
+                            <li class=""><a  href="${pageContext.request.contextPath}/todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
                         </ul>
                          <script type="text/javascript" language="javascript">   
                         function iFrameHeight() {   
@@ -113,7 +121,7 @@ $(function(){
                         </script>
                       <!-- 右侧内容开始-->
                       <div class="">
-                         <iframe  frameborder="0" name="open_main" id="open_main" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>todo/todos.html" ></iframe>
+                         <iframe  frameborder="0" name="open_main" id="open_main" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="${pageContext.request.contextPath}/todo/todos.html" ></iframe>
                       </div>
                     </div>
                 </div>

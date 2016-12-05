@@ -60,7 +60,7 @@
   }
 
       
-      //确认中标供应商
+      /** 确认中标供应商  */
      function confirm(){
     	 var id=[]; 
          $('input[name="chkItem"]:checked').each(function(){ 
@@ -74,30 +74,86 @@
              layer.alert("请选择包",{offset: ['100px', '300px'], shade:0.01});
          }
      }
+      
+     /** 执行完成*/
+     function finish(){
+         layer.confirm('确定之后不可修改，是否确定？', {
+              btn: ['确定','取消'],offset: ['100px', '300px'], shade:0.01
+            }, function(index){
+                $.ajax({
+                    type: "POST",
+                    url:"${pageContext.request.contextPath}/winningSupplier/executeFinish.html?flowDefineId=${flowDefineId}&&projectId=${projectId}",
+                    dataType:"json",
+                    success: function(data) {
+                        if(data == "SCCUESS"){
+                              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+                        }else{
+                               layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+                        }
+                    }
+                });
+                
+            }, function(index){
+                layer.close(index);
+            });
+         
+         
+    
+     }
+     
+     /** 中标供应商 */
+     function tabone(){
+    	 window.location.href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}";
+     }
+     
+     /** 中标通知 */
+     function tabtwo(){
+    	 var error = "${error}";
+    	 if(error != null && error == "ERROR"){
+    		 layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+    	 }else{
+    		 window.location.href="${pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}";
+    	 }
+    	 
+       
+     }
+     
+     /** 未中标通知 */
+     function tabthree(){
+    	 var error = "${error}";
+    	 if (error != null && error == "ERROR" ){
+    		 layer.alert("请选择中标供应商",{offset: ['100', '300px'], shade:0.01});
+    	 } else{
+    		   window.location.href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}";  
+    	 }
+     }
+      
   </script>
 
   <body>
     <div class="col-md-12 p0">
       <ul class="flow_step">
         <li class="active">
-          <a href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}">01、确认中标供应商</a>
+          <a href="javascript:void(0);" onclick="tabone();">01、确认中标供应商</a>
           <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/winningSupplier/template.do?projectId=${projectId}">02、中标通知书</a>
-          <i></i>
+	          <a href="javascript:void(0);" onclick="tabtwo();">02、中标通知书</a>
+	          <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
+              <a href="javascript:void(0);" onclick="tabthree();">03、未中标通知书</a>
+            <i></i>
         </li>
       </ul>
     </div>
       <div class="headline-v2">
-        <h2>专家抽取包列表</h2>
+        <h2>包列表</h2>
       </div>
       <c:if test="${execute != 'SCCUESS' }">
         <div class="col-md-12 pl20 mt10">
           <button class="btn btn-windows add" onclick="confirm();" type="button">选择</button>
+            <button class="btn " onclick="finish();" type="button">执行完成</button>
         </div>
       </c:if>
       <div class="content table_box">
@@ -116,16 +172,16 @@
               <td class="tc w30">${vs.count }</td>
               <td class="tc">${pack.name }</td>
               <td class="tc">
-                <c:forEach items="${pack.listCheckPasses}" var="list">
-<%--                   <c:choose> --%>
-<%--                     <c:when test="${fn:length(list) != 0}"> --%>
-                      ${list.supplier.supplierName}
-<%--                     </c:when> --%>
-<%--                     <c:otherwise> --%>
-<!--                                                                    未选择 -->
-<%--                     </c:otherwise> --%>
-<%--                   </c:choose> --%>
-                </c:forEach>
+              <c:choose>
+                <c:when test="${fn:length(pack.listCheckPasses) != 0}">
+                  <c:forEach items="${pack.listCheckPasses}" var="list">
+                   ${list.supplier.supplierName}
+                  </c:forEach>
+                </c:when>
+                <c:otherwise>
+                 <c:set value="1" var="values" />
+                </c:otherwise>
+              </c:choose>
               </td>
             </tr>
           </c:forEach>

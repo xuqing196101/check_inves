@@ -70,6 +70,12 @@ public class DownloadServiceImpl implements DownloadService {
                }
             } else {
                 UploadFile file = fileDao.getFileById(id, tableName);
+                if (file == null){
+                    List<UploadFile> fileByBusinessId = fileDao.getFileByBusinessId(id, null, tableName);
+                    if( fileByBusinessId !=null && fileByBusinessId.size() !=0){
+                        file=fileByBusinessId.get(0);
+                    }
+                }
                 downloadFile(request, response, file.getPath(), file.getName());
             }
         }

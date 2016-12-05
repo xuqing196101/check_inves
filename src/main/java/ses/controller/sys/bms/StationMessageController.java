@@ -15,6 +15,7 @@ import java.util.List;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ctc.wstx.dtd.StarModel;
 import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
 
 import ses.model.bms.StationMessage;
 import ses.model.bms.Todos;
@@ -120,6 +122,8 @@ public class StationMessageController {
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage,page==null||"".equals(page)?1:Integer.valueOf(page));
             model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
             model.addAttribute("stationMessage",stationMessage);
+            Integer tenderKey = Constant.TENDER_SYS_KEY;
+            req.setAttribute("sysId",tenderKey);
         }
 
         return "ses/bms/station/list";

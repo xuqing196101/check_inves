@@ -3,7 +3,10 @@
  */
 package bss.controller.ppms;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,12 +46,20 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
+
+
+
+
+
 import common.constant.Constant;
 import common.service.UploadService;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.SupplierCheckPass;
+import bss.model.prms.PackageExpert;
 import bss.service.ppms.AduitQuotaService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.util.PropUtil;
@@ -82,7 +93,11 @@ public class WinningSupplierController extends BaseController {
     @Autowired
     private StationMessageService stationMessageService;
 
+    @Autowired
     private UserServiceI userServiceI;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;//环节
 
     /**
      * 文件上传
@@ -102,6 +117,11 @@ public class WinningSupplierController extends BaseController {
         model.addAttribute("packList", packList);
         model.addAttribute("projectId", projectId);
         model.addAttribute("flowDefineId", flowDefineId);
+        //获取已有中标供应商的包组
+        String[] packcount = checkPassService.selectWonBid(projectId);
+        if (packList.size() != packcount.length){
+            model.addAttribute("error", "ERROR");
+        }
         return "bss/ppms/winning_supplier/list";
     }
 
@@ -117,14 +137,16 @@ public class WinningSupplierController extends BaseController {
      * @return 路径
      */
     @RequestMapping("/packageSupplier")
-    public String selectpackage(Model model, String packageId, String flowDefineId,String projectId){
+    public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq){
         SupplierCheckPass checkPass = new SupplierCheckPass();
-        checkPass.setPackageId(projectId);
-        List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listSupplierCheckPass(checkPass);
+        checkPass.setPackageId(packageId);
+        List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
         model.addAttribute("supplierCheckPass", listSupplierCheckPass);
         model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("projectId", projectId);
+        //             //修改流程状态
+        flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
         return "bss/ppms/winning_supplier/supplier_list";
     }
 
@@ -178,6 +200,35 @@ public class WinningSupplierController extends BaseController {
 
         return "bss/ppms/winning_supplier/upload";
     } 
+    
+    /**
+     * 
+     *〈简述〉执行完成
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param projectId 项目id 
+     * @param flowDefineId 流程id 
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/executeFinish")
+    public String executeFinish(String  projectId, String flowDefineId,HttpServletRequest sq){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        //获取已有中标供应商的包组
+        String[] packList = checkPassService.selectWonBid(projectId);
+        //查看项目下有多少包
+        map.put("projectId", projectId);
+        List<Packages> findPackageById = packageService.findPackageById(map);
+        //对比
+        if (findPackageById != null && findPackageById.size() != 0){
+            if (findPackageById.size() != packList.length){
+                return JSON.toJSONString("ERROR");
+            } else {
+                flowMangeService.flowExe(sq, flowDefineId, projectId, 1);
+            }
+        }
+        return JSON.toJSONString("SCCUESS");
+    }
 
     /**
      * @Description:打开中标模板
@@ -190,10 +241,12 @@ public class WinningSupplierController extends BaseController {
     @RequestMapping("/template")
     public String template(Model model, String projectId){
         SupplierCheckPass checkPass = new SupplierCheckPass();
-        checkPass.setPackageId(projectId);
+        checkPass.setProjectId(projectId);
+        checkPass.setIsSendNotice((short)0);
+        checkPass.setIsWonBid((short)1);
         List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listSupplierCheckPass(checkPass);
-//        model.addAttribute("packageName", packageName);
-//        model.addAttribute("projectId", projectId);
+        model.addAttribute("listSupplierCheckPass", listSupplierCheckPass);
+        model.addAttribute("projectId", projectId);
         return "bss/ppms/winning_supplier/template";
     }
 
@@ -207,8 +260,12 @@ public class WinningSupplierController extends BaseController {
      */
     @RequestMapping("/notTemplate")
     public String notTemplate(Model model, String projectId){
-        List<Packages> packageName = checkPassService.getPackageName(projectId);
-        model.addAttribute("packageName", packageName);
+        SupplierCheckPass checkPass = new SupplierCheckPass();
+        checkPass.setProjectId(projectId);
+        checkPass.setIsSendNotice((short)0);
+        checkPass.setIsWonBid((short)0);
+        List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listSupplierCheckPass(checkPass);
+        model.addAttribute("listSupplierCheckPass", listSupplierCheckPass);
         model.addAttribute("projectId", projectId);
         return "bss/ppms/winning_supplier/not_template";
     }
@@ -261,36 +318,43 @@ public class WinningSupplierController extends BaseController {
      * @throws Exception 
      */
     @RequestMapping("/publish")
-    public String  publish(String supplierId,String packageId,String projectId,String content,HttpServletRequest sq) throws Exception{
+    public String  publish(String supplierId,Integer isWon,String projectId,String content,HttpServletRequest sq) throws Exception{
         String bidNotice = PropUtil.getProperty("bidNotice");
-        SupplierCheckPass checkPass = new SupplierCheckPass();
-        checkPass.setIsSendNotice((short)1);
-        checkPass.setSupplierId(supplierId);;
-        checkPass.setPackageId(packageId);
-        checkPassService.update(checkPass);
+        if (supplierId != null &&  !"".equals(supplierId)){
+            String[] supplierIds = supplierId.split("\\^");
+            SupplierCheckPass checkPass = new SupplierCheckPass();
+            checkPass.setIsSendNotice((short) 1);
 
-        //获取供应商登录id
-        ses.model.bms.User user = new ses.model.bms.User();
-        user.setTypeId(supplierId);
-        List<ses.model.bms.User> queryByList = userServiceI.queryByList(user);
+            checkPass.setSupplierId(supplierIds[0]);
+            checkPassService.update(checkPass);
 
-        if (queryByList != null && queryByList.size() != 0){
-            //招标系统key
-            Integer tenderKey = Constant.TENDER_SYS_KEY;
-            uploadService.uploadFileByContext("FF8A29AD721E403794236992F055E80E", tenderKey.toString(),  content); 
+            //获取供应商登录id
+            ses.model.bms.User findByTypeId = userServiceI.findByTypeId(supplierIds[0]);
+
+
+
+            ses.model.bms.User  login = (ses.model.bms.User ) sq.getSession().getAttribute("loginUser");
+            if (login != null){
+                StationMessage stationMessage = new StationMessage();
+                stationMessage.setReceiverId("869CB7FA88DD4C55A228D94F17A7CD71");
+                String pro = PropUtil.getProperty("bidNotice");
+                stationMessage.setName(pro);
+                stationMessage.setUrl("downloadabiddocument");
+                stationMessage.setSenderId(login.getId());
+                stationMessageService.insertStationMessage(stationMessage);
+                //                if (findByTypeId != null){
+                //招标系统key
+                Integer tenderKey = Constant.TENDER_SYS_KEY;
+                uploadService.uploadFileByContext(stationMessage.getId(), tenderKey.toString(), content); 
+                //                }
+            }
+        }
+        if (isWon == 1){
+            return "redirect:template.html?projectId=" + projectId;
+        }else{
+            return "redirect:notTemplate.html?projectId=" + projectId;
         }
 
-        ses.model.bms.User  login = (ses.model.bms.User ) sq.getSession().getAttribute("loginUser");
-        if (login != null){
-            StationMessage stationMessage = new StationMessage();
-            stationMessage.setReceiverId("FF8A29AD721E403794236992F055E80E");
-            String pro = PropUtil.getProperty("bidNotice");
-            stationMessage.setName(pro);
-            stationMessage.setUrl("123213123123");
-            stationMessage.setSenderId(login.getId());
-            stationMessageService.insertStationMessage(stationMessage);
-        }
-        return "redirect:template.html?projectId=" + projectId;
     }
 
     /**

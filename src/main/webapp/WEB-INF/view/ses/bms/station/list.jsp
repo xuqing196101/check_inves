@@ -77,11 +77,7 @@
 				 }
 		   }
 	}
-  	function view(url){
-  		if(url != null && url != ''){
-  		   window.location.href="${pageContext.request.contextPath}/"+url;
-  		}
-  	}
+
  
     function del(){
     	var ids =[]; 
@@ -101,6 +97,21 @@
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
     }
+    
+  //点击url
+    function clickuri(url){
+      
+    var uri=url.split("^"); 
+      
+    if('downloadabiddocument' == uri[0] ){
+      window.location.href="${pageContext.request.contextPath}/file/download.html?id="+ uri[1] +"&key=${sysId}";
+    }else{
+     window.location.href="${pageContext.request.contextPath}/"+uri[0]; 
+    }
+
+      
+    }
+    
     
   </script>
 <body>
@@ -153,7 +164,7 @@
 					</thead>
 					<c:forEach items="${listStationMessage.list}" var="listsm"
 						varStatus="vs">
-						<tr class="cursor"  onclick="view('${ listsm.url}');"  >
+						<tr class="cursor"  onclick="clickuri('${listsm.url}^${listsm.id}');"  >
 							<!-- 序号 -->
 							<td class="tc" >${(vs.index+1)+(listStationMessage.pageNum-1)*(listStationMessage.pageSize)}</td>
 							<!-- 标题 -->

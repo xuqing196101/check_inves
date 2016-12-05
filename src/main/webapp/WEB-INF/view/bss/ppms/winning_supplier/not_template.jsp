@@ -71,8 +71,8 @@
         }
         //发布
         function publish(){
-        	 $("#form").attr("action",'${pageContext.request.contextPath}/winningSupplier/publish.do');   
-             $("#form").submit();
+           $("#form").attr("action",'${pageContext.request.contextPath}/winningSupplier/publish.do');   
+           $("#form").submit();
         }
         //保存
         function save(){
@@ -82,30 +82,12 @@
         }
     </script>
     <script type="text/javascript">
-	$(function(){
-	     var pack="${packageName[0].id}";
-	     change(pack);  
-	})
-
-    function supplierch(){
-         var pack=$("#package").find("option:selected").val();
-         change(pack);
-    }
-
-    function change(pack){
-              $.ajax({
-                  type:"POST",
-                  url:"${pageContext.request.contextPath}/winningSupplier/getSupplierJosn.do",
-                  data:{packageId:pack,isWonBid:0},
-                  dataType:"json",
-                  success: function(data){
-                       var list = data;
-                       $("#supplier").empty();
-                       for(var i=0;i<list.length;i++){
-                            $("#supplier").append("<option value="+list[i].supplier.id+">"+list[i].supplier.supplierName+"</option>");
-                       }
-                  }
-              });
+    
+    	  function  change(select){
+    		   var vl= select.value;
+    		   var array=vl.split("^");
+    		   $("#bidid").text(array[1]);  
+    		   
     }
 </script>
     
@@ -135,21 +117,22 @@
 					<h2 class="padding-10 border1">
 						<form action="" method="post"  id="form" class="mb0">
 						<input type="hidden" value="${projectId}" name="projectId">
-							<ul class="demand_list">
-                                <li class="fl"><label class="fl">包：</label><span> <select
-                                        id="package" class="w100 " onchange="supplierch();">
-                                            <c:forEach items="${packageName}" var="pack">
-                                                <option value="${pack.id}">${pack.name}</option>
-                                            </c:forEach>
-                                    </select>
-                                </span></li>
-
-                                <li class="fl"><label class="fl">供应商名称：</label><span>
-                                        <select class="w200" id="supplier">
-
-                                    </select>
-                                </span></li>
-                            </ul>
+						  <input type="hidden" value="0" name="isWon">
+					 <ul class="demand_list">
+                <li class="fl"><label class="fl">供应商名称：</label><span>
+                    <select class="w200" name="supplierId" id="supplier" onchange="change(this);">
+                        <c:forEach items="${listSupplierCheckPass}" var="pass">
+                          <option value="${pass.supplier.id}^${pass.packageId }">${pass.supplier.supplierName}</option>
+                        </c:forEach>
+                  </select>
+                  </span>
+                </li>
+                  <li class="fl"><label class="fl">中标包名：</label>
+                  <span id="bidid">
+                     ${listSupplierCheckPass[0].packageId}
+                  </span>
+                </li>
+              </ul>
 							<div class="clear"></div>
 			
 						<div class="row">
@@ -170,8 +153,8 @@
 
 							<div class="tc mt20 clear col-md-12">
 
-								<input type="button" class="btn btn-windows save"
-									onclick="save()" value="保存"></input>
+								  <input type="button" class="btn btn-windows save"
+                  onclick="publish()" value="发布"></input> 
 								<input type="button" class="btn btn-windows back"
 									onclick="history.go(-1)" value="返回"></input>
 							</div>

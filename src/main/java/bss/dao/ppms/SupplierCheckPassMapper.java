@@ -68,12 +68,31 @@ public interface SupplierCheckPassMapper {
     
     /**
      * 
-     *〈简述〉根据包id获取包下为发送通知的供应商和中标未中标的供应商
+     *〈简述〉获取供应商名称+ 包名
      *〈详细描述〉
      * @author Wang Wenshuai
      * @param checkPass 对象
      * @return 包集合
      */
     List<SupplierCheckPass> listSupplierCheckPass(SupplierCheckPass checkPass);
+    
+    /**
+     * 
+     *〈简述〉根据包id获取包下为发送通知的供应商和中标未中标的供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param checkPass 对象
+     * @return 包集合
+     */
+    List<SupplierCheckPass> listCheckPass(SupplierCheckPass checkPass);
+    
+    /**
+     *〈简述〉 查询每包是否都选择了中标供应商
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param prijectId 项目id
+     * @return 集合
+     */
+    String[] selectWonBid(String projectId);
     
 }
