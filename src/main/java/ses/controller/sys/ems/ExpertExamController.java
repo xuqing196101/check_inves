@@ -2304,7 +2304,7 @@ public class ExpertExamController extends BaseSupplierController{
 		for (int i=1;i<=sheet.getPhysicalNumberOfRows();i++) {
 			Row row = sheet.getRow(i);
 			if (row == null) {
-				continue;
+				break;
 			}
 			Cell queType = row.getCell(0);
 			if (queType.toString().equals("单选题")
@@ -2405,10 +2405,10 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		StringBuffer same = new StringBuffer();
 		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
-		for (int i=1;i<= sheet.getPhysicalNumberOfRows();i++) {
+		for (int i=1;i<=sheet.getPhysicalNumberOfRows();i++) {
 			Row row = sheet.getRow(i);
 			if (row == null) {
-				continue;
+				break;
 			}
 			Cell queType = row.getCell(0);
 			if (queType.toString().equals("单选题")

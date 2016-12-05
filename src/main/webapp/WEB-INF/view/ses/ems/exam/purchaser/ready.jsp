@@ -41,7 +41,7 @@
 			    		layer.alert("对不起,该考卷还没有设置参考人员",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==7){
-			    		layer.alert("您已参加本场考试,无法再登录",{offset: ['30%','40%']});
+			    		layer.alert("您已参加本场考试,无法重考",{offset: ['30%','40%']});
 						$(".layui-layer-shade").remove();
 			    	}
 		       	}

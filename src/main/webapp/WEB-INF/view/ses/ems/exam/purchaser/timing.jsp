@@ -33,7 +33,7 @@
   
   <body onload="countTime()">
   	<div class="container tc f22 fw mt20">
-  		考卷已生成完毕,距离考试还有5分钟,请您耐心等待,谢谢!
+  		考卷已生成完毕,待倒计时结束之后，即可开考,请您耐心等待,谢谢!
 	  	<div class="score_box border1">
 	  		<div id="ready">
 	  			倒计时
