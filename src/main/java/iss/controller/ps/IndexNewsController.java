@@ -329,4 +329,9 @@ public class IndexNewsController extends BaseSupplierController{
 //			out.close();
 //		}
 	}
+	
+	@RequestMapping("/init")
+	public void init(){
+		solrNewsService.initIndex();
+	}
 }
