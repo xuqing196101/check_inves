@@ -24,7 +24,6 @@ session.setAttribute("tokenSession", tokenValue);
 			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
 			  	dataType:"json",
 			  	success:function(code){
-			  		alert(code);
 				 	var checklist = document.getElementsByName ("chkItem");
 				  	for(var i=0;i<checklist.length;i++){
 						if(code.length>0){
