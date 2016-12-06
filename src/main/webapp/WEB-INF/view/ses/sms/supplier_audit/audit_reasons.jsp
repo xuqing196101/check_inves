@@ -7,48 +7,131 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-		<title>审核汇总</title>
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-  <script type="text/javascript">
-    //只读
-    $(function() {
+	<title>审核汇总</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+    <script type="text/javascript">
+      //只读
+      $(function() {
         $(":input").each(function() {
-          $(this).attr("readonly", "readonly");
-        });
-        
-        //审核按钮
-        var num = ${num};
-        if(num == 0){
-            $("#tuihui").attr("disabled", true);
-        }
-        if(num != 0){
-            $("#tongguo").attr("disabled", true);
-        };
+        $(this).attr("readonly", "readonly");
       });
+        
+       //审核按钮
+       var num = ${num};
+       if(num == 0){
+         $("#tuihui").attr("disabled", true);
+       }
+       if(num != 0){
+         $("#tongguo").attr("disabled", true);
+         };
+       });
 
-			function tijiao(status){
-			  $("#status").val(status);
-			  form1.submit();
-			}
+	   function tijiao(status){
+	     $("#status").val(status);
+		 form1.submit();
+	   }
 			
 		//上一步
-		function lastStep(){
-		  var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-		  $("#form_id").attr("action",action);
-		  $("#form_id").submit();
+	   function lastStep(){
+	     var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+		 $("#form_id").attr("action",action);
+		 $("#form_id").submit();
+	   }
+			
+	   //审核
+	   function shenhe(status){
+	     var auditId = $("#auditId").val();
+		 $("input[name='id']").val(auditId);
+		
+		 $("#status").val(status);
+		 $("#form_shen").submit();
 		}
 			
-			//审核
-			function shenhe(status){
-			  var auditId = $("#auditId").val();
-			  $("input[name='id']").val(auditId);
-			
-			  $("#status").val(status);
-			  $("#form_shen").submit();
-			}
+		/** 全选全不选 */
+	    function selectAll(){
+	      var checklist = document.getElementsByName ("chkItem");
+	      var checkAll = document.getElementById("checkAll");
+	      if(checkAll.checked){
+	        for(var i=0;i<checklist.length;i++){
+		      checklist[i].checked = true;
+		    } 
+		  }else{
+		    for(var j=0;j<checklist.length;j++){
+		      checklist[j].checked = false;
+		      }
+	 	    }
+		  }
+		
+		  //移除
+	    function dele(){
+	  		var supplierId = $("input[name='supplierId']").val();
+				var ids =[];
+				$('input[name="chkItem"]:checked').each(function(){ 
+			  	ids.push($(this).val());
+				});
+				if(ids.length>0){
+			      layer.confirm('您确定要移除吗?', {title:'提示！',offset: ['200px']}, function(index){
+				    layer.close(index);
+				      $.ajax({
+				        url:"${pageContext.request.contextPath}/supplierAudit/deleteById.html",
+				        data:"ids="+ids,
+								success:function(){
+		       				layer.msg("删除成功!",{offset : '100px'});
+			       			window.setTimeout(function(){
+			       				var action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
+					    			$("#form_id").attr("action",action);
+					    			$("#form_id").submit();
+			       			}, 1000);
+		       			},
+		       				error: function(message){
+									layer.msg("删除失败",{offset : '100px'});
+									}
+								});
+				   		});
+				 		}else{
+			        layer.alert("请选择需要移除的信息！",{offset:'100px'});
+				 	  }
+	        }
     </script>
+    <script type="text/javascript">
+			function jump(str){
+			  var action;
+			  if(str=="essential"){
+			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
+			  }
+			  if(str=="financial"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
+			  }
+			  if(str=="shareholder"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
+			  }
+			  if(str=="materialProduction"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
+			  }
+			  if(str=="materialSales"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+			  }
+			  if(str=="engineering"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/engineering.html";
+			  }
+			  if(str=="serviceInformation"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			  }
+			  if(str=="product"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+			  }
+			  if(str=="applicationForm"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+			  }
+			  if(str=="reasonsList"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
+			  }
+			  $("#form_id").attr("action",action);
+			  $("#form_id").submit();
+			}
+		</script>
   </head>
 
   <body>
@@ -71,57 +154,57 @@
     <div class="container container_box">
       <div class="content">
         <div class="col-md-12 tab-v2 job-content">
-          <ul class="flow_step">
-            <li >
-	            <a aria-expanded="false" href="#tab-1" >详细信息</a>
-	            <i></i>
-            </li>
-            <li >
-              <a aria-expanded="false" href="#tab-2" >财务信息</a>
-              <i></i>                            
-            </li>
-            <li >
-              <a aria-expanded="false" href="#tab-3" >股东信息</a>
-              <i></i>
-            </li>
-            <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-              <li>
-                <a aria-expanded="false" href="#tab-4">生产信息</a>
-                <i></i>
-              </li>
-            </c:if>
-            <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-	            <li >
-	              <a aria-expanded="false" href="#tab-4" >销售信息</a>
-	              <i></i>
-	            </li>
-            </c:if>
-            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li>
-                <a aria-expanded="false" href="#tab-4" >工程信息</a>
-                <i></i>
-	            </li>
-            </c:if>
-            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li>
-                <a aria-expanded="false" href="#tab-4" >服务信息</a>
-                <i></i>
-	            </li>
-            </c:if>
-            <li>
-              <a aria-expanded="false" href="#tab-4" >产品信息</a>
-              <i></i>
-            </li>
-            <li>
-              <a aria-expanded="false" href="#tab-4" >申请表</a>
-              <i></i>
-            </li>
-            <li class="active">
-              <a aria-expanded="true" href="#tab-4" data-toggle="tab">汇总</a>
-            </li>
-          </ul>
+	          <ul class="flow_step">
+		          <li onclick = "jump('essential')">
+		            <a aria-expanded="false" href="#tab-1">详细信息</a>
+		            <i></i>
+		          </li>
+		          <li onclick = "jump('financial')">
+		            <a aria-expanded="true" href="#tab-2">财务信息</a>
+		            <i></i>                            
+		          </li>
+		          <li onclick = "jump('shareholder')" >
+		            <a aria-expanded="false" href="#tab-3">股东信息</a>
+		            <i></i>
+		          </li>
+		          <c:if test="${fn:contains(supplierTypeNames, '生产')}">
+		            <li onclick = "jump('materialProduction')">
+		              <a aria-expanded="false" href="#tab-4">生产信息</a>
+		              <i></i>
+		            </li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '销售')}">
+		            <li onclick = "jump('materialSales')" >
+		              <a aria-expanded="false" href="#tab-4" >销售信息</a>
+		              <i></i>
+		            </li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+		            <li onclick = "jump('engineering')">
+		              <a aria-expanded="false" href="#tab-4">工程信息</a>
+		              <i></i>
+		            </li>
+		          </c:if>
+		          <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+		            <li onclick = "jump('serviceInformation')" >
+		              <a aria-expanded="false" href="#tab-4" >服务信息</a>
+		              <i></i>
+		            </li>
+		          </c:if>
+		          <li onclick = "jump('product')" >
+		            <a aria-expanded="false" href="#tab-4">产品信息</a>
+		             <i></i>
+		          </li>
+		          <li onclick = "jump('applicationForm')" >
+		            <a aria-expanded="false" href="#tab-4" >申请表</a>
+		            <i></i>
+		          </li>
+		          <li onclick = "jump('reasonsList')"  class="active">
+		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">汇总</a>
+		          </li>
+		        </ul>
         
-          <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+          <form id="form_id" action="" method="post">
               <input name="supplierId" value="${supplierId}" type="hidden">
           </form>
           
@@ -130,9 +213,12 @@
           </c:if>
           
           <ul class="ul_list count_flow">
+
+            <button class="btn btn-windows delete" type="button" onclick="dele();" style=" border-bottom-width: -;margin-bottom: 7px;">移除</button>
             <table class="table table-bordered table-condensed table-hover">
              <thead>
                <tr>
+               	 <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
                  <th class="info w50">序号</th>
                  <th class="info">审批类型</th>
                  <th class="info">审批字段名字</th>
@@ -140,43 +226,30 @@
                  <th class="info">不通过理由</th>
                </tr>
              </thead>
-               <c:forEach items="${reasonsList }" var="list" varStatus="vs">
+               <c:forEach items="${reasonsList }" var="reasons" varStatus="vs">
                 <input id="auditId" value="${list.id}" type="hidden">
                  <tr>
+                   <td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
                    <td class="tc">${vs.index + 1}</td>
                    <td class="tc">
-                     <c:if test="${list.auditType == 'basic_page'}">详细信息</c:if>
-                     <c:if test="${list.auditType == 'finance_page'}">财务信息</c:if>
-                     <c:if test="${list.auditType == 'stockholder_page'}">股东信息</c:if>
-                     <c:if test="${list.auditType == 'mat_pro_page'}">生产信息</c:if>
-                     <c:if test="${list.auditType == 'mat_sell_page'}">销售信息</c:if>
-                     <c:if test="${list.auditType == 'mat_eng_page'}">工程信息</c:if>
-                     <c:if test="${list.auditType == 'mat_serve_page'}">服务信息</c:if>
+                     <c:if test="${reasons.auditType == 'basic_page'}">详细信息</c:if>
+                     <c:if test="${reasons.auditType == 'finance_page'}">财务信息</c:if>
+                     <c:if test="${reasons.auditType == 'stockholder_page'}">股东信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_pro_page'}">生产信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_sell_page'}">销售信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>
+                     <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if>
                      <%-- <c:if test="${list.auditType == 'mat_serve_page' || list.auditType == 'item_sell_page' || list.auditType == 'item_eng_page' || list.auditType == 'item_serve_page'}">品目信息</c:if> --%>
-                     <c:if test="${list.auditType == 'products_page'}">产品信息</c:if>
-                     <c:if test="${list.auditType == 'upload_page'}">申请表</c:if>
+                     <c:if test="${reasons.auditType == 'products_page'}">产品信息</c:if>
+                     <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
                    </td>
-                   <td class="tc">${list.auditFieldName }</td>
-                   <td class="tc">${list.auditContent}</td>
-                   <td class="tc">${list.suggest}</td>
+                   <td class="tc">${reasons.auditFieldName }</td>
+                   <td class="tc">${reasons.auditContent}</td>
+                   <td class="tc">${reasons.suggest}</td>
                  </tr>
                </c:forEach>
             </table>
           </ul>
-          <%-- <h2 class="f16 jbxx1">
-            <i>01</i>问题汇总
-          </h2>
-        <div class=" margin-bottom-0">
-            <c:forEach items="${reasonsList }" var="list" >
-              <ul class="list-unstyled list-flow">
-                <li class="col-md-6 p0 "><span class="" id="bankAccount2">${list.auditField}：</span>
-                  <div class="input-append">
-                    <input class="span3" id="bankAccount3"  type="text" value="${list.suggest}"/>
-                  </div>
-                </li>
-              </ul>
-            </c:forEach>
-        </div> --%>
 	        <c:if test="${status==1 }">
 		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
 			      <ul class="ul_list">

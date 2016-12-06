@@ -6,7 +6,7 @@ import java.util.Map;
 import ses.model.sms.SupplierAudit;
 
 public interface SupplierAuditMapper {
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(String ids);
 
     int insert(SupplierAudit record);
 

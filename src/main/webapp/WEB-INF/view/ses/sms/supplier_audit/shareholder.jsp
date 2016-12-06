@@ -81,23 +81,41 @@
     </script>
     
 		<script type="text/javascript">
-		/*   function zhancun(){
-		    var supplierId=$("#supplierId").val();
-		    $.ajax({
-		      url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
-		      type:"post",
-		      data:"id="+supplierId,
-		      dataType:"json",
-		      success:function(result){
-		        result = eval("(" + result + ")");
-		        if(result.msg == "success"){
-		          layer.msg("暂存成功！");
-		        }
-		      },error:function(){
-		        layer.msg("暂存失败！");
-		      }
-		    });
-		  } */
+			function jump(str){
+			  var action;
+			  if(str=="essential"){
+			     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
+			  }
+			  if(str=="financial"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
+			  }
+			  if(str=="shareholder"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
+			  }
+			  if(str=="materialProduction"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
+			  }
+			  if(str=="materialSales"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+			  }
+			  if(str=="engineering"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/engineering.html";
+			  }
+			  if(str=="serviceInformation"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			  }
+			  if(str=="product"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+			  }
+			  if(str=="applicationForm"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+			  }
+			  if(str=="reasonsList"){
+			    action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
+			  }
+			  $("#form_id").attr("action",action);
+			  $("#form_id").submit();
+			}
 		</script>
 		
   </head>
@@ -143,51 +161,51 @@
         </ul> --%>
                     
         <ul class="flow_step">
-          <li >
-            <a aria-expanded="false" href="#tab-1" >详细信息</a>
+          <li onclick = "jump('essential')">
+            <a aria-expanded="false" href="#tab-1">详细信息</a>
             <i></i>
           </li>
-          <li >
-            <a aria-expanded="false" href="#tab-2" >财务信息</a>
+          <li onclick = "jump('financial')">
+            <a aria-expanded="true" href="#tab-2">财务信息</a>
             <i></i>                            
           </li>
-          <li class="active">
-            <a aria-expanded="true" href="#tab-3" data-toggle="tab">股东信息</a>
+          <li onclick = "jump('shareholder')"  class="active" >
+            <a aria-expanded="false" href="#tab-3"  data-toggle="tab" >股东信息</a>
             <i></i>
           </li>
           <c:if test="${fn:contains(supplierTypeNames, '生产')}">
-            <li>
+            <li onclick = "jump('materialProduction')">
               <a aria-expanded="false" href="#tab-4" >生产信息</a>
               <i></i>
             </li>
           </c:if>
           <c:if test="${fn:contains(supplierTypeNames, '销售')}">
-            <li>
+            <li onclick = "jump('materialSales')">
               <a aria-expanded="false" href="#tab-4" >销售信息</a>
               <i></i>
             </li>
           </c:if>
           <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-            <li>
+            <li onclick = "jump('engineering')">
               <a aria-expanded="false" href="#tab-4" >工程信息</a>
               <i></i>
             </li>
           </c:if>
           <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-            <li>
+            <li onclick = "jump('serviceInformation')">
               <a aria-expanded="false" href="#tab-4" >服务信息</a>
               <i></i>
             </li>
           </c:if>
-          <li>
+          <li onclick = "jump('product')">
             <a aria-expanded="false" href="#tab-4" >产品信息</a>
-            <i></i>
+             <i></i>
           </li>
-          <li>
+          <li onclick = "jump('applicationForm')">
             <a aria-expanded="false" href="#tab-4" >申请表</a>
             <i></i>
           </li>
-          <li>
+          <li onclick = "jump('reasonsList')">
             <a aria-expanded="false" href="#tab-4" >汇总</a>
           </li>
         </ul>
