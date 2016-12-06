@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 
@@ -286,8 +287,16 @@
 		  		<tr class="pointer">
 		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
 		  			<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-		  			<td class="tc" onclick="view('${article.id }')">${article.name }</td>
-		  			<td class="tc" onclick="view('${article.id }')">
+		  			
+		  			<c:if test="${fn:length(article.name)>30}">
+	    					<td onclick="view('${article.id }')" onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()">${fn:substring(article.name,0,30)}...</td>
+	    			</c:if>
+		  			<c:if test="${fn:length(article.name)<=30}">
+	    					<td onclick="view('${article.id }')">${article.name }</td>
+	    			</c:if>
+		  			
+		  			<%--<td class="tc" onclick="view('${article.id }')">${article.name }</td>
+		  			--%><td class="tc" onclick="view('${article.id }')">
 		  				<c:if test="${article.range=='0' }">
 		  					内网
 		  				</c:if>
