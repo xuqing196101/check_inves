@@ -191,14 +191,19 @@ function loadRadioHtml(checked){
 		no_checked = true;
 	}
 	var html = "<li> "
-		     + " <div class='col-md-4 col-sm-4 col-xs-6 tr'> "
-		     + "    <span class='red'>*</span>是否公开: "
-		     + " </div> "
-		     + " <div class='col-md-8 col-sm-8 col-xs-6'> "
-		     + "  <input type='radio' disabled='disabled' checked="+yes_checked+"   name='isOPen'  value='0'/>是    " 
-		     + "  <input type='radio' disabled='disabled' checked="+no_checked+"  name='isOPen' value='1' /> 否    "
-		     + "</div> "
-		     + "</li>";
+	     + " <div class='col-md-4 col-sm-4 col-xs-6 tr'> "
+	     + "    <span class='red'>*</span>是否公开: "
+	     + " </div> "
+	     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";
+		if (yes_checked){
+			html += "  <input type='radio' disabled='disabled' checked='checked'   name='isOPen'  >是    " 
+			html += "  <input type='radio' disabled='disabled'    name='isOPen'  /> 否    "
+		}
+		if (no_checked){
+			html += "  <input type='radio' disabled='disabled'    name='isOPen'  >是    " 
+			html += "  <input type='radio' disabled='disabled'  checked='checked'  name='isOPen'  /> 否    "
+		}
+	
 	$("#uListId").append(html);
 }
 
