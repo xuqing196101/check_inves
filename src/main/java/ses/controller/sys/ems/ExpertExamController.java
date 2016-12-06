@@ -409,6 +409,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(2);
 		examQuestion.setCreatedAt(new Date());
+		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
@@ -525,6 +526,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(0);
 		examQuestion.setCreatedAt(new Date());
+		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
@@ -642,6 +644,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(1);
 		examQuestion.setCreatedAt(new Date());
+		examQuestion.setUpdatedAt(new Date());
 		examQuestion.setAnswer(sb.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchComExpPool.html";
@@ -806,6 +809,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setAnswer(sb.toString());
+		examQuestion.setUpdatedAt(new Date());
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("lawQue",examQuestion);
 			model.addAttribute("lawAnswer",sb.toString());
@@ -1003,6 +1007,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setAnswer(sb.toString());
+		examQuestion.setUpdatedAt(new Date());
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("tecQue",examQuestion);
 			model.addAttribute("tecAnswer",sb.toString());
@@ -1121,6 +1126,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic.trim());
 		examQuestion.setAnswer(sb.toString());
+		examQuestion.setUpdatedAt(new Date());
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("comQue",examQuestion);
 			model.addAttribute("comAnswer",sb.toString());
@@ -1203,6 +1209,7 @@ public class ExpertExamController extends BaseSupplierController{
 			examUserScore.setIsMax(1);
 			examUserScore.setUserId(user.getId());
 			examUserScore.setCreatedAt(new Date());
+			examUserScore.setUpdatedAt(new Date());
 			examUserScore.setTestDate(new Date());
 			examUserScore.setScore(String.valueOf(score));
 			examUserScoreService.insertSelective(examUserScore);
@@ -1226,6 +1233,7 @@ public class ExpertExamController extends BaseSupplierController{
 				examUserScore.setIsMax(0);
 				examUserScore.setUserId(user.getId());
 				examUserScore.setCreatedAt(new Date());
+				examUserScore.setUpdatedAt(new Date());
 				examUserScore.setTestDate(new Date());
 				examUserScore.setScore(String.valueOf(score));
 				examUserScoreService.insertSelective(examUserScore);
@@ -1256,6 +1264,7 @@ public class ExpertExamController extends BaseSupplierController{
 				examUserScore.setIsMax(1);
 				examUserScore.setUserId(user.getId());
 				examUserScore.setCreatedAt(new Date());
+				examUserScore.setUpdatedAt(new Date());
 				examUserScore.setTestDate(new Date());
 				examUserScore.setScore(String.valueOf(score));
 				examUserScoreService.insertSelective(examUserScore);
@@ -1279,6 +1288,7 @@ public class ExpertExamController extends BaseSupplierController{
 		ExamUserAnswer examUserAnswer = new ExamUserAnswer();
 		examUserAnswer.setContent(content);
 		examUserAnswer.setCreatedAt(new Date());
+		examUserAnswer.setUpdatedAt(new Date());
 		examUserAnswer.setQuestionId(queId);
 		examUserAnswer.setUserType(1);
 		examUserAnswer.setUserId(userId);
@@ -1699,6 +1709,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examRule.setPassStandard(passStandard);
 		examRule.setPaperScore(paperScore);
 		examRule.setCreatedAt(new Date());
+		examRule.setUpdatedAt(new Date());
 		examRule.setStatus(0);
 		examRuleService.insertSelective(examRule);
 		return "redirect:ruleList.html";
@@ -1888,6 +1899,7 @@ public class ExpertExamController extends BaseSupplierController{
 		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 		examRule.setPassStandard(passStandard);
 		examRule.setPaperScore(paperScore);
+		examRule.setUpdatedAt(new Date());
 		examRuleService.updateByPrimaryKeySelective(examRule);
 		return "redirect:ruleList.html";
 	}

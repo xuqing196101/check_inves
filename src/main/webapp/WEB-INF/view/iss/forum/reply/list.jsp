@@ -33,7 +33,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var replyCon ="${replyCon}";
-		            location.href = "${ pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon+"&page="+e.curr;
+		            location.href = "${pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -88,7 +88,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="${ pageContext.request.contextPath }/reply/view.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath }/reply/view.html?id="+id;
   	}
   	
     function edit(){
@@ -97,11 +97,11 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){			
-			window.location.href="${ pageContext.request.contextPath }/reply/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath }/reply/edit.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个",{offset: ['30%', '40%'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的回复",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的回复",{offset: ['30%', '40%'], shade:0.01});
 		}
     }
     
@@ -111,17 +111,17 @@
 			id.push($(this).val()); 
 		}); 
 		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${ pageContext.request.contextPath }/reply/delete.html?id="+id;
+				window.location.href="${pageContext.request.contextPath }/reply/delete.html?id="+id;
 			});
 		}else{
-			layer.alert("请选择要删除的回复",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的回复",{offset: ['30%', '40%'], shade:0.01});
 		}
     }
     
     function add(){
-    	window.location.href="${ pageContext.request.contextPath }/reply/add.html";
+    	window.location.href="${pageContext.request.contextPath }/reply/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -154,7 +154,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a >信息服务</a></li><li><a >论坛管理</a></li><li class="active"><a >回复管理</a></li>
+		   <li><a href="#">首页</a></li><li><a >信息服务</a></li><li><a >论坛管理</a></li><li class="active"><a >回复管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -189,7 +189,7 @@
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info">序号</th>
+			    <th class="info w50">序号</th>
 				<th class="info">回复内容</th>
 				<th class="info">发布时间</th>
 				<th class="info">发表人</th>
@@ -204,33 +204,20 @@
 				<td class="tc pointer" onclick="view('${reply.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>		
 				<c:set value="${reply.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
-				<c:if test="${length>10}">
-					<td onclick="view('${reply.id}')" class=" pointer "  >${fn:substring(content,0,10)}...</td>
-				</c:if>
-				<c:if test="${length<=10}">
-					<td onclick="view('${reply.id}')" class=" pointer "  >${content } </td>
-				</c:if>	
-				
+				<td onclick="view('${reply.id}')" class="pointer">${content }</td>
 				<td class="tc pointer" onclick="view('${reply.id}')"><fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${reply.id}')">${reply.user.relName}</td>
 				<c:set value="${reply.post.name}" var="postContent"></c:set>
 				<c:set value="${fn:length(postContent)}" var="length"></c:set>
-                <c:if test="${length>8}">
-                    <td onclick="view('${reply.id}')" class="pointer ">${fn:substring(postContent,0,8)}...</td>
+                <c:if test="${length>16}">
+                    <td onclick="view('${reply.id}')" class="pointer" onmouseover="titleMouseOver('${postContent}',this)" onmouseout="titleMouseOut()">${fn:substring(postContent,0,16)}...</td>
                 </c:if>
-                <c:if test="${length<=8}">
-                    <td onclick="view('${reply.id}')" class="pointer ">${postContent } </td>
-                </c:if> 
-          
+                <c:if test="${length<=16}">
+                    <td onclick="view('${reply.id}')" class="pointer">${postContent }</td>
+                </c:if>
                 <c:set value="${reply.reply.content}" var="replyContent"></c:set>
                 <c:set value="${fn:length(replyContent)}" var="length"></c:set>
-                <c:if test="${length>8}">
-                    <td onclick="view('${reply.id}')" class=" pointer ">${fn:substring(replyContent,0,8)}...</td>
-                </c:if>
-                <c:if test="${length<=8}">
-                    <td onclick="view('${reply.id}')" class=" pointer ">${replyContent } </td>
-                </c:if> 
-				
+                <td onclick="view('${reply.id}')" class="pointer">${replyContent }</td>
 			</tr>
 		</c:forEach>
 	</table>

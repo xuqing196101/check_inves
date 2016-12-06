@@ -230,7 +230,7 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info">序号</th>
-				<th class="info">主题名</th>
+				<th class="info">主题名称</th>
 				<th class="info">主题介绍</th>
 				<th class="info">创建人</th>
 				<th class="info">所属版块</th>
@@ -248,7 +248,7 @@
 				<c:set value="${topic.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>30}">
-					<td onclick="view('${topic.id}')"  class="pointer">${fn:substring(content,0,30)}...</td>
+					<td onclick="view('${topic.id}')"  class="pointer" onmouseover="titleMouseOver('${content}',this)" onmouseout="titleMouseOut()">${fn:substring(content,0,30)}...</td>
 				</c:if>
 				<c:if test="${length<=30}">
 					<td onclick="view('${topic.id}')"  class="pointer">${content } </td>

@@ -475,6 +475,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
 		examQuestion.setTopic(topic);
 		examQuestion.setAnswer(sb_answer.toString());
+		examQuestion.setUpdatedAt(new Date());
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			model.addAttribute("purchaserQue",examQuestion);
 			model.addAttribute("purchaserAnswer",sb_answer.toString());
@@ -1074,6 +1075,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			return "ses/ems/exam/purchaser/paper/add";
 		}
 		examPaper.setCreatedAt(new Date());
+		examPaper.setUpdatedAt(new Date());
 		examPaper.setName(name);
 		examPaper.setCode(code);
 		examPaper.setScore(paperScore);
@@ -1428,6 +1430,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			model.addAttribute("judgePoint", judgePoint);
 			return "ses/ems/exam/purchaser/paper/edit";
 		}
+		examPaper.setUpdatedAt(new Date());
 		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 		examPaper.setYear(startTime.substring(0, 4));
 		examPaperService.updateByPrimaryKeySelective(examPaper);
@@ -1542,6 +1545,7 @@ public class PurchaserExamController extends BaseSupplierController{
 				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
 				examUserAnswer.setContent(" ");
 				examUserAnswer.setCreatedAt(new Date());
+				examUserAnswer.setUpdatedAt(new Date());
 				examUserAnswer.setQuestionId(questionId[i]);
 				examUserAnswer.setUserType(2);
 				examUserAnswer.setPaperId(paperId);
@@ -1555,6 +1559,7 @@ public class PurchaserExamController extends BaseSupplierController{
 				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
 				examUserAnswer.setContent(sb.toString());
 				examUserAnswer.setCreatedAt(new Date());
+				examUserAnswer.setUpdatedAt(new Date());
 				examUserAnswer.setQuestionId(questionId[i]);
 				examUserAnswer.setUserType(2);
 				examUserAnswer.setPaperId(paperId);
@@ -1572,6 +1577,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		ExamUserScore examUserScore = new ExamUserScore();
 		examUserScore.setCreatedAt(new Date());
+		examUserScore.setUpdatedAt(new Date());
 		examUserScore.setTestDate(new Date());
 		examUserScore.setIsMax(1);
 		examUserScore.setUserId(user.getId());
@@ -1620,6 +1626,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		    	if(paperUser.getIsDo()==0){
 		    		ExamUserScore examUserScore = new ExamUserScore();
 		    		examUserScore.setCreatedAt(new Date());
+		    		examUserScore.setUpdatedAt(new Date());
 					examUserScore.setUserType(2);
 					examUserScore.setUserId(paperUser.getUserId());
 					examUserScore.setScore("0");
@@ -1630,6 +1637,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					ExamPaperUser paperOfUser = new ExamPaperUser();
 					paperOfUser.setId(paperUser.getId());
 					paperOfUser.setIsDo(2);
+					paperOfUser.setUpdatedAt(new Date());
 					examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
 		    	}
 		    }
@@ -1798,6 +1806,7 @@ public class PurchaserExamController extends BaseSupplierController{
 				for(int i=0;i<paperUser.size();i++){
 					ExamUserScore userScore = new ExamUserScore();
 					userScore.setCreatedAt(new Date());
+					userScore.setUpdatedAt(new Date());
 					userScore.setUserType(2);
 					userScore.setUserId(paperUser.get(i).getUserId());
 					userScore.setScore("0");
@@ -2297,6 +2306,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	public void insertReference(String userId,String paperId,String unitName,String card,String code){
 		ExamPaperUser examPaperUser = new ExamPaperUser();
 		examPaperUser.setCreatedAt(new Date());
+		examPaperUser.setUpdatedAt(new Date());
 		examPaperUser.setIsDo(0);
 		examPaperUser.setUserId(userId);
 		examPaperUser.setPaperId(paperId);
@@ -2370,6 +2380,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			    	if(userPapers.get(i).getIsDo()==0){
 			    		ExamUserScore examUserScore = new ExamUserScore();
 			    		examUserScore.setCreatedAt(new Date());
+			    		examUserScore.setUpdatedAt(new Date());
 						examUserScore.setUserType(2);
 						examUserScore.setUserId(user.getId());
 						examUserScore.setScore("0");

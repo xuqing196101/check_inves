@@ -109,9 +109,9 @@
 		if(id.length==1){
 			window.parent.location.href="${pageContext.request.contextPath }/post/getIndexDetail.html?postId="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一项",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
 		}else{
-			layer.alert("请选择一项",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
 		}
   	}
   	
