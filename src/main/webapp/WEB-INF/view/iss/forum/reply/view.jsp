@@ -60,7 +60,10 @@
 	            </table>
 	            <h2 class="count_flow jbxx ">回复内容</h2>
             <div class="col-md-12 col-sm-12 col-cs-12 p0">
-                <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${content}</textarea>
+            
+             <script id="editor" name="content" type="text/plain" class="mt20" readonly="readonly">
+             </script>
+           <%--   <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${reply.content}</textarea> --%>
 	        </div>  	 	 
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 tc">    
@@ -68,6 +71,27 @@
 	</div>
   </div>
      </div>
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+
+    var option ={
+            toolbars: [[
+                        'undo', 'redo', '|',
+                        'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                         'fontfamily', 'fontsize', '|',
+                         'indent', '|',
+                        'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
+                ]]
+
+        }
+    var ue = UE.getEditor('editor',option);
+    var content='${reply.content}';
+    ue.ready(function(){
+        ue.setContent(content);
+        ue.setDisabled([]);    
+    });
+</script>
 
   </body>
 </html>
