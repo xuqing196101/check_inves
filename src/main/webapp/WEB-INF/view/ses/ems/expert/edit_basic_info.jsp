@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   if(expertsTypeId==1 || expertsTypeId=="1"){
 			  $.ajax({
 				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-				  	dataType:"json",
+				  dataType:"json",
 				  success:function(code){
 					  var checklist = document.getElementsByName ("chkItem");
 					  for(var i=0;i<checklist.length;i++){
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							 if(code.length>0){
 									$.each(code,function(i,result){
 										if(vals==result){
-						 				checklist[i].checked=true;
+						 					checklist[i].checked=true;
 						 			    }
 										if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
 											count++;
@@ -452,7 +452,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${hw.id}" />${hw.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>

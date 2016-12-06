@@ -22,31 +22,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   var count=0;
 	 //控制品目树的显示和隐藏
 	   if(expertsTypeId==1 || expertsTypeId=="1"){
-		  $.ajax({
-			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			  success:function(code){
-				  var checklist = document.getElementsByName ("chkItem");
-				  for(var i=0;i<checklist.length;i++){
+			$.ajax({
+			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+			  	data:{"expertId":id},
+			  	dataType:"json",
+			  	success:function(code){
+				  	var checklist = document.getElementsByName("chkItem");
+				  	for(var i=0;i<checklist.length;i++){
 						var vals=checklist[i].value;
-						 if(code.length>0){
-								$.each(code,function(i,result){
-									if(vals==result){
+						if(code.length>0){
+							$.each(code,function(i,result){
+								if(vals == result){
 					 				checklist[i].checked=true;
-					 			    }
-									if("GOODS"==result){
-										count++;
-									}
-								});
+					 			}
+								if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
+									count++;
+								}
+							});
 						} 
-					   } 
+					} 
 				    if(count>0){
 						$("#hwType").show(); 
 					}else{
 						$("#hwType").hide(); 
 					}
-			  }
-		  }); 
-			 $("#ztree").show();
+			  	}
+			}); 
+		    $("#ztree").show();
 		}else{
 			 $("#ztree").hide();
 		}
@@ -78,8 +80,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 			}
 		});
-		validateBase();
-		showJiGou();
 	}
 </script>
 </head>
@@ -302,7 +302,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 		          <div class="col-md-7 service_list">
 		            <c:forEach items="${spList}" var="obj" >
-		              <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${obj.code}" />${obj.name} </span>
+		              <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${obj.id}" />${obj.name} </span>
 		            </c:forEach>
 		          </div>
 		       </div>
@@ -310,7 +310,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		         <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 		          <div class="col-md-7 service_list">
 		            <c:forEach items="${hwList}" var="hw" >
-		            <span><input type="checkbox" name="chkItem" disabled="disabled"   value="${hw.code}" />${hw.name} </span>
+		            <span><input type="checkbox" name="chkItem" disabled="disabled"   value="${hw.id}" />${hw.name} </span>
 		            </c:forEach>
 		          </div>
 		        </div>
