@@ -28,118 +28,83 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container container_box">
-    	<div>
-	   	 <h2 class="list_title">帖子详情</h2>
-	   
-	   <ul class="ul_list mb20">
-	   		  
-	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">帖子名称：</span>
-			   <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${post.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所属版块：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${post.park.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所属主题：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${post.topic.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">置顶：</span>
-				<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">	
-				 <c:choose>
-				 <c:when test="${post.isTop == 0}"> 			
-					<input type="text" value = '不置顶' readonly="readonly" >
-				 </c:when>
-				 <c:otherwise > 			
-					<input type="text" value = '置顶' readonly="readonly"  >
-				 </c:otherwise>
-				 </c:choose>
-				 
-            	</div>
-			 </li>
-			 
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">锁定：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-				 <c:choose>
-				 <c:when test="${post.isLocking == 0}"> 			
-					<input type="text" value = '不锁定' readonly="readonly"  >
-				 </c:when>
-				 <c:otherwise > 			
-					<input type="text" value = '锁定' readonly="readonly"  >
-				 </c:otherwise>
-				 </c:choose>
-				 
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发表人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${post.user.relName}' readonly="readonly">
-		       </div>
-			 </li>
-			<li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最后回复人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${post.lastReplyer.relName}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		       <input type="text" value = "<fmt:formatDate value='${post.publishedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最后回复时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = "<fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
-             <li class="col-md-3 col-sm-6 col-xs-12">
-               <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">回复数：</span>                  
-                <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-                <input type="text" value = '${post.replycount}' readonly="readonly">
-                
-               </div>
-             </li>
-			 
-			<li class="col-md-12 col-sm-12 col-xs-12">
-	   			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">帖子内容：</span>
-	  			<div class="border1 clear col-md-12 col-sm-12 col-xs-12 p0 h80">
-	  				 <%--<script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>--%>
-	  				${post.content}
-	  			</div>
-			 </li> 
-			 <li class="col-md-12 col-sm-12 col-xs-12 mt15" id="file">
-		     <span class="fl">已上传的附件：</span>
-		     <div class="fl mt5">
+     <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">帖子详情</a></li>
+            </ul>
+	   		 <div class="tab-content padding-top-20 over_hideen">
+	         <div class="tab-pane fade active in" id="tab-1">
+	         <h2 class="count_flow jbxx mb10">基本信息</h2>
+	         <table class="table table-bordered">
+	             <tbody>
+	                 <tr>
+	                     <td  class="bggrey ">帖子名称：</td>
+	                     <td colspan="5">${post.name }</td>
+	                 </tr>
+	                 <tr>
+	                     <td class="bggrey ">所属版块：</td>
+	                     <td>${post.park.name }</td>
+	                     <td class="bggrey ">所属主题：</td>
+	                     <td>${post.topic.name }</td>
+	                     <td class="bggrey ">创建时间：</td>
+	                     <td>${post.publishedAt}</td>
+	                 </tr>
+	                 <tr>
+	                     <td class="bggrey ">发帖人：</td>
+	                     <td>${post.user.relName }</td>
+	                     <td class="bggrey ">最后回复人：</td>
+	                     <td>${post.lastReplyer.relName}</td>
+	                     <td class="bggrey ">最后回复时间：</td>
+	                     <td>${post.lastReplyedAt}</td>
+	                 </tr>
+	                 <tr>
+	                     <td class="bggrey ">是否置顶：</td>
+	                     <td>
+	                      <c:choose>
+							 <c:when test="${post.isTop == 0}"> 			
+								不置顶
+							 </c:when>
+							 <c:otherwise > 			
+								置顶
+							 </c:otherwise>
+							 </c:choose>
+	                     </td>
+	                     <td class="bggrey ">是否锁定：</td>
+	                     <td>
+	                     <c:choose>
+				             <c:when test="${post.isLocking == 0}"> 			
+					          不锁定
+				             </c:when>
+				             <c:otherwise > 			
+					           锁定
+				             </c:otherwise>
+				             </c:choose>
+	                     </td>
+	                     <td  class="bggrey ">回复量：</td>
+	                     <td>${post.replycount}</td>
+	                 </tr>
+	             </tbody>
+		     </table>
+		     <h2 class="count_flow jbxx">帖子介绍</h2>
+            <div class="col-md-12 col-sm-12 col-cs-12 p0">
+                <textarea  class="h130 col-md-12 col-xs-12 col-sm-12 mb20"  title="不超过800个字" readonly="readonly">${content}</textarea>
+	        </div>
+	        
+	        <h2 class="count_flow jbxx clear">已上传附件</h2>
+            <div class="col-md-12 col-sm-12 col-cs-12 p0">
                 <up:show showId="post_attach_show" delete="false" businessId="${post.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-		     </div>
-		     </li>
-	  	 </ul>
+		     </div>  
 	  	 	
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 tc">    
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-   </div>  
+   </div>
+     </div>  
+     </div>
+     </div>
      </div>
      </div>
  <script type="text/javascript">

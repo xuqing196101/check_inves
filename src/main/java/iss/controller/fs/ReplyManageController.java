@@ -111,7 +111,10 @@ public class ReplyManageController {
 	@RequestMapping("/view")
 	public String view(Model model,String id){
 		Reply p = replyService.selectByPrimaryKey(id);
+		String contentHtml = p.getContent();
+        String content = contentHtml.replaceAll("<[^>]*>", "");
 		model.addAttribute("reply", p);
+		model.addAttribute("content", content);
 		return "iss/forum/reply/view";
 	}
 		

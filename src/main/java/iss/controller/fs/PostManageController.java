@@ -135,7 +135,9 @@ public class PostManageController {
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,String id,HttpServletRequest request){
-		Post p = postService.selectByPrimaryKey(id);	
+		Post p = postService.selectByPrimaryKey(id);
+		String contentHtml = p.getContent();
+        String content = contentHtml.replaceAll("<[^>]*>", "");
 
 		//附件信息
 		DictionaryData dd=new DictionaryData();
@@ -146,7 +148,8 @@ public class PostManageController {
 			model.addAttribute("typeId", datas.get(0).getId());
 		}
 
-		model.addAttribute("post", p);		
+		model.addAttribute("post", p);
+		model.addAttribute("content", content);
 		return "iss/forum/post/view";
 	}
 	

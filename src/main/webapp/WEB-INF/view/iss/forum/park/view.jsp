@@ -6,7 +6,7 @@
 <html>
   <head>
     
-    <title>My JSP 'view.jsp' starting page</title>
+    <title>板块详情</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -30,101 +30,68 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container container_box">
-     	<div>
-	   		<h2 class="list_title">
-					版块详情
-			</h2>
-	   <ul class="ul_list mb20">	   		  
-	   		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">版块名称：</span>
-			   <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${park.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 
-			 <li class="col-md-3 col-sm-6 col-xs-12 ">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">版主：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        	<input type="text" value = '${park.user.relName}' readonly="readonly">
-		        	
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 ">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${park.creater.relName}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			  <li class="col-md-3 col-sm-6 col-xs-12 ">
-               <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">是否热门：</span>                 
-                <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-                 <c:choose>
+    <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">版块详情</a></li>
+            </ul>
+	<div class="tab-content padding-top-20 over_hideen">
+	<div class="tab-pane fade active in" id="tab-1">
+	<h2 class="count_flow jbxx">基本信息</h2>
+	    <table class="table table-bordered">
+	        <tbody>
+	        <tr>
+	            <td class="bggrey ">版块名称：</td>
+	            <td colspan="3">${park.name}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey ">版主：</td>
+	            <td>${park.user.relName }</td>
+	            <td class="bggrey ">创建人：</td>
+	            <td>${park.creater.relName}</td>
+	            
+	        </tr>
+	        <tr>
+	            <td class="bggrey ">主题数：</td>
+	            <td>${park.topiccount}</td>
+	            <td class="bggrey ">是否热门：</td>
+	            <td><c:choose>
                  <c:when test="${park.isHot == 0}">             
-                    <input type="text" value = '不是热门' readonly="readonly" >
+                  不是热门
                  </c:when>
                  <c:otherwise >             
-                    <input type="text" value = '热门' readonly="readonly"  >
+                    热门
                  </c:otherwise>
-                 </c:choose>
-                 
-               </div>
-             </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 ">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">主题数：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${park.topiccount}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 ">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">帖子数：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${park.postcount}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12 ">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">回复数：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${park.replycount}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建时间：</span>				 	
-	  			<div  class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">更新时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		         <input type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 
-			 
-			<li class="col-md-12 col-xs-12 col-sm-12 ">	  	 			
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 版块介绍：</span>
-				<div class="col-md-12 col-xs-12 col-sm-12 mt5 p0">
-				<textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${park.content}</textarea>		
-				</div>			
-	  	 	</li>
-	  	 </ul>
-	  	 	
+                 </c:choose></td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey ">帖子数：</td>
+	            <td>${park.postcount}</td>
+	            <td class="bggrey ">回复量：</td>
+	            <td>${park.replycount}</td>
+	        </tr>
+	        <tr>
+	            
+	            <td class="bggrey ">创建时间：</td>
+	            <td>${park.createdAt}</td>
+	            <td class="bggrey " >更新时间：</td>
+	            <td >${park.updatedAt}</td>
+	        </tr>
+	        </tbody>
+	    </table>
+	    <h2 class="count_flow jbxx ">版块介绍</h2>
+            <div class="col-md-12 col-sm-12 col-cs-12 p0">
+                <script id="editor" name="content" type="text/plain" class="mt20"></script>
+                <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${park.content}</textarea>
+	        </div>  	 	 
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 tc">                
-      
-	    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	
+	    <button class="btn btn-windows back mt10" onclick="history.go(-1)" type="button">返回</button>
      </div>
      </div>
      </div>
-
+     </div>
   </body>
 </html>

@@ -26,48 +26,45 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container container_box">
-    <div>
-  
-	   	<h2 class="list_title">回复详情</h2>
-
-	   <ul class="ul_list mb20">
-			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发布人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${reply.user.relName}' readonly="readonly">
-		       
-		       </div>
-			 </li>
-
-
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">发布时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		       <input type="text" value = "<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		       
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">更新时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = "<fmt:formatDate value='${reply.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		       
-		       </div>
-			 </li>
-			 
-			 
-			<li class="col-md-12 col-xs-12 col-sm-12 ">	  	 			
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 回复内容：</span>
-				<div class="col-md-12 col-xs-12 col-sm-12 mt5 border1">
-				${reply.content}
-				</div>			
-	  	 	</li>
-	  	 </ul>
-	  	 	
+     <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">回复详情</a></li>
+            </ul>
+            <div class="tab-content padding-top-20 over_hideen">
+	        <div class="tab-pane fade active in" id="tab-1">
+	        <h2 class="count_flow jbxx">基本信息</h2>
+	            <table class="table table-bordered">
+	            <tbody>
+	            <%-- <tr>
+	                <td class="bggrey ">所属版块：</td>
+	                <td>${reply.park.name }</td>
+	                <td class="bggrey ">所属主题：</td>
+	                <td>${reply.post.name }</td>
+	            </tr> --%>
+	            <tr>
+	                <td class="bggrey " >所属帖子：</td>
+	                <td >${reply.post.name }</td>
+	                <td>发布人：</td>
+	                <td>${reply.user.relName}</td>
+	            </tr>
+	            <tr>
+	                <td class="bggrey "> 发布时间：</td>
+	                <td>${reply.publishedAt }</td>
+	                <td class="bggrey ">更新时间：</td>
+	                <td>${reply.updatedAt }</td>
+	            </tr>
+	            </tbody>
+	            </table>
+	            <h2 class="count_flow jbxx ">回复内容</h2>
+            <div class="col-md-12 col-sm-12 col-cs-12 p0">
+                <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${content}</textarea>
+	        </div>  	 	 
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 tc">    
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+    	<button class="btn btn-windows back mt10" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </div>
