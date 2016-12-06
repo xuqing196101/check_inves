@@ -89,10 +89,8 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据类型查询
 	 */
 	@Override
-	public List<Article> selectArticleByStatus(Article article,Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		List<Article> list = articleMapper.selectArticleByStatus(article);
+	public List<Article> selectArticleByStatus(HashMap<String, Object> map) {
+		List<Article> list = articleMapper.selectArticleByStatus(map);
 		return list;
 	}
 	

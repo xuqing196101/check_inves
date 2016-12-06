@@ -148,13 +148,6 @@
 			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
-    
-    function search(){
-	    var kname = $("#kname").val();
-	    var parkId = $("#parkId  option:selected").val();
-	    location.href = "${pageContext.request.contextPath }/article/serch.html?kname="+kname;
-
-	 }
 
     function resetQuery(){
     	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -183,7 +176,7 @@
 		})
 	 
 	$(function(){
-    	$("#articleTypes").select2("val", "${articlesArticleTypeId }");
+		$("#articleTypes").select2("val", "${article.articleType.id}");
     	$("#range").val("${articlesRange}");
     	$("#status").val("${articlesStatus}");
     })
@@ -214,15 +207,14 @@
     	  <li>
 	    	<label class="fl">信息标题：</label>
 	    	<span>
-	    		<input type="hidden" id="articlestatus" name="articlestatus"/>
 	    		<input type="text" id="name" name="name" value="${articleName }"/>
 	    	</span>
 	      </li>
 	      <li>
 	    	<label class="fl">信息栏目：</label>
-	    	<span>
-	    	<div class="select_common w120">
-		    	<select id="articleTypes" name="articleTypeId" >
+	    	<span class="fl mt5">
+	    	<div class="w200">
+		    	<select id="articleTypes" name="articleType.id" class="w200" >
 	         	</select>
 	        </div>
           	</span>
@@ -250,9 +242,11 @@
 	             </select>
 	         </span>
 	      </li>
-	    	<button type="submit" class="btn">查询</button>
-	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
     	</ul>
+    	<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
+    		<button type="submit" class="btn">查询</button>
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
+	    </div>
     	  <div class="clear"></div>
     	 </form>
      </h2>
@@ -295,8 +289,7 @@
 	    					<td onclick="view('${article.id }')">${article.name }</td>
 	    			</c:if>
 		  			
-		  			<%--<td class="tc" onclick="view('${article.id }')">${article.name }</td>
-		  			--%><td class="tc" onclick="view('${article.id }')">
+		  			<td class="tc" onclick="view('${article.id }')">
 		  				<c:if test="${article.range=='0' }">
 		  					内网
 		  				</c:if>

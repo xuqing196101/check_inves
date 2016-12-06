@@ -112,7 +112,7 @@ public interface ArticleService {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectArticleByStatus(Article article,Integer pageNum); 
+	List<Article> selectArticleByStatus(HashMap<String, Object> map); 
 	
 	/**
 	 * 

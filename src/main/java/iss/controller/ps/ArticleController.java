@@ -445,22 +445,6 @@ public class ArticleController extends BaseSupplierController{
 		return "iss/ps/article/look";
 	}
 	
-	/**
-	* @Title: sublist
-	* @author Shen Zhenfei
-	* @date 2016-9-5 下午3:37:20 
-	* @Description: 提交页面列表
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/sublist")
-	public String sublist(Model model,Article article,Integer page){
-		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
-		model.addAttribute("list", new PageInfo<Article>(list));
-		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "iss/ps/article/sub/list";
-	}
 	
 	/**
 	* @Title: sublist
@@ -472,11 +456,46 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/auditlist")
-	public String auditlist(Model model,Article article,Integer page){
-		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
+	public String auditlist(Model model,Integer status,Integer range,Integer page,HttpServletRequest request){
+		Article article = new Article();
+		ArticleType articleType = new ArticleType();
+		
+		String name = request.getParameter("name");
+		String articleTypeId = request.getParameter("articleType.id");
+		
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		
+		map.put("status",status);
+		
+		if(name!=null && !name.equals("")){
+			map.put("name","%"+name+"%");
+		}
+		if(range!=null && !range.equals("")){
+			map.put("range",range);
+		}
+		
+		if(articleTypeId!=null && !articleTypeId.equals("")){
+			articleType.setId(articleTypeId);
+			article.setArticleType(articleType);
+			map.put("articleType",article.getArticleType());
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		
+		List<Article> list = articleService.selectArticleByStatus(map);
 		model.addAttribute("list", new PageInfo<Article>(list));
-		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+		model.addAttribute("articleName", name);
+		model.addAttribute("articlesRange", range);
+		model.addAttribute("articlesStatus", status);
+		model.addAttribute("article", article);
 		return "iss/ps/article/audit/list";
+		
+		
+		
 	}
 	
 	/**
@@ -568,8 +587,6 @@ public class ArticleController extends BaseSupplierController{
 			articleService.update(findOneArticle);
 		}
 		if(article.getStatus()==3){
-		//	String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
-		//	article.setReason(reason);
 			articleService.update(article);
 		}
 		
@@ -592,12 +609,12 @@ public class ArticleController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/serch")
-	public String serch(Integer articlestatus,Integer range,Integer status,Integer page,Model model,HttpServletRequest request){
+	public String serch(Integer range,Integer status,Integer page,Model model,HttpServletRequest request){
 		Article article = new Article();
 		ArticleType articleType = new ArticleType();
 		
 		String name = request.getParameter("name");
-		String articleTypeId = request.getParameter("articleTypeId");
+		String articleTypeId = request.getParameter("articleType.id");
 		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		if(name!=null && !name.equals("")){
@@ -607,7 +624,7 @@ public class ArticleController extends BaseSupplierController{
 			map.put("range",range);
 		}
 		if(status!=null && !status.equals("")){
-			map.put("stauts",status);
+			map.put("status",status);
 		}
 		if(articleTypeId!=null && !articleTypeId.equals("")){
 			articleType.setId(articleTypeId);
@@ -621,28 +638,13 @@ public class ArticleController extends BaseSupplierController{
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		
-		if(articlestatus!=null){
-			if(articlestatus==1){
-				article.setStatus(articlestatus);
-				List<Article> list = articleService.selectArticleByName(map);
-				model.addAttribute("list", new PageInfo<Article>(list));
-				model.addAttribute("articleName", name);
-				model.addAttribute("articlesRange", range);
-				model.addAttribute("articlesStatus", status);
-				model.addAttribute("articlesArticleTypeId", articleTypeId);
-				return "iss/ps/article/audit/list";
-			}
-		}else{
-			List<Article> list = articleService.selectArticleByName(map);
-			model.addAttribute("list", new PageInfo<Article>(list));
-			model.addAttribute("articleName", name);
-			model.addAttribute("articlesRange", range);
-			model.addAttribute("articlesStatus", status);
-			model.addAttribute("articlesArticleTypeId", articleTypeId);
-			return "iss/ps/article/list";
-		}
-		return "";
-		
+		List<Article> list = articleService.selectArticleByName(map);
+		model.addAttribute("list", new PageInfo<Article>(list));
+		model.addAttribute("articleName", name);
+		model.addAttribute("articlesRange", range);
+		model.addAttribute("articlesStatus", status);
+		model.addAttribute("article", article);
+		return "iss/ps/article/list";
 	}
 	
 }

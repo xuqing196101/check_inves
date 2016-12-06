@@ -136,7 +136,7 @@ public interface ArticleMapper {
     * @param @return      
     * @return List<Article>
      */
-    List<Article> selectArticleByStatus(Article article); 
+    List<Article> selectArticleByStatus(HashMap<String, Object> map); 
     
     /**
 	 * 
