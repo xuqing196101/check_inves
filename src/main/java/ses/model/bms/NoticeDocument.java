@@ -1,7 +1,6 @@
 package ses.model.bms;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.hibernate.validator.constraints.NotBlank;
 

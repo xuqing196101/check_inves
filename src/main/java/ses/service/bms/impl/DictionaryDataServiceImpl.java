@@ -15,7 +15,7 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.PropUtil;
 
-@Service("dictionaryDataService")
+@Service("dictionaryDataServiceI")
 public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 
 	@Autowired
