@@ -121,22 +121,22 @@ session.setAttribute("tokenSession", tokenValue);
 			<div class="headline-v2">
 			  <h2>专家申请表、合同书</h2>
 			</div>   
-	   	  <table class="table table-bordered">
-	   	    <tr>
-	   	      <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
-	   	      <td>
-	   	        <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
-			    <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
-	   	      </td>
-	   	      <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
-	   	      <td>
-	   	        <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
-			    <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
-	   	      </td>
-	   	    </tr>
+	   	 <table class="table table-bordered">
+	   	   <tr>
+	   	     <td class="bggrey" width="15%"><i class="red">*</i>专家申请表：</td>
+	   	     <td>
+	   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
+			   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
+	   	     </td>
+	   	     <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
+	   	     <td>
+	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
+			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
+	   	     </td>
+	   	   </tr>
 		 </table>
-		    <div class="tc mt20 clear col-md-12 col-xs-12 col-sm-12">
-		   		<button class="btn"   type="button" onclick="tab4()">上一步</button>
+		 <div class="tc mt20 clear col-md-12 col-xs-12 col-sm-12">
+		   <button class="btn"   type="button" onclick="tab4()">上一步</button>
 				<input  class="btn" type="button" onclick="addSubmitForm()" value="提交" />
 			</div>
 		</div></div>

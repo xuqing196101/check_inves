@@ -12,44 +12,45 @@ session.setAttribute("tokenSession", tokenValue);
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <script type="text/javascript">
-  $(function() {
-	//回显已选产品
-	   var id="${expert.id}";
-	   var count=0;
-	   var expertsTypeId = $("#expertsTypeId").val();
-	   //控制品目树的显示和隐藏
-	   if(expertsTypeId==1 || expertsTypeId=="1"){
-		  $("#ztree").show();
-		  $.ajax({
-			  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			  success:function(code){
-				  var checklist = document.getElementsByName ("chkItem");
-				  for(var i=0;i<checklist.length;i++){
-						var vals=checklist[i].value;
-						 if(code.length>0){
-							$.each(code,function(i,result){
-								if(vals==result){
-				 				checklist[i].checked=true;
+	function initData(){
+		//回显已选产品
+	   	var id="${expert.id}";
+	   	var count=0;
+	   	var expertsTypeId = $("#expertsTypeId").val();
+	   	//控制品目树的显示和隐藏
+	   	if(expertsTypeId==1 || expertsTypeId=="1"){
+		  	$("#ztree").show();
+		  	$.ajax({
+			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+			  	dataType:"json",
+			  	success:function(code){
+			  		alert(code);
+				 	var checklist = document.getElementsByName ("chkItem");
+				  	for(var i=0;i<checklist.length;i++){
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(checklist[i].value == result){
+				 					checklist[i].checked=true;
 				 			    }
-								if("GOODS"==result){
+								if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
 									count++;
 								}
 							});
-						  } 
-					   } 
+						} 
+					} 
 				    if(count>0){
 						$("#hwType").show(); 
 					}else{
 						$("#hwType").hide(); 
 					}
-			  }
-		  }); 
+			  	}
+		  	}); 
 		}else{
-		  $("#ztree").hide();
-			 }
-  });
+			$("#ztree").hide();
+		}
+  	}
 
-  window.onload=function(){
+  	window.onload=function(){
 		var parentId ="";
 		var addressId="${expert.address}";
 		//alert(addressId);
@@ -82,8 +83,8 @@ session.setAttribute("tokenSession", tokenValue);
 				});
 			}
 		});
-  }	
-	 //是否通过标示
+  	}	
+	//是否通过标示
 	function pass(flag){
 		$("#isPass").val(flag);
 		var remark = $("#remark").val(); 
@@ -95,7 +96,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 </script>
 </head>
-<body>
+<body onload="initData()">
 
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -327,7 +328,7 @@ session.setAttribute("tokenSession", tokenValue);
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${spList }" var="obj" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.code}" />${obj.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
@@ -335,7 +336,7 @@ session.setAttribute("tokenSession", tokenValue);
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.code}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
