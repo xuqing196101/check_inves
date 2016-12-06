@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bss.dao.ppms.ParamIntervalMapper">
+	<resultMap id="BaseResultMap" type="bss.model.ppms.ParamInterval">
+		<id column="ID" property="id" />
+		<result column="SCORE_MODEL_ID" property="scoreModelId" />
+		<result column="START_PARAM" property="startParam" />
+		<result column="END_PARAM" property="endParam" />
+		<result column="start_relation" property="startRelation" />
+		<result column="end_relation" property="endRelation" />
+		<result column="score" property="score" />
+		<result column="explain" property="explain" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
 	<!-- t_bss_ppms_param_interval 参数区间表-->
-	<select id="findListByParamInterval" parameterType="bss.model.ppms.ParamInterval" resultType="bss.model.ppms.ParamInterval">
+	<select id="findListByParamInterval" parameterType="bss.model.ppms.ParamInterval" resultMap="BaseResultMap">
    		SELECT
    			sm.*
    		FROM
