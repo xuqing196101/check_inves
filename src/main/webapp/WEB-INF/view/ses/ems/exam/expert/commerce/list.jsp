@@ -117,6 +117,21 @@
 			}
 		}
 		
+		//全选方法
+		function selectAll(){
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			if(selectAll.checked){
+				for(var i = 0;i<info.length;i++){
+					info[i].checked = true;
+				}
+			}else{
+				for(var i = 0;i<info.length;i++){
+					info[i].checked = false;
+				}
+			}
+		}
+		
 		//查看功能
 		function view(obj){
 			window.location.href = "${pageContext.request.contextPath }/expertExam/viewCom.html?id="+obj;

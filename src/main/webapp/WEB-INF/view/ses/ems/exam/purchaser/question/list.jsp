@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>采购人题库页面</title>
+    <title>采购人员题库页面</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -79,7 +79,7 @@
 			}
 		}
 		
-		//采购人删除题库
+		//采购人员删除题库
 		function deleteById(){
 			var topic = $("#topic").val();
 			var questionTypeId = $("#questionTypeId").val();
@@ -117,7 +117,7 @@
 			});	
 		}
 		
-		//按条件查询采购人题库
+		//按条件查询采购人员题库
 		function query(){
 			var topic = $("#topic").val();
 			var questionTypeId = $("#questionTypeId").val();
@@ -217,7 +217,7 @@
 			questionTypeId[0].selected=true;
 		}
 		
-		//查看采购人题库
+		//查看采购人员题库
 		function view(obj){
 			window.location.href = "${pageContext.request.contextPath }/purchaserExam/view.html?id="+obj;
 		}
@@ -257,7 +257,7 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>采购人题库列表</h2>
+	   		<h2>采购人员题库列表</h2>
 	   </div>
    
    

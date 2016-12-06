@@ -1736,27 +1736,27 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("examPaper", examPaper);
 		String typeDistribution = examPaper.getTypeDistribution();
 		JSONObject object = JSONObject.fromObject(typeDistribution);
-		model.addAttribute("singleNum", object.get("singleNum"));
-		if(Integer.parseInt(object.get("singleNum").toString())>0){
-			model.addAttribute("errorSingle", "有");
-		}else{
-			model.addAttribute("errorSingle", "无");
+		int singleNum = Integer.parseInt(object.get("singleNum").toString());
+		BigDecimal singlePoint = new BigDecimal(object.get("singlePoint").toString());
+		int multipleNum = Integer.parseInt(object.get("multipleNum").toString());
+		BigDecimal multiplePoint = new BigDecimal(object.get("multiplePoint").toString());
+		int judgeNum = Integer.parseInt(object.get("judgeNum").toString());
+		BigDecimal judgePoint = new BigDecimal(object.get("judgePoint").toString());
+		if(singleNum!=0&&multipleNum!=0&&judgeNum!=0){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；多选题"+multipleNum+"题，每题"+multiplePoint+"分；判断题"+judgeNum+"题，每题"+judgePoint+"分。");
+		}else if(singleNum!=0&&multipleNum==0&&judgeNum==0 ){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分。");
+		}else if(singleNum==0&&multipleNum!=0&&judgeNum==0){
+			model.addAttribute("typeDistribution", "多选题"+singleNum+"题，每题"+singlePoint+"分。");
+		}else if(singleNum==0&&multipleNum==0&&judgeNum!=0){
+			model.addAttribute("typeDistribution", "判断题"+singleNum+"题，每题"+singlePoint+"分。");
+		}else if(singleNum!=0&&multipleNum!=0&&judgeNum==0){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；多选题"+multipleNum+"题，每题"+multiplePoint+"分。");
+		}else if(singleNum!=0&&multipleNum==0&&judgeNum!=0){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；判断题"+multipleNum+"题，每题"+multiplePoint+"分。");
+		}else if(singleNum==0&&multipleNum!=0&&judgeNum!=0 ){
+			model.addAttribute("typeDistribution", "多选题"+singleNum+"题，每题"+singlePoint+"分；判断题"+multipleNum+"题，每题"+multiplePoint+"分。");
 		}
-		model.addAttribute("singlePoint", object.get("singlePoint"));
-		model.addAttribute("multipleNum", object.get("multipleNum"));
-		if(Integer.parseInt(object.get("multipleNum").toString())>0){
-			model.addAttribute("errorMultiple", "有");
-		}else{
-			model.addAttribute("errorMultiple", "无");
-		}
-		model.addAttribute("multiplePoint", object.get("multiplePoint"));
-		model.addAttribute("judgeNum", object.get("judgeNum"));
-		if(Integer.parseInt(object.get("judgeNum").toString())>0){
-			model.addAttribute("errorJudge", "有");
-		}else{
-			model.addAttribute("errorJudge", "无");
-		}
-		model.addAttribute("judgePoint", object.get("judgePoint"));
 		return "ses/ems/exam/purchaser/paper/view";
 	}
 	

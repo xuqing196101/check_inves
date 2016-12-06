@@ -1924,20 +1924,17 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("examRule", rule);
 		String typeDistribution = rule.getTypeDistribution();
 		JSONObject object = JSONObject.fromObject(typeDistribution);
-		model.addAttribute("singleNum", object.get("singleNum"));
-		if(Integer.parseInt(object.get("singleNum").toString())>0){
-			model.addAttribute("errorSingle", "有");
-		}else{
-			model.addAttribute("errorSingle", "无");
+		int singleNum = Integer.parseInt(object.get("singleNum").toString());
+		BigDecimal singlePoint = new BigDecimal(object.get("singlePoint").toString());
+		int multipleNum = Integer.parseInt(object.get("multipleNum").toString());
+		BigDecimal multiplePoint = new BigDecimal(object.get("multiplePoint").toString());
+		if(singleNum!=0&&multipleNum!=0){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分；多选题"+multipleNum+"题，每题"+multiplePoint+"分。");
+		}else if(singleNum!=0&&multipleNum==0){
+			model.addAttribute("typeDistribution", "单选题"+singleNum+"题，每题"+singlePoint+"分。");
+		}else if(singleNum==0&&multipleNum!=0){
+			model.addAttribute("typeDistribution", "多选题"+singleNum+"题，每题"+singlePoint+"分。");
 		}
-		model.addAttribute("singlePoint", object.get("singlePoint"));
-		model.addAttribute("multipleNum", object.get("multipleNum"));
-		if(Integer.parseInt(object.get("multipleNum").toString())>0){
-			model.addAttribute("errorMultiple", "有");
-		}else{
-			model.addAttribute("errorMultiple", "无");
-		}
-		model.addAttribute("multiplePoint", object.get("multiplePoint"));
 		return "ses/ems/exam/expert/rule/view";
 	}
 	
