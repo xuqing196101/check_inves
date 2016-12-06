@@ -160,7 +160,7 @@
 	<form id="MyFile" method="post"  enctype="multipart/form-data">
 		<c:if test="${std.bidFinish == 0 }">
 			<!-- 按钮 -->
-	        <div class="mt10 mb10">
+	        <div class="mt5 mb5">
 	        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	        	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
 	        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->

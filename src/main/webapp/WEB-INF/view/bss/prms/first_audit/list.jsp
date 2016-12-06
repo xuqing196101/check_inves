@@ -82,7 +82,7 @@
 			if (audit_progress < 100) {
 				message += "【";
 				message += paName;
-	    		message += "评审未完成";
+	    		message += "初审未完成";
 	    		message += "】";
 	    		count += 1;
 			}
@@ -115,7 +115,7 @@
 			     	});
 				});
 			}else{
-				layer.alert("请选择一条",{offset: "80px", shade:0.01});
+				layer.alert("请选择包",{offset: "80px", shade:0.01});
 			}
 		}
 	}

@@ -17,9 +17,7 @@
 		obj.Caption = "( 双击可放大 ! )";
 		if(fileId != 0){
 			obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true);// 异步加载, 服务器文件路径
-		} else {
-	    	obj.BeginOpenFromURL("${pageContext.request.contextPath}/stash/bidFileTemp.docx", true);// 异步加载, 服务器文件路径
-		}
+		} 
 		
 		//obj.OpenFromURL("http://localhost/${pageContext.request.contextPath}/stash/bidFileTemp.doc");
 		
@@ -52,6 +50,7 @@
 		//参数说明
 		//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
 		obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId, "ntko", "", projectName+"_招标文件.doc", "MyFile");
+		obj.ShowTipMessage("提示","招标文件已上传至服务器");
 	}
 	
 	function closeFile(){

@@ -68,7 +68,7 @@
                dataType: 'json',  
                success:function(result){
                		var html = "<div class='shanchu light_icon'><a href='javascript:void(0)' onclick='delMark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>删除</a></div>";
-					html+= "<div class='dinwei light_icon'><a href='javascript:void(0)' onclick='searchMark("+'"'+target+'"'+");'>定位</a></div>";
+					html+= "<div class='dinwei light_icon'><a href='javascript:void(0)' onclick='searchMark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>定位</a></div>";
 					$(e).parent().after(html);
 					$(e).parent().remove();
 					obj.ShowTipMessage("提示","【"+target+"】"+"指标内容绑定成功，请在刷新或者关闭页面前点击下方的保存");
@@ -81,14 +81,18 @@
 	}	
 	
 	//获取标记内容并且定位
-	function searchMark(target){
+	function searchMark(e,target,kind,id){
 		var obj = document.getElementById("TANGER_OCX");
 		//判断标记是否存在
 		if(obj.ActiveDocument.Bookmarks.Exists(target)){
 			//定位到书签内容
 			obj.ActiveDocument.Bookmarks.Item(target).Select();
 		}else{
-			obj.ShowTipMessage("提示","获取失败，请重新绑定指标！",true);
+			obj.ShowTipMessage("提示","定位失败，该指标未被绑定或绑定未保存,请重新绑定！",true);
+			var html = "<div class='bdzb light_icon'><a href='javascript:void(0)' onclick='mark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>绑定指标</a></div>";
+			$(e).parent().prev().remove();
+			$(e).parent().after(html);
+			$(e).parent().remove();
 		}
 	}
 	
@@ -125,7 +129,11 @@
             });
 			
 		}else{
-			obj.ShowTipMessage("提示","删除失败，该指标未被绑定！",true);
+			obj.ShowTipMessage("提示","删除失败，该指标未被绑定或绑定未保存,请重新绑定！",true);
+			var html = "<div class='bdzb light_icon'><a href='javascript:void(0)' onclick='mark(this,"+'"'+target+'"'+","+'"'+kind+'",'+'"'+id+'"'+");'>绑定指标</a></div>";
+			$(e).parent().next().remove();
+			$(e).parent().after(html);
+			$(e).parent().remove();
 		}
 	}
 	
@@ -549,7 +557,7 @@
 							    	</c:if>
 							    </span>
 						    	<div class='dinwei light_icon'>
-						    		<a href='javascript:void(0)' onclick="searchMark('${fa.name }');">定位</a>
+						    		<a href='javascript:void(0)' onclick="searchMark(this,'${fa.name}','first','${fa.id}');">定位</a>
 						    	</div>
 							</li>
 				    	</c:forEach>
@@ -565,14 +573,19 @@
 							    		<a href="javascript:void(0);" title="${fa.name}">${fa.name}</a>
 							    	</c:if>
 							    </span>
-							    <div class='bdzb light_icon'>
-							    	<c:if test="${fa.page != null}">
-							    		<a href='javascript:void(0)' onclick="searchMark('${fa.name }');">定位</a>
-							    	</c:if>
-							    	<c:if test="${fa.page == null}">
-							    		<a href='javascript:void(0)' onclick="mark(this,'${fa.name }','first','${fa.id }');">绑定指标</a>
-							    	</c:if>
-							    </div>
+						    	<c:if test="${fa.page != null}">
+						    		<div class='shanchu light_icon'>
+						    			<a href='javascript:void(0)' onclick="delMark(this,'${fa.name}','first','${fa.id}');">删除</a>
+						    		</div>
+						    		<div class='dinwei light_icon'>
+						    			<a href='javascript:void(0)' onclick="searchMark(this,'${fa.name}','first','${fa.id}');">定位</a>
+						    		</div>
+						    	</c:if>
+							    <c:if test="${fa.page == null}">
+							    	<div class='bdzb light_icon'>
+							    		<a href='javascript:void(0)' onclick="mark(this,'${fa.name}','first','${fa.id}');">绑定指标</a>
+							    	</div>
+							    </c:if>
 							</li>
 				    	</c:forEach>
 			        </c:if>
@@ -595,7 +608,7 @@
 							    	</c:if>
 							    </span>
 						    	<div class='dinwei light_icon'>
-						    		<a href='javascript:void(0)' onclick="searchMark('${sm.markTerm.name}');">定位</a>
+						    		<a href='javascript:void(0)' onclick="searchMark(this,'${sm.markTerm.name}','second','${sm.id}');">定位</a>
 						    	</div>
 							</li>
 				    	</c:forEach>
@@ -611,14 +624,19 @@
 							    		<a href="javascript:void(0);" title="${sm.markTerm.name}">${sm.markTerm.name}</a>
 							    	</c:if>
 							    </span>
-							    <div class='bdzb light_icon'>
-							    	<c:if test="${sm.page != null}">
-							    		<a href='javascript:void(0)' onclick="searchMark('${sm.markTerm.name}');">定位</a>
-							    	</c:if>
-							    	<c:if test="${sm.page == null}">
-							    		<a href='javascript:void(0)' onclick="mark(this,'${sm.markTerm.name}','second','${sm.id }');">绑定指标</a>
-							    	</c:if>
-							    </div>
+						    	<c:if test="${sm.page != null}">
+						    		<div class='shanchu light_icon'>
+						    			<a href='javascript:void(0)' onclick="delMark(this,'${sm.markTerm.name}','second','${sm.id}');">删除</a>
+						    		</div>
+						    		<div class='dinwei light_icon'>
+						    			<a href='javascript:void(0)' onclick="searchMark(this,'${sm.markTerm.name}','second','${sm.id}');">定位</a>
+						    		</div>
+						    	</c:if>
+							    <c:if test="${sm.page == null}">
+							    	<div class='bdzb light_icon'>
+							    		<a href='javascript:void(0)' onclick="mark(this,'${sm.markTerm.name}','second','${sm.id}');">绑定指标</a>
+							    	</div>
+							    </c:if>
 							</li>
 				    	</c:forEach>
 			        </c:if> 
