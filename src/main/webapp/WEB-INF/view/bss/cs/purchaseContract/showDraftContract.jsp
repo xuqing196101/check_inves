@@ -31,14 +31,48 @@
    </div>
    
 <!-- 新增模板开始-->
-   <div class="container bggrey border1 mt20">
-   		<form id="contractForm"><%--
-   		<div class="headline-v2">
-   			<h2>基本信息</h2>
-   		</div>
-   		--%><h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
-   		<ul class="list-unstyled ul_list">
-   			<input type="hidden" class="contract_id" name="contract_id">
+    <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">合同草案详情</a></li>
+            </ul>
+   		<div class="tab-content padding-top-20 over_hideen">
+	<div class="tab-pane fade active in" id="tab-1">
+	<h2 class="count_flow jbxx">基本信息</h2>
+	    <table class="table table-bordered">
+	        <tbody>
+	        <tr>
+	            <td class="bggrey" >合同名称：</td>
+	            <td>${draftCon.name}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" >合同编号：</td>
+	            <td>${draftCon.code}</td>
+	            <td class="bggrey" >计划任务文号：</td>
+	            <td>${draftCon.documentNumber}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" >采购机构资质证号：</td>
+	            <td>${draftCon.quaCode}</td>
+	            <td class="bggrey" >需求部门：</td>
+	            <td>${draftCon.demandSector}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" >项目预算科目：</td>
+	            <td>${draftCon.budgetSubjectItem}</td>
+	            <td class="bggrey" >合同批准文号：</td>
+	            <td></td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey" >合同金额：</td>
+	            <td></td>
+	            <td class="bggrey" >合同预算：</td>
+	            <td></td>
+	        </tr>
+	        </tbody>
+	        </table>
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">合同名称：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
