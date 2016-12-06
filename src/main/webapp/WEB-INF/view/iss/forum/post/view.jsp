@@ -9,7 +9,6 @@
   <head>
     
     <title>My JSP 'view.jsp' starting page</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -41,49 +40,49 @@
 	         <table class="table table-bordered">
 	             <tbody>
 	                 <tr>
-	                     <td  class="bggrey ">帖子名称：</td>
+	                     <td class="bggrey">帖子名称：</td>
 	                     <td colspan="5">${post.name }</td>
 	                 </tr>
 	                 <tr>
-	                     <td class="bggrey ">所属版块：</td>
+	                     <td class="bggrey">所属版块：</td>
 	                     <td>${post.park.name }</td>
-	                     <td class="bggrey ">所属主题：</td>
+	                     <td class="bggrey">所属主题：</td>
 	                     <td>${post.topic.name }</td>
-	                     <td class="bggrey ">创建时间：</td>
-	                     <td>${post.publishedAt}</td>
+	                     <td class="bggrey">发帖时间：</td>
+	                     <td><fmt:formatDate value="${post.publishedAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                 </tr>
 	                 <tr>
-	                     <td class="bggrey ">发帖人：</td>
+	                     <td class="bggrey">发帖人：</td>
 	                     <td>${post.user.relName }</td>
-	                     <td class="bggrey ">最后回复人：</td>
+	                     <td class="bggrey">最后回复人：</td>
 	                     <td>${post.lastReplyer.relName}</td>
-	                     <td class="bggrey ">最后回复时间：</td>
-	                     <td>${post.lastReplyedAt}</td>
+	                     <td class="bggrey">最后回复时间：</td>
+	                     <td><fmt:formatDate value="${post.lastReplyedAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	                 </tr>
 	                 <tr>
-	                     <td class="bggrey ">是否置顶：</td>
+	                     <td class="bggrey">是否置顶：</td>
 	                     <td>
 	                      <c:choose>
 							 <c:when test="${post.isTop == 0}"> 			
 								不置顶
 							 </c:when>
-							 <c:otherwise > 			
+							 <c:otherwise> 			
 								置顶
 							 </c:otherwise>
 							 </c:choose>
 	                     </td>
-	                     <td class="bggrey ">是否锁定：</td>
+	                     <td class="bggrey">是否锁定：</td>
 	                     <td>
 	                     <c:choose>
 				             <c:when test="${post.isLocking == 0}"> 			
-					          不锁定
+					          	不锁定
 				             </c:when>
-				             <c:otherwise > 			
-					           锁定
+				             <c:otherwise> 			
+					         	  锁定
 				             </c:otherwise>
 				             </c:choose>
 	                     </td>
-	                     <td  class="bggrey ">回复量：</td>
+	                     <td class="bggrey">回复量：</td>
 	                     <td>${post.replycount}</td>
 	                 </tr>
 	             </tbody>

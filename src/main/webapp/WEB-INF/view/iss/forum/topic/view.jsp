@@ -4,18 +4,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    <title>My JSP 'view.jsp' starting page</title>
-    
+    <title>主题列表页面</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
   </head>
   
   <body>        
@@ -42,30 +36,30 @@
 	                      <table class="table table-bordered">
 	                      <tbody>
 	                      <tr>
-	                          <td class="bggrey " >主题名称：</td>
+	                          <td class="bggrey">主题名称：</td>
 	                          <td colspan="3">${topic.name}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey ">所属版块：</td>
+	                          <td class="bggrey">所属版块：</td>
 	                          <td>${topic.park.name}</td>
-	                          <td class="bggrey ">创建人：</td>
+	                          <td class="bggrey">创建人：</td>
 	                          <td>${topic.user.relName}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey ">帖子数：</td>
+	                          <td class="bggrey">帖子数：</td>
 	                          <td>${topic.postcount}</td>
-	                          <td class="bggrey ">回复量：</td>
+	                          <td class="bggrey">回复量：</td>
 	                          <td>${topic.replycount}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey ">创建时间：</td>
-	                          <td>${topic.createdAt}</td>
-	                          <td class="bggrey ">更新时间：</td>
-	                          <td>${topic.updatedAt}</td>
+	                          <td class="bggrey">创建时间：</td>
+	                          <td><fmt:formatDate value="${topic.createdAt }" pattern="yyyy-MM-dd"/></td>
+	                          <td class="bggrey">更新时间：</td>
+	                          <td><fmt:formatDate value="${topic.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	                      </tr>
 	                      </tbody>
 	                      </table>
-	                    <h2 class="count_flow jbxx ">版块介绍</h2>
+	                    <h2 class="count_flow jbxx">版块介绍</h2>
                             <div class="col-md-12 col-sm-12 col-cs-12 p0">
                 <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${topic.content}</textarea>
 	        </div>  	 	   

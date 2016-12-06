@@ -5,18 +5,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
     <title>板块详情</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
   </head>
   
   <body>            	   
@@ -24,7 +18,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a >论坛管理</a></li><li class="active"><a >版块管理</a></li><li class="active"><a>版块详情</a></li>
+		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >版块管理</a></li><li class="active"><a>版块详情</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -43,41 +37,40 @@
 	    <table class="table table-bordered">
 	        <tbody>
 	        <tr>
-	            <td class="bggrey ">版块名称：</td>
+	            <td class="bggrey">版块名称：</td>
 	            <td colspan="3">${park.name}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey ">版主：</td>
+	            <td class="bggrey">版主：</td>
 	            <td>${park.user.relName }</td>
-	            <td class="bggrey ">创建人：</td>
+	            <td class="bggrey">创建人：</td>
 	            <td>${park.creater.relName}</td>
 	            
 	        </tr>
 	        <tr>
-	            <td class="bggrey ">主题数：</td>
+	            <td class="bggrey">主题数：</td>
 	            <td>${park.topiccount}</td>
-	            <td class="bggrey ">是否热门：</td>
+	            <td class="bggrey">是否热门：</td>
 	            <td><c:choose>
                  <c:when test="${park.isHot == 0}">             
-                  不是热门
+                  	不是热门
                  </c:when>
                  <c:otherwise >             
-                    热门
+                                                            热门
                  </c:otherwise>
                  </c:choose></td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey ">帖子数：</td>
+	            <td class="bggrey">帖子数：</td>
 	            <td>${park.postcount}</td>
-	            <td class="bggrey ">回复量：</td>
+	            <td class="bggrey">回复量：</td>
 	            <td>${park.replycount}</td>
 	        </tr>
 	        <tr>
-	            
-	            <td class="bggrey ">创建时间：</td>
-	            <td>${park.createdAt}</td>
-	            <td class="bggrey " >更新时间：</td>
-	            <td >${park.updatedAt}</td>
+	            <td class="bggrey">创建时间：</td>
+	            <td><fmt:formatDate value="${park.createdAt }" pattern="yyyy-MM-dd"/></td>
+	            <td class="bggrey" >更新时间：</td>
+	            <td><fmt:formatDate value="${park.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	        </tr>
 	        </tbody>
 	    </table>

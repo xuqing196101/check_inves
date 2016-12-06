@@ -4,15 +4,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
     <title></title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-
   </head>
   
   <body>        
@@ -20,7 +17,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a >论坛管理</a></li><li class="active"><a >评论管理</a></li><li class="active"><a >评论详情</a></li>
+		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >回复管理</a></li><li class="active"><a >回复详情</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -45,25 +42,25 @@
 	                <td>${reply.post.name }</td>
 	            </tr> --%>
 	            <tr>
-	                <td class="bggrey " >所属帖子：</td>
-	                <td >${reply.post.name }</td>
-	                <td>发布人：</td>
+	                <td class="bggrey">所属帖子：</td>
+	                <td>${reply.post.name }</td>
+	                <td>发表人：</td>
 	                <td>${reply.user.relName}</td>
 	            </tr>
 	            <tr>
-	                <td class="bggrey "> 发布时间：</td>
-	                <td>${reply.publishedAt }</td>
-	                <td class="bggrey ">更新时间：</td>
-	                <td>${reply.updatedAt }</td>
+	                <td class="bggrey">发表时间：</td>
+	                <td><fmt:formatDate value="${reply.publishedAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	                <td class="bggrey">更新时间：</td>
+	                <td><fmt:formatDate value="${reply.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	            </tr>
 	            </tbody>
 	            </table>
-	            <h2 class="count_flow jbxx ">回复内容</h2>
+	            <h2 class="count_flow jbxx">回复内容</h2>
             <div class="col-md-12 col-sm-12 col-cs-12 p0">
             
              <script id="editor" name="content" type="text/plain" class="mt20" readonly="readonly">
              </script>
-           <%--   <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${reply.content}</textarea> --%>
+          
 	        </div>  	 	 
 	<!-- 底部按钮 -->			          
     <div class="col-md-12 tc">    
