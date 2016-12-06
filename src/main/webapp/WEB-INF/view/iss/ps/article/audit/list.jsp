@@ -101,7 +101,7 @@
 	 function search(){
 		    var kname = $("#kname").val();
 		    var parkId = $("#parkId  option:selected").val();
-		    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname;
+		    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname+"&articlestatus=1";
 
 		 }
 	 

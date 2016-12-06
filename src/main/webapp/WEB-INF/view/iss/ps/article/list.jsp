@@ -10,6 +10,8 @@
     
     <title>信息发布</title>
     
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     
 <script type="text/javascript">
 	$(function(){
@@ -28,7 +30,11 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '${ pageContext.request.contextPath }/article/getAll.html?page='+e.curr;
+			        	var articleTypeId = "${articlesArticleTypeId}";
+			        	var range = "${articlesRange}";
+			        	var status = "${articlesStatus}";
+			        	var name = "${articleName}";
+			            location.href ="${ pageContext.request.contextPath }/article/serch.html?page="+e.curr+"&articleTypeId="+articleTypeId+"&range="+range+"&range="+status+"&name="+name;
 			        }
 			    }
 			});
@@ -145,13 +151,42 @@
     function search(){
 	    var kname = $("#kname").val();
 	    var parkId = $("#parkId  option:selected").val();
-	    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname;
+	    location.href = "${pageContext.request.contextPath }/article/serch.html?kname="+kname;
 
 	 }
 
-	 function reset(){
-		 $("#kname").val("");
-	 }
+    function resetQuery(){
+    	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    	$("#articleTypes").select2("val", "");
+    }
+    
+	 $(function(){
+			$.ajax({
+				 contentType: "application/json;charset=UTF-8",
+				  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
+			      type:"POST",
+			      dataType: "json",
+			      success:function(articleTypes){
+			    	  if(articleTypes){
+			    		  $("#articleTypes").append("<option></option>");
+			    		  $.each(articleTypes,function(i,articleType){
+			    			  if(articleType.name != null && articleType.name != ''){
+			    				  $("#articleTypes").append("<option value="+articleType.id+">"+articleType.name+"</option>");
+			    			  }
+			    		  });
+			    	  }
+			    	  $("#articleTypes").select2();
+			    	  $("#articleTypes").select2("val", "${article.articleType.id }");
+			       }
+			});
+		})
+	 
+	$(function(){
+    	$("#articleTypes").select2("val", "${articlesArticleTypeId }");
+    	$("#range").val("${articlesRange}");
+    	$("#status").val("${articlesStatus}");
+    })
+	 
 </script>
 
   </head>
@@ -173,17 +208,52 @@
 	   </div>
    
    <h2 class="search_detail">
+    <form id="form1" action="${pageContext.request.contextPath }/article/serch.html" method="post" class="mb0">
    		<ul class="demand_list">
     	  <li>
 	    	<label class="fl">信息标题：</label>
 	    	<span>
-	    		<input type="text" id="kname" name="kname" value="${name }"/>
+	    		<input type="hidden" id="articlestatus" name="articlestatus"/>
+	    		<input type="text" id="name" name="name" value="${articleName }"/>
 	    	</span>
 	      </li>
-	    	<button onclick="search()" class="btn">查询</button>
-	    	<button onclick="reset()" class="btn">重置</button>  	
+	      <li>
+	    	<label class="fl">信息栏目：</label>
+	    	<span>
+	    	<div class="select_common w120">
+		    	<select id="articleTypes" name="articleTypeId" >
+	         	</select>
+	        </div>
+          	</span>
+	      </li>
+	      <li>
+	    	<label class="fl">发布范围：</label>
+	    	<span>
+	            <select id ="range" name="range" class="w100"  >
+	             	<option></option>
+	             	<option value="0">内网</option>
+	             	<option value="1">外网</option>
+	             	<option value="2">内网/外网</option>
+	             </select>
+	         </span>
+	      </li>
+	      <li>
+	    	<label class="fl w100">是否发布：</label>
+	    	<span>
+	            <select id ="status" name="status" class="w100">
+	             	<option></option>
+	             	<option value="0">暂存</option>
+	             	<option value="1">已提交</option>
+	             	<option value="2">发布</option>
+	             	<option value="3">审核未通过</option>
+	             </select>
+	         </span>
+	      </li>
+	    	<button type="submit" class="btn">查询</button>
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
+    	 </form>
      </h2>
   
 	   <input type="hidden" id="depid" name="depid">

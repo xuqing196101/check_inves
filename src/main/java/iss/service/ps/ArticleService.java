@@ -3,6 +3,7 @@ package iss.service.ps;
 import iss.model.ps.Article;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.Packages;
@@ -134,7 +135,7 @@ public interface ArticleService {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectArticleByName(Article article,Integer pageNum);
+	List<Article> selectArticleByName(HashMap<String, Object> map);
 	
 	/**
 	 * Description: 根据项目查找公告

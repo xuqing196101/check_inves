@@ -2,6 +2,7 @@ package iss.dao.ps;
 
 import iss.model.ps.Article;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -157,7 +158,7 @@ public interface ArticleMapper {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectArticleByName(Article article);
+	List<Article> selectArticleByName(HashMap<String, Object> map);
 	
 	/**
 	* @Title: selectPic
