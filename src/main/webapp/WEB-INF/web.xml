@@ -50,7 +50,7 @@
     <welcome-file>/first.jsp</welcome-file>
   </welcome-file-list>
   <session-config>
-    <session-timeout>15</session-timeout>
+    <session-timeout>360</session-timeout>
   </session-config>
   <!-- kaptcha验证码配置 -->
 	<servlet>

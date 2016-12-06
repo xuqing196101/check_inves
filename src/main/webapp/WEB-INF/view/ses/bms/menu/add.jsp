@@ -135,7 +135,7 @@
 				 	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>类型</label>
 				 	<span class="col-md-12 col-xs-12">
 					<select name="type"  class="w180 mt5">
-					 	<option value="">-请选择-</option>
+					 	<option value=""> -请选择-</option>
 					   	<option value="navigation">导航</option>
 					   	<option value="accordion">折叠导航</option>
 					   	<option value="menu">菜单</option>
@@ -153,10 +153,10 @@
 				    </span>
 				</li>
 				<li class="mt10 col-md-12 p0 col-xs-12">
-				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>路径</label>
+				   <label class="col-md-12 pl20 col-xs-12">路径</label>
 				     <span class="col-md-12 col-xs-12">
                         <input class="col-xs-12 h80 mt6" name="url" maxlength="300" type="text">
-                    </span>
+                     </span>
 				 </li>
 			     <li class="col-sm-6 p0 col-md-6 col-lg-6 col-xs-6">
 				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>排序</label>
@@ -165,7 +165,7 @@
                     </span>
 				 </li>
 				<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-				   <label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>图标</label>
+				   <label class="col-md-12 pl20 col-xs-12">图标</label>
 				    <span class="col-md-12 col-xs-12">
                         <input class="title col-md-12" name="icon" maxlength="200" type="text">
                     </span>
