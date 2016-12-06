@@ -95,42 +95,38 @@
 		   }
 	}
 	
-	var obj = "";
+	//查看详情
   	function view(id){
-  		obj = id;
-  		layer.open({
-			  type: 1,
-			  title: '提示',
-			  skin: 'layui-layer-rim',
-			  shadeClose: true,
-			  area: ['450px','150px'],
-			  content: $("#gatewayPost")
-		});
-  		$(".layui-layer-shade").remove();
-  	}
-  	
-  	//查看详情
-  	function viewContent(){
-  		window.location.href="${pageContext.request.contextPath }/post/view.html?id="+obj;
+  		window.location.href="${pageContext.request.contextPath }/post/view.html?id="+id;
   	}
   	
   	//进入门户
   	function entryPortal(){
-  		window.parent.location.href="${pageContext.request.contextPath }/post/getIndexDetail.html?postId="+obj;
+  		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.parent.location.href="${pageContext.request.contextPath }/post/getIndexDetail.html?postId="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一项",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择一项",{offset: ['222px', '390px'], shade:0.01});
+		}
   	}
   	
+  	//修改
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
-			window.location.href="${ pageContext.request.contextPath }/post/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath }/post/edit.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的帖子",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的帖子",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
@@ -140,17 +136,17 @@
 			id.push($(this).val()); 
 		}); 
 		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${ pageContext.request.contextPath }/post/delete.html?id="+id;
+				window.location.href="${pageContext.request.contextPath }/post/delete.html?id="+id;
 			});
 		}else{
-			layer.alert("请选择要删除的帖子",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的帖子",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
     function add(){
-    	window.location.href="${ pageContext.request.contextPath }/post/add.html";
+    	window.location.href="${pageContext.request.contextPath }/post/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -170,7 +166,7 @@
     //2级联动
     function change(id){
           $.ajax({
-              url:"${ pageContext.request.contextPath }/topic/getListForSelect.html?parkId="+id,   
+              url:"${pageContext.request.contextPath }/topic/getListForSelect.html?parkId="+id,   
               contentType: "application/json;charset=UTF-8", 
               dataType:"json",   //返回格式为json
               type:"POST",   //请求方式           
@@ -189,7 +185,7 @@
         var postName = $("#postName").val();
         var parkId = $("#parkId  option:selected").val();
         var topicId = $("#topicId  option:selected").val();
-        location.href = "${ pageContext.request.contextPath }/post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
+        location.href = "${pageContext.request.contextPath }/post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
 
 
      }
@@ -259,10 +255,11 @@
   </h2>
 
 
-   <div class="col-md-12 pl20 mt10">
-    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+   	<div class="col-md-12 pl20 mt10">
+    	<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
 	</div>
 
    
@@ -328,14 +325,6 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-	
-	<div class="dnone layui-layer-wrap col-md-12" id="gatewayPost">
-	  	<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-		  	<button class="btn" type="button" onclick="viewContent()">查看详情</button>
-		  	<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
-		  	<button class="btn" type="button" onclick="cancel()">取消</button>
-	  	</div>
-	</div>
   </body>
 </html>
 
