@@ -295,7 +295,7 @@
 		  					外网
 		  				</c:if>
 		  				<c:if test="${article.range=='2' }">
-		  					内网/外网
+		  					内网&外网
 		  				</c:if>
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">
