@@ -242,7 +242,7 @@
         NAME = #{name},
       </if>
       <if test="purchaseId != null">
-        PURCHASE_ID = #{purchaseId},
+        PURCHASE_ID = #{purchaseId.id},
       </if>
       <if test="documentNumber != null">
         DOCUMENT_NUMBER = #{documentNumber},

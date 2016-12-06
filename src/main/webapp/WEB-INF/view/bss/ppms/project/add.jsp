@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <%@ include file="../../../common.jsp"%>
 <%
     String tokenValue = new Date().getTime()
@@ -30,7 +31,6 @@
 	});
     // 前台验证
 	$("#form1").validate({
-	  errorElement : "span",
 	  rules : {
 		name : {
 		  remote : {
@@ -59,10 +59,10 @@
       },
 	  messages : {
 	    name : {
-		  remote : "<span class='red'>*该项目名称已存在</span>"
+		  remote : "<div class='cue'>该项目名称已存在</div>"
 		},
 		projectNumber : {
-          remote : "<span class='red'>*该项目编号已存在</span>"
+          remote : "<div class='cue'>该项目编号已存在</div>"
         },
 	  }
 	});
@@ -149,19 +149,19 @@
 		<input type="hidden" name="token2" value="<%=tokenValue%>">
 		<ul class="ul_list">
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>项目名称</span>
+		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
 			  <div class="input-append input_group col-sm-12 col-xs-12 p0">
 		        <input id="pic" type="text" class="input_group" name="name" /> 
 		        <span class="add-on">i</span>
-		        <div class="cue"><sf:errors path="name"/></div>
+		        <div class="cue">${ERR_name}</div>
 			  </div>
 		  </li>
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 项目编号</span>
+		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
 			  <input id="pc" type="text" class="input_group" name="projectNumber" />
 			  <span class="add-on">i</span>
-			  <div class="cue"><sf:errors path="projectNumber"/></div>
+			  <div class="cue">${ERR_projectNumber}</div>
 		    </div>
 		  </li>
 		</ul>
@@ -179,7 +179,7 @@
 				  <th class="info">下达文件编号</th>
 				  <th class="info">状态</th>
 				  <th class="info">下达时间</th>
-				  <th class="info"><i class="red">*</i> 操作</th>
+				  <th class="info"><i class="star_red">*</i>操作</th>
 				</tr>
 			  </thead>
 			  <tbody id="task_id">
@@ -296,7 +296,7 @@
         <button class="btn btn-windows save" onclick="add();" type="button">确定</button>
         <button class="btn btn-windows back" onclick="bask();" type="button">返回</button>
       </div>
-	</sf:form>>
+	</sf:form>
   </div>
 </body>
 </html>

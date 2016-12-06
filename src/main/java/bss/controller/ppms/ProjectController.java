@@ -110,7 +110,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/list")
     public String list(Integer page, Model model, Project project, HttpServletRequest request) {
-        request.getSession().removeAttribute("listFengtian");//返回展示页面删掉session
+        request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -165,13 +165,13 @@ public class ProjectController extends BaseController {
             }
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             
-            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("listFengtian");
+            List<PurchaseRequired> sessionList=  (List<PurchaseRequired>)request.getSession().getAttribute("sessionList");
             if(sessionList!=null&&sessionList.size()>0){
                 list1.addAll(sessionList);
             }
             model.addAttribute("lists", list1);
             
-            request.getSession().setAttribute("listFengtian", list1);
+            request.getSession().setAttribute("sessionList", list1);
             
             model.addAttribute("ids", id);
             model.addAttribute("checkedIds", checkedIds);
@@ -215,7 +215,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/create")
     public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, @Valid Project project, Model model, BindingResult result, HttpServletRequest request) {
-        request.getSession().removeAttribute("listFengtian");
+        request.getSession().removeAttribute("sessionList");
         try {
             // 判断表单是否重复提交
             HttpSession session = request.getSession();
@@ -232,11 +232,24 @@ public class ProjectController extends BaseController {
                 for(FieldError fieldError:errors){
                     model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
                 }
-                
                 return "bss/ppms/project/add";
             }
             //新增项目信息
             if(project != null){
+                if(project.getName().length()>12){
+                    model.addAttribute("ERR_name", "字符太大");
+                    return "bss/ppms/project/add";
+                }
+                if(project.getProjectNumber().length()>12){
+                    model.addAttribute("ERR_projectNumber", "字符太大");
+                    return "bss/ppms/project/add";
+                }
+                /*boolean flag = projectService.SameNameCheck(project);
+                if(flag == false){
+                    model.addAttribute("ERR_name", "已存在");
+                    return "bss/ppms/project/add";
+                }*/
+                
                 project.setCreateAt(new Date());
                 project.setStatus(3);
                 if(chkItem != null){
