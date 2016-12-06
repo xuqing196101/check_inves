@@ -203,18 +203,17 @@
   </select>
 	
 	<update id="updateByMap" parameterType="java.util.Map">
-		 update 
-		 	T_SES_SMS_SUPPLIER_AUDIT t1
-		 <set>
-		 	<if test="isDeleted != null">
-		 		t1.IS_DELETED = #{isDeleted}
-		 	</if>
-		 </set>
-		 <where>
-		 	<if test="supplierId != null">
-		 		and t1.SUPPLIER_ID = #{supplierId}
-		 	</if>
-		 </where>
+	 update 
+	 	T_SES_SMS_SUPPLIER_AUDIT t1
+	 <set>
+	 	<if test="isDeleted != null">
+	 		t1.IS_DELETED = #{isDeleted}
+	 	</if>
+	 </set>
+	 <where>
+	 	<if test="supplierId != null">
+	 		and t1.SUPPLIER_ID = #{supplierId}
+	 	</if>
+	 </where>
 	</update>
-	
 </mapper>

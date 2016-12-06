@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -40,6 +41,7 @@ import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -194,7 +196,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		supplier = supplierAuditService.supplierById(supplierId);
+		
+		//在数据字典里查询营业执照类型
+		List<DictionaryData> list=DictionaryDataUtil.find(17);
+		for(int i=0; i<list.size(); i++){
+			if(supplier.getBusinessType().equals(list.get(i).getId())){
+				String businessType = list.get(i).getName();
+				supplier.setBusinessType(businessType);
+			}
+		}
 		request.setAttribute("suppliers", supplier);
+		
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -932,5 +944,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.getSession().getAttribute("sign");
 		
 		return "ses/sms/supplier_audit/supplier_all";
-	}	
+	}
+	
+	@RequestMapping(value = "deleteById")
+	public void deleteById (HttpServletResponse response, String[] ids){
+		supplierAuditService.deleteById(ids);
+	}
 }

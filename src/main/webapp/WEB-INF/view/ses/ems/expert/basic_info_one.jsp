@@ -367,6 +367,17 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
 			return false;
 		}
+		var postCode = $("#postCode").val();
+		if(idNumber != "" && isNaN(postCode)){
+			layer.msg("邮编格式只能输入数字 !",{offset: ['222px', '390px']});
+			return false;
+		}
+		var fax = $("#fax").val();
+		var faxReg = /^(\d{3,4}-)?\d{7,8}$/
+		if(fax != "" && !faxReg.test(fax)){
+			layer.msg("传真格式有误 !",{offset: ['222px', '390px']});
+			return false;
+		}
 		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
 			var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/;
 			if(!reg.test(idNumber)){
@@ -494,21 +505,19 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input id="relName" name="relName" value="${expert.relName}"   type="text"/>
 					    <span class="add-on">i</span>
-					    <span class="input-tip">请填写专家姓名</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 出生日期</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
  					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
 					  <span class="add-on">i</span>
-					    <span class="input-tip">请选择出生日期</span>
 					</div>
 				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>民族</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
                     <span class="add-on">i</span>
-					    <span class="input-tip">请填写名族</span>
+					    <span class="input-tip">请填写名族,如:汉族</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 性别</span>
@@ -535,7 +544,6 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"/>
   						<span class="add-on">i</span>
-					    <span class="input-tip">请填写证件号码</span>
   					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
@@ -557,7 +565,7 @@ session.setAttribute("tokenSession", tokenValue);
                         <select  name="politicsStatus" id="politicsStatus">
                         <option selected="selected" value="">-请选择-</option>
                         <c:forEach items="${zzList}" var="zz" varStatus="vs">
-                          <option <c:if test="${expert.politicsStatus eq zz.code}">selected="selected"</c:if> value="${zz.code}">${zz.name}</option>
+                          <option <c:if test="${expert.politicsStatus eq zz.id}">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
                         </c:forEach>
                        </select>
                     </div>
@@ -574,23 +582,20 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
-                    <span class="add-on">i</span>
-					    <span class="input-tip">请填写毕业院校</span>
+                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
+                   	  <span class="add-on">i</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
                     <span class="add-on">i</span>
-					    <span class="input-tip">请填写专业</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <input  maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
                     <span class="add-on">i</span>
-					    <span class="input-tip">请填写学位</span>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12">
@@ -608,42 +613,37 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写技术职称</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请选择参加工作时间</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请选择从事专业起始年度</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">工作单位</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写工作单位</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>单位地址</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
 					 <input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写单位地址</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>联系电话（固话）</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写联系电话(固话)</span>
+					    <span class="input-tip">如: XXX - XXXXXXX</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
@@ -655,37 +655,33 @@ session.setAttribute("tokenSession", tokenValue);
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10"  value="${expert.fax}"  name="fax" id="fax" type="text"/>
+					<input value="${expert.fax}"  name="fax" id="fax" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写传真</span>
+					<span class="input-tip">如: XXX - XXXXXXXX</span>
 					</div>
 				</li> 
   				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 邮编</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
-					<span class="add-on">i</span>
-					    <span class="input-tip">请填写邮编</span>
+						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
+						<span class="add-on">i</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获得技术时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请选择获得技术时间</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写健康状态</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
 					<span class="add-on">i</span>
-					    <span class="input-tip">请填写现任职务</span>
 					</div>
 				</li>
 			</ul>

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 
@@ -10,6 +11,8 @@
     
     <title>信息发布</title>
     
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     
 <script type="text/javascript">
 	$(function(){
@@ -28,7 +31,11 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '${ pageContext.request.contextPath }/article/getAll.html?page='+e.curr;
+			        	var articleTypeId = "${articlesArticleTypeId}";
+			        	var range = "${articlesRange}";
+			        	var status = "${articlesStatus}";
+			        	var name = "${articleName}";
+			            location.href ="${ pageContext.request.contextPath }/article/serch.html?page="+e.curr+"&articleTypeId="+articleTypeId+"&range="+range+"&range="+status+"&name="+name;
 			        }
 			    }
 			});
@@ -141,17 +148,39 @@
 			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+
+    function resetQuery(){
+    	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+    	$("#articleTypes").select2("val", "");
+    }
     
-    function search(){
-	    var kname = $("#kname").val();
-	    var parkId = $("#parkId  option:selected").val();
-	    location.href = "${ pageContext.request.contextPath }/article/serch.html?kname="+kname;
-
-	 }
-
-	 function reset(){
-		 $("#kname").val("");
-	 }
+	 $(function(){
+			$.ajax({
+				 contentType: "application/json;charset=UTF-8",
+				  url:"${pageContext.request.contextPath }/article/selectAritcleType.do",
+			      type:"POST",
+			      dataType: "json",
+			      success:function(articleTypes){
+			    	  if(articleTypes){
+			    		  $("#articleTypes").append("<option></option>");
+			    		  $.each(articleTypes,function(i,articleType){
+			    			  if(articleType.name != null && articleType.name != ''){
+			    				  $("#articleTypes").append("<option value="+articleType.id+">"+articleType.name+"</option>");
+			    			  }
+			    		  });
+			    	  }
+			    	  $("#articleTypes").select2();
+			    	  $("#articleTypes").select2("val", "${article.articleType.id }");
+			       }
+			});
+		})
+	 
+	$(function(){
+		$("#articleTypes").select2("val", "${article.articleType.id}");
+    	$("#range").val("${articlesRange}");
+    	$("#status").val("${articlesStatus}");
+    })
+	 
 </script>
 
   </head>
@@ -173,17 +202,53 @@
 	   </div>
    
    <h2 class="search_detail">
+    <form id="form1" action="${pageContext.request.contextPath }/article/serch.html" method="post" class="mb0">
    		<ul class="demand_list">
     	  <li>
 	    	<label class="fl">信息标题：</label>
 	    	<span>
-	    		<input type="text" id="kname" name="kname" value="${name }"/>
+	    		<input type="text" id="name" name="name" value="${articleName }"/>
 	    	</span>
 	      </li>
-	    	<button onclick="search()" class="btn">查询</button>
-	    	<button onclick="reset()" class="btn">重置</button>  	
+	      <li>
+	    	<label class="fl">信息栏目：</label>
+	    	<span class="fl mt5">
+	    	<div class="w200">
+		    	<select id="articleTypes" name="articleType.id" class="w200" >
+	         	</select>
+	        </div>
+          	</span>
+	      </li>
+	      <li>
+	    	<label class="fl">发布范围：</label>
+	    	<span>
+	            <select id ="range" name="range" class="w100"  >
+	             	<option></option>
+	             	<option value="0">内网</option>
+	             	<option value="1">外网</option>
+	             	<option value="2">内网/外网</option>
+	             </select>
+	         </span>
+	      </li>
+	      <li>
+	    	<label class="fl w100">是否发布：</label>
+	    	<span>
+	            <select id ="status" name="status" class="w100">
+	             	<option></option>
+	             	<option value="0">暂存</option>
+	             	<option value="1">已提交</option>
+	             	<option value="2">发布</option>
+	             	<option value="3">审核未通过</option>
+	             </select>
+	         </span>
+	      </li>
     	</ul>
+    	<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
+    		<button type="submit" class="btn">查询</button>
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
+	    </div>
     	  <div class="clear"></div>
+    	 </form>
      </h2>
   
 	   <input type="hidden" id="depid" name="depid">
@@ -216,7 +281,14 @@
 		  		<tr class="pointer">
 		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
 		  			<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-		  			<td class="tc" onclick="view('${article.id }')">${article.name }</td>
+		  			
+		  			<c:if test="${fn:length(article.name)>30}">
+	    					<td onclick="view('${article.id }')" onmouseover="titleMouseOver('${article.name}',this)" onmouseout="titleMouseOut()">${fn:substring(article.name,0,30)}...</td>
+	    			</c:if>
+		  			<c:if test="${fn:length(article.name)<=30}">
+	    					<td onclick="view('${article.id }')">${article.name }</td>
+	    			</c:if>
+		  			
 		  			<td class="tc" onclick="view('${article.id }')">
 		  				<c:if test="${article.range=='0' }">
 		  					内网
@@ -225,7 +297,7 @@
 		  					外网
 		  				</c:if>
 		  				<c:if test="${article.range=='2' }">
-		  					内网/外网
+		  					内网&外网
 		  				</c:if>
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">

@@ -84,7 +84,7 @@
   </select>
   
   <!-- 根据条件查询列表 -->
-  <select id="selectArticleByStatus" resultMap="ArticleBlob">
+  <select id="selectArticleByStatus"  parameterType="java.util.Map" resultMap="ArticleBlob">
   	select
   	<include refid="Article_Column_List"/>
   	,
@@ -94,11 +94,20 @@
 	  	<if test="status != null">
 	  	  AND STATUS = #{status}
 	  	</if>
+	  	<if test="name != null">
+	  	  AND NAME LIKE #{name}
+	  	</if>
+	  	<if test="articleType != null">
+       	 AND ARTICLE_TYPE_ID = #{articleType.id}
+        </if>
+	  	<if test="range != null">
+	  	  AND RANGE = #{range}
+	  	</if>
     order by UPDATED_AT DESC
   </select>
   
   <!-- 根据标题查询查询 -->
-  <select id="selectArticleByName" resultMap="ArticleBlob">
+  <select id="selectArticleByName" parameterType="java.util.Map" resultMap="ArticleBlob">
   	select
   	<include refid="Article_Column_List"/>
   	,
@@ -107,6 +116,12 @@
     where IS_DELETED = 0
     	<if test="name != null">
 	  	  AND NAME LIKE #{name}
+	  	</if>
+	  	<if test="articleType != null">
+       	 AND ARTICLE_TYPE_ID = #{articleType.id}
+        </if>
+	  	<if test="range != null">
+	  	  AND RANGE = #{range}
 	  	</if>
 	  	<if test="status != null">
 	  	  AND STATUS = #{status}

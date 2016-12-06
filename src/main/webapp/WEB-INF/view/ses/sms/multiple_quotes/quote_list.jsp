@@ -84,7 +84,8 @@
 	const SIX="6";
 	const SEVEN="7";
 	const EIGHT="8";
-	const NINE="9";
+	const NINE="9";	
+	
     function addTotal(){
     	var allTable=document.getElementsByTagName("table");
 		for(var i=0;i<allTable.length;i++){
@@ -92,6 +93,11 @@
 			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
 				  var num= $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
 		          var price= $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+		          var reg= /^\d+\.?\d*$/;  
+					if(!reg.exec(price)){
+						$(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val('');
+						return;
+					}
 		          var total= $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
 		          if(price==""||price.trim()==""){
 		          	continue;
@@ -283,7 +289,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="16" onkeyup="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="16"  onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							              <td class="tc"><input readonly="readonly" onClick="WdatePicker()"  /></td>
 							              <td class="tc"><input /></td>
@@ -321,7 +327,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="16"  onkeyup="this.value=this.value.replace(/[^0-9]+\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')"  onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="16"  onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							              <td class="tc"><input readonly="readonly" onClick="WdatePicker()"  /></td>
 							              <td class="tc"><input /></td>

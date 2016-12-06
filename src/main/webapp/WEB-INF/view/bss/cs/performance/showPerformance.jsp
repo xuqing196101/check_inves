@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -13,12 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-<script type="text/javascript">
-	$(function(){
-		var value = "${performance.completedStatus}";
-		$("#completedStatus").val(value);
-	});
-</script>
+
 </head>
 <body>
 
@@ -34,68 +30,61 @@
    </div>
    
 <!-- 修改订列表开始-->
-
-	<div class="container container_box">
-     <div>
-   <h2 class="list_title">履约情况查看</h2>
-  	<form action="${pageContext.request.contextPath}/performance/updatePerformance.html" method="post" id="form">
-  	<input type="hidden" name="contractId" value="${performance.contractId}"/>
-  	<input type="hidden" name="id" value="${performance.id}"/>
-  	<ul class="list-unstyled ul_list">
-  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同草稿签订时间：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <input id="draftSignedAt" readonly="readonly" name="draftSignedAt" value="<fmt:formatDate value="${performance.draftSignedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" />
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">正式合同签订时间：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <input id="formalSignedAt" readonly="readonly" name="formalSignedAt" value="<fmt:formatDate value="${performance.formalSignedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" />
-       </div>
-	 </li> 
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交付日期：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <input id="delivery" readonly="readonly" name="delivery" value="<fmt:formatDate value="${performance.delivery}" pattern="yyyy-MM-dd HH:mm:ss" />" type="text" class="Wdate mb0 w220" />
-       </div>
-	 </li> 
-	<li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">交货进度：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input readonly="readonly" id="deliverySchedule" value="${performance.deliverySchedule }" type="text" name="deliverySchedule">
-       </div>
-	 </li>
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">资金支付百分比(%)：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input readonly="readonly" id="fundsPaid" value="${performance.fundsPaid}" type="text" name="fundsPaid">
-       </div>
-	 </li>
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">质量检验结果：</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input readonly="readonly" id="checkMass" value="${performance.checkMass}" name="checkMass" type="text">
-       </div>
-	 </li>
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 p0">合同执行状态：</span>
-	   <div class="select_common input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <select name="completedStatus" disabled="disabled" id="completedStatus">
-        	<option></option>
-        	<option value="0">执行中</option>
-        	<option value="1">终止</option>
-        	<option value="2">变更</option>
-        	<option value="3">完成</option>
-        </select>
-        </div>
-	 </li> 
-  	</ul>
+    <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">履约详情</a></li>
+            </ul>
+  	<div class="tab-content padding-top-20 over_hideen">
+	<div class="tab-pane fade active in" id="tab-1">
+	    <table class="table table-bordered">
+	        <tbody>
+	        <tr>
+	            <td class="bggrey"  width="25%">产品质量检验结果：</td>
+	            <td colspan="5">${performance.checkMass}</td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey"  width="25%">合同草稿签订时间：</td>
+	            <td><fmt:formatDate value="${performance.draftSignedAt}" pattern="yyyy/MM/dd"/></td>
+	            <td class="bggrey"  width="25%">正式合同签订时间：</td>
+	            <td><fmt:formatDate value="${performance.formalSignedAt}" pattern="yyyy/MM/dd"/></td>
+	        </tr>
+	        <tr>
+	            <td class="bggrey"  width="25%">产品交付日期：</td>
+	            <td><fmt:formatDate value="${performance.delivery}" pattern="yyyy/MM/dd"/> </td>
+	             <td class="bggrey"  width="25%">合同执行状态：</td>
+	            <td>
+	            <c:if test="${performance.completedStatus==0 }">
+	            执行中
+	            </c:if>
+	            <c:if test="${performance.completedStatus==1}">
+	            终止
+	            </c:if>
+	             <c:if test="${performance.completedStatus==2}">
+	            变更
+	            </c:if>
+	            <c:if test="${ performance.completedStatus==3}">
+	            完成
+	            </c:if>
+	            </td>
+	        </tr>
+	        <tr>
+	           
+	            <td class="bggrey"  width="25%">交货进度：</td>
+	            <td>${performance.deliverySchedule }</td>
+	            <td class="bggrey"  width="25%">资金交付百分比(%)：</td>
+	            <td>${performance.fundsPaid}</td>
+	        </tr>
+	       
+	        </tbody>
+	        </table>
   	<!-- 按钮 -->
 		<div class="col-md-12 tc ">
    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
  		</div>
-  	</form>
+  	</div>
   	</div>
  </div>
 </body>

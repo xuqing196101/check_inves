@@ -4,6 +4,7 @@ import iss.dao.ps.ArticleMapper;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +89,8 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据类型查询
 	 */
 	@Override
-	public List<Article> selectArticleByStatus(Article article,Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		List<Article> list = articleMapper.selectArticleByStatus(article);
+	public List<Article> selectArticleByStatus(HashMap<String, Object> map) {
+		List<Article> list = articleMapper.selectArticleByStatus(map);
 		return list;
 	}
 	
@@ -107,10 +106,8 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据标题查询列表
 	 */
 	@Override
-	public List<Article> selectArticleByName(Article article, Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		List<Article> list = articleMapper.selectArticleByName(article);
+	public List<Article> selectArticleByName(HashMap<String, Object> map) {
+		List<Article> list = articleMapper.selectArticleByName(map);
 		return list;
 	}
 

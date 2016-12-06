@@ -69,6 +69,7 @@ html[dir="rtl"] .select2-container .select2-choice {
     text-overflow: ellipsis;
     float: none;
     width: auto;
+    font-size: 14px;
 }
 
 html[dir="rtl"] .select2-container .select2-choice > .select2-chosen {

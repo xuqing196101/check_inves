@@ -292,4 +292,6 @@ public interface SupplierAuditService {
     void updateStatusById(SupplierAudit supplierAudit);
     
     List<SupplierAudit> findReason(SupplierAudit supplierAudit);
+    
+    void deleteById(String[] ids);
 } 

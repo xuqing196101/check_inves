@@ -4,18 +4,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    
-    <title>My JSP 'view.jsp' starting page</title>
-    
+    <title>主题列表页面</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
   </head>
   
   <body>        
@@ -29,76 +23,49 @@
 	  </div>
    </div>
    <!-- 新增页面开始 -->
-     <div class="container container_box">
-     	<div>
-
-	   		<h2 class="list_title">主题详情</h2>
-	  
-	   <ul class="ul_list mb20">
-	   		  
-	   		   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">主题名称：</span>
-			   <div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${topic.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所属版块：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0 "> 
-	  			<input type="text" value = '${topic.park.name}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建人：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${topic.user.relName}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">帖子数：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${topic.postcount}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">回复数：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = '${topic.replycount}' readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">创建时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		       <input type="text" value = "<fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
-			 <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">更新时间：</span>				 	
-	  			<div class="input_group input-append col-md-12 col-xs-12 col-sm-12 p0">
-		        <input type="text" value = "<fmt:formatDate value='${topic.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
-		        
-		       </div>
-			 </li>
+    <div class="container content pt0">
+	 <div class="row magazine-page">
+	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
+	        <div class="padding-top-10">
+	        <ul class="nav nav-tabs bgwhite">
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">主题详情</a></li>
+            </ul>
+	   		 <div class="tab-content padding-top-20 over_hideen">
+	             <div class="tab-pane fade active in" id="tab-1">
+	                 <h2 class="count_flow jbxx">基本信息</h2>
+	                      <table class="table table-bordered">
+	                      <tbody>
+	                      <tr>
+	                          <td class="bggrey">主题名称：</td>
+	                          <td colspan="3">${topic.name}</td>
+	                      </tr>
+	                      <tr>
+	                          <td class="bggrey">所属版块：</td>
+	                          <td>${topic.park.name}</td>
+	                          <td class="bggrey">创建人：</td>
+	                          <td>${topic.user.relName}</td>
+	                      </tr>
+	                      <tr>
+	                          <td class="bggrey">帖子数：</td>
+	                          <td>${topic.postcount}</td>
+	                          <td class="bggrey">回复量：</td>
+	                          <td>${topic.replycount}</td>
+	                      </tr>
+	                      <tr>
+	                          <td class="bggrey">创建时间：</td>
+	                          <td><fmt:formatDate value="${topic.createdAt }" pattern="yyyy-MM-dd"/></td>
+	                          <td class="bggrey">更新时间：</td>
+	                          <td><fmt:formatDate value="${topic.updatedAt }" pattern="yyyy-MM-dd"/></td>
+	                      </tr>
+	                      </tbody>
+	                      </table>
+	                    <h2 class="count_flow jbxx">版块介绍</h2>
+                            <div class="col-md-12 col-sm-12 col-cs-12 p0">
+                <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${topic.content}</textarea>
+	        </div>  	 	   
 			 
-			 
-			<li class="col-md-12 col-xs-12 col-sm-12">	  	 			
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 主题介绍：</span>
-				<div class="col-md-12 col-xs-12 col-sm-12 p0">
-					<textarea  class="col-md-12 col-xs-12 col-sm-12 h130" readonly="readonly">${topic.content}</textarea>		
-				</div>			
-	  	 	</li>
-	  	 </ul>
-	  	 
-	</div>  	
 	<!-- 底部按钮 -->			          
-    <div class="col-md-12 col-xs-12 col-sm-12 tc">   
+    <div class="col-md-12 col-xs-12 col-sm-12 tc mt10">   
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	
      </div>

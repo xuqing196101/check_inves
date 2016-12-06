@@ -14,7 +14,7 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, ANSWER,QUESTION_TYPE_ID, PERSON_TYPE, KIND, to_char(CREATED_AT,'yyyy/mm/dd:hh:mi:ss'),to_char(UPDATED_AT,'yyyy/mm/dd:hh:mi:ss') ,TOPIC, ITEMS
+    ID, ANSWER,QUESTION_TYPE_ID, PERSON_TYPE, KIND, CREATED_AT,UPDATED_AT,TOPIC, ITEMS
   </sql>
   
   <!-- 根据主键ID查询题目 -->

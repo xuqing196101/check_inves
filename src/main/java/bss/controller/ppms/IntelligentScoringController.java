@@ -427,6 +427,24 @@ public class IntelligentScoringController {
 		ScoreModel scoreModel = new ScoreModel();
 		scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
 		List<ScoreModel> scoreModelList = scoreModelService.findListByScoreModel(scoreModel);
+		if (scoreModelList != null && scoreModelList.size()==1) {
+		    ParamInterval pi = new ParamInterval();
+		    pi.setScoreModelId(scoreModelList.get(0).getId());
+		    List<ParamInterval> piList = paramIntervalService.findListByParamInterval(pi);
+		    StringBuilder sb = new StringBuilder("");
+		    Integer count = 0;
+		    for (ParamInterval paramInterval : piList) {
+		        count++;
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc>" + paramInterval.getStartParam());
+                sb.append("</td><td class=tc>" + paramInterval.getEndParam() + "</td>");
+                sb.append("<td class=tc>" + paramInterval.getScore() + "</td>");
+                String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
+                sb.append("<td class=tc>" + explain + "</td>");
+                sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
+            }
+		    String scoreStr = sb.toString();
+		    model.addAttribute("scoreStr", scoreStr);
+        }
 		model.addAttribute("scoreModelList", scoreModelList);
 		model.addAttribute("packageId", packageId);
 		model.addAttribute("markTermId", markTerm.getId());

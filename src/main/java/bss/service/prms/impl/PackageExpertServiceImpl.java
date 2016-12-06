@@ -24,6 +24,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       private ReviewProgressMapper reviewProgressMapper;
 	  @Autowired
       private ExpertScoreMapper expertScoreMapper;
+      @Autowired
+      private PackageExpertMapper packageExpertMapper;
 	  /**
 	   * 
 	  * @Title: save
@@ -169,6 +171,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                 if (reviewList.get(0).getTotalProgress() != 1) {
                     isok = 1;
                 }
+            }  else {
+                isok = 1;
             }
             List<ExpertSuppScore> expertScores = expertScoreMapper.getScoreByMap(mapSearch);
             for (int i = 0; i < expertScores.size() - 1; i++ ) {
@@ -184,7 +188,12 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                     }
                 }    
             }
+            if (expertScores.size() == 0) {
+                isok = 1;
+            }
             // 判断如果包内的专家所给出的分数不同的话不能汇总
+            mapSearch.put("packageId", packageId);
+            List<PackageExpert> packageExpertList = packageExpertMapper.selectList(mapSearch);
             if (isok == 1) {
                 notPass.append("【"+reviewList.get(0).getPackageName()+"】"); 
             }

@@ -476,10 +476,13 @@ public class SupplierExtractsController extends BaseController {
             List<SaleTender> find = saleTenderService.find(saleTender);
             if (find != null && find.size() !=0 ){
                 saleTender.setPackages(find.get(0).getPackages() + "," + byId.getPackageId());
+                saleTender.setId(find.get(0).getId());
+                saleTenderService.update(saleTender);
             }else{
-                saleTender.setPackages(byId.getPackageId());    
+                saleTender.setPackages(byId.getPackageId());   
+                saleTenderService.insert(saleTender);
             }
-            saleTenderService.insert(saleTender);
+        
         }
         List<SupplierExtRelate> projectExtractListYes = resultProjectExtract(sq, ids);  
 

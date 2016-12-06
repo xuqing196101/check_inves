@@ -50,10 +50,11 @@
 				url:"${pageContext.request.contextPath}/packageExpert/isGather.do",
 				data:{"packageIds":packageIds, "projectId":projectId},
 				async:false,
-				success:function(response){
+				success:function (response) {
+					alert(response);
 					if (response == "ok") {
 						$.ajax({
-							 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal2.do',
+							 url:'${pageContext.request.contextPath}/packageExpert/scoreTotal.do',
 							 data:{"packageId":packageId,"projectId":projectId},
 							 async:false,
 							 success:function(){

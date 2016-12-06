@@ -51,114 +51,86 @@ function sub(){
 		<div class="clear"></div>
 	  </div>
    </div>
-   
-   <div class="container container_box">
-     <div>
-      <c:if test="${article.status==0 || article.status==1 }">
-	    <h2 class="list_title">查看信息</h2>
-	   </c:if>
-       <c:if test="${article.status==2 || article.status==3 }">
-	     <h2 class="count_flow"><i>1</i>查看信息</h2>
-	   </c:if>
-	  <input type="hidden" name="id" id="id" value="${article.id }" disabled>
-	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" disabled>
-	   <ul class="ul_list mb20">
-	   
-     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息标题：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-        <input type="text" value="${article.name }" disabled>
-       </div>
-	 </li>
-     <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息栏目：</span>
-	   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-       <select id="articleTypeId" name="articleType.id" disabled>
-   		 	<option></option>
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-          		<option value="${list.id }" >${list.name }</option>
-		    </c:forEach>
-         </select>
-         </div>
-	 </li>
-	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发布范围：</span>
-	   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled class="">内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled class="">外网</label>
-       </div>
-	 </li>  
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">文章来源：</span>
-       <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-        <input id="source" name="source" value="${article.source }"  type="text" disabled>
-       </div>
-	 </li> 
-	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">链接来源：</span>
-       <div class="input-append col-md-12 col-sm-12 col-xs-12 p0 input_group">
-        <input id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text" disabled>
-       </div>
-	 </li>
-	 <li class="col-md-3 col-sm-6 col-xs-12" id="picshow">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">图片展示：</span>
-	   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-        <input id="isPicShow" name="isPicShow" type="text" value="${article.isPicShow }" disabled>
-       </div>
-	 </li> 
-     <li class="col-md-12 col-sm-12 col-xs-12">
-	   <span class="col-md-12 padding-left-5">信息正文：</span>
-	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-         <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
-       </div>
-	 </li>  
-	 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
-	 <span class="fl">已上传的附件：</span>
-	 <div class="fl mt5">
-  	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	${fn:split(a.fileName, '_')[1]},
-  	   </c:forEach>
-	 </div>
-	 </li>
-	 <li class="col-md-6 col-sm-12 col-xs-12 mt10" id="picNone" >
-	    <span class="fl">已上传的图片：</span>
-	    <div class="fl">
-			<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
-		</div>
-	 </li>
-  	 </ul>
-	 </div>
+   <div class="container content pt0">
+    <div class="row magazine-page">
+      <div class="col-md-12 col-sm-12 col-xs-12 tab-v2 mt10">
+          <ul class="nav nav-tabs bgwhite">
+            <li class="active"><a class="s_news f18">详细信息</a></li>
+          </ul>
+          <div class="tab-content padding-top-20 over_hideen">
+            <div class="tab-pane fade active in">
+                <h2 class="count_flow jbxx">基本信息</h2>
+				<table class="table table-bordered">
+				 <tbody>
+				 <tr>
+				  <td class="bggrey" width="25%">信息标题：</td>
+				  <td colspan="3" width="75%">${article.name }</td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey" width="25%">信息栏目：</td>
+				  <td colspan="3" width="75%">
+				  	${article.articleType.name }
+				  </td>
+				 </tr>
+				 <tr>
+				  <td class="bggrey" width="25%">链接来源：</td>
+				  <td colspan="3" width="75%">
+				  	${article.sourceLink }
+				  </td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey" width="25%">发布范围：</td>
+				  <td width="25%">
+               		 <c:if test="${article.range=='0' }">
+		  					内网
+		  				</c:if>
+		  				<c:if test="${article.range=='1' }">
+		  					外网
+		  				</c:if>
+		  				<c:if test="${article.range=='2' }">
+		  					内网&外网
+		  				</c:if>
+				  </td>
+				  <td class="bggrey" width="25%">
+				  	图片展示：
+				  </td>
+				  <td width="25%">${article.isPicShow }</td>
+				 </tr>   
+				</tbody>
+			   </table>
+                <h2 class="count_flow jbxx">信息正文</h2>
+                <div class="col-md-12 col-xs-12 col-sm-12 border1">${article.content}</div>
+                <c:if test="${article.status==2 }">
+                	<h2 class="count_flow jbxx clear">审核结果:审核通过</h2>
+                </c:if>
+                <c:if test="${article.status==3 }">
+                	<h2 class="count_flow jbxx clear">退回理由</h2>
+                	<div class="col-md-12 col-xs-12 col-sm-12 border1">${article.content}</div>
+                </c:if>
 
-	  <c:if test="${article.status==2 }">
-	   <div class="padding-top-10 clear">
-	  <h2 class="count_flow"><i>2</i>审核结果</h2>
-	   <ul class="ul_list mb20">
-	  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">  	
-	  	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">审核结果：</span>
-	   <div class="input-append col-md-12 col-xs-12 col-sm-12 p0 input_group">
-        <input type="text" value="审核通过" disabled>
-       </div>
-	 	</li>  
-		</ul>
-	  </c:if>
-	  
-	  <c:if test="${article.status==3 }">
-	   <div class="padding-top-10 clear">
-	  <h2 class="count_flow"><i>2</i>审核结果</h2>
-	   <ul class="ul_list mb20">
-	  	<li class="col-md-12 col-sm-12 col-xs-12 pl15">
-	   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">退回理由</span>
-	   		<div class="mb5">
-				<textarea class="h130 col-md-12 " id="reason" name="reason"  disabled>${article.reason }</textarea>
-       		</div>
-	 	</li> 
-		</ul>
-</c:if>
-	 <div  class="col-md-12 tc">
+				<ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">
+				 <li class="col-md-6 col-sm-12 col-xs-12 mt10">
+				 <span class="fl">已上传的附件：</span>
+				 <div class="fl mt5">
+				 	   <c:forEach items="${article.articleAttachments}" var="a">
+				 	   	${fn:split(a.fileName, '_')[1]},
+				 	   </c:forEach>
+				 </div>
+				 </li>
+				 <li class="col-md-6 col-sm-12 col-xs-12 mt10" id="picNone" >
+				    <span class="fl">已上传的图片：</span>
+				    <div class="fl">
+						<up:show showId="artice_show" businessId="${article.id }" sysKey="${sysKey}" typeId="${attachTypeId }"/>
+					</div>
+				 </li>
+				</ul>
+		</div>
+	 </div>
+	 <div  class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
 	  <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
      </div>
     </div> 
-</div>
+
 <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例

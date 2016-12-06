@@ -598,4 +598,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		param.put("isDeleted", 0);
 		return supplierAuditMapper.findByMap(param);
 	}
+
+	@Override
+	public void deleteById(String[] ids) {
+		for(int i = 0; i<ids.length; i++){
+			supplierAuditMapper.deleteByPrimaryKey(ids[i]);
+		}		
+	}
 }

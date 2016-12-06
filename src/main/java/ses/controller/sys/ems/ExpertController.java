@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.jsqlparser.expression.operators.arithmetic.Concat;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1477,5 +1479,32 @@ public class ExpertController {
     @RequestMapping("/updateStepNumber")
     public void updateStepNumber(String expertId, String stepNumber) {
         service.updateStepNumber(expertId, stepNumber);
+    }
+    /**
+     *〈简述〉
+     * 为专家注册第四部准备数据
+     *〈详细描述〉
+     * 将表中的数据查出,在数据字典中查询
+     * @author WangHuijie
+     * @param expertId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/initData", produces = "application/json;charset=UTF-8")
+    public String initData(String expertId){
+        Expert expert = service.selectByPrimaryKey(expertId);
+        expert.setGender(dictionaryDataServiceI.getDictionaryData(expert.getGender()).getName());
+        // 政治面貌
+        expert.setPoliticsStatus(dictionaryDataServiceI.getDictionaryData(expert.getPoliticsStatus()).getName());
+        String address = expert.getAddress();
+        Area area = areaServiceI.listById(address);
+        // 市
+        String cityName = area.getName();
+        // 省
+        String provinceName = areaServiceI.listById(area.getParentId()).getName();
+        expert.setAddress(provinceName.concat(cityName));
+        // 最高学历
+        expert.setHightEducation(dictionaryDataServiceI.getDictionaryData(expert.getHightEducation()).getName());
+        return JSON.toJSONString(expert);
     }
 }

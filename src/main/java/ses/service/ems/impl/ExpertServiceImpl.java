@@ -351,8 +351,9 @@ public class ExpertServiceImpl implements ExpertService {
 	  * @return void
 	 */
 	@Override
-	public Map<String, Object> saveOrUpdate(Expert expert,String expertId,String categoryIds, String gitFlag, String userId) throws Exception{
+	public Map<String, Object> saveOrUpdate(Expert expertTemp,String expertId,String categoryIds, String gitFlag, String userId) throws Exception{
 		Map<String,Object> map;
+		Expert expert = mapper.selectByPrimaryKey(expertId);
 		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
 		if(StringUtils.isNotEmpty(expert.getId())){
 			expert.setIsDo("0");
@@ -421,7 +422,7 @@ public class ExpertServiceImpl implements ExpertService {
 		todos.setSenderName(expert.getRelName());
 		//审核地址
 		todos.setUrl("expert/toShenHe.html?id="+expert.getId());
-		todosMapper.insert(todos );
+		todosMapper.insertSelective(todos);
 		return map;
 	}
 	

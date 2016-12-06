@@ -209,7 +209,7 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info">序号</th>
-				<th class="info">版块名</th>
+				<th class="info">版块名称</th>
 				<th class="info">版块介绍</th>
 			    <th class="info">版主</th>
 			    <th class="info">热门</th>
@@ -228,10 +228,10 @@
 				<c:set value="${park.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>30}">
-					<td onclick="view('${park.id}')"  class=" pointer ">${fn:substring(content,0,30)}...</td>
+					<td onclick="view('${park.id}')"  class="pointer" onmouseover="titleMouseOver('${content}',this)" onmouseout="titleMouseOut()">${fn:substring(content,0,30)}...</td>
 				</c:if>
 				<c:if test="${length<=30}">
-					<td onclick="view('${park.id}')"  class=" pointer ">${content } </td>
+					<td onclick="view('${park.id}')"  class="pointer">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>
 				<c:if test="${park.isHot == 0||park.isHot==''||park.isHot==null}">
