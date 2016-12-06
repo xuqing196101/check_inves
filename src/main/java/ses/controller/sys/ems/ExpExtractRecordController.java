@@ -142,7 +142,6 @@ public class ExpExtractRecordController extends BaseController {
         } else {
             return "redirect:Extraction.html";
         }
-
     }
 
 
@@ -251,7 +250,7 @@ public class ExpExtractRecordController extends BaseController {
      * @param @param id
      * @param @return      
      * @return String
-     */
+     */ 
     @RequestMapping("/addExtractions")
     public String addExtraction(Model model,String projectId,String typeclassId){
         List<Area> listArea = areaService.findTreeByPid("0",null);
@@ -376,11 +375,11 @@ public class ExpExtractRecordController extends BaseController {
             }  
             //监督人员
             if (sids != null && sids.length != 0){
-                projectSupervisorServicel.deleteProjectId(packageId);
+                projectSupervisorServicel.deleteProjectId(project.getId());
                 for (String id : sids) {
                     if (!"".equals(id)){
                         ProExtSupervise  record1 = new ProExtSupervise();
-                        record1.setProjectId(packageId);
+                        record1.setProjectId(project.getId());
                         record1.setSupviseId(id);
                         projectSupervisorServicel.insert(record1);
                     }
