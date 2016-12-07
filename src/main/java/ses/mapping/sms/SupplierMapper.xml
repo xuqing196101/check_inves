@@ -992,6 +992,12 @@
 				and "INSTR"(categoryId, #{item})>0
 			</foreach>
 		</if>
+		<if test="scoreStart != null and scoreStart != '' ">
+			and SCORE &gt;= #{scoreStart} 
+		</if>
+		<if test="scoreEnd != null and scoreEnd != ''">
+			and SCORE &lt; #{scoreEnd} 
+		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>
 

@@ -192,10 +192,34 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	@Override
 	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
-		if(page!=null){
-			PropertiesUtil config = new PropertiesUtil("config.properties");
-			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		}
+		SupplierStars sstart = new SupplierStars();
+		sstart.setStatus(1);
+        List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
+        if (supplier.getScore() != null && !"".equals(supplier.getScore())) {
+            if (supplier.getScore() == 1) {
+                supplier.setScoreStart(listSs.get(0).getOneStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getTwoStars() + "");
+            }
+            if (supplier.getScore() == 2) {
+                supplier.setScoreStart(listSs.get(0).getTwoStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getThreeStars() + "");
+            }
+            if (supplier.getScore() == 3) {
+                supplier.setScoreStart(listSs.get(0).getThreeStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getFourStars() + "");
+            }
+            if (supplier.getScore() == 4) {
+                supplier.setScoreStart(listSs.get(0).getFourStars() + "");
+                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
+            }
+            if (supplier.getScore() == 5) {
+                supplier.setScoreEnd(listSs.get(0).getFiveStars() + "");
+            }
+        }
+        if(page!=null){
+            PropertiesUtil config = new PropertiesUtil("config.properties");
+            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        }
 		List<Supplier> listSupplier=supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
 		SupplierStars supplierStars = new SupplierStars();
 		supplierStars.setStatus(1);

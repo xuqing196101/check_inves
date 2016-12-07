@@ -3,8 +3,11 @@ package ses.service.bms.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,18 +15,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
-import common.bean.ResBean;
-import common.constant.StaticVariables;
 import ses.dao.bms.CategoryMapper;
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.util.PropertiesUtil;
 import ses.util.StringUtil;
+
+import com.github.pagehelper.PageHelper;
+import common.bean.ResBean;
+import common.constant.StaticVariables;
 
 /**
  * 
@@ -41,6 +46,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
+    
+    @Autowired
+    private DictionaryDataMapper dictionaryDataMapper;
     
     /** 操作类型 - 添加 */
     private static final String OPERA_ADD = "add";
@@ -294,6 +302,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+        Set<String> setList = new HashSet<String>();
         for (Category c : listCategorys) {
             SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
             if (listCategoryIds.contains(c.getId())) {
@@ -301,24 +310,115 @@ public class CategoryServiceImpl implements CategoryService {
                 supplierTypeTree.setParentId(c.getParentId());
                 supplierTypeTree.setName(c.getName());
                 listSupplierTypeTrees.add(supplierTypeTree);
+                setList.add(c.getParentId());
+            }
+        }
+        DictionaryData data=new DictionaryData();
+        data.setKind(6);
+        List<DictionaryData> listByPage = dictionaryDataMapper.findList(data);
+        for (DictionaryData dictionaryData : listByPage) {
+            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+            if (setList.contains(dictionaryData.getId())){
+                supplierTypeTree.setId(dictionaryData.getId());
+                supplierTypeTree.setName(dictionaryData.getName());
+                supplierTypeTree.setParent(true);
+                listSupplierTypeTrees.add(supplierTypeTree);
             }
         }
         return listSupplierTypeTrees;
     }
 
     @Override
-    public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds) {
-        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+    public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds ,Integer type) {
         List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
-        for (Category c : listCategorys) {
-            SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
-            supplierTypeTree.setId(c.getId());
-            supplierTypeTree.setParentId(c.getParentId());
-            supplierTypeTree.setName(c.getName());
-            if (listCategoryIds.contains(c.getId())) {
-                supplierTypeTree.setChecked(true);
+        if (type ==1) {
+            DictionaryData data=new DictionaryData();
+            data.setKind(6);
+            List<DictionaryData> listByPage = dictionaryDataMapper.findList(data);
+            for (DictionaryData dictionaryData : listByPage) {
+                SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+                supplierTypeTree.setId(dictionaryData.getId());
+                supplierTypeTree.setName(dictionaryData.getName());
+                supplierTypeTree.setParent(true);
+                listSupplierTypeTrees.add(supplierTypeTree);
             }
-            listSupplierTypeTrees.add(supplierTypeTree);
+            Map<String, Object> map = new HashMap<String, Object>();
+            List<Category> categoryList = categoryMapper.findCategory(map);
+            if (categoryList != null && categoryList.size() > 0) {
+                for (Category catge : categoryList) {
+                    SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
+                    if (listCategoryIds.contains(catge.getId())){
+                        supplierTypeTree1.setChecked(true);
+                    }
+                    supplierTypeTree1.setId(catge.getId());
+                    supplierTypeTree1.setParentId(catge.getParentId());
+                    supplierTypeTree1.setName(catge.getName());
+                    listSupplierTypeTrees.add(supplierTypeTree1);
+                }
+            }
+            return listSupplierTypeTrees;
+        }
+        if (type ==0){
+            if (category.getId() == null && listCategoryIds.size() == 0) {
+                DictionaryData data=new DictionaryData();
+                data.setKind(6);
+                List<DictionaryData> listByPage = dictionaryDataMapper.findList(data);
+                for (DictionaryData dictionaryData : listByPage) {
+                    SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+                    supplierTypeTree.setId(dictionaryData.getId());
+                    supplierTypeTree.setName(dictionaryData.getName());
+                    supplierTypeTree.setParent(true);
+                    listSupplierTypeTrees.add(supplierTypeTree);
+                }
+            } else if(category.getId() != null && !"".equals(category.getId()) ){
+                List<Category> categoryList = categoryMapper.findTreeByPid(category.getId());
+                if (categoryList != null && categoryList.size() > 0) {
+                    for (Category catge : categoryList) {
+                        SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
+                        if (listCategoryIds.contains(catge.getId())){
+                            supplierTypeTree1.setChecked(true);
+                        }
+                        supplierTypeTree1.setId(catge.getId());
+                        supplierTypeTree1.setName(catge.getName());
+                        listSupplierTypeTrees.add(supplierTypeTree1);
+                    }
+                }
+            } else if(category.getId() == null && listCategoryIds != null) {
+                if (listCategoryIds.size() > 0) {
+                    Set<String> setList = new HashSet<String>();
+                    for (String string : listCategoryIds) {
+                        String pid = categoryMapper.selectByPrimaryKey(string).getParentId();
+                        setList.add(pid);
+                    }
+                    //加入父节点
+                    DictionaryData data=new DictionaryData();
+                    data.setKind(6);
+                    List<DictionaryData> listByPage = dictionaryDataMapper.findList(data);
+                    for (DictionaryData dictionaryData : listByPage) {
+                        SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+                        supplierTypeTree.setId(dictionaryData.getId());
+                        supplierTypeTree.setName(dictionaryData.getName());
+                        supplierTypeTree.setParent(true);
+                        listSupplierTypeTrees.add(supplierTypeTree);
+                    }
+                    for (String string : setList) {
+                        //给子节点加入进来
+                        List<Category> categoryList = categoryMapper.findTreeByPid(string);
+                        if (categoryList != null && categoryList.size() > 0) {
+                            for (Category catge : categoryList) {
+                                SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
+                                if (listCategoryIds.contains(catge.getId())){
+                                    supplierTypeTree1.setChecked(true);
+                                }
+                                supplierTypeTree1.setId(catge.getId());
+                                supplierTypeTree1.setParentId(catge.getParentId());
+                                supplierTypeTree1.setName(catge.getName());
+                                listSupplierTypeTrees.add(supplierTypeTree1);
+                            }
+                        }
+                    }
+                }
+            }
         }
         return listSupplierTypeTrees;
     }

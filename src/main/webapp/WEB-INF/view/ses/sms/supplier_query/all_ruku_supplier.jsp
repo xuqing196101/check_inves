@@ -19,10 +19,10 @@
 <script type="text/javascript">
 	$(function(){
 		 option = {
-				    title : {
+				  /*   title : {
 				        text: '供应商数量统计',
 				        x:'center'
-				    },
+				    }, */
 				    tooltip : {
 				        trigger: 'item'
 				    },
@@ -95,12 +95,13 @@ function chongzhi(){
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
+	$("option")[0].selected = true;
 	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3";
 }
 $(function() {
 		var optionNodes = $("option");
 		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${sup.supplierType}" == $(optionNodes[i]).val()) {
+			if ("${sup.score}" == $(optionNodes[i]).val()) {
 				optionNodes[i].selected = true;
 			}
 		}
@@ -170,7 +171,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}/category/query_category_select.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -275,7 +276,7 @@ $(function() {
      <h2>供应商数量统计</h2>
    </div> 
    <h2 class="search_detail">
-  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3" method="post">
+  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
                   <li>
@@ -299,8 +300,21 @@ $(function() {
                     <label class="fl">品目：</label><span> <input id="category" class="span2" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
                            <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
                   </li>
+                  <li>
+		            <label class="fl">供应商级别:</label>
+		            <span>
+		              <select name="score">
+                                    <option  selected="selected" value=''>-请选择-</option>
+                                    <option  value="1">一级</option>
+                                    <option  value="2">二级</option>
+                                    <option  value="3">三级</option>
+                                    <option  value="4">四级</option>
+                                    <option  value="5">五级</option>
+                       </select>
+		            </span>
+		          </li>
                 </ul>
-                 <div class="col-md-12 clear tc mt10">
+                 <div class="col-md-12 clear tc">
                     <button type="button" onclick="submit()" class="btn">查询</button>
                     <button type="button" onclick="chongzhi()" class="btn">重置</button> 
                 </div>
@@ -308,6 +322,6 @@ $(function() {
 		     </form>
 		  </h2>
      </div>
-  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>  
+  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;position: absolute;top:30%;left:25%;"></div>  
   </body>
 </html>

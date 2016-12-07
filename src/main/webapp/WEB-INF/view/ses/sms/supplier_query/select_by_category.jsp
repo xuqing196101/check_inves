@@ -14,6 +14,7 @@
 	function loadZtree() {
 		var setting = {
 			async : {
+				autoParam:["id"],
 				enable : true,
 				url : "${pageContext.request.contextPath}/category/query_category.do",
 				otherParam : {
@@ -40,7 +41,6 @@
 		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
 	}
 	});	
-	
 	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -101,6 +101,7 @@
                 <div class="col-md-12" style="min-height:400px;">
 				<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 				    <div class="tag-box tag-box-v3">
+		                <span class="fl">品目：</span><input id="citySel" type="text" value="" width="w100" onkeyup="AutoMatch(this)"/>
 					<div id="ztree" class="ztree"></div>
 					</div>
 				</div>
@@ -135,7 +136,7 @@
 					    <td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName}</td>
-						<td class="tc">${list.supplierType }</td>
+						<td class="tl">${list.supplierType }</td>
 						<td class="tc">
 							<c:if test="${list.status==-1 }">
 							暂存、未提交

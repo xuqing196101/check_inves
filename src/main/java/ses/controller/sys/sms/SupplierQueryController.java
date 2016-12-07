@@ -37,6 +37,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;

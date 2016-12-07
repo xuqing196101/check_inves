@@ -18,10 +18,10 @@
 <script type="text/javascript">
 	$(function(){
 		 option = {
-				    title : {
+				 /*    title : {
 				        text: '供应商数量统计',
 				        x:'center'
-				    },
+				    }, */
 				    tooltip : {
 				        trigger: 'item'
 				    },
@@ -91,6 +91,7 @@ function chongzhi(){
 	$("#endDate").val('');
 	$("#contactName").val('');
 	$("option")[0].selected = true;
+	$("option")[7].selected = true;
 	$("#category").val('');
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
@@ -105,6 +106,11 @@ $(function() {
 			}
 			if ("${sup.status}" == $(optionNodes[i]).val()) {
 				optionNodes[i].selected = true;
+			}
+			if( i > 7) {
+				if ("${sup.score}" == $(optionNodes[i]).val()) {
+					optionNodes[i].selected = true;
+				}
 			}
 		}
 	});
@@ -174,7 +180,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}/category/query_category_select.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -317,6 +323,19 @@ $(function() {
                     <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
                            <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
                   </li>
+                   <li>
+		            <label class="fl">供应商级别:</label>
+		            <span>
+		              <select name="score">
+                                    <option  selected="selected" value=''>-请选择-</option>
+                                    <option  value="1">一级</option>
+                                    <option  value="2">二级</option>
+                                    <option  value="3">三级</option>
+                                    <option  value="4">四级</option>
+                                    <option  value="5">五级</option>
+                       </select>
+		            </span>
+		          </li>
 		        </ul>
 		        <div class="col-md-12 clear tc mt10">
 		            <button type="button" onclick="submit()" class="btn">查询</button>
@@ -325,7 +344,7 @@ $(function() {
 	            <div class="clear"></div>
 		     </form>
      </h2>
-  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>  
+  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;position: absolute;top:30%;left:25%;"></div>  
   </div>
   </body>
 </html>

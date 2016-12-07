@@ -519,8 +519,32 @@ public class Supplier implements Serializable {
 	 * 公司详细地址
 	 */
 	private String detailAddress;
+	/**
+	 * 条件查询供应商等级
+	 */
+	private String scoreStart;
+	/**
+	 * 条件查询供应商等级
+	 */
+	private String scoreEnd;
 	
-	public List<CategoryParameter> getCategoryParam() {
+	public String getScoreStart() {
+        return scoreStart;
+    }
+
+    public void setScoreStart(String scoreStart) {
+        this.scoreStart = scoreStart;
+    }
+
+    public String getScoreEnd() {
+        return scoreEnd;
+    }
+
+    public void setScoreEnd(String scoreEnd) {
+        this.scoreEnd = scoreEnd;
+    }
+
+    public List<CategoryParameter> getCategoryParam() {
 		return categoryParam;
 	}
 

@@ -39,6 +39,7 @@ function chongzhi(){
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
+	$("option")[0].selected = true;
 	var address='${address}';
 	address=encodeURI(address);
     address=encodeURI(address);
@@ -47,7 +48,7 @@ function chongzhi(){
 $(function() {
 		var optionNodes = $("option");
 		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
+			if ("${supplier.score}" == $(optionNodes[i]).val()) {
 				optionNodes[i].selected = true;
 			}
 		}
@@ -248,6 +249,19 @@ $(function() {
                     <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
                            <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
                   </li>
+                   <li>
+		            <label class="fl">供应商级别:</label>
+		            <span>
+		              <select name="score">
+                                    <option  selected="selected" value=''>-请选择-</option>
+                                    <option  value="1">一级</option>
+                                    <option  value="2">二级</option>
+                                    <option  value="3">三级</option>
+                                    <option  value="4">四级</option>
+                                    <option  value="5">五级</option>
+                       </select>
+		            </span>
+		          </li>
 		       </ul>
 		        <div class="col-md-12 clear tc mt10">
                     <button type="button" onclick="submit()" class="btn">查询</button>
