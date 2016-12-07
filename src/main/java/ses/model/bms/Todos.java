@@ -18,7 +18,7 @@ public class Todos {
      * 表字段 : T_SES_BMS_TODOS.CREATED_AT
      * </pre>
      */
-    private Timestamp createdAt;
+    private Date createdAt;
 
     /**
      * <pre>
@@ -141,7 +141,7 @@ public class Todos {
      *
      * @return T_SES_BMS_TODOS.CREATED_AT：创建日期 格式年月日时分秒
      */
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
@@ -154,7 +154,7 @@ public class Todos {
      * @param createdAt
      *            T_SES_BMS_TODOS.CREATED_AT：创建日期 格式年月日时分秒
      */
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
