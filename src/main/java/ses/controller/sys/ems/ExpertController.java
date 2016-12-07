@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.jsqlparser.expression.operators.arithmetic.Concat;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,6 +168,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
         Map<String, Object> typeMap = getTypeId();
@@ -353,6 +354,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
 
         model.addAttribute("att", att);
         // typrId集合
@@ -524,6 +528,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
 
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -583,6 +590,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
         Map<String, Object> typeMap = getTypeId();
@@ -702,6 +712,9 @@ public class ExpertController {
                     // 货物类型数据字典
                     List<DictionaryData> hwList = DictionaryDataUtil.find(8);
                     model.addAttribute("hwList", hwList);
+                    // 经济类型数据字典
+                    List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+                    model.addAttribute("jjList", jjTypeList);
                     // 专家系统key
                     Integer expertKey = Constant.EXPERT_SYS_KEY;
                     Map<String, Object> typeMap = getTypeId();
@@ -764,9 +777,7 @@ public class ExpertController {
             expert.setUpdatedAt(new Date());
             service.updateByPrimaryKeySelective(expert);
             expertCategoryService.deleteByExpertId(expert.getId());
-            if (expert.getExpertsTypeId().equals("1")) {
-                expertCategoryService.save(expert, categoryId);
-            }
+            expertCategoryService.save(expert, categoryId);
             return "redirect:findAllExpert.html";
         } else {
             // 重复提交 这里未做重复提醒，只是不重复修改

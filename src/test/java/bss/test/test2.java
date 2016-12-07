@@ -23,6 +23,11 @@ import bss.model.pms.PurchaseRequired;
 
 public class test2 {
 
+    @Test
+    public void test123(){
+        System.out.println(UUID.randomUUID().toString().replace("-", ""));
+    }
+    
 	@Test
 	public void test2() throws Exception{
 		 FileInputStream fis = new FileInputStream("E:\\123123.xlsx");

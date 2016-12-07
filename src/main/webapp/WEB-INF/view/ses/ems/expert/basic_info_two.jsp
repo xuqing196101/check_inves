@@ -26,7 +26,7 @@ session.setAttribute("tokenSession", tokenValue);
 				async:false,
 				dataType:"json",
 				success:function(code){
-					var checklist = document.getElementsByName("chkItem");
+					var checklist = document.getElementsByName("chkItem_1");
 					for(var i=0;i<checklist.length;i++){
 						var vals=checklist[i].value;
 						if(code.length>0){
@@ -50,6 +50,29 @@ session.setAttribute("tokenSession", tokenValue);
 			$("#ztree").show();
 		}else{
 			$("#ztree").hide();
+		}
+		if(expertsTypeId==3 || expertsTypeId=="3"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+				async:false,
+				dataType:"json",
+				success:function(code){
+					var checklist = document.getElementsByName("chkItem_3");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+							});
+						} 
+					}
+				}
+			});
+			$("#jtree").show();
+		}else{
+			$("#jtree").hide();
 		}
 	}); 
 	
@@ -113,36 +136,25 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//获取选中子节点id
 	function getChildren(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var count=0;
-		 var ids=[];
-		 for(var i=0;i<checklist.length;i++)
-		   {
-	 			var vals=checklist[i].value;
-	 			if(checklist[i].checked){
-	 				ids.push(vals);
-	 				if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
-	 				 	count++;
-	 				}
+		var num = $("#expertsTypeId").val();
+		var checklist = document.getElementsByName ("chkItem_" + num);
+		var count=0;
+		var ids=[];
+		for(var i=0;i<checklist.length;i++){
+	 		var vals=checklist[i].value;
+	 		if(checklist[i].checked){
+	 			ids.push(vals);
+	 			if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
+	 			 	count++;
 	 			}
-		  } 
+	 		}
+		} 
 		if(count>0){
 			 $("#hwType").show();  
 		}else{
-			var checklist = document.getElementsByName ("chkItem");
-			 for(var i=0;i<checklist.length;i++)
-			   {
-		 			var vals=checklist[i].value;
-		 			if(vals=='SALES'){
-		 				checklist[i].checked = false;
-		 			}
-		 			if(vals=='PRODUCT'){
-		 				checklist[i].checked = false;
-		 			} 
-			  }
 			 $("#hwType").hide();  
 		}
-	     $("#categoryId").val(ids);
+	    $("#categoryId").val(ids);
 		
 	}
 		/** 专家完善注册信息页面 */
@@ -216,7 +228,12 @@ session.setAttribute("tokenSession", tokenValue);
 		}else{
 			$("#ztree").hide();
 		}
-		
+		if(expertsTypeId==3 || expertsTypeId=="3"){
+			$("#jtree").show();
+			getChildren();
+		}else{
+			$("#jtree").hide();
+		}
 	}
 	function tab3(depId){
 		if(depId != ""){
@@ -297,10 +314,10 @@ session.setAttribute("tokenSession", tokenValue);
    			 </ul>
    			 <div class="" id="ztree" >
    			   <div class="sevice_list col-md-12 container" class="dnone" >
-			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>产品服务/分类：</div>
+			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${spList}" var="obj" >
-						    <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
+						    <span><input type="checkbox" name="chkItem_1" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
 				      </c:forEach>
 				  </div>
 			    </div>
@@ -308,11 +325,22 @@ session.setAttribute("tokenSession", tokenValue);
 				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>物资分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${hwList}" var="hw" >
-						    <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
+						    <span><input type="checkbox" name="chkItem_1" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
 				      </c:forEach>
 				  </div>
 				</div>
-				</div>
+			  </div>
+			  
+			  <div class="" id="jtree" >
+   			   <div class="sevice_list col-md-12 container" class="dnone" >
+			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>分类：</div>
+				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
+					  <c:forEach items="${jjList}" var="obj" >
+						    <span><input type="checkbox" name="chkItem_3" value="${obj.id}" />${obj.name} </span>
+				      </c:forEach>
+				  </div>
+			    </div>
+			  </div>
    			   
 		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 				<button class="btn"  type="button" onclick="pre()">上一步</button>

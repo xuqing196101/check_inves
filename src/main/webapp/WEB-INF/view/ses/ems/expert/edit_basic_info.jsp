@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
 				  dataType:"json",
 				  success:function(code){
-					  var checklist = document.getElementsByName ("chkItem");
+					  var checklist = document.getElementsByName ("chkItem_1");
 					  for(var i=0;i<checklist.length;i++){
 							var vals=checklist[i].value;
 							 if(code.length>0){
@@ -64,10 +64,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  }
 				  }); 
 			    $("#ztree").show();
-			 }else{
+			}else{
 				$("#ztree").hide();
-			 }
-	}); 
+			}
+		   	if(expertsTypeId==3 || expertsTypeId=="3"){
+				$.ajax({
+					url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+					data:{"expertId":id},
+					async:false,
+					dataType:"json",
+					success:function(code){
+						var checklist = document.getElementsByName("chkItem_3");
+						for(var i=0;i<checklist.length;i++){
+							var vals=checklist[i].value;
+							if(code.length>0){
+								$.each(code,function(j,result){
+									if(vals==result){
+							 			checklist[i].checked=true;
+							 		}
+								});
+							} 
+						}
+					}
+				});
+				$("#jtree").show();
+			}else{
+				$("#jtree").hide();
+			}
+		}); 
 	    var parentId ;
 		var addressId="${expert.address}";
 		window.onload=function(){
@@ -101,22 +125,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		}
 	//显示隐藏树
+	// 类型select的onchange事件
 	function typeShow(){
-		 var expertsTypeId = $("#expertsTypeId").val();
-		 if(expertsTypeId==1 || expertsTypeId=="1"){
-			 $("#ztree").show();
-		 }else{
-			 $("#ztree").hide();
-		 }
-		
+		var expertsTypeId = $("#expertsTypeId").val();
+		if(expertsTypeId==1 || expertsTypeId=="1"){
+			$("#ztree").show();
+		}else{
+			$("#ztree").hide();
+		}
+		if(expertsTypeId==3 || expertsTypeId=="3"){
+			$("#jtree").show();
+		}else{
+			$("#jtree").hide();
+		}
 	}
 	//获取选中子节点id
 	function getChildren(){
-		var checklist = document.getElementsByName ("chkItem");
+		// 技术类
+		var num = $("#expertsTypeId").val();
+		alert(num);
+		var checklist = document.getElementsByName ("chkItem_"+num);
 		var count=0;
 		var ids=[];
 		for(var i=0;i<checklist.length;i++) {
-	 	var vals=checklist[i].value;
+	 		var vals=checklist[i].value;
 	 		if(checklist[i].checked){
 	 			ids.push(vals);
 	 			if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
@@ -127,19 +159,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(count>0){
 			 $("#hwType").show();  
 		}else{
-			var checklist = document.getElementsByName ("chkItem");
-			for(var i=0;i<checklist.length;i++){
-		 		var vals=checklist[i].value;
-		 		if(vals=='EE317E287DFF4F4A845EC2A3234BDE53'){
-		 			checklist[i].checked = false;
-		 		}
-		 		if(vals=='4AB6BDE2FA9C4FB587C3A3AB4AD646F6'){
-		 			checklist[i].checked = false;
-		 		} 
-			 	$("#hwType").hide();  
-			}
+			 $("#hwType").hide();  
 		}
-	     $("#categoryId").val(ids);
+	    $("#categoryId").val(ids);
 	}
 	function submitForm(){
 		getChildren();
@@ -469,7 +491,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      <div class="col-md-5 title"><span class="star_red fl">*</span>产品服务/分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${spList }" var="obj" >
-					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
+					 <span><input type="checkbox" name="chkItem_1" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
@@ -477,7 +499,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <div class="col-md-5 title"><span class="star_red fl">*</span>物资分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
-					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${hw.id}" />${hw.name} </span>
+					 <span><input type="checkbox" name="chkItem_1" onclick="getChildren()" value="${hw.id}" />${hw.name} </span>
+			      </c:forEach>
+			  </div>
+			</div>
+ 		  </ul>
+ 		  <ul class="" id="jtree" >
+  			<div>
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>分类：</div>
+			  <div class="col-md-7 service_list">
+				  <c:forEach items="${jjList }" var="obj" >
+					 <span><input type="checkbox" name="chkItem_3" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>

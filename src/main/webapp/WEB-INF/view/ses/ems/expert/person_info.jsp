@@ -52,6 +52,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}else{
 			$("#ztree").hide();
 		}
+	   	if(expertsTypeId==3 || expertsTypeId=="3"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+				async:false,
+				dataType:"json",
+				success:function(code){
+					var checklist = document.getElementsByName("chkItem");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+							});
+						} 
+					}
+				}
+			});
+			$("#jtree").show();
+		}else{
+			$("#jtree").hide();
+		}
 	}); 
 
 	var parentId ;
@@ -312,7 +335,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          		  			<ul class="ul_list" id="ztree" >
   				    		  <div>
 		      		  			<div class="col-md-5 title">
-		      		    		  <span class="star_red fl">*</span>产品服务/分类：
+		      		    		  <span class="star_red fl">*</span>分类：
 		      		  			</div>
 					  		    <div class="col-md-7 service_list">
 						  	      <c:forEach items="${spList }" var="obj" >
@@ -330,6 +353,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			            		  </c:forEach>
 			  	      			</div>
 		 	        		  </div>
+ 		  	      			</ul>
+ 		  	      			<ul class="ul_list" id="jtree" >
+  				    		  <div>
+		      		  			<div class="col-md-5 title">
+		      		    		  <span class="star_red fl">*</span>分类：
+		      		  			</div>
+					  		    <div class="col-md-7 service_list">
+						  	      <c:forEach items="${jjList}" var="obj" >
+							        <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name}</span>
+					      	      </c:forEach>
+					  		  	</div>
+				    		  </div>
  		  	      			</ul>
         	    		  </div>
        	      			</ul>

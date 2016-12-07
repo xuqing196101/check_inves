@@ -48,7 +48,30 @@ session.setAttribute("tokenSession", tokenValue);
 		}else{
 			$("#ztree").hide();
 		}
-	   	
+	   	if(expertsTypeId==3 || expertsTypeId=="3"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+				data:{"expertId":id},
+				async:false,
+				dataType:"json",
+				success:function(code){
+					var checklist = document.getElementsByName("chkItem");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+							});
+						} 
+					}
+				}
+			});
+			$("#jtree").show();
+		}else{
+			$("#jtree").hide();
+		}
 	   	var parentId ="";
 		var addressId="${expert.address}";
 		//地区回显和数据显示
@@ -322,8 +345,7 @@ session.setAttribute("tokenSession", tokenValue);
 			  <select name="expertsTypeId" id="expertsTypeId"  disabled="disabled" class="w178">
 		   		 <option value="">-请选择-</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
+		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 			  </select>
 		   </li>
          </ul>
@@ -341,6 +363,16 @@ session.setAttribute("tokenSession", tokenValue);
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
 					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name} </span>
+			      </c:forEach>
+			  </div>
+			</div>
+ 		  </ul>
+ 		  <ul class="" id="jtree" >
+  			<div>
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>分类：</div>
+			  <div class="col-md-7 service_list">
+				  <c:forEach items="${jjList }" var="obj" >
+					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>
