@@ -60,32 +60,32 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey"  width="20%">合同名称：</td>
-	            <td colspan="3">${draftCon.name}</td>
+	            <td colspan="3" >${draftCon.name}</td>
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="20%">合同编号：</td>
-	            <td>${draftCon.code}</td>
+	            <td width="30%">${draftCon.code}</td>
 	            <td class="bggrey" width="20%">合同批准文号：</td>
-	            <td>${draftCon.approvalNumber}</td>
+	            <td width="30%">${draftCon.approvalNumber}</td>
 	           
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="20%">需求部门：</td>
-	            <td>${draftCon.demandSector}</td>
+	            <td width="30%">${draftCon.demandSector}</td>
 	            <td class="bggrey" width="20%">采购机构资质证号：</td>
-	            <td>${draftCon.quaCode}</td>
+	            <td width="30%">${draftCon.quaCode}</td>
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="20%">项目预算科目：</td>
-	            <td>${draftCon.budgetSubjectItem}</td>
+	            <td width="30%">${draftCon.budgetSubjectItem}</td>
 	            <td class="bggrey" width="20%">计划任务文号：</td>
-	            <td>${draftCon.documentNumber}</td>
+	            <td width="30%">${draftCon.documentNumber}</td>
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="20%">合同金额：</td>
-	            <td>${draftCon.money}</td>
+	            <td width="30%">${draftCon.money}</td>
 	            <td class="bggrey" width="20%">合同预算：</td>
-	            <td>${draftCon.budget}</td>
+	            <td width="30%">${draftCon.budget}</td>
 	        </tr>
 	        </tbody>
 	        </table>
@@ -94,33 +94,33 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="20%">甲方单位：</td>
-	            <td>${draftCon.purchaseDepName}</td>
+	            <td width="30%">${draftCon.purchaseDepName}</td>
 	            <td class="bggrey" width="20%">甲方法人：</td>
-	            <td>${draftCon.purchaseLegal}</td>
+	            <td width="30%">${draftCon.purchaseLegal}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">甲方委托代理人：</td>
-	            <td>${draftCon.purchaseAgent}</td>
+	            <td width="30%">${draftCon.purchaseAgent}</td>
 	            <td class="bggrey" width="20%">甲方通讯地址：</td>
-	            <td>${draftCon.purchaseContactAddress}</td>
+	            <td width="30%">${draftCon.purchaseContactAddress}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">甲方联系人：</td>
-	            <td>${draftCon.purchaseContact}</td>
+	            <td width="30%">${draftCon.purchaseContact}</td>
 	            <td class="bggrey" width="20%">甲方联系电话：</td>
-	            <td>${draftCon.purchaseContactTelephone}</td>
+	            <td width="30%">${draftCon.purchaseContactTelephone}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">甲方付款单位：</td>
-	            <td>${draftCon.purchasePayDep}</td>
+	            <td width="30%">${draftCon.purchasePayDep}</td>
 	            <td class="bggrey" width="20%">甲方邮政编码：</td>
-	            <td>${draftCon.purchaseUnitpostCode}</td>
+	            <td width="30%">${draftCon.purchaseUnitpostCode}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">甲方开户银行：</td>
-	            <td>${draftCon.purchaseBank}</td>
+	            <td width="30%">${draftCon.purchaseBank}</td>
 	            <td class="bggrey" width="20%">甲方银行账号：</td>
-	            <td>${draftCon.purchaseBankAccount}</td>
+	            <td width="30%">${draftCon.purchaseBankAccount}</td>
 	        </tr>
 	        </tbody>
 	        </table>
@@ -129,33 +129,33 @@
 	        <tbody>
 	        <tr>
 	            <td class="bggrey" width="20%">乙方单位：</td>
-	            <td>${draftCon.supplierDepName}</td>
+	            <td width="30%">${draftCon.supplierDepName}</td>
 	            <td class="bggrey" width="20%">乙方法人：</td>
-	            <td>${draftCon.supplierLegal}</td>
+	            <td width="30%">${draftCon.supplierLegal}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">乙方委托代理人：</td>
-	            <td>${draftCon.supplierAgent}</td>
+	            <td width="30%">${draftCon.supplierAgent}</td>
 	            <td class="bggrey" width="20%">乙方通讯地址：</td>
-	            <td>${draftCon.supplierContactAddress}</td>
+	            <td width="30%">${draftCon.supplierContactAddress}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">乙方联系人：</td>
-	            <td>${draftCon.supplierContact}</td>
+	            <td width="30%">${draftCon.supplierContact}</td>
 	            <td class="bggrey" width="20%">乙方联系电话：</td>
-	            <td>${draftCon.supplierContactTelephone}</td>
+	            <td width="30%">${draftCon.supplierContactTelephone}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">乙方开户单位：</td>
-	            <td>${draftCon.supplierBankName}</td>
+	            <td width="30%">${draftCon.supplierBankName}</td>
 	            <td class="bggrey" width="20%">乙方邮政编码：</td>
-	            <td>${draftCon.supplierUnitpostCode}</td>
+	            <td width="30%">${draftCon.supplierUnitpostCode}</td>
 	        </tr>
 	         <tr>
 	            <td class="bggrey" width="20%">乙方开户银行：</td>
-	            <td>${draftCon.supplierBank}</td>
+	            <td width="30%">${draftCon.supplierBank}</td>
 	            <td class="bggrey" width="20%">乙方银行账号：</td>
-	            <td>${draftCon.supplierBankAccount}</td>
+	            <td width="30%">${draftCon.supplierBankAccount}</td>
 	        </tr>
 	        </tbody>
 	        </table>  
