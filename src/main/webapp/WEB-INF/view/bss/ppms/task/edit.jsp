@@ -130,13 +130,13 @@
         
   //修改      
   function edit(){
-    var fileName = $("#fileName").val();
+     var fileName = $("#fileName").val();
     var planNo = $("#planNo").val();
     if(fileName==""){
       layer.tips("计划名称不能为空","#fileName");
     }else if(planNo==""){
       layer.tips("计划编号不能为空","#planNo");
-    }else{
+    }else{ 
       /* layer.open({
         type: 1, //page层
         area : [ '400px', '200px' ],
@@ -192,7 +192,8 @@
 	      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
-			  <input type="text" id="fileName" maxlength="20" name="name" class="input_group" value="${task.name}"/>
+			  <input type="text" id="fileName" maxlength="20" name="name" class="input_group" onblur="verify();" value="${task.name}"/>
+			  <input type="hidden" name="collectId" value="${task.collectId }"/>
 			  <span class="add-on">i</span>
 			  <div class="cue">${ERR_name}</div>
 			</div>
@@ -200,7 +201,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
             <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input type="text" id="planNo" maxlength="20" name="documentNumber" class="input_group" value="${task.documentNumber}"/> 
+              <input type="text" id="planNo" maxlength="20" name="documentNumber" class="input_group" onblur="verify();" value="${task.documentNumber}"/> 
               <span class="add-on">i</span>
               <div class="cue">${ERR_documentNumber}</div>
             </div>

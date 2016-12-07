@@ -140,7 +140,6 @@ public class AreaController {
 			aa = areaService.listById(area.getId());
 		}
 		area.setIsDeleted(0);
-		area.setCreatedAt(new Date());
 		areaService.update(area);
 		String msg = "{\"msg\":\"success\"}";
 		return msg;

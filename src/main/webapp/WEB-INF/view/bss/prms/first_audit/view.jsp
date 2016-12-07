@@ -37,12 +37,12 @@
 	}
 	
 	//查看所有专家对供应商的初审明细
-	function viewByExpert(obj, packageId, projectId, flowDefineId){
+	function viewBySupplier(obj, packageId, projectId, flowDefineId){
 		var supplierId = $('input:radio[name="firstAuditBySupplier"]:checked').val();
-		if (typeof(expertId) == "undefined") {
+		if (typeof(supplierId) == "undefined") {
 			 layer.msg("请选择一名供应商的初审记录",{offset: "100px", shade:0.01});
 		}
-		if (typeof(expertId) != "undefined") {
+		if (typeof(supplierId) != "undefined") {
 			window.location.href="${pageContext.request.contextPath}/packageExpert/viewBySupplier.html?supplierId="+supplierId+"&packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+flowDefineId;
 		}
 	}
@@ -66,7 +66,7 @@
 	      </thead>
 	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
 		       <tr>
-		        <td class="tc">${ext.expert.relName } </td>
+		        <td class="tc">${ext.expert.relName} </td>
 		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
 		        	<td class="tc">
 		        	  <c:forEach items="${supplierExtList }" var="supplierExt">

@@ -17,7 +17,8 @@ function save(){
 		layer.alert("请先上传附件",{offset: ['222px', '390px'], shade:0.01});
 	}else{
 		var houzhui = text.split(".");
-		if(houzhui[1].toLowerCase()=='bmp' || houzhui[1].toLowerCase()=='png' || houzhui[1].toLowerCase()=='gif' && houzhui[1].toLowerCase()=='jpg' && houzhui[1].toLowerCase()=='jpeg'){
+		alert(houzhui[1].toLowerCase());
+		if(houzhui[1].toLowerCase()=='bmp' || houzhui[1].toLowerCase()=='png' || houzhui[1].toLowerCase()=='gif' || houzhui[1].toLowerCase()=='jpg' || houzhui[1].toLowerCase()=='jpeg'){
 			$("#contractType").submit();
 		}else{
 			layer.alert("上传的附件类型不正确",{offset: ['222px', '390px'], shade:0.01});

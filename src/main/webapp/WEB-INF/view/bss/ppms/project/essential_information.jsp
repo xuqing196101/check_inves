@@ -296,14 +296,14 @@
         <div class="tab-pane fade " id="tab-4" >
           <div class="margin-bottom-0  categories">
             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-               <f:show showId="upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+               <f:show showId="upload_id"  groups="upload123,upload_id"  delete="false" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
             </form>
           </div>
         </div>
-        <div class="tab-pane fade " id="tab-5" >
+        <div class="tab-pane fade active" id="tab-5" >
           <div>上传附件：</div>
-          <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
-          <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
+          <f:upload id="upload123" groups="upload123,upload_id"  businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
+          <f:show showId="upload123" groups="upload123,upload_id"  businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
         </div>
       </div>
     </div>

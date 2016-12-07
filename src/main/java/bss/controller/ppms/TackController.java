@@ -245,30 +245,40 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/update")
     public String updateById(@Valid Task task, BindingResult result, String id, PurchaseRequiredFormBean list, Model model){
-	   /* CollectPlan collectPlan = collectPlanService.queryById(ide);
-	    collectPlan.setFileName(fileName);
-	    collectPlan.setPlanNo(planNo);
-	    collectPlanService.update(collectPlan);*/
+	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+        List<String> lists = conllectPurchaseService.getNo(task.getCollectId());
+        if(list != null && lists.size()>0){
+            for(String s:lists){
+                Map<String,Object> map=new HashMap<String,Object>();
+                map.put("planNo", s);
+                List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+                if(list2 != null && list2.size()>0){
+                listp.addAll(list2);
+                }
+            }
+        }
 	    if(result.hasErrors()){
 	        List<FieldError> errors=result.getFieldErrors();
 	        for(FieldError fieldError:errors){
                 model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
             }
-	        
+	        model.addAttribute("lists", listp);
+	        model.addAttribute("task", task);
 	        return "bss/ppms/task/edit";
 	    }
 	    if(task.getName().length()>12){
             model.addAttribute("ERR_name", "字符太大");
+            model.addAttribute("lists", listp);
+            model.addAttribute("task", task);
             return "bss/ppms/task/edit";
         }
 	    if(task.getDocumentNumber().length()>12){
             model.addAttribute("ERR_documentNumber", "字符太大");
+            model.addAttribute("lists", listp);
+            model.addAttribute("task", task);
             return "bss/ppms/task/edit";
         }
-	    Task task2 = taskservice.selectById(id);
-	    task2.setName(task.getName());
-	    task2.setDocumentNumber(task.getDocumentNumber());
-	    taskservice.update(task2);
+	    taskservice.update(task);
         if(list!=null){
             if(list.getList()!=null&&list.getList().size()>0){
                 for( PurchaseRequired p:list.getList()){
