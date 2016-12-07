@@ -35,7 +35,7 @@
    <div class="headline-v2">
      <h2>我的协议供货订单</h2>
    </div>   
-     <h2 class="search_detail">
+     <div class="search_detail">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
@@ -52,9 +52,9 @@
     	</ul>
     	  <div class="clear"></div>
        </form>
-     </h2>
+     </div>
 
-     <h2 class="search_detail">
+     <div class="search_detail">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
@@ -102,7 +102,7 @@
 	    	</div>
     	  <div class="clear"></div>
        </form>
-     </h2>
+     </div>
 <!-- 表格开始-->
    <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="submit">新增</button>

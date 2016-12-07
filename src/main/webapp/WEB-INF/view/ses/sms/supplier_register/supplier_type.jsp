@@ -638,8 +638,8 @@
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 										<legend>供应商组织机构和人员</legend>
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
 													   <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${org } </div>
@@ -683,7 +683,7 @@
 	 											<legend>产品研发能力 </legend>
 	 			
 										<!-- 	<ul class="list-unstyled list-flow"> -->
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员比例(%)：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
 													    <span class="add-on cur_point">i</span>
@@ -799,9 +799,8 @@
 											 
 							 	<fieldset class="col-md-12 border_font mt20">
 						 	      <legend>供应商物资生产资质证书</legend>
-						 	      	<div  class="col-md-12 p0 ul_list mb50">
-								       <div class="col-md-12 p15 mt20">
-											<div class="fl">
+						 	      	<div  class="col-md-12 col-sm-12 col-xs-12 p0 mb50">
+											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 											  <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
 											  <button type="button" class="btn btn-windows delete" onclick="deleteCertPro()">删除</button>
 											  <span class="red">${cert_pro }</span>
