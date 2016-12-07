@@ -208,13 +208,13 @@
 	            </td>
 	            <td class="tc">${list.businessType }</td>
 	            <td class="tc" id="${list.id}">
-	              <c:if test="${list.status==0 }">待初审</c:if>
-	              <c:if test="${list.status==1 }">待复审</c:if>
-	              <c:if test="${list.status==7 }">初审退回</c:if>
-	              <c:if test="${list.status==8 }">复审退回</c:if>
-	              <c:if test="${list.status==3 }">已审核</c:if>
-	              <c:if test="${list.status==2 }">初审核未通过</c:if> 
-	              <c:if test="${list.status==4 }">复审未通过</c:if>
+	              <c:if test="${list.status == 0 }"><span class="label rounded-2x label-dark">待初审</span></td></c:if>
+	              <c:if test="${list.status == 1 }"><span class="label rounded-2x label-dark">待初审</span></c:if>
+	              <c:if test="${list.status == 7 }"> <span class="label rounded-2x label-dark">初审退回</span></c:if>
+	              <c:if test="${list.status == 8 }"><span class="label rounded-2x label-dark">复审退回</span></c:if>
+	              <c:if test="${list.status == 3 }"><span class="label rounded-2x label-u">已审核</span></c:if>
+	              <c:if test="${list.status == 2 }"><span class="label rounded-2x label-dark">初审核未通过</span></c:if> 
+	              <c:if test="${list.status == 4 }"><span class="label rounded-2x label-dark">复审未通过</span></c:if>
 	            </td>
             </tr>
           </c:forEach>
