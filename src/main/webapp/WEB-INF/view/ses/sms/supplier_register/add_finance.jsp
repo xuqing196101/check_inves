@@ -123,9 +123,14 @@
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 年份：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="year" readonly="readonly" onClick="WdatePicker({dateFmt : 'yyyy'})" />
-												</div>
+												<div class="select_common">
+<!-- 													<input class="span3" type="text" name="year" readonly="readonly" onClick="WdatePicker({dateFmt : 'yyyy'})" />
+ -->												<select name="year">
+ 														<c:forEach items="${yearList }" var="y">
+ 															<option value="${y}">${y }</option>
+ 														</c:forEach>
+ 													</select>
+ 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 会计实务所名称：</span>
 												<div class="input-append">
@@ -142,11 +147,11 @@
 													<input class="span3" type="text" name="auditors" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 指标：</span>
+											<!-- <li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 指标：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="quota" />
 												</div>
-											</li>
+											</li> -->
 											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资产总额（万元）：</span>
 												<div class="input-append">
 													<input class="span3"  onkeyup="checknums(this)" type="text" name="totalAssets" />
@@ -198,7 +203,7 @@
 											</div>
 											
 											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200"><i class="red">*</i> 所有者权益变动表：</span>
+											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200">所有者权益变动表：</span>
 												<up:upload id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
 												<up:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
 											</li>
