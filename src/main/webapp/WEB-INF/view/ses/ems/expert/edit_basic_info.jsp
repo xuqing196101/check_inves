@@ -143,7 +143,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function getChildren(){
 		// 技术类
 		var num = $("#expertsTypeId").val();
-		alert(num);
 		var checklist = document.getElementsByName ("chkItem_"+num);
 		var count=0;
 		var ids=[];

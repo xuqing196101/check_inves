@@ -222,8 +222,8 @@
                       <select name="status" id="status">
                                     <option selected="selected" value=''>-请选择-</option>
                                     <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-                                    <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
-                                    <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
+                                    <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
+                                    <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
                                     <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
                                </select>
                     </span>
@@ -261,7 +261,7 @@
 		  <th class="info">专家姓名</th>
 		  <th class="info">性别</th>
 		  <th class="info">类型</th>
-		  <th class="info">毕业院校</th>
+		  <th class="info">毕业院校及专业</th>
 		  <th class="info">工作单位</th>
 		  <th class="info">创建时间</th>
 		  <th class="info">审核状态</th>

@@ -37,6 +37,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.service.bms.AreaServiceI;
@@ -49,6 +50,7 @@ import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
@@ -107,6 +109,8 @@ public class ExpertController {
     private PreMenuServiceI menuService;// 地区查询
     @Autowired
     private RoleServiceI roleService;// 地区查询
+    @Autowired
+    private ProjectExtractService projectExtractService;//是否被抽取查询
 
     /**
      * 
@@ -976,6 +980,44 @@ public class ExpertController {
         request.setAttribute("result", new PageInfo<Expert>(allExpert));
         request.setAttribute("expert", expert);
         return "ses/ems/expert/list";
+    }
+    
+    /**
+     *〈简述〉
+     * 专家复审列表展示
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     * @param page
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/secondAuditExpert")
+    public String secondAuditExpert(Expert expert, Integer page,
+            HttpServletRequest request, HttpServletResponse response) {
+        expert.setStatus("1");
+        List<Expert> allExpert = service.selectAllExpert(page == null ? 0
+                : page, expert);
+        ProjectExtract projectExtract = new ProjectExtract();
+        a:for (Expert exp : allExpert) {
+            // 判断是否被抽取
+            projectExtract.setExpertId(exp.getId());
+            List<ProjectExtract> list = projectExtractService.list(projectExtract);
+            if (list.isEmpty()) {
+                allExpert.remove(exp);
+                continue a;
+            }
+            DictionaryData dictionaryData = dictionaryDataServiceI
+                .getDictionaryData(exp.getGender());
+            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+        }
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
+        request.setAttribute("result", new PageInfo<Expert>(allExpert));
+        request.setAttribute("expert", expert);
+        return "ses/ems/expert/second_audit_list";
     }
 
     /**
