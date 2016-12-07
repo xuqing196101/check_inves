@@ -681,8 +681,7 @@
 	<!-- 专家抽取集合 -->
 	<!-- AND ee.ADDRESS = #{address} -->
 	<!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
-	<!-- AND EE.STATUS = 1 -->
-	<!-- AND IS_BLACK = 0 -->
+	
 	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultMap">
 		SELECT
@@ -693,6 +692,8 @@
 		ON ee."ID" = EC.EXPERT_ID
 		WHERE
 		ee.IS_DELETE = 0
+		AND ee.STATUS = 1
+    AND ee.IS_BLACK = 0
 		<foreach item="item" collection="conTypes">
 			AND (EE.EXPERTS_TYPE_ID = #{item.expertsTypeId}
 			<if
