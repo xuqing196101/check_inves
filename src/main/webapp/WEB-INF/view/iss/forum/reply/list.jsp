@@ -105,7 +105,9 @@
 		}
     }
     
+    //删除
     function del(){
+    	var replyCon = $("#replyCon").val();
     	var id =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
@@ -113,38 +115,52 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath }/reply/delete.html?id="+id;
+				$.ajax({
+					type:"POST",
+					url:"${pageContext.request.contextPath }/reply/delete.html?id="+id,
+			       	success:function(data){
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
+				       	window.setTimeout(function(){
+				       		window.location.href="${pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon;
+				       	}, 1000);
+			       	}
+		       	});
 			});
 		}else{
 			layer.alert("请选择要删除的回复",{offset: ['30%', '40%'], shade:0.01});
 		}
     }
     
+    //新增
     function add(){
     	window.location.href="${pageContext.request.contextPath }/reply/add.html";
     }
     
 	//鼠标移动显示全部内容
 	function out(content){
-	if(content.length>=10){
-	    layer.msg(content, {
-            skin: 'demo-class',
-            shade:false,
-            area: ['600px'],
-            closeBtn : [0 , true],
-            time : 4000    //默认消息框不关闭
-        });//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
+		if(content.length>=10){
+	    	layer.msg(content, {
+            	skin: 'demo-class',
+            	shade:false,
+            	area: ['600px'],
+            	closeBtn : [0 , true],
+            	time : 4000    //默认消息框不关闭
+        	});//去掉msg图标
+		}else{
+			layer.closeAll();//关闭消息框
+		}
 	}
-}
+	
+	//查询
     function search(){
         var replyCon = $("#replyCon").val();
         location.href = "${ pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon;
-     }
-     function reset(){
-         $("#replyCon").val("");
-     }	
+    }
+    
+    //重置
+    function reset(){
+        $("#replyCon").val("");
+    }	
 	
   </script>
   </head>
@@ -175,16 +191,13 @@
      </ul>
      <div class="clear"></div>
   </h2>
-<!-- 表格开始-->
-
-   <div class="col-md-12 pl20 mt10">
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-	<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+  
+	<!-- 表格开始-->
+	<div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 	</div>
 
-   
-
-   <div class="content table_box">
+   	<div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 			<tr>

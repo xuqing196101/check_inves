@@ -376,7 +376,8 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(String id){		
+	@ResponseBody
+	public void delete(String id){		
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			postService.deleteByPrimaryKey(str);
@@ -387,8 +388,8 @@ public class PostManageController {
 				replyService.deleteByPrimaryKey(reply.getId());
 			}
 		}
-		return "redirect:getlist.html";
 	}
+	
 	/**   
 	* @Title: getIndexList
 	* @author Peng Zhongjun

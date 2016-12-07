@@ -423,7 +423,6 @@ public class ParkManageController extends BaseSupplierController {
 		model.addAttribute("list", parklist2);
 		List<Post> hotPostList = postService.queryHotPost();
 		model.addAttribute("hotPostList", hotPostList);
-
 		return "iss/forum/forum_Index";
 	}
 	
@@ -457,5 +456,51 @@ public class ParkManageController extends BaseSupplierController {
 	@RequestMapping("/backPark")
 	public String backPark(){
 		return "redirect:getlist.html";
+	}
+	
+	/**
+	 * 
+	* @Title: viewTopic
+	* @author ZhaoBo
+	* @date 2016-12-7 下午12:32:36  
+	* @Description: 查看板块下面所有的主题 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/viewTopic")
+	public String viewTopic(HttpServletRequest request,Integer page,Model model){
+		Map<String,Object> map = new HashMap<>();
+		String parkId = request.getParameter("parkId");
+		String name = request.getParameter("name");
+		String content = request.getParameter("content");
+		map.put("parkId", parkId);
+		if(name != null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		if(content != null && !content.equals("")){
+			map.put("content", "%"+content+"%");
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Topic> list = topicService.selectByParkIdAndName(map);
+		for (Topic topic2 : list) {
+			Post post = new Post();
+			post.setTopic(topic2);
+			BigDecimal postcount = postService.queryByCount(post);
+			topic2.setPostcount(postcount);
+			BigDecimal replycount = replyService.queryCountByTopicId(topic2.getId());
+			topic2.setReplycount(replycount);
+		}
+		model.addAttribute("list", new PageInfo<Topic>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("parkId", parkId);
+		model.addAttribute("content", content);
+		Park park = parkService.selectByPrimaryKey(parkId);
+		model.addAttribute("park", park);
+		return "iss/forum/park/park_topic";
 	}
 }

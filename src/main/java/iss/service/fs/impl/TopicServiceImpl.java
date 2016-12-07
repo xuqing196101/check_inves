@@ -89,4 +89,13 @@ public class TopicServiceImpl implements TopicService{
 		return topicMapper.checkTopicName(map);
 	}
 
+	/* (non-Javadoc)
+	 * @see iss.service.fs.TopicService#selectByParkIdAndName(java.util.Map)
+	 */
+	@Override
+	public List<Topic> selectByParkIdAndName(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return topicMapper.selectByParkIdAndName(map);
+	}
+
 }

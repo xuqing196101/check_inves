@@ -130,7 +130,11 @@
 		}
     }
     
+  	//删除
     function del(){
+    	var postName = $("#postName").val();
+        var parkId = $("#parkId  option:selected").val();
+        var topicId = $("#topicId  option:selected").val();
     	var id =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
@@ -138,7 +142,16 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath }/post/delete.html?id="+id;
+				$.ajax({
+					type:"POST",
+					url:"${pageContext.request.contextPath }/post/delete.html?id="+id,
+			       	success:function(data){
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
+				       	window.setTimeout(function(){
+				       		window.location.href="${pageContext.request.contextPath }/post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
+				       	}, 1000);
+			       	}
+		       	});
 			});
 		}else{
 			layer.alert("请选择要删除的帖子",{offset: ['30%','40%'], shade:0.01});
@@ -240,7 +253,7 @@
             </span>
        </li>
         <li class="fl">
-         <label class="fl ">所属主题：</label>
+         <label class="fl">所属主题：</label>
             <span>
             <select id ="topicId" class="w178 " >
              <option></option>
@@ -290,10 +303,10 @@
 				<c:set value="${post.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${post.id}')"  class=" pointer ">${fn:substring(name,0,10)}...</td>
+					<td onclick="view('${post.id}')"  class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut()">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${post.id}')"  class=" pointer ">${name } </td>
+					<td onclick="view('${post.id}')"  class="pointer">${name } </td>
 				</c:if>		
 				<c:if test="${post.isTop == 0 ||post.isTop == ''||post.isTop == null }">
 				<td class="tc pointer" onclick="view('${post.id}')">否</td>

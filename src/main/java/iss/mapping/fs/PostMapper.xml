@@ -22,7 +22,7 @@
 			  </resultMap>
 			  
 	  	  
-			  <!-- 表名 -->
+			  	<!-- 表名 -->
 			  	<sql id="Tabel_Name">
 					T_ISS_FS_POST
 				</sql>
@@ -98,7 +98,7 @@
           <select id="queryHotPost"  resultMap="PostReplyMap">               
                 select 
                 <include refid="Base_Column_List" />
-                from ( SELECT * FROM T_ISS_FS_POST
+                from ( SELECT * FROM T_ISS_FS_POST WHERE IS_DELETED=0
                 ORDER BY REPLY_COUNT DESC )
                 WHERE
                 ROWNUM &lt;= 10
@@ -108,6 +108,7 @@
                 select 
                 <include refid="Base_Column_List" />
                 from T_ISS_FS_POST
+                WHERE IS_DELETED=0
                 ORDER BY REPLY_COUNT DESC
           </select>
 		  	  	
@@ -209,6 +210,9 @@
 		      <if test="park != null">
 		        PARK_ID = #{park.id},
 		      </if>
+		      <if test="lastReplyer != null">
+		        LAST_RE_ID = #{lastReplyer.id},
+		      </if>
 		      <if test="topic != null">
 		        TOPIC_ID = #{topic.id},
 		      </if>
@@ -261,5 +265,17 @@
                 ORDER BY PUBLISHED_At DESC                                          
                 </trim>		    
 		  </select>
-
+			
+		 <!-- 9.根据topicId和name查询 -->
+		  <select id="selectByTopicIdAndName" parameterType="Map" resultMap="PostResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_POST
+			    where TOPIC_ID = #{topicId} 
+			    <if test="name != null and name!=''">
+                    AND NAME LIKE #{name}
+                 </if> 
+			    AND IS_DELETED = 0
+			    ORDER BY PUBLISHED_At DESC
+		  </select>
 </mapper>
