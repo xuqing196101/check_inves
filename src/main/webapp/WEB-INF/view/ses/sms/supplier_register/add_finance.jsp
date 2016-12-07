@@ -97,10 +97,10 @@
 </head>
 
 <body>
-<div class="wrapper">
+
 
 		<!--基本信息-->
-		<div class="container content height-300">
+		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
@@ -119,12 +119,12 @@
 									
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-200" id="tab-1">
+								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 年份：</span>
-												<div class="select_common">
-<!-- 													<input class="span3" type="text" name="year" readonly="readonly" onClick="WdatePicker({dateFmt : 'yyyy'})" />
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>年份：</span>
+												<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+<!-- 													<input type="text" name="year" readonly="readonly" onClick="WdatePicker({dateFmt : 'yyyy'})" />
  -->												<select name="year">
  														<c:forEach items="${yearList }" var="y">
  															<option value="${y}">${y }</option>
@@ -132,89 +132,72 @@
  													</select>
  												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 会计实务所名称：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="name" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>会计实务所名称：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="name" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 事务所联系电话：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="telephone" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>事务所联系电话：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="telephone" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 审计人姓名：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="auditors" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>审计人姓名：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="auditors" />
 												</div>
 											</li>
-											<!-- <li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 指标：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="quota" />
+											<!-- <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>指标：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="quota" />
 												</div>
 											</li> -->
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资产总额（万元）：</span>
-												<div class="input-append">
-													<input class="span3"  onkeyup="checknums(this)" type="text" name="totalAssets" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产总额（万元）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input  onkeyup="checknums(this)" type="text" name="totalAssets" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 负债总额（万元）：</span>
-												<div class="input-append">
-													<input class="span3" onkeyup="checknums(this)" type="text" name="totalLiabilities" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>负债总额（万元）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input onkeyup="checknums(this)" type="text" name="totalLiabilities" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 净资产总额（万元）：</span>
-												<div class="input-append">
-													<input class="span3" onkeyup="checknums(this)" type="text" name="totalNetAssets" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>净资产总额（万元）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input onkeyup="checknums(this)" type="text" name="totalNetAssets" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 营业收入（万元）：</span>
-												<div class="input-append">
-													<input class="span3" onkeyup="checknums(this)" type="text" name="taking" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>营业收入（万元）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input onkeyup="checknums(this)" type="text" name="taking" />
 												</div>
 											</li>
-											
-											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200"><i class="red">*</i> 财务审计报告意见：</span>
-											
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>财务审计报告意见：</span>
 												<up:upload id="auditopinion_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
 												<up:show showId="auditopinion_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
 											</li>
-											</div>
-											
-											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200"><i class="red">*</i> 资产负债表：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产负债表：</span>
 												<up:upload id="liabilities_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
 												<up:show showId="liabilities_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}"/>
 											</li>
-											</div>
-											
-											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200"><i class="red">*</i> 利润表：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>利润表：</span>
 												<up:upload id="profit_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
 												<up:show showId="profit_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}"/>
 											</li>
-											</div>
-											
-											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200"><i class="red">*</i> 现金流量表：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>现金流量表：</span>
 												<up:upload id="cashflow_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
 												<up:show showId="cashflow_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}"/>
 											</li>
-											</div>
-											
-											<div>
-											<li class="col-md-6 col-sm-12 col-xs-12 mb25"><span class="w200">所有者权益变动表：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所有者权益变动表：</span>
 												<up:upload id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
 												<up:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
 											</li>
-											</div>
-											
 											<div class="clear"></div>
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+							<div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack()">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>

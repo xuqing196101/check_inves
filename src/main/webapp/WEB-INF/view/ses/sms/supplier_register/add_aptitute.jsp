@@ -106,8 +106,6 @@
 <div class="wrapper">
 
 		<!--基本信息-->
-		<div class="container content height-350">
-			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<form id="cert_eng_form_id" method="post" target="_parent">
@@ -116,112 +114,105 @@
 							<input name="id" value="${uuid}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格类型：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="certType" />
+
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格类型：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0" >
+													<input type="text" name="certType" />
+													<div class="cue" id="cert_type"></div>
 												</div>
-												<div class="cue" id="cert_type"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 证书编号：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书编号：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span5" type="text" name="certCode" />
+													<div class="cue" id="cert_code"></div>
 												</div>
-												<div class="cue" id="cert_code"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格序列：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格序列：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span5" type="text" name="aptituteSequence" />
+													<div class="cue" id="cert_seq"></div>
 												</div>
-												<div class="cue" id="cert_seq"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 专业类别：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>专业类别：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span5" type="text" name="professType" />
+													<div class="cue" id="cert_proType"></div>
 												</div>
-												<div class="cue" id="cert_proType"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格等级：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格等级：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span5" type="text" name="aptituteLevel" />
+													<div class="cue" id="cert_level"></div>s
 												</div>
-												<div class="cue" id="cert_level"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 是否主项资质：</span>
-												 <div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>批准资质资格内容：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteContent" />
+													<div class="cue" id="cert_content"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>首次批准资质资格文号：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteCode" />
+													<div class="cue" id="cert_ap_code"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>首次批准资质资格日期：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteDate" readonly="readonly" onClick="WdatePicker()" />
+													<div class="cue" id="cert_sdate"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格取得方式：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteWay" />
+													<div class="cue" id="cert_way"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格状态变更时间 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteChangeAt" readonly="readonly" onClick="WdatePicker()" />
+												  <div class="cue" id="cert_change_date"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格状态变更原因：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input class="span5" type="text" name="aptituteChangeReason" />
+													<div class="cue" id="cert_change_reason"></div>
+												</div>
+											</li>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>是否主项资质：</span>
+												 <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 													<select name="isMajorFund">
 														<option value="1">是</option>
 														<option value="0">否</option>
 													</select>
 												 </div>
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 批准资质资格内容：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteContent" />
-												</div>
-												<div class="cue" id="cert_content"></div>
-											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 首次批准资质资格文号：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteCode" />
-												</div>
-												<div class="cue" id="cert_ap_code"></div>
-											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 首次批准资质资格日期：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteDate" readonly="readonly" onClick="WdatePicker()" />
-												</div>
-												<div class="cue" id="cert_sdate"></div>
-											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格取得方式：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteWay" />
-												</div>
-												<div class="cue" id="cert_way"></div>
-											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格状态：</span>
-											 <div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格状态：</span>
+											 <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 													<select name="aptituteStatus">
 														<option value="1">有效</option>
 														<option value="0">无效</option>
 													</select>
 												</div>  
 											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格状态变更时间 ：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteChangeAt" readonly="readonly" onClick="WdatePicker()" />
-												</div>
-												<div class="cue" id="cert_change_date"></div>
-											</li>
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 资质资格状态变更原因：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="aptituteChangeReason" />
-												</div>
-												<div class="cue" id="cert_change_reason"></div>
-											</li>
-											
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 附件上传：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a> 附件上传：</span>
 											 	<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCertFile}" auto="true" />
 												  <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCertFile}"/>
 											   <div class="cue" id="cert_file"></div>
 											</li>
-											
 											<div class="clear"></div>
 										</ul>
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+							<div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>
 						</form>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>
