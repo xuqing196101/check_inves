@@ -2516,3 +2516,12 @@ img.sign_left_image {
   }
 
 }
+/** 查看页面竖线无白色背景样式 */
+h2.list_title{
+	height:16px;
+	line-height: 16px;
+	border-left:4px solid #2c9fa6;
+	padding-left:10px;
+	font-size: 16px;
+	margin: 15px 0;
+}
