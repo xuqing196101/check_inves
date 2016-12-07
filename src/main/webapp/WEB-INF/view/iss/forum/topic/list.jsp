@@ -79,8 +79,6 @@
 		   }
 	}
 	
-	
-	
 	//查看详情
   	function view(id){
   		window.location.href="${pageContext.request.contextPath }/topic/view.html?id="+id;
@@ -110,7 +108,21 @@
 		}else{
 			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
 		}
-  		
+  	}
+  	
+  	//主题下查看帖子
+  	function viewPost(){
+  		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.location.href="${pageContext.request.contextPath }/topic/viewPost.html?topicId="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
+		}else{
+			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
+		}
   	}
   	
   	//修改主题
@@ -128,7 +140,10 @@
 		}
     }
     
+  	//删除
     function del(){
+    	var condition = $("#condition").val();
+	    var parkId = $("#parkId  option:selected").val();
     	var id =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
@@ -136,32 +151,43 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${pageContext.request.contextPath }/topic/delete.html?id="+id;
+				$.ajax({
+					type:"POST",
+					url:"${pageContext.request.contextPath }/topic/delete.html?id="+id,
+			       	success:function(data){
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
+				       	window.setTimeout(function(){
+				       		window.location.href="${pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId;
+				       	}, 1000);
+			       	}
+		       	});
 			});
 		}else{
 			layer.alert("请选择要删除的主题",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
+  	//新增
     function add(){
     	window.location.href="${pageContext.request.contextPath }/topic/add.html";
     }
     
 	//鼠标移动显示全部内容
 	function out(content){
-	if(content.length >= 10){
-	    layer.msg(content, {
-            skin: 'demo-class',
-            shade:false,
-            area: ['600px'],
-            closeBtn : [0 , true],
-            time : 4000    //默认消息框不关闭
-        });//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
+		if(content.length >= 10){
+	    	layer.msg(content, {
+            	skin: 'demo-class',
+            	shade:false,
+            	area: ['600px'],
+            	closeBtn : [0 , true],
+            	time : 4000    //默认消息框不关闭
+        	});//去掉msg图标
+		}else{
+			layer.closeAll();//关闭消息框
+		}
 	}
-}
-	 function search(){
+	
+	function search(){
 	    var condition = $("#condition").val();
 	    var parkId = $("#parkId  option:selected").val();
 	    location.href = "${pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId;
@@ -192,8 +218,8 @@
    
    <div class="container">
 
-<!-- 项目戳开始 -->
-<h2 class="search_detail">
+	<!-- 项目戳开始 -->
+	<h2 class="search_detail">
      <ul class="demand_list ">
        <li class="fl">
        <label class="fl">主题介绍：</label>
@@ -222,20 +248,21 @@
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
+		<button class="btn" type="button" onclick="viewPost()">查看帖子</button>
 	</div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
     
 		<thead>
-			<tr>
-				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info">序号</th>
-				<th class="info">主题名称</th>
-				<th class="info">主题介绍</th>
-				<th class="info">创建人</th>
-				<th class="info">所属版块</th>
-				<th class="info">帖子数</th>
-				<th class="info">回复数</th>
+			<tr class="info">
+				<th class="w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+			    <th class="w50">序号</th>
+				<th>主题名称</th>
+				<th>主题介绍</th>
+				<th>创建人</th>
+				<th>所属版块</th>
+				<th>帖子数</th>
+				<th>回复数</th>
 			</tr>
 		</thead>
 		

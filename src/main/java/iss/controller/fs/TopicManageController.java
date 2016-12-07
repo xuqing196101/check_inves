@@ -96,7 +96,7 @@ public class TopicManageController extends BaseSupplierController {
 			post.setTopic(topic2);
 			BigDecimal postcount = postService.queryByCount(post);
 			topic2.setPostcount(postcount);
-			BigDecimal replycount = replyService.queryCountByParkId(topic2.getId());
+			BigDecimal replycount = replyService.queryCountByTopicId(topic2.getId());
 			topic2.setReplycount(replycount);
 		}
 		List<Park> parks = parkService.getAll(null);
@@ -404,4 +404,41 @@ public class TopicManageController extends BaseSupplierController {
 	public Topic queryParkIdByTopicId(HttpServletRequest request){
 		return topicService.selectByPrimaryKey(request.getParameter("id"));
 	}
+	
+	/**
+	 * 
+	* @Title: viewPost
+	* @author ZhaoBo
+	* @date 2016-12-7 下午2:12:04  
+	* @Description: 查看主题下的帖子 
+	* @param @param request
+	* @param @param page
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/viewPost")
+	public String viewPost(HttpServletRequest request,Integer page,Model model){
+		Map<String,Object> map = new HashMap<>();
+		String topicId = request.getParameter("topicId");
+		String name = request.getParameter("name");
+		map.put("topicId", topicId);
+		if(name != null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.selectByTopicIdAndName(map);
+		model.addAttribute("list", new PageInfo<Post>(list));
+		model.addAttribute("name", name);
+		model.addAttribute("topicId", topicId);
+		Topic topic = topicService.selectByPrimaryKey(topicId);
+		model.addAttribute("topic", topic);
+		return "iss/forum/topic/topic_post";
+	}
+	
 }

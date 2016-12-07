@@ -105,4 +105,13 @@ public class PostServiceImpl implements PostService{
 	
 		return postMapper.queryMyPost(map);
 	}
+
+	/* (non-Javadoc)
+	 * @see iss.service.fs.PostService#selectByTopicIdAndName(java.util.Map)
+	 */
+	@Override
+	public List<Post> selectByTopicIdAndName(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return postMapper.selectByTopicIdAndName(map);
+	}
 }

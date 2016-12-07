@@ -173,4 +173,20 @@
               AND IS_DELETED = 0
               AND PARK_ID = #{parkId}
           </select> 
+          
+           <!-- 8.根据parkId和主题名称查询 -->
+		  <select id="selectByParkIdAndName" parameterType="Map" resultMap="TopicResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_TOPIC
+			    where PARK_ID = #{parkId} 
+			    <if test="name != null and name != ''">
+		        	AND NAME LIKE #{name}
+		      	</if>
+		      	<if test="content != null and content != ''">
+		        	AND CONTENT LIKE #{content}
+		      	</if>	
+			    AND IS_DELETED = 0
+			    ORDER BY CREATED_AT DESC
+		  </select>
 </mapper>

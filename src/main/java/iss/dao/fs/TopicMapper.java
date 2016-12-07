@@ -91,6 +91,7 @@ public interface TopicMapper {
 	* @return List<Topic> 
 	*/
     List<Topic> selectByParkID(String parkID);
+    
     /**
      * 
     * @Title: checkTopicName
@@ -102,5 +103,16 @@ public interface TopicMapper {
     * @return int
      */
     BigDecimal checkTopicName(Map<String,Object> map);
-
+    
+    /**
+     * 
+    * @Title: selectByParkIdAndName
+    * @author ZhaoBo
+    * @date 2016-12-7 下午12:49:01  
+    * @Description: 根据主题名称和parkId查询 
+    * @param @param map
+    * @param @return      
+    * @return List<Topic>
+     */
+    List<Topic> selectByParkIdAndName(Map<String,Object> map);
 }
