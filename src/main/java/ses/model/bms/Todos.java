@@ -1,5 +1,6 @@
 package ses.model.bms;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Todos {
@@ -17,7 +18,7 @@ public class Todos {
      * 表字段 : T_SES_BMS_TODOS.CREATED_AT
      * </pre>
      */
-    private Date createdAt;
+    private Timestamp createdAt;
 
     /**
      * <pre>
@@ -140,7 +141,7 @@ public class Todos {
      *
      * @return T_SES_BMS_TODOS.CREATED_AT：创建日期 格式年月日时分秒
      */
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
@@ -153,7 +154,7 @@ public class Todos {
      * @param createdAt
      *            T_SES_BMS_TODOS.CREATED_AT：创建日期 格式年月日时分秒
      */
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
