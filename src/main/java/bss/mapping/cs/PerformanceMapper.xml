@@ -11,10 +11,12 @@
     <result column="COMPLETED_STATUS" jdbcType="DECIMAL" property="completedStatus" />
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
     <result column="CHECK_MASS" jdbcType="VARCHAR" property="checkMass"/>
+    <result column="CREATED_AT" property="createdAt"/>
+    <result column="UPDATED_AT" property="updatedAt"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, DELIVERY_SCHEDULE, FUNDS_PAID, DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, COMPLETED_STATUS, 
-    CONTRACT_ID,CHECK_MASS
+    CONTRACT_ID,CHECK_MASS,CREATED_AT,UPDATED_AT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -31,12 +33,14 @@
   	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
     	#{item}
     </foreach>
+    order by UPDATED_AT DESC
   </select>
   
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAll" parameterType="Map" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PERFORMANCE
+  	order by UPDATED_AT DESC
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -46,10 +50,11 @@
   <insert id="insert" parameterType="bss.model.cs.Performance">
     insert into T_BSS_CS_PERFORMANCE (ID, DELIVERY_SCHEDULE, FUNDS_PAID, 
       DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, 
-      COMPLETED_STATUS, CONTRACT_ID,CHECK_MASS)
+      COMPLETED_STATUS, CONTRACT_ID,CHECK_MASS,CREATED_AT,UPDATED_AT)
     values (#{id,jdbcType=VARCHAR}, #{deliverySchedule,jdbcType=VARCHAR}, #{fundsPaid,jdbcType=VARCHAR}, 
       #{draftSignedAt,jdbcType=DATE}, #{formalSignedAt,jdbcType=DATE}, #{delivery,jdbcType=DATE}, 
-      #{completedStatus,jdbcType=DECIMAL}, #{contractId,jdbcType=VARCHAR}, #{checkMass,jdbcType=VARCHAR})
+      #{completedStatus,jdbcType=DECIMAL}, #{contractId,jdbcType=VARCHAR}, #{checkMass,jdbcType=VARCHAR},
+      #{createdAt,jdbcType=DATE},#{updatedAt,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.Performance">
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
@@ -84,6 +89,12 @@
       <if test="checkMass != null">
         CHECK_MASS,
       </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -112,6 +123,12 @@
       </if>
       <if test="checkMass != null">
         #{checkMass,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
       </if>
     </trim>
   </insert>
@@ -142,6 +159,12 @@
       <if test="checkMass != null">
         CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
       </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -154,7 +177,9 @@
       DELIVERY = #{delivery,jdbcType=DATE},
       COMPLETED_STATUS = #{completedStatus,jdbcType=DECIMAL},
       CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
-      CHECK_MASS = #{checkMass,jdbcType=VARCHAR}
+      CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

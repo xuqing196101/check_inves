@@ -284,6 +284,7 @@
 		</if>
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1
+		order by UPDATED_AT DESC
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->

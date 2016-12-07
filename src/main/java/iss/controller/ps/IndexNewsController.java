@@ -186,7 +186,7 @@ public class IndexNewsController extends BaseSupplierController{
 		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
 		Integer endRow = 0;
 		if(indexNewsList!=null){
-			endRow = (page-1)+indexNewsList.size();
+			endRow = startRow+(indexNewsList.size()-1);
 		}
 		model.addAttribute("total", pages);
 		model.addAttribute("startRow", startRow);

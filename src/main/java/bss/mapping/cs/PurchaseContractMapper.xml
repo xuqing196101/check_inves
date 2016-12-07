@@ -153,6 +153,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
+  	order by UPDATED_AT DESC
   </select>
   
   <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">
@@ -185,6 +186,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
+  	order by UPDATED_AT DESC
   </select>
   
   <select id="selectFormalContract" parameterType="Map" resultMap="purContractMap">
@@ -216,6 +218,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
+  	order by UPDATED_AT DESC
   </select>
   
   <select id="selectByCode" parameterType="java.lang.String" resultMap="purContractMap">
