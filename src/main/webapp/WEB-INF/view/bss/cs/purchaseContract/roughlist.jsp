@@ -231,7 +231,7 @@
 <!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectRoughContract.html" method="post">
     <input type="hidden" value="" name="page" id="page"/>
-     <h2 class="search_detail">
+     <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
 	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
@@ -247,7 +247,7 @@
     	  </div>
     	</ul>
     	  <div class="clear"></div>
-    	  </h2>
+    	  </div>
       </form>
          <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn btn-windows edit" onclick="updateRough()">修改</button>

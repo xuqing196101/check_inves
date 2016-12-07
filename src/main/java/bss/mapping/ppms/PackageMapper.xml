@@ -267,7 +267,7 @@
 	</delete>
 
 	<select id="selectAllByIsWon" parameterType="Map" resultMap="BaseResultMap">
-		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME name FROM
+		select distinct pa.id as id,pa.PROJECT_ID projectId,pa.NAME name,pa.updated_at FROM
 		T_BSS_PPMS_PACKAGE pa,
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS ch
 		where

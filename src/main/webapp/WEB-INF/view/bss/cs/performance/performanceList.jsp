@@ -206,7 +206,7 @@
    </div> 
 <!-- 项目戳开始 -->
   <form id="form1" action="${pageContext.request.contextPath}/performance/selectAll.html">
-     <h2 class="search_detail">
+     <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">合同类型：</label><span>
           <select name="contractType" id="contractType">
@@ -220,7 +220,7 @@
 	    	<input class="btn" type="reset" value="重置"/> 	
     	</ul>
     	  <div class="clear"></div>
-     </h2>
+     </div>
     </form>	
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="updateEcetion()">修改履约情况</button>
