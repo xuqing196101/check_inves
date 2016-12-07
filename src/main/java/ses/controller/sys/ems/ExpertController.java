@@ -304,6 +304,7 @@ public class ExpertController {
         int flag = 0;
         // 暂存 或退回后重新填写
         Expert expert = service.selectByPrimaryKey(typeId);
+        model.addAttribute("expert", expert);
         String stepNumber;
         if ("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
             stepNumber = "one";

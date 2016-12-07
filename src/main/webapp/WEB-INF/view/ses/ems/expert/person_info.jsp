@@ -130,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    <table class="table table-bordered">
 		                  <tbody>
 		                    <tr>
-					          <td width="25%" class="info">联系电话（固话）：</td>
+					          <td width="25%" class="info">固定电话：</td>
 					          <td width="25%"><input class="span2" maxlength="15" value="${expert.telephone }" name="telephone" id="telephone" type="text"></td>
 					    	  <td width="25%" class="info">单位地址：</td>
 					    	  <td width="25%"><input class="span2" maxlength="40" value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text"></td>
@@ -184,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    	  <td width="25%">${expert.nation}</td>
 					  		</tr>
 					  		<tr>
-					    	  <td width="25%" class="info">毕业院校：</td>
+					    	  <td width="25%" class="info">毕业院校及专业：</td>
 					    	  <td width="25%">${expert.graduateSchool }</td>
 					    	  <td width="25%" class="info">专家技术职称：</td>
 					    	  <td width="25%">${expert.professTechTitles}</td>
@@ -200,21 +200,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    	  </td>
 					  		</tr>
 					   		<tr>
-					    	  <td width="25%" class="info">专业：</td>
+					    	  <td width="25%" class="info">从事专业：</td>
 					    	  <td width="25%">${expert.major }</td>
-					    	  <td width="25%" class="info">从事专业年度：</td>
+					    	  <td width="25%" class="info">从事专业起始年度：</td>
 					    	  <td width="25%"><fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 					  		</tr>
 					   		<tr>
 					    	  <td width="25%" class="info">工作单位：</td>
 					    	  <td width="25%">${expert.workUnit }</td>
-					    	  <td width="25%" class="info">传真：</td>
+					    	  <td width="25%" class="info">传真电话：</td>
 					    	  <td width="25%">${expert.fax }</td>
 					  		</tr>
 					   		<tr>
-					    	  <td width="25%" class="info">邮政编码：</td>
+					    	  <td width="25%" class="info">单位邮编：</td>
 					    	  <td width="25%">${expert.postCode }</td>
-					    	  <td width="25%" class="info">取得技术时间：</td>
+					    	  <td width="25%" class="info">取得技术职称时间：</td>
 					    	  <td width="25%"><fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 					  		</tr>
 					   		<tr>
@@ -226,8 +226,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					   		<tr>
 					    	  <td width="25%" class="info">现任职务：</td>
 					    	  <td width="25%">${expert.atDuty }</td>
-					    	  <td width="25%" class="info"></td>
-					    	  <td width="25%"></td>
+					    	  <td width="25%" class="info">个人邮箱：</td>
+					    	  <td width="25%">${expert.email}</td>
 					  		</tr>
 						  </tbody>
 	 				  	</table>
@@ -269,7 +269,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 						  </tr>  
 						  <tr>
-							<td width="25%" class="info">专家合同书上传：</td>
+							<td width="25%" class="info">专家承诺书上传：</td>
 							<td>
 						  	  <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 							</td>
@@ -305,7 +305,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  		    <select name="expertsTypeId" id="expertsTypeId" disabled="disabled"  class="w178">
 				   		 		  <option value="">-请选择-</option>
 				   		 	 	  <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
-				   		 		  <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
 				   		 		  <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 					  		    </select>
 		   					  </li>
@@ -323,7 +322,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    		  </div>
 			        		  <div id="hwType">
 			  		  			<div class="col-md-5 title">
-			  		    		  <span class="star_red fl">*</span>货物分类：
+			  		    		  <span class="star_red fl">*</span>物资分类：
 			  		  			</div>
 			  		  			<div class="col-md-7 service_list">
 				     			  <c:forEach items="${hwList }" var="hw" >

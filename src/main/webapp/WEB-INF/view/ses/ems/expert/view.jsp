@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td width="25%">${expert.mobile }</td>
 				  </tr>
 				   <tr>
-				    <td width="25%" class="info">联系电话（固话）：</td>
+				    <td width="25%" class="info">固定电话：</td>
 				    <td width="25%">${expert.telephone }</td>
 				    <td width="25%" class="info">单位地址：</td>
 				    <td width="25%">${expert.unitAddress }</td>
@@ -171,14 +171,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td width="25%">${expert.nation}</td>
 				  </tr>
 				  <tr>
-				    <td width="25%" class="info">毕业院校：</td>
+				    <td width="25%" class="info">毕业院校及专业：</td>
 				    <td width="25%">${expert.graduateSchool }</td>
-				    <td width="25%" class="info">专家技术职称：</td>
+				    <td width="25%" class="info">专家技术职称/职业资格：</td>
 				    <td width="25%">${expert.professTechTitles}</td>
 				  </tr>
 				  <tr>
 				    <td width="25%" class="info">参加工作时间：</td>
-				    <td width="25%"><fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+				    <td width="25%"><fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM"/></td>
 				    <td width="25%" class="info">最高学历：</td>
 				    <td width="25%">
 				      <c:forEach items="${xlList }" var="xl">
@@ -187,21 +187,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    </td>
 				  </tr>
 				   <tr>
-				    <td width="25%" class="info">专业：</td>
+				    <td width="25%" class="info">从事专业：</td>
 				    <td width="25%">${expert.major }</td>
-				    <td width="25%" class="info">从事专业年度：</td>
+				    <td width="25%" class="info">从事专业起始年度：</td>
 				    <td width="25%"><fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 				  </tr>
 				   <tr>
 				    <td width="25%" class="info">工作单位：</td>
 				    <td width="25%">${expert.workUnit }</td>
-				    <td width="25%" class="info">传真：</td>
+				    <td width="25%" class="info">传真电话：</td>
 				    <td width="25%">${expert.fax }</td>
 				  </tr>
 				   <tr>
-				    <td width="25%" class="info">邮政编码：</td>
+				    <td width="25%" class="info">单位邮编：</td>
 				    <td width="25%">${expert.postCode }</td>
-				    <td width="25%" class="info">取得技术时间：</td>
+				    <td width="25%" class="info">取得技术职称时间：</td>
 				    <td width="25%"><fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 				  </tr>
 				   <tr>
@@ -213,8 +213,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   <tr>
 				    <td width="25%" class="info">现任职务：</td>
 				    <td width="25%">${expert.atDuty }</td>
-				    <td width="25%" class="info"></td>
-				    <td width="25%"></td>
+				    <td width="25%" class="info">个人邮箱：</td>
+				    <td width="25%">${expert.email}</td>
 				  </tr>
 		</tbody>
 	 </table>
@@ -256,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   	    </td>
 										  	</tr>  
 										  	 <tr>
-										   	    <td width="25%" class="info">专家合同书：</td>
+										   	    <td width="25%" class="info">专家承诺书：</td>
 										   	    <td>
 												   <up:show showId="show7" delete="false"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 										   	    </td>
@@ -289,7 +289,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td width="100px;">
 				      <h4>
 				      <c:if test="${expert.expertsTypeId eq '1' }">技术</c:if>
-				      <c:if test="${expert.expertsTypeId eq '2' }">法律</c:if>
 				      <c:if test="${expert.expertsTypeId eq '3' }">商务</c:if>
 				      </h4>
 				    </td>
@@ -307,7 +306,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          </div>
 		       </div>
 		       <div id="hwType" class="dnone">
-		         <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
+		         <div class="col-md-5 title"><span class="star_red fl">*</span>物资分类：</div>
 		          <div class="col-md-7 service_list">
 		            <c:forEach items="${hwList}" var="hw" >
 		            <span><input type="checkbox" name="chkItem" disabled="disabled"   value="${hw.id}" />${hw.name} </span>

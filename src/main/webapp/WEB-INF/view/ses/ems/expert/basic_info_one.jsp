@@ -68,7 +68,6 @@ session.setAttribute("tokenSession", tokenValue);
 			//func();
 		}
 	function submitformExpert(){
-		updateStepNumber("");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -76,7 +75,7 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				layer.msg("已暂存");
+				layer.msg("已暂存",{offset: ['300px', '750px']});
 			 }
 		});
 	}
@@ -290,98 +289,117 @@ session.setAttribute("tokenSession", tokenValue);
 	function validateformExpert(){
 		var relName = $("#relName").val();
 		if(!relName){
-			layer.msg("请输入姓名 !",{offset: ['222px', '390px']});
+			layer.msg("请输入姓名 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var gender = $("#gender").val();
 		if(!gender){
-			layer.msg("请选择性别 !",{offset: ['222px', '390px']});
+			layer.msg("请选择性别 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var expertsFrom = $("#expertsFrom").val();
 		if(!expertsFrom){
-			layer.msg("请选择来源 !",{offset: ['222px', '390px']});
+			layer.msg("请选择来源 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		var nation = $("#nation").val();
 		if(!nation){
-			layer.msg("请填写民族 !",{offset: ['222px', '390px']});
+			layer.msg("请填写民族 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var graduateSchool = $("#graduateSchool").val();
 		if(!graduateSchool){
-			layer.msg("请填写毕业院校 !",{offset: ['222px', '390px']});
+			layer.msg("请填写毕业院校及专业 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var hightEducation = $("#hightEducation").val();
 		if(!hightEducation){
-			layer.msg("请选择最高学历!",{offset: ['222px', '390px']});
+			layer.msg("请选择最高学历!",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		var major = $("#major").val();
 		if(!major){
-			layer.msg("请填写专业!",{offset: ['222px', '390px']});
+			layer.msg("请填写从事专业!",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		var unitAddress = $("#unitAddress").val();
 		if(!unitAddress){
-			layer.msg("请填写单位地址!",{offset: ['222px', '390px']});
+			layer.msg("请填写单位地址!",{offset: ['300px', '750px']});
+			return false;
+		}
+		var jobExperiences = $("#jobExperiences").val();
+		if(!jobExperiences){
+			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
+			return false;
+		}
+		if(jobExperiences != "" && jobExperiences.length > 999){
+			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
 			return false;
 		}
 		var telephone = $("#telephone").val();
 		if(!telephone){
-			layer.msg("请填写联系电话!",{offset: ['222px', '390px']});
+			layer.msg("请填写固定电话!",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		if(telephone != ""){
 			var reg = /^(\d{3,4}-)?\d{7,8}$/
 			if(!reg.test(telephone)){
-				layer.msg("联系电话格式有误!",{offset: ['222px', '390px']});
+				layer.msg("固定电话格式有误!",{offset: ['300px', '750px']});
 				return false;
 			}
 		}
 		
 		var mobile = $("#mobile").val();
 		if(!mobile){
-			layer.msg("请填写手机号!",{offset: ['222px', '390px']});
+			layer.msg("请填写手机号!",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		var healthState = $("#healthState").val();
 		if(!healthState){
-			layer.msg("请填写健康状态!",{offset: ['222px', '390px']});
+			layer.msg("请填写健康状态!",{offset: ['300px', '750px']});
 			return false;
 		}
 		
 		var idType = $("#idType").val();
 		if(!idType){
-			layer.msg("请选择证件类型 !",{offset: ['222px', '390px']});
+			layer.msg("请选择证件类型 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var idNumber = $("#idNumber").val();
 		if(!idNumber){
-			layer.msg("请填写证件号码 !",{offset: ['222px', '390px']});
+			layer.msg("请填写证件号码 !",{offset: ['300px', '750px']});
+			return false;
+		}
+		var email = $("#email").val();
+		if(!email){
+			layer.msg("请填写个人邮箱!",{offset: ['300px', '750px']});
+			return false;
+		}
+		var emailReg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+		if(email != "" && !emailReg.test(email)){
+			layer.msg("个人邮箱格式有误 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var postCode = $("#postCode").val();
 		if(idNumber != "" && isNaN(postCode)){
-			layer.msg("邮编格式只能输入数字 !",{offset: ['222px', '390px']});
+			layer.msg("邮编格式只能输入数字 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var fax = $("#fax").val();
 		var faxReg = /^(\d{3,4}-)?\d{7,8}$/
 		if(fax != "" && !faxReg.test(fax)){
-			layer.msg("传真格式有误 !",{offset: ['222px', '390px']});
+			layer.msg("传真电话格式有误 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		if(idType=="EDA3B3274C2E4182BD3C968931772DD6" && idNumber != ""){
 			var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/;
 			if(!reg.test(idNumber)){
-				layer.msg("身份证号码格式有误 !",{offset: ['222px', '390px']});
+				layer.msg("身份证号码格式有误 !",{offset: ['300px', '750px']});
 				return false;
 			}
 		}
@@ -394,7 +412,7 @@ session.setAttribute("tokenSession", tokenValue);
 				data:{"idNumber":idNumber,"expertId":$("#id").val()},
 				success:function(obj){
 					if(obj=='1'){
-						layer.msg("该身份证号已被占用!",{offset: ['222px', '390px']});
+						layer.msg("该身份证号已被占用!",{offset: ['300px', '750px']});
 						isok = 1;
 					}
 				}
@@ -405,7 +423,7 @@ session.setAttribute("tokenSession", tokenValue);
 		}
 		var id_areaSelect = $("#add").val();
 		if(!id_areaSelect){
-			layer.msg("请选择区域 !",{offset: ['222px', '390px']});
+			layer.msg("请选择区域 !",{offset: ['300px', '750px']});
 			return false;
 		}
 		var sysId = $("#sysId").val();
@@ -417,7 +435,7 @@ session.setAttribute("tokenSession", tokenValue);
 	        async: false,
 			success:function(data){
 				if(data.length<5){
-					layer.msg("还有附件未上传!",{offset: ['222px', '390px']});
+					layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
 					flag=false;
 				}else{
 					flag=true;
@@ -500,6 +518,17 @@ session.setAttribute("tokenSession", tokenValue);
 	    <div class="container container_box">
 		  <h2 class="count_flow"><i>1</i>专家基本信息</h2>
 			<ul class="ul_list">
+				<li class="col-md-3 col-sm-6 col-xs-12">
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>
+					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+						<select  name="expertsFrom" id="expertsFrom">
+						<option selected="selected" value="">-请选择-</option>
+						<c:forEach items="${lyTypeList}" var="ly" varStatus="vs"> 
+					     	<option <c:if test="${expert.expertsFrom eq ly.id}">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+						</c:forEach>
+					   </select>
+					</div>
+				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -507,20 +536,8 @@ session.setAttribute("tokenSession", tokenValue);
 					    <span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 出生日期</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
- 					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
-					  <span class="add-on">i</span>
-					</div>
-				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>民族</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
-                    <span class="add-on">i</span>
-					    <span class="input-tip">请填写名族,如:汉族</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 性别</span>
+				<li class="col-md-3 col-sm-6 col-xs-12">
+					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 性别</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                        <select  name="gender" id="gender">
                           <option selected="selected" value="">-请选择-</option>
@@ -529,7 +546,54 @@ session.setAttribute("tokenSession", tokenValue);
                           </c:forEach>
                         </select>
                     </div>
-                </li> 
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 出生日期</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+ 					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
+					  <span class="add-on">i</span>
+					</div>
+				</li> 
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"/>
+					<span class="add-on">i</span>
+					    <span class="input-tip">手机号码暂不支持修改</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>个人邮箱</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="30" value="${expert.email}" name="email" id="email" type="text"/>
+						<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
+					<span class="add-on">i</span>
+					    <span class="input-tip">如: XXX - XXXXXXX</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input value="${expert.fax}"  name="fax" id="fax" type="text"/>
+					<span class="add-on">i</span>
+					<span class="input-tip">如: XXX - XXXXXXXX</span>
+					</div>
+				</li> 
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
+                   <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                    <select id="addr" onchange="func123()">
+                           <option value="">-请选择-</option>
+                    </select>
+                   </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                     <select  name="address" id="add">
+                            <option value="">-请选择-</option>
+                     </select>
+                    </div>
+                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 证件类型</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                     <select  name="idType" id="idType">
@@ -546,21 +610,14 @@ session.setAttribute("tokenSession", tokenValue);
   						<span class="add-on">i</span>
   					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
-                   <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                    <select id="addr" onchange="func123()">
-                           <option value="">-请选择-</option>
-                    </select>
-                   </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
-                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                     <select  name="address" id="add">
-                            <option value="">-请选择-</option>
-                     </select>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>民族</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
+                    <span class="add-on">i</span>
+					    <span class="input-tip">请填写名族,如:汉族</span>
                     </div>
                 </li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select  name="politicsStatus" id="politicsStatus">
                         <option selected="selected" value="">-请选择-</option>
@@ -580,16 +637,10 @@ session.setAttribute("tokenSession", tokenValue);
                       </select>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                       <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
                    	  <span class="add-on">i</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专业</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
-                    <span class="add-on">i</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位</span>
@@ -598,32 +649,39 @@ session.setAttribute("tokenSession", tokenValue);
                     <span class="add-on">i</span>
                     </div>
                 </li>
-				<li class="col-md-3 col-sm-6 col-xs-12">
-				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>
-					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-						<select  name="expertsFrom" id="expertsFrom">
-						<option selected="selected" value="">-请选择-</option>
-						<c:forEach items="${lyTypeList}" var="ly" varStatus="vs"> 
-					     	<option <c:if test="${expert.expertsFrom eq ly.id}">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
-						</c:forEach>
-					   </select>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 专家技术职称</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>从事专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
+                    <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="timeToWork"  type="text" onclick='WdatePicker()'/>
+					<input readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" name="timeToWork"  type="text" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
@@ -639,37 +697,10 @@ session.setAttribute("tokenSession", tokenValue);
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>联系电话（固话）</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
-					<span class="add-on">i</span>
-					    <span class="input-tip">如: XXX - XXXXXXX</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"/>
-					<span class="add-on">i</span>
-					    <span class="input-tip">手机号码暂不支持修改</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input value="${expert.fax}"  name="fax" id="fax" type="text"/>
-					<span class="add-on">i</span>
-					<span class="input-tip">如: XXX - XXXXXXXX</span>
-					</div>
-				</li> 
-  				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 邮编</span>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
 						<span class="add-on">i</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获得技术时间</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
-					<span class="add-on">i</span>
 					</div>
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
@@ -678,16 +709,21 @@ session.setAttribute("tokenSession", tokenValue);
 					<span class="add-on">i</span>
 					</div>
 				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
 			</ul>
+			
+			<!-- 主要工作经历-->
+			  <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>2</i>主要工作经历</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="jobExperiences" id="jobExperiences" cols="168" style="height: 150px; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				</li>
+			    </ul>
+			   </div>
+			
 			  <!-- 附件信息-->
 			  <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>2</i>上传附件</h2>
+			    <h2 class="count_flow"><i>3</i>上传附件</h2>
 			    <ul class="ul_list">
 				 <table class="table table-bordered">
 				  <tbody>

@@ -174,184 +174,210 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div class="tab-pane fade in active" id="tab-1">
 	   <h2 class="count_flow"><i>1</i>修改个人信息</h2>
          <ul class="ul_list">
-		   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  专家姓名</span>
-			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-				<input class="input_group" id="relName" name="relName" value="${expert.relName}"   type="text">
-			    <span class="add-on">i</span>
-			 </div>
-		   </li>
-		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 出生日期</span>
-			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-				<input class="input_group"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
-			 </div>
-		   </li>
-		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  证件号码</span>
-			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-				 <input class="input_group" maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text">
-				 <span class="add-on">i</span>
-			 </div>
-		   </li>
-		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  民族</span>
-			 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			 <input class="input_group" maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text">
-			 <span class="add-on">i</span>
-			 </div>
-		   </li>
-		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>  性别</span>
-			 <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-				<select name="gender" id="gender">
-				   <option selected="selected" value="">-请选择-</option>
-				   <c:forEach items="${sexList }" var="sex" varStatus="vs">
-                    <option <c:if test="${expert.gender eq sex.id}">selected="selected"</c:if> value="${sex.id}">${sex.name}</option>
-                   </c:forEach>
-				</select>
-			 </div>
-		   </li>
-		   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  专家来源</span>
-			 <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-				<select  name="expertsFrom" id="expertsFrom">
-				<option selected="selected" value="">-请选择-</option>
-			   	<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
-				 <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
-				</c:forEach>
-			   </select>
-			 </div>
-		   </li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  省</span>
-            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-             <select id="addr" onchange="fun();">
-                    <option value="">-请选择-</option>
-             </select>
-            </div>
-        </li>
-        <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  市</span>
-            <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-             <select  name="address" id="add">
-               <option value="">-请选择-</option>
-             </select>
-            </div>
-        </li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i>  证件类型</span>
-		  <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			<select  name="idType" id="idType">
-		   	  <option selected="selected" value="">-请选择-</option>
-		   	  <c:forEach items="${idTypeList }" var="idType" varStatus="vs">
-               <option <c:if test="${expert.idType eq idType.id }">selected="selected"</c:if> value="${idType.id}">${idType.name}</option>
-              </c:forEach>
-		    </select>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 最高学历</span>
-		  <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			 <select class="input_group" name="hightEducation" id="hightEducation" >
-			 	<option selected="selected" value="">-请选择-</option>
-			   	<c:forEach items="${xlList}" var="xl" varStatus="vs">
-                 <option <c:if test="${expert.hightEducation eq xl.id }">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
-                </c:forEach>
-			 </select>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">政治面貌</span>
-			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			  <select class="input_group" name="politicsStatus" id="politicsStatus">
-				<option selected="selected" value="">-请选择-</option>
-			   	<c:forEach items="${zzList }" var="zz" varStatus="vs">
-                 <option <c:if test="${expert.politicsStatus eq zz.id }">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
-                </c:forEach>
-			  </select>
-			</div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 毕业院校</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 专家技术职称</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 参加工作时间</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 专业</span>
-		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="20" value="${expert.major}"  name="major" id="major" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 从事专业起始年度</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			 <input class="input_group" value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
-	      </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">工作单位</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 单位地址</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			 <input class="input_group" maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text">
-			 <span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 联系电话（固话）</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 手机</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="15" value="${expert.mobile}"  name="mobile" id="mobile" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 传真</span>
-		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="10"  value="${expert.fax}"  name="fax" id="fax" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li> 
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 邮编</span>
-		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 获得技术时间</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 学位</span>
-		 <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="red">*</i> 健康状态</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-		<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"> 现任职务</span>
-		  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			<input class="input_group" maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text">
-			<span class="add-on">i</span>
-		  </div>
-		</li>
-	</ul>
+				<li class="col-md-3 col-sm-6 col-xs-12">
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>
+					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+						<select  name="expertsFrom" id="expertsFrom">
+						<option selected="selected" value="">-请选择-</option>
+						<c:forEach items="${lyTypeList}" var="ly" varStatus="vs"> 
+					     	<option <c:if test="${expert.expertsFrom eq ly.id}">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+						</c:forEach>
+					   </select>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input id="relName" name="relName" value="${expert.relName}"   type="text"/>
+					    <span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12">
+					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 性别</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                       <select  name="gender" id="gender">
+                          <option selected="selected" value="">-请选择-</option>
+                          <c:forEach items="${sexList}" var="sex" varStatus="vs">
+                            <option <c:if test="${expert.gender eq sex.id}">selected="selected"</c:if> value="${sex.id}">${sex.name}</option>
+                          </c:forEach>
+                        </select>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 出生日期</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+ 					  <input    readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'/>
+					  <span class="add-on">i</span>
+					</div>
+				</li> 
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="15" value="${expert.mobile}" readonly="readonly" name="mobile" id="mobile" type="text"/>
+					<span class="add-on">i</span>
+					    <span class="input-tip">手机号码暂不支持修改</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>个人邮箱</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="30" value="${expert.email}" name="email" id="email" type="text"/>
+						<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="15" value="${expert.telephone}"  name="telephone" id="telephone" type="text"/>
+					<span class="add-on">i</span>
+					    <span class="input-tip">如: XXX - XXXXXXX</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input value="${expert.fax}"  name="fax" id="fax" type="text"/>
+					<span class="add-on">i</span>
+					<span class="input-tip">如: XXX - XXXXXXXX</span>
+					</div>
+				</li> 
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>省</span>
+                   <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                    <select id="addr" onchange="func123()">
+                           <option value="">-请选择-</option>
+                    </select>
+                   </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>市</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                     <select  name="address" id="add">
+                            <option value="">-请选择-</option>
+                     </select>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 证件类型</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                    <select  name="idType" id="idType">
+                    <option selected="selected" value="">-请选择-</option>
+                    <c:forEach items="${idTypeList}" var="idType" varStatus="vs">
+                      <option <c:if test="${expert.idType eq idType.id}">selected="selected"</c:if> value="${idType.id}">${idType.name}</option>
+                    </c:forEach>
+                   </select>
+                    </div>
+                </li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>证件号码</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="30" value="${expert.idNumber}"  name="idNumber" id="idNumber" type="text"/>
+  						<span class="add-on">i</span>
+  					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>民族</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="10" value="${expert.nation}"  name="nation" id="nation" type="text"/>
+                    <span class="add-on">i</span>
+					    <span class="input-tip">请填写名族,如:汉族</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">政治面貌</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                        <select  name="politicsStatus" id="politicsStatus">
+                        <option selected="selected" value="">-请选择-</option>
+                        <c:forEach items="${zzList}" var="zz" varStatus="vs">
+                          <option <c:if test="${expert.politicsStatus eq zz.id}">selected="selected"</c:if> value="${zz.id}">${zz.name}</option>
+                        </c:forEach>
+                       </select>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>最高学历</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                     <select  name="hightEducation" id="hightEducation" >
+                        <option selected="selected" value="">-请选择-</option>
+                        <c:forEach items="${xlList}" var="xl" varStatus="vs">
+                        <option <c:if test="${expert.hightEducation eq xl.id}">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
+                        </c:forEach>
+                      </select>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
+                   	  <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
+                    <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>从事专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
+                    <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" name="timeToWork"  type="text" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">工作单位</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>单位地址</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
+					 <input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
+						<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+			</ul>
+			<!-- 主要工作经历-->
+			  <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>2</i>主要工作经历</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="jobExperiences" id="jobExperiences" cols="168" style="height: 150px; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				</li>
+			    </ul>
+			   </div>
   <!-- 附件信息-->
   <div class="padding-top-10 clear">
-    <h2 class="count_flow"><i>2</i>附件信息</h2>
+    <h2 class="count_flow"><i>3</i>附件信息</h2>
     <ul class="ul_list">
       <table class="table table-bordered">
 	  	 <tr>
@@ -391,7 +417,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	    </td>
 	  	 </tr>
 	  	 <tr>
-	   	    <td  class="info"><i class="red">*</i> 专家合同书：</td>
+	   	    <td  class="info"><i class="red">*</i> 专家承诺书：</td>
 	   	    <td colspan="5">
 	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>
@@ -401,7 +427,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </ul>
     </div>
   <div class="padding-top-10 clear">
-    <h2 class="count_flow"><i>3</i>采购机构</h2>
+    <h2 class="count_flow"><i>4</i>采购机构</h2>
     <ul class="ul_list">
       <table class="table table-bordered">
         <tbody>
@@ -434,7 +460,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();" class="w178">
 		   		 <option value="">-请选择-</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 			  </select>
 		   </li>
@@ -449,7 +474,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </div>
 			</div>
 			<div id="hwType">
-			  <div class="col-md-5 title"><span class="star_red fl">*</span>货物分类：</div>
+			  <div class="col-md-5 title"><span class="star_red fl">*</span>物资分类：</div>
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
 					 <span><input type="checkbox" name="chkItem" onclick="getChildren()" value="${hw.id}" />${hw.name} </span>

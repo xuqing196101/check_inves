@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 /**
  * 
   * <p>Title:Expert </p>
@@ -50,21 +52,32 @@ public class Expert implements Serializable{
     @NotNull(message = "不能为空") 
     private String idType;
     /**专家来源*/
-    private String expertsFrom;
+    private String expertsFrom;//军队只能在内网注册,地方在内网和外网都可以注册
     /**政治面貌*/
     private String politicsStatus;
     /**民族*/
     private String nation;
     /**毕业院校*/
-    private String graduateSchool;
+    private String graduateSchool;//毕业院校及专业
     /**最高学历*/
     private String hightEducation;
     /**专业*/
-    private String major;
+    private String major;//从事专业
     /**工作单位名称*/
     private String workUnit;
     /**固话*/
     private String  telephone;
+    /**邮箱*/
+    @NotNull(message = "不能为空")
+    private String email;//邮箱
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     /**传真*/
     private String fax;
     /**取得技术时间*/
@@ -76,9 +89,12 @@ public class Expert implements Serializable{
     /**专家技术职称*/
     private String professTechTitles;
     /**参加工作时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
     private Date timeToWork;
     /**从事专业起始时间*/
     private Date timeStartWork;
+    /**从事专业起始时间*/
+    private String jobExperiences;
     /**单位地址*/
     private String unitAddress;
     /**邮编*/
@@ -437,5 +453,11 @@ public class Expert implements Serializable{
 	public void setIds(List<String> ids) {
 		this.ids = ids;
 	}
-    
+	public String getJobExperiences() {
+        return jobExperiences;
+    }
+
+    public void setJobExperiences(String jobExperiences) {
+        this.jobExperiences = jobExperiences;
+    }
 }

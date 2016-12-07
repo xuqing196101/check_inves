@@ -178,9 +178,6 @@ session.setAttribute("tokenSession", tokenValue);
 		if(expertsTypeId == "1"){
 			$("#tExpertsTypeId").text("技术");
 		}
-		if(expertsTypeId == "2"){
-			$("#tExpertsTypeId").text("法律");
-		}
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("经济");
 		}
@@ -194,9 +191,6 @@ session.setAttribute("tokenSession", tokenValue);
 		if(expertsTypeId == "1"){
 			$("#tExpertsTypeId").text("技术");
 		}
-		if(expertsTypeId == "2"){
-			$("#tExpertsTypeId").text("法律");
-		}
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("经济");
 		}
@@ -208,9 +202,6 @@ session.setAttribute("tokenSession", tokenValue);
 		var expertsTypeId = $("#expertsTypeId").val();
 		if(expertsTypeId == "1"){
 			$("#tExpertsTypeId").text("技术");
-		}
-		if(expertsTypeId == "2"){
-			$("#tExpertsTypeId").text("法律");
 		}
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("经济");
@@ -293,13 +284,12 @@ session.setAttribute("tokenSession", tokenValue);
 			<div>
 			  <ul class="ul_list" >
      		    <li class="col-md-3 col-sm-6 col-xs-12" >
-			      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red fl">*</span>专家类型</span>
+			      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red fl">*</span>专家类别</span>
 			      <input type="hidden" id="expertsTypeIds" value="" >
 			      <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 			        <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		  <option value="">-请选择-</option>
 			   		  <option <c:if test="${expert.expertsTypeId eq '1'}">selected</c:if> value="1">技术</option>
-			   		  <option <c:if test="${expert.expertsTypeId eq '2'}">selected</c:if> value="2">法律</option>
 			   		  <option <c:if test="${expert.expertsTypeId eq '3'}">selected</c:if> value="3">经济</option>
 			        </select>
 			      </div>
@@ -315,7 +305,7 @@ session.setAttribute("tokenSession", tokenValue);
 				  </div>
 			    </div>
 				<div class="sevice_list col-md-12 container" id="hwType">
-				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>货物分类：</div>
+				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>物资分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${hwList}" var="hw" >
 						    <span><input type="checkbox" name="chkItem" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
