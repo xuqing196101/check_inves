@@ -62,7 +62,7 @@ function resetQuery(){
    </div>
    
    <div class="container mt20">
-     <h2 class="search_detail">
+     <div class="search_detail">
        <form id="form1" action="${pageContext.request.contextPath}/statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -79,7 +79,7 @@ function resetQuery(){
     	</ul>
     	  <div class="clear"></div>
        </form>
-	  </h2>
+	  </div>
 	</div>
   
 <div class="content table_box container">

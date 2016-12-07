@@ -65,7 +65,7 @@ function resetQuery(){
 	   </div>
 
 
-	<h2 class="search_detail">
+	<div class="search_detail">
 	<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
 			<ul class="demand_list">
 		    	<li>
@@ -84,7 +84,7 @@ function resetQuery(){
 		 </ul>
 		 <div class="clear"></div>
 		</form>
-	 </h2>
+	 </div>
 	
 		<div class="col-md-12 pl20 mt10">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>

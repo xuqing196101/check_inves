@@ -74,7 +74,7 @@ function resetQuery(){
 	   		<h2>审价合同分配列表</h2>
 	   </div>
 	   
-	 <h2 class="search_detail">
+	 <div class="search_detail">
 		<form id="form1" action="${pageContext.request.contextPath}/appraisalContract/serch.html" method="post" class="mb0">
 			<ul class="demand_list">
 		    	<li>
@@ -93,7 +93,7 @@ function resetQuery(){
 		 </ul>
 		 <div class="clear"></div>
 		</form>
-	 </h2>
+	 </div>
 	   
 	
 	<div class="content table_box">

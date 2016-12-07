@@ -35,7 +35,7 @@
 			        	var range = "${articlesRange}";
 			        	var status = "${articlesStatus}";
 			        	var name = "${articleName}";
-			            location.href ="${ pageContext.request.contextPath }/article/serch.html?page="+e.curr+"&articleTypeId="+articleTypeId+"&range="+range+"&range="+status+"&name="+name;
+			            location.href ="${pageContext.request.contextPath }/article/serch.html?page="+e.curr+"&articleTypeId="+articleTypeId+"&range="+range+"&range="+status+"&name="+name;
 			        }
 			    }
 			});
@@ -201,7 +201,7 @@
 	   		<h2>信息发布</h2>
 	   </div>
    
-   <h2 class="search_detail">
+   <div class="search_detail">
     <form id="form1" action="${pageContext.request.contextPath }/article/serch.html" method="post" class="mb0">
    		<ul class="demand_list">
     	  <li>
@@ -249,7 +249,7 @@
 	    </div>
     	  <div class="clear"></div>
     	 </form>
-     </h2>
+     </div>
   
 	   <input type="hidden" id="depid" name="depid">
 	  	

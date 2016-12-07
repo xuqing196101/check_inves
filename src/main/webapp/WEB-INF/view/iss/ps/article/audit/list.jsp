@@ -151,7 +151,7 @@
 	   		<h2>审核信息列表</h2>
 	   </div>
    
-   <h2 class="search_detail">
+   <div class="search_detail">
    <form id="form1" action="${pageContext.request.contextPath }/article/auditlist.html?status=1" method="post" class="mb0">
    		<ul class="demand_list">
     	  <li>
@@ -185,7 +185,7 @@
     	</ul>
     	  <div class="clear"></div>
     	</form>
-     </h2>
+     </div>
    
 	   <input type="hidden" id="depid" name="depid">
 		

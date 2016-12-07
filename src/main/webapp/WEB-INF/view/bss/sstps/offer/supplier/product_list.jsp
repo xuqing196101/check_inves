@@ -107,7 +107,7 @@ function resetQuery(){
 	   		<h2>合同产品列表</h2>
 	   </div>
 	   
-     <h2 class="search_detail">
+     <div class="search_detail">
        <form id="form1" action="${pageContext.request.contextPath}/offer/selectProduct.html?contractId=${id}" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -118,7 +118,7 @@ function resetQuery(){
     	</ul>
     	  <div class="clear"></div>
        </form>
-     </h2>
+     </div>
 
 		<div class="col-md-12 pl20 mt10">
 	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
