@@ -31,16 +31,16 @@
                 <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  <td class="bggrey ">须知文档名称：</td>
-	                  <td>${noticeDocument.name}</td>
-	                  <td class="bggrey ">须知文档类型：</td>
-	                  <td>${noticeDocument.docType}</td>
+	                  <td class="bggrey " width="12%">须知文档名称：</td>
+	                  <td width="38%">${noticeDocument.name}</td>
+	                  <td class="bggrey " width="12%">须知文档类型：</td>
+	                  <td width="38%">${noticeDocument.docType}</td>
 	                 </tr>
 	                 <tr>
-	                  <td class="bggrey ">创建时间：</td>
-	                  <td><fmt:formatDate value='${noticeDocument.createdAt}' pattern='yyyy-MM-dd'/></td>
-	                  <td class="bggrey ">修改时间：</td>
-	                  <td><fmt:formatDate value='${noticeDocument.updatedAt}' pattern='yyyy-MM-dd'/></td>
+	                  <td class="bggrey " width="12%">创建时间：</td>
+	                  <td width="38%"><fmt:formatDate value='${noticeDocument.createdAt}' pattern='yyyy-MM-dd'/></td>
+	                  <td class="bggrey " width="12%">修改时间：</td>
+	                  <td width="38%"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern='yyyy-MM-dd'/></td>
 	                 </tr> 
                  </tbody>
                  </table>
@@ -51,7 +51,7 @@
                 </div>
                  </div>
                  	<!-- 底部按钮 -->			          
- 				 <div class="col-md-12 col-sm-12 col-cs-12 mt20 tc">
+ 				 <div class="col-md-12 col-sm-12 col-cs-12 mt10 tc">
   					<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
  				 </div>
                </div>

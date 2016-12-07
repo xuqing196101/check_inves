@@ -39,35 +39,32 @@
                 <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  	<td class="bggrey w150">题型：</td>
+	                 	<td class="bggrey " width="10%">题干：</td>
+	                 	<td colspan="3">${lawQue.topic }</td>
+	                 	
+	                 </tr>
+	                 <tr>
+	                     <td class="bggrey " width="10%">选项：</td>
+	                 	 <td colspan="3">${lawQue.items }</td>
+	                 </tr>
+	                 <tr>
+	                 	<td class="bggrey " width="10%">答案：</td>
+	                 	<td width="40%">${lawAnswer }</td>
+	                 	<td class="bggrey" width="10%">题型：</td>
+	                  	<td width="40%">
 	                  	<c:if test="${lawQue.questionTypeId==1 }">
-	                  		<td colspan="3">单选题</td>
+	                  		单选题
 	                  	</c:if>
 	                  	<c:if test="${lawQue.questionTypeId==2 }">
-	                  		<td colspan="3">多选题</td>
+	                  		多选题
 	                  	</c:if>
+	                  	</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">题干：</td>
-	                 	<td colspan="3">${lawQue.topic }</td>
-	                 </tr>
-	                 <tr>
-	                 	<td class="bggrey w150">选项数量：</td>
-	                 	<td colspan="3">${optNum }</td>
-	                 </tr>
-	                 <tr>
-	                 	<td class="bggrey w150">选项：</td>
-	                 	<td colspan="3">${lawQue.items }</td>
-	                 </tr>
-	                 <tr>
-	                 	<td class="bggrey w150">答案：</td>
-	                 	<td colspan="3">${lawAnswer }</td>
-	                 </tr>
-	                 <tr>
-	                 	<td class="bggrey w150">创建时间：</td>
-	                  	<td><fmt:formatDate value="${lawQue.createdAt }" pattern="yyyy-MM-dd"/></td>
-	                  	<td class="bggrey w150">修改时间：</td>
-	                  	<td><fmt:formatDate value="${lawQue.updatedAt }" pattern="yyyy-MM-dd"/></td>
+	                 	<td class="bggrey " width="10%">创建时间：</td>
+	                  	<td  width="40%"><fmt:formatDate value="${lawQue.createdAt }" pattern="yyyy-MM-dd"/></td>
+	                  	<td class="bggrey"  width="10%">修改时间：</td>
+	                  	<td  width="40%"><fmt:formatDate value="${lawQue.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	                 </tr> 
                  </tbody>
                  </table>

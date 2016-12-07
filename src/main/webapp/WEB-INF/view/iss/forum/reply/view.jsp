@@ -42,15 +42,15 @@
 	                <td>${reply.post.name }</td>
 	            </tr> --%>
 	            <tr>
-	                <td class="bggrey">所属帖子：</td>
-	                <td>${reply.post.name }</td>
-	                <td>发表人：</td>
+	                <td class="bggrey" width="10%">所属帖子：</td>
+	                <td >${reply.post.name }</td>
+	                <td class="bggrey" width="10%">发表人：</td>
 	                <td>${reply.user.relName}</td>
 	            </tr>
 	            <tr>
-	                <td class="bggrey">发表时间：</td>
+	                <td class="bggrey" width="10%">发表时间：</td>
 	                <td><fmt:formatDate value="${reply.publishedAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	                <td class="bggrey">更新时间：</td>
+	                <td class="bggrey" width="10%">更新时间：</td>
 	                <td><fmt:formatDate value="${reply.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	            </tr>
 	            </tbody>

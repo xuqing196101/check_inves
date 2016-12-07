@@ -36,30 +36,30 @@
 	                      <table class="table table-bordered">
 	                      <tbody>
 	                      <tr>
-	                          <td class="bggrey">主题名称：</td>
+	                          <td class="bggrey" width="10%">主题名称：</td>
 	                          <td colspan="3">${topic.name}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey">所属版块：</td>
+	                          <td class="bggrey" width="10%">所属版块：</td>
 	                          <td>${topic.park.name}</td>
-	                          <td class="bggrey">创建人：</td>
+	                          <td class="bggrey" width="10%">创建人：</td>
 	                          <td>${topic.user.relName}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey">帖子数：</td>
+	                          <td class="bggrey" width="10%">帖子数：</td>
 	                          <td>${topic.postcount}</td>
-	                          <td class="bggrey">回复量：</td>
+	                          <td class="bggrey" width="10%">回复量：</td>
 	                          <td>${topic.replycount}</td>
 	                      </tr>
 	                      <tr>
-	                          <td class="bggrey">创建时间：</td>
+	                          <td class="bggrey" width="10%">创建时间：</td>
 	                          <td><fmt:formatDate value="${topic.createdAt }" pattern="yyyy-MM-dd"/></td>
-	                          <td class="bggrey">更新时间：</td>
+	                          <td class="bggrey" width="10%">更新时间：</td>
 	                          <td><fmt:formatDate value="${topic.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	                      </tr>
 	                      </tbody>
 	                      </table>
-	                    <h2 class="count_flow jbxx">版块介绍</h2>
+	                    <h2 class="count_flow jbxx">主题介绍</h2>
                             <div class="col-md-12 col-sm-12 col-cs-12 p0">
                 <textarea  class="h130 col-md-12 col-xs-12 col-sm-12"  title="不超过800个字" readonly="readonly">${topic.content}</textarea>
 	        </div>  	 	   

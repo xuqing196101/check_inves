@@ -23,7 +23,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">履约情况管理</a></li><li><a href="#">履约情况查看</a></li></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">履约情况管理</a></li><li><a href="#">履约情况详情</a></li></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -42,19 +42,19 @@
 	    <table class="table table-bordered">
 	        <tbody>
 	        <tr>
-	            <td class="bggrey"  width="25%">产品质量检验结果：</td>
+	            <td class="bggrey"  width="14%">产品质量检验结果：</td>
 	            <td colspan="5">${performance.checkMass}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey"  width="25%">合同草稿签订时间：</td>
+	            <td class="bggrey"  width="14%">合同草稿签订时间：</td>
 	            <td><fmt:formatDate value="${performance.draftSignedAt}" pattern="yyyy/MM/dd"/></td>
-	            <td class="bggrey"  width="25%">正式合同签订时间：</td>
+	            <td class="bggrey"  width="14%">正式合同签订时间：</td>
 	            <td><fmt:formatDate value="${performance.formalSignedAt}" pattern="yyyy/MM/dd"/></td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey"  width="25%">产品交付日期：</td>
+	            <td class="bggrey"  width="14%">产品交付日期：</td>
 	            <td><fmt:formatDate value="${performance.delivery}" pattern="yyyy/MM/dd"/> </td>
-	             <td class="bggrey"  width="25%">合同执行状态：</td>
+	             <td class="bggrey"  width="14%">合同执行状态：</td>
 	            <td>
 	            <c:if test="${performance.completedStatus==0 }">
 	            执行中
@@ -72,9 +72,9 @@
 	        </tr>
 	        <tr>
 	           
-	            <td class="bggrey"  width="25%">交货进度：</td>
+	            <td class="bggrey"  width="14%">交货进度：</td>
 	            <td>${performance.deliverySchedule }</td>
-	            <td class="bggrey"  width="25%">资金交付百分比(%)：</td>
+	            <td class="bggrey"  width="14%">资金交付百分比(%)：</td>
 	            <td>${performance.fundsPaid}</td>
 	        </tr>
 	       

@@ -31,45 +31,47 @@
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">技术类专家题目详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">考试详情</a></li>
             </ul>
             <div class="tab-content padding-top-20 over_hideen">
             <div class="tab-pane fade active in" id="tab-1">
                 <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  	<td class="bggrey w150">试卷名称：</td>
-	                  	<td>${examPaper.name }</td>
-	                  	<td class="bggrey w150">试卷编号：</td>
-	                  	<td>${examPaper.code }</td>
+	                  	<td class="bggrey ">试卷名称：</td>
+	                  	<td colspan="3">${examPaper.name }</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">考试开始时间：</td>
-	                 	<td>${startTime }</td>
-	                 	<td class="bggrey w150">考试截止时间：</td>
-	                 	<td>${offTime }</td>
+	                  	<td class="bggrey ">试卷编号：</td>
+	                  	<td colspan="3">${examPaper.code }</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">题型分布：</td>
+	                 	<td class="bggrey ">题型结构：</td>
 	                 	<td colspan="3">${typeDistribution }</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">总分值：</td>
-	                 	<td>${examPaper.score }分</td>
-	                 	<td class="bggrey w150">及格标准：</td>
-	                 	<td>${examPaper.passStandard }分</td>
+	                 	<td class="bggrey " width="10%">总分值：</td>
+	                 	<td width="40%">${examPaper.score }分</td>
+	                 	<td class="bggrey " width="10%">及格标准：</td>
+	                 	<td width="40%">${examPaper.passStandard }分</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">考卷年度：</td>
-	                 	<td>${examPaper.year }</td>
-	                 	<td class="bggrey w150">答题用时：</td>
-	                 	<td>${examPaper.testTime }分钟</td>
+	                 	<td class="bggrey " width="10%">考试开始时间：</td>
+	                 	<td width="40%">${startTime }</td>
+	                 	<td class="bggrey " width="10%">考试结束时间：</td>
+	                 	<td width="40%">${offTime }</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">创建时间：</td>
-	                  	<td><fmt:formatDate value="${examPaper.createdAt }" pattern="yyyy-MM-dd"/></td>
-	                  	<td class="bggrey w150">修改时间：</td>
-	                  	<td><fmt:formatDate value="${examPaper.updatedAt }" pattern="yyyy-MM-dd"/></td>
+	                 	<td class="bggrey " width="10%">考卷年度：</td>
+	                 	<td width="40%">${examPaper.year }</td>
+	                 	<td class="bggrey " width="10%">答题用时：</td>
+	                 	<td width="40%">${examPaper.testTime }分钟</td>
+	                 </tr>
+	                 <tr>
+	                 	<td class="bggrey " width="10%">创建时间：</td>
+	                  	<td width="40%"><fmt:formatDate value="${examPaper.createdAt }" pattern="yyyy-MM-dd"/></td>
+	                  	<td class="bggrey " width="10%">修改时间：</td>
+	                  	<td width="40%"><fmt:formatDate value="${examPaper.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	                 </tr> 
                  </tbody>
                  </table>

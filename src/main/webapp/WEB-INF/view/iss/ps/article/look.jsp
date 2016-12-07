@@ -63,24 +63,24 @@ function sub(){
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
-				  <td class="bggrey" width="25%">信息标题：</td>
-				  <td colspan="3" width="75%">${article.name }</td>
+				  <td class="bggrey" width="10%">信息标题：</td>
+				  <td colspan="3">${article.name }</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey" width="25%">信息栏目：</td>
-				  <td colspan="3" width="75%">
+				  <td class="bggrey" width="10%">信息栏目：</td>
+				  <td colspan="3">
 				  	${article.articleType.name }
 				  </td>
 				 </tr>
 				 <tr>
-				  <td class="bggrey" width="25%">链接来源：</td>
-				  <td colspan="3" width="75%">
+				  <td class="bggrey" width="10%">链接来源：</td>
+				  <td colspan="3" >
 				  	${article.sourceLink }
 				  </td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey" width="25%">发布范围：</td>
-				  <td width="25%">
+				  <td class="bggrey" width="10%">发布范围：</td>
+				  <td >
                		 <c:if test="${article.range=='0' }">
 		  					内网
 		  				</c:if>
@@ -91,10 +91,10 @@ function sub(){
 		  					内网&外网
 		  				</c:if>
 				  </td>
-				  <td class="bggrey" width="25%">
+				  <td class="bggrey" width="10%">
 				  	图片展示：
 				  </td>
-				  <td width="25%">${article.isPicShow }</td>
+				  <td>${article.isPicShow }</td>
 				 </tr>   
 				</tbody>
 			   </table>
