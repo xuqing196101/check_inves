@@ -157,7 +157,7 @@
    
    <!-- 查询 -->
 
-     <h2 class="search_detail">
+     <div class="search_detail">
    	<form action="${pageContext.request.contextPath}/pqinfo/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	   <li><label class="fl">合同名称：</label><span><input type="text" name="contract.name" id="contractName" class="mb0" /></span></li>
@@ -188,7 +188,7 @@
 
 	 </form>
 	 <div class="clear"></div>
-     </h2>
+    </div>
 
    
 <!-- 表格开始-->

@@ -632,7 +632,7 @@
 			              
 			              <div class="tab-pane fade active in height-450"  id="production_div">
 			              <div class="container container_box">
-			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-生产型专业信息</h3>
+			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14">
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />

@@ -103,7 +103,7 @@ function add(){
 	   		<h2>查询条件</h2>
 	   </div>
    		<!-- 查询 -->
-		<h2 class="search_detail">
+		<div class="search_detail">
 			<form action="${pageContext.request.contextPath}/offer/userSearch.html"
 				method="post" enctype="multipart/form-data" class="mb0">
 				<ul class="demand_list">
@@ -128,7 +128,7 @@ function add(){
 
 				<div class="clear"></div>
 			</form>
-		</h2>
+		</div>
 		<!-- 表格开始-->
 		<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="add()">审价</button>
