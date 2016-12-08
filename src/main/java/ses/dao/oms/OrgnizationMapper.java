@@ -93,5 +93,15 @@ public interface OrgnizationMapper {
 	 */
 	Integer  getChilCountyPidAndType(@Param("pid") String pid, @Param("typeName") String type);
 	
+	/**
+	 * 
+	 *〈简述〉保存后返回主键
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgnization {@link Orgnization}对象
+	 * @return 返回主键
+	 */
+	String saveOrg(Orgnization orgnization);
+	
 	
 }

@@ -449,6 +449,5 @@
 		 (ID,ORG_ID,IS_DELETED,CREATED_AT)
 		values(
 	      #{id},#{orgId,jdbcType=VARCHAR},#{isDeleted,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP})
-		
 	</insert>
 </mapper>

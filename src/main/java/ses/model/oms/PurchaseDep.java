@@ -99,6 +99,7 @@ public class PurchaseDep extends Orgnization{
     private Date createdAt;
     
     private String orgId;
+    
     private Orgnization orgnization;
     
     private String areaName;//采购机构归属地  组合  省市

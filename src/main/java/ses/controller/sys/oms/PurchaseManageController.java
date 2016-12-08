@@ -453,7 +453,20 @@ public class PurchaseManageController {
         return "ses/oms/purchase_dep/add";
     }
 	
-	
+	/**
+	 * 
+	 *〈简述〉保存采购机构
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
+	@RequestMapping("savePurchaseDep")
+	public String savePurchaseDep(PurchaseDep purchaseDep){
+	    
+	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep);
+	    
+	    return "redirect:purchaseUnitList.html";
+	}
 	
 	/**
 	 * 

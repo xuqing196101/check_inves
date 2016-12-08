@@ -301,29 +301,7 @@
 		  from T_SES_OMS_ORG     d
 		  where d.id= #{id,jdbcType=VARCHAR}
 	</select>
-	<!-- <insert id="saveOrgnization" parameterType="java.util.Map">
-		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			select rawtohex(sys_guid()) as VALUE from dual
-		</selectKey>
-		insert into T_SES_OMS_ORG
-		 (ID,NAME,TYPE_NAME,
-		  DEP_ID,PARENT_ID,CREATED_AT,
-		  DESCRIBTION,ADDRESS,MOBILE,
-		  POST_CODE,ORG_CODE,TELEPHONE,
-		  AREA_ID,DETAIL_ADDR,FAX,
-		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
-		  NATURE,ORG_LEVEL,POSITION,IS_ROOT
-          )
-		values(
-	      #{id},#{name,typeHandler=ses.controller.sys.oms.NullValueHandler},#{type_name,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{dep_id,typeHandler=ses.controller.sys.oms.NullValueHandler},#{parent_id,typeHandler=ses.controller.sys.oms.NullValueHandler},sysdate,
-		  #{describtion,typeHandler=ses.controller.sys.oms.NullValueHandler},#{address,typeHandler=ses.controller.sys.oms.NullValueHandler},#{mobile,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{post_code,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{org_code,typeHandler=ses.controller.sys.oms.NullValueHandler},#{telephone,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{area_id,typeHandler=ses.controller.sys.oms.NullValueHandler},#{detail_addr,typeHandler=ses.controller.sys.oms.NullValueHandler},#{fax,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{website,typeHandler=ses.controller.sys.oms.NullValueHandler},#{princinpal,typeHandler=ses.controller.sys.oms.NullValueHandler},#{princinpal_id_card,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{nature,typeHandler=ses.controller.sys.oms.NullValueHandler},#{org_level,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{position,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{is_root}
-		 )
-	</insert> -->
+	
 	<!-- 更新机构   需求部门  监管部门 -->
 	<update id="updateOrgnization" parameterType="java.util.Map">
 			 update T_SES_OMS_ORG s
@@ -560,4 +538,29 @@
 	 AND IS_DELETED = 0
 	 AND PARENT_ID = #{pid} 
 	</select>
+	
+	<!-- 保存后返回主键 -->
+	<insert id="saveOrg"   parameterType="ses.model.oms.Orgnization" >
+	  <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+	  </selectKey>
+	  insert into T_SES_OMS_ORG
+		 (ID,NAME,TYPE_NAME,CREATED_AT,
+		  DESCRIBTION,ADDRESS,MOBILE,
+		  POST_CODE,ORG_CODE,TELEPHONE,
+		  FAX,WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
+		  NATURE,POSITION,EMAIL,
+		  SHORT_NAME,IS_DELETED
+          )
+		values(
+	      #{id},#{name,jdbcType=VARCHAR},#{typeName,jdbcType=NUMERIC},
+	      #{createdAt,jdbcType=TIMESTAMP},#{describtion,jdbcType=VARCHAR},
+	      #{address,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
+		  #{postCode,jdbcType=INTEGER},#{orgCode,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
+		  #{fax,jdbcType=VARCHAR},#{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},
+		  #{princinpalIdCard,jdbcType=VARCHAR},#{nature,jdbcType=VARCHAR},
+		  #{position,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},
+		  #{shortName,jdbcType=VARCHAR},#{isDeleted,jdbcType=INTEGER}
+		 )
+	</insert>
 </mapper>

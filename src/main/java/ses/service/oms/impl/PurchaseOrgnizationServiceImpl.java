@@ -1,5 +1,6 @@
 package ses.service.oms.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,13 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 
 	@Override
 	public int savePurchaseDep(PurchaseDep purchaseDep) {
+	    
+	    Orgnization org = new Orgnization();
+	    org.setName(purchaseDep.getName());
+	    org.setIsDeleted(StaticVariables.ISNOT_DELETED.toString());
+	    org.setCreatedAt(new Date());
+	    String orgId = orgniztionMapper.saveOrg(org);
+	    purchaseDep.setOrgId(orgId);
 		return purchaseDepMapper.savePurchaseDep(purchaseDep);
 	}
 
