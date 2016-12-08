@@ -604,7 +604,7 @@
                             <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">详细信息</a></li>
                             <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">部门信息</a></li>
                             <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">场所信息</a></li>
-                            <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">监管部门信息</a></li>
+                            <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">管理部门信息</a></li>
                         </ul>
                         <form action="${pageContext.request.contextPath}/purchaseManage/updatePurchaseDep.do" method="post" id="formID">
                             <input type="hidden" value="${purchaseDep.typeName }" name="orgnization.typeName"/>
@@ -976,12 +976,12 @@
                                 <!--  -->
                                 <div class="tab-pane fade height-200" id="tab-4">
                                     <div class="headline-v2">
-								     <h2>选择采购管理部门</h2>
+								     <h2>关联管理部门</h2>
 								   </div> 
                                     <div class="col-md-12 pl20 mt10">
                                         <button type="button"
                                             class="btn btn-windows add"
-                                            id="dynamicAdd" onclick="dynamicaddThree();">添加采购管理部门</button>
+                                            id="dynamicAdd" onclick="dynamicaddThree();">关联</button>
                                     </div>
                                     <div class="content table_box">
                                         <table class="table table-bordered table-condensed table-hover table-striped" id="tab">

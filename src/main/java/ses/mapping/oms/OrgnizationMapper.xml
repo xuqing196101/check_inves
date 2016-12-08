@@ -227,31 +227,40 @@
 	</select>
 	<!-- 多对多关联查询    org_id 1的一方   purchase_dep_id 关联多的一方 -->
 	<select id="findPurchaseOrgList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
-			   select d.id  as id,
-		       d.ORG_LEVEL       as orgLevel,
-		       d.IS_DELETED       as isDeleted,
-		       d.PARENT_ID     as parentId,
-		       d.NAME         as name,
-		       d.DEP_ID       as depId,
-		       d.TYPE_NAME       as typeName,
-		       d.IS_ROOT         as isRoot,
-		       d.EMAIL      as email,
-		       d.MOBILE    as mobile,
-		       d.POST_CODE  as postCode,
-		       d.ADDRESS   as address,
-		       d.SHORT_NAME as shortName,
-		       d.AREA_ID    as areaId,
-		       d.DETAIL_ADDR as detailAddr,
-		       d.fax       as fax,
-		       d.WEBSITE  as website,
-		       d.PRINCINPAL  as princinpal,
-		       d.STATUS     as status,
-		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
-		       d.NATURE  as nature
-		  from T_SES_OMS_ORG d  RIGHT JOIN (select * from T_SES_OMS_PURDEP_ORG po where po.org_id= #{orgId}) m  on d.id = m.purchase_dep_id
-		  where nvl(d.IS_DELETED,0)=0
-		  ORDER BY d.CREATED_AT DESC
+	  SELECT D.ID                 AS ID,
+       D.ORG_LEVEL          AS ORGLEVEL,
+       D.IS_DELETED         AS ISDELETED,
+       D.PARENT_ID          AS PARENTID,
+       D.NAME               AS NAME,
+       D.DEP_ID             AS DEPID,
+       D.TYPE_NAME          AS TYPENAME,
+       D.IS_ROOT            AS ISROOT,
+       D.EMAIL              AS EMAIL,
+       D.MOBILE             AS MOBILE,
+       D.POST_CODE          AS POSTCODE,
+       D.ADDRESS            AS ADDRESS,
+       D.SHORT_NAME         AS SHORTNAME,
+       D.AREA_ID            AS AREAID,
+       D.DETAIL_ADDR        AS DETAILADDR,
+       D.FAX                AS FAX,
+       D.WEBSITE            AS WEBSITE,
+       D.PRINCINPAL         AS PRINCINPAL,
+       D.STATUS             AS STATUS,
+       D.PRINCINPAL_ID_CARD AS PRINCINPALIDCARD,
+       D.NATURE             AS NATURE,
+       D.ORG_CODE           AS ORGCODE,
+       D.PROVINCE_ID        AS PROVINCEID,
+       D.CITY_ID            AS CITYID
+
+       FROM T_SES_OMS_ORG D,
+           (SELECT PO.PURCHASE_DEP_ID
+            FROM T_SES_OMS_PURDEP_ORG PO
+            WHERE PO.ORG_ID = #{orgId}) M
+      WHERE D.ID = M.PURCHASE_DEP_ID
+      AND D.IS_DELETED = 0
+      ORDER BY D.CREATED_AT DESC
 	</select>
+	
 	<!-- 保存机构   需求部门  监管部门-->
 	<insert id="saveOrgnization" parameterType="java.util.Map">
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -531,5 +540,24 @@
 		FROM T_SES_OMS_ORG
 		WHERE TYPE_NAME = #{typeName}
 		AND IS_DELETED = 0
+	</select>
+	
+	<!-- 根据PID和类型查询 -->
+	<select id="getListByPidAndType"  resultMap="baseOrgnization">
+	  SELECT 
+	  <include refid="baseSearchSql"/>
+	  FROM T_SES_OMS_ORG
+	  WHERE TYPE_NAME = #{typeName}
+	  AND IS_DELETED = 0
+	  AND PARENT_ID = #{pid} ORDER BY CREATED_AT ASC
+	</select>
+	
+	<!-- 根据类型和pid查询 -->
+	<select id="getChilCountyPidAndType" resultType="java.lang.Integer">
+	 SELECT count(1)
+	 FROM T_SES_OMS_ORG
+	 WHERE TYPE_NAME = #{typeName}
+	 AND IS_DELETED = 0
+	 AND PARENT_ID = #{pid} 
 	</select>
 </mapper>

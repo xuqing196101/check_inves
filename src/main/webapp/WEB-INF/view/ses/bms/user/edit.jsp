@@ -174,8 +174,9 @@
 			
 			var origin = $("input[name='origin']").val();
 			var srcOrgId = $("input[name='orgId']").val();
+			var deptTypeName = $("input[name='deptTypeName']").val();
 			if (origin != null && origin != ""){
-				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId;
+				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId + "&typeName=" + deptTypeName;
 			} else {
 				var currpage = $("#currpage").val();
 				location.href = '${pageContext.request.contextPath}/user/list.html?page='+currpage;
@@ -208,6 +209,7 @@
 	   </div>
 	   <sf:form action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
 	   	  	<input type="hidden" name="origin"  value="${origin}"/>
+	   	  	<input type="hidden" name="deptTypeName" value="${typeName}"/>
 	   	   <div>
 			    <h2 class="count_flow">修改用户</h2>
 			    <input type="hidden" id="currpage" name="currpage" value="${currPage}">

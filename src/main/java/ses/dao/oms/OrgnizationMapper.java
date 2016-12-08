@@ -70,4 +70,28 @@ public interface OrgnizationMapper {
      * @return
      */
 	List<Orgnization> findByType(String type);
+	
+	/**
+	 * 
+	 *〈简述〉根据Pid和类型查询
+	 *〈详细描述〉
+	 * @author myc
+	 * @param pid 父级的Id
+	 * @param type 对应的类型
+	 * @return 组织机构的list
+	 */
+	List<Orgnization> getListByPidAndType(@Param("pid")String pid, @Param("typeName")String type);
+	
+	/**
+	 * 
+	 *〈简述〉根据pid和类型查询数量
+	 *〈详细描述〉
+	 * @author myc
+	 * @param pid 主键
+	 * @param type 类型
+	 * @return
+	 */
+	Integer  getChilCountyPidAndType(@Param("pid") String pid, @Param("typeName") String type);
+	
+	
 }

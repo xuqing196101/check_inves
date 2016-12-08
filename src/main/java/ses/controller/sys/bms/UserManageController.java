@@ -167,6 +167,7 @@ public class UserManageController extends BaseController{
 		//校验字段
 		String origin = request.getParameter("origin");
 		String orgId = request.getParameter("orgId");
+		String deptTypeName = request.getParameter("deptTypeName");
 		
 	    if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -255,6 +256,7 @@ public class UserManageController extends BaseController{
 		//不为空转到组织机构添加人员页面
 		if (StringUtils.isNotBlank(origin)){
 		    model.addAttribute("srcOrgId", orgId);
+		    model.addAttribute("typeName", deptTypeName);
 		    return "ses/oms/require_dep/list";
 		} else {
 	        return "redirect:list.html";
@@ -275,11 +277,13 @@ public class UserManageController extends BaseController{
         String personTypeName = request.getParameter("personTypeName");
         String origin = request.getParameter("origin");
         String orgId = request.getParameter("orgId");
+        String deptTypeName = request.getParameter("deptTypeName");
         
         model.addAttribute("personTypeId", personTypeId);
         model.addAttribute("personTypeName", personTypeName);
         model.addAttribute("origin", origin);
         model.addAttribute("orgId", orgId);
+        model.addAttribute("typeName", deptTypeName);
 	}
 	
 	/**
@@ -297,6 +301,8 @@ public class UserManageController extends BaseController{
 	    
 	    String origin = request.getParameter("origin");
 	    String userId = request.getParameter("userId");
+	    
+	    String typeName = request.getParameter("typeName");
 	    List<User> users = null;
 	    if (StringUtils.isNotBlank(origin) && StringUtils.isNotBlank(userId)){
 	        User user = new User();
@@ -352,6 +358,7 @@ public class UserManageController extends BaseController{
 			model.addAttribute("currPage", page);
 		}
 		
+		  model.addAttribute("typeName", typeName);
 		  return "ses/bms/user/edit";
 	}
 
@@ -370,6 +377,7 @@ public class UserManageController extends BaseController{
 	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
         
 	    String origin = request.getParameter("origin");
+	    String deptTypeName = request.getParameter("deptTypeName");
 		//校验字段
 		if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
@@ -382,7 +390,7 @@ public class UserManageController extends BaseController{
 			model.addAttribute("roleId", u.getRoleId());
 			model.addAttribute("roleName", request.getParameter("roleName"));
 			model.addAttribute("currPage",request.getParameter("currpage"));
-			
+			model.addAttribute("typeName", deptTypeName);
 			if (StringUtils.isNotBlank(origin)){
 			    DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){
@@ -466,6 +474,7 @@ public class UserManageController extends BaseController{
 		
 		if (StringUtils.isNotBlank(origin)){
 		     model.addAttribute("srcOrgId", orgId);
+		     model.addAttribute("typeName", deptTypeName);
             return "ses/oms/require_dep/list";
 		} else {
 		    String currpage = request.getParameter("currpage");

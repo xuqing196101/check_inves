@@ -43,7 +43,7 @@
     		if (typeName == '1'){
     			window.location.href = "${pageContext.request.contextPath}/purchase/edit.html?purchaserId=" + ids + "&origin=2&orgId=" + selectedTreeId; 
     		} else {
-    			window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId;  
+    			window.location.href= "${pageContext.request.contextPath}/user/edit.do?origin=origin&userId=" + ids + "&orgId=" + selectedTreeId + "&typeName=" + typeName;  
     		}
     	}
     	
@@ -70,8 +70,8 @@
 				type : 'post',
 				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do?orgType=" + type ,
 				data : {ids:ids},
-				success : function(data) {
-					showRes(data.success);
+				success : function(msg) {
+					showRes(msg);
 				}
 			});
     	}
@@ -104,8 +104,8 @@
     	
 		
 		/** 删除成功后调用 */
-		function showRes(res){
-			if (res){
+		function showRes(msg){
+			if (msg == "ok"){
 				layer.msg("删除成功");
 				$("#user tbody input[type=checkbox]:checked").each(function(){
 					$(this).parents('tr').remove();
@@ -147,18 +147,9 @@
 					  <td class="col-xs-3">${orgnization.shortName }</td>
 					</tr>
 					<tr>
-					  <td class="col-xs-3 bggrey tl">类型：</td>
-					  <td class="col-xs-3">
-					    <c:if test="${orgnization.typeName == '1'}">采购机构</c:if>
-					    <c:if test="${orgnization.typeName == '2'}">管理部门</c:if>
-					  </td>
-					  <td class="col-xs-3 bggrey tl">上级：</td>
-					  <td class="col-xs-3">${orgnization.parentName}</td>
-					</tr>
-					<tr>
-					  <td class="col-xs-3 bggrey tl">省份：</td>
+					  <td class="col-xs-3 bggrey tl">省/直辖市：</td>
 					  <td class="col-xs-3">${orgnization.provinceName}</td>
-					  <td class="col-xs-3 bggrey tl">市：</td>
+					  <td class="col-xs-3 bggrey tl">市/区：</td>
 					  <td class="col-xs-3">${orgnization.cityName}</td>
 					</tr>
 					<tr>
@@ -284,8 +275,8 @@
 						<td class="tc">${p.shortName}</td>
 						<td class="tc">${p.orgCode}</td>
 						<td class="tc">${p.mobile}</td>
-						<td class="tc">${p.areaId}</td>
-						<td class="tc">${p.detailAddr}</td>
+						<td class="tc">${p.provinceName}${p.cityName}</td>
+						<td class="tc">${p.address}</td>
 						<td class="tc">${p.postCode}</td>
 						<td class="tc">${p.fax}</td>
 						<td class="tc">${p.website}</td>
