@@ -528,6 +528,23 @@ public class Supplier implements Serializable {
 	 */
 	private String scoreEnd;
 	
+	private String armyBusinessName;
+	
+	private String armyBusinessFax;
+	
+	private String armyBuinessMobile;
+	
+	private String armyBuinessTelephone;
+	
+	private String armyBuinessEmail;
+	
+	private String armyBuinessAddress;
+	
+	private Date auditDate;
+	
+	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
+	
+	
 	public String getScoreStart() {
         return scoreStart;
     }
@@ -1252,6 +1269,70 @@ public class Supplier implements Serializable {
 
 	public void setDetailAddress(String detailAddress) {
 		this.detailAddress = detailAddress;
+	}
+
+	public String getArmyBusinessName() {
+		return armyBusinessName;
+	}
+
+	public void setArmyBusinessName(String armyBusinessName) {
+		this.armyBusinessName = armyBusinessName;
+	}
+
+	public String getArmyBusinessFax() {
+		return armyBusinessFax;
+	}
+
+	public void setArmyBusinessFax(String armyBusinessFax) {
+		this.armyBusinessFax = armyBusinessFax;
+	}
+
+	public String getArmyBuinessMobile() {
+		return armyBuinessMobile;
+	}
+
+	public void setArmyBuinessMobile(String armyBuinessMobile) {
+		this.armyBuinessMobile = armyBuinessMobile;
+	}
+
+	public String getArmyBuinessTelephone() {
+		return armyBuinessTelephone;
+	}
+
+	public void setArmyBuinessTelephone(String armyBuinessTelephone) {
+		this.armyBuinessTelephone = armyBuinessTelephone;
+	}
+
+	public String getArmyBuinessEmail() {
+		return armyBuinessEmail;
+	}
+
+	public void setArmyBuinessEmail(String armyBuinessEmail) {
+		this.armyBuinessEmail = armyBuinessEmail;
+	}
+
+	public String getArmyBuinessAddress() {
+		return armyBuinessAddress;
+	}
+
+	public void setArmyBuinessAddress(String armyBuinessAddress) {
+		this.armyBuinessAddress = armyBuinessAddress;
+	}
+
+	public Date getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(Date auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	public List<SupplierAddress> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<SupplierAddress> addressList) {
+		this.addressList = addressList;
 	}
 	
 	
