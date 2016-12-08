@@ -23,6 +23,8 @@ public interface ProjectMapper {
     
     List<Project> selectByList(Project project);
     
+    List<Project> verifyByProject(Project project);
+    
     List<Project> selectSuccessProject(Map<String,Object> map);
     
     List<Project> selectProject(HashMap<String,Object> map);

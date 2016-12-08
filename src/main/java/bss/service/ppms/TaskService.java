@@ -89,4 +89,6 @@ public interface TaskService {
 	 List<Task> selectByProjectId(String id);
 	 
 	 List<Task> listByTask(Task task,Integer page);
+	 
+	 boolean verify(Task task);
 }

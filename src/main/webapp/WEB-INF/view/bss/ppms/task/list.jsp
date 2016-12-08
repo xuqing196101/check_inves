@@ -259,8 +259,9 @@
             <span class="">
               <select  name="status" id="status">
                 <option selected="selected" value="">请选择</option>
-                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
+                <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>已下达</option>
                 <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
+                <option value="0" <c:if test="${'2'==task.status}">selected="selected"</c:if>>已取消</option>
               </select>
             </span>
           </li>
@@ -312,11 +313,6 @@
 		  </tr>
 		</c:forEach>
 	  </table>
-	</div>
-	<!-- 附件上传 -->
-	<div id="delTask" style="display: none;">
-	  <f:upload id="upload_id" businessId="222" sysKey="2" />
-	  <f:show showId="" businessId="" sysKey="" />
 	</div>
 	<div id="pagediv" align="right"></div>
   </div>

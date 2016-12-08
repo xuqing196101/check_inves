@@ -251,6 +251,22 @@
       </if>
       ORDER BY CREATED_AT DESC
   </select>
+  <select id="verifyByProject" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+     <if test="name != null and name != ''">
+       and NAME = #{name}
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER = #{projectNumber}
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      ORDER BY CREATED_AT DESC
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
