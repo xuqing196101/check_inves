@@ -170,24 +170,20 @@ $(document).ready(function() {
 						<td class="tc">${pc.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
 					<tr>
 					 	<td class="tc" colspan="3">总计：</td>
-					 	<td class="tc"><input type="text" id="total" class="border0 tc w50" readonly="readonly"></td>
-					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
-					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total" class="border0 tc w50 mb0" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50 mb0" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td></td>
 					 </tr>
-				 </thead>
+				</tbody>
 			</table>
 		</div>
 		
-		<div  class="col-md-12">
-		   <div class="mt40 tc mb50">
+		<div  class="col-md-12 col-xs-12 col-sm-12 mt20 tc">
 		    <button class="btn" type="button" onclick="onStep()">上一步</button>
 		    <button class="btn" type="button" onclick="nextStep()">下一步</button>
-		   </div>
 	 	 </div>
 	 	 
   </div>
