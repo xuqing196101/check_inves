@@ -45,12 +45,17 @@ public class Expert implements Serializable{
     private String mobile;
     /**出生日期*/
     private Date birthday;
+    /**缴纳社会保险证明*/
+    private String coverNote;
+    /**居民身份证号码*/
+    @NotNull(message = "不能为空") 
+    private String idCardNumber;
+    /**军队人员身份证件类型*/
+    @NotNull(message = "不能为空") 
+    private String idType;
     /**证件号码*/
     @NotNull(message = "不能为空") 
     private String idNumber;
-    /**证件类型*/
-    @NotNull(message = "不能为空") 
-    private String idType;
     /**专家来源*/
     private String expertsFrom;//军队只能在内网注册,地方在内网和外网都可以注册
     /**政治面貌*/
@@ -70,6 +75,21 @@ public class Expert implements Serializable{
     /**邮箱*/
     @NotNull(message = "不能为空")
     private String email;//邮箱
+    /* 12-8新加
+     * <1>参评的产品类别
+     * <2>专业学术成果
+     * <3>参加军队地方采购评审情况
+     * <4>需要申请回避的情况
+    */
+    /**参评的产品类别*/
+    private String productCategories;
+    /**专业学术成果*/
+    private String academicAchievement;
+    /**参加军队地方采购评审情况*/
+    private String reviewSituation;
+    /**需要申请回避的情况*/
+    private String avoidanceSituation;
+    
     public String getEmail() {
         return email;
     }
@@ -459,5 +479,53 @@ public class Expert implements Serializable{
 
     public void setJobExperiences(String jobExperiences) {
         this.jobExperiences = jobExperiences;
+    }
+
+    public String getIdCardNumber() {
+        return idCardNumber;
+    }
+
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
+    }
+
+    public String getCoverNote() {
+        return coverNote;
+    }
+
+    public void setCoverNote(String coverNote) {
+        this.coverNote = coverNote;
+    }
+
+    public String getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(String productCategories) {
+        this.productCategories = productCategories;
+    }
+
+    public String getAcademicAchievement() {
+        return academicAchievement;
+    }
+
+    public void setAcademicAchievement(String academicAchievement) {
+        this.academicAchievement = academicAchievement;
+    }
+
+    public String getReviewSituation() {
+        return reviewSituation;
+    }
+
+    public void setReviewSituation(String reviewSituation) {
+        this.reviewSituation = reviewSituation;
+    }
+
+    public String getAvoidanceSituation() {
+        return avoidanceSituation;
+    }
+
+    public void setAvoidanceSituation(String avoidanceSituation) {
+        this.avoidanceSituation = avoidanceSituation;
     }
 }
