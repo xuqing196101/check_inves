@@ -1064,6 +1064,7 @@ public class ExpertController {
         a:for (Expert exp : allExpert) {
             // 判断是否被抽取
             projectExtract.setExpertId(exp.getId());
+            projectExtract.setReason("1");
             List<ProjectExtract> list = projectExtractService.list(projectExtract);
             if (list.isEmpty()) {
                 allExpert.remove(exp);
@@ -1451,44 +1452,39 @@ public class ExpertController {
      * @return: String
      * @throws Exception
      */
-    private String createWordMethod(Expert expert, HttpServletRequest request)
-            throws Exception {
+    private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name",
-                expert.getRelName() == null ? "" : expert.getRelName());
-        String gender = expert.getGender();
-        DictionaryData dictionaryData = dictionaryDataServiceI
-                .getDictionaryData(gender);
-        dataMap.put("sex",
-                dictionaryData == null ? "" : dictionaryData.getName());
+        dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
+        String sex = expert.getGender();
+        DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
+        dataMap.put("gender", gender == null ? "" : gender.getName());
         dataMap.put("birthday",
                 expert.getBirthday() == null ? "" : new SimpleDateFormat(
                         "yyyy-MM-dd").format(expert.getBirthday()));
-        // 政治面貌
         String faceId = expert.getPoliticsStatus();
-        DictionaryData data = dictionaryDataServiceI.getDictionaryData(faceId);
-        dataMap.put("face", data == null ? "" : data.getName());
-        String addressId = expert.getAddress();
-        // 子节点
-        Area area = areaServiceI.listById(addressId);
-        // 父节点
-        Area area2 = areaServiceI.listById(area.getParentId());
-        dataMap.put("address",
-                area2 == null || area == null ? "" : area2.getName() + ","
-                        + area.getName());
+        DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
+        dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
+        dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
+        dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
+        dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "" : expert.getCoverNote());
+        dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
+        dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
+        dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+        dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
+        
         dataMap.put(
-                "zhi",
+                "professTechTitles",
                 expert.getProfessTechTitles() == null ? "" : expert
                         .getProfessTechTitles());
+         
         dataMap.put("number",
                 expert.getIdNumber() == null ? "" : expert.getIdNumber());
         String expertType = "";
         String expertsTypeId = expert.getExpertsTypeId();
         if (expertsTypeId != null && expertsTypeId.equals("1")) {
             expertType = "技术";
-        } else if (expertsTypeId != null && expertsTypeId.equals("2")) {
-            expertType = "法律";
         } else if (expertsTypeId != null && expertsTypeId.equals("3")) {
             expertType = "商务";
         }

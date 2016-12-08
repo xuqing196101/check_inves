@@ -224,7 +224,7 @@
 			<if test="idCardNumber != null">
 				ID_CARD_NUMBER,
 			</if>
-			<if test="imail != null">
+			<if test="email != null">
 				EMAIL,
 			</if>
 			<if test="isSubmit != null">
