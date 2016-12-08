@@ -59,9 +59,6 @@
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
-<<<<<<< Updated upstream
-		
-		
 		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
 		<result column="ARMY_BUSINESS_FAX" property="armyBusinessFax" />
 		<result column="ARMY_BUSINESS_MOBILE" property="armyBuinessMobile" />
@@ -69,11 +66,9 @@
 		<result column="ARMY_BUSINESS_EMAIL" property="armyBuinessEmail" />
 		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
 		<result column="AUDIT_DATE" property="auditDate" />
-		
-=======
 		<result column="BUSINESSTYPENAME" property="businessTypeName" />
 		<result column="ISEXTRACT" property="isExtract" />
->>>>>>> Stashed changes
+
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,

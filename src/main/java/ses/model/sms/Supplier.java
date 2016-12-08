@@ -1275,7 +1275,6 @@ public class Supplier implements Serializable {
 		this.detailAddress = detailAddress;
 	}
 
-<<<<<<< Updated upstream
 	public String getArmyBusinessName() {
 		return armyBusinessName;
 	}
@@ -1338,7 +1337,7 @@ public class Supplier implements Serializable {
 
 	public void setAddressList(List<SupplierAddress> addressList) {
 		this.addressList = addressList;
-=======
+	}
 	public String getBusinessTypeName() {
 		return businessTypeName;
 	}
@@ -1353,7 +1352,6 @@ public class Supplier implements Serializable {
 
 	public void setIsExtract(String isExtract) {
 		this.isExtract = isExtract;
->>>>>>> Stashed changes
 	}
 	
 	
