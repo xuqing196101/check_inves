@@ -271,7 +271,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryIds", categoryIds);
-        Category category = new Category();
+       /* Category category = new Category();
         List<String> list=new ArrayList<String>();
         if (categoryIds != null) {
             list=Arrays.asList(categoryIds.split(",")); 
@@ -279,7 +279,7 @@ public class SupplierQueryController extends BaseSupplierController {
         List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category,list ,1);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
-        model.addAttribute("json", json);
+        model.addAttribute("json", json);*/
         return "ses/sms/supplier_query/select_by_category";
     }
 

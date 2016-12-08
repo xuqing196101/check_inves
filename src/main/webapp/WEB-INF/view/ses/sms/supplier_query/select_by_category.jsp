@@ -7,7 +7,7 @@
 <html>
 <head>
 <script type="text/javascript">
-		var setting = {
+/* 		var setting = {
 			check : {
 				enable : true,
 				chkboxType : {
@@ -77,10 +77,11 @@
 			.bind("blur", blurKey)
 			.bind("propertychange", searchNode)
 			.bind("input", searchNode);
-		});
+		}); */
 	</script>
 <script type="text/javascript">
- /*  $(function() {
+ var key;
+ $(function() {
     var zTreeObj;
 	var zNodes;
 	loadZtree();
@@ -110,10 +111,60 @@
 					pIdKey : "parentId"
 				}
 			},
+			view: {
+				fontCss: getFontCss
+			}
 		};
-		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+		zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		key = $("#key");
+		key.bind("focus", focusKey)
+		.bind("blur", blurKey)
+		.bind("propertychange", searchNode)
+		.bind("input", searchNode);
 	}
-	});	  */
+	});
+	function focusKey(e) {
+			if (key.hasClass("empty")) {
+				key.removeClass("empty");
+			}
+		}
+		function blurKey(e) {
+			if (key.get(0).value === "") {
+				key.addClass("empty");
+			}
+		}
+		var lastValue = "", nodeList = [], fontCss = {};
+		function clickRadio(e) {
+			lastValue = "";
+			searchNode(e);
+		}
+		function searchNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var value = $.trim(key.get(0).value);
+			var keyType ="name";
+			if (key.hasClass("empty")) {
+				value = "";
+			}
+			if (lastValue === value) return;
+			lastValue = value;
+			if (value === "") return;
+			updateNodes(false);
+			nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+			updateNodes(true);
+		}
+		function updateNodes(highlight) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			for( var i=0, l=nodeList.length; i<l; i++) {
+				nodeList[i].highlight = highlight;
+				zTree.updateNode(nodeList[i]);
+			}
+		}
+		function getFontCss(treeId, treeNode) {
+			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+		}
+		function filter(node) {
+			return !node.isParent && node.isFirstNode;
+		}
 	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,

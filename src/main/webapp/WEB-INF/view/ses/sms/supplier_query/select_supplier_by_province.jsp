@@ -63,19 +63,104 @@
 			}
 		}
 	 });
-	
+</script>
+<script type="text/javascript">
+ var key;
+			function showCategory() {
+			     var zTreeObj;
+				 var zNodes;
+					var setting = {
+						async : {
+							autoParam:["id"],
+							enable : true,
+							url : "${pageContext.request.contextPath}/category/query_category.do",
+							otherParam : {
+								categoryIds : "${categoryIds}",
+							},
+							dataType : "json",
+							type : "post",
+						},
+						check : {
+							enable : true,
+							chkboxType : {
+								"Y" : "s",
+								"N" : "s"
+							}
+						},
+						callback: {
+							beforeClick: beforeClickCategory,
+							onCheck: onCheckCategory
+						},
+						data : {
+							simpleData : {
+								enable : true,
+								idKey : "id",
+								pIdKey : "parentId"
+							}
+						},
+						view: {
+							fontCss: getFontCss
+						}
+					};
+					zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
+					key = $("#key");
+					key.bind("focus", focusKey)
+					.bind("blur", blurKey)
+					.bind("propertychange", searchNode)
+					.bind("input", searchNode);
+	        
+			var cityObj = $("#category");
+			var cityOffset = $("#category").offset();
+			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownOrg);
+		}
+		function focusKey(e) {
+			if (key.hasClass("empty")) {
+				key.removeClass("empty");
+			}
+		}
+		function blurKey(e) {
+			if (key.get(0).value === "") {
+				key.addClass("empty");
+			}
+		}
+		var lastValue = "", nodeList = [], fontCss = {};
+		function clickRadio(e) {
+			lastValue = "";
+			searchNode(e);
+		}
+		function searchNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole");
+			var value = $.trim(key.get(0).value);
+			var keyType ="name";
+			if (key.hasClass("empty")) {
+				value = "";
+			}
+			if (lastValue === value) return;
+			lastValue = value;
+			if (value === "") return;
+			updateNodes(false);
+			nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+			updateNodes(true);
+		}
+		function updateNodes(highlight) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole");
+			for( var i=0, l=nodeList.length; i<l; i++) {
+				nodeList[i].highlight = highlight;
+				zTree.updateNode(nodeList[i]);
+			}
+		}
+		function getFontCss(treeId, treeNode) {
+			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+		}
+		function filter(node) {
+			return !node.isParent && node.isFirstNode;
+		}
 		function beforeClickCategory(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeRole");
 			zTree.checkNode(treeNode, !treeNode.checked, null, true);
 			return false;
-		}
-		    
-		function beforeClick(treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
-			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
-		}
-		
+		    }
 		function onCheckCategory(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeRole"),
 			nodes = zTree.getCheckedNodes(true),
@@ -91,8 +176,24 @@
 			cityObj.attr("value", v);
 			$("#categoryIds").val(rid); 
 		}
-		
-		function onCheck(e, treeId, treeNode) {
+		function onBodyDownOrg(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
+				hideRole();
+			}
+		}
+		function hideRole() {
+			$("#roleContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownOrg);
+			
+		}
+</script>
+<script type="text/javascript">		
+		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+	function onCheck(e, treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType"),
 			nodes = zTree.getCheckedNodes(true),
 			v = "";
@@ -106,50 +207,6 @@
 			var cityObj = $("#supplierType");
 			cityObj.attr("value", v);
 			$("#supplierTypeIds").val(rid); 
-		}
-		
-		function showCategory() {
-			var setting = {
-			check: {
-					enable: true,
-					chkboxType: {"Y":"", "N":""}
-				},
-				view: {
-					dblClickExpand: false
-				},
-				data : {
-				simpleData : {
-					enable : true,
-					idKey : "id",
-					pIdKey : "parentId"
-				}
-			},
-				callback: {
-					beforeClick: beforeClickCategory,
-					onCheck: onCheckCategory
-				}
-			};
-	        $.ajax({
-             type: "GET",
-             async: false, 
-             url: "${pageContext.request.contextPath}/category/query_category_select.do?categoryIds="+" ",
-             dataType: "json",
-             success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
-			            if (zNodes[i].isParent) {  
-			  
-			            } else {  
-			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
-			            }  
-			        }  
-			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
-               }
-         	});
-			var cityObj = $("#category");
-			var cityOffset = $("#category").offset();
-			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-			$("body").bind("mousedown", onBodyDownOrg);
 		}
 		
 		function showSupplierType() {
@@ -196,25 +253,11 @@
 			$("#supplierTypeContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 			$("body").bind("mousedown", onBodyDownSupplierType);
 		}
-		
-		function hideRole() {
-			$("#roleContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownOrg);
-			
-		}
-		
 		function hideSupplierType() {
 			$("#supplierTypeContent").fadeOut("fast");
 			$("body").unbind("mousedown", onBodyDownSupplierType);
 			
-		}
-		
-		function onBodyDownOrg(event) {
-			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
-				hideRole();
-			}
-		}
-		
+		}	
 		function onBodyDownSupplierType(event) {
 			if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
 				hideSupplierType();
@@ -232,6 +275,7 @@
 	  </div>
    </div>
     	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+    	   <input type="text" id="key" value="" class="empty" /><br/>
 			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
 	   </div>
 	    <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
