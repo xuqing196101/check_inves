@@ -44,37 +44,37 @@ function goBack(){
 				  	<tr>
 				 		<td width="10%" class="bggrey tr">产品名称：</td>
 				 		<td width="25%">
-				 			<input type="text" id="name" name="name" class="col-md-8 border0" value="${contractProduct.name }" readonly>
+				 			<input type="text" id="name" name="name" class="col-md-8 border0 m0" value="${contractProduct.name }" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">设计单位：</td>
 				 		<td width="25%">
-				 			<input id="designDepartment" name="designDepartment" type="text" class="col-md-8" value="${productInfo.designDepartment }" >
+				 			<input id="designDepartment" name="designDepartment" type="text" class="col-md-8 m0 col-sm-12 col-xs-12" value="${productInfo.designDepartment }" >
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">产品概述：</td>
 				 		<td width="25%">
-				 		<textarea class="col-md-8 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productOverview } </textarea>
+				 		<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productOverview } </textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr"> 产品生产过程概述：</td>
 				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productProcess }</textarea>
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productProcess }</textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">产品技术状况概述：</td>
 				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productSkill }</textarea>
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.productSkill }</textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">结论：</td>
 				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.conclusion }</textarea>
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字">${productInfo.conclusion }</textarea>
 				 		</td>
 				 	</tr>
 				 </tobody>

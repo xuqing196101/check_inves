@@ -199,19 +199,17 @@ $(function(){
 						<td class="tc">${bp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
-					<tr>
+				    <tr>
 					 	<td class="tc" colspan="6">总计：</td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td class="tc" ></td>
 					 </tr>
-				 </thead> 
+				</tbody> 
 			</table>
 		</div>
 		

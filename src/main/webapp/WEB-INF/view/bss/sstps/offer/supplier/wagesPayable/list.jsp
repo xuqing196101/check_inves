@@ -208,19 +208,17 @@ $(function(){
 						<td class="tc">${wp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
 					<tr>
 					 	<td class="tc" colspan="5">总计：</td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50 mb0" readonly="readonly"></td>
 					 	<td></td>
 					 </tr>
-				 </thead>
+				</tbody>
 			</table>
 		</div>
 		

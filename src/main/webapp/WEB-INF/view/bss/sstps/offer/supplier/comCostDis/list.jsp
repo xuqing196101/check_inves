@@ -70,7 +70,7 @@ function next(){
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th rowspan="2" class="info">序号</th>
+						<th rowspan="2" class="info w30">序号</th>
 						<th rowspan="2" class="info">项目名称</th>
 						<th colspan="2" class="info">报价前2年</th>
 						<th colspan="2" class="info">报价前1年</th>
@@ -120,7 +120,7 @@ function next(){
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th class="info">序号</th>
+						<th class="info w30">序号</th>
 						<th class="info">项目名称</th>
 						<th class="info">报价前2年</th>
 						<th class="info">报价前1年</th>
