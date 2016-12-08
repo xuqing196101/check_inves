@@ -32,7 +32,7 @@
 				    },
 				    dataRange: {
 				        min: 0,
-				        max: 2500,
+				        max: '${maxCount}',
 				        x: 'left',
 				        y: 'bottom',
 				        text:['高','低'],           // 文本，默认为数值文本
@@ -189,7 +189,7 @@ $(function() {
 			            }  
 			        }  
 			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
+			        tree.expandAll(false);//全部展开
                }
          	});
 			var cityObj = $("#category");

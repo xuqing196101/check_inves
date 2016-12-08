@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.Area;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -39,7 +41,9 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierEditService;
@@ -68,6 +72,9 @@ import common.model.UploadFile;
 @Scope("prototype")
 @RequestMapping("/supplierQuery")
 public class SupplierQueryController extends BaseSupplierController {
+    
+    @Autowired
+    private CategoryService categoryService;
     /**
      * 定义常量2
      */
@@ -141,15 +148,22 @@ public class SupplierQueryController extends BaseSupplierController {
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
         //开始循环 判断地址是否
         Map<String, Integer> map = supplierEditService.getMap();
+        Integer maxCount = 0;
         for (Supplier supplier:listSupplier) {
             for (Map.Entry<String, Integer> entry:map.entrySet()) {   
                 if (supplier.getName() != null && !"".equals(supplier.getName())) {
                     if (supplier.getName().indexOf(entry.getKey()) != -1){
                         map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
+                        if (maxCount < map.get(entry.getKey())) {
+                            maxCount = map.get(entry.getKey());
+                        }
                         break;
                     }
                 }
             }
+        }
+        if (maxCount == 0) {
+            maxCount =2500;
         }
         List<Maps> listMap = new LinkedList<Maps>();
         for (Map.Entry<String, Integer> entry:map.entrySet()) {   
@@ -160,6 +174,7 @@ public class SupplierQueryController extends BaseSupplierController {
         }   
         String json = JSON.toJSONString(listMap);
         model.addAttribute("data", json);
+        model.addAttribute("maxCount", maxCount);
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryNames", categoryNames);
         model.addAttribute("supplierType", supplierType);
@@ -256,6 +271,15 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryIds", categoryIds);
+        Category category = new Category();
+        List<String> list=new ArrayList<String>();
+        if (categoryIds != null) {
+            list=Arrays.asList(categoryIds.split(",")); 
+        }
+        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category,list ,1);
+        String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+        json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
+        model.addAttribute("json", json);
         return "ses/sms/supplier_query/select_by_category";
     }
 

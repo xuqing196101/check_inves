@@ -281,7 +281,7 @@ $(function() {
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
 					<th class="info">供应商级别</th>
-					<th class="info">创建日期</th>
+					<th class="info">入库日期</th>
 					<th class="info">供应商类型</th>
 					<th class="info">供应商状态</th>
 					<th class="info">经济性质</th>
@@ -294,7 +294,7 @@ $(function() {
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName }</td>
 						<td class="tc">${list.level }</td>
-						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td class="tc"><fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" /></td>
 						<td class="tc">${list.supplierType }</td>
 						<td class="tc">
 							<c:if test="${list.status==-1 }">

@@ -22,7 +22,12 @@
 <!-- 表格开始-->  
        <!--  <button class="btn btn-windows git tr" onclick="show()">唱标</button> -->
         <c:forEach items="${listQuoteList }" var="listQuote" varStatus="vs">
-        <h3 class="tc">报价一览表</h3>
+        <h3 class="tc">
+            <c:choose>
+            	<c:when test="${project.dictionary.name == '公开招标' }">开标一览表</c:when>
+            	<c:otherwise>报价一览表</c:otherwise>
+            </c:choose>
+        	</h3>
         <h2 class="list_title">投标人全称：${listQuote[0].supplier.supplierName }</h2>
         <table class="table table-striped table-bordered table-hover tc">
 		<thead>
