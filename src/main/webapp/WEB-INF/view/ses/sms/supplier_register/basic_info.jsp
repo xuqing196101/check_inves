@@ -580,7 +580,7 @@ function deleteFinance() {
 	       	   </div>
 		    </li>
 		    
-		   <li id="breach_li_id" class="col-md-3 col-sm-12 col-xs-12 mb25">
+		   <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
 			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 			     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
@@ -589,7 +589,7 @@ function deleteFinance() {
 			  <%--  <div class="cue"> ${err_bearch } </div> --%>
 			</li>
 			
-			 <li id="breach_li_id" class="col-md-3 col-sm-12 col-xs-12 mb25">
+			 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
 			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
@@ -600,7 +600,7 @@ function deleteFinance() {
 		  </ul>
 	    </fieldset>
 	    
-	    <fieldset class="col-md-12 border_font mt20">
+	    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	  <legend>注册联系人</legend>
 	 	   <ul class="list-unstyled" style="font-size: 14">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
