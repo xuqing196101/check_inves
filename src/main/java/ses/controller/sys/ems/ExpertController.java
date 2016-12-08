@@ -261,11 +261,16 @@ public class ExpertController {
                 Userrole userrole = new Userrole();
                 userrole.setRoleId(listRole.get(0));
                 userrole.setUserId(user);
-                /** 给该用户初始化进口代理商角色 */
+                /** 删除用户之前的菜单权限*/
+                UserPreMenu userPreMenu = new UserPreMenu();
+                userPreMenu.setUser(user);
+                userService.deleteUserMenu(userPreMenu);
+                /** 删除用户之前的角色信息*/
+                /** 给该用户初始化专家角色 */
                 userService.saveRelativity(userrole);
                 String[] roleIds = listRole.get(0).getId().split(",");
                 List<String> listMenu = menuService.findByRids(roleIds);
-                /** 给用户初始化进口代理商菜单权限 */
+                /** 给用户初始化专家菜单权限 */
                 for (String menuId : listMenu) {
                     UserPreMenu upm = new UserPreMenu();
                     PreMenu preMenu = menuService.get(menuId);
@@ -1473,45 +1478,50 @@ public class ExpertController {
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
         dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
         dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
-        
+        DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+        if (idType != null) {
+            dataMap.put("idType", idType.getName() == null ? "" : idType.getName());
+        } else {
+            dataMap.put("idType", "");
+        }
+        dataMap.put("idNumber", expert.getIdNumber() == null ? "" : expert.getIdNumber());
+        dataMap.put("major", expert.getMajor() == null ? "" : expert.getMajor());
+        dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getTimeStartWork()));
+        DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+        if (expertsForm != null) {
+            dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
+        } else {
+            dataMap.put("expertsFrom", "");
+        }
         dataMap.put(
                 "professTechTitles",
                 expert.getProfessTechTitles() == null ? "" : expert
                         .getProfessTechTitles());
-         
-        dataMap.put("number",
-                expert.getIdNumber() == null ? "" : expert.getIdNumber());
+        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getMakeTechDate()));
         String expertType = "";
         String expertsTypeId = expert.getExpertsTypeId();
         if (expertsTypeId != null && expertsTypeId.equals("1")) {
             expertType = "技术";
         } else if (expertsTypeId != null && expertsTypeId.equals("3")) {
-            expertType = "商务";
+            expertType = "经济";
+        } else {
+            expertType = "";
         }
-        dataMap.put("type", expertType);
-        dataMap.put("date",
-                expert.getTimeStartWork() == null ? "" : new SimpleDateFormat(
-                        "yyyy-MM-dd").format(expert.getTimeStartWork()));
+        dataMap.put("expertsTypeId", expertType);
+        dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
         String hightEducationId = expert.getHightEducation();
-        DictionaryData data2 = dictionaryDataServiceI
-                .getDictionaryData(hightEducationId);
-        dataMap.put("xueli", data2 == null ? "" : data2.getName());
-        dataMap.put("xuewei",
-                expert.getDegree() == null ? "" : expert.getDegree());
-        dataMap.put("phone",
-                expert.getMobile() == null ? "" : expert.getMobile());
-        dataMap.put("teliphone",
-                expert.getTelephone() == null ? "" : expert.getTelephone());
-        dataMap.put(
-                "school",
-                expert.getGraduateSchool() == null ? "" : expert
-                        .getGraduateSchool());
-        dataMap.put("unitName",
-                expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("unitAddress", expert.getUnitAddress() == null ? ""
-                : expert.getUnitAddress());
-        dataMap.put("zipCode",
-                expert.getPostCode() == null ? "" : expert.getPostCode());
+        DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
+        dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
+        dataMap.put("degree", expert.getDegree() == null ? "" : expert.getDegree());
+        dataMap.put("mobile", expert.getMobile() == null ? "" : expert.getMobile());
+        dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
+        dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
+        dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
+        dataMap.put("productCategories", expert.getProductCategories() == null ? "" : expert.getProductCategories());
+        dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
+        dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
+        dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
+        dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "" : expert.getAvoidanceSituation());
         // 文件名称
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
                 "UTF-8");
