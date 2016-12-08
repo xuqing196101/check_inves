@@ -59,6 +59,7 @@
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
+<<<<<<< Updated upstream
 		
 		
 		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
@@ -69,6 +70,10 @@
 		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
 		<result column="AUDIT_DATE" property="auditDate" />
 		
+=======
+		<result column="BUSINESSTYPENAME" property="businessTypeName" />
+		<result column="ISEXTRACT" property="isExtract" />
+>>>>>>> Stashed changes
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
@@ -974,7 +979,9 @@
 		select
 		t1. *,
 		t2.ID as ID_ ,
-		t3.NAME as NAME_
+		t3.NAME as NAME_,
+		t4. NAME AS BUSINESSTYPENAME,
+		t5.OPERATING_TYPE as isExtract
 		from(
 		select
 		*
@@ -984,7 +991,7 @@
 		from(
 		select
 		*
-		from
+		FROM
 		T_SES_SMS_SUPPLIER tt1
 		where
 		1=1
@@ -1006,6 +1013,13 @@
 		T_SES_BMS_DICTIONARY_DATA t3
 		ON
 		t2.SUPPLIER_TYPE_ID = t3.CODE
+		left join 
+		T_SES_BMS_DICTIONARY_DATA t4 
+		ON 
+		t1.BUSINESS_TYPE = t4. ID
+		left join 
+		T_SES_SMS_SUPPLIER_EXT_RELATE t5
+		on t5.SUPPLIER_ID = t1.ID
 	</select>
 
 

@@ -493,11 +493,15 @@ public class Supplier implements Serializable {
 	
 	private List<String> itemType;
 	
-	private Integer sign;
+	private Integer sign;  //审核标志
 	
 	private Integer page;
 	
 	private Integer rows;
+	
+	private String businessTypeName; //营业执照类型名字
+	
+	private String isExtract; //是否抽取
 	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
@@ -1271,6 +1275,7 @@ public class Supplier implements Serializable {
 		this.detailAddress = detailAddress;
 	}
 
+<<<<<<< Updated upstream
 	public String getArmyBusinessName() {
 		return armyBusinessName;
 	}
@@ -1333,6 +1338,22 @@ public class Supplier implements Serializable {
 
 	public void setAddressList(List<SupplierAddress> addressList) {
 		this.addressList = addressList;
+=======
+	public String getBusinessTypeName() {
+		return businessTypeName;
+	}
+
+	public void setBusinessTypeName(String businessTypeName) {
+		this.businessTypeName = businessTypeName;
+	}
+
+	public String getIsExtract() {
+		return isExtract;
+	}
+
+	public void setIsExtract(String isExtract) {
+		this.isExtract = isExtract;
+>>>>>>> Stashed changes
 	}
 	
 	

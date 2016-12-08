@@ -291,7 +291,7 @@
 								<thead>
 									<tr>
 										<!-- <th class="info">序号</th> -->
-										<th class="info">年份</th>
+										<th class="info w50">年份</th>
 										<th class="info">会计事务所名称</th>
 										<th class="info">事务所联系电话</th>
 										<th class="info">审计人姓名</th>
@@ -305,7 +305,7 @@
 								</thead>
 								<tr>
 									<%-- <td class="tc">${vs.index + 1}</td> --%>
-									<td class="tc" id="${f.id }">${f.year } </td>
+									<td class="tc w50" id="${f.id }">${f.year } </td>
 									<td class="tc">${f.name }</td>
 									<td class="tc">${f.telephone }</td>
 									<td class="tc">${f.auditors }</td>
@@ -324,7 +324,7 @@
 								<thead>
 									<tr>
 										<!-- <th class="info">序号</th> -->
-										<th class="info">年份</th>
+										<th class="info w50">年份</th>
 										<th class="info">财务利润表</th>
 										<th class="info">审计报告的审计意见</th>
 										<th class="info">资产负债表</th>
@@ -336,7 +336,7 @@
 								<tbody id="finance_attach_list_tbody_id">
 									<tr>
 										<%-- <td class="tc">${vs.index + 1}</td> --%>
-										<td class="tc">${f.year}</td>
+										<td class="tc w50">${f.year}</td>
 										<td class="tc">
 											<a class="mt3 color7171C6" href="javascript:download('${f.auditOpinionId}', '${sysKey}')">${f.auditOpinion}</a>
 										</td>
