@@ -101,8 +101,7 @@
                 <div class="col-md-12" style="min-height:400px;">
 				<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 				    <div class="tag-box tag-box-v3">
-		                <span class="fl">品目：</span><input id="citySel" type="text" value="" width="w100" onkeyup="AutoMatch(this)"/>
-					<div id="ztree" class="ztree"></div>
+					<ul id="ztree" class="ztree" />
 					</div>
 				</div>
 				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">

@@ -50,18 +50,16 @@
 	}
 	
      $(function() {
-		var optionNodes = $("option");
-		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-			if ("${supplier.status}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-			if( i > 7) {
-				if ("${supplier.score}" == $(optionNodes[i]).val()) {
-					optionNodes[i].selected = true;
+		var optionStatus = $("#status").find("option");
+		for ( var i = 1; i < optionStatus.length; i++) {
+				if ("${supplier.status}" == $(optionStatus[i]).val()) {
+					optionStatus[i].selected = true;
 				}
+		}
+		var optionScore = $("#score").find("option");
+		for ( var i = 1; i < optionScore.length; i++) {
+			if ("${supplier.score}" == $(optionScore[i]).val()) {
+					optionScore[i].selected = true;
 			}
 		}
 	 });
@@ -134,7 +132,7 @@
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}/category/query_category_select.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -245,22 +243,22 @@
 	     <h2>供应商信息</h2>
 	   </div> 
   				<h2 class="search_detail">
-            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post" class="mb0">
+            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?count=0" method="post" class="mb0">
                <input type="hidden" name="address" value="${address }">
                <input type="hidden" name="page" id="page">
                <ul class="demand_list">
                   <li>
-                    <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${sup.supplierName }" type="text"></span>
+                    <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
                   </li>
                   <li>
-                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
+                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                         <span class="f14">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
                         </span>
                   </li>
                   <li>
-                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${sup.contactName }" type="text"></span>
+                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
                   </li> 
                   <li>
                     <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
@@ -269,7 +267,7 @@
                   <li>
                     <label class="fl">供应商状态:</label>
                     <span>
-                      <select name="status">
+                      <select id="status" name="status">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="-1">暂存、未提交</option>
                                     <option  value="0">待初审</option>
@@ -287,7 +285,7 @@
                   <li>
 		            <label class="fl">供应商级别:</label>
 		            <span>
-		              <select name="score">
+		              <select id="score" name="score">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="1">一级</option>
                                     <option  value="2">二级</option>
@@ -315,6 +313,7 @@
 					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
+					<th class="info">供应商级别</th>
 					<th class="info">创建日期</th>
 					
 					<th class="info">供应商类型</th>
@@ -329,6 +328,7 @@
 						<td class="tc">${vs.index+1 }</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=0&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName }</td>
+						<td class="tc">${list.level }</td>
 						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td class="tc">${list.supplierType }</td>
 						<td class="tc">		

@@ -969,7 +969,7 @@
 			AND CREATED_AT &lt;= #{endDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME = #{contactName}
+			AND CONTACT_NAME like '%${contactName}%'
 		</if>
 		<if test="status != null">
 			and SUPPLIER_STATUS = #{status}

@@ -49,7 +49,7 @@
 			</span>
 			<span>
 				<c:if test="${std.bidFinish == 2 }">
-				  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${project.id}"  class="img-v2 orange_link">填写报价</a>
+				  <a href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?projectId=${project.id}"  class="img-v2 orange_link">填写报价</a>
 				  <span class="green_link">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 0}">
@@ -61,7 +61,7 @@
 				  <span class="">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 3 || std.bidFinish == 4}">
-				  <a href="${pageContext.request.contextPath}/mulQuo/list.html?projectId=${project.id}" class="img-v1">填写报价</a>
+				  <a href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?projectId=${project.id}" class="img-v1">填写报价</a>
 				  <span class="">→</span>
 				</c:if>
 			</span>

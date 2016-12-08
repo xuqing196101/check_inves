@@ -160,7 +160,7 @@ public class SupplierQueryController extends BaseSupplierController {
         }   
         String json = JSON.toJSONString(listMap);
         model.addAttribute("data", json);
-        model.addAttribute("sup", sup);
+        model.addAttribute("supplier", sup);
         model.addAttribute("categoryNames", categoryNames);
         model.addAttribute("supplierType", supplierType);
         model.addAttribute("supplierTypeIds", supplierTypeIds);
@@ -227,7 +227,7 @@ public class SupplierQueryController extends BaseSupplierController {
         if (judge != null && judge == NUMBER_THREE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
-            if (sup.getStatus() != null && sup.getStatus() == NUMBER_THREE) {
+            if (sup.getStatus() != null && sup.getStatus() == NUMBER_THREE && sup.getCount() != 0) {
                 return "ses/sms/supplier_query/select_ruku_supplier_by_province";
             } else {
                 return "ses/sms/supplier_query/select_supplier_by_province";

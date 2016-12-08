@@ -99,18 +99,16 @@ function chongzhi(){
 	window.location.href="${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 }
 $(function() {
-		var optionNodes = $("option");
-		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${sup.supplierType}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-			if ("${sup.status}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-			if( i > 7) {
-				if ("${sup.score}" == $(optionNodes[i]).val()) {
-					optionNodes[i].selected = true;
+		var optionStatus = $("#status").find("option");
+		for ( var i = 1; i < optionStatus.length; i++) {
+				if ("${supplier.status}" == $(optionStatus[i]).val()) {
+					optionStatus[i].selected = true;
 				}
+		}
+		var optionScore = $("#score").find("option");
+		for ( var i = 1; i < optionScore.length; i++) {
+			if ("${supplier.score}" == $(optionScore[i]).val()) {
+					optionScore[i].selected = true;
 			}
 		}
 	});
@@ -308,7 +306,7 @@ $(function() {
                   <li>
 		            <label class="fl">供应商状态:</label>
 		            <span>
-		              <select name="status">
+		              <select id="status" name="status">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="-1">暂存、未提交</option>
                                     <option  value="0">待初审</option>
@@ -326,7 +324,7 @@ $(function() {
                    <li>
 		            <label class="fl">供应商级别:</label>
 		            <span>
-		              <select name="score">
+		              <select id="score" name="score">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="1">一级</option>
                                     <option  value="2">二级</option>
@@ -344,7 +342,7 @@ $(function() {
 	            <div class="clear"></div>
 		     </form>
      </h2>
-  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;position: absolute;top:30%;left:25%;"></div>  
+  <div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>  
   </div>
   </body>
 </html>

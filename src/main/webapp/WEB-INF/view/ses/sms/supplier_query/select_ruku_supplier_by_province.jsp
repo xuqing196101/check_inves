@@ -118,7 +118,7 @@ $(function() {
 	        $.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/category/query_category.do?categoryIds="+" ",
+             url: "${pageContext.request.contextPath}/category/query_category_select.do?categoryIds="+" ",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -280,6 +280,7 @@ $(function() {
 					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
+					<th class="info">供应商级别</th>
 					<th class="info">创建日期</th>
 					<th class="info">供应商类型</th>
 					<th class="info">供应商状态</th>
@@ -292,6 +293,7 @@ $(function() {
 						<td class="tc">${vs.index+1 }</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName }</td>
+						<td class="tc">${list.level }</td>
 						<td class="tc"><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td class="tc">${list.supplierType }</td>
 						<td class="tc">
