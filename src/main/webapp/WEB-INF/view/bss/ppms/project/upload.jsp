@@ -42,7 +42,7 @@
           <li class="mt10 col-md-12 p0">
             <label class="col-md-12 pl20">上传项目批文</label>
             <span class="col-md-12">
-              <f:upload id="upload_ids" groups="show_ids,upload_ids" businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
+              <f:upload id="upload_ids" groups="show_ids,upload_ids" multiple="true"  businessId="${project.id}" typeId="${dataIds}" sysKey="2"/>
               <f:show showId="show_ids" groups="show_ids,upload_ids" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
             </span>
           </li>

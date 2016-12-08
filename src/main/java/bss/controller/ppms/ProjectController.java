@@ -239,11 +239,11 @@ public class ProjectController extends BaseController {
             }
             //新增项目信息
             if(project != null){
-                if(project.getName().length()>12){
+                if(project.getName().length()>50){
                     model.addAttribute("ERR_name", "字符太大");
                     return "bss/ppms/project/add";
                 }
-                if(project.getProjectNumber().length()>12){
+                if(project.getProjectNumber().length()>50){
                     model.addAttribute("ERR_projectNumber", "字符太大");
                     return "bss/ppms/project/add";
                 }

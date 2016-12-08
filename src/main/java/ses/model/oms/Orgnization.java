@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 
@@ -18,13 +19,13 @@ public class Orgnization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	@NotNull(message = "名称不能为空") 
-	@NotEmpty(message="名称不能为空")
+	@NotBlank(message = "名称不能为空") 
 	@Length(min=1,max=50,message="长度不可超过50")
     private String name;
 
     private String typeName;
-
+    
+    @NotBlank(message = "地址不能为空") 
     private String address;
 
     private String mobile;

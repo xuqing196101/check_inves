@@ -69,7 +69,7 @@
           type: 'post',
           url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
           data: {
-            pid: 1
+            pid: 0
           },
           success: function(data) {
             $("#city").append("<option value='-1'>请选择</option>");
@@ -103,8 +103,9 @@
             pid: pid
           },
           success: function(data) {
+          $("#city").append("<option value='-1'>请选择</option>");
             $.each(data, function(idx, item) {
-              $("#city").append("<option value='-1'>请选择</option>");
+              
               if(item.id == cityId) {
                 var html = "<option value='" + item.id + "' selected>" + item.name +
                   "</option>";
@@ -124,7 +125,7 @@
         $("#cid").val(pid);
       }
 
-      function update() {
+      function save() {
         $.ajax({
           type: 'post',
           url: "${pageContext.request.contextPath}/purchaseManage/updatePurchaseDepAjxa.do?",
@@ -463,8 +464,8 @@
           errorPlacement: function(error, element) {
             error.appendTo(element.parent("div").next("td"));
           },
-          showErrors: function(errorMap, errorList) {　　　　　　　　　　
-            this.defaultShowErrors();　　　　　　
+          showErrors: function(errorMap, errorList) {
+            this.defaultShowErrors();
           }
         });
       }
@@ -636,13 +637,13 @@
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
                                                 class="red">＊</i>采购资质开始日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value=" ${purchaseDep.quaStartDate} " pattern="yyyy-MM-dd " />" />
+                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="${purchaseDep.quaStartDate}" />
                     </div>
                   </li>
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i
                                                 class="red">＊</i>采购资质截止日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value=" ${purchaseDep.quaEdndate} " pattern="yyyy-MM-dd " />" />
+                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()"  name="quaEdndate" value=" ${purchaseDep.quaEdndate}" />
                     </div>
                   </li>
                   <%-- <li>
@@ -660,8 +661,8 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">＊</i>采购资格证书图片</span>
                     <div class="uploader orange m0">
-                      <up:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true" typeId="${PURCHASE_QUA_CERT_ID }" />
-                      <up:show showId="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" typeId="${PURCHASE_QUA_CERT_ID }" />
+                      <u:upload id="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" auto="true" typeId="${PURCHASE_QUA_CERT_ID }" />
+                      <u:show showId="cert_up_id" businessId="${purchaseDep.id}" sysKey="2" typeId="${PURCHASE_QUA_CERT_ID }" />
                     </div>
                   </li>
                 </ul>
@@ -950,7 +951,7 @@
               </div>
 
               <div class="mt40 tc mb50">
-                <input type="button" class="btn btn-windows save" onclick="update();" value="保存" />
+                <input type="submit" class="btn btn-windows save"  value="保存" />
                 <!-- <input type="button" class="btn" onclick="stash();"  value="暂存" />  -->
                 <input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消" />
               </div>

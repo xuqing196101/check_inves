@@ -933,7 +933,7 @@ public class PurchaseManageController {
 	@ResponseBody
 	@RequestMapping(value = "getProvinceList", produces="application/json;charset=UTF-8")
 	public List<Area> getProvinceList(HttpServletRequest request){
-		String pid = request.getParameter("pid");//areaType
+		String pid = request.getParameter("pid");
 		List<Area> privinceList =  areaServiceI.findTreeByPid(pid,null);
 		return  privinceList;
 	}

@@ -25,7 +25,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">供应商报价</a></li><li><a href="javascript:void(0)">产 品 报 价(审价)详 细 情 况</a></li></ul>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">供应商报价</a></li><li><a href="javascript:void(0)">产品报价（审价）详细情况</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -33,7 +33,7 @@ function onStep(){
    
    <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>产 品 报 价(审价)详 细 情 况</h2>
+	  		 <h2>产品报价（审价）详细情况</h2>
 	 	</div>
    </div>
    
