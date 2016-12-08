@@ -603,6 +603,7 @@ public class SupplierController extends BaseSupplierController {
 			 String typeId = dictionaryData.getSupplierPledge();
 			model.addAttribute("sysKey", sysKey);
 			model.addAttribute("typeId", typeId);
+			model.addAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/template_upload";
 		} else{
 			supplier = supplierService.get(supplier.getId());
@@ -944,11 +945,11 @@ public class SupplierController extends BaseSupplierController {
 		}*/
 		
 //		supplier1.setCreditCode(supplier.getCreditCode());
-		map.put("creditCode", supplier.getCreditCode());
-		List<Supplier> list2 = supplierService.query(map);
-		if(list2!=null&&list2.size()>1){
-			model.addAttribute("err_creditCide", "信用代码已存在!");
-		}
+//		map.put("creditCode", supplier.getCreditCode());
+//		List<Supplier> list2 = supplierService.query(map);
+//		if(list2!=null&&list2.size()>1){
+//			model.addAttribute("err_creditCide", "信用代码已存在!");
+//		}
 		
 		if(supplier.getCreditCode()==null||supplier.getCreditCode().length()>36){
 			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
@@ -1431,6 +1432,9 @@ public class SupplierController extends BaseSupplierController {
 	}
 	@RequestMapping("/tab")
 	public String tab(){
-		return "ses/sms/supplier_register/supplier_type";
+		
+		return "ses/sms/supplier_register/basic_info";
 	}
+	
+
 }
