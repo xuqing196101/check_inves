@@ -33,7 +33,7 @@ public class PurchaseDep extends Orgnization{
     private String quaCode;//采购资质编号
 
     private String quaLevel;//采购资质等级 一级----九级
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date quaStartDate;//采购资质开始日期
     @DateTimeFormat(pattern="yyyy-MM-dd")

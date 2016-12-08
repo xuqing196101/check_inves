@@ -48,19 +48,24 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 
 	@Override
 	public int savePurchaseDep(PurchaseDep purchaseDep) {
-	    
 	    Orgnization org = new Orgnization();
-	    org.setName(purchaseDep.getName());
+	    org.setName(purchaseDep.getOrgnization().getName());
 	    org.setIsDeleted(StaticVariables.ISNOT_DELETED.toString());
 	    org.setCreatedAt(new Date());
-	    String orgId = orgniztionMapper.saveOrg(org);
+	    org.setShortName(purchaseDep.getOrgnization().getShortName());
+	    org.setAddress(purchaseDep.getOrgnization().getAddress());
+	    org.setPostCode(purchaseDep.getOrgnization().getPostCode());
+	    org.setProvinceId(purchaseDep.getOrgnization().getProvinceId());
+	    org.setCityId(purchaseDep.getOrgnization().getCityId());
+	    orgniztionMapper.saveOrg(org);
+	    String orgId = org.getId();
 	    purchaseDep.setOrgId(orgId);
+	    purchaseDep.setCreatedAt(new Date());
 		return purchaseDepMapper.savePurchaseDep(purchaseDep);
 	}
 
 	@Override
 	public int update(PurchaseDep purchaseDep) {
-		// TODO Auto-generated method stub
 		return purchaseDepMapper.update(purchaseDep);
 	}
 	

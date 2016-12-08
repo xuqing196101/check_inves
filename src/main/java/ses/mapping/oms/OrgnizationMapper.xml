@@ -29,12 +29,13 @@
 		<result column="IS_ROOT" property="isRoot"/>
 		<result column="EMAIL" property="email"/>
 		<result column="STATUS" property="status"/>
+		<result column="CREATED_AT" property="createdAt"/>
 	</resultMap>
 	
 	<sql id="baseSearchSql">
 		ID,NAME,TYPE_NAME,ADDRESS,MOBILE,POST_CODE,ORG_CODE,TELEPHONE,AREA_ID,DETAIL_ADDR,FAX,
 		WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,NATURE,SHORT_NAME,PARENT_ID,PARENT_NAME,PROVINCE_ID,
-		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS
+		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS,CREATED_AT
 	</sql>
 
    <!-- 根据id查询 -->
@@ -545,22 +546,57 @@
 			select rawtohex(sys_guid()) as VALUE from dual
 	  </selectKey>
 	  insert into T_SES_OMS_ORG
-		 (ID,NAME,TYPE_NAME,CREATED_AT,
-		  DESCRIBTION,ADDRESS,MOBILE,
-		  POST_CODE,ORG_CODE,TELEPHONE,
-		  FAX,WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
-		  NATURE,POSITION,EMAIL,
-		  SHORT_NAME,IS_DELETED
-          )
-		values(
-	      #{id},#{name,jdbcType=VARCHAR},#{typeName,jdbcType=NUMERIC},
-	      #{createdAt,jdbcType=TIMESTAMP},#{describtion,jdbcType=VARCHAR},
-	      #{address,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
-		  #{postCode,jdbcType=INTEGER},#{orgCode,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
-		  #{fax,jdbcType=VARCHAR},#{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},
-		  #{princinpalIdCard,jdbcType=VARCHAR},#{nature,jdbcType=VARCHAR},
-		  #{position,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},
-		  #{shortName,jdbcType=VARCHAR},#{isDeleted,jdbcType=INTEGER}
-		 )
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+	     <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="provinceId != null">
+        PROVINCE_ID,
+      </if>
+      <if test="cityId != null">
+        CITY_ID,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
+      </if>
+      <if test="shortName != null">
+        SHORT_NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+	  </trim>
+	  <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="provinceId != null">
+        #{provinceId},
+      </if>
+      <if test="cityId != null">
+        #{cityId},
+      </if>
+      <if test="address != null">
+        #{address},
+      </if>
+      <if test="postCode != null">
+        #{postCode},
+      </if>
+      <if test="shortName != null">
+        #{shortName},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
 	</insert>
 </mapper>

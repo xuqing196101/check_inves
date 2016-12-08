@@ -86,7 +86,7 @@
           type: 'post',
           url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
           data: {
-            pid: 1
+            pid: 0
           },
           success: function(data) {
             $("#city").append("<option value='-1'>请选择</option>");
@@ -133,8 +133,9 @@
             pid: pid
           },
           success: function(data) {
+           $("#city").append("<option value='-1'>请选择</option>");
             $.each(data, function(idx, item) {
-              $("#city").append("<option value='-1'>请选择</option>");
+             
               if(item.id == cityId) {
                 var html = "<option value='" + item.id + "' selected>" + item.name +
                   "</option>";
@@ -777,14 +778,14 @@
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
                                                 class="red">＊</i>采购资质开始日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="<fmt:formatDate value=" ${purchaseDep.quaStartDate} " pattern="yyyy-MM-dd " />" />
+                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" value="${purchaseDep.quaStartDate}" />
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class=""><i
                                                 class="red">＊</i>采购资质截止日期</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="<fmt:formatDate value=" ${purchaseDep.quaEdndate} " pattern="yyyy-MM-dd " />" />
+                      <input class="Wdate w230" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value=" ${purchaseDep.quaEdndate}" />
                     </div>
                   </li>
                   <%-- <li>

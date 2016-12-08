@@ -101,7 +101,7 @@ public interface OrgnizationMapper {
 	 * @param orgnization {@link Orgnization}对象
 	 * @return 返回主键
 	 */
-	String saveOrg(Orgnization orgnization);
+	void saveOrg(Orgnization orgnization);
 	
 	
 }

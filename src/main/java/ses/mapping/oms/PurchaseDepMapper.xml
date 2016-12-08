@@ -6,7 +6,7 @@
 			   select o.id  as id,
 		       d.LEVEL_DEP       as levelDep,
 		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
-		       d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
+		       d.SUBORDINATE_ORG_NAME     as subordinateOrgName,
 		       d.BUSINESS_DEP         as businessDep,
 		       d.BUSINESS_DEP_ID       as businessDepId,
 		       d.BUSINESS_RANGE       as businessRange,
@@ -126,7 +126,7 @@
                select o.id  as id,
                d.LEVEL_DEP       as levelDep,
                d.SUBORDINATE_ORG_ID       as subordinateOrgId,
-               d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
+               d.SUBORDINATE_ORG_NAME     as subordinateOrgName,
                d.BUSINESS_DEP         as businessDep,
                d.BUSINESS_DEP_ID       as businessDepId,
                d.BUSINESS_RANGE       as businessRange,
@@ -199,39 +199,292 @@
 			select rawtohex(sys_guid()) as VALUE from dual
 		</selectKey>
 		insert into T_SES_OMS_PURCHASE_DEP
-		 (ID,LEVEL_DEP,SUBORDINATE_ORG_ID,
-		  SUBORDINATE_ORG__NAME,BUSINESS_DEP,BUSINESS_DEP_ID,
-		  BUSINESS_RANGE,QUA_CODE,QUA_LEVEL,
-		  QUA_EDNDATE,QUA_RANGE,QUA_CERT,
-		  LEADER_TELEPHONE,OFFICER_COUNTNUM,OFFICER_NOW_COUNTS,
-		  SOLDIER_NUM,SOLDIER_NOW_COUNTS,STAFF_NUM,
-		  STAFF_NOW_COUNTS,PURCHASERS_COUNT,JUNIOR_PUR_COUNT,
-		  SENIOR_PUR_COUNT,DEP_NAME,LEGAL,
-		  AGENT,CONTACT,CONTACT_TELEPHONE,
-		  CONTACT_ADDRESS,UNIT_POST_CODE,PAY_DEP,
-		  BANK,BANK_ACCOUNT,OFFICE_AREA,
-		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
-		  BID_ROOM_COUNT,CREATED_AT,ORG_ID,
-		  IS_AUDIT_SUPPLIER,DUTY_ROOM_PHONE,
-		  QUA_START_DATE,IS_DELETED
-          )
-		values(
-	      #{id},#{levelDep,jdbcType=VARCHAR},
-		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
-		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
-		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
-		  #{quaCert,jdbcType=VARCHAR},#{leaderTelephone,jdbcType=VARCHAR},#{officerCountnum,jdbcType=NUMERIC},
-		  #{officerNowCounts,jdbcType=NUMERIC},#{soldierNum,jdbcType=NUMERIC},#{soldierNowCounts,jdbcType=NUMERIC},
-		  #{staffNum,jdbcType=NUMERIC},#{staffNowCounts,jdbcType=NUMERIC},#{purchasersCount,jdbcType=NUMERIC},
-		  #{juniorPurCount,jdbcType=NUMERIC},#{seniorPurCount,jdbcType=NUMERIC},#{depName,jdbcType=VARCHAR},
-		  #{legal,jdbcType=VARCHAR},#{agent,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR},
-		  #{contactTelephone,jdbcType=VARCHAR},#{contactAddress,jdbcType=VARCHAR},#{unitPostCode,jdbcType=NUMERIC},
-		  #{payDep,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},
-		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
-		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
-		  #{orgId,jdbcType=VARCHAR},#{isAuditSupplier,jdbcType=NUMERIC},#{dutyRoomPhone,jdbcType=VARCHAR},
-		  #{quaStartDate,jdbcType=TIMESTAMP},#{isDeleted,jdbcType=NUMERIC}
-		 )
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="levelDep != null">
+        LEVEL_DEP,
+      </if>
+      <if test="subordinateOrgId != null">
+        SUBORDINATE_ORG_ID,
+      </if>
+      <if test="subordinateOrgName != null">
+        SUBORDINATE_ORG_NAME,
+      </if>
+      <if test="businessDep != null">
+        BUSINESS_DEP,
+      </if>
+      <if test="businessDepId != null">
+        BUSINESS_DEP_ID,
+      </if>
+      <if test="businessRange != null">
+        BUSINESS_RANGE,
+      </if>
+      <if test="quaCode != null">
+        QUA_CODE,
+      </if>
+      <if test="quaLevel != null">
+        QUA_LEVEL,
+      </if>
+      <if test="quaEdndate != null">
+        QUA_EDNDATE,
+      </if>
+      <if test="quaRange != null">
+        QUA_RANGE,
+      </if>
+      <if test="quaCert != null">
+        QUA_CERT,
+      </if>
+      <if test="leaderTelephone != null">
+        LEADER_TELEPHONE,
+      </if>
+      <if test="officerCountnum != null">
+        OFFICER_COUNTNUM,
+      </if>
+      <if test="officerNowCounts != null">
+        OFFICER_NOW_COUNTS,
+      </if>
+       <if test="soldierNum != null">
+        SOLDIER_NUM,
+      </if>
+      <if test="soldierNowCounts != null">
+        SOLDIER_NOW_COUNTS,
+      </if>
+       <if test="staffNum != null">
+        STAFF_NUM,
+      </if>
+       <if test="staffNowCounts != null">
+        STAFF_NOW_COUNTS,
+      </if>
+       <if test="purchasersCount != null">
+        PURCHASERS_COUNT,
+      </if>
+       <if test="juniorPurCount != null">
+        JUNIOR_PUR_COUNT,
+      </if>
+       <if test="seniorPurCount != null">
+        SENIOR_PUR_COUNT,
+      </if>
+       <if test="depName != null">
+        DEP_NAME,
+      </if>
+      <if test="legal != null">
+        LEGAL,
+      </if>
+       <if test="agent != null">
+        AGENT,
+      </if>
+       <if test="contact != null">
+        CONTACT,
+      </if>
+       <if test="contactTelephone != null">
+        CONTACT_TELEPHONE,
+      </if>
+       <if test="contactAddress != null">
+        CONTACT_ADDRESS,
+      </if>
+       <if test="unitPostCode != null">
+        UNIT_POST_CODE,
+      </if>
+       <if test="payDep != null">
+        PAY_DEP,
+      </if>
+      <if test="bank != null">
+        BANK,
+      </if>
+       <if test="bankAccount != null and bankAccount != ''">
+        BANK_ACCOUNT,
+      </if>
+       <if test="officeArea != null and officeArea != ''">
+        OFFICE_AREA,
+      </if>
+       <if test="officeCount != null and officeCount != ''">
+        OFFICE_COUNT,
+      </if>
+      <if test="mettingRoomCount != null and mettingRoomCount != ''">
+        METTING_ROOM_COUNT,
+      </if>
+       <if test="inviteRoomCount != null and inviteRoomCount != ''">
+        INVITE_ROOM_COUNT,
+      </if>
+       <if test="bidRoomCount != null and bidRoomCount != ''">
+        BID_ROOM_COUNT,
+      </if>
+       <if test="isDeleted != null and isDeleted != ''">
+        IS_DELETED,
+      </if>
+       <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+       <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+       <if test="orgId != null and orgId != ''">
+        ORG_ID,
+      </if>
+       <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+       <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
+        DUTY_ROOM_PHONE,
+      </if>
+       <if test="isAuditSupplier != null and isAuditSupplier != ''">
+        IS_AUDIT_SUPPLIER,
+      </if>
+      <if test="quaStatus != null and quaStatus != ''">
+        QUA_STATUS,
+      </if>
+       <if test="quaStartDate != null and quaStartDate != ''">
+        QUA_START_DATE,
+      </if>
+      <if test="quaStashReason != null and quaStashReason != ''">
+        QUA_STASH_REASON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="levelDep != null">
+        #{levelDep},
+      </if>
+      <if test="subordinateOrgId != null">
+        #{subordinateOrgId},
+      </if>
+      <if test="subordinateOrgName != null">
+        #{subordinateOrgName},
+      </if>
+      <if test="businessDep != null">
+        #{businessDep},
+      </if>
+      <if test="businessDepId != null">
+        #{businessDepId},
+      </if>
+      <if test="businessRange != null">
+        #{businessRange},
+      </if>
+      <if test="quaCode != null">
+        #{quaCode},
+      </if>
+      <if test="quaLevel != null">
+        #{quaLevel},
+      </if>
+      <if test="quaEdndate != null">
+       #{quaEdndate},
+      </if>
+      <if test="quaRange != null">
+        #{quaRange},
+      </if>
+      <if test="quaCert != null">
+        #{quaCert},
+      </if>
+      <if test="leaderTelephone != null">
+        #{leaderTelephone},
+      </if>
+      <if test="officerCountnum != null">
+        #{officerCountnum},
+      </if>
+      <if test="officerNowCounts != null">
+        #{officerNowCounts},
+      </if>
+       <if test="soldierNum != null">
+        #{soldierNum},
+      </if>
+      <if test="soldierNowCounts != null">
+        #{soldierNowCounts},
+      </if>
+       <if test="staffNum != null">
+        #{staffNum},
+      </if>
+       <if test="staffNowCounts != null">
+        #{staffNowCounts},
+      </if>
+       <if test="purchasersCount != null">
+        #{purchasersCount},
+      </if>
+       <if test="juniorPurCount != null">
+        #{juniorPurCount},
+      </if>
+       <if test="seniorPurCount != null">
+        #{seniorPurCount},
+      </if>
+       <if test="depName != null">
+        #{depName},
+      </if>
+      <if test="legal != null">
+        #{legal},
+      </if>
+       <if test="agent != null">
+        #{agent},
+      </if>
+       <if test="contact != null">
+        #{contact},
+      </if>
+       <if test="contactTelephone != null">
+       #{contactTelephone},
+      </if>
+       <if test="contactAddress != null">
+        #{contactAddress},
+      </if>
+       <if test="unitPostCode != null">
+        #{unitPostCode},
+      </if>
+       <if test="payDep != null">
+        #{payDep},
+      </if>
+      <if test="bank != null">
+        #{bank},
+      </if>
+       <if test="bankAccount != null and bankAccount != ''">
+        #{bankAccount},
+      </if>
+       <if test="officeArea != null and officeArea != ''">
+        #{officeArea},
+      </if>
+       <if test="officeCount != null and officeCount != ''">
+        #{officeCount},
+      </if>
+      <if test="mettingRoomCount != null and mettingRoomCount != ''">
+        #{mettingRoomCount},
+      </if>
+       <if test="inviteRoomCount != null and inviteRoomCount != ''">
+        #{inviteRoomCount},
+      </if>
+       <if test="bidRoomCount != null and bidRoomCount != ''">
+        #{bidRoomCount},
+      </if>
+       <if test="isDeleted != null and isDeleted != ''">
+       #{isDeleted},
+      </if>
+       <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+       <if test="createdAt != null">
+       #{createdAt},
+      </if>
+       <if test="orgId != null and orgId != ''">
+        #{orgId},
+      </if>
+       <if test="createdAt != null">
+        #{createdAt},
+      </if>
+       <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
+        #{dutyRoomPhone},
+      </if>
+       <if test="isAuditSupplier != null and isAuditSupplier != ''">
+        #{isAuditSupplier},
+      </if>
+      <if test="quaStatus != null and quaStatus != ''">
+        #{quaStatus},
+      </if>
+       <if test="quaStartDate != null and quaStartDate != ''">
+        #{quaStartDate},
+      </if>
+      <if test="quaStashReason != null and quaStashReason != ''">
+        #{quaStashReason},
+      </if>
+    </trim>
 	</insert>
 	<!-- 更新采购机构 -->
 	<update id="update" parameterType="ses.model.oms.PurchaseDep">
@@ -245,7 +498,7 @@
 		 		,SUBORDINATE_ORG_ID=#{subordinateOrgId,jdbcType=VARCHAR}
 		 	</if>
 		 	 <if test="subordinateOrgName != null and subordinateOrgName != ''">
-		 		,SUBORDINATE_ORG__NAME=#{subordinateOrgName,jdbcType=VARCHAR}
+		 		,SUBORDINATE_ORG_NAME=#{subordinateOrgName,jdbcType=VARCHAR}
 		 	</if>
 		 	 <if test="businessDep != null and businessDep != ''">
 		 		,BUSINESS_DEP=#{businessDep,jdbcType=VARCHAR}
@@ -371,7 +624,7 @@
 		select d.id  as id,
 		       d.LEVEL_DEP       as levelDep,
 		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
-		       d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
+		       d.SUBORDINATE_ORG_NAME     as subordinateOrgName,
 		       d.BUSINESS_DEP         as businessDep,
 		       d.BUSINESS_DEP_ID       as businessDepId,
 		       d.BUSINESS_RANGE       as businessRange,
