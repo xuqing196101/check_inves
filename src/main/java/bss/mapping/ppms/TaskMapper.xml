@@ -42,19 +42,22 @@
     from T_BSS_PPMS_TASK
     where  STATUS = 0
     <if test="id != null">
-       and  ID like #{id}
+       and  ID = #{id}
+     </if>
+     <if test="name != null and name != ''">
+       and  NAME = #{name}
      </if>
       <if test="status != null">
-       and  STATUS like #{status}
+       and  STATUS = #{status}
      </if>
       <if test="procurementMethod != null">
-        and PROCUREMENT_METHOD like #{procurementMethod} 
+        and PROCUREMENT_METHOD = #{procurementMethod} 
       </if>
       <if test="year != null">
         and YEAR like '%${year}%'
       </if>
       <if test="giveTime != null">
-        and GIVE_TIME like  #{giveTime}
+        and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
         and PURCHASE_ID like '%${purchaseId.id}%'
@@ -63,10 +66,10 @@
         and DOCUMENT_NUMBER like '%${documentNumber}%'
       </if>
        <if test="purchaseRequiredId != null">
-        and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
+        and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
       </if>
       <if test="materialsType != null">
-        and MATERIALS_TYPE like #{materialsType}
+        and MATERIALS_TYPE = #{materialsType}
       </if>
      ORDER BY GIVE_TIME DESC
   </select>
@@ -76,19 +79,22 @@
     from T_BSS_PPMS_TASK
     where  IS_DELETED = 0 
     <if test="id != null">
-       and  ID like #{id}
+       and  ID = #{id}
+     </if>
+     <if test="name != null and name != ''">
+       and  NAME = #{name}
      </if>
       <if test="status != null">
-       and  STATUS like #{status}
+       and  STATUS = #{status}
      </if>
       <if test="procurementMethod != null">
-        and PROCUREMENT_METHOD like #{procurementMethod} 
+        and PROCUREMENT_METHOD = #{procurementMethod} 
       </if>
       <if test="year != null">
         and YEAR like '%${year}%'
       </if>
       <if test="giveTime != null">
-        and GIVE_TIME like  #{giveTime}
+        and GIVE_TIME =  #{giveTime}
       </if>
       <if test="purchaseId != null and purchaseId !=''">
         and PURCHASE_ID like '%${purchaseId.id}%'
@@ -97,10 +103,47 @@
         and DOCUMENT_NUMBER like '%${documentNumber}%'
       </if>
        <if test="purchaseRequiredId != null">
-        and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
+        and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
       </if>
       <if test="materialsType != null">
-        and MATERIALS_TYPE like #{materialsType}
+        and MATERIALS_TYPE = #{materialsType}
+      </if>
+     ORDER BY GIVE_TIME DESC
+  </select>
+  <select id="verifyByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
+    select 
+    *
+    from T_BSS_PPMS_TASK
+    where  IS_DELETED = 0 
+    <if test="id != null">
+       and  ID = #{id}
+     </if>
+     <if test="name != null and name != ''">
+       and  NAME = #{name}
+     </if>
+      <if test="status != null">
+       and  STATUS = #{status}
+     </if>
+      <if test="procurementMethod != null">
+        and PROCUREMENT_METHOD = #{procurementMethod} 
+      </if>
+      <if test="year != null">
+        and YEAR like '%${year}%'
+      </if>
+      <if test="giveTime != null">
+        and GIVE_TIME =  #{giveTime}
+      </if>
+      <if test="purchaseId != null and purchaseId !=''">
+        and PURCHASE_ID like '%${purchaseId.id}%'
+      </if> 
+      <if test="documentNumber != null and documentNumber !=''">
+        and DOCUMENT_NUMBER = #{documentNumber}
+      </if>
+       <if test="purchaseRequiredId != null">
+        and PURCHASE_REQUIRED_ID = #{purchaseRequiredId}
+      </if>
+      <if test="materialsType != null">
+        and MATERIALS_TYPE = #{materialsType}
       </if>
      ORDER BY GIVE_TIME DESC
   </select>

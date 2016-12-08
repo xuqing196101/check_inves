@@ -172,7 +172,10 @@ public class ProjectController extends BaseController {
             model.addAttribute("lists", list1);
             
             request.getSession().setAttribute("sessionList", list1);
-            
+            String name = request.getParameter("name");
+            String projectNumber = request.getParameter("projectNumber");
+            model.addAttribute("name", name);
+            model.addAttribute("projectNumber", projectNumber);
             model.addAttribute("ids", id);
             model.addAttribute("checkedIds", checkedIds);
         }
@@ -244,12 +247,6 @@ public class ProjectController extends BaseController {
                     model.addAttribute("ERR_projectNumber", "字符太大");
                     return "bss/ppms/project/add";
                 }
-                /*boolean flag = projectService.SameNameCheck(project);
-                if(flag == false){
-                    model.addAttribute("ERR_name", "已存在");
-                    return "bss/ppms/project/add";
-                }*/
-                
                 project.setCreateAt(new Date());
                 project.setStatus(3);
                 if(chkItem != null){
@@ -350,7 +347,7 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/addDeatil")
-    public String addDeatil(Model model, String id, String checkedIds) {
+    public String addDeatil(Model model, String id, String name,String projectNumber, String checkedIds) {
         Task task = taskservice.selectById(id);
         List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
         List<String> list = conllectPurchaseService.getNo(task.getCollectId());
@@ -362,6 +359,8 @@ public class ProjectController extends BaseController {
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("lists", lists);
+        model.addAttribute("projectNumber", projectNumber);
+        model.addAttribute("name", name);
         model.addAttribute("checkedIds", checkedIds);
         return "bss/ppms/project/saveDetail";
     }
@@ -516,7 +515,7 @@ public class ProjectController extends BaseController {
         List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
         model.addAttribute("purchaseInfo", purchaseInfo);
         model.addAttribute("project", project);
-        model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
+        model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/upload";
     }
 
@@ -598,25 +597,58 @@ public class ProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/update")
-    public String update( String ide, String name, String projectNumber, PurchaseRequiredFormBean lists){
+    public String update(@Valid Project project, BindingResult result, PurchaseRequiredFormBean lists, Model model){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", project.getId());
+        List<ProjectDetail> detail = detailService.selectById(map);
         //修改项目名称和项目编号
-        Project project = projectService.selectById(ide);
-        project.setName(name);
-        project.setProjectNumber(projectNumber);
+        if(result.hasErrors()){
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError fieldError : errors) {
+                model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            model.addAttribute("project", project);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("lists", detail);
+            return "bss/ppms/project/editDetail";
+        }
+        if(project.getName().length()>20){
+            model.addAttribute("ERR_name", "字符过长");
+            model.addAttribute("project", project);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("lists", detail);
+            return "bss/ppms/project/editDetail";
+        }
+        if(project.getProjectNumber().length()>20){
+            model.addAttribute("ERR_projectNumber", "字符过长");
+            model.addAttribute("project", project);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("lists", detail);
+            return "bss/ppms/project/editDetail";
+        }
         project.setPurchaseType(lists.getLists().get(0).getPurchaseType());
         projectService.update(project);
         //修改项目明细
         if(lists!=null){
             if(lists.getLists()!=null&&lists.getLists().size()>0){
-                for( ProjectDetail detail:lists.getLists()){
-                    if( detail.getId()!=null){
-                        detailService.update(detail);
+                for( ProjectDetail details:lists.getLists()){
+                    if( details.getId()!=null){
+                        detailService.update(details);
                     }
                 }
             }
         }
         return "redirect:list.html";
-    }     
+    }
+    
+    @ResponseBody
+    @RequestMapping("/verify")
+    public String verify(String projectNumber, Model model){
+        Project project = new Project();
+        project.setProjectNumber(projectNumber);
+        Boolean flag = projectService.SameNameCheck(project);
+        return JSON.toJSONString(flag);
+    }
     
     /**
      * 

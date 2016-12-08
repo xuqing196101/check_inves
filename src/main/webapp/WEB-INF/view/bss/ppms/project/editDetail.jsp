@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -75,33 +76,52 @@
 	  },
 	});
   }
+  
+  var flag = true;
+  function verify(){
+    var projectNumber = $("input[name='projectNumber']").val();
+    $.ajax({
+      url : "${pageContext.request.contextPath}/project/verify.html",
+      type : "post",
+      data : "projectNumber=" + projectNumber,
+      dataType : "json",
+      success : function(data) {
+         var datas = eval("("+data+")");
+         if(datas == false){
+          $("#sps").html("已存在").css('color','red');
+          flag = false;
+         } else{ 
+           $("#sps").html("");
+           flag = true;
+         } 
+       
+      },
+      });
+  }
 
   //修改
   function edit() {
     var name = $("input[name='name']").val();
-	var projectNumber = $("input[name='projectNumber']").val();
-	if (name == "") {
-	  layer.tips("项目名称不能为空", "#jname");
-	} else if (projectNumber == "") {
-	  layer.tips("项目编号不能为空", "#projectNumber");
-	} else {
-	  layer.confirm('您确定要修改吗?', {
-		offset : [ '300px', '600px' ],
-		shade : 0.01,
-		btn : [ '是', '否' ],
-	  }, 
-	  function() {
-		layer.msg("修改成功", {
-		  offset : [ '222px', '690px' ]
-		});
-		window.setTimeout(function() {
-		  $("#form1").submit();
-		}, 1000);
-	  }, 
-	  function() {
-		parent.layer.close();
-	  });
-	}
+	  var projectNumber = $("input[name='projectNumber']").val();
+	  if (name == "") {
+	     layer.tips("项目名称不能为空", "#jname");
+	   } else if (projectNumber == "") {
+	     layer.tips("项目编号不能为空", "#projectNumber");
+	   } else { 
+	     layer.confirm('您确定要修改吗?', {
+		   offset : [ '300px', '800px' ],
+		   shade : 0.01,
+		   btn : [ '是', '否' ],
+	     }, 
+	     function() {
+		      if(flag == true){
+		         $("#form1").submit();
+		      }
+	     }, 
+	     function() {
+		    parent.layer.close();
+	     });
+    }
   }
 
   //重置
@@ -132,23 +152,25 @@
   </div>
   <!-- 录入采购计划开始-->
   <div class="container container_box">
-	<form action="${pageContext.request.contextPath}/project/update.html" id="form1" method="post">
+	<sf:form action="${pageContext.request.contextPath}/project/update.html" id="form1" method="post" modelAttribute="project">
 	  <div>
 	    <h2 class="count_flow"><i>1</i>修改项目内容</h2>
 	    <ul class="ul_list">
-		  <li class="col-md-3 margin-0 padding-0 ">
-		    <input type="hidden" id="ide" name="ide" value="${project.id}" /> 
-		    <span class="col-md-12 padding-left-5">项目名称</span>
-		    <div class="input-append">
-			  <input type="text" id="jname" name="name" class="span5" value="${project.name}" /> 
+		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		    <input type="hidden" id="id" name="id" value="${project.id}" /> 
+		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目名称</span>
+		    <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			  <input type="text" id="jname" name="name" class="input_group" value="${project.name}" /> 
 			  <span class="add-on">i</span>
+			  <div class="cue">${ERR_name}</div>
 		    </div>
 		  </li>
-		  <li class="col-md-3 margin-0 padding-0 ">
-		    <span	class="col-md-12 padding-left-5">项目编号</span>
-		    <div class="input-append">
-			  <input type="text" id="projectNumber" name="projectNumber" class="span5" value="${project.projectNumber}" /> 
+		  <li class="col-md-3 col-sm-6 col-xs-12">
+		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
+		    <div class="input-append input_group col-sm-12 col-xs-12 p0">
+			  <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify();" class="input_group" value="${project.projectNumber}" /> 
 			  <span class="add-on">i</span>
+			  <div class="cue" id="sps">${ERR_projectNumber}</div>
 		    </div>
 		  </li>
 	    </ul>
@@ -239,7 +261,7 @@
 		<button class="btn btn-windows git" type="button" onclick="edit();">修改</button>
 		<button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
 	  </div>
-    </form>
+    </sf:form>
   </div>
 </body>
 </html>

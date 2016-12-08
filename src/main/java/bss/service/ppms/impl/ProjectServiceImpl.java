@@ -69,12 +69,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean SameNameCheck(Project project) {
         boolean flag= true;
-        List<Project> list = projectMapper.selectProjectByAll(project);
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getName().equals(project.getName()) || list.get(i).getProjectNumber().equals(project.getProjectNumber())) {
-                flag=false;
-                break;
-            }
+        List<Project> list = projectMapper.verifyByProject(project);
+        if(list != null && list.size()>0){
+            flag = false;
         }
         return flag;
     }

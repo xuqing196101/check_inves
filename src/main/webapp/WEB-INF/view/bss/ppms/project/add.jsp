@@ -90,15 +90,17 @@
   /** 勾选节点 */
   function check(ele) {
     var id = $(ele).val();
-	var checkedIds = "";
-	$("#task_id").find(":checkbox:checked").each(function() {
-	  if (checkedIds) {
-		checkedIds += ",";
-	  }
-	  checkedIds += $(this).val();
-	});
+    var name = $("input[name='name']").val();
+    var projectNumber = $("input[name='projectNumber']").val();
+	  var checkedIds = "";
+	  $("#task_id").find(":checkbox:checked").each(function() {
+	     if (checkedIds) {
+		   checkedIds += ",";
+	     }
+	    checkedIds += $(this).val();
+	  });
 	if ($(ele).prop("checked")) {
-	  window.location.href = "${pageContext.request.contextPath}/project/addDeatil.html?id=" + id + "&checkedIds=" + checkedIds;
+	  window.location.href = "${pageContext.request.contextPath}/project/addDeatil.html?id=" + id + "&checkedIds=" + checkedIds + "&name=" + name + "&projectNumber=" + projectNumber;
 	}
   }
 
@@ -151,7 +153,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
 			  <div class="input-append input_group col-sm-12 col-xs-12 p0">
-		        <input id="pic" type="text" class="input_group" name="name" /> 
+		        <input id="pic" type="text" class="input_group" name="name" value="${name}"/> 
 		        <span class="add-on">i</span>
 		        <div class="cue">${ERR_name}</div>
 			  </div>
@@ -159,7 +161,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
-			  <input id="pc" type="text" class="input_group" name="projectNumber" />
+			  <input id="pc" type="text" class="input_group" name="projectNumber" value="${projectNumber}"/>
 			  <span class="add-on">i</span>
 			  <div class="cue">${ERR_projectNumber}</div>
 		    </div>

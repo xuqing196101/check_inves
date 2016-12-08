@@ -19,6 +19,8 @@ public interface TaskMapper {
     
     List<Task> listByTask(Task task);
     
+    List<Task> verifyByTask(Task task);
+    
     void updateByPrimaryKeySelective(Task record);
 
     void updateByPrimaryKey(Task record);

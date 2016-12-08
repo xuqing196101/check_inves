@@ -296,4 +296,15 @@ public class TackController extends BaseController{
         }
         return "redirect:list.html";
     }
+	
+	
+	
+	@ResponseBody
+	@RequestMapping("/verify")
+	public String verify(String name, String documentNumber, Model model){
+	    Task task = new Task();
+	    task.setDocumentNumber(documentNumber);
+	    Boolean flag = taskservice.verify(task);
+        return JSON.toJSONString(flag);
+	}
 }
