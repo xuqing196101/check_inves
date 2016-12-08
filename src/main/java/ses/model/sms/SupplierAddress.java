@@ -1,0 +1,164 @@
+package ses.model.sms;
+
+public class SupplierAddress {
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.ID
+     * </pre>
+     */
+    private String id;
+
+    /**
+     * <pre>
+     * 供应商Id
+     * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.SUPPLIER_ID
+     * </pre>
+     */
+    private String supplierId;
+
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.OCDE
+     * </pre>
+     */
+    private String ocde;
+
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.ADDRESS
+     * </pre>
+     */
+    private String address;
+
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.DETAIL_ADDRESS
+     * </pre>
+     */
+    private String detailAddress;
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_ADDRESS.ID：null
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.ID
+     * </pre>
+     *
+     * @param id
+     *            T_SES_SMS_SUPPLIER_ADDRESS.ID：null
+     */
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：供应商Id
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.SUPPLIER_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_ADDRESS.SUPPLIER_ID：供应商Id
+     */
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    /**
+     * <pre>
+     * 设置：供应商Id
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.SUPPLIER_ID
+     * </pre>
+     *
+     * @param supplierId
+     *            T_SES_SMS_SUPPLIER_ADDRESS.SUPPLIER_ID：供应商Id
+     */
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId == null ? null : supplierId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.OCDE
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_ADDRESS.OCDE：null
+     */
+    public String getOcde() {
+        return ocde;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.OCDE
+     * </pre>
+     *
+     * @param ocde
+     *            T_SES_SMS_SUPPLIER_ADDRESS.OCDE：null
+     */
+    public void setOcde(String ocde) {
+        this.ocde = ocde == null ? null : ocde.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.ADDRESS
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_ADDRESS.ADDRESS：null
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.ADDRESS
+     * </pre>
+     *
+     * @param address
+     *            T_SES_SMS_SUPPLIER_ADDRESS.ADDRESS：null
+     */
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.DETAIL_ADDRESS
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_ADDRESS.DETAIL_ADDRESS：null
+     */
+    public String getDetailAddress() {
+        return detailAddress;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_ADDRESS.DETAIL_ADDRESS
+     * </pre>
+     *
+     * @param detailAddress
+     *            T_SES_SMS_SUPPLIER_ADDRESS.DETAIL_ADDRESS：null
+     */
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress == null ? null : detailAddress.trim();
+    }
+}

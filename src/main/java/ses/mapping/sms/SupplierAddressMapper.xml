@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAddressMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAddress">
+    <!--
+    @mbggenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="OCDE" jdbcType="VARCHAR" property="ocde" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="DETAIL_ADDRESS" jdbcType="VARCHAR" property="detailAddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    ID, SUPPLIER_ID, OCDE, ADDRESS, DETAIL_ADDRESS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_ADDRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+    @mbggenerated
+    -->
+    delete from T_SES_SMS_SUPPLIER_ADDRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplierAddress">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_SMS_SUPPLIER_ADDRESS (ID, SUPPLIER_ID, OCDE, 
+      ADDRESS, DETAIL_ADDRESS)
+    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{ocde,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierAddress">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_SMS_SUPPLIER_ADDRESS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="ocde != null">
+        OCDE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="detailAddress != null">
+        DETAIL_ADDRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="ocde != null">
+        #{ocde,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null">
+        #{detailAddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAddress">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_SMS_SUPPLIER_ADDRESS
+    <set>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="ocde != null">
+        OCDE = #{ocde,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddress != null">
+        DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAddress">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_SMS_SUPPLIER_ADDRESS
+    set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      OCDE = #{ocde,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
