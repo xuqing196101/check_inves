@@ -140,7 +140,7 @@
         </div>
 	</c:if>
 	<!-- 录入采购计划开始-->
-	<div class="">
+	<div class="container">
      <h2 class="search_detail">
      <form  action="${pageContext.request.contextPath}/ExpExtract/packageList.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">

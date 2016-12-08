@@ -96,10 +96,10 @@ public class ExpertServiceImpl implements ExpertService {
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(expert!=null){
-		map.put("relName", expert.getRelName());
-		map.put("expertsFrom", expert.getExpertsFrom());
-		map.put("status", expert.getStatus());
-		map.put("expertsTypeId", expert.getExpertsTypeId());
+		    map.put("relName", expert.getRelName());
+		    map.put("expertsFrom", expert.getExpertsFrom());
+		    map.put("status", expert.getStatus());
+		    map.put("expertsTypeId", expert.getExpertsTypeId());
 		}else{
 			map.put("relName", null);
 			map.put("expertsFrom", null);
@@ -108,6 +108,25 @@ public class ExpertServiceImpl implements ExpertService {
 		}
 		return mapper.selectAllExpert(map);
 	}
+	/**
+	 * 查询所有待复审,通过和未通过的专家 带分页 可条件查询
+	 */
+	@Override
+    public List<Expert> selectSecondAuditExpert(Integer pageNum,Expert expert) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(expert!=null){
+            map.put("relName", expert.getRelName());
+            map.put("expertsFrom", expert.getExpertsFrom());
+            map.put("expertsTypeId", expert.getExpertsTypeId());
+        }else{
+            map.put("relName", null);
+            map.put("expertsFrom", null);
+            map.put("expertsTypeId", null);
+        }
+        return mapper.selectSecondAuditExpert(map);
+    }
 	  /***
      * 
       * @Title: getCount
@@ -449,6 +468,7 @@ public class ExpertServiceImpl implements ExpertService {
 			u.setRelName(expert.getRelName());
 			u.setTelephone(expert.getTelephone());
 			u.setGender(expert.getGender());
+			u.setEmail(expert.getEmail());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				u.setTypeId(expertId);
 			}else{
@@ -461,6 +481,7 @@ public class ExpertServiceImpl implements ExpertService {
 			user.setRelName(expert.getRelName());
 			user.setTelephone(expert.getTelephone());
 			user.setGender(expert.getGender());
+			user.setEmail(expert.getEmail());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				user.setTypeId(expertId);
 			}else{

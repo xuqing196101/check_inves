@@ -84,6 +84,16 @@ public interface ExpertService {
 	      * @return List<Expert>
 	     */
 	    List<Expert> selectAllExpert(Integer pageNum,Expert expert);
+	    /**
+	     *〈简述〉
+	     * 查询所有待复审和复审通过未通过的专家
+	     *〈详细描述〉
+	     * @author WangHuijie
+	     * @param pageNum
+	     * @param expert
+	     * @return
+	     */
+	    List<Expert> selectSecondAuditExpert(Integer pageNum,Expert expert);
 	    
 	    /**
 	     * 

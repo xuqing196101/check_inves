@@ -222,8 +222,8 @@
                       <select name="status" id="status">
                                     <option selected="selected" value=''>-请选择-</option>
                                     <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-                                    <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
-                                    <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
+                                    <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
+                                    <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
                                     <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
                                </select>
                     </span>
@@ -234,7 +234,6 @@
                        <select name="expertsTypeId" id="expertsTypeId">
                                     <option selected="selected"  value=''>-请选择-</option>
                                     <option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
-                                    <option <c:if test="${expert.expertsTypeId =='2' }">selected</c:if> value="2">法律</option>
                                     <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">经济</option>
                                </select>
                     </span>
@@ -293,6 +292,12 @@
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
+		 </c:if>
+		 <c:if test="${e.status eq '4' }">
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
+		 </c:if>
+		 <c:if test="${e.status eq '5' }">
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '2' }">

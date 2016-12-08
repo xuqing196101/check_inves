@@ -609,6 +609,58 @@ public class ExpertController {
         request.setAttribute("expert", expert);
         return "ses/ems/expert/audit";
     }
+    
+    @RequestMapping("/toSecondAudit")
+    public String toSecondAudit(@RequestParam("id") String id,
+            HttpServletRequest request, HttpServletResponse response,
+            Model model) {
+        Expert expert = service.selectByPrimaryKey(id);
+        // 查询出采购机构
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", expert.getPurchaseDepId());
+        map.put("typeName", "1");
+        List<PurchaseDep> depList = purchaseOrgnizationService
+                .findPurchaseDepList(map);
+        if (depList != null && depList.size() > 0) {
+            PurchaseDep purchaseDep = depList.get(0);
+            model.addAttribute("purchase", purchaseDep);
+        }
+        // 查询数据字典中的证件类型配置数据
+        List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+        model.addAttribute("idTypeList", idTypeList);
+        // 查询数据字典中的政治面貌配置数据
+        List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+        model.addAttribute("zzList", zzList);
+        // 查询数据字典中的最高学历配置数据
+        List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+        model.addAttribute("xlList", xlList);
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        model.addAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的性别配置数据
+        List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+        model.addAttribute("sexList", sexList);
+        // 产品类型数据字典
+        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+        model.addAttribute("spList", spList);
+        // 货物类型数据字典
+        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+        model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
+        // 专家系统key
+        Integer expertKey = Constant.EXPERT_SYS_KEY;
+        Map<String, Object> typeMap = getTypeId();
+        // typrId集合
+        model.addAttribute("typeMap", typeMap);
+        // 业务id就是专家id
+        model.addAttribute("sysId", id);
+        // Constant.EXPERT_SYS_VALUE;
+        model.addAttribute("expertKey", expertKey);
+        request.setAttribute("expert", expert);
+        return "ses/ems/expert/second_audit";
+    }
 
     /**
      * 
@@ -658,6 +710,16 @@ public class ExpertController {
         return "redirect:findAllExpert.html";
     }
 
+    @RequestMapping("/secondAudit")
+    public String secondAudit(@RequestParam("isPass") String isPass, Expert expert,
+             HttpSession session) {
+        // 专家状态修改
+        expert.setStatus(isPass);
+        // 执行修改
+        service.updateByPrimaryKeySelective(expert);
+        return "redirect:secondAuditExpert.html";
+    }
+    
     /**
      * 
      * @Title: toEditBasicInfo
@@ -996,7 +1058,6 @@ public class ExpertController {
     @RequestMapping("/secondAuditExpert")
     public String secondAuditExpert(Expert expert, Integer page,
             HttpServletRequest request, HttpServletResponse response) {
-        expert.setStatus("1");
         List<Expert> allExpert = service.selectAllExpert(page == null ? 0
                 : page, expert);
         ProjectExtract projectExtract = new ProjectExtract();
