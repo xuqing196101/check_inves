@@ -113,7 +113,7 @@ public class Expert implements Serializable{
     private Date timeToWork;
     /**从事专业起始时间*/
     private Date timeStartWork;
-    /**从事专业起始时间*/
+    /**主要工作经历*/
     private String jobExperiences;
     /**单位地址*/
     private String unitAddress;
