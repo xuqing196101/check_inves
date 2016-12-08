@@ -176,7 +176,7 @@
 		<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 					<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-					<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+					<%--<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>--%>
 					<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			</div>
 

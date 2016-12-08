@@ -12,11 +12,17 @@
     ID, CODE, NAME, CREATED_AT, UPDATED_AT
   </sql>
   
-  <select id="findList" parameterType="java.lang.String" resultMap="DictionaryTypeMap">
+  <select id="findList" resultMap="DictionaryTypeMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_DICTIONARY_TYPE
     ORDER BY CREATED_AT DESC
+  </select>
+  <select id="get" resultMap="DictionaryTypeMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_TYPE
+    where ID = #{id}
   </select>
   <!-- 1.查询条件 -->
   <select id="selectByCode" parameterType="java.lang.String" resultMap="DictionaryTypeMap">

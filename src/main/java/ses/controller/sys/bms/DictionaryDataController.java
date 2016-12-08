@@ -1,10 +1,16 @@
 package ses.controller.sys.bms;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import net.sf.json.JSONSerializer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,15 +22,21 @@ import bss.controller.base.BaseController;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.DictionaryType;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.DictionaryTypeService;
 
 @Controller
 @RequestMapping("/dictionaryData")
-public class DictionaryDataController extends BaseController{
+public class DictionaryDataController extends BaseSupplierController{
 
     @Autowired
     private DictionaryDataServiceI dictionaryDataService;
+    
+    @Autowired
+    private DictionaryTypeService dictionaryTypeService;
     
     @RequestMapping("/list")
     public String list(Model model, Integer page, DictionaryData dd) {
@@ -63,7 +75,7 @@ public class DictionaryDataController extends BaseController{
         dd.setUpdatedAt(new Date());
         dd.setIsDeleted(0);
         dictionaryDataService.save(dd);
-        return "redirect:list.html?kind="+dd.getKind();
+        return "redirect:dictionaryDataList.html?kind="+dd.getKind();
     }
     
     @RequestMapping("/edit")
@@ -115,7 +127,24 @@ public class DictionaryDataController extends BaseController{
                 throw new Exception("获取失败");
             }
         }
-        return "redirect:list.html?kind="+kind;
+        return "redirect:dictionaryDataList.html?kind="+kind;
     }
     
+    @RequestMapping("/dictionaryDataList")
+    public String dictionaryDataList(Model model,String kind) {
+        List<DictionaryType> ls = dictionaryTypeService.findList();
+        model.addAttribute("list", ls);
+        model.addAttribute("kind", kind);
+        return "ses/bms/dictionaryData/dictionaryDataList";
+    }
+    
+    @RequestMapping("/showList")
+    public void showList(HttpServletResponse response,DictionaryData dd,Integer page) throws Exception{
+    	List<DictionaryData> ls = dictionaryDataService.listByPage(dd, page == null ? 1 : page);
+    	Map map = new HashMap<>();
+    	map.put("pageInfo", new PageInfo<DictionaryData>(ls));
+    	map.put("list", ls);
+    	map.put("kind", dd.getKind());
+    	super.writeJson(response, JSONSerializer.toJSON(map));
+    }
 }

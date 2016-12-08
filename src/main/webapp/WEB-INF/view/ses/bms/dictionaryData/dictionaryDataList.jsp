@@ -4,7 +4,228 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<script type="text/javascript">
+  	function show(code,page){
+  	$("#kind").val(code);
+	$.ajax({
+    		contentType: "application/json;charset=UTF-8",
+    		url:"${pageContext.request.contextPath}/dictionaryData/showList.do?kind="+code+"&page="+page,
+    	    type:"POST",
+    	    dataType: "json",
+    	    success:function(data) {
+    	    	var pageInfo = data.pageInfo;
+    	    	var list = data.list;
+    	    	var kind = data.kind;
+    	    	$("#kind").val(kind);
+    	    	$("#pages").val(pageInfo.pages);
+    	    	$("#total").val(pageInfo.total);
+    	    	$("#startRow").val(pageInfo.startRow);
+    	    	$("#endRow").val(pageInfo.endRow);
+    	    	$("#pageNum").val(pageInfo.pageNum);
+                if (data) {
+                    var tabhtml = "";
+                    tabhtml +='<h2 class="search_detail ml0">'; 
+                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
+                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
+                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>'; 
+                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
+           			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
+					tabhtml +='<th class="info w50">序号</th>';
+					tabhtml +='<th class="info">编码</th>';
+					tabhtml +='<th class="info">名称</th></tr></thead>';
+					for(var i =0;i<list.length;i++){
+						tabhtml +='<tr><td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="'+list[i].id+'" /></td>';
+						tabhtml +='<td class="tc">'+(i+1+(pageInfo.pageNum-1)*(pageInfo.pageSize))+'</td>';
+						tabhtml +='<td class="tc" >'+list[i].code+'</td>';
+						tabhtml +='<td class="tc">'+list[i].name+'</td>';
+						tabhtml +='</tr>';
+					}
+					tabhtml +='</table></div>';
+					tabhtml +='<div id="pagediv" align="right"></div>';
+	            	$("#show_content_div").html("");
+	            	$("#show_content_div").append(tabhtml);
+	            	
+	            	laypage({
+	    			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	    			    pages: pageInfo.pages, //总页数
+	    			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	    			    skip: true, //是否开启跳页
+	    			    total: pageInfo.total,
+	    			    startRow: pageInfo.startRow,
+	    			    endRow: pageInfo.endRow,
+	    			    groups: pageInfo.pages >=5?5:pageInfo.pages, //连续显示分页数
+	    			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+	    			        var page = location.search.match(/page=(\d+)/);
+	    			        if(page==null){
+	    			    		page = {};
+	    			    		page[0]=pageInfo.pageNum;
+	    			    		page[1]=pageInfo.pageNum;
+	    			    	}
+	    			        return page ? page[1] : 1;
+	    			    }(), 
+	    			    jump: function(e, first){ //触发分页后的回调
+	    			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+	    			        	show(kind,e.curr);
+	    			        
+	    			        }
+	    			    }
+	    			});
+                }
+            }
 
+    	});
+  		
+  	}
+
+  	function search(page,kind){
+  		var name= $("#name").val();
+  		var code= $("#code").val();
+  		$.ajax({
+  	    		contentType: "application/json;charset=UTF-8",
+  	    		url:"${pageContext.request.contextPath}/dictionaryData/showList.do?name="+name+"&page="+page+"&code="+code+"&kind="+kind,
+  	    	    type:"POST",
+  	    	    dataType: "json",
+  	    	    success:function(data) {
+  	    	    	var pageInfo = data.pageInfo;
+  	    	    	var list = data.list;
+  	    	    	var kind = data.kind;
+  	    	    	$("#kind").val(kind);
+  	    	    	$("#pages").val(pageInfo.pages);
+  	    	    	$("#total").val(pageInfo.total);
+  	    	    	$("#startRow").val(pageInfo.startRow);
+  	    	    	$("#endRow").val(pageInfo.endRow);
+  	    	    	$("#pageNum").val(pageInfo.pageNum);
+  	                if (data) {
+  	                    var tabhtml = "";
+  	                    tabhtml +='<h2 class="search_detail ml0">'; 
+  	                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
+  	                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
+  	                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>'; 
+  	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
+  	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
+  						tabhtml +='<th class="info w50">序号</th>';
+  						tabhtml +='<th class="info">编码</th>';
+  						tabhtml +='<th class="info">名称</th></tr></thead>';
+  						for(var i =0;i<list.length;i++){
+  							tabhtml +='<tr><td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="'+list[i].id+'" /></td>';
+  							tabhtml +='<td class="tc">'+(i+1+(pageInfo.pageNum-1)*(pageInfo.pageSize))+'</td>';
+  							tabhtml +='<td class="tc" >'+list[i].code+'</td>';
+  							tabhtml +='<td class="tc">'+list[i].name+'</td>';
+  							tabhtml +='</tr>';
+  						}
+  						tabhtml +='</table></div>';
+  						tabhtml +='<div id="pagediv" align="right"></div>';
+  		            	$("#show_content_div").html("");
+  		            	$("#show_content_div").append(tabhtml);
+  		            	$("#name").val(name);
+  		            	$("#code").val(code);
+  		            	laypage({
+  		    			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+  		    			    pages: pageInfo.pages, //总页数
+  		    			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+  		    			    skip: true, //是否开启跳页
+  		    			    total: pageInfo.total,
+  		    			    startRow: pageInfo.startRow,
+  		    			    endRow: pageInfo.endRow,
+  		    			    groups: pageInfo.pages >=5?5:pageInfo.pages, //连续显示分页数
+  		    			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+  		    			        var page = location.search.match(/page=(\d+)/);
+  		    			        if(page==null){
+  		    			    		page = {};
+  		    			    		page[0]=pageInfo.pageNum;
+  		    			    		page[1]=pageInfo.pageNum;
+  		    			    	}
+  		    			        return page ? page[1] : 1;
+  		    			    }(), 
+  		    			    jump: function(e, first){ //触发分页后的回调
+  		    			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+  		    			        	search(e.curr,kind);
+  		    			        
+  		    			        }
+  		    			    }
+  		    			});
+  	                }
+  	            }
+
+  	    	});
+  	  		
+  	  	}
+  	
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+
+   function del(){
+		var kind = $("#kind").val();
+	   	if(kind!=null&&kind!=""){   
+	   		var ids =[]; 
+			$('input[name="chkItem"]:checked').each(function(){ 
+				ids.push($(this).val()); 
+			}); 
+			if(ids.length>0){
+				layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+					layer.close(index);
+					window.location.href="${pageContext.request.contextPath}/dictionaryData/deleteSoft.html?ids="+ids;
+				});
+			}else{
+				layer.alert("请选择",{offset: '222px', shade:0.01});
+			}
+	   	}else{
+			layer.alert("请选择一个字典类型",{offset: '222px', shade:0.01});
+		}
+   }
+   
+   function add(){
+   	var kind = $("#kind").val();
+   	if(kind!=null&&kind!=""){   	
+	   	window.location.href="${pageContext.request.contextPath}/dictionaryData/add.html?kind="+kind;
+   	}else{
+		layer.alert("请选择一个字典类型",{offset: '222px', shade:0.01});
+	}
+   }
+   
+	function resetQuery(){
+		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	}
+	
+	$(function(){
+		var kind = "${kind}";
+		if(kind!=null&&kind!=""){
+			show(kind,1);
+		}
+	})
+</script>
 </head>
 
 <body>
@@ -19,241 +240,45 @@
 		</ul>
 	  </div>
    </div>
+
    <div class="container content height-350">
-	<div class="row mt10">
-     <div class="col-md-12" style="min-height:400px;">
-      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-	   <div class="tag-box tag-box-v3">
-		<ul id="ztree_show" class="ztree">
-		  <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
-		    <span id="ztree_show_1_switch" title="" class="button level0 switch root_close" treenode_switch=""></span>
-			<a id="ztree_show_1_a" class="level0" treenode_a="" onClick="" target="_blank" style="" title="xxxx有限公司">
-			<span id="ztree_show_1_ico" title="" treenode_ico="" class="button ico_close" style=""></span>
-			<span id="ztree_show_1_span">xxxx有限公司</span></a>
-		  </li>
-		</ul>
-	 </div>
-
-	 <div class="btn-group-vertical" id="rMenu" style="position:absolute; visibility:hidden;">
-        <button class="btn" style="font-size:12px;" onClick="addTreeNode();">
-          <i class="icon-plus"></i> 增加
-        </button>
-        <button class="btn" style="font-size:12px;" onClick="editTreeNode();">
-          <i class="icon-wrench"></i> 修改
-        </button>
-	</div>
-</div>
-<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-	<div aria-hidden="true" aria-labelledby="opt_dialog_Label" role="dialog" tabindex="-1" id="opt_dialog" class="modal fade" style="display: none;">
-	  <div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h4 class="modal-title" id="opt_dialog_Label">提示</h4>
-			</div>
-			<div class="modal-body">	
-			</div>
-		</div>
-	</div>
-</div>
-
-	<div class="tab-content">
-	  <div class="tab-pane fade active in" id="show_ztree_content">
-		<div class="overflow-h mb20" id="ztree_title">
-		  <h2 class="panel-title heading-sm pull-left">
-	        <i class="fa fa-bars"></i> xxxx有限公司 <span class="label rounded-2x label-u">正常</span>
-          </h2>
-          <div class="pull-right">
-	        <a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-search-plus"></i> 详细</a> 
-			<a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-wrench"></i> 修改</a> 
-			<a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i> 增加下属单位</a> 
-			<a class="btn" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
-          </div>
-		 </div>
-		 <div>
-          <div class="tab-v2">
-            <ul class="nav nav-tabs bgwhite">
-              <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="s_news f18">详细信息</a></li>
-			  <li><a href="#dep_tab-1" data-toggle="tab" class="fujian f18">附件</a></li>
-			  <li><a href="#dep_tab-2" data-toggle="tab" class="record f18">历史记录</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane fade in active" id="dep_tab-0">
-			  <div class="show_obj">
-			  <table class="table table-bordered">
-			    <tbody>
-				  <tr>
-				    <td width="25%" class="bggrey tl">单位名称：</td>
-				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%" class="bggrey tl">单位简称：</td>
-				    <td width="25%">服务公司</td>
-				  </tr>
-				  <tr>
-				    <td width="25%" class="bggrey tl">曾用名：</td>
-				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%" class="bggrey tl">单位类型：</td>
-				    <td width="25%">独立核算单位</td>
-				  </tr>
-				  <tr>
-				    <td width="25%" class="bggrey tl">邮政编码：</td>
-				    <td width="25%">100044</td>
-				    <td width="25%" class="bggrey tl">所在地区：</td>
-				    <td width="25%">北京</td></tr><tr>
-				    <td width="25%" class="bggrey tl">详细地址：</td>
-				    <td width="25%">北京市西四环中路343号院23号楼</td>
-				    <td width="25%" class="bggrey tl">电话（总机）：</td>
-				    <td width="25%">88016942</td>
-				  </tr>
-				  <tr>
-				    <td width="25%" class="bggrey tl">传真：</td>
-				    <td width="25%">-</td>
-				    <td  width="25%" class="bggrey tl"></td>
-				    <td width="25%"></td>
-				  </tr>
-				 </tbody>
-			 </table>
-		</div>
-		  <div class="">
-			<a class="btn btn-windows add" href="javascript:void(0)" onClick=""> 新增</a> 
-			<a class="btn btn-windows edit" href="javascript:void(0)" onClick="">修改</a> 
-          </div>
-       <div class="panel panel-grey clear mt5">
-	    <div class="panel-heading">
-		 <h3 class="panel-title"><i class="fa fa-users"></i> 用户列表</h3>
-	    </div>
-	    <div class="panel-body">
-		  <table class="table table-bordered table-hover">
-			<thead>
-				<tr>
-					<th><input type="checkbox"/></th>
-					<th>用户名</th>
-					<th>姓名</th>
-					<th>联系方式</th>
-					<th>状态</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>张飒飒</td>
-					<td>18610023457 / 88012322</td>
-
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>测试</td>
-					<td>- / -</td>
-					<td align="center"><span class="label rounded-2x label-dark">已冻结</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>阳溯溯</td>
-					<td>- / -</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-
-
-			</tbody>
-		</table>
-	</div>
+       <div class="row">
+                <!-- Begin Content -->
+                <div class="col-md-12" style="min-height:400px;">
+                <div class="headline-v2"><h2>数据字典</h2></div>
+					<div class="col-md-3 col-sm-4 col-xs-12 " id="show_tree_div">
+						<div class="tag-box tag-box-v3">
+							<ul id="ztree_show" class="ztree">
+								<!-- 菜单树-->
+								<c:forEach items="${list}" var="dt" varStatus="vs">
+									<li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
+									<span id="ztree_show_1_span">·</span>
+									<a id="ztree_show_1_a" class="level0" href="javascript:void(0);" onclick="show('${dt.code}',1)"  title="${dt.name }">
+										<span id="ztree_show_1_span">${dt.name }</span>
+									</a>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-9 col-xs-12 col-sm-12 p0">
+						<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+						<%--<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>--%>
+						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+					</div>
+					<input type="hidden" id="mid">
+					<input name="kind" type="hidden" id="kind" value="">
+                    <input name="pages" type="hidden" id="pages" value="">
+                    <input name="total" type="hidden" id="total" value="">
+                    <input name="startRow" type="hidden" id="startRow" value="">
+                    <input name="endRow" type="hidden" id="endRow" value="">
+                    <input name="pageNum" type="hidden" id="pageNum" value="">
+		            <input type="hidden" name="page" id="page" value="">
+					<div class="tag-box tag-box-v4 col-md-9 col-sm-9 col-xs-12 mt5" id="show_content_div">
+						<div id="pagediv" class="hide" align="right"></div>
+			        </div>
+             	 </div>
+       </div>
    </div>
-  </div>
-  <div class="tab-pane fade in" id="dep_tab-1">
-    <div class="content-boxes-v2 space-lg-hor content-sm ">
-     <h2 class="heading-sm">
-       <span>抱歉，没有找到相关信息。</span>
-     </h2>
-    </div>
-    </div>
-	<div class="tab-pane fade in" id="dep_tab-2">
- <div class="tml_container">
-				 <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="f16 history_icon">修改数据</h2>
-				        <div class="padding-left-10">
-					       <div class="cbp_tmlabel">
-					          <div class="margin-bottom-10">
-					            <div class="headline">
-					              <h3 class="heading-sm">修改详细信息</h3>
-					              <div class="f14 fr"><span class="mr5">2016-08-01</span><span>14:27:16</span></div>
-					            </div>
-					            <table class="table table-bordered mb0">
-					            <thead>
-					              <tr>
-					                <th>参数名称</th>
-					                <th>修改前</th>
-					                <th>修改后</th>
-					              </tr>
-					            </thead>
-					            <tbody>
-					              <tr>
-					               <td>详细地址</td>
-					               <td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td>
-					               <td>北京市西四环中路16号院8号楼</td>
-					              </tr>
-					             </tbody>
-					            </table>
-					           </div>
-					          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：李四</span><span>ID：154234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.136.254.125|北京市</span></div>
-					        </div>
-					    </div>
-                   </div>
-				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				 </div>
-                </div>
-			   </div>
-		  
-			  
-              <div class=" margin-bottom-0">
-                <div class="tml_container">
-				  <div class="dingwei">
-				  <div class="tml_spine">
-					<span class="tml_spine_bg"></span>
-					
-					<span id="timeline_start_point" class="start_point"></span>
-				  </div>
-				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
-                   <div class=" margin-bottom-0">
-                       <h2 class="f16 history_icon">修改数据</h2>
-						  <div class="padding-left-10">
-					        <div class="cbp_tmlabel">
-					          <div class="margin-bottom-10"><div class="headline">
-					            <h3 class="heading-sm">修改详细信息</h3>
-					            <div class="f14 fr"> <span class="mr5">2016-08-01</span><span>14:27:16</span></div>
-					          </div>
-					          <table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路156号院845号楼（金沟河桥东南角）</td><td>北京市西四环中路123号院34号楼</td></tr></tbody></table></div>
-					          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：张三</span><span>ID：151234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.135.234.125|北京市</span></div>
-					        </div>
-					    </div>
-                     </div>
-				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
-				  <span class="ui_left_arrow">
-				    <span class="ui_arrow"></span>
-				  </span>
-				 </div>
-                </div>
-               </div>
-			  </div>
-
-
-</div>
- </div><!--/container-->
-
-
 </body>
 </html>

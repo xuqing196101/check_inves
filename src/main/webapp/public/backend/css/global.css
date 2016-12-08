@@ -1,4 +1,4 @@
-﻿* {
+* {
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -24,12 +24,12 @@ p, li, li a, label {
 .search_detail {
 	padding: 10px;
 	background: #e5f6f8;
-	margin-left: 20px !important;
+	margin-left: 20px;
 	clear: both;
 }
 
 .table_box {
-	padding: 5px 0px 0px 20px !important;
+	padding: 5px 0px 0px 20px;
 	clear: both;
 }
 

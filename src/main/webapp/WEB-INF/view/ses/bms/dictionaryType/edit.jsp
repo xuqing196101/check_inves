@@ -6,6 +6,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<script type="text/javascript">
+	function goback(){
+		window.location.href = '${pageContext.request.contextPath}/dictionaryType/list.html}'
+	}
+</script>
 </head>
 <body>
     <!--面包屑导航开始-->
@@ -18,7 +23,7 @@
                 </li>
                 <li><a href="javascript:void(0)">数据字典</a>
                 </li>
-                <li class="active"><a href="javascript:void(0)">新增数据字典类型</a>
+                <li class="active"><a href="javascript:void(0)">修改数据字典类型</a>
                 </li>
             </ul>
             <div class="clear"></div>
@@ -30,12 +35,12 @@
         <form action="${pageContext.request.contextPath}/dictionaryType/update.do"
             method="post">
             <div>
-			   <h2 class="list_title">新增数据字典类型</h2>
+			   <h2 class="list_title">修改数据字典类型</h2>
                 <ul class="ul_list">
                     <li class="col-md-6 col-sm-6 col-xs-12 pl15">
                        <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>类型编号</span>
                         <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                            <input name="name" type="text"
+                            <input name="code" type="text"
                                 value="${dictionaryType.code}">
                             <span class="add-on">i</span>
                             <div id="contractCodeErr" class="cue">${ERR_code}</div>
@@ -56,7 +61,7 @@
 
                 <div class="col-md-12 col-sm-12 col-xs-12 tc">
                     <button class="btn btn-windows save" type="submit">保存</button>
-                    <button class="btn btn-windows back" onclick="history.go(-1)"
+                    <button class="btn btn-windows back" onclick="goback()"
                         type="button">返回</button>
                 </div>
             </div>

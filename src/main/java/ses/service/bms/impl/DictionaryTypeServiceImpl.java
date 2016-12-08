@@ -60,6 +60,11 @@ public class DictionaryTypeServiceImpl implements DictionaryTypeService {
 		return dts;
 	}
 
+	@Override
+	public DictionaryType get(String id) {
+		return dictionaryTypeMapper.get(id);
+	}
+
 
 
 }

@@ -8,6 +8,8 @@ public interface DictionaryTypeService {
     
 	List<DictionaryType> findList();
 	
+	DictionaryType get(String id);
+	
     DictionaryType selectByCode(String code);
     
     void deleteByPrimaryKey(String id);

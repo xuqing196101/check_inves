@@ -87,6 +87,7 @@ public class DictionaryTypeController extends BaseController{
     
 	@RequestMapping("/edit")
 	public String edit(Model model,String id){
+		model.addAttribute("dictionaryType",dictionaryTypeService.get(id));
     	return "ses/bms/dictionaryType/edit";		
 	}
 	
@@ -94,6 +95,23 @@ public class DictionaryTypeController extends BaseController{
     public String update(HttpServletRequest request,@Valid DictionaryType dt,BindingResult result,Model model){
 		Boolean flag = true;
 		String url = "";
+		List<DictionaryType> ls = dictionaryTypeService.findList();
+		if (ls!=null && ls.size()>0) {
+			Integer codeLong = dt.getCode();
+			String nameString = dt.getName();
+			for (DictionaryType dictionaryType : ls) {
+				if (dictionaryType.getCode()==codeLong) {
+					flag = false;
+					model.addAttribute("ERR_code", "该类型编号已存在");
+				}
+			}
+			for (DictionaryType dictionaryType : ls) {
+				if (dictionaryType.getName().equals(nameString)) {
+					flag = false;
+					model.addAttribute("ERR_name", "该类型名称已存在");
+				}
+			}
+		}
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){

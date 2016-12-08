@@ -17,4 +17,6 @@ public interface DictionaryTypeMapper {
     int updateByPrimaryKeySelective(DictionaryType record);
     
     List<DictionaryType> search(DictionaryType record);
+    
+    DictionaryType get(String id);
 }
