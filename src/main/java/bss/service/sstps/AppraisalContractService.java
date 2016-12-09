@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.cs.PurchaseContract;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.Select;
 
@@ -145,5 +146,7 @@ public interface AppraisalContractService {
 	public List<AppraisalContract> selectAppraisalContractByContractId(Map<String, Object> map);
 	
 	List<AppraisalContract> selectByOffer(AppraisalContract singleBond,Integer page);
+	
+	void insertPurchaseContract(PurchaseContract pur);
   
 }

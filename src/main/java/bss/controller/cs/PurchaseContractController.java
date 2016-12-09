@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +27,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
@@ -38,6 +38,7 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.model.sstps.AppraisalContract;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.ppms.PackageService;
@@ -46,6 +47,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.sstps.AppraisalContractService;
 
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
@@ -90,6 +92,9 @@ public class PurchaseContractController extends BaseSupplierController{
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private AppraisalContractService appraisalContractService;
 	
 	/**
 	 * 
@@ -560,12 +565,13 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/addPurchaseContract")
 	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		String ids = request.getParameter("ids");
+		purCon.setId(ids);
 		Map<String, Object> map = valid(model,purCon);
 		model = (Model)map.get("model");
 		Boolean flag = (boolean)map.get("flag");
 		String url = "";
 		if(flag == false){
-			String ids = request.getParameter("ids");
 			List<ContractRequired> requList = proList.getProList();
 			model.addAttribute("purCon", purCon);
 			model.addAttribute("requList", requList);
@@ -786,6 +792,19 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getCode())){
 			flag = false;
 			model.addAttribute("ERR_code", "合同编号不能为空");
+		}else{
+			List<PurchaseContract> contractList = purchaseContractService.selectAllContract();
+			for(int i=0;i<contractList.size();i++){
+				if(purCon.getId().equals(contractList.get(i).getId())){
+					contractList.remove(i);
+				}
+			}
+			for(PurchaseContract con:contractList){
+				if(con.getCode().equals(purCon.getCode())){
+					flag = false;
+					model.addAttribute("ERR_code", "合同编号不可重复");
+				}
+			}
 		}
 		if(ValidateUtils.isNull(purCon.getBudgetSubjectItem())){
 			flag = false;
@@ -1265,6 +1284,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
 			purchaseContractService.createWord(pur, requList,request);
+			appraisalContractService.insertPurchaseContract(pur);
 			url="redirect:selectDraftContract.html";
 		}else{
 			model.addAttribute("attachuuid", purCon.getId());

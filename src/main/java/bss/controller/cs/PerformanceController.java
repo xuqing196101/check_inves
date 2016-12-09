@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageInfo;
@@ -234,6 +236,13 @@ public class PerformanceController {
 				perList.add(per);
 			}
 		}
+		List<DictionaryData> dList = DictionaryDataUtil.find(5);
+		for(int i=0;i<dList.size();i++){
+			if(dList.get(i).getName().equals("单一来源")){
+				model.addAttribute("danyiId", dList.get(i).getId());
+			}
+		}
+		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		model.addAttribute("performanceList", perList);
 		model.addAttribute("list", new PageInfo<Performance>(performanceList));
 		model.addAttribute("contractType", contractType);
@@ -416,7 +425,7 @@ public class PerformanceController {
 		List<AppraisalContract> apCon = appraisalContractService.selectAppraisalContractByContractId(map);
 		String finalClosed = "";
 		if(purCon.getFinallyClosed()==null){
-			if(apCon.get(0)!=null){
+			if(apCon.size()>0){
 				finalClosed = apCon.get(0).getAuditMoney().toString();
 			}
 		}else{

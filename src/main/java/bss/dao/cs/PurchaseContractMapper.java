@@ -201,6 +201,18 @@ public interface PurchaseContractMapper {
     * 〈简述〉 〈详细描述〉
     * 
     * @author QuJie 
+    * @date 2016-11-11 下午3:13:59  
+    * @Description: 通过合同类型查找 
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> selectAllContract();
+    
+    /**
+     * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
     * @date 2016-11-11 下午3:14:25  
     * @Description: 按条件查询 
     * @param @param param
