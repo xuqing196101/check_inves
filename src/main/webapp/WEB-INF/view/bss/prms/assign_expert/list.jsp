@@ -62,7 +62,7 @@
 		        if(id.length==1){
 		     	   $.ajax({
 		                type: "GET",
-		                url: "${pageContext.request.contextPath}//ExpExtract/resetPwd.do?eid"+id+"&&flowDefineId=${flowDefineId}",
+		                url: "${pageContext.request.contextPath}//ExpExtract/resetPwd.do?eid="+id+"&&flowDefineId=${flowDefineId}",
 		                dataType: "json",
 		                success: function(data){
 		             	   if("sccuess"==data){

@@ -15,16 +15,26 @@ import com.github.pagehelper.PageHelper;
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
+import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
+import ses.model.oms.util.Ztree;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
+import ses.service.oms.PurchaseServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 @Service("orgnizationService")
 public class OrgnizationServiceImpl implements OrgnizationServiceI{
+	
+	/** 根目录 */
+	private static final String  ROOT_VALUE = "0";
+	
 	
     @Autowired
 	private OrgnizationMapper orgniztionMapper;
@@ -36,12 +46,90 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     /**关联service */
     @Autowired
     private PurChaseDepOrgService purChaseDepOrgService;
-
+    
+    /** 采购人员service **/
+    @Autowired
+	private PurchaseServiceI purchaseService;
+    
+    /** 用户service **/
+    @Autowired
+	private UserServiceI userService;
+    
+    /**
+     * 
+     * @see ses.service.oms.OrgnizationServiceI#findOrgnizationList(java.util.HashMap)
+     */
 	@Override
 	public List<Orgnization> findOrgnizationList(HashMap<String, Object> map) {
+		
 		return orgniztionMapper.findOrgnizationList(map);
 	}
 	
+	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#findOrgByPidAndType(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<Ztree> findOrgByPidAndType(String pid, String type) {
+		
+		List <Ztree> treeList = new ArrayList<Ztree>();
+		if (StringUtils.isNotBlank(type)){
+			if (StringUtils.isNotBlank(pid)){
+				List<Orgnization> list = orgniztionMapper.getListByPidAndType(pid,type);
+				for (Orgnization org: list){
+					Ztree z = new Ztree();
+					z.setId(org.getId());
+					z.setName(org.getName());
+					
+					Integer count = orgniztionMapper.getChilCountyPidAndType(org.getId(), type);
+					if (count != null && count > 0){
+						z.setIsParent("true");
+					} else {
+						z.setIsParent("false");
+					}
+					z.setpId(pid);
+					treeList.add(z);
+				}
+			} else {
+				loadRoot(treeList,type);
+			}
+		}
+		
+		return treeList;
+	}
+	
+	/**
+	 * 
+	 *〈简述〉加载根节点
+	 *〈详细描述〉
+	 * @author myc
+	 * @param treeList  treeList
+	 * @param type 类型
+	 */
+	private void loadRoot(List<Ztree> treeList, String type){
+		if (StringUtils.isNotBlank(type)){
+			
+			DictionaryData dd = null;
+			if (type.equals(StaticVariables.ORG_TYPE_DEFAULT)){
+				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_DEMAND);
+			}
+			
+			if (type.equals(StaticVariables.ORG_TYPE_MANAGE)){
+				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_MANAGER);
+			}
+			
+			if (dd != null){
+				Ztree z = new Ztree();
+				z.setId(dd.getId());
+				z.setName(dd.getName());
+				z.setpId(ROOT_VALUE);
+				z.setIsParent("true");
+				treeList.add(z);
+			}
+		}
+	}
+	
+
 	/**
 	 * 
 	 * @see ses.service.oms.OrgnizationServiceI#saveOrgnization(ses.model.oms.Orgnization, java.lang.String)
@@ -116,25 +204,87 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 			purchaseDeptMapper.savePurchaseDept(purchaseDep);
 		}
 		
-		return 0;
+		return StaticVariables.SUCCESS_INTEGER;
 	}
 
+	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#updateOrgnization(ses.model.oms.Orgnization, java.lang.String)
+	 */
 	@Override
-	public int updateOrgnization(HashMap<String, Object> map) {
-		return orgniztionMapper.updateOrgnization(map);
+	public int updateOrgnization(Orgnization orgnization,String depIds) {
+		
+		HashMap<String, Object> orgmap = new HashMap<String, Object>();
+		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
+		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
+		
+		orgmap.put("id", orgnization.getId()==null?"":orgnization.getId());
+		orgmap.put("name", orgnization.getName()==null?"":orgnization.getName());
+		orgmap.put("typeName", orgnization.getTypeName());
+		orgmap.put("parentId", orgnization.getParentId());
+		orgmap.put("parentName", orgnization.getParentName());
+		orgmap.put("describtion", orgnization.getDescribtion());
+		orgmap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
+		orgmap.put("mobile", orgnization.getMobile()==null?"":orgnization.getMobile());
+		orgmap.put("postCode", orgnization.getPostCode()==null?"":orgnization.getPostCode());
+		orgmap.put("orgCode", orgnization.getOrgCode());
+		orgmap.put("shortName", orgnization.getShortName());
+		orgmap.put("telephone", orgnization.getTelephone());
+		orgmap.put("areaId", orgnization.getAreaId());
+		orgmap.put("detailAddr", orgnization.getDetailAddr());
+		orgmap.put("fax", orgnization.getFax());
+		orgmap.put("website", orgnization.getWebsite());
+		orgmap.put("princinpal", orgnization.getPrincinpal());
+		orgmap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
+		orgmap.put("nature", orgnization.getNature());
+		orgmap.put("orgLevel", orgnization.getOrgLevel());
+		orgmap.put("position", orgnization.getPosition());
+		orgmap.put("isroot", orgnization.getIsRoot());
+		orgmap.put("is_deleted", orgnization.getIsDeleted());
+		orgmap.put("pid", orgnization.getProvinceId());
+		orgmap.put("cid", orgnization.getCityId());
+		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
+			orgmap.put("is_root", 0);
+		}else {
+			orgmap.put("is_root", 1);
+		}
+		
+		orgniztionMapper.updateOrgnization(orgmap);
+		
+		delmap.put("org_id", orgnization.getId());
+		purChaseDepOrgService.delByOrgId(delmap);
+		deporgmap.put("ORG_ID", orgnization.getId());
+		List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
+		if(depIds!=null && !depIds.equals("")){
+			String[] purchaseDepIds = depIds.split(",");
+			for(int j=0;j<purchaseDepIds.length;j++){
+				PurchaseOrg pOrg = new PurchaseOrg();
+				pOrg.setPurchaseDepId(purchaseDepIds[j]);
+				purchaseOrgList.add(pOrg);
+			}
+		}else {
+			purchaseOrgList.add(new PurchaseOrg());
+			
+		}
+		if(depIds!=null && !depIds.equals("")){
+			deporgmap.put("purchaseOrgList", purchaseOrgList);
+			purChaseDepOrgService.saveByMap(deporgmap);
+		}
+		
+		return StaticVariables.SUCCESS_INTEGER;
 	}
 	/**
 	 * 多对多关联查询
 	 */
 	@Override
 	public List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
+		
 		return orgniztionMapper.findPurchaseOrgList(map);
 	}
 
 	@Override
 	public int delOrgnizationByid(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
+		
 		return orgniztionMapper.delOrgnizationByid(map);
 	}
 
@@ -228,5 +378,31 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		
 		return orgniztionMapper.findByType(type);
 	}
+
+	/**
+	 * 
+	 * @see ses.service.oms.OrgnizationServiceI#delUsers(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String delUsers(String idsString, String orgType) {
+		
+		String[] ids = idsString.split(",");
+		if(ids!=null && !ids.equals("")){
+			for(int i=0;i<ids.length;i++){
+				if (StringUtils.isNotBlank(orgType) && orgType.equals(StaticVariables.ORG_TYPE_PURCHASE)){
+					User u = userService.getUserById(ids[i]);
+					if (u != null){
+						if (StringUtils.isNotBlank(u.getTypeId())){
+							purchaseService.busDelPurchase(u.getTypeId());
+						}
+					}
+				} 
+				userService.deleteByLogic(ids[i]);
+			}
+		}
+		return StaticVariables.SUCCESS;
+	}
+	
+	
 
 }

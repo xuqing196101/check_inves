@@ -132,4 +132,16 @@ public interface PostMapper {
     * @return List<Post>
      */
     List<Post> queryMyPost(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: selectByTopicIdAndName
+    * @author ZhaoBo
+    * @date 2016-12-7 下午2:31:51  
+    * @Description: 查询主题下的帖子 
+    * @param @param map
+    * @param @return      
+    * @return List<Post>
+     */
+    List<Post> selectByTopicIdAndName(Map<String,Object> map);
 }

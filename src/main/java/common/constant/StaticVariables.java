@@ -113,4 +113,14 @@ public class StaticVariables {
     /** 不删除 **/
     public static final Integer ISNOT_DELETED = 0;
     
+    
+    /** 成功标识 **/
+    public static final Integer SUCCESS_INTEGER = 0;
+    
+    
+    /** 组织机构 - 需求部门 **/
+    public static final String ORG_TYPE_DEMAND = "ORG_TYPE_DEMAND";
+    /** 组织机构 - 管理部门 **/
+    public static final String ORG_TYPE_MANAGER = "ORG_TYPE_MANAGE";
+    
 }

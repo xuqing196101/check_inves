@@ -26,6 +26,8 @@ p, li, li a, label {
 	background: #e5f6f8;
 	margin-left: 20px;
 	clear: both;
+	margin: 5px 0px 10px 20px;
+	line-height: 32px;
 }
 
 .table_box {

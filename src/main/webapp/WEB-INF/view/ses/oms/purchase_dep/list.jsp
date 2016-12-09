@@ -93,7 +93,7 @@
 				delPurchaseDept(ids.toString());
 			});
 		}else{
-			layer.msg("请选择要删除的用户");
+			layer.msg("请选择需要删除的采购机构");
 		}
     }
     
@@ -115,8 +115,9 @@
 		});
     }
     
+    /** 新增 **/
     function add(){
-    	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.do";
+    	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.html";
     }
     function show(id){
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showPurchaseDep.do?id="+id+"&&type=view";
@@ -282,15 +283,13 @@
 			  </h2>
 			<!-- 表格开始-->
 			 <div class="col-md-12 pl20 mt10">
-					<button class="btn btn-windows edit" type="button"
-						onclick="edit();">修改</button>
-					<button class="btn btn-windows delete" type="button"
-						onclick="del();">删除</button>
-					<button class="btn btn-windows add" type="button" onclick="addPurchase();">人员管理</button>
-					<button class="btn btn-windows edit" type="button" onclick="purchaseStash()">资质暂停</button>
-					<button class="btn btn-windows edit" type="button" onclick="purchaseNormal()">资质启用</button>
-					<button class="btn btn-windows edit" type="button" onclick="purchaseTerminal()">资质终止</button>
-					
+			 		<button class="btn btn-windows add"   type="button" onclick="add();">新增</button>
+					<button class="btn btn-windows edit"   type="button" onclick="edit();">修改</button>
+					<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+					<button class="btn btn-windows add"    type="button" onclick="addPurchase();">人员管理</button>
+					<button class="btn btn-windows edit"   type="button" onclick="purchaseStash()">资质暂停</button>
+					<button class="btn btn-windows edit"   type="button" onclick="purchaseNormal()">资质启用</button>
+					<button class="btn btn-windows edit"   type="button" onclick="purchaseTerminal()">资质终止</button>
 			</div>
 
 			<div class="content table_box">
@@ -314,27 +313,18 @@
 							<tbody>
 								<c:forEach items="${purchaseDepList}" var="p" varStatus="vs">
 									<tr class="cursor">
-										<!-- 选择框 -->
 										<td class="tc"><input
 											type="checkbox" name="chkItem" value="${p.id}" />
 										</td>
-										<!-- 序号 -->
 										<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-										<!-- 标题 -->
 										<td class="tc" >
 										<a href="javascript:void(0)" onclick="show('${p.id}');">${p.name}</a>
 										</td>
-										<!-- 内容 -->
 										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-										<!-- 创建人-->
 										<td class="tc" onclick="show('${p.id}');">${p.address}</td>
-										<!-- 是否发布 -->
 										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
-										<!-- 是否发布 -->
 										<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
-										<!-- 是否发布 -->
 										<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-										<!-- 是否发布 -->
 										<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
 										<td class="tc" onclick="show('${p.id}');" id="${p.id }">
 											<c:choose>
@@ -357,10 +347,7 @@
 								</c:forEach>
 							</tbody>
 					</table>
-					<!-- <div id="page" align="right"></div> -->
 					<div id="pagediv" align="right"></div>
-					<%-- <p class="pagestyle">${pagesql}</p> --%>
-
 				</div>
 			</div>
 </body>

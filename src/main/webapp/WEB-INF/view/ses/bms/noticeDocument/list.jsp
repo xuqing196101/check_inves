@@ -154,7 +154,7 @@
 	   </div>
 
     <!-- 查询 -->
-       <h2 class="search_detail">
+       <div class="search_detail">
        	<form action="${ pageContext.request.contextPath }/noticeDocument/search.html"
 				method="post" enctype="multipart/form-data" class="mb0">
        	<ul class="demand_list">
@@ -179,7 +179,7 @@
     	</ul>
     	</form>
     	  <div class="clear"></div>
-     </h2>
+     </div>
     
 <!-- 表格开始-->
    

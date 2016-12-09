@@ -2,11 +2,12 @@
 var treeObj = null;
 $(function(){
 	var datas;
+	var type = $("#typeNameId").val();
 	var setting={
 		async:{
 			autoParam:["id"],
 			enable:true,
-			url: globalPath + "/purchaseManage/gettree.do",
+			url: globalPath + "/purchaseManage/getTree.do?typeName=" + type,
 			dataType:"json",
 			type:"post",
 		},
@@ -22,7 +23,7 @@ $(function(){
 				enable:true,
 				idKey:"id",
 				pIdKey:"pId",
-				rootPId:"-1",
+				rootPId:"0",
 			}
 		},
 		view:{
@@ -54,11 +55,7 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 		var treeNode = zTree.getNodeByParam("id",srcOrgId, null);
 		zTree.selectNode(treeNode);
 		zTree.setting.callback.onClick(null, zTree.setting.treeId, treeNode);
-	} else {
-		var nodes = zTree.getNodes();
-		zTree.selectNode(nodes[0]);
-		zTree.setting.callback.onClick(null, zTree.setting.treeId, nodes[0]);
-	}
+	} 
 }
 
 /**
@@ -69,8 +66,13 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
  */
 function zTreeOnClick(event,treeId,treeNode){
 	if (treeNode != null && treeNode !=""){
-		selectedTreeId =  treeNode.id;
-		$("#treebody").load(globalPath + "/purchaseManage/gettreebody.do?id="+treeNode.id);
+		selectedTreeId = treeNode.id;
+		if (treeNode.pId != 0){
+			$("#treebody").show();
+			$("#treebody").load(globalPath + "/purchaseManage/getTreeBody.do?id="+treeNode.id);
+		} else {
+			$("#treebody").hide();
+		}
 	} else {
 		selectedTreeId = null;
 	}
@@ -80,7 +82,12 @@ function zTreeOnClick(event,treeId,treeNode){
  * 添加部门
  */
 function addTreeNode(){
-	window.location.href= globalPath + "/purchaseManage/add.html";
+	if (selectedTreeId == null){
+		layer.msg("请选择一个机构");
+		return ;
+	}
+	var typeName = $("#typeNameId").val();
+	window.location.href= globalPath + "/purchaseManage/add.html?parentId=" + selectedTreeId + "&typeName=" + typeName;
 }
 
 
@@ -135,11 +142,11 @@ function ajaxDelDepart(){
 function refreshAllTree(){
 	if (treeObj != null){
 		var node = treeObj.getNodeByParam("id", selectedTreeId, null)
+		var parentNode = node.getParentNode();
 		treeObj.removeNode(node);
-		var allNodes = treeObj.getNodes();
-		if (allNodes != null && allNodes !=""){
-			treeObj.selectNode(allNodes[0]);
-			treeObj.setting.callback.onClick(null, treeObj.setting.treeId, allNodes[0]);
+		if (parentNode != null && parentNode !="" && parentNode.pId !=0){
+			treeObj.selectNode(parentNode);
+			treeObj.setting.callback.onClick(null, treeObj.setting.treeId, parentNode);
 		} else {
 			$("#treebody").hide();
 		}

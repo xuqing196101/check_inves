@@ -40,20 +40,20 @@
                 <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  	<td class="bggrey w150">题型分布：</td>
+	                  	<td class="bggrey " width="10%">题型分布：</td>
 	                  	<td colspan="3">${typeDistribution }</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">总分值：</td>
-	                 	<td>${examRule.paperScore }分</td>
-	                 	<td class="bggrey w150">及格标准：</td>
-	                 	<td>${examRule.passStandard }分</td>
+	                 	<td class="bggrey" width="10%">总分值：</td>
+	                 	<td width="40%">${examRule.paperScore }分</td>
+	                 	<td class="bggrey" width="10%">及格标准：</td>
+	                 	<td width="40%">${examRule.passStandard }分</td>
 	                 </tr>
 	                 <tr>
-	                 	<td class="bggrey w150">创建时间：</td>
-	                  	<td><fmt:formatDate value="${examRule.createdAt }" pattern="yyyy-MM-dd"/></td>
-	                  	<td class="bggrey w150">修改时间：</td>
-	                  	<td><fmt:formatDate value="${examRule.updatedAt }" pattern="yyyy-MM-dd"/></td>
+	                 	<td class="bggrey" width="10%">创建时间：</td>
+	                  	<td width="40%"><fmt:formatDate value="${examRule.createdAt }" pattern="yyyy-MM-dd"/></td>
+	                  	<td class="bggrey" width="10%">修改时间：</td>
+	                  	<td width="40%"><fmt:formatDate value="${examRule.updatedAt }" pattern="yyyy-MM-dd"/></td>
 	                 </tr> 
                  </tbody>
                  </table>

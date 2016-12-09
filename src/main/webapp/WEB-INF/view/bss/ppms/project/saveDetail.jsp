@@ -159,6 +159,8 @@
   <form id="save_form_id" action="${pageContext.request.contextPath}/project/add.html" method="post" target="_parent">
     <input id="detail_id" name="id" type="hidden" />
     <input  name="checkedIds" value="${checkedIds}" type="hidden" />
+    <input name="name" type="hidden" value="${name}" />
+    <input  name="projectNumber" value="${projectNumber}" type="hidden" />
   </form> 
 </body>
 </html>

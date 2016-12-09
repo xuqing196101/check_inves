@@ -294,10 +294,10 @@ function deleteFinance() {
 		<input name="flag" type="hidden" />
 		<div>
     	  <h2 class="count_flow"><i>01</i>基本信息</h2>
-    	  <ul class="list-unstyled" style="font-size: 14">
     	  	<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 	 			<legend>企业信息</legend>
-				<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	 			<ul class="list-unstyled" style="font-size: 14">
+				<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
 					<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 				        <input id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" /> 
@@ -330,18 +330,27 @@ function deleteFinance() {
 				    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			       	<select  name="businessType" id="business_select_id">
 			         	<c:forEach items="${company }" var="obj">
-						    <option value="${obj.id }">${obj.name }</option>
+						    <option value="${obj.id }" <c:if test="${obj.id==currSupplier.businessType }" >selected="selected"</c:if> >${obj.name }</option>
 						</c:forEach>
 						<!-- <option>外资企业</option>
 						<option>民营企业</option>
 						<option>股份制企业</option>
 						<option>私营企业</option> -->
 					</select>
-					 
-					  
 			       </div>
 				 </li>
+			<%-- 	 
 				  <li class="col-md-3 col-sm-6 col-xs-12">
+					   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
+					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
+				        <span class="add-on cur_point">i</span>
+				        <div class="cue"> ${err_bAddress } </div>
+			       	   </div>
+				  </li> --%> 
+		    
+		    
+			<%-- 	  <li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
 				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
@@ -372,10 +381,10 @@ function deleteFinance() {
 				         </select></div>
 				         <div class="cue"> ${err_msg_address } </div>
 			        </div>		        
-				 </li>  
+				 </li>   --%>
 				 
 				  <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 开户行名称</span>
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 基本账户开户行</span>
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankName" value="${currSupplier.bankName}" />
 			        <span class="add-on cur_point">i</span>
@@ -388,36 +397,109 @@ function deleteFinance() {
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
 			        <span class="add-on cur_point">i</span>
-			        <div class="cue"> ${err_msg_bankAccount } </div>
+			        <div class="cue"> ${err_msg_postCode } </div>
 			       </div>
 				 </li> 
-				 
+			<%-- 	 
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i>邮编</span>
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			        <input type="text" name="postCode" value="${currSupplier.postCode}" />
 			        <span class="add-on cur_point">i</span>
-			         
+			         <div class="cue"> ${err_msg_bankAccount } </div>
 			       </div>
-				 </li>  
+				 </li>   --%>
 				 
 				 
-				<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+			<%-- 	<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>
 			    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
 				       <textarea class="col-md-12 col-xs-12 col-sm-12 h130"  name="detailAddress">${currSupplier.detailAddress}</textarea>
 				       <div class="cue"> ${err_detailAddress } </div>
 		       	    </div>
-				</li> 
-			
+				</li>  --%>
+			</ul>
 	       </fieldset>
+	       
+	       
+	           <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
+	 			<legend>地址信息</legend>
+	 			   <ul class="list-unstyled" style="font-size: 14">
+	 		   		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 邮编</span>
+					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				        <input type="text" name="postCode" value="${currSupplier.postCode}" />
+				        <span class="add-on cur_point">i</span>
+				         <div class="cue"> ${err_msg_bankAccount } </div>
+				       </div>
+					</li> 
+				 
+				 	<li class="col-md-3 col-sm-6 col-xs-12">
+				    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
+				    	<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
+				     
+				         <c:forEach  items="${privnce }" var="prin">
+					         <c:if test="${prin.id==area.parentId }">
+					          <option value="${prin.id }" selected="selected" >${prin.name }</option>
+					         </c:if>
+				           <c:if test="${prin.id!=area.parentId }">
+					          <option value="${prin.id }"  >${prin.name }</option>
+					         </c:if>
+				         </c:forEach>
+				         
+				         </select></div> 
+				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" >
+				         
+				           <c:forEach  items="${city }" var="city">
+					         <c:if test="${city.id==currSupplier.address }">
+					          <option value="${city.id }" selected="selected" >${city.name }</option>
+					         </c:if>
+				           <c:if test="${city.id!=currSupplier.address }">
+					          <option value="${city.id }"  >${city.name }</option>
+					         </c:if>
+				         </c:forEach>
+				         
+				         
+				         </select></div>
+				         <div class="cue"> ${err_msg_address } </div>
+			        </div>		        
+				 </li>  
+				 
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 详细地址</span>
+				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			        <input type="text" name="detailAddress"  value="${currSupplier.detailAddress}">
+			        <span class="add-on cur_point">i</span>
+			         <div class="cue">${err_detailAddress }  </div>
+			       </div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				 	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+					<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+						<input type="button" class="btn" value="新增"/>
+						<input type="button" class="btn" value="删除"/>
+					</div>
+				 </li>
+				 
+				<%--  <li class="col-md-12 col-xs-12 col-sm-12 mb25">
+			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>
+			    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
+				       <textarea class="col-md-12 col-xs-12 col-sm-12 h130"  name="detailAddress">${currSupplier.detailAddress}</textarea>
+				       <div class="cue"> ${err_detailAddress } </div>
+		       	    </div>
+				</li>  --%>	 
+		 	</ul>	 
+	      </fieldset>
+	      
 	       <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
-	 			<legend>资质资信</legend>
-				<li class="col-md-6 col-sm-12 col-xs-12 mb25">
+	 		  <legend>资质资信</legend>
+	 		   <ul class="list-unstyled" style="font-size: 14">
+				<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
 				    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月完税凭证</span> 
 				    <div class="col-md-6 col-sm-12 col-xs-12 p0">
-		    		  <u:upload id="taxcert_up"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
-		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+		    		  <u:upload id="taxcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" /> 
+		        	  <u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
 			        </div>
 			        <div class="cue"> ${err_taxCert } </div>
 			    </li> 
@@ -425,8 +507,8 @@ function deleteFinance() {
 				<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年银行基本账户年末对账单</span> 
 				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
-					   <u:upload id="billcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
-					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+					   <u:upload id="billcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" /> 
+					   <u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
 				   </div>
 				    <div class="cue"> ${err_bil } </div>
 				</li>
@@ -434,8 +516,8 @@ function deleteFinance() {
 			   <li id="security_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 			      <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三个月缴纳社会保险金凭证</span> 
 			      <div class="col-md-6 col-sm-12 col-xs-12 p0">
-			        <u:upload id="curitycert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
-			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+			        <u:upload id="curitycert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" /> 
+			        <u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 			      </div>
 			      <div class="cue"> ${err_security } </div>
 			   </li>
@@ -443,31 +525,42 @@ function deleteFinance() {
 			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 			   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 近三年内无重大违法记录声明</span> 
 			   <div class="col-md-6 col-sm-12 col-xs-12 p0">
-			     <u:upload id="bearchcert_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
-			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			     <u:upload id="bearchcert_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
+			     <u:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 			   </div>
 			   <div class="cue"> ${err_bearch } </div>
-			</li>						
+			</li>
+			
+			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+			   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 
+			   <div class="col-md-6 col-sm-12 col-xs-12 p0">
+			     <u:upload id="bank_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
+			     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			   </div>
+			   <div class="cue"> ${err_bearch } </div>
+			</li>
+		  </ul>						
 		</fieldset>
 		<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	  <legend>法人代表信息</legend>
-		  <li class="col-md-3 col-sm-6 col-xs-12">
+	 	  <ul class="list-unstyled" style="font-size: 14">
+		 	 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalName" value="${currSupplier.legalName}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalName } </div>
 	       	   </div>
-		    </li> 
+		   	 </li> 
 		    
-		    <li class="col-md-3 col-sm-6 col-xs-12">
+		   	 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>身份证号</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="legalIdCard" value="${currSupplier.legalIdCard}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalCard } </div>
 	       	   </div>
-		    </li> 
+		   	 </li> 
 		    
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
@@ -485,12 +578,33 @@ function deleteFinance() {
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_legalPhone } </div>
 	       	   </div>
-		    </li> 
+		    </li>
+		    
+		   <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+			     <u:upload id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
+			     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			   </div>
+			  <%--  <div class="cue"> ${err_bearch } </div> --%>
+			</li>
+			
+			 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
+			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
+			     <u:upload id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" /> 
+			     <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+			   </div>
+			  <%--  <div class="cue"> ${err_bearch } </div> --%>
+			</li>
+		  </ul>
 	    </fieldset>
-	    <fieldset class="col-md-12 border_font mt20">
-	 	    <legend>联系人信息</legend>
-		    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 联系人姓名</span>
+	    
+	    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
+	 	  <legend>注册联系人</legend>
+	 	   <ul class="list-unstyled" style="font-size: 14">
+		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactName" value="${currSupplier.contactName}" />
 		        <span class="add-on cur_point">i</span>
@@ -535,7 +649,67 @@ function deleteFinance() {
 	       	   </div>
 		    </li> 
 		    
+	    	<li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 地址</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
+		        <span class="add-on cur_point">i</span>
+		         <div class="cue"> ${err_conAddress } </div>
+	       	   </div>
+		    </li>
+		  </ul>   
+	    </fieldset>
+	    
+	    
+	    <fieldset class="col-md-12 border_font mt20">
+	 	  <legend>军队业务联系人</legend>
+	 	    <ul class="list-unstyled" style="font-size: 14"> 
+	 		 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name=" " value="${currSupplier.contactName}" />
+		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_conName } </div>
+	       	   </div>
+		   	 </li> 
+		    
+		   	 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真电话</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name=" " value="${currSupplier.contactFax}" />
+		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_fax } </div>
+	       	   </div>
+		     </li> 
+		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name=" " value="${currSupplier.contactMobile}" />
+		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_catMobile } </div>
+	       	   </div>
+		    </li> 
+		    
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name=" " value="${currSupplier.contactTelephone}" />
+		        <span class="add-on cur_point">i</span>
+			    <div class="cue"> ${err_catTelphone } </div>		        
+	       	   </div>
+		    </li> 
+		    
+		    <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮箱</span>
+			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+		        <input type="text" name=" " value="${currSupplier.contactEmail}" />
+		        <span class="add-on cur_point">i</span>
+		        <div class="cue"> ${err_catEmail } </div>
+	       	   </div>
+		    </li> 
+		    
+	        <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 地址</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
@@ -543,11 +717,14 @@ function deleteFinance() {
 		         <div class="cue"> ${err_conAddress } </div>
 	       	   </div>
 		    </li> 
-	    </fieldset>
+		  </ul>
+	 	</fieldset>
+	    
 	    <fieldset class="col-md-12 border_font mt20">
-	 	    <legend>营业执照</legend>
-		    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一信用代码</span>
+	 	  <legend>营业执照</legend>
+	 	   <ul class="list-unstyled" style="font-size: 14">
+		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一社会信用代码</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="creditCode" value="${currSupplier.creditCode}" />
 		        <span class="add-on cur_point">i</span>
@@ -574,7 +751,7 @@ function deleteFinance() {
 		    </li> 
 		    
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业开始时间</span>
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业有效期</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  />
@@ -583,7 +760,7 @@ function deleteFinance() {
 	       	   </div>
 		    </li> 
 		    
-		    <li class="col-md-3 col-sm-6 col-xs-12">
+	<%-- 	    <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业截止时间</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			   	<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
@@ -591,18 +768,18 @@ function deleteFinance() {
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_eDate } </div>
 	       	   </div>
-		    </li> 
+		    </li>  --%>
 		    
-		    <li class="col-md-3 col-sm-6 col-xs-12">
+		<%--     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
 		        <span class="add-on cur_point">i</span>
 		        <div class="cue"> ${err_bAddress } </div>
 	       	   </div>
-		    </li> 
+		    </li>  --%>
 		    
-		    <li class="col-md-3 col-sm-6 col-xs-12">
+		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮编</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			      <input type="text" name="businessPostCode" onkeyup="checknums(this)" value="${currSupplier.businessPostCode}" />
@@ -613,10 +790,10 @@ function deleteFinance() {
 		    </li> 
 		    
 		    <li class="col-md-3 col-sm-6 col-xs-12">
-		     <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
-				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
-					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
-		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
+		     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
+				   <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
+					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+		   	   		 <u:upload id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
 				   </div>
 				   <div class="cue"> ${err_business } </div>
 		    </li> 
@@ -624,54 +801,66 @@ function deleteFinance() {
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 营业范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h130" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" name="businessScope">${currSupplier.bankName}</textarea>
 	       	    </div>
-			</li> 
+			</li>
+		  </ul> 
 		</fieldset>
-		 <fieldset class="col-md-12 border_font mt20">
-	 	    <legend>境外分支</legend>
-			<li class="col-md-3 col-sm-6 col-xs-12">
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支结构</span>
+		
+		
+		<fieldset class="col-md-12 border_font mt20">
+	 	  <legend>境外分支</legend>
+		   <ul class="list-unstyled" style="font-size: 14">
+     		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>境外分支机构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		    	   <select  name="overseasBranch" onchange="dis(this)"  id="overseas_branch_select_id">
 		    	        <option value="0">无</option>
 						<option value="1">有</option>
-						
 					</select>
 	       	    </div>
-			</li>
-			<li class="col-md-3 col-sm-6 col-xs-12">
-				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">境外分支所在国家</span>
+			 </li> 
+			
+			
+		  	 <li class="col-md-3 col-sm-6 col-xs-12">
+				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在国家（地区）</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input name="branchCountry" id="sup_country" type="text" value="${currSupplier.branchCountry}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
-			</li>
+			 </li>
 			
-			<li class="col-md-3 col-sm-6 col-xs-12">
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支地址</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchAddress"  id="sup_branchAddress" value="${currSupplier.branchAddress}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
-			</li>
-			<li class="col-md-3 col-sm-6 col-xs-12">
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">机构名称</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchName" id="sup_branchName"  value="${currSupplier.branchName}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
-			</li>
+			 </li>
 			
-			<li class="col-md-3 col-sm-6 col-xs-12">
+			<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">分支生产经营范围</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchBusinessScope" id="sup_businessScope"" value="${currSupplier.branchBusinessScope}" />
 			        <span class="add-on cur_point">i</span>
 	       	    </div>
-			</li>
+			</li> --%>
+			
+			  <li class="col-md-12 col-xs-12 col-sm-12 mb25">
+		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 生产经营范围</span>
+		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80"  id="sup_businessScope" title="不超过80个字" name="branchBusinessScope">${currSupplier.branchBusinessScope}</textarea>
+	       	    </div>
+			  </li>
+			</ul>			
 		</fieldset>
-	  </ul>
 	  <!-- 财务信息 -->
 	  <div class="padding-top-10 clear">
 	    	<h2 class="count_flow"><i>2</i>财务信息</h2>
@@ -721,9 +910,9 @@ function deleteFinance() {
 				 </div>
 			    </div>
 			   </fieldset>
-			   <fieldset class="col-md-12 border_font mt20">
+			   <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	    	   <legend>附件</legend>
-	 	    	   <div>
+	 	    	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
 					  <table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
 						<thead>
 							<tr>
@@ -760,15 +949,15 @@ function deleteFinance() {
 				</div>
 			</fieldset>
 			<div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>3</i>股东信息</h2>
-				<div  class="col-md-12 p0 ul_list mb50">
-				   <div class="col-md-12 p15 mt20">
-						<div class="fl">
+			    <h2 class="count_flow"><i>3</i>出资人（股东）信息</h2>
+				<div  class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
+				   <div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 						    <button class="btn btn-windows add" type="button" onclick="openStockholder()" >新增</button>
 							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
 							<span class="red">${stock }</span>
 						</div>
-						<div class="mt40">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0">
 							<table id="share_table_id" class="table table-bordered table-condensed mt5">
 								<thead>
 									<tr>

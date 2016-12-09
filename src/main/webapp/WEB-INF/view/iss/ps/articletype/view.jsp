@@ -30,7 +30,7 @@
 	   <div class="col-md-12 col-sm-12 col-cs-12 tab-v2">
 	        <div class="padding-top-10">
 	        <ul class="nav nav-tabs bgwhite">
-	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">版块详情</a></li>
+	            <li class="active"><a aria-expanded="true" href="javascript:void(0)" data-toggle="tab" class="f18">栏目详情</a></li>
             </ul>
 	        <div class="tab-content padding-top-20 over_hideen">
 	        <div class="tab-pane fade active in" id="tab-1">
@@ -38,19 +38,19 @@
 	        <table class="table table-bordered">
 	        <tbody>
 	        <tr>
-	            <td class="bggrey" >栏目名称：</td>
+	            <td class="bggrey" width="10%">栏目名称：</td>
 	            <td colspan="3">${articletype.name}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey" >栏目编码：</td>
+	            <td class="bggrey"  width="10%">栏目编码：</td>
 	            <td>${articletype.code}</td>
-	            <td class="bggrey" >创建人：</td>
+	            <td class="bggrey"  width="10%">创建人：</td>
 	            <td>${articletype.creater.relName}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey" >创建时间：</td>
+	            <td class="bggrey"  width="10%">创建时间：</td>
 	            <td>${articletype.createdAt}</td>
-	            <td class="bggrey" >更新时间：</td>
+	            <td class="bggrey"  width="10%">更新时间：</td>
 	            <td>${articletype.updatedAt}</td>
 	        </tr>
 	        </tbody>

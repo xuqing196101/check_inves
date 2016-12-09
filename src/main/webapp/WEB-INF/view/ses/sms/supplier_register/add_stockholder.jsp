@@ -89,30 +89,30 @@
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资人名称或姓名：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="name" />
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人名称或姓名：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="name" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资人性质：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="nature" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人性质：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="nature" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 统一社会信用代码或身份证号码：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="identity" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>统一社会信用代码或身份证号码：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="identity" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 出资金额或股份（万元/万份）：</span>
-												<div class="input-append">
-													<input class="span3" onkeyup="checknums(this)" type="text" name="shares" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资金额或股份（万元/万份）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input onkeyup="checknums(this)" type="text" name="shares" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w220"><i class="red">*</i> 比例（%）：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="proportion" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>比例（%）：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="proportion" />
 												</div>
 											</li>
 											<div class="clear"></div>
@@ -120,7 +120,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+							<div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>

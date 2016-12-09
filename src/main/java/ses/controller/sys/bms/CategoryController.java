@@ -306,8 +306,33 @@ public class CategoryController extends BaseSupplierController {
     	if(categoryIds!=null){
         	 list=Arrays.asList(categoryIds.split(","));
         }
-        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list);
+        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list, 0);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+        json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    
+    /**
+     *〈简述〉供应商查询条件显示品目
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param response response
+     * @param category 品目实体
+     * @param categoryIds 品目字符串
+     * @throws IOException 异常处理
+     */
+    @RequestMapping(value = "query_category_select")
+    public void queryCategorySelect(HttpServletResponse response, Category category, String categoryIds) throws IOException {
+        List<String> list=new ArrayList<String>();
+        if(categoryIds!=null){
+             list=Arrays.asList(categoryIds.split(","));
+        }
+        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list,1);
+        String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+        json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(json);
         response.getWriter().flush();

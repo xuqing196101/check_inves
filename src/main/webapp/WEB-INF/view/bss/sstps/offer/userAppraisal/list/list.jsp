@@ -49,39 +49,39 @@
 			<table class="table table-bordered">
 				 <tobody>
 				  	<tr>
-				 		<td width="10%" class="bggrey tr">产品名称：</td>
-				 		<td width="25%">
-				 			<input type="text" id="name" name="name" class="col-md-8" value="${contractProduct.name }" readonly>
+				 		<td width="25%" class="bggrey tr">产品名称：</td>
+				 		<td width="75%">
+				 			<input type="text" id="name" name="name" class="col-md-8 col-sm-12 col-xs-12 m0" value="${contractProduct.name }" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="10%" class="bggrey tr">设计单位：</td>
-				 		<td width="25%">
-				 			<input id="designDepartment" name="designDepartment" type="text" class="col-md-8" value="${productInfo.designDepartment }" readonly>
+				 		<td width="25%" class="bggrey tr">设计单位：</td>
+				 		<td width="75%">
+				 			<input id="designDepartment" name="designDepartment" type="text" class="col-md-8 col-sm-12 col-xs-12 m0" value="${productInfo.designDepartment }" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="10%" class="bggrey tr">产品概述：</td>
-				 		<td width="25%">
-				 		<textarea class="col-md-8 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productOverview } </textarea>
+				 		<td width="25%" class="bggrey tr">产品概述：</td>
+				 		<td width="75%">
+				 		<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productOverview" name="productOverview" title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productOverview } </textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="10%" class="bggrey tr"> 产品生产过程概述：</td>
-				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productProcess }</textarea>
+				 		<td width="25%" class="bggrey tr"> 产品生产过程概述：</td>
+				 		<td width="75%">
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productProcess" name="productProcess"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productProcess }</textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="10%" class="bggrey tr">产品技术状况概述：</td>
-				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productSkill }</textarea>
+				 		<td width="25%" class="bggrey tr">产品技术状况概述：</td>
+				 		<td width="75%">
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="productSkill" name="productSkill"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.productSkill }</textarea>
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="10%" class="bggrey tr">结论：</td>
+				 		<td width="25%" class="bggrey tr">结论：</td>
 				 		<td width="25%">
-				 			<textarea class="col-md-8 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.conclusion }</textarea>
+				 			<textarea class="col-md-8 col-sm-12 col-xs-12 h100" id="conclusion" name="conclusion"  title="不超过4000个字" placeholder="不超过4000个字" readonly>${productInfo.conclusion }</textarea>
 				 		</td>
 				 	</tr>
 				 </tobody>

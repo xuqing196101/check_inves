@@ -119,7 +119,7 @@ session.setAttribute("tokenSession", tokenValue);
 		  </h2>
 		<div class="tab-content padding-top-20">
 			<div class="headline-v2">
-			  <h2>专家申请表、合同书</h2>
+			  <h2>专家申请表、承诺书</h2>
 			</div>   
 	   	 <table class="table table-bordered">
 	   	   <tr>
@@ -128,7 +128,7 @@ session.setAttribute("tokenSession", tokenValue);
 	   	       <up:upload id="expert6"  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}" auto="true"/>
 			   <up:show showId="show6"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_APPLICATION_TYPEID}"/>
 	   	     </td>
-	   	     <td class="bggrey" width="15%" ><i class="red">*</i>专家合同书：</td>
+	   	     <td class="bggrey" width="15%" ><i class="red">*</i>专家承诺书：</td>
 	   	     <td>
 	   	       <up:upload id="expert7" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}" auto="true"/>
 			   <up:show showId="show7"  groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_CONTRACT_TYPEID}"/>

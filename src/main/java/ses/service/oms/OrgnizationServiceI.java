@@ -4,14 +4,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 import ses.model.oms.Orgnization;
+import ses.model.oms.util.Ztree;
 
 
 public interface OrgnizationServiceI {
 	
+	
     public List<Orgnization> findOrgnizationList(HashMap<String,Object> map);
+    
+    /***
+     * 
+     *〈简述〉根据父级Id和类型进行查询
+     *〈详细描述〉
+     * @author myc
+     * @param root 根目录的PID
+     * @param pid 父级treeId
+     * @param type 所属类别
+     * @return 
+     */
+    public List<Ztree> findOrgByPidAndType(String pid, String type);
 	
     /**
      * 
@@ -24,7 +36,16 @@ public interface OrgnizationServiceI {
      */
     int saveOrgnization(Orgnization org,String depIds);
 	
-    int updateOrgnization(HashMap<String, Object> map);
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author myc
+     * @param map 对象集合
+     * @return
+     */
+    int updateOrgnization(Orgnization org,String depIds);
+    
 	
     List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
 	
@@ -39,6 +60,7 @@ public interface OrgnizationServiceI {
     int updateByCategoryId(Orgnization orgnization);
 	
     List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
+    
     
     /**
      * 
@@ -81,4 +103,15 @@ public interface OrgnizationServiceI {
 	 * @return Orgnization集合
 	 */
 	List<Orgnization> initOrgByType(String type);
+
+	/**
+	 * 
+	 *〈简述〉删除组织机构/管理部门用户
+	 *〈详细描述〉
+	 * @author myc
+	 * @param idsString id集合
+	 * @param orgType 组织机构类型
+	 * @return
+	 */
+	public String delUsers(String idsString, String orgType);
 }

@@ -59,6 +59,16 @@
 		<result column="SCORE" property="score" />
 		<result column="NAME" property="name" />
 		<result column="DETAIL_ADDRESS" property="detailAddress" />
+		<result column="ARMY_BUSINESS_NAME" property="armyBusinessName" />
+		<result column="ARMY_BUSINESS_FAX" property="armyBusinessFax" />
+		<result column="ARMY_BUSINESS_MOBILE" property="armyBuinessMobile" />
+		<result column="ARMY_BUSINESS_TELEPHONE" property="armyBuinessTelephone" />
+		<result column="ARMY_BUSINESS_EMAIL" property="armyBuinessEmail" />
+		<result column="ARMY_BUSINESS_ADDRESS" property="armyBuinessAddress" />
+		<result column="AUDIT_DATE" property="auditDate" />
+		<result column="BUSINESSTYPENAME" property="businessTypeName" />
+		<result column="ISEXTRACT" property="isExtract" />
+
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
@@ -78,7 +88,8 @@
 		SUPPLIER_PLEDGE,
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
-		CREATED_AT, UPDATED_AT, BUSINESS_CERT,DETAIL_ADDRESS
+		CREATED_AT, UPDATED_AT, BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
+		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -346,6 +357,28 @@
 				DETAIL_ADDRESS,
 			</if>
 			
+			<if test="armyBusinessName != null">
+				ARMY_BUSINESS_NAME,
+			</if>
+			<if test="armyBusinessFax != null">
+				ARMY_BUSINESS_FAX,
+			</if>
+			<if test="armyBuinessMobile != null">
+				ARMY_BUSINESS_MOBILE,
+			</if>
+			<if test="armyBuinessTelephone != null">
+				ARMY_BUSINESS_TELEPHONE,
+			</if>
+			<if test="armyBuinessEmail != null">
+				ARMY_BUSINESS_EMAIL,
+			</if>
+				<if test="armyBuinessAddress != null">
+				ARMY_BUSINESS_ADDRESS,
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE,
+			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -513,6 +546,30 @@
 			<if test="detailAddress != null">
 				#{detailAddress},
 			</if>
+			
+			
+			<if test="armyBusinessName != null">
+				#{armyBusinessName},
+			</if>
+			<if test="armyBusinessFax != null">
+				#{armyBusinessFax},
+			</if>
+			<if test="armyBuinessMobile != null">
+				#{armyBuinessMobile},
+			</if>
+			<if test="armyBuinessTelephone != null">
+				#{armyBuinessTelephone},
+			</if>
+			<if test="armyBuinessEmail != null">
+				#{armyBuinessEmail},
+			</if>
+			<if test="armyBuinessAddress != null">
+				#{armyBuinessAddress},
+			</if>
+			<if test="auditDate != null">
+				#{auditDate},
+			</if>
+			
 		</trim>
 
 	</insert>
@@ -678,6 +735,28 @@
 			<if test="detailAddress != null">
 				DETAIL_ADDRESS=#{detailAddress},
 			</if>
+			<if test="armyBusinessName != null">
+				ARMY_BUSINESS_NAME=#{armyBusinessName},
+			</if>
+			<if test="armyBusinessFax != null">
+				ARMY_BUSINESS_FAX=#{armyBusinessFax},
+			</if>
+			<if test="armyBuinessMobile != null">
+				ARMY_BUSINESS_MOBILE=#{armyBuinessMobile},
+			</if>
+			<if test="armyBuinessTelephone != null">
+				ARMY_BUSINESS_TELEPHONE=#{armyBuinessTelephone},
+			</if>
+			<if test="armyBuinessEmail != null">
+				ARMY_BUSINESS_EMAIL=#{armyBuinessEmail},
+			</if>
+			<if test="armyBuinessAddress != null">
+				ARMY_BUSINESS_ADDRESS=#{armyBuinessAddress},
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE=#{auditDate},
+			</if>
+			
 		</set>
 		where ID = #{id}
 	</update>
@@ -895,7 +974,9 @@
 		select
 		t1. *,
 		t2.ID as ID_ ,
-		t3.NAME as NAME_
+		t3.NAME as NAME_,
+		t4. NAME AS BUSINESSTYPENAME,
+		t5.OPERATING_TYPE as isExtract
 		from(
 		select
 		*
@@ -905,7 +986,7 @@
 		from(
 		select
 		*
-		from
+		FROM
 		T_SES_SMS_SUPPLIER tt1
 		where
 		1=1
@@ -927,6 +1008,13 @@
 		T_SES_BMS_DICTIONARY_DATA t3
 		ON
 		t2.SUPPLIER_TYPE_ID = t3.CODE
+		left join 
+		T_SES_BMS_DICTIONARY_DATA t4 
+		ON 
+		t1.BUSINESS_TYPE = t4. ID
+		left join 
+		T_SES_SMS_SUPPLIER_EXT_RELATE t5
+		on t5.SUPPLIER_ID = t1.ID
 	</select>
 
 
@@ -969,7 +1057,7 @@
 			AND CREATED_AT &lt;= #{endDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME = #{contactName}
+			AND CONTACT_NAME like '%${contactName}%'
 		</if>
 		<if test="status != null">
 			and SUPPLIER_STATUS = #{status}
@@ -991,6 +1079,12 @@
 				separator="" close="">
 				and "INSTR"(categoryId, #{item})>0
 			</foreach>
+		</if>
+		<if test="scoreStart != null and scoreStart != '' ">
+			and SCORE &gt;= #{scoreStart} 
+		</if>
+		<if test="scoreEnd != null and scoreEnd != ''">
+			and SCORE &lt; #{scoreEnd} 
 		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>

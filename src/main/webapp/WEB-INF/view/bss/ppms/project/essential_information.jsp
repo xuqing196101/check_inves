@@ -121,19 +121,13 @@
                   <td>${project.name}<input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}"/></td>
                 </tr>
                 <tr>
-                  <td class="bggrey">负责人姓名:</td>
+                  <td class="bggrey">项目经办人:</td>
                   <td>${project.principal}</td>
-                  <td class="bggrey">负责人联系电话:</td>
+                  <td class="bggrey">经办人手机:</td>
                   <td>${project.ipone}</td>
                 </tr>
                 <tr>
-                  <td class="bggrey">联系人姓名:</td>
-                  <td><input name="linkman" id="linkman" value="${project.linkman}" /></td>
-                  <td class="bggrey">联系人联系电话:</td>
-                  <td><input name="linkmanIpone" id="linkmanIpone" value="${project.linkmanIpone}" /></td>
-                </tr>
-                <tr>
-                  <td class="bggrey">招标单位:</td>
+                  <td class="bggrey">采购机构名称:</td>
                   <td>${project.sectorOfDemand}</td>
                   <td class="bggrey">联系地址:</td>
                   <td>${project.address}</td>
@@ -296,14 +290,14 @@
         <div class="tab-pane fade " id="tab-4" >
           <div class="margin-bottom-0  categories">
             <form id="add_form" action="${pageContext.request.contextPath}/project/adddetail.html" method="post">
-               <f:show showId="upload_id" delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
+               <f:show showId="upload_id"  groups="upload123,upload_id"  delete="false" businessId="${project.id}" sysKey="2" typeId="${dataIds}"/>
             </form>
           </div>
         </div>
-        <div class="tab-pane fade " id="tab-5" >
+        <div class="tab-pane fade active" id="tab-5" >
           <div>上传附件：</div>
-          <f:upload id="upload_id" businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
-          <f:show showId="upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
+          <f:upload id="upload123" groups="upload123,upload_id"  businessId="${project.id}" typeId="${dataId}" sysKey="2"/>
+          <f:show showId="upload123" groups="upload123,upload_id"  businessId="${project.id}" sysKey="2" typeId="${dataId}"/>
         </div>
       </div>
     </div>

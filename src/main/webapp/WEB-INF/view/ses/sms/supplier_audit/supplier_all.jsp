@@ -81,12 +81,20 @@
 		    }
 		    var id = $(":radio:checked").val();
 		    var state = $("#"+id).parents("tr").find("td").eq(5).text().trim();
-		    if (state == "已审核" || state == "初审核未通过" || state == "复审未通过" || state == "初审退回") {
+		    var isExtract=$("#"+id+"_isExtract").text();
+		    if (state == "已审核" || state == "审核核未通过" || state == "复核未通过" || state == "审核退回") {
 		        layer.msg("请选择待审核项 !", {
-		        	offset : '300px',
+		        	offset : '100px',
 		        });
 		        return;
-		      } 
+		      }
+		    //抽取之后的才能复核
+		    if(isExtract !=1 && state == "待复核"){
+		    	layer.msg("该供应商未抽取 !", {
+		        	offset : '100px',
+		        });
+		        return;
+		    } 
 		    
 		    $("input[name='supplierId']").val(id);
 		    $("#shenhe_form_id").submit();
@@ -120,10 +128,10 @@
         </li>
         <li class="active">
 	        <c:if test="${sign == 1}">
-	          <a href="#">供应商初审列表</a>
+	          <a href="#">供应商审核列表</a>
 	        </c:if>
 		      <c:if test="${sign == 2}">
-		        <a href="#">供应商复审列表</a>
+		        <a href="#">供应商复核列表</a>
 		      </c:if>
         </li>
       </ul>
@@ -148,15 +156,15 @@
 	      <select name="status" class="w178" id="status">
 	        <option value="">全部</option>
           <c:if test="${sign == 1}">
-            <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
-            <option <c:if test="${state == 7 }">selected</c:if> value="7">初审退回</option>
-            <option <c:if test="${state == 8 }">selected</c:if> value="8">复审退回</option>
-            <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
+            <option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
+            <option <c:if test="${state == 7 }">selected</c:if> value="7">审核退回</option>
+            <option <c:if test="${state == 8 }">selected</c:if> value="8">复核退回</option>
+            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核核未通过</option>
           </c:if>
           <c:if test="${sign == 2}">
-            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
+            <option <c:if test="${state == 1 }">selected</c:if> value="1">待复核</option>
             <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
-            <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
+            <option <c:if test="${state == 4 }">selected</c:if> value="4">复核不通过</option>
           </c:if>
 	      </select> 
        </li>
@@ -190,7 +198,7 @@
             <th class="info">供应商名称</th>
             <th class="info">企业类型</th>
             <th class="info">企业性质</th>
-            <th class="info">审核状态</th>
+            <th class="info w100">审核状态</th>
           </tr>
           </thead>
           <c:forEach items="${result.list }" var="list" varStatus="page">
@@ -206,16 +214,17 @@
 	                <c:if test = "${fn:contains(str.supplierTypeName, '工程')}">${str.supplierTypeName }</c:if>
 	              </c:forEach>
 	            </td>
-	            <td class="tc">${list.businessType }</td>
-	            <td class="tc" id="${list.id}">
-	              <c:if test="${list.status==0 }">待初审</c:if>
-	              <c:if test="${list.status==1 }">待复审</c:if>
-	              <c:if test="${list.status==7 }">初审退回</c:if>
-	              <c:if test="${list.status==8 }">复审退回</c:if>
-	              <c:if test="${list.status==3 }">已审核</c:if>
-	              <c:if test="${list.status==2 }">初审核未通过</c:if> 
-	              <c:if test="${list.status==4 }">复审未通过</c:if>
+	            <td class="tc">${list.businessTypeName }</td>
+	            <td class="tc w100" id="${list.id}">
+	              <c:if test="${list.status == 0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+	              <c:if test="${list.status == 1 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+	              <c:if test="${list.status == 7 }"> <span class="label rounded-2x label-dark">审核退回</span></c:if>
+	              <c:if test="${list.status == 8 }"><span class="label rounded-2x label-dark">复核退回</span></c:if>
+	              <c:if test="${list.status == 3 }"><span class="label rounded-2x label-u">已审核</span></c:if>
+	              <c:if test="${list.status == 2 }"><span class="label rounded-2x label-dark">审核核未通过</span></c:if> 
+	              <c:if test="${list.status == 4 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
 	            </td>
+	            <td class="tc" id="${list.id }_isExtract" style="display:none">${list.isExtract}</td>
             </tr>
           </c:forEach>
         </table>

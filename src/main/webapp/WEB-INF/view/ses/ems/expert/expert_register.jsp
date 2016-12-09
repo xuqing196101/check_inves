@@ -122,7 +122,7 @@ session.setAttribute("tokenSession", tokenValue);
      		<li class="p0">
 			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
+		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="spp"></font>
 			 </li>

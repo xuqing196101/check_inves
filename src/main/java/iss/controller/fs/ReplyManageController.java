@@ -329,7 +329,8 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(String id){
+	@ResponseBody
+	public void delete(String id){
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			//回复量减1
@@ -340,7 +341,6 @@ public class ReplyManageController {
 			postService.updateByPrimaryKeySelective(post);
 			replyService.deleteByPrimaryKey(str);
 		}
-		return "redirect:getlist.html";
 	}
 	
 	/**

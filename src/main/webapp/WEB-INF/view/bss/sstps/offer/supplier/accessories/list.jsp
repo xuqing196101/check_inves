@@ -202,21 +202,19 @@ $(document).ready(function() {
 						<td>${acc.remark }</td>
 					</tr>
 				   </c:forEach>
-				 </tbody>
-				 <thead>
-					 <tr id="totalRow">
+				   <tr id="totalRow">
 					 	<td colspan="6" class="tc">总计：</td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc"><input type="text" id="total" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total" class="border0 tc w50 m0" readonly="readonly"></td>
 					 	<td colspan="4" ></td>
-					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50 m0" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
 					 </tr>
-				 </thead> 
+				 </tbody> 
 			</table>
 		</div>
 		
-		<div  class="col-md-12 tc">
+		<div  class="col-md-12 col-xs-12 col-sm-12 mt20 tc">
 		    <button class="btn" type="button" onclick="onStep()">上一步</button>
 		    <button class="btn " type="button" onclick="nextStep()">下一步</button>
 	 	</div>

@@ -56,10 +56,10 @@ if (browserMatch.browser) {
  * 谷歌浏览器事件接管
  */
 function OnComplete2(type, code, html) {
-	if (html == "OK")
-		document.getElementById("TANGER_OCX").ShowTipMessage("提示", "SaveToURL成功!");
-	else
-		document.getElementById("TANGER_OCX").ShowTipMessage("提示", "SaveToURL失败!");
+	//if (html == "OK")
+	//	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "SaveToURL成功!");
+	//else
+	//	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "SaveToURL失败!");
 }
 function OnComplete4(UserName, SignName, SignUser, SignSN, EkeySN, IsCancel) {
 	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "OnComplete4");
@@ -67,7 +67,7 @@ function OnComplete4(UserName, SignName, SignUser, SignSN, EkeySN, IsCancel) {
 function OnComplete(type, code, html) {
 	// document.getElementById("TANGER_OCX").ShowTipMessage("提示",type);
 	// document.getElementById("TANGER_OCX").ShowTipMessage("提示",code);
-	document.getElementById("TANGER_OCX").ShowTipMessage("提示", html);
+	//document.getElementById("TANGER_OCX").ShowTipMessage("提示", html);
 }
 function OnComplete3(str, doc) { /*
 									 * document.getElementById("TANGER_OCX").ShowTipMessage("提示","马上执行设置office的username"); document.getElementById("TANGER_OCX").ActiveDocument.Application.UserName = "pengtao"; document.getElementById("TANGER_OCX").ActiveDocument.Application.Options.InsertedTextColor = 11;//插入的颜色 document.getElementById("TANGER_OCX").ShowTipMessage("提示","ondocumentopened成功回调");

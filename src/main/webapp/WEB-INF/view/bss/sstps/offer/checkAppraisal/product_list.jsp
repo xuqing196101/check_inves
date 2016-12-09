@@ -105,7 +105,7 @@ function offer(){
 	   		<h2>查询条件</h2>
 	   </div>
    <!-- 查询 -->
-		<h2 class="search_detail">
+		<div class="search_detail">
 			<form id="form1" action="${pageContext.request.contextPath}/offer/selectProductCheck.html?contractId=${id}" method="post" class="mb0">
 				<ul class="demand_list">
 					<li><label class="fl">产品名称：</label>
@@ -119,7 +119,7 @@ function offer(){
 
 				<div class="clear"></div>
 			</form>
-		</h2>
+		</div>
 		<!-- 表格开始-->
 		<div class="col-md-12 pl20 mt10">
 	   		<button class="btn" type="button" onclick="offer()">产品复审</button>

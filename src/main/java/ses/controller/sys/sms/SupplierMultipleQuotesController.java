@@ -1,3 +1,5 @@
+
+
 package ses.controller.sys.sms;
 
 import java.io.UnsupportedEncodingException;
@@ -236,10 +238,15 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
     @RequestMapping(value = "/quoteHistory")
     public String quoteHistory(HttpServletRequest req, String timestamp, String projectId, Quote quote, Model model) throws ParseException{
+        User user = (User) req.getSession().getAttribute("loginUser");
+        quote.setProjectId(projectId);
+        quote.setSupplierId(user.getTypeId());
+        List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
+        timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(listDate.get(listDate.size()-1));
+        model.addAttribute("listDate", listDate);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         List<Packages> listPackage = supplierQuoteService.selectByPrimaryKey(map, null);
-        User user = (User) req.getSession().getAttribute("loginUser");
         List<Packages> listPackageEach = new ArrayList<Packages>();
         SaleTender st = new SaleTender();
         st.setProjectId(projectId);
@@ -263,6 +270,9 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         }
         model.addAttribute("listPackage", listPackageEach);
         model.addAttribute("listQuote", listQuote);
+        Project project = new Project();
+        project.setId(projectId);
+        model.addAttribute("project", project);
         return "ses/sms/multiple_quotes/quote_history_record";
     }
     

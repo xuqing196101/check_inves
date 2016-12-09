@@ -392,6 +392,7 @@ System.out.print(scoreModel);
 				$("#showbutton").hide();
 				$("#model72 tbody tr").clone().appendTo("#show_table tbody");
 				$("#model73").show();
+				$("#model73").append('${scoreStr}');
 			}else if(intervalTypeName71=="0"){
 				$("#showbutton").show();
 				$("#showParamButton").hide();
@@ -416,6 +417,7 @@ System.out.print(scoreModel);
 				$("#showParamButton").show();
 				$("#showbutton").hide();
 				$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73").append('${scoreStr}');
 				$("#model73").show();
 			}else if(intervalTypeName71=="0"){
 				$("#showbutton").show();
@@ -635,10 +637,8 @@ System.out.print(scoreModel);
 	</div>
 	<div class="col-md-12" id="showbutton" style="display: none;">
 		<div class="mt40 tc mb50">
-			<input type="button" class="btn  padding-right-20 btn_back margin-5"
-				onclick="gernerator();" value="翻译成白话文"> <input type="button"
-				class="btn  padding-right-20 btn_back margin-5"
-				onclick="associate();" value="关联模型">
+			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="gernerator();" value="翻译成白话文"> 
+			<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="associate();" value="关联模型">
 		</div>
 	</div>
 	<div class="col-md-12" id="showParamButton" style="display: none;">

@@ -140,7 +140,7 @@
 		  <th class="info">联系人</th>
 		  <th class="info">联系电话</th>
 		  <th class="info">投标文件状态</th>
-		  <th class="info">揭秘状态</th>
+		  <th class="info">解密状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${listSupplier }" var="ls" varStatus="vs">

@@ -8,6 +8,7 @@
   <!-- 获取回传的OrgId -->
   <form>
     <input type="hidden" id="srcOrgId" name="srcOrgId" value="${srcOrgId}">
+    <input type="hidden" id="typeNameId" name="typeName" value="${typeName}">
   </form>
   <!--面包屑导航开始-->
   <div class="margin-top-10 breadcrumbs ">
@@ -16,7 +17,12 @@
 		<li><a href="javascript:void(0)"> 首页</a></li>
 		<li><a href="javascript:void(0)">支撑系统</a></li>
 		<li><a href="javascript:void(0)">后台管理</a></li>
-		<li class="active"><a href="#">部门管理</a></li>
+		<c:if test="${typeName == '0'}">
+		  <li class="active"><a href="#">组织机构</a></li>
+		</c:if>
+		<c:if test="${typeName == '2'}">
+		  <li class="active"><a href="#">管理部门</a></li>
+		</c:if>
 	  </ul>
 	</div>
   </div>

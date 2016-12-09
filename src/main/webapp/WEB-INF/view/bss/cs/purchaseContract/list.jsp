@@ -31,9 +31,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	var articleId = "${articleId}";
-		        	var condition = "${userName}";
-		            location.href = "${pageContext.request.contextPath}/downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
+		        	var projectName = $("#projectName").val();
+		      		var projectCode = $("#projectCode").val();
+		      		var purchaseDep = $("#purchaseDep").val();
+		      		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -231,7 +232,7 @@
 	  </h2>
    </div> 
 <!-- 项目戳开始 -->
-     <h2 class="search_detail">
+     <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
 	      <li class="fl"><label class="fl">编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
@@ -240,7 +241,7 @@
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
-     </h2>
+     </div>
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="createContract()">生成合同</button>
 		<button class="btn" onclick="someCreateContract()">合并生成合同</button>

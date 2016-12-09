@@ -28,6 +28,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -40,6 +41,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
@@ -85,6 +87,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
+	@Autowired
+	private SupplierExtRelateService  supplierExtRelateService;
+	
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -95,13 +100,13 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 /*	@RequestMapping("daiban")
 	public String daiBan(Supplier supplier,HttpServletRequest request) {
-		//未审核条数（0初审）
+		//未审核条数（0审核）
 		supplier.setStatus(0);
 		int weishen = supplierAuditService.getCount(supplier);
-		//审核中条数（1初审通过也是复审）
+		//审核中条数（1审核通过也是复核）
 		supplier.setStatus(1);
 		int shenhezhong =supplierAuditService.getCount(supplier);
-		//已审核条数（3复审通过）
+		//已审核条数（3复核通过）
 		supplier.setStatus(3);
 		int yishen =supplierAuditService.getCount(supplier);
 
@@ -126,7 +131,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		//是否完成
 		todo.setIsFinish((short)0);
 		//标题
-		todo.setName("供应商复审");
+		todo.setName("供应商复核");
 		User user=(User) request.getSession().getAttribute("loginUser");
 		//发送人id
 		todo.setSenderId(user.getId());
@@ -188,7 +193,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		
-		//初审、复审的标识
+		//审核、复核的标识
 		request.getSession().setAttribute("signs", sign);
 	
 		//文件
@@ -489,11 +494,11 @@ public class SupplierAuditController extends BaseSupplierController{
 		//审核时只要填写理由，就不通过
 /*		supplier.setId(id);
 		if(status==0){
-			supplier.setStatus(2); //初审不通过
+			supplier.setStatus(2); //审核不通过
 			supplierAuditService.updateStatus(supplier);
 		}
 		if(status==1){
-			supplier.setStatus(4); //复审不通过
+			supplier.setStatus(4); //复核不通过
 			supplierAuditService.updateStatus(supplier);af
 		}*/
 		
@@ -588,7 +593,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		if(supplier.getStatus() == 1){
 			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			todos.setName("供应商复审");
+			todos.setName("供应商复核");
 			todosService.updateByUrl(todos);*/
 			
 			//待办已完成
@@ -600,7 +605,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
-			todos.setName(supplierName+"供应商复审");
+			todos.setName(supplierName+"供应商复核");
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
@@ -617,14 +622,14 @@ public class SupplierAuditController extends BaseSupplierController{
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
 			/*todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			todos.setName("供应商初审");
+			todos.setName("供应商审核");
 			todosService.updateByUrl(todos);*/
 		}
 		/*if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			todos.setName("供应商复审");
+			todos.setName("供应商复核");
 			todosService.updateByUrl(todos);
 		}*/
 		
@@ -632,12 +637,12 @@ public class SupplierAuditController extends BaseSupplierController{
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			/**
-			 *  复审退回修改 ，推送代办
+			 *  复核退回修改 ，推送代办
 			 */
 			//推送者id
 			todos.setSenderId(user.getId());
 			//待办名称
-			todos.setName(supplierName+"供应商复审退回, 需初审 !");
+			todos.setName(supplierName+"供应商复核退回, 需审核 !");
 			//机构id
 			todos.setOrgId(supplier.getProcurementDepId());
 			//权限id
@@ -653,7 +658,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			// 待办已完成
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
 			/**
-			 * 初审退回修改 ，推送消息
+			 * 审核退回修改 ，推送消息
 			 */
 			//推送者id
 			todos.setSenderId(user.getId());
@@ -700,7 +705,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierId  = supplier.getId();
 		supplier = supplierAuditService.supplierById(supplier.getId());
 		Integer status = supplier.getStatus();
-		//暂存初审（5：初审中）
+		//暂存审核（5：审核中）
 		if(status == 0 || status == 5 || status == 8 && status != null){
 			supplier.setStatus(5);
 			supplierAuditService.updateStatus(supplier);
@@ -708,13 +713,13 @@ public class SupplierAuditController extends BaseSupplierController{
 			//更新待办任务
 			Todos todos = new Todos();
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			todos.setName("供应商初审中");
+			todos.setName("供应商审核中");
 			todosService.updateByUrl(todos);
 			
 			String msg = "{\"msg\":\"success\"}";
 			super.writeJson(response, msg);
 		}
-		//暂存复审（6：复审中）
+		//暂存复核（6：复核中）
 		if(status == 1 || status == 6 && status != null){
 			supplier.setStatus(6);
 			supplierAuditService.updateStatus(supplier);
@@ -722,7 +727,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			//更新待办任务
 			Todos todos = new Todos();
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
-			todos.setName("供应商复审中");
+			todos.setName("供应商复核中");
 			todosService.updateByUrl(todos);
 			
 			String msg = "{\"msg\":\"success\"}";
@@ -939,7 +944,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierName", supplierName);
 		request.setAttribute("state", status);
 		
-		//初审、复审标识
+		//审核、复核标识
 		request.setAttribute("sign",supplier.getSign());
 		request.getSession().getAttribute("sign");
 		

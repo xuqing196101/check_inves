@@ -93,7 +93,21 @@
 		}else{
 			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
 		}
-  		
+  	}
+  	
+  	//查看板块所属主题
+  	function viewTopic(){
+  		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.location.href="${pageContext.request.contextPath }/park/viewTopic.do?parkId="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一项",{offset: ['30%','40%'], shade:0.01});
+		}else{
+			layer.alert("请选择一项",{offset: ['30%','40%'], shade:0.01});
+		}
   	}
   	
   	//修改
@@ -111,7 +125,10 @@
 		}
     }
     
+  	//删除
     function del(){
+    	var parkNameForSerach = $("#parkNameForSerach").val();
+		var parkContentForSerach = $("#parkContentForSerach").val();
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
@@ -119,13 +136,23 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['30%','40%'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="${ pageContext.request.contextPath }/park/delete.html?ids="+ids;
+				$.ajax({
+					type:"POST",
+					url:"${pageContext.request.contextPath }/park/delete.html?ids="+ids,
+			       	success:function(data){
+			       		layer.msg('删除成功',{offset: ['40%', '45%']});
+				       	window.setTimeout(function(){
+				       		window.location.href="${pageContext.request.contextPath }/park/getlist.do?parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
+				       	}, 1000);
+			       	}
+		       	});
 			});
 		}else{
 			layer.alert("请选择要删除的版块",{offset: ['30%','40%'], shade:0.01});
 		}
     }
     
+  	//新增
     function add(){
     	window.location.href="${pageContext.request.contextPath }/park/add.html";
     }
@@ -147,7 +174,7 @@
  	 function search(){
 	    var parkNameForSerach = $("#parkNameForSerach").val();
 		var parkContentForSerach = $("#parkContentForSerach").val();
-	    location.href = "${ pageContext.request.contextPath }/park/getlist.do?parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
+	    location.href = "${pageContext.request.contextPath }/park/getlist.do?parkNameForSerach="+parkNameForSerach+"&parkContentForSerach="+parkContentForSerach;
 	 }
  	 
 	 function reset(){
@@ -197,6 +224,7 @@
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn" type="button" onclick="entryPortal()">进入门户</button>
+		<button class="btn" type="button" onclick="viewTopic()">查看主题</button>
 	</div>
 	
    

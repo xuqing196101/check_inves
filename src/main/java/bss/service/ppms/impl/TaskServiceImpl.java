@@ -83,5 +83,15 @@ public class TaskServiceImpl implements TaskService {
 		return list;
 	}
 
+    @Override
+    public boolean verify(Task task) {
+        boolean flag = true;
+        List<Task> list = taskMapper.verifyByTask(task);
+        if(list != null && list.size()>0){
+            flag = false;
+        }
+        return flag;
+    }
+
 
 }

@@ -128,15 +128,43 @@
     });
   }
         
-  //修改      
+  
+  //关闭弹出框
+  function cancel(){
+    layer.closeAll();
+  }
+  
+  var flag = true;
+  function verify(){
+    var documentNumber = $("input[name='documentNumber']").val();
+     $.ajax({
+      url : "${pageContext.request.contextPath}/task/verify.html",
+      type : "post",
+      data : "documentNumber=" + documentNumber,
+      dataType : "json",
+      success : function(data) {
+         var datas = eval("("+data+")");
+         if(datas == false){
+          $("#sps").html("已存在").css('color','red');
+          flag = false;
+         } else{ 
+           $("#sps").html("");
+           flag = true;
+         } 
+       
+      },
+      });
+  }
+  
+    //修改      
   function edit(){
-    var fileName = $("#fileName").val();
+     var fileName = $("#fileName").val();
     var planNo = $("#planNo").val();
     if(fileName==""){
       layer.tips("计划名称不能为空","#fileName");
     }else if(planNo==""){
       layer.tips("计划编号不能为空","#planNo");
-    }else{
+    }else{ 
       /* layer.open({
         type: 1, //page层
         area : [ '400px', '200px' ],
@@ -148,7 +176,10 @@
         shadeClose: true,
         content:$("#file")
       }); */
-       $("#form1").submit();
+      if(flag == true){
+        $("#form1").submit();
+      }
+       
     }
   }
         
@@ -160,11 +191,6 @@
     }else{
       layer.tips("请上传附件", "#uuId");
     } 
-  }
-  
-  //关闭弹出框
-  function cancel(){
-    layer.closeAll();
   }
 </script>
 </head>
@@ -187,22 +213,24 @@
   <div class="container container_box">
     <sf:form action="${pageContext.request.contextPath}/task/update.html" id="form1" method="post" modelAttribute="task">
       <div>
-        <h2 class="count_flow"><i>1</i>采购计划调整</h2>
+        <h2 class="count_flow"><i>1</i>采购任务调整</h2>
         <ul class="ul_list">
 	      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-			<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划名称</span>
+			<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">任务名称</span>
 			<div class="input-append input_group col-sm-12 col-xs-12 p0">
 			  <input type="text" id="fileName" maxlength="20" name="name" class="input_group" value="${task.name}"/>
+			  <input type="hidden" name="collectId" value="${task.collectId }"/>
 			  <span class="add-on">i</span>
 			  <div class="cue">${ERR_name}</div>
-			</div>
+			 
+			</div> 
 	      </li>
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
+            <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">任务编号</span>
             <div class="input-append input_group col-sm-12 col-xs-12 p0">
-              <input type="text" id="planNo" maxlength="20" name="documentNumber" class="input_group" value="${task.documentNumber}"/> 
+              <input type="text" id="planNo" maxlength="20" name="documentNumber" class="input_group" onblur="verify();" value="${task.documentNumber}"/> 
               <span class="add-on">i</span>
-              <div class="cue">${ERR_documentNumber}</div>
+              <div id="sps" class="cue">${ERR_documentNumber}</div>
             </div>
           </li>
 		</ul>

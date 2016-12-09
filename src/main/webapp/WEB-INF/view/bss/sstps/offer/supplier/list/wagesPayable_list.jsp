@@ -173,9 +173,7 @@ $(function(){
 						<td>${wp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
-					<tr>
+				<tr>
 					 	<td class="tc" colspan="4">总计：</td>
 					 	<td colspan="4" ></td>
 					 	<td class="tc" id="total1"></td>
@@ -189,7 +187,7 @@ $(function(){
 					 	<td class="tc" id="total5"></td>
 					 	<td ></td>
 					 </tr>
-				 </thead> 	
+				</tbody>
 			</table>
 		</div>
 		

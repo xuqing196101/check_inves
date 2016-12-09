@@ -50,22 +50,19 @@
                 <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  <td width=25% class="bggrey ">项目类别：</td>
-	                  <td width=25%>${pqinfo.projectType}</td>
-	                  <td width=25% class="bggrey ">合同名称：</td>
-	                  <td width=25%>${pqinfo.contract.name}</td>
+                      <td width="15%" class="bggrey ">合同名称：</td>
+	                  <td colspan="3">${pqinfo.contract.name}</td>
+                     </tr>
+                      <td width="15%" class="bggrey ">合同编号：</td>
+	                  <td width="35%">${pqinfo.contract.code}</td>
+	                  <td width="15%" class="bggrey ">项目类别：</td>
+	                  <td width="35%">${pqinfo.projectType}</td>
 	                 </tr>
 	                 <tr>
-	                  <td width=25% class="bggrey ">合同编号：</td>
-	                  <td width=25%>${pqinfo.contract.code}</td>
-	                  <td width=25% class="bggrey ">供应商组织机构代码：</td>
-	                  <td width=25%>${pqinfo.contract.supplierPurId}</td>
-	                 </tr> 
-	                 <tr>
-	                  <td width=25% class="bggrey ">供应商名称：</td>
-	                  <td width=25%>${pqinfo.contract.supplierDepName}</td>
-	                  <td width=25% class="bggrey "></td>
-	                  <td width=25%></td>
+	                  <td width="15%"class="bggrey ">供应商名称：</td>
+	                  <td width="35%">${pqinfo.contract.supplierDepName}</td>
+	                  <td width="15%" class="bggrey ">供应商组织机构代码：</td>
+	                  <td width="35%">${pqinfo.contract.supplierPurId}</td>
 	                 </tr> 
                  </tbody>
                  </table>
@@ -74,48 +71,45 @@
                  <table class="table table-bordered">
                  <tbody>
                      <tr>
-	                  <td width=25% class="bggrey ">质检单位：</td>
-	                  <td width=25%>${pqinfo.unit}</td>
-	                  <td width=25% class="bggrey ">质检类型：</td>
-	                  <td width=25%>${pqinfo.type}</td>
+	                  <td width="15%" class="bggrey ">质检单位：</td>
+	                  <td width="35%">${pqinfo.unit}</td>
+	                  <td width="15%" class="bggrey ">质检类型：</td>
+	                  <td width="35%">${pqinfo.type}</td>
 	                 </tr>
 	                 <tr>
-	                  <td width=25% class="bggrey ">质检地点：</td>
-	                  <td width=25%>${pqinfo.place}</td>
-	                  <td width=25% class="bggrey ">质检日期：</td>
-	                  <td width=25%><fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/></td>
+	                  <td width="15%" class="bggrey ">质检地点：</td>
+	                  <td width="35%">${pqinfo.place}</td>
+	                  <td width="15%" class="bggrey ">质检日期：</td>
+	                  <td width="35%"><fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/></td>
 	                 </tr> 
 	                 <tr>
-	                  <td width=25% class="bggrey ">质检人员：</td>
-	                  <td width=25%>${pqinfo.inspectors}</td>
-	                  <td width=25% class="bggrey ">质检情况：</td>
-	                  <td width=25%>${pqinfo.condition}</td>
+	                  <td width="15%" class="bggrey ">质检人员：</td>
+	                  <td width="35%">${pqinfo.inspectors}</td>
+	                  <td width="15%" class="bggrey ">质检情况：</td>
+	                  <td width="35%">${pqinfo.condition}</td>
 	                 </tr>
 	                 <tr>
-	                  <td width=25% class="bggrey ">质检结论：</td>
-	                  <td width=25%>${pqinfo.conclusion}</td>
-	                  <td width=25% class="bggrey ">质检报告：</td>
-	                  <td width=25%>
+	                  <td width=15% class="bggrey ">质检结论：</td>
+	                  <td width="35%">${pqinfo.conclusion}</td>
+	                  <td width=15% class="bggrey ">质检报告：</td>
+	                  <td width="35%">
 	                  	<button type="button" onclick="view('${pqinfo.report}',this)" class="btn">质检报告</button>
 					  </td>
 	                 </tr>
 	                 <tr>
-	                  <td width=25% class="bggrey ">详细情况：</td>
+	                  <td width=15% class="bggrey ">详细情况：</td>
 	                  <td colspan="3">${pqinfo.detail}</td>
 	                 </tr>
                  </tbody>
                  </table>
-			</div>
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 col-sm-12 col-cs-12 mt20 tc">
+  <div  class="col-md-12 col-sm-12 col-cs-12 tc mb10">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
-		</div>
-	  	 
+   </div>
 	</div>  	
      </div>
-     </div>
-     </div>
-
+      </div>
+       </div>
   </body>
 </html>

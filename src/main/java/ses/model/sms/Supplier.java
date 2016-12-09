@@ -493,11 +493,15 @@ public class Supplier implements Serializable {
 	
 	private List<String> itemType;
 	
-	private Integer sign;
+	private Integer sign;  //审核标志
 	
 	private Integer page;
 	
 	private Integer rows;
+	
+	private String businessTypeName; //营业执照类型名字
+	
+	private String isExtract; //是否抽取
 	
 	/**获取所有数据库address的省级单位名称*/
 	private String name;
@@ -519,8 +523,49 @@ public class Supplier implements Serializable {
 	 * 公司详细地址
 	 */
 	private String detailAddress;
+	/**
+	 * 条件查询供应商等级
+	 */
+	private String scoreStart;
+	/**
+	 * 条件查询供应商等级
+	 */
+	private String scoreEnd;
 	
-	public List<CategoryParameter> getCategoryParam() {
+	private String armyBusinessName;
+	
+	private String armyBusinessFax;
+	
+	private String armyBuinessMobile;
+	
+	private String armyBuinessTelephone;
+	
+	private String armyBuinessEmail;
+	
+	private String armyBuinessAddress;
+	
+	private Date auditDate;
+	
+	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
+	
+	
+	public String getScoreStart() {
+        return scoreStart;
+    }
+
+    public void setScoreStart(String scoreStart) {
+        this.scoreStart = scoreStart;
+    }
+
+    public String getScoreEnd() {
+        return scoreEnd;
+    }
+
+    public void setScoreEnd(String scoreEnd) {
+        this.scoreEnd = scoreEnd;
+    }
+
+    public List<CategoryParameter> getCategoryParam() {
 		return categoryParam;
 	}
 
@@ -1228,6 +1273,85 @@ public class Supplier implements Serializable {
 
 	public void setDetailAddress(String detailAddress) {
 		this.detailAddress = detailAddress;
+	}
+
+	public String getArmyBusinessName() {
+		return armyBusinessName;
+	}
+
+	public void setArmyBusinessName(String armyBusinessName) {
+		this.armyBusinessName = armyBusinessName;
+	}
+
+	public String getArmyBusinessFax() {
+		return armyBusinessFax;
+	}
+
+	public void setArmyBusinessFax(String armyBusinessFax) {
+		this.armyBusinessFax = armyBusinessFax;
+	}
+
+	public String getArmyBuinessMobile() {
+		return armyBuinessMobile;
+	}
+
+	public void setArmyBuinessMobile(String armyBuinessMobile) {
+		this.armyBuinessMobile = armyBuinessMobile;
+	}
+
+	public String getArmyBuinessTelephone() {
+		return armyBuinessTelephone;
+	}
+
+	public void setArmyBuinessTelephone(String armyBuinessTelephone) {
+		this.armyBuinessTelephone = armyBuinessTelephone;
+	}
+
+	public String getArmyBuinessEmail() {
+		return armyBuinessEmail;
+	}
+
+	public void setArmyBuinessEmail(String armyBuinessEmail) {
+		this.armyBuinessEmail = armyBuinessEmail;
+	}
+
+	public String getArmyBuinessAddress() {
+		return armyBuinessAddress;
+	}
+
+	public void setArmyBuinessAddress(String armyBuinessAddress) {
+		this.armyBuinessAddress = armyBuinessAddress;
+	}
+
+	public Date getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(Date auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	public List<SupplierAddress> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<SupplierAddress> addressList) {
+		this.addressList = addressList;
+	}
+	public String getBusinessTypeName() {
+		return businessTypeName;
+	}
+
+	public void setBusinessTypeName(String businessTypeName) {
+		this.businessTypeName = businessTypeName;
+	}
+
+	public String getIsExtract() {
+		return isExtract;
+	}
+
+	public void setIsExtract(String isExtract) {
+		this.isExtract = isExtract;
 	}
 	
 	

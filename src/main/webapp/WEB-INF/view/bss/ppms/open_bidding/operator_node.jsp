@@ -51,6 +51,15 @@
 		if(name==null ||name==undefined || name==""){
 			layer.msg("打分项名称不可以为空");
 			return false;
+		}else{
+			if(name.length>40){
+				layer.msg("打分项名称长度不能超过40位");
+				return false;
+			}
+			var patt = new RegExp("^[\u4e00-\u9fa5]+$");
+		    if(!patt.test(name)){
+		    	layer.msg("打分项名称只能为汉字");
+		    }
 		}
 		if(maxScore==null ||maxScore==undefined || maxScore==""){
 			layer.msg("最高分不可以为空");
@@ -64,6 +73,9 @@
 			if(Number(remain_score)-Number(maxScore)<0){
 				layer.msg("最高分不能超过"+remain_score+"分");
 				return false;
+			}
+			if(maxScore < 0) {
+				layer.msg("最高分要大于0");
 			}
 			
 		}else{

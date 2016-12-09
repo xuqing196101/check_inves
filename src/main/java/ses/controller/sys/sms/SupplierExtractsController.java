@@ -715,12 +715,27 @@ public class SupplierExtractsController extends BaseController {
                 SupplierExtPackage byId = supplierExtPackageServicel.getById(projectId); 
                 Project project = projectService.selectById(byId.getProjectId());
                 DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(project.getPlanType());
-                CategoryTree ct = new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setCode(dictionaryData.getCode());
-                ct.setIsParent("true");
-                jList.add(ct);
+                if(dictionaryData != null  ){
+                    CategoryTree ct = new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setCode(dictionaryData.getCode());
+                    ct.setIsParent("true");
+                    jList.add(ct);
+                }else{
+                    category.setId("0");
+                    DictionaryData data = new DictionaryData();
+                    data.setKind(6);
+                    List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                    for (DictionaryData dictionaryData1 : listByPage) {
+                        CategoryTree ct = new CategoryTree();
+                        ct.setId(dictionaryData1.getId());
+                        ct.setName(dictionaryData1.getName());
+                        ct.setCode(dictionaryData1.getCode());
+                        ct.setIsParent("true"); 
+                        jList.add(ct);
+                    } 
+                }
             } else {
                 category.setId("0");
                 DictionaryData data = new DictionaryData();

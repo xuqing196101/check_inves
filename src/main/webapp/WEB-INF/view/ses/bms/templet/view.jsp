@@ -41,16 +41,16 @@
                 	<table class="table table-bordered">
                  		<tbody>
                      		<tr>
-	                  			<td class="bggrey ">模板名称：</td>
-	                  			<td>${templet.name}</td>
-	                  			<td class="bggrey ">模板类型：</td>
-	                  			<td>${templet.temType}</td>
+	                  			<td class="bggrey " width="10%">模板名称：</td>
+	                  			<td width="40%">${templet.name}</td>
+	                  			<td class="bggrey " width="10%">模板类型：</td>
+	                  			<td width="40%">${templet.temType}</td>
 	                 		</tr>
 	                 		<tr>
-	                  			<td class="bggrey ">创建时间：</td>
-	                  			<td><fmt:formatDate value='${templet.createdAt}' pattern='yyyy-MM-dd'/></td>
-	                  			<td class="bggrey ">修改时间：</td>
-	                  			<td><fmt:formatDate value='${templet.updatedAt}' pattern='yyyy-MM-dd'/></td>
+	                  			<td class="bggrey " width="10%">创建时间：</td>
+	                  			<td width="40%"><fmt:formatDate value='${templet.createdAt}' pattern='yyyy-MM-dd'/></td>
+	                  			<td class="bggrey " width="10%">修改时间：</td>
+	                  			<td width="40%"><fmt:formatDate value='${templet.updatedAt}' pattern='yyyy-MM-dd'/></td>
 	                 		</tr> 
                  		</tbody>
            	 		</table>
@@ -61,7 +61,7 @@
                 	</div>
                  </div>
                  	<!-- 底部按钮 -->			          
- 				 <div class="col-md-12 col-sm-12 col-cs-12 mt20 tc">
+ 				 <div class="col-md-12 col-sm-12 col-cs-12 mt10 tc">
   					<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
  				 </div>
                 </div>

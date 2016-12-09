@@ -653,7 +653,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午2:56:42  
-	* @Description: 生成合同草稿 
+	* @Description: 生成合同草稿案
 	* @param @param purCon 合同实体类
 	* @param @param proList 明细list
 	* @param @param result
@@ -665,6 +665,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/toRoughContract")
 	public String toRoughContract(PurchaseContract purCon) throws Exception{
+			purCon.setUpdatedAt(new Date());
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
 			return "redirect:selectRoughContract.html";
 	}
@@ -675,7 +676,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午3:02:44  
-	* @Description: 修改合同草稿 
+	* @Description: 修改合同草案 
 	* @param @param agrfile
 	* @param @param request
 	* @param @param purCon
@@ -922,7 +923,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午2:58:05  
-	* @Description: 查询草稿合同列表 
+	* @Description: 查询草案合同列表 
 	* @param @param request
 	* @param @param page 分页
 	* @param @param model
@@ -1229,7 +1230,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午3:03:56  
-	* @Description: 通过id修改草稿合同 
+	* @Description: 生成正式合同 
 	* @param @param agrfile
 	* @param @param purCon
 	* @param @param request
@@ -1374,6 +1375,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
 		List<PurchaseContract> formalConList = purchaseContractService.selectFormalContract(map);
+		PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(formalConList);
+		model.addAttribute("list", list);
 		BigDecimal contractSum = new BigDecimal(0);
 		for(int i=0;i<formalConList.size();i++){
 			if(formalConList.get(i)!=null){
@@ -1382,7 +1385,6 @@ public class PurchaseContractController extends BaseSupplierController{
 				}
 			}
 		}
-		model.addAttribute("list", new PageInfo<PurchaseContract>(formalConList));
 		model.addAttribute("formalConList", formalConList);
 		model.addAttribute("contractSum", contractSum);
 		model.addAttribute("purCon", purCon);

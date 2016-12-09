@@ -234,7 +234,6 @@
                        <select name="expertsTypeId" id="expertsTypeId">
                                     <option selected="selected"  value=''>-请选择-</option>
                                     <option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
-                                    <option <c:if test="${expert.expertsTypeId =='2' }">selected</c:if> value="2">法律</option>
                                     <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">经济</option>
                                </select>
                     </span>
@@ -261,7 +260,7 @@
 		  <th class="info">专家姓名</th>
 		  <th class="info">性别</th>
 		  <th class="info">类型</th>
-		  <th class="info">毕业院校</th>
+		  <th class="info">毕业院校及专业</th>
 		  <th class="info">工作单位</th>
 		  <th class="info">创建时间</th>
 		  <th class="info">审核状态</th>
@@ -293,6 +292,12 @@
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
+		 </c:if>
+		 <c:if test="${e.status eq '4' }">
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
+		 </c:if>
+		 <c:if test="${e.status eq '5' }">
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '2' }">

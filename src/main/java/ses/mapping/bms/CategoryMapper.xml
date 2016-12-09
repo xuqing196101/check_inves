@@ -348,6 +348,9 @@
 		<if test="kind!=null and kind != ''">
 			and KIND like #{kind}
 		</if>
+		<if test="parentId!=null and parentId != ''">
+			and PARENT_ID = #{parentId}
+		</if>
 	</select>
 	<!-- 查询品目名称 -->
 	<select id="checkName" parameterType="Object" resultType="Object">

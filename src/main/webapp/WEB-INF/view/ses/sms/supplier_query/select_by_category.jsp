@@ -7,6 +7,80 @@
 <html>
 <head>
 <script type="text/javascript">
+/* 		var setting = {
+			check : {
+				enable : true,
+				chkboxType : {
+					"Y" : "s",
+					"N" : "s"
+				}
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
+				}
+			},
+			view: {
+				fontCss: getFontCss
+			}
+		};
+		var zNodes =${json};
+		function focusKey(e) {
+			if (key.hasClass("empty")) {
+				key.removeClass("empty");
+			}
+		}
+		function blurKey(e) {
+			if (key.get(0).value === "") {
+				key.addClass("empty");
+			}
+		}
+		var lastValue = "", nodeList = [], fontCss = {};
+		function clickRadio(e) {
+			lastValue = "";
+			searchNode(e);
+		}
+		function searchNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var value = $.trim(key.get(0).value);
+			var keyType ="name";
+			if (key.hasClass("empty")) {
+				value = "";
+			}
+			if (lastValue === value) return;
+			lastValue = value;
+			if (value === "") return;
+			updateNodes(false);
+			nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+			updateNodes(true);
+		}
+		function updateNodes(highlight) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			for( var i=0, l=nodeList.length; i<l; i++) {
+				nodeList[i].highlight = highlight;
+				zTree.updateNode(nodeList[i]);
+			}
+		}
+		function getFontCss(treeId, treeNode) {
+			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+		}
+		function filter(node) {
+			return !node.isParent && node.isFirstNode;
+		}
+		var key;
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			key = $("#key");
+			key.bind("focus", focusKey)
+			.bind("blur", blurKey)
+			.bind("propertychange", searchNode)
+			.bind("input", searchNode);
+		}); */
+	</script>
+<script type="text/javascript">
+ var key;
  $(function() {
     var zTreeObj;
 	var zNodes;
@@ -14,6 +88,7 @@
 	function loadZtree() {
 		var setting = {
 			async : {
+				autoParam:["id"],
 				enable : true,
 				url : "${pageContext.request.contextPath}/category/query_category.do",
 				otherParam : {
@@ -36,11 +111,60 @@
 					pIdKey : "parentId"
 				}
 			},
+			view: {
+				fontCss: getFontCss
+			}
 		};
-		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+		zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		key = $("#key");
+		key.bind("focus", focusKey)
+		.bind("blur", blurKey)
+		.bind("propertychange", searchNode)
+		.bind("input", searchNode);
 	}
-	});	
-	
+	});
+	function focusKey(e) {
+			if (key.hasClass("empty")) {
+				key.removeClass("empty");
+			}
+		}
+		function blurKey(e) {
+			if (key.get(0).value === "") {
+				key.addClass("empty");
+			}
+		}
+		var lastValue = "", nodeList = [], fontCss = {};
+		function clickRadio(e) {
+			lastValue = "";
+			searchNode(e);
+		}
+		function searchNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var value = $.trim(key.get(0).value);
+			var keyType ="name";
+			if (key.hasClass("empty")) {
+				value = "";
+			}
+			if (lastValue === value) return;
+			lastValue = value;
+			if (value === "") return;
+			updateNodes(false);
+			nodeList = zTree.getNodesByParamFuzzy(keyType, value);
+			updateNodes(true);
+		}
+		function updateNodes(highlight) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			for( var i=0, l=nodeList.length; i<l; i++) {
+				nodeList[i].highlight = highlight;
+				zTree.updateNode(nodeList[i]);
+			}
+		}
+		function getFontCss(treeId, treeNode) {
+			return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+		}
+		function filter(node) {
+			return !node.isParent && node.isFirstNode;
+		}
 	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -64,7 +188,7 @@
 	  }); 
 	  
 	 function tijiao(){
-	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	    var Obj=$.fn.zTree.getZTreeObj("treeDemo");  
 	     var nodes=Obj.getCheckedNodes(true);  
 	     var ids = new Array();  
 	     for(var i=0;i<nodes.length;i++){ 
@@ -78,7 +202,7 @@
 	  }
 	  
 	function resetQuery(){
-	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	    var Obj=$.fn.zTree.getZTreeObj("treeDemo");  
         Obj.checkAllNodes(false);
     	$("#supplierName").val("");
 	}
@@ -101,7 +225,8 @@
                 <div class="col-md-12" style="min-height:400px;">
 				<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 				    <div class="tag-box tag-box-v3">
-					<div id="ztree" class="ztree"></div>
+				     <input type="text" id="key" value="" class="empty" /><br/>
+					<ul id="treeDemo" class="ztree" />
 					</div>
 				</div>
 				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
@@ -135,7 +260,7 @@
 					    <td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 						<td><a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td class="tc">${list.contactName}</td>
-						<td class="tc">${list.supplierType }</td>
+						<td class="tl">${list.supplierType }</td>
 						<td class="tc">
 							<c:if test="${list.status==-1 }">
 							暂存、未提交

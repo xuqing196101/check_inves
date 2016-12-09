@@ -12,7 +12,7 @@ session.setAttribute("tokenSession", tokenValue);
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
 <script type="text/javascript">
-	function initData(){
+	function initData1(){
 		//回显已选产品
 	   	var id="${expert.id}";
 	   	var count=0;
@@ -21,7 +21,8 @@ session.setAttribute("tokenSession", tokenValue);
 	   	if(expertsTypeId==1 || expertsTypeId=="1"){
 		  	$("#ztree").show();
 		  	$.ajax({
-			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+			  	url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+			  	data:{"expertId":id},
 			  	dataType:"json",
 			  	success:function(code){
 				 	var checklist = document.getElementsByName ("chkItem");
@@ -47,24 +48,43 @@ session.setAttribute("tokenSession", tokenValue);
 		}else{
 			$("#ztree").hide();
 		}
-  	}
-
-  	window.onload=function(){
-		var parentId ="";
+	   	if(expertsTypeId==3 || expertsTypeId=="3"){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do",
+				data:{"expertId":id},
+				async:false,
+				dataType:"json",
+				success:function(code){
+					var checklist = document.getElementsByName("chkItem");
+					for(var i=0;i<checklist.length;i++){
+						var vals=checklist[i].value;
+						if(code.length>0){
+							$.each(code,function(j,result){
+								if(vals==result){
+						 			checklist[i].checked=true;
+						 		}
+							});
+						} 
+					}
+				}
+			});
+			$("#jtree").show();
+		}else{
+			$("#jtree").hide();
+		}
+	   	var parentId ="";
 		var addressId="${expert.address}";
-		//alert(addressId);
 		//地区回显和数据显示
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/find_by_id.do",
 			data:{"id":addressId},
+			dataType:"json",
+			async:false,
 			success:function(obj){
-				//alert(JSON.stringify(obj));
-				//var data = eval('(' + obj+ ')');
 				$.each(obj,function(i,result){
 					if(addressId == result.id){
 						parentId = result.parentId;
-						//alert(parentId);
-					$("#addr").append(result.name);
+						$("#addr").append(result.name);
 					}
 				});
 			}
@@ -72,17 +92,16 @@ session.setAttribute("tokenSession", tokenValue);
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			dataType:"json",
 			success:function(obj){
-				//var data = eval('(' + obj + ')');
-				//alert(parentId);
 				$.each(obj,function(i,result){
 					if(parentId == result.id){
-						$("#add").append(result.name+",");
+						$("#add").append(result.name);
 					}
 				});
 			}
 		});
-  	}	
+  	}
 	//是否通过标示
 	function pass(flag){
 		$("#isPass").val(flag);
@@ -95,7 +114,7 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 </script>
 </head>
-<body onload="initData()">
+<body onload="initData1()">
 
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -132,7 +151,7 @@ session.setAttribute("tokenSession", tokenValue);
 		    <td >${expert.mobile}</td>
 		  </tr>
 		   <tr>
-		    <td  class="info">联系电话（固话）：</td>
+		    <td  class="info">固定电话：</td>
 		    <td >${expert.telephone}</td>
 		    <td  class="info">单位地址：</td>
 		    <td >${expert.unitAddress}</td>
@@ -181,14 +200,14 @@ session.setAttribute("tokenSession", tokenValue);
 		    <td >${expert.nation}</td>
 		  </tr>
 		  <tr>
-		    <td  class="info">毕业院校：</td>
+		    <td  class="info">毕业院校及专业：</td>
 		    <td >${expert.graduateSchool}</td>
-		    <td  class="info">专家技术职称：</td>
+		    <td  class="info">专家技术职称/职业资格：</td>
 		    <td >${expert.professTechTitles}</td>
 		  </tr>
 		  <tr>
 		    <td  class="info">参加工作时间：</td>
-		    <td ><fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+		    <td ><fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle="default" pattern="yyyy-MM"/></td>
 		    <td  class="info">最高学历：</td>
 		    <td>
 		      <c:forEach items="${xlList}" var="xl">
@@ -197,21 +216,21 @@ session.setAttribute("tokenSession", tokenValue);
 		    </td>
 		  </tr>
 		   <tr>
-		    <td  class="info">专业：</td>
+		    <td  class="info">从事专业：</td>
 		    <td >${expert.major}</td>
-		    <td  class="info">从事专业年度：</td>
+		    <td  class="info">从事专业起始年度：</td>
 		    <td ><fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 		  </tr>
 		   <tr>
 		    <td  class="info">工作单位：</td>
 		    <td >${expert.workUnit}</td>
-		    <td  class="info">传真：</td>
+		    <td  class="info">传真电话：</td>
 		    <td >${expert.fax}</td>
 		  </tr>
 		   <tr>
-		    <td  class="info">邮政编码：</td>
+		    <td  class="info">单位邮编：</td>
 		    <td >${expert.postCode}</td>
-		    <td  class="info">取得技术时间：</td>
+		    <td  class="info">取得技术职称时间：</td>
 		    <td ><fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 		  </tr>
 		   <tr>
@@ -223,15 +242,24 @@ session.setAttribute("tokenSession", tokenValue);
 		   <tr>
 		    <td  class="info">现任职务：</td>
 		    <td >${expert.atDuty}</td>
-		    <td  class="info"></td>
-		    <td ></td>
+		    <td  class="info">个人邮箱：</td>
+		    <td >${expert.email}</td>
 		  </tr>
 	  </tbody>
 	</table>
   </ul>
+  <!-- 主要工作经历-->
+			  <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>2</i>主要工作经历</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="jobExperiences" readonly="readonly" id="jobExperiences" cols="168" style="height: 150px; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				</li>
+			    </ul>
+			   </div>
   <!-- 附件信息-->
   <div class="padding-top-10 clear">
-    <h2 class="count_flow"><i>2</i>附件信息</h2>
+    <h2 class="count_flow"><i>3</i>附件信息</h2>
     <ul class="ul_list">
 	  <table class="table table-bordered">
 	  	<tr>
@@ -275,7 +303,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 </ul>
   </div>		 
   <div class="padding-top-10 clear">
-    <h2 class="count_flow"><i>3</i>采购机构</h2>
+    <h2 class="count_flow"><i>4</i>采购机构</h2>
     <ul class="ul_list">
       <table class="table table-bordered">
   	   <tr>
@@ -317,8 +345,7 @@ session.setAttribute("tokenSession", tokenValue);
 			  <select name="expertsTypeId" id="expertsTypeId"  disabled="disabled" class="w178">
 		   		 <option value="">-请选择-</option>
 		   		 <option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
-		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
+		   		 <option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">经济</option>
 			  </select>
 		   </li>
          </ul>
@@ -336,6 +363,16 @@ session.setAttribute("tokenSession", tokenValue);
 			  <div class="col-md-7 service_list">
 				  <c:forEach items="${hwList }" var="hw" >
 					 <span><input type="checkbox" name="chkItem" disabled="disabled"  value="${hw.id}" />${hw.name} </span>
+			      </c:forEach>
+			  </div>
+			</div>
+ 		  </ul>
+ 		  <ul class="" id="jtree" >
+  			<div>
+		      <div class="col-md-5 title"><span class="star_red fl">*</span>分类：</div>
+			  <div class="col-md-7 service_list">
+				  <c:forEach items="${jjList }" var="obj" >
+					 <span><input type="checkbox" name="chkItem" disabled="disabled" value="${obj.id}" />${obj.name} </span>
 			      </c:forEach>
 			  </div>
 			</div>

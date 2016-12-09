@@ -25,7 +25,7 @@ function onStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">单一来源审价</a></li><li><a href="javascript:void(0)">审价人员审价</a></li><li><a href="javascript:void(0)">>原、辅材料工艺定额消耗明细审价<a></li></ul>
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">单一来源审价</a></li><li><a href="javascript:void(0)">审价人员审价</a></li><li><a href="javascript:void(0)">原、辅材料工艺定额消耗明细审价<a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -93,7 +93,7 @@ function onStep(){
 						<td class="tc">${acc.consumeWeightTotal }</td>
 						<td class="tc">${acc.consumePrice }</td>
 						<td class="tc">${acc.consumeMoney }</td>
-						<td class="tc"><input type="text" value='${acc.subtractMoney }' name="accessoriesCons['${vs.index }'].subtractMoney"></td>
+						<td class="tc"><input type="text" class="m0 w100" value='${acc.subtractMoney }' name="accessoriesCons['${vs.index }'].subtractMoney"></td>
 						<td>${acc.supplyUnit }</td>
 						<td>${acc.remark }</td>
 					</tr>

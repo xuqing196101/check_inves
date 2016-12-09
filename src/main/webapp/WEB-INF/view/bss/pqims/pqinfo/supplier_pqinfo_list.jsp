@@ -56,7 +56,7 @@
 	   </div>
 
     <!-- 查询 -->
-    <h2 class="search_detail">
+    <div class="search_detail">
    	<form action="${pageContext.request.contextPath}/pqinfo/searchSupplier.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	   <li class="fl">
@@ -72,7 +72,7 @@
 
 	 <div class="clear"></div>
 	 </form>
-     </h2>
+     </div>
      
 <!-- 表格开始-->
 

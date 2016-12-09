@@ -12,37 +12,39 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <head>
 <script type="text/javascript">
-	var setting = {
-		view : {
-			dblClickExpand : false
-		},
-		async : {
-			autoParam : [ "id" ],
-			enable : true,
-			url : "${pageContext.request.contextPath}/purchaseManage/gettree.do",
-			dataType : "json",
-			type : "post",
-		},
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pId : "pId",
-				rootPId : -1,
-			}
-		},
-		view: {
-			showLine: false
-		},
-		callback : {
-			beforeClick : beforeClick,
-			onClick : onClick
-		}
-	};
 	
 	//初始化tree
 	$(document).ready(function() {
+		var typeName = $("#typeName").val();
+		var setting = {
+				view : {
+					dblClickExpand : false
+				},
+				async : {
+					autoParam : [ "id" ],
+					enable : true,
+					url : "${pageContext.request.contextPath}/purchaseManage/getTree.do?typeName=" + typeName,
+					dataType : "json",
+					type : "post",
+				},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey : "id",
+						pId : "pId",
+						rootPId : -1,
+					}
+				},
+				view: {
+					showLine: false
+				},
+				callback : {
+					beforeClick : beforeClick,
+					onClick : onClick
+				}
+			};
 		$.fn.zTree.init($("#treeDemo"), setting, datas);
+		show();
 	});
 	
 	//需求部门、采购机构、监管部门切换注册页面   0  是监管部门
@@ -54,7 +56,7 @@
 		 	$("#show_org_cont").text("关联采购机构");
 		 }else{
 		 	$(".monitor").hide();
-		 	$("#show_org_cont").text("关联监管部门");
+		 	$("#show_org_cont").text("关联管理部门");
 		 }
 	}
 
@@ -74,7 +76,6 @@
 			shade : 0.01, //遮罩透明度
 			moveType : 1, //拖拽风格，0是默认，1是传统拖动
 			shift : 1, //0-6的动画形式，-1不开启
-			offset : [ '120px', '630px' ],
 			shadeClose : true,
 			content : '${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.html?typeName='+typeName
 		 });
@@ -140,7 +141,13 @@
 	    <li><a href="javascript:void(0)"> 首页</a></li>
 		<li><a href="javascript:void(0)">支撑系统</a></li>
 		<li><a href="javascript:void(0)">后台管理</a></li>
-		<li class="active"><a href="javascript:void(0)">机构管理</a></li>
+		<li><a href="javascript:void(0)">机构管理</a></li>
+		<c:if test="${orgnization.typeName == '0'}">
+		  <li class="active"><a href="javascript:void(0)">新增组织机构</a></li>
+		</c:if>
+		<c:if test="${orgnization.typeName == '2'}">
+		  <li class="active"><a href="javascript:void(0)">新增管理部门</a></li>
+		</c:if>
 	  </ul>
 	  <div class="clear"></div>
 	</div>
@@ -148,9 +155,10 @@
 
   <!-- 修改订列表开始-->
   <div class="container container_box">
-    <sf:form action="${pageContext.request.contextPath}/purchaseManage/create.do" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
+    <sf:form action="${pageContext.request.contextPath}/purchaseManage/create.html" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
+	  <input type="hidden"  name="typeName" id="typeName" value="${orgnization.typeName}" />
 	  <div>
-		<h2 class="count_flow"><i>1</i>新增基本信息</h2>
+		<h2 class="count_flow"><i>1</i>基本信息</h2>
 		<input type="hidden" name="depIds" id="depIds"/>
 		<ul class="ul_list">
 		  
@@ -173,28 +181,18 @@
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类型</span>
-			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			  <select name="typeName" id="typeName"  onchange="show();"> 
-				<option value="0">请选择</option> 
-				<option value="1">采购机构</option>
-				<option value="2">管理部门</option>
-			  </select>
-			</div>
-		  </li>
-		  
-		  <li class="col-md-3 col-sm-6 col-xs-12"> 
             <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">上级</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input id="proSec" type="text" readonly value="${orgnization.parentName }" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
-			  <input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
+			  <input id="proSec" type="text" readonly value="${orgnization.name}" class="input_group" name="parentName"  onclick="showMenu(); return false;"/>
+			  <input type="hidden"  id="treeId" name="parentId" value="${orgnization.id}"  class="text"/>
 			</div>
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省份</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>省/直辖市</span>
 			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			  <select name="provinceId" id="provinceId" onchange="loadCity()"> 
+			    <option value="">请选择</option>
 				<c:forEach items="${areaList}" var="area">
 				  <option value="${area.id}">${area.name}</option>
 				</c:forEach>
@@ -203,7 +201,7 @@
 		  </li>	
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15"> 
-		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市</span>
+		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>市/区</span>
 			<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 			  <select id="cityId" name="cityId"> 
 			  </select>
@@ -284,7 +282,7 @@
 		</ul>
 		
 		<div class="padding-top-10 clear">
-		  <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联监管部门</span></h2>
+		  <h2 class="count_flow"><i>2</i><span id="show_org_cont">关联管理部门</span></h2>
 		  <ul class="ul_list">
 		    
 		    <div class="col-md-12 pl20 mt10">
@@ -298,7 +296,12 @@
 				  <tr>
 					<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					<th class="info w50">序号</th>
-					<th class="info">机构名称</th>
+					<c:if test="${orgnization.typeName == '0'}">
+					  <th class="info">管理部门名称</th>
+					</c:if>
+					<c:if test="${orgnization.typeName == '2'}">
+					  <th class="info">采购机构名称</th>
+					</c:if>
 				  </tr>
 				</thead>
 				<tbody></tbody>

@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 /**
  * 
   * <p>Title:Expert </p>
@@ -43,28 +45,59 @@ public class Expert implements Serializable{
     private String mobile;
     /**出生日期*/
     private Date birthday;
+    /**缴纳社会保险证明*/
+    private String coverNote;
+    /**居民身份证号码*/
+    @NotNull(message = "不能为空") 
+    private String idCardNumber;
+    /**军队人员身份证件类型*/
+    @NotNull(message = "不能为空") 
+    private String idType;
     /**证件号码*/
     @NotNull(message = "不能为空") 
     private String idNumber;
-    /**证件类型*/
-    @NotNull(message = "不能为空") 
-    private String idType;
     /**专家来源*/
-    private String expertsFrom;
+    private String expertsFrom;//军队只能在内网注册,地方在内网和外网都可以注册
     /**政治面貌*/
     private String politicsStatus;
     /**民族*/
     private String nation;
     /**毕业院校*/
-    private String graduateSchool;
+    private String graduateSchool;//毕业院校及专业
     /**最高学历*/
     private String hightEducation;
     /**专业*/
-    private String major;
+    private String major;//从事专业
     /**工作单位名称*/
     private String workUnit;
     /**固话*/
     private String  telephone;
+    /**邮箱*/
+    @NotNull(message = "不能为空")
+    private String email;//邮箱
+    /* 12-8新加
+     * <1>参评的产品类别
+     * <2>专业学术成果
+     * <3>参加军队地方采购评审情况
+     * <4>需要申请回避的情况
+    */
+    /**参评的产品类别*/
+    private String productCategories;
+    /**专业学术成果*/
+    private String academicAchievement;
+    /**参加军队地方采购评审情况*/
+    private String reviewSituation;
+    /**需要申请回避的情况*/
+    private String avoidanceSituation;
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     /**传真*/
     private String fax;
     /**取得技术时间*/
@@ -76,9 +109,12 @@ public class Expert implements Serializable{
     /**专家技术职称*/
     private String professTechTitles;
     /**参加工作时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
     private Date timeToWork;
     /**从事专业起始时间*/
     private Date timeStartWork;
+    /**主要工作经历*/
+    private String jobExperiences;
     /**单位地址*/
     private String unitAddress;
     /**邮编*/
@@ -437,5 +473,59 @@ public class Expert implements Serializable{
 	public void setIds(List<String> ids) {
 		this.ids = ids;
 	}
-    
+	public String getJobExperiences() {
+        return jobExperiences;
+    }
+
+    public void setJobExperiences(String jobExperiences) {
+        this.jobExperiences = jobExperiences;
+    }
+
+    public String getIdCardNumber() {
+        return idCardNumber;
+    }
+
+    public void setIdCardNumber(String idCardNumber) {
+        this.idCardNumber = idCardNumber;
+    }
+
+    public String getCoverNote() {
+        return coverNote;
+    }
+
+    public void setCoverNote(String coverNote) {
+        this.coverNote = coverNote;
+    }
+
+    public String getProductCategories() {
+        return productCategories;
+    }
+
+    public void setProductCategories(String productCategories) {
+        this.productCategories = productCategories;
+    }
+
+    public String getAcademicAchievement() {
+        return academicAchievement;
+    }
+
+    public void setAcademicAchievement(String academicAchievement) {
+        this.academicAchievement = academicAchievement;
+    }
+
+    public String getReviewSituation() {
+        return reviewSituation;
+    }
+
+    public void setReviewSituation(String reviewSituation) {
+        this.reviewSituation = reviewSituation;
+    }
+
+    public String getAvoidanceSituation() {
+        return avoidanceSituation;
+    }
+
+    public void setAvoidanceSituation(String avoidanceSituation) {
+        this.avoidanceSituation = avoidanceSituation;
+    }
 }

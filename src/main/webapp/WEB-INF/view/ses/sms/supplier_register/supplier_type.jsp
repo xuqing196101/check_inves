@@ -439,25 +439,30 @@
 				                    	  $("#production_div").show();
 				                    	   $("#production").show();
 				                    	   $("#production_seach").next().val(arrays[i]);
+				                    	/*    $("# li_id_1").show(); */
+				                    	  
 				                      }
 				                      
 				                      if(arrays[i]=='GOODS'){
-				                    	  $("#material").show();
+				                    /* 	  $("#material").show(); */
 				                      }
 				                      if(arrays[i]=='SALES'){
 				                    	  $("#sale").show();
 				                    	  $("#sale_div").show();
 				                    	  $("#sale_seach").next().val(arrays[i]);
+				                    	/*   ("# li_id_2").show(); */
 				                      }
 				                      if(arrays[i]=='SERVICE'){
 				                    	  $("#server_div").show();
 				                    	  $("#server").show();
 				                    	  $("#server_seach").next().val(arrays[i]);
+				                    	 /*  ("# li_id_4").show(); */
 				                      }
 				                      if(arrays[i]=='PROJECT'){
 				                    	  $("#project_div").show();
 				                    	  $("#project").show();
 				                    	  $("#project_seach").next().val(arrays[i]);
+				                    	/*   ("# li_id_3").show(); */
 				                      } 
 				               }
 				      });
@@ -584,73 +589,57 @@
 		<%@include file="supplierNav.jsp" %>
 		<!--详情开始-->
 	 <div class="sevice_list container mt60">
-		  <h2>产品服务/分类</h2>
+		  <h2>供应商类型</h2>
 		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/类型：</div>
+		    <div class="col-md-5 col-sm-6 col-xs-6 title tr"></div> 
 			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-				  <c:forEach items="${supplieType }" var="obj" >
+			       <c:forEach items="${wlist }" var="obj" >
+					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code}" /> ${obj.name }</span>
+			      </c:forEach>
+			      <c:forEach items="${supplieType }" var="obj" >
 					    <span><input type="checkbox" name="chkItem" onclick="checks(this)" value="${obj.code }" />${obj.name } </span>
 			      </c:forEach>
+			      
 			  </div>
-		    </div>
+		  </div>  
 	 </div>
 		
-	 <div class="sevice_list container" style="display: none;"  id="material" >
-		  <h2>产品服务/类型</h2>
-		  <div class="col-md-12 col-sm-12 col-xs-12">
-		      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/分类：</div>
-			  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-				    <c:forEach items="${wlist }" var="obj" >
-					    <span><input type="checkbox" name="chkItem" onclick="checks(this)"  value="${obj.code}" /> <input type="hidden" value="${obj.name }" > ${obj.name }</span>
-			      </c:forEach>
-			  </div>
-		    </div>
-	  </div>
+		
+	
+						
+	  <div class="container content height-350">
+			<div class="row magazine-page">
+				<div class="col-md-12 tab-v2 job-content">
+					<div class="padding-top-10">
+					   <ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+							 <li id="li_id_1" class="active"><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
+							 <li id="li_id_2" class=""><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
+							 <li id="li_id_3" class=""><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
+							 <li id="li_id_4" class=""><a aria-expanded="false" href="#server_div" data-toggle="tab" class="  f18">服务专业信息</a></li>
+					  </ul>			
+						
+ 
 
 	<div style="margin-top: 40px;">
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
-					<%-- 		<input type="hidden" name="defaultPage" value="${defaultPage}" /> --%>
+			 
 				<div>
-				
-				<%-- <div class="sevice_list container" style="display: none;" id="production">
-					  <h2>产品/货物生产</h2>
-					  <div class="col-md-12 col-sm-12 col-xs-12">
-					      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
-						  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-								    <input type="text" readonly="readonly"   id="production_seach" value="${product }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
-								    <input type="hidden"   value="" />
-								<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-						  </div>
-					    </div>
-				 </div> --%>
+ 
 						
 						<!-- 物资生产型专业信息 -->
 			              
-			              <div class="dnone" id="production_div">
+			              <div class="tab-pane fade active in height-450"  id="production_div">
 			              <div class="container container_box">
-			             <!-- 开始 --> 
-			              <div class="sevice_list container" style="display: none;" id="production">
-							  <h2>产品/货物生产</h2>
-							  <div class="col-md-12 col-sm-12 col-xs-12">
-							      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物生产类：</div>
-								  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-										    <input type="text" readonly="readonly"   id="production_seach" value="${product }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)" /> 
-										    <input type="hidden"   value="" />
-										<!--     <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-								  </div>
-							    </div>
-						 </div>
-				     <!-- 结束 --> 
-			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-生产型专业信息</h3>
+			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14">
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 								 <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 										<legend>供应商组织机构和人员</legend>
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group pl15">
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>组织机构：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
 													   <span class="add-on cur_point">i</span>
 													    <div class="cue"> ${org } </div>
@@ -694,7 +683,7 @@
 	 											<legend>产品研发能力 </legend>
 	 			
 										<!-- 	<ul class="list-unstyled list-flow"> -->
-												<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员比例(%)：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>技术人员比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" />
 													    <span class="add-on cur_point">i</span>
@@ -810,9 +799,8 @@
 											 
 							 	<fieldset class="col-md-12 border_font mt20">
 						 	      <legend>供应商物资生产资质证书</legend>
-						 	      	<div  class="col-md-12 p0 ul_list mb50">
-								       <div class="col-md-12 p15 mt20">
-											<div class="fl">
+						 	      	<div  class="col-md-12 col-sm-12 col-xs-12 p0 mb50">
+											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 											  <button type="button" class="btn btn-windows add" onclick="openCertPro()">新增</button>
 											  <button type="button" class="btn btn-windows delete" onclick="deleteCertPro()">删除</button>
 											  <span class="red">${cert_pro }</span>
@@ -858,42 +846,13 @@
 								</div>
 							 </div>
 				
-<%-- 		 <div class="sevice_list container"  style="display: none;" id="sale" >
-			  <h2>产品/货物销售类</h2>
-			  <div class="col-md-12 col-sm-12 col-xs-12">
-			      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
-				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-						    <input type="text" readonly="readonly"  id="sale_seach" value="${sale }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-						    <input type="hidden"    value="" />
-						 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-				  </div>
-			    </div>
-		  </div> --%>
+ 
 								
 								<!-- 物资销售型专业信息 -->
-				<div class="dnone" id="sale_div">
-							 
-					<!-- 		   <h2> 物资-销售信息：</h2> -->
-						 
+						<div   class="tab-pane fade height-300" id="sale_div">
 						  <div class="container container_box">
-						    
-						  <!-- 开始-->
-						    <div class="sevice_list container"  style="display: none;" id="sale" >
-								  <h2>产品/货物销售类</h2>
-								  <div class="col-md-12 col-sm-12 col-xs-12">
-								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/货物销售类：</div>
-									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-											    <input type="text" readonly="readonly"  id="sale_seach" value="${sale }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-											    <input type="hidden"    value="" />
-											 <!--    <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-									  </div>
-								    </div>
-							  </div>
-		  				<!--结束  -->
-		  
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >物资-销售专业信息</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
-			              	    
 										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
 								    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
@@ -999,40 +958,13 @@
 									 </fieldset>
 								</div> 
 							 </div>
-								
-				<%-- 	  <div class="sevice_list container" style="display: none;"   id="project"  >
-						  <h2>产品/工程类</h2>
-						  <div class="col-md-12 col-sm-12 col-xs-12">
-						      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
-							  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-									    <input type="text" readonly="readonly"   id="project_seach" value="${project }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-									    <input type="hidden"   value="" />
-									  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-							  </div>
-						    </div>
-					  </div>	 --%>			
+		 	
 								
 								<!-- 工程专业信息 -->
-		 			<div  class="dnone" id="project_div">
-		 							  
+		 			<div class="tab-pane fade height-200"    id="project_div">
    						<div class="container container_box">
-   						<!-- 开始 -->
-   						  <div class="sevice_list container" style="display: none;"   id="project"  >
-							  <h2>产品/工程类</h2>
-							  <div class="col-md-12 col-sm-12 col-xs-12">
-							      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品服务/工程类：</div>
-								  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-										    <input type="text" readonly="readonly"   id="project_seach" value="${project }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-										    <input type="hidden"   value="" />
-										  <!--   <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-								  </div>
-							    </div>
-						   </div>
-					  <!-- 结束 -->
-					  
 			              	  <h3 class="headline-v2" style="background-color: #FBFBFB " >工程专业信息:</h3>
 			              	    <ul class="list-unstyled" style="font-size: 14">
-			              	    
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
 										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id}" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
@@ -1090,7 +1022,7 @@
 	 	               
 										  
 											
-											   <div class="col-md-12 p0">
+											 <div class="col-md-12 p0">
 											<div class="fl">
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openRegPerson()">新增</button>
@@ -1275,37 +1207,9 @@
 								</div>	 
 							 </div>
 						
-						
-						<%--     <div class="sevice_list container" style="display: none;"  id="server" >
-								  <h2>产品/服务类</h2>
-								  <div class="col-md-12 col-sm-12 col-xs-12">
-								      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
-									  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-											    <input type="text" readonly="readonly"  id="server_seach" value="${server }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-											    <input type="hidden"   value="" />
-											    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-									  </div>
-								    </div>
-							 </div> --%>
-								
-								<!-- 服务专业信息 -->
-							 <div class="dnone" id="server_div">
-							 
+				 
+							 <div class="tab-pane fade height-200"  id="server_div">
 									<div class="container container_box">
-									<!--开始  -->
-									  <div class="sevice_list container" style="display: none;"  id="server" >
-										  <h2>产品/服务类</h2>
-										  <div class="col-md-12 col-sm-12 col-xs-12">
-										      <div class="col-md-5 col-sm-6 col-xs-6 title tr"><span class="star_red">*</span>产品/服务类</div>
-											  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-													    <input type="text" readonly="readonly"  id="server_seach" value="${server }" style="cursor:pointer" class="supp_search col-md-6 col-sm-6 col-xs-12 p0" onclick="seach(this)"/> 
-													    <input type="hidden"   value="" />
-													    <!-- <input type="button" onclick="seach(this)" class="btn h30" value="搜索"> -->
-											  </div>
-										    </div>
-									 </div>
-									 	<!--结束  -->
-									 
 					              	  <h3 class="headline-v2" style="background-color: #FBFBFB ">服务专业信息:</h3>
 					              	    <ul class="list-unstyled" style="font-size: 14">
 							 	
@@ -1404,22 +1308,23 @@
 												</tbody>
 											</table>
 									 	</div>
-									 	</div>
-									 
-									 	</fieldset>
-								 
-									 	</div>
-									 	
-									</div>
-							 
+									 </div>
+								</fieldset>
+							 </div>
 							</div>
+						</div>
 						  <input name="supplierTypeIds" type="hidden" />
 						  
 						  <input type="hidden" value="${currSupplier.supplierTypeIds }" id="supplierTypes">	 
 						</form>
 						
-				</div>		
-						
+					</div>		
+				  </div>
+				</div>
+			</div>
+		</div>
+					
+		</div>
 		
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">

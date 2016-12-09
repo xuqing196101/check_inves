@@ -88,7 +88,7 @@ function chongzhi(){
 					+"<td><input type='checkbox' name='selectedItem' value="+id+" /></td>"     
                     +"<td>"+index+"</td>"
                     +"<td>"+name+"</td>"
-                +"</tr>"); 
+                    +"</tr>"); 
 		}
 </script>
 </head>
@@ -139,17 +139,14 @@ function chongzhi(){
 		<tbody>
 		  <c:forEach items="${orgnizationList}" var="p" varStatus="vs">
 			<tr class="cursor">
-			  <!-- 选择框 -->
 		      <td class="tc"><input type="checkbox" name="items"  value="${p.id}" /></td>
-			  <!-- 序号 -->
 			  <td class="tc">${vs.index+1}</td>
-			  <!-- 内容 -->
 			  <td class="tc">${p.name}</td>
-			  <!-- 创建人-->
 			  <td class="tc">
 				<c:choose>
 				  <c:when test="${p.typeName=='0'}">管理部门</c:when>
 				  <c:when test="${p.typeName=='1'}">采购机构</c:when>
+				  <c:when test="${p.typeName=='2'}">管理部门</c:when>
 				</c:choose>
 			  </td>
 			</tr>

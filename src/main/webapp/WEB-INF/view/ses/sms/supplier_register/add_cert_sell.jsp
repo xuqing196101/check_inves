@@ -82,10 +82,9 @@
 </head>
 
 <body>
-<div class="wrapper">
 
 		<!--基本信息-->
-		<div class="layui-layer-wrap">
+		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
@@ -93,43 +92,43 @@
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matSellId" value="${matSellId}" type="hidden" />
 							<input name="id" value="${uuid}" type="hidden" />
-							<div class="drop_window">
+							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资质证书名称：</span>
-											 <div class="input-append">
-											 	<input class="span3" type="text" name="name" />
+									<div class=" margin-bottom-0">
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
+											 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											 	<input type="text" name="name" />
 											 </div>
 											</li>
 											
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 资质证书等级：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="levelCert" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书等级：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="levelCert" />
 												</div>
 											</li>
 											
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 供发证机关：</span>
-											   <div class="input-append">
-												   <input class="span3" type="text" name="licenceAuthorith" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>供发证机关：</span>
+											   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												   <input type="text" name="licenceAuthorith" />
 												</div>
 											</li>
 											
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 有效开始时间 ：</span>
-												 <div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效开始时间：</span>
+												 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="title col-md-12" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
 												 </div>
 											</li>
 											
-											<li class="col-md-6 p0"><span class="w200"><i class="red">*</i> 有效结束时间 ：</span>
-										        <div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效结束时间：</span>
+										        <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="title col-md-12" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
 												 </div>
 											</li>
 											
-											<li class="col-md-6 p0"><span class="w175"><i class="red">*</i> 是否年检：</span>
-												 <div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="w175"><a class="star_red">*</a>是否年检：</span>
+												 <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 												        <select name="mot" >
 												          <option value="1">是</option>
 												          <option value="0">无</option>
@@ -138,7 +137,7 @@
 											</li>
 											
 											<br> <br>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 证书附件：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class=""><a class="star_red">*</a>证书附件：</span>
 									 				<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
 												   <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}"/>
 											</li>

@@ -108,83 +108,81 @@
 							<input name="id" value="${uuid}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 资质资格类型：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="certType" />
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格类型：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="certType" />
+													<div class="cue" id="cert_type"></div>
 												</div>
-												<div class="cue" id="cert_type"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 证书编号：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="certCode" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书编号：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="certCode" />
+													<div class="cue" id="cert_code"></div>
 												</div>
-												<div class="cue" id="cert_code"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 资质资格最高等级：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质资格最高等级：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="certMaxLevel" />
+													<div class="cue" id="cert_level"></div>
 												</div>
-												<div class="cue" id="cert_level"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 技术负责人姓名：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>技术负责人姓名：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="techName" />
+													<div class="cue" id="cert_name"></div>
 												</div>
-												<div class="cue" id="cert_name"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 技术负责人职称：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>技术负责人职称：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="techPt" />
+													<div class="cue" id="cert_pt"></div>
 												</div>
-												<div class="cue" id="cert_pt"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 技术负责人职务：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>技术负责人职务：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="techJop" />
+													<div class="cue" id="cert_job"></div>
 												</div>
-												<div class="cue" id="cert_job"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 单位负责人姓名：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>单位负责人姓名：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="depName" />
+													<div class="cue" id="cert_depName"></div>
 												</div>
-												<div class="cue" id="cert_depName"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 单位负责人职称：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>单位负责人职称：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="depPt" />
+													<div class="cue" id="cert_depPt"></div>
 												</div>
-												<div class="cue" id="cert_depPt"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 单位负责人职务：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>单位负责人职务：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="depJop" />
+													<div class="cue" id="cert_depJob"></div>
 												</div>
-												<div class="cue" id="cert_depJob"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 发证机关：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>发证机关：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="licenceAuthorith" />
+													<div class="cue" id="cert_authorith"></div>
 												</div>
-												<div class="cue" id="cert_authorith"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 发证日期 ：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>发证日期 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
+													<div class="cue" id="cert_sdate"></div>
 												</div>
-												<div class="cue" id="cert_sdate"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 截止日期 ：</span>
-												<div class="input-append">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>截止日期 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input class="span3" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
+													<div class="cue" id="cert_edate"></div>
 												</div>
-												<div class="cue" id="cert_edate"></div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 证书状态：</span>
-												 <div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书状态：</span>
+												 <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 													<select name="certStatus">
 														<option value="1">是</option>
 														<option value="0">否</option>
@@ -192,7 +190,7 @@
 												 </div>
 												 
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">*</i> 证书附件：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书附件：</span>
 												<up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCert}" auto="true" />
 												 <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCert}"/>
 										       	<div class="cue" id="cert_file"></div> 
@@ -202,7 +200,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+							<div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">返回</button>
 							</div>

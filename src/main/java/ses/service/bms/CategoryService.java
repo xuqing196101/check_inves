@@ -170,7 +170,7 @@ import ses.model.sms.SupplierTypeTree;
 	 * @param @return      
 	 * @return List<SupplierTypeTree>
 	 */
-	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds);
+	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds ,Integer type);
     
 	  /**
 		* 

@@ -169,6 +169,8 @@ public class PerformanceController {
 			performance.setDraftSignedAt(draftTime);
 			performance.setFormalSignedAt(formalTime);
 			performance.setDelivery(deliveryTime);
+			performance.setCreatedAt(new Date());
+			performance.setUpdatedAt(new Date());
 			performanceService.insertSelective(performance);
 			url="redirect:/purchaseContract/selectFormalContract.html";
 		}else{
@@ -360,6 +362,7 @@ public class PerformanceController {
 			performance.setDraftSignedAt(draftTime);
 			performance.setFormalSignedAt(formalTime);
 			performance.setDelivery(deliveryTime);
+			performance.setUpdatedAt(new Date());
 			performanceService.updateSelective(performance);
 			url="redirect:/performance/selectAll.html";
 		}else{

@@ -113,5 +113,5 @@ public interface PerformanceMapper {
     * @param @return      
     * @return List<Performance>
      */
-    List<Performance> selectAll();
+    List<Performance> selectAll(Map<String, Object> map);
 }

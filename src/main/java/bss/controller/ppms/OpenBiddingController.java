@@ -27,7 +27,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
@@ -582,6 +581,8 @@ public class OpenBiddingController {
      */
     @RequestMapping("/changbiao")
     public String changbiao(String projectId, Model model ) throws ParseException{
+        Project project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
         //参与项目的所有供应商
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
         String supplierStr="";

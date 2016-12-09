@@ -203,8 +203,6 @@ $(function(){
 						<td class="tc">${yp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
 					<tr>
 					 	<td class="tc" colspan="5">总计：</td>
 					 	<td colspan="6" ></td>
@@ -214,7 +212,7 @@ $(function(){
 					 	<td class="tc" id="total2"></td>
 					 	<td ></td>
 					 </tr>
-				 </thead>
+				</tbody>
 			</table>
 		</div>
 		

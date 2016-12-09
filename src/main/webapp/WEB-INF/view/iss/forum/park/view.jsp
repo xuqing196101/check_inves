@@ -37,13 +37,13 @@
 	    <table class="table table-bordered">
 	        <tbody>
 	        <tr>
-	            <td class="bggrey">版块名称：</td>
+	            <td class="bggrey" width="10%">版块名称：</td>
 	            <td colspan="3">${park.name}</td>
 	        </tr>
 	        <tr>
-	            <td class="bggrey">版主：</td>
+	            <td class="bggrey" width="10%">版主：</td>
 	            <td>${park.user.relName }</td>
-	            <td class="bggrey">创建人：</td>
+	            <td class="bggrey" width="10%">创建人：</td>
 	            <td>${park.creater.relName}</td>
 	            
 	        </tr>
@@ -56,7 +56,7 @@
                   	不是热门
                  </c:when>
                  <c:otherwise >             
-                                                            热门
+                        热门                                    
                  </c:otherwise>
                  </c:choose></td>
 	        </tr>

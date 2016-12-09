@@ -168,8 +168,9 @@
 		function back(){
 			var origin = $("input[name='origin']").val();
 			var srcOrgId = $("input[name='orgId']").val();
+			var typeName = $("input[name='deptTypeName']").val();
 			if (origin != null && origin != ""){
-				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId;
+				window.location.href = '${pageContext.request.contextPath}/purchaseManage/list.html?srcOrgId='+srcOrgId +"&typeName=" + typeName;
 			} else {
 				window.location.href = '${pageContext.request.contextPath}/user/list.html?page=1';
 			}
@@ -202,6 +203,7 @@
 		  <input type="hidden" name="personTypeId" value="${personTypeId}" />
 		  <input type="hidden" name="personTypeName" value="${personTypeName}" />
 		  <input type="hidden" name="orgId" value="${orgId}" />
+		  <input type="hidden" name="deptTypeName" value="${typeName}"/>
 		   <div>
 			   <h2 class="count_flow">新增用户</h2>
 			   <ul class="ul_list">

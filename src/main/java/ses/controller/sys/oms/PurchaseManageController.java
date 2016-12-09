@@ -15,11 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.sf.json.JSONArray;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,8 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import bss.model.ppms.ScoreModel;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -59,7 +54,6 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
-import ses.service.sms.SupplierAuditService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -70,47 +64,410 @@ import ses.util.PropertiesUtil;
  * 版权：(C) 版权所有 
  * <简述>
  * <详细描述>
- * @author   tiankf
- * @version  1.0
+ * @author   myc
+ * @version  
  * @since
  * @see
  */
 @Controller
-@Scope("prototype")
 @RequestMapping("/purchaseManage")
 public class PurchaseManageController {
-    /**
-     * 部门service
-     */
+    
     @Autowired
     private DepartmentServiceI departmentServiceI;
+    
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
-	@Autowired
-	private UserServiceI userServiceI;
+	
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
+	
 	@Autowired
 	private PurchaseServiceI purchaseServiceI;
+	
 	@Autowired
 	private AreaServiceI areaServiceI;
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
-	private AjaxJsonData jsonData = new AjaxJsonData();
+	/** 用户service **/
+    @Autowired
+    private UserServiceI userServiceI;
 	
-	HashMap<String,Object> resultMap = new HashMap<String,Object>();
 	
-	
+	/**
+	 * 
+	 *〈简述〉初始化首页
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model Model对象
+	 * @param request {@link HttpServletRequest}
+	 * @return
+	 */
 	@RequestMapping("list")
 	public String list(Model model,HttpServletRequest request) {
 	    String orgId = request.getParameter("srcOrgId");
 	    model.addAttribute("srcOrgId", orgId);
+	    String typeName = request.getParameter("typeName");
+	    model.addAttribute("typeName", typeName);
 		return "ses/oms/require_dep/list";
 	}
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author myc
+	 * @param request {@link HttpServletRequest}
+	 * @return
+	 */
+	@RequestMapping(value = "getTree",produces="application/json;charset=UTF-8")
+	@ResponseBody    
+	public List<Ztree> getTree(HttpServletRequest request){
+		String pid = request.getParameter("id");
+		String type = request.getParameter("typeName");
+		
+		return orgnizationServiceI.findOrgByPidAndType(pid, type);
+	}
+	
+	/**
+	 * 
+	 *〈简述〉获取内容
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgnization {@link Orgnization}
+	 * @param model {@link Model}
+	 * @return
+	 */
+	@RequestMapping("getTreeBody")
+	public String getTreeBody(@ModelAttribute Orgnization orgnization,Model model) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		User user = new User();
+		if(orgnization != null && StringUtils.isNotBlank(orgnization.getId())){
+			map.put("id", orgnization.getId());
+			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
+			if(orglist!=null && orglist.size()>0){
+				Orgnization org = orglist.get(0);
+				initAreaInfo(org);
+				model.addAttribute("orgnization", org);
+			}
+			
+			user.setOrg(orgnization);
+			List<User> userlist= userServiceI.queryByList(user);
+			model.addAttribute("userlist", userlist);
+			map.clear();
+			map.put("orgId", orgnization.getId());
+			//需求监管部门  或者  采购机构
+			List<Orgnization> oList = orgnizationServiceI.findPurchaseOrgList(map);
+			List<Orgnization> orgList = new ArrayList<Orgnization>();
+			for (Orgnization org : oList){
+				if (org != null && StringUtils.isNotBlank(org.getProvinceId())){
+					Area area = areaServiceI.listById(org.getProvinceId());
+					if (area != null){
+						org.setProvinceName(area.getName());
+					}
+				}
+				if (org != null && StringUtils.isNotBlank(org.getCityId())){
+					Area area = areaServiceI.listById(org.getCityId());
+					if (area != null){
+						org.setCityName(area.getName());
+					}
+				}
+				orgList.add(org);
+			}
+			model.addAttribute("oList", orgList);
+		}
+		
+		return "ses/oms/require_dep/treebody";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉添加组织机构页面
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model {@link Model}
+	 * @param request {@link HttpServletRequest}
+	 * @return
+	 */
+	@RequestMapping("add")
+	public String add(Model model,HttpServletRequest request) {
+		
+		String parentId = request.getParameter("parentId");
+		String typeName = request.getParameter("typeName");
+		List<Area> areaList = areaServiceI.findRootArea();
+		model.addAttribute("areaList", areaList);
+		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(parentId);
+		if (org != null){
+			org.setTypeName(typeName);
+		} else {
+			org = new Orgnization();
+			org.setTypeName(typeName);
+			org.setId(parentId);
+			DictionaryData dd = null;
+			if (typeName.equals(StaticVariables.ORG_TYPE_DEFAULT)){
+				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_DEMAND);
+			}
+			if (typeName.equals(StaticVariables.ORG_TYPE_MANAGE)){
+				dd = DictionaryDataUtil.get(StaticVariables.ORG_TYPE_MANAGER);
+			}
+			if (dd != null){
+				org.setName(dd.getName());
+			}
+		}
+		model.addAttribute("orgnization", org);
+		return "ses/oms/require_dep/add";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉新增组织机构保存
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgnization {@link Orgnization}
+	 * @param result {@link BindingResult}
+	 * @param request {@link HttpServletRequest}
+	 * @param model {@link Model}
+	 * @return
+	 */
+	@RequestMapping(value="create",method= RequestMethod.POST)
+	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
+	    if(result.hasErrors()){
+            model.addAttribute("orgnization", orgnization);
+            return "ses/oms/require_dep/add";
+        }
+	    String depIds = request.getParameter("depIds");
+	    
+		orgnizationServiceI.saveOrgnization(orgnization, depIds);
+		
+		model.addAttribute("typeName", orgnization.getTypeName());
+		
+		return "redirect:list.do";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉打开组织机构编辑界面
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgnization {@link Orgnization}
+	 * @param model {@link Model}对象
+	 * @return
+	 */
+	@RequestMapping("edit")
+	public String edit(@ModelAttribute Orgnization orgnization,Model model) {
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgnization.getId());
+		if(org!=null){
+			model.addAttribute("orgnization", org);
+		}
+		
+		map.put("orgId", orgnization.getId());
+		//需求监管部门  或者  采购机构
+		List<Orgnization> list = orgnizationServiceI.findPurchaseOrgList(map);
+		model.addAttribute("relaList", list);
+		//省
+		List<Area> areaList = areaServiceI.findRootArea();
+		model.addAttribute("areaList", areaList);
+		//市
+		List<Area> cityList =  areaServiceI.findTreeByPid(org.getProvinceId(),null);
+		model.addAttribute("cityList", cityList);
+		return "ses/oms/require_dep/edit";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉更新组织机构保存
+	 *〈详细描述〉
+	 * @author myc
+	 * @param orgnization {@link Orgnization}
+	 * @param result {@link BindingResult}
+	 * @param request {@link HttpServletRequest}
+	 * @param model {@link Model}
+	 * @return
+	 */
+	@RequestMapping(value="update",method= RequestMethod.POST)
+	public String update(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
+	    
+		if(result.hasErrors()){
+            model.addAttribute("orgnization", orgnization);
+            return "ses/oms/require_dep/edit";
+        }
+		
+		String depIds= request.getParameter("depIds");
+		orgnizationServiceI.updateOrgnization(orgnization, depIds);
+		model.addAttribute("typeName", orgnization.getTypeName());
+		return "redirect:list.do";
+	}
+	
+	/**
+     * 
+     *〈简述〉
+     *  删除部门
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return 成功返回ok,失败返回failed
+     */
+    @RequestMapping(value = "delOrg")
+    @ResponseBody    
+    public String delOrg(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        String msg  = orgnizationServiceI.delOrg(id);
+        return msg;
+    }
+	
+	/**
+	 * 
+	 *〈简述〉 添加关联部门
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model {@link Model}
+	 * @param page {@link PageInfo} 分页对象
+	 * @param orgnization {@link Orgnization}组织机构
+	 * @return
+	 */
+	@RequestMapping("addPurchaseOrg")
+	public String addPurchaseOrg(Model model,@ModelAttribute PageInfo page,@ModelAttribute Orgnization orgnization) {
+		//每页显示十条
+		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_MANAGE)){
+			map.put("typeName", StaticVariables.ORG_TYPE_PURCHASE);
+		}else if (orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_PURCHASE)
+				  || orgnization.getTypeName().equals(StaticVariables.ORG_TYPE_DEFAULT)) {
+			map.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
+		}
+		map.put("name", orgnization.getName());
+		model.addAttribute("orgnization", orgnization);
+		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
+		model.addAttribute("orgnizationList",orgnizationList);
+		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
+		return "ses/oms/require_dep/add_purchase_org";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉添加用户
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model {@link Model}
+	 * @param request {@link HttpServletRequest}
+	 * @return
+	 */
+	@RequestMapping("addUser")
+	public String addUser(Model model,HttpServletRequest request) {
+		String orgId = request.getParameter("orgId");
+		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgId);
+		List<DictionaryData> genders = DictionaryDataUtil.find(13);
+        model.addAttribute("genders", genders);
+		if (org != null){
+		    
+		    String typeName = org.getTypeName();
+		    
+		    model.addAttribute("typeName", typeName);
+		    model.addAttribute("orgName", org.getName());
+		    model.addAttribute("orgId", org.getId());
+		    
+		    String typeCodeName = "";
+		    if (StringUtils.isNotBlank(typeName)){
+		        if (typeName.equals("0")){
+		            typeCodeName = "NEED_U";
+		        }
+		        if (typeName.equals("1")){
+		            typeCodeName = "PURCHASER_U";
+		        }
+		        if (typeName.equals("2")){
+		            typeCodeName = "SUPERVISER_U";
+		        }
+		        DictionaryData dd = DictionaryDataUtil.get(typeCodeName);
+		        if (dd != null){
+		            model.addAttribute("personTypeId", dd.getId());
+		            model.addAttribute("personTypeName", dd.getName());
+		        }
+		    }
+		}
+		model.addAttribute("origin", "org");
+		return "ses/bms/user/add";
+	}
+	
+	/**
+	 * 
+	 *〈简述〉组织机构删除用户
+	 *〈详细描述〉
+	 * @author myc
+	 * @param user {@link User} 用户
+	 * @param request {@link HttpServletRequest}
+	 * @return
+	 */
+	@RequestMapping(value="deleteUser",produces= "html/text;charset=UTF-8")
+	@ResponseBody
+	public String deleteUser(@ModelAttribute User user,HttpServletRequest request){
+	    String idsString = request.getParameter("ids");
+		String orgType = request.getParameter("orgType");
+		String msg = orgnizationServiceI.delUsers(idsString, orgType);
+		return msg;
+	}
+	
+	/**
+	 * 
+	 *〈简述〉采购机构列表
+	 *〈详细描述〉
+	 * @author myc
+	 * @param model
+	 * @param page
+	 * @param purchaseDep
+	 * @return
+	 */
+	@RequestMapping("purchaseUnitList")
+    public String purchaseUnitList(Model model,@ModelAttribute PageInfo page,@ModelAttribute PurchaseDep purchaseDep){
+        PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("typeName", 1);
+        if(purchaseDep != null){
+            map.put("name", purchaseDep.getName());
+        }
+        List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+        model.addAttribute("purchaseDepList",purchaseDepList);
+
+        //分页标签
+        model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
+        model.addAttribute("purchaseDep", purchaseDep);
+        return "ses/oms/purchase_dep/list";
+    }
+	
+	/**
+	 * 
+	 *〈简述〉新增采购机构
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
+	@RequestMapping("addPurchaseDep")
+    public String addPurchaseDep() {
+	    
+        return "ses/oms/purchase_dep/add";
+    }
+	
+	/**
+	 * 
+	 *〈简述〉保存采购机构
+	 *〈详细描述〉
+	 * @author myc
+	 * @return
+	 */
+	@RequestMapping("savePurchaseDep")
+	public String savePurchaseDep(PurchaseDep purchaseDep){
+	    
+	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep);
+	    
+	    return "redirect:purchaseUnitList.html";
+	}
+	
 	/**
 	 * 
 	 * @Title: getDetail
@@ -123,7 +480,7 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: HashMap<String,Object>
 	 */
-	@RequestMapping("getDetail")
+	/*@RequestMapping("getDetail")
 	@ResponseBody
 	public HashMap<String,Object> getDetail(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -136,146 +493,8 @@ public class PurchaseManageController {
 		}
 		
 		return resultMap;
-	}
-	/**
-	 * 
-	 * @Title: add
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-24 下午8:11:09
-	 * @Description: 增加页面
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping("add")
-	public String add(Model model) {
-		List<Area> areaList = areaServiceI.findRootArea();
-		model.addAttribute("areaList", areaList);
-		return "ses/oms/require_dep/add";
-	}
-	/**
-	 * 
-	 * @Title: addPurchaseOrg
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-24 下午8:11:43
-	 * @Description: 添加组织机构关联页面  需求部门--监管部门   采购机构---监管部门    监管部门--采购机构
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,@ModelAttribute PageInfo page,@ModelAttribute Orgnization orgnization) {
-		//每页显示十条
-		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals("2")){
-			map.put("typeName", "1");
-		}else if (orgnization.getTypeName().equals("1")||orgnization.getTypeName().equals("0")) {
-			map.put("typeName", "0");
-		}
-		map.put("name", orgnization.getName());
-		model.addAttribute("orgnization", orgnization);
-		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
-		model.addAttribute("orgnizationList",orgnizationList);
-		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
-		return "ses/oms/require_dep/add_purchase_org";
-	}
+	}*/
 	
-	/**
-	 * 
-	 * @Title: create
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-13
-	 * @Description: TODO
-	 * @param: @param deparent
-	 * @param: @param request
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping(value="create",method= RequestMethod.POST)
-	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
-	    if(result.hasErrors()){
-            model.addAttribute("orgnization", orgnization);
-            return "ses/oms/require_dep/add";
-        }
-	    String depIds = request.getParameter("depIds");
-	    
-		orgnizationServiceI.saveOrgnization(orgnization, depIds);
-		
-		return "redirect:list.do";
-	}
-	/**
-	 * 
-	 * @Title: update
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-23 下午3:17:55
-	 * @Description: form 表单更新
-	 * @param: @param orgnization
-	 * @param: @param request
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping(value="update",method= RequestMethod.POST)
-	public String update(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
-	    if(result.hasErrors()){
-            model.addAttribute("orgnization", orgnization);
-            return "ses/oms/require_dep/edit";
-        }
-		HashMap<String, Object> orgmap = new HashMap<String, Object>();
-		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
-		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
-		String depIds= request.getParameter("depIds");
-		orgmap.put("id", orgnization.getId()==null?"":orgnization.getId());
-		orgmap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		orgmap.put("typeName", orgnization.getTypeName());
-		orgmap.put("parentId", orgnization.getParentId());
-		orgmap.put("parentName", orgnization.getParentName());
-		orgmap.put("describtion", orgnization.getDescribtion());
-		orgmap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
-		orgmap.put("mobile", orgnization.getMobile()==null?"":orgnization.getMobile());
-		orgmap.put("postCode", orgnization.getPostCode()==null?"":orgnization.getPostCode());
-		orgmap.put("orgCode", orgnization.getOrgCode());
-		orgmap.put("shortName", orgnization.getShortName());
-		orgmap.put("telephone", orgnization.getTelephone());
-		orgmap.put("areaId", orgnization.getAreaId());
-		orgmap.put("detailAddr", orgnization.getDetailAddr());
-		orgmap.put("fax", orgnization.getFax());
-		orgmap.put("website", orgnization.getWebsite());
-		orgmap.put("princinpal", orgnization.getPrincinpal());
-		orgmap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
-		orgmap.put("nature", orgnization.getNature());
-		orgmap.put("orgLevel", orgnization.getOrgLevel());
-		orgmap.put("position", orgnization.getPosition());
-		orgmap.put("isroot", orgnization.getIsRoot());
-		orgmap.put("is_deleted", orgnization.getIsDeleted());
-		orgmap.put("pid", orgnization.getProvinceId());
-		orgmap.put("cid", orgnization.getCityId());
-		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
-			orgmap.put("is_root", 0);
-		}else {
-			orgmap.put("is_root", 1);
-		}
-		orgnizationServiceI.updateOrgnization(orgmap);
-		delmap.put("org_id", orgnization.getId());
-		purChaseDepOrgService.delByOrgId(delmap);
-		deporgmap.put("ORG_ID", orgnization.getId());
-		List<PurchaseOrg> purchaseOrgList = new ArrayList<PurchaseOrg>();
-		if(depIds!=null && !depIds.equals("")){
-			String[] purchaseDepIds = depIds.split(",");
-			for(int j=0;j<purchaseDepIds.length;j++){
-				PurchaseOrg pOrg = new PurchaseOrg();
-				pOrg.setPurchaseDepId(purchaseDepIds[j]);
-				purchaseOrgList.add(pOrg);
-			}
-		}else {
-			purchaseOrgList.add(new PurchaseOrg());
-			
-		}
-		if(depIds!=null && !depIds.equals("")){
-			deporgmap.put("purchaseOrgList", purchaseOrgList);
-			purChaseDepOrgService.saveByMap(deporgmap);
-		}
-		
-		return "redirect:list.do";
-	}
 	/**
 	 * 
 	 * @Title: save
@@ -299,37 +518,6 @@ public class PurchaseManageController {
 	}
 	
 	
-	@RequestMapping(value = "gettree",produces="application/json;charset=UTF-8")
-	@ResponseBody    
-	public List<Ztree> gettree(HttpServletRequest request,HttpSession session){
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String pid = request.getParameter("id");
-		if(pid!=null && !pid.equals("")){
-			map.put("pid", pid);
-		}else {
-			map.put("isroot", "1");
-		}
-		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
-		List<Ztree> treeList = new ArrayList<Ztree>();  
-		for(Orgnization o:oList){
-			Ztree z = new Ztree();
-			z.setId(o.getId());
-			z.setName(o.getName());
-			z.setpId(o.getParentId()==null?"-1":o.getParentId());
-			z.setLevel(o.getOrgLevel()+"");
-			HashMap<String,Object> chimap = new HashMap<String,Object>();
-			chimap.put("pid", o.getId());
-			List<Orgnization> chiildList = orgnizationServiceI.findOrgnizationList(chimap);
-			if(chiildList!=null && chiildList.size()>0){
-				z.setIsParent("true");
-			}else {
-				z.setIsParent("false");
-			}
-			//z.setIsParent(o.getParentId()==null?"true":"false");
-			treeList.add(z);
-		}
-		return treeList;
-	}
 	/**
 	 * 
 	 * @Title: saveOrg
@@ -376,38 +564,8 @@ public class PurchaseManageController {
 		json.setMessage("保存成功");
 		return json;
 	}
-	/**
-	 * 
-	 * @Title: edit
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-23 下午1:47:13
-	 * @Description: 跳转编辑页面
-	 * @param: @param orgnization
-	 * @param: @param model
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping("edit")
-	public String edit(@ModelAttribute Orgnization orgnization,Model model) {
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgnization.getId());
-		if(org!=null){
-			model.addAttribute("orgnization", org);
-		}
-		
-		//部门  多对多关联关系
-		map.put("orgId", orgnization.getId());
-		//需求监管部门  或者  采购机构
-		List<Orgnization> list = orgnizationServiceI.findPurchaseOrgList(map);
-		model.addAttribute("relaList", list);
-		//省
-		List<Area> areaList = areaServiceI.findRootArea();
-		model.addAttribute("areaList", areaList);
-		//市
-		List<Area> cityList =  areaServiceI.findTreeByPid(org.getProvinceId(),null);
-		model.addAttribute("cityList", cityList);
-		return "ses/oms/require_dep/edit";
-	}
+	
+	
 	/**
 	 * 
 	 * @Title: updateOrg
@@ -422,9 +580,9 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: AjaxJsonData
 	 */
-	@RequestMapping(value = "updateOrg")
-	@ResponseBody    
-	public AjaxJsonData updateOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
+	/*@RequestMapping(value = "updateOrg")
+	@ResponseBody  */  
+	/*public AjaxJsonData updateOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
 		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
 		HashMap<String, Object> orgMap = new HashMap<String, Object>();
 		HashMap<String, Object> purMap = new HashMap<String, Object>();
@@ -459,77 +617,16 @@ public class PurchaseManageController {
 			json.setMessage("删除成功");
 		}
 		return json;
-	}
+	}*/
 	
-	/**
-	 * 
-	 *〈简述〉
-	 *  删除部门
-	 *〈详细描述〉
-	 * @author myc
-	 * @param request {@link HttpServletRequest}
-	 * @return 成功返回ok,失败返回failed
-	 */
-	@RequestMapping(value = "delOrg")
-	@ResponseBody    
-	public String delOrg(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		String msg  = orgnizationServiceI.delOrg(id);
-		return msg;
-	}
-	/**
-	 * 
-	 * @Title: addUser
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-27 下午4:24:41
-	 * @Description: 新增用户
-	 * @param: @param user
-	 * @param: @param model
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping("addUser")
-	public String addUser(Model model,HttpServletRequest request) {
-		String orgId = request.getParameter("orgId");
-		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(orgId);
-		List<DictionaryData> genders = DictionaryDataUtil.find(13);
-        model.addAttribute("genders", genders);
-		if (org != null){
-		    
-		    String typeName = org.getTypeName();
-		    
-		    model.addAttribute("typeName", typeName);
-		    model.addAttribute("orgName", org.getName());
-		    model.addAttribute("orgId", org.getId());
-		    
-		    String typeCodeName = "";
-		    if (StringUtils.isNotBlank(typeName)){
-		        if (typeName.equals("0")){
-		            typeCodeName = "NEED_U";
-		        }
-		        if (typeName.equals("1")){
-		            typeCodeName = "PURCHASER_U";
-		        }
-		        if (typeName.equals("2")){
-		            typeCodeName = "SUPERVISER_U";
-		        }
-		        DictionaryData dd = DictionaryDataUtil.get(typeCodeName);
-		        if (dd != null){
-		            model.addAttribute("personTypeId", dd.getId());
-		            model.addAttribute("personTypeName", dd.getName());
-		        }
-		    }
-		}
-		model.addAttribute("origin", "org");
-		return "ses/bms/user/add";
-	}
 	
-	@RequestMapping("editUser")
+	
+	/*@RequestMapping("editUser")
 	public String editUser(@ModelAttribute User user,Model model) {
 		user = userServiceI.queryByList(user).get(0);
 		model.addAttribute("user", user);
 		return "ses/oms/require_dep/edit-user";
-	}
+	}*/
 	/**
 	 * 
 	 * @Title: updateUser
@@ -541,7 +638,7 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: AjaxJsonData
 	 */
-	@RequestMapping(value="updateUser",method= RequestMethod.POST)
+	/*@RequestMapping(value="updateUser",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData updateUser(@ModelAttribute User user,HttpServletRequest request){
 		User currUser = (User) request.getSession().getAttribute("loginUser");
@@ -551,42 +648,8 @@ public class PurchaseManageController {
 		jsonData.setMessage("更新成功");
 		return jsonData;
 	}
+	*/
 	
-	/**
-	 * 
-	 *〈简述〉
-	 * 删除
-	 *〈详细描述〉
-	 * @author yggc
-	 * @param user
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value="deleteUser",method= RequestMethod.POST)
-	@ResponseBody
-	public AjaxJsonData deleteUser(@ModelAttribute User user,HttpServletRequest request){
-		String idsString = request.getParameter("ids");
-		String orgType = request.getParameter("orgType");
-		String[] ids = idsString.split(",");
-		if(ids!=null && !ids.equals("")){
-			for(int i=0;i<ids.length;i++){
-				if (StringUtils.isNotBlank(orgType) && orgType.equals(StaticVariables.ORG_TYPE_PURCHASE)){
-					User u = userServiceI.getUserById(ids[i]);
-					if (u != null){
-						if (StringUtils.isNotBlank(u.getTypeId())){
-							purchaseServiceI.busDelPurchase(u.getTypeId());
-						}
-						userServiceI.deleteByLogic(ids[i]);
-					}
-				} else {
-					userServiceI.deleteByLogic(ids[i]);
-				}
-			}
-		}
-		jsonData.setSuccess(true);
-		jsonData.setMessage("删除成功");
-		return jsonData;
-	}
 	//------------------------------------机构下人员增删改查-----------------------------------------------------------------------
 	//-------------------------------------------监管部门相关操作------------------------------------------------------------------
 	
@@ -622,38 +685,21 @@ public class PurchaseManageController {
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping("purchaseUnitList")
-	public String purchaseUnitList(Model model,@ModelAttribute PageInfo page,@ModelAttribute PurchaseDep purchaseDep){
-		//每页显示十条
-		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("typeName", 1);
-		if(purchaseDep!=null){
-		    map.put("name", purchaseDep.getName());
-		}
-		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-		model.addAttribute("purchaseDepList",purchaseDepList);
-
-		//分页标签
-		model.addAttribute("list",new PageInfo<PurchaseDep>(purchaseDepList));
-		model.addAttribute("purchaseDep", purchaseDep);
-		return "ses/oms/purchase_dep/list";
-	}
+	
 	/**
 	 * 新增采购机构  王赛说不要
 	 */
-	@RequestMapping("addPurchaseDep")
-	public String addPurchaseDep() {
-		return "ses/oms/purchase_dep/add";
-	}
+	
+	
 	/**
 	 * 
-	 * @Title: editPurchaseDep
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-28 上午11:26:20
-	 * @Description: 修改采购机构
-	 * @param: @return
-	 * @return: String
+	 *〈简述〉编辑采购部门
+	 *〈详细描述〉
+	 * @author myc
+	 * @param purchaseDep {@link PurchaseDep}对象
+	 * @param request {@link HttpServletRequest}
+	 * @param model {@link Model}
+	 * @return
 	 */
 	@RequestMapping("editPurchaseDep")
 	public String editPurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
@@ -797,6 +843,7 @@ public class PurchaseManageController {
         }
         return "ses/oms/purchase_dep/update_quate_status";
     }
+	
 	@RequestMapping("updatePurchaseDep")
 	public String updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) throws IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -808,7 +855,7 @@ public class PurchaseManageController {
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "redirect:purchaseUnitList.do";
 	}
-	@RequestMapping(value="updatePurchaseDepAjxa",method= RequestMethod.POST)
+	/*@RequestMapping(value="updatePurchaseDepAjxa",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData updatePurchaseDepAjxa(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){
 		@SuppressWarnings("unused")
@@ -826,10 +873,10 @@ public class PurchaseManageController {
 		jsonData.setMessage("更新成功");
 		jsonData.setObj(purchaseDep);
 		return jsonData;
-	}
+	}*/
 	
 	
-	@RequestMapping(value="updateOrgnizationAjxa",method= RequestMethod.POST)
+	/*@RequestMapping(value="updateOrgnizationAjxa",method= RequestMethod.POST)
     @ResponseBody
     public AjaxJsonData updateOrgnizationAjxa(@ModelAttribute Orgnization orgnization,HttpServletRequest request){
         @SuppressWarnings("unused")
@@ -845,63 +892,8 @@ public class PurchaseManageController {
         jsonData.setMessage("更新成功");
         jsonData.setObj(orgnization);
         return jsonData;
-    }
-	/**
-	 * 
-	 * @Title: gettreebody
-	 * @author: Tian Kunfeng
-	 * @date: 2016-9-23 上午11:02:02
-	 * @Description: 获取需求部门 iframe层
-	 * @param: @param orgnization
-	 * @param: @param model
-	 * @param: @return
-	 * @return: String
-	 */
-	@RequestMapping("gettreebody")
-	public String gettreebody(@ModelAttribute Orgnization orgnization,Model model) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		User user = new User();
-		if(orgnization.getId()!=null && !orgnization.getId().equals("")){
-			map.put("id", orgnization.getId());
-			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
-			if(orglist!=null && orglist.size()>0){
-				Orgnization org = orglist.get(0);
-				initAreaInfo(org);
-				model.addAttribute("orgnization", org);
-			}
-			
-			user.setOrg(orgnization);
-			List<User> userlist= userServiceI.queryByList(user);
-			model.addAttribute("userlist", userlist);
-			map.clear();
-			map.put("orgId", orgnization.getId());
-			//需求监管部门  或者  采购机构
-			List<Orgnization> oList = orgnizationServiceI.findPurchaseOrgList(map);
-			model.addAttribute("oList", oList);
-		}else {
-			map.put("isroot", 1);
-			List<Orgnization> orglist = orgnizationServiceI.findOrgnizationList(map);
-			if(orglist!=null && orglist.size()>0){
-				
-				Orgnization org = orglist.get(0);
-				
-				initAreaInfo(org);
-				
-				model.addAttribute("orgnization",org);
-				String orgId = orglist.get(0).getId();
-				user.setOrg(orglist.get(0));
-				List<User> userlist= userServiceI.queryByList(user);
-				model.addAttribute("userlist", userlist);
-				map.clear();
-				map.put("orgId", orgId);
-				//需求监管部门  或者  采购机构
-				List<Orgnization> oList = orgnizationServiceI.findPurchaseOrgList(map);
-				model.addAttribute("oList", oList);
-			}
-		}
-		
-		return "ses/oms/require_dep/treebody";
-	}
+    }*/
+	
 	
 	/**
 	 * 
@@ -941,7 +933,7 @@ public class PurchaseManageController {
 	@ResponseBody
 	@RequestMapping(value = "getProvinceList", produces="application/json;charset=UTF-8")
 	public List<Area> getProvinceList(HttpServletRequest request){
-		String pid = request.getParameter("pid");//areaType
+		String pid = request.getParameter("pid");
 		List<Area> privinceList =  areaServiceI.findTreeByPid(pid,null);
 		return  privinceList;
 	}
@@ -1187,7 +1179,7 @@ public class PurchaseManageController {
 		}
 		return list;
 	}
-	@RequestMapping("addOffice")
+	/*@RequestMapping("addOffice")
 	@ResponseBody
 	public AjaxJsonData addOffice(Integer num){
 		String html ="<tr id="+num+" class='tc'>";
@@ -1204,34 +1196,21 @@ public class PurchaseManageController {
 		html += "</tr>";
 		jsonData.setMessage(html);
 		return jsonData;
-	}
-	@RequestMapping("addUnit")
+	}*/
+	/*@RequestMapping("addUnit")
 	@ResponseBody
 	public AjaxJsonData addUnit(HttpServletRequest request){
 		String num = request.getParameter("num");
 		String html ="<tr id="+num+" class='tc'> <td>1<td></tr>";
 		//jsonData.setMessage(html);
 		return jsonData;
-	}
+	}*/
 	@RequestMapping("addUnit1")
 	@ResponseBody
 	public AjaxJsonData addUnit1(HttpServletRequest request){
 		AjaxJsonData data = new AjaxJsonData();
 		data.setMessage("222");
 		return data;
-	}
-	//-----------------------------------------------------基本get()/set()--------------------------------------------------
-	public AjaxJsonData getJsonData() {
-		return jsonData;
-	}
-	public void setJsonData(AjaxJsonData jsonData) {
-		this.jsonData = jsonData;
-	}
-	public HashMap<String, Object> getResultMap() {
-		return resultMap;
-	}
-	public void setResultMap(HashMap<String, Object> resultMap) {
-		this.resultMap = resultMap;
 	}
 	
 }

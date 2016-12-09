@@ -83,7 +83,7 @@
 </head>
 
 <body>
-<div class="wrapper">
+
 
 		<!--基本信息-->
 		<div class="container content height-350">
@@ -98,51 +98,46 @@
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 资质证书名称：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="name" />
-													<span class="add-on cur_point">i</span>
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质证书名称：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="name" />
+													<div class="cue" id="cert_name"></div>
 												</div>
-												<div class="cue" id="cert_name"></div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 资质等级：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="levelCert" />
-													<span class="add-on cur_point">i</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资质等级：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="levelCert" />
+													<div class="cue" id="cert_level"></div>
 												</div>
-												<div class="cue" id="cert_level"></div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 供发证机关：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="licenceAuthorith" />
-													<span class="add-on cur_point">i</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>供发证机关：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="licenceAuthorith" />
+													<div class="cue" id="cert_authorith"></div>
 												</div>
-												<div class="cue" id="cert_authorith"></div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 有效开始时间 ：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
-											     	<span class="add-on cur_point">i</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效开始时间 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
+											    <div class="cue" id="cert_sdate"></div>
 												</div>
-												<div class="cue" id="cert_sdate"></div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 有效结束时间 ：</span>
-												<div class="input-append">
-													<input class="span5" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
-												  	<span class="add-on cur_point">i</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>有效结束时间 ：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
+												  <div class="cue" id="cert_edate"></div>
 												</div>
-												<div class="cue" id="cert_edate"></div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 是否年检：</span>
-												<div class="select_common">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>是否年检：</span>
+												<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 													<select name="mot">
 														<option value="1">是</option>
 														<option value="0">否</option>
 													</select>
 												 </div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">*</i> 证书附件：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>证书附件：</span>
 											
 												 <up:upload id="cert_up" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierServeCert}" auto="true" />
 												 <up:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierServeCert}"/>
@@ -153,7 +148,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
+							<div class="tc mt10 col-md-12 col-xs-12">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="cancels()">取消</button>
 							</div>

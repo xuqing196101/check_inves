@@ -196,19 +196,17 @@ $(document).ready(function() {
 						<td class="tc">${yp.remark }</td>
 					</tr>
 				</c:forEach>
-				</tbody>
-				<thead>
 					 <tr id="totalRow">
 					 	<td colspan="5" class="tc">总计：</td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total1" class="border0 tc w50 m0" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total2" class="border0 tc w50 m0" readonly="readonly"></td>
 					 	<td colspan="2" ></td>
-					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50" readonly="readonly"></td>
+					 	<td class="tc"><input type="text" id="total3" class="border0 tc w50 m0" readonly="readonly"></td>
 					 	<td ></td>
 					 </tr>
-				 </thead> 
+				</tbody>
 			</table>
 		</div>
 		

@@ -227,7 +227,7 @@
 					<th class="info">联系人</th>
 					<th class="info">联系电话</th>
 					<th class="info">发售日期</th>
-					<th class="info">标书状态</th>
+					<th class="info">标书费状态</th>
 					<th class="info">保证金状态</th>
 				</tr>
 			</thead>

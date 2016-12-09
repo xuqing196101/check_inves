@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.jsqlparser.expression.operators.arithmetic.Concat;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.service.bms.AreaServiceI;
@@ -51,6 +50,7 @@ import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
@@ -109,6 +109,8 @@ public class ExpertController {
     private PreMenuServiceI menuService;// 地区查询
     @Autowired
     private RoleServiceI roleService;// 地区查询
+    @Autowired
+    private ProjectExtractService projectExtractService;//是否被抽取查询
 
     /**
      * 
@@ -170,6 +172,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
         Map<String, Object> typeMap = getTypeId();
@@ -256,11 +261,16 @@ public class ExpertController {
                 Userrole userrole = new Userrole();
                 userrole.setRoleId(listRole.get(0));
                 userrole.setUserId(user);
-                /** 给该用户初始化进口代理商角色 */
+                /** 删除用户之前的菜单权限*/
+                UserPreMenu userPreMenu = new UserPreMenu();
+                userPreMenu.setUser(user);
+                userService.deleteUserMenu(userPreMenu);
+                /** 删除用户之前的角色信息*/
+                /** 给该用户初始化专家角色 */
                 userService.saveRelativity(userrole);
                 String[] roleIds = listRole.get(0).getId().split(",");
                 List<String> listMenu = menuService.findByRids(roleIds);
-                /** 给用户初始化进口代理商菜单权限 */
+                /** 给用户初始化专家菜单权限 */
                 for (String menuId : listMenu) {
                     UserPreMenu upm = new UserPreMenu();
                     PreMenu preMenu = menuService.get(menuId);
@@ -304,6 +314,7 @@ public class ExpertController {
         int flag = 0;
         // 暂存 或退回后重新填写
         Expert expert = service.selectByPrimaryKey(typeId);
+        model.addAttribute("expert", expert);
         String stepNumber;
         if ("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {
             stepNumber = "one";
@@ -352,6 +363,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
 
         model.addAttribute("att", att);
         // typrId集合
@@ -523,6 +537,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
 
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -582,6 +599,9 @@ public class ExpertController {
         // 货物类型数据字典
         List<DictionaryData> hwList = DictionaryDataUtil.find(8);
         model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
         // 专家系统key
         Integer expertKey = Constant.EXPERT_SYS_KEY;
         Map<String, Object> typeMap = getTypeId();
@@ -593,6 +613,58 @@ public class ExpertController {
         model.addAttribute("expertKey", expertKey);
         request.setAttribute("expert", expert);
         return "ses/ems/expert/audit";
+    }
+    
+    @RequestMapping("/toSecondAudit")
+    public String toSecondAudit(@RequestParam("id") String id,
+            HttpServletRequest request, HttpServletResponse response,
+            Model model) {
+        Expert expert = service.selectByPrimaryKey(id);
+        // 查询出采购机构
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", expert.getPurchaseDepId());
+        map.put("typeName", "1");
+        List<PurchaseDep> depList = purchaseOrgnizationService
+                .findPurchaseDepList(map);
+        if (depList != null && depList.size() > 0) {
+            PurchaseDep purchaseDep = depList.get(0);
+            model.addAttribute("purchase", purchaseDep);
+        }
+        // 查询数据字典中的证件类型配置数据
+        List<DictionaryData> idTypeList = DictionaryDataUtil.find(9);
+        model.addAttribute("idTypeList", idTypeList);
+        // 查询数据字典中的政治面貌配置数据
+        List<DictionaryData> zzList = DictionaryDataUtil.find(10);
+        model.addAttribute("zzList", zzList);
+        // 查询数据字典中的最高学历配置数据
+        List<DictionaryData> xlList = DictionaryDataUtil.find(11);
+        model.addAttribute("xlList", xlList);
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        model.addAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的性别配置数据
+        List<DictionaryData> sexList = DictionaryDataUtil.find(13);
+        model.addAttribute("sexList", sexList);
+        // 产品类型数据字典
+        List<DictionaryData> spList = DictionaryDataUtil.find(6);
+        model.addAttribute("spList", spList);
+        // 货物类型数据字典
+        List<DictionaryData> hwList = DictionaryDataUtil.find(8);
+        model.addAttribute("hwList", hwList);
+        // 经济类型数据字典
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        model.addAttribute("jjList", jjTypeList);
+        // 专家系统key
+        Integer expertKey = Constant.EXPERT_SYS_KEY;
+        Map<String, Object> typeMap = getTypeId();
+        // typrId集合
+        model.addAttribute("typeMap", typeMap);
+        // 业务id就是专家id
+        model.addAttribute("sysId", id);
+        // Constant.EXPERT_SYS_VALUE;
+        model.addAttribute("expertKey", expertKey);
+        request.setAttribute("expert", expert);
+        return "ses/ems/expert/second_audit";
     }
 
     /**
@@ -643,6 +715,16 @@ public class ExpertController {
         return "redirect:findAllExpert.html";
     }
 
+    @RequestMapping("/secondAudit")
+    public String secondAudit(@RequestParam("isPass") String isPass, Expert expert,
+             HttpSession session) {
+        // 专家状态修改
+        expert.setStatus(isPass);
+        // 执行修改
+        service.updateByPrimaryKeySelective(expert);
+        return "redirect:secondAuditExpert.html";
+    }
+    
     /**
      * 
      * @Title: toEditBasicInfo
@@ -701,6 +783,9 @@ public class ExpertController {
                     // 货物类型数据字典
                     List<DictionaryData> hwList = DictionaryDataUtil.find(8);
                     model.addAttribute("hwList", hwList);
+                    // 经济类型数据字典
+                    List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+                    model.addAttribute("jjList", jjTypeList);
                     // 专家系统key
                     Integer expertKey = Constant.EXPERT_SYS_KEY;
                     Map<String, Object> typeMap = getTypeId();
@@ -763,9 +848,7 @@ public class ExpertController {
             expert.setUpdatedAt(new Date());
             service.updateByPrimaryKeySelective(expert);
             expertCategoryService.deleteByExpertId(expert.getId());
-            if (expert.getExpertsTypeId().equals("1")) {
-                expertCategoryService.save(expert, categoryId);
-            }
+            expertCategoryService.save(expert, categoryId);
             return "redirect:findAllExpert.html";
         } else {
             // 重复提交 这里未做重复提醒，只是不重复修改
@@ -964,6 +1047,44 @@ public class ExpertController {
         request.setAttribute("result", new PageInfo<Expert>(allExpert));
         request.setAttribute("expert", expert);
         return "ses/ems/expert/list";
+    }
+    
+    /**
+     *〈简述〉
+     * 专家复审列表展示
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     * @param page
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/secondAuditExpert")
+    public String secondAuditExpert(Expert expert, Integer page,
+            HttpServletRequest request, HttpServletResponse response) {
+        List<Expert> allExpert = service.selectAllExpert(page == null ? 0
+                : page, expert);
+        ProjectExtract projectExtract = new ProjectExtract();
+        a:for (Expert exp : allExpert) {
+            // 判断是否被抽取
+            projectExtract.setExpertId(exp.getId());
+            projectExtract.setReason("1");
+            List<ProjectExtract> list = projectExtractService.list(projectExtract);
+            if (list.isEmpty()) {
+                allExpert.remove(exp);
+                continue a;
+            }
+            DictionaryData dictionaryData = dictionaryDataServiceI
+                .getDictionaryData(exp.getGender());
+            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+        }
+        // 查询数据字典中的专家来源配置数据
+        List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
+        request.setAttribute("result", new PageInfo<Expert>(allExpert));
+        request.setAttribute("expert", expert);
+        return "ses/ems/expert/second_audit_list";
     }
 
     /**
@@ -1336,71 +1457,71 @@ public class ExpertController {
      * @return: String
      * @throws Exception
      */
-    private String createWordMethod(Expert expert, HttpServletRequest request)
-            throws Exception {
+    private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name",
-                expert.getRelName() == null ? "" : expert.getRelName());
-        String gender = expert.getGender();
-        DictionaryData dictionaryData = dictionaryDataServiceI
-                .getDictionaryData(gender);
-        dataMap.put("sex",
-                dictionaryData == null ? "" : dictionaryData.getName());
+        dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
+        String sex = expert.getGender();
+        DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
+        dataMap.put("gender", gender == null ? "" : gender.getName());
         dataMap.put("birthday",
                 expert.getBirthday() == null ? "" : new SimpleDateFormat(
                         "yyyy-MM-dd").format(expert.getBirthday()));
-        // 政治面貌
         String faceId = expert.getPoliticsStatus();
-        DictionaryData data = dictionaryDataServiceI.getDictionaryData(faceId);
-        dataMap.put("face", data == null ? "" : data.getName());
-        String addressId = expert.getAddress();
-        // 子节点
-        Area area = areaServiceI.listById(addressId);
-        // 父节点
-        Area area2 = areaServiceI.listById(area.getParentId());
-        dataMap.put("address",
-                area2 == null || area == null ? "" : area2.getName() + ","
-                        + area.getName());
+        DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
+        dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
+        dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
+        dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
+        dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "" : expert.getCoverNote());
+        dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
+        dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
+        dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+        dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
+        DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+        if (idType != null) {
+            dataMap.put("idType", idType.getName() == null ? "" : idType.getName());
+        } else {
+            dataMap.put("idType", "");
+        }
+        dataMap.put("idNumber", expert.getIdNumber() == null ? "" : expert.getIdNumber());
+        dataMap.put("major", expert.getMajor() == null ? "" : expert.getMajor());
+        dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getTimeStartWork()));
+        DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+        if (expertsForm != null) {
+            dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
+        } else {
+            dataMap.put("expertsFrom", "");
+        }
         dataMap.put(
-                "zhi",
+                "professTechTitles",
                 expert.getProfessTechTitles() == null ? "" : expert
                         .getProfessTechTitles());
-        dataMap.put("number",
-                expert.getIdNumber() == null ? "" : expert.getIdNumber());
+        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getMakeTechDate()));
         String expertType = "";
         String expertsTypeId = expert.getExpertsTypeId();
         if (expertsTypeId != null && expertsTypeId.equals("1")) {
             expertType = "技术";
-        } else if (expertsTypeId != null && expertsTypeId.equals("2")) {
-            expertType = "法律";
         } else if (expertsTypeId != null && expertsTypeId.equals("3")) {
-            expertType = "商务";
+            expertType = "经济";
+        } else {
+            expertType = "";
         }
-        dataMap.put("type", expertType);
-        dataMap.put("date",
-                expert.getTimeStartWork() == null ? "" : new SimpleDateFormat(
-                        "yyyy-MM-dd").format(expert.getTimeStartWork()));
+        dataMap.put("expertsTypeId", expertType);
+        dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
         String hightEducationId = expert.getHightEducation();
-        DictionaryData data2 = dictionaryDataServiceI
-                .getDictionaryData(hightEducationId);
-        dataMap.put("xueli", data2 == null ? "" : data2.getName());
-        dataMap.put("xuewei",
-                expert.getDegree() == null ? "" : expert.getDegree());
-        dataMap.put("phone",
-                expert.getMobile() == null ? "" : expert.getMobile());
-        dataMap.put("teliphone",
-                expert.getTelephone() == null ? "" : expert.getTelephone());
-        dataMap.put(
-                "school",
-                expert.getGraduateSchool() == null ? "" : expert
-                        .getGraduateSchool());
-        dataMap.put("unitName",
-                expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("unitAddress", expert.getUnitAddress() == null ? ""
-                : expert.getUnitAddress());
-        dataMap.put("zipCode",
-                expert.getPostCode() == null ? "" : expert.getPostCode());
+        DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
+        dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
+        dataMap.put("degree", expert.getDegree() == null ? "" : expert.getDegree());
+        dataMap.put("mobile", expert.getMobile() == null ? "" : expert.getMobile());
+        dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
+        dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
+        dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
+        dataMap.put("productCategories", expert.getProductCategories() == null ? "" : expert.getProductCategories());
+        dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
+        dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
+        dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
+        dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "" : expert.getAvoidanceSituation());
         // 文件名称
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
                 "UTF-8");

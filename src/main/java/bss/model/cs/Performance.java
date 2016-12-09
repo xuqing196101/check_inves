@@ -22,8 +22,28 @@ public class Performance {
     private PurchaseContract contract;
     
 	private String checkMass;//质量检验
+	
+	private Date createdAt;
+	
+	private Date updatedAt;
 
-    public String getCheckMass() {
+    public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getCheckMass() {
 		return checkMass;
 	}
 

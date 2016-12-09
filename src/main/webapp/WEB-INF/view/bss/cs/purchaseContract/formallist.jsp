@@ -24,13 +24,19 @@
 		    endRow: "${list.endRow}",
 		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
+		    	var page = location.search.match(/page=(\d+)/);
+		    	if(page==null){
+		    		page = {};
+		    		var data = "${list.pageNum}";
+		    		page[0]=data;
+		    		page[1]=data;
+		    	}
 		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	$("#page").val(e.curr);
-					$("#form").submit();
+					$("#form1").submit();
 		        }
 		    }
 		});
@@ -239,8 +245,8 @@
      </div>
 <!-- 项目戳开始 -->
     <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectFormalContract.html" method="post">
-    <input type="hidden" value="" id="page"/>
-     <h2 class="search_detail">
+    <input type="hidden" value="" name="page" id="page"/>
+     <div class="search_detail">
     	<ul class="demand_list">
           <li class="fl"><label class="fl">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
 	      <li class="fl"><label class="fl">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
@@ -256,7 +262,7 @@
     	  </div>
     	</ul>
     	  <div class="clear"></div>
-    	  </h2>
+    	  </div>
       </form>
    	   <div class="col-md-12 pl20 mt10">
    	  	  <button class="btn" onclick="printformal()">打印</button>

@@ -94,7 +94,7 @@
 	   </div>
    <!-- 查询 -->
 
-     <h2 class="search_detail"">
+     <div class="search_detail"">
    	<form action="${pageContext.request.contextPath}/pqinfo/searchReasult.html" method="post" enctype="multipart/form-data" class="mb0">
 	 <ul class="demand_list">
 	   <li class="fl"><label class="fl">合同名称：</label><span><input type="text" id="contractName" name="contract.name" class="mb0"/></span></li>
@@ -125,7 +125,7 @@
 
 	 </form>
 	 <div class="clear"></div>
-     </h2>
+     </div>
 
    
 <!-- 表格开始-->
@@ -150,21 +150,21 @@
 				
 				<td class="tc" onclick="show('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
 			
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
 			
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.type}</td>
 				
-				<td class="tc opinter" onclick="show('${PqInfo.id}')"><fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd'/></td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')"><fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd'/></td>
 				
-				<td class="tc opinter" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
+				<td class="tc pointer" onclick="show('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter">
+				<td class="tc pointer">
 				<button type="button" onclick="view('${PqInfo.report}',this)" class="btn">质检报告</button>
 				</td>  				
 			</tr>

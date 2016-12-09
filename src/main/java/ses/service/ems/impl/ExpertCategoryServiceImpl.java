@@ -37,9 +37,9 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
             String[] code = ids.split(",");
             ExpertCategory expertCategory = new ExpertCategory();
             //循环品目id集合
-            for (String string : code) {
+            for (String id : code) {
                 //根据编码查询id
-                String id = DictionaryDataUtil.getId(string);
+                //String id = DictionaryDataUtil.getId(string);
                 expertCategory.setCategoryId(id);
                 expertCategory.setExpertId(expert.getId());
                 //逐条保存

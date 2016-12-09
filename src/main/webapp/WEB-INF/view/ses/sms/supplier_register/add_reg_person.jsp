@@ -97,18 +97,20 @@
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-100" id="tab-1">
 									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册类型：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="regType" />
+										<ul class="list-unstyled">
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>注册类型：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" name="regType" />
+													<div class="cue" id="cert_type"></div>
 												</div>
-										    <div class="cue" id="cert_type"></div>
+										    
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册人数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" onkeyup="checknums(this)" name="regNumber" />
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>注册人数：</span>
+												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<input type="text" onkeyup="checknums(this)" name="regNumber" />
+													<div class="cue" id="cert_count"></div>
 												</div>
-											 <div class="cue" id="cert_count"></div>
+											 
 											</li>
 											<div class="clear"></div>
 										</ul>

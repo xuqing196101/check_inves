@@ -37,7 +37,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public List<Performance> selectAll(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-		return performanceMapper.selectAll();
+		return performanceMapper.selectAll(map);
 	}
 
 	@Override

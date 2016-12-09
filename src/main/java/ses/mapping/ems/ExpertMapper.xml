@@ -10,8 +10,16 @@
 		<result column="GENDER" jdbcType="CHAR" property="gender" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+		<result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
+		<result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
+		<result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR" property="productCategories" />
+		<result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR" property="academicAchievement" />
+		<result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
+		<result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR" property="avoidanceSituation" />
 		<result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
 		<result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="JOB_EXPERIENCES" jdbcType="VARCHAR" property="jobExperiences" />
 		<result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
 		<result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
 		<result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
@@ -58,7 +66,10 @@
 		POST_CODE, DEGREE, AT_DUTY,
 		EXPERTS_TYPE_ID,
 		PURCHASE_DEP_ID, STATUS,
-		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, STEP_NUMBER
+		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL,
+		REMARKS, STEP_NUMBER, EMAIL, JOB_EXPERIENCES, ID_CARD_NUMBER,
+		COVER_NOTE, PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
+		REVIEW_SITUATION, AVOIDANCE_SITUATION
 	</sql>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
@@ -77,6 +88,24 @@
 		</if>
 		<if test="status != null and status !=''">
 			AND STATUS = ${status}
+		</if>
+		<if test="expertsTypeId != null and expertsTypeId !=''">
+			AND EXPERTS_TYPE_ID = ${expertsTypeId}
+		</if>
+		ORDER BY CREATED_AT DESC
+	</select>
+	<!-- 查询复审列表的专家 -->
+	<select id="selectSecondAuditExpert" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXPERT
+		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
+		and (STATUS = '1' or STATUS = '4' or STATUS = '5')
+		<if test="relName != null and relName !=''">
+			AND REAL_NAME like '%${relName}%'
+		</if>
+		<if test="expertsFrom != null and expertsFrom !=''">
+			AND EXPERTS_FROM = '${expertsFrom}'
 		</if>
 		<if test="expertsTypeId != null and expertsTypeId !=''">
 			AND EXPERTS_TYPE_ID = ${expertsTypeId}
@@ -173,6 +202,30 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
+			</if>
+			<if test="jobExperiences != null">
+				JOB_EXPERIENCES,
+			</if>
+			<if test="productCategories != null">
+				PRODUCT_CATEGORIES,
+			</if>
+			<if test="academicAchievement != null">
+				ACADEMIC_ACHIEVEMENT,
+			</if>
+			<if test="reviewSituation != null">
+				REVIEW_SITUATION,
+			</if>
+			<if test="avoidanceSituation != null">
+				AVOIDANCE_SITUATION,
+			</if>
+			<if test="coverNote != null">
+				COVER_NOTE,
+			</if>
+			<if test="idCardNumber != null">
+				ID_CARD_NUMBER,
+			</if>
+			<if test="email != null">
+				EMAIL,
 			</if>
 			<if test="isSubmit != null">
 				IS_SUBMIT,
@@ -296,6 +349,30 @@
 			<if test="isSubmit != null">
 				#{isSubmit,jdbcType=VARCHAR},
 			</if>
+			<if test="jobExperiences != null">
+				#{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="productCategories != null">
+				#{productCategories,jdbcType=VARCHAR},
+			</if>
+			<if test="academicAchievement != null">
+				#{academicAchievement,jdbcType=VARCHAR},
+			</if>
+			<if test="reviewSituation != null">
+				#{reviewSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="avoidanceSituation != null">
+				#{avoidanceSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="idCardNumber != null">
+				#{idCardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="jobExperiences != null">
+				#{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
 			<if test="isDo != null">
 				#{isDo,jdbcType=VARCHAR},
 			</if>
@@ -414,6 +491,30 @@
 		<set>
 			<if test="isSubmit != null">
 				IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
+			</if>
+			<if test="jobExperiences != null">
+				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="productCategories != null">
+				PRODUCT_CATEGORIES = #{productCategories,jdbcType=VARCHAR},
+			</if>
+			<if test="academicAchievement != null">
+				ACADEMIC_ACHIEVEMENT = #{academicAchievement,jdbcType=VARCHAR},
+			</if>
+			<if test="reviewSituation != null">
+				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="avoidanceSituation != null">
+				AVOIDANCE_SITUATION = #{avoidanceSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="idCardNumber != null">
+				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="coverNote != null">
+				COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
 			</if>
 			<if test="isDo != null">
 				IS_DO = #{isDo,jdbcType=VARCHAR},
@@ -536,6 +637,30 @@
 		<set>
 			<if test="isSubmit != null and isSubmit != '0'">
 				IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
+			</if>
+			<if test="jobExperiences != null and jobExperiences != ''">
+				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+			</if>
+			<if test="productCategories != null and productCategories != ''">
+				PRODUCT_CATEGORIES = #{productCategories,jdbcType=VARCHAR},
+			</if>
+			<if test="academicAchievement != null and academicAchievement != ''">
+				ACADEMIC_ACHIEVEMENT = #{academicAchievement,jdbcType=VARCHAR},
+			</if>
+			<if test="reviewSituation != null and reviewSituation != ''">
+				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="avoidanceSituation != null and avoidanceSituation != ''">
+				AVOIDANCE_SITUATION = #{avoidanceSituation,jdbcType=VARCHAR},
+			</if>
+			<if test="idCardNumber != null and idCardNumber != ''">
+				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="coverNote != null and coverNote != ''">
+				COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null and email != ''">
+				EMAIL = #{email,jdbcType=VARCHAR},
 			</if>
 			<if test="isDo != null and isDo != '0'">
 				IS_DO = #{isDo,jdbcType=VARCHAR},
@@ -681,8 +806,7 @@
 	<!-- 专家抽取集合 -->
 	<!-- AND ee.ADDRESS = #{address} -->
 	<!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
-	<!-- AND EE.STATUS = 1 -->
-	<!-- AND IS_BLACK = 0 -->
+	
 	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
 		resultMap="BaseResultMap">
 		SELECT
@@ -693,6 +817,8 @@
 		ON ee."ID" = EC.EXPERT_ID
 		WHERE
 		ee.IS_DELETE = 0
+		AND ee.STATUS = 1
+    AND ee.IS_BLACK = 0
 		<foreach item="item" collection="conTypes">
 			AND (EE.EXPERTS_TYPE_ID = #{item.expertsTypeId}
 			<if
@@ -759,7 +885,7 @@
 	<!-- 身份证号唯一性验证 -->
 	<select id="validateIdNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
 		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE ID_NUMBER = #{_parameter}
+		WHERE ID_CARD_NUMBER = #{_parameter}
 	</select>
 	<!-- 注册时点击下一步,将表中的STRP_NUMBER进行同步 -->
 	<update id="updateStepNumber">

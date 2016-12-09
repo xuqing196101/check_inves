@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="NAME" jdbcType="VARCHAR" property="name" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
 		<result column="URL" jdbcType="VARCHAR" property="url" />
@@ -51,7 +51,7 @@
 		POWER_ID,
 		ORG_ID)
 		values (#{id,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE},
+		#{createdAt,jdbcType=TIMESTAMP},
 		#{name,jdbcType=VARCHAR},
 		#{isDeleted,jdbcType=DECIMAL}, #{url,jdbcType=VARCHAR},
 		#{isFinish,jdbcType=DECIMAL},
@@ -111,7 +111,7 @@
 				#{id,jdbcType=VARCHAR},
 			</if>
 			<if test="createdAt != null">
-				#{createdAt,jdbcType=DATE},
+				#{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="name != null">
 				#{name,jdbcType=VARCHAR},
@@ -153,7 +153,7 @@
 		update T_SES_BMS_TODOS
 		<set>
 			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=DATE},
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="name != null">
 				NAME = #{name,jdbcType=VARCHAR},
@@ -194,7 +194,7 @@
 	<update id="updateByPrimaryKey" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
 		update T_SES_BMS_TODOS
-		set CREATED_AT = #{createdAt,jdbcType=DATE},
+		set CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
 		NAME = #{name,jdbcType=VARCHAR},
 		IS_DELETED =
 		#{isDeleted,jdbcType=DECIMAL},
