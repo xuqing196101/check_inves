@@ -64,8 +64,8 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	@Override
 	public void saveOrUpdate(SupplierItem supplierItem) {
 		
-		String id = supplierItem.getSupplierId();
-		supplierItemMapper.deleteBySupplierId(id);
+//		String id = supplierItem.getSupplierId();
+		supplierItemMapper.deleteRelate(supplierItem.getSupplierTypeRelateId(),supplierItem.getSupplierId());
 		String ids[] = supplierItem.getCategoryId().split(",");
 		Map<String,Object> map=new HashMap<String,Object>();
 		for(String i:ids){

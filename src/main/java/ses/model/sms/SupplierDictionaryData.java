@@ -56,6 +56,14 @@ public class SupplierDictionaryData implements Serializable {
 	
 	private String supplierQrcode; //供应商产品二维码
 	
+	private String supplierIdentityUp;//注册人身份证正面信息
+	
+	private String supplierIdentitydown;//注册人身份证反面信息
+	
+	private String supplierCategory;//供应商注册品目修改
+	
+	private String supplierBank;
+	
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
 	}
@@ -256,5 +264,38 @@ public class SupplierDictionaryData implements Serializable {
 		this.supplierQrcode = supplierQrcode;
 	}
 
+	public String getSupplierIdentityUp() {
+		return supplierIdentityUp;
+	}
+
+	public void setSupplierIdentityUp(String supplierIdentityUp) {
+		this.supplierIdentityUp = supplierIdentityUp;
+	}
+
+	public String getSupplierIdentitydown() {
+		return supplierIdentitydown;
+	}
+
+	public void setSupplierIdentitydown(String supplierIdentitydown) {
+		this.supplierIdentitydown = supplierIdentitydown;
+	}
+
+	public String getSupplierCategory() {
+		return supplierCategory;
+	}
+
+	public void setSupplierCategory(String supplierCategory) {
+		this.supplierCategory = supplierCategory;
+	}
+
+	public String getSupplierBank() {
+		return supplierBank;
+	}
+
+	public void setSupplierBank(String supplierBank) {
+		this.supplierBank = supplierBank;
+	}
+  
+	
 
 }

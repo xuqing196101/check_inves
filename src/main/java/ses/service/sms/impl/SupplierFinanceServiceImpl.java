@@ -1,5 +1,9 @@
 package ses.service.sms.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +146,42 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		}
 		
 		return finance;
+	}
+
+	@Override
+	public List<SupplierFinance> getYear() {
+		List<Integer> yearList=new ArrayList<Integer>();
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String mont=sdf.format(date).split("-")[1];
+		Integer month=Integer.valueOf(mont);
+
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		
+		 int year2=year-2;//2014
+		 int year3=year-3;//2013
+		if(month<6){
+			int yera4=year-4;//2012
+			yearList.add(yera4);
+		}else{
+			int yera4=year-1;//2015
+			yearList.add(yera4);
+		}
+		yearList.add(year2);
+		yearList.add(year3);
+		SupplierFinance sf1=new SupplierFinance();
+		sf1.setYear(String.valueOf(yearList.get(2)));
+		
+		SupplierFinance sf2=new SupplierFinance();
+		sf2.setYear(String.valueOf(yearList.get(1)));
+		SupplierFinance sf3=new SupplierFinance();
+		sf3.setYear(String.valueOf(yearList.get(0)));
+		List<SupplierFinance> list=new  ArrayList<SupplierFinance>();
+		list.add(sf1);
+		list.add(sf2);
+		list.add(sf3);
+		return list;
 	}
 
 

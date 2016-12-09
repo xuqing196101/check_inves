@@ -548,6 +548,8 @@ public class Supplier implements Serializable {
 	
 	private List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
 	
+	private List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
+	
 	
 	public String getScoreStart() {
         return scoreStart;
@@ -1352,6 +1354,14 @@ public class Supplier implements Serializable {
 
 	public void setIsExtract(String isExtract) {
 		this.isExtract = isExtract;
+	}
+
+	public List<SupplierBranch> getBranchList() {
+		return branchList;
+	}
+
+	public void setBranchList(List<SupplierBranch> branchList) {
+		this.branchList = branchList;
 	}
 	
 	
