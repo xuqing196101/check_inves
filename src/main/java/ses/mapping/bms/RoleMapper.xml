@@ -26,7 +26,7 @@
 	    <result column="ugender"  property="gender" />
 	    <result column="utelephone"  property="telephone" />
 	    <result column="uduties"  property="duties" />
-	    <result column="utypeName"  property="typeName" />
+	    <!-- <result column="utypeName"  property="typeName" /> -->
 	    <result column="utypeId"  property="typeId" />
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
@@ -257,7 +257,7 @@
 			U .GENDER AS ugender,
 			U .TELEPHONE AS utelephone,
 			U .DUTIES AS uduties,
-			U .TYPE_NAME AS utypeName,
+			<!-- U .TYPE_NAME AS utypeName, -->
 			U .TYPE_ID AS utypeId,
 			U .ADDRESS AS uaddress,
 			U .EMAIL AS uemail,

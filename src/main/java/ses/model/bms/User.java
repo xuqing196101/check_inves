@@ -99,8 +99,8 @@ public class User implements Serializable{
      * 7：进口代理商
      * 8：监督人员
      */
-    @NotNull(message = "用户类型不能为空")  
-    private String typeName;
+//    @NotNull(message = "用户类型不能为空")  
+//    private String typeName;
     
     /** 关联用户ID */
     private String typeId;
@@ -330,12 +330,12 @@ public class User implements Serializable{
 		this.roleId = roleId;
 	}
 
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
+//    public String getTypeName() {
+//        return typeName;
+//    }
+//
+//    public void setTypeName(String typeName) {
+//        this.typeName = typeName;
+//    }
 
 }

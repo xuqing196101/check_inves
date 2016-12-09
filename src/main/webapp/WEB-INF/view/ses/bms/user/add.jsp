@@ -200,8 +200,8 @@
 	   </div>
    	   <sf:form action="${pageContext.request.contextPath}/user/save.html" method="post" modelAttribute="user">
 		  <input type="hidden"  name="origin" value="${origin}" />
-		  <input type="hidden" name="personTypeId" value="${personTypeId}" />
-		  <input type="hidden" name="personTypeName" value="${personTypeName}" />
+		  <%-- <input type="hidden" name="personTypeId" value="${personTypeId}" />
+		  <input type="hidden" name="personTypeName" value="${personTypeName}" /> --%>
 		  <input type="hidden" name="orgId" value="${orgId}" />
 		  <input type="hidden" name="deptTypeName" value="${typeName}"/>
 		   <div>

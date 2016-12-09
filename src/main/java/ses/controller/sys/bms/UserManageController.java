@@ -280,14 +280,14 @@ public class UserManageController extends BaseController{
 	 * @param model {@link Model}
 	 */
 	private void addAtt(HttpServletRequest request ,Model model){
-	    String personTypeId = request.getParameter("personTypeId");
-        String personTypeName = request.getParameter("personTypeName");
+	    /*String personTypeId = request.getParameter("personTypeId");
+        String personTypeName = request.getParameter("personTypeName");*/
         String origin = request.getParameter("origin");
         String orgId = request.getParameter("orgId");
         String deptTypeName = request.getParameter("deptTypeName");
         
-        model.addAttribute("personTypeId", personTypeId);
-        model.addAttribute("personTypeName", personTypeName);
+/*        model.addAttribute("personTypeId", personTypeId);
+        model.addAttribute("personTypeName", personTypeName);*/
         model.addAttribute("origin", origin);
         model.addAttribute("orgId", orgId);
         model.addAttribute("typeName", deptTypeName);
@@ -343,7 +343,7 @@ public class UserManageController extends BaseController{
 			}
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
 			
-			if (StringUtils.isNotBlank(origin)){
+			/*if (StringUtils.isNotBlank(origin)){
 			   DictionaryData dd =  DictionaryDataUtil.findById(user.getTypeName());
 			   if (dd != null){
 			       model.addAttribute("personTypeId", dd.getId());
@@ -352,7 +352,7 @@ public class UserManageController extends BaseController{
 			} else {
 			    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 	            model.addAttribute("typeNames", typeNames);
-			}
+			}*/
 	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("roleId", roleId);
@@ -398,13 +398,13 @@ public class UserManageController extends BaseController{
   			model.addAttribute("roleName", request.getParameter("roleName"));
   			model.addAttribute("currPage",request.getParameter("currpage"));
   			model.addAttribute("typeName", deptTypeName);
-  			if (StringUtils.isNotBlank(origin)){
+  			/*if (StringUtils.isNotBlank(origin)){
 			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){
                    model.addAttribute("personTypeId", dd.getId());
                    model.addAttribute("personTypeName", dd.getName());
                 }
-            }
+            }*/
 			
   			return "ses/bms/user/edit";
 		}
