@@ -18,16 +18,16 @@
                dataType: 'json',  
                success:function(result){
                     if(!result.success){
-                        layer.msg(result.msg,{offset: ['150px', '180px']});
+                        layer.msg(result.msg,{offset: ['150px']});
                     }else{
                         parent.window.setTimeout(function(){
                             parent.window.location.href = "${pageContext.request.contextPath}/role/list.html";
                         }, 1000);
-                        layer.msg(result.msg,{offset: ['150px', '180px']});
+                        layer.msg(result.msg,{offset: ['150px']});
                     }
                 },
                 error: function(result){
-                    layer.msg("添加失败",{offset: ['150px', '180px']});
+                    layer.msg("添加失败",{offset: ['150px']});
                 }
             });
             

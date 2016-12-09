@@ -381,7 +381,7 @@
 	SELECT
 		*
 		FROM
-			"JDCG"."T_SES_BMS_USER" u
+			T_SES_BMS_USER u
 		LEFT JOIN (
 			SELECT
 				ID,
@@ -390,10 +390,10 @@
 				(
 					SELECT
 						u. ID,
-	          t2.role_id as roleId,
+	                    t2.role_id as roleId,
 						T3.name AS roleName
 					FROM
-						"JDCG"."T_SES_BMS_USER" u
+						T_SES_BMS_USER u
 					LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
 		      LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.id
 				)
@@ -549,4 +549,36 @@
                      )
            ORDER BY CREATED_AT DESC
     </select> 
+    
+    <!-- 16.根据角色编码查询用户 -->
+    <select id="findByRole" parameterType="java.util.Map" resultMap="UserBaseMap">
+        SELECT 
+            DISTINCT(u.ID),
+            u.ID AS ID,
+		    u.LOGIN_NAME AS LOGIN_NAME,
+		    u.PASSWORD AS PASSWORD,
+		    u.CREATED_AT AS CREATED_AT,
+		    u.IS_DELETED AS IS_DELETED,
+		    u.REL_NAME AS REL_NAME,
+		    u.UPDATED_AT AS UPDATED_AT,
+		    u.USER_ID AS USER_ID,
+		    u.MOBILE AS MOBILE,
+		    u.GENDER AS GENDER,
+		    u.TELEPHONE AS TELEPHONE,
+		    u.EMAIL AS EMAIL,
+		    u.ORG_ID AS ORG_ID,
+		    u.DUTIES AS DUTIES,
+		    u.TYPE_ID AS TYPE_ID,
+		    u.ADDRESS AS ADDRESS,
+		    u.RANDOM_CODE AS RANDOM_CODE
+        FROM
+            T_SES_BMS_USER u
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
+		LEFT JOIN T_SES_BMS_ROLE r ON ur.ROLE_ID = r . ID
+		WHERE
+		    u.IS_DELETED = 0
+        <if test="code != null and code != ''">
+           AND r.code = #{code}
+        </if>
+    </select>
 </mapper>

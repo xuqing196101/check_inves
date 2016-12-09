@@ -190,5 +190,14 @@ public interface UserMapper {
      * @return List<User>
      */
     List<User> findUserRole(User user);
+    
+    /**
+     *〈简述〉根据角色编码查询用户
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param map 查询条件参数
+     * @return List<User>
+     */
+    List<User> findByRole(HashMap<String, Object> map);
 	
 }

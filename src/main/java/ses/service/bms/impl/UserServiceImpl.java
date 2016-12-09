@@ -231,6 +231,11 @@ public class UserServiceImpl implements UserServiceI {
         List<User> users = userMapper.findUserRole(user);
         return users;
     }
+
+  @Override
+  public List<User> findByRole(HashMap<String, Object> map) {
+    return userMapper.findByRole(map);
+  }
     
 }
 
