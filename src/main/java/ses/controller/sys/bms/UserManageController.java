@@ -87,7 +87,7 @@ public class UserManageController extends BaseController{
 	    if (user.getRoleId() != null && !"".equals(user.getRoleId())) {
 	        user.setRoleIdList(Arrays.asList(user.getRoleId().split(",")));
 	    }
-		List<User> users = userService.list(user, page == null ? 1 : page);
+		List<User> users = userService.findUserRole(user, page == null ? 1 : page);
 //    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 //    model.addAttribute("typeNames", typeNames);
 	  Role role = new Role();
