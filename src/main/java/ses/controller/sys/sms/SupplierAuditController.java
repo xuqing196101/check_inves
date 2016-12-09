@@ -18,17 +18,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -36,11 +37,13 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -89,6 +92,12 @@ public class SupplierAuditController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierExtRelateService  supplierExtRelateService;
+	
+	@Autowired
+	private SupplierBranchService supplierBranchService;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	
 	/**
 	 * @Title: daiBan
@@ -212,6 +221,20 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		request.setAttribute("suppliers", supplier);
 		
+		List<SupplierBranch> supplierBranchList= supplierBranchService.findSupplierBranch(supplierId);
+		request.setAttribute("supplierBranchList", supplierBranchList);
+		
+		//地区查询
+		List<Area> privnce = areaService.findRootArea();		
+		Area area = areaService.listById(supplier.getAddress());
+		String sonName = area.getName();
+		request.setAttribute("sonName", sonName);
+		for(int i=0; i<privnce.size(); i++){
+			if(area.getParentId().equals(privnce.get(i).getId())){
+				String parentName = privnce.get(i).getName();
+				request.setAttribute("parentName", parentName);
+			}
+		}
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -586,6 +609,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		User user=(User) request.getSession().getAttribute("loginUser");
 		//更新状态
 		supplier.setId(supplierId);
+		supplier.setAuditDate(new Date());
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
