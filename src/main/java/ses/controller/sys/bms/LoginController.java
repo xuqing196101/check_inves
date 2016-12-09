@@ -203,6 +203,9 @@ public class LoginController {
             if (user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 message.setOrgId(user.getOrg().getId());
             }
+            if (user.getRoles() != null && user.getRoles().size() != 0){
+                message.setRoleIdArray(user.getRoles());
+            }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(message,0);
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
@@ -228,6 +231,9 @@ public class LoginController {
             message.setReceiverId(user.getId());
             if (user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 message.setOrgId(user.getOrg().getId());
+            }
+            if(user.getRoles() != null && user.getRoles().size() !=0){
+                message.setRoleIdArray(user.getRoles());
             }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(message,0);
             req.setAttribute("stationMessage", listStationMessage);

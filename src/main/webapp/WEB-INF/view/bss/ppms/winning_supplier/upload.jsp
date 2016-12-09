@@ -32,11 +32,12 @@
   	            data:$('#form1').serialize(),// 你的formid
   	            async: false,
   	            success: function(data) {
-  	            	
   	                var map =data;
   	                alert(map);
   	                if(map=="SCCUESS"){
-  	                	 window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+//   	                	 window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+  	                 var a=$("#a").attr("href","${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}");
+  	                 a.click();
   	                }else{
   	                  layer.msg("请上传");
   	                }

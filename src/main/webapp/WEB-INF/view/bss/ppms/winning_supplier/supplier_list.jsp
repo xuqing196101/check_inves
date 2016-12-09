@@ -66,6 +66,7 @@
         if(id.length >= 1) {
         	 layer.confirm('确定后将不可修改,是否确定', {title:'提示',offset: ['100px','300px'],shade:0.01}, function(index){
         		   var json='${supplierCheckPassJosn}';
+        		   layer.close(index);
                    $.ajax({
                          type: "post",
                          url:"${pageContext.request.contextPath}/winningSupplier/comparison.do",
@@ -77,23 +78,30 @@
                                window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
                            }else{
                                var iframeWin;
+                               var type=0;
                                    layer.open({
                                          type: 2,
                                          title: '上传',
                                          shadeClose: false,
                                          shade: 0.01,
                                          area: ['367px', '180px'], //宽高
-                                         content: '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&checkPassId='+id,
+                                         content: '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='+id,
                                          success: function(layero, index){
                                              iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
                                            },
                                          btn: ['保存', '关闭'] 
                                              ,yes: function(){
                                                 iframeWin.upload();
+                                                type=1;
                                              }
                                              ,btn2: function(){
-                                               layer.closeAll();
-                                             }
+                                            	 delFileAjax();
+                                             },
+                                          end:function(){
+                                        	  if(type!=1){
+                                        		  delFileAjax();
+                                        	  }
+                                          }
                                        });
                                  }
                              }     
@@ -107,6 +115,26 @@
           });
         }
       }
+      
+      /**ajax 删除文件 **/
+      function delFileAjax(){
+    	  $.ajax({
+              type: "POST",
+              dataType : "json",
+              url:'${pageContext.request.contextPath}/winningSupplier/deleFile.do?packageId=${packageId}',
+              success: function(data) {
+                  var map =data;
+                  alert(map);
+                  if(map=="SCCUESS"){
+                     window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
+                  }else{
+                    layer.msg("请上传");
+                  }
+                  
+              }
+          });
+      }
+      
   </script>
 
   <body>

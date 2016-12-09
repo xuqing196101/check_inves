@@ -118,7 +118,9 @@ public class StationMessageController {
             if (user.getOrg() != null && user.getId() != null){
                 stationMessage.setOrgId(user.getOrg().getId());
             }
-           
+            if(user.getRoles() != null && user.getRoles().size() !=0){
+                stationMessage.setRoleIdArray(user.getRoles());
+            }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage,page==null||"".equals(page)?1:Integer.valueOf(page));
             model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
             model.addAttribute("stationMessage",stationMessage);
