@@ -151,4 +151,15 @@ public interface RoleServiceI {
      * @return 角色列表
      */
     List<Role> selectByUserId(String userId);
+    
+    /**
+     *〈简述〉根据用户id和角色code查询用户角色
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param map 条件参数
+     * @return 角色列表
+     */
+    List<Role> selectByUserIdCode(HashMap<String,Object> map);
+    
+    
 }

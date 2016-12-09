@@ -180,6 +180,6 @@ public interface UserMapper {
      * @param typeId
      * @return
      */
-	User findUserByTypeId(@Param("typeId")String typeId);
+    User findUserByTypeId(@Param("typeId")String typeId);
 	
 }

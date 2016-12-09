@@ -66,7 +66,7 @@ public class PreMenu implements Serializable{
      * 0:采购管理后台 
      * 1：供应商后台 
      * 2：专家后台
-     * 3：进口供应商后台
+     * 3：进口代理商后台
      */
     private Integer kind;
     
