@@ -33,8 +33,7 @@
 		<result column="MAKE_TECH_DATE" jdbcType="DATE" property="makeTechDate" />
 		<result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
 		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
-			property="professTechTitles" />
+		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR" property="professTechTitles" />
 		<result column="TIME_TO_WORK" jdbcType="DATE" property="timeToWork" />
 		<result column="TIME_START_WORK" jdbcType="DATE" property="timeStartWork" />
 		<result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
