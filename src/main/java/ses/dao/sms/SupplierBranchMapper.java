@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierBranch;
 
 public interface SupplierBranchMapper {
@@ -9,7 +11,7 @@ public interface SupplierBranchMapper {
 
     int insertSelective(SupplierBranch record);
 
-    SupplierBranch selectByPrimaryKey(String id);
+    List<SupplierBranch> selectByPrimaryKey(String supplierId);
 
     int updateByPrimaryKeySelective(SupplierBranch record);
 
