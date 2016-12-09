@@ -85,9 +85,10 @@
 		if(id.length==1){
 			var trObj = checktd.parent().parent();
 			var tdArr = trObj.children("td");
-		    var typeNameCode = tdArr.eq(6).find("input").val();
-		    if (typeNameCode == 'SUPPLIER_U' || typeNameCode == 'EXPERT_U' || typeNameCode == 'IMP_SUPPLIER_U' || typeNameCode == 'IMP_AGENT_U') {
-				layer.msg("该类型用户信息不能修改",{offset: ['222px']});
+		    var roleCode = tdArr.eq(6).find("input").val();
+		    //判断：如果该用户拥有供应商、专家（临时专家）、进口供应商、进口代理商中的任何一个角色都不能进行修改操作
+		    if(roleCode.indexOf("SUPPLIER_R") > -1 || roleCode.indexOf("EXPERT_R") > -1 || roleCode.indexOf("EXPERT_TEMP_R") > -1 || roleCode.indexOf("IMP_SUPPLIER_R") > -1 || roleCode.indexOf("IMPORT_AGENT_R") > -1){
+				layer.msg("该（角色）用户不能进行信息修改",{offset: ['222px']});
 			} else {
 				var currPage = ${list.pageNum};
 				window.location.href="${pageContext.request.contextPath}/user/edit.html?id="+id+"&page="+currPage;
@@ -235,22 +236,12 @@
 				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class=""/></span>
 				      </li>
 			    	  <li>
-				    	<label class="fl">用户类型：</label>
+				    	<label class="fl">角色：</label>
 				    	   <span>
-					        <select id="typeName" name="typeName">
+					        <select id="" name="roleId">
 					        	<option value="">请选择</option>
-					        	<c:forEach items="${typeNames}" var="t" varStatus="vs">
-					        		<option value="${t.id}" <c:if test="${t.id eq user.typeName}">selected</c:if>>
-										<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
-										<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
-										<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
-										<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-										<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
-										<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
-										<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
-										<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
-										<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
-					        		</option>
+					        	<c:forEach items="${roles}" var="r" varStatus="vs">
+					        		<option value="${r.id}" >${r.name}</option>
 					        	</c:forEach>
 					        </select>
 					        </span>
@@ -281,7 +272,7 @@
 					  <th class="info">姓名</th>
 					  <th class="info">单位</th>
 					  <th class="info">联系电话</th>
-					  <th class="info">类型</th>
+					  <th class="info">角色</th>
 					</tr>
 		      <thead>
 		      <tbody>
@@ -294,21 +285,18 @@
 					  <td class="tc">${user.org.name}</td>
 					  <td class="tc">${user.mobile}</td>
 					  <td class="tc">
-					  	<c:forEach items="${typeNames}" var="t" varStatus="vs">
-					  		<c:if test="${t.id eq user.typeName}">
-					  			<c:set var="typeNameCode" value="${t.code}"></c:set>
-					  			<c:if test="${'NEED_U' eq t.code}">需求人员</c:if>
-								<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
-								<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
-								<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-								<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
-								<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
-								<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
-								<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
-								<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
-					  		</c:if>
+					  	<c:set var="roleCode" value=""/>
+					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">
+			        		<c:if test="${vs.index == 0 }">
+			        			${r.name}
+			        			<c:set var="roleCode" value="${roleCode}${r.code}"/>
+			        		</c:if>
+			        		<c:if test="${vs.index > 0 }">
+			        			,${r.name}
+			        			<c:set var="roleCode" value="${roleCode},${r.code}"/>
+			        		</c:if>
 			        	</c:forEach>
-			        	<input type="hidden" id="typeName_code" value="${typeNameCode}">
+			        		<input type="hidden" id="role_code" value="${roleCode}">
 					  </td>
 					</tr>
 				</c:forEach>
@@ -323,32 +311,18 @@
 	  	<div class="drop_window">
 	  		  <input type="hidden" name="id" id="userId" >
 			  <ul class="list-unstyled">
-			    <!-- <li class="col-md-6">
-	    	      <span class="col-md-12 padding-left-5"><span class="red">*</span>输入密码</span>
-				  <span class="col-md-12">
-				   <input name="password" value="" class="col-md-12" type="password">
-				  </span>
-	            </li>
-			    <li class="col-md-6">
-	    	      <span class="col-md-12 padding-left-5"><span class="red">*</span>确认密码</span>
-	    	      <span class="col-md-12">
-                   <input name="password2" type="password" class="col-md-12 p0">
-				  </span>
-	            </li> -->
-	            
-	            <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
-                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
-                <div class="col-md-7 col-xs-12 col-sm-12 p0">
-                  <input type="password" name="password" class="">
-                </div>
-              </div>
-              <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
-                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
-                <div class="col-md-7 col-xs-12 col-sm-12 p0">
-                  <input type="password" name="password2"  class="">
-                </div>
-              </div>
-
+	          	  <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
+	                <div class="col-md-7 col-xs-12 col-sm-12 p0">
+	                 	<input type="password" name="password" class="">
+	                </div>
+	              </div>
+	              <div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
+	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
+	                <div class="col-md-7 col-xs-12 col-sm-12 p0">
+	                  <input type="password" name="password2"  class="">
+	                </div>
+	              </div>
 			  </ul>
               <div class="tc">
                 <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
