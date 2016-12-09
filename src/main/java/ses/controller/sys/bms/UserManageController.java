@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +84,9 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(Model model, Integer page, User user) {
+	    if (user.getRoleId() != null && !"".equals(user.getRoleId())) {
+	        user.setRoleIdList(Arrays.asList(user.getRoleId().split(",")));
+	    }
 		List<User> users = userService.list(user, page == null ? 1 : page);
 //    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 //    model.addAttribute("typeNames", typeNames);

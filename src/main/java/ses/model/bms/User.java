@@ -114,6 +114,32 @@ public class User implements Serializable{
     /** 所属角色 */
     private List<Role> roles;
     
+    /**
+     * 角色名称字符串 ,不作数据存储
+     */
+    private String roleNames;
+    
+    /**
+     * 作为参数list 条件查询，不做数据储存
+     */
+    private List<String> roleIdList;
+    
+    public List<String> getRoleIdList() {
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<String> roleIdList) {
+        this.roleIdList = roleIdList;
+    }
+
+    public String getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
+
     /** 校验表单角色不为空  ，不作数据存储 */
     @NotNull(message = "角色不能为空")
     private String roleId;

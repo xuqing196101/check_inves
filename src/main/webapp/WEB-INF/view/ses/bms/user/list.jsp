@@ -241,7 +241,7 @@
 					        <select id="" name="roleId">
 					        	<option value="">请选择</option>
 					        	<c:forEach items="${roles}" var="r" varStatus="vs">
-					        		<option value="${r.id}" >${r.name}</option>
+					        		<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
 					        	</c:forEach>
 					        </select>
 					        </span>

@@ -110,8 +110,11 @@
       <if test="duties != null and duties != ''">
         and u.DUTIES = #{duties} 
       </if>
-      <if test="typeName != null">
-        and u.TYPE_NAME = #{typeName} 
+      <if test="roleIdList != null and roleIdList != '' ">
+            <foreach item="roleIdList" index="index" collection="roleIdList"
+				open="" separator="" close="">
+				and "INSTR"(roleId, #{roleId})>0
+			</foreach>
       </if>
       <if test="typeId != null and typeId != ''">
         and u.TYPE_ID = #{typeId}
@@ -366,12 +369,39 @@
   </select>
   
   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+<!--   <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_USER u
     <include refid="Example_Where_Clause"/>
     ORDER BY u.CREATED_AT DESC
+  </select> -->
+  
+  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+	SELECT
+		*
+		FROM
+			"JDCG"."T_SES_BMS_USER" u
+		LEFT JOIN (
+			SELECT
+				ID,
+				wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
+			FROM
+				(
+					SELECT
+						u. ID,
+	          t2.role_id as roleId,
+						T3.name AS roleName
+					FROM
+						"JDCG"."T_SES_BMS_USER" u
+					LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
+		      LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.id
+				)
+			GROUP BY
+				ID
+		) t2 ON u. ID = t2. ID
+		 <include refid="Example_Where_Clause"/>
+	    ORDER BY CREATED_AT DESC
   </select>
   
   <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
