@@ -181,5 +181,14 @@ public interface UserMapper {
      * @return
      */
     User findUserByTypeId(@Param("typeId")String typeId);
+    
+    /**
+     *〈简述〉用户列表
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param user 用户实体
+     * @return List<User>
+     */
+    List<User> findUserRole(User user);
 	
 }

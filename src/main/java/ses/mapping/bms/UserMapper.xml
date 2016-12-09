@@ -369,15 +369,15 @@
   </select>
   
   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-<!--   <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+   <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_USER u
     <include refid="Example_Where_Clause"/>
     ORDER BY u.CREATED_AT DESC
-  </select> -->
+  </select>
   
-  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+  <select id="findUserRole" resultMap="UserBaseMap" parameterType="Object">
 	SELECT
 		*
 		FROM
