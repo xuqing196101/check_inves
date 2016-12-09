@@ -5,221 +5,239 @@
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-<title>标书管理</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<script type="text/javascript">
-	 $(function addTotal(){
-    	var allTable=document.getElementsByTagName("table");
-		for(var i=0;i<allTable.length;i++){
-		    var totalMoney=0;
-			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
-				  var num= $(allTable[i].rows).eq(j).find("td").eq("5").text();
-		          var price= $(allTable[i].rows).eq(j).find("td").eq("6").text();
-		          var total= $(allTable[i].rows).eq(j).find("td").eq("7").text();
-		          if(price==""||price.trim()==""){
-		          	continue;
-		          } else{
-		          	 totalMoney+=parseFloat(price*num);
-		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
-		          }
-		    } 
-		}
-    });
-    	function OpenFile() {
-		var obj = document.getElementById("TANGER_OCX");
-		obj.Menubar = true;
-		obj.Caption = "( 双击可放大 ! )";
-	}
-	
-	function queryVersion(){
-		var obj = document.getElementById("TANGER_OCX");
-		var v = obj.GetProductVerString();
-		obj.ShowTipMessage("当前ntko版本",v);
-	}
-	
-	function inputTemplete(){
-		var obj = document.getElementById("TANGER_OCX");
-	}
-	
-	function saveFile(){
-		var obj = document.getElementById("TANGER_OCX");
-		var s = obj.GetBookmarkValue("书签");
-		alert(s);
-	}
-	
-	function closeFile(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.close();
-	}
-	
-	//标记
-	function mark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Add("标记");
-	}	
-	
-	//获取标记内容并且定位
-	function searchMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		//判断标记是否存在
-		if(obj.ActiveDocument.Bookmarks.Exists("标记")){}
-		alert(obj.GetBookmarkValue("标记"));
-		//alert(obj.ActiveDocument.GetCurPageStart());
-		//定位到书签内容
-		obj.ActiveDocument.Bookmarks.Item("标记").Select();
-		//alert(obj.ActiveDocument.GetPagesCount());
-	}
-	
-	//删除标记
-	function delMark(){
-		var obj = document.getElementById("TANGER_OCX");
-		obj.ActiveDocument.BookMarks.Item("标记").Delete();
-	}
-	
-	function add(){
-    	 var id=[]; 
-    	 var packageName=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(4).text();
-    	 var packageId=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(4).attr("id");
-    	 packageName=encodeURI(packageName);
-         packageName=encodeURI(packageName);
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-				window.location.href="${pageContext.request.contextPath}/mulQuo/baojia.html?id="+id+"&packageName="+packageName+"&packageId="+packageId;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['122px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要报价的项目",{offset: ['122px', '390px'], shade:0.01});
-		}
-    }
-    const ONE="1";
-    const FIVE="5";
-	const SIX="6";
-	const SEVEN="7";
-	const EIGHT="8";
-	const NINE="9";	
-	
-    function addTotal(){
-    	var allTable=document.getElementsByTagName("table");
-		for(var i=0;i<allTable.length;i++){
-		    var totalMoney=0;
-			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
-				  var num= $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
-		          var price= $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
-		          var reg= /^\d+\.?\d*$/;  
-					if(!reg.exec(price)){
-						$(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val('');
-						return;
+
+	<head>
+		<title>标书管理</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<script type="text/javascript">
+			$(function addTotal() {
+				var allTable = document.getElementsByTagName("table");
+				for(var i = 0; i < allTable.length; i++) {
+					var totalMoney = 0;
+					for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
+						var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
+						var price = $(allTable[i].rows).eq(j).find("td").eq("6").text();
+						var total = $(allTable[i].rows).eq(j).find("td").eq("7").text();
+						if(price == "" || price.trim() == "") {
+							continue;
+						} else {
+							totalMoney += parseFloat(price * num);
+							$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
+						}
 					}
-		          var total= $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
-		          if(price==""||price.trim()==""){
-		          	continue;
-		          } else{
-		          	 $(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price*num).toFixed(2));
-		          	 totalMoney+=parseFloat(price*num);
-		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq(ONE).text(parseFloat(totalMoney).toFixed(2));
-		          };
-		    } ;
-		};
-    };
-	function eachTable(){
-		var allTable=document.getElementsByTagName("table");
-		var priceStr="";
-		var error=0;
-		for(var i=0;i<allTable.length;i++){
-			for (var j = 1; j < allTable[i].rows.length-1; j++) {    //遍历Table的所有Row
-				  var num= $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
-		          var price= $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
-		          var total= $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
-		          var deliveryTime= $(allTable[i].rows).eq(j).find("td").eq(EIGHT).find("input").val();
-		          var remark= $(allTable[i].rows).eq(j).find("td").eq(NINE).find("input").val();
-		          if(remark==""||remark.trim()==""){
-		          		remark=null;
-		          }
-		          if(deliveryTime==""){
-		          		layer.msg("页签"+(i+1)+",表格第"+(j+1)+"行,交货时间未填写");
-		          		return;
-		          }
-		          if(price==""||price.trim()==""){
-		          	layer.msg("页签"+(i+1)+",表格第"+(j+1)+"行,未报价");
-		          	return;
-		          	error++;
-		          } else{
-		          	priceStr+=price+","+total+","+deliveryTime+","+remark+",";
-		          };
-		    } ;
-		}
-		if(error==0){
-			$("#priceStr").val(priceStr);
-			form.submit();
-		};
-	}
-	
-	function showQuoteHistory(data){
-	    var projectId=$("#projectId").val();
-		location.href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?timestamp="+data+"&projectId="+projectId;
-	}
-</script>
-</head>
-<body onload="OpenFile()">
-	<div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">我的项目</a></li><li><a href="#">标书管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-    </div>
-    <div class="container clear mt20">
-   		<div class="list-unstyled padding-10 breadcrumbs-v3">
-   		<input id="projectId" name="projectId" value="${project.id }" type="hidden" />
-		    <span>
+				}
+			});
+
+			function OpenFile() {
+				var obj = document.getElementById("TANGER_OCX");
+				obj.Menubar = true;
+				obj.Caption = "( 双击可放大 ! )";
+			}
+
+			function queryVersion() {
+				var obj = document.getElementById("TANGER_OCX");
+				var v = obj.GetProductVerString();
+				obj.ShowTipMessage("当前ntko版本", v);
+			}
+
+			function inputTemplete() {
+				var obj = document.getElementById("TANGER_OCX");
+			}
+
+			function saveFile() {
+				var obj = document.getElementById("TANGER_OCX");
+				var s = obj.GetBookmarkValue("书签");
+				alert(s);
+			}
+
+			function closeFile() {
+				var obj = document.getElementById("TANGER_OCX");
+				obj.close();
+			}
+
+			//标记
+			function mark() {
+				var obj = document.getElementById("TANGER_OCX");
+				obj.ActiveDocument.BookMarks.Add("标记");
+			}
+
+			//获取标记内容并且定位
+			function searchMark() {
+				var obj = document.getElementById("TANGER_OCX");
+				//判断标记是否存在
+				if(obj.ActiveDocument.Bookmarks.Exists("标记")) {}
+				alert(obj.GetBookmarkValue("标记"));
+				//alert(obj.ActiveDocument.GetCurPageStart());
+				//定位到书签内容
+				obj.ActiveDocument.Bookmarks.Item("标记").Select();
+				//alert(obj.ActiveDocument.GetPagesCount());
+			}
+
+			//删除标记
+			function delMark() {
+				var obj = document.getElementById("TANGER_OCX");
+				obj.ActiveDocument.BookMarks.Item("标记").Delete();
+			}
+
+			function add() {
+				var id = [];
+				var packageName = $('input[name="chkItem"]:checked').parent().parent().children("td").eq(4).text();
+				var packageId = $('input[name="chkItem"]:checked').parent().parent().children("td").eq(4).attr("id");
+				packageName = encodeURI(packageName);
+				packageName = encodeURI(packageName);
+				$('input[name="chkItem"]:checked').each(function() {
+					id.push($(this).val());
+				});
+				if(id.length == 1) {
+					window.location.href = "${pageContext.request.contextPath}/mulQuo/baojia.html?id=" + id + "&packageName=" + packageName + "&packageId=" + packageId;
+				} else if(id.length > 1) {
+					layer.alert("只能选择一个", {
+						offset: ['122px', '390px'],
+						shade: 0.01
+					});
+				} else {
+					layer.alert("请选择需要报价的项目", {
+						offset: ['122px', '390px'],
+						shade: 0.01
+					});
+				}
+			}
+			const ONE = "1";
+			const FIVE = "5";
+			const SIX = "6";
+			const SEVEN = "7";
+			const EIGHT = "8";
+			const NINE = "9";
+
+			function addTotal() {
+				var allTable = document.getElementsByTagName("table");
+				for(var i = 0; i < allTable.length; i++) {
+					var totalMoney = 0;
+					for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
+						var num = $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
+						var price = $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+						var reg = /^\d+\.?\d*$/;
+						if(!reg.exec(price)) {
+							$(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val('');
+							return;
+						}
+						var total = $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
+						if(price == "" || price.trim() == "") {
+							continue;
+						} else {
+							$(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price * num).toFixed(2));
+							totalMoney += parseFloat(price * num);
+							$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq(ONE).text(parseFloat(totalMoney).toFixed(2));
+						};
+					};
+				};
+			};
+
+			function eachTable() {
+				var allTable = document.getElementsByTagName("table");
+				var priceStr = "";
+				var error = 0;
+				for(var i = 0; i < allTable.length; i++) {
+					for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
+						var num = $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
+						var price = $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
+						var total = $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
+						var deliveryTime = $(allTable[i].rows).eq(j).find("td").eq(EIGHT).find("input").val();
+						var remark = $(allTable[i].rows).eq(j).find("td").eq(NINE).find("input").val();
+						if(remark == "" || remark.trim() == "") {
+							remark = null;
+						}
+						if(deliveryTime == "") {
+							layer.msg("页签" + (i + 1) + ",表格第" + (j + 1) + "行,交货时间未填写");
+							return;
+						}
+						if(price == "" || price.trim() == "") {
+							layer.msg("页签" + (i + 1) + ",表格第" + (j + 1) + "行,未报价");
+							return;
+							error++;
+						} else {
+							priceStr += price + "," + total + "," + deliveryTime + "," + remark + ",";
+						};
+					};
+				}
+				if(error == 0) {
+					$("#priceStr").val(priceStr);
+					form.submit();
+				};
+			}
+
+			function showQuoteHistory(data) {
+				var projectId = $("#projectId").val();
+				location.href = "${pageContext.request.contextPath}/mulQuo/quoteHistory.html?timestamp=" + data + "&projectId=" + projectId;
+			}
+		</script>
+	</head>
+
+	<body onload="OpenFile()">
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#"> 首页</a>
+					</li>
+					<li>
+						<a href="#">我的项目</a>
+					</li>
+					<li>
+						<a href="#">标书管理</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="container clear mt20">
+			<div class="list-unstyled padding-10 breadcrumbs-v3">
+				<input id="projectId" name="projectId" value="${project.id }" type="hidden" />
+				<span>
 		    	<c:if test="${std.bidFinish == 0}">
 				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v2 orange_link">编制标书</a>
 				  <span class="green_link">→</span>
-		    	</c:if>
-		    	<c:if test="${std.bidFinish != 0}">
-				  <a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
-				  <span class="">→</span>
-		    	</c:if>
-			</span>
-			<span>
+				</c:if>
+				<c:if test="${std.bidFinish != 0}">
+					<a href="${pageContext.request.contextPath}/supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
+					<span class="">→</span>
+				</c:if>
+				</span>
+				<span>
 				<c:if test="${std.bidFinish == 1}">
 				  <a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v2 orange_link">绑定指标</a>
 				  <span class="green_link">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 2 || std.bidFinish == 3 || std.bidFinish == 4}">
-				  <a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
-				  <span class="">→</span>
+					<a href="${pageContext.request.contextPath}/supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
+					<span class="">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 0}">
-				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">绑定指标</a>
-				  <span class="">→</span>
+					<a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">绑定指标</a>
+					<span class="">→</span>
 				</c:if>
-			</span>
-			<span>
+				</span>
+				<span>
 				<c:if test="${std.bidFinish == 2 }">
 				  <a href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?projectId=${project.id}"  class="img-v2 orange_link">填写报价</a>
 				  <span class="green_link">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 0}">
-				  <a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">填写报价</a>
-				  <span class="">→</span>
+					<a href="javascript:void(0);" onclick="tishi('请先编制保存标书到服务器');" class="img-v3">填写报价</a>
+					<span class="">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 1}">
-				  <a href="javascript:void(0);" onclick="tishi('请先绑定指标');" class="img-v3">填写报价</a>
-				  <span class="">→</span>
+					<a href="javascript:void(0);" onclick="tishi('请先绑定指标');" class="img-v3">填写报价</a>
+					<span class="">→</span>
 				</c:if>
 				<c:if test="${std.bidFinish == 3 || std.bidFinish == 4}">
-				  <a href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?projectId=${project.id}" class="img-v1">填写报价</a>
-				  <span class="">→</span>
+					<a href="${pageContext.request.contextPath}/mulQuo/quoteHistory.html?projectId=${project.id}" class="img-v1">填写报价</a>
+					<span class="">→</span>
 				</c:if>
-			</span>
-		    <span>
+				</span>
+				<span>
 		    	<c:if test="${std.bidFinish == 3 }">
 			  		<a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}" class="img-v2  orange_link">完成</a>
 		    	</c:if>
@@ -236,136 +254,141 @@
 				  <a href="${pageContext.request.contextPath}/supplierProject/result.html?projectId=${project.id}"  class="img-v1">完成</a>
 				</c:if>
 			</span>
-   		</div>
-  	</div>
-     <!-- 项目戳开始 -->
-  <div class="container clear">
-  <!--详情开始-->
-    <div class="row magazine-page">
-      <div class="col-md-12 tab-v2 job-content">
-        <div class="padding-top-10">
-          <ul class="nav nav-tabs bgdd">
-          <c:forEach items="${listPackage }"  var="obj" varStatus="vs" >
-		     <c:if test="${vs.index==0 }">
-		     	<li class="active">
-		     		<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }" >
-		     			<c:choose>
-		     				<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
-		     				<c:otherwise>${obj.name}</c:otherwise>
-		     			</c:choose>
-		     		</a>
-		     	</li>
-		     </c:if>
-		     <c:if test="${vs.index>0 }">
-		     	<li class="">
-		     		<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }" >
-		     			<c:choose>
-		     				<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
-		     				<c:otherwise>${obj.name}</c:otherwise>
-		     			</c:choose>
-		     		</a>
-		    	 </li>
-		      </c:if>
-		  </c:forEach>
-          </ul>
-            <div class="tab-content">
-             <c:forEach items="${listQuote }" var="listQuote1" varStatus="vs" >
-                  <c:choose>
-                  		<c:when test="${vs.index==0 }">
-	                  		<div class="tab-pane fade active in height-450" id="tab-${vs.index+1 }">
-									<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
-							        <thead>
-							        <tr>
-							          <th class="info w50">序号</th>
-							          <th class="info">物资名称</th>
-							          <th class="info">规格型号</th>
-							          <th class="info">质量技术标准</th>
-							          <th class="info">计量单位</th>
-							          <th class="info">采购数量</th>
-							          <th class="info">单价（元）</th>
-							          <th class="info">小计</th>
-							          <th class="info">交货时间</th>
-							          <th class="info">备注</th>
-							        </tr>
-							        </thead>
-							          <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
-							            <tr class="hand">
-							              <td class="tc w50">${lq.projectDetail.serialNumber }</td>
-							              <td class="tc">${lq.projectDetail.goodsName }</td>
-							              <td class="tc">${lq.projectDetail.stand }</td>
-							              <td class="tc">${lq.projectDetail.qualitStand }</td>
-							              <td class="tc">${lq.projectDetail.item }</td>
-							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
-							              <td class="tc">${lq.quotePrice }</td>
-							              <td class="tc">${lq.total }</td>
-							              <td class="tc"><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd"/></td>
-							              <td class="tc">${lq.remark }</td>
-							            </tr>
-							         </c:forEach>  
-							         <tr>
-							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
-							         	<td class="tl" colspan="8"></td>
-							         </tr>
-							      </table>
-		                    </div>
-                  		</c:when>
-                  		<c:otherwise>
-                  		  <div class="tab-pane fade in height-450" id="tab-${vs.index+1 }">
-									<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
-							        <thead>
-							        <tr>
-							          <th class="info w50">序号</th>
-							          <th class="info">物资名称</th>
-							          <th class="info">规格型号</th>
-							          <th class="info">质量技术标准</th>
-							          <th class="info">计量单位</th>
-							          <th class="info">采购数量</th>
-							          <th class="info">报价金额</th>
-							          <th class="info">报价小计</th>
-							          <th class="info">交货时间</th>
-							          <th class="info">备注</th>
-							        </tr>
-							        </thead>
-							           <c:forEach items="${listQuote1}" var="lq" varStatus="vs">
-							            <tr class="hand">
-							              <td class="tc w50">${lq.projectDetail.serialNumber }</td>
-							              <td class="tc">${lq.projectDetail.goodsName }</td>
-							              <td class="tc">${lq.projectDetail.stand }</td>
-							              <td class="tc">${lq.projectDetail.qualitStand }</td>
-							              <td class="tc">${lq.projectDetail.item }</td>
-							              <td class="tc">${lq.projectDetail.purchaseCount }</td>
-							              <td class="tc">${lq.quotePrice }</td>
-							              <td class="tc">${lq.total }</td>
-							              <td class="tc"><fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd"/></td>
-							              <td class="tc">${lq.remark }</td>
-							            </tr>
-							         </c:forEach>  
-							         <tr>
-							         	<td class="tr" colspan="2"><b>总金额(元):</b></td>
-							         	<td class="tl" colspan="8"></td>
-							         </tr>
-							      </table>
-	                 	  </div>
-                  		</c:otherwise>
-                  </c:choose>
-		     </c:forEach>
-              </div>
-          </div>
-      </div>
-    </div>
-    
-</div>
-   <div class=" tc col-md-12">
-       <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-       <span >报价历史查看：</span>
-	  	<select>
-	  	    <c:if test="${empty listDate }">
-	  	    <option value=''>暂无报价历史</option>
-	  	    </c:if>
-	  	    <c:forEach items="${listDate }" var="ld" varStatus="vs">
-	  	    	<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>')" >第${vs.index+1 }次报价</option>
-	  	    </c:forEach>
-	  	</select>
-	</div>
-</body>
+			</div>
+		</div>
+		<!-- 项目戳开始 -->
+		<div class="container clear">
+			<!--详情开始-->
+			<div class="row magazine-page">
+				<div class="col-md-12 tab-v2 job-content">
+					<div class="padding-top-10">
+						<ul class="nav nav-tabs bgdd">
+							<c:forEach items="${listPackage }" var="obj" varStatus="vs">
+								<c:if test="${vs.index==0 }">
+									<li class="active">
+										<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }">
+											<c:choose>
+												<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
+												<c:otherwise>${obj.name}</c:otherwise>
+											</c:choose>
+										</a>
+									</li>
+								</c:if>
+								<c:if test="${vs.index>0 }">
+									<li class="">
+										<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }">
+											<c:choose>
+												<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
+												<c:otherwise>${obj.name}</c:otherwise>
+											</c:choose>
+										</a>
+									</li>
+								</c:if>
+							</c:forEach>
+						</ul>
+						<div class="tab-content">
+							<c:forEach items="${listQuote }" var="listQuote1" varStatus="vs">
+								<c:choose>
+									<c:when test="${vs.index==0 }">
+										<div class="tab-pane fade active in height-450" id="tab-${vs.index+1 }">
+											<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
+												<thead>
+													<tr>
+														<th class="info w50">序号</th>
+														<th class="info">物资名称</th>
+														<th class="info">规格型号</th>
+														<th class="info">质量技术标准</th>
+														<th class="info">计量单位</th>
+														<th class="info">采购数量</th>
+														<th class="info">单价（元）</th>
+														<th class="info">小计</th>
+														<th class="info">交货时间</th>
+														<th class="info">备注</th>
+													</tr>
+												</thead>
+												<c:forEach items="${listQuote1}" var="lq" varStatus="vs">
+													<tr class="hand">
+														<td class="tc w50">${lq.projectDetail.serialNumber }</td>
+														<td class="tc">${lq.projectDetail.goodsName }</td>
+														<td class="tc">${lq.projectDetail.stand }</td>
+														<td class="tc">${lq.projectDetail.qualitStand }</td>
+														<td class="tc">${lq.projectDetail.item }</td>
+														<td class="tc">${lq.projectDetail.purchaseCount }</td>
+														<td class="tc">${lq.quotePrice }</td>
+														<td class="tc">${lq.total }</td>
+														<td class="tc">
+															<fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd" />
+														</td>
+														<td class="tc">${lq.remark }</td>
+													</tr>
+												</c:forEach>
+												<tr>
+													<td class="tr" colspan="2"><b>总金额(元):</b></td>
+													<td class="tl" colspan="8"></td>
+												</tr>
+											</table>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="tab-pane fade in height-450" id="tab-${vs.index+1 }">
+											<table id="tb${vs.index }" class="table table-bordered table-condensed mt5">
+												<thead>
+													<tr>
+														<th class="info w50">序号</th>
+														<th class="info">物资名称</th>
+														<th class="info">规格型号</th>
+														<th class="info">质量技术标准</th>
+														<th class="info">计量单位</th>
+														<th class="info">采购数量</th>
+														<th class="info">报价金额</th>
+														<th class="info">报价小计</th>
+														<th class="info">交货时间</th>
+														<th class="info">备注</th>
+													</tr>
+												</thead>
+												<c:forEach items="${listQuote1}" var="lq" varStatus="vs">
+													<tr class="hand">
+														<td class="tc w50">${lq.projectDetail.serialNumber }</td>
+														<td class="tc">${lq.projectDetail.goodsName }</td>
+														<td class="tc">${lq.projectDetail.stand }</td>
+														<td class="tc">${lq.projectDetail.qualitStand }</td>
+														<td class="tc">${lq.projectDetail.item }</td>
+														<td class="tc">${lq.projectDetail.purchaseCount }</td>
+														<td class="tc">${lq.quotePrice }</td>
+														<td class="tc">${lq.total }</td>
+														<td class="tc">
+															<fmt:formatDate value="${lq.deliveryTime }" pattern="YYYY-MM-dd" />
+														</td>
+														<td class="tc">${lq.remark }</td>
+													</tr>
+												</c:forEach>
+												<tr>
+													<td class="tr" colspan="2"><b>总金额(元):</b></td>
+													<td class="tl" colspan="8"></td>
+												</tr>
+											</table>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class=" tc col-md-12">
+			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+			<span>报价历史查看：</span>
+			<select>
+				<c:if test="${empty listDate }">
+					<option value=''>暂无报价历史</option>
+				</c:if>
+				<c:forEach items="${listDate }" var="ld" varStatus="vs">
+					<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>' onclick="showQuoteHistory('<fmt:formatDate value=" ${ld} " pattern="YYYY-MM-dd HH:mm:ss "/>')">第${vs.index+1 }次报价</option>
+				</c:forEach>
+			</select>
+		</div>
+	</body>
+
 </html>
