@@ -398,30 +398,27 @@
 			<div class="headline-v2">
 				<h2>供应商数量统计</h2>
 			</div>
-			<h2 class="search_detail">
+			<div class="search_detail">
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
 		          <li>
-		            <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+		            <label class="fl">供应商名称：</label>
+		            <input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text">
 		          </li>
 		          <li>
-		            <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
+		            <label class="fl">注册时间：</label>
+						<input id="startDate" name="startDate" class="Wdate w100 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
                         onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                         <span class="f14">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-                        </span>
+                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
 		          </li>
 		          <li>
-		            <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
+		            <label class="fl">联系人：</label>
+					<input id="contactName" name="contactName" value="${supplier.contactName }" type="text">
 		          </li> 
-		          <li>
-                         <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-                         <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-                  </li>
                   <li>
 		            <label class="fl">供应商状态：</label>
-		            <span>
 		              <select id="status" name="status">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="-1">暂存、未提交</option>
@@ -431,15 +428,19 @@
                                     <option  value="3">复审通过</option>
                                     <option  value="4">复审不通过</option>
                        </select>
-		            </span>
 		          </li>
 		          <li>
-                    <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
-                           <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
+                         <label class="fl">供应商类型：</label>
+						 <input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+                         <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" />
+                  </li>
+		          <li>
+                    <label class="fl">品目：</label>
+					<input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
+                    <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   />
                   </li>
                    <li>
 		            <label class="fl">供应商级别：</label>
-		            <span>
 		              <select id="score" name="score">
                                     <option  selected="selected" value=''>-请选择-</option>
                                     <option  value="1">一级</option>
@@ -448,7 +449,6 @@
                                     <option  value="4">四级</option>
                                     <option  value="5">五级</option>
                        </select>
-		            </span>
 		          </li>
 		        </ul>
 		        <div class="col-md-12 clear tc mt10">
@@ -457,7 +457,7 @@
 	            </div>
 	            <div class="clear"></div>
 		     </form>
-     </h2>
+     </div>
 			<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 		</div>
 	</body>
