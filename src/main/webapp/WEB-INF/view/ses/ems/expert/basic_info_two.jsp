@@ -15,27 +15,18 @@ session.setAttribute("tokenSession", tokenValue);
 <script type="text/javascript">
 	
 	$(function(){
+		var typeIds = "${expert.expertsTypeId}";
+		var ids = typeIds.split(",");
 		//回显已选产品
-		var id="${expert.id}";
-		var count=0;
-		$.ajax({
-			url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-			async:false,
-			dataType:"json",
-			success:function(code){
-				var checklist = document.getElementsByName("chkItem");
-				for(var i=0;i<checklist.length;i++){
-					var vals=checklist[i].value;
-					if(code.length>0){
-						$.each(code,function(j,result){
-							if(vals==result){
-						 		checklist[i].checked=true;
-						 	}
-						});
-					} 
+		var checklist = document.getElementsByName("chkItem");
+		for(var i=0;i<checklist.length;i++){
+			var vals=checklist[i].value;
+			for (var j = 0; j < ids.length; j++) {
+				if (ids[j] == vals) {
+					checklist[i].checked = true;
 				}
-			}
-		});
+			}	
+		}
 	}); 
 	
 	function submitformExpert(){
@@ -100,14 +91,14 @@ session.setAttribute("tokenSession", tokenValue);
 	function getChildren(){
 		var checklist = document.getElementsByName ("chkItem");
 		var count=0;
-		var ids="";
+		var ids=new Array();
 		for(var i=0;i<checklist.length;i++){
 	 		var vals=checklist[i].value;
 	 		if(checklist[i].checked){
-	 			ids = ids + vals + ",";
+	 			ids.push(vals);
 	 		}
 		} 
-	    $("#categoryId").val(ids);
+	    $("#expertsTypeId").val(ids);
 	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
@@ -172,6 +163,15 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
+	//判断专家类型
+	function validateType(){
+		var categoryId = $("#expertsTypeId").val();
+		if(categoryId == ""){
+			layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
+			return false;
+		}
+		return true;
+	}
 </script>
 </head>
 <body>
@@ -199,14 +199,16 @@ session.setAttribute("tokenSession", tokenValue);
   <input type="hidden" value="${errorMap.mobile2}" id="error15">
   <input type="hidden" value="${errorMap.idNumber2}" id="error16">
   <input type="hidden" id="categoryId" name="categoryId" value=""/>
+  <input type="hidden" id="expertsTypeId" name="expertsTypeId" value=""/>
   <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
 		<div id="reg_box_id_4" class="container clear margin-top-30 yinc">
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl" onclick="tab3('${expert.purchaseDepId}')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab4('${expert.purchaseDepId}','${att}')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
-				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl" onclick="tab5('${expert.purchaseDepId}','${att}')"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<span id="ty6" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
+				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
+				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
+				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">

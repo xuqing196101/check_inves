@@ -20,6 +20,49 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
+	$(function(){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
+			data:{"expertId":$("#id").val()},
+			async:false,
+			dataType:"json",
+			success:function(response){
+				$.each(response,function(i, result){
+					var id = result.id;
+					var zTreeObj;
+					var zNodes;
+					var setting = {
+						async: {
+							autoParam: ["id"],
+							enable: true,
+							url: "${pageContext.request.contextPath}/expert/getCategory.do",
+							otherParam: {
+								categoryIds: id,
+							},
+							dataType: "json",
+							type: "post"
+						},
+						check: {
+							enable: true,
+							chkboxType: {
+								"Y": "s",
+								"N": "s"
+							}
+						},
+						data: {
+							simpleData: {
+								enable: true,
+								idKey: "id",
+								pIdKey: "parentId"
+							}
+						}
+					};
+					zTreeObj = $.fn.zTree.init($("#tab-" + (parseInt(i) + 1)), setting, zNodes);
+				});
+				$("#tab-1").attr("style", "");
+			}
+		});
+	});
 	function showTree(tabId) {
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
@@ -41,9 +84,6 @@ session.setAttribute("tokenSession", tokenValue);
 					"Y": "s",
 					"N": "s"
 				}
-			},
-			callback: {
-				
 			},
 			data: {
 				simpleData: {
@@ -67,17 +107,61 @@ function showDivTree(obj){
 	showTree(page);
 }
 function zancunCategory(count){
-	var nodes;
-	alert(count);
+	var ids = new Array();
 	for (var i = 1; i <= count; i++) {
 		var id = "tab-" + i;
 		var tree = $.fn.zTree.getZTreeObj(id);
-		nodes = nodes + tree.getCheckedNodes(true);
+		nodes = tree.getCheckedNodes(true);
+		for (var j = 0; j < nodes.length; j++) {
+			if (!nodes[j].isParent) {
+				ids.push(nodes[j].id);
+			}
+		}
 	}
+	$("#categoryId").val(ids);
+	zancunMsg();
+}
+// 有提示msg暂存
+function zancunMsg(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/expert/zanCun.do",
+		data:$("#formExpert").serialize(),
+		type: "post",
+		async: true,
+		success:function(result){
+			$("#id").val(result.id);
+			layer.msg("已暂存");
+		}
+	});
+}
+// 无提示暂存
+function zancun(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/expert/zanCun.do",
+		data:$("#formExpert").serialize(),
+		type: "post",
+		async: true,
+		success:function(result){
+			window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+		}
+	});
+}
+function pre(){
+	updateStepNumber("two");
+	window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+}
+function one(){
+	updateStepNumber("one");
+	window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+}
+function fun1(){
+	updateStepNumber("three");
+	zancun();
 }
 </script>
 </head>
 <body>
+<form method="post" action="">
   <jsp:include page="/index_head.jsp"></jsp:include>
   <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
   <input type="hidden" name="userId" value="${user.id}"/>
@@ -105,8 +189,8 @@ function zancunCategory(count){
   <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
   <div id="reg_box_id_4" class="container clear margin-top-30 yinc">
     <h2 class="padding-20 mt40">
-	  <span id="ty1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	  <span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	  <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+	  <span id="ty2" class="new_step current fl" onclick="pre()"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
 	  <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 	  <span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
 	  <span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
@@ -128,7 +212,6 @@ function zancunCategory(count){
 			</c:if>
 		  </c:forEach>
 		</ul>
-		<form method="post" action="">
 		  <c:set var="count" value="0"></c:set>
 		  <div class="tag-box tag-box-v3 center" id="content_ul_id">
 		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
@@ -149,7 +232,6 @@ function zancunCategory(count){
 			  </c:if>
 		    </c:forEach>
 		  </div>
-		</form>
 	  </div>
 	</div>  
 	<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
@@ -161,5 +243,6 @@ function zancunCategory(count){
   <div></div>
 </form>
 <jsp:include page="/index_bottom.jsp"></jsp:include>
+</form>
 </body>
 </html>

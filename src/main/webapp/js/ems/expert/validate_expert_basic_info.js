@@ -1,13 +1,3 @@
-
-//判断专家类型
-function validateType(){
-	var categoryId = $("#categoryId").val();
-	if(categoryId == ""){
-		layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
-		return false;
-	}
-	return true;
-}
 //判断采购机构
 function validateJiGou(){
 	 var jigou = document.getElementsByName("purchaseDepId");

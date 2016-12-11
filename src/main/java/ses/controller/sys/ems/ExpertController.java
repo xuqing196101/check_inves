@@ -410,7 +410,11 @@ public class ExpertController {
      */
     public void showCategory(Expert expert, Model model){
         List<DictionaryData> allCategoryList = new ArrayList<DictionaryData>();
-        List<String> allTypeId = expertCategoryService.getListByExpertId(expert.getId());
+        // 获取专家类别
+        List<String> allTypeId = new ArrayList<String>();
+        for (String id : expert.getExpertsTypeId().split(",")) {
+            allTypeId.add(id);
+        }
         a:for (int i = 0; i < allTypeId.size(); i++ ) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
             if (dictionaryData.getName().contains("经济")) {
@@ -444,6 +448,40 @@ public class ExpertController {
             }
         }
         return JSON.toJSONString(allList);
+    }
+    
+    @RequestMapping(value = "getAllCategory", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getAllCategory(String expertId){
+        Expert expert = service.selectByPrimaryKey(expertId);
+        List<DictionaryData> allCategoryList = new ArrayList<DictionaryData>();
+        List<String> allTypeId = new ArrayList<String>();
+        for (String id : expert.getExpertsTypeId().split(",")) {
+            allTypeId.add(id);
+        }
+        a:for (int i = 0; i < allTypeId.size(); i++ ) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+            if (dictionaryData.getName().contains("经济")) {
+                allTypeId.remove(i);
+                continue a;
+            };
+            allCategoryList.add(dictionaryData);
+        }
+        return JSON.toJSONString(allCategoryList);
+    }
+    
+    /**
+     *〈简述〉
+     * 品目的暂存
+     *〈详细描述〉
+     * @author Dell
+     * @param id
+     * @param categoryIds
+     */
+    @ResponseBody
+    @RequestMapping("zanCunCategory")
+    public void zanCunCategory(String id, String categoryIds){
+        
     }
     
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")

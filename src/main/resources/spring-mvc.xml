@@ -59,6 +59,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/getCategoryByExpertId.*" />
  			<mvc:exclude-mapping path="/expert/getPurDepIdByExpertId.*" />
  			<mvc:exclude-mapping path="/expert/getCategory.*" />
+ 			<mvc:exclude-mapping path="/expert/getAllCategory.*" />
  			<mvc:exclude-mapping path="/expert/showJiGou.*" />
  			<mvc:exclude-mapping path="/expert/findAllLoginName.*" />
  			<mvc:exclude-mapping path="/expert/validatePhone.*" />

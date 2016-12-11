@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageHelper;
-
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
@@ -26,6 +24,7 @@ import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
@@ -33,11 +32,13 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
+import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpertService;
-import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
+
+import com.github.pagehelper.PageHelper;
 
 
 @Service("expertService")
@@ -57,6 +58,8 @@ public class ExpertServiceImpl implements ExpertService {
 	private TodosMapper todosMapper;
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	@Autowired
+    private RoleServiceI roleService;
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -242,10 +245,12 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
 	public void editBasicInfo(Expert expert,User user){
     	//判断用户的类型为专家类型
-    	String typeName = user.getTypeName();
-    	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeName);
-    	
-    	if(user!=null && "EXPERT_U".equals(data.getCode())){
+        HashMap<String, Object> expertMap = new HashMap<String, Object>();
+        expertMap.put("userId", user.getId());
+        expertMap.put("code", "EXPERT_R");
+        List<Role> ers = roleService.selectByUserIdCode(expertMap);
+        //进入专家后台
+        if (ers != null && ers.size() > 0) {
     		//Expert expert = service.selectByPrimaryKey(user.getTypeId());
     		if(user.getTypeId()!=null && StringUtils.isNotEmpty(user.getTypeId())){
     			//id不为空为修改个人信息
@@ -282,11 +287,13 @@ public class ExpertServiceImpl implements ExpertService {
 	@Override
 	public Map<String,Object> loginRedirect(User user) throws Exception {
 		String typeId = user.getTypeId();
-		String typeName = user.getTypeName();
-    	DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(typeName);
-    	
-		Map<String,Object> map =  new HashMap<>();
-		if(StringUtils.isNotEmpty(typeId) &&"EXPERT_U".equals(data.getCode())){
+		HashMap<String, Object> expertMap = new HashMap<String, Object>();
+        expertMap.put("userId", user.getId());
+        expertMap.put("code", "EXPERT_R");
+        List<Role> ers = roleService.selectByUserIdCode(expertMap);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        //进入专家后台
+        if (ers != null && ers.size() > 0) {
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
@@ -463,7 +470,7 @@ public class ExpertServiceImpl implements ExpertService {
 			if(u==null){
 				throw new RuntimeException("该用户不存在！");
 			}
-			u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
+			//u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
 			u.setAddress(expert.getAddress());
 			u.setRelName(expert.getRelName());
 			u.setTelephone(expert.getTelephone());
