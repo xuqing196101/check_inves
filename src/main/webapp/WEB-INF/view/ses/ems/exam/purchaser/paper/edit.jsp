@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>编辑考卷</title>
+  <title>编辑考卷</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -136,9 +136,9 @@
 		  </div>
 	   </div>
 	
-		<input type="hidden" value="${errorSingle }" id="errorSingle"/>
+			<input type="hidden" value="${errorSingle }" id="errorSingle"/>
 	  	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
-		<input type="hidden" value="${errorJudge }" id="errorJudge"/>
+			<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	   
     	<div class="container container_box">
      	<form action="${pageContext.request.contextPath }/purchaserExam/editToExamPaper.html" method="post">
@@ -150,16 +150,18 @@
     	<ul class="list-unstyled p0_20">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷名称：</span>
-		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+		  		<div class="input-append input_group col-col-md-12 col-sm-12 col-xs-12md-12 p0">
 		  			<input type="text" name="name" value="${examPaper.name }"/>
+		  			<span class="add-on">i</span>
 		  			<div class="cue">${ERR_name }</div>
 		  		</div>
 	  		</li>
     		
     		<li class="col-md-3 col-sm-6 col-xs-12">
 	  			<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷编号：</span>
-		  		<div class="col-col-md-12 col-sm-12 col-xs-12md-12 input-append p0">
+		  		<div class="input-append input_group col-col-md-12 col-sm-12 col-xs-12md-12 p0">
 		  			<input type="text" name="code" value="${examPaper.code }"/>
+		  			<span class="add-on">i</span>
 		  		 	<div class="cue">${ERR_code }</div>
 		  		</div>
 	  		</li>

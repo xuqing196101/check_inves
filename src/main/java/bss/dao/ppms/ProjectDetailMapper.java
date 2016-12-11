@@ -30,4 +30,12 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> selectByParent(Map<String, Object> map);
 	 
 	 List<ProjectDetail> selectByProjectIds(HashMap<String,Object> map);
+	 
+	 List<ProjectDetail> selectParentIdByPackageId(String packageId);
+	 
+	 List<ProjectDetail> selectNotEmptyPackageOfDetail(String projectId);
+	 
+	 List<ProjectDetail> findHavePackageIdDetail(HashMap<String,Object> map);
+	 
+	 List<ProjectDetail> findNoPackageIdDetail(HashMap<String,Object> map);
 }

@@ -409,14 +409,65 @@
       PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="selectByParentId"  resultMap="BaseResultMap">
-        select * from T_BSS_PPMS_PROJECTS_DETAIL 
-        start with REQUIRED_ID = #{id} 
-        connect by prior REQUIRED_ID = PARENT_ID 
+  	<select id="selectByParentId"  resultMap="BaseResultMap">
+  		SELECT
+				*
+			FROM
+				(select * from T_BSS_PPMS_PROJECTS_DETAIL where PROJECT_ID = #{projectId})
+			START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR REQUIRED_ID = PARENT_ID
     </select>
     <select id="selectByParent"  resultMap="BaseResultMap">
-        select * from T_BSS_PPMS_PROJECTS_DETAIL 
-        start with REQUIRED_ID = #{id} 
-        connect by prior PARENT_ID = REQUIRED_ID 
+      SELECT
+				*
+			FROM
+				(select * from T_BSS_PPMS_PROJECTS_DETAIL where PROJECT_ID = #{projectId})
+			START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR PARENT_ID = REQUIRED_ID 
+    </select>
+    <select id="selectParentIdByPackageId" parameterType="java.lang.Object" resultType="bss.model.ppms.ProjectDetail">
+    	SELECT
+				DISTINCT PARENT_ID
+			FROM
+				T_BSS_PPMS_PROJECTS_DETAIL
+			WHERE PACKAGE_ID = #{packageId}
+    </select>
+    <select id="selectNotEmptyPackageOfDetail" parameterType="java.lang.Object" resultMap="BaseResultMap">
+    	SELECT
+				*
+			FROM
+				T_BSS_PPMS_PROJECTS_DETAIL
+			WHERE
+				PACKAGE_ID IS NOT NULL
+			AND PROJECT_ID = #{projectId}
+    </select>
+    <select id="findHavePackageIdDetail" parameterType="java.util.Map" resultMap="BaseResultMap">
+    	SELECT * FROM(
+				SELECT
+						*
+					FROM
+						(
+							SELECT
+								*
+							FROM
+								T_BSS_PPMS_PROJECTS_DETAIL
+							WHERE
+								PROJECT_ID = #{projectId}
+						) START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR REQUIRED_ID = PARENT_ID
+				) WHERE PACKAGE_ID = #{packageId}
+    </select>
+    <select id="findNoPackageIdDetail" parameterType="java.util.Map" resultMap="BaseResultMap">
+    	SELECT * FROM(
+				SELECT
+						*
+					FROM
+						(
+							SELECT
+								*
+							FROM
+								T_BSS_PPMS_PROJECTS_DETAIL
+							WHERE
+								PROJECT_ID = #{projectId}
+						) START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR REQUIRED_ID = PARENT_ID
+				) WHERE PACKAGE_ID IS NULL
+				AND PURCHASE_COUNT IS NOT NULL
     </select>
 </mapper>
