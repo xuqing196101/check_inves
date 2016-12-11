@@ -246,13 +246,13 @@
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
                 <div class="headline-v2"><h2>数据字典</h2></div>
-					<div class="col-md-3 col-sm-4 col-xs-12 " id="show_tree_div">
+					<div class="col-md-3 col-sm-4 col-xs-12 h300" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
-							<ul id="ztree_show" class="ztree">
+							<ul id="ztree_show" class="btn_list p0">
 								<!-- 菜单树-->
 								<c:forEach items="${list}" var="dt" varStatus="vs">
 									<li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
-									<span id="ztree_show_1_span">·</span>
+<!-- 									<span id="ztree_show_1_span">·</span> -->
 									<a id="ztree_show_1_a" class="level0" href="javascript:void(0);" onclick="show('${dt.code}',1)"  title="${dt.name }">
 										<span id="ztree_show_1_span">${dt.name }</span>
 									</a>
@@ -261,11 +261,7 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-md-9 col-xs-12 col-sm-12 p0">
-						<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-						<%--<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>--%>
-						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-					</div>
+
 					<input type="hidden" id="mid">
 					<input name="kind" type="hidden" id="kind" value="">
                     <input name="pages" type="hidden" id="pages" value="">
@@ -273,9 +269,16 @@
                     <input name="startRow" type="hidden" id="startRow" value="">
                     <input name="endRow" type="hidden" id="endRow" value="">
                     <input name="pageNum" type="hidden" id="pageNum" value="">
-		            <input type="hidden" name="page" id="page" value="">
-					<div class="tag-box tag-box-v4 col-md-9 col-sm-9 col-xs-12 mt5" id="show_content_div">
-						<div id="pagediv" class="hide" align="right"></div>
+					<div class="tag-box tag-box-v4 col-md-9 col-sm-9 col-xs-12 mt5">
+						<div class="col-md-12 col-xs-12 col-sm-12 p0">
+							<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+							<%--<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>--%>
+							<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+						</div>
+						<div class="col-md-12 col-xs-12 col-sm-12 p0"  id="show_content_div">
+						    <div id="pagediv" class="hide" align="right"></div>
+						</div>
+						
 			        </div>
              	 </div>
        </div>
