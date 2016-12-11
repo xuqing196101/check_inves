@@ -89,9 +89,7 @@
 				});
 				var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
 				status = $.trim(status);
-				var currPage = $ {
-					info.pageNum
-				};
+				var currPage = ${info.pageNum};
 				if(id.length == 1) {
 					if(status == "实施中") {
 						window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;

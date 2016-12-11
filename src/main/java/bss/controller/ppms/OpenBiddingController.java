@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -580,7 +581,7 @@ public class OpenBiddingController {
      * @throws ParseException 
      */
     @RequestMapping("/changbiao")
-    public String changbiao(String projectId, Model model ) throws ParseException{
+    public String changbiao(String projectId, Model model ,HttpServletRequest req) throws ParseException{
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         //参与项目的所有供应商
@@ -595,12 +596,17 @@ public class OpenBiddingController {
         //每个供应商的报价明细产品
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
         List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
+        boolean flag = false;
         if(listsupplierId.get(0).length()>30){
             for(String str:listsupplierId){
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
 	            quotes.setSupplierId(str);
 	            List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
+	            if (listDate.size() == 0) {
+	                flag = true;
+	                break;
+	            }
 	            Quote quote=new Quote();
 	            quote.setSupplierId(str);
 	            quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
@@ -615,9 +621,137 @@ public class OpenBiddingController {
 	            }
 	            listQuoteList.add(listQuote);
 	        }
+            model.addAttribute("listQuoteList", listQuoteList);
         }
-        model.addAttribute("listQuoteList", listQuoteList);
+        
+         if(flag==true){
+            Quote quote = new Quote();
+            User user = (User) req.getSession().getAttribute("loginUser");
+            quote.setProjectId(projectId);
+            quote.setSupplierId(user.getTypeId());
+            List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
+            HashMap<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("projectId", projectId);
+            SaleTender st = new SaleTender();
+            st.setProjectId(projectId);
+            StringBuilder sb = new StringBuilder("");
+            List<SaleTender> saleTenderList = saleTenderService.find(st);
+            for (SaleTender saleTender : saleTenderList) {
+                sb.append(saleTender.getPackages());
+            }
+            List<Packages> listPack = supplierQuoteService.selectByPrimaryKey(map1, null);
+            List<Packages> listPackage = new ArrayList<Packages>();
+            for (Packages packages : listPack) {
+                if (sb.toString().indexOf(packages.getId()) != -1) {
+                    listPackage.add(packages);
+                }
+            }
+            //开始循环包
+            List<HashMap<List<Supplier>,List<ProjectDetail>>> listPd = new ArrayList<HashMap<List<Supplier>,List<ProjectDetail>>>();
+            for (Packages pk:listPackage) {
+                HashMap<List<Supplier>,List<ProjectDetail>> hashMap = new HashMap<List<Supplier>,List<ProjectDetail>>();
+                List<Supplier> supplierList = new ArrayList<Supplier>();
+                map1.put("packageId", pk.getId());
+                List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+                for (SaleTender saleTender : saleTenderList) {
+                    if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
+                        Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
+                        supplierList.add(supplier);
+                    }
+                }
+                hashMap.put(supplierList, detailList);
+                listPd.add(hashMap);
+            }
+            model.addAttribute("listPd", listPd);
+            model.addAttribute("listPackage", listPackage);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("listDate", listDate);
+        }
+        model.addAttribute("flag", flag);
         return "bss/ppms/open_bidding/bid_file/changbiao";
+    }
+    
+    /**
+     *〈简述〉保存报价信息
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param req request
+     * @param quote 报价实体类
+     * @param model 模型
+     * @param priceStr 前台的所有报价数据组成的字符串
+     * @return String
+     * @throws ParseException 异常处理
+     */
+    @RequestMapping(value = "/save")
+    public String save(HttpServletRequest req, Quote quote, Model model, String priceStr) throws ParseException {
+        List<String> listBd = Arrays.asList(priceStr.split(","));
+        User user = (User) req.getSession().getAttribute("loginUser");
+        List<Quote> listQuote = new ArrayList<Quote>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", quote.getProjectId());
+        List<Packages> listPack = supplierQuoteService.selectByPrimaryKey(map, null);
+        //
+        SaleTender st = new SaleTender();
+        st.setProjectId(quote.getProjectId());
+        StringBuilder sb = new StringBuilder("");
+        List<SaleTender> saleTenderList = saleTenderService.find(st);
+        for (SaleTender saleTender : saleTenderList) {
+            sb.append(saleTender.getPackages());
+        }
+        List<Packages> listPackage = new ArrayList<Packages>();
+        for (Packages packages : listPack) {
+            if (sb.toString().indexOf(packages.getId()) != -1) {
+                listPackage.add(packages);
+            }
+        }
+        //循环次数
+        Integer count = 0;
+        for (Packages pk:listPackage) {
+            Integer count1 = 0;
+            map.put("packageId", pk.getId());
+            List<ProjectDetail> detailList = detailService.selectByCondition(map, 0);
+            SaleTender str = new SaleTender();
+            str.setProjectId(quote.getProjectId());
+            List<SaleTender> stl= saleTenderService.find(str);
+            for (SaleTender saleTender : stl) {
+                if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
+                    count1++;
+                }
+            }
+            Integer count2 = detailList.size();
+            //因为暂时没有想到怎么传包ID  所以当一个包下有多个供应商的时候 会导致存数据过少。我是按照物资明细来遍历的，一个供应商就只有一倍 ，两个就俩倍
+            if (count1 != 1){
+                count2 =count2*count1;
+            }
+            for (int i= 0; i < count2; i++) {
+                Quote qt = new Quote();
+                count++;
+                qt.setProjectId(quote.getProjectId());
+                qt.setSupplierId(listBd.get(count*6 -2));
+                qt.setPackageId(pk.getId());
+                qt.setProductId(listBd.get(count*6 -1));
+                qt.setQuotePrice(new BigDecimal(listBd.get(count * 6 - 6)));
+                qt.setTotal(new BigDecimal(listBd.get(count * 6 - 5)));
+                qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count * 6 - 4)).getTime()));
+                qt.setRemark(listBd.get(count * 6 - 3).equals("null") ? "" : listBd.get(count * 6 - 3));
+                qt.setCreatedAt(new Timestamp(new Date().getTime()));
+                listQuote.add(qt);
+            }
+        }
+        try {
+            supplierQuoteService.insert(listQuote);
+            //修改状态
+            SaleTender saleTender = new SaleTender();
+            saleTender.setProjectId(quote.getProjectId());
+            saleTender.setSupplierId(user.getTypeId());
+            List<SaleTender> sts = saleTenderService.find(saleTender);
+            SaleTender std = sts.get(0);
+            std.setBidFinish((short) 3);
+            saleTenderService.update(std);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:changbiao.html?projectId="+quote.getProjectId();
     }
     
     /**
@@ -652,10 +786,18 @@ public class OpenBiddingController {
         }
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
-        map.put("purchaseType", DictionaryDataUtil.getId("GKZB"));
-        List<ProjectDetail> listPd=detailService.selectByCondition(map,null);
+        List<Packages> list = packageService.findPackageById(map);
+        if(list != null && list.size()>0){
+            for(Packages ps:list){
+                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                packageId.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = detailService.selectById(packageId);
+                ps.setProjectDetails(detailList);
+            }
+        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));
+        model.addAttribute("packageList", list);
         model.addAttribute("listSupplier", listSupplier);
-        model.addAttribute("listPd", listPd);
         model.addAttribute("project", project);
     	//开标时间
     	long bidDate=0;

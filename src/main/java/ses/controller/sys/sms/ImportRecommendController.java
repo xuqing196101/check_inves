@@ -28,7 +28,6 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
-import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
@@ -182,7 +181,6 @@ public class ImportRecommendController extends BaseSupplierController {
             org.setId(user1.getOrg().getId());
         }
         user.setOrg(org);
-        user.setTypeName(DictionaryDataUtil.getId("IMP_AGENT_U"));
         userService.save(user, null);
         Role role = new Role();
         role.setCode("IMPORT_AGENT_R");
