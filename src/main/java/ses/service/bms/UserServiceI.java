@@ -198,4 +198,22 @@ public interface UserServiceI {
      * @return
      */
 	User findByTypeId(String id);
+	
+	/**
+	 *〈简述〉用户列表方法
+	 *〈详细描述〉
+	 * @author Song Biaowei
+	 * @param user
+	 * @return
+	 */
+	List<User> findUserRole(User user ,int page);
+	
+	/**
+   *〈简述〉根据角色编码查询用户
+   *〈详细描述〉
+   * @author Ye Maolin
+   * @param map 查询条件参数
+   * @return List<User>
+   */
+  List<User> findByRole(HashMap<String, Object> map);
 }

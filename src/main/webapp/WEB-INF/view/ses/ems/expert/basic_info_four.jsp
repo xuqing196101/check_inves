@@ -46,6 +46,12 @@ session.setAttribute("tokenSession", tokenValue);
 		});
 	}
 	function initData(){
+		var expertsType = "${expert.expertsTypeId}";
+		if (expertsType == '1') {
+			$("#expertsType").html("技术");
+		} else if (expertsType == '3') {
+			$("#expertsType").html("经济");			
+		}
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/initData.do",
 			data:{"expertId":$("#id").val()},
@@ -56,6 +62,8 @@ session.setAttribute("tokenSession", tokenValue);
 				$("#tFace").html(response.politicsStatus);
 				$("#Taddress").html(response.address);
 				$("#tHight").html(response.hightEducation);
+				$("#idType").html(response.idType);
+				$("#expertsFrom").html(response.expertsFrom);
 			}
 		});
 	}
@@ -101,7 +109,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 <h2>打印专家申请表</h2>
   </div>  
 <div>
-  <table class="table table-bordered">
+  <table class="table">
   <div class="margin-top-30"></div>
     <div align="left">
       <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
@@ -122,143 +130,102 @@ session.setAttribute("tokenSession", tokenValue);
    <tr>
 	 <td width="25%" class="bggrey">所在地区</td>
 	 <td width="25%" id="Taddress"></td>
-	 <td width="25%" class="bggrey">职称</td>
+	 <td width="25%" class="bggrey">专业技术职称/执业资格</td>
 	 <td width="25%" id="tHey" >${expert.professTechTitles}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">证件号码<td>
-	 <td id="tIdNumber" colspan="3">${expert.idNumber}</td>
+	 <td width="25%" class="bggrey">居民身份证号码</td>
+	 <td width="25%">${expert.idCardNumber}</td>
+	 <td width="25%" class="bggrey">民族</td>
+	 <td width="25%">${expert.nation}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">从事专业类别</td>
-	 <td width="25%" id="tExpertsTypeId"></td>
-	 <td width="25%" class="bggrey">从事年限</td>
-	 <td width="25%" id="tTimeStartWork"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%" class="bggrey">健康状况</td>
+	 <td width="25%">${expert.healthState}</td>
+	 <td width="25%" class="bggrey">所在单位</td>
+	 <td width="25%" id="tTimeStartWork">${expert.workUnit}</td>
+   </tr>
+   
+   
+   <tr>
+	 <td width="25%" class="bggrey">缴纳社会保险证明</td>
+	 <td width="25%">${expert.coverNote}</td>
+	 <td width="25%" class="bggrey">单位邮编</td>
+	 <td width="25%">${expert.postCode}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">最高学历</td>
-	 <td width="25%" id="tHight"></td>
-	 <td width="25%" class="bggrey">最高学位</td>
-	 <td width="25%" id="tWei">${expert.degree}</td>
+	 <td width="25%" class="bggrey">单位地址</td>
+	 <td colspan="3">${expert.unitAddress}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">执业资格1</td>
-	 <td width="25%" > </td>
-	 <td width="25%" class="bggrey">注册证书编号1</td>
-	 <td width="25%" > </td>
+	 <td width="25%" class="bggrey">军队人员身份证件类型</td>
+	 <td width="25%" id="idType"></td>
+	 <td width="25%" class="bggrey">证件号码</td>
+	 <td width="25%" >${expert.idNumber}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">执业资格2</td>
-	 <td width="25%" ></td>
-	 <td width="25%" class="bggrey">注册证书编号2</td>
-	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">现任职务</td>
+	 <td width="25%" >${expert.atDuty}</td>
+	 <td width="25%" class="bggrey">从事专业</td>
+	 <td width="25%">${expert.major}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">执业资格3</td>
-	 <td width="25%"></td>
-	 <td width="25%" class="bggrey">注册证书编号3</td>
-	 <td width="25%" ></td>
+	 <td width="25%" class="bggrey">从事专业起始年度</td>
+	 <td width="25%"><fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM-dd" /></td>
+	 <td width="25%" class="bggrey">专家来源</td>
+	 <td width="25%" id="expertsFrom"></td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">近两年是否接受过评标业务培训</td>
-	 <td width="25%"></td>
-	 <td width="25%" class="bggrey">是否愿意成为应急专家</td>
-	 <td width="25%"></td>
-   </tr>
-   <tr>
-	 <td width="25%" class="bggrey">所属行业</td>
-	 <td width="25%"></td>
-	 <td width="25%" class="bggrey">报送部门</td>
-	 <td width="25%"></td>
-   </tr>
-   <tr>
-	 <td width="25%" class="bggrey">手机号码</td>
-	 <td width="25%" id="tMobile">${expert.mobile}</td>
-	 <td width="25%" class="bggrey">单位电话</td>
-	 <td width="25%" id="tTelephone"></td>
-   </tr>
-   <tr>
-	 <td width="25%" class="bggrey">住宅电话</td>
-	 <td width="25%">${expert.telephone}</td>
-	 <td width="25%" class="bggrey">电子邮箱</td>
-	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">专业技术职称/执业资格</td>
+	 <td width="25%">${expert.professTechTitles}</td>
+	 <td width="25%" class="bggrey">取得技术职称时间</td>
+	 <td width="25%"><fmt:formatDate value="${expert.makeTechDate}" pattern="yyyy-MM-dd" /></td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">毕业院校及专业</td>
-	 <td id="tGraduateSchool" colspan="3">${expert.graduateSchool} --- ${expert.major}</td>
+	 <td colspan="3">${expert.graduateSchool}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">单位名称</td>
-	 <td id="tWorkUnit" colspan="3">${expert.workUnit}</td>
+	 <td width="25%" class="bggrey">专家类别</td>
+	 <td width="25%" id="expertsType"></td>
+	 <td width="25%" class="bggrey">最高学历</td>
+	 <td width="25%" id="tHight"></td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">单位地址 </td>
-	 <td width="25%" id="tUnitAddress">${expert.unitAddress}</td>
-	 <td width="25%" class="bggrey">单位邮编</td>
-	 <td width="25%" id="tPostCode">${expert.postCode}</td>
+	 <td width="25%" class="bggrey">最高学位</td>
+	 <td width="25%">${expert.degree}</td>
+	 <td width="25%" class="bggrey">个人邮箱</td>
+	 <td width="25%">${expert.email}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey">家庭地址 </td>
-	 <td width="25%"></td>
-	 <td width="25%" class="bggrey">家庭邮编</td>
-	 <td width="25%"></td>
+	 <td width="25%" class="bggrey">移动电话</td>
+	 <td width="25%">${expert.mobile}</td>
+	 <td width="25%" class="bggrey">固定电话</td>
+	 <td width="25%">${expert.telephone}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业一</td>
-   	 <td width="25%" colspan="3"></td>
+	 <td width="25%" class="bggrey">传真电话</td>
+	 <td colspan="3">${expert.fax}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业二</td>
-   	 <td colspan="3"></td>
+	 <td width="25%" class="bggrey" rowspan="3">参评的产品类别 </td>
+	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业三</td>
-   	 <td colspan="3"></td>
+	 <td width="25%" class="bggrey" rowspan="3">主要工作经历</td>
+	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业四</td>
-   	 <td colspan="3"></td>
+	 <td width="25%" class="bggrey" rowspan="3">专业学术成果</td>
+	 <td colspan="3" rowspan="3">${expert.academicAchievement}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业五</td>
-   	 <td colspan="3"></td>
+	 <td width="25%" class="bggrey" rowspan="3">参加军队地方采购评审情况 </td>
+	 <td colspan="3" rowspan="3">${expert.reviewSituation}</td>
    </tr>
    <tr>
-   	 <td width="25%" class="bggrey">评标专业六</td>
-   	 <td colspan="3"></td>
-   </tr>
-   <tr>
-   	 <td class="bggrey tc f20 b" colspan="4">工作经历</td>
-   </tr>
-   <tr>
-	 <td class="bggrey b tc">起止年月</td>
-	 <td class="bggrey b tc" colspan="2">单位及职务</td>
-	 <td class="bggrey b tc">证明人</td>
-   </tr>
-   <tr>
-	 <td align="center">至 </td>
-	 <td align="center" colspan="2"> </td>
-	 <td align="center" > </td>
-   </tr>
-   <tr>
-	 <td align="center"> 至</td>
-	 <td align="center" colspan="2"> </td>
-	 <td align="center" > </td>
-   </tr>
-   <tr>
-	 <td align="center">至 </td>
-	 <td align="center" colspan="2"> </td>
-	 <td align="center" > </td>
-   </tr>
-   <tr>
-	 <td align="center">至 </td>
-	 <td align="center" colspan="2"> </td>
-	 <td align="center" > </td>
-   </tr>
-   <tr>
-     <td align="center">至 </td>
-	 <td align="center" colspan="2"> </td>
-	 <td align="center"> </td>
+	 <td width="25%" class="bggrey" rowspan="3">需要申请回避的情况 </td>
+	 <td colspan="3" rowspan="3">${expert.avoidanceSituation}</td>
    </tr>
  </table>
     <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">

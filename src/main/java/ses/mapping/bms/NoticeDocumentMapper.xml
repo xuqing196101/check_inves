@@ -116,7 +116,7 @@
   </select>
   
   <!-- 9.根据模板类型查询 -->
-   <select id="selectByType" parameterType="Object" resultMap="NoticeDocumentResultMap">
+  <select id="selectByType" parameterType="Object" resultMap="NoticeDocumentResultMap">
     select 
     *
     from T_SES_BMS_NOTICE_DOCUMENT where

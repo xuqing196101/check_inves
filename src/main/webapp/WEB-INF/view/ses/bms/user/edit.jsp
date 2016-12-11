@@ -273,7 +273,7 @@
 					        <span class="add-on">i</span>
 				        </div>
 			 		</li>
-			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
+			 		<%-- <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3 ">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>类型</span>
 					    <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 					        <c:choose>
@@ -291,10 +291,10 @@
 												<c:if test="${'PURCHASER_U' eq t.code}">采购人员</c:if>
 												<c:if test="${'PUR_MG_U' eq t.code}">采购管理人员</c:if>
 												<c:if test="${'OTHER_U' eq t.code}">其他人员</c:if>
-												<%-- <c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
+												<c:if test="${'SUPPLIER_U' eq t.code}">供应商</c:if>
 												<c:if test="${'EXPERT_U' eq t.code}">专家</c:if>
 												<c:if test="${'IMP_SUPPLIER_U' eq t.code}">进口供应商</c:if>
-												<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if> --%>
+												<c:if test="${'IMP_AGENT_U' eq t.code}">进口代理商</c:if>
 												<c:if test="${'SUPERVISER_U' eq t.code}">监督人员</c:if>
 							        		</option>
 						        		</c:if>
@@ -303,7 +303,7 @@
 					        	</c:otherwise>
 					        </c:choose>
 				        </div>
-			 		</li>
+			 		</li> --%>
 			 		<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 					    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="red">*</span>所属机构</span>
 					   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">

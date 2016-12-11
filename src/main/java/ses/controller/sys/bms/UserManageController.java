@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -83,15 +84,21 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(Model model, Integer page, User user) {
-		List<User> users = userService.list(user, page == null ? 1 : page);
-		model.addAttribute("list", new PageInfo<User>(users));
-		model.addAttribute("user", user);
-		logger.info(JSON.toJSONStringWithDateFormat(users,
-				"yyyy-MM-dd HH:mm:ss"));
-		List<DictionaryData> genders = DictionaryDataUtil.find(13);
-        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-        model.addAttribute("typeNames", typeNames);
-        model.addAttribute("genders", genders);
+	    if (user.getRoleId() != null && !"".equals(user.getRoleId())) {
+	        user.setRoleIdList(Arrays.asList(user.getRoleId().split(",")));
+	    }
+		List<User> users = userService.findUserRole(user, page == null ? 1 : page);
+//    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+//    model.addAttribute("typeNames", typeNames);
+	  Role role = new Role();
+    List<Role> roles = roleService.find(role);
+    for (User u : users) {
+      List<Role> roles2 = roleService.selectByUserId(u.getId());
+      u.setRoles(roles2);
+    }
+    model.addAttribute("roles", roles);
+    model.addAttribute("list", new PageInfo<User>(users));
+    model.addAttribute("user", user);
 		return "ses/bms/user/list";
 	}
 
@@ -144,10 +151,10 @@ public class UserManageController extends BaseController{
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request, Model model) {
 	    List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	    model.addAttribute("typeNames", typeNames);
+	    //List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+	    //model.addAttribute("typeNames", typeNames);
 	    model.addAttribute("genders", genders);
-		return "ses/bms/user/add";
+	    return "ses/bms/user/add";
 	}
 
 	/**
@@ -164,57 +171,57 @@ public class UserManageController extends BaseController{
 	 */
 	@RequestMapping("/save")
 	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
-		//校验字段
-		String origin = request.getParameter("origin");
-		String orgId = request.getParameter("orgId");
-		String deptTypeName = request.getParameter("deptTypeName");
+  		//校验字段
+  		String origin = request.getParameter("origin");
+  		String orgId = request.getParameter("orgId");
+  		String deptTypeName = request.getParameter("deptTypeName");
 		
 	    if(result.hasErrors()){
-		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
-			model.addAttribute("user", user);
-			model.addAttribute("roleName", roleName);
-			model.addAttribute("orgName", orgName);
+	      List<DictionaryData> genders = DictionaryDataUtil.find(13);
+//	    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+//	    model.addAttribute("typeNames", typeNames);
+        model.addAttribute("genders", genders);
+  			model.addAttribute("user", user);
+  			model.addAttribute("roleName", roleName);
+  			model.addAttribute("orgName", orgName);
 			
-			if (StringUtils.isNotBlank(origin)){
-			    addAtt(request, model);
-			}
-			return "ses/bms/user/add";
-		}
-		//校验用户名是否存在
-		List<User> users = userService.findByLoginName(user.getLoginName());
-		if(users.size() > 0){
-			model.addAttribute("user", user);
-			model.addAttribute("exist", "用户名已存在");
-			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
-			model.addAttribute("roleName", roleName);
-			model.addAttribute("orgName", orgName);
+  			if (StringUtils.isNotBlank(origin)){
+  			    addAtt(request, model);
+  			}
+  			return "ses/bms/user/add";
+  		}
+  		//校验用户名是否存在
+  		List<User> users = userService.findByLoginName(user.getLoginName());
+  		if(users.size() > 0){
+  			model.addAttribute("user", user);
+  			model.addAttribute("exist", "用户名已存在");
+  			List<DictionaryData> genders = DictionaryDataUtil.find(13);
+//        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+//        model.addAttribute("typeNames", typeNames);
+        model.addAttribute("genders", genders);
+  			model.addAttribute("roleName", roleName);
+  			model.addAttribute("orgName", orgName);
 			
-			if (StringUtils.isNotBlank(origin)){
-                addAtt(request, model);
-            }
-			
-			return "ses/bms/user/add";
-		}
+  			if (StringUtils.isNotBlank(origin)){
+  			  addAtt(request, model);
+        }
+  			
+  			return "ses/bms/user/add";
+  		}
 		//校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);
 			model.addAttribute("password2_msg", "两次输入密码不一致");
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
+//      List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+//      model.addAttribute("typeNames", typeNames);
+      model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("orgName", orgName);
 			
 			if (StringUtils.isNotBlank(origin)){
-                addAtt(request, model);
-            }
+			  addAtt(request, model);
+      }
 			
 			return "ses/bms/user/add";
 		}
@@ -273,14 +280,14 @@ public class UserManageController extends BaseController{
 	 * @param model {@link Model}
 	 */
 	private void addAtt(HttpServletRequest request ,Model model){
-	    String personTypeId = request.getParameter("personTypeId");
-        String personTypeName = request.getParameter("personTypeName");
+	    /*String personTypeId = request.getParameter("personTypeId");
+        String personTypeName = request.getParameter("personTypeName");*/
         String origin = request.getParameter("origin");
         String orgId = request.getParameter("orgId");
         String deptTypeName = request.getParameter("deptTypeName");
         
-        model.addAttribute("personTypeId", personTypeId);
-        model.addAttribute("personTypeName", personTypeName);
+/*        model.addAttribute("personTypeId", personTypeId);
+        model.addAttribute("personTypeName", personTypeName);*/
         model.addAttribute("origin", origin);
         model.addAttribute("orgId", orgId);
         model.addAttribute("typeName", deptTypeName);
@@ -336,7 +343,7 @@ public class UserManageController extends BaseController{
 			}
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
 			
-			if (StringUtils.isNotBlank(origin)){
+			/*if (StringUtils.isNotBlank(origin)){
 			   DictionaryData dd =  DictionaryDataUtil.findById(user.getTypeName());
 			   if (dd != null){
 			       model.addAttribute("personTypeId", dd.getId());
@@ -345,7 +352,7 @@ public class UserManageController extends BaseController{
 			} else {
 			    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 	            model.addAttribute("typeNames", typeNames);
-			}
+			}*/
 	        model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("roleId", roleId);
@@ -381,25 +388,25 @@ public class UserManageController extends BaseController{
 		//校验字段
 		if(result.hasErrors()){
 		    List<DictionaryData> genders = DictionaryDataUtil.find(13);
-	        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-	        model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
-			model.addAttribute("user", u);
-			model.addAttribute("orgId", u.getOrgId());
-			model.addAttribute("orgName", request.getParameter("orgName"));
-			model.addAttribute("roleId", u.getRoleId());
-			model.addAttribute("roleName", request.getParameter("roleName"));
-			model.addAttribute("currPage",request.getParameter("currpage"));
-			model.addAttribute("typeName", deptTypeName);
-			if (StringUtils.isNotBlank(origin)){
-			    DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
+        List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+        model.addAttribute("typeNames", typeNames);
+        model.addAttribute("genders", genders);
+  			model.addAttribute("user", u);
+  			model.addAttribute("orgId", u.getOrgId());
+  			model.addAttribute("orgName", request.getParameter("orgName"));
+  			model.addAttribute("roleId", u.getRoleId());
+  			model.addAttribute("roleName", request.getParameter("roleName"));
+  			model.addAttribute("currPage",request.getParameter("currpage"));
+  			model.addAttribute("typeName", deptTypeName);
+  			/*if (StringUtils.isNotBlank(origin)){
+			      DictionaryData dd =  DictionaryDataUtil.findById(u.getTypeName());
                 if (dd != null){
                    model.addAttribute("personTypeId", dd.getId());
                    model.addAttribute("personTypeName", dd.getName());
                 }
-            }
+            }*/
 			
-			return "ses/bms/user/edit";
+  			return "ses/bms/user/edit";
 		}
 	
 		User temp = new User();

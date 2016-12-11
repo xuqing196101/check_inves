@@ -90,43 +90,56 @@ public class PreMenuController {
 		//如果是给角色配置权限
 		if(userId != null && !"".equals(userId)){
 		    ses.model.bms.User user = userService.getUserById(userId);
-		    String typeNameCode = dictionaryDataService.getDictionaryData(user.getTypeName()).getCode();
-		    if ("NEED_U".equals(typeNameCode) || "PURCHASER_U".equals(typeNameCode) || "PUR_MG_U".equals(typeNameCode) || "OTHER_U".equals(typeNameCode) || "SUPERVISER_U".equals(typeNameCode)) {
-                menu.setKind(0);
-            }
-		    if ("SUPPLIER_U".equals(typeNameCode)) {
-                menu.setKind(1);
-            }
-		    if ("EXPERT_U".equals(typeNameCode)) {
-                menu.setKind(2);
-            }
-		    if ("IMP_SUPPLIER_U".equals(typeNameCode)) {
-                menu.setKind(3);
-            }
-		    if ("IMP_AGENT_U".equals(typeNameCode)) {
-                menu.setKind(4);
-            }
-			list = preMenuService.find(menu);
-			//给用户配置权限
-			String[] userIds = userId.split(",");
-			menuIds = preMenuService.findByUids(userIds);
+		    //查询该用户的供应商角色
+        HashMap<String, Object> supplierMap = new HashMap<String, Object>();
+        supplierMap.put("userId", userId);
+        supplierMap.put("code", "SUPPLIER_R");
+        List<Role> srs = roleService.selectByUserIdCode(supplierMap);
+        //查询该用户的专家角色
+        HashMap<String, Object> expertMap = new HashMap<String, Object>();
+        expertMap.put("userId", userId);
+        expertMap.put("code", "EXPERT_R");
+        List<Role> ers = roleService.selectByUserIdCode(expertMap);
+        //查询该用户的进口代理商角色
+        HashMap<String, Object> importAgentMap = new HashMap<String, Object>();
+        importAgentMap.put("userId", userId);
+        importAgentMap.put("code", "IMPORT_AGENT_R");
+        List<Role> iars = roleService.selectByUserIdCode(importAgentMap);
+		    if (srs != null && srs.size() > 0) {
+		      //供应商后台菜单
+		      menu.setKind(1);
+        } else if (ers != null && ers.size() > 0) {
+          //专家后台菜单
+          menu.setKind(2);
+        } else if (iars != null && iars.size() > 0){
+          //进口代理商后台菜单
+          menu.setKind(3);
+        } else {
+          //采购后台菜单
+          menu.setKind(0);
+        }
+  			list = preMenuService.find(menu);
+  			//给用户配置权限
+  			String[] userIds = userId.split(",");
+  			menuIds = preMenuService.findByUids(userIds);
 		} else if (r.getId() != null && !"".equals(r.getId())){
 		    String rCode = dictionaryDataService.getDictionaryData(r.getKind()).getCode();
+		    //采购后台
 		    if ("PURCHASE_BACK".equals(rCode)) {
-                menu.setKind(0);
-            }
+            menu.setKind(0);
+        }
+		    //供应商后台
 		    if ("SUPPLIER_BACK".equals(rCode)) {
-                menu.setKind(1);
-            }
-            if ("EXPERT_BACK".equals(rCode)) {
-                menu.setKind(2);
-            }
-            if ("IMPORT_SUPPLIER_BACK".equals(rCode)) {
-                menu.setKind(3);
-            }
-            if ("IMPORT_AGENT_BACK".equals(rCode)) {
-                menu.setKind(4);
-            }
+            menu.setKind(1);
+        }
+		    //专家后台
+        if ("EXPERT_BACK".equals(rCode)) {
+            menu.setKind(2);
+        }
+        //进口代理商角色
+        if ("IMPORT_AGENT_BACK".equals(rCode)) {
+            menu.setKind(3);
+        }
 			list = preMenuService.find(menu);
 			String[] roleIds = r.getId().split(",");
 			menuIds = preMenuService.findByRids(roleIds);

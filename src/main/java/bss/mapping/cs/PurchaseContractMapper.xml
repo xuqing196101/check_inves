@@ -156,6 +156,13 @@
   	order by UPDATED_AT DESC
   </select>
   
+   <select id="selectAllContract" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where IS_DELETED = '0'
+  </select>
+  
   <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>

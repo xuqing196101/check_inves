@@ -39,13 +39,16 @@
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同名称：</label>
+			<input type="text" id="topic" class=""/>
 	      </li>
     	  <li>
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同编号：</label>
+			<input type="text" id="topic" class=""/>
 	      </li>
     	  <li>
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label>
+			<input type="text" id="topic" class=""/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
@@ -58,40 +61,38 @@
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同名称：</label><input type="text" id="topic" class=""/>
 	      </li>
 
     	  <li>
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同编号：</label><input type="text" id="topic" class=""/>
 	      </li>
     	  <li>
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label><input type="text" id="topic" class=""/>
 	      </li> 
 	      <li>
 	    	<label class="fl">下拉选择框二：</label>
-	    	<span class="fl">
 	    	  <select>
 	    	    <option>选项一</option>
 	    	    <option>选项二</option>
 	    	    <option>选项三</option>
 	    	  </select>
-	    	</span>
 	      </li>
     	  <li>
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label>
+	    	<input type="text" id="topic" class=""/>
 	      </li>
     	  <li>
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label>
+			<input type="text" id="topic" class=""/>
 	      </li>
 	      <li>
 	    	<label class="fl">下拉选择框一：</label>
-	    	<span class="fl">
 	    	  <select class="w178">
 	    	    <option>选项一</option>
 	    	    <option>选项二</option>
 	    	    <option>选项三</option>
 	    	  </select>
-	    	</span>
 	      </li>
 	
     	</ul>

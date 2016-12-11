@@ -91,7 +91,7 @@
 		  </div> 
 	   
 		  <div class="tc mt10 col-md-12 col-sm-12 col-xs-12 col-lg-12 ">
-			    <button class="btn btn-windows git" id="update" type="button">更新</button>
+			    <button class="btn btn-windows save" id="update" type="button">更新</button>
 			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
 		  </div>
 	  </form>

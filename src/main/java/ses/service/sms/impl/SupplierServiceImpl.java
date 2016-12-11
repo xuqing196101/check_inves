@@ -213,7 +213,7 @@ public class SupplierServiceImpl implements SupplierService {
         user.setLoginName(supplier.getLoginName());
         user.setRandomCode(random);
         user.setPassword(pwd);
-        user.setTypeName(DictionaryDataUtil.getId("SUPPLIER_U"));
+//        user.setTypeName(DictionaryDataUtil.getId("SUPPLIER_U"));
         user.setIsDeleted(0);
         user.setCreatedAt(new Date());
         user.setTypeId(supplier.getId());

@@ -166,8 +166,9 @@
 		    	<li class="col-md-3 col-sm-6 col-xs-12">
 			   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同编号：</span>
 			   		<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        		<input class="span5 contractCode" id="contractCode" name="contract.code" id="contract_code" type="text" onblur="selectByCode()" value="${pqinfo.contract.code }">
+		        		<input class="span5 contractCode" id="contractCode" name="contract.code" type="text" readonly="readonly" value="${pqinfo.contract.code }">
 		        		<span class="add-on">i</span>
+		        		<span class="input-tip">选择合同名称自动生成</span>
 		       		</div>
 			 	</li>
 
@@ -176,6 +177,7 @@
 		        	<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		        		<input class="span5 procurementId" id="procurementId" type="text"  readonly="readonly" value = '${pqinfo.contract.supplierPurId}'>
 		        		<span class="add-on">i</span>
+		        		<span class="input-tip">填写质检地点</span>
        				</div>
 			 	</li>
 		    	<li class="col-md-3 col-sm-6 col-xs-12">

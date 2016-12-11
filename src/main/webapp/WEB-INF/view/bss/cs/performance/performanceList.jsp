@@ -128,6 +128,7 @@
 	function statements(){
 		var ids =[];
 		var purchaseType = "";
+		var danyiId = "${danyiId}";
   		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).parent().next().text()); 
 			purchaseType = $(this).parent().prev().text();
@@ -136,7 +137,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条合同结算",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				if(purchaseType=="单一来源"){
+				if(purchaseType==danyiId){
 					$.ajax({
 						url:"${pageContext.request.contextPath}/performance/getFinalClosed.html?id="+ids,
 						type:"POST",
@@ -245,6 +246,7 @@
 				<th class="info">合同执行状态</th>
 				<th class="info">质量检验</th>
 				<th class="info">合同类型</th>
+				<th class="info">采购方式</th>
 			</tr>
 		</thead>
 		<c:forEach items="${performanceList}" var="performance" varStatus="vs">
@@ -285,6 +287,11 @@
 					<c:if test="${performance.contract.contractType=='0'}">正常采购合同</c:if>
 					<c:if test="${performance.contract.contractType=='1'}">以厂代储合同</c:if>
 					<c:if test="${performance.contract.contractType=='2'}">合同储备合同</c:if>
+				</td>
+				<td>
+					<c:forEach items="${kind}" var="kind">
+						<c:if test="${kind.id==performance.contract.purchaseType}">${kind.name}</c:if>
+					</c:forEach>
 				</td>
 			</tr>
 		</c:forEach>

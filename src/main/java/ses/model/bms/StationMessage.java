@@ -1,12 +1,9 @@
 package ses.model.bms;
 
 import java.util.Date;
+import java.util.List;
 
 public class StationMessage {
-    
-    
-    
-    
     
     
     public StationMessage(String url) {
@@ -28,6 +25,13 @@ public class StationMessage {
         this.receiverId = receiverId;
         this.orgId = orgId;
     }
+    
+    /**
+     * 权限集合
+     */
+    private List<Role> roleIdArray;
+    
+    
     /**
      * 接收人
      */
@@ -121,6 +125,8 @@ public class StationMessage {
      * </pre>
      */
     private String orgId;
+    
+    private String roleId;
 
     /**
      * <pre>
@@ -414,5 +420,44 @@ public class StationMessage {
     public void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
     }
+
+
+
+    /**
+     * @return Returns the roleIdArray.
+     */
+    public List<Role> getRoleIdArray() {
+        return roleIdArray;
+    }
+
+
+
+    /**
+     * @param roleIdArray The roleIdArray to set.
+     */
+    public void setRoleIdArray(List<Role> roleIdArray) {
+        this.roleIdArray = roleIdArray;
+    }
+
+
+
+    /**
+     * @return Returns the roleId.
+     */
+    public String getRoleId() {
+        return roleId;
+    }
+
+
+
+    /**
+     * @param roleId The roleId to set.
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    
+
     
 }

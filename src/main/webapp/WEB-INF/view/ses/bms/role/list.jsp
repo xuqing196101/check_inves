@@ -171,25 +171,30 @@
     
     function del(){
     	var ids =[]; 
+    	var count = 0;
 		$('input[name="chkItem"]:checked').each(function(){ 
 			var trObj = $(this).parent().parent();
 			var tdArr = trObj.children("td");
 		    var roleCode = tdArr.eq(4).text();
-		    if (roleCode == 'SUPPLIER_R' || roleCode == 'IMPORT_AGENT_R' || roleCode == 'EXPERT_TEMP_P' || roleCode == 'PURCHASE_ORG_R' || roleCode == 'MODERATOR_R' || roleCode == 'PURCHASE_R' || roleCode == 'IMPORT_SUPPLIER_R' || roleCode == 'ADMIN_R' || roleCode == 'EXPERT_R') {
-				layer.msg("系统初始角色请找管理员确认删除",{offset: ['222px']});
+		    if (roleCode == 'SUPPLIER_R' || roleCode == 'NEED_R' ||  roleCode == 'SUPERVISER_R' || roleCode == 'IMPORT_AGENT_R' || roleCode == 'EXPERT_TEMP_P' || roleCode == 'PURCHASE_ORG_R' || roleCode == 'MODERATOR_R' || roleCode == 'PURCHASE_R' || roleCode == 'IMPORT_SUPPLIER_R' || roleCode == 'ADMIN_R' || roleCode == 'EXPERT_R') {
+				count += 1;
 			} else {
 				ids.push($(this).val()); 
-				if(ids.length>0){
-					layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
-					layer.close(index);
-					window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
-				});
-				}else{
-					layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
-				}
 			}
-		}); 
-		
+		});  
+		if (count > 0 ) {
+			layer.msg("系统初始角色请找管理员确认删除",{offset: ['222px']});
+		}
+		if (count == 0) {
+			if(ids.length>0){
+				layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="${pageContext.request.contextPath}/role/delete.html?ids="+ids;
+			});
+			}else{
+				layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
+			}
+		}
     }
     
     function add(){

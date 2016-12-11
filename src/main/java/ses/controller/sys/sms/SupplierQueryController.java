@@ -3,7 +3,6 @@ package ses.controller.sys.sms;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.maven.usability.diagnostics.DiagnosisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.Area;
-import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -33,15 +30,12 @@ import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
-import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -52,7 +46,6 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
-
 import bss.formbean.Maps;
 
 import com.alibaba.fastjson.JSON;
@@ -72,9 +65,7 @@ import common.model.UploadFile;
 @Scope("prototype")
 @RequestMapping("/supplierQuery")
 public class SupplierQueryController extends BaseSupplierController {
-    
-    @Autowired
-    private CategoryService categoryService;
+
     /**
      * 定义常量2
      */

@@ -26,7 +26,7 @@
 	    <result column="ugender"  property="gender" />
 	    <result column="utelephone"  property="telephone" />
 	    <result column="uduties"  property="duties" />
-	    <result column="utypeName"  property="typeName" />
+	    <!-- <result column="utypeName"  property="typeName" /> -->
 	    <result column="utypeId"  property="typeId" />
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
@@ -82,6 +82,9 @@
       </if>
       <if test="kind != null and kind !=''">
         and KIND = #{kind}
+      </if>
+      <if test="status != null and status !=''">
+        and STATUS = #{status}
       </if>
     </trim>
   </sql>
@@ -254,7 +257,7 @@
 			U .GENDER AS ugender,
 			U .TELEPHONE AS utelephone,
 			U .DUTIES AS uduties,
-			U .TYPE_NAME AS utypeName,
+			<!-- U .TYPE_NAME AS utypeName, -->
 			U .TYPE_ID AS utypeId,
 			U .ADDRESS AS uaddress,
 			U .EMAIL AS uemail,
@@ -322,7 +325,7 @@
 	    AND CODE = #{code}
     </select>
     
-    <!-- 13.根据用户查询角色 -->
+    <!-- 13.根据用户查询没有被禁用的角色 -->
     <select id="selectByUserId" parameterType="java.lang.String" resultMap="RoleBaseMap">
 	    SELECT 
 	    	r. ID AS ID,
@@ -340,7 +343,35 @@
 		LEFT JOIN T_SES_BMS_USER U ON ur.USER_ID = U . ID
 		WHERE
 			r.IS_DELETED = 0
+			AND r.STATUS = 0
 		AND U.ID = #{userId}
+    </select>
+    
+    <!-- 14.根据用户和角色编码查询没有被禁用的角色 -->
+    <select id="selectByUserIdCode" parameterType="java.util.Map" resultMap="RoleBaseMap">
+	    SELECT 
+	    	r. ID AS ID,
+			r. NAME AS NAME,
+			r.CREATED_AT AS CREATED_AT,
+			r.DESCRIPTION AS DESCRIPTION,
+			r.IS_DELETED AS IS_DELETED,
+			r.UPDATED_AT AS UPDATED_AT,
+			r.STATUS AS STATUS,
+			r.CODE AS CODE,
+			r.KIND AS KIND
+		FROM
+			T_SES_BMS_ROLE r
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON r. ID = ur.ROLE_ID
+		LEFT JOIN T_SES_BMS_USER u ON ur.USER_ID = u.ID
+		WHERE
+			r.IS_DELETED = 0
+		AND r.STATUS = 0
+		<if test="userId != null and userId != ''">
+		   AND u.ID = #{userId} 
+		</if>
+		<if test="code != null and code != ''">
+		   AND r.code = #{code}
+		</if>
     </select>
     
 </mapper>

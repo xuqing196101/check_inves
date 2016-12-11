@@ -46,11 +46,21 @@ public class ToDoController {
     @RequestMapping("/todos")
     public String todos(HttpServletRequest req, String type, String id){
         User user = (User) req.getSession().getAttribute("loginUser");
-        if (user != null && user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
+        if (user != null ){
             //代办事项
-            req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId(), user.getOrg().getId())));
-        } else {
-            req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"), null, user.getId())));
+            Todos todos=new Todos();
+            todos.setIsDeleted((short)0);
+            todos.setIsFinish((short)0);
+            todos.setReceiverId(user.getId());
+            //机构id
+            if (user.getOrg() != null && user.getOrg().getId() != null ){
+                todos.setOrgId(user.getOrg().getId());
+            }
+            //角色id
+            if (user.getRoles() != null && user.getRoles().size() != 0){
+                todos.setRoleIdArray(user.getRoles());
+            }
+            req.setAttribute("listTodos", todosService.listTodos(todos));
         }
         return "ses/bms/todo/todos";
     }
@@ -71,6 +81,9 @@ public class ToDoController {
             todos.setReceiverId(user.getId());
             if(user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 todos.setOrgId(user.getOrg().getId());
+            }
+            if (user.getRoles() != null && user.getRoles().size() !=0){
+                todos.setRoleIdArray(user.getRoles());
             }
             List<Todos> listHaveTodo = todosService.listHaveTodo(todos, pages == null || "".equals(pages) ? 1 : Integer.valueOf(pages));
             req.setAttribute("list", new PageInfo<Todos>(listHaveTodo));

@@ -105,6 +105,15 @@ public class RoleManageController {
 				msg = "请填写角色名称";
 				count ++;
 			} 
+			if ("".equals(r.getCode()) || r.getCode() == null) {
+        if (count > 0) {
+                  msg += "、唯一编码";
+                  count ++;
+              } else {
+                  msg = "请填写唯一编码";
+                  count ++;
+              }
+          }
 			if ("".equals(r.getKind()) || r.getKind() == null) {
 			    if (count > 0) {
                     msg += "和选择所属后台";
@@ -117,7 +126,7 @@ public class RoleManageController {
 			Role roleCondition = new Role();
 			roleCondition.setCode(r.getCode());
 			List<Role> roleList = roleService.find(roleCondition);
-			if (roleList.size() >= 1) {
+			if (!"".equals(r.getCode()) && roleList.size() >= 1) {
 			    msg = "唯一编码不可以重复";
                 count ++;
 			}

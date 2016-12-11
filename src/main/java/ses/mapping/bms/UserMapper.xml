@@ -14,7 +14,7 @@
     <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
     <result column="EMAIL" jdbcType="VARCHAR" property="email" />
     <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
-    <result column="TYPE_NAME"  property="typeName" />
+    <!-- <result column="TYPE_NAME"  property="typeName" /> -->
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
@@ -64,7 +64,7 @@
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
-    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, <!-- TYPE_NAME, --> TYPE_ID, ADDRESS, RANDOM_CODE 
   </sql>
   
   <!-- 查询条件 -->
@@ -110,8 +110,11 @@
       <if test="duties != null and duties != ''">
         and u.DUTIES = #{duties} 
       </if>
-      <if test="typeName != null">
-        and u.TYPE_NAME = #{typeName} 
+      <if test="roleIdList != null and roleIdList != '' ">
+            <foreach item="roleIdList" index="index" collection="roleIdList"
+				open="" separator="" close="">
+				and "INSTR"(roleId, #{roleId})>0
+			</foreach>
       </if>
       <if test="typeId != null and typeId != ''">
         and u.TYPE_ID = #{typeId}
@@ -146,13 +149,13 @@
       CREATED_AT, IS_DELETED, REL_NAME, 
       UPDATED_AT, USER_ID, MOBILE, 
       GENDER, TELEPHONE, EMAIL, 
-      ORG_ID, DUTIES, TYPE_NAME, 
+      ORG_ID, DUTIES, <!-- TYPE_NAME, --> 
       TYPE_ID, ADDRESS, RANDOM_CODE)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName}, 
+      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, <!-- #{typeName}, --> 
       #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
   </insert>
   
@@ -205,9 +208,9 @@
       <if test="duties != null and duties != ''">
         DUTIES,
       </if>
-      <if test="typeName != null">
+      <!-- <if test="typeName != null">
         TYPE_NAME,
-      </if>
+      </if> -->
       <if test="typeId != null and typeId != ''">
         TYPE_ID,
       </if>
@@ -261,9 +264,9 @@
       <if test="duties != null and duties != ''">
         #{duties,jdbcType=VARCHAR},
       </if>
-      <if test="typeName != null">
+      <!-- <if test="typeName != null">
         #{typeName},
-      </if>
+      </if> -->
       <if test="typeId != null and typeId != ''">
         #{typeId,jdbcType=VARCHAR},
       </if>
@@ -319,9 +322,9 @@
       <if test="duties != null and duties != ''">
         DUTIES = #{duties,jdbcType=VARCHAR},
       </if>
-      <if test="typeName != null">
+      <!-- <if test="typeName != null">
         TYPE_NAME = #{typeName},
-      </if>
+      </if> -->
       <if test="typeId != null and typeId != ''">
         TYPE_ID = #{typeId,jdbcType=VARCHAR},
       </if>
@@ -351,7 +354,7 @@
       EMAIL = #{email,jdbcType=VARCHAR},
       ORG_ID = #{org.id,jdbcType=VARCHAR},
       DUTIES = #{duties,jdbcType=VARCHAR},
-      TYPE_NAME = #{typeName},
+      <!-- TYPE_NAME = #{typeName}, -->
       TYPE_ID = #{typeId,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
       RANDOM_CODE = #{randomCode,jdbcType=VARCHAR} 
@@ -366,12 +369,40 @@
   </select>
   
   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
-  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
+   <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_USER u
     <include refid="Example_Where_Clause"/>
     ORDER BY u.CREATED_AT DESC
+  </select>
+  
+  <!-- 查询用户（关联角色） -->
+  <select id="findUserRole" resultMap="UserBaseMap" parameterType="Object">
+	SELECT
+		*
+		FROM
+			T_SES_BMS_USER u
+		LEFT JOIN (
+			SELECT
+				ID,
+				wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
+			FROM
+				(
+					SELECT
+						u. ID,
+	                    t2.role_id as roleId,
+						T3.name AS roleName
+					FROM
+						T_SES_BMS_USER u
+					LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
+		      LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.id
+				)
+			GROUP BY
+				ID
+		) t2 ON u. ID = t2. ID
+		 <include refid="Example_Where_Clause"/>
+	    ORDER BY CREATED_AT DESC
   </select>
   
   <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
@@ -519,4 +550,36 @@
                      )
            ORDER BY CREATED_AT DESC
     </select> 
+    
+    <!-- 16.根据角色编码查询用户 -->
+    <select id="findByRole" parameterType="java.util.Map" resultMap="UserBaseMap">
+        SELECT 
+            DISTINCT(u.ID),
+            u.ID AS ID,
+		    u.LOGIN_NAME AS LOGIN_NAME,
+		    u.PASSWORD AS PASSWORD,
+		    u.CREATED_AT AS CREATED_AT,
+		    u.IS_DELETED AS IS_DELETED,
+		    u.REL_NAME AS REL_NAME,
+		    u.UPDATED_AT AS UPDATED_AT,
+		    u.USER_ID AS USER_ID,
+		    u.MOBILE AS MOBILE,
+		    u.GENDER AS GENDER,
+		    u.TELEPHONE AS TELEPHONE,
+		    u.EMAIL AS EMAIL,
+		    u.ORG_ID AS ORG_ID,
+		    u.DUTIES AS DUTIES,
+		    u.TYPE_ID AS TYPE_ID,
+		    u.ADDRESS AS ADDRESS,
+		    u.RANDOM_CODE AS RANDOM_CODE
+        FROM
+            T_SES_BMS_USER u
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON u. ID = ur.USER_ID
+		LEFT JOIN T_SES_BMS_ROLE r ON ur.ROLE_ID = r . ID
+		WHERE
+		    u.IS_DELETED = 0
+        <if test="code != null and code != ''">
+           AND r.code = #{code}
+        </if>
+    </select>
 </mapper>

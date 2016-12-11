@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -37,6 +38,7 @@ import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.SupplierCheckPassService;
+import bss.util.FileUtil;
 import bss.util.PropUtil;
 
 /**
@@ -178,7 +180,7 @@ public class WinningSupplierController extends BaseController {
      * @return
      */
     @RequestMapping("/upload")
-    public String upload(Model model, String packageId, String flowDefineId, String checkPassId){
+    public String upload(Model model,String projectId, String packageId, String flowDefineId, String checkPassId){
         //凭证上传
         String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
         model.addAttribute("checkPassBgyj", id);
@@ -187,10 +189,32 @@ public class WinningSupplierController extends BaseController {
         Integer tenderKey = Constant.TENDER_SYS_KEY;
         model.addAttribute("packageId", packageId);
         model.addAttribute("tenderKey", tenderKey);
+        model.addAttribute("projectId", projectId);
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("checkPassId", checkPassId);
         return "bss/ppms/winning_supplier/upload";
     } 
+
+    /**
+     * 
+     *〈简述〉删除文件
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/deleFile")
+    public String delFile(String packageId){
+        //凭证上传
+        String id = DictionaryDataUtil.getId("CHECK_PASS_BGYJ");
+        //招标系统key
+        Integer tenderKey = Constant.TENDER_SYS_KEY;
+        List<UploadFile> filesOther = uploadService.getFilesOther(packageId, id, tenderKey.toString());
+        if (filesOther != null && filesOther.size() != 0){
+            uploadService.updateFileOther(filesOther.get(0).getId(), tenderKey.toString());
+        }
+        return SUCCESS;
+    }
 
     /**
      * 

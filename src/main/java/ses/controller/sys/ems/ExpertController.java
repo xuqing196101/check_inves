@@ -54,6 +54,7 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
+import ses.util.IpAddressUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.model.ppms.Packages;
@@ -354,6 +355,18 @@ public class ExpertController {
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
+        // 如果是外网用户则不可以选择专家来源为军队
+        String ipAddress = request.getRemoteAddr();
+        int type = IpAddressUtil.validateIpAddress(ipAddress);
+        // 如果是外网用户,则删除军队这个选项
+        if (type == 1) {
+            for (int i = 0; i < lyTypeList.size(); i++) {
+                // 循环判断如果是军队则remove
+                if ("E8D313E0C37E432E8E779493D659E686".equals(lyTypeList.get(i).getId())) {
+                    lyTypeList.remove(i);
+                }
+            }
+        }
         // 查询数据字典中的性别配置数据
         List<DictionaryData> sexList = DictionaryDataUtil.find(13);
         model.addAttribute("sexList", sexList);
@@ -1626,6 +1639,10 @@ public class ExpertController {
         expert.setAddress(provinceName.concat(cityName));
         // 最高学历
         expert.setHightEducation(dictionaryDataServiceI.getDictionaryData(expert.getHightEducation()).getName());
+        // 军队人员身份证件类型
+        expert.setIdType(dictionaryDataServiceI.getDictionaryData(expert.getIdType()).getName());
+        // 专家来源
+        expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getName());
         return JSON.toJSONString(expert);
     }
 }

@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	function back(){
 		var kind = $("#k").val();
-		window.location.href = '${pageContext.request.contextPath}/dictionaryData/list.html?page=1&kind='+kind;
+		window.location.href = '${pageContext.request.contextPath}/dictionaryData/dictionaryDataList.html?page=1&kind='+kind;
 	}
 </script>
 <body>

@@ -1133,16 +1133,21 @@
 		ORDER BY FOUND_DATE DESC
 	</select>
 
-
-
-	<!-- 根据供应商Id更新状态 -->
+		<!-- 根据供应商Id更新状态 -->
 	<update id="updateStatus" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER
-		set
-		SUPPLIER_STATUS = #{status}
+		<set>
+			<if test="status != null">
+				SUPPLIER_STATUS = #{status},
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE=#{auditDate},
+			</if>
+		</set>
 		where ID = #{id}
 	</update>
+	
 	<update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
 		update
 		T_SES_SMS_SUPPLIER

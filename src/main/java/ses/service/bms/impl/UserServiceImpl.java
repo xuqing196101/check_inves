@@ -225,6 +225,17 @@ public class UserServiceImpl implements UserServiceI {
 		return userMapper.findUserByTypeId(id);
 	}
     
+	@Override
+    public List<User> findUserRole(User user, int pageNum) {
+        PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+        List<User> users = userMapper.findUserRole(user);
+        return users;
+    }
+
+  @Override
+  public List<User> findByRole(HashMap<String, Object> map) {
+    return userMapper.findByRole(map);
+  }
     
 }
 

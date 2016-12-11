@@ -15,7 +15,7 @@ import ses.model.sms.SupplierDictionaryData;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.PropUtil;
 
-@Service("dictionaryDataService")
+@Service("dictionaryDataServiceI")
 public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 
 	@Autowired
@@ -98,7 +98,11 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_SERVE_CERT",//
 				"SUPPLIER_ENG_CERT_FILE",//
 				"SUPPLIER_PRODUCT_PIC",//
-				"SUPPLIER_QRCODE"//
+				"SUPPLIER_QRCODE",//
+				"SUPPLIER_CATEGORY",
+				"INDENTITY_DOWN",
+				"SUPPLIER_CATEGORY",
+				"SUPPLIER_BANK"
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);
@@ -210,6 +214,22 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			}
 			if ("SUPPLIER_QRCODE".equals(dictionaryData.getCode())) {
 				supplierDictionaryData.setSupplierQrcode(dictionaryData.getId());
+				continue;
+			}
+			if ("SUPPLIER_CATEGORY".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierCategory(dictionaryData.getId());
+				continue;
+			}
+			if ("INDENTITY_UP".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierIdentityUp(dictionaryData.getId());
+				continue;
+			}
+			if ("INDENTITY_DOWN".equals(dictionaryData.getCode())) {
+				supplierDictionaryData.setSupplierIdentitydown(dictionaryData.getId());
+				continue;
+			}
+			if("SUPPLIER_BANK".equals(dictionaryData.getCode())){
+				supplierDictionaryData.setSupplierBank(dictionaryData.getId());
 				continue;
 			}
 		}

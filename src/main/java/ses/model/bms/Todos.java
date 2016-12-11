@@ -1,9 +1,16 @@
 package ses.model.bms;
 
-import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Todos {
+    
+    
+    /**
+     * 权限集合
+     */
+    private List<Role> roleIdArray;
+    
     /**
      * <pre>
      * 主键
@@ -107,6 +114,15 @@ public class Todos {
      * </pre>
      */
     private String orgId;
+    
+    /**
+     * <pre>
+     * 机构id
+     * 表字段 : T_SES_BMS_TODOS.ROLE_ID
+     * </pre>
+     */
+    private String roleId;
+    
 
     /**
      * <pre>
@@ -474,6 +490,22 @@ public class Todos {
 		super();
 		this.url = url;
 	}
+	
+	
+
+    /**
+     * @return Returns the roleId.
+     */
+    public String getRoleId() {
+        return roleId;
+    }
+
+    /**
+     * @param roleId The roleId to set.
+     */
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
     /**
      * 根据类型获取待办集合
@@ -500,5 +532,19 @@ public class Todos {
 		this.undoType = undoType;
 		this.receiverId = receiverId;
 	}
+
+    /**
+     * @return Returns the roleIdArray.
+     */
+    public List<Role> getRoleIdArray() {
+        return roleIdArray;
+    }
+
+    /**
+     * @param roleIdArray The roleIdArray to set.
+     */
+    public void setRoleIdArray(List<Role> roleIdArray) {
+        this.roleIdArray = roleIdArray;
+    }
 	
 }

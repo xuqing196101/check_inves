@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,15 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.constant.Constant;
 import common.utils.AuthUtil;
+import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
 
 
 /**
@@ -54,11 +56,12 @@ public class LoginController {
 
     @Autowired
     private ExpertService expertService;//专家
-    /**
-     * 站内消息
-     */
+    
     @Autowired
-    private StationMessageService stationMessageService;
+    private RoleServiceI roleService;//角色业务接口
+    
+    @Autowired
+    private StationMessageService stationMessageService;//站内消息
 
     @Autowired
     private SupplierService supplierService;
@@ -108,7 +111,18 @@ public class LoginController {
                 logger.info("验证码输入有误");
                 out.print("errorcode");
             } else if (u != null) {
-                if (DictionaryDataUtil.getId("EXPERT_U").equals(u.getTypeName())) {
+                //查询该用户的供应商角色
+                HashMap<String, Object> supplierMap = new HashMap<String, Object>();
+                supplierMap.put("userId", u.getId());
+                supplierMap.put("code", "SUPPLIER_R");
+                List<Role> srs = roleService.selectByUserIdCode(supplierMap);
+                //查询该用户的专家角色
+                HashMap<String, Object> expertMap = new HashMap<String, Object>();
+                expertMap.put("userId", u.getId());
+                expertMap.put("code", "EXPERT_R");
+                List<Role> ers = roleService.selectByUserIdCode(expertMap);
+                //进入专家后台
+                if (ers != null && ers.size() > 0) {
                     try {
                         Map<String, Object> map = expertService.loginRedirect(u);
                         Object object = map.get("expert");
@@ -142,7 +156,7 @@ public class LoginController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (DictionaryDataUtil.getId("SUPPLIER_U").equals(u.getTypeName())) { 
+                } else if (srs != null && srs.size() > 0) { 
                     Map<String, Object> map = supplierService.checkLogin(u);
                     String msg = (String) map.get("status");
                     if ("success".equals(msg)) {
@@ -189,6 +203,9 @@ public class LoginController {
             if (user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 message.setOrgId(user.getOrg().getId());
             }
+            if (user.getRoles() != null && user.getRoles().size() != 0){
+                message.setRoleIdArray(user.getRoles());
+            }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(message,0);
             req.setAttribute("stationMessage", listStationMessage);
             Integer tenderKey = Constant.TENDER_SYS_KEY;
@@ -214,6 +231,9 @@ public class LoginController {
             message.setReceiverId(user.getId());
             if (user.getOrg() != null && user.getOrg().getId() != null && !"".equals(user.getOrg().getId())){
                 message.setOrgId(user.getOrg().getId());
+            }
+            if(user.getRoles() != null && user.getRoles().size() !=0){
+                message.setRoleIdArray(user.getRoles());
             }
             List<StationMessage> listStationMessage = stationMessageService.listStationMessage(message,0);
             req.setAttribute("stationMessage", listStationMessage);

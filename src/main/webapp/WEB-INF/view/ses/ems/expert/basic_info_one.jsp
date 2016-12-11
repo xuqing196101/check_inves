@@ -571,7 +571,7 @@ session.setAttribute("tokenSession", tokenValue);
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
-		  <h2 class="count_flow"><i>1</i>专家基本信息</h2>
+		  <h2 class="count_flow"><i>1</i>专家基本信息&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">* 注:专家来源为军队的专家只能在内网进行注册!</font></h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>

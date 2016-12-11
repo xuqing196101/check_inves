@@ -71,4 +71,28 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectByProjectIds(map);
 	}
 
+	
+	@Override
+	public List<ProjectDetail> selectParentIdByPackageId(String packageId) {
+		return projectDetailMapper.selectParentIdByPackageId(packageId);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> selectNotEmptyPackageOfDetail(String projectId) {
+		return projectDetailMapper.selectNotEmptyPackageOfDetail(projectId);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> findHavePackageIdDetail(HashMap<String, Object> map) {
+		return projectDetailMapper.findHavePackageIdDetail(map);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> findNoPackageIdDetail(HashMap<String, Object> map) {
+		return projectDetailMapper.findNoPackageIdDetail(map);
+	}
+
 }

@@ -148,5 +148,14 @@ public interface RoleMapper {
 	 * @return 角色列表
 	 */
 	List<Role> selectByUserId(String userId);
+	
+	/**
+   *〈简述〉根据用户id或角色code查询角色
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param map 参数
+   * @return 角色列表
+   */
+	List<Role> selectByUserIdCode(HashMap<String,Object> map);
 
 }

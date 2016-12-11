@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.DictionaryTypeMapper">
+  <resultMap id="DictionaryTypeMap" type="ses.model.bms.DictionaryType">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="DECIMAL" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, NAME, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="findList" resultMap="DictionaryTypeMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_TYPE
+    ORDER BY CREATED_AT DESC
+  </select>
+  <select id="get" resultMap="DictionaryTypeMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_TYPE
+    where ID = #{id}
+  </select>
+  <!-- 1.查询条件 -->
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="DictionaryTypeMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_TYPE 
+    where CODE = #{code}
+  </select>
+  <!-- 2.删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_BMS_DICTIONARY_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!-- 4.新增非空字段 -->
+  <insert id="insertSelective" parameterType="ses.model.bms.DictionaryType">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_DICTIONARY_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null and name != ''">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null and name != ''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <!-- 5.更新 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.DictionaryType">
+    update T_SES_BMS_DICTIONARY_TYPE
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null and name != ''">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="search" parameterType="Object" resultMap="DictionaryTypeMap">
+    select 
+    *
+    from T_SES_BMS_DICTIONARY_TYPE where
+    <if test="code != null">
+        CODE=#{code} AND 
+    </if>
+    <if test="name != null and name != ''">
+        NAME LIKE '%'||#{name}||'%' AND
+     </if> 
+    NAME IS NOT NULL 
+    ORDER BY CREATED_AT DESC
+     
+  </select>
+</mapper>

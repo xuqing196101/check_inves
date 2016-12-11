@@ -117,12 +117,24 @@
 		 $("#tname").text("");
 	 }
 	 $(function(){
-		 if(${noticeDocument.docType!=null}&&${noticeDocument.docType!=""}&&${noticeDocument.docType!="-请选择-"}){
-			  $("#searchType").val("${noticeDocument.docType}");  
-		  }else{
-			  $("#searchType").val("-请选择-"); 
-		  }
-		 $("#tname").val('${noticeDocument.name}');
+		 $.ajax({
+				contentType: "application/json;charset=UTF-8",
+				  url:"${pageContext.request.contextPath}/pqinfo/selectContract.do?purchaseType="+type,
+			      type:"POST",
+			      dataType: "json",
+			      success:function(purchaseContracts) {
+		              if (purchaseContracts) {
+		                $("#contract").html("<option></option>");
+		                $.each(purchaseContracts, function(i, purchaseContract) {
+		              	  if(purchaseContract.name != null && purchaseContract.name!=''){
+		              		  $("#contract").append("<option  value="+purchaseContract.id+">"+purchaseContract.name+"</option>");
+		              	  }
+		                });
+		              }
+		              $("#contract").select2("val", "${pqinfo.contract.id}");
+		          }
+
+			});
 	 });
   </script>
   <body>

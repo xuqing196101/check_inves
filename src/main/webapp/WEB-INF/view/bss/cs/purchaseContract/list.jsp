@@ -243,8 +243,8 @@
     	  <div class="clear"></div>
      </div>
     <div class="col-md-12 pl20 mt10">
-		<button class="btn" onclick="createContract()">生成合同</button>
-		<button class="btn" onclick="someCreateContract()">合并生成合同</button>
+		<button class="btn" onclick="createContract()">生成</button>
+		<button class="btn" onclick="someCreateContract()">合并生成</button>
 	</div>
    <div class="content table_box">
    	<table class="table table-bordered table-condensed table-hover">

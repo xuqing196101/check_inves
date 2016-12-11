@@ -1,5 +1,6 @@
 package bss.service.sstps.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,14 +8,23 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import bss.dao.cs.ContractRequiredMapper;
 import bss.dao.sstps.AppraisalContractMapper;
+import bss.dao.sstps.ContractProductMapper;
+import bss.model.cs.ContractRequired;
+import bss.model.cs.PurchaseContract;
 import bss.model.sstps.AppraisalContract;
+import bss.model.sstps.ContractProduct;
 import bss.model.sstps.Select;
+import bss.service.cs.ContractRequiredService;
 import bss.service.sstps.AppraisalContractService;
+import bss.service.sstps.ContractProductService;
 
 /**
 * @Title:AppraisalContractServiceImpl
@@ -27,7 +37,12 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	
 	@Autowired
 	private AppraisalContractMapper appraisalContractMapper;
-
+	
+	@Autowired
+	private ContractRequiredMapper contractRequiredMapper;
+	
+	@Autowired
+	private ContractProductMapper contractProductMapper;
 	
 	/**
 	 * 新增审价合同
@@ -151,7 +166,54 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));		
 		return appraisalContractMapper.selectByObjectUser(singleBond);
 	}
-	
-	
-	
+
+	@Override
+	public void insertPurchaseContract(PurchaseContract pur) {
+		List<DictionaryData> dList = DictionaryDataUtil.find(5);
+		String typeId = null;
+		for(DictionaryData d:dList){
+			if(d.getName().equals("单一来源")){
+				typeId = d.getId();
+			}
+		}
+		if(pur.getPurchaseType().equals(typeId)){
+			AppraisalContract appraisalContract = new AppraisalContract();
+			appraisalContract.setName(pur.getName());
+			appraisalContract.setCode(pur.getCode());
+			appraisalContract.setMoney(pur.getMoney());
+			appraisalContract.setSupplierName(pur.getSupplierDepName());
+			appraisalContract.setCreatedAt(new Date());
+			appraisalContract.setUpdatedAt(new Date());
+			appraisalContract.setAppraisal(0);
+			appraisalContract.setDistribution(0);
+			appraisalContract.setPurchaseContract(pur);
+			appraisalContract.setPurchaseType(pur.getPurchaseType());
+			appraisalContract.setPurchaseDepName(pur.getPurchaseDepName());
+			
+			insert(appraisalContract);
+			updateAppeal(pur.getId());
+			
+			//审价产品
+			ContractProduct contractProduct = new ContractProduct();
+			//根据合同编号，获取审价ID
+			AppraisalContract app = new AppraisalContract();
+			app.setPurchaseContract(pur);
+			AppraisalContract appc = selectContractId(app);
+			
+			//ContractRequired contractRequired = new ContractRequired();
+			List<ContractRequired> list = contractRequiredMapper.selectConRequeByContractId(pur.getId());
+			for(int i=0;i<list.size();i++){
+			//	ContractProduct.setId(app.getId());
+				//关联审价编号
+				contractProduct.setAppraisalContract(appc);
+				//获取合同产品
+				contractProduct.setName(list.get(i).getGoodsName());
+				contractProduct.setCreatedAt(new Date());
+				contractProduct.setUpdatedAt(new Date());
+				contractProduct.setOffer(0);
+				contractProduct.setAuditOffer(0);
+				contractProductMapper.insert(contractProduct);
+			}
+		}
+	}
 }

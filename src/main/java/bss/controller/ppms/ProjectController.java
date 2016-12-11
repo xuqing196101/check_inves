@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseServiceI;
+import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.controller.base.BaseController;
@@ -687,19 +691,118 @@ public class ProjectController extends BaseController {
     @RequestMapping("/subPackage")
     public String subPackage(HttpServletRequest request,Model model){
         String id = request.getParameter("id");
-        HashMap<String,Object> map = new HashMap<String,Object>();
+        HashMap<String,Object> map = new HashMap<>();
         map.put("id", id);
-        List<ProjectDetail> detail = detailService.selectById(map);
-        model.addAttribute("lists", detail);
-        HashMap<String,Object> pack = new HashMap<String,Object>();
+        //拿到一个项目所有的明细
+        List<ProjectDetail> details = detailService.selectById(map);
+        //拿到packageId不为null的底层明细
+        //List<ProjectDetail> bottomDetails = detailService.selectNotEmptyPackageOfDetail(id);
+        List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
+        List<String> parentIds = new ArrayList<>();
+        for(ProjectDetail detail:details){
+        	HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",detail.getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            if(dlist.size()==1){
+                bottomDetails.add(detail);
+            }
+        }
+        String str = "";
+        List<ProjectDetail> showDetails = new ArrayList<>();
+        for(int i=0;i<bottomDetails.size();i++){
+            if(bottomDetails.get(i).getPackageId()==null){
+            	if(!parentIds.contains(bottomDetails.get(i).getParentId())){
+            		str = "无";
+            		parentIds.add(bottomDetails.get(i).getParentId());
+            		HashMap<String,Object> detailMap = new HashMap<>();
+                    detailMap.put("id",bottomDetails.get(i).getRequiredId());
+                    detailMap.put("projectId", id);
+                    List<ProjectDetail> dlist = detailService.selectByParent(detailMap);
+                    for(int j=dlist.size()-1;j>=0;j--){
+                       showDetails.add(dlist.get(j));
+                    }
+            	}else{
+            		if(showDetails.size()!=0){
+            			for(int j=0;j<showDetails.size();j++){
+                			if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
+                				showDetails.add(bottomDetails.get(i));
+                				break;
+                			}
+                		}
+            		}
+            	}
+            }
+            if(i==bottomDetails.size()-1){
+            	if(str.equals("")){
+            		model.addAttribute("list", null);
+            	}else{
+            		for(int j=0;j<showDetails.size();j++){
+                    	HashMap<String,Object> detailMap = new HashMap<>();
+                        detailMap.put("id",showDetails.get(j).getRequiredId());
+                        detailMap.put("projectId", id);
+                        List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+                        if(dlist.size()>1){
+                        	HashMap<String,Object> dMap = new HashMap<>();
+                        	dMap.put("projectId", id);
+                        	dMap.put("id", showDetails.get(j).getRequiredId());
+                        	List<ProjectDetail> packDetails = detailService.findNoPackageIdDetail(dMap);
+                        	int budget = 0;
+                        	for (ProjectDetail projectDetail : packDetails) {
+                        		budget += projectDetail.getBudget().intValue();
+                        	}
+                        	double money = budget;
+                        	showDetails.get(j).setBudget(money);
+                        }
+                    }
+            		model.addAttribute("list", showDetails);
+            	}
+            }
+        }
+        HashMap<String,Object> pack = new HashMap<>();
         pack.put("projectId", id);
         List<Packages> packages = packageService.findPackageById(pack);
         if(packages.size()!=0){
             for(Packages ps:packages){
-                HashMap<String,Object> packageId = new HashMap<String,Object>();
+                HashMap<String,Object> packageId = new HashMap<>();
                 packageId.put("packageId", ps.getId());
                 List<ProjectDetail> detailList = detailService.selectById(packageId);
-                ps.setProjectDetails(detailList);
+                List<String> parentId = new ArrayList<>();
+                List<ProjectDetail> newDetails = new ArrayList<>();
+                for(int i=0;i<detailList.size();i++){
+                	if(!parentId.contains(detailList.get(i).getParentId())){
+                		parentId.add(detailList.get(i).getParentId());
+                		HashMap<String,Object> parentMap = new HashMap<>();
+                        parentMap.put("projectId", id);
+                        parentMap.put("id", detailList.get(i).getRequiredId());
+                        List<ProjectDetail> pList = detailService.selectByParent(parentMap);
+                        newDetails.addAll(pList);
+                	}else{
+                		newDetails.add(detailList.get(i));
+                	}
+                }
+                ComparatorDetail comparator=new ComparatorDetail();
+                Collections.sort(newDetails, comparator);
+                for(int i=0;i<newDetails.size();i++){
+                	HashMap<String,Object> detailMap = new HashMap<>();
+                    detailMap.put("id",newDetails.get(i).getRequiredId());
+                    detailMap.put("projectId", id);
+                    List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+                    if(dlist.size()>1){
+                    	HashMap<String,Object> dMap = new HashMap<>();
+                    	dMap.put("projectId", id);
+                    	dMap.put("id", newDetails.get(i).getRequiredId());
+                    	dMap.put("packageId", ps.getId());
+                    	List<ProjectDetail> packDetails = detailService.findHavePackageIdDetail(dMap);
+                    	int budget = 0;
+                    	for (ProjectDetail projectDetail : packDetails) {
+                    		budget += projectDetail.getBudget().intValue();
+                    	}
+                    	double money = budget;
+                    	newDetails.get(i).setBudget(money);
+                    }
+                }
+                ps.setProjectDetails(newDetails);
             }
         }
         model.addAttribute("packageList", packages);
@@ -774,13 +877,22 @@ public class ProjectController extends BaseController {
         }
         pg.setPurchaseType(project.getPurchaseType());
         pg.setCreatedAt(new Date());
+        pg.setUpdatedAt(new Date());
         packageService.insertSelective(pg);
         List<Packages> wantPackId = packageService.findPackageById(pack);
         for(int i=0;i<id.length;i++){
-            ProjectDetail projectDetail = new ProjectDetail();
-            projectDetail.setId(id[i]);
-            projectDetail.setPackageId(wantPackId.get(0).getId());
-            detailService.update(projectDetail);
+        	ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
+        	HashMap<String,Object> map = new HashMap<String,Object>();
+        	map.put("id", pDetail.getRequiredId());
+        	map.put("projectId", projectId);
+        	List<ProjectDetail> list = detailService.selectByParentId(map);
+        	if(list.size()==1){
+        		ProjectDetail projectDetail = new ProjectDetail();
+                projectDetail.setId(id[i]);
+                projectDetail.setPackageId(wantPackId.get(0).getId());
+                projectDetail.setUpdateAt(new Date());
+                detailService.update(projectDetail);
+        	}
         }
         HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("packageId", wantPackId.get(0).getId());
@@ -815,6 +927,7 @@ public class ProjectController extends BaseController {
         Packages pk = new Packages();
         pk.setId(id);
         pk.setName(name);
+        pk.setUpdatedAt(new Date());
         packageService.updateByPrimaryKeySelective(pk);
         return "1";
     }
@@ -974,5 +1087,44 @@ public class ProjectController extends BaseController {
             flowExecute.setStep(flowDefine.getStep());
             flowMangeService.saveExecute(flowExecute);
         }
+    }
+    
+    /**
+     * 
+    * @Title: equals
+    * @author ZhaoBo
+    * @date 2016-12-7 上午9:25:24  
+    * @Description: 判断两个集合是否完全相等
+    * @param @param a
+    * @param @param b
+    * @param @return      
+    * @return boolean
+     */
+    public static <T> boolean equals(Collection<T> a,Collection<T> b){  
+        if(a == null){  
+            return false;  
+        }  
+        if(b == null){  
+            return false;  
+        }  
+        if(a.isEmpty() && b.isEmpty()){  
+            return true;  
+        }  
+        if(a.size() != b.size()){  
+            return false;  
+        }  
+        List<T> alist = new ArrayList<T>(a);  
+        List<T> blist = new ArrayList<T>(b);  
+        Collections.sort(alist,new Comparator<T>() {  
+            public int compare(T o1, T o2) {  
+                return o1.hashCode() - o2.hashCode();  
+            }
+        }); 
+        Collections.sort(blist,new Comparator<T>() {  
+            public int compare(T o1, T o2) {  
+                return o1.hashCode() - o2.hashCode();  
+            }
+        });
+        return alist.equals(blist);
     }
 }

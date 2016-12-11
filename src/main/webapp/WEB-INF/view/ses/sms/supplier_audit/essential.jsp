@@ -227,7 +227,7 @@
           </ul> --%>
 	          <ul class="flow_step">
 	            <li onclick = "jump('essential')" class="active" >
-	              <a aria-expanded="false" href="#tab-1" data-toggle="tab" >详细信息</a>
+	              <a aria-expanded="false" href="#tab-1" data-toggle="tab" >基本信息</a>
 	              <i></i>
 	            </li>
 	            <li onclick = "jump('financial')">
@@ -279,86 +279,119 @@
                 <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
             </form>
                   
-            <h2 class="count_flow"><i>1</i>企业基本信息</h2>
+            <h2 class="count_flow"><i>1</i>企业信息</h2>
             <ul class="ul_list">
-            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="supplierName2">供应商名称：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text">
-                <div id="supplierName3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="website2">公司网址：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input class="hand " id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
-                <div  id="website3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="foundDate2">成立日期：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="foundDate" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text">
-                <div id="foundDate3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessType2">营业执照登记类型：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this.id,'businessType')">
-                <div id="businessType3"  class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="address2">地址：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="address" class="hand " value="${suppliers.address } " type="text" onclick="reason(this.id,'address')" >
-                <div id="address3" class="abolish">×</div>
-               </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankName2">开户行名称：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="bankName" class="hand " value="${suppliers.bankName } "  type="text" onclick="reason(this.id,'bankName')" >
-                <div id="bankName3" class="abolish">×</div>
-               </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankAccount2">开户行账户：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text" onclick="reason(this.id,'bankAccount')" >
-                <div id="bankAccount3" class="abolish">×</div>
-               </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="postCode2">邮编：</span>
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="supplierName2">公司名称：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text">
+	                <div id="supplierName3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="website2">公司网址：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input class="hand " id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
+	                <div  id="website3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="foundDate2">成立日期：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="foundDate" class="hand " value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text">
+	                <div id="foundDate3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessType2">营业执照类型：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this.id,'businessType')">
+	                <div id="businessType3"  class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankName2">基本账户开户行名称：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="bankName" class="hand " value="${suppliers.bankName } "  type="text" onclick="reason(this.id,'bankName')" >
+	                <div id="bankName3" class="abolish">×</div>
+	               </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="bankAccount2">开户行账户：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text" onclick="reason(this.id,'bankAccount')" >
+	                <div id="bankAccount3" class="abolish">×</div>
+	              </div>
+	        	</li>
+          </ul>
+					
+					<h2 class="count_flow"><i>2</i>地址信息</h2>
+          <ul class="ul_list hand">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="postCode2">注册邮编：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="postCode" class="hand " value="${suppliers.postCode }" type="text" onclick="reason(this.id,'postCode')" >
                 <div id="postCode3" class="abolish">×</div>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="address2">注册公司地址：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="address" class="hand " value="${parentName}—${sonName } " type="text" onclick="reason(this.id,'address')" >
+                <div id="address3" class="abolish">×</div>
+              </div>
+            </li>
+          	<li class="col-md-3 col-sm-6 col-xs-12">
+				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">注册详细地址</span>
+				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			          <input id="detailAddress"  class="hand fl" onclick="reason(this.id,'detailAddress')" value="${suppliers.detailAddress}">
+			          <div id="detailAddress3" class="abolish">×</div>
+			        </div>
+				    </li>
+						
+				    <li class="col-md-3 col-sm-6 col-xs-12">
+				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司邮编</span>
+				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" >
+			          <div id="detailAddress3" class="abolish">×</div>
+			        </div>
+				    </li>
+				    <li class="col-md-3 col-sm-6 col-xs-12">
+				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司地址</span>
+				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" >
+			          <div id="detailAddress3" class="abolish">×</div>
+			        </div>
+				    </li>
+				    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司详细地址</span>
+				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" style="border: 1px solid rgb(211, 211, 211);padding-right: 340px;">
+			          <div id="detailAddress3" class="abolish">×</div>
+			        </div>
+				    </li>
           </ul>
-
-          <h2 class="count_flow"><i>2</i>资质资信</h2>
+					
+          <h2 class="count_flow"><i>3</i>资质资信</h2>
           <ul class="ul_list hand">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月完税凭证：</span>
-              <up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
+              <up:show showId="taxcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}"/>
               <p class="b f18 ml10 red">×</p>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年银行基本账户年末对账单：</span>
-              <up:show showId="billcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
+              <up:show showId="billcert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}"/>
               <p class="b f18 ml10 red">×</p>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三个月缴纳社会保险金凭证：</span>
-              <up:show showId="curitycert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
+              <up:show showId="curitycert_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}"/>
               <p class="b f18 ml10 red">×</p>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" >近三年内无重大违法记录声明：</span>
-              <up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
+              <up:show showId="bearchcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}"/>
               <p class="b f18 ml10 red">×</p>
             </li>
           </ul>
               
-          <h2 class="count_flow"><i>3</i>法人代表人信息</h2>
+          <h2 class="count_flow"><i>4</i>法人代表信息</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="legalName2">姓名：</span>
@@ -388,9 +421,19 @@
                 <div id="legalMobile3" class="abolish">×</div>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+			   			<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'supplierIdentityUp');">身份证正面: </span>  
+			     		<up:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+							<p class="b f18 ml10 red">×</p>
+						</li>
+			 			<li class="col-md-3 col-sm-6 col-xs-12">
+			   			<span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'supplierIdentitydown');">身份证反面: </span> 
+			     	  <up:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
+			   		  <p class="b f18 ml10 red">×</p>
+			   		</li>
           </ul>
 
-          <h2 class="count_flow"><i>4</i>联系人信息</h2>
+          <h2 class="count_flow"><i>5</i>注册人信息</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="contactName2">姓名：</span>
@@ -435,8 +478,54 @@
               </div>
             </li>
           </ul>
-
-          <h2 class="count_flow"><i>5</i>营业执照</h2>
+					
+					<h2 class="count_flow"><i>6</i>军队业务联系人</h2>
+          <ul class="ul_list">
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBusinessName2">姓名：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="armyBusinessName" class="hand " value="${suppliers.armyBusinessName } " type="text" onclick="reason(this.id,'armyBusinessName')" >
+                <div id="armyBusinessName3" class="abolish">×</div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBusinessFax2">传真：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="armyBusinessFax" class="hand " value="${suppliers.armyBusinessFax } "  type="text" onclick="reason(this.id,'armyBusinessFax')" >
+                <div id="armyBusinessFax3" class="abolish">×</div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessMobile1">固定电话：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="armyBuinessMobile" class="hand " value="${suppliers.armyBuinessMobile } " type="text" onclick="reason(this.id,'armyBuinessMobile')" >
+                <div id="armyBuinessMobile3" class="abolish">×</div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessTelephone2">手机：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="armyBuinessTelephone" class="hand " value="${suppliers.armyBuinessTelephone } " type="text" onclick="reason(this.id,'armyBuinessTelephone')" >
+                <div id="armyBuinessTelephone3" onclick="reason(this.id)" class="abolish">×</div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessEmail2">邮箱：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input id="armyBuinessEmail" class="hand " value="${suppliers.armyBuinessEmail } " type="text" onclick="reason(this.id,'armyBuinessEmail')" >
+                <div id="armyBuinessEmail3" onclick="reason(this.id)" class="abolish">×</div>
+              </div>
+            </li>
+            <li class="col-md-3 col-sm-6 col-xs-12">
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="armyBuinessAddress2">地址：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 p0">
+                <input id="armyBuinessAddress" class="hand " value="${suppliers.armyBuinessAddress } " type="text" onclick="reason(this.id,'armyBuinessAddress')" >
+                <div id="armyBuinessAddress3" onclick="reason(this.id)" class="abolish">×</div>
+              </div>
+            </li>
+          </ul>
+					
+          <h2 class="count_flow"><i>7</i>营业执照</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="creditCode2">统一社会信用代码：</span>
@@ -453,7 +542,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="registFund2">注册资本：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="registFund2">注册资本(万元)：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this.id,'registFund')" >
                 <div id="registFund3" onclick="reason(this.id)" class="abolish">×</div>
@@ -488,7 +577,7 @@
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" onclick="reason1(this,'businessCert');">营业执照：</span>
+              <span class="hand" onmouseover="this.style.border='solid 1px #FF0000'" onmouseout="this.style.border='solid 1px #FFFFFF'" onclick="reason1(this,'businessCert');" >营业执照：</span>
               <%-- <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <c:if test="${suppliers.businessCert != null }">
                   <a class="span5 green" onclick="downloadFile('${suppliers.businessCert}')">下载附件</a>
@@ -499,23 +588,57 @@
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
                 
-              <up:show showId="business_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
+              <up:show showId="business_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
               <p class="b f18 ml10 red">×</p>
             </li>
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="businessScope2">经营范围：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" id="businessScope" onclick="reason(this.id,'businessScope')" >${suppliers.businessScope }</textarea>
+                <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this.id,'businessScope')" >${suppliers.businessScope }</textarea>
                 <div id="businessScope3" class="abolish">×</div>
               </div>
             </li>
           </ul>
+          
+          <h2 class="count_flow"><i>8</i>境外分支</h2>
+          <ul class="ul_list">
+          	<c:forEach items="${supplierBranchList }" var="supplierBranch" varStatus="vs">
+	            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchCountry2">所在国家(地区)：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="branchCountry" class="hand " value="${supplierBranch.country } " type="text" onclick="reason(this.id,'branchCountry')" >
+	                <div id="branchCountry3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 ">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchAddress2">详细地址：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
+	                <div id="branchAddress3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchName2">机构名称：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="branchName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this.id,'branchName')" >
+	                <div id="branchName3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-12 col-sm-12 col-xs-12">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchBusinessScope2">分支生产经营范围：</span>
+	              <div class="col-md-12 col-sm-12 col-xs-12 p0">
+	                <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="branchBusinessScope" onclick="reason(this.id,'branchBusinessScope')" >${supplierBranch.businessSope }</textarea>
+	                <div id="branchBusinessScope3" onclick="reason(this.id)" class="abolish">×</div>
+	              </div>
+	            </li>
+          	</c:forEach>
+          </ul>
 
-          <h2 class="count_flow"><i>6</i>境外分支</h2>
+          <%-- <h2 class="count_flow"><i>8</i>境外分支</h2>
           <ul class="ul_list">
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="overseasBranch2">境外分支机构：</span>
-              <%-- <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <c:if test="${suppliers.overseasBranch == 0}">
                   <input id="overseasBranch" class="hand " value="无" type="text" onclick="reason(this.id,'overseasBranch')" >
                 </c:if>
@@ -523,14 +646,14 @@
                   <input id="overseasBranch" class="hand " value="有" type="text" onclick="reason(this.id,'overseasBranch')" >
                 </c:if>
                 <div id="overseasBranch3" class="abolish">×</div>
-              </div> --%>
+              </div>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="overseasBranch" class="hand " value="<c:if test="${suppliers.overseasBranch == 0}">无</c:if><c:if test="${suppliers.overseasBranch == 1}">有</c:if>" type="text" onclick="reason(this.id,'overseasBranch')" >
                 <div id="overseasBranch3" class="abolish">×</div>
               </div>
             </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchCountry2">境外分支所在国家：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchCountry2">境外分支所在国家(地区)：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="branchCountry" class="hand " value="${suppliers.branchCountry } " type="text" onclick="reason(this.id,'branchCountry')" >
                 <div id="branchCountry3" class="abolish">×</div>
@@ -553,11 +676,11 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchBusinessScope2">分支生产经营范围：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="col-md-12 col-sm-12 col-xs-12 hand" style="height:130px" id="branchBusinessScope" onclick="reason(this.id,'branchBusinessScope')" >${suppliers.branchBusinessScope }</textarea>
+                <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="branchBusinessScope" onclick="reason(this.id,'branchBusinessScope')" >${suppliers.branchBusinessScope }</textarea>
                 <div id="branchBusinessScope3" onclick="reason(this.id)" class="abolish">×</div>
               </div>
             </li>
-          </ul>
+          </ul> --%>
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
           <!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->

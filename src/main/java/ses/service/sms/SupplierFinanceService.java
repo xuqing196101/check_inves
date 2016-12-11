@@ -28,4 +28,6 @@ public interface SupplierFinanceService {
 	* @throws
 	 */
 	SupplierFinance queryById(String id);
+	
+	public List<SupplierFinance> getYear();
 }
