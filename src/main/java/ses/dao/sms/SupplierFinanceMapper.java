@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierFinance;
 
 /**
@@ -99,5 +101,18 @@ public interface SupplierFinanceMapper {
 	 * @return: int
 	 */
 	int deleteFinanceBySupplierId(String supplierId);
+	/**
+	 * 
+	* @Title: getFinacne
+	* @Description: 根据供应商Id和年份查询 
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @param year
+	* @param @return     
+	* @return SupplierFinance     
+	* @throws
+	 */
+	SupplierFinance getFinacne(@Param("supplierId")String supplierId,@Param("year")String year);
+	
 	
 }

@@ -1,11 +1,11 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.DictionaryData;
@@ -30,15 +31,20 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.sms.ProductParam;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeRelate;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryParameterService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -102,6 +108,15 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private UserServiceI userServiceI;
 
+    @Autowired
+    private SupplierAddressService  supplierAddressService;
+    
+    @Autowired
+    private SupplierBranchService supplierBranchService;
+    
+    @Autowired
+    private AreaServiceI areaService;
+    
     @Override
     public Supplier get(String id) {
         Supplier supplier = supplierMapper.getSupplier(id);
@@ -180,6 +195,27 @@ public class SupplierServiceImpl implements SupplierService {
             }
         }
 
+        List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
+        if(list.size()>0){
+        
+        	supplier.setBranchList(list);
+        }else{
+            SupplierBranch branch=new SupplierBranch();
+            list.add(branch);
+            supplier.setBranchList(list);
+        }
+        List<SupplierAddress> addressList = supplierAddressService.getBySupplierId(id);
+        if(addressList.size()>0){
+        	for(SupplierAddress b:addressList){
+        		List<Area> city = areaService.findAreaByParentId(b.getProvinceId());
+        		b.setAreaList(city);
+        	}
+            supplier.setAddressList(addressList);
+        }else{
+            SupplierAddress address=new SupplierAddress();
+            addressList.add(address);
+            supplier.setAddressList(addressList);
+        }
         supplier.setParamVleu(paramList);
 
         return supplier;
@@ -241,7 +277,14 @@ public class SupplierServiceImpl implements SupplierService {
                 userService.saveUserMenu(upm);
             }
         }
-
+        List<SupplierAddress> addressList=new ArrayList<SupplierAddress>();
+        SupplierAddress address=new SupplierAddress();
+        addressList.add(address);
+        supplier.setAddressList(addressList);
+        List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
+        SupplierBranch branch=new SupplierBranch();
+        branchList.add(branch);
+        supplier.setBranchList(branchList);
         return supplier;
     }
 
@@ -265,10 +308,16 @@ public class SupplierServiceImpl implements SupplierService {
         user.setEmail(supplier.getContactEmail());
         user.setMobile(supplier.getContactTelephone());
         user.setTelephone(supplier.getContactTelephone());
-        String id = DictionaryDataUtil.get("SUPPLIER_U").getId();
-        user.setTypeName(id);
+//        String id = DictionaryDataUtil.get("SUPPLIER_U").getId();
+//        user.setTypeName(id);
         userService.update(user);
 
+    	if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+			supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
+		}
+		if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
+			supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
+		}
     }
 
     /**

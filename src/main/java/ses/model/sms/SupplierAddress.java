@@ -1,5 +1,10 @@
 package ses.model.sms;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ses.model.bms.Area;
+
 public class SupplierAddress {
     /**
      * <pre>
@@ -21,7 +26,7 @@ public class SupplierAddress {
      * 表字段 : T_SES_SMS_SUPPLIER_ADDRESS.OCDE
      * </pre>
      */
-    private String ocde;
+    private String code;
 
     /**
      * <pre>
@@ -45,7 +50,31 @@ public class SupplierAddress {
      *
      * @return T_SES_SMS_SUPPLIER_ADDRESS.ID：null
      */
-    public String getId() {
+    
+    
+    private String defaultValue;
+    
+    private String provinceId;
+    
+    private List<Area> areaList=new ArrayList<Area>();
+    
+    public List<Area> getAreaList() {
+		return areaList;
+	}
+
+	public void setAreaList(List<Area> areaList) {
+		this.areaList = areaList;
+	}
+
+	public String getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -95,8 +124,8 @@ public class SupplierAddress {
      *
      * @return T_SES_SMS_SUPPLIER_ADDRESS.OCDE：null
      */
-    public String getOcde() {
-        return ocde;
+    public String getCode() {
+        return code;
     }
 
     /**
@@ -108,8 +137,8 @@ public class SupplierAddress {
      * @param ocde
      *            T_SES_SMS_SUPPLIER_ADDRESS.OCDE：null
      */
-    public void setOcde(String ocde) {
-        this.ocde = ocde == null ? null : ocde.trim();
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     /**
@@ -161,4 +190,15 @@ public class SupplierAddress {
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress == null ? null : detailAddress.trim();
     }
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+    
+    
+    
 }

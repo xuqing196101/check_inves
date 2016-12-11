@@ -13,6 +13,8 @@ public class SupplierBranch {
 
     private String businessSope;
 
+    private String defaultValue;
+    
     public String getId() {
         return id;
     }
@@ -60,4 +62,15 @@ public class SupplierBranch {
     public void setBusinessSope(String businessSope) {
         this.businessSope = businessSope == null ? null : businessSope.trim();
     }
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+    
+    
+    
 }

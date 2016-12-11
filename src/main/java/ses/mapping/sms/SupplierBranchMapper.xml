@@ -104,4 +104,18 @@
       BUSINESS_SOPE = #{businessSope,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryBySupplierId" parameterType="String" resultMap="BaseResultMap">
+	  select <include refid="Base_Column_List"/>
+	   from T_SES_SMS_SUPPLIER_BRANCH
+	 where  SUPPLIER_ID = #{supplierId}
+  </select>
+  
+  
+  <delete id="deleteBySupplierId" parameterType="String">
+	  delete from T_SES_SMS_SUPPLIER_BRANCH
+	  where  SUPPLIER_ID = #{supplierId}
+  </delete>
+  
+  
+  
 </mapper>

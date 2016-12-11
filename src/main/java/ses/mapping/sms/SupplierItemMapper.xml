@@ -223,4 +223,11 @@
 		</where>
 	</delete>
 	
+	
+	<delete id="deleteRelate" parameterType="String">
+			delete from
+				T_SES_SMS_SUPPLIER_ITEM
+			where SUPPLIER_TYPE_RELATE_ID = #{relateId} and  SUPPLIER_ID = #{supplierId}
+	</delete>
+	
 </mapper>

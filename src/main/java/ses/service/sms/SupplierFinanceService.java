@@ -30,4 +30,11 @@ public interface SupplierFinanceService {
 	SupplierFinance queryById(String id);
 	
 	public List<SupplierFinance> getYear();
+	
+	
+	public List<Integer> lastThreeYear();
+	
+	
+	SupplierFinance getFinance(String supplierId,String year);
+	
 }

@@ -1,5 +1,9 @@
 package ses.dao.sms;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAddress;
 
 public interface SupplierAddressMapper {
@@ -42,4 +46,10 @@ public interface SupplierAddressMapper {
      * @param record
      */
     int updateByPrimaryKey(SupplierAddress record);
+    
+    
+    List<SupplierAddress> queryBySupplierId(@Param("supplierId")String supplierId);
+    
+    
+    void deleteBySupplierId(@Param("supplierId")String supplierId);
 }

@@ -184,5 +184,37 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		return list;
 	}
 
+	@Override
+	public List<Integer> lastThreeYear() {
+		List<Integer> yearList=new ArrayList<Integer>();
+		Date date=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String mont=sdf.format(date).split("-")[1];
+		Integer month=Integer.valueOf(mont);
+
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		
+		 int year2=year-2;//2014
+		 int year3=year-3;//2013
+		if(month<6){
+			int yera4=year-4;//2012
+			yearList.add(yera4);
+		}else{
+			int yera4=year-1;//2015
+			yearList.add(yera4);
+		}
+		yearList.add(year2);
+		yearList.add(year3);
+		
+		return yearList;
+	}
+
+	@Override
+	public SupplierFinance getFinance(String supplierId, String year) {
+		// TODO Auto-generated method stub
+		return supplierFinanceMapper.getFinacne(supplierId, year);
+	}
+
 
 }

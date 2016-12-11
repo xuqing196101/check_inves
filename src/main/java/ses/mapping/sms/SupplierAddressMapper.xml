@@ -7,15 +7,16 @@
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
-    <result column="OCDE" jdbcType="VARCHAR" property="ocde" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
     <result column="DETAIL_ADDRESS" jdbcType="VARCHAR" property="detailAddress" />
+    <result column="PROVINCE_ID" jdbcType="VARCHAR" property="provinceId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
     @mbggenerated
     -->
-    ID, SUPPLIER_ID, OCDE, ADDRESS, DETAIL_ADDRESS
+    ID, SUPPLIER_ID, CODE, ADDRESS, DETAIL_ADDRESS,PROVINCE_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -37,10 +38,10 @@
     <!--
     @mbggenerated
     -->
-    insert into T_SES_SMS_SUPPLIER_ADDRESS (ID, SUPPLIER_ID, OCDE, 
-      ADDRESS, DETAIL_ADDRESS)
-    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{ocde,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR})
+    insert into T_SES_SMS_SUPPLIER_ADDRESS (ID, SUPPLIER_ID, CODE, 
+      ADDRESS, DETAIL_ADDRESS,PROVINCE_ID)
+    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{detailAddress,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAddress">
     <!--
@@ -54,8 +55,8 @@
       <if test="supplierId != null">
         SUPPLIER_ID,
       </if>
-      <if test="ocde != null">
-        OCDE,
+      <if test="code != null">
+        CODE,
       </if>
       <if test="address != null">
         ADDRESS,
@@ -63,6 +64,10 @@
       <if test="detailAddress != null">
         DETAIL_ADDRESS,
       </if>
+       <if test="provinceId != null">
+        PROVINCE_ID,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -71,8 +76,8 @@
       <if test="supplierId != null">
         #{supplierId,jdbcType=VARCHAR},
       </if>
-      <if test="ocde != null">
-        #{ocde,jdbcType=VARCHAR},
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
@@ -80,6 +85,10 @@
       <if test="detailAddress != null">
         #{detailAddress,jdbcType=VARCHAR},
       </if>
+       <if test="provinceId != null">
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAddress">
@@ -91,14 +100,17 @@
       <if test="supplierId != null">
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       </if>
-      <if test="ocde != null">
-        OCDE = #{ocde,jdbcType=VARCHAR},
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
       <if test="detailAddress != null">
         DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null">
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -109,9 +121,24 @@
     -->
     update T_SES_SMS_SUPPLIER_ADDRESS
     set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      OCDE = #{ocde,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
-      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR}
+      DETAIL_ADDRESS = #{detailAddress,jdbcType=VARCHAR},
+ 	  PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="queryBySupplierId"  resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_ADDRESS
+    where SUPPLIER_ID = #{supplierId}
+    
+  </select>
+  
+  <delete id="deleteBySupplierId" parameterType="String" >
+  delete from T_SES_SMS_SUPPLIER_ADDRESS
+  	where SUPPLIER_ID = #{supplierId}
+  </delete>
+  
 </mapper>

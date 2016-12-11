@@ -63,4 +63,15 @@ public interface SupplierItemMapper {
     
     List<SupplierItem> getSupplierItem(@Param("supplierId")String supplierId);
     
+    /**
+     * 
+    * @Title: delete
+    * @Description: 根据类型id删除有的关联
+    * author: Li Xiaoxiao 
+    * @param @param relateId     
+    * @return void     
+    * @throws
+     */
+    void deleteRelate(@Param("relateId")String relateId ,@Param("supplierId")String supplierId);
+    
 }

@@ -168,6 +168,8 @@ public class SupplierFinance implements Serializable {
 
 	private List<UploadFile> listUploadFiles = new ArrayList<UploadFile>();
 
+	private String threeYear;
+	
 	public String getId() {
 		return id;
 	}
@@ -368,4 +370,13 @@ public class SupplierFinance implements Serializable {
 		this.changeListId = changeListId;
 	}
 
+	public String getThreeYear() {
+		return threeYear;
+	}
+
+	public void setThreeYear(String threeYear) {
+		this.threeYear = threeYear;
+	}
+
+	
 }
