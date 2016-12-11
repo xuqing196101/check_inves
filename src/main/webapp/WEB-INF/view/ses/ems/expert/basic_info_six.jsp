@@ -1,0 +1,165 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ taglib uri="/tld/upload" prefix="up"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<jsp:include page="/WEB-INF/view/front.jsp"></jsp:include>
+<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
+<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
+<%
+//表单标示
+String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
+session.setAttribute("tokenSession", tokenValue);
+%>
+<script type="text/javascript">
+	function updateStepNumber(stepNumber){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/updateStepNumber.do",
+			data:{"expertId":$("#id").val(),"stepNumber":stepNumber},
+			async:false,
+		});
+	}
+	function showTree(tabId) {
+		var id = $("#" + tabId + "-value").val();
+		var zTreeObj;
+		var zNodes;
+		var setting = {
+			async: {
+				autoParam: ["id"],
+				enable: true,
+				url: "${pageContext.request.contextPath}/expert/getCategory.do",
+				otherParam: {
+					categoryIds: id,
+				},
+				dataType: "json",
+				type: "post"
+			},
+			check: {
+				enable: true,
+				chkboxType: {
+					"Y": "s",
+					"N": "s"
+				}
+			},
+			callback: {
+				
+			},
+			data: {
+				simpleData: {
+					enable: true,
+					idKey: "id",
+					pIdKey: "parentId"
+				}
+			}
+		};
+		zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
+	}
+</script>
+<script type="text/javascript">
+function showDivTree(obj){
+	$("#tab-1").attr("style", "display: none");
+	$("#tab-2").attr("style", "display: none");
+	$("#tab-3").attr("style", "display: none");
+	var id = obj.id;
+	var page = "tab-" + id.charAt(id.length - 1);
+	$("#" + page).attr("style", "");
+	showTree(page);
+}
+function zancunCategory(count){
+	var nodes;
+	alert(count);
+	for (var i = 1; i <= count; i++) {
+		var id = "tab-" + i;
+		var tree = $.fn.zTree.getZTreeObj(id);
+		nodes = nodes + tree.getCheckedNodes(true);
+	}
+}
+</script>
+</head>
+<body>
+  <jsp:include page="/index_head.jsp"></jsp:include>
+  <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
+  <input type="hidden" name="userId" value="${user.id}"/>
+  <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
+  <input type="hidden" name="id" id="id" value="${expert.id}"/>
+  <input type="hidden" name="zancun" id="zancun" value=""/>
+  <input type="hidden" name="sysId" id="sysId" value="${sysId}"/>
+  <input type="hidden" value="${errorMap.realName}" id="error1">
+  <input type="hidden" value="${errorMap.nation}" id="error2">
+  <input type="hidden" value="${errorMap.gender}" id="error3">
+  <input type="hidden" value="${errorMap.idType}" id="error4">
+  <input type="hidden" value="${errorMap.idNumber}" id="error5">
+  <input type="hidden" value="${errorMap.address}" id="error6">
+  <input type="hidden" value="${errorMap.hightEducation}" id="error7">
+  <input type="hidden" value="${errorMap.graduateSchool}" id="error8">
+  <input type="hidden" value="${errorMap.major}" id="error9">
+  <input type="hidden" value="${errorMap.expertsFrom}" id="error10">
+  <input type="hidden" value="${errorMap.unitAddress}" id="error11">
+  <input type="hidden" value="${errorMap.telephone}" id="error12">
+  <input type="hidden" value="${errorMap.mobile}" id="error13">
+  <input type="hidden" value="${errorMap.healthState}" id="error14">
+  <input type="hidden" value="${errorMap.mobile2}" id="error15">
+  <input type="hidden" value="${errorMap.idNumber2}" id="error16">
+  <input type="hidden" id="categoryId" name="categoryId" value=""/>
+  <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
+  <div id="reg_box_id_4" class="container clear margin-top-30 yinc">
+    <h2 class="padding-20 mt40">
+	  <span id="ty1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+	  <span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	  <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
+	  <span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
+	  <span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
+	  <span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+	  <div class="clear"></div>
+	</h2>
+	<div class="col-md-12 tab-v2 job-content">
+	  <div class="padding-top-10">
+	  	<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+		  <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">	  	
+			<c:if test="${cate.name eq '物资技术'}">
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">物资</a></li>
+			</c:if>
+			<c:if test="${cate.name eq '工程技术'}">
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="true" data-toggle="tab" class="fujian f18">工程</a></li>
+			</c:if>
+			<c:if test="${cate.name eq '服务技术'}">
+			  <li id="li_id_${vs.index + 1}" class="" onclick="showDivTree(this);"><a aria-expanded="false" data-toggle="tab" class="fujian f18">服务</a></li>
+			</c:if>
+		  </c:forEach>
+		</ul>
+		<form method="post" action="">
+		  <c:set var="count" value="0"></c:set>
+		  <div class="tag-box tag-box-v3 center" id="content_ul_id">
+		    <c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
+			  <c:if test="${cate.name eq '物资技术'}">
+			  	<c:set var="count" value="${count + 1}"></c:set>
+			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+			  </c:if>
+			  <c:if test="${cate.name eq '工程技术'}">
+			  	<c:set var="count" value="${count + 1}"></c:set>
+			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+			  </c:if>
+			  <c:if test="${cate.name eq '服务技术'}">
+			  	<c:set var="count" value="${count + 1}"></c:set>
+			    <ul id="tab-${vs.index + 1}" class="ztree center" style="display: none"></ul>
+			    <input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+			  </c:if>
+		    </c:forEach>
+		  </div>
+		</form>
+	  </div>
+	</div>  
+	<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
+	  <button class="btn"  type="button" onclick="pre()">上一步</button>
+	  <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button>
+	  <button class="btn"  type="button" onclick='fun1()'>下一步</button>
+    </div>
+  </div>
+  <div></div>
+</form>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
+</body>
+</html>

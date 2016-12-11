@@ -18,62 +18,24 @@ session.setAttribute("tokenSession", tokenValue);
 		//回显已选产品
 		var id="${expert.id}";
 		var count=0;
-		var expertsTypeId = $("#expertsTypeId").val();
-		//控制品目树的显示和隐藏
-		if(expertsTypeId==1 || expertsTypeId=="1"){
-			$.ajax({
-				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-				async:false,
-				dataType:"json",
-				success:function(code){
-					var checklist = document.getElementsByName("chkItem_1");
-					for(var i=0;i<checklist.length;i++){
-						var vals=checklist[i].value;
-						if(code.length>0){
-							$.each(code,function(j,result){
-								if(vals==result){
-						 			checklist[i].checked=true;
-						 		}
-								if("FC9528B2E74F4CB2A9E74735A8D6E90A"==result){
-									count++;
-								}
-							});
-						} 
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
+			async:false,
+			dataType:"json",
+			success:function(code){
+				var checklist = document.getElementsByName("chkItem");
+				for(var i=0;i<checklist.length;i++){
+					var vals=checklist[i].value;
+					if(code.length>0){
+						$.each(code,function(j,result){
+							if(vals==result){
+						 		checklist[i].checked=true;
+						 	}
+						});
 					} 
-					if(count>0){
-						$("#hwType").show(); 
-					}else{
-						$("#hwType").hide(); 
-					}
 				}
-			}); 
-			$("#ztree").show();
-		}else{
-			$("#ztree").hide();
-		}
-		if(expertsTypeId==3 || expertsTypeId=="3"){
-			$.ajax({
-				url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
-				async:false,
-				dataType:"json",
-				success:function(code){
-					var checklist = document.getElementsByName("chkItem_3");
-					for(var i=0;i<checklist.length;i++){
-						var vals=checklist[i].value;
-						if(code.length>0){
-							$.each(code,function(j,result){
-								if(vals==result){
-						 			checklist[i].checked=true;
-						 		}
-							});
-						} 
-					}
-				}
-			});
-			$("#jtree").show();
-		}else{
-			$("#jtree").hide();
-		}
+			}
+		});
 	}); 
 	
 	function submitformExpert(){
@@ -85,13 +47,13 @@ session.setAttribute("tokenSession", tokenValue);
 			async: true,
 			success:function(result){
 				$("#id").val(result.id);
-				  layer.msg("已暂存");
-			 }
+				layer.msg("已暂存");
+			}
 		});
 	}
 	//无提示暂存
 	function submitForm2(){
-		updateStepNumber("three");
+		updateStepNumber("six");
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
@@ -136,26 +98,16 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//获取选中子节点id
 	function getChildren(){
-		var num = $("#expertsTypeId").val();
-		var checklist = document.getElementsByName ("chkItem_" + num);
+		var checklist = document.getElementsByName ("chkItem");
 		var count=0;
-		var ids=[];
+		var ids="";
 		for(var i=0;i<checklist.length;i++){
 	 		var vals=checklist[i].value;
 	 		if(checklist[i].checked){
-	 			ids.push(vals);
-	 			if(vals=="FC9528B2E74F4CB2A9E74735A8D6E90A"){
-	 			 	count++;
-	 			}
+	 			ids = ids + vals + ",";
 	 		}
 		} 
-		if(count>0){
-			 $("#hwType").show();  
-		}else{
-			 $("#hwType").hide();  
-		}
 	    $("#categoryId").val(ids);
-		
 	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
@@ -186,54 +138,17 @@ session.setAttribute("tokenSession", tokenValue);
 	function fun1(){
 		//选中的子节点
 		getChildren();
-		var expertsTypeId = $("#expertsTypeId").val();
-		if(expertsTypeId == "1"){
-			$("#tExpertsTypeId").text("技术");
-		}
-		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("经济");
-		}
 		supplierRegist();
 	}
 	function fun4(){
 		//选中的子节点
 		getChildren();
 		supplierRegist4();
-		var expertsTypeId = $("#expertsTypeId").val();
-		if(expertsTypeId == "1"){
-			$("#tExpertsTypeId").text("技术");
-		}
-		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("经济");
-		}
 	}
 	function fun5(){
 		//选中的子节点
 		getChildren();
 		supplierRegist5();
-		var expertsTypeId = $("#expertsTypeId").val();
-		if(expertsTypeId == "1"){
-			$("#tExpertsTypeId").text("技术");
-		}
-		if(expertsTypeId == "3"){
-			$("#tExpertsTypeId").text("经济");
-		}
-	}
-	//显示隐藏树
-	function typeShow(){
-		var expertsTypeId = $("#expertsTypeId").val();
-		if(expertsTypeId==1 || expertsTypeId=="1"){
-			$("#ztree").show();
-			getChildren();
-		}else{
-			$("#ztree").hide();
-		}
-		if(expertsTypeId==3 || expertsTypeId=="3"){
-			$("#jtree").show();
-			getChildren();
-		}else{
-			$("#jtree").hide();
-		}
 	}
 	function tab3(depId){
 		if(depId != ""){
@@ -299,48 +214,21 @@ session.setAttribute("tokenSession", tokenValue);
                  <h2>专家类型</h2>
             </div>
 			<div>
-			  <ul class="ul_list" >
-     		    <li class="col-md-3 col-sm-6 col-xs-12" >
-			      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red fl">*</span>专家类别</span>
-			      <input type="hidden" id="expertsTypeIds" value="" >
-			      <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-			        <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
-			   		  <option value="">-请选择-</option>
-			   		  <option <c:if test="${expert.expertsTypeId eq '1'}">selected</c:if> value="1">技术</option>
-			   		  <option <c:if test="${expert.expertsTypeId eq '3'}">selected</c:if> value="3">经济</option>
-			        </select>
-			      </div>
-			    </li>
-   			 </ul>
-   			 <div class="" id="ztree" >
+			  
    			   <div class="sevice_list col-md-12 container" class="dnone" >
-			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>分类：</div>
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					  <c:forEach items="${spList}" var="obj" >
-						    <span><input type="checkbox" name="chkItem_1" onclick="getChildren()" value="${obj.id}" />${obj.name} </span>
+					  <c:forEach items="${spList}" var="sp" >
+						    <span><input type="checkbox" name="chkItem" value="${sp.id}" />${sp.name} </span>
 				      </c:forEach>
 				  </div>
 			    </div>
-				<div class="sevice_list col-md-12 container" id="hwType">
-				  <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>物资分类：</div>
+				<div class="sevice_list col-md-12 container">
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					  <c:forEach items="${hwList}" var="hw" >
-						    <span><input type="checkbox" name="chkItem_1" onclick="getChildren()"  value="${hw.id}" />${hw.name} </span>
+					  <c:forEach items="${jjList}" var="jj" >
+						    <span><input type="checkbox" name="chkItem"  value="${jj.id}" />${jj.name} </span>
 				      </c:forEach>
 				  </div>
 				</div>
-			  </div>
-			  
-			  <div class="" id="jtree" >
-   			   <div class="sevice_list col-md-12 container" class="dnone" >
-			    <div class="col-md-5 col-sm-6 col-xs-12 title"><span class="star_red fl">*</span>分类：</div>
-				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					  <c:forEach items="${jjList}" var="obj" >
-						    <span><input type="checkbox" name="chkItem_3" value="${obj.id}" />${obj.name} </span>
-				      </c:forEach>
-				  </div>
-			    </div>
-			  </div>
    			   
 		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 				<button class="btn"  type="button" onclick="pre()">上一步</button>

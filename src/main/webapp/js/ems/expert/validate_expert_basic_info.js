@@ -1,34 +1,10 @@
 
 //判断专家类型
 function validateType(){
-	var expertsTypeId = $("#expertsTypeId").val();
 	var categoryId = $("#categoryId").val();
-	if(!expertsTypeId){
-		layer.msg("请选择专家类型 !" ,{offset: ['222px', '390px']});
+	if(categoryId == ""){
+		layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
 		return false;
-	}
-	if(expertsTypeId==1 && categoryId==""){
-		layer.msg("请选择产品类型" ,{offset: ['222px', '390px']});
-		return false;
-	}else{
-		var array =  categoryId.split(",");
-		var count=false;
-		var flag=false;
-		for(var i=0;i<array.length;i++){
-			if(array[i]=='GOODS'){
-				count=true;
-			}
-		}
-		for(var i=0;i<array.length;i++){
-				if(array[i]=="SALES" || array[i]=="PRODUCT" ){
-					flag=true;
-				}
-		}
-		if( count==true && flag==false ){
-			layer.msg("请选择货物类型" ,{offset: ['222px', '390px']});
-			return false;
-		}
-			
 	}
 	return true;
 }

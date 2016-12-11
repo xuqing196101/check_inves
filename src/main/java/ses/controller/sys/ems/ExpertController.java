@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.Area;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -41,6 +44,7 @@ import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.PreMenuServiceI;
@@ -112,6 +116,8 @@ public class ExpertController {
     private RoleServiceI roleService;// 地区查询
     @Autowired
     private ProjectExtractService projectExtractService;//是否被抽取查询
+    @Autowired
+    private CategoryService categoryService;//是否被抽取查询
 
     /**
      * 
@@ -246,9 +252,9 @@ public class ExpertController {
             }
             user.setId(WfUtil.createUUID());
             request.setAttribute("user", user);
-            // 查找用户类型
-            String userType = DictionaryDataUtil.getId("EXPERT_U");
-            user.setTypeName(userType);
+            // 查找用户类型(字段被移除)
+            // String userType = DictionaryDataUtil.getId("EXPERT_U");
+            // user.setTypeName(userType);
             String expertId = WfUtil.createUUID();
             user.setTypeId(expertId);
             userService.save(user, null);
@@ -256,7 +262,7 @@ public class ExpertController {
             expert.setId(expertId);
             service.insertSelective(expert);
             Role role = new Role();
-            role.setCode("EXPERT_TEMP_R");
+            role.setCode("EXPERT_R");
             List<Role> listRole = roleService.find(role);
             if (listRole != null && listRole.size() > 0) {
                 Userrole userrole = new Userrole();
@@ -362,7 +368,7 @@ public class ExpertController {
         if (type == 1) {
             for (int i = 0; i < lyTypeList.size(); i++) {
                 // 循环判断如果是军队则remove
-                if ("E8D313E0C37E432E8E779493D659E686".equals(lyTypeList.get(i).getId())) {
+                if ("军队".equals(lyTypeList.get(i).getCode())) {
                     lyTypeList.remove(i);
                 }
             }
@@ -389,13 +395,57 @@ public class ExpertController {
         model.addAttribute("expertKey", expertKey);
         model.addAttribute("purchase", purchaseDepList);
         model.addAttribute("user", user);
-        if (flag == 1) {
-            return "ses/ems/expert/basic_info_view";
-        } else {
-            return "ses/ems/expert/basic_info_"+stepNumber;
+        if ("six".equals(stepNumber)) {
+            showCategory(expert, model);
         }
+        return "ses/ems/expert/basic_info_"+stepNumber;
     }
 
+    /**
+     *〈简述〉
+     * 专家注册新加步骤:产品目录
+     *〈详细描述〉
+     * @author WangHuijie
+     * @return
+     */
+    public void showCategory(Expert expert, Model model){
+        List<DictionaryData> allCategoryList = new ArrayList<DictionaryData>();
+        List<String> allTypeId = expertCategoryService.getListByExpertId(expert.getId());
+        a:for (int i = 0; i < allTypeId.size(); i++ ) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+            if (dictionaryData.getName().contains("经济")) {
+                allTypeId.remove(i);
+                continue a;
+            };
+            allCategoryList.add(dictionaryData);
+        }
+        model.addAttribute("allCategoryList", allCategoryList);
+    }
+    
+    @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getCategory(String id, String categoryIds){
+        List<CategoryTree> allList = new ArrayList<CategoryTree>();
+        if(id == null && categoryIds != null) {
+            DictionaryData type = dictionaryDataServiceI.getDictionaryData(categoryIds);
+            CategoryTree ct = new CategoryTree();
+            ct.setName(type.getName().substring(0, type.getName().length() - 2));
+            ct.setId(type.getId());
+            ct.setIsParent("true");
+            allList.add(ct);
+        } else {
+            List<Category> list = categoryService.findTreeByPid(id);
+            for (Category c : list) {
+                CategoryTree ct1 = new CategoryTree();
+                ct1.setName(c.getName());
+                ct1.setId(c.getId());
+                ct1.setIsParent("true");
+                allList.add(ct1);
+            }
+        }
+        return JSON.toJSONString(allList);
+    }
+    
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String showJiGou(String pId, String zId) {
@@ -694,7 +744,8 @@ public class ExpertController {
             @RequestParam("remark") String remark, HttpSession session) {
         // 当前登录用户
         User user = (User) session.getAttribute("loginUser");
-        User expertUser = userService.findByTypeId(expert.getId());
+        // 去除临时专家角色,根据状态去判断登录的跳转路径
+        /*User expertUser = userService.findByTypeId(expert.getId());
         if ("1".equals(isPass)) {
             Role role = new Role();
             role.setCode("EXPERT_R");
@@ -703,11 +754,11 @@ public class ExpertController {
                 Userrole userrole = new Userrole();
                 userrole.setRoleId(listRole.get(0));
                 userrole.setUserId(expertUser);
-                /** 给该用户初始化进口代理商角色 */
+                *//** 给该用户初始化进口代理商角色 *//*
                 userService.saveRelativity(userrole);
                 String[] roleIds = listRole.get(0).getId().split(",");
                 List<String> listMenu = menuService.findByRids(roleIds);
-                /** 给用户初始化进口代理商菜单权限 */
+                *//** 给用户初始化进口代理商菜单权限 *//*
                 for (String menuId : listMenu) {
                     UserPreMenu upm = new UserPreMenu();
                     PreMenu preMenu = menuService.get(menuId);
@@ -716,7 +767,7 @@ public class ExpertController {
                     userService.saveUserMenu(upm);
                 }
             }
-        }
+        }*/
         // 专家状态修改
         expert.setStatus(isPass);
         // 审核时初始化专家诚信积分
