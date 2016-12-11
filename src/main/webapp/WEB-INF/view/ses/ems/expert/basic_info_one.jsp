@@ -564,11 +564,11 @@ session.setAttribute("tokenSession", tokenValue);
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
 	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	    <span id="sp2" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-	    <span id="ty6" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
-	    <span id="sp3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	    <span id="sp4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-	    <span id="sp5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+	    <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	    <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
+	    <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
+	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
+	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">

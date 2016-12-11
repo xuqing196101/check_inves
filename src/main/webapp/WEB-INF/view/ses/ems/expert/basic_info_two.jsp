@@ -18,12 +18,21 @@ session.setAttribute("tokenSession", tokenValue);
 		var typeIds = "${expert.expertsTypeId}";
 		var ids = typeIds.split(",");
 		//回显已选产品
-		var checklist = document.getElementsByName("chkItem");
-		for(var i=0;i<checklist.length;i++){
-			var vals=checklist[i].value;
+		var checklist1 = document.getElementsByName("chkItem_1");
+		for(var i=0;i<checklist1.length;i++){
+			var vals=checklist1[i].value;
 			for (var j = 0; j < ids.length; j++) {
 				if (ids[j] == vals) {
-					checklist[i].checked = true;
+					checklist1[i].checked = true;
+				}
+			}	
+		}
+		var checklist2 = document.getElementsByName("chkItem_2");
+		for(var i=0;i<checklist2.length;i++){
+			var vals=checklist2[i].value;
+			for (var j = 0; j < ids.length; j++) {
+				if (ids[j] == vals) {
+					checklist2[i].checked = true;
 				}
 			}	
 		}
@@ -44,7 +53,14 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
-		updateStepNumber("six");
+		var count = "three";
+		var checklist1 = document.getElementsByName ("chkItem_1");
+		for (var i = 0; i < checklist1.length; i++) {
+			if (checklist1[i].checked == true) {
+				count = "six";
+			}
+		}
+		updateStepNumber(count);
 		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
@@ -89,15 +105,21 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//获取选中子节点id
 	function getChildren(){
-		var checklist = document.getElementsByName ("chkItem");
-		var count=0;
 		var ids=new Array();
-		for(var i=0;i<checklist.length;i++){
-	 		var vals=checklist[i].value;
-	 		if(checklist[i].checked){
+		var checklist1 = document.getElementsByName ("chkItem_1");
+		for(var i=0;i<checklist1.length;i++){
+	 		var vals=checklist1[i].value;
+	 		if(checklist1[i].checked){
 	 			ids.push(vals);
 	 		}
-		} 
+		}
+		var checklist2 = document.getElementsByName ("chkItem_2");
+		for(var i=0;i<checklist2.length;i++){
+	 		var vals=checklist2[i].value;
+	 		if(checklist2[i].checked){
+	 			ids.push(vals);
+	 		}
+		}
 	    $("#expertsTypeId").val(ids);
 	}
 		/** 专家完善注册信息页面 */
@@ -205,10 +227,10 @@ session.setAttribute("tokenSession", tokenValue);
 	  		<h2 class="padding-20 mt40">
 				<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 				<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
-				<span id="ty6" class="new_step <c:if test="${expert.expertsTypeId != null}">current</c:if> fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
-				<span id="ty3" class="new_step <c:if test="${expert.purchaseDepId != null}">current</c:if> fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-				<span id="ty4" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-				<span id="ty5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+				<span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
+				<span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
+				<span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
+				<span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
@@ -220,14 +242,14 @@ session.setAttribute("tokenSession", tokenValue);
    			   <div class="sevice_list col-md-12 container" class="dnone" >
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${spList}" var="sp" >
-						    <span><input type="checkbox" name="chkItem" value="${sp.id}" />${sp.name} </span>
+						    <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
 				      </c:forEach>
 				  </div>
 			    </div>
 				<div class="sevice_list col-md-12 container">
 				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
 					  <c:forEach items="${jjList}" var="jj" >
-						    <span><input type="checkbox" name="chkItem"  value="${jj.id}" />${jj.name} </span>
+						    <span><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 				      </c:forEach>
 				  </div>
 				</div>

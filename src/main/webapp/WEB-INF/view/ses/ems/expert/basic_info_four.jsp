@@ -19,8 +19,18 @@ session.setAttribute("tokenSession", tokenValue);
 		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 	}
 	function pre6(name, i, position) {
-		updateStepNumber("six");
-		window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+		$.ajax({
+			url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
+			data:{"expertId":$("#id").val()},
+			async:false,
+			dataType:"json",
+			success:function(response){
+				if (!$.isEmptyObject(response)) {
+					updateStepNumber("six");
+					window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+				}
+			}
+		});
 	}
 	function pre2(name, i, position) {
 		updateStepNumber("two");
@@ -106,7 +116,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
 			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-			<span id="dy5" class="new_step <c:if test="${att eq '1'}">current</c:if> fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
@@ -217,7 +227,7 @@ session.setAttribute("tokenSession", tokenValue);
 	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
    </tr>
    <tr>
-	 <td width="25%" class="bggrey" rowspan="3">主要工作经历</td>
+	 <td width="25%"  class="bggrey" rowspan="3">主要工作经历</td>
 	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
    </tr>
    <tr>

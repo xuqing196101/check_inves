@@ -23,6 +23,11 @@ public class CategoryTree {
      * 是否是父类
      */
     private String isParent;
+    
+    /*
+     * 是否被选中
+     */
+    private boolean checked;
 
     private Integer isEnd;
 
@@ -131,6 +136,12 @@ public class CategoryTree {
     }
     public void setAuditAdvise(String auditAdvise) {
         this.auditAdvise = auditAdvise;
+    }
+    public boolean getChecked() {
+        return checked;
+    }
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
 

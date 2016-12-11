@@ -428,7 +428,7 @@ public class ExpertController {
     
     @RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public String getCategory(String id, String categoryIds){
+    public String getCategory(String id, String categoryIds, String expertId){
         List<CategoryTree> allList = new ArrayList<CategoryTree>();
         if(id == null && categoryIds != null) {
             DictionaryData type = dictionaryDataServiceI.getDictionaryData(categoryIds);
@@ -438,12 +438,27 @@ public class ExpertController {
             ct.setIsParent("true");
             allList.add(ct);
         } else {
+            List<String> expertCategory = expertCategoryService.getListByExpertId(expertId);
             List<Category> list = categoryService.findTreeByPid(id);
             for (Category c : list) {
+                List<Category> list1 = categoryService.findTreeByPid(c.getId());
                 CategoryTree ct1 = new CategoryTree();
                 ct1.setName(c.getName());
                 ct1.setId(c.getId());
-                ct1.setIsParent("true");
+                // 设置是否为父级
+                if (!list1.isEmpty()) {
+                    ct1.setIsParent("true");
+                } else {
+                    ct1.setIsParent("false");
+                }
+                // 设置是否回显
+                for (String categoryId : expertCategory) {
+                    if (categoryId != null) {
+                        if (categoryId.equals(c.getId())) {
+                            ct1.setChecked(true);
+                        }
+                    }
+                }
                 allList.add(ct1);
             }
         }
