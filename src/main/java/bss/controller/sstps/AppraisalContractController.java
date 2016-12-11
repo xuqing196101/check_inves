@@ -3,6 +3,7 @@ package bss.controller.sstps;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -267,9 +268,9 @@ public class AppraisalContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/selectUser")
 	public void selectUser(HttpServletResponse response,HttpServletRequest request){
-		User u = new User();
-		u.setTypeName(DictionaryDataUtil.getId("PUR_MG_U"));
-		List<User> user = userService.find(u);
+		HashMap<String,Object> map = new HashMap<>();
+		map.put("code", "SUPERVISER_R");
+		List<User> user = userService.findByRole(map);
 		super.writeJson(response, user);
 	}
 	

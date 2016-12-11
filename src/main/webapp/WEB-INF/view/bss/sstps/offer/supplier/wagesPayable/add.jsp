@@ -13,6 +13,35 @@ function down(){
 	var proId = $("#proId").val();
 	window.location.href="${pageContext.request.contextPath}/wagesPayable/select.html?proId="+proId;
 }
+
+
+function ontya(){
+	var tyaProduceUser = Number($("#tyaProduceUser").val());
+	var tyaWorkshopUser = Number($("#tyaWorkshopUser").val());
+	var tyaManageUser = Number($("#tyaManageUser").val());
+	var tyaOtherUser = Number($("#tyaOtherUser").val());
+	var tyaTotal = tyaProduceUser+tyaWorkshopUser+tyaManageUser+tyaOtherUser;
+	$("#tyaTotal").val(tyaTotal);
+}
+
+function onoya(){
+	  var oyaProduceUser = Number($("#oyaProduceUser").val());
+	  var oyaWorkshopUser = Number($("#oyaWorkshopUser").val());
+	  var oyaManageUser = Number($("#oyaManageUser").val());
+	  var oyaOtherUser = Number($("#oyaOtherUser").val());
+	  var oyaTotal = oyaProduceUser+oyaWorkshopUser+oyaManageUser+oyaOtherUser;
+	  $("#oyaTotal").val(oyaTotal);
+}
+
+function onnew(){
+    var newProduceUser = Number($("#newProduceUser").val());
+    var newWorkshopUser = Number($("#newWorkshopUser").val());
+    var newManageUser = Number($("#newManageUser").val());
+    var newOtherUser = Number($("#newOtherUser").val());
+    var newTotal = newProduceUser+newWorkshopUser+newManageUser+newOtherUser;
+    $("#newTotal").val(newTotal);
+}
+
 </script>      
   </head>
   
@@ -66,31 +95,31 @@ function down(){
    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本生产人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="tyaProduceUser" name="tyaProduceUser" value="${wp.tyaProduceUser }" class="w220">
+        <input type="text" id="tyaProduceUser" name="tyaProduceUser" value="${wp.tyaProduceUser }" onkeyup="ontya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">车间管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="tyaWorkshopUser" name="tyaWorkshopUser" value="${wp.tyaWorkshopUser }" class="w220">
+        <input type="text" id="tyaWorkshopUser" name="tyaWorkshopUser" value="${wp.tyaWorkshopUser }" onkeyup="ontya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="tyaManageUser" name="tyaManageUser" value="${wp.tyaManageUser }" class="w220">
+        <input type="text" id="tyaManageUser" name="tyaManageUser" value="${wp.tyaManageUser }" onkeyup="ontya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="tyaOtherUser" name="tyaOtherUser" value="${wp.tyaOtherUser }" class="w220">
+        <input type="text" id="tyaOtherUser" name="tyaOtherUser" value="${wp.tyaOtherUser }"  onkeyup="ontya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合计：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="tyaTotal" name="tyaTotal" value="${wp.tyaTotal }" class="w220">
+        <input type="text" id="tyaTotal" name="tyaTotal" value="${wp.tyaTotal }"  class="w220">
        </div>
 	 </li>
    </ul>
@@ -102,25 +131,25 @@ function down(){
    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本生产人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="oyaProduceUser" name="oyaProduceUser" value="${wp.oyaProduceUser }" class="w220">
+        <input type="text" id="oyaProduceUser" name="oyaProduceUser" value="${wp.oyaProduceUser }" onkeyup="onoya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">车间管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="oyaWorkshopUser" name="oyaWorkshopUser" value="${wp.oyaWorkshopUser }" class="w220">
+        <input type="text" id="oyaWorkshopUser" name="oyaWorkshopUser" value="${wp.oyaWorkshopUser }" onkeyup="onoya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="oyaManageUser" name="oyaManageUser" value="${wp.oyaManageUser }" class="w220">
+        <input type="text" id="oyaManageUser" name="oyaManageUser" value="${wp.oyaManageUser }" onkeyup="onoya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="oyaOtherUser" name="oyaOtherUser" value="${wp.oyaOtherUser }" class="w220">
+        <input type="text" id="oyaOtherUser" name="oyaOtherUser" value="${wp.oyaOtherUser }" onkeyup="onoya()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -138,25 +167,25 @@ function down(){
    <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本生产人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="newProduceUser" name="newProduceUser" value="${wp.newProduceUser }" class="w220">
+        <input type="text" id="newProduceUser" name="newProduceUser" value="${wp.newProduceUser }" onkeyup="onnew()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">车间管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="newWorkshopUser" name="newWorkshopUser" value="${wp.newWorkshopUser }" class="w220">
+        <input type="text" id="newWorkshopUser" name="newWorkshopUser" value="${wp.newWorkshopUser }" onkeyup="onnew()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="newManageUser" name="newManageUser" value="${wp.newManageUser }" class="w220">
+        <input type="text" id="newManageUser" name="newManageUser" value="${wp.newManageUser }" onkeyup="onnew()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">其他人员：</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input type="text" id="newOtherUser" name="newOtherUser" value="${wp.newOtherUser }" class="w220">
+        <input type="text" id="newOtherUser" name="newOtherUser" value="${wp.newOtherUser }" onkeyup="onnew()" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
