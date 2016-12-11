@@ -21,15 +21,12 @@
 				success:function(data){
 	       			if(data==0){
 	       				layer.alert("很抱歉,考试时间已截止",{offset: ['30%','40%']});
-						$(".layui-layer-shade").remove();
+								$(".layui-layer-shade").remove();
 	       			}else if(data==1){
 	       				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
-	       			}else if(data==2){
-	       				layer.alert("很抱歉,您不是专家,无法参加考试",{offset: ['30%','40%']});
-						$(".layui-layer-shade").remove();
 	       			}
-	       		}
-	       	});
+	       }
+	     });
 		}
 	</script>
   </head>

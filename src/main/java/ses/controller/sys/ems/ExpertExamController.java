@@ -1993,10 +1993,7 @@ public class ExpertExamController extends BaseSupplierController{
 					}
 					examUserScore.setUserType(1);
 					examUserScore.setIsMax(1);
-					User user = new User();
-					user.setTypeName(DictionaryDataUtil.getId("EXPERT_U"));
-					user.setTypeId(expert.getId());
-					User want = userService.find(user).get(0);
+					User want = userService.findByTypeId(expert.getId());
 					if(want!=null){
 						examUserScore.setUserId(want.getId());
 					}
@@ -2124,9 +2121,9 @@ public class ExpertExamController extends BaseSupplierController{
 	@ResponseBody
 	public String judgeTest(HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		String type = user.getTypeName();
+		//String type = user.getTypeName();
 		String str = null;
-		if(type.equals(DictionaryDataUtil.getId("EXPERT_U"))){
+		//if(type.equals(DictionaryDataUtil.getId("EXPERT_U"))){
 			List<ExpertAudit> expert = expertAuditService.findResultByExpertId(user.getTypeId());
 			Date auditTime = expert.get(0).getAuditAt();
 			Calendar calendar = Calendar.getInstance();
@@ -2138,9 +2135,9 @@ public class ExpertExamController extends BaseSupplierController{
 			}else{
 				str = "1";//可以开始考试
 			}
-		}else{
-			str = "2";//不是专家
-		}
+		//}else{
+		//	str = "2";//不是专家
+		//}
 		return str;
 	}
 	
