@@ -115,13 +115,27 @@ function zancunCategory(count){
 		nodes = tree.getCheckedNodes(true);
 		for (var j = 0; j < nodes.length; j++) {
 			if (!nodes[j].isParent) {
-				alert(nodes[j].id);
 				ids.push(nodes[j].id);
 			}
 		}
 	}
 	$("#categoryId").val(ids);
 	zancunMsg();
+}
+function nextCategory(count){
+	var ids = new Array();
+	for (var i = 1; i <= count; i++) {
+		var id = "tab-" + i;
+		var tree = $.fn.zTree.getZTreeObj(id);
+		nodes = tree.getCheckedNodes(true);
+		for (var j = 0; j < nodes.length; j++) {
+			if (!nodes[j].isParent) {
+				ids.push(nodes[j].id);
+			}
+		}
+	}
+	$("#categoryId").val(ids);
+	zancun();
 }
 // 有提示msg暂存
 function zancunMsg(){
@@ -156,9 +170,9 @@ function one(){
 	updateStepNumber("one");
 	window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 }
-function fun1(){
+function fun1(count){
 	updateStepNumber("three");
-	zancun();
+	nextCategory(count);
 }
 </script>
 </head>
@@ -239,7 +253,7 @@ function fun1(){
 	<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 	  <button class="btn"  type="button" onclick="pre()">上一步</button>
 	  <button class="btn" onclick="zancunCategory('${count}')"  type="button">暂存</button>
-	  <button class="btn"  type="button" onclick='fun1()'>下一步</button>
+	  <button class="btn"  type="button" onclick="fun1('${count}')">下一步</button>
     </div>
   </div>
   <div></div>
