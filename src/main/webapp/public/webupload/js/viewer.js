@@ -538,7 +538,8 @@
           width: width,
           height: height,
           left: (viewerWidth - width) / 2,
-          top: (viewerHeight - height) / 2
+          //top: (viewerHeight - height) / 2
+          top: 20
         };
 
         initialImage = $.extend({}, image);
@@ -688,7 +689,6 @@
         clearTimeout(this.timeout);
         this.timeout = false;
       }
-
       $image.removeClass(CLASS_INVISIBLE).css('cssText', (
         'width:0;' +
         'height:0;' +

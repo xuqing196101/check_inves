@@ -143,7 +143,7 @@
 			    server: globalPath + '/file/upload.html',
 			    pick:{
 			    	id:'#'+$base+'_picker',
-			    	label:'选择文件',
+			    	label:'添加文件',
 			    	multiple: mutiple
 			    }, 
 			    disableGlobalDnd: true,

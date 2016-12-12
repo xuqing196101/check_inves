@@ -1,7 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -336,7 +334,7 @@
 	</div>
     <div class="container container_box">
     <div>
-    <h2 class="count_flow"><i>1</i>添加计划信息</h2>
+    <h2 class="count_flow"><i>1</i>计划主信息</h2>
 		 <ul class="ul_list">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span> 计划名称</span>
@@ -353,7 +351,7 @@
        </div>
 	 </li> 
      <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">物资类别</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">类别</span>
 		  <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		      <select name="planType" id="wtype">
 		      <c:forEach items="${list }" var="obj">
@@ -362,12 +360,6 @@
 			</select> 
 	     </div>
 	 </li> 
-	 
-	 
-	   <div style="float: left; margin-top: 15px;">
-			<label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
-			<button style="float: left;"  class="btn btn-windows input" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
-		</div>  
    </ul>
    
 	</div>
@@ -378,12 +370,10 @@
 	<button  class="btn btn-windows add" onclick="aadd()">添加子级</button>
 	<button  class="btn btn-windows add" onclick="same()">添加同级</button>
 	<button class="btn btn-windows output" onclick="down()">下载Excel模板</button>
+	<button class="btn btn-windows output" onclick="upload();">导入</button>
 	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 	<button  class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 	</div>			
-<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
-
-
 	<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" id="add_div" >
 
 		<form id="add_form"  action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
@@ -406,7 +396,6 @@
 						<th class="info">物资用途（仅进口）</th>
 						<th class="info">使用单位（仅进口）</th>
 						<th class="info">备注</th>
-						<!-- <th class="info">操作</th> -->
 					</tr>
 				</thead>
 
