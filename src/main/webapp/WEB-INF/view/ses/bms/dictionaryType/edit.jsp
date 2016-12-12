@@ -8,7 +8,7 @@
 <head>
 <script type="text/javascript">
 	function goback(){
-		window.location.href = '${pageContext.request.contextPath}/dictionaryType/list.html}'
+		window.location.href = '${pageContext.request.contextPath}/dictionaryType/list.html'
 	}
 </script>
 </head>
