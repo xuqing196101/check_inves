@@ -46,6 +46,8 @@ public class DisPlayTld extends TagSupport {
         String path = pageContext.getServletConfig().getServletContext().getContextPath();
         try {
             out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+            out.println("<link href='"+ path +"/public/webupload/css/viewer.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
+            out.println("<script src='" + path + "/public/webupload/js/viewer.js?v='"+System.currentTimeMillis()+"'></script>");
             out.println("<script src='" + path + "/public/webupload/js/display.js?v='"+System.currentTimeMillis()+"'></script>");
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,6 +67,7 @@ public class DisPlayTld extends TagSupport {
              out.println("<input id='"+showId+"_downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
              out.println("<input id='"+showId+"_downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
              out.println("<div><ul id='"+showId+"_disFileId'></ul></div>");
+             out.println("<div id='showPic' type=\"hidden\"   ></div>");
         } catch (IOException e) {
             e.printStackTrace();
         }

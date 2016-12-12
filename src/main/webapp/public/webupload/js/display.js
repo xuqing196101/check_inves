@@ -32,7 +32,7 @@ function packParam(id){
 	var del = $("#"+id+"_showdel").val();
 	var param_del = transBoolean(del);
 	var params = {businessId: businessId,typeId: typeId,key: key};
-	display(params,id,param_del);
+	fileExist(params,id,param_del);
 }
 
 //判断是否为空
@@ -53,20 +53,108 @@ transBoolean = function(str){
 		}
 	}
 
+/***
+ * 判断文件是否存在
+ * @param params
+ * @param id
+ * @param del
+ * @returns
+ */
+function fileExist(params,id,del){
+	$.ajax({
+		url: globalPath + '/file/fileExist.do',
+		data: params,
+		async:false,
+		dataType: 'json',
+		success:function(data){
+			displayName(params,data,id,del);
+		}
+	});
+}
+
+	
+/**
+ * 显示下载,查看
+ */
+function displayName(params,data,id,del){
+	var key = params.key;
+	var $ul = $("#"+id+"_disFileId");
+	$ul.empty();
+	if (data != null){
+		if (data.success){
+			var li = '<li class=""><a href=\javascript:download("'+data.fileIds+'",'+key+');>下载</a></li>';
+			$ul.append(li);
+		}
+		if (del && data.success){
+			var li = '<li class=""><a href=\javascript:removeFile("'+data.fileIds+'",'+key+',"'+id+'");>删除</a></li>';
+			$ul.append(li);
+		}
+		if (data.picture){
+			var li = '<li class=""><a href=\'javascript:openViewDIv("'+params.businessId+'","'+params.typeId+'","'+params.key+'","'+id+'");\'>查看</a></li>';
+			$ul.append(li);
+		}
+	}
+}
+	
+
+/**
+ * 删除文件
+ * @param id  附件Id
+ * @param key 系统对应的key
+ */
+function removeFile(ids,key,id){
+	var $ul = $("#"+id+"_disFileId");
+	$.ajax({
+		url: globalPath + '/file/deleteFile.html',
+		data: {id: ids, key: key},
+		async:true,
+		success:function(msg){
+			if (msg == "ok"){
+				$("#" + id).text("删除成功.");
+				$ul.empty();
+			}
+		}
+	});
+}
+
+
+/**
+ * 显示图片
+ * @param obj
+ * @returns
+ */
+var view;
+function openViewDIv(businessId,typeId,key,id){
+	var html ="<ul id='showPicId'></ul>";
+	var index = layer.open({
+		  type: 1,
+		  title: '图片查看',
+		  skin: 'layui-layer-rim',
+		  shadeClose: true,
+		  content: html
+		});
+	layer.full(index);  
+	display(businessId,typeId,key);
+	
+	view =  $("#showPicId").viewer({
+		  url:'data-original'
+	  }); 
+}
+
 
 /**
  * 显示附件
  * @param params
  */
-function display(params,id,del){
-	var key = params.key;
+function display(businessId,typeId,key){
+	var params = {businessId: businessId,typeId: typeId,key: key};
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
 		data: params,
-		async:true,
+		async:false,
 		dataType: 'json',
 		success:function(datas){
-			disFiles(datas,key,id,del);
+			disFiles(datas,key);
 		}
 	});
 }
@@ -76,12 +164,12 @@ function display(params,id,del){
  * @param data @link Array
  * @param key 系统对应的key
  */
-function disFiles(data,key,id,del){
-	var $ul = $("#"+id+"_disFileId");
+function disFiles(data,key){
+	var $ul = $("#showPicId");
 	$ul.empty();
 	if (data != null && data.length > 0) {
 		for (var i =0 ;i < data.length; i++){
-			disFile($ul,data[i],key,del);
+			disFile($ul,data[i],key);
 		}
 	}
 }
@@ -92,49 +180,23 @@ function disFiles(data,key,id,del){
  * @param obj  传入的对象
  * @param key  对应的系统key
  */
-function disFile(html,obj,key,del){
-	var li = '<li id='+obj.id+'><a href=\javascript:download("'+obj.id+'","' + key +'");>' + obj.name+ '</a>';
-	if (del){
-		li += '<span onclick=\'removeFile("'+ obj.id +'","'+key+'");\' style=\'color:red;cursor:pointer;width:20px;\'>×</span>';
-	}
+function disFile(html,obj,key){
 	var fileName = obj.path;
 	var fileExt = fileName.substring(fileName.indexOf(".")+1,fileName.length).toLowerCase();
 	if (/(gif|jpg|jpeg|png|bmp)$/.test(fileExt)) {
-		li += '<span onclick=\'view("' + obj.path + '",this);\' style=\'color:red;cursor:pointer;width:30px;\'>查看</span>';
+		var url = globalPath + '/file/viewFile.html?path=' + obj.path;
+		var li = '<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
+			+'<img data-original="'+url+'"  src="'+url+'"/></a></div></div></li>';
+		html.append(li);
 	}
-	li += '</li>';
-	html.append(li);
 }
 
-
-
 /**
- * 删除文件
- * @param id  附件Id
- * @param key 系统对应的key
+ * 显示图片
+ * @returns
  */
-function removeFile(id,key){
-	$.ajax({
-		url: globalPath + '/file/deleteFile.html',
-		data: {id: id, key: key},
-		async:true,
-		success:function(msg){
-			if (msg == "ok"){
-				$("#" + id).text("删除成功.");
-				$("#" + id).remove();
-			}
-		}
-	});
-}
-
-/**
- * 预览
- * */
-function view(path,obj){
-	var url = globalPath + '/file/viewFile.html?path=' + path;
-
-	packingHtml(url,obj);
-
+function upPicture(){
+	view.show();
 }
 
 /**
@@ -153,6 +215,7 @@ function packingHtml(url,obj){
            + "   </div> "
 		   + " </div> "
 		   + " </div></div>";
+	
 	layer.open({
 		  type: 1,
 		  title: false,

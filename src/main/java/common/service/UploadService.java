@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.bean.ResBean;
 import common.model.UploadFile;
 
 /**
@@ -126,5 +127,15 @@ public interface UploadService {
      * @return
      */
     public String uploadFileByContext(String businessId, String sysKey, String context);
+    
+    /**
+     * 
+     *〈简述〉判断文件是否存在
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return {@link ResBean}
+     */
+    public ResBean fileExist(HttpServletRequest request);
 
 }

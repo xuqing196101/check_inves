@@ -59,7 +59,8 @@ public class DownloadServiceImpl implements DownloadService {
         String tableName = Constant.fileSystem.get(systemKey);
         if (StringUtils.isNotBlank(id)){
             if (id.contains(SPLIT_MARK)){
-               List<UploadFile> files =  fileDao.getFilesByIds(id, tableName);
+               String [] array = id.split(SPLIT_MARK);
+               List<UploadFile> files =  fileDao.getFilesByIds(array, tableName);
                if (files != null && files.size() > 0){
                    String path = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
                    UploadUtil.createDir(path);
@@ -79,7 +80,7 @@ public class DownloadServiceImpl implements DownloadService {
                 downloadFile(request, response, file.getPath(), file.getName());
             }
         }
-    }
+         }
     
     /**
      * 
@@ -151,22 +152,27 @@ public class DownloadServiceImpl implements DownloadService {
         
         return flag;
     }
-
+    
+    /**
+     * 
+     * @see common.service.DownloadService#downloadOther(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String)
+     */
     @Override
     public void downloadOther(HttpServletRequest request, HttpServletResponse response, String id, String sysKey) {
         Integer systemKey = Integer.parseInt(sysKey);
         String tableName = Constant.fileSystem.get(systemKey);
         if (StringUtils.isNotBlank(id)){
             if (id.contains(SPLIT_MARK)){
-               List<UploadFile> files =  fileDao.getFilesByIds(id, tableName);
-               if (files != null && files.size() > 0){
+                String [] array = id.split(SPLIT_MARK);
+                List<UploadFile> files =  fileDao.getFilesByIds(array, tableName);
+                if (files != null && files.size() > 0){
                    String path = PropUtil.getProperty("file.base.path") + File.separator + PropUtil.getProperty("file.temp.path");
                    UploadUtil.createDir(path);
                    String fileName = PropUtil.getProperty("file.batch.download.name");
                    File zipFile = new File(path, fileName);
                    zipFile(zipFile, files);
                    downloadFile(request, response, zipFile.getPath(), fileName);
-               }
+                }
             } else {
                 UploadFile file = fileDao.getFileById(id, tableName);
                 downloadFile(request, response, file.getPath(), file.getName());

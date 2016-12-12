@@ -80,11 +80,11 @@ public interface FileUploadMapper {
      *〈简述〉
      *〈详细描述〉
      * @author myc
-     * @param id 主键的拼接,如: 1001,1002,1003
+     * @param id 主键的数组,如: 1001,1002,1003
      * @param tableName 表名称
      * @return
      */
-    List<UploadFile> getFilesByIds(@Param("id")String id, @Param("tableName")String tableName);
+    List<UploadFile> getFilesByIds(@Param("ids")String[] id, @Param("tableName")String tableName);
     
     /**
      * 

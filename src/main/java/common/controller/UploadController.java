@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.bean.ResBean;
 import common.model.UploadFile;
 import common.service.UploadService;
 
@@ -95,6 +96,7 @@ public class UploadController {
     @RequestMapping("/deleteFile")
     @ResponseBody
     public String deleteFile(HttpServletRequest request){
+        
         String msg = uploadService.updateFile(request);
         return msg;
     }
@@ -110,6 +112,7 @@ public class UploadController {
     @RequestMapping("/displayFile")
     @ResponseBody
     public List<UploadFile> disPlayFiles(HttpServletRequest request){
+        
         List<UploadFile> list = uploadService.getFiles(request);
         return list;
     }
@@ -125,6 +128,22 @@ public class UploadController {
      */
     @RequestMapping("/viewFile")
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response){
+        
         uploadService.viewPicture(request, response);
+    }
+    
+    /**
+     * 
+     *〈简述〉判断文件是否存在
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/fileExist", produces="application/json;charset=UTF-8")
+    public ResBean fileExist(HttpServletRequest request){
+        
+        return uploadService.fileExist(request);
     }
 }

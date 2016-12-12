@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="common.dao.FileUploadMapper">
+  
+  <!-- 对应的实体 -->
   <resultMap id="BaseResultMap_File" type="common.model.UploadFile">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
@@ -12,15 +14,17 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updateDate" />
     <result column="IS_DELETED"  property="isDelete"/>
   </resultMap> 
+  
+  <!-- 基础sql -->
   <sql id="BASE_FILE_LIST">
   	ID,NAME,PATH,BUSINESS_ID,TYPE_ID,FILE_SIZE,CREATED_AT,UPDATED_AT,IS_DELETED
   </sql>
+  
+  <!-- 插入 -->
   <insert id="insertFile"    parameterType="common.model.UploadFile">
-  	 
   	 <selectKey keyProperty="id" resultType="String" order="BEFORE">
         SELECT sys_guid() FROM dual
     </selectKey>
-  	
     INSERT INTO ${tableName} (ID, NAME, PATH, 
       BUSINESS_ID, TYPE_ID, FILE_SIZE, 
       CREATED_AT, UPDATED_AT,IS_DELETED)
@@ -29,6 +33,7 @@
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
   </insert>
   
+  <!-- 获取文件 -->
   <select id="getFiles" resultMap="BaseResultMap_File" >
   	 SELECT 
   	 <include refid="BASE_FILE_LIST" />
@@ -42,6 +47,7 @@
   	 </if>
   </select>
   
+  <!-- 根据Id查询 -->
   <select id="getFileById" resultMap="BaseResultMap_File">
   	 SELECT 
   	 <include refid="BASE_FILE_LIST" />
@@ -49,13 +55,18 @@
   	 WHERE IS_DELETED = 0 AND ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <!-- 根据ids查询 -->
   <select id="getFilesByIds" resultMap="BaseResultMap_File" >
   	 SELECT 
   	 <include refid="BASE_FILE_LIST" />
   	 FROM ${tableName}
-  	 WHERE IS_DELETED = 0 AND ID in (#{id,jdbcType=VARCHAR})
+  	 WHERE IS_DELETED = 0 AND ID in 
+  	 <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+  	  #{item}
+  	 </foreach>
   </select>
   
+  <!-- 根据业务ID查询 -->
   <select id="getFileByBusinessId" resultMap="BaseResultMap_File">
   	  SELECT 
   	 <include refid="BASE_FILE_LIST" />
@@ -66,11 +77,13 @@
   	 </if>
   </select>
   
+  <!-- 业务删除文件 -->
   <update id="updateFile">
   	 UPDATE ${tableName} SET IS_DELETED = 1
   	 WHERE ID = #{id, jdbcType=VARCHAR}
   </update>
   
+  <!-- 根据Id查询 -->
   <select id="findById"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
   	 SELECT 
   	 <include refid="BASE_FILE_LIST" />

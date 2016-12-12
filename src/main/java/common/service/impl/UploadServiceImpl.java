@@ -2,11 +2,9 @@ package common.service.impl;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,20 +20,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.util.PropUtil;
 import common.bean.MultipartFileBean;
+import common.bean.ResBean;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.service.UploadService;
 import common.utils.MultipartFileUploadUtil;
 import common.utils.UploadUtil;
+import ses.util.PropUtil;
 
 /**
  * 
@@ -140,11 +137,19 @@ public class UploadServiceImpl implements UploadService {
         String id = request.getParameter("id");
         Integer systemKey = Integer.parseInt(request.getParameter("key"));
         String tableName = Constant.fileSystem.get(systemKey);
-        try {
-            uploadDao.updateFile(tableName, id);
+        if (id.contains(StaticVariables.COMMA_SPLLIT)){
+            String [] array = id.split(StaticVariables.COMMA_SPLLIT);
+            for (String str : array){
+                uploadDao.updateFile(tableName, str);
+            }
             return OK;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            try {
+                uploadDao.updateFile(tableName, id);
+                return OK;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return ERROR;
     }
@@ -173,8 +178,10 @@ public class UploadServiceImpl implements UploadService {
 
     }
 
-
-
+    /**
+     * 
+     * @see common.service.UploadService#saveOnlineFile(javax.servlet.http.HttpServletRequest, java.lang.String, java.lang.String, java.lang.String)
+     */
     @Override
     public String saveOnlineFile(HttpServletRequest request, String businessId,
                                  String typeId, String sysKey) {
@@ -231,7 +238,6 @@ public class UploadServiceImpl implements UploadService {
         }
         return ERROR;
     }
-
 
     /**
      * 
@@ -300,8 +306,6 @@ public class UploadServiceImpl implements UploadService {
         return null;
     }
 
-
-
     /**
      * 
      * @see common.service.UploadService#getFiles(javax.servlet.http.HttpServletRequest)
@@ -322,7 +326,6 @@ public class UploadServiceImpl implements UploadService {
 
         return new ArrayList<UploadFile>();
     }
-
 
     /**
      * 
@@ -357,7 +360,6 @@ public class UploadServiceImpl implements UploadService {
         return obj;
     }
 
-
     /**
      * 
      *〈简述〉获取上传文件对应的系统路径
@@ -376,7 +378,6 @@ public class UploadServiceImpl implements UploadService {
         }
         return path;
     }
-
 
     /**
      * 
@@ -419,7 +420,6 @@ public class UploadServiceImpl implements UploadService {
         return uploadDao.findById(id);
     }
 
-
     /**
      * @throws IOException 
      * @see common.service.UploadService#uploadFileByContext(java.lang.String, java.lang.String, java.lang.String)
@@ -453,7 +453,6 @@ public class UploadServiceImpl implements UploadService {
                 if (file != null){
                     UploadFile model = new UploadFile();
                     model.setBusinessId(businessId);
-//                    model.setTypeId(typeId);
                     model.setSize(file.length());
                     model.setPath(file.getPath());
                     model.setName(fileName);
@@ -467,12 +466,58 @@ public class UploadServiceImpl implements UploadService {
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
         }
+        
         return null;
     }
 
+    /**
+     * 
+     * @see common.service.UploadService#fileExit(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public ResBean fileExist(HttpServletRequest request) {
+        
+        ResBean res = new ResBean();
+        res.setSuccess(false);
+        res.setPicture(false);
+        String businessId = request.getParameter("businessId");
+        String typeId = request.getParameter("typeId");
+        String key = request.getParameter("key");
+        String fileId ="";
+        if (StringUtils.isNotBlank(key)) {
+            Integer systemKey = Integer.parseInt(request.getParameter("key"));
+            String tableName = Constant.fileSystem.get(systemKey);
+            List<UploadFile> list = uploadDao.getFiles(tableName, businessId, typeId);
+           
+            if (list != null && list.size() > 0) {
+                res.setSuccess(true);
+                String type = PropUtil.getProperty("file.picture.type");
+                for (UploadFile file : list){
+                    
+                    if (file == null || !StringUtils.isNotBlank(type)){
+                        break;
+                    }
+                    
+                    if (StringUtils.isNotBlank(file.getName())){
+                        fileId += file.getId() + ",";
+                        String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+                        if (type.contains(fileType)){
+                            res.setPicture(true);
+                        }
+                    }
+                }
+            } 
+            if(fileId.contains(StaticVariables.COMMA_SPLLIT)){
+                fileId = fileId.substring(0, fileId.length() -1);
+            }
+            res.setFileIds(fileId);
+        }
+        return res;
+    }
 
+    
+    
 
 
 }
