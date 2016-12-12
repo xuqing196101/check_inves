@@ -485,20 +485,6 @@ public class ExpertController {
         return JSON.toJSONString(allCategoryList);
     }
     
-    /**
-     *〈简述〉
-     * 品目的暂存
-     *〈详细描述〉
-     * @author Dell
-     * @param id
-     * @param categoryIds
-     */
-    @ResponseBody
-    @RequestMapping("zanCunCategory")
-    public void zanCunCategory(String id, String categoryIds){
-        
-    }
-    
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String showJiGou(String pId, String zId) {
@@ -1619,16 +1605,12 @@ public class ExpertController {
                 expert.getProfessTechTitles() == null ? "" : expert
                         .getProfessTechTitles());
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getMakeTechDate()));
-        String expertType = "";
-        String expertsTypeId = expert.getExpertsTypeId();
-        if (expertsTypeId != null && expertsTypeId.equals("1")) {
-            expertType = "技术";
-        } else if (expertsTypeId != null && expertsTypeId.equals("3")) {
-            expertType = "经济";
-        } else {
-            expertType = "";
+        StringBuffer expertType = new StringBuffer();
+        for (String typeId : expert.getExpertsTypeId().split(",")) {
+            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
         }
-        dataMap.put("expertsTypeId", expertType);
+        String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+        dataMap.put("expertsTypeId", expertsType);
         dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
         String hightEducationId = expert.getHightEducation();
         DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
