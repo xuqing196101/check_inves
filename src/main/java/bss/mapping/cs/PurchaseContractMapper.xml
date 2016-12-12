@@ -591,6 +591,315 @@
       </if>
     </trim>
   </insert>
+  
+  <insert id="insertSelectiveById" parameterType="bss.model.cs.PurchaseContract">
+    insert into T_BSS_CS_PURCHASE_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+      <if test="demandSector != null">
+        DEMAND_SECTOR,
+      </if>
+      <if test="budget != null">
+        BUDGET,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="budgetSubjectItem != null">
+        BUDGET_SUBJECT_ITEM,
+      </if>
+      <if test="approvalNumber != null">
+        APPROVAL_NUMBER,
+      </if>
+      <if test="documentNumber != null">
+        DOCUMENT_NUMBER,
+      </if>
+      <if test="quaCode != null">
+        QUA_CODE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME,
+      </if>
+      <if test="purchaseLegal != null">
+        PURCHASE_LEGAL,
+      </if>
+      <if test="purchaseAgent != null">
+        PURCHASE_AGENT,
+      </if>
+      <if test="purchaseContact != null">
+        PURCHASE_CONTACT,
+      </if>
+      <if test="purchaseContactTelephone != null">
+        PURCHASE_CONTACT_TELEPHONE,
+      </if>
+      <if test="purchaseContactAddress != null">
+        PURCHASE_CONTACT_ADDRESS,
+      </if>
+      <if test="purchaseUnitpostCode != null">
+        PURCHASE_UNITPOST_CODE,
+      </if>
+      <if test="purchasePayDep != null">
+        PURCHASE_PAY_DEP,
+      </if>
+      <if test="purchaseBank != null">
+        PURCHASE_BANK,
+      </if>
+      <if test="purchaseBankAccount != null">
+        PURCHASE_BANK_ACCOUNT,
+      </if>
+      <if test="supplierDepName != null">
+        SUPPLIER_DEP_NAME,
+      </if>
+      <if test="supplierLegal != null">
+        SUPPLIER_LEGAL,
+      </if>
+      <if test="supplierAgent != null">
+        SUPPLIER_AGENT,
+      </if>
+      <if test="supplierContact != null">
+        SUPPLIER_CONTACT,
+      </if>
+      <if test="supplierContactTelephone != null">
+        SUPPLIER_CONTACT_TELEPHONE,
+      </if>
+      <if test="supplierContactAddress != null">
+        SUPPLIER_CONTACT_ADDRESS,
+      </if>
+      <if test="supplierUnitpostCode != null">
+        SUPPLIER_UNITPOST_CODE,
+      </if>
+      <if test="supplierBank != null">
+        SUPPLIER_BANK,
+      </if>
+      <if test="supplierBankAccount != null">
+        SUPPLIER_BANK_ACCOUNT,
+      </if>
+      <if test="supplierBankName != null">
+        SUPPLIER_BANK_NAME,
+      </if>
+      <if test="supplierBankName != null">
+        SUPPLIER_PUR_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="isAppeal != null">
+        IS_APPEAL,
+      </if>
+      <if test="approvePic != null">
+        APPROVE_PIC,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="contractType != null">
+        CONTRACT_TYPE,
+      </if>
+      <if test="draftGitAt != null">
+        DRAFT_GIT_AT,
+      </if>
+      <if test="draftReviewedAt != null">
+        DRAFT_REVIEWED_AT,
+      </if>
+      <if test="formalGitAt != null">
+        FORMAL_GIT_AT,
+      </if>
+      <if test="formalReviewedAt != null">
+        FORMAL_REVIEWED_AT,
+      </if>
+      <if test="isImport != null">
+        IS_IMPORT,
+      </if>
+      <if test="isDeclare != null">
+        IS_DECLARE,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="finallyClosed != null">
+        FINALLY_CLOSED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="demandSector != null">
+        #{demandSector,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=DECIMAL},
+      </if>
+      <if test="budgetSubjectItem != null">
+        #{budgetSubjectItem,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="documentNumber != null">
+        #{documentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="quaCode != null">
+        #{quaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseDepName != null">
+        #{purchaseDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseLegal != null">
+        #{purchaseLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseAgent != null">
+        #{purchaseAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseContact != null">
+        #{purchaseContact,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseContactTelephone != null">
+        #{purchaseContactTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseContactAddress != null">
+        #{purchaseContactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseUnitpostCode != null">
+        #{purchaseUnitpostCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasePayDep != null">
+        #{purchasePayDep,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseBank != null">
+        #{purchaseBank,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseBankAccount != null">
+        #{purchaseBankAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierDepName != null">
+        #{supplierDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLegal != null">
+        #{supplierLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAgent != null">
+        #{supplierAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContact != null">
+        #{supplierContact,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactTelephone != null">
+        #{supplierContactTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierContactAddress != null">
+        #{supplierContactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierUnitpostCode != null">
+        #{supplierUnitpostCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierBank != null">
+        #{supplierBank,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierBankAccount != null">
+        #{supplierBankAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierBankName != null">
+        #{supplierBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPurId != null">
+        #{supplierPurId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
+      </if>
+      <if test="isAppeal != null">
+        #{isAppeal},
+      </if>
+      <if test="approvePic != null">
+        #{approvePic},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="contractType != null">
+        #{contractType},
+      </if>
+      <if test="draftGitAt != null">
+        #{draftGitAt},
+      </if>
+      <if test="draftReviewedAt != null">
+        #{draftReviewedAt},
+      </if>
+      <if test="formalGitAt != null">
+        #{formalGitAt},
+      </if>
+      <if test="formalReviewedAt != null">
+        #{formalReviewedAt},
+	  </if>
+      <if test="isImport != null">
+        #{isImport},
+      </if>
+      <if test="isDeclare != null">
+        #{isDeclare},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="finallyClosed != null">
+        #{finallyClosed},
+      </if>
+    </trim>
+  </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.PurchaseContract">
     update T_BSS_CS_PURCHASE_CONTRACT
     <set>

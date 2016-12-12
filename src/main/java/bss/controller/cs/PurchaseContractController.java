@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
@@ -38,7 +41,6 @@ import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
-import bss.model.sstps.AppraisalContract;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.ppms.PackageService;
@@ -115,6 +117,8 @@ public class PurchaseContractController extends BaseSupplierController{
 		String projectName = request.getParameter("projectName");
 		String projectCode = request.getParameter("projectCode");
 		String purchaseDep = request.getParameter("purchaseDep");
+		User user = (User) request.getSession().getAttribute("loginUser");
+		List<Role> roleList = user.getRoles();
 		if(page==null){
 			page=1;
 		}
@@ -126,21 +130,32 @@ public class PurchaseContractController extends BaseSupplierController{
 		List<Packages> packList = packageService.selectAllByIsWon(map);
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		List<Packages> pacList = new ArrayList<Packages>();
-		for(Packages pa:packList){
-			Project project = projectService.selectById(pa.getProjectId());
-			pa.setProject(project);
-			SupplierCheckPass sucp = new SupplierCheckPass();
-			sucp.setPackageId(pa.getId());
-			sucp.setIsWonBid((short)1);
-			List<SupplierCheckPass> suList = supplierCheckPassService.listCheckPass(sucp);
-			String supplierNames = "";
-			for(SupplierCheckPass su:suList){
-				if(su.getSupplier()!=null){
-					supplierNames+=su.getSupplier().getSupplierName()+",";
+		boolean isRole = false;
+		for(Role r:roleList){
+			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
+				isRole = true;
+			}
+		}
+		if(isRole){
+			for(Packages pa:packList){
+				Project project = projectService.selectById(pa.getProjectId());
+				pa.setProject(project);
+				SupplierCheckPass sucp = new SupplierCheckPass();
+				sucp.setPackageId(pa.getId());
+				sucp.setIsWonBid((short)1);
+				List<SupplierCheckPass> suList = supplierCheckPassService.listCheckPass(sucp);
+//				String supplierNames = "";
+				for(SupplierCheckPass su:suList){
+					if(su.getSupplier()!=null){
+//						supplierNames+=su.getSupplier().getSupplierName()+",";
+//						supplierNames+=su.getSupplier().getSupplierName();
+						pa.setSupplier(su.getSupplier());
+						pacList.add(pa);
+					}
 				}
 			}
-			pa.setSupplierNames(supplierNames);
-			pacList.add(pa);
+		}else{
+			model.addAttribute("list", new PageInfo<Packages>(pacList));
 		}
 //		List<Project> projectList = projectService.selectSuccessProject(map);
 //		List<Project> proList = new ArrayList<Project>();
@@ -189,12 +204,13 @@ public class PurchaseContractController extends BaseSupplierController{
 	 */
 	@RequestMapping("/printContract")
 	public String printContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		String ids = request.getParameter("ids");
+		purCon.setId(ids);
 		Map<String, Object> map = valid(model,purCon);
 		model = (Model)map.get("model");
 		Boolean flag = (boolean)map.get("flag");
 		String url = "";
 		if(flag == false){
-			String ids = request.getParameter("ids");
 //			Project project = projectService.selectById(ids);
 //			HashMap<String, Object> requMap = new HashMap<String, Object>();
 //			requMap.put("id", project.getId());
@@ -455,7 +471,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		String supid = request.getParameter("supid");
-		Supplier supplier = supplierService.get(supid);
+		Supplier supplier = supplierService.selectById(supid);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", ids[0]);
 		Packages pack = packageService.findPackageById(map).get(0);
@@ -566,6 +582,10 @@ public class PurchaseContractController extends BaseSupplierController{
 	@RequestMapping("/addPurchaseContract")
 	public String addPurchaseContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
 		String ids = request.getParameter("ids");
+		String dga = request.getParameter("dga");
+		String dra = request.getParameter("dra");
+		Date draftGitAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dga);
+		Date draftReAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dra);
 		purCon.setId(ids);
 		Map<String, Object> map = valid(model,purCon);
 		model = (Model)map.get("model");
@@ -586,6 +606,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("ids", ids);
 			url = "bss/cs/purchaseContract/textErrContract";
 		}else{
+			purCon.setDraftGitAt(draftGitAt);
+			purCon.setDraftReviewedAt(draftGitAt);
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
 			purCon.setCreatedAt(new Date());
@@ -603,10 +625,142 @@ public class PurchaseContractController extends BaseSupplierController{
 						requList.remove(i);
 					}
 				}
+				for(ContractRequired conRequ:requList){
+					conRequ.setContractId(id);
+					contractRequiredService.insertSelective(conRequ);
+				}
 			}
-			for(ContractRequired conRequ:requList){
-				conRequ.setContractId(id);
-				contractRequiredService.insertSelective(conRequ);
+			url = "redirect:selectAllPuCon.html";
+		}
+		return url;
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-11 下午2:56:42  
+	* @Description: 生成合同草稿 
+	* @param @param purCon 合同实体类
+	* @param @param proList 明细list
+	* @param @param result
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/addStraightContract")
+	public String addStraightContract(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletRequest request,Model model) throws Exception{
+		String dga = request.getParameter("dga");
+		String dra = request.getParameter("dra");
+		String fga = request.getParameter("fga");
+		String fra = request.getParameter("fra");
+		Map<String, Object> map = valid(model,purCon);
+		Boolean flag = (boolean)map.get("flag");
+		model = (Model)map.get("model");
+		if(purCon.getDraftGitAt()==null){
+			flag=false;
+			model.addAttribute("ERR_draftGitAt", "草案上报时间不可为空");
+		}
+		if(purCon.getDraftReviewedAt()==null){
+			flag=false;
+			model.addAttribute("ERR_draftReviewedAt", "草案报批时间不可为空");
+		}
+		if(purCon.getFormalGitAt()==null){
+			flag=false;
+			model.addAttribute("ERR_formalGitAt", "正式合同上报时间不可为空");
+		}
+		if(purCon.getFormalReviewedAt()==null){
+			flag=false;
+			model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间不可为空");
+		}
+		if(ValidateUtils.isNull(purCon.getApprovalNumber())){
+			flag=false;
+			model.addAttribute("ERR_approvalNumber", "合同批准文号不可为空");
+		}
+		if(ValidateUtils.isNull(purCon.getQuaCode())){
+			flag=false;
+			model.addAttribute("ERR_quaCode", "资格证号不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getSupplierPurId())){
+			flag=false;
+			model.addAttribute("ERR_supplierPurId", "组织机构代码不能为空");
+		}
+		if(purCon.getFormalGitAt()!=null && purCon.getFormalReviewedAt()!=null && purCon.getDraftGitAt()!=null && purCon.getDraftReviewedAt()!=null){
+			Date draftGitAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dga);
+			Date draftRAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dra);
+			Date formalGitAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fga);
+			Date formalRAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fra);
+			purCon.setDraftGitAt(draftGitAt);
+			purCon.setDraftReviewedAt(draftRAt);
+			purCon.setFormalGitAt(formalGitAt);
+			purCon.setFormalReviewedAt(formalRAt);
+			if(draftGitAt.getTime()>draftRAt.getTime() || 
+					draftGitAt.getTime()>draftRAt.getTime() ||
+					draftRAt.getTime()>formalRAt.getTime() ||
+					draftRAt.getTime()>formalGitAt.getTime()){
+				flag=false;
+				model.addAttribute("ERR_draftGitAt", "正式合同时间不可早于草稿合同时间");
+				model.addAttribute("ERR_draftReviewedAt", "正式合同时间不可早于草稿合同时间");
+				model.addAttribute("ERR_formalGitAt", "正式合同时间不可早于草稿合同时间");
+				model.addAttribute("ERR_formalReviewedAt", "正式合同时间不可早于草稿合同时间");
+			}else if(purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
+				flag=false;
+				model.addAttribute("ERR_draftGitAt", "草案报批时间应晚于提报时间");
+				model.addAttribute("ERR_draftReviewedAt", "草案报批时间应晚于提报时间");
+			}else if(purCon.getFormalGitAt().getTime()>purCon.getFormalReviewedAt().getTime()){
+				flag=false;
+				model.addAttribute("ERR_formalGitAt", "正式合同报批时间应晚于提报时间");
+				model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间应晚于提报时间");
+			}
+		}
+		String url = "";
+		List<ContractRequired> requList = proList.getProList();
+		if(flag == false){
+			model.addAttribute("purCon", purCon);
+			model.addAttribute("requList", requList);
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
+				}
+			}
+			model.addAttribute("attachuuid", purCon.getId());
+			DictionaryData dd=new DictionaryData();
+			dd.setCode("CONTRACT_APPROVE_ATTACH");
+			List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+			request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+			if(datas.size()>0){
+				model.addAttribute("attachtypeId", datas.get(0).getId());
+			}
+			model.addAttribute("kinds", DictionaryDataUtil.find(5));
+			url = "bss/cs/purchaseContract/straightContract";
+		}else{
+			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+			purCon.setYear(new BigDecimal(sdf.format(new Date())));
+			purCon.setCreatedAt(new Date());
+			purCon.setUpdatedAt(new Date());
+			purCon.setMoney(new BigDecimal(purCon.getMoney_string()));
+			purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
+			purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
+			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+			purchaseContractService.insertSelectiveById(purCon);
+			purchaseContractService.createWord(purCon, requList,request);
+			appraisalContractService.insertPurchaseContract(purCon);
+			String id = purCon.getId();
+			if(requList!=null){
+				for(int i=0;i<requList.size();i++){
+					if(requList.get(i).getPlanNo()==null){
+						requList.remove(i);
+					}
+				}
+				for(ContractRequired conRequ:requList){
+					conRequ.setContractId(id);
+					contractRequiredService.insertSelective(conRequ);
+				}
 			}
 			url = "redirect:selectAllPuCon.html";
 		}
@@ -739,13 +893,13 @@ public class PurchaseContractController extends BaseSupplierController{
 						requList.remove(i);
 					}
 				}
-			}
-			for(ContractRequired conRequ:requList){
-				if(conRequ.getId()==null){
-					conRequ.setContractId(id);
-					contractRequiredService.insertSelective(conRequ);
-				}else{
-					contractRequiredService.updateByPrimaryKeySelective(conRequ);
+				for(ContractRequired conRequ:requList){
+					if(conRequ.getId()==null){
+						conRequ.setContractId(id);
+						contractRequiredService.insertSelective(conRequ);
+					}else{
+						contractRequiredService.updateByPrimaryKeySelective(conRequ);
+					}
 				}
 			}
 			if(purCon.getStatus()==2){
@@ -986,13 +1140,25 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
-		
-		List<PurchaseContract> draftConList = purchaseContractService.selectDraftContract(map);
+		List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
+		User user = (User) request.getSession().getAttribute("loginUser");
+		List<Role> roleList = user.getRoles();
+		boolean isRole = false;
+		for(Role r:roleList){
+			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
+				isRole = true;
+			}
+		}
+		if(isRole){
+			draftConList = purchaseContractService.selectDraftContract(map);
+		}
 		BigDecimal contractSum = new BigDecimal(0);
-		for(int i=0;i<draftConList.size();i++){
-			if(draftConList.get(i)!=null){
-				if(draftConList.get(i).getMoney()!=null){
-					contractSum = contractSum.add(draftConList.get(i).getMoney());
+		if(draftConList.size()>0){
+			for(int i=0;i<draftConList.size();i++){
+				if(draftConList.get(i)!=null){
+					if(draftConList.get(i).getMoney()!=null){
+						contractSum = contractSum.add(draftConList.get(i).getMoney());
+					}
 				}
 			}
 		}
@@ -1053,13 +1219,25 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
-		
-		List<PurchaseContract> roughConList = purchaseContractService.selectRoughContract(map);
+		List<PurchaseContract> roughConList = new ArrayList<PurchaseContract>();
+		User user = (User) request.getSession().getAttribute("loginUser");
+		List<Role> roleList = user.getRoles();
+		boolean isRole = false;
+		for(Role r:roleList){
+			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
+				isRole = true;
+			}
+		}
+		if(isRole){
+			roughConList = purchaseContractService.selectRoughContract(map);
+		}
 		BigDecimal contractSum = new BigDecimal(0);
-		for(int i=0;i<roughConList.size();i++){
-			if(roughConList.get(i)!=null){
-				if(roughConList.get(i).getMoney()!=null){
-					contractSum = contractSum.add(roughConList.get(i).getMoney());
+		if(roughConList.size()>0){
+			for(int i=0;i<roughConList.size();i++){
+				if(roughConList.get(i)!=null){
+					if(roughConList.get(i).getMoney()!=null){
+						contractSum = contractSum.add(roughConList.get(i).getMoney());
+					}
 				}
 			}
 		}
@@ -1261,6 +1439,8 @@ public class PurchaseContractController extends BaseSupplierController{
 	public String updateDraftById(PurchaseContract purCon,HttpServletRequest request,Model model) throws Exception{
 		Boolean flag = true;
 		String url = "";
+		String fga = request.getParameter("fga");
+		String fra = request.getParameter("fra");
 		if(purCon.getApprovalNumber()==null || purCon.getApprovalNumber().equals("")){
 			flag=false;
 			model.addAttribute("ERR_approvalNumber", "合同批准文号不可为空");
@@ -1273,10 +1453,16 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag=false;
 			model.addAttribute("ERR_formalReviewedAt", "正式合同报批时间不可为空");
 		}
-		if(purCon.getFormalGitAt().getTime()>purCon.getFormalReviewedAt().getTime()){
-			flag=false;
-			model.addAttribute("ERR_formalGitAt", "报批时间不能早于提报时间");
-			model.addAttribute("ERR_formalReviewedAt", "报批时间不能早于提报时间");
+		if(purCon.getFormalGitAt()!=null && purCon.getFormalReviewedAt()!=null){
+			Date formalGitAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fga);
+			Date formalRAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fra);
+			purCon.setFormalGitAt(formalGitAt);
+			purCon.setFormalReviewedAt(formalRAt);
+			if(formalGitAt.getTime()>formalRAt.getTime()){
+				flag=false;
+				model.addAttribute("ERR_formalGitAt", "报批时间不能早于提报时间");
+				model.addAttribute("ERR_formalReviewedAt", "报批时间不能早于提报时间");
+			}
 		}
 		if(flag){
 			purCon.setUpdatedAt(new Date());
@@ -1295,6 +1481,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			if(datas.size()>0){
 				model.addAttribute("attachtypeId", datas.get(0).getId());
 			}
+			model.addAttribute("purCon", purCon);
 			url="bss/cs/purchaseContract/transFormaTional";
 		}
 		return url;
@@ -1394,14 +1581,27 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(purCon.getBudgetSubjectItem()!=null){
 			map.put("budgetSubjectItem", purCon.getBudgetSubjectItem());
 		}
-		List<PurchaseContract> formalConList = purchaseContractService.selectFormalContract(map);
+		List<PurchaseContract> formalConList = new ArrayList<PurchaseContract>();
+		User user = (User) request.getSession().getAttribute("loginUser");
+		List<Role> roleList = user.getRoles();
+		boolean isRole = false;
+		for(Role r:roleList){
+			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
+				isRole = true;
+			}
+		}
+		if(isRole){
+			formalConList = purchaseContractService.selectFormalContract(map);
+		}
 		PageInfo<PurchaseContract> list = new PageInfo<PurchaseContract>(formalConList);
 		model.addAttribute("list", list);
 		BigDecimal contractSum = new BigDecimal(0);
-		for(int i=0;i<formalConList.size();i++){
-			if(formalConList.get(i)!=null){
-				if(formalConList.get(i).getMoney()!=null){
-					contractSum = contractSum.add(formalConList.get(i).getMoney());
+		if(formalConList.size()>0){
+			for(int i=0;i<formalConList.size();i++){
+				if(formalConList.get(i)!=null){
+					if(formalConList.get(i).getMoney()!=null){
+						contractSum = contractSum.add(formalConList.get(i).getMoney());
+					}
 				}
 			}
 		}
@@ -1437,6 +1637,32 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		
 		return "bss/cs/purchaseContract/transFormaTional";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
+	* @author QuJie 
+	* @date 2016-11-15 下午2:54:43  
+	* @Description: 跳转生成正式合同页面 
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/createStraightContract")
+	public String createStraightContract(HttpServletRequest request,Model model) throws Exception{
+		String contractuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("attachuuid", contractuuid);
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("CONTRACT_APPROVE_ATTACH");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		model.addAttribute("kinds", DictionaryDataUtil.find(5));
+		return "bss/cs/purchaseContract/straightContract";
 	}
 	
 	/**
@@ -1539,22 +1765,30 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return void
 	 */
 	@RequestMapping("/addDraftGit")
-	public void addDraftGit(PurchaseContract purCon,HttpServletResponse response) throws Exception{
+	public void addDraftGit(HttpServletResponse response,HttpServletRequest request) throws Exception{
 		Boolean flag = true;
+		String draftGitAt = request.getParameter("draftGitAt");
+		String draftReviewedAt = request.getParameter("draftReviewedAt");
+		Date dga = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(draftGitAt);
+		Date dra = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(draftReviewedAt);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(purCon.getDraftGitAt()==null){
+		if(dga==null){
 			flag = false;
 			map.put("gitAt", "提报时间不能为空");
 		}
-		if(purCon.getDraftReviewedAt()==null){
+		if(dra==null){
 			flag = false;
 			map.put("reviewAt", "报批时间不能为空");
 		}
-		if(flag && purCon.getDraftGitAt().getTime()>purCon.getDraftReviewedAt().getTime()){
+		if(flag && dga.getTime()>dra.getTime()){
 			flag=false;
 			map.put("gitAt", "报批时间不能早于提报时间");
 			map.put("reviewAt", "报批时间不能早于提报时间");
 		}
+		String gitStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dga);
+		String reviewedStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dra);
+		map.put("gitStr", gitStr);
+		map.put("reviewedStr", reviewedStr);
 		if(flag){
 			super.writeJson(response, 1);
 		}else{

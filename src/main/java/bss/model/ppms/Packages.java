@@ -58,6 +58,16 @@ public class Packages {
 	private String supplierNames;
 	
 	private String projectId;
+	
+	private Supplier supplier;//用于拆分供应商展示
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 
 	public String getProjectId() {
 		return projectId;

@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>合同草稿修改</title>
+    <title>页签</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -340,9 +340,19 @@
 	  </div>
    </div>
    
-<!-- 新增模板开始-->
-   <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
+ <!-- 页签开始  -->  
+ <div class="container content pt0">
+ <div class="row magazine-page">
+   <div class="col-md-12 tab-v2">
+        <div class="padding-top-10">
+          <ul class="nav nav-tabs bgwhite">
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">标的信息</a></li>
+			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="record f18">合同文本</a></li>
+          </ul>
+          <div class="tab-content padding-top-20">
+            <div class="tab-pane fade active in" id="tab-1">
+                <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<input type="hidden" name="projectName" value="${project.name}"/>
@@ -573,201 +583,121 @@
 			 </li>
 			 <div class="clear"></div>
 		</ul>
-
-         <h2 class="f16 count_flow mt40"><i>04</i>项目明细</h2>
-		<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
-			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
-		</div>
-		<div class="over_scroll col-md-12 col-sm-12 col-xs-12 p0">
-    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
-		 <thead>
-			<tr>
-				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-				<th class="info w50">序号</th>
-				<th class="info">编号</th>
-				<th class="info">物资名称</th>
-				<th class="info">品牌商标</th>
-				<th class="info">规格型号</th>
-				<th class="info">计量单位</th>
-				<th class="info">数量</th>
-				<th class="info">单价(元)</th>
-				<th class="info">合计金额(元)</th>
-				<th class="info">交付时间</th>
-				<th class="info">备注</th>
-			</tr>
-		</thead>
-		<c:forEach items="${requList}" var="reque" varStatus="vs">
-			<tr>
-				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.serialNumber}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" readonly="readonly" value="${reque.stand}" class="w60"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" readonly="readonly" value="${reque.item}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" readonly="readonly" value="${reque.purchaseCount}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" readonly="readonly" value="${reque.price}" class="w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" readonly="readonly" value="${reque.budget}" class="ss w50"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}"/></td>
-			</tr>
-   		</c:forEach>
-	</table>
-    </div>
-       <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
-   	<div>
-		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
-	</div>
-   	<div class="mt10">
-       <script id="editor" name="content" type="text/plain" class= ""></script>
-    </div>
-  		<div  class="col-md-12 tc mt20">
-   			<input type="button" class="btn btn-windows save mb20" onclick="staging()" value="暂存"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save mb20" onclick="printContract()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel mb20" onclick="abandoned()" value="取消">
-  		</div>
-  		
-  		<ul class="list-unstyled mt10 dnone" id="numberWin">
-	  		    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
-				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草案合同上报时间：</span>
-				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
-				     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='gitTime' class="cue"></div>
-				   </div>
-				</li>
-				<li class="col-md-6 col-sm-12 col-xs-12">
-				   <span class="col-md-12 col-sm-12 col-xs-12"><div class="red star_red">*</div>草案合同批复时间：</span>
-				   <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12">
-				     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='reviewTime' class="cue"></div>
-				   </div>
-				</li>
-				<li class="tc col-md-12 col-sm-12 col-xs-12 mt20">
-				 <input type="button" class="btn" onclick="save()" value="生成"/>
-				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-				</li>
-		 </ul>
-  		
-  		
-  		
-  		    <%--<div class="col-md-12">
-			   <span class="span3 fl mt5"><div class="red star_red">*</div>草稿合同上报时间：</span>
-			   <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-			</div>
-			<div class="col-md-12 mt10">
-			   <span class="span3 fl"><div class="red star_red">*</div>草稿合同批复时间：</span>
-			   <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+		</form>
             </div>
-			<div class="tc col-md-12 mt20">
-			 <input type="button" class="btn" onclick="save()" value="生成"/>
-			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-			</div>
-  	--%></form>
- </div>
- 	<div id="openDiv" class="dnone layui-layer-wrap">
- 	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<ul id="treeDemo" class="ztree slect_option"></ul>
-		</div>
-			<div class="drop_window">
-			<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
-			  <ul class="list-unstyled">
-			    <li class="mt10 col-md-12 p0">
-	    	      <label class="col-md-12 pl20"><div class="red star_red">*</div>物资名称：</label>
-	    	      <span class="col-md-12">
-	    	      <div class="input-long">
-                   <input type="hidden" id="categorieId4" name="categoryId" value="">
-				   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
-				   <div class="cue" id="wzmc"></div>
-				   </div>
-				  </span>
-	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">
-	    	        <div class="red star_red">*</div>编号：</label>
-	    	        <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                      <input id="planNo" name="planNo" type="text" class="col-md-12 p0">
-                      <div class="cue" id="bh"></div>
-                    </div>
-	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>交付时间</label>
-	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="givetime" name="deliverDate" value="" type="text" class="col-md-12 p0">
-                   <div class="cue" id="jfsj"></div>
-                   </div>
-                  </span>
-	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>品牌商标</label>
-	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                    <input id="bra" name="brand" value="" type="text" class="col-md-12 p0">
-                    <div class="cue" id="ppsb"></div>
-                  </div>
-	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>规格型号</label>
-	    	       <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="model" name="stand" value="" type="text" class="col-md-12 p0">
-                   <div class="cue" id="ggxh"></div>
-	            </li> 
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>计量单位</label>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="unit" name="item" value="" type="text" class="col-md-12 p0">
-                   <div class="cue" id="jldw"></div>
-                  </div>
-	            </li>
-				<li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>数量</label>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="purNum" name="purchaseCount_string" onblur="sum1()" type="text"class="col-md-12 p0">
-                   <div class="cue" id="sl"></div>
-	              </div>
-	            </li>
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5"><div class="red star_red">*</div>单价</label>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="univalent" name="price_string" onblur="sum1()" value="" type="text" class="col-md-12 p0">
-                   <div class="cue" id="dj"></div>
-	              </div>
-	            </li>
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">合计</label>
-                  <div class="input-append input_group col-sm-12 col-xs-12 p0 col-md-12 p0">
-                   <input id="purBudgetSum" name="amount_string" value="" readonly="readonly" type="text" class="col-md-12 p0">
-	              </div>
-	            </li> 
-			    <li class="col-md-12">
-	    	      <label class="col-md-12 padding-left-5">备注</label>
-                  <div class="col-sm-12 col-xs-12 p0 col-md-12">
-                    <textarea id="remarks" name="memo" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
-	              </div>
-	            </li> 
-	            <div class="clear"></div>
-			  </ul>
-			  </form>
-			</div>
+            <div class="tab-pane fade " id="tab-2">
+              <div class="margin-bottom-0  categories">
 
-              <div class="tc  col-md-12 mb20">
-                <input class="btn"  id = "inputb" name="addr"  type="button" onclick="bynSub();" value="确定"> 
-				<input class="btn"  id = "inputa" name="addr"  type="button" onclick="quxiao();" value="取消"> 
               </div>
-		</div>
-		<script type="text/javascript">
-    		//实例化编辑器
-    		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    		var option ={
-  		        toolbars: [[
-	                'undo', 'redo', '|',
-	                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
-	                 'fontfamily', 'fontsize', '|',
-	                 'indent', '|',
-	                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion'
-  		        ]]
-    		}
-	        var ue = UE.getEditor('editor',option);  
-		</script>
+            </div>
+			
+            <div class="tab-pane fade " id="tab-3" style="position：relative">
+              <div class=" margin-bottom-0">
+                <div class="tml_container padding-top-0">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="history_icon">分公司审核</h2>
+				        <div class="padding-left-40">
+				 		  <span>确认并结束审核流程，理由是：同意采购。</span>
+						   <ul>
+						   <li class="margin-left-0">状态：<span>暂存</span></li>
+						   <li>姓名：<span>张洋</span></li>
+						   <li>ID：<span>152260</span></li>
+						   <li>单位：<span>军队采购网</span></li>
+						   <li>IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+			  
+			  
+              <div class=" margin-bottom-0">
+                <div class="tml_container">
+				 <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">选择中标人</h2>
+				        <div class="padding-left-40">
+				 		  <span>选择中标人成功！请等待分公司审核。选择［****有限公司］为中标单位</span>
+						   <ul class="list-unstyled margin-bottom-0">
+						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
+						   <li class="fl">ID：<span>152260</span></li>
+						   <li class="fl">单位：<span>军队采购网</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                   </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+			   </div>
+              </div>
+			  
+			  
+              <div class=" margin-bottom-0">
+                <div class="tml_container">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">报价</h2>
+				        <div class="padding-left-40">
+				 		  <span>［****有限公司］报价成功！</span>
+						   <ul class="list-unstyled margin-bottom-0">
+						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
+						   <li class="fl">ID：<span>152260</span></li>
+						   <li class="fl">单位：<span>军队采购网</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
+						   </ul>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				  <div class="clear"></div>
+				 </div>
+                </div>
+               </div>
+			  </div>
+          </div> 
+		</div> 
+     </div>
+  </div>
+</div>
+</div>
+<!-- 页签结束 -->
+
 </body>
 </html>

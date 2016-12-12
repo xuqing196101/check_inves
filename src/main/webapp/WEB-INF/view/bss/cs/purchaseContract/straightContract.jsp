@@ -1,11 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/tld/upload" prefix="up" %>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>合同草稿修改</title>
+    <title>生成正式合同</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -14,7 +15,6 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	
   </head>
     <script type="text/javascript">
     var treeid = null , nodeName=null;
@@ -29,7 +29,9 @@
 		      }
 	       }
 	      var conTy = "${purCon.contractType}";
-	 	   $("#contractType").val(conTy);
+	      var putTy = "${purCon.purchaseType}";
+	 	  $("#contractType").val(conTy);
+	 	  $("#purchaseType").val(putTy);
 	 }); 
 	 var setting={
 		   async:{
@@ -250,7 +252,15 @@
     }
 	
 	function staging(){
-		$("#status").val("0");
+		$("#status").val("2");
+		var dga = $("#draftGitAt").val();
+		var dra = $("#draftReviewedAt").val();
+		var fga = $("#formalGitAt").val();
+		var fra = $("#formalReviewedAt").val();
+		$("#dga").val(dga);
+		$("#dra").val(dra);
+		$("#fga").val(fga);
+		$("#fra").val(fra);
 		$("#contractForm").submit();
 	}
 	
@@ -287,8 +297,6 @@
 					var obj = new Function("return" + data)();
 					$("#gitTime").text(obj.gitAt);
 					$("#reviewTime").text(obj.reviewAt);
-					$("#draftGitAt").val(obj.gitStr);
-					$("#draftReviewedAt").val(obj.reviewedStr);
 				}
 			}
 		});
@@ -338,13 +346,18 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
+   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addStraightContract.html" method="post">
    		<input type="hidden" name="status" value="" id="status"/>
-   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
+   		<input type="hidden" name="id" value="${attachuuid}"/>
+   		<input type="hidden" name="dga" id="dga" value=""/>
+   		<input type="hidden" name="dra" id="dra" value=""/>
+   		<input type="hidden" name="fga" id="fga" value=""/>
+   		<input type="hidden" name="fra" id="fra" value=""/>
+   		<!-- <input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
    		<input type="hidden" name="projectName" value="${purCon.projectName}"/>
    		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
    		<input type="hidden" name="isImport" value="${purCon.isImport}">
-   		<input type="hidden" name="purchaseType" value="${purCon.purchaseType}">
+   		<input type="hidden" name="purchaseType" value="${purCon.purchaseType}"> -->
    		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
    		<ul class="list-unstyled ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
@@ -372,7 +385,7 @@
 			 <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>计划任务文号：</span>
 		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		          <input class=" contract_name" name="documentNumber" value="${planNos}" type="text">
+		          <input class=" contract_name" name="documentNumber" value="${purCon.documentNumber}" type="text">
        			  <div class="cue">${ERR_documentNumber}</div>
        			</div>
 			 </li>
@@ -416,6 +429,60 @@
 		        	<div class="cue">${ERR_contractType}</div>
 		        </div>
 			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>采购方式：</span>
+			     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+		        	<select name="purchaseType" id="purchaseType"  class="contract_name">
+		        		<option></option>
+		        		<c:forEach items="${kinds}" var="kind">
+		        			<option value="${kind.id}">${kind.name}</option>
+		        		</c:forEach>
+		        	</select>
+		        	<div class="cue">${ERR_purchaseType}</div>
+		        </div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同草案上报时间：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		          <input type="text" name="draftGitAt" value="<fmt:formatDate value="${purCon.draftGitAt}" pattern="yyyy-MM-dd HH:mm:ss" />" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+       			  <div class="cue">${ERR_draftGitAt}</div>
+       			</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同草案批复时间：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		          <input type="text" name="draftReviewedAt" id="draftReviewedAt" value="<fmt:formatDate value="${purCon.draftReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
+       			  <div class="cue">${ERR_draftReviewedAt}</div>
+       			</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>正式合同上报时间：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		          <input type="text" name="formalGitAt" id="formalGitAt" value="<fmt:formatDate value="${purCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss" />" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
+        		  <div class="cue">${ERR_formalGitAt}</div>
+       			</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>正式合同批复时间：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		          <input type="text" name="formalReviewedAt" id="formalReviewedAt" value="<fmt:formatDate value="${purCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss" />" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate contract_name"/>
+        		  <div class="cue">${ERR_formalReviewedAt}</div>
+       			</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>合同批准文号：</span>
+		        <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+		          <input class="contract_name" id="apN" name="approvalNumber" value="${purCon.approvalNumber }" type="text">
+        		  <div class="cue">${ERR_approvalNumber}</div>
+       			</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+	    		<span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>附件上传：</span>
+	    		<div class="select_common input_group col-md-12 col-sm-12 col-xs-12 p0">
+	        		<up:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
+					<up:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+				</div>
+	 		</li>
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
@@ -489,6 +556,13 @@
 		         <input class=" supplier_name" name="purchaseBankAccount_string" value="${purCon.purchaseBankAccount_string}" type="text">
 		         <div class="cue">${ERR_purchaseBankAccount}</div>
 		        </div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>采购机构资格证号：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		        	<input class=" supplier_id" name="quaCode" value="${purCon.quaCode}" type="text">
+		        	<div class="cue">${ERR_quaCode}</div>
+       			</div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
@@ -564,7 +638,13 @@
 		         <input class=" supplier_name" name="supplierBankAccount_string" value="${purCon.supplierBankAccount_string}" type="text">
 		         <div class="cue">${ERR_supplierBankAccount}</div>
 		        </div>
-		        
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>供应商组织机构代码：</span>
+		        <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+		         <input class=" supplier_name" name="supplierPurId" value="${purCon.supplierPurId}" type="text">
+		         <div class="cue">${ERR_supplierPurId}</div>
+		        </div>
 			 </li>
 			 <div class="clear"></div>
 		</ul>
@@ -619,32 +699,9 @@
         <div class="red f12 clear">${ERR_content}</div>
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
-   			<input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
+   			<input type="button" class="btn btn-windows save" onclick="staging()" value="生成"/>
    			<input type="button" class="btn btn-windows cancel" onclick="abandoned()" value="取消">
   		</div>
-  		
-  		<ul class="list-unstyled mt10 dnone" id="numberWin">
-	  		    <li class="col-md-6 col-sm-12 col-xs-12 pl15">
-				   <span class="col-md-12 col-sm-12 col-xs-12 fl"><div class="red star_red">*</div>草案合同上报时间：</span>
-				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-				     <input type="text" name="draftGitAt" id="draftGitAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='gitTime' class="cue"></div>
-				   </div>
-				</li>
-				<li class="col-md-6 col-sm-12 col-xs-12">
-				   <span class="col-md-12 col-sm-12 col-xs-12 fl"><div class="red star_red">*</div>草案合同批复时间：</span>
-				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-				     <input type="text" name="draftReviewedAt" id="draftReviewedAt" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate mb0 w220"/>
-				     <div id='reviewTime' class="cue"></div>
-				   </div>
-				</li>
-				<li class="tc col-md-12 mt20">
-				 <input type="button" class="btn" onclick="save()" value="生成"/>
-				 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-				</li>
-		 </ul>
   	</form>
  </div>
  	<div id="openDiv" class="dnone layui-layer-wrap">

@@ -52,6 +52,18 @@ public interface PurchaseContractService {
     
     /**
      * 
+    * 〈简述〉 〈详细描述〉
+    * 
+    * @author QuJie 
+    * @date 2016-11-11 下午3:13:59  
+    * @Description: 通过合同类型查找 
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> selectAllContract();
+    
+    /**
+     * 
     * @Title: selectByCode
     * @author QuJie 
     * @date 2016-9-23 下午4:13:53  
@@ -216,4 +228,15 @@ public interface PurchaseContractService {
      * @return: List<PurchaseContract>
      */
     List<PurchaseContract> findPurchaseContractByMap(PurchaseContract purchaseContract, int page);
+    
+    /**
+     * 
+    * @Title: insertSelectiveById
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 根据条件添加采购合同 
+    * @param @param record
+    * @param @return      
+     */
+    void insertSelectiveById(PurchaseContract record);
 }

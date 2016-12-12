@@ -112,17 +112,19 @@
   		$("#purchaseDep").val("");
   	}
   	
-  	var ind = null;
   	function createContract(){
   		var ids =[]; 
+  		var supid = null;
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
+			supid = $(this).parent().next().text();
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				$.ajax({
+				alert(supid);
+				/*$.ajax({
 		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,
 		  			dataType:"text",
 		  			type:"POST",
@@ -141,8 +143,8 @@
 							offset: ['5%', '25%']
 						});
 		  			}
-		  		});
-				//window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?ids="+ids;
+		  		});*/
+		  		window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
 			}
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
@@ -153,7 +155,7 @@
   		layer.close(ind);
   	}
   	
-  	function save(){
+  	/*function save(){
   		var supid = $("#delSele").val();
   		var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -172,7 +174,7 @@
 				}
 			}
 		});
-  	}
+  	}*/
   	
   	function someCreateContract(){
   		var ids =[]; 
@@ -251,6 +253,7 @@
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
 				<th class="info">采购项目名称</th>
 				<th class="info">编号</th>
@@ -263,33 +266,34 @@
 		<c:forEach items="${packageList}" var="pack" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
+				<td class="tnone">${pack.supplier.id}</td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<c:set value="${pack.project.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${fn:substring(name,0,10)}...</td>
+					<td class="pointer" title="${name}">${fn:substring(name,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="pointer" onmouseover="titleMouseOver('${name}',this)" onmouseout="titleMouseOut();">${name}</td>
+					<td class="pointer" title="${name}">${name}</td>
 				</c:if>
 				<c:set value="${pack.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${fn:substring(code,0,10)}...</td>
+					<td class="pointer" title="${code}">${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td class="pointer" onmouseover="titleMouseOver('${code}',this)" onmouseout="titleMouseOut();">${code}</td>
+					<td class="pointer" title="${code}">${code}</td>
 				</c:if>
 				<td class="tc pointer">${pack.name}</td>
 				<td class="tc pointer">${pack.project.amount}</td>
-				<td class="tc pointer">${pack.supplierNames}</td>
+				<td class="tc pointer">${pack.supplier.supplierName}</td>
 				<td class="tc pointer">${pack.project.purchaseDep.depName}</td>
 			</tr>
 		</c:forEach>
 	</table>
     </div>
    <div id="pagediv" align="right"></div>
-   <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
+   <!-- <ul class="list-unstyled dnone mt10 col-xs-offset-3" id="numberWin">
   		    <li class="col-md-12">
 			   <span class="fl mt20"><div class="red star_red">*</div>成交供应商：</span>
 			   <div class="select_common mt15">
@@ -303,5 +307,6 @@
 			 <input type="button" class="btn mt10" onclick="cancel()" value="取消"/>
 			</li>
 	 </ul>
+	  -->
 </body>
 </html>

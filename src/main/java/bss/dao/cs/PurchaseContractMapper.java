@@ -220,4 +220,16 @@ public interface PurchaseContractMapper {
     * @return List<PurchaseContract>
      */
     List<PurchaseContract> findPurchaseContractByMap(Map<String, Object> param);
+    
+    /**
+     * 
+    * @Title: insertSelectiveById
+    * @author QuJie 
+    * @date 2016-9-22 下午2:48:23  
+    * @Description: 根据条件添加采购合同 
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    int insertSelectiveById(PurchaseContract record);
 }
