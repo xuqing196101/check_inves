@@ -66,7 +66,7 @@ public class DisPlayTld extends TagSupport {
              out.println("<input id='"+showId+"_downBsId' type=\"hidden\"  value=" + businessId + " />");
              out.println("<input id='"+showId+"_downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
              out.println("<input id='"+showId+"_downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
-             out.println("<div><ul id='"+showId+"_disFileId'></ul></div>");
+             out.println("<div><ul id='"+showId+"_disFileId' class='uploadFiles'></ul></div>");
              out.println("<div id='showPic' type=\"hidden\"   ></div>");
         } catch (IOException e) {
             e.printStackTrace();

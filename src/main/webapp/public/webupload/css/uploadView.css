@@ -115,3 +115,11 @@
 li{
 	list-style-type:none;
 }
+.uploadFiles li{
+	float:left;
+	margin-left:3px;
+	line-height:30px;
+}
+.uploadFiles li a{
+	color:#ff0000;
+}
