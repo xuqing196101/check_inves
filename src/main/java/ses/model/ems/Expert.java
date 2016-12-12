@@ -101,6 +101,7 @@ public class Expert implements Serializable{
     /**传真*/
     private String fax;
     /**取得技术时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
     private Date makeTechDate;
     /**健康状态*/
     private String healthState;
@@ -112,6 +113,7 @@ public class Expert implements Serializable{
     @DateTimeFormat(pattern="yyyy-MM")
     private Date timeToWork;
     /**从事专业起始时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
     private Date timeStartWork;
     /**主要工作经历*/
     private String jobExperiences;

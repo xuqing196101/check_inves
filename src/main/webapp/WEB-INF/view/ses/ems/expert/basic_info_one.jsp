@@ -706,7 +706,7 @@ session.setAttribute("tokenSession", tokenValue);
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
+					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
@@ -718,7 +718,7 @@ session.setAttribute("tokenSession", tokenValue);
 				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
 					<span class="add-on">i</span>
 					</div>
 				</li>
