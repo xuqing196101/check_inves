@@ -27,7 +27,8 @@
                     tabhtml +='<h2 class="search_detail ml0">'; 
                     tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
                     tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
-                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>'; 
+                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
+                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
                     tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
            			tabhtml +='<thead><tr><th class="info w30 tc"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
 					tabhtml +='<th class="info w50">序号</th>';
@@ -102,7 +103,8 @@
   	                    tabhtml +='<h2 class="search_detail ml0">'; 
   	                    tabhtml +='<ul class="demand_list" id = "form1"><li class="fl"><label class="fl">编码：</label><span><input type="text" id="code" value="" name="code" class=""/></span></li>'; 
   	                    tabhtml +='<li class="fl"><label class="fl">名称：</label><span><input type="text" id="name" value="" name="name" /></span></li>'; 
-  	                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>'; 
+  	                    tabhtml +='<button type="button" onclick="search(1,'+kind+')" class="btn">查询</button><button type="button" onclick="resetQuery()" class="btn">重置</button></ul><div class="clear"></div></h2>';
+  	                    tabhtml +='<div class="col-md-12 col-xs-12 col-sm-12 p0"><button class="btn btn-windows add" type="button" onclick="add()">新增</button><button class="btn btn-windows delete" type="button" onclick="del();">删除</button></div>';
   	                    tabhtml +='<div class="content table_box pl0"><table class="table table-bordered table-condensed table-hover table-striped">';
   	           			tabhtml +='<thead><tr><th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>';
   						tabhtml +='<th class="info w50">序号</th>';
@@ -274,11 +276,7 @@
                     <input name="endRow" type="hidden" id="endRow" value="">
                     <input name="pageNum" type="hidden" id="pageNum" value="">
 					<div class="tag-box tag-box-v4 col-md-9 col-sm-9 col-xs-12 mt5">
-						<div class="col-md-12 col-xs-12 col-sm-12 p0">
-							<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-							<%--<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>--%>
-							<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-						</div>
+						
 						<div class="col-md-12 col-xs-12 col-sm-12 p0"  id="show_content_div">
 						    <div id="pagediv" class="hide" align="right"></div>
 						</div>
