@@ -129,11 +129,18 @@
   </update>
   
   <select id="queryBySupplierId"  resultMap="BaseResultMap">
-     select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_ADDRESS
-    where SUPPLIER_ID = #{supplierId}
-    
+     SELECT
+			t1.*, 
+			t2.NAME as subAddressName,
+			t2.PARENT_ID as parentId
+		FROM
+			T_SES_SMS_SUPPLIER_ADDRESS t1
+		LEFT JOIN
+	 		T_SES_BMS_AREA t2
+		ON 
+			t2.ID = t1.ADDRESS
+		WHERE 
+			t1.SUPPLIER_ID =#{supplierId}
   </select>
   
   <delete id="deleteBySupplierId" parameterType="String" >

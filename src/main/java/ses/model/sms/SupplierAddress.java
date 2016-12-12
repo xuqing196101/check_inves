@@ -58,6 +58,10 @@ public class SupplierAddress {
     
     private List<Area> areaList=new ArrayList<Area>();
     
+    private String subAddressName;
+    
+    private String parentId;
+    
     public List<Area> getAreaList() {
 		return areaList;
 	}
@@ -197,6 +201,22 @@ public class SupplierAddress {
 
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public String getSubAddressName() {
+		return subAddressName;
+	}
+
+	public void setSubAddressName(String subAddressName) {
+		this.subAddressName = subAddressName;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
     
     

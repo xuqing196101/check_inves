@@ -2,6 +2,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
@@ -42,6 +44,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierExtRelateService;
@@ -93,11 +96,23 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierExtRelateService  supplierExtRelateService;
 	
+	/**
+	 * 境外分支
+	 */
 	@Autowired
 	private SupplierBranchService supplierBranchService;
 	
+	/**
+	 * 地区
+	 */
 	@Autowired
 	private AreaServiceI areaService;
+	
+	/**
+	 * 生产经营地址
+	 */
+	@Autowired
+	private SupplierAddressService supplierAddressService;
 	
 	/**
 	 * @Title: daiBan
@@ -225,7 +240,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierBranchList", supplierBranchList);
 		
 		//地区查询
-		List<Area> privnce = areaService.findRootArea();		
+		List<Area> privnce = areaService.findRootArea();
+		request.setAttribute("privnce", privnce);
+		
 		Area area = areaService.listById(supplier.getAddress());
 		String sonName = area.getName();
 		request.setAttribute("sonName", sonName);
@@ -235,6 +252,29 @@ public class SupplierAuditController extends BaseSupplierController{
 				request.setAttribute("parentName", parentName);
 			}
 		}
+		
+		
+		List<SupplierAddress> supplierAddress= supplierAddressService.getBySupplierId(supplierId);
+		request.setAttribute("supplierAddress", supplierAddress);
+		
+/*		
+		//地区查询
+		List<String> subNameList = new ArrayList<String>();
+		for(int i=0; i<supplierAddress.size(); i++){
+			String address = supplierAddress.get(i).getAddress();
+			Area region = areaService.listById(address);
+			String subName = region.getName();
+			subNameList.add(subName);
+		}
+		request.setAttribute("subNameList", subNameList);
+		for(int i=0; i<privnce.size(); i++){
+			if(area.getParentId().equals(privnce.get(i).getId())){
+				String rootName = privnce.get(i).getName();
+				request.setAttribute("rootName", rootName);
+			}
+		}
+		*/
+		
 		return "ses/sms/supplier_audit/essential";
 	}
 	

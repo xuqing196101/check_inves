@@ -336,39 +336,41 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="address2">注册公司地址：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="address" class="hand " value="${parentName}—${sonName } " type="text" onclick="reason(this.id,'address')" >
+                <input id="address" class="hand " value="${parentName}${sonName } " type="text" onclick="reason(this.id,'address')" >
                 <div id="address3" class="abolish">×</div>
               </div>
             </li>
           	<li class="col-md-3 col-sm-6 col-xs-12">
 				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">注册详细地址</span>
 				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			          <input id="detailAddress"  class="hand fl" onclick="reason(this.id,'detailAddress')" value="${suppliers.detailAddress}">
+			          <input id="detailAddress"  class="hand fl" onclick="reason(this.id,'detailAddress')" value="${suppliers.detailAddress}" >
 			          <div id="detailAddress3" class="abolish">×</div>
 			        </div>
 				    </li>
-						
-				    <li class="col-md-3 col-sm-6 col-xs-12">
-				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司邮编</span>
-				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" >
-			          <div id="detailAddress3" class="abolish">×</div>
-			        </div>
-				    </li>
-				    <li class="col-md-3 col-sm-6 col-xs-12">
-				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司地址</span>
-				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" >
-			          <div id="detailAddress3" class="abolish">×</div>
-			        </div>
-				    </li>
-				    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
-				      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司详细地址</span>
-				      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			          <input type="text" id="detailAddress"  value="${suppliers.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')" style="border: 1px solid rgb(211, 211, 211);padding-right: 340px;">
-			          <div id="detailAddress3" class="abolish">×</div>
-			        </div>
-				    </li>
+						<!-- 遍历生产地址 -->
+						<c:forEach items="${supplierAddress }" var="supplierAddress" varStatus="vs">
+					    <li class="col-md-3 col-sm-6 col-xs-12">
+					      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="code2">生产公司邮编</span>
+					      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				          <input type="text" id="code"  value="${supplierAddress.code}" class="hand " onclick="reason(this.id,'code')" >
+				          <div id="code3" class="abolish">×</div>
+				        </div>
+					    </li>
+					    	<li class="col-md-3 col-sm-6 col-xs-12">
+					      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="address2">生产公司地址</span>
+					      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">					      
+				          <input type="text" id="address"  value="<c:forEach items="${privnce }" var="privnce" varStatus="vs"><c:if test="${supplierAddress.parentId eq privnce.id}">${privnce.name }</c:if></c:forEach>${supplierAddress.subAddressName }" class="hand " onclick="reason(this.id,'address')" >
+				          <div id="address3" class="abolish">×</div>
+				        </div>
+					    </li>
+					    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
+					      <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" id="detailAddress2">生产公司详细地址</span>
+					      <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				          <input type="text" id="detailAddress"  value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this.id,'detailAddress')">
+				          <div id="detailAddress3" class="abolish">×</div>
+				        </div>
+					    </li>
+				    </c:forEach>
           </ul>
 					
           <h2 class="count_flow"><i>3</i>资质资信</h2>
@@ -610,18 +612,18 @@
 	                <div id="branchCountry3" class="abolish">×</div>
 	              </div>
 	            </li>
-	            <li class="col-md-3 col-sm-6 col-xs-12 ">
-	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchAddress2">详细地址：</span>
-	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-	                <input id="branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
-	                <div id="branchAddress3" class="abolish">×</div>
-	              </div>
-	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12">
 	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchName2">机构名称：</span>
 	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 	                <input id="branchName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this.id,'branchName')" >
 	                <div id="branchName3" class="abolish">×</div>
+	              </div>
+	            </li>
+	            <li class="col-md-3 col-sm-6 col-xs-12 ">
+	              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchAddress2">详细地址：</span>
+	              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+	                <input id="branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
+	                <div id="branchAddress3" class="abolish">×</div>
 	              </div>
 	            </li>
 	            <li class="col-md-12 col-sm-12 col-xs-12">

@@ -35,7 +35,6 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 
 	@Override
 	public List<SupplierAddress> getBySupplierId(String sid) {
-		// TODO Auto-generated method stub
 		return supplierAddressMapper.queryBySupplierId(sid);
 	}
 
