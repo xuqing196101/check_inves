@@ -1,5 +1,7 @@
 package bss.model.ppms;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import ses.model.oms.PurchaseDep;
@@ -63,8 +65,63 @@ public class ProjectDetail {
 	
 	private Packages packages;
 	
+	/**报价需要回显 -添加三个字段*/
+	 /**
+     * 包报价总金额
+     */
+    private BigDecimal total;
+    
+    /**
+     * 成交时间
+     */
+    private Timestamp deliveryTime;
+    
+    /**
+     * 备注
+     */
+    private String remark;
+    
+    /**
+     * 单价
+     */
+    private BigDecimal quotePrice;
+    
+    
+    
 
-	public Packages getPackages() {
+	public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public Timestamp getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(Timestamp deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public BigDecimal getQuotePrice() {
+        return quotePrice;
+    }
+
+    public void setQuotePrice(BigDecimal quotePrice) {
+        this.quotePrice = quotePrice;
+    }
+
+    public Packages getPackages() {
 		return packages;
 	}
 

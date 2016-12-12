@@ -161,6 +161,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
         }
         //循环次数
         Integer count = 0;
+        Timestamp timestamp = new Timestamp(new Date().getTime());
         for (Packages pk:listPackageEach) {
             map.put("packageId", pk.getId());
             List<ProjectDetail> detailList = detailService.selectByCondition(map, 0);
@@ -175,7 +176,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
                 qt.setTotal(new BigDecimal(listBd.get(count * 4 - 3)));
                 qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count * 4 - 2)).getTime()));
                 qt.setRemark(listBd.get(count * 4 - 1).equals("null") ? "" : listBd.get(count * 4 - 1));
-                qt.setCreatedAt(new Timestamp(new Date().getTime()));
+                qt.setCreatedAt(timestamp);
                 listQuote.add(qt);
             }
         }

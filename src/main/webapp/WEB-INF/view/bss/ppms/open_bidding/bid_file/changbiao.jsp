@@ -32,14 +32,18 @@ function addTotal() {
 			var num = $(allTable[i].rows).eq(j).find("td").eq(FIVE).text();
 			var price = $(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val();
 			var reg = /^\d+\.?\d*$/;
+			var flag = false;
 			if(!reg.exec(price)) {
 				$(allTable[i].rows).eq(j).find("td").eq(SIX).find("input").val('');
-				return;
+				flag = true;
 			}
 			var total = $(allTable[i].rows).eq(j).find("td").eq(SEVEN).text();
 			if(price == "" || price.trim() == "") {
 				continue;
 			} else {
+				if (flag == true) {
+					price = 0;
+				}
 				$(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price * num).toFixed(2));
 				totalMoney += parseFloat(price * num);
 				$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq(ONE).text(parseFloat(totalMoney).toFixed(2));
@@ -48,12 +52,16 @@ function addTotal() {
 	};
 };
 
-function eachTable() {
+function eachTable(obj) {
+    //根据保存按钮显示提示信息
+ 	var x,y;  
+    oRect = obj.getBoundingClientRect();  
+    x=oRect.left - 150;  
+    y=oRect.top - 150;  
 	var allTable = document.getElementsByTagName("table");
 	var priceStr = "";
 	var error = 0;
 	for(var i = 0; i < allTable.length; i++) {
-	alert(i);
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 		    var supplierId = $(allTable[i]).attr('id');
 		    var productId = $(allTable[i].rows).eq(j).attr('id');
@@ -66,11 +74,13 @@ function eachTable() {
 				remark = null;
 			}
 			if(deliveryTime == "") {
-				layer.msg("页签" + (i + 1) + ",表格第" + (j + 1) + "行,交货时间未填写");
+				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,交货时间未填写"); 
+				 layer.msg("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 			}
 			if(price == "" || price.trim() == "") {
-				layer.msg("页签" + (i + 1) + ",表格第" + (j + 1) + "行,未报价");
+				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,未报价"); 
+				layer.alert("表单未填写完整,单价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 				error++;
 			} else {
@@ -80,7 +90,39 @@ function eachTable() {
 	}
 	if(error == 0) {
 		$("#priceStr").val(priceStr);
-		form.submit();
+		var priceStr = $("#priceStr").val();
+		var projectId = $("#projectId").val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/save.html?priceStr=" + priceStr + "&projectId="+ projectId,
+			success:function(data){
+				layer.alert("暂存成功",{offset: [y, x], shade:0.01});
+			}
+		});
+		//form.submit();
+	};
+}
+
+function ycDiv(obj, index){
+	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
+		$(obj).removeClass("jbxx");
+		$(obj).addClass("zhxx");
+	} else {
+		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
+			$(obj).removeClass("zhxx");
+			$(obj).addClass("jbxx");
+		}
+	}
+	
+	var divObj = new Array();
+	divObj = $(".p0" + index);
+	for (var i =0; i < divObj.length; i++) {
+    	if ($(divObj[i]).hasClass("p0"+index) && $(divObj[i]).hasClass("hide")) {
+    		$(divObj[i]).removeClass("hide");
+    	} else {
+    		if ($(divObj[i]).hasClass("p0"+index)) {
+    			$(divObj[i]).addClass("hide");
+    		}
+    	}
 	};
 }
 </script>
@@ -139,141 +181,64 @@ function eachTable() {
         </c:forEach>
        </c:if>
        <c:if test="${flag == true }">
-       <div class="container clear">
+       <div class="clear">
        <form id="form" action="${pageContext.request.contextPath}/open_bidding/save.html" method="post">
-				<input id="priceStr" name="priceStr" type="hidden" />
-				<input id="projectId" name="projectId" value="${projectId }" type="hidden" />
-				<div class="row magazine-page">
-					<div class="col-md-12 tab-v2 job-content">
-						<div class="padding-top-10">
-							<ul class="nav nav-tabs bgdd">
-								<c:forEach items="${listPackage }" var="obj" varStatus="vs">
-									<c:if test="${vs.index==0 }">
-										<li class="active">
-											<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }">
-												<c:choose>
-													<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
-													<c:otherwise>${obj.name}</c:otherwise>
-												</c:choose>
-											</a>
-										</li>
-									</c:if>
-									<c:if test="${vs.index>0 }">
-										<li class="">
-											<a aria-expanded="true" href="#tab-${vs.index+1 }" data-toggle="tab" title="${obj.name }">
-												<c:choose>
-													<c:when test="${fn:length(obj.name)>3}">${fn:substring(obj.name, 0, 3)}...</c:when>
-													<c:otherwise>${obj.name}</c:otherwise>
-												</c:choose>
-											</a>
-										</li>
-									</c:if>
+		<input id="priceStr" name="priceStr" type="hidden" />
+		<input id="projectId" name="projectId" value="${projectId }" type="hidden" />
+		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
+		<c:set value="${vs.index}" var="index"></c:set>
+			   <div>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span></h2>
+               </div>
+			<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
+				<c:forEach items="${proDel.key }" var="pd" varStatus="vs">
+						<div class="p0${index}">
+						<span class="fl">供应商名称：<span class="f14 blue">${pd.supplierName}</span></span>
+						<table id="${pd.id}"  class="table table-bordered table-condensed mt5">
+							<thead>
+								<tr>
+									<th class="info w50">序号</th>
+									<th class="info">物资名称</th>
+									<th class="info">规格<br/>型号</th>
+									<th class="info">质量技术<br/>标准</th>
+									<th class="info">计量<br/>单位</th>
+									<th class="info">采购<br/>数量</th>
+									<th class="info">单价（元）</th>
+									<th class="info">小计</th>
+									<th class="info">交货时间</th>
+									<th class="info">备注</th>
+								</tr>
+							</thead>
+							<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
+								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
+									<tr id="${pd.id }" class="hand">
+										<td class="tc w50">${pd.serialNumber}</td>
+										<td class="tc">${pd.goodsName}</td>
+										<td class="tc">${pd.stand}</td>
+										<td class="tc">${pd.qualitStand}</td>
+										<td class="tc">${pd.item}</td>
+										<td class="tc">${pd.purchaseCount}</td>
+										<td class="tc"><input class="w60" maxlength="16" onblur="addTotal()" /></td>
+										<td class="tc"></td>
+										<td class="tc"><input class="w90" readonly="readonly" onClick="WdatePicker()" /></td>
+										<td class="tc"><input class="w60" /></td>
+									</tr>
 								</c:forEach>
-							</ul>
-							<div class="tab-content">
-								<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
-									<c:choose>
-										<c:when test="${vs.index==0 }">
-											<div class="tab-pane fade active in height-450 w800" id="tab-${vs.index+1 }">
-												<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
-													<c:forEach items="${proDel.key }" var="pd" varStatus="vs">
-													<span>${pd.supplierName}</span>
-												<table id="${pd.id}"  class="table table-bordered table-condensed mt5">
-													<thead>
-														<tr>
-															<th class="info w50">序号</th>
-															<th class="info">物资名称</th>
-															<th class="info">规格<br/>型号</th>
-															<th class="info">质量技术<br/>标准</th>
-															<th class="info">计量<br/>单位</th>
-															<th class="info">采购<br/>数量</th>
-															<th class="info">单价（元）</th>
-															<th class="info">小计</th>
-															<th class="info">交货时间</th>
-															<th class="info">备注</th>
-														</tr>
-													</thead>
-													<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
-														<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
-															<tr id="${pd.id }" class="hand">
-																<td class="tc w50">${pd.serialNumber}</td>
-																<td class="tc">${pd.goodsName}</td>
-																<td class="tc">${pd.stand}</td>
-																<td class="tc">${pd.qualitStand}</td>
-																<td class="tc">${pd.item}</td>
-																<td class="tc">${pd.purchaseCount}</td>
-																<td class="tc"><input class="w60" maxlength="16" onblur="addTotal()" /></td>
-																<td class="tc"></td>
-																<td class="tc"><input class="w90" readonly="readonly" onClick="WdatePicker()" /></td>
-																<td class="tc"><input class="w60" /></td>
-															</tr>
-														</c:forEach>
-													</c:forEach>
-													<tr>
-														<td class="tr" colspan="2"><b>总金额(元):</b></td>
-														<td class="tl" colspan="7"></td>
-													</tr>
-												</table>
-												</c:forEach>
-												</c:forEach>
-											</div>
-										</c:when>
-										<c:otherwise>
-											<div class="tab-pane fade in height-450" id="tab-${vs.index+1 }">
-											<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
-											   <c:forEach items="${proDel.key }" var="pd" varStatus="vs">
-												<span>${pd.supplierName}</span>
-												<table id="${pd.id}" class="table table-bordered table-condensed mt5">
-													<thead>
-														<tr>
-															<th class="info w50">序号</th>
-															<th class="info">物资名称</th>
-															<th class="info">规格<br/>型号</th>
-															<th class="info">质量技术<br/>标准</th>
-															<th class="info">计量<br/>单位</th>
-															<th class="info">采购<br/>数量</th>
-															<th class="info">单价（元）</th>
-															<th class="info">小计</th>
-															<th class="info">交货时间</th>
-															<th class="info">备注</th>
-														</tr>
-													</thead>
-													<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
-														<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
-															<tr id="${pd.id }" class="hand">
-																<td class="tc w50">${pd.serialNumber}</td>
-																<td class="tc">${pd.goodsName}</td>
-																<td class="tc">${pd.stand}</td>
-																<td class="tc">${pd.qualitStand}</td>
-																<td class="tc">${pd.item}</td>
-																<td class="tc">${pd.purchaseCount}</td>
-																<td class="tc"><input class="w60" maxlength="16" onblur="addTotal()" /></td>
-																<td class="tc"></td>
-																<td class="tc"><input class="w90" readonly="readonly" onClick="WdatePicker()" /></td>
-																<td class="tc"><input class="w60" /></td>
-															</tr>
-														</c:forEach>
-													</c:forEach>
-													<tr>
-														<td class="tr" colspan="2"><b>总金额(元):</b></td>
-														<td class="tl" colspan="7"></td>
-													</tr>
-												</table>
-												</c:forEach>
-												</c:forEach>
-											</div>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</div>
+							</c:forEach>
+							<tr>
+								<td class="tr" colspan="2"><b>总金额(元):</b></td>
+								<td class="tl" colspan="7"></td>
+							</tr>
+						</table>
 						</div>
-						<div class="col-md-12 tc">
-							<input class="btn btn-windows save" value="保存" type="button" onclick="eachTable()">
-						</div>
-					</div>
-				</div>
-			</form>
+				</c:forEach>
+			</c:forEach>
+		</c:forEach>
+		<div class="col-md-12 tc">
+			<input class="btn btn-windows save" value="暂存" type="button" onclick="eachTable(this)">
 		</div>
-       </c:if>
+	  </form>
+	</div>
+  </c:if>
 </body>
 </html>

@@ -597,13 +597,13 @@ public class OpenBiddingController {
         List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
         List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
         boolean flag = false;
-        if(listsupplierId.get(0).length()>30){
+        if(listsupplierId.get(0).length() > 30){
             for(String str:listsupplierId){
                 Quote quotes = new Quote();
                 quotes.setProjectId(projectId);
 	            quotes.setSupplierId(str);
 	            List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
-	            if (listDate.size() == 0) {
+	            if (listDate.size() == 0 || project.getBidDate().getTime() < new Date().getTime()) {
 	                flag = true;
 	                break;
 	            }
@@ -623,13 +623,8 @@ public class OpenBiddingController {
 	        }
             model.addAttribute("listQuoteList", listQuoteList);
         }
-        
-         if(flag==true){
-            Quote quote = new Quote();
-            User user = (User) req.getSession().getAttribute("loginUser");
-            quote.setProjectId(projectId);
-            quote.setSupplierId(user.getTypeId());
-            List<Date> listDate = supplierQuoteService.selectQuoteCount(quote);
+         //已开标 就是线下报价  -第一次进来的时候
+         if(flag==true) {
             HashMap<String, Object> map1 = new HashMap<String, Object>();
             map1.put("projectId", projectId);
             SaleTender st = new SaleTender();
@@ -652,7 +647,17 @@ public class OpenBiddingController {
                 HashMap<List<Supplier>,List<ProjectDetail>> hashMap = new HashMap<List<Supplier>,List<ProjectDetail>>();
                 List<Supplier> supplierList = new ArrayList<Supplier>();
                 map1.put("packageId", pk.getId());
+                //
+                Quote quotes = new Quote();
+                quotes.setProjectId(projectId);
+                List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
+                Quote quote=new Quote();
+                quote.setProjectId(projectId);
+                quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
+                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+                //
                 List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+                ProjectDetail pd = new ProjectDetail();
                 for (SaleTender saleTender : saleTenderList) {
                     if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
                         Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
@@ -665,7 +670,6 @@ public class OpenBiddingController {
             model.addAttribute("listPd", listPd);
             model.addAttribute("listPackage", listPackage);
             model.addAttribute("projectId", projectId);
-            model.addAttribute("listDate", listDate);
         }
         model.addAttribute("flag", flag);
         return "bss/ppms/open_bidding/bid_file/changbiao";
@@ -706,6 +710,7 @@ public class OpenBiddingController {
         }
         //循环次数
         Integer count = 0;
+        Timestamp timestamp = new Timestamp(new Date().getTime());
         for (Packages pk:listPackage) {
             Integer count1 = 0;
             map.put("packageId", pk.getId());
@@ -734,7 +739,7 @@ public class OpenBiddingController {
                 qt.setTotal(new BigDecimal(listBd.get(count * 6 - 5)));
                 qt.setDeliveryTime(new Timestamp(new SimpleDateFormat("YYYY-MM-dd").parse(listBd.get(count * 6 - 4)).getTime()));
                 qt.setRemark(listBd.get(count * 6 - 3).equals("null") ? "" : listBd.get(count * 6 - 3));
-                qt.setCreatedAt(new Timestamp(new Date().getTime()));
+                qt.setCreatedAt(timestamp);
                 listQuote.add(qt);
             }
         }
@@ -747,7 +752,7 @@ public class OpenBiddingController {
             List<SaleTender> sts = saleTenderService.find(saleTender);
             SaleTender std = sts.get(0);
             std.setBidFinish((short) 3);
-            saleTenderService.update(std);
+            //saleTenderService.update(std);
         } catch (Exception e) {
             e.printStackTrace();
         }
