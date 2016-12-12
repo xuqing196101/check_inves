@@ -1147,10 +1147,21 @@ public class ExpertController {
             DictionaryData dictionaryData = dictionaryDataServiceI
                 .getDictionaryData(exp.getGender());
             exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+            StringBuffer expertType = new StringBuffer();
+            for (String typeId : exp.getExpertsTypeId().split(",")) {
+                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            }
+            String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+            exp.setExpertsTypeId(expertsType);
         }
         // 查询数据字典中的专家来源配置数据
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         request.setAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的专家类别数据
+        List<DictionaryData> jsTypeList = DictionaryDataUtil.find(6);
+        List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
+        jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo<Expert>(allExpert));
         request.setAttribute("expert", expert);
         return "ses/ems/expert/list";

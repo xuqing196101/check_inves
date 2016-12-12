@@ -231,11 +231,12 @@
                   <li>
                     <label class="fl">专家类型：</label>
                     <span class="fl">
-                       <select name="expertsTypeId" id="expertsTypeId">
-                                    <option selected="selected"  value=''>-请选择-</option>
-                                    <option <c:if test="${expert.expertsTypeId =='1' }">selected</c:if> value="1">技术</option>
-                                    <option <c:if test="${expert.expertsTypeId =='3' }">selected</c:if> value="3">经济</option>
-                               </select>
+                      <select name="expertsTypeId" id="expertsTypeId">
+                        <option selected="selected"  value=''>-请选择-</option>
+                        <c:forEach items="${expTypeList}" var="exp">
+                          <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+                        </c:forEach>          
+                      </select>
                     </span>
                   </li>
 		        </ul>
@@ -247,7 +248,7 @@
    <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
-	<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+	<!-- <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button> -->
 	<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
 	</div>
    
@@ -259,9 +260,9 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">专家姓名</th>
 		  <th class="info">性别</th>
-		  <th class="info">类型</th>
+		  <th class="info">类别</th>
 		  <th class="info">毕业院校及专业</th>
-		  <th class="info">工作单位</th>
+		  <th class="info">所在单位</th>
 		  <th class="info">创建时间</th>
 		  <th class="info">审核状态</th>
 		  <th class="info">诚信积分</th>
@@ -273,21 +274,10 @@
 		  <td onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 		  <td onclick="view('${e.id}');" class="tc">${e.relName}</td>
 		  <td onclick="view('${e.id}');" class="tc">${e.gender}</td>
-		  <c:if test="${e.expertsTypeId ==null}">
-		   <td onclick="view('${e.id}');" class="tc"></td>
-		  </c:if>
-		  <c:if test="${e.expertsTypeId =='1' || e.expertsTypeId ==1}">
-		   <td onclick="view('${e.id}');" class="tc">技术</td>
-		  </c:if>
-		  <c:if test="${e.expertsTypeId =='2' || e.expertsTypeId ==2}">
-		   <td  onclick="view('${e.id}');"class="tc">法律</td>
-		  </c:if>
-		   <c:if test="${e.expertsTypeId =='3' || e.expertsTypeId ==3}">
-		   <td onclick="view('${e.id}');" class="tc">经济</td>
-		  </c:if>
+		  <td onclick="view('${e.id}');" class="tc">${e.expertsTypeId}</td>
 		 <td onclick="view('${e.id}');" class="tc">${e.graduateSchool }</td>
 		 <td onclick="view('${e.id}');" class="tc">${e.workUnit }</td>
-		 <td  onclick="view('${e.id}');" class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+		 <td  onclick="view('${e.id}');" class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM"/></td>
 		 <c:if test="${e.status==null || e.status eq '0' }">
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
 		 </c:if>
