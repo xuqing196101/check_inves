@@ -756,9 +756,13 @@ session.setAttribute("tokenSession", tokenValue);
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
-                    <span class="add-on">i</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                        <select  name="degree" id="degree">
+                        <option selected="selected" value="">-请选择-</option>
+                        <c:forEach items="${xwList}" var="xw" varStatus="vs">
+                          <option <c:if test="${expert.degree eq xw.id}">selected="selected"</c:if> value="${xw.id}">${xw.name}</option>
+                        </c:forEach>
+                       </select>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>

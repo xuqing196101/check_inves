@@ -385,7 +385,9 @@ public class ExpertController {
         // 经济类型数据字典
         List<DictionaryData> jjTypeList = DictionaryDataUtil.find(19);
         model.addAttribute("jjList", jjTypeList);
-
+        // 学位类型数据字典
+        List<DictionaryData> xwTypeList = DictionaryDataUtil.find(21);
+        model.addAttribute("xwList", xwTypeList);
         model.addAttribute("att", att);
         // typrId集合
         model.addAttribute("typeMap", typeMap);
