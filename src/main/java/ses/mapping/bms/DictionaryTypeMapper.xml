@@ -16,7 +16,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_DICTIONARY_TYPE
-    ORDER BY CREATED_AT DESC
+    ORDER BY CODE
   </select>
   <select id="get" resultMap="DictionaryTypeMap">
     select 
@@ -109,7 +109,7 @@
         NAME LIKE '%'||#{name}||'%' AND
      </if> 
     NAME IS NOT NULL 
-    ORDER BY CREATED_AT DESC
+    ORDER BY KIND
      
   </select>
 </mapper>

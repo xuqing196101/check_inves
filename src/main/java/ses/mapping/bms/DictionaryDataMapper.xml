@@ -10,10 +10,11 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted" />
     <result column="KIND" property="kind" />
+    <result column="POSITION" property="position" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CODE, NAME, DESCRIPTION, CREATED_AT, UPDATED_AT, IS_DELETED, KIND
+    ID, CODE, NAME, DESCRIPTION, CREATED_AT, UPDATED_AT, IS_DELETED, KIND, POSITION
   </sql>
   
   <!-- 查询条件 -->
@@ -41,6 +42,9 @@
       <if test="kind != null">
         and dd.KIND = #{kind} 
       </if>
+      <if test="position != null">
+        and dd.POSITION = #{position} 
+      </if>
     </trim>
   </sql>
   
@@ -50,7 +54,7 @@
     <include refid="Base_Column_List" />
     from T_SES_BMS_DICTIONARY_DATA dd
     <include refid="Example_Where_Clause"/>
-    ORDER BY dd.CREATED_AT DESC
+    ORDER BY dd.POSITION
   </select>
   
   <!-- 2.根据id删除 -->
@@ -90,6 +94,9 @@
       <if test="kind != null">
        KIND, 
       </if>
+      <if test="position != null">
+       POSITION, 
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -115,6 +122,9 @@
       </if>
       <if test="kind != null">
         #{kind}, 
+      </if>
+      <if test="position != null">
+        #{position}, 
       </if>
     </trim>
   </insert>
@@ -143,6 +153,9 @@
       </if>
       <if test="kind != null">
       	KIND = #{kind},
+      </if>
+      <if test="position != null">
+      	POSITION = #{position},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

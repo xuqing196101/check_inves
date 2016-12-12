@@ -27,6 +27,7 @@ public class DictionaryData implements Serializable{
     
     private Integer kind;
     
+    private Integer position;
     
     public String getId() {
         return id;
@@ -91,4 +92,13 @@ public class DictionaryData implements Serializable{
     public void setKind(Integer kind) {
         this.kind = kind;
     }
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+    
 }
