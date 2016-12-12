@@ -40,6 +40,7 @@ $(function(){
 });
 
 var selectedTreeId = null;
+var currentPid = null;
 /**
  * 自动选中
  * @param event
@@ -67,6 +68,7 @@ function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 function zTreeOnClick(event,treeId,treeNode){
 	if (treeNode != null && treeNode !=""){
 		selectedTreeId = treeNode.id;
+		currentPid = treeNode.pId;
 		if (treeNode.pId != 0){
 			$("#treebody").show();
 			$("#treebody").load(globalPath + "/purchaseManage/getTreeBody.do?id="+treeNode.id);
@@ -75,6 +77,7 @@ function zTreeOnClick(event,treeId,treeNode){
 		}
 	} else {
 		selectedTreeId = null;
+		currentPid = null;
 	}
 }
 
@@ -90,12 +93,18 @@ function addTreeNode(){
 	window.location.href= globalPath + "/purchaseManage/add.html?parentId=" + selectedTreeId + "&typeName=" + typeName;
 }
 
-
-
 /**
  * 修改部门
  */
 function editTreeNode(){
+	if (selectedTreeId == null){
+		layer.msg("请选择一个部门进行编辑");
+		return;
+	}
+	if (currentPid == 0){
+		layer.msg("根节点不能编辑");
+		return ;
+	}
 	window.location.href= globalPath + "/purchaseManage/edit.html?id=" + selectedTreeId	;
 }
 
@@ -107,7 +116,10 @@ function delTreeNode(){
 		layer.msg("请选择一个部门");
 		return ;
 	}
-	
+	if (currentPid == 0){
+		layer.msg("根节点不能删除");
+		return ;
+	}
 	layer.confirm("您确认要删除吗?",{
 		btn:['确认','取消']
 	},function(){

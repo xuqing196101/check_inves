@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import ses.formbean.ResponseBean;
 import ses.model.bms.CategoryParameter;
@@ -51,9 +52,8 @@ public class CategoryParameterController {
      * @return
      */
     @RequestMapping("/list")
-    public String list(HttpServletRequest request, Model model){
+    public String list(@CurrentUser User user,HttpServletRequest request, Model model){
         
-        User user = (User)request.getSession().getAttribute("loginUser");
         if (user != null && user.getOrg() != null) {
             model.addAttribute("orgId", user.getOrg().getId());
         }
