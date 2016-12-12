@@ -52,4 +52,19 @@ public interface SupplierAddressMapper {
     
     
     void deleteBySupplierId(@Param("supplierId")String supplierId);
+    
+    /**
+     * 
+    * @Title: queryBySupplierId
+    * @Description: TODO 
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return List<SupplierAddress>     
+    * @throws
+     */
+    List<SupplierAddress> getBySupplierId(@Param("supplierId")String supplierId);
+    
+    
+    
 }

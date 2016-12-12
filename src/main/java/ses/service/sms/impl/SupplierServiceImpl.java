@@ -172,28 +172,28 @@ public class SupplierServiceImpl implements SupplierService {
             }
         }
 
-        List<SupplierItem> itemList = supplierItemService.getSupplierId(id);
-        List<CategoryParameter> categoryList=new LinkedList<CategoryParameter>();
-        List<ProductParam>  paramList=new LinkedList<ProductParam>();
-        if(itemList!=null&&itemList.size()>0){
-
-            for(SupplierItem s:itemList){
-                Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
-                s.setCategoryName(category.getName());
-                List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getCategoryId());
-                List<ProductParam> paramValue = productParamMapper.querySupplierIdCateoryId(s.getSupplierId(), s.getCategoryId());
-                paramList.addAll(paramValue);
-                categoryList.addAll(cateList);
-            }
-        }
-        supplier.setListSupplierItems(itemList);
-        supplier.setCategoryParam(categoryList);
-        for(ProductParam p:paramList){
-            List<UploadFile> file = uploadFileService.getFilesOther(p.getParamValue(), null, "1");
-            if(file.size()>0){
-                p.setParamValue(file.get(0).getName());
-            }
-        }
+//        List<SupplierItem> itemList = supplierItemService.getSupplierId(id);
+//        List<CategoryParameter> categoryList=new LinkedList<CategoryParameter>();
+//        List<ProductParam>  paramList=new LinkedList<ProductParam>();
+//        if(itemList!=null&&itemList.size()>0){
+//
+//            for(SupplierItem s:itemList){
+//                Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
+//                s.setCategoryName(category.getName());
+//                List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getCategoryId());
+//                List<ProductParam> paramValue = productParamMapper.querySupplierIdCateoryId(s.getSupplierId(), s.getCategoryId());
+//                paramList.addAll(paramValue);
+//                categoryList.addAll(cateList);
+//            }
+//        }
+//        supplier.setListSupplierItems(itemList);
+//        supplier.setCategoryParam(categoryList);
+//        for(ProductParam p:paramList){
+//            List<UploadFile> file = uploadFileService.getFilesOther(p.getParamValue(), null, "1");
+//            if(file.size()>0){
+//                p.setParamValue(file.get(0).getName());
+//            }
+//        }
 
         List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
         if(list.size()>0){
@@ -216,7 +216,7 @@ public class SupplierServiceImpl implements SupplierService {
             addressList.add(address);
             supplier.setAddressList(addressList);
         }
-        supplier.setParamVleu(paramList);
+//        supplier.setParamVleu(paramList);
 
         return supplier;
     }

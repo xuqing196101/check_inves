@@ -65,7 +65,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem) {
 		
 //		String id = supplierItem.getSupplierId();
-		supplierItemMapper.deleteRelate(supplierItem.getSupplierTypeRelateId(),supplierItem.getSupplierId());
+		supplierItemMapper.deleteBySupplierId(supplierItem.getSupplierId());
 		String ids[] = supplierItem.getCategoryId().split(",");
 		Map<String,Object> map=new HashMap<String,Object>();
 		for(String i:ids){
@@ -120,5 +120,12 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 			}
 		}*/
+	}
+
+	@Override
+	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,
+			String categoryId) {
+		// TODO Auto-generated method stub
+		return supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId);
 	}
 }

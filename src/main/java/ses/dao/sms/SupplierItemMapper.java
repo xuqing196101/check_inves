@@ -74,4 +74,7 @@ public interface SupplierItemMapper {
      */
     void deleteRelate(@Param("relateId")String relateId ,@Param("supplierId")String supplierId);
     
+    
+    List<SupplierItem>  getBySupplierIdCategoryId(@Param("supplierId")String supplierId,@Param("categoryId")String categoryId);
+    
 }

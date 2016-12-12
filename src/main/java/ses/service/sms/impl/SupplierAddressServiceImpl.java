@@ -35,7 +35,7 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 
 	@Override
 	public List<SupplierAddress> getBySupplierId(String sid) {
-		return supplierAddressMapper.queryBySupplierId(sid);
+		return supplierAddressMapper.getBySupplierId(sid);
 	}
 
 }

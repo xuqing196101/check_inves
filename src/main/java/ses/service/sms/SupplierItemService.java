@@ -11,4 +11,7 @@ public interface SupplierItemService {
 	public void saveSupplierItem(Supplier supplier);
 	public List<SupplierItem> getSupplierId(String supplierId);
 	public List<String> getItemSupplierId();
+	
+	
+	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId);
 }
