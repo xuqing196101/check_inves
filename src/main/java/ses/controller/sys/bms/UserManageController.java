@@ -173,7 +173,7 @@ public class UserManageController extends BaseController{
 	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
   		//校验字段
   		String origin = request.getParameter("origin");
-  		String orgId = request.getParameter("orgId");
+  		String orgId = request.getParameter("org_orgId");
   		String deptTypeName = request.getParameter("deptTypeName");
 		
 	    if(result.hasErrors()){
@@ -631,7 +631,7 @@ public class UserManageController extends BaseController{
 		if(userId != null && !"".equals(userId) ){
 			user = userService.getUserById(userId);
 		}
-		String ddCode = dictionaryDataService.getDictionaryData(typeNameId).getCode();
+		/*String ddCode = dictionaryDataService.getDictionaryData(typeNameId).getCode();
 		String typeName = "";
 		if ("SUPERVISER_U".equals(ddCode) || "PUR_MG_U".equals(ddCode)) {
 		    //采购管理部门
@@ -644,9 +644,9 @@ public class UserManageController extends BaseController{
 		if ("PURCHASER_U".equals(ddCode)) {
 		    //采购机构
 		    typeName = "1";
-		}
+		}*/
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("typeName", typeName);
+		//map.put("typeName", typeName);
 		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o : oList){

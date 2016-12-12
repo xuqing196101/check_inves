@@ -40,7 +40,7 @@
 			hideOrg();
 		}
 		function showOrg() {
-			var typeName_id = $("#typeName_id").val();
+		//	var typeName_id = $("#typeName_id").val();
 			var userId = $("#uId").val();
 			var setting = {
 				check: {
@@ -64,7 +64,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId+"&typeNameId="+typeName_id,
+             url: "${pageContext.request.contextPath}/user/getOrgTree.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 

@@ -57,7 +57,7 @@
 		 			<td class="bggrey">邮箱：</td><td>${user.email }</td>
 		 			<td class="bggrey">职务：</td><td>${user.duties }</td>
 		 		</tr>
-		 		<tr>
+		 		<%-- <tr>
 		 			<td class="bggrey">类型：</td>
 		 			<td>
 		 				<c:forEach items="${typeNames}" var="t" varStatus="vs">
@@ -75,7 +75,7 @@
 			        	</c:forEach>
 		 			</td>
 		 			<td class="bggrey">所属机构：</td><td>${user.org.name }</td>
-		 		</tr>
+		 		</tr> --%>
 		 		<tr>
 		 			<td class="bggrey">创建日期：</td><td><fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
 		 			<td class="bggrey">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>

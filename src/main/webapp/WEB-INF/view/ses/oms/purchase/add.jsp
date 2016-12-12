@@ -162,7 +162,7 @@ function onCheck(e, treeId, treeNode) {
 			  </div>
 			</li>
 			 	
-			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+			<%-- <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>类型</span>
 			  <div class="select_common col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 			    <select name="typeName" id="typeName_id">
@@ -171,7 +171,7 @@ function onCheck(e, treeId, treeNode) {
 			      </c:forEach>
 			    </select>
 			  </div>
-			</li>
+			</li> --%>
 			
 			<li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 			  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><span class="star_red">*</span>采购机构</span>

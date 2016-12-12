@@ -39,7 +39,7 @@
 			hideOrg();
 		}
 		function showOrg() {
-			var typeName_id = $("#typeName_id").val();
+			//var typeName_id = $("#typeName_id").val();
 			var setting = {
 				check: {
 					enable: true,
@@ -62,7 +62,7 @@
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "${pageContext.request.contextPath}/user/getOrgTree.do?typeNameId="+typeName_id,
+             url: "${pageContext.request.contextPath}/user/getOrgTree.do",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -202,7 +202,7 @@
 		  <input type="hidden"  name="origin" value="${origin}" />
 		  <%-- <input type="hidden" name="personTypeId" value="${personTypeId}" />
 		  <input type="hidden" name="personTypeName" value="${personTypeName}" /> --%>
-		  <input type="hidden" name="orgId" value="${orgId}" />
+		  <input type="hidden" name="org_orgId" value="${orgId}" />
 		  <input type="hidden" name="deptTypeName" value="${typeName}"/>
 		   <div>
 			   <h2 class="count_flow">新增用户</h2>
@@ -310,6 +310,7 @@
 				   	<div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
 				        <c:choose> 
 					        <c:when  test="${not empty origin}">
+					            <input id="oId" name="orgId" value="${orgId}" type="hidden" />
 					        	<input id="orgSel"  type="text" name="orgName" readonly value="${orgName}"  />
 					        </c:when >
 					        <c:otherwise>

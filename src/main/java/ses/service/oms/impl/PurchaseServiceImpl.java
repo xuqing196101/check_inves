@@ -66,7 +66,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		user.setEmail(purchaseInfo.getEmail());
 		user.setDuties(purchaseInfo.getDuites());
 
-		user.setTypeName(purchaseInfo.getTypeName());
+		/*user.setTypeName(purchaseInfo.getTypeName());*/
 		user.setOrgId(purchaseInfo.getOrgId());
 		user.setCreatedAt(new Date());
 		
@@ -104,7 +104,7 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 			user.setEmail(purchaseInfo.getEmail());
 			user.setDuties(purchaseInfo.getDuites());
 
-			user.setTypeName(purchaseInfo.getTypeName());
+			/*user.setTypeName(purchaseInfo.getTypeName());*/
 			user.setOrgId(purchaseInfo.getOrgId());
 			
 			Orgnization org = new Orgnization();
