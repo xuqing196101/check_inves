@@ -59,17 +59,17 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
       * @return List<ExpertCategory>
      */
 	@Override
-	public List<String> getListByExpertId(String expertId) {
+	public List<ExpertCategory> getListByExpertId(String expertId) {
 		
 		List<ExpertCategory> list = mapper.selectListByExpertId(expertId);
-		List<String> dataList = new ArrayList<>();
+		/*List<String> dataList = new ArrayList<>();
 		//关联表的所有id  再根据id查询出所有的code
 		for (ExpertCategory expertCategory : list) {
 			DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(expertCategory.getCategoryId());
 			//dataList.add(data.getCode());
 			dataList.add(data.getId());
-		}
-		return dataList;
+		}*/
+		return list;
 	}
 	  /**
      * 

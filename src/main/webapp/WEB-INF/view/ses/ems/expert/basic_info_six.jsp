@@ -35,7 +35,7 @@ session.setAttribute("tokenSession", tokenValue);
 						async: {
 							autoParam: ["id"],
 							enable: true,
-							url: "${pageContext.request.contextPath}/expert/getCategory.do",
+							url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expert.id}",
 							otherParam: {
 								categoryIds: id,
 							},
@@ -67,14 +67,14 @@ session.setAttribute("tokenSession", tokenValue);
 		var id = $("#" + tabId + "-value").val();
 		var zTreeObj;
 		var zNodes;
+		var expertId="${expert.id}";
 		var setting = {
 			async: {
 				autoParam: ["id"],
 				enable: true,
-				url: "${pageContext.request.contextPath}/expert/getCategory.do",
+				url: "${pageContext.request.contextPath}/expert/getCategory.do?expertId=${expert.id}",
 				otherParam: {
-					categoryIds: id,
-					expertId: $("#id").val(),
+					"categoryIds": id,
 				},
 				dataType: "json",
 				type: "post"
@@ -115,6 +115,7 @@ function zancunCategory(count){
 		nodes = tree.getCheckedNodes(true);
 		for (var j = 0; j < nodes.length; j++) {
 			if (!nodes[j].isParent) {
+				alert(nodes[j].id);
 				ids.push(nodes[j].id);
 			}
 		}

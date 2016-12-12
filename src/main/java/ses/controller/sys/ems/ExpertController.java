@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +39,7 @@ import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertCategory;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
@@ -417,7 +417,7 @@ public class ExpertController {
         }
         a:for (int i = 0; i < allTypeId.size(); i++ ) {
             DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-            if (dictionaryData.getName().contains("经济")) {
+            if (dictionaryData != null && dictionaryData.getName().contains("经济")) {
                 allTypeId.remove(i);
                 continue a;
             };
@@ -438,7 +438,7 @@ public class ExpertController {
             ct.setIsParent("true");
             allList.add(ct);
         } else {
-            List<String> expertCategory = expertCategoryService.getListByExpertId(expertId);
+            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);
             List<Category> list = categoryService.findTreeByPid(id);
             for (Category c : list) {
                 List<Category> list1 = categoryService.findTreeByPid(c.getId());
@@ -452,9 +452,9 @@ public class ExpertController {
                     ct1.setIsParent("false");
                 }
                 // 设置是否回显
-                for (String categoryId : expertCategory) {
-                    if (categoryId != null) {
-                        if (categoryId.equals(c.getId())) {
+                for (ExpertCategory category : expertCategory) {
+                    if (category.getCategoryId() != null) {
+                        if (category.getCategoryId().equals(c.getId())) {
                             ct1.setChecked(true);
                         }
                     }
@@ -1091,8 +1091,12 @@ public class ExpertController {
     @RequestMapping("/getCategoryByExpertId")
     @ResponseBody
     public String getCategoryByExpertId(String expertId) {
-        List<String> list = expertCategoryService.getListByExpertId(expertId);
-        return JSON.toJSONString(list);
+        List<ExpertCategory> list = expertCategoryService.getListByExpertId(expertId);
+        List<String> categoryList = new ArrayList<String>();
+        for (ExpertCategory expertCategory : list) {
+            categoryList.add(expertCategory.getCategoryId());
+        }
+        return JSON.toJSONString(categoryList);
     }
 
     /**
