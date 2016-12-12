@@ -29,9 +29,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -439,7 +441,15 @@ public class ParkManageController extends BaseSupplierController {
 	@RequestMapping(value="/getUserForSelect" )	
 	public void getUserForSelect(HttpServletResponse response) {
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("code", "MODERATOR_R");
+		List<DictionaryData> list = DictionaryDataUtil.find(16);
+		String kind = null;
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getCode().equals("PURCHASE_BACK")){
+				kind = list.get(i).getId();
+				break;
+			}
+		}
+		map.put("kind", kind);
 		List<User> users = userService.queryParkManagers(map);		
 		super.writeJson(response, users);
 	}

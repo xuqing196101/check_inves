@@ -534,7 +534,7 @@
 			AND U . PASSWORD = #{password}
 		ORDER BY pm.MENU_LEVEL ,pm.POSITION ASC
   </select>
-           <!-- 15.查询拥有版主权限的角色 （彭仲俊）-->
+           <!-- 15.查询所有采购后台的角色 （彭仲俊）-->
      <select id="queryParkManagers" parameterType="java.util.Map" resultMap="UserBaseMap">
           SELECT   
           <include refid="Base_Column_List" />
@@ -542,10 +542,11 @@
           WHERE IS_DELETED =0 
           AND ID IN (
                     SELECT USER_ID FROM T_SES_BMS_USER_ROLE
-                    WHERE ROLE_ID = (
+                    WHERE ROLE_ID IN (
                             SELECT ID FROM T_SES_BMS_ROLE
                             WHERE STATUS = 0 
-                            AND CODE = #{code}
+                            AND IS_DELETED =0
+                            AND KIND = #{kind}
                             )
                      )
            ORDER BY CREATED_AT DESC

@@ -933,32 +933,34 @@ public class ProjectController extends BaseController {
     }
     /**
      * 
-    * @Title: deletePackageById
+    * @Title: deleteDetailById
     * @author ZhaoBo
     * @date 2016-10-18 下午3:15:18  
-    * @Description: 删除分包 
+    * @Description: 删除明细 
     * @param @param request
     * @param @return      
     * @return String
      */
-    @RequestMapping("/deletePackageById")
+    @RequestMapping("/deleteDetailById")
     @ResponseBody
-    public String deletePackageById(HttpServletRequest request){
+    public void deleteDetailById(HttpServletRequest request){
         String id = request.getParameter("id");
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("packageId", id);
-        List<ProjectDetail> detail = detailService.selectById(map);
-        for(int i=0;i<detail.size();i++){
+        String[] dId = request.getParameter("dId").split(",");
+        for(int i=0;i<dId.length;i++){
             ProjectDetail projectDetail = new ProjectDetail();
-            projectDetail.setId(detail.get(i).getId());
+            projectDetail.setId(dId[i]);
             projectDetail.setPackageId("");
             detailService.update(projectDetail);
         }
-        Packages pk = new Packages();
-        pk.setId(id);
-        pk.setIsDeleted(1);
-        packageService.updateByPrimaryKeySelective(pk);
-        return "1";
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("packageId", id);
+        List<ProjectDetail> detail = detailService.selectById(map);
+        if(detail.size()==0){
+        	Packages pk = new Packages();
+        	pk.setId(id);
+        	pk.setIsDeleted(1);
+        	packageService.updateByPrimaryKeySelective(pk);
+        }
     }
     
     

@@ -5,7 +5,6 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-
 	<head>
 		<script type="text/javascript">
 			var clickState = 0;
@@ -101,7 +100,7 @@
 			function sure(obj) {
 				var projectId = $("#projectId").val();
 				var name = $(obj).parent().prev().find($("span[name='packageName']")).find($("input[name='pack']")).val();
-				var packageId = $(obj).next().next().val();
+				var packageId = $(obj).next().next().next().val();
 				$.ajax({
 					url: "${pageContext.request.contextPath }/project/editPackName.do?name=" + name + "&id=" + packageId,
 					type: "post",
@@ -118,10 +117,28 @@
 			}
 
 			//删除明细
-			function deletePackage(obj) {
+			function deleteDetail(obj,number) {
 				var projectId = $("#projectId").val();
 				var packageId = $(obj).next().val();
-				layer.confirm('您确定要删除这个包吗?', {
+				var count = 0;
+				var id = "";
+				var info = document.getElementsByName("info"+number);
+				for(var i = 0;i<info.length;i++){
+					if(info[i].checked == true){
+						count++;
+					}
+				}
+				if(count == 0){
+					layer.alert("请选择一项",{offset: ['30%','40%']});
+					$(".layui-layer-shade").remove();
+					return;
+				}
+				for(var i=0;i<info.length;i++){    
+			        if(info[i].checked){    
+			        	id += info[i].value+',';
+			        }
+				}
+				layer.confirm('您确定要删除吗?', {
 					title: '提示',
 					offset: ['45%', '40%'],
 					shade: 0.01
@@ -129,8 +146,7 @@
 					layer.close(index);
 					$.ajax({
 						type: "POST",
-						dataType: "json",
-						url: "${pageContext.request.contextPath }/project/deletePackageById.do?id=" + packageId,
+						url: "${pageContext.request.contextPath }/project/deleteDetailById.do?id=" + packageId + "&dId="+id,
 						success: function(data) {
 							layer.msg('删除成功', {
 								offset: ['45%', '50%']
@@ -341,15 +357,16 @@
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 tr p0 mb5">
 						<input class="btn btn-windows edit" type="button" onclick="edit(this)" value="修改包名" />
-						<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定" />
-						<input class="btn btn-windows delete" type="button" onclick="deletePackage(this)" value="删除" />
-						<input type="hidden" value="${pack.id }" />
+						<input class="btn" name="sure" type="button" onclick="sure(this)" value="确定"/>
+						<input class="btn btn-windows add" type="button" onclick="add()" value="添加"/>
+						<input class="btn btn-windows delete" type="button" onclick="deleteDetail(this,${p.index})" value="删除" />
+						<input type="hidden" value="${pack.id }"/>
 					</div>
 
 					<table class="table table-bordered table-condensed table-hover">
 						<thead>
 							<tr class="info">
-								<th class="w30"><input type="checkbox" onclick="selectAllDetail"/></th>
+								<th class="w30"><input type="checkbox" onclick="selectAllDetail(${p.index})"/></th>
 								<th class="w50">序号</th>
 								<th>需求部门</th>
 								<th>物资名称</th>
