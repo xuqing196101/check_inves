@@ -69,6 +69,11 @@
 		<result column="BUSINESSTYPENAME" property="businessTypeName" />
 		<result column="ISEXTRACT" property="isExtract" />
 
+		<result column="CONCAT_PROVINCE" property="concatProvince" />
+		<result column="CONCAT_CITY" property="concatCity" />
+		<result column="ARMY_BUSINESS_PROVINCE" property="armyBuinessProvince" />
+		<result column="ARMY_BUSINESS_CITY" property="armyBuinessCity" />
+
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE,
@@ -89,7 +94,8 @@
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST,
 		CREATED_AT, UPDATED_AT, BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
-		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS
+		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
+		ARMY_BUSINESS_CITY
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -376,7 +382,19 @@
 				ARMY_BUSINESS_ADDRESS,
 			</if>
 			<if test="auditDate != null">
-				AUDIT_DATE,
+				ARMY_BUSINESS_ADDRESS,
+			</if>
+			<if test="concatProvince != null">
+				CONCAT_PROVINCE,
+			</if>
+			<if test="concatCity != null">
+				CONCAT_CITY,
+			</if>
+			<if test="armyBuinessProvince != null">
+				ARMY_BUSINESS_PROVINCE,
+			</if>
+			<if test="armyBuinessCity != null">
+				ARMY_BUSINESS_CITY,
 			</if>
 			
 		</trim>
@@ -569,9 +587,19 @@
 			<if test="auditDate != null">
 				#{auditDate},
 			</if>
-			
+			<if test="concatProvince != null">
+				#{concatProvince},
+			</if>
+			<if test="concatCity != null">
+				#{concatCity},
+			</if>
+			<if test="armyBuinessProvince != null">
+				#{armyBuinessProvince},
+			</if>
+			<if test="armyBuinessCity != null">
+				#{armyBuinessCity},
+			</if>
 		</trim>
-
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Supplier">
 		update T_SES_SMS_SUPPLIER
@@ -755,6 +783,18 @@
 			</if>
 			<if test="auditDate != null">
 				AUDIT_DATE=#{auditDate},
+			</if>
+			<if test="concatProvince != null">
+				CONCAT_PROVINCE=#{concatProvince},
+			</if>
+			<if test="concatCity != null">
+				CONCAT_CITY=#{concatCity},
+			</if>
+			<if test="armyBuinessProvince != null">
+				ARMY_BUSINESS_PROVINCE=#{armyBuinessProvince},
+			</if>
+			<if test="armyBuinessCity != null">
+				ARMY_BUSINESS_CITY=#{armyBuinessCity},
 			</if>
 			
 		</set>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
 
 /**
@@ -550,6 +551,17 @@ public class Supplier implements Serializable {
 	
 	private List<SupplierBranch> branchList=new ArrayList<SupplierBranch>();
 	
+	private String concatProvince;
+	
+	private String concatCity;
+	
+	private String armyBuinessProvince;
+	
+	private String armyBuinessCity;
+	
+	private List<Area> concatCityList=new ArrayList<Area>();
+	
+	private List<Area> armyCity=new ArrayList<Area>();
 	
 	public String getScoreStart() {
         return scoreStart;
@@ -1362,6 +1374,54 @@ public class Supplier implements Serializable {
 
 	public void setBranchList(List<SupplierBranch> branchList) {
 		this.branchList = branchList;
+	}
+
+	public String getConcatProvince() {
+		return concatProvince;
+	}
+
+	public void setConcatProvince(String concatProvince) {
+		this.concatProvince = concatProvince;
+	}
+
+	public String getConcatCity() {
+		return concatCity;
+	}
+
+	public void setConcatCity(String concateCity) {
+		this.concatCity = concateCity;
+	}
+
+	public String getArmyBuinessProvince() {
+		return armyBuinessProvince;
+	}
+
+	public void setArmyBuinessProvince(String armyBuinessProvince) {
+		this.armyBuinessProvince = armyBuinessProvince;
+	}
+
+	public String getArmyBuinessCity() {
+		return armyBuinessCity;
+	}
+
+	public void setArmyBuinessCity(String armyBuinessCity) {
+		this.armyBuinessCity = armyBuinessCity;
+	}
+
+	public List<Area> getConcatCityList() {
+		return concatCityList;
+	}
+
+	public void setConcatCityList(List<Area> concatCityList) {
+		this.concatCityList = concatCityList;
+	}
+
+	public List<Area> getArmyCity() {
+		return armyCity;
+	}
+
+	public void setArmyCity(List<Area> armyCity) {
+		this.armyCity = armyCity;
 	}
 	
 	
