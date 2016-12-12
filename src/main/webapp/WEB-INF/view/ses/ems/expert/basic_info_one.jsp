@@ -597,10 +597,10 @@ session.setAttribute("tokenSession", tokenValue);
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
-		  <h2 class="count_flow"><i>1</i>专家个人信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red"> 注:军队单位人员，请登录内网进行注册!</font></h2>
+		  <h2 class="count_flow"><i>1</i>专家个人信息<font color="red" class="margin-left-30"> (注:军队单位人员，请登录内网进行注册!)</font></h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12">
-				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>
+				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家来源</span>
 					<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
 						<select  name="expertsFrom" id="expertsFrom">
 						<option selected="selected" value="">-请选择-</option>

@@ -58,7 +58,6 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.DictionaryDataUtil;
-import ses.util.IpAddressUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.model.ppms.Packages;
@@ -362,10 +361,11 @@ public class ExpertController {
         List<DictionaryData> lyTypeList = DictionaryDataUtil.find(12);
         model.addAttribute("lyTypeList", lyTypeList);
         // 如果是外网用户则不可以选择专家来源为军队
-        String ipAddress = request.getRemoteAddr();
-        int type = IpAddressUtil.validateIpAddress(ipAddress);
+        //String ipAddress = request.getRemoteAddr();
+        //int type = IpAddressUtil.validateIpAddress(ipAddress);
+        String type = request.getServletContext().getInitParameter("ipAddress");
         // 如果是外网用户,则删除军队这个选项
-        if (type == 1) {
+        if ("1".equals(type)) {
             for (int i = 0; i < lyTypeList.size(); i++) {
                 // 循环判断如果是军队则remove
                 if ("军队".equals(lyTypeList.get(i).getCode())) {
