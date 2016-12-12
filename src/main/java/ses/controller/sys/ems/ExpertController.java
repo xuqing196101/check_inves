@@ -438,6 +438,14 @@ public class ExpertController {
             ct.setName(type.getName().substring(0, type.getName().length() - 2));
             ct.setId(type.getId());
             ct.setIsParent("true");
+            // 判断是否被选中
+            List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId);
+            for (ExpertCategory expertCategory : allCategory) {
+                String parentId = categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getParentId();
+                if (parentId != null && parentId.equals(ct.getId())) {
+                    ct.setChecked(true);
+                }
+            }
             allList.add(ct);
         } else {
             List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);
@@ -1063,6 +1071,14 @@ public class ExpertController {
             // 用户信息处理
             service.userManager(user, userId, expert, expertId);
             // 调用service逻辑 实现暂存
+            StringBuffer categories = new StringBuffer();
+            List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId());
+            for (ExpertCategory expertCategory : allList) {
+                categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
+                categories.append("、");
+            }
+            String productCategories = categories.substring(0, categories.length() - 1);
+            expert.setProductCategories(productCategories);
             service.zanCunInsert(expert, expertId, categoryId);
 
         } catch (Exception e) {
@@ -1570,6 +1586,34 @@ public class ExpertController {
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
+    
+    /**
+     *〈简述〉
+     * 下载专家承诺书
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param id
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("downloadBook")
+    public ResponseEntity<byte[]> downloadBook(String id,
+            HttpServletRequest request) throws Exception {
+        // 文件存储地址
+        String filePath = request.getSession().getServletContext()
+                .getRealPath("/WEB-INF/upload_file/");
+        // 文件名称
+        String name = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String fileName = WordUtil.createWord(null, "expertBook.ftl",
+                name, request);
+        // 下载后的文件名
+        String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
+                "iso-8859-1");// 为了解决中文名称乱码问题
+        return service.downloadFile(fileName, filePath, downFileName);
+    }
 
     /**
      * 
@@ -1633,7 +1677,12 @@ public class ExpertController {
         String hightEducationId = expert.getHightEducation();
         DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
         dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
-        dataMap.put("degree", expert.getDegree() == null ? "" : expert.getDegree());
+        DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+        if (degree != null) {
+            dataMap.put("degree", degree.getName() == null ? "" : degree.getName());
+        } else {
+            dataMap.put("degree", "");
+        }
         dataMap.put("mobile", expert.getMobile() == null ? "" : expert.getMobile());
         dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
         dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
@@ -1754,6 +1803,8 @@ public class ExpertController {
         expert.setAddress(provinceName.concat(cityName));
         // 最高学历
         expert.setHightEducation(dictionaryDataServiceI.getDictionaryData(expert.getHightEducation()).getName());
+        // 最高学位
+        expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
         // 军队人员身份证件类型
         expert.setIdType(dictionaryDataServiceI.getDictionaryData(expert.getIdType()).getName());
         // 专家来源

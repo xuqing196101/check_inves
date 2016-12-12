@@ -402,6 +402,11 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请填写证件号码 !",{offset: ['300px', '750px']});
 			return false;
 		}
+		var professTechTitles = $("#professTechTitles").val();
+		if(!professTechTitles){
+			layer.msg("请填写专家技术职称/职业资格!",{offset: ['300px', '750px']});
+			return false;
+		}
 		var idCardNumber = $("#idCardNumber").val();
 		if(!idCardNumber){
 			layer.msg("请填写居民身份证号码 !",{offset: ['300px', '750px']});
@@ -584,11 +589,11 @@ session.setAttribute("tokenSession", tokenValue);
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
 	    <span id="sp1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	    <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	    <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
 	    <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 	    <span id="sp3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+	    <span id="sp4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
+	    <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
@@ -821,7 +826,7 @@ session.setAttribute("tokenSession", tokenValue);
 					<span class="add-on">i</span>
 					</div>
 				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家技术职称/职业资格</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
 					<span class="add-on">i</span>

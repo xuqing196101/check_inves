@@ -67,6 +67,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
  			<mvc:exclude-mapping path="/expert/updateStepNumber.*" />
  			<mvc:exclude-mapping path="/expert/getPIdandCIdByPurDepId.*" />
  			<mvc:exclude-mapping path="/expert/download.*" />
+ 			<mvc:exclude-mapping path="/expert/downloadBook.*" />
  			<mvc:exclude-mapping path="/area/find_by_parent_id.*" />
 			<mvc:exclude-mapping path="/area/find_by_id.*" />
 			<mvc:exclude-mapping path="/area/listByOne.*" />

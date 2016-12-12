@@ -46,6 +46,11 @@ session.setAttribute("tokenSession", tokenValue);
 		$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/download.html");
 		$("#formExpert").submit();
 	}
+	//下载
+	function downloadBook(){
+		$("#formExpert").attr("action","${pageContext.request.contextPath}/expert/downloadBook.html");
+		$("#formExpert").submit();
+	}
 	function four(att){
 		if (att == '1' || att == 'ok') {
 			updateStepNumber("five");
@@ -78,6 +83,8 @@ session.setAttribute("tokenSession", tokenValue);
 				$("#tHight").html(response.hightEducation);
 				$("#idType").html(response.idType);
 				$("#expertsFrom").html(response.expertsFrom);
+				$("#expertsTypeId").html(response.expertsTypeId);
+				$("#degree").html(response.degree);
 			}
 		});
 	}
@@ -112,22 +119,23 @@ session.setAttribute("tokenSession", tokenValue);
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
 		  <h2 class="padding-20 mt40">
 			<span id="dy1" class="new_step current fl" onclick='pre1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-			<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+			<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> 
 			<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 			<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+			<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
+			<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
 			<div class="clear"></div>
 		  </h2>
 <div class="tab-content padding-top-20">
   <div class="headline-v2">
-	 <h2>打印专家申请表</h2>
+	 <h2>打印专家申请表、承诺书</h2>
   </div>  
 <div>
   <table class="table">
   <div class="margin-top-30"></div>
     <div align="left">
-      <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
+      <a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">申请表下载</a>
+      <a class="btn btn-windows input" onclick='downloadBook()' href="javascript:void(0)">承诺书下载</a>
     </div>
     <div class="margin-top-30"></div>
    	<tr>
@@ -202,13 +210,13 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">专家类别</td>
-	 <td width="25%" id="expertsType"></td>
+	 <td width="25%" id="expertsTypeId"></td>
 	 <td width="25%" class="bggrey">最高学历</td>
 	 <td width="25%" id="tHight"></td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey">最高学位</td>
-	 <td width="25%">${expert.degree}</td>
+	 <td width="25%" id="degree"></td>
 	 <td width="25%" class="bggrey">个人邮箱</td>
 	 <td width="25%">${expert.email}</td>
    </tr>
@@ -228,7 +236,7 @@ session.setAttribute("tokenSession", tokenValue);
    </tr>
    <tr>
 	 <td width="25%"  class="bggrey" rowspan="3">主要工作经历</td>
-	 <td colspan="3" rowspan="3">${expert.productCategories}</td>
+	 <td colspan="3" rowspan="3">${expert.jobExperiences}</td>
    </tr>
    <tr>
 	 <td width="25%" class="bggrey" rowspan="3">专业学术成果</td>

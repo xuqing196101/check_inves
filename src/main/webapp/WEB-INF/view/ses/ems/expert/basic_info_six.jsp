@@ -76,6 +76,9 @@ session.setAttribute("tokenSession", tokenValue);
 				otherParam: {
 					"categoryIds": id,
 				},
+				callback: {
+					
+				},
 				dataType: "json",
 				type: "post"
 			},
@@ -135,7 +138,11 @@ function nextCategory(count){
 		}
 	}
 	$("#categoryId").val(ids);
-	zancun();
+	if ($("#categoryId").val() == "") {
+		layer.msg("请至少选择一项!");	
+	} else {
+		zancun();
+	}
 }
 // 有提示msg暂存
 function zancunMsg(){
@@ -206,11 +213,11 @@ function fun1(count){
   <div id="reg_box_id_4" class="container clear margin-top-30 yinc">
     <h2 class="padding-20 mt40">
 	  <span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-	  <span id="ty2" class="new_step current fl" onclick="pre()"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
+	  <span id="ty2" class="new_step current fl" onclick="pre()"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
 	  <span id="ty6" class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品目录</span> </span>
 	  <span id="ty3" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span> 
-	  <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载申请表</span> </span> 
-	  <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传申请表</span> </span> 
+	  <span id="ty4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">下载附件</span> </span> 
+	  <span id="ty5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">上传附件</span> </span> 
 	  <div class="clear"></div>
 	</h2>
 	<div class="col-md-12 tab-v2 job-content">
