@@ -1593,7 +1593,7 @@ public class ExpertController {
         }
         dataMap.put("idNumber", expert.getIdNumber() == null ? "" : expert.getIdNumber());
         dataMap.put("major", expert.getMajor() == null ? "" : expert.getMajor());
-        dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getTimeStartWork()));
+        dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeStartWork()));
         DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
         if (expertsForm != null) {
             dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
@@ -1604,7 +1604,7 @@ public class ExpertController {
                 "professTechTitles",
                 expert.getProfessTechTitles() == null ? "" : expert
                         .getProfessTechTitles());
-        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getMakeTechDate()));
+        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
         StringBuffer expertType = new StringBuffer();
         for (String typeId : expert.getExpertsTypeId().split(",")) {
             expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
