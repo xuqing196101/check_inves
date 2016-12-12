@@ -27,6 +27,7 @@ public class DictionaryData implements Serializable{
     
     private Integer kind;
     
+    @NotNull(message = "排序不能为空")
     private Integer position;
     
     public String getId() {
