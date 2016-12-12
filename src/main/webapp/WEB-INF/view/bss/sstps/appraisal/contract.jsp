@@ -41,7 +41,7 @@
 
     <div class="container">
       <div class="headline-v2">
-        <h2>添加合同</h2>
+        <h2>合同详细</h2>
       </div>
       <input type="hidden" id="id" value="${contracts.id }" name="id">
       <div class="container padding-left-25 padding-right-25" id="div_print">

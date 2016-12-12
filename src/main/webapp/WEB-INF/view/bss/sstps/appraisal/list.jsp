@@ -91,6 +91,7 @@
       </div>
 
       <div class="col-md-12 pl20 mt10">
+        <button class="btn btn-windows add" type="button" onclick="add()">申请审价</button>
         <button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
       </div>
 
