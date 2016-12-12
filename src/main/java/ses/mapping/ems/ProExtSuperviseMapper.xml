@@ -25,7 +25,6 @@
 		<result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
 		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
 		<result column="DUTIES" jdbcType="VARCHAR" property="duties" />
-		<result column="TYPE_NAME" property="typeName" />
 		<result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
 		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
 		<result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
