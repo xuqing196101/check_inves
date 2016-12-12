@@ -696,7 +696,6 @@ public class ExpExtractRecordController extends BaseController {
     public String resetPwd(Model model, String eid){
         User user = new User();
         user.setTypeId(eid);
-        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         List<User> queryByList = userServiceI.queryByList(user);
         if (queryByList != null && queryByList.size() != 0){
             user = queryByList.get(0);
@@ -780,7 +779,7 @@ public class ExpExtractRecordController extends BaseController {
         }
 
 
-        expExtractRecordService.addTemporaryExpert(expert, projectId,packageId, loginName, loginPwd);
+        expExtractRecordService.addTemporaryExpert(expert, projectId,packageId, loginName, loginPwd,sq);
         //修改状态
         flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
         

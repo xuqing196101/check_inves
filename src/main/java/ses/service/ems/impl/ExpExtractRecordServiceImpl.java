@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,18 @@ import bss.service.prms.PackageExpertService;
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.ems.ExpExtractRecordMapper;
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.model.bms.Userrole;
 import ses.model.ems.ExpExtPackage;
 import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.SupplierExtracts;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtPackageService;
 import ses.service.ems.ExpExtractRecordService;
@@ -53,7 +61,11 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
     private PackageExpertService service;//包关联专家
     @Autowired
     ExpExtPackageService expExtPackageService; //项目和包关联
-
+    @Autowired
+    RoleServiceI roleService;
+    @Autowired
+    private PreMenuServiceI menuService;// 地区查询
+    
     public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /**
      * @Description:插入记录
@@ -105,7 +117,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
      */
     @Override
     public  Map<String, String> addTemporaryExpert(Expert expert, String projectId,String packageId,
-        String loginName, String loginPwd) {
+        String loginName, String loginPwd,HttpServletRequest request) {
         Map<String, String> map=new HashMap<String, String>();
         //插入专家表一条数据
         String uuId=WfUtil.createUUID();
@@ -131,14 +143,41 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         if (list != null && list.size() !=0 ){}
         extract.setProjectId(list.get(0).getId());
         extractService.insertProjectExtract(extract);
-
         //插入登录表
         User user = new User();
         user.setLoginName(loginName);
         user.setPassword(pwd);
-        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
+//        user.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
         user.setTypeId(uuId);
         userServiceI.save(user, null);
+         //新增权限
+        Role role = new Role();
+        role.setCode("EXPERT_R");
+        List<Role> listRole = roleService.find(role);
+        if (listRole != null && listRole.size() > 0) {
+            Userrole userrole = new Userrole();
+            userrole.setRoleId(listRole.get(0));
+            userrole.setUserId(user);
+            /** 删除用户之前的菜单权限*/
+            UserPreMenu userPreMenu = new UserPreMenu();
+            userPreMenu.setUser(user);
+            userServiceI.deleteUserMenu(userPreMenu);
+            /** 删除用户之前的角色信息*/
+            /** 给该用户初始化专家角色 */
+            userServiceI.saveRelativity(userrole);
+            String[] roleIds = listRole.get(0).getId().split(",");
+            List<String> listMenu = menuService.findByRids(roleIds);
+            /** 给用户初始化专家菜单权限 */
+            for (String menuId : listMenu) {
+                UserPreMenu upm = new UserPreMenu();
+                PreMenu preMenu = menuService.get(menuId);
+                upm.setPreMenu(preMenu);
+                upm.setUser(user);
+                userServiceI.saveUserMenu(upm);
+            }
+        }
+        
+      
 
         //插入到包关联专家
         PackageExpert record = new PackageExpert();
