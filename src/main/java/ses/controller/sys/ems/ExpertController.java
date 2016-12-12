@@ -547,9 +547,9 @@ public class ExpertController {
     private Map<String, Object> getTypeId() {
         DictionaryData dd = new DictionaryData();
         Map<String, Object> typeMap = new HashMap<>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                // 身份证
+                // 军官证件
                 dd.setCode("EXPERT_IDNUMBER");
                 List<DictionaryData> find = dictionaryDataServiceI.find(dd);
                 typeMap.put("EXPERT_IDNUMBER_TYPEID", find.get(0).getId());
@@ -590,7 +590,12 @@ public class ExpertController {
                 List<DictionaryData> find = dictionaryDataServiceI.find(dd);
                 typeMap.put("EXPERT_CONTRACT_TYPEID", find.get(0).getId());
             }
-
+            if (i == 7) {
+                // 军官证件
+                dd.setCode("EXPERT_IDCARDNUMBER");
+                List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+                typeMap.put("EXPERT_IDCARDNUMBER_TYPEID", find.get(0).getId());
+            }
         }
         return typeMap;
     }
@@ -1631,7 +1636,14 @@ public class ExpertController {
         dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
         dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
         dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
-        dataMap.put("productCategories", expert.getProductCategories() == null ? "" : expert.getProductCategories());
+        StringBuffer categories = new StringBuffer();
+        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId());
+        for (ExpertCategory expertCategory : allList) {
+            categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
+            categories.append("、");
+        }
+        String productCategories = categories.substring(0, categories.length() - 1);
+        dataMap.put("productCategories", productCategories);
         dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
         dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
         dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
@@ -1744,6 +1756,13 @@ public class ExpertController {
         expert.setIdType(dictionaryDataServiceI.getDictionaryData(expert.getIdType()).getName());
         // 专家来源
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getName());
+        // 专家类别
+        StringBuffer expertType = new StringBuffer();
+        for (String typeId : expert.getExpertsTypeId().split(",")) {
+            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+        }
+        String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+        expert.setExpertsTypeId(expertsType);
         return JSON.toJSONString(expert);
     }
 }

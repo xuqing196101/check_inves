@@ -14,32 +14,7 @@ session.setAttribute("tokenSession", tokenValue);
 %>
 <script type="text/javascript">
 	
-	$(function(){
-		var typeIds = "${expert.expertsTypeId}";
-		var ids = typeIds.split(",");
-		//回显已选产品
-		var checklist1 = document.getElementsByName("chkItem_1");
-		for(var i=0;i<checklist1.length;i++){
-			var vals=checklist1[i].value;
-			for (var j = 0; j < ids.length; j++) {
-				if (ids[j] == vals) {
-					checklist1[i].checked = true;
-				}
-			}	
-		}
-		var checklist2 = document.getElementsByName("chkItem_2");
-		for(var i=0;i<checklist2.length;i++){
-			var vals=checklist2[i].value;
-			for (var j = 0; j < ids.length; j++) {
-				if (ids[j] == vals) {
-					checklist2[i].checked = true;
-				}
-			}	
-		}
-	}); 
-	
 	function submitformExpert(){
-		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -53,22 +28,26 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	//无提示暂存
 	function submitForm2(){
-		var count = "three";
-		var checklist1 = document.getElementsByName ("chkItem_1");
-		for (var i = 0; i < checklist1.length; i++) {
-			if (checklist1[i].checked == true) {
-				count = "six";
-			}
-		}
-		updateStepNumber(count);
-		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
 			type: "post",
-			async: true,
+			async: false,
 			success:function(result){
 				$("#id").val(result.id);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/expert/getAllCategory.do",
+					data:{"expertId":$("#id").val()},
+					async:false,
+					dataType:"json",
+					success:function(response){
+						if (!$.isEmptyObject(response)) {
+							updateStepNumber("six");
+						} else {
+							updateStepNumber("three");					
+						}
+					}
+				});
 				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			 }
 		});
@@ -76,7 +55,6 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm4(){
 		updateStepNumber("four");
-		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -91,7 +69,6 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm5(){
 		updateStepNumber("five");
-		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -103,32 +80,14 @@ session.setAttribute("tokenSession", tokenValue);
 			 }
 		});
 	}
-	//获取选中子节点id
-	function getChildren(){
-		var ids=new Array();
-		var checklist1 = document.getElementsByName ("chkItem_1");
-		for(var i=0;i<checklist1.length;i++){
-	 		var vals=checklist1[i].value;
-	 		if(checklist1[i].checked){
-	 			ids.push(vals);
-	 		}
-		}
-		var checklist2 = document.getElementsByName ("chkItem_2");
-		for(var i=0;i<checklist2.length;i++){
-	 		var vals=checklist2[i].value;
-	 		if(checklist2[i].checked){
-	 			ids.push(vals);
-	 		}
-		}
-	    $("#expertsTypeId").val(ids);
-	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist() {
 		if (!validateType()){
 			return;
+		} else {
+			//暂存无提示
+			submitForm2();
 		}
-		//暂存无提示
-		submitForm2();
 	}
 	function supplierRegist4() {
 		if (!validateType()){
@@ -140,9 +99,10 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist5() {
 		if (!validateType()){
 			return;
+		} else {
+			//暂存无提示
+			submitForm5();
 		}
-		//暂存无提示
-		submitForm5();
 	}
 	function pre() {
 		updateStepNumber("one");
@@ -150,17 +110,14 @@ session.setAttribute("tokenSession", tokenValue);
 	}
 	function fun1(){
 		//选中的子节点
-		getChildren();
 		supplierRegist();
 	}
 	function fun4(){
 		//选中的子节点
-		getChildren();
 		supplierRegist4();
 	}
 	function fun5(){
 		//选中的子节点
-		getChildren();
 		supplierRegist5();
 	}
 	function tab3(depId){
@@ -185,14 +142,49 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
-	//判断专家类型
+	//校验基本信息 不能为空的字段
 	function validateType(){
-		var categoryId = $("#expertsTypeId").val();
-		if(categoryId == ""){
-			layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
-			return false;
+		var flag = true;
+		var jobExperiences = $("#jobExperiences").val();
+		if(!jobExperiences){
+			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
+			flag = false;
 		}
-		return true;
+		if(jobExperiences != "" && jobExperiences.length > 999){
+			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+
+		var academicAchievement = $("#academicAchievement").val();
+		if(!academicAchievement){
+			layer.msg("请填写专业学术成果!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+		if(academicAchievement != "" && academicAchievement.length > 999){
+			layer.msg("专业学术成果不能超过999字!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+
+		var reviewSituation = $("#reviewSituation").val();
+		if(!reviewSituation){
+			layer.msg("请填写参加军队地方采购评审情况!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+		if(reviewSituation != "" && reviewSituation.length > 999){
+			layer.msg("参加军队地方采购评审情况不能超过999字!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+
+		var avoidanceSituation = $("#avoidanceSituation").val();
+		if(!avoidanceSituation){
+			layer.msg("请填写需要申请回避的情况!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+		if(avoidanceSituation != "" && avoidanceSituation.length > 999){
+			layer.msg("需要申请回避的情况不能超过999字!",{offset: ['300px', '750px']});
+			flag = false;
+		}
+		return flag;
 	}
 </script>
 </head>
@@ -234,25 +226,42 @@ session.setAttribute("tokenSession", tokenValue);
 				<div class="clear"></div>
 			</h2>
 			<div class="container container_box">
-			<div class="headline-v2">
-                 <h2>专家类型</h2>
-            </div>
-			<div>
-			  
-   			   <div class="sevice_list col-md-12 container" class="dnone" >
-				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					  <c:forEach items="${spList}" var="sp" >
-						    <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
-				      </c:forEach>
-				  </div>
-			    </div>
-				<div class="sevice_list col-md-12 container">
-				  <div class="col-md-7 col-sm-6 col-xs-12 service_list">
-					  <c:forEach items="${jjList}" var="jj" >
-						    <span><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
-				      </c:forEach>
-				  </div>
-				</div>
+			   <!-- 主要工作经历-->
+			   <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>1</i>主要工作经历</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="jobExperiences" id="jobExperiences" style="height: 150px; width: 100%; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+				</li>
+			    </ul>
+			   </div>
+			   <!-- 专业学术成果 -->
+			   <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>2</i>专业学术成果</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="academicAchievement" id="academicAchievement" style="height: 150px; width: 100%; resize: none;" placeholder="上传获奖证书">${expert.academicAchievement}</textarea>
+				</li>
+			    </ul>
+			   </div>
+			   <!-- 主要工作经历-->
+			   <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>3</i>参加军队地方采购评审情况</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="reviewSituation" id="reviewSituation" style="height: 150px; width: 100%; resize: none;" placeholder="">${expert.reviewSituation}</textarea>
+				</li>
+			    </ul>
+			   </div>
+			   <!-- 主要工作经历-->
+			   <div class="padding-top-10 clear">
+			    <h2 class="count_flow"><i>4</i>需要申请回避的情况</h2>
+			    <ul class="ul_list">
+				<li>  
+				  <textarea rows="10" name="avoidanceSituation" id="avoidanceSituation" style="height: 150px; width: 100%; resize: none;" placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
+				</li>
+			    </ul>
+			   </div>
    			   
 		    <div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12 ">
 				<button class="btn"  type="button" onclick="pre()">上一步</button>

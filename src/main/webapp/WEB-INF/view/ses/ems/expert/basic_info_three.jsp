@@ -103,8 +103,10 @@ session.setAttribute("tokenSession", tokenValue);
 			success:function(response){
 				if (!$.isEmptyObject(response)) {
 					updateStepNumber("six");
-					window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
+				} else {
+					updateStepNumber("two");					
 				}
+				window.location.href="${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 		});
 	}

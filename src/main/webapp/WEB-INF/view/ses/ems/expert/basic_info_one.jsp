@@ -68,6 +68,7 @@ session.setAttribute("tokenSession", tokenValue);
 			//func();
 		}
 	function submitformExpert(){
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -82,6 +83,7 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm2(){
 		updateStepNumber("two");
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -96,6 +98,7 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm22(){
 		updateStepNumber("two");
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -110,6 +113,7 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm3(){
 		updateStepNumber("three");
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -124,6 +128,7 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm4(){
 		updateStepNumber("four");
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -138,6 +143,7 @@ session.setAttribute("tokenSession", tokenValue);
 	//无提示暂存
 	function submitForm5(){
 		updateStepNumber("five");
+		getChildren();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/expert/zanCun.do",
 			data:$("#formExpert").serialize(),
@@ -153,6 +159,8 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist() {
 		if (!validateformExpert()){
 			return;
+		} else if (!validateType()) {
+			return;
 		} else {
 			//暂存无提示
 			submitForm2();
@@ -161,6 +169,8 @@ session.setAttribute("tokenSession", tokenValue);
 	/** 专家完善注册信息页面 */
 	function supplierRegist2() {
 		if (!validateformExpert()){
+			return;
+		} else if (!validateType()) {
 			return;
 		} else {
 			//暂存无提示
@@ -171,6 +181,8 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist3() {
 		if (!validateformExpert()){
 			return;
+		} else if (!validateType()) {
+			return;
 		} else {
 			//暂存无提示
 			submitForm3();
@@ -180,6 +192,8 @@ session.setAttribute("tokenSession", tokenValue);
 	function supplierRegist4() {
 		if (!validateformExpert()){
 			return;
+		} else if (!validateType()) {
+			return;
 		} else {
 			//暂存无提示
 			submitForm4();
@@ -188,6 +202,8 @@ session.setAttribute("tokenSession", tokenValue);
 	/** 专家完善注册信息页面 */
 	function supplierRegist5() {
 		if (!validateformExpert()){
+			return;
+		} else if (!validateType()) {
 			return;
 		} else {
 			//暂存无提示
@@ -330,55 +346,6 @@ session.setAttribute("tokenSession", tokenValue);
 			layer.msg("请填写单位地址!",{offset: ['300px', '750px']});
 			return false;
 		}
-		var jobExperiences = $("#jobExperiences").val();
-		if(!jobExperiences){
-			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			return false;
-		}
-		if(jobExperiences != "" && jobExperiences.length > 999){
-			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			return false;
-		}
-
-		var productCategories = $("#productCategories").val();
-		if(!productCategories){
-			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			return false;
-		}
-		if(productCategories != "" && productCategories.length > 999){
-			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			return false;
-		}
-
-		var academicAchievement = $("#academicAchievement").val();
-		if(!academicAchievement){
-			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			return false;
-		}
-		if(academicAchievement != "" && academicAchievement.length > 999){
-			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			return false;
-		}
-
-		var reviewSituation = $("#reviewSituation").val();
-		if(!reviewSituation){
-			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			return false;
-		}
-		if(reviewSituation != "" && reviewSituation.length > 999){
-			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			return false;
-		}
-
-		var avoidanceSituation = $("#avoidanceSituation").val();
-		if(!avoidanceSituation){
-			layer.msg("请填写主要工作经历!",{offset: ['300px', '750px']});
-			return false;
-		}
-		if(avoidanceSituation != "" && avoidanceSituation.length > 999){
-			layer.msg("工作经历不能超过999字!",{offset: ['300px', '750px']});
-			return false;
-		}
 		var telephone = $("#telephone").val();
 		if(!telephone){
 			layer.msg("请填写固定电话!",{offset: ['300px', '750px']});
@@ -489,7 +456,7 @@ session.setAttribute("tokenSession", tokenValue);
 			cache: false,
 	        async: false,
 			success:function(data){
-				if(data.length<5){
+				if(data.length<6){
 					layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
 					flag=false;
 				}else{
@@ -533,6 +500,58 @@ session.setAttribute("tokenSession", tokenValue);
 			async:false,
 		});
 	}
+	//获取选中子节点id
+	function getChildren(){
+		var ids=new Array();
+		var checklist1 = document.getElementsByName ("chkItem_1");
+		for(var i=0;i<checklist1.length;i++){
+	 		var vals=checklist1[i].value;
+	 		if(checklist1[i].checked){
+	 			ids.push(vals);
+	 		}
+		}
+		var checklist2 = document.getElementsByName ("chkItem_2");
+		for(var i=0;i<checklist2.length;i++){
+	 		var vals=checklist2[i].value;
+	 		if(checklist2[i].checked){
+	 			ids.push(vals);
+	 		}
+		}
+	    $("#expertsTypeId").val(ids);
+	}
+	//判断专家类型
+	function validateType(){
+		getChildren();
+		var categoryId = $("#expertsTypeId").val();
+		if(categoryId == ""){
+			layer.msg("请选择专家类别 !" ,{offset: ['222px', '390px']});
+			return false;
+		}
+		return true;
+	}
+	$(function(){
+		var typeIds = "${expert.expertsTypeId}";
+		var ids = typeIds.split(",");
+		//回显已选产品
+		var checklist1 = document.getElementsByName("chkItem_1");
+		for(var i=0;i<checklist1.length;i++){
+			var vals=checklist1[i].value;
+			for (var j = 0; j < ids.length; j++) {
+				if (ids[j] == vals) {
+					checklist1[i].checked = true;
+				}
+			}	
+		}
+		var checklist2 = document.getElementsByName("chkItem_2");
+		for(var i=0;i<checklist2.length;i++){
+			var vals=checklist2[i].value;
+			for (var j = 0; j < ids.length; j++) {
+				if (ids[j] == vals) {
+					checklist2[i].checked = true;
+				}
+			}	
+		}
+	}); 
 </script>
 </head>
 <body>
@@ -560,6 +579,7 @@ session.setAttribute("tokenSession", tokenValue);
   <input type="hidden" value="${errorMap.mobile2}" id="error15">
   <input type="hidden" value="${errorMap.idNumber2}" id="error16">
   <input type="hidden" id="categoryId" name="categoryId" value=""/>
+  <input type="hidden" id="expertsTypeId" name="expertsTypeId" value=""/>
   <input type="hidden"  name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 	  <h2 class="padding-20 mt40">
@@ -572,7 +592,7 @@ session.setAttribute("tokenSession", tokenValue);
 	    <div class="clear"></div>
 	  </h2>
 	    <div class="container container_box">
-		  <h2 class="count_flow"><i>1</i>专家基本信息&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">* 注:专家来源为军队的专家只能在内网进行注册!</font></h2>
+		  <h2 class="count_flow"><i>1</i>专家个人信息&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red"> 注:军队单位人员，请登录内网进行注册!</font></h2>
 			<ul class="ul_list">
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>专家来源</span>
@@ -640,48 +660,30 @@ session.setAttribute("tokenSession", tokenValue);
 					    <span class="input-tip">请填写名族,如:汉族</span>
                     </div>
                 </li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 所在单位</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                     <input  maxlength="30" value="${expert.coverNote}"  name="coverNote" id="coverNote" type="text"/>
                     <span class="add-on">i</span>
                     </div>
                 </li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 单位地址</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
-					 <input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
-						<span class="add-on">i</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
+				    <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
+                    </div>
+                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证号码</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 						<input  maxlength="30" value="${expert.idCardNumber}"  name="idCardNumber" id="idCardNumber" type="text"/>
   						<span class="add-on">i</span>
   					</div>
 				</li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <u:upload id="expert8" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}" auto="true"/>
+				    <u:show showId="show8" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
+                    </div>
+                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件类型</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                     <select  name="idType" id="idType">
@@ -698,50 +700,10 @@ session.setAttribute("tokenSession", tokenValue);
   						<span class="add-on">i</span>
   					</div>
 				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>从事专业</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
-                    <span class="add-on">i</span>
-                    </div>
-                </li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
-				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
-					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
-					<span class="add-on">i</span>
-					</div>
-				</li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
-                   	  <span class="add-on">i</span>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>最高学历</span>
-                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-                     <select  name="hightEducation" id="hightEducation" >
-                        <option selected="selected" value="">-请选择-</option>
-                        <c:forEach items="${xlList}" var="xl" varStatus="vs">
-                        <option <c:if test="${expert.hightEducation eq xl.id}">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
-                        </c:forEach>
-                      </select>
-                    </div>
-                </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                    <input  maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
-                    <span class="add-on">i</span>
+                    <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
+				    <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>手机</span>
@@ -771,6 +733,108 @@ session.setAttribute("tokenSession", tokenValue);
 						<span class="add-on">i</span>
 					</div>
 				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>健康状态</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="10" value="${expert.healthState}"  name="healthState" id="healthState" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+			</ul>
+			<!-- 专家学历信息 -->
+			<h2 class="count_flow"><i>2</i>专家学历信息</h2>
+			<ul class="ul_list">
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>毕业院校及专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                      <input  maxlength="40" value="${expert.graduateSchool}"  name="graduateSchool" id="graduateSchool" type="text"/>
+                   	  <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
+				    <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="10" value="${expert.degree}"  name="degree" id="degree" type="text"/>
+                    <span class="add-on">i</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
+				    <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>最高学历</span>
+                    <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
+                     <select  name="hightEducation" id="hightEducation" >
+                        <option selected="selected" value="">-请选择-</option>
+                        <c:forEach items="${xlList}" var="xl" varStatus="vs">
+                        <option <c:if test="${expert.hightEducation eq xl.id}">selected="selected"</c:if> value="${xl.id}">${xl.name}</option>
+                        </c:forEach>
+                      </select>
+                    </div>
+                </li>
+			</ul>
+			<!-- 专家专业信息 -->
+			<h2 class="count_flow"><i>3</i>专家专业信息</h2>
+			<ul class="ul_list">
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 所在单位</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="40" value="${expert.workUnit}"  name="workUnit" id="workUnit" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 单位地址</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0" >
+					 <input  maxlength="40" value="${expert.unitAddress}"  name="unitAddress" id="unitAddress" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+						<input  maxlength="6" value="${expert.postCode}"  name="postCode" id="postCode" type="text"/>
+						<span class="add-on">i</span>
+					</div>
+				</li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 现任职务</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="10" value="${expert.atDuty}"  name="atDuty" id="appendedInput" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>从事专业</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <input  maxlength="20" value="${expert.major}"  name="major" id="major" type="text"/>
+                    <span class="add-on">i</span>
+                    </div>
+                </li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					 <input  value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家技术职称/职业资格</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  maxlength="20" value="${expert.professTechTitles}"  name="professTechTitles" id="professTechTitles" type="text"/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 相关证件</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
+				    <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+                    </div>
+                </li>
+				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
+					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+					<input  value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
+					<span class="add-on">i</span>
+					</div>
+				</li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 					<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
 					<input readonly="readonly" value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM'/>" name="timeToWork"  type="text" onfocus="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
@@ -778,94 +842,20 @@ session.setAttribute("tokenSession", tokenValue);
 					</div>
 				</li>
 			</ul>
-			
-			<!-- 参评的产品类别 -->
-			  <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>2</i>参评的产品类别</h2>
-			    <ul class="ul_list">
-				<li>  
-				  <textarea rows="10" name="productCategories" id="productCategories" style="height: 150px; width: 100%; resize: none;" placeholder="">${expert.productCategories}</textarea>
+			<!-- 专家专业信息 -->
+			<h2 class="count_flow"><i>4</i>专家类别</h2>
+			<ul class="ul_list">
+				<li class="col-md-3 col-sm-6 col-xs-12">
+					<div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
+						<c:forEach items="${spList}" var="sp" >
+					      <span><input type="checkbox" name="chkItem_1" value="${sp.id}" />${sp.name} </span>
+					    </c:forEach>
+					    <c:forEach items="${jjList}" var="jj" >
+							<span><input type="checkbox" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+						</c:forEach>
+					</div>
 				</li>
-			    </ul>
-			   </div>
-			   <!-- 主要工作经历-->
-			   <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>3</i>主要工作经历</h2>
-			    <ul class="ul_list">
-				<li>  
-				  <textarea rows="10" name="jobExperiences" id="jobExperiences" style="height: 150px; width: 100%; resize: none;" placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
-				</li>
-			    </ul>
-			   </div>
-			   <!-- 专业学术成果 -->
-			   <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>4</i>专业学术成果</h2>
-			    <ul class="ul_list">
-				<li>  
-				  <textarea rows="10" name="academicAchievement" id="academicAchievement" style="height: 150px; width: 100%; resize: none;" placeholder="上传获奖证书">${expert.academicAchievement}</textarea>
-				</li>
-			    </ul>
-			   </div>
-			   <!-- 主要工作经历-->
-			   <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>5</i>参加军队地方采购评审情况</h2>
-			    <ul class="ul_list">
-				<li>  
-				  <textarea rows="10" name="reviewSituation" id="reviewSituation" style="height: 150px; width: 100%; resize: none;" placeholder="">${expert.reviewSituation}</textarea>
-				</li>
-			    </ul>
-			   </div>
-			   <!-- 主要工作经历-->
-			   <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>6</i>需要申请回避的情况</h2>
-			    <ul class="ul_list">
-				<li>  
-				  <textarea rows="10" name="avoidanceSituation" id="avoidanceSituation" style="height: 150px; width: 100%; resize: none;" placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
-				</li>
-			    </ul>
-			   </div>
-			  <!-- 附件信息-->
-			  <div class="padding-top-10 clear">
-			    <h2 class="count_flow"><i>7</i>上传附件</h2>
-			    <ul class="ul_list">
-				 <table class="table table-bordered">
-				  <tbody>
-				  	<tr>
-				  	   <td class="bggrey" width="15%"><i class="red">*</i>身份证</td>
-				  	   <td>
-				  	      <u:upload id="expert1" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" auto="true"/>
-				          <u:show showId="show1" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
-				  	   </td>
-				  	   <td class="bggrey" width="15%"><i class="red">*</i>学历证书</td>
-				  	   <td>
-				  	      <u:upload id="expert2" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true"/>
-				          <u:show showId="show2" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
-				  	   </td>
-				  	</tr>
-				  	<tr>
-				  	   <td class="bggrey"><i class="red">*</i>职称证书</td>
-				  	   <td>
-				  	      <u:upload id="expert3" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true"/>
-				          <u:show  showId="show3" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
-				  	   </td>
-				  	   <td class="bggrey"><i class="red">*</i>学位证书</td>
-				  	   <td>
-				  	      <u:upload id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true"/>
-				          <u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
-				  	   </td>
-				  	</tr>
-				  	<tr>
-				  	   <td class="bggrey"><i class="red">*</i>个人照片</td>
-				  	   <td colspan="3">
-				  	      <u:upload id="expert5" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true"/>
-				          <u:show showId="show5" groups="show1,show2,show3,show4,show5,show6,show7" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
-				  	   </td>
-				  	</tr>
-				  	</tbody>
-				  </table>
-			    </ul>
-			   </div>
-			   
+			</ul>
 				<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 			        <button class="btn" onclick='submitformExpert()'  type="button">暂存</button>
 					<button class="btn" id="nextBind"  type="button" onclick='fun()' >下一步</button>
