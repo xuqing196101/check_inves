@@ -60,7 +60,7 @@ p, li, li a, label {
 	float: left;
 }
 
-.demand_list li input,.demand_list li select,.demand_list li span,.demand_list .btn{
+.demand_list li input,.demand_list li select,.demand_list li span{
 	margin-bottom: 0px !important;
 	float: left;
 	margin-top:0px!important;
@@ -548,6 +548,11 @@ li:first-child {
 
 .jbxx{
   background:url(../images/down_icon.png) no-repeat 5px !important;
+  padding-left:40px !important;
+}
+
+.zhxx{
+  background:url(../images/up_icon.png) no-repeat 5px !important;
   padding-left:40px !important;
 }
 
@@ -1059,4 +1064,9 @@ table .input_group{
 table .input_group .add-on{
 	padding:0 15px 0 10px;
 	line-height: 28px;
+}
+.span_style{
+	line-height: 30px;
+	margin-left: 5px;
+	font-size: 13px;
 }
