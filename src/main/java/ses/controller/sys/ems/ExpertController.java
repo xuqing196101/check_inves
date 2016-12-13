@@ -495,6 +495,36 @@ public class ExpertController {
         return JSON.toJSONString(allCategoryList);
     }
     
+    /**
+     *〈简述〉
+     * 判断提交审核后有没有超过45天以及查询初审机构信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expertId
+     * @return
+     */
+    @RequestMapping(value = "validateAuditTime", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String validateAuditTime(String userId){
+        HashMap<String, Object> allInfo = new HashMap<String, Object>();
+        // 根据userId查询出Expert
+        Expert expert = service.selectByPrimaryKey(userService.getUserById(userId).getTypeId());   
+        Date submitDate = expert.getUpdatedAt();
+        allInfo.put("submitDate", new SimpleDateFormat("yyyy年MM月dd日").format(submitDate));
+        
+        // 查询初审机构信息
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("id", expert.getPurchaseDepId());
+        map.put("typeName", "1");
+        List<PurchaseDep> depList = purchaseOrgnizationService
+                .findPurchaseDepList(map);
+        if (depList != null && depList.size() > 0) {
+            PurchaseDep purchaseDep = depList.get(0);
+            allInfo.put("dep", purchaseDep);
+        }
+        return JSON.toJSONString(allInfo);
+    }
+    
     @RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String showJiGou(String pId, String zId) {
