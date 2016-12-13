@@ -93,6 +93,10 @@
     function resetQuery() {
       $("#supplierName").val("");
     }
+    
+    function goBack(){
+    	window.location.href = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }';
+    }
   </script>
 
   <body>
@@ -111,13 +115,13 @@
       </h2>
     <div class="tl">
       <button class="btn btn-windows save" onclick="showSupplier()">保存</button>
-      <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+      <button class="btn btn-windows back" onclick="goBack()" type="button">返回</button>
     </div>
 
     <input type="hidden" name="packages" value="${packId }" />
     <input type="hidden" name="projectId" value="${projectId }" />
 
-    <table class="table table-bordered table-condensed">
+    <table class="table table-bordered table-condensed mt5">
       <thead>
         <tr>
           <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
