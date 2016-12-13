@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,5 +101,11 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> lists = projectMapper.provisionalList(project);
         return lists;
     }
+
+	
+	@Override
+	public List<Project> selectProjectByCode(HashMap<String, Object> map) {
+		return projectMapper.selectProjectByCode(map);
+	}
 
 }

@@ -135,7 +135,7 @@
   <div class="margin-top-10 breadcrumbs ">
     <div class="container">
       <ul class="breadcrumb margin-left-0">
-        <li><a href="javascript:void(0)"> 首页</a></li>
+        <li><a href="javascript:void(0)">首页</a></li>
         <li><a href="javascript:void(0)">保障作业系统</a></li>
         <li><a href="javascript:void(0)">采购项目管理</a></li>
         <li class="active"><a href="javascript:void(0)">新建采购项目</a></li>
@@ -295,8 +295,8 @@
 		</ul>
 	  </div>
 	  <div class="col-md-12 tc">
-        <button class="btn btn-windows save" onclick="add();" type="button">确定</button>
-        <button class="btn btn-windows back" onclick="bask();" type="button">返回</button>
+        <button class="btn" onclick="add()" type="button">下一步</button>
+        <button class="btn btn-windows back" onclick="bask()" type="button">返回</button>
       </div>
 	</sf:form>
   </div>

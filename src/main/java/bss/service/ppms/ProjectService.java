@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -83,4 +84,6 @@ public interface ProjectService {
      * @return   List<Project>
      */
     List<Project>  provisionalList(Integer page, Project project);
+    
+    List<Project> selectProjectByCode(HashMap<String,Object> map);
 }
