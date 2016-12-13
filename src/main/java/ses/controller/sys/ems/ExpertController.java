@@ -526,11 +526,11 @@ public class ExpertController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", expert.getPurchaseDepId());
         map.put("typeName", "1");
-        List<PurchaseDep> depList = purchaseOrgnizationService
-                .findPurchaseDepList(map);
+        List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
         if (depList != null && depList.size() > 0) {
             PurchaseDep purchaseDep = depList.get(0);
-            allInfo.put("dep", purchaseDep);
+            allInfo.put("contact", purchaseDep.getContact() == null ? "暂无" : purchaseDep.getContact());
+            allInfo.put("contactTelephone", purchaseDep.getContactTelephone() == null ? "暂无" : purchaseDep.getContactTelephone());
         }
         return JSON.toJSONString(allInfo);
     }

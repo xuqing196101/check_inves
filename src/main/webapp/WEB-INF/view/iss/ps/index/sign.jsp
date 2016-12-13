@@ -109,7 +109,7 @@
     								} else if (response.isok == "1") {
     									// 超过45天
     									//询问框
-    		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.dep.contact + ":" + response.dep.contactTelephone + ")!", {
+    		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.contact + ":" + response.contactTelephone + ")!", {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {
