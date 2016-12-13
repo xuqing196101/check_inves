@@ -118,8 +118,18 @@ li{
 .uploadFiles li{
 	float:left;
 	margin-left:3px;
-	line-height:30px;
+	line-height:24px;
 }
 .uploadFiles li a{
-	color:#ff0000;
+	color:#2c9fa6;
+	padding-left:20px;
+}
+.uploadFiles li.file_view{
+		background:url(./view.png) no-repeat 5px;
+}
+.uploadFiles li.file_load{
+		background:url(./download.png) no-repeat 5px;
+}
+.uploadFiles li.file_delete{
+		background:url(./delete.png) no-repeat 5px;
 }
