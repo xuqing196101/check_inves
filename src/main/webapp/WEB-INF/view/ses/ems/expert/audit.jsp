@@ -131,7 +131,7 @@ session.setAttribute("tokenSession", tokenValue);
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
 				<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">基本信息</a></li>
-				<li> <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">专家类别</a></li>
+				<li> <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">专家类型</a></li>
 			</ul>
 <!-- 修改订列表开始-->
   <form action="${pageContext.request.contextPath}/expert/shenhe.html"  method="post" id="form1"  class="registerform"> 
@@ -340,7 +340,7 @@ session.setAttribute("tokenSession", tokenValue);
 	  <div class="margin-bottom-0  categories">
 		<ul class="list-unstyled list-flow" style="margin-left: 250px;">
      	  <li class="p0">
-		    <span class="">专家类别：</span>
+		    <span class="">专家类型：</span>
 			  <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId}">
 			  <select name="expertsTypeId" id="expertsTypeId"  disabled="disabled" class="w178">
 		   		 <option value="">-请选择-</option>
