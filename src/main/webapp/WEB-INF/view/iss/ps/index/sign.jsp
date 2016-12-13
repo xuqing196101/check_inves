@@ -45,7 +45,6 @@
     					rqcode : $("#inputCode").val()
     				},
     				success : function(data) {
-    					alert(data);
     					var flag = data.split(",");
     					if (data == "errorcode") {
     						layer.tips("验证码不正确", "#inputCode", {
