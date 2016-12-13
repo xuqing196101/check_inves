@@ -1085,8 +1085,10 @@ public class ExpertController {
                 categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
                 categories.append("、");
             }
-            String productCategories = categories.substring(0, categories.length() - 1);
-            expert.setProductCategories(productCategories);
+            if (!"".equals(categories.toString())) {
+                String productCategories = categories.substring(0, categories.length() - 1);
+                expert.setProductCategories(productCategories);
+            }
             service.zanCunInsert(expert, expertId, categoryId);
 
         } catch (Exception e) {
