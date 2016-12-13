@@ -6,7 +6,7 @@
 <head>
 <script type="text/javascript">
 	
-	$(function() {
+ 	$(function() {
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
 			var page = "tab-" + id.charAt(id.length - 1);
@@ -49,10 +49,8 @@
 			});
 		}
 		
-		if ("${currSupplier.status}" == 7) {
-			showReason();
-		}
-	});
+ 
+	});  
 
 	/** 打开物资证书 */
 	function openCertPro() {
@@ -423,18 +421,16 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+					 
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型专业信息</a></li>
-							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
-								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">物资-销售型专业信息</a></li>
-							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
-								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">工程专业信息</a></li>
-							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
-								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务专业信息</a></li>
-							</c:if>
+						 
+				 
+								<li id="li_id_2" class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" class="fujian f18">物资-销售型专业信息</a></li>
+						 
+								<li id="li_id_3" class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" class="fujian f18">工程专业信息</a></li>
+						 
+ 								<li id="li_id_4" class="active"><a aria-expanded="true" href="#tab-4" data-toggle="tab" class="fujian f18">服务专业信息</a></li>
+						 
 						</ul>
 						<form id="save_pro_form_id" action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" value="${currSupplier.id}" />
@@ -443,7 +439,7 @@
 							<div class="tab-content padding-top-20" id="tab_content_div_id">
 							
 								<!-- 物资生产型专业信息 -->
-								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+		 
 									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
 									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 									<div class="tab-pane fade active in height-450" id="tab-1">
@@ -609,10 +605,9 @@
 											</table>
 										</div>
 									</div>
-								</c:if>
+								 
 								
-								<!-- 物资销售型专业信息 -->
-								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
+							 
 									<div class="tab-pane fade height-300" id="tab-2">
 										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
 										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
@@ -690,12 +685,11 @@
 											</table>
 										</div>
 									</div>
-								</c:if>
+							 
 								
 								
 								
-								<!-- 工程专业信息 -->
-								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
+						 
 									<div class="tab-pane fade height-200" id="tab-3">
 										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id}" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
@@ -864,10 +858,10 @@
 											</table>
 										</div>
 									</div>
-								</c:if>
+							 
 								
 								<!-- 服务专业信息 -->
-								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
+							 
 									<div class="tab-pane fade height-200" id="tab-4">
 										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
 										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
@@ -945,7 +939,7 @@
 											</table>
 										</div>
 									</div>
-								</c:if>
+							 
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro('supplier_type')">上一步</button>

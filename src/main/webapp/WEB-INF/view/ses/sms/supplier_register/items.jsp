@@ -54,10 +54,22 @@
 		$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 			var kind = "";
 			var id = $(this).attr("id");
-			if (id == "tab-1") kind = "1";
-			if (id == "tab-2") kind = "2";
-			if (id == "tab-3") kind = "3";
-			if (id == "tab-4") kind = "4";
+			if (id == "tab-1") {
+				id="PRODUCT";
+				kind = "tree_ul_id_1";
+			}
+			if (id == "tab-2"){
+				id="SALES";
+				kind = "tree_ul_id_2";
+			} 
+			if (id == "tab-3"){
+				 id="PROJECT";
+				 kind = "tree_ul_id_3";
+			}
+			if (id == "tab-4"){
+				 id="SERVICE";
+				 kind = "tree_ul_id_4";
+			}
 			loadZtree(id, kind);
 		});
 		
@@ -67,29 +79,31 @@
 		
 	});
 	
-	function loadZtree(id, kind) {
-		var id = "";
+	function loadZtree(code, kind) {
+	/* 	alert(kind); */
+	/* 	var id = "";
 		if (kind == "1") id = "tree_ul_id_1";
 		if (kind == "2") id = "tree_ul_id_2";
 		if (kind == "3") id = "tree_ul_id_3";
-		if (kind == "4") id = "tree_ul_id_4";
+		if (kind == "4") id = "tree_ul_id_4"; */
+	 
 		var setting = {
 			async : {
+				autoParam: ["id"],
 				enable : true,
-				url : "${pageContext.request.contextPath}/category/find_category.do",
+				url : "${pageContext.request.contextPath}/supplier/category_type.html",
 				otherParam : {
-					supplierId : "${currSupplier.id}",
-					kind : kind
+					"code":code,
+					"supplierId": "${currSupplier.id}",
+					 /*kind : kind */
 				},
 				dataType : "json",
 				type : "post",
 			},
 			check : {
 				enable : true,
-				chkboxType : {
-					"Y" : "s",
-					"N" : "s"
-				}
+				chkStyle:"checkbox",  
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
 			},
 			data : {
 				simpleData : {
@@ -98,13 +112,48 @@
 					pIdKey : "parentId"
 				}
 			},
-		/* 	callback: {
-				onCheck: onCheck
-			} */
+		 	callback: {
+		 		onClick:zTreeOnClick
+			} 
 		};
-		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
+		zTreeObj = $.fn.zTree.init($("#" + kind), setting, zNodes);
 	}
 	
+	
+ 
+		function zTreeOnClick(event,treeId,treeNode){
+			var categoryId=treeNode.id;
+			
+			layer.open({
+				type : 2,
+				title : '品目文件上传',
+				// skin : 'layui-layer-rim', //加上边框
+				area : [ '300px', '280px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier_item/getCategory.html?categoryId=' + categoryId, //url
+				closeBtn : 1, //不显示关闭按钮
+			});
+			
+			
+		/* 	layer.open({
+				type : 2,
+				title : '审核反馈',
+				closeBtn : 0, //不显示关闭按钮
+				//skin : 'layui-layer-lan', //加上边框
+				area : [ '500px', '300px' ], //宽高
+				offset : '100px',
+				shade : 0,
+				maxmin : true,
+				shift : 2,
+				content : '${pageContext.request.contextPath}/supplier_item/getCategory.html?categoryId=' + categoryId, //url
+			}); */
+			
+			
+		/* 	$("#checkedAll").attr("checked",false);
+			getDetail(treeNode.id);
+			$("#mid").val(treeNode.id); */
+		};
 	/* 	function onCheck(e, treeId, treeNode) {
 		var ids = "";
 		var flag = treeNode.checked;
@@ -176,8 +225,8 @@
 		$("#items_info_form_id").submit();
 	}
 	
-	function getIds(id) {
-		var treeObj = $.fn.zTree.getZTreeObj(id);
+	function ss(flag) {
+/* 		var treeObj = $.fn.zTree.getZTreeObj(id);
 		var addIds = "";
 		var deleteIds = "";
 		if (treeObj) {
@@ -201,10 +250,50 @@
 		var result = {
 			addIds : addIds,
 			deleteIds : deleteIds
-		};
-		return result;
+		}; 
+		
+		return result;*/
+
+		
+		
 	}
 	
+	function saveItems(flag){
+		 getCategoryId();
+		$("#flag").val(flag);
+		$("#items_info_form_id").submit();
+	}
+	
+	function next(flag){
+		 getCategoryId();
+		$("#flag").val(flag);
+		$("#items_info_form_id").submit();
+	}
+	
+	function prev(flag){
+		 getCategoryId();
+		$("#flag").val(flag);
+		$("#items_info_form_id").submit();
+	}
+	
+	function getCategoryId(){
+		var ids=[]; 
+		for (var i = 1; i < 5; i++) {
+			var id = "tree_ul_id_" + i;
+			var tree = $.fn.zTree.getZTreeObj(id);
+			if(tree!=null){
+				nodes = tree.getCheckedNodes(true);
+				for (var j = 0; j < nodes.length; j++) {
+				//	if (!nodes[j].isParent) {
+						//alert(nodes[j].id);
+						ids.push(nodes[j].id);
+					//}
+				}
+			}
+		}
+		$("#categoryId").val(ids);
+		//return ids;
+	}
 </script>
 <script type="text/javascript">
 	function showReason() {
@@ -238,99 +327,126 @@
 			<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
 					<span class="new_step current fl"><i class="">1</i>
-						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
+<!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i> -->
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">4</i>
-						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+<!-- 						<div class="line"></div> <span class="step_desc_02">专业信息</span> </span> <span class="new_step current fl"><i class="">5</i> -->
+						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">5</i>
+<!-- 						<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i> -->
+						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">7</i> 
 						<span class="step_desc_01">申请表承诺书上传</span> 
 					</span>
 					<div class="clear"></div>
 				</h2>
 			</div>
 		</c:if>
-
+ 
 		<!--基本信息-->
 		<div class="container content height-300">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
-								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">物资-销售型品目信息</a></li>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class=" f18">物资-销售型品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
-								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">工程品目信息</a></li>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
+								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class=" f18">工程品目信息</a></li>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
-								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务品目信息</a></li>
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class=" f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
-									<h2 class="f16 jbxx">
-										<i>01</i>勾选物资生产型品目信息
+									<h2 class="f16 ">
+											勾选物资生产型品目信息
 									</h2>
 									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_1" class="ztree mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
-									<h2 class="f16 jbxx">
-										<i>01</i>勾选物资销售型品目信息
+									<h2 class="f16 ">
+											勾选物资销售型品目信息
 									</h2>
 									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_2" class="ztree mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 							<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
-									<h2 class="f16 jbxx">
-										<i>01</i>勾选工程品目信息
+									<h2 class="f16  ">
+									      	勾选工程品目信息
 									</h2>
 									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_3" class="ztree mt30"></ul>
 									</div>
 								</div>
 							</c:if>
-							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
+							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
-									<h2 class="f16 jbxx">
-										<i>01</i>勾选服务品目信息
+									<h2 class="f16">
+										 勾选服务品目信息
 									</h2>
 									<div class="lr0_tbauto w200">
 										<ul id="tree_ul_id_4" class="ztree mt30"></ul>
 									</div>
 								</div>
+								
+								
+								
 							</c:if>
 						</div>
-						<div class="mt40 tc mb50">
+						
+				<%-- 		<div>
+						计算机附件
+						 <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
+							 <u:show showId="business_show"  businessId="12345678" sysKey="1" typeId="asdhkja1212312" /> 
+				   	   		 <u:upload id="business_up"   businessId="12345678" sysKey="1" typeId="asdhkja1212312" auto="true" />
+						   </div>
+				   
+				   
+								
+						</div> --%>
+								
+						<!-- <div class="mt40 tc mb50">
 							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('professional_info')">上一步</button>
 							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('items')">暂存</button>
 							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('products')">下一步</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	 <div class="btmfix">
+	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev(3)">上一步</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
+				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
+	  	  </div>
+	</div>
+	
+	
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
-		<input name="jsp" type="hidden" />
+		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
+		<input name="flag" value=""  id="flag" type="hidden" /> 
+		<%-- <input name="jsp" type="hidden" />
 		<input type="hidden" name="defaultPage" value="${defaultPage}" />
 		
 		<input type="hidden" name="addProCategoryIds" />
@@ -343,7 +459,7 @@
 		<input type="hidden" name="deleteEngCategoryIds" />
 		
 		<input type="hidden" name="addServeCategoryIds" />
-		<input type="hidden" name="deleteServeCategoryIds" />
+		<input type="hidden" name="deleteServeCategoryIds" /> --%>
 	</form>
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>

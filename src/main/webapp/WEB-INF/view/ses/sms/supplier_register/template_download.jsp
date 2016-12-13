@@ -51,13 +51,13 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<h2 class="f16 jbxx mt40">
-											<i>01</i>申请表和承诺书下载
+										<h2 class="f16  mt40">
+										 申请表和承诺书下载
 										</h2>
 										<table class="table table-bordered">
 										  <tr>
-										 <!--    <td class="info">军队供应商分级方法：</td>
-										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td> -->
+										    <td class="info">供应商入库申请表：</td>
+										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										    <td class="info">军队供应商承诺书：</td>
 										    <td><a class="mt3 color7171C6" href="javascript:void(0)"><i class="download mr5"></i>下载附件</a></td>
 										  </tr>

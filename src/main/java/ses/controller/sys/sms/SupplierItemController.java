@@ -1,17 +1,30 @@
 package ses.controller.sys.sms;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.constant.Constant;
+
+import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
+import ses.service.bms.AreaServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 @Controller
 @Scope("prototype")
@@ -24,6 +37,11 @@ public class SupplierItemController {
 	@Autowired
 	private SupplierService supplierService;
 	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	/**
 	 * @Title: saveOrUpdate
 	 * @author: Wang Zhaohua
@@ -37,9 +55,48 @@ public class SupplierItemController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
-	@ResponseBody
-	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String jsp, String defaultPage) {
+	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model) {
 		supplierItemService.saveOrUpdate(supplierItem);
+		
+		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			if(supplier.getProcurementDepId()!=null){
+				map.put("id", supplier.getProcurementDepId());
+				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+				Orgnization orgnization = listOrgnizations1.get(0);
+				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
+				model.addAttribute("orgnization", orgnization);
+				model.addAttribute("city", city);
+				model.addAttribute("listOrgnizations1", listOrgnizations1);
+	
+			}
+			List<Area> privnce = areaService.findRootArea();
+			
+			model.addAttribute("privnce", privnce);
+			Map<String, Object> maps = supplierService.getCategory(supplier.getId());
+			model.addAttribute("server", maps.get("server"));
+			model.addAttribute("product", maps.get("product"));
+			model.addAttribute("sale", maps.get("sale"));
+			model.addAttribute("project", maps.get("project"));
+			
+			List<DictionaryData> list = DictionaryDataUtil.find(6);
+			for(int i=0;i<list.size();i++){
+				 String code = list.get(i).getCode();
+				 if(code.equals("GOODS")){
+					 list.remove(list.get(i));
+				 }
+			}
+			
+			List<DictionaryData> wlist =DictionaryDataUtil.find(8);
+			model.addAttribute("wlist", wlist);
+			model.addAttribute("supplieType", list);
+			
+			 
+		// 页面跳转
+		model.addAttribute("currSupplier", supplier);
+		
+		
+//		supplierService.get(id)
 /*		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 		
 		if ("items".equals(jsp))
@@ -49,6 +106,22 @@ public class SupplierItemController {
 		
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);*/
-		return  "redirect:../supplier/page_jump.html";
+//		return  "redirect:../supplier/page_jump.html";
+		if(flag.equals("1")){
+			return "ses/sms/supplier_register/procurement_dep";	
+		}else if(flag.equals("2")){
+			return "ses/sms/supplier_register/items";	
+		}
+		return "ses/sms/supplier_register/supplier_type";	
 	}
+	
+	@RequestMapping(value = "getCategory")
+	public String getCategory(String categoryId,Model model){
+		String id = DictionaryDataUtil.getId("SUPPLIER_CATEGORY");
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("typeId", id);
+		return "ses/sms/supplier_register/category_uploadfile";	
+	}
+	
 }

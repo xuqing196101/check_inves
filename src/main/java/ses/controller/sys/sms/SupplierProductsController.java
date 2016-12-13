@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierProducts;
@@ -24,6 +27,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierProductsService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -133,22 +137,40 @@ public class SupplierProductsController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_products")
-	public String perfectProducts(HttpServletRequest request, Supplier supplier, String jsp,String flag) throws IOException {
+	public String perfectProducts(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model) throws IOException {
 		  supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			if(supplier.getProcurementDepId()!=null){
 				map.put("id", supplier.getProcurementDepId());
 				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
-				request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+				Orgnization orgnization = listOrgnizations1.get(0);
+				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
+				model.addAttribute("orgnization", orgnization);
+				model.addAttribute("city", city);
+				model.addAttribute("listOrgnizations1", listOrgnizations1);
 	
 			}
+			List<Area> privnce = areaService.findRootArea();
 			
+			model.addAttribute("privnce", privnce);
+			Map<String, Object> maps = supplierService.getCategory(supplier.getId());
+			model.addAttribute("server", maps.get("server"));
+			model.addAttribute("product", maps.get("product"));
+			model.addAttribute("sale", maps.get("sale"));
+			model.addAttribute("project", maps.get("project"));
+			
+			List<DictionaryData> list = DictionaryDataUtil.find(6);
+			List<DictionaryData> wlist =DictionaryDataUtil.find(8);
+			model.addAttribute("wlist", wlist);
+			model.addAttribute("supplieType", list);
+			
+			 
 		// 页面跳转
-		request.getSession().setAttribute("currSupplier", supplier);
+		model.addAttribute("currSupplier", supplier);
 		
 		if(flag.equals("prev")){
 			return "ses/sms/supplier_register/supplier_type";	
-		}else if(flag.equals("stroe")){
+		}else if(flag.equals("store")){
 			return "ses/sms/supplier_register/products";	
 		}else{
 			return "ses/sms/supplier_register/procurement_dep";	

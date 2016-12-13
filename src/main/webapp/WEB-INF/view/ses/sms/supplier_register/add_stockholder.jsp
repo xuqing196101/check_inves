@@ -31,12 +31,19 @@
              success:function(result){
                var boo=result.bool;
                var obj=result.stock;
+               var pro=obj.nature;
+               if(pro=='1'){
+            	   pro="法人";
+               }
+               if(pro=='2'){
+            	   pro="自然人"; 
+               }
                if(boo==false){
             	   
                } else{
             	   parent.$('#stockholder_list_tbody_id').append("<tr> <td class='tc'><input type='checkbox' value="+obj.id+"/></td>"+
+            			"<td class='tc'>"+pro+"</td>"+	
                    		"<td class='tc'>"+obj.name+"</td>"+	
-                   		"<td class='tc'>"+obj.nature+"</td>"+	
                    		"<td class='tc'>"+obj.identity+"</td>"+	
                    		"<td class='tc'>"+obj.shares+"</td>"+	
                    		"<td class='tc'>"+obj.proportion+"</td>");
@@ -70,6 +77,24 @@
 		}
 	}
 	
+	function person(obj){
+		var val=$(obj).val();
+		if(val=='1'){
+			$("#society_li").show();
+			$("#nature_li").hide();
+			/* $('#society').attr('disabled',"true");
+			$('#nature').removeAttr('disabled'); */
+			$('#society').attr('name','identity');
+			$('#nature').attr('name','iden');
+		}else{
+			$("#nature_li").show();
+			$("#society_li").hide();
+			/* $('#society').attr('disabled',"true");
+			$('#society').removeAttr('disabled'); */
+			$('#society').attr('name','iden');
+			$('#nature').attr('name','identity');
+		}
+	}
 </script>
 
 </head>
@@ -90,21 +115,37 @@
 								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled">
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人名称或姓名：</span>
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人性质：</span>
+												<div class="select_common">
+												<!-- 	<input class="span3" type="text" name="nature" /> -->
+													<select onchange="person(this)" name="nature">
+ 														 <option value="1">法人</option>
+ 														 <option value="2">自然人</option>
+ 													</select>
+ 													
+												</div>
+											</li>
+											
+											
+											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人姓名：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input type="text" name="name" />
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资人性质：</span>
+										
+											<li  id="society_li"  class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>统一社会信用代码：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<input type="text" name="nature" />
+													<input type="text" id="society" name="identity" />
 												</div>
 											</li>
-											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>统一社会信用代码或身份证号码：</span>
+											
+											<li style="display:none" id="nature_li"  class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>身份证号码：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-													<input type="text" name="identity" />
+													<input type="text"  id="nature" name="ident" />
 												</div>
 											</li>
+											
+											
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>出资金额或股份（万元/万份）：</span>
 												<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 													<input onkeyup="checknums(this)" type="text" name="shares" />

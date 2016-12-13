@@ -22,7 +22,7 @@
 			});
 		}
 		
-		loadRootArea();
+		// loadRootArea();
 	});
 	
 	
@@ -80,7 +80,7 @@
 					id : id
 				},
 				success : function(result) {
-					var html = "";
+					var html = "<option > 请选择</option>";
 					for ( var i = 0; i < result.length; i++) {
 						html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
 					}
@@ -116,6 +116,7 @@
 		} */
 		var shengId = $("#root_area_select_id").val();
 		var shiId = $(obj).val();
+		var orgId = $("#orgId").val();
 		$.ajax({
 			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
 			data:{"pId":shengId,"zId":shiId},
@@ -124,24 +125,38 @@
 			cache: false,
 	        async: false,
 			success:function(obj){
+				if(obj.length<1){
+					$("#thead").empty();
+				}
 				$.each(obj,function(i,result){
 					i=i+1;
 					var name=result.name;
-					var princinpal=result.princinpal;
-					var detailAddr=result.detailAddr;
+					var princinpal=result.shortName;
+					var detailAddr=result.provinceName;
 					var mobile = result.mobile;
 					if(name==null)name="";
 					if(princinpal==null)princinpal="";
 					if(detailAddr==null)detailAddr="";
 					if(mobile==null)mobile="";
+					if(orgId==result.id){
+						$("#thead").append(
+								"<tr align='center' ><td><input checked='checked' type='radio' name='radio'  value='"+result.id+"' /></td>"+
+								"<td>"+i+"</td>"+
+								"<td>"+name+"</td>"+
+								"<td>"+princinpal+"</td>"+
+								"<td>"+detailAddr+"</td>" 
+								/* "<td>"+mobile+"</td></tr>" */
+							);
+					}else{
 						$("#thead").append(
 								"<tr align='center' ><td><input type='radio' name='radio'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+princinpal+"</td>"+
-								"<td>"+detailAddr+"</td>"+
-								"<td>"+mobile+"</td></tr>"
+								"<td>"+detailAddr+"</td>"
+							/* 	"<td>"+mobile+"</td></tr>" */
 							);
+					}
 				});
 			}
 		});
@@ -185,6 +200,7 @@
 						<form id="procurement_dep_form_id" action="${pageContext.request.contextPath}/supplier/perfect_dep.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" />
 							<input name="procurementDepId" type="hidden" />
+							<input  name="org" id="orgId" value="${orgnization.id  }" type="hidden" />
 							<input name="jsp" type="hidden" />
 							<input name="flag" type="hidden" />
 						</form>
@@ -196,11 +212,29 @@
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="input-append">
-													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)"></select>
+													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)">
+														<c:forEach  items="${privnce }" var="prin">
+													         <c:if test="${prin.id==orgnization.provinceId }">
+													          <option value="${prin.id }" selected="selected" >${prin.name }</option>
+													         </c:if>
+												           <c:if test="${prin.id!=orgnization.provinceId }">
+													          <option value="${prin.id }"  >${prin.name }</option>
+													         </c:if>
+												         </c:forEach>
+													</select>
 													
-													<select class="w100 fz13"  id="children_area_select_id" name="cid" onchange="showJiGou(this)"></select>
-													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
-												</div>
+													<select class="w100 fz13" id="children_area_select_id" name="cid" onchange="showJiGou(this)">
+														 <c:forEach  items="${city }" var="city">
+													         <c:if test="${city.id==orgnization.cityId }">
+													          <option value="${city.id }" selected="selected" >${city.name }</option>
+													         </c:if>
+												           <c:if test="${city.id!=orgnization.cityId }">
+													          <option value="${city.id }"  >${city.name }</option>
+													         </c:if>
+												         </c:forEach>
+													</select>
+<!-- 													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
+ -->												</div>
 											<!-- 	 <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 												 
 												 <select id="children_area_select_id" name="address" > -->
@@ -221,9 +255,9 @@
 				         
 											</form>
 										</li>
-									</ul><br />
-									<h2 class="f16 jbxx mt40">
-										选择采购机构
+									</ul><!-- <br /> -->
+									<h2 class="f16 ">
+										 采购机构列表
 									</h2>
 									<table class="table table-bordered table-condensed">
 										<thead>
@@ -260,8 +294,8 @@
 	  <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('prev')">上一步</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('store')">暂存</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
+<!-- 					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('store')">暂存</button>
+ -->					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
 	  	  </div>
 	  </div>
 	  

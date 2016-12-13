@@ -216,6 +216,15 @@ public class SupplierServiceImpl implements SupplierService {
             addressList.add(address);
             supplier.setAddressList(addressList);
         }
+        if(supplier.getConcatProvince()!=null){
+        	List<Area> concity = areaService.findAreaByParentId(supplier.getConcatProvince());
+        	supplier.setConcatCityList(concity);
+        }
+        if(supplier.getArmyBuinessProvince()!=null){
+        	List<Area> armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
+        	supplier.setArmyCity(armcity);
+        }
+        
 //        supplier.setParamVleu(paramList);
 
         return supplier;

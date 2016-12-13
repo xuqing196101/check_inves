@@ -3,6 +3,8 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -31,7 +34,9 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.ems.ExpertCategory;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierDictionaryData;
@@ -48,6 +53,8 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
@@ -62,6 +69,7 @@ import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
@@ -133,6 +141,13 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private AreaServiceI areaService;
+	
+	@Autowired
+	private SupplierAddressService supplierAddressService;
+	
+	@Autowired
+	private SupplierBranchService supplierBranchService;
+	
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -205,7 +220,8 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.register(supplier);
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
- 
+			List<SupplierFinance> list = supplierFinanceService.getYear();
+			supplier.setListSupplierFinances(list);
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("company", DictionaryDataUtil.find(17));
 			return "ses/sms/supplier_register/basic_info";
@@ -257,7 +273,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "search_org")
 	public String searchOrg(HttpServletRequest request, String pid,String cid,Model model) {
-		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
+//		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 //		map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
 		map.put("provinceId",pid);
@@ -336,6 +352,12 @@ public class SupplierController extends BaseSupplierController {
 		if(flag.equals("1")&&info==true){
 			supplierService.perfectBasic(supplier);
 			supplier = supplierService.get(supplier.getId());
+//			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+//				supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
+//			}
+//			if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
+//				supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
+//			}
 			DictionaryData dd=new DictionaryData();
 			dd.setKind(6);
 			List<DictionaryData> list = dictionaryDataServiceI.find(dd);
@@ -362,6 +384,14 @@ public class SupplierController extends BaseSupplierController {
 			
 		}else if(flag.equals("2")){
 			supplierService.perfectBasic(supplier);
+			supplier = supplierService.get(supplier.getId());
+			if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+				supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
+			}
+			if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
+				supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
+			}
+			
 //			supplier = supplierService.get(supplier.getId());
 			Supplier supplier2 = supplierService.get(supplier.getId());
 			DictionaryData dd=new DictionaryData();
@@ -380,7 +410,32 @@ public class SupplierController extends BaseSupplierController {
 	                supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders()); 
 	            }
 	            
-	            
+	        if(supplier.getAddressList()!=null&&supplier.getAddressList().size()>0){
+					supplierAddressService.addList(supplier.getAddressList(),supplier.getId());
+			}
+				if(supplier.getBranchList()!=null&&supplier.getBranchList().size()>0){
+					supplierBranchService.addBatch(supplier.getBranchList(),supplier.getId());
+			}  
+				SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
+				if(finance1==null){
+					SupplierFinance fin1=new SupplierFinance();
+					fin1.setYear( String.valueOf(oneYear()));
+					supplier.getListSupplierFinances().add(fin1);	
+				}
+				SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
+				if(finance2==null){
+					SupplierFinance fin2=new SupplierFinance();
+					fin2.setYear( String.valueOf(twoYear()));
+					supplier.getListSupplierFinances().add(fin2);	
+				}
+				SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+				if(finance3==null){
+					SupplierFinance fin3=new SupplierFinance();
+					fin3.setYear( String.valueOf(threeYear()));
+					supplier.getListSupplierFinances().add(fin3);	
+				}
+				
+				
 			model.addAttribute("currSupplier", supplier);
 			
 			request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -494,6 +549,12 @@ public class SupplierController extends BaseSupplierController {
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 		List<DictionaryData> list = DictionaryDataUtil.find(6);
 		List<DictionaryData> wlist =DictionaryDataUtil.find(8);
+		for(int i=0;i<list.size();i++){
+			 String code = list.get(i).getCode();
+			 if(code.equals("GOODS")){
+				 list.remove(list.get(i));
+			 }
+		}
 		model.addAttribute("wlist", wlist);
 		model.addAttribute("supplieType", list);
  
@@ -505,39 +566,39 @@ public class SupplierController extends BaseSupplierController {
 				return "ses/sms/supplier_register/basic_info";
 			}
 			else if(flag.equals("2")){
-				 Map<String, Object> map = supplierService.getCategory(supplier.getId());
-				 model.addAttribute("server", map.get("server"));
-				 model.addAttribute("product", map.get("product"));
-				 model.addAttribute("sale", map.get("sale"));
-				 model.addAttribute("project", map.get("project"));
+//				 Map<String, Object> map = supplierService.getCategory(supplier.getId());
+//				 model.addAttribute("server", map.get("server"));
+//				 model.addAttribute("product", map.get("product"));
+//				 model.addAttribute("sale", map.get("sale"));
+//				 model.addAttribute("project", map.get("project"));
 				 supplier = supplierService.get(supplier.getId());
                  model.addAttribute("currSupplier", supplier);
                  
-                 HashMap<String, Object> maps= new HashMap<String, Object>();
-     			if(supplier.getProcurementDepId()!=null){
-     				map.put("id", supplier.getProcurementDepId());
-     				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(maps);
-     				Orgnization orgnization = listOrgnizations1.get(0);
-     				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
-     				model.addAttribute("Orgnization", orgnization);
-     				model.addAttribute("city", city);
-     				model.addAttribute("listOrgnizations1", listOrgnizations1);
-     	
-     			}
-     			List<Area> privnce = areaService.findRootArea();
-     			model.addAttribute("privnce", privnce);
+//                 HashMap<String, Object> maps= new HashMap<String, Object>();
+//     			if(supplier.getProcurementDepId()!=null){
+//     				map.put("id", supplier.getProcurementDepId());
+//     				List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(maps);
+//     				Orgnization orgnization = listOrgnizations1.get(0);
+//     				List<Area> city = areaService.findAreaByParentId(orgnization.getProvinceId());
+//     				model.addAttribute("Orgnization", orgnization);
+//     				model.addAttribute("city", city);
+//     				model.addAttribute("listOrgnizations1", listOrgnizations1);
+//     	
+//     			}
+//     			List<Area> privnce = areaService.findRootArea();
+//     			model.addAttribute("privnce", privnce);
 				return "ses/sms/supplier_register/supplier_type";	
 			}else{
 				 supplier = supplierService.get(supplier.getId());
+				 String[] split = supplier.getSupplierTypeIds().split(",");
+				 int length = split.length;
+				 model.addAttribute("length", length);
 				 model.addAttribute("currSupplier", supplier);
-				return "ses/sms/supplier_register/products";
+				return "ses/sms/supplier_register/items";
 			}
 		}else{
-			 Map<String, Object> map = supplierService.getCategory(supplier.getId());
-			 model.addAttribute("server", map.get("server"));
-			 model.addAttribute("product", map.get("product"));
-			 model.addAttribute("sale", map.get("sale"));
-			 model.addAttribute("project", map.get("project"));
+			
+			 model.addAttribute("currSupplier", supplier);
 			return "ses/sms/supplier_register/supplier_type";	
 		}
 		
@@ -577,7 +638,7 @@ public class SupplierController extends BaseSupplierController {
 		}else{
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
-			return "ses/sms/supplier_register/products";
+			return "ses/sms/supplier_register/items";
 		}
 		
 	}
@@ -889,6 +950,39 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_legalCard", "身份证号码格式不正确 !");
 			count++;
 		}
+		if(supplier.getConcatCity()==null){
+			model.addAttribute("err_city", "地址不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBusinessName()==null){
+			model.addAttribute("err_armName", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBusinessFax()==null){
+			model.addAttribute("err_armFax", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessMobile()==null){
+			model.addAttribute("err_armMobile", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessTelephone()==null){
+			model.addAttribute("err_armTelephone", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessEmail()==null){
+			model.addAttribute("err_armEmail", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessCity()==null){
+			model.addAttribute("err_armCity", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessAddress()==null){
+			model.addAttribute("err_armAddress", "不能为空!");
+			count++;
+		}
+		
 		
 //		supplier2.setLegalIdCard(supplier.getLegalIdCard());
 //		map.put("legalIdCard", supplier.getLegalIdCard());
@@ -976,10 +1070,10 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_eDate", "营业截至时间不能为空 !");
 			count++;
 		}*/
-		if(supplier.getBusinessAddress()==null){
-			model.addAttribute("err_bAddress", "经营地址不能为空!");
-			count++;
-		}
+//		if(supplier.getBusinessAddress()==null){
+//			model.addAttribute("err_bAddress", "经营地址不能为空!");
+//			count++;
+//		}
 		if(supplier.getBusinessPostCode()==null){
 			model.addAttribute("err_bCode", "不能为空!");
 			count++;
@@ -1403,6 +1497,7 @@ public class SupplierController extends BaseSupplierController {
 	
  
 	
+ 
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model,String name) {
 		Supplier supp = supplierMapper.queryByName(name);
@@ -1418,7 +1513,30 @@ public class SupplierController extends BaseSupplierController {
 	
 		
 		List<Area> privnce = areaService.findRootArea();
-		
+		if(supplier.getListSupplierFinances()!=null&&supplier.getListSupplierFinances().size()<1){
+			List<SupplierFinance> list = supplierFinanceService.getYear();
+			supplier.setListSupplierFinances(list);
+		}else{
+			SupplierFinance finance1 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(oneYear()));
+			if(finance1==null){
+				SupplierFinance fin1=new SupplierFinance();
+				fin1.setYear( String.valueOf(oneYear()));
+				supplier.getListSupplierFinances().add(fin1);	
+			}
+			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
+			if(finance2==null){
+				SupplierFinance fin2=new SupplierFinance();
+				fin2.setYear( String.valueOf(twoYear()));
+				supplier.getListSupplierFinances().add(fin2);	
+			}
+			SupplierFinance finance3 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(threeYear()));
+			if(finance3==null){
+				SupplierFinance fin3=new SupplierFinance();
+				fin3.setYear( String.valueOf(threeYear()));
+				supplier.getListSupplierFinances().add(fin3);	
+			}
+		}
+	
 		
 		model.addAttribute("company", DictionaryDataUtil.find(17));
 		model.addAttribute("currSupplier", supplier);
@@ -1430,11 +1548,85 @@ public class SupplierController extends BaseSupplierController {
 		
 		return "ses/sms/supplier_register/basic_info";
 	}
-	@RequestMapping("/tab")
-	public String tab(){
-		
-		return "ses/sms/supplier_register/basic_info";
+  	
+	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getCategory(String id,String name,String code,String supplierId){
+		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
+        if(id == null && code != null) {
+            DictionaryData type = DictionaryDataUtil.get(code);
+            CategoryTree ct = new CategoryTree();
+            ct.setName( type.getName());
+            ct.setId(type.getId());
+//            supplierItemService.getSupplierIdCategoryId(supplierId, categoryId)
+            ct.setIsParent("true");
+            categoryList.add(ct);
+        } else {
+        	List<SupplierItem> item = supplierItemService.getSupplierId(supplierId);
+//            List<ExpertCategory> expertCategory = expertCategoryService.getListByExpertId(expertId);供应商选择的品目
+            List<Category> list = categoryService.findTreeByPid(id);
+            for (Category c : list) {
+                List<Category> list1 = categoryService.findTreeByPid(c.getId());
+                CategoryTree ct1 = new CategoryTree();
+                ct1.setName(c.getName());
+                ct1.setId(c.getId());
+                // 设置是否为父级
+                if (!list1.isEmpty()) {
+                    ct1.setIsParent("true");
+                } else {
+                    ct1.setIsParent("false");
+                }
+                
+                // 设置是否回显
+                for (SupplierItem category : item) {
+                    if (category.getCategoryId() != null) {
+                        if (category.getCategoryId().equals(c.getId())) {
+                            ct1.setChecked(true);
+                        }
+                    }
+                }
+                categoryList.add(ct1);
+            }
+        }
+//        String jsonString = JSON.toJSONString(categoryList);
+        
+		return JSON.toJSONString(categoryList);
+	}
+
+	public Integer oneYear() {
+	//	List<Integer> yearList=new ArrayList<Integer>();
+
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		 int year2=year-2;//2014
+			return year2;
+		}
+
+	public Integer twoYear() {
+	//	List<Integer> yearList=new ArrayList<Integer>();
+
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		int year3=year-3;//2013
+		return year3;
 	}
 	
-
+	
+		public Integer threeYear(){
+			Date date=new Date();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String mont=sdf.format(date).split("-")[1];
+			Integer month=Integer.valueOf(mont);
+			Calendar cale = Calendar.getInstance();
+			int year = cale.get(Calendar.YEAR);
+			Integer yearThree=0;
+			if(month<6){
+				  yearThree=year-4;//2012
+		 
+			}else{
+				  yearThree=year-1;//2015
+			 
+		}
+		return yearThree;
+		}
 }

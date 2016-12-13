@@ -93,21 +93,21 @@
 										</h2> -->
 										
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商申请表和承诺书上传</span> 
+												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商申请表上传</span> 
 												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
-													   <u:upload id="promise_up"   businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" /> 
-													   <u:show showId="promise_show"    businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" />
+													   <u:upload id="promise_up"  groups="promise_up,application_up"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" /> 
+													   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" />
 												   </div>
 											</li>
 				
-										<%-- 	<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 												   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i>供应商承诺书上传</span> 
 												   <div class="col-md-6 col-sm-12 col-xs-12 p0">
 													   <u:upload id="application_up" groups="promise_up,application_up"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" /> 
 													   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" />
 												   </div>
 											</li>
-											 --%>
+											
 				
 				
 								<!-- 		<ul class="list-unstyled list-flow">

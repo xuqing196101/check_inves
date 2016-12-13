@@ -2,6 +2,10 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +62,25 @@ public class SupplierFinanceController extends BaseSupplierController {
 		model.addAttribute("uuid", UUID.randomUUID().toString().toUpperCase().replace("-", ""));
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+//		List<Integer> yearList=new ArrayList<Integer>();
+//		Date date=new Date();
+//		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+//		String mont=sdf.format(date).split("-")[1];
+//		Integer month=Integer.valueOf(mont);
+//		Integer year = getYear();
+//		 int year2=year-2;
+//		 int year3=year-3;
+//		if(month<6){
+//			int yera4=year-4;
+//			yearList.add(yera4);
+//		}else{
+//			int yera4=year-1;
+//			yearList.add(yera4);
+//		}
+//		yearList.add(year2);
+//		yearList.add(year3);
+//		
+//		model.addAttribute("yearList", yearList);
 		return "ses/sms/supplier_register/add_finance";
 	}
 	
@@ -158,10 +181,10 @@ public class SupplierFinanceController extends BaseSupplierController {
 			map.put("auditors", "不能为空");
 			bool=false;
 		}
-		if(supplierFinance.getQuota()==null||supplierFinance.getQuota().length()>30){
+	/*	if(supplierFinance.getQuota()==null||supplierFinance.getQuota().length()>30){
 			map.put("quota", "不能为空");
 			bool=false;
-		}
+		}*/
 		if(supplierFinance.getTotalAssets()==null){
 			map.put("assets", "不能为空");
 			bool=false;
@@ -222,14 +245,22 @@ public class SupplierFinanceController extends BaseSupplierController {
 		}
 		
 		//所有者权益变动表：
-		List<UploadFile> list = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(list!=null&&list.size()<=0){
-			bool=false;
-			map.put("err_business", "请上传文件!");
-		}
+//		List<UploadFile> list = uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString());
+//		if(list!=null&&list.size()<=0){
+//			bool=false;
+//			map.put("err_business", "请上传文件!");
+//		}
 		map.put("bool", bool);
 		return map;
 		
 		
 	}
+	
+	public   Integer getYear() {
+		Calendar cale = Calendar.getInstance();
+		int year = cale.get(Calendar.YEAR);
+		return year;
+	}
+	
+	
 }
