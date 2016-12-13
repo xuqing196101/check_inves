@@ -16,9 +16,9 @@ public interface PurchaseOrgnizationServiceI {
 	
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
 	
-	int  savePurchaseDep(PurchaseDep purchaseDep);
+	int  savePurchaseDep(PurchaseDep purchaseDep, String ids,String[] purchaseUnitName, String[] purchaseUnitDuty);
 	
-	int update(PurchaseDep purchaseDep);
+	int update(PurchaseDep purchaseDep, String selectedItem,String[] purchaseUnitDuty, String[] purchaseUnitName);
 	
 	PurchaseDep findByOrgId(String id);
 	

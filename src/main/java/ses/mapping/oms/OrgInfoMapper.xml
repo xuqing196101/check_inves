@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.OrgInfoMapper">
+ <resultMap id="BaseResultMap" type="ses.model.oms.OrgInfo">
+    <id column="ID" property="id" />
+    <result column="PURCHASE_UNIT_NAME" property="purchaseUnitName" />
+    <result column="PURCHASE_UNIT_DUTY" property="purchaseUnitDuty" />
+    <result column="ORG_ID" property="orgId" />
+  </resultMap>
+ 
+ <sql id="Base_Column_List">
+    ID, PURCHASE_UNIT_NAME, PURCHASE_UNIT_DUTY, ORG_ID
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_OMS_ORG_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_OMS_ORG_INFO
+    where 1=1
+    <if test="id != null and id != ''">
+       and  ID = #{id}
+     </if>
+     <if test="purchaseUnitName != null and purchaseUnitName != ''">
+       and  PURCHASE_UNIT_NAME = #{purchaseUnitName}
+     </if>
+      <if test="purchaseUnitDuty != null and purchaseUnitDuty != ''">
+       and  PURCHASE_UNIT_DUTY = #{purchaseUnitDuty}
+     </if>
+      <if test="orgId != null and orgId != ''">
+        and ORG_ID = #{orgId} 
+      </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_OMS_ORG_INFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.oms.OrgInfo">
+    update T_SES_OMS_ORG_INFO
+    <set>
+      <if test="purchaseUnitName != null and purchaseUnitName != ''">
+        PURCHASE_UNIT_NAME = #{purchaseUnitName},
+      </if>
+      <if test="purchaseUnitDuty != null and purchaseUnitDuty != ''">
+        PURCHASE_UNIT_DUTY = #{purchaseUnitDuty},
+      </if>
+      <if test="orgId != null and orgId != ''">
+        ORG_ID = #{orgId},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+    <insert id="insertSelective" parameterType="ses.model.oms.OrgInfo">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select rawtohex(sys_guid()) as VALUE from dual
+    </selectKey>
+    insert into T_SES_OMS_ORG_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="purchaseUnitName != null and purchaseUnitName != ''">
+        PURCHASE_UNIT_NAME,
+      </if>
+      <if test="purchaseUnitDuty != null and purchaseUnitDuty != ''">
+        PURCHASE_UNIT_DUTY,
+      </if>
+      <if test="orgId != null and orgId != ''">
+        ORG_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id},
+      </if>
+      <if test="purchaseUnitName != null and purchaseUnitName != ''">
+        #{purchaseUnitName},
+      </if>
+      <if test="purchaseUnitDuty != null and purchaseUnitDuty != ''">
+        #{purchaseUnitDuty},
+      </if>
+      <if test="orgId != null and orgId != ''">
+        #{orgId},
+      </if>
+    </trim>
+  </insert>
+</mapper>

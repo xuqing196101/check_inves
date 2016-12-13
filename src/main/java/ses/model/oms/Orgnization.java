@@ -19,7 +19,7 @@ public class Orgnization implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	@NotBlank(message = "名称不能为空") 
+	@NotBlank(message = "机构名称不能为空") 
 	@Length(min=1,max=50,message="长度不可超过50")
     private String name;
 
@@ -30,6 +30,7 @@ public class Orgnization implements Serializable {
 
     private String mobile;
 
+    @NotBlank(message = "邮编不能为空") 
     private String postCode;
 
     private String orgCode;
@@ -40,6 +41,7 @@ public class Orgnization implements Serializable {
 
     private String detailAddr;
 
+    @NotBlank(message = "传真不能为空") 
     private String fax;
 
     private String website;
@@ -50,7 +52,7 @@ public class Orgnization implements Serializable {
 
     private String nature;
 
-    private String isDeleted;
+    private Integer isDeleted;
 
     private Date createdAt;
 
@@ -66,8 +68,8 @@ public class Orgnization implements Serializable {
     private String depId;
 
     private String isRoot;
-    @NotNull(message = "简称不能为空") 
-    @NotEmpty(message="简称不能为空")
+    
+    @NotBlank(message="简称不能为空")
     @Length(min=1,max=20,message="长度不可超过20")
     private String shortName;
 
@@ -76,13 +78,15 @@ public class Orgnization implements Serializable {
     private String email;
     
     private String provinceId;
+    
     private String cityId;
+    
     private String townId;
     private String provinceName;//区域  省名称
     private String cityName;
     private String townName;
     private String requireDepId;
-    private String status;
+    private Integer status;
     
     private Integer quaStatus;//资质状态  0资质暂停1默认正常2资质终止
     
@@ -90,19 +94,11 @@ public class Orgnization implements Serializable {
     private String quaNormalReason;//资质启用理由
     private String quaTerminalReason;//资质终止理由
     
+    private String contactName;//联系人姓名
+    private String contactMobile;//联系人姓名
+    
     /** 品目名称 */
     private transient String cateNames;
-    
-  
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	
 
 	public String getId() {
         return id;
@@ -125,7 +121,7 @@ public class Orgnization implements Serializable {
     }
 
     public void setTypeName(String typeName) {
-        this.typeName = typeName==null ? "0" : typeName;
+        this.typeName = typeName;
     }
 
     public String getAddress() {
@@ -226,12 +222,20 @@ public class Orgnization implements Serializable {
         this.nature = nature == null ? null : nature.trim();
     }
 
-    public String getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(String isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {
@@ -416,6 +420,22 @@ public class Orgnization implements Serializable {
 
     public void setCateNames(String cateNames) {
         this.cateNames = cateNames;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getContactMobile() {
+        return contactMobile;
+    }
+
+    public void setContactMobile(String contactMobile) {
+        this.contactMobile = contactMobile;
     }
     
 }

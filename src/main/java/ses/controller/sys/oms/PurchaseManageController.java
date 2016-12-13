@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,10 +34,13 @@ import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
 import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Deparent;
+import ses.model.oms.OrgInfo;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
@@ -50,6 +54,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.DepartmentServiceI;
+import ses.service.oms.OrgInfoService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -57,6 +62,8 @@ import ses.service.oms.PurchaseServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
+import ses.util.WfUtil;
 
 
 /**
@@ -97,6 +104,12 @@ public class PurchaseManageController {
 	/** 用户service **/
     @Autowired
     private UserServiceI userServiceI;
+    
+    @Autowired
+    private UploadService uploadService;
+    
+    @Autowired
+    private OrgInfoService orgInfoService;
 	
 	
 	/**
@@ -202,6 +215,7 @@ public class PurchaseManageController {
 		List<Area> areaList = areaServiceI.findRootArea();
 		model.addAttribute("areaList", areaList);
 		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(parentId);
+		
 		if (org != null){
 			org.setTypeName(typeName);
 		} else {
@@ -332,7 +346,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseOrg")
-	public String addPurchaseOrg(Model model,@ModelAttribute PageInfo page,@ModelAttribute Orgnization orgnization) {
+	public String addPurchaseOrg(Model model,Orgnization orgnization, @ModelAttribute PageInfo<Orgnization> page) {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -367,7 +381,7 @@ public class PurchaseManageController {
         model.addAttribute("genders", genders);
 		if (org != null){
 		    
-		    String typeName = org.getTypeName();
+		    String typeName = org.getTypeName().toString();
 		    
 		    model.addAttribute("typeName", typeName);
 		    model.addAttribute("orgName", org.getName());
@@ -440,6 +454,13 @@ public class PurchaseManageController {
         return "ses/oms/purchase_dep/list";
     }
 	
+	@RequestMapping("addPosition")
+	 public String addPosition(Model model){
+	    
+	    
+        return "ses/oms/purchase_dep/list";
+    }
+	
 	/**
 	 * 
 	 *〈简述〉新增采购机构
@@ -448,8 +469,8 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("addPurchaseDep")
-    public String addPurchaseDep() {
-	    
+    public String addPurchaseDep(Model model) {
+	    model.addAttribute("purchaseDepIds", WfUtil.createUUID());
         return "ses/oms/purchase_dep/add";
     }
 	
@@ -461,12 +482,411 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("savePurchaseDep")
-	public String savePurchaseDep(PurchaseDep purchaseDep){
+	public String savePurchaseDep(@Valid PurchaseDep purchaseDep, BindingResult result, Model model, HttpServletRequest request){
+	    String selectedItem = request.getParameter("ids");
+	    String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
+	    String[] purchaseUnitDuty = request.getParameterValues("purchaseUnitDuty");
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
+	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
+	    if(result.hasErrors()){
+	        List<FieldError> errors = result.getFieldErrors();
+	        for (FieldError fieldError : errors) {
+                model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+            }
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        map.put("id", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
+        if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_isAuditSupplier", "请选择");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getQuaRange())){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaRange", "请选择");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        List<UploadFile> list = uploadService.getFilesOther(purchaseDep.getId(), null, "2");
+        if(list.size() < 1){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_msg", "请上传附件");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(purchaseDep.getQuaStartDate() == null){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaStartDate", "开始时间不能为空");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(purchaseDep.getQuaEdndate() == null){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaEdndate", "截止时间不能为空");
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerCountnum())){
+            model.addAttribute("ERR_officerCountnum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerNowCounts())){
+            model.addAttribute("ERR_officerNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNowCounts())){
+            model.addAttribute("ERR_soldierNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNum())){
+            model.addAttribute("ERR_soldierNum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNum())){
+            model.addAttribute("ERR_staffNum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNowCounts())){
+            model.addAttribute("ERR_staffNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getPurchasersCount())){
+            model.addAttribute("ERR_purchasersCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getJuniorPurCount())){
+            model.addAttribute("ERR_juniorPurCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficeCount())){
+            model.addAttribute("ERR_officeCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getMettingRoomCount())){
+            model.addAttribute("ERR_mettingRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getInviteRoomCount())){
+            model.addAttribute("ERR_inviteRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getBidRoomCount())){
+            model.addAttribute("ERR_bidRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("purchaseDepIds", purchaseDep.getId());
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
+	    if(!ValidateUtils.Zipcode(purchaseDep.getPostCode())){
+	        model.addAttribute("ERR_postCode", "请输入正确的邮编");
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
+	    if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
+	        model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
+	    if(!ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
+	    if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
+	    if(!ValidateUtils.isNull(purchaseDep.getBankAccount()) && !ValidateUtils.BANK_ACCOUNT(purchaseDep.getBankAccount().toString())){
+	        model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
+	        model.addAttribute("purchaseDep", purchaseDep);
+	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
+	        model.addAttribute("lists", purchaseOrgList);
+	        model.addAttribute("orgInfos", orgInfos);
+	        return "ses/oms/purchase_dep/add";
+	    }
 	    
-	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep);
+	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty);
 	    
 	    return "redirect:purchaseUnitList.html";
 	}
+	
+	@RequestMapping("updatePurchaseDepI")
+	public String updatePurchaseDep(@Valid PurchaseDep purchaseDep, BindingResult result, Model model, HttpServletRequest request){
+	    String selectedItem = request.getParameter("ids");
+	    String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
+        String[] purchaseUnitDuty = request.getParameterValues("purchaseUnitDuty");
+	    List<Orgnization> purchaseOrgList = orgnizationServiceI.selectedItem(selectedItem);
+	    List<OrgInfo> orgInfos = orgInfoService.selectedInfo(purchaseUnitName,purchaseUnitDuty);
+	    if(result.hasErrors()){
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError fieldError : errors) {
+                model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getIsAuditSupplier())){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_isAuditSupplier", "请选择");
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getQuaRange())){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaRange", "请选择");
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        List<UploadFile> list = uploadService.getFilesOther(purchaseDep.getId(), null, "2");
+        if(list.size() < 1){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_msg", "请上传附件");
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(purchaseDep.getQuaStartDate() == null){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaStartDate", "开始时间不能为空");
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(purchaseDep.getQuaEdndate() == null){
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("ERR_quaEdndate", "截止时间不能为空");
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerCountnum())){
+            model.addAttribute("ERR_officerCountnum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficerNowCounts())){
+            model.addAttribute("ERR_officerNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNowCounts())){
+            model.addAttribute("ERR_soldierNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getSoldierNum())){
+            model.addAttribute("ERR_soldierNum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNum())){
+            model.addAttribute("ERR_staffNum", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getStaffNowCounts())){
+            model.addAttribute("ERR_staffNowCounts", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getPurchasersCount())){
+            model.addAttribute("ERR_purchasersCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getJuniorPurCount())){
+            model.addAttribute("ERR_juniorPurCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getOfficeCount())){
+            model.addAttribute("ERR_officeCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getMettingRoomCount())){
+            model.addAttribute("ERR_mettingRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getInviteRoomCount())){
+            model.addAttribute("ERR_inviteRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getBidRoomCount())){
+            model.addAttribute("ERR_bidRoomCount", "请输入数字");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.Zipcode(purchaseDep.getPostCode())){
+            model.addAttribute("ERR_postCode", "请输入正确的邮编");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
+            model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+            model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+            model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+        if(!ValidateUtils.isNull(purchaseDep.getBankAccount()) && !ValidateUtils.BANK_ACCOUNT(purchaseDep.getBankAccount().toString())){
+            model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/edit";
+        }
+	    purchaseOrgnizationServiceI.update(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty);
+	    return "redirect:purchaseUnitList.html";
+	}
+	
+	@RequestMapping("deleteds")
+	public String deleteds(String id,String orgId){
+	    HashMap<String, Object> map = new HashMap<>();
+	    String[] ids = id.split(",");
+	    for (int i = 0; i < ids.length; i++ ) {
+	        map.put("purchaseDepId", ids[i]);
+	        map.put("org_id", orgId);
+	        List<PurchaseOrg> list = purChaseDepOrgService.selectById(map);
+	        if(list != null && list.size() > 0){
+	            purChaseDepOrgService.delByOrgId(map);
+	        }else{
+	        }
+	        
+        }
+	    
+	    return "redirect:editPurchaseDep.html";
+	}
+	
+	@RequestMapping("delTr")
+    public String delTr(String id, String orgId){
+	    String[] ids = id.split(",");
+	    for (int i = 0; i < ids.length; i++ ) {
+	        orgInfoService.deleteByPrimaryKey(ids[i]);
+        }
+        return "redirect:editPurchaseDep.html?orgId="+orgId;
+    }
+	
 	
 	/**
 	 * 
@@ -702,7 +1122,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("editPurchaseDep")
-	public String editPurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+	public String editPurchaseDep(@ModelAttribute PurchaseDep purchaseDep, String orgId, HttpServletRequest request,Model model) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", purchaseDep.getId());
 		List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
@@ -710,29 +1130,25 @@ public class PurchaseManageController {
 			purchaseDep = list.get(0);
 		}
 		model.addAttribute("purchaseDep", purchaseDep);
+		if(orgId != null){
+		    map.put("orgId", orgId);
+		}else{
+		    map.put("orgId", purchaseDep.getOrgId());
+		}
+        //需求监管部门  或者  采购机构
+        List<Orgnization> lists = orgnizationServiceI.findPurchaseOrgList(map);
+        model.addAttribute("lists", lists);
+        //财务部门信息
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("orgId", purchaseDep.getOrgId());
+        List<OrgInfo> list2 = orgInfoService.listByAll(map1);
+        model.addAttribute("orgInfos", list2);
 		//多文件上传
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-		DictionaryData dd=new DictionaryData();
-        dd.setCode("PURCHASE_QUA_CERT");
-        List<DictionaryData> lists = dictionaryDataServiceI.find(dd);
-        if(lists.size()>0){
-            model.addAttribute("PURCHASE_QUA_CERT_ID", lists.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_STASH");
-        List<DictionaryData> liststash = dictionaryDataServiceI.find(dd);
-        if(liststash.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", liststash.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_NORMAL");
-        List<DictionaryData> listnormal = dictionaryDataServiceI.find(dd);
-        if(listnormal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", listnormal.get(0).getId());
-        }
-        dd.setCode("PURCHASE_QUA_STATUS_TERMINAL");
-        List<DictionaryData> listterminal = dictionaryDataServiceI.find(dd);
-        if(listterminal.size()>0){
-            model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", listterminal.get(0).getId());
-        }
+        model.addAttribute("PURCHASE_QUA_CERT_ID", DictionaryDataUtil.getId("PURCHASE_QUA_CERT"));
+        model.addAttribute("PURCHASE_QUA_STATUS_STASH_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_STASH"));
+        model.addAttribute("PURCHASE_QUA_STATUS_NORMAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_NORMAL"));
+        model.addAttribute("PURCHASE_QUA_STATUS_TERMINAL_ID", DictionaryDataUtil.getId("PURCHASE_QUA_STATUS_TERMINAL"));
 		return "ses/oms/purchase_dep/edit";
 	}
 	
@@ -844,7 +1260,7 @@ public class PurchaseManageController {
         return "ses/oms/purchase_dep/update_quate_status";
     }
 	
-	@RequestMapping("updatePurchaseDep")
+	/*@RequestMapping("updatePurchaseDep")
 	public String updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) throws IOException {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<PurchaseRoom> roomlist= this.parsePurchaseRooms(request);
@@ -854,7 +1270,7 @@ public class PurchaseManageController {
 		purchaseOrgnizationServiceI.update(purchaseDep);
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "redirect:purchaseUnitList.do";
-	}
+	}*/
 	/*@RequestMapping(value="updatePurchaseDepAjxa",method= RequestMethod.POST)
 	@ResponseBody
 	public AjaxJsonData updatePurchaseDepAjxa(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){

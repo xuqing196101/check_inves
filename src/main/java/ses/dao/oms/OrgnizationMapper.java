@@ -19,7 +19,7 @@ public interface OrgnizationMapper {
 	
 	int delOrgnizationByid(HashMap<String, Object> map);
 	
-	int updateOrgnizationById(Orgnization orgnization);
+	void updateOrgnizationById(Orgnization orgnization);
     
 	Orgnization  findByCategoryId(String id);
 	
