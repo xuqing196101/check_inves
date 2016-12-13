@@ -325,7 +325,7 @@ session.setAttribute("tokenSession", tokenValue);
 	  <table>
         <tbody>
           <tr>
-		    <td width="90px;" class="info"> <h4>专家类型：</h4></td> 
+		    <td width="90px;" class="info"> <h4>专家类别：</h4></td> 
 		    <td width="100px;">
 		      <h4>
 		      <c:if test="${expert.expertsTypeId eq '1' }">技术</c:if>
